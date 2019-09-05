@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "outDir": "./lib",
+        "declaration": true,
+        "noImplicitAny": true,
+        "lib": ["dom", "es2018"],
+        "target": "es5",
+        "skipLibCheck": true,
+        "jsx": "react",
+        "esModuleInterop": true
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["**/__tests__/**"]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "@essence/create-constructor-module",
+  "version": "2.0.0",
+  "description": "Build module",
+  "main": "index.js",
+  "repository": "https://github.com/essence-community/core",
+  "author": "Oleh Kucenko",
+  "license": "MIT",
+  "private": false,
+  "files": [
+    "index.js"
+  ],
+  "bin": {
+    "create-constructor-module": "./index.js"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^2.19.0",
+    "cross-spawn": "^6.0.5",
+    "fs-extra": "^7.0.1"
+  }
+}

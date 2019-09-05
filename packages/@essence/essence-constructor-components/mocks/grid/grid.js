@@ -1,0 +1,53 @@
+/* eslint-disable camelcase */
+import actionEditJson from "../columns/actionedit";
+import actionCopyJson from "../columns/actioncopy";
+import textComboEditorJson from "../columns/text_combo_editor";
+import textJson from "../columns/text";
+import topButton from "../button/top-button.json";
+
+export default {
+    autoload: "false",
+    autoselectidentity: "ck_id",
+    btnaudit: "true",
+    btndelete: "true",
+    btnexcel: "false",
+    btnrefresh: "true",
+    checkaddmore: "true",
+    ck_master: null,
+    ck_modify: "modify",
+    ck_object: "089BA349389F4778B8C28456F8252028",
+    ck_page: "61",
+    ck_page_object: "C143C2FABD384D6189681CF05A965E3E",
+    ck_parent: null,
+    ck_query: "OrgShowOrganizations",
+    cl_dataset: "1",
+    cl_is_master: 1,
+    columns: [actionEditJson, actionCopyJson, textComboEditorJson, textJson],
+    cv_description: "Грид Результат поиска Организации",
+    cv_displayed: "Грид Организации",
+    cv_helper_color: "blue",
+    cv_name: "Org Search Grid",
+    disabledrules: null,
+    edittype: "modalwindow",
+    excelname: null,
+    getglobal: null,
+    getglobaltostore: null,
+    height: null,
+    hiddenrules: null,
+    maxheight: null,
+    minheight: null,
+    noglobalmask: null,
+    orderdirection: "ASC",
+    orderproperty: "cv_name",
+    pagesize: "5",
+    reqsel: "true",
+    selmode: "single",
+    setglobal: null,
+    stepname: null,
+    stepnamenext: "requisites_org",
+    title: "Результат поиска",
+    topbtn: [topButton],
+    type: "GRID",
+    width: null,
+    winreloadstores: "false",
+};

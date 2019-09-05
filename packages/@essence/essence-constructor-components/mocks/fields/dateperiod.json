@@ -1,0 +1,17 @@
+{
+    "ckPageObject": "7BB48EE904B06FFAE053809BA8C05538",
+    "ckObject": "2D864261EB51418A934DE7A1D21C9298",
+    "clDataset": "0",
+    "cvName": "Column Contract Period",
+    "cvDisplayed": "Дата заключения договора",
+    "cvDescription": "Колонка выбора периода",
+    "ckPage": "47",
+    "ckParent": "7BB48EE904A56FFAE053809BA8C05538",
+    "columnend": "cd_signing_to",
+    "columnstart": "cd_signing_from",
+    "width": "30%",
+    "datatype": "date",
+    "format": "d.m.Y",
+    "required": "false",
+    "type": "IPERIOD"
+}

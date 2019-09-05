@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BuilderGrid Check text structure for header 1`] = `""`;
+
+exports[`BuilderGrid Check text structure for header 2`] = `""`;
+
+exports[`BuilderGrid Check text structure for header 3`] = `"Организационно-правовая форма"`;
+
+exports[`BuilderGrid Check text structure for header 4`] = `"Полное наименование"`;
+
+exports[`BuilderGrid Check text structure for row 1`] = `"ООО \\"Великолепный мир\\", ООО\\"Великолепный мир\\", ООО Общество с ограниченной ответственностью"`;
+
+exports[`BuilderGrid Check text structure for row 2`] = `"БФ \\"ДИАЛ-ЭНЕРГО\\" r\\"ДИАЛ-ЭНЕРГО\\", Общество с ограниченной ответственностью"`;
+
+exports[`BuilderGrid Check text structure for row 3`] = `"ООО \\"Зебра\\" к2\\"Зебра\\" (формирование ликвидационной комиссии), Ликвидационная комиссия ООО"`;
+
+exports[`BuilderGrid Check text structure for row 4`] = `"ООО \\"ПОЗИТИВ ПЛЮС\\" ООО1\\"ПОЗИТИВ ПЛЮС\\" Общества с ограниченной ответственностью 1"`;
+
+exports[`BuilderGrid Check text structure for row 5`] = `"АНО 'a3 Олег Реакт тестОлег Реакт тест"`;

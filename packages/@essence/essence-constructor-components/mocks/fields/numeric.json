@@ -1,0 +1,11 @@
+{
+    "column": "numeric",
+    "currencysign": "",
+    "datatype": "numeric",
+    "decimalprecision": "",
+    "decimalseparator": ",",
+    "cv_displayed": "Ввод валюты",
+    "required": "false",
+    "thousandseparator": "",
+    "type": "IFIELD"
+}

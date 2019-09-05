@@ -1,0 +1,43 @@
+{
+    "data": [{
+        "class": {
+            "cl_dataset": 1,
+            "cl_final": 1,
+            "cv_description": "Тестовый модуль",
+            "cv_name": "New Module",
+            "cv_type": "NEW_MODULE"
+        },
+        "class_attributes": [
+            {
+                "ck_attr": "autoload",
+                "cv_value": "true",
+                "cl_required": 0,
+                "cv_description": "Признак автозагрузки сервиса",
+                "ck_attr_type": "basic"
+            },
+            {
+                "ck_attr": "column",
+                "cv_value": null,
+                "cl_required": 0,
+                "cv_description": "Наименование колонки в запросе, из которой берутся данные",
+                "ck_attr_type": "basic"
+            },
+            {
+                "ck_attr": "displayfield",
+                "cv_value": null,
+                "cl_required": 0,
+                "cv_description": "Имя параметра, который будет отображен",
+                "ck_attr_type": "basic"
+            },
+            {
+                "ck_attr": "pagesize",
+                "cv_value": "5",
+                "cl_required": 0,
+                "cv_description": "Количество выводимых строк (включает пагинатор)",
+                "ck_attr_type": "basic"
+            }
+        ],
+        "attributes": []
+    }],
+    "success": true
+}

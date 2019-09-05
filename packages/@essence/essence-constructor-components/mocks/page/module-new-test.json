@@ -1,0 +1,9 @@
+[
+    {
+        "autoload": "true",
+        "ck_query": "OrgShowOrganizations",
+        "type": "NEW_MODULE",
+        "column": "cv_short",
+        "displayfield": "cv_name"
+    }
+]

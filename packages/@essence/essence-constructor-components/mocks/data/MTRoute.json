@@ -1,0 +1,73 @@
+[
+    {
+        "ck_id": "organization",
+        "cn_action_edit": 516,
+        "ck_parent": null,
+        "cv_name": "Организации",
+        "leaf": "true",
+        "cl_menu": 1
+    },
+    {
+        "ck_id": "images",
+        "cn_action_edit": 516,
+        "ck_parent": null,
+        "cv_name": "Изображения",
+        "leaf": "true",
+        "cl_menu": 1
+    },
+    {
+        "ck_id": "Iframe",
+        "cn_action_edit": 516,
+        "ck_parent": null,
+        "cv_name": "Iframe",
+        "leaf": "true",
+        "cl_menu": 1
+    },
+    {
+        "ck_id": "modules-list",
+        "cn_action_edit": 516,
+        "ck_parent": null,
+        "cv_name": "Список модулей",
+        "leaf": "true",
+        "cl_menu": 1
+    },
+    {
+        "ck_id": "modules",
+        "cn_action_edit": 516,
+        "ck_parent": null,
+        "cv_name": "Модули",
+        "leaf": "false"
+    },
+    {
+        "ck_id": "module-new-test",
+        "cn_action_edit": 516,
+        "ck_parent": "modules",
+        "cv_name": "Тестовый модуль",
+        "leaf": "true",
+        "cl_menu": 1
+    },
+    {
+        "ck_id": "module-essence-cryptopro",
+        "cn_action_edit": 516,
+        "ck_parent": "modules",
+        "cv_name": "Модуль криптопро",
+        "leaf": "true",
+        "cl_menu": 1
+    },
+    {
+        "ck_id": "module-essence-charts",
+        "cn_action_edit": 516,
+        "ck_parent": "modules",
+        "cv_name": "Модуль графиков",
+        "leaf": "true",
+        "cl_menu": 1
+    },
+    {
+        "ck_id": "module-essence-wysiwyg",
+        "cn_action_edit": 516,
+        "ck_parent": "modules",
+        "cv_name": "Модуль wysiwyg",
+        "leaf": "true",
+        "cl_menu": 1
+    }
+]

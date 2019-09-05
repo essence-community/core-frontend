@@ -1,0 +1,33 @@
+{
+  "name": "@essence/essence-constructor-dll",
+  "version": "2.0.0",
+  "description": "Dll vendor",
+  "main": "index.js",
+  "repository": "https://github.com/essence-community/core",
+  "author": "Oleh Kucenko",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build",
+    "build:dev": "node scripts/builddev"
+  },
+  "bin": {
+    "constructor-dll-build": "./scripts/build.js"
+  },
+  "dependencies": {
+    "@material-ui/core": "3.5.1",
+    "@essence/essence-constructor-share": "file:../essence-constructor-share/lib",
+    "mobx": "^5.9.0",
+    "mobx-react": "5.4.2",
+    "mobx-react-form": "1.35.1",
+    "react": "16.8.6",
+    "react-dom": "16.8.6"
+  },
+  "devDependencies": {
+    "fs-extra": "^7.0.1",
+    "react-dev-utils": "^8.0.0",
+    "terser-webpack-plugin": "^1.1.0",
+    "webpack": "^4.29.3",
+    "webpack-cli": "^3.2.3"
+  }
+}

@@ -1,0 +1,131 @@
+// @flow
+import * as React from "react";
+import Checkbox from "@material-ui/core/Checkbox";
+import {mountWithTheme} from "../../../utils/test";
+import {createEmptyPageStore} from "../../../stores";
+import BuilderForm, {BuilderFormBase} from "../../../Form/BuilderForm";
+import BuilderField from "../../../TextField/BuilderField";
+import FieldMask from "../../../TextField/Fields/FieldMask/FieldMask";
+import GridColumnFilterFields from "../GridColumnFilterFields";
+
+describe("GridColumnFilterFields", () => {
+    const pageStore = createEmptyPageStore();
+    const renderPopover = ({fieldContent}) => fieldContent;
+    const mountDate = (onSubmit?: Function) => {
+        const bc = {column: "date_column", datatype: "date", format: "d.m.Y"};
+        const wrapper = mountWithTheme(
+            <BuilderForm pageStore={pageStore} onSubmit={onSubmit}>
+                <GridColumnFilterFields bc={bc} pageStore={pageStore} visible renderPopover={renderPopover} />
+            </BuilderForm>,
+        );
+        const {form} = wrapper.find(BuilderFormBase).instance().state;
+
+        return {form, wrapper};
+    };
+
+    it("Измнение текста", () => {
+        const bc = {column: "text_column", datatype: "text"};
+        const wrapper = mountWithTheme(
+            <BuilderForm pageStore={pageStore}>
+                <GridColumnFilterFields bc={bc} pageStore={pageStore} visible renderPopover={renderPopover} />
+            </BuilderForm>,
+        );
+        const {form} = wrapper.find(BuilderFormBase).instance().state;
+
+        expect(form.values()).toEqual({
+            ckId: "",
+            textColumn: undefined,
+        });
+
+        wrapper.find("input").simulate("change", {target: {value: "test"}});
+
+        expect(form.values()).toEqual({
+            ckId: "",
+            textColumn: {datatype: "text", format: undefined, operator: "like", property: "text_column", value: "test"},
+        });
+        expect(wrapper.find(BuilderField).length).toBe(1);
+    });
+
+    it("Измнение Даты от", () => {
+        const {form, wrapper} = mountDate();
+
+        expect(form.values()).toEqual({
+            ckId: "",
+            dateColumn: "",
+            dateColumnEn: "",
+            dateColumnSt: "",
+        });
+
+        wrapper
+            .find(FieldMask)
+            .at(0)
+            .prop("onChange")(null, "18.02.2018");
+
+        expect(form.values()).toEqual({
+            ckId: "",
+            dateColumn: "",
+            dateColumnEn: "",
+            dateColumnSt: {
+                datatype: "date",
+                format: "d.m.Y",
+                operator: "ge",
+                property: "date_column",
+                value: "2018-02-18T00:00:00",
+            },
+        });
+        expect(wrapper.find(BuilderField).length).toBe(3);
+    });
+
+    it("Измнение Даты по", () => {
+        const {form, wrapper} = mountDate();
+
+        wrapper
+            .find(FieldMask)
+            .at(1)
+            .prop("onChange")(null, "18.02.2018");
+
+        expect(form.values()).toEqual({
+            ckId: "",
+            dateColumn: "",
+            dateColumnEn: {
+                datatype: "date",
+                format: "d.m.Y",
+                operator: "le",
+                property: "date_column",
+                value: "2018-02-18T00:00:00",
+            },
+            dateColumnSt: "",
+        });
+    });
+
+    it("Измнение Даты - совпадение", () => {
+        const {form, wrapper} = mountDate();
+
+        wrapper
+            .find(FieldMask)
+            .at(2)
+            .prop("onChange")(null, "18.02.2018");
+
+        expect(form.values()).toEqual({
+            ckId: "",
+            dateColumn: {
+                datatype: "date",
+                format: "d.m.Y",
+                operator: "eq",
+                property: "date_column",
+                value: "2018-02-18T00:00:00",
+            },
+            dateColumnEn: "",
+            dateColumnSt: "",
+        });
+    });
+
+    it("Измнение Даты - клик по checkbox", async () => {
+        const onSubmit = jest.fn();
+        const {wrapper} = mountDate(onSubmit);
+
+        await Promise.all(wrapper.find(Checkbox).map((checkbox) => checkbox.prop("onChange")()));
+
+        expect(onSubmit.mock.calls.length).toBe(3);
+    });
+});

@@ -1,0 +1,78 @@
+[
+    {
+        "autoload": "true",
+        "ck_modify": "modify",
+        "ck_object": "modules",
+        "ck_page_object": "modules",
+        "ck_query": "GetModuleList",
+        "columns": [
+            {
+                "ck_page_object": "modules_edit",
+                "ck_object": "modules_edit",
+                "cv_displayed": "Редактирование модуля",
+                "ck_parent": "modules",
+                "datatype": "icon",
+                "handler": "false",
+                "mode": "2",
+                "iconfont": "edit",
+                "type": "ACTIONEDIT",
+                "visible": "true"
+            },
+            {
+                "ck_page_object": "modules_update",
+                "ck_object": "modules_update",
+                "cv_displayed": "Обновление модуля",
+                "ck_parent": "modules",
+                "datatype": "icon",
+                "handler": "onUpdateModule",
+                "mode": "2",
+                "iconfont": "refresh",
+                "visible": "true"
+            },
+            {
+                "ck_page_object": "module_cv_name",
+                "ck_object": "module_cv_name",
+                "cv_displayed": "Имя модуля",
+                "ck_parent": "modules",
+                "column": "cv_name",
+                "datatype": "text",
+                "visible": "true"
+            },
+            {
+                "ck_page_object": "module_cv_version",
+                "ck_object": "module_cv_version",
+                "cv_displayed": "Версия модуля",
+                "ck_parent": "modules",
+                "column": "cv_version",
+                "datatype": "text",
+                "visible": "true"
+            },
+            {
+                "ck_page_object": "module_cl_available",
+                "ck_object": "module_cl_available",
+                "cv_displayed": "Доступность модуля",
+                "ck_parent": "modules",
+                "column": "cl_available",
+                "datatype": "boolean",
+                "visible": "true"
+            }
+        ],
+        "cv_displayed": "Список модулей",
+        "orderdirection": "ASC",
+        "orderproperty": "ck_id",
+        "topbtn": [
+            {
+                "ck_page_object": "modules_add",
+                "ck_object": "modules_add",
+                "cv_displayed": "Добавить",
+                "ck_parent": "modules",
+                "iconfont": "fa-plus",
+                "iconfontname": "fa",
+                "mode": "1",
+                "type": "BTN",
+                "uitype": "1"
+            }
+        ],
+        "type": "GRID"
+    }
+]

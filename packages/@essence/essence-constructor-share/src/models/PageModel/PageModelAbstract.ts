@@ -1,0 +1,53 @@
+/* tslint:disable:no-empty */
+import {IApplicationModel, IBuilderMode, IPageModel, IBuilderConfig} from "../../types";
+
+export class PageModelAbstract implements IPageModel {
+    public fieldValueMaster: Map<string, string> = new Map();
+    public pageBc: object[] = [];
+    public stores: Map<string, any> = new Map();
+    public globalValues: any = new Map();
+    public ckPage: string = "1";
+    public route: object;
+    public pageEl?: HTMLDivElement;
+    public pageInnerEl?: HTMLDivElement;
+    public isEdit: boolean;
+    public isLoading: boolean;
+    public isReadOnly: boolean;
+    public applicationStore: IApplicationModel;
+    public hiddenPage: boolean;
+    public isActiveRedirect: boolean;
+    public globalStores: Map<string, any[]> = new Map();
+    public masters: { [$Key: string]: any[]; } = {};
+    public visible: boolean = true;
+    public windowsOne: any = [];
+    public styleTheme: "dark" | "light" = "light";
+    public fireScrollEvent = () => {};
+    public updateGlobalValues = (values: object) => {};
+    public addStore = (store: any, name: string) => {};
+    public removeStore = (name: string, store: any) => {};
+    public addWindowAction = (window: any, name: string) => {};
+    public removeWindowAction = (name: string) => {};
+    public addFieldValueMaster = (name: string, value: any) => {};
+    public removeFieldValueMaster = (name: string) => {};
+    public loadConfigAction = (ckPage: string | number, session: string) => Promise.resolve(undefined);
+    public setPageElAction = (pageEl?: HTMLDivElement) => {};
+    public setPageInnerElAction = (pageInnerEl?: HTMLDivElement) => {};
+    public addFormAction = (formType: any, form: any) => {};
+    public removeFormAction = (formType: any, form: any) => {};
+    public setLoadingAction = (isLoading: boolean) => {};
+    public resetStepAction = () => {};
+    public nextStepAction = (mode: IBuilderMode, bc: object) => {};
+    public scrollToRecordAction = (params: object) => {};
+    public reloadPageAction = () => {};
+    public addGlobalStoresAction = (name: string, store: any) => {};
+    public removeGlobalStoresAction = (name: string, store: any) => {};
+    public freezeScrollAction = () => {};
+    public addToMastersAction = (ckMaster: string, field: any) => {};
+    public removeFromMastersAction = (ckMaster?: string, field?: any) => {};
+    public clearAction = () => {};
+    public setVisibleAction = (visible: boolean) => {};
+    public removePageAction = () => {};
+    public openQuestionWindow = () => {};
+    public createWindowAction = () => {};
+    public closeWindowAction = () => {};
+}

@@ -1,0 +1,95 @@
+{
+  "success": true,
+  "data": [
+    {
+      "ck_page_object": "97E269A919AB43F2A8C64D5DDB897A87",
+      "cl_dataset": "1",
+      "cv_name": "Балансовая принадлежность",
+      "cv_displayed": "Балансовая принадлежность",
+      "cv_description": "Балансовая принадлежность",
+      "ck_page": "1",
+      "ck_query": "ShowDirectoryData",
+      "ck_modify": "modify",
+      "getglobaltostore": "g_directory_id",
+      "cv_helper_color": "yellow",
+      "autoload": "true",
+      "autoselectidentity": "ck_id",
+      "pagesize": "20",
+      "btnaudit": "true",
+      "btndelete": "true",
+      "btnexcel": "false",
+      "btnrefresh": "true",
+      "checkaddmore": "true",
+      "edittype": "inline",
+      "orderproperty": "ck_id",
+      "reqsel": "true",
+      "selmode": "single",
+      "type": "GRID",
+      "winreloadstores": "false",
+      "wintype": "default",
+      "columns": [
+        {
+          "cl_dataset": "0",
+          "cv_name": "Edit",
+          "cv_description": "Edit",
+          "ck_page": "1",
+          "datatype": "icon",
+          "handler": "false",
+          "mode": "2",
+          "type": "ACTIONEDIT",
+          "disabled": "false",
+          "visible": "true"
+        },
+        {
+          "cl_dataset": "0",
+          "cv_name": "ck_id",
+          "cv_displayed": "ИД балансовой принадлежности",
+          "cv_description": "ИД балансовой принадлежности",
+          "ck_page": "1",
+          "align": "right",
+          "column": "ck_id",
+          "datatype": "integer",
+          "editmode": "insert",
+          "maxsize": "60",
+          "minvalue": "0",
+          "visibileinwindow": "false",
+          "visible": "true"
+        },
+        {
+          "cl_dataset": "0",
+          "cv_name": "cv_name",
+          "cv_displayed": "Наименование балансовой принадлежности",
+          "cv_description": "Наименование балансовой принадлежности",
+          "ck_page": "1",
+          "column": "cv_name",
+          "datatype": "text",
+          "editmode": "all",
+          "maxsize": "4000",
+          "visibileinwindow": "false",
+          "visible": "true"
+        }
+      ],
+      "topbtn": [
+        {
+          "ck_parent": "97E269A919AB43F2A8C64D5DDB897A87",
+          "cl_dataset": "0",
+          "cv_name": "Add button",
+          "cv_displayed": "Добавить",
+          "cv_description": "Добавить",
+          "ck_page": "1",
+          "iconfont": "fa-plus",
+          "iconfontname": "fa",
+          "mode": "1",
+          "reqsel": "false",
+          "disabled": "false",
+          "type": "BTN",
+          "uitype": "1"
+        }
+      ]
+    }
+  ],
+  "metaData": {
+    "responseTime": 0.375
+  },
+  "total": 1
+}

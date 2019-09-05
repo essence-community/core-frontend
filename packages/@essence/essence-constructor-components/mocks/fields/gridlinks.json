@@ -1,0 +1,36 @@
+{
+    "childwindow": [],
+    "ckPageObject": "grid",
+    "columns": [],
+    "contextmenus": [
+        {
+            "ckPageObject": "7A22859D77CB4D96E053809BA8C064E5",
+            "ckObject": "BF40D28322EB404BB0ADEC54616F941E",
+            "clDataset": "0",
+            "cvName": "Помещения",
+            "cvDisplayed": "Помещения",
+            "cvDescription": "Помещения",
+            "ckPage": "161",
+            "ckParent": "7A22859D77C14D96E053809BA8C064E5",
+            "columnsfilter": "ck_id=gck_mo,ck_nsi_adr_objects=gaddr,ck_id=gck_mo_select",
+            "hiddenrules": "ck_d_mo==5",
+            "redirecturl": "221"
+        },
+        {
+            "ckPageObject": "7A22859D77CA4D96E053809BA8C064E5",
+            "ckObject": "C88E780C2DDE4BAB96B4C5A52D02E724",
+            "clDataset": "0",
+            "cvName": "Точки учета",
+            "cvDisplayed": "Точки учета",
+            "cvDescription": "Точки учета",
+            "ckPage": "161",
+            "ckParent": "7A22859D77C14D96E053809BA8C064E5",
+            "columnsfilter": "ck_id=ck_mo",
+            "redirecturl": "301"
+        }
+    ],
+    "cvName": "grid",
+    "orderdirection": "asc",
+    "orderproperty": "",
+    "type": "GRID"
+}

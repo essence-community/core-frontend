@@ -1,0 +1,14 @@
+{
+    "data": [{
+        "class": {
+            "cl_dataset": 1,
+            "cl_final": 1,
+            "cv_description": "Тестовый модуль",
+            "cv_name": "New Module",
+            "cv_type": "NEW_MODULE"
+        },
+        "class_attributes": [],
+        "attributes": []
+    }],
+    "success": true
+}

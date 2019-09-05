@@ -1,0 +1,20 @@
+{
+  "pr_base": true,
+  "nm_table": "LKA.LKA_PROFILE",
+  "nn_order": 1,
+  "kd_entity": 1,
+  "nm_column": "NN_PHONE",
+  "nm_domain": "PHONE_DOMAIN",
+  "nm_entity": "Учетная запись",
+  "nm_regexp": "^[8]{1}[0-9]{10}$",
+  "pr_visible": true,
+  "pr_required": true,
+  "kd_attribute": 8,
+  "nm_attr_type": "BASE",
+  "nm_attribute": "Мобильный телефон",
+  "nm_input_mask": "8 (999) 999 99 99",
+  "nn_field_size": 17,
+  "kd_regexp_error": 139,
+  "nm_regexp_error": "Некорректный номер телефона",
+  "nm_attr_data_type": "VARCHAR"
+}

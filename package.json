@@ -1,7 +1,8 @@
 {
   "name": "app",
   "version": "0.1.0",
-  "private": true,
+  "license": "MIT",
+  "private": false,
   "engines": {
     "yarn": ">=1.7.0",
     "node": ">=9.0.0"

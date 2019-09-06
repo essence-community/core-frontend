@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react";
 import PropTypes from "prop-types";
-import get from "lodash/get";
 import Table from "@material-ui/core/Table/Table";
 import TableBody from "@material-ui/core/TableBody";
 import {withStyles} from "@material-ui/core/styles";
@@ -53,28 +52,21 @@ class InlineTable extends React.PureComponent<PropsType> {
                                 record={gridStore.recordsStore.selectedRecrodValues}
                                 disableSelect
                             >
-                                {gridStore.gridColumns.map((field) => (
+                                {store.childs.map((field) => (
                                     <td
                                         key={field.ckPageObject}
                                         className={classes.tableCell}
                                         style={{width: WIDTH_MAP[field.datatype]}}
                                         data-page-object={`${field.ckPageObject}-cell`}
                                     >
-                                        <BuilderField
-                                            bc={{
-                                                column: field.column,
-                                                cvDisplayed: field.cvDisplayed,
-                                                edittype: gridStore.bc.edittype,
-                                                ...get(field, "editors.0", field),
-                                                width: "100%",
-                                                ...(checkEditable(store.config.mode, field.editmode || "all")
-                                                    ? {}
-                                                    : {datatype: "hidden"}),
-                                            }}
-                                            noLabel={field.datatype === "boolean"}
-                                            pageStore={pageStore}
-                                            visible
-                                        />
+                                        {Boolean(checkEditable(store.config.mode, field.editmode)) && (
+                                            <BuilderField
+                                                bc={field}
+                                                noLabel={field.datatype === "boolean"}
+                                                pageStore={pageStore}
+                                                visible
+                                            />
+                                        )}
                                     </td>
                                 ))}
                             </GridRow>

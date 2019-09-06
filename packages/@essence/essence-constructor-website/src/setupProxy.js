@@ -10,13 +10,13 @@ try {
 
 // eslint-disable-next-line max-statements
 module.exports = function(app) {
-    // Local
-    app.use(proxy("/api", {changeOrigin: true, target: "http://localhost:9020/"}));
-    app.use(proxy("/notification", {changeOrigin: true, target: "http://localhost:9020/", ws: true}));
-
     if (proxyConfig) {
         proxyConfig.forEach((config) => {
             app.use(proxy(config.path, config.options));
         });
+    } else {
+        // Local
+        app.use(proxy("/api", {changeOrigin: true, target: "http://localhost:9020/"}));
+        app.use(proxy("/notification", {changeOrigin: true, target: "http://localhost:9020/", ws: true}));
     }
 };

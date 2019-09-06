@@ -19,8 +19,8 @@ import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import {type StoresType} from "../../Stores/stores";
 import AppBarAuth from "../../Components/AppBarAuth";
 import {styleTheme} from "../../constants";
-import * as lightLogo from "../../images/12-01.png";
-import * as darkLogo from "../../images/14-01.png";
+import * as lightLogo from "../../images/light_logo.png";
+import * as darkLogo from "../../images/dark_logo.png";
 import styles from "./AuthPageStyles";
 
 const logo = styleTheme === "light" ? lightLogo : darkLogo;

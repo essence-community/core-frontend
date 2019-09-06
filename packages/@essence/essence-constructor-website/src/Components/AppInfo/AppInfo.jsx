@@ -10,8 +10,8 @@ import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import {sanitizeHtml} from "@essence/essence-constructor-share/utils";
 import {styleTheme, commitId, branchDateTime, branchName} from "../../constants";
-import * as lightLogo from "../../images/12-01.png";
-import * as darkLogo from "../../images/14-01.png";
+import * as lightLogo from "../../images/light_logo.png";
+import * as darkLogo from "../../images/dark_logo.png";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import styles from "./AppInfoStyles";
 

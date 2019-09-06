@@ -5,9 +5,18 @@ You can find the most recent version of this guide [here](https://github.com/fac
 
 ## Зависимости
 
-1. `yarn` - (^1.3.2)
-1. `node` - (^9.0.0)
+1. `yarn` - (^1.4.2)
+1. `node` - (^10.0.0)
 
+### Пакет `essence-constructor-share`
+
+Пакет предназначен для переиспользования кодовой базы между моделями и основным приложением.
+
+Для сборки необходимо:
+
+1. зайти в папку `packages/@essence/essence-constructor-share`
+1. установить зависимости `yarn install`
+1. собрать пакет в библиотеку `yarn build`
 
 ## Работа с пакетами (yarn workspaces)
 
@@ -16,18 +25,17 @@ You can find the most recent version of this guide [here](https://github.com/fac
 Доступные пакеты:
 
 1. [essence-constructor-component](./packages/@essence/essence-constructor-components) - базовый пакет для сбора конструктора
-1. [essence-constructor-website](./packages/@essence/essence-constructor-website) - веб приложения для работы с конструктором и метамоделью
+1. [essence-constructor-website](./packages/@essence/essence-constructor-website) - веб приложения для работы с конструктором и метамоделью`
 
 ## Запуск приложения для разработки
 
 При разработке нужно выполнить `yarn start` из корня проекта.
 
-При запуске запускаются 2 команды:
+При запуске запускаются 1 команда:
 
-1. `yarn build:watch` - запускает сборку компонентов из модуля `essence-constructor-component`
 1. `yarn start` - запускает web версию из модуля `essence-constructor-website`
 
-При разработки в [package.json](./packages/@essence/essence-constructor-website/package.json) описаны стандартные адреса для проксирвоания:
+При разработки в [setupProxy.js](./packages/@essence/essence-constructor-website/src/setupProxy.js) описаны стандартные адреса для проксирвоания:
 
 1. ` /api` -> `http://localhost:9020/`
 1. `/notification` -> `http://localhost:9020/`
@@ -43,7 +51,6 @@ You can find the most recent version of this guide [here](https://github.com/fac
 
 При сборке выполняются команды:
 
-1. `yarn buld` - запускает сборку компонентов из модуля `essence-constructor-component`
 1. `yarn build` - запускает сборку web версии из модуля `essence-constructor-website`
 1. копирование `build` папки в верхний уровень приложения
 

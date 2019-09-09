@@ -32,7 +32,7 @@ class FieldImage extends React.Component<PropsType> {
                     height: toSize(height),
                 }}
             >
-                {field.value ? (
+                {typeof field.value === "string" ? (
                     <React.Fragment>
                         <img
                             alt=""

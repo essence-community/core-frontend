@@ -23,6 +23,7 @@ class FieldImage extends React.Component<PropsType> {
         const {bc, classes, field, form} = this.props;
         const {height} = bc;
         const fieldWithName = form.select(`${field.key}Filename`, null, false);
+        const {origin} = window.location;
 
         return (
             <div
@@ -31,7 +32,7 @@ class FieldImage extends React.Component<PropsType> {
                     height: toSize(height),
                 }}
             >
-                {field.value ? (
+                {typeof field.value === "string" ? (
                     <React.Fragment>
                         <img
                             alt=""
@@ -39,10 +40,12 @@ class FieldImage extends React.Component<PropsType> {
                             className={height ? classes.zoomImg : classes.img}
                             data-qtip={fieldWithName ? fieldWithName.value : ""}
                         />
-                        <div className={classes.downloadBtn} onClick={this.handleDownload}>
-                            <Icon size="lg" iconfont="download" />
-                            <span className={classes.downloadBtnText}>Загрузить</span>
-                        </div>
+                        {field.value.indexOf(origin) === 0 && (
+                            <div className={classes.downloadBtn} onClick={this.handleDownload}>
+                                <Icon size="lg" iconfont="download" />
+                                <span className={classes.downloadBtnText}>Загрузить</span>
+                            </div>
+                        )}
                     </React.Fragment>
                 ) : null}
             </div>

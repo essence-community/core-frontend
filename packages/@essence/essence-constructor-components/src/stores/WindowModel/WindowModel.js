@@ -49,6 +49,7 @@ const getChilds = ({bc, gridStore}) => {
             ...(bc.autobuild === "true" ? omit(fieldProps, FIELD_OMIT_ATTRIBUTES_AUTOBUILD) : fieldProps),
             // eslint-disable-next-line sort-keys
             cvDisplayed: field.cvDisplayed,
+            edittype: bc.edittype,
             visibileinwindow: field.visibileinwindow,
             ...pick(field, fieldHoistAttributes),
             ...(bc.edittype === "inline" ? {width: "100%"} : {}),

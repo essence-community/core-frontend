@@ -82,7 +82,7 @@ if (!isEnvProduction) {
 }
 
 module.exports = {
-    mode: "development",
+    mode: isEnvProduction ? "production" : "development",
     entry: entries,
     output: {
         filename: isEnvProduction ? "[name].[contenthash:8].js" : "[name].js",

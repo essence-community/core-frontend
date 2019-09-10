@@ -10,7 +10,6 @@ import {GridModel} from "../../stores/GridModel";
 import {checkEditable} from "../../utils/access";
 import Focusable from "../../Components/Focusable/Focusable";
 import GridRow from "../../Grid/Row/GridRow";
-import {WIDTH_MAP} from "../../Grid/BaseGridTableHeader";
 import GridColgroup from "../../Grid/GridComponents/GridColgroup";
 import BuilderField from "../../TextField/BuilderField";
 import styles from "./InlineTableStyles";
@@ -23,6 +22,12 @@ type PropsType = {
     classes: {
         [$Keys<$Call<typeof styles>>]: string,
     },
+};
+
+export const WIDTH_MAP = {
+    action: 30,
+    detail: 30,
+    icon: 30,
 };
 
 class InlineTable extends React.PureComponent<PropsType> {
@@ -62,7 +67,7 @@ class InlineTable extends React.PureComponent<PropsType> {
                                         {Boolean(checkEditable(store.config.mode, field.editmode)) && (
                                             <BuilderField
                                                 bc={field}
-                                                noLabel={field.datatype === "boolean"}
+                                                noLabel={field.datatype === "boolean" || field.datatype === "checkbox"}
                                                 pageStore={pageStore}
                                                 visible
                                             />

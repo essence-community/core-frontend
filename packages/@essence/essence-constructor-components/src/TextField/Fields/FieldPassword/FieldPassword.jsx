@@ -28,7 +28,6 @@ class FieldPassword extends React.Component<PropsType, StateType> {
     render() {
         const {
             bfClasses,
-            disabled,
             value,
             tips,
             bc: {ckPageObject},
@@ -40,7 +39,6 @@ class FieldPassword extends React.Component<PropsType, StateType> {
                 {tips}
                 <IconButton
                     color="secondary"
-                    disabled={disabled}
                     className={bfClasses.eyeButton}
                     onClick={this.handleToggleShowPassword}
                     data-page-object={`${ckPageObject}-eye`}

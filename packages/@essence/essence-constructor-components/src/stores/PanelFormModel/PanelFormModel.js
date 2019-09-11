@@ -19,12 +19,19 @@ export class PanelFormModel extends HistoryModel implements PanelFormModelInterf
 
     bc: any;
 
+    panelBc: any;
+
     isFilterOpen: boolean;
 
     refs: Map<CkIdType, HTMLDivElement | React.ElementRef<*>> = new Map();
 
     constructor({pageStore, bc}: StoreBaseModelPropsType) {
         super({bc: {...bc, defaultvalue: "alwaysfirst"}, pageStore});
+
+        this.panelBc = {
+            ...bc,
+            topbtn: this.btnsConfig.btns,
+        };
 
         extendObservable(this, {
             isFilterOpen: true,

@@ -23,6 +23,7 @@ const DEFAULT_OVERRIDE_FIELD = [
     "hidden",
     "hiddenrules",
     "maxfile",
+    "mode",
     "modeaction",
     "redirecturl",
     "redirectusequery",

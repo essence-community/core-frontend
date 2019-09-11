@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper/Paper";
 import {setComponent} from "@essence/essence-constructor-share";
 import {camelCaseMemoized, toSize} from "@essence/essence-constructor-share/utils";
 import cn from "classnames";
@@ -14,8 +15,9 @@ import {type BuilderBaseType} from "../BuilderType";
 import styles from "./BuilderIframeStyles";
 import {type PropsType, type DecoratorPropsType} from "./BuilderIframeTypes";
 
+// eslint-disable-next-line max-statements
 export const BuilderIframeComponent = (props: PropsType) => {
-    const {bc, classes, pageStore, disabled, hidden, visible, store} = props;
+    const {bc, classes, pageStore, disabled, hidden, visible, store, elevation} = props;
     const {column} = bc;
     const {selectedRecord} = store.recordsStore;
     const height = bc.height ? toSize(bc.height) : undefined;
@@ -25,7 +27,7 @@ export const BuilderIframeComponent = (props: PropsType) => {
         return null;
     }
 
-    return (
+    const content = (
         <div className={cn(classes.root)} style={{height}}>
             {disabled ? <div className={classes.disabled} /> : null}
             {store.recordsStore.isLoading ? (
@@ -47,6 +49,16 @@ export const BuilderIframeComponent = (props: PropsType) => {
             )}
         </div>
     );
+
+    if (elevation) {
+        return (
+            <Paper elevation={elevation} className="paper-overflow-hidden" data-page-object={bc.ckPageObject}>
+                {content}
+            </Paper>
+        );
+    }
+
+    return content;
 };
 
 const BuilderIframe = compose(

@@ -8,6 +8,7 @@ export interface PanelFormModelInterface extends HistoryModelInterface {
     +mode: BuilderModeType;
     +selectedRecord: Object | null;
     +refs: Map<CkIdType, HTMLDivElement | React.ElementRef<*>>;
+    +panelBc: any;
     +searchAction: (values: Object) => void;
     +toggleIsFilterOpen: () => void;
     +addAction: () => void;

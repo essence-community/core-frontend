@@ -126,7 +126,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
                         <BuilderBasePanel
                             {...this.props}
                             pageStore={pageStore}
-                            bc={bc}
+                            bc={store.panelBc}
                             elevation={undefined}
                             editing={isEditing}
                             readOnly={readOnly}

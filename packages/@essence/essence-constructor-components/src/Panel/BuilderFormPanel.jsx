@@ -93,7 +93,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
 
     render() {
         const {store, bc, readOnly, hideTitle, pageStore, visible, elevation} = this.props;
-        const {filters = [], cvDisplayed} = bc;
+        const {filters = [], cvDisplayed, hideactions} = bc;
         const isEditing = readOnly ? false : store.editing;
 
         const content = (
@@ -116,7 +116,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
                         />
                     </Grid>
                 ))}
-                {hideTitle ? null : <EmptyTitle title={cvDisplayed} filters={filters} />}
+                {hideTitle || hideactions === "true" ? null : <EmptyTitle title={cvDisplayed} filters={filters} />}
                 <Grid item>
                     <BuilderForm
                         initialValues={store.recordsStore.records[0] || EMPTY_RECORD}

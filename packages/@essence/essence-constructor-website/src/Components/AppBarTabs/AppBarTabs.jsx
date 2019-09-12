@@ -84,7 +84,7 @@ class AppBarTabs extends React.Component<PropsType, StateType> {
                         return (
                             <ToolBarTab
                                 key={ckPage}
-                                // Component={this.renderTabComponent}
+                                component={this.renderTabComponent}
                                 label={route.cvName}
                                 iconfont={iconName}
                                 value={ckPage}

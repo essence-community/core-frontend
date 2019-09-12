@@ -112,7 +112,7 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType, {i
     // eslint-disable-next-line max-statements
     render() {
         const {bc, editing, hidden, visible, hideTitle, elevation, classNameRoot, topPanel} = this.props;
-        const {editmodepanel} = bc;
+        const {editmodepanel, hideactions} = bc;
         const isForm = editmodepanel === "true" && typeof editing === "undefined";
 
         if (hidden || !this.state.isMounted) {
@@ -127,7 +127,7 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType, {i
         const isThemePanelWrapper = Boolean(actions || isForm || Boolean(this.props.childRef));
         let content = this.renderPanel(isThemePanelWrapper);
 
-        if (isThemePanelWrapper) {
+        if (isThemePanelWrapper && hideactions !== "true") {
             if (bc.cvDisplayed && !hideTitle && bc.type !== "BOX") {
                 content = (
                     <Grid container spacing={0} direction="column">

@@ -46,6 +46,7 @@ class FieldGroup extends React.Component<PropsType, StateType> {
         this.columns = getColumns(childs);
 
         field.set("value", this.handleGetValues());
+        field.set("default", this.handleGetValues());
 
         this.handleChangeReqCount(reqcount || "0");
 
@@ -97,6 +98,7 @@ class FieldGroup extends React.Component<PropsType, StateType> {
         const {field} = this.props;
 
         field.set("value", status);
+        field.set("default", status);
         field.validate({showErrors: true});
     };
 
@@ -131,6 +133,14 @@ class FieldGroup extends React.Component<PropsType, StateType> {
         return ` ${columnsCount - value} / ${this.state.reqCount}`;
     };
 
+    isIncorrect = () => {
+        const {bc} = this.props;
+        const value = Number(this.props.value);
+        const columnsCount = bc.childs ? bc.childs.length : 0;
+
+        return columnsCount - value < this.state.reqCount;
+    };
+
     renderSuccess = () => {
         const {reqcount, reqcountrules} = this.props.bc;
 
@@ -141,7 +151,7 @@ class FieldGroup extends React.Component<PropsType, StateType> {
         const {bc, pageStore, editing, visible, classes, form, error, readOnly} = this.props;
         const isRow = bc.contentview === "hbox";
         const inFilter = this.context === "filter";
-        const status = error ? `${this.renderTip()} *` : this.renderSuccess();
+        const status = error || this.isIncorrect() ? `${this.renderTip()} *` : this.renderSuccess();
 
         return (
             <Grid
@@ -160,9 +170,11 @@ class FieldGroup extends React.Component<PropsType, StateType> {
                     <Grid item className={classes.labelTextStartAngle}>
                         &nbsp;
                     </Grid>
-                    <Grid item className={`${classes.labelDisplay}`}>
-                        {bc.cvDisplayed ? <span className={classes.labelText}>{bc.cvDisplayed}</span> : null}
-                    </Grid>
+                    {Boolean(bc.cvDisplayed) && (
+                        <Grid item className={`${classes.labelDisplay}`}>
+                            <span className={classes.labelText}>{bc.cvDisplayed}</span>
+                        </Grid>
+                    )}
                     <Grid item xs className={classes.labelTextLine}>
                         &nbsp;
                     </Grid>

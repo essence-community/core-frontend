@@ -9,6 +9,7 @@ export type PropsType = CommonDecoratorInjectType & {
     classes: Object,
     pageStore: PageModelType,
     store: IframeModelType,
+    elevation?: number,
 };
 
 export type DecoratorPropsType = CommonDecoratorInjectType & {

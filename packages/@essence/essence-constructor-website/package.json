@@ -6,7 +6,8 @@
     "analyze": "source-map-explorer build/static/js/main.*",
     "build": "node scripts/build.js",
     "start": "node scripts/start.js",
-    "start-localhost": "node scripts/start.js --PROJECT=localhost"
+    "start-localhost": "node scripts/start.js --PROJECT=localhost",
+    "start-mock": "node scripts/start.js --PROJECT=mock"
   },
   "dependencies": {
     "@babel/cli": "^7.1.2",

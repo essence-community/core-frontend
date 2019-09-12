@@ -52,6 +52,7 @@ const packageJsonNew = {
         postinstall: "yarn constructor-dll-build",
         build: "constructor-scripts build",
         test: "constructor-scripts test",
+        zip: "constructor-scripts zip",
         deploy: "constructor-scripts deploy",
     },
     dependencies: {

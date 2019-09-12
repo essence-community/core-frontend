@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.2.2",
+    "adm-zip": "^0.4.13",
     "aws-sdk": "^2.419.0",
     "babel-loader": "^8.0.5",
     "babel-preset-react-app": "^5.0.4",

@@ -150,11 +150,14 @@ function uploadFiles() {
         process.exit(1);
     }
 
-    const files = fs.readdirSync(resolveApp("dist")).map((fileName) => ({
-        ContentType: CONTENT_TYPES[fileName.split(".").pop()],
-        file: fs.readFileSync(resolveApp("dist", fileName)),
-        fileName,
-    }));
+    const files = fs
+        .readdirSync(resolveApp("dist"))
+        .filter((filename) => !filename.includes(".zip"))
+        .map((fileName) => ({
+            ContentType: CONTENT_TYPES[fileName.split(".").pop()],
+            file: fs.readFileSync(resolveApp("dist", fileName)),
+            fileName,
+        }));
 
     if (fs.existsSync(resolveApp("src", "schema_manifest.json"))) {
         files.push({

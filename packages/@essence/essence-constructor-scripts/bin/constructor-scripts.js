@@ -21,6 +21,7 @@ switch (script) {
     case "start":
     case "init":
     case "deploy":
+    case "zip":
     case "test": {
         const result = spawn.sync(
             "node",

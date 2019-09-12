@@ -73,13 +73,15 @@ export class Panel extends React.Component<PropsType> {
         } = this.props;
         const {childs = [], contentview = "vbox", spacing, resizable} = bc;
         const isRow = contentview === "hbox" || contentview === "hbox-wrap";
+        const gridSpacing = spacing || DEFAULT_SPACING;
         const {childsWidths = {}} = store;
         const isResizeEnable = resizable === "true" && contentview === "hbox";
 
         return (
             <Grid
                 container
-                spacing={spacing || DEFAULT_SPACING}
+                className={classes[`rootSpacing${gridSpacing}`]}
+                spacing={gridSpacing}
                 data-page-object={bc.ckPageObject}
                 {...GRID_CONFIGS[contentview] || GRID_CONFIGS.vbox}
             >

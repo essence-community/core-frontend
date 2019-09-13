@@ -273,7 +273,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
         let result = false;
 
         if (this.selectedRecord) {
-            result = await this.saveAction(this.selectedRecord, "3", options);
+            result = await this.saveAction(this.selectedRecord, "3", {...options, query: options.actionBc.updatequery});
         }
 
         return result;

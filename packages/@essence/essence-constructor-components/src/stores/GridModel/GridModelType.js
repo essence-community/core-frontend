@@ -94,7 +94,6 @@ export interface GridModelInterface extends StoreBaseModelInterface {
     +gridColumnsInitial: Array<Object>;
     +defaultHandlerBtnAction: () => void;
     +saveAction: (values: Object, config: GridSaveConfigType) => void;
-    +onUpdateModule: (mode: BuilderModeType, btnBc: BuilderBaseType, props: any) => Promise<?string>;
     +openCloseExpansionAction: (ckId: CkIdType, isExpanded?: boolean) => void;
     +addRefAction: (ckId: CkIdType, node: any) => void;
     +removeRefAction: (ckId: CkIdType) => void;

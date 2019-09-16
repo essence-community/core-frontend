@@ -4,7 +4,6 @@ import {extendObservable, action, reaction, observable, type ObservableMap, when
 import delay from "lodash/delay";
 import forEach from "lodash/forEach";
 import forOwn from "lodash/forOwn";
-import groupBy from "lodash/groupBy";
 import noop from "lodash/noop";
 import {
     SnackbarModel,
@@ -271,26 +270,26 @@ export class ApplicationModel implements ApplicationModelType {
         }
     });
 
-    loadModules = () =>
+    loadModules = (moduleUrl: string = MODULE_URL) =>
         sendRequest({
-            gate: `${MODULE_URL}/manifests/manifest-${branchName}.json`,
-            list: true,
-            method: "GET",
-            params: {
-                ver: Number(new Date()),
+            json: {
+                filter: {
+                    clAvailable: 1,
+                    cvVersionApi: branchName,
+                },
             },
+            list: true,
+            query: "GetModuleList",
         })
-            .then((modules) => groupBy(modules, "name"))
-            .then((modulesStore) =>
-                sendRequest({list: true, query: "GetModuleList"}).then((modules) => ({
-                    modules: modules.filter((mod) => mod.clAvailable && Boolean(modulesStore[mod.cvName])),
-                    modulesStore,
-                })),
-            )
-            .then(({modules, modulesStore}) =>
+            .then((modules) =>
                 Promise.all(
-                    modules.map(({cvName}) =>
-                        loadFiles(modulesStore[cvName][0].files.map((fileName) => `${MODULE_URL}${fileName}`), false),
+                    modules.map(({cvName, cvVersion, ccConfig}) =>
+                        loadFiles(
+                            JSON.parse(ccConfig || "{}").files.map(
+                                (fileName) => `${moduleUrl}/${cvName}/${cvVersion}${fileName}`,
+                            ),
+                            false,
+                        ),
                     ),
                 ),
             )
@@ -314,7 +313,9 @@ export class ApplicationModel implements ApplicationModelType {
         }
 
         return Promise.all([
-            this.settingsStore.settings.moduleAvailable === "true" ? this.loadModules() : undefined,
+            this.settingsStore.settings.moduleAvailable === "true"
+                ? this.loadModules(this.settingsStore.settings.moduleUrl)
+                : undefined,
             this.snackbarStore.recordsStore.loadRecordsAction(),
             this.routesStore.recordsStore.loadRecordsAction(),
         ])

@@ -15,6 +15,7 @@
     "CI": "yarn flow stop && concurrently \"yarn lint\" \"yarn flow\" ",
     "precommit": "lint-staged",
     "prepush": "flow",
+    "preinstall": "cd packages/@essence/essence-constructor-share && yarn install && yarn build",
     "postinstall": "node scripts/postinstall.js",
     "eslint": "eslint",
     "lint": "eslint src license-checker.js packages/@essence/essence-constructor-components/src packages/@essence/essence-constructor-components/mocks packages/@essence/essence-constructor-website/src --ext js,jsx",

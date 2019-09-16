@@ -159,29 +159,6 @@ export class WindowModel extends StoreBaseModel implements WindowModelInterface 
         },
     );
 
-    onUpdateModule = async (mode: BuilderModeType, btnBc: BuilderBaseType, props: WindowSaveConfigType) => {
-        const {form} = props;
-
-        await form.validate({showErrors: true});
-
-        if (form.isValid && this.gridStore) {
-            const success = await this.gridStore.onUpdateModule(
-                btnBc.modeaction || btnBc.mode || this.config.mode,
-                btnBc,
-                {...props, values: props.form.values()},
-            );
-
-            if (success) {
-                if (this.addMore) {
-                    this.pageStore.resetStepAction();
-                    this.initialValues = {};
-                } else {
-                    this.closeAction();
-                }
-            }
-        }
-    };
-
     /**
      * Закрытие модального окна с сообщением
      */

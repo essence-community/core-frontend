@@ -9,12 +9,11 @@ import {isEmpty} from "../../utils/base";
 import {gridScrollToRecordAction, gridSetGlobalValues, getGridHeight} from "../../utils/grid";
 import {type BuilderModeType, type CkIdType, type BuilderBaseType, type FormOptionsType} from "../../BuilderType";
 import {WIDTH_MAP} from "../../Grid/BaseGridTableHeader";
-import {TABLE_CELL_MIN_WIDTH, loggerRoot, GRID_ROW_HEIGHT, GRID_ROWS_COUNT, MODULE_URL} from "../../constants";
+import {TABLE_CELL_MIN_WIDTH, loggerRoot, GRID_ROW_HEIGHT, GRID_ROWS_COUNT} from "../../constants";
 import {type BuilderFilterType} from "../../Filter/BuilderFilterType";
 import {addWinowToPage} from "../WindowModel/WindowModelActions";
 import {RecordsModel, type RecordsModelType} from "../RecordsModel";
 import {awaitFormFilter} from "../PageModel/PageModelRedirect";
-import {sendRequest} from "../../request/baseRequest";
 import {StoreBaseModel, type StoreBaseModelPropsType} from "../StoreBaseModel";
 import {
     type GridBuilderType,
@@ -278,32 +277,6 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
             },
         ),
     );
-
-    onUpdateModule = async (mode: BuilderModeType, bc: BuilderBaseType, {files, values}: any): Promise<?string> => {
-        const recordValues = values || this.recordsStore.selectedRecord;
-
-        try {
-            const manifest = await sendRequest({
-                gate: `${MODULE_URL}/${recordValues.cvName}/${recordValues.cvVersion}/schema_manifest.json`,
-                method: "GET",
-                query: "manifest",
-            });
-
-            if (
-                this.pageStore.applicationStore.snackbarStore.checkValidResponseAction(manifest, this.pageStore.route)
-            ) {
-                return this.recordsStore.saveAction({...recordValues, manifest}, bc.modeaction || mode, {
-                    actionBc: bc,
-                    files,
-                    query: bc.updatequery,
-                });
-            }
-        } catch (err) {
-            this.pageStore.applicationStore.snackbarStore.checkExceptResponse(err, this.pageStore.route);
-        }
-
-        return undefined;
-    };
 
     /**
      * Форма сохранения:

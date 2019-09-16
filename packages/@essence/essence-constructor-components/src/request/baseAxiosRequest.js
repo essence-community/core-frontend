@@ -71,7 +71,6 @@ const baseAxiosRequest = async ({
         query,
     };
     const data = {
-        json: json ? JSON.stringify(snakeCaseKeys(json)) : undefined,
         // eslint-disable-next-line camelcase
         out_result: "",
         // eslint-disable-next-line camelcase
@@ -79,6 +78,12 @@ const baseAxiosRequest = async ({
         session,
         ...snakeCaseKeys(body),
     };
+
+    if (formData && json) {
+        formData.append("json", JSON.stringify(snakeCaseKeys(json)));
+    } else if (json) {
+        data.json = JSON.stringify(snakeCaseKeys(json));
+    }
 
     const response = await axios({
         data: formData ? formData : stringify(data),

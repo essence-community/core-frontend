@@ -25,7 +25,6 @@ const defaultPreference = {
     wysiwygCombineFields: false,
 };
 
-export const MODULE_URL = process.env.REACT_APP_MODULE_URL || "";
 export const BASE_URL = process.env.REACT_APP_BASE_URL || "gate_ub_dev";
 export const styleTheme = getFromStore("theme", "light");
 export const wrapperPanelDirection = styleTheme === "dark" ? "row" : "column";

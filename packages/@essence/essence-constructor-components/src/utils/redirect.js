@@ -178,6 +178,12 @@ export const redirectUseQuery = ({
             return false;
         });
 
+function redirectToUrl(redirecturl: string, values: Object) {
+    const url = parseMemoize(redirecturl).runer(values);
+
+    window.open(url);
+}
+
 export const makeRedirect = (bc: BcType, pageStore: PageModelType, record: Object = {}): void => {
     const {redirecturl, redirectusequery, columnsfilter = ""} = bc;
     const {globalValues} = pageStore;
@@ -193,7 +199,14 @@ export const makeRedirect = (bc: BcType, pageStore: PageModelType, record: Objec
         }
     });
 
-    redirecturl && pageStore.applicationStore.redirectToAction(redirecturl, values);
+    if (redirecturl) {
+        if (redirecturl.indexOf("/") >= 0) {
+            redirectToUrl(redirecturl, values);
+        } else {
+            pageStore.applicationStore.redirectToAction(redirecturl, values);
+        }
+    }
+
     redirectusequery &&
         redirectUseQuery({
             bc,

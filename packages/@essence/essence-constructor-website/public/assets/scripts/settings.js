@@ -58,4 +58,9 @@ window.SETTINGS = [
         cv_description:
             "Дата последнего деплоймента техплатформы (т.е. когда последний раз на этом стенде обновляли БД CORE)",
     },
+    {
+        ck_id: "g_sys_module_url",
+        cv_value: "/api_module",
+        cv_description: "Контекст получения модулей",
+    },
 ];

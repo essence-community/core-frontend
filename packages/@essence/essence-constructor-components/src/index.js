@@ -18,7 +18,7 @@ import SideResizer from "./Resizer/SideResizer";
 export {themeVars} from "./Theme";
 export {SnackbarMobx} from "./Snackbar/Snackbar";
 export {getThemeStyles} from "./Theme/utils";
-export {preference, BASE_URL, MODULE_URL, loggerRoot} from "./constants";
+export {preference, BASE_URL, loggerRoot} from "./constants";
 export {isEmpty} from "./utils/base";
 export {sendRequest} from "./request/baseRequest";
 

@@ -17,7 +17,6 @@ import {
     preference,
     BASE_URL,
     sendRequest,
-    MODULE_URL,
 } from "@essence/essence-constructor-components";
 import {
     camelCaseKeys,
@@ -199,8 +198,7 @@ export class ApplicationModel implements ApplicationModelType {
         reaction(
             () => this.globalValues.toJS(),
             (globalValues) =>
-                // eslint-disable-next-line no-use-before-define
-                applicationStore.snackbarStore.snackbarOpenAction({
+                this.snackbarStore.snackbarOpenAction({
                     autoHidden: true,
                     hiddenTimeout: 0,
                     status: "debug",
@@ -270,7 +268,7 @@ export class ApplicationModel implements ApplicationModelType {
         }
     });
 
-    loadModules = (moduleUrl: string = MODULE_URL) =>
+    loadModules = (moduleUrl: string) =>
         sendRequest({
             json: {
                 filter: {
@@ -314,7 +312,7 @@ export class ApplicationModel implements ApplicationModelType {
 
         return Promise.all([
             this.settingsStore.settings.moduleAvailable === "true"
-                ? this.loadModules(this.settingsStore.settings.moduleUrl)
+                ? this.loadModules(this.settingsStore.settings.gSysModuleUrl)
                 : undefined,
             this.snackbarStore.recordsStore.loadRecordsAction(),
             this.routesStore.recordsStore.loadRecordsAction(),

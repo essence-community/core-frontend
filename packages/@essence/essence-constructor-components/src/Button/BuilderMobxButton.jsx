@@ -130,7 +130,7 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
 
     // eslint-disable-next-line max-statements
     handleClickDefer = (event: SyntheticEvent<HTMLButtonElement>) => {
-        const {handleClick, pageStore, bc, onClick = noop, disabled} = this.props;
+        const {handleClick, pageStore, bc, onClick = noop, disabled, record} = this.props;
         const {disabledState} = this.state;
         const {redirecturl, redirectusequery, columnsfilter} = bc;
 
@@ -143,7 +143,7 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
         }
 
         if ((redirecturl || redirectusequery) && columnsfilter) {
-            return makeRedirect({...bc, columnsfilter, redirecturl, redirectusequery}, pageStore);
+            return makeRedirect({...bc, columnsfilter, redirecturl, redirectusequery}, pageStore, record);
         }
 
         onClick(event);

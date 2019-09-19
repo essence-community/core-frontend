@@ -19,14 +19,14 @@
                 "visible": "true"
             },
             {
-                "ck_page_object": "modules_update",
-                "ck_object": "modules_update",
-                "cv_displayed": "Обновление модуля",
+                "ck_page_object": "modules_download",
+                "ck_object": "modules_download",
+                "cv_displayed": "Скачать модуля",
                 "ck_parent": "modules",
+                "columnsfilter": "g_sys_module_url,cv_name,cv_version",
                 "datatype": "icon",
-                "handler": "onUpdateModule",
-                "mode": "2",
-                "iconfont": "refresh",
+                "iconfont": "download",
+                "redirecturl": "`${g_sys_module_url}/${cv_name}/${cv_version}/module.zip`",
                 "visible": "true"
             },
             {

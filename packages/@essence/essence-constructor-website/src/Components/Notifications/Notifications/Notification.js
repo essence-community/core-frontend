@@ -66,7 +66,6 @@ class Notification extends React.Component<PropsType> {
                             onClick={this.handleDelete}
                             className={classes.clearButton}
                             disableRipple
-                            disableFocusRipple
                             data-qtip="Удалить"
                             data-page-object={`snackbar-remove-${snackbar.id}`}
                         >

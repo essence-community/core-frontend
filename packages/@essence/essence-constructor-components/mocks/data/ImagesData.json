@@ -10,5 +10,11 @@
         "cv_imgbase64": "",
         "cv_imgurl_filename": "file_name_3",
         "cv_imgbase64_filename": ""   
+    },
+    {
+        "cv_imgurl": "${g_sys_module_url}/image.png",
+        "cv_imgbase64": "",
+        "cv_imgurl_filename": "file_name_3",
+        "cv_imgbase64_filename": ""   
     }
 ]

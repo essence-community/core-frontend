@@ -71,7 +71,6 @@ class Notifications extends React.Component<PropsType> {
                             }}
                             disabled={!snackbarStore.snackbarsInStatus.length}
                             disableRipple
-                            disableFocusRipple
                             data-qtip="Очистить все"
                             data-page-object={"snackbar-remove-all"}
                         >

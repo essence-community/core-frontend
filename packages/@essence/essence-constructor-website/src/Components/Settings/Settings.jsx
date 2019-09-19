@@ -15,6 +15,18 @@ class Settings extends React.Component<PropsType> {
 
         applicationStore.settingsStore.recordsStore.setRecordsAction(camelCaseKeys(window.SETTINGS));
 
+        const {settings} = applicationStore.settingsStore;
+
+        const globalSettings = Object.keys(settings).reduce((acc, settingKey) => {
+            if (settingKey.indexOf("g") === 0) {
+                acc[settingKey] = settings[settingKey];
+            }
+
+            return acc;
+        }, {});
+
+        applicationStore.updateGlobalValuesAction(globalSettings);
+
         if (applicationStore.settingsStore.settings.projectName) {
             document.title = applicationStore.settingsStore.settings.projectName;
         }

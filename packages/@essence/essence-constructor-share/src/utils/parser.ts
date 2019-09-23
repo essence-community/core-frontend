@@ -8,7 +8,7 @@ interface IParseReturnType {
 }
 
 interface IValues {
-    [$key: string]: string | number | boolean;
+    [$key: string]: string | number | boolean ;
 }
 
 interface IQuasi {
@@ -95,6 +95,7 @@ function parseOperations(expression: IParsedItem, values: IValues): any {
             return expression.value;
         case "Identifier":
             return values.get
+                // @ts-ignore
                 ? values.get(camelCaseMemoized(expression.name))
                 : values[camelCaseMemoized(expression.name)];
         case "AssignmentExpression":

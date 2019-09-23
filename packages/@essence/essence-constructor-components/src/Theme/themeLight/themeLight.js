@@ -65,9 +65,6 @@ export const themeLight = {
         appbarHeight: 45,
         gridRowHeight: 30,
     },
-    spacing: {
-        unit: 8,
-    },
     typography: {
         fontFamily: "'Roboto Light', 'Roboto Regular', 'Roboto'",
         useNextVariants: true,

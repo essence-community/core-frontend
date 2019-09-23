@@ -1,12 +1,6 @@
 // @flow
 import * as React from "react";
-import Dialog from "@material-ui/core/Dialog/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Grid from "@material-ui/core/Grid";
-import DialogContent from "@material-ui/core/DialogContent";
-import Switch from "@material-ui/core/Switch";
-import DialogActions from "@material-ui/core/DialogActions";
-import Button from "@material-ui/core/Button";
+import {Dialog, DialogTitle, Grid, DialogContent, Switch, DialogActions, Button} from "@material-ui/core";
 import noop from "lodash/noop";
 import BuilderMobxButton from "../../../Button/BuilderMobxButton";
 import {type PageModelType} from "../../../stores/PageModel";
@@ -99,7 +93,7 @@ class GridSettings extends React.Component<PropsType, StateType> {
                     <DialogTitle disableTypography>Показать/скрыть колонки</DialogTitle>
                     <DialogContent>
                         <Scrollbars autoHeight autoHeightMax={300} autoHeightMin={60}>
-                            <Grid container direction="column" spacing={8} style={{width: "100%"}}>
+                            <Grid container direction="column" spacing={1} style={{width: "100%"}}>
                                 {gridStore.gridColumnsInitial.map((column) => {
                                     const {visible, hiddenrules} = column;
 

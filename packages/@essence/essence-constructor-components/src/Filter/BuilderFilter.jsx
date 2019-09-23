@@ -6,10 +6,8 @@ import forOwn from "lodash/forOwn";
 import isArray from "lodash/isArray";
 import {toColumnStyleWidth, getFromStore} from "@essence/essence-constructor-share/utils";
 import {setComponent, mapComponents} from "@essence/essence-constructor-share";
-import Grid from "@material-ui/core/Grid/Grid";
+import {Grid, Collapse, Typography} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import Collapse from "@material-ui/core/Collapse";
-import Typography from "@material-ui/core/Typography";
 import {Field} from "mobx-react-form";
 import withModelDecorator from "../decorators/withModelDecorator";
 import {styleTheme, wrapperPanelDirection} from "../constants";
@@ -147,7 +145,7 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
 
                 {styleTheme === "light" ? (
                     <Grid item xs={12} className={classes.titleContainer}>
-                        <Typography className={classes.titleTypography} data-qtip={title}>
+                        <Typography variant="body2" className={classes.titleTypography} data-qtip={title}>
                             {title}
                             &nbsp;
                         </Typography>
@@ -193,7 +191,12 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
                             <Grid item xs zeroMinWidth>
                                 {styleTheme === "light" ? null : (
                                     <Content horizontalSize="16">
-                                        <Typography noWrap className={classes.titleTypography} data-qtip={title}>
+                                        <Typography
+                                            variant="body2"
+                                            noWrap
+                                            className={classes.titleTypography}
+                                            data-qtip={title}
+                                        >
                                             {title}
                                         </Typography>
                                     </Content>
@@ -204,7 +207,7 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
                                     className={classes.filterFields}
                                     setRef={this.handleRefContent}
                                 >
-                                    <Grid container spacing={8} alignItems="center">
+                                    <Grid container spacing={1} alignItems="center">
                                         {mapComponents(bc.childs, (ChildComp, child) => (
                                             <Grid
                                                 item

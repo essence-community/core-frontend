@@ -2,7 +2,7 @@
 import * as React from "react";
 import forEach from "lodash/forEach";
 import isUndefined from "lodash/isUndefined";
-import ListItem from "@material-ui/core/ListItem";
+import {ListItem} from "@material-ui/core";
 import {findSetKey} from "../../../utils/findKey";
 import {type PageModelType} from "../../../stores/PageModel";
 import commonDecorator from "../../../decorators/commonDecorator";

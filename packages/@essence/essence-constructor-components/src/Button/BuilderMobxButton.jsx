@@ -4,8 +4,8 @@ import * as React from "react";
 import noop from "lodash/noop";
 import {compose} from "recompose";
 import {withStyles} from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
+import {Button, IconButton} from "@material-ui/core";
+import Fab from "@material-ui/core/Fab";
 import {setComponent, Icon} from "@essence/essence-constructor-share";
 import commonDecorator, {type CommonDecoratorInjectType} from "../decorators/commonDecorator";
 import {styleTheme} from "../constants";
@@ -260,9 +260,9 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
         ) : null;
         const button =
             variant === "fab" ? (
-                <Button {...buttonProps} variant="fab" mini>
+                <Fab {...buttonProps} size="small">
                     {icon}
-                </Button>
+                </Fab>
             ) : (
                 <IconButton {...buttonProps}>{icon}</IconButton>
             );

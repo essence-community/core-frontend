@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react";
-import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
+import {Button, Paper} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import {when} from "mobx";
 import BuilderFormPanel, {BuilderFormPanelBase} from "../BuilderFormPanel";

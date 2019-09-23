@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import MaterialTab from "@material-ui/core/Tab";
+import {Tab as MaterialTab} from "@material-ui/core";
 import omit from "lodash/omit";
 import commonDecorator from "../decorators/commonDecorator";
 import {type PageModelType} from "../stores/PageModel";

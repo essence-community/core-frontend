@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import {observer} from "mobx-react";
-import Checkbox from "@material-ui/core/Checkbox";
+import {Checkbox} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import {type GridColumnPropsType} from "./GridColumnHeaderTypes";
 

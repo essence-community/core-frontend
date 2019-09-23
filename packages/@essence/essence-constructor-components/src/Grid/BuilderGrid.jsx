@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import {compose} from "recompose";
-import Paper from "@material-ui/core/Paper/Paper";
+import {Paper} from "@material-ui/core";
 import {setComponent} from "@essence/essence-constructor-share";
 import {type PageModelType} from "../stores/PageModel";
 import {GridModel, type GridModelType} from "../stores/GridModel";

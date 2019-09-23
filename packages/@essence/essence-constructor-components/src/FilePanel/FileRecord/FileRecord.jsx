@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react";
-import ButtonBase from "@material-ui/core/ButtonBase";
-import TextField from "@material-ui/core/TextField";
+import {ButtonBase, TextField} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import moment from "moment";

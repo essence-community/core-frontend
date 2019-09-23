@@ -1,9 +1,8 @@
 // @flow
 import * as React from "react";
 import {observer} from "mobx-react";
-import ButtonBase from "@material-ui/core/ButtonBase";
+import {ButtonBase, Grid} from "@material-ui/core";
 import cn from "classnames";
-import Grid from "@material-ui/core/Grid";
 import {SnackbarContentText} from "@essence/essence-constructor-components";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 

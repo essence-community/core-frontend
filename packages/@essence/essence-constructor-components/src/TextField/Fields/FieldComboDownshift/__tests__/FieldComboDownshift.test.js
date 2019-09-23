@@ -4,7 +4,7 @@ import {when} from "mobx";
 import {mount} from "enzyme";
 import {MuiThemeProvider} from "@material-ui/core/styles";
 import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
-import MenuItem from "@material-ui/core/MenuItem";
+import {MenuItem} from "@material-ui/core";
 import comboJson from "../../../../../mocks/fields/combo.json";
 import comboRecords from "../../../../../mocks/data/comboRecords.json";
 import BuilderMobxForm from "../../../../Components/MobxForm/BuilderMobxForm";

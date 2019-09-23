@@ -2,7 +2,7 @@
 // @flow
 import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import {Grid} from "@material-ui/core";
 import {ToolBar, ToolBarDrawerButton} from "@essence/essence-constructor-components";
 import {styleTheme} from "../constants";
 import MenuGrid from "./MenuGrid/MenuGrid";
@@ -34,7 +34,7 @@ const styles = (theme: any) => ({
         backgroundColor: theme.palette.common.white,
         height: "auto",
         marginTop: theme.sizing.appbarHeight,
-        padding: theme.spacing.unit * 2,
+        padding: theme.spacing(2),
         width: 350,
     },
     root: {

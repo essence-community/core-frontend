@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import Grid from "@material-ui/core/Grid/Grid";
+import {Grid} from "@material-ui/core";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import {toColumnStyleWidth, camelCaseMemoized} from "@essence/essence-constructor-share/utils";
@@ -136,7 +136,7 @@ class PrivateBuilderFieldSet extends React.Component<PropsType, StateType> {
         }
 
         return (
-            <Grid container spacing={16} direction={isRow ? "row" : "column"} wrap={isRow ? "nowrap" : "wrap"}>
+            <Grid container spacing={2} direction={isRow ? "row" : "column"} wrap={isRow ? "nowrap" : "wrap"}>
                 {mapComponents(bc.childs || [], (ChildComp, child, index) => {
                     const key = isEmpty(parentKey)
                         ? `fieldSetObj_${this.fieldSetName}`

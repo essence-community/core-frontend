@@ -5,7 +5,7 @@ import {compose} from "recompose";
 import pick from "lodash/pick";
 import camelCase from "lodash/camelCase";
 import {observer} from "mobx-react";
-import Grid from "@material-ui/core/Grid";
+import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import Popover from "../../../Popover/Popover";

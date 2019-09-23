@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import keycode from "keycode";
-import Button from "@material-ui/core/Button";
+import {Button} from "@material-ui/core";
 import {type PageModelType} from "../stores/PageModel";
 import WindowMessage from "./WindowMessage";
 

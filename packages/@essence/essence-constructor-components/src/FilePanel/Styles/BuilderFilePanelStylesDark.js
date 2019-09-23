@@ -21,7 +21,7 @@ export const BuilderFilePanelStylesDark = (theme: any) => ({
         zIndex: 100,
     },
     fileGridItem: {
-        padding: `${theme.spacing.unit}px ${theme.spacing.unit}px`,
+        padding: `${theme.spacing(1)}px ${theme.spacing(1)}px`,
     },
     fileItem: {
         border: `1px solid ${theme.palette.grey.main}`,

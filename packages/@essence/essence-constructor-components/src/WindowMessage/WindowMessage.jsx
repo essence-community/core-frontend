@@ -1,10 +1,7 @@
 // @flow
 import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Dialog from "@material-ui/core/Dialog/Dialog";
-import Button from "@material-ui/core/Button";
-import DialogContent from "@material-ui/core/DialogContent";
+import {Grid, Dialog, Button, DialogContent} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import Scrollbars from "../Components/Scrollbars/Scrollbars";
 import {type PageModelType} from "../stores/PageModel";
@@ -73,7 +70,7 @@ const WindowMessage = ({
     const content = (
         <React.Fragment>
             <DialogContent className={classes.rootContent}>
-                <Grid container alignItems="center" spacing={16} wrap="nowrap">
+                <Grid container alignItems="center" spacing={2} wrap="nowrap">
                     <Grid item>
                         <Icon iconfont={statusIcons[status]} size="2x" color="grey" />
                     </Grid>
@@ -85,7 +82,7 @@ const WindowMessage = ({
                 </Grid>
             </DialogContent>
             <div className={classes.rootActions}>
-                <Grid container justify="flex-end" spacing={8}>
+                <Grid container justify="flex-end" spacing={1}>
                     <Grid item>
                         <Button
                             onClick={onAccept}

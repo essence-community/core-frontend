@@ -1,8 +1,7 @@
 // @flow
 import * as React from "react";
 import cn from "classnames";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import {Grid, Typography} from "@material-ui/core";
 
 export type ValueType = "all" | "info" | "error" | "warning" | "notification" | "debug";
 
@@ -28,7 +27,9 @@ class NotificationsTab extends React.Component<PropsType> {
                 className={cn(classes.tabRoot, {[classes.selectedTab]: value === selectedValue})}
                 onClick={this.handleClick}
             >
-                <Typography color="inherit">{label}</Typography>
+                <Typography variant="body2" color="inherit">
+                    {label}
+                </Typography>
             </Grid>
         );
     }

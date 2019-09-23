@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper/Paper";
+import {Paper} from "@material-ui/core";
 import {setComponent} from "@essence/essence-constructor-share";
 import {camelCaseMemoized, toSize} from "@essence/essence-constructor-share/utils";
 import cn from "classnames";

@@ -2,9 +2,7 @@
 import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
 import {observer} from "mobx-react";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
+import {Grid, Paper, Typography} from "@material-ui/core";
 
 const styles = (theme) => ({
     grid: {
@@ -34,11 +32,13 @@ type PropsType = {
 const BaseBlock = ({applicationStore, classes = {}}: PropsType) =>
     applicationStore.isBlock ? (
         <div className={classes.root}>
-            <Grid container className={classes.grid} spacing={16} alignItems="center" direction="row" justify="center">
+            <Grid container className={classes.grid} spacing={2} alignItems="center" direction="row" justify="center">
                 <Grid item>
                     <Paper className={classes.paper} elevation={8}>
                         Предупреждение
-                        <Typography color="inherit">{applicationStore.blockText}</Typography>
+                        <Typography variant="body2" color="inherit">
+                            {applicationStore.blockText}
+                        </Typography>
                     </Paper>
                 </Grid>
             </Grid>

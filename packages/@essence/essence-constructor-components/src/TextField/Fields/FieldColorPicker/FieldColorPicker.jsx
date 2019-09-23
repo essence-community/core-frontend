@@ -5,7 +5,7 @@ import {observer} from "mobx-react";
 import cn from "classnames";
 import get from "lodash/get";
 import {withStyles} from "@material-ui/core/styles";
-import FormLabel from "@material-ui/core/FormLabel";
+import {FormLabel} from "@material-ui/core";
 import ColorPicker from "../../../ColorPicker/ColorPicker";
 import TextFieldLabel from "../../TextFieldComponents/TextFieldLabel/TextFieldLabel";
 import FieldColorPickerStyles from "./FieldColorPickerStyles";

@@ -3,8 +3,7 @@
 import * as React from "react";
 import {inject, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button/Button";
+import {Grid, Button} from "@material-ui/core";
 import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
 import {loggerRoot, PageLoader, preference} from "@essence/essence-constructor-components";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
@@ -113,7 +112,7 @@ class RedirectPage extends React.Component<PropsType, StateType> {
         const content = (
             <Grid container justify="center" alignItems="center" className={classes.root}>
                 <Grid item>
-                    <Grid container className={classes.panel} spacing={8} direction="column" justify="center">
+                    <Grid container className={classes.panel} spacing={1} direction="column" justify="center">
                         <Grid item>Вы пытаетесь перейти на страницу c такими параметрами:</Grid>
                         {params ? (
                             <React.Fragment>

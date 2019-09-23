@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import Tabs from "@material-ui/core/Tabs";
+import {Tabs} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {styleTheme} from "../constants";
 import ScrollButton from "./ToolBarScrollButton";
@@ -32,7 +32,7 @@ class ToolBarTabs extends React.Component<Props> {
                     scroller: classes.scroller,
                 }}
                 onChange={onChange}
-                scrollable
+                variant="scrollable"
                 scrollButtons="on"
                 ScrollButtonComponent={ScrollButton}
             >

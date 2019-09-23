@@ -3,7 +3,7 @@ import * as React from "react";
 import {reaction} from "mobx";
 import cn from "classnames";
 import {disposeOnUnmount} from "mobx-react";
-import Grid from "@material-ui/core/Grid";
+import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {toColumnStyleWidth, camelCaseMemoized} from "@essence/essence-constructor-share/utils";
 import {mapComponents, Icon} from "@essence/essence-constructor-share";
@@ -156,7 +156,7 @@ class FieldGroup extends React.Component<PropsType, StateType> {
         return (
             <Grid
                 container
-                spacing={8}
+                spacing={1}
                 className={cn(classes.root, {
                     [classes.rootError]: error,
                     [classes.filterRoot]: inFilter,

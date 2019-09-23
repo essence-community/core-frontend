@@ -1,7 +1,4 @@
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import {Divider, List, ListItem, ListItemText} from "@material-ui/core";
 import {IWithModelProps, withModel} from "@essence/essence-constructor-share/decorators";
 import {observer} from "mobx-react";
 import * as React from "react";

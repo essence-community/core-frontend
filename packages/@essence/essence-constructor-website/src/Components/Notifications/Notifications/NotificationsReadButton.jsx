@@ -1,8 +1,7 @@
 // @flow
 import * as React from "react";
 import {observer} from "mobx-react";
-import Badge from "@material-ui/core/Badge";
-import ButtonBase from "@material-ui/core/ButtonBase";
+import {Badge, ButtonBase} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 
 type PropsType = {

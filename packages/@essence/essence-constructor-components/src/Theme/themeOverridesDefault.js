@@ -7,6 +7,10 @@ export const themeOverridesDefault = (theme) => ({
         },
     },
     MuiBadge: {
+        anchorOriginTopRightRectangle: {
+            right: 12,
+            top: 12,
+        },
         badge: {
             pointerEvents: "none",
         },
@@ -233,6 +237,10 @@ export const themeOverridesDefault = (theme) => ({
         },
     },
     MuiTableSortLabel: {
+        icon: {
+            height: 16,
+            width: 16,
+        },
         root: {
             "&:not($active) $icon": {
                 display: "none",

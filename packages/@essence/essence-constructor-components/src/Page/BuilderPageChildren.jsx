@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import Grid from "@material-ui/core/Grid/Grid";
+import {Grid} from "@material-ui/core";
 import {getComponent} from "@essence/essence-constructor-share";
 import {styleTheme} from "../constants";
 import {type PageModelType} from "../stores/PageModel";

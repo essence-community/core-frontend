@@ -2,7 +2,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import {observer} from "mobx-react";
-import Grid from "@material-ui/core/Grid/Grid";
+import {Grid} from "@material-ui/core";
 import {getComponent} from "@essence/essence-constructor-share";
 import {buttonDirection, styleTheme} from "../constants";
 import GridAudit from "../Grid/GridComponents/GridAudit";
@@ -106,7 +106,7 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
             <Grid
                 container
                 alignItems="center"
-                spacing={8}
+                spacing={1}
                 direction={buttonDirection}
                 className={editing ? "hidden" : undefined}
             >

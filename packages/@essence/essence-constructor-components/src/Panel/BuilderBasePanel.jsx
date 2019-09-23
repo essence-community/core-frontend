@@ -1,8 +1,7 @@
 // @flow
 import * as React from "react";
-import Grid from "@material-ui/core/Grid/Grid";
+import {Paper, Grid} from "@material-ui/core";
 import {setComponent, mapComponents} from "@essence/essence-constructor-share";
-import Paper from "@material-ui/core/Paper";
 import {buttonDirection} from "../constants";
 import Content from "../Components/Content/Content";
 import EmptyTitle from "../Components/EmptyTitle/EmptyTitle";
@@ -37,7 +36,7 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType, {i
 
         if (topbtn.length > 0 || (isForm && pageStore.styleTheme === "dark")) {
             return (
-                <Grid container alignItems="center" direction={buttonDirection} spacing={8}>
+                <Grid container alignItems="center" direction={buttonDirection} spacing={1}>
                     {mapComponents(topbtn, (ChildComp, child) => (
                         <Grid item key={child.ckPageObject}>
                             <ChildComp

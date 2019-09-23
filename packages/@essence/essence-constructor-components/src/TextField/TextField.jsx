@@ -3,7 +3,7 @@ import * as React from "react";
 import omit from "lodash/omit";
 import {observer} from "mobx-react";
 import {Field} from "mobx-react-form";
-import TextFieldMaterial from "@material-ui/core/TextField/TextField";
+import {TextField as TextFieldMaterial} from "@material-ui/core";
 import {isEmpty} from "../utils/base";
 import TextFieldLabel from "./TextFieldComponents/TextFieldLabel/TextFieldLabel";
 import {type BuilderFieldType} from "./BuilderFieldType";

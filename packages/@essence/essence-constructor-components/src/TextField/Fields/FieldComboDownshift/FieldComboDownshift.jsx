@@ -10,7 +10,7 @@ import Downshift from "downshift";
 import Trigger from "rc-trigger";
 import placements from "rc-calendar/lib/picker/placements";
 import {withStyles} from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
+import {IconButton} from "@material-ui/core";
 import {camelCaseMemoized} from "@essence/essence-constructor-share/utils";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import {isEmpty, isEqualStr} from "../../../utils/base";

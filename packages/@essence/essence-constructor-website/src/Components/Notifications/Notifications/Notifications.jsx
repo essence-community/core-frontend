@@ -1,8 +1,7 @@
 // @flow
 import * as React from "react";
-import ButtonBase from "@material-ui/core/ButtonBase";
+import {ButtonBase, Grid} from "@material-ui/core";
 import {compose} from "recompose";
-import Grid from "@material-ui/core/Grid";
 import {inject, observer} from "mobx-react";
 import {Scrollbars} from "@essence/essence-constructor-components";
 import {Icon} from "@essence/essence-constructor-share/Icon";

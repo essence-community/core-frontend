@@ -17,7 +17,7 @@ const FieldMultiStyles = (theme) => ({
     paper: {
         backgroundColor: theme.palette.primary.main,
         overflow: "visible",
-        padding: theme.spacing.unit,
+        padding: theme.spacing(1),
         width: 600,
     },
     paperHidden: {

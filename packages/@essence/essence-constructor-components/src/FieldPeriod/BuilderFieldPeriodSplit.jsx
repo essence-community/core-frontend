@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import camelCase from "lodash/camelCase";
-import Grid from "@material-ui/core/Grid";
+import {Grid} from "@material-ui/core";
 import commonDecorator, {type CommonDecoratorInjectType} from "../decorators/commonDecorator";
 import {loggerRoot} from "../constants";
 import {isEmpty} from "../utils/base";
@@ -99,7 +99,7 @@ class BuilderFieldPeriodSplit extends React.Component<PropsType> {
         }
 
         return (
-            <Grid container wrap="nowrap" spacing={8} alignItems="center">
+            <Grid container wrap="nowrap" spacing={1} alignItems="center">
                 <Grid item xs zeroMinWidth>
                     <BuilderField {...this.props} bc={this.bcStart} visible={visible} />
                 </Grid>

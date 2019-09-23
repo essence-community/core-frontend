@@ -1,8 +1,7 @@
 // @flow
 import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
+import {IconButton, Typography} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 
 const styles = (theme: any) => ({
@@ -88,7 +87,11 @@ class Pagination extends React.Component<Props> {
                 >
                     <Icon iconfont="angle-left" />
                 </IconButton>
-                <Typography classes={{root: classes.typoRoot}} data-page-object={`${gridBc.ckPageObject}-current-page`}>
+                <Typography
+                    variant="body2"
+                    classes={{root: classes.typoRoot}}
+                    data-page-object={`${gridBc.ckPageObject}-current-page`}
+                >
                     {pages > 0 ? this.props.page + 1 : 0} из {pages}
                 </Typography>
 

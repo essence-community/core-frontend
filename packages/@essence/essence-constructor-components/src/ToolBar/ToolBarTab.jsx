@@ -3,8 +3,7 @@ import * as React from "react";
 import cn from "classnames";
 import omit from "lodash/omit";
 import noop from "lodash/noop";
-import MaterialTab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
+import {Tab as MaterialTab, Typography} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import {styleTheme} from "../constants";
@@ -61,7 +60,7 @@ class ToolBarTab extends React.Component<PropsType<string | number>> {
                 tabIndex="-1"
                 label={
                     <React.Fragment>
-                        <Typography noWrap color="inherit" className={classes.text}>
+                        <Typography variant="body2" noWrap color="inherit" className={classes.text}>
                             {label}
                         </Typography>
                         <Icon

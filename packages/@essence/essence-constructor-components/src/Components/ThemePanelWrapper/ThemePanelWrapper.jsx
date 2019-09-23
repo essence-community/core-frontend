@@ -2,7 +2,7 @@
 import * as React from "react";
 import cn from "classnames";
 import {withStyles} from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import {Grid} from "@material-ui/core";
 import {wrapperPanelDirection} from "../../constants";
 import styles from "./ThemePanelWrapperStyles";
 

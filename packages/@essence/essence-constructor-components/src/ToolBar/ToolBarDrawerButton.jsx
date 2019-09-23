@@ -1,9 +1,7 @@
 // @flow
 import * as React from "react";
-import ButtonBase from "@material-ui/core/ButtonBase";
 import cn from "classnames";
-import Grid from "@material-ui/core/Grid";
-import Drawer from "@material-ui/core/Drawer";
+import {ButtonBase, Drawer, Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import SideResizer from "../Resizer/SideResizer";
@@ -90,7 +88,7 @@ class ToolBarDrawerButton extends React.Component<Props, State> {
 
         return (
             <React.Fragment>
-                {Badge ? <Badge>{button}</Badge> : button}
+                {Badge ? <Badge classes={{badge: classes.badgeRoot}}>{button}</Badge> : button}
                 <Drawer
                     anchor={anchor}
                     open={isDrawerOpen}

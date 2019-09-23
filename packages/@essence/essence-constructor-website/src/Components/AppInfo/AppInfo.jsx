@@ -3,11 +3,7 @@ import * as React from "react";
 import {compose} from "recompose";
 import {inject, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import Typography from "@material-ui/core/Typography";
-import ButtonBase from "@material-ui/core/ButtonBase";
+import {Dialog, DialogTitle, DialogContent, Typography, ButtonBase} from "@material-ui/core";
 import {sanitizeHtml} from "@essence/essence-constructor-share/utils";
 import {styleTheme, commitId, branchDateTime, branchName} from "../../constants";
 import * as lightLogo from "../../images/light_logo.png";
@@ -62,7 +58,7 @@ class AppInfo extends React.Component<PropsType, StateType> {
                             {applicationStore.settingsStore.settings.projectAboutBoxTitle}
                         </Typography>
 
-                        <Typography paragraph>
+                        <Typography variant="body2" paragraph>
                             Версия {branchName} ({commitId} от {branchDateTime})
                         </Typography>
                         {applicationStore.settingsStore.settings.projectAboutBoxDescription ? (

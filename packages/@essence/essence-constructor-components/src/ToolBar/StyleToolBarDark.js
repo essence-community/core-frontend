@@ -5,6 +5,10 @@ export const StyleToolBarDark = (theme: any) => ({
     activeButton: {
         color: theme.palette.common.selectedMenu,
     },
+    badgeRoot: {
+        top: 12,
+        right: 12,
+    },
     button: {
         "& $activeButton": {
             color: theme.palette.common.selectedMenu,
@@ -74,10 +78,16 @@ export const StyleToolBarDark = (theme: any) => ({
         width: "auto",
     },
     tabRoot: {
+        "& $tabWrapper > *:first-child": {
+            marginBottom: 0,
+        },
+        "& $activeTabWrapper > *:first-child": {
+            marginBottom: 0,
+        },
         borderLeft: `1px solid ${theme.palette.grey.main}`,
         borderBottom: `1px solid ${theme.palette.grey.main}`,
         height: theme.sizing.appbarHeight,
-        paddingTop: 0,
+        padding: 0,
         minHeight: theme.sizing.appbarHeight,
         width: 160,
     },

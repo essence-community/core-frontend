@@ -4,8 +4,8 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
 import classNames from "classnames";
-import withStyles from "@material-ui/core/styles/withStyles";
-import ButtonBase from "@material-ui/core/ButtonBase";
+import {withStyles} from "@material-ui/core/styles";
+import {ButtonBase} from "@material-ui/core";
 import omit from "lodash/omit";
 import styles from "./SliderStyles";
 

@@ -9,7 +9,7 @@
   "private": false,
   "dependencies": {
     "@essence/essence-constructor-share": "file:../essence-constructor-share/lib/",
-    "@material-ui/core": "4.4.2",
+    "@material-ui/core": "^4.4.3",
     "keycode": "^2.2.0",
     "mobx": "5.9.0",
     "mobx-react-lite": "^1.4.1",

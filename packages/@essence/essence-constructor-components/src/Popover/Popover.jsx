@@ -3,7 +3,8 @@ import * as React from "react";
 import {createPortal} from "react-dom";
 import noop from "lodash/noop";
 import isFunction from "lodash/isFunction";
-import {Paper, Backdrop, Modal, Grow} from "@material-ui/core";
+import keycode from "keycode";
+import {Paper, Backdrop, Grow} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {getAbsoluteOffsetFromGivenElement} from "@essence/essence-constructor-share/utils";
 import {ANIMATION_TIMEOUT} from "../constants";
@@ -157,6 +158,12 @@ export class PopoverBase extends React.Component<PopoverPropsType, StateType> {
         }
     };
 
+    handleKeyDown = (event: KeyboardEvent) => {
+        if (keycode(event) === "esc") {
+            this.handleEscapeKeyDown();
+        }
+    };
+
     handleOutsideClick = (event: MouseEvent) => {
         setTimeout(() => {
             const {current: rootEl} = this.rootRef;
@@ -218,48 +225,40 @@ export class PopoverBase extends React.Component<PopoverPropsType, StateType> {
             restoreFocusedElement,
             focusableMount,
             dataPageObjectPopover,
-            disableEscapeKeyDown,
             tabFocusable,
         } = this.props;
 
         const popup = (
             <React.Fragment>
                 {hideBackdrop ? null : <Backdrop open className={classes.popoverBackdrop} />}
-                <Modal
-                    open
+
+                <div
+                    ref={this.popupRef}
                     className={classes.popoverRoot}
                     style={{left, top}}
                     data-page-object={dataPageObjectPopover}
-                    hideBackdrop
-                    container={container}
-                    disableRestoreFocus
-                    disableAutoFocus
-                    disableEnforceFocus
-                    disableEscapeKeyDown={disableEscapeKeyDown}
-                    onEscapeKeyDown={this.handleEscapeKeyDown}
+                    onKeyDown={this.handleKeyDown}
                 >
-                    <div ref={this.popupRef}>
-                        <Grow
-                            appear
-                            in
-                            onEntering={this.handleEntering}
-                            onExiting={this.handleExiting}
-                            timeout={ANIMATION_TIMEOUT}
+                    <Grow
+                        appear
+                        in
+                        onEntering={this.handleEntering}
+                        onExiting={this.handleExiting}
+                        timeout={ANIMATION_TIMEOUT}
+                    >
+                        <FocusableArrow
+                            tabFocusable={tabFocusable}
+                            focusableMount={focusableMount}
+                            restoreFocusedElement={restoreFocusedElement}
                         >
-                            <FocusableArrow
-                                tabFocusable={tabFocusable}
-                                focusableMount={focusableMount}
-                                restoreFocusedElement={restoreFocusedElement}
-                            >
-                                <Paper className={paperClassName} style={{width}}>
-                                    {isFunction(popoverContent)
-                                        ? popoverContent({onClose: this.handleClose, onOpen, open})
-                                        : popoverContent}
-                                </Paper>
-                            </FocusableArrow>
-                        </Grow>
-                    </div>
-                </Modal>
+                            <Paper className={paperClassName} style={{width}}>
+                                {isFunction(popoverContent)
+                                    ? popoverContent({onClose: this.handleClose, onOpen, open})
+                                    : popoverContent}
+                            </Paper>
+                        </FocusableArrow>
+                    </Grow>
+                </div>
             </React.Fragment>
         );
 

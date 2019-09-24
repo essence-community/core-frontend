@@ -5,6 +5,10 @@ export const StyleToolBarLight = (theme: any) => ({
     activeButton: {
         color: theme.palette.common.selectedMenu,
     },
+    badgeRoot: {
+        top: 12,
+        right: 12,
+    },
     button: {
         "& $activeButton": {
             color: theme.palette.common.selectedMenu,
@@ -68,17 +72,18 @@ export const StyleToolBarLight = (theme: any) => ({
         width: 32,
         textAlign: "center",
     },
-    tabLabelContainer: {
-        fontSize: 13,
-        padding: "0 !important",
-        width: "auto",
-    },
     tabRoot: {
+        "& $tabWrapper > *:first-child": {
+            marginBottom: 0,
+        },
+        "& $activeTabWrapper > *:first-child": {
+            marginBottom: 0,
+        },
         borderBottom: `2px solid ${theme.palette.primary.main}`,
         borderLeft: `1px solid ${theme.palette.primary.main}`,
         borderRight: `1px solid ${theme.palette.primary.main}`,
         height: theme.sizing.appbarHeight,
-        paddingTop: 0,
+        padding: 0,
         minHeight: theme.sizing.appbarHeight,
         width: 160,
     },

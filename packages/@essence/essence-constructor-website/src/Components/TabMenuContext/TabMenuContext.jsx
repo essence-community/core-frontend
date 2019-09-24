@@ -1,9 +1,7 @@
 // @flow
 import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
-import Popover from "@material-ui/core/Popover";
-import ListItem from "@material-ui/core/ListItem";
-import List from "@material-ui/core/List";
+import {Popover, ListItem, List} from "@material-ui/core";
 import styles from "./TabMenuContextStyles";
 
 export type PopoverPositionType = {

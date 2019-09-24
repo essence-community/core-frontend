@@ -84,7 +84,7 @@
     "packages": [
       "packages/@essence/essence-constructor-components",
       "packages/@essence/essence-constructor-website",
-      "packages/@essence/essence-constructor-simple-module"
+      "packages/@essence/essence-constructor-classes"
     ]
   },
   "dependencies": {}

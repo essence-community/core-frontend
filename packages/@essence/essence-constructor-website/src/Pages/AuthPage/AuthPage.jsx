@@ -2,14 +2,8 @@
 // @flow
 import * as React from "react";
 import {inject, observer} from "mobx-react";
-import Grid from "@material-ui/core/Grid/Grid";
+import {Grid, TextField, Paper, Button, Typography, InputAdornment, IconButton} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField/TextField";
-import Paper from "@material-ui/core/Paper/Paper";
-import Button from "@material-ui/core/Button/Button";
-import Typography from "@material-ui/core/Typography";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
 import {PageLoader} from "@essence/essence-constructor-components";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import {getFromStore} from "@essence/essence-constructor-share/utils";
@@ -225,7 +219,7 @@ class AuthPage extends React.Component<PropsType, StateType> {
                 <Grid container justify="center" alignItems="center" className="root-height">
                     <Grid item>
                         <Paper classes={{root: classes.paper}} elevation={12}>
-                            <Typography classes={{root: classes.typography}}>
+                            <Typography variant="body2" classes={{root: classes.typography}}>
                                 <img src={logo} alt="logo" height="50" width="50" />
                                 {applicationStore.settingsStore.settings.projectAuthTitle}
                             </Typography>
@@ -234,7 +228,7 @@ class AuthPage extends React.Component<PropsType, StateType> {
                                     isLoading={form.submitting}
                                     loaderType={applicationStore.settingsStore.settings.projectLoader}
                                 />
-                                <Grid container direction="column" justyfy="space-between" spacing={24}>
+                                <Grid container direction="column" justyfy="space-between" spacing={3}>
                                     <Grid item>{this.renderLoginField({input: form.$("cvLogin").bind()})}</Grid>
                                     <Grid item>
                                         {this.renderPasswordField({

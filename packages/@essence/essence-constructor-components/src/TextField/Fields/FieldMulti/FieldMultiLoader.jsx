@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import {observer} from "mobx-react";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import {CircularProgress} from "@material-ui/core";
 import {type FieldMultuStoreType} from "./FieldMultiTypes";
 
 type PropsType = {

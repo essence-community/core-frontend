@@ -27,7 +27,7 @@ export const BuilderPageStylesLight = (theme: any) => ({
     },
     rootPageContent: {
         minHeight: "100%",
-        padding: theme.spacing.unit * 2,
+        padding: theme.spacing(2),
         position: "relative",
     },
 });

@@ -4,12 +4,7 @@ import memoise from "lodash/memoize";
 import {Slider, preference} from "@essence/essence-constructor-components";
 import {saveToStore} from "@essence/essence-constructor-share/utils";
 import {withStyles} from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import Switch from "@material-ui/core/Switch";
+import {Typography, Button, TextField, Paper, Grid, Switch} from "@material-ui/core";
 import styles from "./PreferencePageStyles";
 
 type PropsType = {
@@ -74,7 +69,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
 
         return (
             <Paper className={classes.root}>
-                <Grid container direction="column" spacing={16}>
+                <Grid container direction="column" spacing={2}>
                     <Grid item>
                         <Typography variant="headline" component="h3" align="center">
                             Настройки системы

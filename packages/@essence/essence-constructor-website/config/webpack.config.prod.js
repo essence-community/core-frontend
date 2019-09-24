@@ -249,7 +249,7 @@ module.exports = {
          * `web` extension prefixes have been added for better support
          * for React Native Web.
          */
-        extensions: [".mjs", ".web.js", ".js", ".json", ".web.jsx", ".jsx"],
+        extensions: [".mjs", ".web.js", ".js", ".json", ".web.jsx", ".jsx", ".ts", ".tsx"],
         alias: {
             /*
              * Support React Native Web
@@ -311,8 +311,8 @@ module.exports = {
                      * The preset includes JSX, Flow, and some ESnext features.
                      */
                     {
-                        test: /\.(js|mjs|jsx)$/,
-                        include: [paths.appSrc, paths.appComponentsSrc],
+                        test: /\.(js|mjs|jsx|ts|tsx)$/,
+                        include: [paths.appSrc, paths.appComponentsSrc, paths.appClassesSrc],
                         loader: require.resolve("babel-loader"),
                         options: {
                             customize: require.resolve("babel-preset-react-app/webpack-overrides"),

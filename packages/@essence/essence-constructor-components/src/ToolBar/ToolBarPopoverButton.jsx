@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import ButtonBase from "@material-ui/core/ButtonBase";
+import {ButtonBase} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import Popover from "../Popover/Popover";

@@ -2,7 +2,7 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import noop from "lodash/noop";
-import Grid from "@material-ui/core/Grid/Grid";
+import {Grid} from "@material-ui/core";
 import BuilderButtonCollector from "../../Button/BuilderButtonCollector/BuilderButtonCollector";
 import Pagination from "../../Pagination/Pagination";
 import BuilderMobxButton from "../../Button/BuilderMobxButton";
@@ -130,7 +130,7 @@ class GridBaseButtons extends React.Component<PropsType> {
         return (
             <Grid
                 container
-                spacing={8}
+                spacing={1}
                 alignItems="center"
                 direction={styleTheme === "light" ? "row" : "column"}
                 className={isInlineEditing ? "hidden" : undefined}

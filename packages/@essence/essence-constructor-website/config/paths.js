@@ -50,7 +50,7 @@ module.exports = {
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   appComponentsSrc: resolveApp('../essence-constructor-components/src'),
-  appShareSrc: resolveApp('../essence-constructor-share/src'),
+  appClassesSrc: resolveApp('../essence-constructor-classes/src'),
   yarnLockFile: resolveApp('yarn.lock'),
   testsSetup: resolveApp('src/setupTests.js'),
   proxySetup: resolveApp('src/setupProxy.js'),

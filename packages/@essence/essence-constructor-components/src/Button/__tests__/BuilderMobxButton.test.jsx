@@ -1,8 +1,7 @@
 // @flow
 import * as React from "react";
 import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
+import {Button, IconButton} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import BuilderMobxButton, {BuilderMobxButtonBase} from "../BuilderMobxButton";
 import {mountWithTheme} from "../../utils/test";

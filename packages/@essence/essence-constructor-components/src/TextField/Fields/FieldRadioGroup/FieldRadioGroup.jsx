@@ -3,11 +3,8 @@ import * as React from "react";
 import {compose} from "recompose";
 import {observer, disposeOnUnmount} from "mobx-react";
 import {reaction} from "mobx";
-import Grid from "@material-ui/core/Grid";
+import {Grid, Radio, RadioGroup, FormLabel} from "@material-ui/core";
 import cn from "classnames";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormLabel from "@material-ui/core/FormLabel";
 import {withStyles} from "@material-ui/core/styles";
 import {camelCaseMemoized, toColumnStyleWidth} from "@essence/essence-constructor-share/utils";
 import TextFieldLabel from "../../TextFieldComponents/TextFieldLabel/TextFieldLabel";
@@ -125,7 +122,7 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType, StateTyp
                     <RadioGroup onChange={this.handleChange}>
                         <Grid
                             container
-                            spacing={8}
+                            spacing={1}
                             direction={isRow ? "row" : "column"}
                             wrap={isRow ? "nowrap" : "wrap"}
                             style={{overflow: "hidden", width: "100%"}}
@@ -145,7 +142,7 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType, StateTyp
             return (
                 <Grid
                     container
-                    spacing={8}
+                    spacing={1}
                     className={cn(classes.gridRoot, {
                         [classes.gridRootError]: error,
                     })}

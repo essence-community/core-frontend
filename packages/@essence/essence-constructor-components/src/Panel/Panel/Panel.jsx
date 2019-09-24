@@ -2,7 +2,7 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid/Grid";
+import {Grid} from "@material-ui/core";
 import {compose} from "recompose";
 import {toColumnStyleWidth} from "@essence/essence-constructor-share/utils";
 import {getComponent} from "@essence/essence-constructor-share";
@@ -32,7 +32,7 @@ type PropsType = {|
 |};
 
 const MAX_PANEL_WIDTH = 12;
-const DEFAULT_SPACING = 8;
+const DEFAULT_SPACING = 1;
 const GRID_CONFIGS = {
     hbox: {
         direction: "row",

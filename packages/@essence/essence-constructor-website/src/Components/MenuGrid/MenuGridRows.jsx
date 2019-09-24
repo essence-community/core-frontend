@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import {observer} from "mobx-react";
-import Collapse from "@material-ui/core/Collapse";
+import {Collapse} from "@material-ui/core";
 import MenuGridRow from "./MenuGridRow";
 
 type PropsType = {|

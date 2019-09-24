@@ -2,8 +2,7 @@
 import * as React from "react";
 import {type ReactWrapper} from "enzyme";
 import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
-import TableCell from "@material-ui/core/TableCell";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
+import {TableCell, TableSortLabel} from "@material-ui/core";
 import gridMock from "../../../mocks/grid/grid";
 import {createEmptyPageStore} from "../../stores";
 import {mountWithTheme} from "../../utils/test";

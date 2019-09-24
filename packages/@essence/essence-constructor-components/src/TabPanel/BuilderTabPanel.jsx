@@ -7,9 +7,8 @@ import {reaction} from "mobx";
 import {observer, disposeOnUnmount} from "mobx-react";
 import {compose} from "recompose";
 import keycode from "keycode";
-import Tabs from "@material-ui/core/Tabs/Tabs";
+import {Tabs, Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid/Grid";
 import {setComponent, mapComponents} from "@essence/essence-constructor-share";
 import commonDecorator from "../decorators/commonDecorator";
 import withModelDecorator from "../decorators/withModelDecorator";
@@ -223,6 +222,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
                                 root: classes.tabsRoot,
                                 scroller: classes.tabsScroller,
                             }}
+                            scrollButtons="desktop"
                         >
                             {reverseTabs.map((child) => (
                                 <Tab
@@ -235,11 +235,13 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
                                     })}
                                     classes={{
                                         disabled: classes.disabled,
-                                        label:
-                                            classes.label && tabValue === child.ckPageObject
-                                                ? classes.label
-                                                : classes.tabLabel,
-                                        labelContainer: classes.tabLabelContainer,
+                                        /*
+                                         * Label:
+                                         *     classes.label && tabValue === child.ckPageObject
+                                         *         ? classes.label
+                                         *         : classes.tabLabel,
+                                         */
+                                        // LabelContainer: classes.tabLabelContainer,
                                         root: cn(classes.tabRoot, {
                                             [classes.slimTab]: tabsWidthMode === "slim",
                                         }),

@@ -10,5 +10,6 @@ export * from "./base";
 export * from "./download";
 export {parseMemoize} from "./parser";
 export {findGetGlobalKey} from "./findKey";
+export {findColumns} from "./findColumns";
 
 export {animate};

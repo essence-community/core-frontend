@@ -72,9 +72,6 @@ export const themeDark = {
         controlPanelWidth: 58,
         gridRowHeight: 30,
     },
-    spacing: {
-        unit: 8,
-    },
     typography: {
         fontFamily: "'Roboto Light', 'Roboto Regular', 'Roboto'",
         useNextVariants: true,

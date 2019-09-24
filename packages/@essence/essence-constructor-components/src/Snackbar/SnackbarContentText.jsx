@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import Typography from "@material-ui/core/Typography";
+import {Typography} from "@material-ui/core";
 
 type PropsType = {
     text?: string,
@@ -11,14 +11,26 @@ type PropsType = {
 
 const SnackbarContentText = ({text, title, description, code}: PropsType) => (
     <React.Fragment>
-        {title ? <Typography color="inherit">{title}</Typography> : null}
+        {title ? (
+            <Typography variant="body2" color="inherit">
+                {title}
+            </Typography>
+        ) : null}
         {text ? (
-            <Typography color="inherit" component="div">
+            <Typography variant="body2" color="inherit" component="div">
                 {text}
             </Typography>
         ) : null}
-        {description ? <Typography color="inherit">Описание: {description}</Typography> : null}
-        {code ? <Typography color="inherit">Код ошибки: {code}</Typography> : null}
+        {description ? (
+            <Typography variant="body2" color="inherit">
+                Описание: {description}
+            </Typography>
+        ) : null}
+        {code ? (
+            <Typography variant="body2" color="inherit">
+                Код ошибки: {code}
+            </Typography>
+        ) : null}
     </React.Fragment>
 );
 

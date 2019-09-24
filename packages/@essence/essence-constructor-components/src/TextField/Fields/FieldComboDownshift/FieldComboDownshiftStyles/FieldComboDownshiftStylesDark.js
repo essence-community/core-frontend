@@ -48,6 +48,7 @@ export const FieldComboDownshiftStylesDark = (theme) => ({
     menuItem: {
         borderBottom: `1px solid ${theme.palette.grey.main}`,
         height: 34,
+        minHeight: 34,
         paddingBottom: 0,
         paddingTop: 0,
     },

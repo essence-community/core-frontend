@@ -2,7 +2,7 @@
 import * as React from "react";
 import {compose} from "recompose";
 import {observer} from "mobx-react";
-import Paper from "@material-ui/core/Paper";
+import {Paper} from "@material-ui/core";
 import {setComponent} from "@essence/essence-constructor-share";
 import commonDecorator, {type CommonDecoratorInjectType} from "../decorators/commonDecorator";
 import {HistoryModel, type HistoryModelType} from "../stores/HistoryModel";

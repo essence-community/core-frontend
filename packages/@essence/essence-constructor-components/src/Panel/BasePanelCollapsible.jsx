@@ -2,9 +2,7 @@
 
 import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
-import Collapse from "@material-ui/core/Collapse";
-import Grid from "@material-ui/core/Grid/Grid";
-import Typography from "@material-ui/core/Typography";
+import {Collapse, Grid, Typography} from "@material-ui/core";
 import keycode from "keycode";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import Content from "../Components/Content/Content";
@@ -25,8 +23,6 @@ type PropsType = {
 type StateType = {
     in: boolean,
 };
-
-const spacing8 = 8;
 
 export class BasePanelCollapsibleBase extends React.Component<PropsType, StateType> {
     constructor(props: PropsType) {
@@ -69,7 +65,7 @@ export class BasePanelCollapsibleBase extends React.Component<PropsType, StateTy
                 classes={{container: editing ? classes.editCollapseContainer : classes.collapseContainer}}
                 data-page-object={`${bc.ckPageObject}-collapsible`}
             >
-                <Grid container direction="column" spacing={styleTheme === "light" ? 0 : spacing8}>
+                <Grid container direction="column" spacing={styleTheme === "light" ? 0 : 1}>
                     <Grid
                         item
                         onClick={this.handleChangeCollapse}
@@ -79,7 +75,7 @@ export class BasePanelCollapsibleBase extends React.Component<PropsType, StateTy
                             !this.state.in && styleTheme === "light" ? classes.closedLabelGrid : classes.labelGrid
                         }`}
                     >
-                        <Typography className={classes.labelTypography}>
+                        <Typography variant="body2" className={classes.labelTypography}>
                             <Icon
                                 iconfont={this.state.in ? "angle-up" : "angle-down"}
                                 className={classes.chevronIcon}

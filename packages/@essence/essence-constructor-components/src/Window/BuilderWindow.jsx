@@ -3,11 +3,7 @@ import * as React from "react";
 import {compose} from "recompose";
 import {observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Dialog from "@material-ui/core/Dialog/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import {Grid, Dialog, DialogTitle, Checkbox, FormControlLabel} from "@material-ui/core";
 import {toSize, toColumnStyleWidth} from "@essence/essence-constructor-share/utils";
 import {getComponent, Icon} from "@essence/essence-constructor-share";
 import Scrollbars from "../Components/Scrollbars/Scrollbars";
@@ -140,7 +136,7 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType> {
                         <Grid
                             container
                             direction="column"
-                            spacing={8}
+                            spacing={1}
                             className={classes.content}
                             wrap="nowrap"
                             style={this.contentStyle}

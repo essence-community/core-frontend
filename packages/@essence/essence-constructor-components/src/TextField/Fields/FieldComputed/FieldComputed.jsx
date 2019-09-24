@@ -1,8 +1,6 @@
 // @flow
 import * as React from "react";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+import {Grid, TextField, Typography} from "@material-ui/core";
 import {camelCaseMemoized} from "@essence/essence-constructor-share/utils";
 import {parse} from "@essence/essence-constructor-share/utils/parser";
 import {type TextFieldChildProps} from "../../BuilderFieldType";
@@ -82,13 +80,13 @@ class FieldComputed extends React.Component<TextFieldChildProps, StateType> {
         const result = parser.runer(values);
 
         return (
-            <Grid container spacing={8} direction="column">
+            <Grid container spacing={1} direction="column">
                 <Grid item>
-                    <Grid container spacing={8}>
+                    <Grid container spacing={1}>
                         <Grid item xs={6}>
-                            <Grid container spacing={8} direction="column">
+                            <Grid container spacing={1} direction="column">
                                 <Grid item>
-                                    <Typography>Выполнение</Typography>
+                                    <Typography variant="body2">Выполнение</Typography>
                                 </Grid>
                                 <Grid item>
                                     <TextField
@@ -104,9 +102,9 @@ class FieldComputed extends React.Component<TextFieldChildProps, StateType> {
                         </Grid>
 
                         <Grid item xs={6}>
-                            <Grid container spacing={8} direction="column">
+                            <Grid container spacing={1} direction="column">
                                 <Grid item>
-                                    <Typography>Переменные</Typography>
+                                    <Typography variant="body2">Переменные</Typography>
                                 </Grid>
                                 {this.state.parser.variables.map((variable) => (
                                     <Grid item key={variable}>
@@ -132,7 +130,7 @@ class FieldComputed extends React.Component<TextFieldChildProps, StateType> {
                     />
                 </Grid>
                 <Grid item>
-                    <Typography>Тип данных в результате: {typeof result}</Typography>
+                    <Typography variant="body2">Тип данных в результате: {typeof result}</Typography>
                 </Grid>
             </Grid>
         );

@@ -12,6 +12,7 @@ import debounce from "lodash/debounce";
 import isFunction from "lodash/isFunction";
 import PropTypes from "prop-types";
 import validatorjs from "validatorjs";
+import {FormContext} from "@essence/essence-constructor-share";
 import BuilderMobxForm from "../Components/MobxForm/BuilderMobxForm";
 import {styleTheme} from "../constants";
 import {type PageModelType} from "../stores/PageModel";
@@ -301,22 +302,24 @@ export class BuilderFormBase extends React.Component<PropsTypes, StateTypes> {
         }
 
         if (this.props.noForm) {
-            return this.props.children;
+            return <FormContext.Provider value={form}>{this.props.children}</FormContext.Provider>;
         }
 
         const {classes} = this.props;
 
         return (
-            <form
-                action=""
-                onSubmit={this.handleFormSubmit}
-                className={cn(classes.form, this.props.className)}
-                autoComplete="off"
-                data-page-object={this.props.dataPageObject}
-                style={this.props.style}
-            >
-                {this.props.children}
-            </form>
+            <FormContext.Provider value={form}>
+                <form
+                    action=""
+                    onSubmit={this.handleFormSubmit}
+                    className={cn(classes.form, this.props.className)}
+                    autoComplete="off"
+                    data-page-object={this.props.dataPageObject}
+                    style={this.props.style}
+                >
+                    {this.props.children}
+                </form>
+            </FormContext.Provider>
         );
     }
 }

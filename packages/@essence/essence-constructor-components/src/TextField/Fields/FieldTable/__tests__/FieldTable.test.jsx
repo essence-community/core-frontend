@@ -2,7 +2,7 @@
 import * as React from "react";
 import {when} from "mobx";
 import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
-import IconButton from "@material-ui/core/IconButton";
+import {IconButton} from "@material-ui/core";
 import gridfieldJson from "../../../../../mocks/fields/gridfield.json";
 import BuilderMobxForm from "../../../../Components/MobxForm/BuilderMobxForm";
 import {createEmptyPageStore} from "../../../../stores/index";

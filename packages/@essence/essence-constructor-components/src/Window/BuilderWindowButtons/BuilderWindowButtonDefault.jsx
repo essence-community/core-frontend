@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import PropTypes from "prop-types";
-import DialogActions from "@material-ui/core/DialogActions";
+import {DialogActions} from "@material-ui/core";
 import {type WindowModelType} from "../../stores/WindowModel";
 import {type PageModelType} from "../../stores/PageModel";
 import BuilderMobxButton from "../../Button/BuilderMobxButton";

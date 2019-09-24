@@ -4,7 +4,7 @@ import noop from "lodash/noop";
 import {compose} from "recompose";
 import {observer} from "mobx-react";
 import {Field} from "mobx-react-form";
-import IconButton from "@material-ui/core/IconButton";
+import {IconButton} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import {isEmpty} from "../../../../utils/base";

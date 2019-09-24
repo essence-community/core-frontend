@@ -1,8 +1,6 @@
 // @flow
 import * as React from "react";
-import Checkbox from "@material-ui/core/Checkbox";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import {FormControl} from "@material-ui/core";
+import {FormControl, Checkbox, DialogTitle} from "@material-ui/core";
 import BuilderWindowButtonCustom from "../BuilderWindowButtons/BuilderWindowButtonCustom";
 import {mountWithTheme} from "../../utils/test";
 import BuilderPage from "../../Page/BuilderPage";

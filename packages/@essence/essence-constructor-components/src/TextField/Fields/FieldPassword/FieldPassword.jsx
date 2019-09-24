@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import IconButton from "@material-ui/core/IconButton/IconButton";
+import {IconButton} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import {isEmpty} from "../../../utils/base";
 import TextField from "../../TextField";

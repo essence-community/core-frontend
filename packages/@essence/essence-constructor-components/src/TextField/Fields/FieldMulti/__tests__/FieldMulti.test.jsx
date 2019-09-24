@@ -1,9 +1,7 @@
 // @flow
 import * as React from "react";
 import {when} from "mobx";
-import Modal from "@material-ui/core/Modal";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
+import {Modal, Button, IconButton} from "@material-ui/core";
 import BuilderMobxForm from "../../../../Components/MobxForm/BuilderMobxForm";
 import addrJson from "../../../../../mocks/fields/addr.json";
 import {stores} from "../../../../stores";

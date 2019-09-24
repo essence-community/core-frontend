@@ -1,9 +1,7 @@
 // @flow
 import * as React from "react";
 import camelCase from "lodash/camelCase";
-import Grid from "@material-ui/core/Grid";
-import Divider from "@material-ui/core/Divider";
-import Checkbox from "@material-ui/core/Checkbox";
+import {Grid, Divider, Checkbox} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import uniqueId from "lodash/uniqueId";
 import BuilderField from "../../../TextField/BuilderField";
@@ -140,9 +138,9 @@ class GCFilterFieldDate extends React.Component<PropsType, StateType> {
         const isFilled = this.isFilled();
 
         const fieldContent = (
-            <Grid container direction="column" spacing={8}>
+            <Grid container direction="column" spacing={1}>
                 <Grid item>
-                    <Grid container spacing={8} wrap="nowrap" alignItems="center">
+                    <Grid container spacing={1} wrap="nowrap" alignItems="center">
                         <Grid item>
                             <Checkbox
                                 checked={this.state.checkSt}
@@ -162,7 +160,7 @@ class GCFilterFieldDate extends React.Component<PropsType, StateType> {
                 </Grid>
 
                 <Grid item>
-                    <Grid container spacing={8} wrap="nowrap" alignItems="center">
+                    <Grid container spacing={1} wrap="nowrap" alignItems="center">
                         <Grid item>
                             <Checkbox
                                 checked={this.state.checkEn}
@@ -184,7 +182,7 @@ class GCFilterFieldDate extends React.Component<PropsType, StateType> {
                 <Divider />
 
                 <Grid item>
-                    <Grid container spacing={8} wrap="nowrap" alignItems="center">
+                    <Grid container spacing={1} wrap="nowrap" alignItems="center">
                         <Grid item>
                             <Checkbox
                                 checked={this.state.checkEq}

@@ -2,11 +2,11 @@ const GridColumnFilterStyles = (theme) => ({
     content: {
         alignItems: "center",
         display: "flex",
-        padding: theme.spacing.unit / 2,
+        padding: theme.spacing(1) / 2,
     },
     contentSearch: {
         color: theme.palette.primary.field,
-        paddingRight: theme.spacing.unit,
+        paddingRight: theme.spacing(1),
     },
     popoverWrapper: {
         "&$popoverWrapperDisabled": {
@@ -28,7 +28,7 @@ const GridColumnFilterStyles = (theme) => ({
         cursor: "pointer",
         display: "flex",
         height: "100%",
-        padding: `0 ${theme.spacing.unit / 2}px`,
+        padding: `0 ${theme.spacing(1) / 2}px`,
     },
     popoverWrapperDisabled: {},
     popoverWrapperFilled: {},

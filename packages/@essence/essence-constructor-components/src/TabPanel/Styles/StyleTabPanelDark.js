@@ -4,8 +4,9 @@ export const StyleTabPanelDark = (theme) => ({
         width: "100%",
     },
     tabsRoot: {
-        minHeight: 26,
-        height: 38,
+        display: "block",
+        minHeight: 38,
+        marginBottom: -5,
     },
     tabRoot: {
         flexShrink: 1,

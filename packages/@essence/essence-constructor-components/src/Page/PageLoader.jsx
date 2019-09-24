@@ -31,6 +31,7 @@ const PageLoader = ({pageStore, container, classes = {}, isLoading, loaderType}:
     <React.Fragment>
         <Modal
             open={Boolean(isLoading || (container && pageStore && pageStore.isLoading))}
+            style={{position: "absolute"}}
             container={container}
             className={classes.root}
             hideBackdrop

@@ -96,7 +96,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
         const isEditing = readOnly ? false : store.editing;
 
         const content = (
-            <Grid container spacing={0} direction="column">
+            <Grid container spacing={0} direction="column" wrap="nowrap">
                 {filters.map((filter: Object) => (
                     <Grid item key={filter.ckPageObject}>
                         <BuilderFilter

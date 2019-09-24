@@ -6,7 +6,7 @@ export const StyleTabPanelLight = (theme) => ({
     tabsRoot: {
         display: "block",
         minHeight: 38,
-        height: 38,
+        marginBottom: -5,
     },
     tabRoot: {
         borderTop: `1px solid ${theme.palette.secondary.main}`,

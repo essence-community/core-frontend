@@ -44,7 +44,7 @@ const GRID_CONFIGS = {
     },
     vbox: {
         direction: "column",
-        wrap: "wrap",
+        wrap: "nowrap",
     },
 };
 

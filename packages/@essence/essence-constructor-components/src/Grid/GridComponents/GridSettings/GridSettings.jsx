@@ -89,7 +89,13 @@ class GridSettings extends React.Component<PropsType, StateType> {
                     {...buttonProps}
                     readOnly={false}
                 />
-                <Dialog open={this.state.open} maxWidth="sm" fullWidth container={pageStore.pageEl}>
+                <Dialog
+                    open={this.state.open}
+                    maxWidth="sm"
+                    fullWidth
+                    container={pageStore.pageEl}
+                    style={{position: "absolute"}}
+                >
                     <DialogTitle disableTypography>Показать/скрыть колонки</DialogTitle>
                     <DialogContent>
                         <Scrollbars autoHeight autoHeightMax={300} autoHeightMin={60}>

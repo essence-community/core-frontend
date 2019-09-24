@@ -15,8 +15,9 @@
     "constructor-dll-build": "./scripts/build.js"
   },
   "dependencies": {
-    "@material-ui/core": "^4.4.3",
     "@essence/essence-constructor-share": "file:../essence-constructor-share/lib",
+    "@material-ui/core": "^4.4.3",
+    "@material-ui/styles": "^4.4.3",
     "mobx": "^5.9.0",
     "mobx-react": "5.4.2",
     "mobx-react-form": "1.35.1",

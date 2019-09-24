@@ -16,15 +16,15 @@ import {history} from "./history";
 const AppRoutes = () => (
     <Router history={history}>
         <Switch>
-            <Route path="/auth" component={AuthPage} />
-            <Route path="/redirect/:b64" component={RedirectPage} />
-            <Route path="/reports/session/:session" component={ReportsPage} />
-            <Route path="/reports/token/:token" component={ReportsPage} />
+            <Route path="/auth" component={(props: any) => <AuthPage {...props} />} />
+            <Route path="/redirect/:b64" component={(props: any) => <RedirectPage {...props} />} />
+            <Route path="/reports/session/:session" component={(props: any) => <ReportsPage {...props} />} />
+            <Route path="/reports/token/:token" component={(props: any) => <ReportsPage {...props} />} />
             <AuthorizationPage>
                 <Switch>
-                    <Route path="/page/:ckId" component={ProjectPage} />
-                    <Route path="/home" component={HomePage} />
-                    <Route path="/preference" component={PreferencePage} />
+                    <Route path="/page/:ckId" component={(props: any) => <ProjectPage {...props} />} />
+                    <Route path="/home" component={(props: any) => <HomePage {...props} />} />
+                    <Route path="/preference" component={(props: any) => <PreferencePage {...props} />} />
                     <Redirect to="/auth" />
                 </Switch>
             </AuthorizationPage>

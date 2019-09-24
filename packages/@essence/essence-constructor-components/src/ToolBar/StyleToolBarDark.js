@@ -72,11 +72,6 @@ export const StyleToolBarDark = (theme: any) => ({
         width: 32,
         textAlign: "center",
     },
-    tabLabelContainer: {
-        fontSize: 13,
-        padding: "0 !important",
-        width: "auto",
-    },
     tabRoot: {
         "& $tabWrapper > *:first-child": {
             marginBottom: 0,

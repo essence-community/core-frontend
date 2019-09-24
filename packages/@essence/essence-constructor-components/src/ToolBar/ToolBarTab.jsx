@@ -71,7 +71,6 @@ class ToolBarTab extends React.Component<PropsType<string | number>> {
                     </React.Fragment>
                 }
                 classes={{
-                    labelContainer: classes.tabLabelContainer,
                     root: classes.tabRoot,
                     selected: classes.activeTab,
                     wrapper: isActive ? classes.activeTabWrapper : classes.tabWrapper,

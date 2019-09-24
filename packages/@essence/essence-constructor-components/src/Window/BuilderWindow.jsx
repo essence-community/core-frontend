@@ -111,6 +111,7 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType> {
                 classes={{paper: classes[`winsize-${wintype}`]}}
                 open
                 container={pageStore.pageEl}
+                style={{position: "absolute"}}
                 onClose={this.handleCloseDialog}
                 fullWidth
                 data-page-object={ckPageObject}

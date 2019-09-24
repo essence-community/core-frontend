@@ -144,6 +144,7 @@ const WindowMessage = ({
                 paperWidthMd: classes.rootDialogWidthMd,
                 paperWidthSm: classes.rootDialogWidthSm,
             }}
+            style={{position: "absolute"}}
             hideBackdrop={hideBackdrop}
             disableRestoreFocus={disableRestoreFocus}
         >

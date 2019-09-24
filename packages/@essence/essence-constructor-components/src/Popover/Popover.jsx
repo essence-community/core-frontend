@@ -3,8 +3,7 @@ import * as React from "react";
 import {createPortal} from "react-dom";
 import noop from "lodash/noop";
 import isFunction from "lodash/isFunction";
-import keycode from "keycode";
-import {Paper, Backdrop, Grow} from "@material-ui/core";
+import {Paper, Backdrop, Grow, Modal} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {getAbsoluteOffsetFromGivenElement} from "@essence/essence-constructor-share/utils";
 import {ANIMATION_TIMEOUT} from "../constants";
@@ -158,12 +157,6 @@ export class PopoverBase extends React.Component<PopoverPropsType, StateType> {
         }
     };
 
-    handleKeyDown = (event: KeyboardEvent) => {
-        if (keycode(event) === "esc") {
-            this.handleEscapeKeyDown();
-        }
-    };
-
     handleOutsideClick = (event: MouseEvent) => {
         setTimeout(() => {
             const {current: rootEl} = this.rootRef;
@@ -226,39 +219,48 @@ export class PopoverBase extends React.Component<PopoverPropsType, StateType> {
             focusableMount,
             dataPageObjectPopover,
             tabFocusable,
+            disableEscapeKeyDown,
         } = this.props;
 
         const popup = (
             <React.Fragment>
                 {hideBackdrop ? null : <Backdrop open className={classes.popoverBackdrop} />}
 
-                <div
-                    ref={this.popupRef}
+                <Modal
+                    open
                     className={classes.popoverRoot}
-                    style={{left, top}}
+                    style={{bottom: "auto", left, position: "absolute", right: "auto", top}}
                     data-page-object={dataPageObjectPopover}
-                    onKeyDown={this.handleKeyDown}
+                    hideBackdrop
+                    container={container}
+                    disableRestoreFocus
+                    disableAutoFocus
+                    disableEnforceFocus
+                    disableEscapeKeyDown={disableEscapeKeyDown}
+                    onEscapeKeyDown={this.handleEscapeKeyDown}
                 >
-                    <Grow
-                        appear
-                        in
-                        onEntering={this.handleEntering}
-                        onExiting={this.handleExiting}
-                        timeout={ANIMATION_TIMEOUT}
-                    >
-                        <FocusableArrow
-                            tabFocusable={tabFocusable}
-                            focusableMount={focusableMount}
-                            restoreFocusedElement={restoreFocusedElement}
+                    <div ref={this.popupRef}>
+                        <Grow
+                            appear
+                            in
+                            onEntering={this.handleEntering}
+                            onExiting={this.handleExiting}
+                            timeout={ANIMATION_TIMEOUT}
                         >
-                            <Paper className={paperClassName} style={{width}}>
-                                {isFunction(popoverContent)
-                                    ? popoverContent({onClose: this.handleClose, onOpen, open})
-                                    : popoverContent}
-                            </Paper>
-                        </FocusableArrow>
-                    </Grow>
-                </div>
+                            <FocusableArrow
+                                tabFocusable={tabFocusable}
+                                focusableMount={focusableMount}
+                                restoreFocusedElement={restoreFocusedElement}
+                            >
+                                <Paper className={paperClassName} style={{width}}>
+                                    {isFunction(popoverContent)
+                                        ? popoverContent({onClose: this.handleClose, onOpen, open})
+                                        : popoverContent}
+                                </Paper>
+                            </FocusableArrow>
+                        </Grow>
+                    </div>
+                </Modal>
             </React.Fragment>
         );
 

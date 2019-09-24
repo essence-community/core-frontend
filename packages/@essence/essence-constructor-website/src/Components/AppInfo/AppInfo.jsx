@@ -51,7 +51,13 @@ class AppInfo extends React.Component<PropsType, StateType> {
                 <ButtonBase classes={{root: classes.button}} disableRipple onClick={this.handleOpen} tabIndex="-1">
                     <img src={logo} alt="logo" height="38" width="38" />
                 </ButtonBase>
-                <Dialog open={open} fullWidth classes={{paper: classes.dialogPaper}} onClose={this.handleClose}>
+                <Dialog
+                    open={open}
+                    fullWidth
+                    classes={{paper: classes.dialogPaper}}
+                    onClose={this.handleClose}
+                    style={{position: "absolute"}}
+                >
                     <DialogTitle disableTypography>О программе</DialogTitle>
                     <DialogContent>
                         <Typography variant="title" paragraph className={classes.title}>

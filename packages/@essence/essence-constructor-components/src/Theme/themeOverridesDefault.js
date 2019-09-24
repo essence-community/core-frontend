@@ -159,7 +159,7 @@ export const themeOverridesDefault = (theme) => ({
             },
         },
         root: {
-            "&disabled": {
+            "&$disabled": {
                 "&:before": {
                     display: "none",
                 },
@@ -168,7 +168,7 @@ export const themeOverridesDefault = (theme) => ({
                 borderRadius: 4,
                 color: theme.palette.text.disabled,
             },
-            "&error": {
+            "&$error": {
                 border: "1px solid #fc5d40",
             },
             backgroundColor: "#fafafa",
@@ -216,7 +216,7 @@ export const themeOverridesDefault = (theme) => ({
     },
     MuiListItem: {
         root: {
-            "&disabled": {
+            "&$disabled": {
                 pointerEvents: "none",
             },
         },

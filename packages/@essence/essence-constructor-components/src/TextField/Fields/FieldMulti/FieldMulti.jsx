@@ -193,7 +193,7 @@ export class FieldMultiBase extends React.Component<PropsType> {
 
         return (
             <div ref={this.popoverRef}>
-                <Grid container direction="column" spacing={1} className={classes.wrapper}>
+                <Grid container direction="column" spacing={1} className={classes.wrapper} wrap="nowrap">
                     <FieldMultiLoader store={store} className={classes.progressWrapper} />
                     {this.props.store.builderConfigs.map((config) => (
                         <Grid key={config.ckPageObject} item>

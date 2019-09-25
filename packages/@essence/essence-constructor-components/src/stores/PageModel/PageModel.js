@@ -5,7 +5,7 @@ import {type IObservableArray} from "mobx/lib/mobx.js.flow";
 import {Field} from "mobx-react-form";
 import forEach from "lodash/forEach";
 import noop from "lodash/noop";
-import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
+import {parseMemoize, loadComponentsFromModules, findClassNames} from "@essence/essence-constructor-share";
 import {loggerRoot, styleTheme as styleThemeConst} from "../../constants";
 import {type BuilderPageType} from "../../Page/BuilderPageType";
 import {sendRequestList} from "../../request/baseRequest";
@@ -268,7 +268,11 @@ export class PageModel implements PageModelInterface {
         return fetchResult
             .then((response) => {
                 if (this.applicationStore.snackbarStore.checkValidResponseAction(response[0], this.route)) {
-                    this.pageBc = response;
+                    const classNames = findClassNames(response);
+
+                    loadComponentsFromModules(classNames).then(() => {
+                        this.pageBc = response;
+                    });
                 }
             })
             .catch((error) => {

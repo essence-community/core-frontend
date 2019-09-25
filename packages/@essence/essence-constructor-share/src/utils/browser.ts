@@ -25,7 +25,7 @@ export const getAbsoluteOffsetFromGivenElement = (el?: HTMLElement, relativeEl?:
     return {left: _x, top: _y};
 };
 
-export const loadJS = (url: string, implementationCode: () => void, location: HTMLBodyElement | HTMLDivElement) => {
+export const loadJS = (url: string, implementationCode: () => void, location: HTMLElement) => {
     /*
      * Url is URL of external file, implementationCode is the code
      * to be called from the file, location is the location to 
@@ -43,7 +43,7 @@ export const loadJS = (url: string, implementationCode: () => void, location: HT
     location.appendChild(scriptTag);
 };
 
-export const loadCSS = (url: string, implementationCode: () => void, location: HTMLBodyElement | HTMLDivElement) => {
+export const loadCSS = (url: string, implementationCode: () => void, location: HTMLElement) => {
     /*
      * Url is URL of external file, implementationCode is the code
      * to be called from the file, location is the location to 
@@ -62,3 +62,29 @@ export const loadCSS = (url: string, implementationCode: () => void, location: H
 
     location.appendChild(linkTag);
 };
+
+export function loadFiles(files: string[], isLocal: boolean = false) {
+    return Promise.all(
+        files.map((url) => {
+            const splitUrl = url.split(".");
+            const ext = splitUrl[splitUrl.length - 1];
+            const runner = ext === "js" ? loadJS : loadCSS;
+
+            if (ext === "js" || ext === "css") {
+                return new Promise((resolve) => {
+                    runner(
+                        isLocal ? `${url}?t=${Number(new Date())}` : url,
+                        () => {
+                            resolve();
+                            // eslint-disable-next-line no-console
+                            console.log(`loaded ${url}`);
+                        },
+                        document.body,
+                    );
+                });
+            }
+
+            return null;
+        }),
+    );
+}

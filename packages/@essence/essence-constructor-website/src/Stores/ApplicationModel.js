@@ -23,9 +23,9 @@ import {
     getFromStore,
     removeFromStore,
     saveToStore,
-    loadJS,
-    loadCSS,
-} from "@essence/essence-constructor-share/utils";
+    setModule,
+    loadFiles,
+} from "@essence/essence-constructor-share";
 import {history} from "../history";
 import {branchName, colors} from "../constants";
 
@@ -73,32 +73,6 @@ const getConfig = () => ({
     baseUrl: BASE_URL,
     colors,
 });
-
-function loadFiles(files, isLocal) {
-    return Promise.all(
-        files.map((url) => {
-            const splitUrl = url.split(".");
-            const ext = splitUrl[splitUrl.length - 1];
-            const runner = ext === "js" ? loadJS : loadCSS;
-
-            if (ext === "js" || ext === "css") {
-                return new Promise((resolve) => {
-                    runner(
-                        isLocal ? `${url}?t=${Number(new Date())}` : url,
-                        () => {
-                            resolve();
-                            // eslint-disable-next-line no-console
-                            console.log(`loaded ${url}`);
-                        },
-                        document.body,
-                    );
-                });
-            }
-
-            return null;
-        }),
-    );
-}
 
 export class ApplicationModel implements ApplicationModelType {
     authData: Object;
@@ -280,16 +254,13 @@ export class ApplicationModel implements ApplicationModelType {
             query: "GetModuleList",
         })
             .then((modules) =>
-                Promise.all(
-                    modules.map(({cvName, cvVersion, ccConfig}) =>
-                        loadFiles(
-                            JSON.parse(ccConfig || "{}").files.map(
-                                (fileName) => `${moduleUrl}/${cvName}/${cvVersion}${fileName}`,
-                            ),
-                            false,
-                        ),
-                    ),
-                ),
+                modules.forEach(({cvName, cvVersion, ccConfig, ccManifest}) => {
+                    const files = JSON.parse(ccConfig).files.map(
+                        (fileName) => `${moduleUrl}/${cvName}/${cvVersion}${fileName}`,
+                    );
+
+                    setModule(cvName, files, camelCaseKeys(JSON.parse(ccManifest)));
+                }),
             )
             .catch((error) => {
                 this.snackbarStore.snackbarOpenAction({

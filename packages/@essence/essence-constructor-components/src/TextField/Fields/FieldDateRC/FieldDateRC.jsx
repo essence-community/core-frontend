@@ -3,8 +3,7 @@
 import * as React from "react";
 import moment from "moment";
 import {withStyles} from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
+import {IconButton, InputAdornment} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import {type TextFieldChildProps} from "../../BuilderFieldType";
 import FieldMask from "../FieldMask/FieldMask";

@@ -7,6 +7,10 @@ export const themeOverridesDefault = (theme) => ({
         },
     },
     MuiBadge: {
+        anchorOriginTopRightRectangle: {
+            right: 12,
+            top: 12,
+        },
         badge: {
             pointerEvents: "none",
         },
@@ -124,18 +128,6 @@ export const themeOverridesDefault = (theme) => ({
         },
     },
     MuiInput: {
-        disabled: {
-            "&:before": {
-                display: "none",
-            },
-            backgroundColor: "#e5e8f4",
-            borderColor: "transparent",
-            borderRadius: 4,
-            color: theme.palette.text.disabled,
-        },
-        error: {
-            border: "1px solid #fc5d40",
-        },
         formControl: {
             "&:after": {
                 display: "none",
@@ -167,6 +159,18 @@ export const themeOverridesDefault = (theme) => ({
             },
         },
         root: {
+            "&$disabled": {
+                "&:before": {
+                    display: "none",
+                },
+                backgroundColor: "#e5e8f4",
+                borderColor: "transparent",
+                borderRadius: 4,
+                color: theme.palette.text.disabled,
+            },
+            "&$error": {
+                border: "1px solid #fc5d40",
+            },
             backgroundColor: "#fafafa",
             color: theme.palette.text.dark,
             fontSize: 14,
@@ -211,8 +215,10 @@ export const themeOverridesDefault = (theme) => ({
         },
     },
     MuiListItem: {
-        disabled: {
-            pointerEvents: "none",
+        root: {
+            "&$disabled": {
+                pointerEvents: "none",
+            },
         },
     },
     MuiModal: {
@@ -233,6 +239,10 @@ export const themeOverridesDefault = (theme) => ({
         },
     },
     MuiTableSortLabel: {
+        icon: {
+            height: 16,
+            width: 16,
+        },
         root: {
             "&:not($active) $icon": {
                 display: "none",

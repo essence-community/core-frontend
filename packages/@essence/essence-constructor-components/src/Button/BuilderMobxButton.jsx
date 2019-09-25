@@ -4,8 +4,8 @@ import * as React from "react";
 import noop from "lodash/noop";
 import {compose} from "recompose";
 import {withStyles} from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
+import {Button, IconButton} from "@material-ui/core";
+import Fab from "@material-ui/core/Fab";
 import {setComponent, Icon} from "@essence/essence-constructor-share";
 import commonDecorator, {type CommonDecoratorInjectType} from "../decorators/commonDecorator";
 import {styleTheme} from "../constants";
@@ -130,7 +130,7 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
 
     // eslint-disable-next-line max-statements
     handleClickDefer = (event: SyntheticEvent<HTMLButtonElement>) => {
-        const {handleClick, pageStore, bc, onClick = noop, disabled} = this.props;
+        const {handleClick, pageStore, bc, onClick = noop, disabled, record} = this.props;
         const {disabledState} = this.state;
         const {redirecturl, redirectusequery, columnsfilter} = bc;
 
@@ -143,7 +143,7 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
         }
 
         if ((redirecturl || redirectusequery) && columnsfilter) {
-            return makeRedirect({...bc, columnsfilter, redirecturl, redirectusequery}, pageStore);
+            return makeRedirect({...bc, columnsfilter, redirecturl, redirectusequery}, pageStore, record);
         }
 
         onClick(event);
@@ -260,9 +260,9 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
         ) : null;
         const button =
             variant === "fab" ? (
-                <Button {...buttonProps} variant="fab" mini>
+                <Fab {...buttonProps} size="small">
                     {icon}
-                </Button>
+                </Fab>
             ) : (
                 <IconButton {...buttonProps}>{icon}</IconButton>
             );

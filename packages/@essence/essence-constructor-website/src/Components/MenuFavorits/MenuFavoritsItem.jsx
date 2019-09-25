@@ -1,8 +1,7 @@
 // @flow
 import * as React from "react";
 import {observer} from "mobx-react";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import {Grid, Typography} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 
 type PropsType = {|
@@ -50,7 +49,7 @@ class MenuFavoritsItem extends React.Component<PropsType> {
 
         return (
             <Grid item className={classes.menuRoot} onClick={this.handleClickMenu}>
-                <Grid container spacing={8} wrap="nowrap" alignItems="center" className={classes.menuContainer}>
+                <Grid container spacing={1} wrap="nowrap" alignItems="center" className={classes.menuContainer}>
                     <Grid item className={classes.iconRoot}>
                         {cvIconName ? <Icon iconfont={cvIconName} size="lg" /> : null}
                     </Grid>
@@ -58,7 +57,7 @@ class MenuFavoritsItem extends React.Component<PropsType> {
                         <Icon iconfont="times" size="lg" />
                     </Grid>
                     <Grid item>
-                        <Typography color="inherit" noWrap className={classes.nameTypography}>
+                        <Typography variant="body2" color="inherit" noWrap className={classes.nameTypography}>
                             {cvName}
                         </Typography>
                     </Grid>

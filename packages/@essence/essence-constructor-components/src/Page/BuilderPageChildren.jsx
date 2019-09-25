@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
-import Grid from "@material-ui/core/Grid/Grid";
-import {getComponent} from "@essence/essence-constructor-share";
+import {Grid} from "@material-ui/core";
+import {mapComponents} from "@essence/essence-constructor-share";
 import {styleTheme} from "../constants";
 import {type PageModelType} from "../stores/PageModel";
 import {type BuilderPageChildType} from "./BuilderPageType";
@@ -24,26 +24,18 @@ class BuilderPageChildren extends React.PureComponent<PropsType> {
             return null;
         }
 
-        return pageBc.map((bc: BuilderPageChildType) => {
-            const BuilderComponent: any = getComponent(bc.type, bc.customid);
-
-            if (!BuilderComponent) {
-                return null;
-            }
-
-            return (
-                <Grid key={bc.ckPageObject} item>
-                    <BuilderComponent
-                        elevation={styleTheme === "light" ? undefined : DARK_PAPER_ELEVATION}
-                        bc={bc}
-                        readOnly={readOnly}
-                        hidden={hidden}
-                        pageStore={pageStore}
-                        visible={visible}
-                    />
-                </Grid>
-            );
-        });
+        return mapComponents(pageBc, (Child: any, bc: BuilderPageChildType) => (
+            <Grid key={bc.ckPageObject} item xs={12}>
+                <Child
+                    elevation={styleTheme === "light" ? undefined : DARK_PAPER_ELEVATION}
+                    bc={bc}
+                    readOnly={readOnly}
+                    hidden={hidden}
+                    pageStore={pageStore}
+                    visible={visible}
+                />
+            </Grid>
+        ));
     }
 }
 

@@ -4,8 +4,7 @@ import {compose} from "recompose";
 import {reaction} from "mobx";
 import {observer} from "mobx-react";
 import noop from "lodash/noop";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
+import {Paper, Grid} from "@material-ui/core";
 import commonDecorator from "../decorators/commonDecorator";
 import {PanelFormModel, type PanelFormModelType} from "../stores/PanelFormModel";
 import {updateTopGrid} from "../stores/GridModel";
@@ -97,7 +96,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
         const isEditing = readOnly ? false : store.editing;
 
         const content = (
-            <Grid container spacing={0} direction="column">
+            <Grid container spacing={0} direction="column" wrap="nowrap">
                 {filters.map((filter: Object) => (
                     <Grid item key={filter.ckPageObject}>
                         <BuilderFilter

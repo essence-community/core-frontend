@@ -1,8 +1,7 @@
 // @flow
 import * as React from "react";
 import PropTypes from "prop-types";
-import Table from "@material-ui/core/Table/Table";
-import TableBody from "@material-ui/core/TableBody";
+import {Table, TableBody} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {type WindowModelType} from "../../stores/WindowModel";
 import {type PageModelType} from "../../stores/PageModel";

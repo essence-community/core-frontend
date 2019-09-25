@@ -4,8 +4,7 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import {compose} from "recompose";
 import moment from "moment";
-import Typography from "@material-ui/core/Typography/Typography";
-import CardContent from "@material-ui/core/CardContent";
+import {Typography, CardContent} from "@material-ui/core";
 import {styleTheme} from "../../constants";
 import Popover from "../../Popover/Popover";
 import {type PopoverRenderChildren} from "../../Popover/PopoverTypes";
@@ -60,8 +59,10 @@ class GridAudit extends React.Component<PropsType & PropsStoreType> {
 
         const popoverContent = (
             <CardContent>
-                <Typography>Изменен: {moment(auditInfo.ctChange).format("DD.MM.YYYY HH:mm:ss")}</Typography>
-                <Typography>Пользователь: {auditInfo.cvUsername}</Typography>
+                <Typography variant="body2">
+                    Изменен: {moment(auditInfo.ctChange).format("DD.MM.YYYY HH:mm:ss")}
+                </Typography>
+                <Typography variant="body2">Пользователь: {auditInfo.cvUsername}</Typography>
             </CardContent>
         );
 

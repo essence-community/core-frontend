@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
-import MaterialToolBar from "@material-ui/core/Toolbar";
+import {Toolbar as MaterialToolBar} from "@material-ui/core";
 import {styleTheme} from "../constants";
 import {StyleToolBarLight} from "./StyleToolBarLight";
 import {StyleToolBarDark} from "./StyleToolBarDark";

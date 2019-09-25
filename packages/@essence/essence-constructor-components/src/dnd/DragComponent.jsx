@@ -17,8 +17,7 @@ type DragItemType = {
 };
 
 export const DragComponent: React.FC<CardPropsType> = (props) => {
-    const {pageIndex, pageId, children, type} = props;
-    const {moveCard, style, ...otherProps} = props;
+    const {moveCard, style, pageId, pageIndex, type, children, ...otherProps} = props;
 
     const ref = React.useRef(null);
     const [, drop] = useDrop({

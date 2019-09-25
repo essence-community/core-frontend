@@ -2,7 +2,7 @@
 import * as React from "react";
 import {compose} from "recompose";
 import {inject, observer} from "mobx-react";
-import Badge from "@material-ui/core/Badge";
+import {Badge} from "@material-ui/core";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 
 type StoresPropsType = {
@@ -22,10 +22,11 @@ const NotificationsBadge = ({
     applicationStore: {
         snackbarStore: {snackbarsCount},
     },
+    classes,
     children,
 }: PropsType) =>
     snackbarsCount ? (
-        <Badge badgeContent={snackbarsCount > MAX_SNACKBARS ? "99" : snackbarsCount} color="primary">
+        <Badge classes={classes} badgeContent={snackbarsCount > MAX_SNACKBARS ? "99" : snackbarsCount} color="primary">
             {children}
         </Badge>
     ) : (

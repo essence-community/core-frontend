@@ -4,7 +4,7 @@ import cn from "classnames";
 import {compose} from "recompose";
 import {withStyles} from "@material-ui/core/styles";
 import {observer} from "mobx-react";
-import Grid from "@material-ui/core/Grid/Grid";
+import {Grid} from "@material-ui/core";
 import Scrollbars from "../Components/Scrollbars/Scrollbars";
 import {styleTheme, loggerRoot, TAB_KEY_CODE, QUERY_ELEMENT} from "../constants";
 import {type PageModelType} from "../stores/PageModel";
@@ -153,7 +153,7 @@ class BuilderPage extends React.Component<PropsType, State> {
                             loaderType={pageStore.applicationStore.settingsStore.settings.projectLoader}
                         />
                         <BuilderForm onSubmit={this.handleSubmit} noForm pageStore={pageStore}>
-                            <Grid container spacing={16} direction="column" wrap="nowrap">
+                            <Grid container spacing={2} direction="column" wrap="nowrap">
                                 {pageStore.isEdit ? <div className={classes.backdrop} /> : null}
                                 <BuilderPageChildren
                                     readOnly={pageStore.isReadOnly}

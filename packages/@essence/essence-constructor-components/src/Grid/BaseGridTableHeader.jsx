@@ -4,10 +4,7 @@ import cn from "classnames";
 import {reaction} from "mobx";
 import {observer} from "mobx-react";
 import values from "lodash/values";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
+import {TableHead, TableRow, TableCell, TableSortLabel} from "@material-ui/core";
 import {type GridModelType} from "../stores/GridModel";
 import {type PageModelType} from "../stores/PageModel";
 import BuilderForm from "../Form/BuilderForm";
@@ -132,7 +129,7 @@ class BaseGridTableHeader extends React.Component<PropsType, StateType> {
                                 className={cn(classes.tableCell, {
                                     [classes.tableCellActive]: property === sortcolumn || property === column,
                                 })}
-                                padding="checkbox"
+                                padding="none"
                                 data-page-object={ckPageObject}
                             >
                                 <div className={classes.tableCellContent}>

@@ -2,7 +2,7 @@
 import * as React from "react";
 import moment from "moment";
 import TodayButton from "rc-calendar/lib/calendar/TodayButton";
-import IconButton from "@material-ui/core/IconButton";
+import {IconButton} from "@material-ui/core";
 import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
 import dateJson from "../../../../../mocks/fields/date.json";
 import BuilderMobxForm from "../../../../Components/MobxForm/BuilderMobxForm";

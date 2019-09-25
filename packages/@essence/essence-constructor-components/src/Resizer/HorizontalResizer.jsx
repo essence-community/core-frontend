@@ -2,7 +2,7 @@
 import * as React from "react";
 import debounce from "lodash/debounce";
 import cn from "classnames";
-import Grid from "@material-ui/core/Grid/Grid";
+import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {getCoords} from "../utils/html";
 import type {ItemType} from "../stores/PanelModel";

@@ -4,7 +4,7 @@ import camelCase from "lodash/camelCase";
 import {compose} from "recompose";
 import {reaction} from "mobx";
 import {observer} from "mobx-react";
-import Grid from "@material-ui/core/Grid";
+import {Grid} from "@material-ui/core";
 import {toSize} from "@essence/essence-constructor-share/utils";
 import {setComponent, getComponent} from "@essence/essence-constructor-share";
 import {loggerRoot} from "../constants";
@@ -212,7 +212,7 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
         }
 
         return (
-            <Grid container wrap="nowrap" spacing={8} data-page-object={ckPageObject} alignItems="center">
+            <Grid container wrap="nowrap" spacing={1} data-page-object={ckPageObject} alignItems="center">
                 <Grid item xs zeroMinWidth style={baseStyle}>
                     {ComponentFieldFrom ? (
                         <ComponentFieldFrom

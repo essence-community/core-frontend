@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import Grid from "@material-ui/core/Grid";
+import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {SideResizer} from "@essence/essence-constructor-components";
 import MenuGrid from "../MenuGrid/MenuGrid";

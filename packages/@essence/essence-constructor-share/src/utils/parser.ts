@@ -7,6 +7,16 @@ interface IParseReturnType {
     variables: string[];
 }
 
+interface IValues {
+    [$key: string]: string | number | boolean ;
+}
+
+interface IQuasi {
+    value: {
+        raw: string;
+    }
+}
+
 interface IParsedItem {
     type?: string,
     operator?: "=" | "!=" | "!" | "!==" | "&&" | "+" | "<" | "==" | "===" | ">" | "in" | "||";
@@ -27,6 +37,7 @@ interface IParsedItem {
     test?: IParsedItem;
     consequent?: IParsedItem;
     alternate?: IParsedItem;
+    quasis?: IQuasi[];
 }
 
 interface IProperty {
@@ -69,7 +80,7 @@ const operators: any = {
     "||": ({left, right}: any, values: any) => parseOperations(left, values) || parseOperations(right, values),
 };
 
-function parseOperations(expression: IParsedItem, values: {[key: string]: any}): any {
+function parseOperations(expression: IParsedItem, values: IValues): any {
     if (!expression) {
         return null;
     }
@@ -84,12 +95,13 @@ function parseOperations(expression: IParsedItem, values: {[key: string]: any}):
             return expression.value;
         case "Identifier":
             return values.get
+                // @ts-ignore
                 ? values.get(camelCaseMemoized(expression.name))
                 : values[camelCaseMemoized(expression.name)];
         case "AssignmentExpression":
             return parseOperations(expression.right, values);
         case "ObjectExpression":
-            return expression.properties.reduce((acc: any[], property: IProperty) => {
+            return expression.properties.reduce((acc: IValues, property: IProperty) => {
                 acc[parseOperations(property.key, values)] = parseOperations(property.value, values);
 
                 return acc;
@@ -102,6 +114,11 @@ function parseOperations(expression: IParsedItem, values: {[key: string]: any}):
                 : parseOperations(expression.alternate, values);
         case "MemberExpression":
             return parseOperations(expression.object, values)[parseOperations(expression.property, values)];
+        case "TemplateLiteral":
+            return expression.expressions ? expression.expressions.reduce(
+                (acc, expr, index) => `${acc}${parseOperations(expr, values)}${expression.quasis[index + 1].value.raw}`,
+                expression.quasis[0].value.raw
+            ) : "";
         default:
             // tslint:disable:next-line no-console
             console.error("expression not found: ", expression);

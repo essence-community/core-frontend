@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import IconButton from "@material-ui/core/IconButton";
+import {IconButton} from "@material-ui/core";
 import {mountWithTheme} from "../../utils/test";
 import Pagination from "../Pagination";
 

@@ -5,9 +5,8 @@ import {compose} from "recompose";
 import last from "lodash/last";
 import camelCase from "lodash/camelCase";
 import {withStyles} from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import {Grid, Button} from "@material-ui/core";
 import validatorjs from "validatorjs";
-import Button from "@material-ui/core/Button";
 import BuilderMobxForm from "../../../Components/MobxForm/BuilderMobxForm";
 import withModelDecorator from "../../../decorators/withModelDecorator";
 import {AddrMultiField} from "../../../stores/AddrMultiField";
@@ -194,7 +193,7 @@ export class FieldMultiBase extends React.Component<PropsType> {
 
         return (
             <div ref={this.popoverRef}>
-                <Grid container direction="column" spacing={8} className={classes.wrapper}>
+                <Grid container direction="column" spacing={1} className={classes.wrapper} wrap="nowrap">
                     <FieldMultiLoader store={store} className={classes.progressWrapper} />
                     {this.props.store.builderConfigs.map((config) => (
                         <Grid key={config.ckPageObject} item>
@@ -209,7 +208,7 @@ export class FieldMultiBase extends React.Component<PropsType> {
                         </Grid>
                     ))}
                     <Grid item>
-                        <Grid container justify="flex-end" spacing={8}>
+                        <Grid container justify="flex-end" spacing={1}>
                             <Grid item>
                                 <Button
                                     data-page-object={`${bc.ckPageObject}-accept`}

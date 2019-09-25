@@ -44,7 +44,7 @@ const BuilderFilterStylesLight = (theme: any) => ({
     },
     titleContainer: {
         display: "inline-flex",
-        marginLeft: theme.spacing.unit * 3,
+        marginLeft: theme.spacing(3),
         overflow: "hidden",
     },
     titleTypography: {

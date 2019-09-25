@@ -3,11 +3,7 @@ import * as React from "react";
 import {compose} from "recompose";
 import {inject, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import Typography from "@material-ui/core/Typography";
-import ButtonBase from "@material-ui/core/ButtonBase";
+import {Dialog, DialogTitle, DialogContent, Typography, ButtonBase} from "@material-ui/core";
 import {sanitizeHtml} from "@essence/essence-constructor-share/utils";
 import {styleTheme, commitId, branchDateTime, branchName} from "../../constants";
 import * as lightLogo from "../../images/light_logo.png";
@@ -55,14 +51,20 @@ class AppInfo extends React.Component<PropsType, StateType> {
                 <ButtonBase classes={{root: classes.button}} disableRipple onClick={this.handleOpen} tabIndex="-1">
                     <img src={logo} alt="logo" height="38" width="38" />
                 </ButtonBase>
-                <Dialog open={open} fullWidth classes={{paper: classes.dialogPaper}} onClose={this.handleClose}>
+                <Dialog
+                    open={open}
+                    fullWidth
+                    classes={{paper: classes.dialogPaper}}
+                    onClose={this.handleClose}
+                    style={{position: "absolute"}}
+                >
                     <DialogTitle disableTypography>О программе</DialogTitle>
                     <DialogContent>
                         <Typography variant="title" paragraph className={classes.title}>
                             {applicationStore.settingsStore.settings.projectAboutBoxTitle}
                         </Typography>
 
-                        <Typography paragraph>
+                        <Typography variant="body2" paragraph>
                             Версия {branchName} ({commitId} от {branchDateTime})
                         </Typography>
                         {applicationStore.settingsStore.settings.projectAboutBoxDescription ? (

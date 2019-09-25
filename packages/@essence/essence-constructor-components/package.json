@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {},
   "dependencies": {
-    "@material-ui/core": "^3.5.1",
+    "@material-ui/core": "^4.4.3",
     "@essence/essence-constructor-share": "file:../essence-constructor-share/lib",
     "axios": "0.18.0",
     "bignumber.js": "7.2.1",

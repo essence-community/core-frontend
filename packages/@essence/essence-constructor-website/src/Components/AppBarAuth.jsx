@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/href-no-hash */
 // @flow
 import React from "react";
-import Grid from "@material-ui/core/Grid";
+import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {ToolBar, ToolBarDrawerButton} from "@essence/essence-constructor-components";
 import {styleTheme} from "../constants";
@@ -14,7 +14,7 @@ const styles = (theme: any) => ({
         backgroundColor: theme.palette.common.white,
         height: "auto",
         marginTop: theme.sizing.appbarHeight,
-        padding: theme.spacing.unit * 2,
+        padding: theme.spacing(2),
         width: 350,
     },
 });

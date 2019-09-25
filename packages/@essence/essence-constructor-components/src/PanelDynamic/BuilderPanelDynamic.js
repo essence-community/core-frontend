@@ -2,7 +2,7 @@
 import * as React from "react";
 import {compose} from "recompose";
 import {observer} from "mobx-react";
-import Grid from "@material-ui/core/Grid/Grid";
+import {Grid} from "@material-ui/core";
 import {setComponent, mapComponents} from "@essence/essence-constructor-share";
 import {loggerRoot} from "../constants";
 import withModelDecorator from "../decorators/withModelDecorator";

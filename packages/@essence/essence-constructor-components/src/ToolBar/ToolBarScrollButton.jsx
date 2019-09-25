@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import get from "lodash/get";
-import ButtonBase from "@material-ui/core/ButtonBase";
+import {ButtonBase} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {animate} from "@essence/essence-constructor-share/utils";
 import {Icon} from "@essence/essence-constructor-share/Icon";
@@ -19,6 +19,7 @@ const styles = (theme: any) => ({
         color: theme.palette.grey.arrow,
     },
     lightButton: {
+        borderBottom: `2px solid ${theme.palette.primary.main}`,
         borderLeft: `1px solid ${theme.palette.primary.main}`,
         borderRight: `1px solid ${theme.palette.primary.main}`,
         width: 30,

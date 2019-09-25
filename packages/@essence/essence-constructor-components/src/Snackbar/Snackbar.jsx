@@ -7,13 +7,13 @@ import SnackbarContent from "./SnackbarContent";
 const styles = (theme) => ({
     root: {
         bottom: 0,
-        maxHeight: `calc(100vh - ${theme.sizing.appbarHeight + theme.spacing.unit * 2}px)`,
+        maxHeight: `calc(100vh - ${theme.sizing.appbarHeight + theme.spacing(2)}px)`,
         overflowY: "auto",
-        paddingBottom: theme.spacing.unit * 2,
-        paddingLeft: theme.spacing.unit * 2,
-        paddingRight: theme.spacing.unit * 2,
+        paddingBottom: theme.spacing(2),
+        paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(2),
         position: "fixed",
-        right: theme.spacing.unit * 2,
+        right: theme.spacing(2),
         width: 442,
         zIndex: theme.zIndex.snackbar,
     },

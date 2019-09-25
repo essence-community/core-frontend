@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import Tabs from "@material-ui/core/Tabs/Tabs";
+import {Tabs} from "@material-ui/core";
 import keycode from "keycode";
 import {setComponent} from "@essence/essence-constructor-share";
 import {mountWithTheme, getBaseBc} from "../../utils/test";

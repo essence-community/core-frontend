@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import IconButton from "@material-ui/core/IconButton";
+import {IconButton} from "@material-ui/core";
 import {isBool} from "@essence/essence-constructor-share/utils";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import BuilderMobxButton from "../../Button/BuilderMobxButton";

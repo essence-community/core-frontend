@@ -3,7 +3,7 @@ import * as React from "react";
 import {observer, disposeOnUnmount} from "mobx-react";
 import {reaction} from "mobx";
 import {compose} from "recompose";
-import Grid from "@material-ui/core/Grid/Grid";
+import {Grid} from "@material-ui/core";
 import {setComponent, mapComponents} from "@essence/essence-constructor-share";
 import {toColumnStyleWidth, camelCaseMemoized} from "@essence/essence-constructor-share/utils";
 import forOwn from "lodash/forOwn";
@@ -77,7 +77,7 @@ class FormPanelComponent extends React.Component<PropsType, StateType> {
                 hasMaster={parentBc && Boolean(parentBc.ckMaster) && parentBc.ckMaster !== bc.ckPageObject}
                 style={width ? {width} : undefined}
             >
-                <Grid container spacing={8} alignItems="center">
+                <Grid container spacing={1} alignItems="center">
                     {mapComponents(bc.childs, (ChildComp, child) => (
                         <Grid item key={child.ckPageObject} xs={12} style={toColumnStyleWidth(child.width)}>
                             <ChildComp

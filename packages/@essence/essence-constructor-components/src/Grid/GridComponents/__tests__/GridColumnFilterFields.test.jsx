@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import Checkbox from "@material-ui/core/Checkbox";
+import {Checkbox} from "@material-ui/core";
 import {mountWithTheme} from "../../../utils/test";
 import {createEmptyPageStore} from "../../../stores";
 import BuilderForm, {BuilderFormBase} from "../../../Form/BuilderForm";

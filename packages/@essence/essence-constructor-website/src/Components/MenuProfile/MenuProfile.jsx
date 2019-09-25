@@ -3,8 +3,7 @@ import * as React from "react";
 import {compose} from "recompose";
 import {reaction, observe} from "mobx";
 import {inject, Provider, observer} from "mobx-react";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
+import {Grid, Button} from "@material-ui/core";
 import {
     BuilderPanel,
     BuilderForm,
@@ -137,8 +136,8 @@ class MenuProfile extends React.Component<PropsType> {
                         submitOnChange
                         onSetValues={this.handleSubmit}
                     >
-                        <Grid container spacing={16} direction="column">
-                            <Grid item>
+                        <Grid container spacing={2} direction="row">
+                            <Grid item xs={12}>
                                 <BuilderPageChildren
                                     readOnly={pageStore.isReadOnly}
                                     hidden={false}
@@ -146,11 +145,11 @@ class MenuProfile extends React.Component<PropsType> {
                                     pageBc={pageStore.pageBc}
                                 />
                             </Grid>
-                            <Grid item>
+                            <Grid item xs={12}>
                                 <BuilderPanel editing={true} bc={config} pageStore={pageStore} />
                             </Grid>
-                            <Grid item>
-                                <Grid container justify="flex-end" spacing={8}>
+                            <Grid item xs={12}>
+                                <Grid container justify="flex-end" spacing={1}>
                                     <Grid item>
                                         <Button color="primary" size="small" onClick={this.handleLogout}>
                                             Выход

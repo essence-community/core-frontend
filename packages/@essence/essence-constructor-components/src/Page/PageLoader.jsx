@@ -3,7 +3,7 @@
 import * as React from "react";
 import {compose} from "recompose";
 import {withStyles} from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal/Modal";
+import {Modal} from "@material-ui/core";
 import {observer} from "mobx-react";
 import {type PageModelType} from "../stores/PageModel";
 import LineLoader from "../Components/Loaders/LineLoader";
@@ -31,6 +31,7 @@ const PageLoader = ({pageStore, container, classes = {}, isLoading, loaderType}:
     <React.Fragment>
         <Modal
             open={Boolean(isLoading || (container && pageStore && pageStore.isLoading))}
+            style={{position: "absolute"}}
             container={container}
             className={classes.root}
             hideBackdrop

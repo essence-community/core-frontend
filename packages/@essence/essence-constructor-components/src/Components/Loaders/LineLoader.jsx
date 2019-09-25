@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import {CircularProgress} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import IconBflLine from "../../Icons/IconBflLine";
 import styles from "./LineLoadersStyles";

@@ -2,7 +2,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import {observer} from "mobx-react";
-import DialogActions from "@material-ui/core/DialogActions";
+import {DialogActions} from "@material-ui/core";
 import {mapComponents} from "@essence/essence-constructor-share";
 import {type PageModelType} from "../../stores/PageModel";
 

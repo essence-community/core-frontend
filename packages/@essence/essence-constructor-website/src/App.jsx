@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/href-no-hash */
 import React, {Component} from "react";
 import {Provider} from "mobx-react";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles";
+import {createMuiTheme, CssBaseline} from "@material-ui/core";
+import {ThemeProvider} from "@material-ui/styles";
 import moment from "moment";
 import "moment/locale/ru";
 import {SnackbarMobx, themeVars, Tooltip} from "@essence/essence-constructor-components";
@@ -34,7 +34,7 @@ class App extends Component {
     render() {
         return (
             <Provider {...stores}>
-                <MuiThemeProvider theme={theme}>
+                <ThemeProvider theme={theme}>
                     <DndProvider backend={HTML5Backend}>
                         <Settings applicationStore={stores.applicationStore}>
                             <AppRoutes />
@@ -49,7 +49,7 @@ class App extends Component {
                             {this.renderDevTools()}
                         </Settings>
                     </DndProvider>
-                </MuiThemeProvider>
+                </ThemeProvider>
             </Provider>
         );
     }

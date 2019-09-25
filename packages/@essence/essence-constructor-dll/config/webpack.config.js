@@ -28,6 +28,7 @@ module.exports = {
             "mobx-react",
             "mobx-react-form",
             "@material-ui/core",
+            "@material-ui/styles",
         ].filter(Boolean),
     },
     devtool: "source-map",

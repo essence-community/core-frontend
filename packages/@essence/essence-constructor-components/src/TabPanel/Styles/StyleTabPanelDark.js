@@ -4,7 +4,9 @@ export const StyleTabPanelDark = (theme) => ({
         width: "100%",
     },
     tabsRoot: {
-        minHeight: 26,
+        display: "block",
+        minHeight: 38,
+        marginBottom: -5,
     },
     tabRoot: {
         flexShrink: 1,
@@ -15,7 +17,7 @@ export const StyleTabPanelDark = (theme) => ({
         overflow: "visible",
         opacity: 1,
         zIndex: 1,
-        boxShadow: "2px 0px 3px -2px #2c3345",
+        boxShadow: `2px 0px 3px -2px ${theme.palette.primary.main}`,
         transform: "skewX(34deg)",
         background: "#cdcaca",
         "&:before": {
@@ -28,24 +30,24 @@ export const StyleTabPanelDark = (theme) => ({
             left: -24,
             zIndex: -16,
             background: "#cdcaca",
-            boxShadow: "-2px 0px 2px -2px #2c3345",
+            boxShadow: `-2px 0px 2px -2px ${theme.palette.primary.main}`,
             transform: "skewX(-54deg)",
         },
         "&:hover": {
-            boxShadow: "1px -1px 1px #2c3345",
+            boxShadow: `1px -1px 1px ${theme.palette.primary.main}`,
             "&:before": {
-                boxShadow: "-2px -0px 1px #2c3345",
+                boxShadow: `-2px -0px 1px ${theme.palette.primary.main}`,
             },
         },
     },
     activeTabRoot: {
         zIndex: 2,
-        background: "#2c3345",
+        background: theme.palette.primary.main,
         boxShadow: "none",
         "&:before": {
             zIndex: "10",
-            background: "#2c3345",
-            borderColor: "#2c3345",
+            background: theme.palette.primary.main,
+            borderColor: theme.palette.primary.main,
             boxShadow: "none",
         },
         "&:hover, &:focus": {
@@ -54,48 +56,32 @@ export const StyleTabPanelDark = (theme) => ({
                 boxShadow: "none",
             },
         },
+
+        "& $tabWrapper": {
+            color: theme.palette.text.light,
+        },
     },
     disabled: {
-        "& $tabLabel": {
-            color: theme.palette.common.disabled,
-        },
-
-        "& $label": {
+        "& $tabWrapper": {
             color: theme.palette.common.disabled,
         },
         opacity: "1 !important",
     },
-    label: {
-        color: "#dbdfef",
-        fontSize: 15,
+    tabWrapper: {
         width: "100%",
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        display: "block",
-    },
-    tabLabel: {
+
         fontSize: 15,
-        width: "100%",
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        display: "block",
-    },
-    tabLabelContainer: {
-        fontSize: 13,
-        marginRight: 20,
-        color: "#2c3345",
-        left: "-18px",
+        marginRight: 10,
+        color: theme.palette.text.dark,
         padding: 0,
         textTransform: "none",
         transform: "skewX(-34deg)",
         zIndex: 11,
-        width: "100%",
-    },
-    tabWrapper: {
-        height: 36,
-        width: "100%",
+
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        display: "block",
     },
     tabsFlexContainer: {
         paddingTop: 2,
@@ -111,9 +97,9 @@ export const StyleTabPanelDark = (theme) => ({
     },
     selectedTabRoot: {
         "&$tabRoot": {
-            boxShadow: "1px -1px 1px #2c3345",
+            boxShadow: `1px -1px 1px ${theme.palette.primary.main}`,
             "&:before": {
-                boxShadow: "-2px -0px 1px #2c3345",
+                boxShadow: `-2px -0px 1px ${theme.palette.primary.main}`,
             },
         },
     },

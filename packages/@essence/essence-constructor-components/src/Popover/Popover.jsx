@@ -3,12 +3,9 @@ import * as React from "react";
 import {createPortal} from "react-dom";
 import noop from "lodash/noop";
 import isFunction from "lodash/isFunction";
-import Paper from "@material-ui/core/Paper";
+import {Paper, Backdrop, Grow, Modal} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {getAbsoluteOffsetFromGivenElement} from "@essence/essence-constructor-share/utils";
-import Backdrop from "@material-ui/core/Backdrop";
-import Modal from "@material-ui/core/Modal";
-import Grow from "@material-ui/core/Grow";
 import {ANIMATION_TIMEOUT} from "../constants";
 import FocusableArrow from "../Components/Focusable/FocusableArrow";
 import {type PopoverPropsType} from "./PopoverTypes";
@@ -221,17 +218,18 @@ export class PopoverBase extends React.Component<PopoverPropsType, StateType> {
             restoreFocusedElement,
             focusableMount,
             dataPageObjectPopover,
-            disableEscapeKeyDown,
             tabFocusable,
+            disableEscapeKeyDown,
         } = this.props;
 
         const popup = (
             <React.Fragment>
                 {hideBackdrop ? null : <Backdrop open className={classes.popoverBackdrop} />}
+
                 <Modal
                     open
                     className={classes.popoverRoot}
-                    style={{left, top}}
+                    style={{bottom: "auto", left, position: "absolute", right: "auto", top}}
                     data-page-object={dataPageObjectPopover}
                     hideBackdrop
                     container={container}

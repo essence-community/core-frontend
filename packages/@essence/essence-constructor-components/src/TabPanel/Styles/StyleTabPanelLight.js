@@ -1,14 +1,16 @@
 /* eslint-disable sort-keys */
-export const StyleTabPanelLight = {
+export const StyleTabPanelLight = (theme) => ({
     fullWidth: {
         width: "100%",
     },
     tabsRoot: {
-        minHeight: "auto",
+        display: "block",
+        minHeight: 38,
+        marginBottom: -5,
     },
     tabRoot: {
-        borderTop: "1px solid #f78f1e",
-        borderRight: "1px solid #f78f1e",
+        borderTop: `1px solid ${theme.palette.secondary.main}`,
+        borderRight: `1px solid ${theme.palette.secondary.main}`,
         borderTopRightRadius: 6,
         flexShrink: 1,
         height: 36,
@@ -22,37 +24,26 @@ export const StyleTabPanelLight = {
         },
     },
     activeTabRoot: {
-        borderTop: "2px solid #f78f1e",
-        borderRight: "2px solid #f78f1e",
+        borderTop: `2px solid ${theme.palette.secondary.main}`,
+        borderRight: `2px solid ${theme.palette.secondary.main}`,
         backgroundColor: "#fff0e1",
-    },
-    label: {
-        width: "100%",
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        display: "block",
-    },
-    tabLabel: {
-        width: "100%",
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        display: "block",
-    },
-    tabLabelContainer: {
-        fontSize: 13,
-        fontWeight: "bold",
-        padding: "0 16px",
-        textTransform: "none",
-        width: "100%",
     },
     tabWrapper: {
         transform: "skewX(-30deg)",
         width: "100%",
+
+        fontSize: 13,
+        fontWeight: "bold",
+        padding: "0 4px",
+        textTransform: "none",
+
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        display: "block",
     },
     tabsFlexContainer: {
-        borderBottom: "1px solid #f78f1e",
+        borderBottom: `2px solid ${theme.palette.secondary.main}`,
         flexDirection: "row-reverse",
         justifyContent: "flex-end",
     },
@@ -73,5 +64,5 @@ export const StyleTabPanelLight = {
     slimTab: {
         maxWidth: 70,
     },
-};
+});
 /* eslint-enable sort-keys */

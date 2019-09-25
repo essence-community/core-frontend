@@ -30,7 +30,7 @@ export const BasePanelCollapsibleLight = (theme: any) => ({
         cursor: "pointer",
         display: "flex",
         height: 35,
-        paddingLeft: `${theme.spacing.unit * 4}px !important`,
+        paddingLeft: `${theme.spacing(4)}px !important`,
         position: "relative",
     },
     collapseContainer: {
@@ -63,7 +63,7 @@ export const BasePanelCollapsibleLight = (theme: any) => ({
         cursor: "pointer",
         display: "flex",
         height: 35,
-        paddingLeft: `${theme.spacing.unit * 4}px !important`,
+        paddingLeft: `${theme.spacing(4)}px !important`,
         position: "relative",
     },
     labelTypography: {

@@ -1,5 +1,5 @@
-{
-    "data": [{
+[
+    {
         "class": {
             "cl_dataset": 1,
             "cl_final": 1,
@@ -38,6 +38,5 @@
             }
         ],
         "attributes": []
-    }],
-    "success": true
-}
+    }
+]

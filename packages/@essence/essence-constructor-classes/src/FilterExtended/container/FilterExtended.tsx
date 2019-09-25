@@ -17,7 +17,7 @@ export const FilterExtended = (props: IClassProps) => {
     const form = React.useContext(FormContext);
     const classes = useStyles(props);
     const {bc} = props;
-    const [isOpen, setIsOpen] = React.useState(true);
+    const [isOpen, setIsOpen] = React.useState(bc.collapsed !== "true");
     const columns = React.useMemo(() => findColumns(bc), [bc]);
     const handleClear = (event: React.SyntheticEvent) => {
         event.stopPropagation();

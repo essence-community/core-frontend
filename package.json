@@ -12,6 +12,7 @@
     "start-localhost": "yarn workspace @essence/essence-constructor-website run start-localhost",
     "start-mock": "yarn workspace @essence/essence-constructor-website run start-mock",
     "build": "yarn workspace @essence/essence-constructor-website run build && cp -r ./packages/@essence/essence-constructor-website/build ./build",
+    "rebuild-share:dev": "cd packages/@essence/essence-constructor-share && yarn run build && cd ../essence-constructor-dll && yarn install --force && yarn build:dev && cd ../../..",
     "CI": "yarn flow stop && concurrently \"yarn lint\" \"yarn flow\" ",
     "precommit": "lint-staged",
     "prepush": "flow",

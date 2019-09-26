@@ -1,5 +1,4 @@
-export {setComponent, getComponent, mapComponents} from "./components";
-
+export * from "./components";
 export * from "./decorators";
 export * from "./models";
 export * from "./request";

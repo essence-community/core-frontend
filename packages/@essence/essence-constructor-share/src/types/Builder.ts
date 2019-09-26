@@ -26,8 +26,6 @@ export interface IBuilderBaseConfig {
     charttype?: string;
     // Чекбокс для добавления еще одной записи
     checkaddmore?: string;
-    // Служебный параметр для иерархии
-    childwindow?: string;
     // Идентификатор для поиска окна в мастере
     ckwindow?: string;
     // Признак свертываемой/разворачиваемой панели при инициализации true - свернута
@@ -40,8 +38,6 @@ export interface IBuilderBaseConfig {
     column?: string;
     // Поле привязки конечной даты
     columnend?: string;
-    // Служебный параметр для иерархии
-    columns?: string;
     // Список полей, по которым будет происходит фильтрация данных. Перечисление через запятую без пробела
     columnsfilter?: string;
     // Поле привязки стартовой даты
@@ -84,8 +80,6 @@ export interface IBuilderBaseConfig {
     editmode?: string;
     // Включаем режим редактирования дочерних элементов
     editmodepanel?: string;
-    // Служебный параметр для иерархии
-    editors?: string;
     // Режим добавления/редактирования: inline - в строке; modalwindow - в модальном окне
     edittype?: string;
     // Дополнительные плагины для шлюза
@@ -94,8 +88,6 @@ export interface IBuilderBaseConfig {
     filemode?: string;
     // Тип документа доступный для выбора в 8 методе. pdf,docs,doc
     filetypes?: string;
-    // Служебный параметр для иерархии
-    filters?: string;
     // Признак сохранения данных фильтра в кеше
     filtervaluessave?: string;
     // Формат данных Для дат номер от 1-6: 1 - ГГГГ 2 - МММ ГГГГ 3 - ДД.ММ.ГГГГ 4 - ДД.ММ.ГГГГ ЧЧ:00 5 - ДД.ММ.ГГГГ ЧЧ:МИ 6 - ДД.ММ.ГГГГ ЧЧ:МИ:CC
@@ -250,8 +242,6 @@ export interface IBuilderBaseConfig {
     visible?: string;
     // Ширина поля. Целое число от 1% до 100%. Обязательно добавлять %.
     width?: string;
-    // Служебный параметр для иерархии
-    window?: string;
     // Обновления связанных сторов (таблиц, панелей) при закрытии модального окна
     winreloadstores?: string;
     // Тип окна (влияет на ширину окна): narrow: 500px, default: 800px, wide: 1000px, xwide: 1200px, xlwide: 1600px
@@ -267,11 +257,18 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     cvDisplayed?: string;
     ckObject?: string;
     contentwidth?: string;
-    childs?: IBuilderConfig[];
-    // Место для кнопок
-    topbtn?: IBuilderConfig[];
     // Служебный параметр для иерархии
     bottombtn?: IBuilderConfig[];
+    // Служебный параметр для иерархии
+    childs?: IBuilderConfig[];
+    // Служебный параметр для иерархии
+    childwindow?: IBuilderConfig[];
+    // Служебный параметр для иерархии
+    columns?: IBuilderConfig[];
+    // Служебный параметр для иерархии
+    editors?: IBuilderConfig[];
+    // Служебный параметр для иерархии
+    filters?: IBuilderConfig[];
 }
 
 export type IBuilderMode = "1" | "2" | "3" | "4" | "6" | string;

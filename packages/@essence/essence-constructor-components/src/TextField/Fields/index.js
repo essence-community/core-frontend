@@ -39,12 +39,11 @@ export const fieldMap = {
 };
 
 export const getFieldInstance = (config) => {
-    switch (true) {
-        case Boolean(config.imask):
-            return config.imask.indexOf("!") === 0 ? FieldSmartMask : FieldMask;
-        case config.datatype === "wysiwyg":
-            return getComponent(config.datatype.toUpperCase());
-        default:
-            return fieldMap[config.datatype];
+    if (config.imask) {
+        return config.imask.indexOf("!") === 0 ? FieldSmartMask : FieldMask;
     }
+
+    const component = getComponent(`${config.type}.${config.datatype.toUpperCase()}`);
+
+    return component || fieldMap[config.datatype];
 };

@@ -14,6 +14,7 @@ import BuilderPageChildren from "./Page/BuilderPageChildren";
 import BuilderPanel from "./Panel/BuilderBasePanel";
 import Popover from "./Popover/Popover";
 import SideResizer from "./Resizer/SideResizer";
+import BuilderRoadMapPanel from "./RoadMapPanel/BuilderRoadMapPanel";
 
 export {themeVars} from "./Theme";
 export {SnackbarMobx} from "./Snackbar/Snackbar";
@@ -35,6 +36,7 @@ export {
     BuilderPage,
     BuilderPageChildren,
     BuilderPanel,
+    BuilderRoadMapPanel,
     Tooltip,
     ToolBar,
     ToolBarDrawerButton,

@@ -1,6 +1,7 @@
 // @flow
 import {extendObservable, action, observable} from "mobx";
 import {camelCaseKeys} from "@essence/essence-constructor-share/utils/transform";
+import isBoolean from "lodash/isBoolean";
 import {RecordsModel, type RecordsModelType} from "../RecordsModel";
 import {StoreBaseModel, type StoreBaseModelPropsType} from "../StoreBaseModel";
 import {type BuilderBaseType, type BuilderModeType} from "../../BuilderType";
@@ -158,10 +159,11 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
     });
 
     setTabStatus = action("setTabStatus", (tabValue: string, status: TabStatusChangeType) => {
-        const isCalcNum = status.hidden && status.hidden !== this.tabStatus.get(tabValue).hidden;
+        const currentTabStatus = this.tabStatus.get(tabValue);
+        const isCalcNum = isBoolean(status.hidden) && status.hidden !== currentTabStatus.hidden;
 
         this.tabStatus.set(tabValue, {
-            ...this.tabStatus.get(tabValue),
+            ...currentTabStatus,
             ...status,
         });
         if (isCalcNum) {
@@ -176,6 +178,11 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
                     index += 1;
                 }
             });
+            this.pageStore.updateGlobalValues(
+                camelCaseKeys({
+                    [`gPageNum_${this.tabBc.ckPageObject}`]: this.tabStatus.get(this.tabValue).num,
+                }),
+            );
         }
     });
 

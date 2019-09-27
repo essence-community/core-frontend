@@ -48,7 +48,12 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
     }
 
     initTabs = () => {
-        const namesTabBtn = ["Override Back Button", "Override Next Button"];
+        const namesTabBtn = [
+            "Override Back Button",
+            "Override Next Button",
+            "Override Save Button",
+            "Override Cancel Button",
+        ];
         const btns = this.bc.topbtn || [];
         const childs = (this.bc.childs || []).map((tab) => ({...tab, type: "TABBUTTON"}));
 

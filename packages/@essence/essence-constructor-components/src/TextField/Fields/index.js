@@ -1,6 +1,6 @@
 import {getComponent} from "@essence/essence-constructor-share";
+import {preference} from "../../constants";
 import TextField from "../TextField";
-import FieldCombo from "./FieldComboDownshift/FieldComboDownshift";
 import FieldMask from "./FieldMask/FieldMask";
 import FieldDateRC from "./FieldDateRC/FieldDateRC";
 import FieldCheckbox from "./FieldCheckbox/FieldCheckbox";
@@ -22,7 +22,6 @@ export const fieldMap = {
     boolean: FieldCheckbox,
     checkbox: FieldCheckbox,
     color: FieldColorPicker,
-    combo: FieldCombo,
     computed: FieldComputed,
     date: FieldDateRC,
     grid: FieldTable,
@@ -37,6 +36,11 @@ export const fieldMap = {
     textarea: FieldTextArea,
     tree: FieldTable,
 };
+
+if (!preference.experimentalUI) {
+    // eslint-disable-next-line global-require
+    fieldMap.combo = require("./FieldComboDownshift/FieldComboDownshift").default;
+}
 
 export const getFieldInstance = (config) => {
     if (config.imask) {

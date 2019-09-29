@@ -117,12 +117,20 @@ class PreferencePage extends React.Component<PropsType, StateType> {
                         />,
                     )}
                     {this.renderPreference(
-                        "Включить режим отображения отладочного окна при передае" +
+                        "Включить режим отображения отладочного окна при передаче" +
                             " параметров извне (redirectDebugWindow)",
                         <Switch
                             checked={form.redirectDebugWindow}
                             onChange={this.handleChange("redirectDebugWindow")}
                             data-qtip={form.redirectDebugWindow}
+                        />,
+                    )}
+                    {this.renderPreference(
+                        "Включить эксперементальный режим (experimentalUI)",
+                        <Switch
+                            checked={form.experimentalUI}
+                            onChange={this.handleChange("experimentalUI")}
+                            data-qtip={form.experimentalUI}
                         />,
                     )}
                     <TextField

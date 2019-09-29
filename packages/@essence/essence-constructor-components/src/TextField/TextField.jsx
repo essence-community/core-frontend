@@ -23,6 +23,7 @@ const OMIT_PROPS = [
     "editing",
     "visible",
     "maskChar",
+    "textField",
 ];
 
 type PropsType = {

@@ -17,24 +17,31 @@
     "configsync": "node ./scripts/update.js"
   },
   "dependencies": {
+    "@material-ui/core": "4.4.3",
+    "@types/react-dom": "^16.9.1",
     "axios": "^0.19.0",
     "camelcase-keys": "^5.0.0",
     "classnames": "^2.2.6",
     "debug": "4.0.1",
     "dompurify": "^1.0.11",
     "esprima": "^4.0.1",
+    "keycode": "^2.2.0",
     "lodash": "^4.17.11",
     "mdi-react": "3.4.0",
     "memoizee": "^0.4.14",
     "mobx": "^5.9.0",
+    "mobx-react-form": "1.35.1",
     "qs": "^6.6.0",
     "react": "16.8.6",
+    "react-custom-scrollbars": "4.2.1",
+    "react-dom": "16.8.6",
     "react-fontawesome": "^1.6.1",
     "request": "^2.88.0",
     "snakecase-keys": "^2.1.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@essence/eslint-config-essence-react": "file:../essence-constructor-eslint",
     "@essence/essence-constructor-package-builder": "file:../essence-constructor-package-builder",
     "@types/camelcase-keys": "^4.0.0",
     "@types/classnames": "^2.2.8",
@@ -47,6 +54,7 @@
     "@types/react-fontawesome": "^1.6.4",
     "@types/snakecase-keys": "^2.1.0",
     "@types/uuid": "^3.4.4",
+    "eslint": "^6.4.0",
     "typescript": "^3.5.2",
     "utility-types": "^3.4.1"
   }

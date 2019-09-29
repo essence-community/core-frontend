@@ -1,5 +1,6 @@
 import animate from "./animate";
 
+export * from "./functions";
 export {isIE, getAbsoluteOffsetFromGivenElement, loadJS, loadCSS, loadFiles} from "./browser";
 export {declension} from "./formatter";
 export {getMask} from "./mask";
@@ -11,6 +12,6 @@ export * from "./download";
 export {parseMemoize} from "./parser";
 export {findGetGlobalKey} from "./findKey";
 export {findColumns} from "./findColumns";
-export {findClassNames} from './findClassNames';
+export {findClassNames} from "./findClassNames";
 
 export {animate};

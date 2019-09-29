@@ -6,3 +6,4 @@ export * from "./types";
 export * from "./Icon";
 export * from "./utils";
 export * from "./context";
+export * from "./uicomponents";

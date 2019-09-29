@@ -33,7 +33,7 @@
     "react-custom-scrollbars": "4.2.1",
     "react-dnd": "^9.0.1",
     "react-dom": "16.8.6",
-    "react-input-mask": "2.0.1",
+    "react-input-mask": "2.0.4",
     "react-number-format": "3.5.1",
     "recompose": "0.26.0",
     "uuid": "3.2.1",

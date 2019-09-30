@@ -7,6 +7,7 @@ import {reaction} from "mobx";
 import {ISuggestion} from "../store/FieldComboModel.types";
 import {FieldComboModel} from "../store/FieldComboModel";
 import {useStyles} from "./FieldComboList.styles";
+import {FieldComboListItem} from "./FieldComboListItem";
 
 const ITEM_HEIGHT = 35;
 // 10 lines
@@ -32,14 +33,14 @@ export const FieldComboList: React.FC<IProps> = (props) => {
     const autoHeightMin = store.recordsStore.pageSize
         ? Math.min(store.recordsStore.pageSize * ITEM_HEIGHT, AUTO_HEIGHT_MAX)
         : undefined;
-    const handleSelect = (suggestion: ISuggestion) => (event: React.SyntheticEvent) => {
+    const handleSelect = React.useCallback((event: React.SyntheticEvent, suggestion: ISuggestion) => {
         props.onChange(null, suggestion.value);
         props.onClose(event);
 
         if (props.inputRef.current) {
             props.inputRef.current.focus();
         }
-    };
+    }, [props.onChange, props.onClose]);
 
     React.useEffect(() => {
         if (props.store.highlightedIndex >= 0 && scrollbarRef.current) {
@@ -84,29 +85,14 @@ export const FieldComboList: React.FC<IProps> = (props) => {
                         const isHighlightedValue = suggestion.value === props.store.highlightedValue;
 
                         return (
-                            <MenuItem
+                            <FieldComboListItem
                                 key={suggestion.value}
-                                component="div"
-                                classes={{root: classes.menuItem}}
-                                disableRipple
-                                onClick={handleSelect(suggestion)}
-                                selected={isHighlightedValue}
-                                data-page-object={`${bc.ckPageObject}-item-${String(suggestion.value)}`}
-                                data-qtip={suggestion.label}
-                            >
-                                <span
-                                    className={`${classes.menuItemLabel} ${
-                                        isSelectedValue ? classes.menuItemSelectedLabel : ""
-                                    }`}
-                                >
-                                    {suggestion.label}
-                                </span>
-                                {isSelectedValue ? (
-                                    <span className={classes.menuItemSelectedCheck}>
-                                        <Icon iconfontname="mdi" iconfont="check" />
-                                    </span>
-                                ) : null}
-                            </MenuItem>
+                                suggestion={suggestion}
+                                onSelect={handleSelect}
+                                isSelectedValue={isSelectedValue}
+                                isHighlightedValue={isHighlightedValue}
+                                ckPageObject={bc.ckPageObject}
+                            />
                         );
                     })
                 )}

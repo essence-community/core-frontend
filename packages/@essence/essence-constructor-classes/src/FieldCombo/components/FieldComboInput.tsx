@@ -69,6 +69,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             className={classes.iconRoot}
             data-page-object={`${props.bc.ckPageObject}-chevron-up`}
             onFocus={handlFocusInput}
+            disabled={props.disabled}
         >
             <Icon iconfont="chevron-up" />
         </IconButton>
@@ -80,6 +81,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             className={classes.iconRoot}
             data-page-object={`${props.bc.ckPageObject}-chevron-down`}
             onFocus={handlFocusInput}
+            disabled={props.disabled}
         >
             <Icon iconfont="chevron-down" />
         </IconButton>
@@ -93,9 +95,9 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
                 endAdornment: <InputAdornment position="end">{[...props.tips, chevron]}</InputAdornment>,
             }}
             value={props.store.inputValue}
-            onClick={handleInputClick}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
+            onClick={props.disabled ? undefined : handleInputClick}
+            onChange={props.disabled ? undefined : handleChange}
+            onKeyDown={props.disabled ? undefined : handleKeyDown}
         />
     ));
 });

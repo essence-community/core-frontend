@@ -56,9 +56,7 @@ export interface IHookIsOpenProps {
 
 export interface IPopoverProps {
     popoverContent: React.ReactNode | PopoverRenderChildren;
-    open?: boolean;
     paperClassName?: string;
-    width?: number | string;
     hideBackdrop?: boolean;
     transformOrigin?: IPopoverTransfromOrigin;
     anchorOrigin?: IPopoverAnchorOrigin;
@@ -74,8 +72,6 @@ export interface IPopoverProps {
     children: PopoverRenderChildren;
     disableEscapeKeyDown?: boolean;
     tabFocusable?: boolean;
-    onClose?: () => void;
-    onOpen?: () => void;
     onBackdropClick?: () => void;
     onClickOutside?: () => void;
     onChangeOpen?: (isOpen: boolean) => void;
@@ -100,5 +96,4 @@ export interface IPopoverContentProps {
     onClose: () => void;
     onOpen: () => void;
     onEntering: (node: HTMLElement, isAppearing: boolean) => void;
-    onExiting: (node: HTMLElement) => void;
 }

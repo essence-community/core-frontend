@@ -42,7 +42,7 @@ export class FieldComboModel extends StoreBaseModel {
         });
 
         this.loadDebounce = debounce(() => {
-            if (bc.queryparam) {
+            if (bc.queryparam && toString(this.inputValue).length >= this.valueLength) {
                 this.recordsStore.searchAction({[bc.queryparam]: this.inputValue}, {isUserReload: true});
             }
         }, parseInt(bc.querydelay, 10) * 1000);
@@ -56,7 +56,7 @@ export class FieldComboModel extends StoreBaseModel {
             highlightedValue: "",
             inputValue: "",
             get selectedRecord() {
-                return this.recordsState.selectedRecord;
+                return this.recordsStore.selectedRecord;
             },
             get suggestions() {
                 const suggestions = this.recordsStore.records.map(this.getSuggestion);

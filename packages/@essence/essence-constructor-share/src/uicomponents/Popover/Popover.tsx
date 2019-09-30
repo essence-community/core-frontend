@@ -2,22 +2,34 @@ import * as React from "react";
 import {createPortal} from "react-dom";
 import {noop, isFunction} from "../../utils/functions";
 import {getAbsoluteOffsetFromGivenElement} from "../../utils/browser";
-import {useIsOpen} from "./Popover.hooks";
 import {IPopoverProps, IOffset} from "./Popover.types";
 import {getOffsetContainer} from "./Popover.utils";
 import {PopoverContent} from "./PopoverContent";
 
 const STYLE_DEFAULT = {left: 0, top: 0};
 
+// eslint-disable-next-line max-lines-per-function
 export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
+    const {onChangeOpen} = props;
     const rootRef = React.useRef<HTMLDivElement>();
     const popupRef = React.useRef<HTMLDivElement>();
     const [width, setWidth] = React.useState<number>(0);
     const [style, setStyle] = React.useState<IOffset>(STYLE_DEFAULT);
+    const [isOpen, setIsOpen] = React.useState(false);
     let isMouseDownPopover = React.useMemo(() => false, []);
 
-    const handleCalculateOffset = () => {
-        const {container} = props;
+    const handleClose = React.useCallback(() => {
+        setIsOpen(false);
+        setStyle({left: 0, top: 0});
+        onChangeOpen(false);
+    }, [onChangeOpen]);
+
+    const handleOpen = React.useCallback(() => {
+        setIsOpen(true);
+        onChangeOpen(true);
+    }, [onChangeOpen]);
+
+    const handleCalculateOffset = React.useCallback(() => {
         const {current: rootElement} = rootRef;
         const {left, top} = getAbsoluteOffsetFromGivenElement(rootElement, props.container);
 
@@ -25,7 +37,7 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
             setStyle(
                 getOffsetContainer({
                     anchorOrigin: props.anchorOrigin,
-                    container,
+                    container: props.container,
                     left,
                     popupEl: popupRef.current,
                     rootEl: rootElement,
@@ -36,20 +48,14 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
         } else {
             setStyle({left, top});
         }
-    };
+    }, [props.anchorOrigin, props.container, props.transformOrigin]);
 
     const handleEntering = () => {
         handleCalculateOffset();
-        props.onChangeOpen(true);
-    };
-
-    const handleExiting = () => {
-        props.onChangeOpen(false);
     };
 
     const handleResize = React.useCallback(() => {
         if (props.hideOnResize) {
-            // eslint-disable-next-line no-use-before-define, @typescript-eslint/no-use-before-define
             handleClose();
         } else {
             const {current} = rootRef;
@@ -60,7 +66,7 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
                 setWidth(current.offsetWidth);
             }
         }
-    }, []);
+    }, [handleCalculateOffset, handleClose, props.hideOnResize]);
 
     const handleOutsideClick = React.useCallback((event: UIEvent) => {
         const {target} = event;
@@ -78,7 +84,6 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
                 case popupEl && popupEl.contains(target):
                     break;
                 default:
-                    // eslint-disable-next-line no-use-before-define, @typescript-eslint/no-use-before-define
                     handleClose();
                     props.onClickOutside();
             }
@@ -86,18 +91,6 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
             isMouseDownPopover = false;
         }
     }, []);
-
-    const [isOpen, handleOpen, handleClose] = useIsOpen({
-        container: props.container,
-        disableOutsideClose: props.disableOutsideClose,
-        hideOnScroll: props.hideOnScroll,
-        onChangeOpen: props.onChangeOpen,
-        onOutsideClick: handleOutsideClick,
-        onResize: handleResize,
-        open: props.open,
-        pageStore: props.pageStore,
-        setStyle,
-    });
 
     const handleMouseDownPopover = () => {
         if (isOpen) {
@@ -112,19 +105,56 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
     };
 
     React.useEffect(() => {
+        if (isOpen) {
+            if (props.container && !props.disableOutsideClose) {
+                props.container.addEventListener("mousedown", handleOutsideClick);
+            }
+
+            if (props.pageStore && props.hideOnScroll) {
+                props.pageStore.addScrollEvent(handleClose);
+            }
+
+            window.addEventListener("resize", handleResize);
+        }
+
+        return () => {
+            if (isOpen) {
+                if (props.container && !props.disableOutsideClose) {
+                    props.container.removeEventListener("mousedown", handleOutsideClick);
+                }
+
+                if (props.pageStore && props.hideOnScroll) {
+                    props.pageStore.removeScrollEvent(handleClose);
+                }
+
+                window.removeEventListener("resize", handleResize);
+            }
+        };
+    }, [
+        handleClose,
+        handleOutsideClick,
+        handleResize,
+        isOpen,
+        props.container,
+        props.disableOutsideClose,
+        props.hideOnScroll,
+        props.pageStore,
+    ]);
+
+    React.useEffect(() => {
         const {current} = rootRef;
 
-        if (current && (props.open || isOpen) && width !== current.offsetWidth) {
+        if (current && isOpen && width !== current.offsetWidth) {
             setWidth(current.offsetWidth);
         }
-    }, [props.open, isOpen]);
+    }, [isOpen, width]);
 
     return (
         <div ref={rootRef} onMouseDown={handleMouseDownPopover} onBlur={props.onBlur}>
             {isFunction(props.children)
                 ? props.children({
                       onClose: handleClose,
-                      onOpen: props.onOpen || handleOpen,
+                      onOpen: handleOpen,
                       open: isOpen,
                       position: style.bottom ? "top" : "bottom",
                   })
@@ -142,10 +172,9 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
                           tabFocusable={props.tabFocusable}
                           focusableMount={props.focusableMount}
                           restoreFocusedElement={props.restoreFocusedElement}
-                          width={props.width || width}
-                          onOpen={props.onOpen || handleOpen}
+                          width={width}
+                          onOpen={handleOpen}
                           onEntering={handleEntering}
-                          onExiting={handleExiting}
                           onClose={handleClose}
                           onEscapeKeyDown={handleEscapeKeyDown}
                           paperClassName={props.paperClassName}

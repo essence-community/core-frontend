@@ -1,26 +1,38 @@
+/* eslint-disable max-len, sort-keys */
 module.exports = {
-    "parser": "@typescript-eslint/parser", // Specifies the ESLint parser
-    "extends": [
-        "plugin:react/recommended", // Uses the recommended rules from @eslint-plugin-react
-        "plugin:@typescript-eslint/recommended", // Uses the recommended rules from @typescript-eslint/eslint-plugin
-        "prettier/@typescript-eslint", // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
-        "plugin:prettier/recommended" // Enables eslint-plugin-prettier and displays prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
+    // Specifies the ESLint parser
+    parser: "@typescript-eslint/parser",
+    extends: [
+        // Uses the recommended rules from @eslint-plugin-react
+        "plugin:react/recommended",
+        // Uses the recommended rules from @typescript-eslint/eslint-plugin
+        "plugin:@typescript-eslint/recommended",
+        // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
+        "prettier/@typescript-eslint",
+        // Enables eslint-plugin-prettier and displays prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
+        "plugin:prettier/recommended",
     ],
-    "parserOptions": {
-        "ecmaVersion": 2018, // Allows for the parsing of modern ECMAScript features
-        "sourceType": "module", // Allows for the use of imports
-        "ecmaFeatures": {
-            "jsx": true // Allows for the parsing of JSX
-        }
+    plugins: ["react-hooks"],
+    parserOptions: {
+        // Allows for the parsing of modern ECMAScript features
+        ecmaVersion: 2018,
+        // Allows for the use of imports
+        sourceType: "module",
+        ecmaFeatures: {
+            // Allows for the parsing of JSX
+            jsx: true,
+        },
     },
-    "rules": {
-        // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
-        // e.g. "@typescript-eslint/explicit-function-return-type": "off",
+    rules: {
+        /*
+         * Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
+         * e.g. "@typescript-eslint/explicit-function-return-type": "off",
+         */
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-empty-interface": "off",
         "@typescript-eslint/ban-ts-ignore": "off",
         "react/prop-types": "off",
-        "@typescript-eslint/interface-name-prefix": ["error", { "prefixWithI": "always" }],
+        "@typescript-eslint/interface-name-prefix": ["error", {prefixWithI: "always"}],
         "no-magic-numbers": "off",
         "max-lines-per-function": ["error", 150],
         "max-statements": ["error", 20],
@@ -28,29 +40,34 @@ module.exports = {
         "react/display-name": "off",
         "function-call-argument-newline": "off",
 
+        // Checks rules of Hooks
+        "react-hooks/rules-of-hooks": "error",
+        // Checks effect dependencies
+        "react-hooks/exhaustive-deps": "warn",
+
         "jsx-quotes": ["error", "prefer-double"],
         "import/order": [
             "error",
             {
-                "groups": ["builtin", "external", "internal", "parent", "sibling", "index"]
-            }
+                groups: ["builtin", "external", "internal", "parent", "sibling", "index"],
+            },
         ],
         "import/no-unresolved": [
             "error",
             {
-                "commonjs": true,
-                "caseSensitive": true
-            }
+                commonjs: true,
+                caseSensitive: true,
+            },
         ],
         "import/extensions": [
             "error",
             "always",
             {
-                "js": "never",
-                "jsx": "never",
-                "ts": "never",
-                "tsx": "never"
-            }
+                js: "never",
+                jsx: "never",
+                ts: "never",
+                tsx: "never",
+            },
         ],
         "import/no-extraneous-dependencies": "error",
         "import/first": 2,
@@ -63,7 +80,7 @@ module.exports = {
         "no-var": 2,
         "sort-keys": 2,
         "quote-props": [2, "as-needed"],
-        "quotes": 2,
+        quotes: 2,
         "one-var": [2, "never"],
         "keyword-spacing": 2,
         "key-spacing": 2,
@@ -71,10 +88,10 @@ module.exports = {
         "space-before-function-paren": [
             "error",
             {
-                "anonymous": "never",
-                "named": "never",
-                "asyncArrow": "always"
-            }
+                anonymous: "never",
+                named: "never",
+                asyncArrow: "always",
+            },
         ],
         "space-in-parens": 2,
         "space-infix-ops": 2,
@@ -92,17 +109,17 @@ module.exports = {
             120,
             4,
             {
-                "ignoreUrls": false,
-                "ignoreComments": false,
-                "ignoreTrailingComments": false,
-                "ignoreStrings": false,
-                "ignoreTemplateLiterals": false,
-                "ignoreRegExpLiterals": false
-            }
+                ignoreUrls: false,
+                ignoreComments: false,
+                ignoreTrailingComments: false,
+                ignoreStrings: false,
+                ignoreTemplateLiterals: false,
+                ignoreRegExpLiterals: false,
+            },
         ],
-        "no-unused-vars": ["error", { "vars": "all", "args": "after-used" }],
-        "no-use-before-define": ["error", { "functions": true, "classes": true }],
-        "curly": 2,
+        "no-unused-vars": ["error", {vars: "all", args: "after-used"}],
+        "no-use-before-define": ["error", {functions: true, classes: true}],
+        curly: 2,
 
         "react/no-unescaped-entities": 0,
         "no-ternary": 0,
@@ -117,30 +134,26 @@ module.exports = {
         "class-methods-use-this": 0,
         "padding-line-between-statements": [
             "error",
-            { "blankLine": "always", "prev": "*", "next": "return" },
-            { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
+            {blankLine: "always", prev: "*", next: "return"},
+            {blankLine: "always", prev: ["const", "let", "var"], next: "*"},
             {
-                "blankLine": "any",
-                "prev": ["const", "let", "var"],
-                "next": ["const", "let", "var"]
-            }
+                blankLine: "any",
+                prev: ["const", "let", "var"],
+                next: ["const", "let", "var"],
+            },
         ],
         "flowtype/no-dupe-keys": 2,
-        "filenames/match-exported": 2
+        "filenames/match-exported": 2,
     },
-    "settings": {
+    settings: {
         "import/resolver": {
-            "node": {
-                "extensions": [
-                    ".js",
-                    ".ts",
-                    ".tsx"
-                ]
-            }
+            node: {
+                extensions: [".js", ".ts", ".tsx"],
+            },
         },
-        "react": {
-            "version": "detect" // Tells eslint-plugin-react to automatically detect the version of React to use
-        }
-    }
-}
-
+        react: {
+            // Tells eslint-plugin-react to automatically detect the version of React to use
+            version: "detect",
+        },
+    },
+};

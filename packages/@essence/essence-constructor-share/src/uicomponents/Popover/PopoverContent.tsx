@@ -34,13 +34,7 @@ export const PopoverContent: React.FC<IPopoverContentProps> = React.forwardRef<H
                     onEscapeKeyDown={props.onEscapeKeyDown}
                 >
                     <div ref={ref}>
-                        <Grow
-                            appear
-                            in
-                            onEntering={props.onEntering}
-                            onExiting={props.onExiting}
-                            timeout={ANIMATION_TIMEOUT}
-                        >
+                        <Grow appear in onEntering={props.onEntering} timeout={ANIMATION_TIMEOUT}>
                             <FocusableArrow
                                 tabFocusable={props.tabFocusable}
                                 focusableMount={props.focusableMount}

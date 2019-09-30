@@ -7,26 +7,6 @@ export const useStyles = makeStyles(
             position: "absolute",
             top: "calc(50% - 20px)",
         },
-        menuItem: {
-            // @ts-ignore
-            borderBottom: `1px solid ${theme.palette.grey.main}`,
-            height: 34,
-            minHeight: 34,
-            paddingBottom: 0,
-            paddingTop: 0,
-        },
-        menuItemLabel: {
-            display: "inline-block",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            width: "100%",
-        },
-        menuItemSelectedCheck: {
-            display: "inline-block",
-        },
-        menuItemSelectedLabel: {
-            fontWeight: 600,
-        },
         paginationMenuItem: {
             "&:hover": {
                 backgroundColor: "inherit",

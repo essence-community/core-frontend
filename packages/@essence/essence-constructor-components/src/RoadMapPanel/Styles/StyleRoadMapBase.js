@@ -73,7 +73,7 @@ export const StyleRoadMapBase = (theme) => ({
         content: "",
         width: 0,
         height: 0,
-        border: "17px solid !transparent",
+        border: "17px solid transparent",
         borderTopColor: "transparent",
         display: "inline-block",
     },
@@ -91,25 +91,46 @@ export const StyleRoadMapBase = (theme) => ({
         content: "",
         width: 0,
         height: 0,
-        border: "17px solid !transparent",
+        border: "17px solid transparent",
         borderTopColor: "transparent",
         display: "inline-block",
+    },
+    rightSideTabTheme: {
+        "&&": {
+            borderTopColor: theme.palette.primary.main,
+        },
+    },
+    leftSideTabTheme: {
+        "&&": {
+            borderRightColor: theme.palette.primary.main,
+            borderLeftColor: theme.palette.primary.main,
+            borderBottomColor: theme.palette.primary.main,
+        },
     },
     selectedTab: {
         opacity: 0.8,
     },
     activeTabRoot: {
         "& $cycleNum": {
-            color: `${theme.palette.common.selectedMenu} !important`,
+            color: theme.palette.common.selectedMenu,
         },
         "& $horizontalTabRootTheme $label": {
-            color: `${theme.palette.common.selectedMenu} !important`,
+            color: theme.palette.common.selectedMenu,
         },
     },
     bottomBar: {
         borderTop: `1px solid ${theme.palette.grey.main}`,
         height: 48,
         overflow: "hidden",
+    },
+    tabWrapper: {
+        width: "100%",
+    },
+    tabsIndicator: {
+        height: 0,
+    },
+    tabsContainer: {
+        outline: "none",
     },
 });
 /* eslint-enable sort-keys */

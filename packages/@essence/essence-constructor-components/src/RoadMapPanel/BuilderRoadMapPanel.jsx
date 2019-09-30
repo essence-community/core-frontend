@@ -18,7 +18,7 @@ import Tab from "./Tab";
 import {type BuilderRoadMapPanelPropsType, type BuilderRoadMapPanelType} from "./BuilderRoadMapPanelType";
 import styles from "./Styles";
 
-type EnchengeProps = {
+type ExtraRoadMapProps = {
     classes: {
         [$Keys<typeof styles>]: string,
     },
@@ -34,7 +34,7 @@ const RESIZE_DELAY = 100;
 const MIN_TAB_WIDTH = 90;
 const TABS_PADDING = 68;
 
-class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsType & EnchengeProps, State> {
+class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsType & ExtraRoadMapProps, State> {
     tabsComponentRef = React.createRef();
 
     state = {
@@ -47,13 +47,11 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
 
         if (bc.align === "top") {
             window.addEventListener("resize", this.handleGetTabsMode);
-        }
-        if (bc.align === "top") {
             this.handleGetTabsMode();
         }
     }
 
-    componentDidUpdate(prevProps: BuilderRoadMapPanelPropsType & EnchengeProps) {
+    componentDidUpdate(prevProps: BuilderRoadMapPanelPropsType & ExtraRoadMapProps) {
         if (this.props.bc.align === "top" && this.props.visible && prevProps.visible !== this.props.visible) {
             this.handleGetTabsMode();
         }

@@ -9,22 +9,5 @@ export const StyleRoadMapDark = (theme) => ({
     horizontalTabRootTheme: {
         backgroundColor: theme.palette.primary.main,
     },
-    rightSideTabTheme: {
-        borderTopColor: `${theme.palette.primary.main} !important`,
-    },
-    leftSideTabTheme: {
-        borderRightColor: `${theme.palette.primary.main} !important`,
-        borderLeftColor: `${theme.palette.primary.main} !important`,
-        borderBottomColor: `${theme.palette.primary.main} !important`,
-    },
-    tabWrapper: {
-        width: "100%",
-    },
-    tabsIndicator: {
-        height: 0,
-    },
-    tabsContainer: {
-        outline: "none",
-    },
 });
 /* eslint-enable sort-keys */

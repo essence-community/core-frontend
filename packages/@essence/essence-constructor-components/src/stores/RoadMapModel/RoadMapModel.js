@@ -16,9 +16,9 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
 
     tabStatus: TabsStatusType;
 
-    tabs: Array<Object>;
+    tabs: Array<BuilderBaseType>;
 
-    childs: Array<Object>;
+    childs: Array<BuilderBaseType>;
 
     recordStore: RecordsModelType;
 

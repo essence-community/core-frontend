@@ -31,8 +31,8 @@ export interface RoadMapModelType extends StoreBaseModelInterface {
     +recordStore: RecordsModelType;
     +tabValue: string;
     +tabStatus: TabsStatusType;
-    +childs: Array<Object>;
-    +tabs: Array<Object>;
+    +childs: Array<BuilderBaseType>;
+    +tabs: Array<BuilderBaseType>;
     constructor(props: StoreBaseModelPropsType): void;
     +changeTabAction: (tabValue: string) => void;
     +setFirstActiveTab: () => void;

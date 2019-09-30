@@ -28,13 +28,15 @@ export interface IGetOffsetContainerProps {
 }
 
 export interface IOffset {
+    bottom?: number;
     left: number;
-    top: number;
+    top: number | "auto";
 }
 
 export interface IPopoverChildrenProps {
     open: boolean;
-    onOpen: () => void;
+    position: "top" | "bottom";
+    onOpen: (event: React.SyntheticEvent) => void;
     onClose: (event: React.SyntheticEvent) => void;
 }
 
@@ -77,12 +79,12 @@ export interface IPopoverProps {
     onBackdropClick?: () => void;
     onClickOutside?: () => void;
     onChangeOpen?: (isOpen: boolean) => void;
+    onBlur?: (event: React.FocusEvent<HTMLDivElement>) => void;
 }
 
 export interface IPopoverContentProps {
     ref?: React.Ref<HTMLDivElement>;
-    left: number;
-    top: number;
+    styleOffset: IOffset;
     open: boolean;
     hideBackdrop: boolean;
     dataPageObjectPopover: string;
@@ -95,6 +97,7 @@ export interface IPopoverContentProps {
     width: number | string;
     onEscapeKeyDown?: React.ReactEventHandler<{}>;
     popoverContent: React.ReactNode | PopoverRenderChildren;
+    onClose: () => void;
     onOpen: () => void;
     onEntering: (node: HTMLElement, isAppearing: boolean) => void;
     onExiting: (node: HTMLElement) => void;

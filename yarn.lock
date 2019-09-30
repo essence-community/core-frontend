@@ -1568,6 +1568,7 @@
   version "2.0.0"
   dependencies:
     "@material-ui/core" "4.4.3"
+    "@types/react-custom-scrollbars" "^4.0.6"
     "@types/react-dom" "^16.9.1"
     axios "^0.19.0"
     camelcase-keys "^5.0.0"
@@ -1717,6 +1718,13 @@
 "@types/prop-types@*":
   version "15.5.6"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.6.tgz#9c03d3fed70a8d517c191b7734da2879b50ca26c"
+
+"@types/react-custom-scrollbars@^4.0.6":
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/@types/react-custom-scrollbars/-/react-custom-scrollbars-4.0.6.tgz#d84831ac287d8fefdf2a7dcbc12a505bcecc8092"
+  integrity sha512-QvQCSMpP59WO2UtGW4alEDRnrhxToPXxws+IzwtboDR2ookcr7z/KE29s3HHYXYwjZpxiQ/ncFhWoQwREor7+Q==
+  dependencies:
+    "@types/react" "*"
 
 "@types/react-dom@^16.9.1":
   version "16.9.1"
@@ -4503,12 +4511,6 @@ dotenv-expand@4.2.0:
 dotenv@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
-
-downshift@2.0.9:
-  version "2.0.9"
-  resolved "https://registry.yarnpkg.com/downshift/-/downshift-2.0.9.tgz#e65a22196e1c4b3c5d47c7a622cf97dfdebe30ef"
-  dependencies:
-    prop-types "^15.6.0"
 
 duplexer2@^0.1.2, duplexer2@~0.1.0:
   version "0.1.4"

@@ -1,6 +1,7 @@
 import * as React from "react";
 import {reaction} from "mobx";
 import {Popover, withModel, ICreateModelProps} from "@essence/essence-constructor-share";
+import {IPopoverChildrenProps} from "@essence/essence-constructor-share/uicomponents/Popover/Popover.types";
 import {useDisposable} from "mobx-react-lite";
 import {FieldComboList} from "../components/FieldComboList";
 import {FieldComboInput} from "../components/FieldComboInput";
@@ -13,8 +14,25 @@ import {IFieldComboProps} from "./FieldCombo.types";
  * 2. can be changed from props.value
  */
 const FieldCombo: React.FC<IFieldComboProps> = (props) => {
-    const popoverContent = (
-        <FieldComboList store={props.store} bc={props.bc} value={props.value} onChange={props.onChange} />
+    const inputRef: React.RefObject<HTMLInputElement> = React.useRef();
+    const popoverContent = (popoverProps: IPopoverChildrenProps) => (
+        <FieldComboList
+            store={props.store}
+            bc={props.bc}
+            inputRef={inputRef}
+            value={props.value}
+            onChange={props.onChange}
+            {...popoverProps}
+        />
+    );
+
+    const handleChangeOpen = React.useCallback(
+        (open: boolean) => {
+            if (open === false) {
+                props.store.handleSetValue(props.value);
+            }
+        },
+        [props.store, props.value],
     );
 
     useDisposable(
@@ -26,12 +44,24 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
                         ? props.store.recordsStore.selectedRecord[props.store.valuefield]
                         : props.value;
 
-                    // @ts-ignore
-                    props.store.handleSetValue(value, true);
+                    props.store.handleSetValue(
+                        value,
+                        true,
+                        recordsState.status === "search" && recordsState.isUserReload,
+                    );
                 },
             ),
         [props.value],
     );
+
+    React.useEffect(() => {
+        props.field.store = props.store;
+        props.onInitGlobal(props.store);
+
+        return () => {
+            props.field.store = undefined;
+        };
+    }, []);
 
     React.useEffect(
         () => {
@@ -46,8 +76,11 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
             container={props.pageStore.pageEl}
             pageStore={props.pageStore}
             hideOnScroll
+            onChangeOpen={handleChangeOpen}
         >
-            {({onClose, onOpen, open}) => <FieldComboInput {...props} onClose={onClose} onOpen={onOpen} open={open} />}
+            {({onClose, onOpen, open}) => (
+                <FieldComboInput {...props} inputRef={inputRef} onClose={onClose} onOpen={onOpen} open={open} />
+            )}
         </Popover>
     );
 };

@@ -11,10 +11,9 @@ export const PopoverContent: React.FC<IPopoverContentProps> = React.forwardRef<H
         const classes = useStyles(props);
         const style: React.CSSProperties = {
             bottom: "auto",
-            left: props.left,
             position: "absolute",
             right: "auto",
-            top: props.top,
+            ...props.styleOffset,
         };
 
         return (
@@ -50,9 +49,10 @@ export const PopoverContent: React.FC<IPopoverContentProps> = React.forwardRef<H
                                 <Paper className={props.paperClassName} style={{width: props.width}}>
                                     {isFunction(props.popoverContent)
                                         ? props.popoverContent({
-                                              onClose: this.handleClose,
+                                              onClose: props.onClose,
                                               onOpen: props.onOpen,
                                               open: props.open,
+                                              position: style.bottom ? "top" : "bottom",
                                           })
                                         : props.popoverContent}
                                 </Paper>

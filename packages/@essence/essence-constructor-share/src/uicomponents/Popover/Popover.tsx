@@ -47,7 +47,7 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
         props.onChangeOpen(false);
     };
 
-    const handleResize = () => {
+    const handleResize = React.useCallback(() => {
         if (props.hideOnResize) {
             // eslint-disable-next-line no-use-before-define, @typescript-eslint/no-use-before-define
             handleClose();
@@ -60,34 +60,32 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
                 setWidth(current.offsetWidth);
             }
         }
-    };
+    }, []);
 
-    const handleOutsideClick = (event: UIEvent) => {
-        setTimeout(() => {
-            const {target} = event;
-            const {current: rootEl} = rootRef;
-            const {current: popupEl} = popupRef;
+    const handleOutsideClick = React.useCallback((event: UIEvent) => {
+        const {target} = event;
+        const {current: rootEl} = rootRef;
+        const {current: popupEl} = popupRef;
 
-            if (target instanceof Node) {
-                /*
-                 * При клике на лоадер окно считается что идет outside click.
-                 * если будут проблемы, нужно добавить проверку на pageStore.isLoading.
-                 */
-                switch (true) {
-                    case isMouseDownPopover:
-                    case rootEl && rootEl.contains(target):
-                    case popupEl && popupEl.contains(target):
-                        break;
-                    default:
-                        // eslint-disable-next-line no-use-before-define, @typescript-eslint/no-use-before-define
-                        handleClose();
-                        props.onClickOutside();
-                }
-
-                isMouseDownPopover = false;
+        if (target instanceof Node) {
+            /*
+             * При клике на лоадер окно считается что идет outside click.
+             * если будут проблемы, нужно добавить проверку на pageStore.isLoading.
+             */
+            switch (true) {
+                case isMouseDownPopover:
+                case rootEl && rootEl.contains(target):
+                case popupEl && popupEl.contains(target):
+                    break;
+                default:
+                    // eslint-disable-next-line no-use-before-define, @typescript-eslint/no-use-before-define
+                    handleClose();
+                    props.onClickOutside();
             }
-        }, 0);
-    };
+
+            isMouseDownPopover = false;
+        }
+    }, []);
 
     const [isOpen, handleOpen, handleClose] = useIsOpen({
         container: props.container,
@@ -122,16 +120,20 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
     }, [props.open, isOpen]);
 
     return (
-        <div ref={rootRef} onMouseDown={handleMouseDownPopover}>
+        <div ref={rootRef} onMouseDown={handleMouseDownPopover} onBlur={props.onBlur}>
             {isFunction(props.children)
-                ? props.children({onClose: handleClose, onOpen: props.onOpen || handleOpen, open: isOpen})
+                ? props.children({
+                      onClose: handleClose,
+                      onOpen: props.onOpen || handleOpen,
+                      open: isOpen,
+                      position: style.bottom ? "top" : "bottom",
+                  })
                 : props.children}
             {isOpen && props.container
                 ? createPortal(
                       <PopoverContent
                           ref={popupRef}
-                          left={style.left}
-                          top={style.top}
+                          styleOffset={style}
                           open={isOpen}
                           hideBackdrop={props.hideBackdrop}
                           dataPageObjectPopover={props.dataPageObjectPopover}
@@ -144,6 +146,7 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
                           onOpen={props.onOpen || handleOpen}
                           onEntering={handleEntering}
                           onExiting={handleExiting}
+                          onClose={handleClose}
                           onEscapeKeyDown={handleEscapeKeyDown}
                           paperClassName={props.paperClassName}
                           popoverContent={props.popoverContent}

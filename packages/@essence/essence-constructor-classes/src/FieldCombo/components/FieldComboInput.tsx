@@ -1,29 +1,64 @@
 import * as React from "react";
 import {useObserver} from "mobx-react-lite";
+import keycode from "keycode";
 import {IconButton, InputAdornment} from "@material-ui/core";
-import {IBuilderConfig, Icon} from "@essence/essence-constructor-share";
+import {StandardTextFieldProps} from "@material-ui/core/TextField";
+import {IBuilderConfig, Icon, IFieldProps} from "@essence/essence-constructor-share";
 import {FieldComboModel} from "../store/FieldComboModel";
 import {useStyles} from "./FieldComboInput.styles";
 
-interface IProps {
-    textField: React.ComponentType;
+interface IProps extends IFieldProps {
+    textField: React.ComponentType<StandardTextFieldProps>;
     open: boolean;
     store: FieldComboModel;
     bc: IBuilderConfig;
+    inputRef: React.RefObject<HTMLInputElement>;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
     onClose: (event: React.SyntheticEvent) => void;
-    onOpen: () => void;
+    onOpen: (event: React.SyntheticEvent) => void;
 }
 
-export const FieldComboInput: React.FC<IProps> = (props) => {
+export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
     const classes = useStyles(props);
     const {textField: TextField, onClose, onOpen, open, ...otherProps} = props;
-    const handleInputClick = () => {
-        if (!open) {
-            onOpen();
-        }
+    const handleInputClick = (event: React.SyntheticEvent) => {
+        onOpen(event);
     };
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        props.store.handleChangeValue(event.target.value);
+        if (props.bc.allownew === "true") {
+            props.onChange(event, event.target.value);
+            props.store.loadDebounce();
+        } else {
+            props.store.handleChangeValue(event.target.value);
+        }
+
+        onOpen(event);
+    };
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        // @ts-ignore
+        const code = keycode(event);
+
+        switch (code) {
+            case "up":
+            case "down":
+                onOpen(event);
+                props.store.handleChangeSelected(code);
+                break;
+            case "enter":
+                if (props.store.highlightedValue) {
+                    event.preventDefault();
+                    onClose(event);
+                    props.onChange(null, props.store.highlightedValue);
+                }
+                break;
+            default:
+            // No need
+        }
+    };
+    const handlFocusInput = () => {
+        if (props.inputRef.current) {
+            props.inputRef.current.focus();
+        }
     };
     const chevron = open ? (
         <IconButton
@@ -33,35 +68,34 @@ export const FieldComboInput: React.FC<IProps> = (props) => {
             tabIndex={-1}
             className={classes.iconRoot}
             data-page-object={`${props.bc.ckPageObject}-chevron-up`}
+            onFocus={handlFocusInput}
         >
             <Icon iconfont="chevron-up" />
         </IconButton>
     ) : (
         <IconButton
             color="secondary"
-            onClick={onOpen}
             disableRipple
             tabIndex={-1}
             className={classes.iconRoot}
             data-page-object={`${props.bc.ckPageObject}-chevron-down`}
+            onFocus={handlFocusInput}
         >
             <Icon iconfont="chevron-down" />
         </IconButton>
     );
 
     return useObserver(() => (
-        // @ts-ignore
         <TextField
             {...otherProps}
             InputProps={{
-                // @ts-ignore
                 ...otherProps.InputProps,
-                // @ts-ignore
                 endAdornment: <InputAdornment position="end">{[...props.tips, chevron]}</InputAdornment>,
             }}
             value={props.store.inputValue}
             onClick={handleInputClick}
             onChange={handleChange}
+            onKeyDown={handleKeyDown}
         />
     ));
-};
+});

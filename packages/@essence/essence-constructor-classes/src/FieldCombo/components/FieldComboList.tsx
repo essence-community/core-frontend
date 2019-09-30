@@ -1,7 +1,9 @@
 import * as React from "react";
-import {useObserver} from "mobx-react-lite";
+import {useObserver, useDisposable} from "mobx-react-lite";
 import {Paper, MenuItem, CircularProgress} from "@material-ui/core";
-import {Icon, IBuilderConfig, Scrollbars, Pagination} from "@essence/essence-constructor-share";
+import {Icon, IBuilderConfig, Scrollbars, Pagination, FieldValue} from "@essence/essence-constructor-share";
+import {IPopoverChildrenProps} from "@essence/essence-constructor-share/uicomponents/Popover/Popover.types";
+import {reaction} from "mobx";
 import {ISuggestion} from "../store/FieldComboModel.types";
 import {FieldComboModel} from "../store/FieldComboModel";
 import {useStyles} from "./FieldComboList.styles";
@@ -10,27 +12,55 @@ const ITEM_HEIGHT = 35;
 // 10 lines
 const AUTO_HEIGHT_MAX = 350;
 
-const handleContentWheel = (event: React.SyntheticEvent) => {
+const handleContentWheel = (event: React.WheelEvent<any>) => {
     event.stopPropagation();
 };
 
-interface IProps {
+interface IProps extends IPopoverChildrenProps {
     store: FieldComboModel;
     bc: IBuilderConfig;
-    value?: never;
+    value?: FieldValue;
+    inputRef: React.RefObject<HTMLInputElement>;
     onChange: (event: React.SyntheticEvent | null, value: string) => void;
 }
 
 export const FieldComboList: React.FC<IProps> = (props) => {
     const {store, bc} = props;
+    const scrollbarRef: React.Ref<Scrollbars> = React.useRef();
     const stringValue = String(props.value);
     const classes = useStyles(props);
     const autoHeightMin = store.recordsStore.pageSize
         ? Math.min(store.recordsStore.pageSize * ITEM_HEIGHT, AUTO_HEIGHT_MAX)
         : undefined;
-    const handleSelect = (suggestion: ISuggestion) => () => {
+    const handleSelect = (suggestion: ISuggestion) => (event: React.SyntheticEvent) => {
         props.onChange(null, suggestion.value);
+        props.onClose(event);
+
+        if (props.inputRef.current) {
+            props.inputRef.current.focus();
+        }
     };
+
+    React.useEffect(() => {
+        if (props.store.highlightedIndex >= 0 && scrollbarRef.current) {
+            // @ts-ignore
+            scrollbarRef.current.scrollTop(props.store.highlightedIndex * ITEM_HEIGHT);
+        }
+    }, []);
+
+    useDisposable(
+        () =>
+            reaction(
+                () => props.store.highlightedIndex,
+                (highlightedIndex) => {
+                    if (highlightedIndex >= 0 && scrollbarRef.current) {
+                        // @ts-ignore
+                        scrollbarRef.current.scrollTop(highlightedIndex * ITEM_HEIGHT);
+                    }
+                },
+            ),
+        [],
+    );
 
     return useObserver(() => (
         <Paper className={classes.paper} square data-page-object={`${bc.ckPageObject}-window`}>
@@ -40,6 +70,8 @@ export const FieldComboList: React.FC<IProps> = (props) => {
                 autoHeightMin={autoHeightMin}
                 autoHeightMax={AUTO_HEIGHT_MAX}
                 onWheel={handleContentWheel}
+                // @ts-ignore
+                scrollbarsRef={scrollbarRef}
             >
                 {store.recordsStore.isLoading ? (
                     <CircularProgress
@@ -49,6 +81,7 @@ export const FieldComboList: React.FC<IProps> = (props) => {
                 ) : (
                     store.suggestions.map((suggestion) => {
                         const isSelectedValue = suggestion.value === stringValue;
+                        const isHighlightedValue = suggestion.value === props.store.highlightedValue;
 
                         return (
                             <MenuItem
@@ -57,7 +90,7 @@ export const FieldComboList: React.FC<IProps> = (props) => {
                                 classes={{root: classes.menuItem}}
                                 disableRipple
                                 onClick={handleSelect(suggestion)}
-                                selected={isSelectedValue}
+                                selected={isHighlightedValue}
                                 data-page-object={`${bc.ckPageObject}-item-${String(suggestion.value)}`}
                                 data-qtip={suggestion.label}
                             >

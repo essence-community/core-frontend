@@ -6,6 +6,7 @@ import {
     toString,
     camelCaseMemoized,
     debounce,
+    FieldValue,
 } from "@essence/essence-constructor-share";
 import {RecordsModel} from "@essence/essence-constructor-share/models/RecordsModel/RecordsModel";
 import {ISuggestion} from "./FieldComboModel.types";
@@ -23,6 +24,10 @@ export class FieldComboModel extends StoreBaseModel {
 
     valueLength: number;
 
+    highlightedValue: string;
+
+    highlightedIndex: number;
+
     loadDebounce: () => void;
 
     constructor({bc, pageStore}: IStoreBaseModelProps) {
@@ -38,14 +43,33 @@ export class FieldComboModel extends StoreBaseModel {
 
         this.loadDebounce = debounce(() => {
             if (bc.queryparam) {
-                this.recordsStore.searchAction({[bc.queryparam]: this.inputValue});
+                this.recordsStore.searchAction({[bc.queryparam]: this.inputValue}, {isUserReload: true});
             }
         }, parseInt(bc.querydelay, 10) * 1000);
 
         extendObservable(this, {
+            get highlightedIndex() {
+                return this.highlightedValue
+                    ? this.suggestions.findIndex((sug: ISuggestion) => sug.value === this.highlightedValue)
+                    : 0;
+            },
+            highlightedValue: "",
             inputValue: "",
+            get selectedRecord() {
+                return this.recordsState.selectedRecord;
+            },
             get suggestions() {
-                return this.recordsStore.records.map(this.getSuggestion);
+                const suggestions = this.recordsStore.records.map(this.getSuggestion);
+
+                if (
+                    bc.allownew === "true" &&
+                    this.inputValue &&
+                    suggestions.findIndex((suggestion: ISuggestion) => suggestion.value === this.inputValue) === -1
+                ) {
+                    return [{label: this.inputValue, value: this.inputValue}, ...suggestions];
+                }
+
+                return suggestions;
             },
         });
     }
@@ -58,8 +82,39 @@ export class FieldComboModel extends StoreBaseModel {
         }
     };
 
-    handleSetValue = (value: never, loaded = false) => {
+    handleChangeSelected = (code: "up" | "down") => {
+        if (this.suggestions.length === 0) {
+            this.highlightedValue = "";
+        } else {
+            if (code === "up") {
+                const index = Math.max(0, this.suggestions.findIndex((sug) => sug.value === this.highlightedValue) - 1);
+
+                if (this.suggestions[index]) {
+                    this.highlightedValue = this.suggestions[index].value;
+                }
+            }
+
+            if (code === "down") {
+                const index = this.suggestions.findIndex((sug) => sug.value === this.highlightedValue) + 1;
+
+                if (this.suggestions[index]) {
+                    this.highlightedValue = this.suggestions[index].value;
+                }
+            }
+        }
+    };
+
+    handleSetSelected = () => {
+        this.handleSetValue(this.highlightedValue);
+    };
+
+    handleSetValue = debounce((value: FieldValue, loaded = false, isUserSearch = false) => {
         const stringValue = toString(value);
+
+        if (this.bc.allownew === "true" && !loaded) {
+            this.inputValue = stringValue;
+        }
+
         const suggerstionIndex = this.suggestions.findIndex((sug) => sug.value === stringValue);
 
         if (!value && value !== 0 && this.recordsStore.selectedRecord) {
@@ -74,16 +129,20 @@ export class FieldComboModel extends StoreBaseModel {
                 this.recordsStore.setSelectionAction(record.ckId);
             }
 
-            this.inputValue = suggerstion.label;
+            if (!isUserSearch) {
+                this.inputValue = suggerstion.label;
+            }
         } else if (loaded) {
-            this.inputValue = "";
+            if (!isUserSearch) {
+                this.inputValue = "";
+            }
             if (this.recordsStore.selectedRecord) {
                 this.recordsStore.setSelectionAction();
             }
         } else {
             this.recordsStore.searchAction({[this.bc.valuefield || this.bc.column || ""]: value});
         }
-    };
+    }, 0);
 
     getSuggestion = (record: Record<string, never>): ISuggestion => ({
         label: toString(record[this.displayfield]),

@@ -1,11 +1,11 @@
 import {IBuilderMode, ICkId, IFormOptions, IRecord} from "./Base";
 import {IBuilderConfig} from "./Builder";
-import {IPageModel} from "./PageModel"
+import {IPageModel} from "./PageModel";
 import {IStoreBaseModel} from "./StoreBaseModel";
 
 export interface IRecordsOrder {
-    direction?: string,
-    property?: string,
+    direction?: string;
+    property?: string;
 }
 
 export type SelectedRecordIdType = number | string;
@@ -24,29 +24,30 @@ export type RecordsStateStatusType =
     | "attach"
     | "save-any";
 export interface IRecordsState<T> {
-    defaultValueSet?: "alwaysfirst" | "first",
-    isUserReload: boolean,
-    records: T[],
-    status: RecordsStateStatusType,
+    defaultValueSet?: "alwaysfirst" | "first";
+    isUserReload: boolean;
+    records: T[];
+    status: RecordsStateStatusType;
 }
 
 export interface IOptions {
-    valueField?: string,
-    parentStore?: IStoreBaseModel,
-    noLoadChilds?: boolean,
+    valueField?: string;
+    parentStore?: IStoreBaseModel;
+    noLoadChilds?: boolean;
 }
 
 export interface ILoadRecordsProps {
-    selectedRecordId?: ICkId,
-    status?: RecordsStateStatusType,
+    selectedRecordId?: ICkId;
+    status?: RecordsStateStatusType;
+    isUserReload?: boolean;
 }
 
 export interface ISaveActionOptions {
-    action?: "dml" | "upload",
-    actionBc: IBuilderConfig,
-    query?: string,
-    formData?: any,
-    noReload?: boolean,
+    action?: "dml" | "upload";
+    actionBc: IBuilderConfig;
+    query?: string;
+    formData?: any;
+    noReload?: boolean;
 }
 
 export interface IRecordsModel {
@@ -72,16 +73,8 @@ export interface IRecordsModel {
     valueField: string;
     loadRecordsAction: (props: ILoadRecordsProps) => Promise<any>;
     clearRecordsAction: () => void;
-    saveAction: (
-        values: object | object[],
-        mode: IBuilderMode,
-        options: ISaveActionOptions,
-    ) => Promise<string>;
-    downloadAction: (
-        values: object | object[],
-        mode: IBuilderMode,
-        options: ISaveActionOptions,
-    ) => Promise<string>;
+    saveAction: (values: object | object[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<string>;
+    downloadAction: (values: object | object[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<string>;
     setSelectionAction: (ckId?: SelectedRecordIdType, key?: string) => Promise<number>;
     setRecordsAction: (records: IRecord[]) => void;
     removeSelectedRecordAction: (options: ISaveActionOptions) => boolean;
@@ -91,7 +84,7 @@ export interface IRecordsModel {
     setNextRecord: () => void;
     setLastRecord: () => void;
     setOrderAction: (property: string) => void;
-    searchAction: (values: object, options?: IFormOptions) => Promise<void | object>;
+    searchAction: (values: object, options?: IFormOptions & {isUserReload?: boolean}) => Promise<void | object>;
     setSearchValuesAction: (values: object) => void;
     clearChildsStoresAction: () => void;
     sortRecordsAction: () => void;

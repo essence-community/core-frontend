@@ -22,6 +22,7 @@ import {camalize} from "./utils";
 interface ILoadRecordsProps {
     selectedRecordId?: ICkId;
     status?: RecordsStateStatusType;
+    isUserReload?: boolean;
 }
 
 export class RecordsModel implements IRecordsModel {
@@ -69,23 +70,27 @@ export class RecordsModel implements IRecordsModel {
 
     loadCounter: number;
 
-    loadRecordsAction = action("loadRecordsAction", ({selectedRecordId, status = "load"}: ILoadRecordsProps = {}) => {
-        if (!this.bc.ckQuery) {
-            // Tslint:disable-next-line:no-console
-            console.warn("Не могу загрузить данны. Не задан ck_query для конфига:", this.bc);
+    loadRecordsAction = action(
+        "loadRecordsAction",
+        ({selectedRecordId, status = "load", isUserReload}: ILoadRecordsProps = {}) => {
+            if (!this.bc.ckQuery) {
+                // Tslint:disable-next-line:no-console
+                console.warn("Не могу загрузить данны. Не задан ck_query для конфига:", this.bc);
 
-            return Promise.resolve();
-        }
+                return Promise.resolve();
+            }
 
-        this.loadCounter += 1;
+            this.loadCounter += 1;
 
-        return loadRecordsAction.call(this, {
-            applicationStore: this.pageStore.applicationStore,
-            bc: this.bc,
-            selectedRecordId,
-            status,
-        });
-    });
+            return loadRecordsAction.call(this, {
+                applicationStore: this.pageStore.applicationStore,
+                bc: this.bc,
+                isUserReload,
+                selectedRecordId,
+                status,
+            });
+        },
+    );
 
     setSelectionAction = action(
         "setSelectionAction",
@@ -217,7 +222,7 @@ export class RecordsModel implements IRecordsModel {
     searchAction = action(
         "searchAction",
         (values: object, options = {}): Promise<null | object> => {
-            const {filter, reset, noLoad, resetFilter, selectedRecordId} = options;
+            const {filter, reset, noLoad, resetFilter, selectedRecordId, status = "search", isUserReload} = options;
 
             /*
              * TODO: реализовать сравнение
@@ -235,7 +240,7 @@ export class RecordsModel implements IRecordsModel {
                 this.clearRecordsAction();
             }
 
-            return noLoad ? Promise.resolve(null) : this.loadRecordsAction({selectedRecordId});
+            return noLoad ? Promise.resolve(null) : this.loadRecordsAction({isUserReload, selectedRecordId, status});
         },
     );
 

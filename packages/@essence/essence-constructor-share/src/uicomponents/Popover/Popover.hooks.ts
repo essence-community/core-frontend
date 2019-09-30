@@ -14,6 +14,7 @@ export function useIsOpen({
 }: IHookIsOpenProps): [boolean, () => void, () => void] {
     const [isOpen, setIsOpen] = useState(false);
 
+    // TODO: removeEventListener и addEventListener не рабоают как ожидаются в hooks
     const handleClose = () => {
         if (container && !disableOutsideClose) {
             container.removeEventListener("mousedown", onOutsideClick);
@@ -31,17 +32,19 @@ export function useIsOpen({
     };
 
     const handleOpen = () => {
-        if (container && !disableOutsideClose) {
-            container.addEventListener("mousedown", onOutsideClick);
+        if (!isOpen) {
+            if (container && !disableOutsideClose) {
+                container.addEventListener("mousedown", onOutsideClick);
+            }
+
+            if (pageStore && hideOnScroll) {
+                pageStore.addScrollEvent(handleClose);
+            }
+
+            window.addEventListener("resize", onResize);
+
+            setIsOpen(true);
         }
-
-        if (pageStore && hideOnScroll) {
-            pageStore.addScrollEvent(handleClose);
-        }
-
-        window.addEventListener("resize", onResize);
-
-        setIsOpen(true);
     };
 
     useEffect(() => {

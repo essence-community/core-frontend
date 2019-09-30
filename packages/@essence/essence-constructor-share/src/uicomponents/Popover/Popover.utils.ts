@@ -3,10 +3,10 @@ import {IGetOffsetContainerProps, IOffset} from "./Popover.types";
 const marginThreshold = 16;
 
 type RectType = {
-    height: number,
-    width: number,
-    left: number,
-    top: number,
+    height: number;
+    width: number;
+    left: number;
+    top: number;
 };
 
 const EMPTY_RECT: RectType = {height: 0, left: 0, top: 0, width: 0};
@@ -69,6 +69,15 @@ export function getOffsetContainer({
         getOffsetLeft(popoverRect, transformOrigin.horizontal);
     const topPopover =
         top + getOffsetTop(anchorRect, anchorOrigin.vertical) - getOffsetTop(popoverRect, transformOrigin.vertical);
+    const diffWindowTop = getDiffWindowTop(topPopover, popoverRect, containerRect);
+
+    if (diffWindowTop > 0) {
+        return {
+            bottom: containerRect.height - topPopover + anchorRect.height,
+            left: leftPopover - getDiffWindowLeft(leftPopover, popoverRect, containerRect),
+            top: "auto",
+        };
+    }
 
     return {
         left: leftPopover - getDiffWindowLeft(leftPopover, popoverRect, containerRect),

@@ -1,9 +1,12 @@
 import * as React from "react";
 import {Form, Field} from "mobx-react-form";
+import {InputProps} from "@material-ui/core/Input";
 import {IBuilderConfig} from "./Builder";
 import {IPageModel} from "./PageModel";
+import {IStoreBaseModel} from "./StoreBaseModel";
+import {IClassProps} from "./Class";
 
-export interface IFieldProps {
+export interface IFieldProps extends IClassProps {
     bc: IBuilderConfig;
     field: Field;
     parentKey?: string;
@@ -11,18 +14,17 @@ export interface IFieldProps {
     pageStore: IPageModel;
     form: Form;
     noLabel?: boolean;
-    tabIndex?: string;
+    tabIndex?: number;
     autoremove?: boolean;
     textField: React.ComponentType;
-    value?: never;
-    onChange?: (event: React.SyntheticEvent | null, value: undefined | never) => void;
+    value?: FieldValue;
+    InputProps: InputProps;
+    tips: React.ComponentType[];
+    onChange: (event: React.SyntheticEvent | null, value: FieldValue) => void;
     onClear: (event: React.SyntheticEvent | null) => void;
-    onExpand?: () => void;
-
-    // CommonDecoratorInjectType
-    record?: Record<string, any>;
-    disabled?: boolean;
-    hidden?: boolean;
-    visible: boolean;
-    readOnly?: boolean;
+    onInitGlobal: (store: IStoreBaseModel) => void;
+    onInitGetGlobal: (store: IStoreBaseModel) => void;
+    onInitSetGlobal: (store: IStoreBaseModel) => void;
 }
+
+export type FieldValue = number | string | object;

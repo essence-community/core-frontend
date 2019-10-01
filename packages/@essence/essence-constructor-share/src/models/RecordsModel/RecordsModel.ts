@@ -1,59 +1,100 @@
+/* eslint-disable max-lines */
 import {action, extendObservable} from "mobx";
-import {saveAction} from "../../actions/saveAction"
-import {IBuilderConfig, IBuilderMode, ICkId, IOptions, IPageModel, IRecord, IRecordsModel, IRecordsOrder, IRecordsState, ISaveActionOptions, IStoreBaseModel, RecordsStateStatusType, SelectedRecordIdType} from "../../types";
+import {saveAction} from "../../actions/saveAction";
+import {
+    IBuilderConfig,
+    IBuilderMode,
+    ICkId,
+    IOptions,
+    IPageModel,
+    IRecord,
+    IRecordsModel,
+    IRecordsOrder,
+    IRecordsState,
+    ISaveActionOptions,
+    IStoreBaseModel,
+    RecordsStateStatusType,
+    SelectedRecordIdType,
+} from "../../types";
 import {loadRecordsAction} from "./loadRecordsAction";
 import {camalize} from "./utils";
 
 interface ILoadRecordsProps {
-    selectedRecordId?: ICkId,
-    status?: RecordsStateStatusType,
+    selectedRecordId?: ICkId;
+    status?: RecordsStateStatusType;
+    isUserReload?: boolean;
 }
 
 export class RecordsModel implements IRecordsModel {
-    public name: "records";
-    public selectedRecordId?: SelectedRecordIdType;
-    public selectedRecord?: IRecord;
-    public selectedRecrodValues: IRecord;
-    public records: IRecord[];
-    public recordsState: IRecordsState<IRecord>;
-    public recordsAll: IRecord[];
-    public hasSelected: boolean;
-    public selectedRecordIndex: -1 | number;
-    public pageNumber: number;
-    public recordsCount: number;
-    public order: IRecordsOrder;
-    public pageSize?: number;
-    public bc: IBuilderConfig;
-    public searchValues: object;
-    public pageStore: IPageModel;
-    public isLoading: boolean;
-    public filter: object[];
-    public valueField: string;
-    public parentStore?: IStoreBaseModel;
-    public noLoadChilds: boolean = false;
-    public loadCounter: number;
+    name: "records";
 
-    public loadRecordsAction = action("loadRecordsAction", ({selectedRecordId, status = "load"}: ILoadRecordsProps = {}) => {
-        if (!this.bc.ckQuery) {
-            // tslint:disable-next-line:no-console
-            console.warn("Не могу загрузить данны. Не задан ck_query для конфига:", this.bc);
+    selectedRecordId: SelectedRecordIdType | undefined;
 
-            return Promise.resolve();
-        }
+    selectedRecord: IRecord | undefined;
 
-        this.loadCounter += 1;
+    selectedRecrodValues: IRecord;
 
-        return loadRecordsAction.call(this, {
-            applicationStore: this.pageStore.applicationStore,
-            bc: this.bc,
-            selectedRecordId,
-            status,
-        });
-    });
+    records: IRecord[];
 
-    public setSelectionAction = action(
+    recordsState: IRecordsState<IRecord>;
+
+    recordsAll: IRecord[];
+
+    hasSelected: boolean;
+
+    selectedRecordIndex: -1 | number;
+
+    pageNumber: number;
+
+    recordsCount: number;
+
+    order: IRecordsOrder;
+
+    pageSize: number | undefined;
+
+    bc: IBuilderConfig;
+
+    searchValues: object;
+
+    pageStore: IPageModel;
+
+    isLoading: boolean;
+
+    filter: object[];
+
+    valueField: string;
+
+    parentStore: IStoreBaseModel | undefined;
+
+    noLoadChilds = false;
+
+    loadCounter: number;
+
+    loadRecordsAction = action(
+        "loadRecordsAction",
+        ({selectedRecordId, status = "load", isUserReload}: ILoadRecordsProps = {}) => {
+            if (!this.bc.ckQuery) {
+                // Tslint:disable-next-line:no-console
+                console.warn("Не могу загрузить данны. Не задан ck_query для конфига:", this.bc);
+
+                return Promise.resolve();
+            }
+
+            this.loadCounter += 1;
+
+            return loadRecordsAction.call(this, {
+                applicationStore: this.pageStore.applicationStore,
+                bc: this.bc,
+                isUserReload,
+                selectedRecordId,
+                status,
+            });
+        },
+    );
+
+    setSelectionAction = action(
         "setSelectionAction",
-        async (ckId?: SelectedRecordIdType, key: string = "ckId"): Promise<number> => {
+        async (ckId?: SelectedRecordIdType, key = "ckId"): Promise<number> => {
             const oldSelectedRecord = this.selectedRecord;
             const stringCkId = ckId === undefined ? "" : String(ckId);
 
@@ -77,7 +118,7 @@ export class RecordsModel implements IRecordsModel {
         },
     );
 
-    public reloadChildStoresAction = action("reloadChildsStoresAction", (oldSelectedRecord) => {
+    reloadChildStoresAction = action("reloadChildsStoresAction", (oldSelectedRecord) => {
         if (!this.pageStore) {
             return false;
         }
@@ -105,7 +146,7 @@ export class RecordsModel implements IRecordsModel {
         return true;
     });
 
-    public clearRecordsAction = action("clearRecordsAction", () => {
+    clearRecordsAction = action("clearRecordsAction", () => {
         this.recordsAll = [];
         this.recordsState = {
             isUserReload: false,
@@ -115,7 +156,7 @@ export class RecordsModel implements IRecordsModel {
         this.setSelectionAction();
     });
 
-    public clearChildsStoresAction = action("clearChildsStoresAction", () => {
+    clearChildsStoresAction = action("clearChildsStoresAction", () => {
         this.selectedRecordIndex = -1;
         this.selectedRecord = undefined;
         this.selectedRecrodValues = {};
@@ -137,36 +178,36 @@ export class RecordsModel implements IRecordsModel {
         });
     });
 
-    public setPageNumberAction = action("setPageNumberAction", (pageNumber: number) => {
+    setPageNumberAction = action("setPageNumberAction", (pageNumber: number) => {
         this.pageNumber = pageNumber;
         this.loadRecordsAction();
     });
 
-    public setFirstRecord = action("setFirstRecord", () => {
+    setFirstRecord = action("setFirstRecord", () => {
         const newRecord = this.records[0] || {};
 
         this.setSelectionAction(newRecord.ckId);
     });
 
-    public setPrevRecord = action("setPrevRecord", () => {
+    setPrevRecord = action("setPrevRecord", () => {
         const newRecord = this.records[this.selectedRecordIndex - 1] || {};
 
         this.setSelectionAction(newRecord.ckId);
     });
 
-    public setNextRecord = action("setNextRecord", () => {
+    setNextRecord = action("setNextRecord", () => {
         const newRecord = this.records[this.selectedRecordIndex + 1] || {};
 
         this.setSelectionAction(newRecord.ckId);
     });
 
-    public setLastRecord = action("setLastRecord", () => {
+    setLastRecord = action("setLastRecord", () => {
         const newRecord = this.records[this.records.length - 1] || {};
 
         this.setSelectionAction(newRecord.ckId);
     });
 
-    public setOrderAction = action("setOrderAction", (property: string) => {
+    setOrderAction = action("setOrderAction", (property: string) => {
         let direction = "DESC";
 
         if (this.order.property === property && this.order.direction === "DESC") {
@@ -178,15 +219,17 @@ export class RecordsModel implements IRecordsModel {
         this.loadRecordsAction();
     });
 
-    public searchAction = action(
+    searchAction = action(
         "searchAction",
         (values: object, options = {}): Promise<null | object> => {
-            const {filter, reset, noLoad, resetFilter, selectedRecordId} = options;
+            const {filter, reset, noLoad, resetFilter, selectedRecordId, status = "search", isUserReload} = options;
 
-            // TODO: реализовать сравнение
-            // if (!isEqual(this.searchValues, values) || !isEqual(this.filter, filter)) {
-            //     this.pageNumber = 0;
-            // }
+            /*
+             * TODO: реализовать сравнение
+             * if (!isEqual(this.searchValues, values) || !isEqual(this.filter, filter)) {
+             *     this.pageNumber = 0;
+             * }
+             */
             this.searchValues = values;
 
             if (reset || resetFilter || filter !== undefined) {
@@ -197,24 +240,23 @@ export class RecordsModel implements IRecordsModel {
                 this.clearRecordsAction();
             }
 
-            return noLoad ? Promise.resolve(null) : this.loadRecordsAction({selectedRecordId});
+            return noLoad ? Promise.resolve(null) : this.loadRecordsAction({isUserReload, selectedRecordId, status});
         },
     );
 
-    public setSearchValuesAction = action("setSearchValuesAction", (values: object) => {
+    setSearchValuesAction = action("setSearchValuesAction", (values: object) => {
         this.searchValues = values;
     });
 
-    public sortRecordsAction = action("sortRecordsAction", () => {
+    sortRecordsAction = action("sortRecordsAction", () => {
         const {direction} = this.order;
         const property = camalize(this.order.property);
         const records = [...this.records];
 
-        records.sort(
-            (rec1, rec2) =>
-                direction === "DESC"
-                    ? Number(rec1[property] < rec2[property]) || -Number(rec1[property] > rec2[property])
-                    : Number(rec1[property] > rec2[property]) || -Number(rec1[property] < rec2[property]),
+        records.sort((rec1, rec2) =>
+            direction === "DESC"
+                ? Number(rec1[property] < rec2[property]) || -Number(rec1[property] > rec2[property])
+                : Number(rec1[property] > rec2[property]) || -Number(rec1[property] < rec2[property]),
         );
 
         this.recordsState = {
@@ -224,7 +266,7 @@ export class RecordsModel implements IRecordsModel {
         };
     });
 
-    public addRecordsAction = action("addRecordsAction", (records: IRecord[]) => {
+    addRecordsAction = action("addRecordsAction", (records: IRecord[]) => {
         this.recordsState = {
             isUserReload: false,
             records: this.recordsState.records.concat(records),
@@ -232,7 +274,7 @@ export class RecordsModel implements IRecordsModel {
         };
     });
 
-    public removeRecordsAction = action("removeRecordsAction", (records: IRecord[], key: string, reload?: boolean) => {
+    removeRecordsAction = action("removeRecordsAction", (records: IRecord[], key: string, reload?: boolean) => {
         const ids: {[$key: string]: boolean} = {};
         const selectedRecordId = this.selectedRecord && this.selectedRecord[key];
         const storeRecords = reload ? this.recordsAll : this.records;
@@ -254,11 +296,11 @@ export class RecordsModel implements IRecordsModel {
         };
     });
 
-    public setLoadingAction = action("setLoadingAction", (isLoading: boolean) => {
+    setLoadingAction = action("setLoadingAction", (isLoading: boolean) => {
         this.isLoading = isLoading;
     });
 
-    public saveAction = action(
+    saveAction = action(
         "saveAction",
         (values: any, mode: IBuilderMode, options: ISaveActionOptions): Promise<string> =>
             saveAction.call(this, values, mode, {
@@ -275,6 +317,8 @@ export class RecordsModel implements IRecordsModel {
         this.valueField = options.valueField || "ckId";
         this.parentStore = options.parentStore;
         this.noLoadChilds = options.noLoadChilds || false;
+        // @ts-ignore
+        const {records = []} = bc;
 
         extendObservable(
             this,
@@ -293,13 +337,13 @@ export class RecordsModel implements IRecordsModel {
                 get records() {
                     return this.recordsState.records;
                 },
-                recordsAll: [],
+                recordsAll: records,
                 get recordsCount() {
                     return (this.records[0] || {}).jnTotalCnt || 0;
                 },
                 recordsState: {
                     isUserReload: false,
-                    records: [],
+                    records,
                     status: "init",
                 },
                 searchValues: {},
@@ -313,22 +357,22 @@ export class RecordsModel implements IRecordsModel {
         );
     }
 
-    public downloadAction = () => {
-        // tslint:disable-next-line:no-console
+    downloadAction = () => {
+        // eslint-disable-next-line no-console
         console.error("not implemented");
 
         return Promise.resolve("");
     };
 
-    public removeSelectedRecordAction = () => {
-        // tslint:disable-next-line:no-console
+    removeSelectedRecordAction = () => {
+        // eslint-disable-next-line no-console
         console.error("not implemented");
 
         return true;
     };
 
-    public setRecordsAction = () => {
-        // tslint:disable-next-line:no-console
+    setRecordsAction = () => {
+        // eslint-disable-next-line no-console
         console.error("not implemented");
 
         return true;

@@ -16,13 +16,10 @@
     "react": "16.8.6"
   },
   "devDependencies": {
+    "@essence/eslint-config-essence-react": "file:../essence-constructor-eslint",
     "@types/react": "16.8.6",
-    "@typescript-eslint/eslint-plugin": "^2.3.0",
-    "@typescript-eslint/parser": "^2.3.0",
+    "@typescript-eslint/eslint-plugin": "^2.3.1",
     "eslint": "^6.4.0",
-    "eslint-config-prettier": "^6.3.0",
-    "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-react": "^7.14.3",
     "typescript": "^3.6.3"
   }
 }

@@ -41,6 +41,7 @@ const config = {
             displayfield: "name",
             noglobalmask: "true",
             querymode: "remote",
+            records: [{name: "Темная тема", value: "dark"}, {name: "Светлая тема", value: "light"}],
             type: "IFIELD",
             valuefield: "value",
         },
@@ -59,7 +60,6 @@ class MenuProfile extends React.Component<PropsType> {
         const {applicationStore, pageStore} = this.props;
 
         pageStore.loadConfigAction(pageStore.ckPage, pageStore.applicationStore.session);
-        this.disposers.push(observe(pageStore.stores, this.handleChangeStore));
         this.disposers.push(reaction(() => applicationStore.isBlock, this.handleBlockUpdate));
     }
 
@@ -68,16 +68,6 @@ class MenuProfile extends React.Component<PropsType> {
         this.disposers = [];
         this.prevValues = {};
     }
-
-    handleChangeStore = ({type, newValue: themeStore, name}: Object) => {
-        if (type === "add" && name === "theme") {
-            themeStore.recordsStore.setRecordsAction([
-                {name: "Темная тема", value: "dark"},
-                {name: "Светлая тема", value: "light"},
-            ]);
-            themeStore.changeValueAction(styleTheme);
-        }
-    };
 
     handleBlockUpdate = (value) => {
         if (!value) {

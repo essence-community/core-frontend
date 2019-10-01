@@ -15,6 +15,7 @@ import {isEmpty} from "../utils/base";
 import {makeRedirect} from "../utils/redirect";
 import withFieldDecorator from "../decorators/withFieldDecorator";
 import {getFieldInstance} from "./Fields";
+import TextField from "./TextField";
 import {type BuilderFieldType, type BuilderFieldPropsType} from "./BuilderFieldType";
 import {disabledSelfGlobal, inputTypes} from "./TFUtils/TFConstants";
 import {initGetGlobal, initSetGlobal} from "./TFUtils/TFGlobals";
@@ -290,6 +291,7 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
                 visible={visible}
                 error={Boolean(!disabled && !field.get("isValid"))}
                 tabIndex={tabIndex}
+                textField={TextField}
             />
         );
     }

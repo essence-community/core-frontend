@@ -34,6 +34,7 @@ const config = {
             displayfield: "name",
             noglobalmask: "true",
             querymode: "remote",
+            records: [{name: "Темная тема", value: "dark"}, {name: "Светлая тема", value: "light"}],
             type: "IFIELD",
             valuefield: "value",
         },
@@ -45,20 +46,6 @@ const config = {
 
 class MenuTheme extends React.Component<PropsType> {
     prevValues = {};
-
-    componentDidMount() {
-        disposeOnUnmount(this, [observe(this.props.pageStore.stores, this.handleChangeStore)]);
-    }
-
-    handleChangeStore = ({type, newValue: themeStore, name}: Object) => {
-        if (type === "add" && name === "theme") {
-            themeStore.recordsStore.setRecordsAction([
-                {name: "Темная тема", value: "dark"},
-                {name: "Светлая тема", value: "light"},
-            ]);
-            themeStore.changeValueAction(styleTheme);
-        }
-    };
 
     handleSubmit = (values) => {
         if (styleTheme !== values.theme) {

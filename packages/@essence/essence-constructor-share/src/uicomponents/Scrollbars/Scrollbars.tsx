@@ -149,13 +149,11 @@ export class Scrollbars extends React.Component<IProps, IState> {
         this.pageContent = element;
     };
 
-    renderThumbHorizontal = ({style, ...props}: IProps) => (
-        <div style={{...style, ...customHorizontalStyle}} {...props} />
-    );
+    renderThumbHorizontal = ({style, ...props}: any) => <div style={{...style, ...customHorizontalStyle}} {...props} />;
 
-    renderThumbVertical = ({style, ...props}: IProps) => <div style={{...style, ...customVerticalStyle}} {...props} />;
+    renderThumbVertical = ({style, ...props}: any) => <div style={{...style, ...customVerticalStyle}} {...props} />;
 
-    renderTrackHorizontal = ({style, ...props}: IProps) => {
+    renderTrackHorizontal = ({style, ...props}: any) => {
         const finalStyle = {
             ...style,
             borderRadius: 3,
@@ -169,7 +167,7 @@ export class Scrollbars extends React.Component<IProps, IState> {
         return <div style={finalStyle} {...props} />;
     };
 
-    renderTrackVertical = ({style, ...props}: IProps) => {
+    renderTrackVertical = ({style, ...props}: any) => {
         const finalStyle = {
             ...style,
             borderRadius: 3,
@@ -185,7 +183,7 @@ export class Scrollbars extends React.Component<IProps, IState> {
         return <div style={finalStyle} {...props} />;
     };
 
-    renderView = ({style, ...props}: IProps) => {
+    renderView = ({style, ...props}: any) => {
         const newStyle = {
             ...style,
         };

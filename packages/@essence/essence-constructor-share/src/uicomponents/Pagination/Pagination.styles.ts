@@ -4,10 +4,13 @@ export const useStyles = makeStyles(
     (theme) => ({
         buttonRoot: {
             color: theme.palette.primary.main,
+            // @ts-ignore
             height: theme.sizing.gridRowHeight,
+            // @ts-ignore
             width: theme.sizing.gridRowHeight,
         },
         disabledButton: {
+            // @ts-ignore
             color: theme.palette.grey.arrow,
         },
         root: {

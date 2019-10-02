@@ -3,6 +3,7 @@
 
 import "@essence/essence-constructor-classes/src/FilterExtended";
 import "@essence/essence-constructor-classes/src/FieldCombo";
+import "@essence/essence-constructor-classes/src/OpenPageTabs";
 import {preference} from "@essence/essence-constructor-components";
 
 if (preference.experimentalUI) {

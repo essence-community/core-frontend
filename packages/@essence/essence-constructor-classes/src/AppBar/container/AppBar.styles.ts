@@ -9,10 +9,10 @@ export const useStyles = makeStyles((theme) => ({
             backgroundColor: theme.palette.common.white,
         },
         "& .MuiIconButton-colorPrimary": {
-            "&::focus": {
-                color: theme.palette.common.selectedMenu,
-            },
             color: theme.palette.common.white,
+        },
+        "& .MuiIconButton-colorPrimary:hover": {
+            color: theme.palette.common.selectedMenu,
         },
         "& .MuiToolbar-gutters": {
             paddingLeft: 0,

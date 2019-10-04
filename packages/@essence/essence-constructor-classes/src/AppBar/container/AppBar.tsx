@@ -35,7 +35,7 @@ const colors = {
     4: "inherit",
 };
 
-export const AppBar = (props: IClassProps) => {
+export const AppBar: React.FC<IClassProps> = (props) => {
     const classes = useStyles(props);
     const {bc} = props;
     const contentStyle = {
@@ -58,7 +58,7 @@ export const AppBar = (props: IClassProps) => {
                 alignItems="center"
                 alignContent="center"
                 spacing={0}
-                {...(GRID_CONFIGS[bc.contentview] || GRID_CONFIGS.hbox)}
+                {...GRID_CONFIGS[bc.contentview] || GRID_CONFIGS.hbox}
             >
                 {mapComponents(bc.childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
                     <Child {...props} bc={childBc} />

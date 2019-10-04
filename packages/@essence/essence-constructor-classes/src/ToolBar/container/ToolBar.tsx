@@ -27,7 +27,7 @@ const GRID_CONFIGS = {
     },
 };
 
-export const ToolBar = (props: IClassProps) => {
+export const ToolBar: React.FC<IClassProps> = (props) => {
     const {bc} = props;
     const contentStyle = {
         height: bc.height ? toSize(bc.height, "") : undefined,
@@ -44,7 +44,7 @@ export const ToolBar = (props: IClassProps) => {
                 style={contentStyle}
                 justify="flex-start"
                 alignItems="center"
-                {...(GRID_CONFIGS[bc.contentview] || GRID_CONFIGS.hbox)}
+                {...GRID_CONFIGS[bc.contentview] || GRID_CONFIGS.hbox}
             >
                 {mapComponents(bc.childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
                     <Child {...props} bc={childBc} />

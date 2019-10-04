@@ -21,7 +21,7 @@ const GRID_CONFIGS = {
     },
 };
 
-export const ButtonGroup = (props: IClassProps) => {
+export const ButtonGroup: React.FC<IClassProps> = (props) => {
     const {bc} = props;
     const childs = (bc.childs || [])
         .map((child) => ({

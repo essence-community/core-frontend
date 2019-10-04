@@ -4,7 +4,7 @@ import * as React from "react";
 import {inject, observer} from "mobx-react";
 import {Grid, TextField, Paper, Button, Typography, InputAdornment, IconButton} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {PageLoader} from "@essence/essence-constructor-components";
+import {PageLoader} from "@essence/essence-constructor-share";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import {getFromStore} from "@essence/essence-constructor-share/utils";
 import {MobxForm} from "../../Components/MobxForm";

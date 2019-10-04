@@ -77,7 +77,7 @@ class FormPanelComponent extends React.Component<PropsType, StateType> {
                 hasMaster={parentBc && Boolean(parentBc.ckMaster) && parentBc.ckMaster !== bc.ckPageObject}
                 style={width ? {width} : undefined}
             >
-                <Grid container spacing={1} alignItems="center">
+                <Grid container spacing={2} alignItems="center">
                     {mapComponents(bc.childs, (ChildComp, child) => (
                         <Grid item key={child.ckPageObject} xs={12} style={toColumnStyleWidth(child.width)}>
                             <ChildComp

@@ -1,6 +1,5 @@
 // @flow
 import axios from "axios";
-import {BASE_URL} from "../constants";
 import {setMask} from "../models/RecordsModel";
 import {baseRequest} from "../request/baseRequest";
 import {IPageModel} from "../types/PageModel";
@@ -73,12 +72,12 @@ export const print = async ({
     return isValid;
 };
 
-export const downloadFile = (cvName: string, queryParams: string) => {
+export const downloadFile = (cvName: string, queryParams: string, gate: string) => {
     const form = document.createElement("form");
 
     form.setAttribute("method", "post");
     form.setAttribute("name", cvName);
-    form.setAttribute("action", `${BASE_URL}?${queryParams}`);
+    form.setAttribute("action", `${gate}?${queryParams}`);
     if (document.body) {
         document.body.appendChild(form);
     }
@@ -103,7 +102,7 @@ const createLink = (blobURL: string, filename: string, expotType: string) => {
     document.body.removeChild(tempLink);
 };
 
-export const downloadImage = (url: string, filename?: string, expotType: string = "jpg") => {
+export const downloadImage = (url: string, filename?: string, expotType = "jpg") => {
     if (url.indexOf("http") === -1) {
         createLink(url, filename, expotType);
     } else {

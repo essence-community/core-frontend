@@ -1,3 +1,5 @@
+/* eslint-disable max-len, @typescript-eslint/interface-name-prefix, max-lines, @typescript-eslint/no-misused-new */
+
 type BuilderModeType = any;
 type ObservableMap<Key, Value> = any;
 type IObservableArray<Key> = any;
@@ -13,349 +15,348 @@ export namespace EssenceConstructorShare {
     // BUILDER_CONFIG_START
     export interface BuilderConfigType {
         // Расположение текста: left - слева, center - по центру, right - справа
-        align?: string,
+        align?: string;
         // Признак доступности ввода нового значения (по умолчанию = false)
-        allownew?: string,
+        allownew?: string;
         // Признак автозагрузки сервиса
-        autoload?: string,
+        autoload?: string;
         // Имя атрибута, который отвечает за уникальность возвращаемых данных. Если этот параметр есть в filter и заполнен, то сработает автовыбор первой записи
-        autoselectidentity?: string,
+        autoselectidentity?: string;
         // Служебный параметр для иерархии
-        bottombtn?: string,
+        bottombtn?: string;
         // Показывать иконку с аудитом для грида
-        btnaudit?: string,
+        btnaudit?: string;
         // Признак сбора статических кнопок в коллектор
-        btncollectorall?: string,
+        btncollectorall?: string;
         // Показать иконку с удалением для грида
-        btndelete?: string,
+        btndelete?: string;
         // Показывать иконку с загрузкой excel для грида
-        btnexcel?: string,
+        btnexcel?: string;
         // Показывать иконку для печати
-        btnprint?: string,
+        btnprint?: string;
         // Показывать иконку с обновлением для грида
-        btnrefresh?: string,
+        btnrefresh?: string;
         // Показать кнопку с настройками пользователя
-        btnsettings?: string,
+        btnsettings?: string;
         // Тип графика lineChar | barChart | areaChart | pieChart
-        charttype?: string,
+        charttype?: string;
         // Чекбокс для добавления еще одной записи
-        checkaddmore?: string,
+        checkaddmore?: string;
         // Служебный параметр для иерархии
-        childs?: string,
+        childs?: string;
         // Служебный параметр для иерархии
-        childwindow?: string,
+        childwindow?: string;
         // Идентификатор для поиска окна в мастере
-        ckwindow?: string,
+        ckwindow?: string;
         // Признак свертываемой/разворачиваемой панели при инициализации true - свернута
-        collapsed?: string,
+        collapsed?: string;
         // Признак возможности сворачивания панели true/false
-        collapsible?: string,
+        collapsible?: string;
         // Признак сбора значений: object - виде объекта array - массив строк
-        collectionvalues?: string,
+        collectionvalues?: string;
         // Наименование колонки в запросе, из которой берутся данные
-        column?: string,
+        column?: string;
         // Поле привязки конечной даты
-        columnend?: string,
+        columnend?: string;
         // Служебный параметр для иерархии
-        columns?: string,
+        columns?: string;
         // Список полей, по которым будет происходит фильтрация данных. Перечисление через запятую без пробела
-        columnsfilter?: string,
+        columnsfilter?: string;
         // Поле привязки стартовой даты
-        columnstart?: string,
+        columnstart?: string;
         // Вопрос на подтверждение операции
-        confirmquestion?: string,
+        confirmquestion?: string;
         // Вид наполнения: hbox: горизонтальное hbox-wrap: горизонтальное с переносом на следующую строку vbox: вертикальное
-        contentview?: string,
+        contentview?: string;
         // Ширина вложенных полей. Целое число от 1% до 100%. Обязательно добавлять %.
-        contentwidth?: string,
+        contentwidth?: string;
         // Вложенные элементы для построения контекстного меню
-        contextmenus?: string,
+        contextmenus?: string;
         // Подпись для отображения Пример: к деньгам добавляем " руб."
-        currencysign?: string,
+        currencysign?: string;
         // Тип данных колонки
-        datatype?: string,
+        datatype?: string;
         // Точность после запятой
-        decimalprecision?: string,
+        decimalprecision?: string;
         // Разделитель остатка
-        decimalseparator?: string,
+        decimalseparator?: string;
         // Значение по умолчанию CheckBox: true/false DateField: sysdate - текущее время или дата в формате ISO 8601 2005-08-09T18:31:42 для выбора первой записи указать значение "first"
-        defaultvalue?: string,
+        defaultvalue?: string;
         // Сервис для запроса значения по умолчанию
-        defaultvaluequery?: string,
+        defaultvaluequery?: string;
         // Отображение панели с детализацией - Служебная информация
-        detail?: string,
+        detail?: string;
         // Признак отключения кнопки при инициализации true-выключено
-        disabled?: string,
+        disabled?: string;
         // Флаг блокировки, если мастер пустой
-        disabledemptymaster?: string,
+        disabledemptymaster?: string;
         // Правила для отображение объекта. Если правило вернет true, то объект выключится. Синтаксис: == - равно != - не равно '>' - больше '<' - меньше '&&' - и '||' - или Пример: gck_mo>1   // если глобальная переменная gck_mo больше 1, то поле выключится
-        disabledrules?: string,
+        disabledrules?: string;
         // Имя параметра, который будет отображен
-        displayfield?: string,
+        displayfield?: string;
         // Признак автоматической перезагрузки грида
-        dynamicfilter?: string,
+        dynamicfilter?: string;
         // Признак изменения вида иконки от данных
-        dynamicicon?: string,
+        dynamicicon?: string;
         // Режим добавления/редактирования - all/insert/update/disabled
-        editmode?: string,
+        editmode?: string;
         // Включаем режим редактирования дочерних элементов
-        editmodepanel?: string,
+        editmodepanel?: string;
         // Служебный параметр для иерархии
-        editors?: string,
+        editors?: string;
         // Режим добавления/редактирования: inline - в строке; modalwindow - в модальном окне
-        edittype?: string,
+        edittype?: string;
         // Дополнительные плагины для шлюза
-        extraplugingate?: string,
+        extraplugingate?: string;
         // Вариант выбора файлов для загрузки. multi - несколько файлов, single - по одному.
-        filemode?: string,
+        filemode?: string;
         // Тип документа доступный для выбора в 8 методе. pdf,docs,doc
-        filetypes?: string,
+        filetypes?: string;
         // Служебный параметр для иерархии
-        filters?: string,
+        filters?: string;
         // Признак сохранения данных фильтра в кеше
-        filtervaluessave?: string,
+        filtervaluessave?: string;
         // Формат данных Для дат номер от 1-6: 1 - ГГГГ 2 - МММ ГГГГ 3 - ДД.ММ.ГГГГ 4 - ДД.ММ.ГГГГ ЧЧ:00 5 - ДД.ММ.ГГГГ ЧЧ:МИ 6 - ДД.ММ.ГГГГ ЧЧ:МИ:CC
-        format?: string,
+        format?: string;
         // Имя глобального параметра, которое хранит выбранные документы на подпись
-        getglobal?: string,
+        getglobal?: string;
         // Имя глобального параметра, который хранит список значений для combobox
-        getgloballist?: string,
+        getgloballist?: string;
         // Список глобальных переменных(через запятую), используемых в загрузке данных.  Пример: Если указать gck_mo, то положит в json.filter.gck_mo Если указать gck_mo=ck_mo, то положит в json.filter.ck_mo
-        getglobaltostore?: string,
+        getglobaltostore?: string;
         // Обработчик в ExtJS onCreateChildWindowMaster - для вызова окна при создании onRowCreateChildWindowMaster - для вызова окна при редактировании onSimpleSaveWindow - сохранение данных по кнопке для модального окна onCloseWindow - закрытие модального окна onCloseWindowSilent - закрытие модального окна без сообщения onPrintHandleOnline - Онлайн печать onPrintHandleOffline - Отложенная печать
-        handler?: string,
+        handler?: string;
         // Статическая высота в пикселях (px)
-        height?: string,
+        height?: string;
         // Признак скрытия кнопки при инициализации true - скрыт
-        hidden?: string,
+        hidden?: string;
         // Правила для отображение объекта, если правило вернет true, то объект убирается. Синтаксис: == - равно != - не равно '>' - больше '<' - меньше '&&' - и '||' - или Пример: gck_mo>1   // если глобальная переменная gck_mo больше 1, то поле скроется
-        hiddenrules?: string,
+        hiddenrules?: string;
         // Признак скрытия колонки с действиями
-        hideactions?: string,
+        hideactions?: string;
         // Иконка (например, fa-plus)
-        iconfont?: string,
+        iconfont?: string;
         // Наименование класса или наименование колонки при динамике
-        iconfontname?: string,
+        iconfontname?: string;
         // Размер иконки: "xs", "lg", "2x", "3x", "4x", "5x"
-        iconsize?: string,
+        iconsize?: string;
         // Наименование атрибута, по которому фильтруем значение от мастера
-        idproperty?: string,
+        idproperty?: string;
         // Маска ввода, например: (999) 999-99-99
-        imask?: string,
+        imask?: string;
         // Дополнительная информация для полей ввода
-        info?: string,
+        info?: string;
         // Признак колонки типа дерева
-        istree?: string,
+        istree?: string;
         // Признак доступности линейного графика
-        lineсhart?: string,
+        lineсhart?: string;
         // Максимальный размер файла в байтах
-        maxfile?: string,
+        maxfile?: string;
         // Максимальная высота
-        maxheight?: string,
+        maxheight?: string;
         // Максимальное количество символов
-        maxsize?: string,
+        maxsize?: string;
         // Максимальное значение. Для значений с дробной частью использовать только точку
-        maxvalue?: string,
+        maxvalue?: string;
         // Количество введенных символов для получения подсказок
-        minchars?: string,
+        minchars?: string;
         // Минимальная высота
-        minheight?: string,
+        minheight?: string;
         // Минимальное значение
-        minvalue?: string,
+        minvalue?: string;
         // Тип операции 1 - Добавление 2 - Редактирование 3 - Удаление 4 - Вызов сервиса из атрибута updatequery 5 - Вызов меню с информацией 6 - Режим клонирования значений 7 - Режим скачивания вызов сервиса из атрибута updatequery 8 - Режим закачивания файла
-        mode?: string,
+        mode?: string;
         // Наименование action добавляемое в json вместо стандартных I,U,D
-        modeaction?: string,
+        modeaction?: string;
         // Признак отключения глобальной маски при загрузке грида
-        noglobalmask?: string,
+        noglobalmask?: string;
         // Убираем текст и оставляем только иконку
-        onlyicon?: string,
+        onlyicon?: string;
         // Направление сортировки: ASC / DESC
-        orderdirection?: string,
+        orderdirection?: string;
         // Имя колонки из сервиса, по которой сортируем
-        orderproperty?: string,
+        orderproperty?: string;
         // Количество выводимых строк (включает пагинатор)
-        pagesize?: string,
+        pagesize?: string;
         // Высота выпадающего меню для выбора. По умолчанию 390
-        pickerheight?: string,
+        pickerheight?: string;
         // Ширина выпадающего меню для выбора
-        pickerwidth?: string,
+        pickerwidth?: string;
         // Признак доступности круговой диаграммы
-        pieсhart?: string,
+        pieсhart?: string;
         // Время паузы перед вызовом сервиса с указанием фильтра
-        querydelay?: string,
+        querydelay?: string;
         // Работа с combobox: remote или local
-        querymode?: string,
+        querymode?: string;
         // Наименование параметра при вводе значения в combobox для фильтрации
-        queryparam?: string,
+        queryparam?: string;
         // Переключение в режим "только для чтения"
-        readonly?: string,
+        readonly?: string;
         // Правила переключения в режим "только чтение"
-        readonlyrules?: string,
+        readonlyrules?: string;
         // URL страницы, на которую будет переход
-        redirecturl?: string,
+        redirecturl?: string;
         // Наименование запроса при вызове которого произойдет переход при возрате cv_url
-        redirectusequery?: string,
+        redirectusequery?: string;
         // Признак перезагрузки всех данных после сохранения/обновления.   false - после сохранения/обновления запись подгружается одна без перезагрузки всего списка   true - список перегружается полнстью, при этом сама запись может не показать, если не попала под фильтр или пагинацию
-        refreshallrecords?: string,
+        refreshallrecords?: string;
         // Регулярное выражение для проверки введенного значения
-        regexp?: string,
+        regexp?: string;
         // Признак обновления родителя по мастеру
-        reloadmaster?: string,
+        reloadmaster?: string;
         // Параметр разрешающий повторное обновление комбобокса во время раскрытие в случае, если изменился мастер
-        reloadservice?: string,
-        // количество заполненных полей для отправки - целое положительное число  если атрибут заполнен, то справа сверху отображать счетчик обязательных полей  ( пример 1/5 - заполнено одно поле из 5 требуемых) , если не заполнен, то счетчик не отображать
-        reqcount?: string,
-        // предусмотреть возможность для задания условного кол-ва обязательных полей   в зависимости от условий - данный атрибут имеет приоритет над reqcount
-        reqcountrules?: string,
+        reloadservice?: string;
+        // Количество заполненных полей для отправки - целое положительное число  если атрибут заполнен, то справа сверху отображать счетчик обязательных полей  ( пример 1/5 - заполнено одно поле из 5 требуемых) , если не заполнен, то счетчик не отображать
+        reqcount?: string;
+        // Предусмотреть возможность для задания условного кол-ва обязательных полей   в зависимости от условий - данный атрибут имеет приоритет над reqcount
+        reqcountrules?: string;
         // Признак зависимости от мастера (true/false)
-        reqsel?: string,
+        reqsel?: string;
         // Признак обязательности заполнения
-        required?: string,
+        required?: string;
         // Признак обязательности заполнения с условиями (работают только глобальные переменные)
-        requiredrules?: string,
+        requiredrules?: string;
         // Параметр указывает на добавление включение изменения ширины дочерних элементов true | false
-        resizable?: string,
+        resizable?: string;
         // Отображение корня
-        rootvisible?: string,
+        rootvisible?: string;
         // Возможность выделения нескольких значений в GRID и TREEGRID SINGLE - только 1 значение SIMPLE - позволяет легко выбирать значения одно-за-другим. Каждое нажатие добавляет/удаляет значение. MULTI - позволяет комплексно выбирать значения, с учетом ctrl и shift
-        selmode?: string,
+        selmode?: string;
         // Имя глобальной переменой, должна начинаться с g
-        setglobal?: string,
+        setglobal?: string;
         // Содержит название глобальной переменной, которая хранит список для combobox
-        setgloballist?: string,
+        setgloballist?: string;
         // Колонка по которой будет сортировать грид вместо column
-        sortcolumn?: string,
+        sortcolumn?: string;
         // Флаг наличия сплиттера   true - показывать
-        spliter?: string,
+        spliter?: string;
         // Имя шага
-        stepname?: string,
+        stepname?: string;
         // Имя шага на который будет переход Может принимать выражение вида: "выражение?верный-шаг:неверный-шаг" Пример выражения можно посмотреть в disabledrules
-        stepnamenext?: string,
+        stepnamenext?: string;
         // Собирает отображения styles для колонок.   Нужно возвращать валидный объект вида `{"color": "red"}`
-        stylerules?: string,
+        stylerules?: string;
         // Разделитель тысяч
-        thousandseparator?: string,
+        thousandseparator?: string;
         // Время ожидания выполнения запроса в секундах
-        timeout?: string,
+        timeout?: string;
         // Подсказка у кнопки
-        tipmsg?: string,
+        tipmsg?: string;
         // Заголовок
-        title?: string,
+        title?: string;
         // Место для кнопок
-        topbtn?: string,
+        topbtn?: string;
         // Служебный параметр не править
-        type?: string,
+        type?: string;
         // Признак доступности графика с областями
-        typeareachart?: string,
+        typeareachart?: string;
         // Признак доступности графика гистограммы
-        typebarсhart?: string,
+        typebarсhart?: string;
         // Признак доступности линейного графика
-        typelinechart?: string,
+        typelinechart?: string;
         // Признак доступности круговой диаграммы
-        typepiechart?: string,
+        typepiechart?: string;
         // Тип вида кнопки: 1-primary 2-secondary
-        uitype?: string,
+        uitype?: string;
         // Имя глобальной переменной для обновления
-        updateglobal?: string,
+        updateglobal?: string;
         // Имя сервиса для кастомных операций
-        updatequery?: string,
+        updatequery?: string;
         // Поле содержит информацию о файле
-        valuefield?: string,
+        valuefield?: string;
         // Признак отображения в автособираемом окне неактивных полей
-        visibileinwindow?: string,
+        visibileinwindow?: string;
         // Признак отображения колонки
-        visible?: string,
+        visible?: string;
         // Ширина поля. Целое число от 1% до 100%. Обязательно добавлять %.
-        width?: string,
+        width?: string;
         // Служебный параметр для иерархии
-        window?: string,
+        window?: string;
         // Обновления связанных сторов (таблиц, панелей) при закрытии модального окна
-        winreloadstores?: string,
+        winreloadstores?: string;
         // Тип окна (влияет на ширину окна): narrow: 500px, default: 800px, wide: 1000px, xwide: 1200px, xlwide: 1600px
-        wintype?: string,
+        wintype?: string;
     }
     // BUILDER_CONFIG_END
 
     export interface SessionType {
-        session: string,
-        cvLogin: string,
-        caActions: Array<number>,
-        mode: "reports" | "page",
+        session: string;
+        cvLogin: string;
+        caActions: Array<number>;
+        mode: "reports" | "page";
     }
 
     export interface ApplicationModelType {
-        authData: Object,
-        session: string,
-        blockText: string,
-        cvLogin: string,
-        caActions: Array<number>,
-        snackbarStore: any,
-        pagesStore: any,
-        isApplicationReady: boolean,
-        isBlock: boolean,
-        globalValues: ObservableMap<string, any>,
-        routesStore: any,
-        mode: "reports" | "page",
-        settingsStore: any,
-        setSesssionAction: (session: SessionType) => void,
-        logoutAction: () => void,
-        redirectToAction: (ckPage: string, params: Object) => void,
-        updateGlobalValuesAction: (values: Object) => void,
-        blockApplicationAction: (type: string, text: string) => void,
-        loadApplicationAction: () => void,
-        initWsClient: (session: string) => void,
+        authData: Record<string, any>;
+        session: string;
+        blockText: string;
+        cvLogin: string;
+        caActions: Array<number>;
+        snackbarStore: any;
+        pagesStore: any;
+        isApplicationReady: boolean;
+        isBlock: boolean;
+        globalValues: ObservableMap<string, any>;
+        routesStore: any;
+        mode: "reports" | "page";
+        settingsStore: any;
+        setSesssionAction: (session: SessionType) => void;
+        logoutAction: () => void;
+        redirectToAction: (ckPage: string, params: Record<string, any>) => void;
+        updateGlobalValuesAction: (values: Record<string, any>) => void;
+        blockApplicationAction: (type: string, text: string) => void;
+        loadApplicationAction: () => void;
+        initWsClient: (session: string) => void;
     }
 
     export interface PageModelType {
-        fieldValueMaster: Map<string, string>,
-        pageBc: Array<Object>,
-        stores: Map<string, any>,
-        globalValues: ObservableMap<string, any>,
-        ckPage: string,
-        route: Object,
-        pageEl?: HTMLDivElement,
-        pageInnerEl?: HTMLDivElement,
-        isEdit: boolean,
-        isLoading: boolean,
-        isReadOnly: boolean,
-        applicationStore: ApplicationModelType,
-        hiddenPage: boolean,
-        isActiveRedirect: boolean,
-        globalStores: Map<string, Array<any>>,
+        fieldValueMaster: Map<string, string>;
+        pageBc: Array<Record<string, any>>;
+        stores: Map<string, any>;
+        globalValues: ObservableMap<string, any>;
+        ckPage: string;
+        route: Record<string, any>;
+        pageEl?: HTMLDivElement;
+        pageInnerEl?: HTMLDivElement;
+        isEdit: boolean;
+        isLoading: boolean;
+        isReadOnly: boolean;
+        applicationStore: ApplicationModelType;
+        hiddenPage: boolean;
+        isActiveRedirect: boolean;
+        globalStores: Map<string, Array<any>>;
         masters: {
-            [$Key: string]: Array<Field>,
-        },
-        visible: boolean,
-        windowsOne: IObservableArray<WindowModelType>,
-        styleTheme: "dark" | "light",
-        constructor(props: PageModelParamsType): void,
-        fireScrollEvent: () => void,
-        openQuestionWindow: (questionWindow: string, saveCallBack: Function) => void,
-        updateGlobalValues: (values: Object) => void,
-        addStore: (store: StoreModelTypes, name: string) => void,
-        removeStore: (name: string, store: StoreModelTypes) => void,
-        addWindowAction: (window: WindowModelType, name: string) => void,
-        removeWindowAction: (name: string) => void,
-        addFieldValueMaster: (name: string, value: any) => void,
-        removeFieldValueMaster: (name: string) => void,
-        loadConfigAction: (ckPage: string, session: string) => Promise<void>,
-        setPageElAction: (pageEl?: HTMLDivElement) => void,
-        setPageInnerElAction: (pageInnerEl?: HTMLDivElement) => void,
-        addFormAction: (formType: FormType, form: any) => void,
-        removeFormAction: (formType: FormType, form: any) => void,
-        setLoadingAction: (isLoading: boolean) => void,
-        resetStepAction: () => void,
-        nextStepAction: (mode: BuilderModeType, bc: Object) => void,
-        scrollToRecordAction: (params: Object) => void,
-        reloadPageAction: () => void,
-        addGlobalStoresAction: (name: string, store: any) => void,
-        removeGlobalStoresAction: (name: string, store: any) => void,
-        freezeScrollAction: () => void,
-        addToMastersAction: (ckMaster: string, field: Field) => void,
-        removeFromMastersAction: (ckMaster?: string, field?: Field) => void,
-        clearAction: () => void,
-        setVisibleAction: (visible: boolean) => void,
-        removePageAction: () => void,
+            [$Key: string]: Array<Field>;
+        };
+        visible: boolean;
+        windowsOne: IObservableArray<WindowModelType>;
+        styleTheme: "dark" | "light";
+        constructor(props: PageModelParamsType): void;
+        fireScrollEvent: () => void;
+        openQuestionWindow: (questionWindow: string, saveCallBack: Function) => void;
+        updateGlobalValues: (values: Record<string, any>) => void;
+        addStore: (store: StoreModelTypes, name: string) => void;
+        removeStore: (name: string, store: StoreModelTypes) => void;
+        addWindowAction: (window: WindowModelType, name: string) => void;
+        removeWindowAction: (name: string) => void;
+        addFieldValueMaster: (name: string, value: any) => void;
+        removeFieldValueMaster: (name: string) => void;
+        loadConfigAction: (ckPage: string, session: string) => Promise<void>;
+        setPageElAction: (pageEl?: HTMLDivElement) => void;
+        setPageInnerElAction: (pageInnerEl?: HTMLDivElement) => void;
+        addFormAction: (formType: FormType, form: any) => void;
+        removeFormAction: (formType: FormType, form: any) => void;
+        setLoadingAction: (isLoading: boolean) => void;
+        resetStepAction: () => void;
+        nextStepAction: (mode: BuilderModeType, bc: Record<string, any>) => void;
+        scrollToRecordAction: (params: Record<string, any>) => void;
+        reloadPageAction: () => void;
+        addGlobalStoresAction: (name: string, store: any) => void;
+        removeGlobalStoresAction: (name: string, store: any) => void;
+        freezeScrollAction: () => void;
+        addToMastersAction: (ckMaster: string, field: Field) => void;
+        removeFromMastersAction: (ckMaster?: string, field?: Field) => void;
+        clearAction: () => void;
+        removePageAction: () => void;
     }
 }

@@ -37,7 +37,6 @@ export const themeLight = {
             info: "#dbdfef",
             light: "#EEEFF2",
             main: "#cbcaca",
-            modal: "#d8dde8",
             shadow: "rgb(203, 202, 202, 0.4)",
         },
         icon: {
@@ -70,14 +69,26 @@ export const themeLight = {
         useNextVariants: true,
     },
     zIndex: {
-        backdrop: 3,
         combo: 1900,
         drawer: 1700,
         grid: 2,
         linkPopover: 3,
-        loader: 1600,
         scroller: 2,
         tooltip: 2000,
+    },
+    // eslint-disable-next-line sort-keys
+    essence: {
+        ui: {
+            modal: {
+                palette: {
+                    background: "#d8dde8",
+                },
+            },
+        },
+        zIndex: {
+            backdrop: 3,
+            loader: 1600,
+        },
     },
 };
 

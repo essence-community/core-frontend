@@ -7,10 +7,7 @@ import BuilderForm from "./Form/BuilderForm";
 import withModelDecorator from "./decorators/withModelDecorator";
 import Scrollbars from "./Components/Scrollbars/Scrollbars";
 import SnackbarContentText from "./Snackbar/SnackbarContentText";
-import PageLoader from "./Page/PageLoader";
 import Slider from "./Components/Slider/Slider";
-import BuilderPage from "./Page/BuilderPage";
-import BuilderPageChildren from "./Page/BuilderPageChildren";
 import BuilderPanel from "./Panel/BuilderBasePanel";
 import Popover from "./Popover/Popover";
 import SideResizer from "./Resizer/SideResizer";
@@ -33,8 +30,6 @@ export {RecordsModel} from "./stores/RecordsModel";
 export {DragComponent} from "./dnd/DragComponent";
 
 export {
-    BuilderPage,
-    BuilderPageChildren,
     BuilderPanel,
     BuilderRoadMapPanel,
     Tooltip,
@@ -46,7 +41,6 @@ export {
     withModelDecorator,
     Scrollbars,
     SnackbarContentText,
-    PageLoader,
     SideResizer,
     Slider,
     Popover,

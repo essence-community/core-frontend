@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+
 // BUILDER_CONFIG_START
 export interface IBuilderBaseConfig {
     // Расположение текста: left - слева, center - по центру, right - справа

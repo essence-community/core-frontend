@@ -9,3 +9,4 @@ export * from "./Request";
 export * from "./Grid";
 export * from "./Class";
 export * from "./Field";
+export * from "./Theme";

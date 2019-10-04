@@ -11,7 +11,7 @@ const WindowMessageStyle = (theme) =>
             textAlign: "center",
         },
         rootActions: {
-            backgroundColor: theme.palette.grey.modal,
+            backgroundColor: theme.essence.ui.modal.palette.background,
             padding: 6,
         },
         rootContent: {

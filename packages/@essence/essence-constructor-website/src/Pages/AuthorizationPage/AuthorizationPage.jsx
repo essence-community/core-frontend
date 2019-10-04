@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import {inject, observer} from "mobx-react";
-import {PageLoader} from "@essence/essence-constructor-components";
+import {PageLoader} from "@essence/essence-constructor-share";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import AppBar from "../../Components/AppBar";
 import ReportsContent from "../../Components/ReportsContent/ReportsContent";

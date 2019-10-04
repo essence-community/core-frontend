@@ -41,7 +41,6 @@ export const themeDark = {
             info: "#dbdfef",
             light: "#dfdfdf",
             main: "#cbcaca",
-            modal: "#2c3345",
             shadow: "rgb(203, 202, 202, 0.4)",
         },
         icon: {
@@ -77,14 +76,26 @@ export const themeDark = {
         useNextVariants: true,
     },
     zIndex: {
-        backdrop: 3,
         combo: 1900,
         drawer: 1700,
         grid: 2,
         linkPopover: 3,
-        loader: 1600,
         scroller: 2,
         tooltip: 2000,
+    },
+    // eslint-disable-next-line sort-keys
+    essence: {
+        ui: {
+            modal: {
+                palette: {
+                    background: "#2c3345",
+                },
+            },
+        },
+        zIndex: {
+            backdrop: 3,
+            loader: 1600,
+        },
     },
 };
 

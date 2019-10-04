@@ -2,7 +2,7 @@
 const TabMenuContextStyleLight = (theme: Object) => ({
     listItem: {
         "&:hover": {
-            backgroundColor: theme.palette.grey.modal,
+            backgroundColor: theme.essence.ui.modal.palette.background,
         },
         "&:last-child": {
             borderBottom: "none",

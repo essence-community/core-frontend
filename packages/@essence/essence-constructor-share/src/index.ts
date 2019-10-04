@@ -1,3 +1,4 @@
+export {QUERY_ELEMENT, loggerRoot, CARRY_LINES_REGEXP} from "./constants";
 export * from "./components";
 export * from "./decorators";
 export * from "./models";

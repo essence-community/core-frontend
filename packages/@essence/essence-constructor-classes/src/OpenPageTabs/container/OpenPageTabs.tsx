@@ -1,34 +1,35 @@
-import { DragComponent } from "@essence/essence-constructor-components";
-import {
-    IClassProps, toColumnStyleWidth, toSize,
-} from "@essence/essence-constructor-share";
+import {IClassProps, toColumnStyleWidth, toSize} from "@essence/essence-constructor-share";
 import {Tabs} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
 import * as React from "react";
-import { OpenPageMenuContext } from "../components/OpenPageMenuContext/OpenPageMenuContext";
-import { OpenPageTab } from "../components/OpenPageTab/OpenPageTab";
-import { ScrollButton } from "../components/ScrollButton/ScrollButton";
-import useStyles from "./OpenPageTabs.style";
+import DragComponent from "../../DragComponent";
+import {OpenPageMenuContext} from "../components/OpenPageMenuContext/OpenPageMenuContext";
+import {OpenPageTab} from "../components/OpenPageTab/OpenPageTab";
+import {ScrollButton} from "../components/ScrollButton/ScrollButton";
+import {useStyles} from "./OpenPageTabs.styles";
 
 const PAGE_WIDTH = 160;
 
 export const OpenPageTabs: React.FC<IClassProps> = (props) => {
-    const classes: Record<string, string> = useStyles(props);
-    const { bc } = props;
+    const classes = useStyles(props);
+    const {bc} = props;
     const height = toSize(bc.height, "42");
     const contentStyle = {
         height,
         maxHeight: toSize(bc.maxheight, "100%"),
         minHeight: toSize(bc.minheight, ""),
         ...toColumnStyleWidth(bc.width),
-    }
+    };
     const orientation = bc.contentview === "vbox" ? "vertical" : "horizontal";
-    const tabStyleFn = orientation === "horizontal" ? (index) => ({
-        transform: `translateX(${index * PAGE_WIDTH}px)`,
-    }) : (index) => ({
-        transform: `translateY(${index * 42}px)`,
-    });
-    const { pagesStore } = props.pageStore.applicationStore;
+    const tabStyleFn =
+        orientation === "horizontal"
+            ? (index) => ({
+                  transform: `translateX(${index * PAGE_WIDTH}px)`,
+              })
+            : (index) => ({
+                  transform: `translateY(${index * 42}px)`,
+              });
+    const {pagesStore} = props.pageStore.applicationStore;
     const [isOpenMenu, setIsOpenMenu] = React.useState(true);
     const [menuPageValue, setMenuPageValue] = React.useState("");
     const [menuPosition, setMenuPosition] = React.useState({
@@ -79,7 +80,6 @@ export const OpenPageTabs: React.FC<IClassProps> = (props) => {
                     return (
                         <OpenPageTab
                             key={ckPage}
-                            classes={classes}
                             component={renderTabComponent}
                             label={route.cvName}
                             iconfont={iconName}
@@ -102,6 +102,5 @@ export const OpenPageTabs: React.FC<IClassProps> = (props) => {
                 pagesStore={pagesStore}
             />
         </React.Fragment>
-        ));
-
+    ));
 };

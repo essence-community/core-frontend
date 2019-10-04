@@ -1,7 +1,5 @@
-
-
-// tslint:disable: object-literal-sort-keys
-export const OpenPageTabsDark = (theme: any) => ({
+/* eslint-disable sort-keys */
+export default (theme: any) => ({
     text: {
         fontSize: 15,
         width: 120,
@@ -14,16 +12,16 @@ export const OpenPageTabsDark = (theme: any) => ({
         textAlign: "center",
     },
     tabRoot: {
-        "& $tabWrapper > *:first-child": {
-            marginBottom: 0,
-        },
         "& $activeTabWrapper > *:first-child": {
             marginBottom: 0,
         },
+        "& $tabWrapper > *:first-child": {
+            marginBottom: 0,
+        },
         border: `1px solid ${theme.palette.grey.main}`,
-        padding: 0,
         height: theme.sizing.appbarHeight,
         minHeight: theme.sizing.appbarHeight,
+        padding: 0,
     },
     verticalTabRoot: {
         width: "100%",
@@ -35,14 +33,6 @@ export const OpenPageTabsDark = (theme: any) => ({
         flexDirection: "row",
         textTransform: "none",
         color: theme.palette.primary.main,
-    },
-    tabsFlexContainer: {
-        height: "100%",
-        width: "100%",
-    },
-    tabsRoot: {
-        backgroundColor: theme.palette.grey.light,
-        flexGrow: 1,
     },
     activeTab: {
         borderBottom: "none",

@@ -1,24 +1,24 @@
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import {Tab, Typography} from "@material-ui/core";
 import cn from "classnames";
-import omit from "lodash/omit";
 import * as React from "react";
-import { IOpenTabProps } from "./OpenPageTab.types";
+import {useStyles} from "./OpenPageTab.styles";
+import {IOpenTabProps} from "./OpenPageTab.types";
 
 export const OpenPageTab = (props: IOpenTabProps) => {
+    const classes = useStyles(props);
+    const {value, iconfont, orientation, selected, label, onClose, onContextMenu, ...materialTabProps} = props;
+    const handleClickContext = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        onContextMenu(event, props.value);
+    };
     const handleClose = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         event.preventDefault();
         event.stopPropagation();
 
-        if (props.onClose) {
-            props.onClose(props.value);
+        if (onClose) {
+            onClose(props.value);
         }
     };
-
-    const handleClickContext = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        props.onContextMenu(event, props.value);
-    };
-    const { classes, value, iconfont, orientation, selected, label, ...materialTabProps } = props;
     const iconNode = iconfont && (
         <Icon iconfont={iconfont} className={cn(classes.tabIcon, {[classes.activeTabIcon]: selected})} />
     );
@@ -37,10 +37,8 @@ export const OpenPageTab = (props: IOpenTabProps) => {
                         {label}
                     </Typography>
                     <div onClick={handleClose} className={selected ? classes.activeCloseIcon : classes.closeIcon}>
-                        <Icon
-                            iconfont="times"
-                        />
-                    </div>                   
+                        <Icon iconfont="times" />
+                    </div>
                 </React.Fragment>
             }
             classes={{
@@ -49,7 +47,7 @@ export const OpenPageTab = (props: IOpenTabProps) => {
                 wrapper: selected ? classes.activeTabWrapper : classes.tabWrapper,
             }}
             disableRipple
-            {...omit(materialTabProps, ["onClose", "classes"])}
+            {...materialTabProps}
             onContextMenu={handleClickContext}
         />
     );

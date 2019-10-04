@@ -1,23 +1,24 @@
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import {ButtonBase} from "@material-ui/core";
 import * as React from "react";
-import { useStyles } from "./ScrollButton.style";
-import { IScrollButtonProps } from "./ScrollButton.types";
+import {useStyles} from "./ScrollButton.styles";
+import {IScrollButtonProps} from "./ScrollButton.types";
 
 const iconName = {
-    "horizontal": {
-        "left": "arrow-left",
-        "right": "arrow-right",
+    horizontal: {
+        left: "arrow-left",
+        right: "arrow-right",
     },
-    "vertical": {
-        "left": "arrow-up",
-        "right": "arrow-down",
+    vertical: {
+        left: "arrow-up",
+        right: "arrow-down",
     },
 };
+
 export const ScrollButton = (props: IScrollButtonProps) => {
-    const { direction, orientation, visible, onClick } = props;
+    const {direction, orientation, visible, onClick} = props;
     const ref = React.useRef(null);
-    const classes: Record<string, string> = useStyles(props);
+    const classes = useStyles(props);
 
     if (!visible && orientation === "vertical") {
         return null;

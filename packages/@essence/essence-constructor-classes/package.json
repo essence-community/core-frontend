@@ -14,7 +14,8 @@
     "keycode": "^2.2.0",
     "mobx": "5.9.0",
     "mobx-react-lite": "^1.4.1",
-    "react": "16.8.6"
+    "react": "16.8.6",
+    "react-dnd": "^9.0.1"
   },
   "devDependencies": {
     "@essence/eslint-config-essence-react": "file:../essence-constructor-eslint",

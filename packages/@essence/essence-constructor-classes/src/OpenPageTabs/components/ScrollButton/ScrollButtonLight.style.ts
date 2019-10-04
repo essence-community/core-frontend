@@ -1,4 +1,4 @@
-export const ScrollButtonLight = (theme) => ({
+export default (theme) => ({
     horizontalButton: {
         border: `1px solid ${theme.palette.primary.main}`,
         width: 30,

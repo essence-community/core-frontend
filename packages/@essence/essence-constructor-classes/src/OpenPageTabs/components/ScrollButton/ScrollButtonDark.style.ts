@@ -1,4 +1,4 @@
-export const ScrollButtonDark = {
+export default () => ({
     horizontalButton: {
         width: 30,
     },
@@ -6,4 +6,4 @@ export const ScrollButtonDark = {
         height: 30,
         width: "100%",
     },
-};
+});

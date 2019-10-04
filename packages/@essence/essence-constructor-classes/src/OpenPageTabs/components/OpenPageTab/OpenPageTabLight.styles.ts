@@ -1,9 +1,5 @@
-// tslint:disable: object-literal-sort-keys
-export const OpenPageTabsLight = (theme: any) => ({
-    scroller: {
-        overflow: "hidden",
-        height: theme.sizing.appbarHeight,
-    },
+/* eslint-disable sort-keys */
+export default (theme: any) => ({
     text: {
         fontSize: 15,
         width: 120,
@@ -37,16 +33,6 @@ export const OpenPageTabsLight = (theme: any) => ({
     tabWrapper: {
         flexDirection: "row",
         textTransform: "none",
-    },
-    tabsFlexContainer: {
-        borderRight: `1px solid ${theme.palette.primary.main}`,
-        borderLeft: `1px solid ${theme.palette.primary.main}`,
-        height: "100%",
-        width: "100%",
-    },
-    tabsRoot: {
-        backgroundColor: theme.palette.grey.light,
-        flexGrow: 1,
     },
     activeTab: {
         backgroundColor: theme.palette.common.white,

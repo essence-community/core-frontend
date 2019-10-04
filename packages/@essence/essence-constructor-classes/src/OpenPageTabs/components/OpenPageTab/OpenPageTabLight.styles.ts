@@ -1,5 +1,6 @@
+import {IEssenceTheme} from "@essence/essence-constructor-share";
 /* eslint-disable sort-keys */
-export default (theme: any) => ({
+export default (theme: IEssenceTheme) => ({
     text: {
         fontSize: 15,
         width: 120,

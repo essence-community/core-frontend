@@ -5,7 +5,7 @@ import * as React from "react";
 import {useStyles} from "./OpenPageTab.styles";
 import {IOpenTabProps} from "./OpenPageTab.types";
 
-export const OpenPageTab = (props: IOpenTabProps) => {
+export const OpenPageTab: React.FC<IOpenTabProps> = (props) => {
     const classes = useStyles(props);
     const {value, iconfont, orientation, selected, label, onClose, onContextMenu, ...materialTabProps} = props;
     const handleClickContext = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

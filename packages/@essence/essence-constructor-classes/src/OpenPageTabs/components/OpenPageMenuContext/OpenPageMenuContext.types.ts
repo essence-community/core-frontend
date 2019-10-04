@@ -8,6 +8,6 @@ export interface IOpenPageMenuContextProps {
     position: IPopoverPosition;
     value?: string;
     pagesStore: any;
-    onCloseMenu: (event: MouseEvent) => void;
+    onCloseMenu: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
     onClose: (value: string) => void;
 }

@@ -15,9 +15,8 @@ const iconName = {
     },
 };
 
-export const ScrollButton = (props: IScrollButtonProps) => {
+export const ScrollButton: React.FC<IScrollButtonProps> = (props) => {
     const {direction, orientation, visible, onClick} = props;
-    const ref = React.useRef(null);
     const classes = useStyles(props);
 
     if (!visible && orientation === "vertical") {
@@ -25,13 +24,7 @@ export const ScrollButton = (props: IScrollButtonProps) => {
     }
 
     return (
-        <ButtonBase
-            onClick={onClick}
-            className={classes[`${orientation}Button`]}
-            disableRipple
-            tabIndex={-1}
-            buttonRef={ref}
-        >
+        <ButtonBase onClick={onClick} className={classes[`${orientation}Button`]} disableRipple tabIndex={-1}>
             <Icon
                 iconfont={iconName[orientation][direction]}
                 size="2x"

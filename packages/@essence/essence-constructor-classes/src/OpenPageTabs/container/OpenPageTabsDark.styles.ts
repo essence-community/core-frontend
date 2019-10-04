@@ -1,5 +1,6 @@
+import {IEssenceTheme} from "@essence/essence-constructor-share";
 /* eslint-disable sort-keys */
-export default (theme: any) => ({
+export default (theme: IEssenceTheme) => ({
     scroller: {
         overflow: "hidden",
         height: theme.sizing.appbarHeight,

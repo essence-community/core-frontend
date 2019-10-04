@@ -5,9 +5,9 @@ import * as React from "react";
 import {useStyles} from "./OpenPageMenuContext.styles";
 import {IOpenPageMenuContextProps} from "./OpenPageMenuContext.types";
 
-export const OpenPageMenuContext = (props: IOpenPageMenuContextProps) => {
-    const classes: Record<string, string> = useStyles(props);
-    const {open, position, onCloseMenu} = props;
+export const OpenPageMenuContext: React.FC<IOpenPageMenuContextProps> = (props) => {
+    const classes = useStyles(props);
+    const {open, position, onCloseMenu, pagesStore, value} = props;
     const menuListProps = {
         className: classes.listItem,
         disableGutters: true,
@@ -16,40 +16,40 @@ export const OpenPageMenuContext = (props: IOpenPageMenuContextProps) => {
         event.preventDefault();
         event.stopPropagation();
 
-        if (props.value) {
-            props.pagesStore.removePageAction(props.value);
+        if (value) {
+            pagesStore.removePageAction(props.value);
         }
 
-        props.onCloseMenu(event);
+        onCloseMenu(event);
     };
 
     const handleCloseOther = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (props.value) {
-            props.pagesStore.removePageOtherAction(props.value);
+        if (value) {
+            pagesStore.removePageOtherAction(props.value);
         }
 
-        props.onCloseMenu(event);
+        onCloseMenu(event);
     };
 
     const handleCloseAll = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        props.pagesStore.removeAllPagesAction();
-        props.onCloseMenu(event);
+        pagesStore.removeAllPagesAction();
+        onCloseMenu(event);
     };
 
     const handleRefresh = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (props.value) {
-            props.pagesStore.reloadPageAction(props.value);
+        if (value) {
+            pagesStore.reloadPageAction(props.value);
         }
 
-        props.onCloseMenu(event);
+        onCloseMenu(event);
     };
 
     const handleCloseAllRight = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (props.value) {
-            props.pagesStore.removeAllPagesRightAction(props.value);
+        if (value) {
+            pagesStore.removeAllPagesRightAction(props.value);
         }
 
-        props.onCloseMenu(event);
+        onCloseMenu(event);
     };
 
     const handlePopoverContextClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -72,21 +72,22 @@ export const OpenPageMenuContext = (props: IOpenPageMenuContextProps) => {
             <List disablePadding dense>
                 <ListItem
                     onClick={handleRefresh}
+                    button
                     {...menuListProps}
                     className={cn([classes.listItem, classes.listItemDivider])}
                 >
                     Обновить
                 </ListItem>
-                <ListItem onClick={handleClose} {...menuListProps}>
+                <ListItem onClick={handleClose} button {...menuListProps}>
                     Закрыть вкладку
                 </ListItem>
-                <ListItem onClick={handleCloseOther} {...menuListProps}>
+                <ListItem onClick={handleCloseOther} button {...menuListProps}>
                     Закрыть другие вкладки
                 </ListItem>
-                <ListItem onClick={handleCloseAllRight} {...menuListProps}>
+                <ListItem onClick={handleCloseAllRight} button {...menuListProps}>
                     Закрыть вкладки справа
                 </ListItem>
-                <ListItem onClick={handleCloseAll} {...menuListProps}>
+                <ListItem onClick={handleCloseAll} button {...menuListProps}>
                     Закрыть все вкладки
                 </ListItem>
             </List>

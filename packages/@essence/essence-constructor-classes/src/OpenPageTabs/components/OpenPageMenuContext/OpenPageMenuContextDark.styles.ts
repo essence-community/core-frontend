@@ -1,4 +1,6 @@
-export default (theme: any) => ({
+import {IEssenceTheme} from "@essence/essence-constructor-share";
+
+export default (theme: IEssenceTheme) => ({
     listItem: {
         "&:hover": {
             backgroundColor: theme.palette.primary.light,

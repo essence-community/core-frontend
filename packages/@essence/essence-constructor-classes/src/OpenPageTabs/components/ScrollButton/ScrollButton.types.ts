@@ -3,5 +3,5 @@ export interface IScrollButtonProps {
     direction: "left" | "right";
     orientation: "horizontal" | "vertical";
     visible: boolean;
-    onClick: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+    onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }

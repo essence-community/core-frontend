@@ -3,7 +3,7 @@ import {Divider} from "@material-ui/core";
 import * as React from "react";
 import {useStyles} from "./ButtonGroupDelimiter.styles";
 
-export const ButtonGroupDelimiter = (props: IClassProps) => {
+export const ButtonGroupDelimiter: React.FC<IClassProps> = (props) => {
     const classes = useStyles(props);
     const {
         bc: {contentview},

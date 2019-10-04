@@ -14,6 +14,7 @@ export interface IEssenceTheme extends Theme {
                 main: string;
                 modal: string;
                 light: string;
+                arrow: string;
             };
             primary: {
                 main: string;

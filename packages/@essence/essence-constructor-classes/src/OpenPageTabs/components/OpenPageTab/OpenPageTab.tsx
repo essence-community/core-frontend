@@ -30,7 +30,7 @@ export const OpenPageTab: React.FC<IOpenTabProps> = (props) => {
             data-qtip={label}
             data-page-object={`tab-${value}`}
             component={"div"}
-            tabIndex="-1"
+            tabIndex={-1}
             label={
                 <React.Fragment>
                     <Typography variant="body2" noWrap color="inherit" className={classes.text}>

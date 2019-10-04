@@ -1,7 +1,7 @@
 import {IClassProps} from "@essence/essence-constructor-share";
 import {Divider} from "@material-ui/core";
 import * as React from "react";
-import {useStyles} from "./ButtonGroupDelimiter.style";
+import {useStyles} from "./ButtonGroupDelimiter.styles";
 
 export const ButtonGroupDelimiter = (props: IClassProps) => {
     const classes = useStyles(props);

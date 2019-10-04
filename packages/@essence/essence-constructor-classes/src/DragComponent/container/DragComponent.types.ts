@@ -1,7 +1,9 @@
+import * as React from "react";
+
 export interface ICardPropsType {
     pageId: string;
     pageIndex: number;
-    style: Record<string, number | string>;
+    style: React.CSSProperties;
     type: string;
     moveCard: (dragIndex: number, hoverIndex: number) => void;
 }

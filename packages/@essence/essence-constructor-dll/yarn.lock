@@ -48,6 +48,7 @@
     memoizee "^0.4.14"
     mobx "^5.9.0"
     mobx-react-form "1.35.1"
+    mobx-react-lite "^1.4.1"
     qs "^6.6.0"
     react "16.8.6"
     react-custom-scrollbars "4.2.1"
@@ -2733,6 +2734,11 @@ mobx-react-form@1.35.1:
   integrity sha1-iSrsZykiThHCl4+4LmetxOgOOmo=
   dependencies:
     lodash "^4.16.2"
+
+mobx-react-lite@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-1.4.1.tgz#7307a45901f97f9a07ebed32b654235507644e1a"
+  integrity sha512-XmM+gzNv+GyXZYDLZMIGox3DufIiKULYgJsLhQj0U6Wlf+J5jv/h7limrL0aS1bEUtNilG62g9nwTeQ0KHzLFg==
 
 mobx-react@5.4.2:
   version "5.4.2"

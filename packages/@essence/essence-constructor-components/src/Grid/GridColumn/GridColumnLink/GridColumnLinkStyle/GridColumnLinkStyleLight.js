@@ -15,7 +15,7 @@ export const GridColumnLinkStyleLight = (theme) => ({
     },
     listItemRoot: {
         "&:hover: &:focus": {
-            backgroundColor: theme.palette.grey.modal,
+            backgroundColor: theme.essence.ui.modal.palette.background,
         },
         "&:last-child": {
             borderBottom: "none",

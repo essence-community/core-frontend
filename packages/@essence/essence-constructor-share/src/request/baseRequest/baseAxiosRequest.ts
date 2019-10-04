@@ -1,7 +1,6 @@
 import axios from "axios";
 import {isArray, isString} from "lodash";
 import {stringify} from "qs";
-import {BASE_URL} from "../../constants";
 import {camelCaseKeysAsync, snakeCaseKeys} from "../../utils";
 import {IBaseRequest} from "./baseRequest";
 
@@ -35,6 +34,7 @@ const checkError = ({responseAllData, query, responseData, list}: ICheckError) =
 
     if (isError) {
         const error = new Error("Ошибка в разпознавании данных");
+
         // @ts-ignore
         error.query = query;
         // @ts-ignore
@@ -69,7 +69,7 @@ export const baseAxiosRequest = async ({
     onUploadProgress,
     plugin,
     timeout = "30",
-    gate = BASE_URL,
+    gate,
     method = "POST",
     formData,
     params,
@@ -81,7 +81,9 @@ export const baseAxiosRequest = async ({
     };
     const data = {
         json: json ? JSON.stringify(snakeCaseKeys(json)) : undefined,
+        // eslint-disable-next-line @typescript-eslint/camelcase
         out_result: "",
+        // eslint-disable-next-line @typescript-eslint/camelcase, require-unicode-regexp, prefer-named-capture-group
         page_object: pageObject.replace(/^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[)}]?.*?$/gi, "$1"),
         session,
         ...snakeCaseKeys(body),

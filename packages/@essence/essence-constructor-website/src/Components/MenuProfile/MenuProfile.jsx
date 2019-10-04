@@ -1,15 +1,11 @@
 // @flow
 import * as React from "react";
 import {compose} from "recompose";
-import {reaction, observe} from "mobx";
+import {reaction} from "mobx";
 import {inject, Provider, observer} from "mobx-react";
 import {Grid, Button} from "@material-ui/core";
-import {
-    BuilderPanel,
-    BuilderForm,
-    BuilderPageChildren,
-    withModelDecorator,
-} from "@essence/essence-constructor-components";
+import {BuilderPanel, BuilderForm, withModelDecorator} from "@essence/essence-constructor-components";
+import {mapComponents} from "@essence/essence-constructor-share";
 import {saveToStore, removeFromStore, removeFromStoreByRegex} from "@essence/essence-constructor-share/utils";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import {type AuthModelType} from "../../Stores/AuthModel";
@@ -128,12 +124,14 @@ class MenuProfile extends React.Component<PropsType> {
                     >
                         <Grid container spacing={2} direction="row">
                             <Grid item xs={12}>
-                                <BuilderPageChildren
-                                    readOnly={pageStore.isReadOnly}
-                                    hidden={false}
-                                    pageStore={pageStore}
-                                    pageBc={pageStore.pageBc}
-                                />
+                                {mapComponents(pageStore.pageBc, (ChildComponet, childBc) => (
+                                    <ChildComponet
+                                        readOnly={pageStore.isReadOnly}
+                                        hidden={false}
+                                        pageStore={pageStore}
+                                        pageBc={childBc}
+                                    />
+                                ))}
                             </Grid>
                             <Grid item xs={12}>
                                 <BuilderPanel editing={true} bc={config} pageStore={pageStore} />

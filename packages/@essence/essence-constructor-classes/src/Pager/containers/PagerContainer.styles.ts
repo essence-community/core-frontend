@@ -1,5 +1,7 @@
-// @flow
-export const BuilderPageStylesLight = (theme: any) => ({
+import {makeStyles} from "@material-ui/core";
+import {IEssenceTheme} from "@essence/essence-constructor-share";
+
+export const useStyles = makeStyles((theme: IEssenceTheme) => ({
     backdrop: {
         backgroundColor: "rgba(0,0,0,0.7)",
         bottom: 0,
@@ -7,9 +9,13 @@ export const BuilderPageStylesLight = (theme: any) => ({
         position: "absolute",
         right: 0,
         top: 0,
-        zIndex: theme.zIndex.backdrop,
+        zIndex: theme.essence.zIndex.backdrop,
+    },
+    hidden: {
+        display: "none",
     },
     paperTopMargin: {
+        borderRadius: theme.palette.type === "dark" ? 4 : undefined,
         marginTop: 20,
     },
     root: {
@@ -30,4 +36,4 @@ export const BuilderPageStylesLight = (theme: any) => ({
         padding: theme.spacing(2),
         position: "relative",
     },
-});
+}));

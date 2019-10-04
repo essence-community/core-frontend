@@ -12,11 +12,13 @@ export interface ICreateWindowType {
 
 export interface IPageModel {
     fieldValueMaster: Map<string, string>;
-    pageBc: object[];
+    pageBc: IBuilderConfig[];
     stores: Map<string, any>;
     globalValues: ObservableMap<string, any>;
     ckPage: string;
-    route: object;
+    showQuestionWindow: boolean;
+    questionWindow?: string;
+    route: Record<string, string>;
     pageEl?: HTMLDivElement;
     pageInnerEl?: HTMLDivElement;
     isEdit: boolean;
@@ -50,6 +52,8 @@ export interface IPageModel {
     resetStepAction: () => void;
     nextStepAction: (mode: IBuilderMode, bc: object) => void;
     scrollToRecordAction: (params: object) => void;
+    handleQuestionAccept: () => void;
+    handleQuestionDecline: () => void;
     reloadPageAction: () => void;
     addGlobalStoresAction: (name: string, store: any) => void;
     removeGlobalStoresAction: (name: string, store: any) => void;
@@ -57,7 +61,6 @@ export interface IPageModel {
     addToMastersAction: (ckMaster: string, field: Field) => void;
     removeFromMastersAction: (ckMaster?: string, field?: Field) => void;
     clearAction: () => void;
-    setVisibleAction: (visible: boolean) => void;
     removePageAction: () => void;
     createWindowAction: (params: ICreateWindowType) => void;
     closeWindowAction: (ckPageObject: string) => void;

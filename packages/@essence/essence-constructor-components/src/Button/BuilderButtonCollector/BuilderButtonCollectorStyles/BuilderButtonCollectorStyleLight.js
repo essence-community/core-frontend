@@ -29,7 +29,7 @@ const BuilderButtonCollectorStyleLight = (theme) => ({
     },
     listItem: {
         "&:hover, &:focus": {
-            backgroundColor: theme.palette.grey.modal,
+            backgroundColor: theme.essence.ui.modal.palette.background,
             outline: "none",
         },
         "&:last-child": {

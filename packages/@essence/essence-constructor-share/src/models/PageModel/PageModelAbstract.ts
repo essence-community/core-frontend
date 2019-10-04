@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
-import {IApplicationModel, IBuilderMode, IPageModel} from "../../types";
+import {IApplicationModel, IBuilderMode, IPageModel, IBuilderConfig} from "../../types";
 
 export class PageModelAbstract implements IPageModel {
     public fieldValueMaster: Map<string, string> = new Map();
 
-    public pageBc: object[] = [];
+    public pageBc: IBuilderConfig[] = [];
 
     public stores: Map<string, any> = new Map();
 
@@ -12,7 +12,9 @@ export class PageModelAbstract implements IPageModel {
 
     public ckPage = "1";
 
-    public route: object;
+    public showQuestionWindow = false;
+
+    public route: Record<string, string>;
 
     public pageEl?: HTMLDivElement;
 
@@ -74,6 +76,10 @@ export class PageModelAbstract implements IPageModel {
 
     public scrollToRecordAction = (_params: object) => {};
 
+    public handleQuestionAccept = () => {};
+
+    public handleQuestionDecline = () => {};
+
     public reloadPageAction = () => {};
 
     public addGlobalStoresAction = (_name: string, _store: any) => {};
@@ -87,8 +93,6 @@ export class PageModelAbstract implements IPageModel {
     public removeFromMastersAction = (_ckMaster?: string, _field?: any) => {};
 
     public clearAction = () => {};
-
-    public setVisibleAction = (_visible: boolean) => {};
 
     public removePageAction = () => {};
 

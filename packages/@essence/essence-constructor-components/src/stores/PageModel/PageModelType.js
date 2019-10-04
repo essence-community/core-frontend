@@ -2,8 +2,7 @@
 import {Field, Form} from "mobx-react-form";
 import {type ObservableMap} from "mobx";
 import {type IObservableArray} from "mobx/lib/mobx.js.flow";
-import {type BuilderPageType} from "../../Page/BuilderPageType";
-import {type BuilderModeType} from "../../BuilderType";
+import {type BuilderModeType, type BuilderBaseType} from "../../BuilderType";
 import {type RoutesModelType} from "../RoutesModel";
 import {type WindowModelType, type WindowBcType} from "../WindowModel/WindowModelTypes";
 import {type ApplicationModelType} from "../StoreTypes";
@@ -13,7 +12,7 @@ export type PageModelWindowsType = Map<string, WindowModelType>;
 export type PageModelStoresType = Map<string, any>;
 export type FormType = "filter";
 export type PageModelParamsType = {|
-    initialBc?: BuilderPageType,
+    initialBc?: BuilderBaseType[],
     applicationStore: ApplicationModelType,
     routesStore?: RoutesModelType,
     ckPage: string,
@@ -37,7 +36,7 @@ export interface PageModelInterface {
     showQuestionWindow: boolean;
     questionWindow: ?string;
     saveCallBack: ?Function;
-    pageBc: BuilderPageType;
+    pageBc: BuilderBaseType[];
     stores: PageModelStoresType;
     windows: PageModelWindowsType;
     globalValues: ObservableMap<string, mixed>;
@@ -89,7 +88,6 @@ export interface PageModelInterface {
     addToMastersAction: (ckMaster: string, field: Field) => void;
     removeFromMastersAction: (ckMaster?: string, field: ?Field) => void;
     clearAction: () => void;
-    setVisibleAction: (visible: boolean) => void;
     removePageAction: () => void;
 }
 export type PageModelType = $ReadOnly<PageModelInterface>;

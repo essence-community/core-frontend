@@ -20,8 +20,7 @@
     "postinstall": "node scripts/postinstall.js",
     "eslint": "eslint",
     "lint": "eslint src license-checker.js packages/@essence/essence-constructor-components/src packages/@essence/essence-constructor-components/mocks packages/@essence/essence-constructor-website/src --ext js,jsx",
-    "lint:table": "eslint src --ext js,jsx --format table",
-    "license-checker": "node license-checker.js",
+    "lint-ts": "packages/@essence/essence-constructor-classes/node_modules/.bin/eslint --config .eslintrc-ts --ext ts,tsx packages/@essence/essence-constructor-classes/src packages/@essence/essence-constructor-share/src",
     "test": "node scripts/test.js --env=jsdom",
     "test:snapshot": "node scripts/test.snapshot.js --config=jest.snapshot.config.js",
     "chrome:mac": "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --remote-debugging-port=9222 --user-data-dir=chrome",
@@ -32,6 +31,10 @@
   "lint-staged": {
     "*.{js,jsx}": [
       "eslint",
+      "git add"
+    ],
+    "*.{ts,tsx}": [
+      "packages/@essence/essence-constructor-classes/node_modules/.bin/eslint  --config .eslintrc-ts ",
       "git add"
     ]
   },

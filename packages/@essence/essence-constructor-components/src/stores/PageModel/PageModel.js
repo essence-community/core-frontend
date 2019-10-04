@@ -7,10 +7,9 @@ import forEach from "lodash/forEach";
 import noop from "lodash/noop";
 import {parseMemoize, loadComponentsFromModules, findClassNames} from "@essence/essence-constructor-share";
 import {loggerRoot, styleTheme as styleThemeConst} from "../../constants";
-import {type BuilderPageType} from "../../Page/BuilderPageType";
 import {sendRequestList} from "../../request/baseRequest";
 import {isEmpty} from "../../utils/base";
-import {type BuilderModeType} from "../../BuilderType";
+import {type BuilderModeType, type BuilderBaseType} from "../../BuilderType";
 import {type WindowModelType} from "../WindowModel/WindowModelTypes";
 import {WindowModel} from "../WindowModel";
 import {type ApplicationModelType} from "../StoreTypes";
@@ -28,7 +27,7 @@ import {renderGlobalValuelsInfo, getNextComponent} from "./PageModelUtil";
 const logger = loggerRoot.extend("PageModel");
 
 export class PageModel implements PageModelInterface {
-    pageBc: BuilderPageType;
+    pageBc: BuilderBaseType[];
 
     fieldValueMaster: Map<string, string>;
 
@@ -122,7 +121,9 @@ export class PageModel implements PageModelInterface {
             showQuestionWindow: false,
             stores: observable.map(),
             styleTheme,
-            visible: false,
+            get visible() {
+                return applicationStore.pagesStore.activePage === this;
+            },
             // TODO: Удалить windows и перевести windowsOne на windows
             windows: observable.map(),
             windowsOne: observable.array(),
@@ -460,10 +461,6 @@ export class PageModel implements PageModelInterface {
         this.windows.clear();
         this.windowsOne.clear();
         this.fieldValueMaster.clear();
-    });
-
-    setVisibleAction = action("setVisibleAction", (visible: boolean) => {
-        this.visible = visible;
     });
 
     removePageAction = () => {

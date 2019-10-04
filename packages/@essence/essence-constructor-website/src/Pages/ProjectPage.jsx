@@ -4,7 +4,7 @@ import * as React from "react";
 import {inject, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
 import {compose} from "recompose";
-import {BuilderPage} from "@essence/essence-constructor-components";
+import {getComponent} from "@essence/essence-constructor-share";
 import {type ApplicationModelType} from "../Stores/ApplicationModel";
 
 type StoresPropsType = {
@@ -68,16 +68,12 @@ class ProjectPage extends React.Component<PropsType> {
             classes = {},
             applicationStore: {pagesStore},
         } = this.props;
+        const BuilderPage = getComponent("PAGER");
 
         return (
             <div className={classes.root}>
                 {pagesStore.pages.map((page) => (
-                    <BuilderPage
-                        key={page.ckPage}
-                        pageStore={page}
-                        visible={pagesStore.activePage === page}
-                        className={pagesStore.activePage === page ? "" : classes.hidden}
-                    />
+                    <BuilderPage key={page.ckPage} pageStore={page} />
                 ))}
             </div>
         );

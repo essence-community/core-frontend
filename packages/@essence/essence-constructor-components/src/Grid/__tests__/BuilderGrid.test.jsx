@@ -12,7 +12,6 @@ import {type PageModelType} from "../../stores/PageModel";
 import Pagination from "../../Pagination/Pagination";
 import GridRow from "../Row/GridRow";
 import BuilderGrid, {BaseBuilderGrid} from "../BuilderGrid";
-import {BuilderBaseGridBase} from "../BuilderBaseGrid";
 import {type BuilderGridType} from "../BuilderGridType";
 import BaseGridTableHeader from "../BaseGridTableHeader";
 import {sleep} from "../../utils/base";
@@ -179,22 +178,6 @@ describe("BuilderGrid", () => {
         const {wrapper} = mountGrid({bc: {...gridBc, orderproperty: ""}});
 
         expect(wrapper.text()).toContain("Необходимо заполнить orderproperty для дальнейшей работы таблицы");
-
-        wrapper.unmount();
-    });
-
-    it("change visible from false to true", () => {
-        const {wrapper, pageStore} = mountGrid({bc: {...gridBc, orderproperty: ""}, visible: false});
-        const spyOnUpdateGridWidth = jest.spyOn(wrapper.find(BuilderBaseGridBase).instance(), "handleUpdateGridWidth");
-
-        wrapper.setProps({visible: true});
-
-        wrapper.setProps({visible: undefined});
-
-        pageStore.setVisibleAction(false);
-        pageStore.setVisibleAction(true);
-
-        expect(spyOnUpdateGridWidth).toHaveBeenCalledTimes(1);
 
         wrapper.unmount();
     });

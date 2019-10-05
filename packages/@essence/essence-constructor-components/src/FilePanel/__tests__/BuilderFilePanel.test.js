@@ -7,12 +7,13 @@ import {createEmptyPageStore} from "../../stores";
 import type {PageModelType} from "../../stores/PageModel";
 import {FileRecordBase} from "../FileRecord/FileRecord";
 import {BuilderMobxButtonBase} from "../../Button/BuilderMobxButton";
-import BuilderPage from "../../Page/BuilderPage";
 import {FileInput} from "../../FileInput/FileInput";
 
 type FilePanelPropsType = {
     pageStore: PageModelType,
 };
+
+const BuilderPage = () => null;
 
 describe("BuilderFilePanel", () => {
     const getWrapper = ({pageStore}: FilePanelPropsType) =>

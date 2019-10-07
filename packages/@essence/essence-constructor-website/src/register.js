@@ -22,6 +22,10 @@ import "@essence/essence-constructor-components/src/Iframe/BuilderIframe";
 import "@essence/essence-constructor-components/src/Window";
 
 import "@essence/essence-constructor-classes/src/FilterExtended";
+import "@essence/essence-constructor-classes/src/ButtonGroup";
+import "@essence/essence-constructor-classes/src/ButtonGroupDelimiter";
+import "@essence/essence-constructor-classes/src/AppBar";
+import "@essence/essence-constructor-classes/src/ToolBar";
 import "@essence/essence-constructor-classes/src/FieldCombo";
 import "@essence/essence-constructor-classes/src/Pager";
 

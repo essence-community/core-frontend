@@ -57,7 +57,7 @@ export const print = async ({
         },
         pageObject: bc.ckParent,
         plugin: bcBtn.extraplugingate || bc.extraplugingate,
-        query: bcBtn.updateQuery || "Modify",
+        query: bcBtn.updatequery || "Modify",
         session,
         timeout,
     });

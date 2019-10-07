@@ -160,6 +160,8 @@ export interface IBuilderBaseConfig {
     pickerwidth?: string;
     // Признак доступности круговой диаграммы
     pieсhart?: string;
+    // Позиция компонента
+    position?: string;
     // Время паузы перед вызовом сервиса с указанием фильтра
     querydelay?: string;
     // Работа с combobox: remote или local

@@ -20,8 +20,8 @@ export default (theme: IEssenceTheme) => ({
             marginBottom: 0,
         },
         border: `1px solid ${theme.palette.grey.main}`,
-        height: theme.sizing.appbarHeight,
-        minHeight: theme.sizing.appbarHeight,
+        height: theme.essence.sizing.appBarHeight,
+        minHeight: theme.essence.sizing.appBarHeight,
         padding: 0,
     },
     verticalTabRoot: {
@@ -38,7 +38,7 @@ export default (theme: IEssenceTheme) => ({
     activeTab: {
         borderBottom: "none",
         backgroundColor: theme.palette.primary.main,
-        height: theme.sizing.appbarHeight,
+        height: theme.essence.sizing.appBarHeight,
     },
     activeTabWrapper: {
         flexDirection: "row",

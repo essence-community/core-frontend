@@ -10,7 +10,7 @@ export default (theme: IEssenceTheme) => ({
         },
         borderBottom: `1px solid ${theme.palette.grey.light}`,
         cursor: "pointer",
-        maxHeight: theme.sizing.gridRowHeight,
+        maxHeight: theme.essence.sizing.gridRowHeight,
         paddingLeft: theme.spacing(1),
         paddingRight: theme.spacing(1),
     },

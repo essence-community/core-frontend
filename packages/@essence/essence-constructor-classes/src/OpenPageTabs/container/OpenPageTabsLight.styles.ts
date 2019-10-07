@@ -3,7 +3,7 @@ import {IEssenceTheme} from "@essence/essence-constructor-share";
 export default (theme: IEssenceTheme) => ({
     scroller: {
         overflow: "hidden",
-        height: theme.sizing.appbarHeight,
+        height: theme.essence.sizing.appBarHeight,
     },
     tabRoot: {
         "& $tabWrapper > *:first-child": {
@@ -14,8 +14,8 @@ export default (theme: IEssenceTheme) => ({
         },
         border: `1px solid ${theme.palette.primary.main}`,
         padding: 0,
-        height: theme.sizing.appbarHeight,
-        minHeight: theme.sizing.appbarHeight,
+        height: theme.essence.sizing.appBarHeight,
+        minHeight: theme.essence.sizing.appBarHeight,
     },
     tabsFlexContainer: {
         borderRight: `1px solid ${theme.palette.primary.main}`,

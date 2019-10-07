@@ -83,7 +83,7 @@ export const themeDark = {
         scroller: 2,
         tooltip: 2000,
     },
-    // eslint-disable-next-line sort-keys
+    /* eslint-disable sort-keys */
     essence: {
         ui: {
             modal: {
@@ -96,7 +96,12 @@ export const themeDark = {
             backdrop: 3,
             loader: 1600,
         },
+        sizing: {
+            appBarHeight: 45,
+            gridRowHeight: 30,
+        },
     },
+    /* eslint-enable sort-keys */
 };
 
 export default {

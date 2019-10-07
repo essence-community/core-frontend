@@ -59,14 +59,20 @@ export class FieldComboModel extends StoreBaseModel {
                 return this.recordsStore.selectedRecord;
             },
             get suggestions() {
-                const suggestions = this.recordsStore.records.map(this.getSuggestion);
+                let suggestions = this.recordsStore.records.map(this.getSuggestion);
 
                 if (
                     bc.allownew === "true" &&
                     this.inputValue &&
                     suggestions.findIndex((suggestion: ISuggestion) => suggestion.value === this.inputValue) === -1
                 ) {
-                    return [{label: this.inputValue, value: this.inputValue}, ...suggestions];
+                    suggestions = [{label: this.inputValue, value: this.inputValue}, ...suggestions];
+                }
+
+                if (bc.querymode !== "remote") {
+                    const inputValueLower = this.inputValue.toLowerCase();
+
+                    return suggestions.filter((sug: ISuggestion) => sug.labelLower.indexOf(inputValueLower) !== -1);
                 }
 
                 return suggestions;
@@ -144,8 +150,13 @@ export class FieldComboModel extends StoreBaseModel {
         }
     }, 0);
 
-    getSuggestion = (record: Record<string, never>): ISuggestion => ({
-        label: toString(record[this.displayfield]),
-        value: toString(record[this.valuefield]),
-    });
+    getSuggestion = (record: Record<string, never>): ISuggestion => {
+        const label = toString(record[this.displayfield]);
+
+        return {
+            label,
+            labelLower: label.toLowerCase(),
+            value: toString(record[this.valuefield]),
+        };
+    };
 }

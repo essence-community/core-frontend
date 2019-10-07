@@ -2,12 +2,13 @@
 import * as React from "react";
 import {GRID_ROW_HEIGHT} from "../../constants";
 import {mountWithTheme} from "../../utils/test";
-import BuilderPage from "../../Page/BuilderPage";
 import {createEmptyPageStore} from "../../stores";
 import {BaseBuilderGrid} from "../../Grid/BuilderGrid";
 import TextField from "../../TextField/TextField";
 import InlineTable from "../InlineTable";
 import InlineButtons from "../InlineButtons/InlineButtons";
+
+const BuilderPage = () => null;
 
 // eslint-disable-next-line max-statements
 describe("BuilderInlineWindow", () => {

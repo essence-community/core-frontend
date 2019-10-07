@@ -58,7 +58,7 @@ class NumberFormatCustom extends React.Component<PropsType> {
         return (
             <NumberFormat
                 {...omit(otherProps, ["onChange"])}
-                ref={inputRef}
+                getInputRef={inputRef}
                 onValueChange={this.handleChange}
                 isNumericString={true}
                 isAllowed={this.handleIsAllowed}

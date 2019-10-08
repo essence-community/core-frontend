@@ -38,4 +38,5 @@ export interface RoadMapModelType extends StoreBaseModelInterface {
     +setFirstActiveTab: () => void;
     +setTabStatus: (tabValue: string, state: TabStatusChangeType) => void;
     +getActiveTabs: () => Array<BuilderTabType>;
+    +postMountAction: () => void;
 }

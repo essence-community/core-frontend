@@ -5,6 +5,7 @@ import isBoolean from "lodash/isBoolean";
 import {RecordsModel, type RecordsModelType} from "../RecordsModel";
 import {StoreBaseModel, type StoreBaseModelPropsType} from "../StoreBaseModel";
 import {type BuilderBaseType, type BuilderModeType} from "../../BuilderType";
+import {checkAutoload} from "../../utils/builder";
 import {type BuilderTabType, type TabsStatusType, type RoadMapModelType, type TabStatusChangeType} from "./RoadMapType";
 
 import {getBtn} from "./RoadMapBtnConfigs";
@@ -278,6 +279,20 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
                 ...tabObj,
                 disabled: true,
             });
+        });
+    });
+
+    postMountAction = action("postMountAction", () => {
+        this.tabs.forEach((bc) => {
+            const tabObj = this.tabStatus.get(bc.ckPageObject);
+
+            if (
+                !tabObj.hidden &&
+                checkAutoload({bc, pageStore: this.pageStore, recordsStore: tabObj.recordStore}) &&
+                !tabObj.recordStore.isLoading
+            ) {
+                tabObj.recordStore.loadRecordsAction();
+            }
         });
     });
 }

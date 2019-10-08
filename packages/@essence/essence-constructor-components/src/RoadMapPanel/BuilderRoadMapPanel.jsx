@@ -42,12 +42,13 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
     };
 
     componentDidMount() {
-        const {bc} = this.props;
+        const {bc, store} = this.props;
 
         if (bc.align === "top") {
             window.addEventListener("resize", this.handleGetTabsMode);
             this.handleGetTabsMode();
         }
+        store.postMountAction();
     }
 
     componentDidUpdate(prevProps: BuilderRoadMapPanelPropsType & ExtraRoadMapProps) {

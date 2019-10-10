@@ -1,7 +1,7 @@
 import * as React from "react";
 import {useObserver, useDisposable} from "mobx-react-lite";
 import {Paper, MenuItem, CircularProgress} from "@material-ui/core";
-import {Icon, IBuilderConfig, Scrollbars, Pagination, FieldValue} from "@essence/essence-constructor-share";
+import {IBuilderConfig, Scrollbars, Pagination, FieldValue} from "@essence/essence-constructor-share";
 import {IPopoverChildrenProps} from "@essence/essence-constructor-share/uicomponents/Popover/Popover.types";
 import {reaction} from "mobx";
 import {ISuggestion} from "../store/FieldComboModel.types";
@@ -26,28 +26,38 @@ interface IProps extends IPopoverChildrenProps {
 }
 
 export const FieldComboList: React.FC<IProps> = (props) => {
-    const {store, bc} = props;
+    const {store, bc, onChange, onClose} = props;
     const scrollbarRef: React.Ref<Scrollbars> = React.useRef();
     const stringValue = String(props.value);
     const classes = useStyles(props);
     const autoHeightMin = store.recordsStore.pageSize
         ? Math.min(store.recordsStore.pageSize * ITEM_HEIGHT, AUTO_HEIGHT_MAX)
         : undefined;
-    const handleSelect = React.useCallback((event: React.SyntheticEvent, suggestion: ISuggestion) => {
-        props.onChange(null, suggestion.value);
-        props.onClose(event);
+    const handleSelect = React.useCallback(
+        (event: React.SyntheticEvent, suggestion: ISuggestion) => {
+            onChange(null, suggestion.value);
+            onClose(event);
 
-        if (props.inputRef.current) {
-            props.inputRef.current.focus();
-        }
-    }, [props.onChange, props.onClose]);
+            if (bc.allownew === "true") {
+                store.handleChangeValue(suggestion.label);
+            }
 
-    React.useEffect(() => {
-        if (props.store.highlightedIndex >= 0 && scrollbarRef.current) {
-            // @ts-ignore
-            scrollbarRef.current.scrollTop(props.store.highlightedIndex * ITEM_HEIGHT);
-        }
-    }, []);
+            if (props.inputRef.current) {
+                props.inputRef.current.focus();
+            }
+        },
+        [bc.allownew, onChange, onClose, props.inputRef, store],
+    );
+
+    React.useEffect(
+        () => {
+            if (props.store.highlightedIndex >= 0 && scrollbarRef.current) {
+                // @ts-ignore
+                scrollbarRef.current.scrollTop(props.store.highlightedIndex * ITEM_HEIGHT);
+            }
+        },
+        [props.store.highlightedIndex],
+    );
 
     useDisposable(
         () =>
@@ -86,7 +96,7 @@ export const FieldComboList: React.FC<IProps> = (props) => {
 
                         return (
                             <FieldComboListItem
-                                key={suggestion.value}
+                                key={`${suggestion.value}-${suggestion.label}`}
                                 suggestion={suggestion}
                                 onSelect={handleSelect}
                                 isSelectedValue={isSelectedValue}

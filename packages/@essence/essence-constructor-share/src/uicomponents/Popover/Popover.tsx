@@ -10,13 +10,13 @@ const STYLE_DEFAULT = {left: 0, top: 0};
 
 // eslint-disable-next-line max-lines-per-function
 export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
-    const {onChangeOpen} = props;
+    const {onChangeOpen, onClickOutside} = props;
     const rootRef = React.useRef<HTMLDivElement>();
     const popupRef = React.useRef<HTMLDivElement>();
     const [width, setWidth] = React.useState<number>(0);
     const [style, setStyle] = React.useState<IOffset>(STYLE_DEFAULT);
     const [isOpen, setIsOpen] = React.useState(false);
-    let isMouseDownPopover = React.useMemo(() => false, []);
+    const isMouseDownPopover = React.useRef(false);
 
     const handleClose = React.useCallback(() => {
         setIsOpen(false);
@@ -68,33 +68,38 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
         }
     }, [handleCalculateOffset, handleClose, props.hideOnResize]);
 
-    const handleOutsideClick = React.useCallback((event: UIEvent) => {
-        const {target} = event;
-        const {current: rootEl} = rootRef;
-        const {current: popupEl} = popupRef;
+    const handleOutsideClick = React.useCallback(
+        (event: UIEvent) => {
+            requestAnimationFrame(() => {
+                const {target} = event;
+                const {current: rootEl} = rootRef;
+                const {current: popupEl} = popupRef;
 
-        if (target instanceof Node) {
-            /*
-             * При клике на лоадер окно считается что идет outside click.
-             * если будут проблемы, нужно добавить проверку на pageStore.isLoading.
-             */
-            switch (true) {
-                case isMouseDownPopover:
-                case rootEl && rootEl.contains(target):
-                case popupEl && popupEl.contains(target):
-                    break;
-                default:
-                    handleClose();
-                    props.onClickOutside();
-            }
+                if (target instanceof Node) {
+                    /*
+                     * При клике на лоадер окно считается что идет outside click.
+                     * если будут проблемы, нужно добавить проверку на pageStore.isLoading.
+                     */
+                    switch (true) {
+                        case isMouseDownPopover.current:
+                        case rootEl && rootEl.contains(target):
+                        case popupEl && popupEl.contains(target):
+                            break;
+                        default:
+                            handleClose();
+                            onClickOutside();
+                    }
 
-            isMouseDownPopover = false;
-        }
-    }, []);
+                    isMouseDownPopover.current = false;
+                }
+            });
+        },
+        [handleClose, onClickOutside],
+    );
 
     const handleMouseDownPopover = () => {
         if (isOpen) {
-            isMouseDownPopover = true;
+            isMouseDownPopover.current = true;
         }
     };
 

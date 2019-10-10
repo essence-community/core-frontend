@@ -1,4 +1,5 @@
 import {v4} from "uuid";
+import {isEqual} from "lodash";
 import {request} from "../../request";
 import {
     IBuilderConfig,
@@ -143,7 +144,7 @@ export function setMask(noglobalmask?: string, pageStore?: IPageModel, isLoading
 }
 
 export function checkPageNumber(recordsStore: IRecordsModel, master: object) {
-    if (master !== recordsStore.jsonMaster) {
+    if (!isEqual(master, recordsStore.jsonMaster)) {
         recordsStore.jsonMaster = master;
         recordsStore.pageNumber = 0;
     }

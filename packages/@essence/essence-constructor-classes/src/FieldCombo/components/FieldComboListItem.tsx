@@ -2,7 +2,7 @@ import * as React from "react";
 import {MenuItem} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share";
 import {ISuggestion} from "../store/FieldComboModel.types";
-import {useStyles} from './FieldComboListItem.styles';
+import {useStyles} from "./FieldComboListItem.styles";
 
 interface IProps {
     suggestion: ISuggestion;
@@ -20,7 +20,6 @@ export const FieldComboListItem = React.memo((props: IProps) => {
 
     return (
         <MenuItem
-            key={props.suggestion.value}
             component="div"
             classes={{root: classes.menuItem}}
             disableRipple

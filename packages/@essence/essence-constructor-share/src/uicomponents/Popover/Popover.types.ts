@@ -83,12 +83,12 @@ export interface IPopoverContentProps {
     styleOffset: IOffset;
     open: boolean;
     hideBackdrop: boolean;
-    dataPageObjectPopover: string;
+    dataPageObjectPopover?: string;
     container: HTMLElement;
-    disableEscapeKeyDown: boolean;
+    disableEscapeKeyDown?: boolean;
     tabFocusable: boolean;
-    focusableMount: boolean;
-    restoreFocusedElement: boolean;
+    focusableMount?: boolean;
+    restoreFocusedElement?: boolean;
     paperClassName?: string;
     width: number | string;
     onEscapeKeyDown?: React.ReactEventHandler<{}>;

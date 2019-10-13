@@ -11,3 +11,6 @@ export const QUERY_ELEMENT = [
 ].join(", ");
 export const ANIMATION_TIMEOUT = process.env.NODE_ENV === "test" ? 10 : 500;
 export const CARRY_LINES_REGEXP = /\r\n|\r|\n|<br\/?>/iu;
+export const STORE_PAGES_IDS_KEY = "pages_ids";
+export const STORE_LAST_CV_LOGIN_KEY = "last_cv_login";
+export const STORE_FAVORITS_KEY = "favorits";

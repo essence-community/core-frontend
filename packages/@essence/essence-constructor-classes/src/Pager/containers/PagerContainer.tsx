@@ -1,8 +1,16 @@
 import * as React from "react";
 import cn from "classnames";
 import {useObserver} from "mobx-react-lite";
-import {Scrollbars, mapComponents, IClassProps, IBuilderConfig, PageLoader} from "@essence/essence-constructor-share";
-import {PagerWindows} from "../components/PageWindows";
+import {
+    Scrollbars,
+    mapComponents,
+    IClassProps,
+    IBuilderConfig,
+    PageLoader,
+    ApplicationContext,
+} from "@essence/essence-constructor-share";
+import {settingsStore} from "@essence/essence-constructor-share/models";
+import {PagerWindows} from "../components/PagerWindows";
 import {focusPageElement} from "../utils/focusPageElement";
 import {PagerWindowMessage} from "../components/PagerWindowMessage";
 import {useStyles} from "./PagerContainer.styles";
@@ -15,17 +23,20 @@ interface IPagerProps extends IClassProps {}
 export const PagerContainer: React.FC<IPagerProps> = (props) => {
     const {pageStore} = props;
     const classes = useStyles(props);
+    const applicationStore = React.useContext(ApplicationContext);
 
     // TODO: need to ferify it
     React.useEffect(
         () => {
             if (!pageStore.route.clMenu) {
                 setTimeout(() => {
-                    pageStore.applicationStore.pagesStore.removePageAction(pageStore.ckPage);
+                    if (applicationStore) {
+                        applicationStore.pagesStore.removePageAction(pageStore.ckPage);
+                    }
                 });
             }
         },
-        [pageStore.applicationStore.pagesStore, pageStore.ckPage, pageStore.route.clMenu],
+        [applicationStore, pageStore.ckPage, pageStore.route.clMenu],
     );
 
     React.useEffect(
@@ -64,13 +75,15 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                     <PageLoader
                         pageStore={pageStore}
                         container={pageStore.pageEl}
-                        loaderType={pageStore.applicationStore.settingsStore.settings.projectLoader}
+                        // @ts-ignore
+                        loaderType={settingsStore.settings.projectLoader}
                     />
                     {mapComponents(
                         [
                             {
                                 childs: pageStore.pageBc,
                                 ckPageObject: "FORMPANEL",
+                                ckParent: "PAGER",
                                 type: "FORMPANEL",
                             },
                         ],

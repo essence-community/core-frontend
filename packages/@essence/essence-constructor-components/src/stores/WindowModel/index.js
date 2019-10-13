@@ -1,3 +1,5 @@
+// @depracated
+
 // @flow
 export {WindowModel} from "./WindowModel";
 

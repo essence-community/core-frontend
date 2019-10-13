@@ -10,7 +10,7 @@ import HTML5Backend from "react-dnd-html5-backend";
 import {DndProvider} from "react-dnd";
 import {Block} from "./Components/Block/Block";
 import Settings from "./Components/Settings/Settings";
-import AppRoutes from "./AppRoutes";
+import {AppRoutes} from "./AppRoutes";
 import {stores} from "./Stores/stores";
 
 themeVars.typography.fontFamily = `"Uni Neue Regular", ${themeVars.typography.fontFamily}`;

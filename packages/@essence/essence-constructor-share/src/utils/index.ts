@@ -10,7 +10,7 @@ export * from "./validations";
 export * from "./base";
 export * from "./download";
 export {parseMemoize} from "./parser";
-export {findGetGlobalKey} from "./findKey";
+export {findGetGlobalKey, findSetKey} from "./findKey";
 export {findColumns} from "./findColumns";
 export {findClassNames} from "./findClassNames";
 

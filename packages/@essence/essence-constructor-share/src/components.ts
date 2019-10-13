@@ -1,6 +1,6 @@
-import { IClassProps, IBuilderConfig } from "./types";
-import { ReactChild } from "react";
-import { loadFiles } from "./utils/browser";
+import {ReactChild} from "react";
+import {IClassProps, IBuilderConfig} from "./types";
+import {loadFiles} from "./utils/browser";
 
 interface IComponent {
     component: React.ComponentType<IClassProps>;
@@ -12,7 +12,7 @@ interface IComponents {
 
 interface IModule {
     loadingPromise: null | Promise<any>;
-    isReady: false,
+    isReady: false;
     moduleName: string;
     load: () => Promise<boolean>;
 }
@@ -21,7 +21,7 @@ interface IModules {
     [$name: string]: IModule;
 }
 
-type TResolve = (ChildComp: React.ComponentType<IClassProps>, bc: IBuilderConfig, index: number) => null | ReactChild
+type TResolve = (ChildComp: React.ComponentType<IClassProps>, bc: IBuilderConfig, index: number) => null | ReactChild;
 
 const components: IComponents = {};
 const modules: IModules = {};
@@ -51,27 +51,32 @@ export function setModule(moduleName: string, files: string[], configs: any[]) {
 
             return moduleEssence.loadingPromise;
         },
-    }
-    
+    };
+
     configs.forEach((config) => {
         const className: string = findClassName(config);
 
         modules[className] = moduleEssence;
-    })
+    });
 }
 
 /**
  * Load modules for specific components
- * 
+ *
  * @param componentNames {string[]} Name of components. Should be only name of modules.
  */
 export function loadComponentsFromModules(componentNames: string[]) {
     // Get modules from all components
-    const modulesToLoad = componentNames.filter((componentName: string) => !!modules[componentName]).map(componentName => modules[componentName])
+    const modulesToLoad = componentNames
+        .filter((componentName: string) => Boolean(modules[componentName]))
+        .map((componentName) => modules[componentName]);
 
-    return Promise.all(modulesToLoad.map((m: IModule) => {
-        return m.isReady ? true : m.load();
-    }))
+    return Promise.all(
+        // eslint-disable-next-line id-length
+        modulesToLoad.map((m: IModule) => {
+            return m.isReady ? true : m.load();
+        }),
+    );
 }
 
 export function getComponent(componentName: string): React.ComponentType<IClassProps> | null {

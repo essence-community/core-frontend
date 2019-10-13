@@ -60,7 +60,7 @@ export function getOffsetContainer({
     anchorOrigin,
     transformOrigin,
 }: IGetOffsetContainerProps): IOffset {
-    const anchorRect = rootEl.getBoundingClientRect();
+    const anchorRect = rootEl ? rootEl.getBoundingClientRect() : EMPTY_RECT;
     const popoverRect = popupEl ? popupEl.getBoundingClientRect() : EMPTY_RECT;
     const containerRect = container ? container.getBoundingClientRect() : EMPTY_RECT;
     const leftPopover =

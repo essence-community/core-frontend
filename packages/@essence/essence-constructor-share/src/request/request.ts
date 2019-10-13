@@ -1,32 +1,31 @@
-// @flow
 import {stringify} from "qs";
 import snakeCaseKeys from "snakecase-keys";
 import {IRequest, IRequestCheckError} from "../types";
+import {settingsStore} from "../models";
+import {camelCaseKeysAsync} from "../utils";
+import {VAR_SETTING_GATE_URL, META_OUT_RESULT, META_PAGE_OBJECT} from "../constants";
 import {ResponseError} from "./error";
 
-// tslint:disable-next-line:no-var-requires
-const camelcaseKeys = require("camelcase-keys");
+const MILLISECOND = 1000;
 
-const MILLISECOND: number = 1000;
-
-const checkError = ({response, query, list}: IRequestCheckError) => {
+const checkError = ({responseJSON, query, list}: IRequestCheckError) => {
     let isError = false;
 
-    if (response.success !== true && response.success !== "true") {
+    if (responseJSON.success !== true && responseJSON.success !== "true") {
         isError = true;
     }
 
-    if (list && !Array.isArray(response.data)) {
+    if (list && !Array.isArray(responseJSON.data)) {
         isError = true;
     }
 
     if (isError) {
-        throw new ResponseError("Ошибка в распознавании данных", response, query);
+        throw new ResponseError("Ошибка в распознавании данных", responseJSON, query);
     }
 };
 
-const parseResponse = ({response, list}: IRequestCheckError) => {
-    const {data} = response;
+const parseResponse = ({responseJSON, list}: IRequestCheckError) => {
+    const {data} = responseJSON;
 
     if (list) {
         return data;
@@ -41,7 +40,7 @@ const parseResponse = ({response, list}: IRequestCheckError) => {
     return responseSingleData;
 };
 
-export const request = ({
+export const request = async ({
     json,
     query = "",
     action = "dml",
@@ -51,8 +50,10 @@ export const request = ({
     list = true,
     plugin,
     timeout = "30",
-    gate,
+    gate = settingsStore.settings[VAR_SETTING_GATE_URL],
+    method = "POST",
     formData,
+    onUploadProgress,
 }: IRequest): Promise<object | object[]> => {
     const queryParams = {
         action,
@@ -60,11 +61,13 @@ export const request = ({
         query,
     };
     const data = {
+        [META_OUT_RESULT]: "",
+        [META_PAGE_OBJECT]: pageObject.replace(
+            // eslint-disable-next-line prefer-named-capture-group
+            /^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[)}]?.*?$/giu,
+            "$1",
+        ),
         json: json ? JSON.stringify(snakeCaseKeys(json)) : undefined,
-        // eslint-disable-next-line camelcase
-        out_result: "",
-        // eslint-disable-next-line camelcase
-        page_object: pageObject.replace(/^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[)}]?.*?$/gi, "$1"),
         session,
         ...(body ? snakeCaseKeys(body) : {}),
     };
@@ -72,27 +75,36 @@ export const request = ({
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), parseInt(timeout, 10) * MILLISECOND);
 
-    return fetch(url, {
+    const response = await fetch(url, {
         body: formData ? formData : stringify(data),
         headers: {
             "Content-type": "application/x-www-form-urlencoded",
         },
-        method: "POST",
-    })
-        .then((res) => {
-            clearTimeout(timeoutId);
+        method,
+        signal: controller.signal,
+    });
 
-            return res.json();
-        })
-        .then((res) => {
-            const response = {
-                data: camelcaseKeys(res.data),
-                metaData: res.metaData,
-                success: res.success,
-            };
+    if (onUploadProgress) {
+        const reader = response.body.getReader();
 
-            checkError({list, query, response});
+        // Let loaded = 0;
+        while (true) {
+            // eslint-disable-next-line no-await-in-loop
+            const result = await reader.read();
 
-            return parseResponse({list, query, response});
-        });
+            onUploadProgress(result);
+
+            if (result.done) {
+                break;
+            }
+        }
+    }
+
+    clearTimeout(timeoutId);
+
+    const responseJSON = await camelCaseKeysAsync(await response.json());
+
+    checkError({list, query, responseJSON});
+
+    return parseResponse({list, query, responseJSON});
 };

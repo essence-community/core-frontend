@@ -31,6 +31,16 @@ window.components = components;
 // @ts-ignore
 window.modules = modules;
 
+function findClassName(config: any): string {
+    const datatypeAttribute = config.classAttributes.find((attribute: any) => attribute.ckAttr === "datatype");
+
+    if (datatypeAttribute && datatypeAttribute.cvValue) {
+        return `${config.class.cvType}.${datatypeAttribute.cvValue.toUpperCase()}`;
+    }
+
+    return config.class.cvType;
+}
+
 export function setComponent(componentName: string, componentInstance: React.ComponentType<IClassProps>) {
     if (!(componentName in components)) {
         components[componentName] = {
@@ -41,8 +51,6 @@ export function setComponent(componentName: string, componentInstance: React.Com
 
 export function setModule(moduleName: string, files: string[], configs: any[]) {
     const moduleEssence: IModule = {
-        loadingPromise: null,
-        moduleName,
         isReady: false,
         load: () => {
             if (!moduleEssence.loadingPromise) {
@@ -51,6 +59,8 @@ export function setModule(moduleName: string, files: string[], configs: any[]) {
 
             return moduleEssence.loadingPromise;
         },
+        loadingPromise: null,
+        moduleName,
     };
 
     configs.forEach((config) => {
@@ -94,7 +104,7 @@ export function mapComponents(childs: IBuilderConfig[], resolve: TResolve) {
     }
 
     return childs.map((child, index) => {
-        const ChildComp = getComponent(child.type);
+        const ChildComp = child.type ? getComponent(child.type) : undefined;
 
         if (!ChildComp) {
             return null;
@@ -102,14 +112,4 @@ export function mapComponents(childs: IBuilderConfig[], resolve: TResolve) {
 
         return resolve(ChildComp, child, index);
     });
-}
-
-function findClassName(config: any): string {
-    const datatypeAttribute = config.classAttributes.find((attribute: any) => attribute.ckAttr === "datatype");
-
-    if (datatypeAttribute && datatypeAttribute.cvValue) {
-        return `${config.class.cvType}.${datatypeAttribute.cvValue.toUpperCase()}`;
-    }
-
-    return config.class.cvType;
 }

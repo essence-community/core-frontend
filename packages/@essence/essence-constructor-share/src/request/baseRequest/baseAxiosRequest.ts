@@ -13,12 +13,12 @@ interface ICheckError {
     responseAllData: any;
     query: string;
     responseData: any[];
-    list: boolean;
+    list?: boolean;
 }
 
 interface IParseResponse {
     responseData: any[];
-    list: boolean;
+    list?: boolean;
 }
 
 const checkError = ({responseAllData, query, responseData, list}: ICheckError) => {

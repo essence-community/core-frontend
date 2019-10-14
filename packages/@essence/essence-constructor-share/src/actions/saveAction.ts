@@ -1,8 +1,8 @@
 import {forOwn, get, isArray, noop} from "lodash";
 import {ObservableMap, toJS} from "mobx";
 import {loggerRoot} from "../constants";
-import {ProgressModel} from "../models";
-import {IBuilderConfig, IBuilderMode, IGridBuilder, IPageModel, IRecordsModel} from "../types";
+import {ProgressModel, snackbarStore} from "../models";
+import {IBuilderConfig, IBuilderMode, IGridBuilder, IPageModel, IRecordsModel, ILoadRecordsProps} from "../types";
 import {findGetGlobalKey, isEmpty} from "../utils";
 import {apiSaveAction} from "./apiSaveAction";
 import {setMask} from "./recordsActions";
@@ -39,15 +39,15 @@ export const filter = (values: any) => {
 };
 
 const findReloadAction = (recordsStore: IRecordsModel, bc: IGridBuilder) => {
-    if (bc.reloadmaster === "true") {
+    if (bc.reloadmaster === "true" && recordsStore.pageStore && bc.ckMaster) {
         const masterStore = recordsStore.pageStore.stores.get(bc.ckMaster);
 
         if (masterStore && masterStore.reloadStoreAction) {
-            return masterStore.reloadStoreAction;
+            return () => masterStore.reloadStoreAction(true);
         }
     }
 
-    return recordsStore.loadRecordsAction;
+    return (props: ILoadRecordsProps) => recordsStore.loadRecordsAction(props);
 };
 
 export const attachGlobalValues = ({globalValues, getglobaltostore, values}: IAttachGlobalValues) => {
@@ -66,7 +66,8 @@ export const attachGlobalValues = ({globalValues, getglobaltostore, values}: IAt
     return values;
 };
 
-export function saveAction(values: any[] | FormData, mode: IBuilderMode, config: IConfig) {
+// eslint-disable-next-line max-params
+export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: IBuilderMode, config: IConfig) {
     const {actionBc, action, clWarning = 0, query, bc, pageStore, formData, noReload} = config;
     const {extraplugingate, getglobaltostore, timeout} = actionBc;
     const {noglobalmask, ckMaster, ckPageObject} = bc;
@@ -94,7 +95,7 @@ export function saveAction(values: any[] | FormData, mode: IBuilderMode, config:
             globalValues: pageStore.globalValues,
             values: filter(values),
         });
-        modeCheck = isEmpty(filteredValues.ckId) && /^\d+$/.test(mode) ? "1" : mode;
+        modeCheck = isEmpty(filteredValues.ckId) && /^\d+$/u.test(mode) ? "1" : mode;
     }
 
     setMask(noglobalmask, pageStore, true);
@@ -110,13 +111,13 @@ export function saveAction(values: any[] | FormData, mode: IBuilderMode, config:
         onUploadProgress,
         plugin: extraplugingate || bc.extraplugingate,
         query,
-        session: pageStore.applicationStore.session,
+        session: (this.applicationStore && this.applicationStore.authStore.userInfo.session) || "",
         timeout,
     })
         .then(
             (response: any) =>
                 new Promise((resolve) => {
-                    const check = pageStore.applicationStore.snackbarStore.checkValidResponseAction(
+                    const check = snackbarStore.checkValidResponseAction(
                         response,
                         pageStore.route,
                         (warningText: string) => {
@@ -173,7 +174,7 @@ export function saveAction(values: any[] | FormData, mode: IBuilderMode, config:
         .catch((error) => {
             logger("Ошибка при сохранении данных:", error);
 
-            pageStore.applicationStore.snackbarStore.checkExceptResponse(error);
+            snackbarStore.checkExceptResponse(error);
             pageStore.resetStepAction();
 
             return false;

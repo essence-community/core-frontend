@@ -53,7 +53,6 @@ export const request = async ({
     gate = settingsStore.settings[VAR_SETTING_GATE_URL],
     method = "POST",
     formData,
-    onUploadProgress,
 }: IRequest): Promise<object | object[]> => {
     const queryParams = {
         action,
@@ -84,21 +83,19 @@ export const request = async ({
         signal: controller.signal,
     });
 
-    if (onUploadProgress) {
-        const reader = response.body.getReader();
-
-        // Let loaded = 0;
-        while (true) {
-            // eslint-disable-next-line no-await-in-loop
-            const result = await reader.read();
-
-            onUploadProgress(result);
-
-            if (result.done) {
-                break;
-            }
-        }
-    }
+    /*
+     * TODO: Реализовать onUploadProgress
+     * if (onUploadProgress) {
+     *     const reader = response.body.getReader();
+     *     while (true) {
+     *         const result = await reader.read();
+     *         onUploadProgress(result);
+     *         if (result.done) {
+     *             break;
+     *         }
+     *     }
+     * }
+     */
 
     clearTimeout(timeoutId);
 

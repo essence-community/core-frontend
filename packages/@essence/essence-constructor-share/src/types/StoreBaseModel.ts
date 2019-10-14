@@ -51,6 +51,7 @@ export interface IStoreBaseModel {
     handlers: IHandlers;
     recordsStore?: IRecordsModel;
     applicationStore?: IApplicationModel;
+    selectedRecord?: Record<string, FieldValue>;
     afterSelected?: () => void;
     reloadStoreAction: (checkParent?: boolean) => Promise<object | undefined>;
     clearStoreAction: () => void;

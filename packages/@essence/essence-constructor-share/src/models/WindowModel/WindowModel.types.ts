@@ -1,4 +1,4 @@
-import {IStoreBaseModelProps, IPageModel, FieldValue, HandlerMode} from "../../types";
+import {IStoreBaseModelProps, IPageModel, FieldValue, IBuilderMode} from "../../types";
 
 /**
  * Конструкотр модели
@@ -9,5 +9,5 @@ import {IStoreBaseModelProps, IPageModel, FieldValue, HandlerMode} from "../../t
 export interface IWindowModelConstructor extends IStoreBaseModelProps {
     pageStore: IPageModel;
     values?: Record<string, FieldValue>;
-    mode: HandlerMode;
+    mode: IBuilderMode;
 }

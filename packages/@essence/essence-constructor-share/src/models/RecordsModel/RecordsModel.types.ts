@@ -25,7 +25,7 @@ export interface IGetFilterData {
 export interface IAttachGlobalStore {
     bc: IBuilderConfig;
     json: IJson;
-    globalValues: ObservableMap<string, FieldValue>;
+    globalValues?: ObservableMap<string, FieldValue>;
 }
 
 export interface ILoadRecordsAction {

@@ -1,14 +1,26 @@
 /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
-import {IApplicationModel, IBuilderMode, IPageModel, IBuilderConfig} from "../../types";
+import {ObservableMap, observable} from "mobx";
+import {
+    IApplicationModel,
+    IBuilderMode,
+    IPageModel,
+    IBuilderConfig,
+    FieldValue,
+    IStoreBaseModel,
+    IWindowModel,
+    PageModelWindows,
+    PageModelSaveCallback,
+    IRecordsModel,
+} from "../../types";
 
 export class PageModelAbstract implements IPageModel {
-    public fieldValueMaster: Map<string, string> = new Map();
+    public fieldValueMaster: ObservableMap<string, FieldValue> = observable.map();
 
     public pageBc: IBuilderConfig[] = [];
 
-    public stores: Map<string, any> = new Map();
+    public stores: ObservableMap<string, IStoreBaseModel> = observable.map();
 
-    public globalValues: any = new Map();
+    public globalValues: ObservableMap<string, FieldValue> = observable.map();
 
     public ckPage = "1";
 
@@ -38,9 +50,19 @@ export class PageModelAbstract implements IPageModel {
 
     public visible = true;
 
+    public windows: PageModelWindows = observable.array();
+
     public windowsOne: any = [];
 
     public styleTheme: "dark" | "light" = "light";
+
+    public saveCallBack: PageModelSaveCallback | null = null;
+
+    public loadingCount = 0;
+
+    public scrollEvents: Function[] = [];
+
+    public recordsStore: IRecordsModel;
 
     public fireScrollEvent = () => {};
 
@@ -50,15 +72,15 @@ export class PageModelAbstract implements IPageModel {
 
     public removeStore = (_name: string, _store: any) => {};
 
-    public addWindowAction = (_window: any, _name: string) => {};
+    public addWindowAction = (_window: IWindowModel) => {};
 
-    public removeWindowAction = (_name: string) => {};
+    public removeWindowAction = (_window: IWindowModel) => {};
 
     public addFieldValueMaster = (_name: string, _value: any) => {};
 
     public removeFieldValueMaster = (_name: string) => {};
 
-    public loadConfigAction = (_ckPage: string | number, _session: string) => Promise.resolve(undefined);
+    public loadConfigAction = (_ckPage: string | number) => Promise.resolve(undefined);
 
     public setPageElAction = (_pageEl?: HTMLDivElement) => {};
 
@@ -105,4 +127,10 @@ export class PageModelAbstract implements IPageModel {
     public addScrollEvent = () => {};
 
     public removeScrollEvent = () => {};
+
+    public handleNextStep = (_stepnamenext: string) => {};
+
+    public getNextStepName = (stepnamenext?: string) => undefined;
+
+    public handleScrollAction = () => {};
 }

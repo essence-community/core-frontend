@@ -66,6 +66,7 @@ export class CheckLoading {
             this.reject = reject;
 
             if (master && master.recordsStore && master.recordsStore.isLoading) {
+                // @ts-ignore
                 this.initMaster(master);
             }
 

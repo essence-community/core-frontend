@@ -67,7 +67,7 @@ export interface IPageModel {
     isActiveRedirect: boolean;
     globalStores: Map<string, IStoreBaseModel[]>;
     masters: Record<string, Field[]>;
-    scrollEvents: Array<Function>;
+    scrollEvents: Function[];
     visible: boolean;
     recordsStore: IRecordsModel;
     updateGlobalValues(values: Record<string, FieldValue>): void;

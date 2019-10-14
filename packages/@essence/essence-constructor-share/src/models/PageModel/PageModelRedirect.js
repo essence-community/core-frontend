@@ -2,9 +2,10 @@
 import forOwn from "lodash/forOwn";
 import {runInAction, when} from "mobx";
 import {Field, Form} from "mobx-react-form";
+// $FlowFixMe
 import {loggerRoot} from "../../constants";
+// $FlowFixMe
 import {isEmpty} from "../../utils/base";
-import {type PageModelInterface} from "./PageModelType";
 
 const logger = loggerRoot.extend("PageModelRedirect");
 const AWAIT_DELAY = 5000;
@@ -74,7 +75,7 @@ function filterAllForms(forms: Array<Form>, params: Object): Promise<Object> {
     return Promise.all(forms.map((form: Form) => runFormFilter(form, notFieldParams))).then(() => notFieldParams);
 }
 
-export async function redirectToPage(page: PageModelInterface, params: Object) {
+export async function redirectToPage(page: any, params: Object) {
     page.isActiveRedirect = true;
 
     // При переходе все поля нужно сбрасывать в значения по умолчанию.

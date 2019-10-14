@@ -27,6 +27,7 @@ export interface IApplicationModel {
     history: History;
     // @deprecated
     snackbarStore: ISnackbarModel;
+    cvUrl: string;
     updateGlobalValuesAction(values: Record<string, string>): void;
     setSesssionAction(userInfo: IAuthSession): Promise<void>;
     logoutAction(): void;

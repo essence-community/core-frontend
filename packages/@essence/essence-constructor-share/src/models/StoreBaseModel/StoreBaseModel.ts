@@ -9,7 +9,7 @@ import {
 } from "../../types";
 import {loggerRoot} from "../../constants";
 
-const logger = loggerRoot("StoreBaseModel");
+const logger = loggerRoot.extend("StoreBaseModel");
 
 /**
  * Базовая модель для построения сторов

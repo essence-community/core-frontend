@@ -10,10 +10,10 @@ import {
     IBuilderConfig,
     IPagesModel,
     ISnackbarModel,
+    IRecordsModel,
 } from "@essence/essence-constructor-share";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
+import {snackbarStore, RecordsModel} from "@essence/essence-constructor-share/models";
 import {History} from "history";
-import {EXPEREMENTAL_BC} from "./bc";
 import {RoutesModel} from "./RoutesModel";
 import {IAuthSession} from "./AuthModel.types";
 import {PagesModel} from "./PagesModel";
@@ -31,7 +31,7 @@ const LOGOUT_CODE = 4001;
 export class ApplicationModel implements IApplicationModel {
     routesStore: RoutesModel;
 
-    bc: IBuilderConfig = EXPEREMENTAL_BC;
+    bc: IBuilderConfig;
 
     authStore: AuthModel;
 
@@ -54,7 +54,14 @@ export class ApplicationModel implements IApplicationModel {
     // @deprecated
     snackbarStore: ISnackbarModel = snackbarStore;
 
-    constructor(history: History) {
+    // @deprecated
+    session: string;
+
+    recordsStore: IRecordsModel;
+
+    cvUrl: string;
+
+    constructor(history: History, cvUrl: string) {
         this.routesStore = new RoutesModel(
             {
                 ckPageObject: "MTRoute",
@@ -63,16 +70,28 @@ export class ApplicationModel implements IApplicationModel {
             },
             this,
         );
+        this.cvUrl = cvUrl;
         this.history = history;
         this.pagesStore = new PagesModel(this);
         this.authStore = new AuthModel(this);
         this.countConnect = 0;
+        this.recordsStore = new RecordsModel(
+            {ckPageObject: "application", ckParent: "application", ckQuery: "GetMetamodelPage"},
+            {applicationStore: this},
+        );
 
         extendObservable(this, {
+            get bc() {
+                return this.recordsStore.recordsState.records[0] || {};
+            },
             blockText: "",
             globalValues: observable.map(this.authStore.userInfo),
             isApplicationReady: false,
             isBlock: false,
+            // @deprecated
+            get session() {
+                return this.authStore.userInfo.session;
+            },
         });
     }
 
@@ -106,7 +125,8 @@ export class ApplicationModel implements IApplicationModel {
         }
     });
 
-    redirectToAction = action("redirectToAction", async (ckPage: string, params: Record<string, any>) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+    redirectToAction = action("redirectToAction", async (ckPage: string, _params: Record<string, any>) => {
         const page = await this.pagesStore.setPageAction(ckPage, true);
 
         if (page) {
@@ -116,15 +136,15 @@ export class ApplicationModel implements IApplicationModel {
         }
     });
 
-    loadApplicationAction = action("loadApplicationAction", () => {
-        return Promise.all([
+    loadApplicationAction = action("loadApplicationAction", async () => {
+        // TODO: should be request to static application page {cvUrl: this.cvUrl}
+        await this.recordsStore.searchAction({ckPage: "F6D38648BBD84597B3882FAC7692DF3F"});
+        await Promise.all([
             snackbarStore.recordsStore.loadRecordsAction(),
             this.routesStore.recordsStore.loadRecordsAction(),
-        ])
-            .then(() => this.pagesStore.restorePagesAction(this.authStore.userInfo.cvLogin))
-            .then(() => {
-                this.isApplicationReady = true;
-            });
+        ]);
+        this.pagesStore.restorePagesAction(this.authStore.userInfo.cvLogin);
+        this.isApplicationReady = true;
     });
 
     blockApplicationAction = action("blockApplicationAction", (type: string, text = "") => {

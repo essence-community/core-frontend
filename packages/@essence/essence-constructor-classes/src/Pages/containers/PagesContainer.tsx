@@ -8,9 +8,8 @@ export const PagesContainer: React.FC = () => {
 
     return useObserver(() => (
         <>
-            <pre>{JSON.stringify(applicationStore.pagesStore.pages.length, null, 2)}</pre>
             {applicationStore.pagesStore.pages.map((page: IPageModel) => (
-                <BuilderPage key={page.ckPage} pageStore={page} />
+                <BuilderPage key={page.ckPage} pageStore={page} visible bc={null} />
             ))}
         </>
     ));

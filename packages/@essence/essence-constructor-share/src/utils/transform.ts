@@ -54,7 +54,7 @@ export const camelCaseMemoized = (value: string) => {
     return transfomedValue;
 };
 
-export function camelCaseKeys(obj: ValueObjType): ValueObjType {
+export function camelCaseKeys<T>(obj: T): T {
     if (!isObject(obj)) {
         return obj;
     }
@@ -67,6 +67,7 @@ export function camelCaseKeys(obj: ValueObjType): ValueObjType {
     const newObj: any = {};
 
     for (const key in obj) {
+        // eslint-disable-next-line no-prototype-builtins
         if (obj.hasOwnProperty(key)) {
             if (typeof obj[key] === "object") {
                 newObj[camelCase(key)] = camelCaseKeys(obj[key]);

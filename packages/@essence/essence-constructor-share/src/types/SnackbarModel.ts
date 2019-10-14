@@ -17,7 +17,7 @@ export type SnackbarStatus =
 
 export interface ISnackbar {
     autoHidden: boolean;
-    text: string;
+    text: string | Element;
     status: SnackbarStatus;
     id: string;
     createdAt: string;

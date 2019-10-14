@@ -16,8 +16,8 @@ import {renderGlobalValuelsInfo} from "../utils/renderGlobalValuelsInfo";
 
 export const ApplicationContainer: React.FC<IClassProps> = () => {
     const history = useHistory();
-    const {ckId} = useParams();
-    const [applicationStore] = React.useState(() => new ApplicationModel(history));
+    const {ckId, cvUrl = "pages"} = useParams();
+    const [applicationStore] = React.useState(() => new ApplicationModel(history, cvUrl));
     const appName = "pages";
 
     React.useEffect(
@@ -90,7 +90,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
         <ApplicationContext.Provider value={applicationStore}>
             {applicationStore.isApplicationReady ? (
                 mapComponents(applicationStore.bc.childs, (ChildComponent, childBc) => (
-                    <ChildComponent key={childBc.ckPageObject} bc={childBc} />
+                    <ChildComponent pageStore={null} key={childBc.ckPageObject} bc={childBc} visible />
                 ))
             ) : (
                 // @ts-ignore

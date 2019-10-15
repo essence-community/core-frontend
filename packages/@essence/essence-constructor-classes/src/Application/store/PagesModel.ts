@@ -9,10 +9,10 @@ import {
     STORE_LAST_CV_LOGIN_KEY,
     IPageModel,
     IPagesModel,
+    IApplicationModel,
 } from "@essence/essence-constructor-share";
 import {PageModel} from "@essence/essence-constructor-share/models";
 import {changePagePosition} from "../../Application/utils/changePagePosition";
-import {ApplicationModel} from "./ApplicationModel";
 
 export class PagesModel implements IPagesModel {
     pages: IObservableArray<IPageModel>;
@@ -21,9 +21,9 @@ export class PagesModel implements IPagesModel {
 
     expansionRecords: ObservableMap<string, boolean>;
 
-    applicationStore: ApplicationModel;
+    applicationStore: IApplicationModel;
 
-    constructor(applicationStore: ApplicationModel) {
+    constructor(applicationStore: IApplicationModel) {
         this.applicationStore = applicationStore;
 
         extendObservable(this, {

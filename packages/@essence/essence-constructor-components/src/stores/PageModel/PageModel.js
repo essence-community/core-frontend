@@ -267,30 +267,26 @@ export class PageModel implements PageModelInterface {
 
         this.setLoadingAction(true);
 
-        return (
-            fetchResult
-                .then((response) => {
-                    if (this.applicationStore.snackbarStore.checkValidResponseAction(response[0], this.route)) {
-                        console.log("findClassNames", findClassNames);
-                        const classNames = findClassNames(response);
+        return fetchResult
+            .then((response) => {
+                if (this.applicationStore.snackbarStore.checkValidResponseAction(response[0], this.route)) {
+                    const classNames = findClassNames(response);
 
-                        loadComponentsFromModules(classNames).then(() => {
-                            this.pageBc = response;
-                        });
-                    }
-                })
-                /*
-             * .catch((error) => {
-             *     this.applicationStore.snackbarStore.checkExceptResponse(error, this.route);
-             *     this.pageBc = [];
-             * })
-             */
-                .then((res) => {
-                    this.setLoadingAction(false);
+                    loadComponentsFromModules(classNames).then(() => {
+                        this.pageBc = response;
+                    });
+                }
+            })
 
-                    return res;
-                })
-        );
+            .catch((error) => {
+                this.applicationStore.snackbarStore.checkExceptResponse(error, this.route);
+                this.pageBc = [];
+            })
+            .then((res) => {
+                this.setLoadingAction(false);
+
+                return res;
+            });
     });
 
     setPageElAction = action("setPageElAction", (pageEl: ?HTMLDivElement) => {

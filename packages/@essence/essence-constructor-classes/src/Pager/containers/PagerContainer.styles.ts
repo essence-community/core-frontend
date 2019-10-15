@@ -19,7 +19,7 @@ export const useStyles = makeStyles((theme: IEssenceTheme) => ({
         marginTop: 20,
     },
     root: {
-        height: "100%",
+        flexGrow: 1,
         position: "relative",
     },
     rootDialogContent: {},

@@ -22,17 +22,21 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
 
     React.useEffect(
         () => {
-            applicationStore.loadApplicationAction();
-            const {routesStore, pagesStore} = applicationStore;
-            const routes = routesStore.recordsStore.records;
-            const pageConfig = routes.find((route) => route.ckId === ckId || route.cvUrl === ckId);
-            const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
+            const loadApplication = async () => {
+                await applicationStore.loadApplicationAction();
+                const {routesStore, pagesStore} = applicationStore;
+                const routes = routesStore.recordsStore.records;
+                const pageConfig = routes.find((route) => route.ckId === ckId || route.cvUrl === ckId);
+                const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
-            if (typeof pageId === "string") {
-                pagesStore.setPageAction(pageId, false);
-            } else {
-                pagesStore.setPageAction(ckId, true);
-            }
+                if (typeof pageId === "string") {
+                    pagesStore.setPageAction(pageId, false);
+                } else {
+                    pagesStore.setPageAction(ckId, true);
+                }
+            };
+
+            loadApplication();
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [applicationStore],
@@ -88,7 +92,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
 
     return useObserver(() => (
         <ApplicationContext.Provider value={applicationStore}>
-            {applicationStore.isApplicationReady ? (
+            {applicationStore.isApplicationReady && applicationStore.bc ? (
                 mapComponents(applicationStore.bc.childs, (ChildComponent, childBc) => (
                     <ChildComponent pageStore={null} key={childBc.ckPageObject} bc={childBc} visible />
                 ))

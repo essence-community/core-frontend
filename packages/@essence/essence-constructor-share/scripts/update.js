@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
-/* eslint-disable no-use-before-define */
-/* eslint-disable camelcase */
+/* eslint-disable no-use-before-define, @typescript-eslint/no-use-before-define */
+/* eslint-disable camelcase, @typescript-eslint/camelcase, @typescript-eslint/no-var-requires */
 const fs = require("fs");
 const path = require("path");
 const request = require("request");
 
-const tsModuleTypeFile = path.join(__dirname, "..", "module.d.ts");
 const tsTypeFile = path.join(__dirname, "..", "src", "types", "Builder.ts");
 const {GATE_URL} = process.env;
+const ATTR_SKIP = ["bottombtn", "childs", "childwindow", "columns", "editors", "filters", "topbtn"];
 
 if (!GATE_URL) {
     throw new Error("GATE_URL should be set in env");
@@ -16,8 +16,8 @@ if (!GATE_URL) {
 request.post(
     {
         form: {
-            cv_login: "test_core",
-            cv_password: "test_core",
+            cv_login: "admin_core",
+            cv_password: "admin_core",
         },
         json: true,
         url: `${GATE_URL}?action=auth&query=Login`,
@@ -52,16 +52,13 @@ function parseAttributes(session) {
             const types = [];
 
             body.data.forEach((attribute) => {
-                types.push(`        // ${attribute.cv_description.replace(/<br\/?>/g, " ")}`);
-                types.push(`        ${attribute.ck_id}?: ${attribute.cv_static_type || "string"},`);
+                if (ATTR_SKIP.indexOf(attribute.ck_id) === -1) {
+                    types.push(`    // ${attribute.cv_description.replace(/<br\/?>/gu, " ")}`);
+                    types.push(`    ${attribute.ck_id}?: ${attribute.cv_static_type || "string"};`);
+                }
             });
 
-            writeToFile(
-                tsModuleTypeFile,
-                ["    export interface BuilderConfigType {", ...types, "    };"],
-                "BUILDER_CONFIG",
-            );
-            writeToFile(tsTypeFile, ["    export interface BuilderConfigType {", ...types, "    };"], "BUILDER_CONFIG");
+            writeToFile(tsTypeFile, ["export interface IBuilderBaseConfig {", ...types, "};"], "BUILDER_CONFIG");
         },
     );
 }
@@ -72,8 +69,8 @@ function writeToFile(pathToFile, types, replaceStr) {
             console.error(err);
         } else {
             const result = data.replace(
-                new RegExp(`// ${replaceStr}_START[\\s\\S]*// ${replaceStr}_END`, "g"),
-                [`// ${replaceStr}_START`, ...types, `    // ${replaceStr}_END`].join("\n"),
+                new RegExp(`// ${replaceStr}_START[\\s\\S]*// ${replaceStr}_END`, "gu"),
+                [`// ${replaceStr}_START`, ...types, `// ${replaceStr}_END`].join("\n"),
             );
 
             fs.writeFile(pathToFile, result, (errSave) => {

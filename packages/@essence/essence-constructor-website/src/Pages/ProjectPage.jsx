@@ -29,6 +29,8 @@ const styles = () => ({
         display: "none",
     },
     root: {
+        display: "flex",
+        flexDirection: "column",
         height: "100%",
     },
 });

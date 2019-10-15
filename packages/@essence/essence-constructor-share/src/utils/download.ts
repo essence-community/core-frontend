@@ -1,9 +1,9 @@
-// @flow
 import axios from "axios";
-import {setMask} from "../models/RecordsModel";
+import {setMask} from "../models/RecordsModel/loadRecordsAction";
 import {baseRequest} from "../request/baseRequest";
 import {IPageModel} from "../types/PageModel";
 import {ISnackbarModel} from "../types/SnackbarModel";
+import {FieldValue} from "../types";
 
 interface IPrintBC {
     ckParent: string;
@@ -20,7 +20,7 @@ interface IReloadPageObject {
 }
 
 interface IPrint {
-    values: {[key: string]: any};
+    values: Record<string, FieldValue>;
     bcBtn: IPrintBC;
     bc: IPrintBC;
     isOnline: boolean;
@@ -44,7 +44,7 @@ export const print = async ({
 }: IPrint) => {
     values.ckId = null;
     values.clOnline = Number(isOnline);
-    setMask(bcBtn.noglobalmask, pageStore, true);
+    setMask(true, bcBtn.noglobalmask, pageStore);
     const res = await baseRequest({
         action: "dml",
         gate: bc.ckDEndpoint,
@@ -62,7 +62,7 @@ export const print = async ({
         timeout,
     });
 
-    setMask(bcBtn.noglobalmask, pageStore, false);
+    setMask(false, bcBtn.noglobalmask, pageStore);
     const isValid = snackbarStore.checkValidResponseAction(res, pageStore.route);
 
     if (isValid && isOnline) {
@@ -102,7 +102,7 @@ const createLink = (blobURL: string, filename: string, expotType: string) => {
     document.body.removeChild(tempLink);
 };
 
-export const downloadImage = (url: string, filename?: string, expotType = "jpg") => {
+export const downloadImage = (url: string, filename = "", expotType = "jpg") => {
     if (url.indexOf("http") === -1) {
         createLink(url, filename, expotType);
     } else {

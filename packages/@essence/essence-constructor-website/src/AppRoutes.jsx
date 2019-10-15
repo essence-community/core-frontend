@@ -11,15 +11,18 @@ import AuthorizationPage from "./Pages/AuthorizationPage/AuthorizationPage";
 import PreferencePage from "./Pages/PreferencePage/PreferencePage";
 import ReportsPage from "./Pages/ReportsPage/ReportsPage";
 import RedirectPage from "./Pages/RedirectPage/RedirectPage";
+
+import {ApplicationRouter} from "./containers/ApplicationRouter";
 import {history} from "./history";
 
-const AppRoutes = () => (
+export const AppRoutes = () => (
     <Router history={history}>
         <Switch>
             <Route path="/auth" component={(props: any) => <AuthPage {...props} />} />
             <Route path="/redirect/:b64" component={(props: any) => <RedirectPage {...props} />} />
             <Route path="/reports/session/:session" component={(props: any) => <ReportsPage {...props} />} />
             <Route path="/reports/token/:token" component={(props: any) => <ReportsPage {...props} />} />
+            <Route path="/pages/:ckId" component={(props: any) => <ApplicationRouter {...props} />} />
             <AuthorizationPage>
                 <Switch>
                     <Route path="/page/:ckId" component={(props: any) => <ProjectPage {...props} />} />
@@ -31,5 +34,3 @@ const AppRoutes = () => (
         </Switch>
     </Router>
 );
-
-export default AppRoutes;

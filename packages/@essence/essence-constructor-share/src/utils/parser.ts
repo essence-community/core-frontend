@@ -1,86 +1,54 @@
+/* eslint-disable @typescript-eslint/no-use-before-define, no-use-before-define */
 import * as esprima from "esprima";
+// eslint-disable-next-line import/no-extraneous-dependencies, import/extensions, import/no-unresolved
+import {Expression, Property, Pattern, Super, LogicalExpression, UnaryExpression} from "estree";
 import memoize from "memoizee";
+import {FieldValue} from "../types";
+import {loggerRoot} from "../constants";
 import {camelCaseMemoized} from "./transform";
 
 interface IParseReturnType {
-    runer: (values?: any) => any;
+    runer: (values?: Record<string, FieldValue>) => undefined | string | boolean | number;
     variables: string[];
 }
 
 interface IValues {
-    [$key: string]: string | number | boolean ;
+    get?($key: string): FieldValue;
+    [$key: string]: FieldValue;
 }
 
-interface IQuasi {
-    value: {
-        raw: string;
-    }
-}
-
-interface IParsedItem {
-    type?: string,
-    operator?: "=" | "!=" | "!" | "!==" | "&&" | "+" | "<" | "==" | "===" | ">" | "in" | "||";
-    expressions?: IParsedItem[];
-    name?: string;
-    left?: IParsedItem;
-    right?: IParsedItem;
-    argument?: {
-        type: string;
-        name: string;
-    };
-    prefix?: boolean;
-    value?: string;
-    object?: {[key: string]: string};
-    property?: IParsedItem;
-    properties?: IProperty[];
-    elements?: IParsedItem[];
-    test?: IParsedItem;
-    consequent?: IParsedItem;
-    alternate?: IParsedItem;
-    quasis?: IQuasi[];
-}
-
-interface IProperty {
-    key: IParsedItem;
-    value: IParsedItem
-}
-interface IParsedBody {
-    expression: IParsedItem
-    type: string;
-}
-
-interface IToken {
-    type: string;
-    value: string;
-}
-interface IParsedSrc {
-    body: IParsedBody[];
-    sourceType: string;
-    type: string;
-    tokens?: IToken[] ; 
-}
+const logger = loggerRoot.extend("parser");
 
 const operators: any = {
-    "!": ({argument}: IParsedItem, values: {[key: string]: string}) => !parseOperations(argument, values),
-    // tslint:disable-next-line
-    "!=": ({left, right}: IParsedItem, values: {[key: string]: string}) => parseOperations(left, values) != parseOperations(right, values),
-    "!==": ({left, right}: IParsedItem, values: {[key: string]: string}) => parseOperations(left, values) !== parseOperations(right, values),
-    "&&": ({left, right}: IParsedItem, values: {[key: string]: string}) => parseOperations(left, values) && parseOperations(right, values),
-    "+": ({left, right}: IParsedItem, values: {[key: string]: string}) => parseOperations(left, values) + parseOperations(right, values),
-    "<": ({left, right}: IParsedItem, values: {[key: string]: string}) => parseOperations(left, values) < parseOperations(right, values),
-    // tslint:disable-next-line
-    "==": ({left, right}: IParsedItem, values: {[key: string]: string}) => parseOperations(left, values) == parseOperations(right, values),
-    "===": ({left, right}: IParsedItem, values: {[key: string]: string}) => parseOperations(left, values) === parseOperations(right, values),
-    ">": ({left, right}: IParsedItem, values: {[key: string]: string}) => parseOperations(left, values) > parseOperations(right, values),
-    in: ({left, right}: IParsedItem, values: {[key: string]: string}) => {
+    "!": ({argument}: UnaryExpression, values: IValues) => !parseOperations(argument, values),
+    "!=": ({left, right}: LogicalExpression, values: IValues) =>
+        // eslint-disable-next-line eqeqeq
+        parseOperations(left, values) != parseOperations(right, values),
+    "!==": ({left, right}: LogicalExpression, values: IValues) =>
+        parseOperations(left, values) !== parseOperations(right, values),
+    "&&": ({left, right}: LogicalExpression, values: IValues) =>
+        parseOperations(left, values) && parseOperations(right, values),
+    "+": ({left, right}: LogicalExpression, values: IValues) =>
+        parseOperations(left, values) + parseOperations(right, values),
+    "<": ({left, right}: LogicalExpression, values: IValues) =>
+        parseOperations(left, values) < parseOperations(right, values),
+    "==": ({left, right}: LogicalExpression, values: IValues) =>
+        // eslint-disable-next-line eqeqeq
+        parseOperations(left, values) == parseOperations(right, values),
+    "===": ({left, right}: LogicalExpression, values: IValues) =>
+        parseOperations(left, values) === parseOperations(right, values),
+    ">": ({left, right}: LogicalExpression, values: IValues) =>
+        parseOperations(left, values) > parseOperations(right, values),
+    in: ({left, right}: LogicalExpression, values: IValues) => {
         const value = parseOperations(right, values);
 
         return (Array.isArray(value) ? value : [value]).indexOf(parseOperations(left, values)) !== -1;
     },
-    "||": ({left, right}: any, values: any) => parseOperations(left, values) || parseOperations(right, values),
+    "||": ({left, right}: LogicalExpression, values: IValues) =>
+        parseOperations(left, values) || parseOperations(right, values),
 };
 
-function parseOperations(expression: IParsedItem, values: IValues): any {
+function parseOperations(expression: Expression | Pattern | Super, values: IValues): any {
     if (!expression) {
         return null;
     }
@@ -90,18 +58,17 @@ function parseOperations(expression: IParsedItem, values: IValues): any {
         case "LogicalExpression":
             return operators[expression.operator] ? operators[expression.operator](expression, values) : false;
         case "SequenceExpression":
-            return expression.expressions.map((exp: IParsedItem) => parseOperations(exp, values));
+            return expression.expressions.map((exp: Expression) => parseOperations(exp, values));
         case "Literal":
             return expression.value;
         case "Identifier":
             return values.get
-                // @ts-ignore
                 ? values.get(camelCaseMemoized(expression.name))
                 : values[camelCaseMemoized(expression.name)];
         case "AssignmentExpression":
             return parseOperations(expression.right, values);
         case "ObjectExpression":
-            return expression.properties.reduce((acc: IValues, property: IProperty) => {
+            return expression.properties.reduce((acc: IValues, property: Property) => {
                 acc[parseOperations(property.key, values)] = parseOperations(property.value, values);
 
                 return acc;
@@ -115,26 +82,27 @@ function parseOperations(expression: IParsedItem, values: IValues): any {
         case "MemberExpression":
             return parseOperations(expression.object, values)[parseOperations(expression.property, values)];
         case "TemplateLiteral":
-            return expression.expressions ? expression.expressions.reduce(
-                (acc, expr, index) => `${acc}${parseOperations(expr, values)}${expression.quasis[index + 1].value.raw}`,
-                expression.quasis[0].value.raw
-            ) : "";
+            return expression.expressions
+                ? expression.expressions.reduce(
+                      (acc, expr, index) =>
+                          `${acc}${parseOperations(expr, values)}${expression.quasis[index + 1].value.raw}`,
+                      expression.quasis[0].value.raw,
+                  )
+                : "";
         default:
-            // tslint:disable:next-line no-console
-            console.error("expression not found: ", expression);
+            logger("expression not found: ", expression);
 
             return undefined;
     }
 }
 
-export const parse = (src: string, withTokens: boolean = false): IParseReturnType => {
-    let parsedSrc: IParsedSrc = null;
+export const parse = (src: string, withTokens = false): IParseReturnType => {
+    let parsedSrc: esprima.Program | null = null;
 
     try {
-        parsedSrc = esprima.parseScript(`result = ${src}`, {tokens: withTokens}) as IParsedSrc;
+        parsedSrc = esprima.parseScript(`result = ${src}`, {tokens: withTokens});
     } catch (error) {
-        // tslint:disable:next-line no-console
-        console.error("Ошбика при выполнении parse: ", error.message);
+        logger("Ошбика при выполнении parse: ", error.message);
 
         return {
             runer: () => "Ошибка парсинга",
@@ -143,14 +111,16 @@ export const parse = (src: string, withTokens: boolean = false): IParseReturnTyp
     }
 
     return {
-        runer: (values: {[key: string]: string} = {}) =>
+        runer: (values: IValues = {}) =>
+            // @ts-ignore
             parsedSrc ? parseOperations(parsedSrc.body[0].expression, values) : "Ошибка запуска",
-        variables: withTokens
-            ? parsedSrc.tokens
-                  .filter((token: IToken) => token.type === "Identifier" && token.value !== "result")
-                  .map((token: IToken) => token.value)
-                  .filter((value: string, idx: number, arr: string[]) => arr.indexOf(value) === idx)
-            : [],
+        variables:
+            withTokens && parsedSrc && parsedSrc.tokens
+                ? parsedSrc.tokens
+                      .filter((token: esprima.Token) => token.type === "Identifier" && token.value !== "result")
+                      .map((token: esprima.Token) => token.value)
+                      .filter((value: string, idx: number, arr: string[]) => arr.indexOf(value) === idx)
+                : [],
     };
 };
 

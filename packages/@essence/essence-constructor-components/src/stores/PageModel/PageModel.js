@@ -5,7 +5,8 @@ import {type IObservableArray} from "mobx/lib/mobx.js.flow";
 import {Field} from "mobx-react-form";
 import forEach from "lodash/forEach";
 import noop from "lodash/noop";
-import {parseMemoize, loadComponentsFromModules, findClassNames} from "@essence/essence-constructor-share";
+import {parseMemoize, loadComponentsFromModules} from "@essence/essence-constructor-share";
+import {findClassNames} from "@essence/essence-constructor-share/utils";
 import {loggerRoot, styleTheme as styleThemeConst} from "../../constants";
 import {sendRequestList} from "../../request/baseRequest";
 import {isEmpty} from "../../utils/base";
@@ -266,25 +267,30 @@ export class PageModel implements PageModelInterface {
 
         this.setLoadingAction(true);
 
-        return fetchResult
-            .then((response) => {
-                if (this.applicationStore.snackbarStore.checkValidResponseAction(response[0], this.route)) {
-                    const classNames = findClassNames(response);
+        return (
+            fetchResult
+                .then((response) => {
+                    if (this.applicationStore.snackbarStore.checkValidResponseAction(response[0], this.route)) {
+                        console.log("findClassNames", findClassNames);
+                        const classNames = findClassNames(response);
 
-                    loadComponentsFromModules(classNames).then(() => {
-                        this.pageBc = response;
-                    });
-                }
-            })
-            .catch((error) => {
-                this.applicationStore.snackbarStore.checkExceptResponse(error, this.route);
-                this.pageBc = [];
-            })
-            .then((res) => {
-                this.setLoadingAction(false);
+                        loadComponentsFromModules(classNames).then(() => {
+                            this.pageBc = response;
+                        });
+                    }
+                })
+                /*
+             * .catch((error) => {
+             *     this.applicationStore.snackbarStore.checkExceptResponse(error, this.route);
+             *     this.pageBc = [];
+             * })
+             */
+                .then((res) => {
+                    this.setLoadingAction(false);
 
-                return res;
-            });
+                    return res;
+                })
+        );
     });
 
     setPageElAction = action("setPageElAction", (pageEl: ?HTMLDivElement) => {

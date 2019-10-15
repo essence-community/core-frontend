@@ -211,6 +211,7 @@ export class Scrollbars extends React.Component<IProps, IState> {
                 <ReactCustomScrollbars
                     hideTracksWhenNotNeeded
                     {...newProps}
+                    // @ts-ignore
                     ref={scrollbarsRef}
                     onScrollFrame={this.handleScrollFrame}
                 >
@@ -225,6 +226,7 @@ export class Scrollbars extends React.Component<IProps, IState> {
             <ReactCustomScrollbars
                 hideTracksWhenNotNeeded
                 {...newProps}
+                // @ts-ignore
                 ref={scrollbarsRef}
                 onScrollFrame={this.handleScrollFrame}
             >

@@ -1,3 +1,5 @@
+import {FieldValue} from "./Field";
+
 export type ICkId = number | string;
 
 /**
@@ -18,12 +20,12 @@ export interface IFormOptions {
     selectedRecordId?: ICkId;
 }
 
-export type ObservableMap<Key, Value> = any;
-export type IObservableArray<Key> = any;
 export type Field = any;
 export type FormType = any;
 
 export type WindowModelType = any;
 export type StoreModelTypes = any;
 
-export interface IRecord {[$key: string]: number | string | undefined}
+export interface IRecord {
+    [$key: string]: FieldValue;
+}

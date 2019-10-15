@@ -254,7 +254,10 @@ export interface IBuilderBaseConfig {
 // BUILDER_CONFIG_END
 
 export interface IBuilderConfig extends IBuilderBaseConfig {
-    ckId?: number | string;
+    // Идентификатор класса
+    ckId?: string;
+    // Ротельно класса
+    ckParent: string;
     ckMaster?: string;
     ckQuery?: string;
     ckPageObject: string;

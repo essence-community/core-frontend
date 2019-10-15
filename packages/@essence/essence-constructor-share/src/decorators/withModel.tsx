@@ -31,7 +31,7 @@ export const withModel = <Model extends IModelType, P extends IWithModelProps>(
     class ModelHOC extends React.Component<P, IState<Model>> {
         public state: IState<Model> = {
             isAutoLoad: false,
-            store: null,
+            store: undefined,
         };
 
         public componentDidMount() {
@@ -41,6 +41,7 @@ export const withModel = <Model extends IModelType, P extends IWithModelProps>(
             const isAutoLoad = checkAutoload({bc, pageStore, recordsStore: store.recordsStore});
 
             if (bc.ckPageObject) {
+                // @ts-ignore
                 this.props.pageStore.addStore(store, bc.ckPageObject);
             }
 
@@ -72,7 +73,7 @@ export const withModel = <Model extends IModelType, P extends IWithModelProps>(
 
         public componentWillUnmount() {
             if (this.props.bc.ckPageObject) {
-                // $FlowFixMe
+                // @ts-ignore
                 this.props.pageStore.removeStore(this.props.bc.ckPageObject, this.state.store);
             }
         }
@@ -85,6 +86,7 @@ export const withModel = <Model extends IModelType, P extends IWithModelProps>(
                 return null;
             }
 
+            // eslint-disable-next-line prettier/prettier
             return <WrappedComponent {...(this.props as P)} {...storeProps} isAutoLoad={this.state.isAutoLoad} />;
         }
     };

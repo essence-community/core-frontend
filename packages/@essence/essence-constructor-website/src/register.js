@@ -27,7 +27,10 @@ import "@essence/essence-constructor-classes/src/ButtonGroupDelimiter";
 import "@essence/essence-constructor-classes/src/AppBar";
 import "@essence/essence-constructor-classes/src/ToolBar";
 import "@essence/essence-constructor-classes/src/FieldCombo";
+import "@essence/essence-constructor-classes/src/OpenPageTabs";
 import "@essence/essence-constructor-classes/src/Pager";
+import "@essence/essence-constructor-classes/src/Application";
+import "@essence/essence-constructor-classes/src/Pages";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

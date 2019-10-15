@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
-import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
+import {camelCaseKeys} from "@essence/essence-constructor-share";
+import {settingsStore} from "@essence/essence-constructor-share/models/SettingsModel";
 import {observer} from "mobx-react";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 
@@ -25,6 +26,8 @@ class Settings extends React.Component<PropsType> {
             return acc;
         }, {});
 
+        settingsStore.setSettings(window.SETTINGS);
+
         applicationStore.updateGlobalValuesAction(globalSettings);
 
         if (applicationStore.settingsStore.settings.projectName) {
@@ -33,9 +36,7 @@ class Settings extends React.Component<PropsType> {
     }
 
     render() {
-        const {settingsStore} = this.props.applicationStore;
-
-        if (settingsStore.recordsStore.records.length === 0) {
+        if (this.props.applicationStore.settingsStore.recordsStore.records.length === 0) {
             return "Загрузка...";
         }
 

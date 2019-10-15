@@ -1,14 +1,16 @@
-import {IBuilderMode, ICkId, IFormOptions, IRecord} from "./Base";
+import {IBuilderMode, ICkId, IRecord} from "./Base";
 import {IBuilderConfig} from "./Builder";
 import {IPageModel} from "./PageModel";
 import {IStoreBaseModel} from "./StoreBaseModel";
+import {FieldValue} from "./Field";
+import {IApplicationModel} from "./Application";
+import {IRouteRecord} from "./RoutesModel";
 
 export interface IRecordsOrder {
     direction?: string;
     property?: string;
 }
 
-export type SelectedRecordIdType = number | string;
 export type RecordsStateStatusType =
     | "init"
     | "autoload"
@@ -34,6 +36,8 @@ export interface IOptions {
     valueField?: string;
     parentStore?: IStoreBaseModel;
     noLoadChilds?: boolean;
+    pageStore?: IPageModel;
+    applicationStore?: IApplicationModel;
 }
 
 export interface ILoadRecordsProps {
@@ -46,15 +50,25 @@ export interface ISaveActionOptions {
     action?: "dml" | "upload";
     actionBc: IBuilderConfig;
     query?: string;
-    formData?: any;
     noReload?: boolean;
+    files?: File[];
+}
+
+export interface IRecordsSearchOptions {
+    filter?: Record<string, FieldValue>[];
+    reset?: boolean;
+    noLoad?: boolean;
+    resetFilter?: boolean;
+    selectedRecordId?: string;
+    status?: RecordsStateStatusType;
+    isUserReload?: boolean;
 }
 
 export interface IRecordsModel {
-    name: "records";
+    recordsAll: IRecord[];
     records: IRecord[];
     recordsState: IRecordsState<IRecord>;
-    selectedRecordId?: SelectedRecordIdType;
+    selectedRecordId?: FieldValue;
     selectedRecord?: IRecord;
     selectedRecrodValues: object;
     hasSelected: boolean;
@@ -62,20 +76,22 @@ export interface IRecordsModel {
     pageNumber: number;
     recordsCount: number;
     order: IRecordsOrder;
+    jsonMaster: Record<string, FieldValue>;
     pageSize?: number;
     bc: IBuilderConfig;
-    searchValues: object;
-    pageStore: IPageModel;
+    searchValues: Record<string, FieldValue>;
+    pageStore?: IPageModel;
+    applicationStore?: IApplicationModel;
     isLoading: boolean;
-    filter: object[];
-    jsonMaster?: any;
+    filter?: Record<string, FieldValue>[];
     loadCounter: number;
     valueField: string;
+    route: IRouteRecord;
     loadRecordsAction: (props: ILoadRecordsProps) => Promise<any>;
     clearRecordsAction: () => void;
     saveAction: (values: object | object[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<string>;
     downloadAction: (values: object | object[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<string>;
-    setSelectionAction: (ckId?: SelectedRecordIdType, key?: string) => Promise<number>;
+    setSelectionAction: (ckId: FieldValue, key?: string) => Promise<number>;
     setRecordsAction: (records: IRecord[]) => void;
     removeSelectedRecordAction: (options: ISaveActionOptions) => boolean;
     setPageNumberAction: (pageNumber: number) => void;
@@ -84,7 +100,7 @@ export interface IRecordsModel {
     setNextRecord: () => void;
     setLastRecord: () => void;
     setOrderAction: (property: string) => void;
-    searchAction: (values: object, options?: IFormOptions & {isUserReload?: boolean}) => Promise<void | object>;
+    searchAction: (values: Record<string, FieldValue>, options?: IRecordsSearchOptions) => Promise<void | object>;
     setSearchValuesAction: (values: object) => void;
     clearChildsStoresAction: () => void;
     sortRecordsAction: () => void;

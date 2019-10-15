@@ -4,7 +4,7 @@ import * as React from "react";
 import {inject, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
 import {compose} from "recompose";
-import {getComponent} from "@essence/essence-constructor-share";
+import {getComponent, ApplicationContext} from "@essence/essence-constructor-share";
 import {type ApplicationModelType} from "../Stores/ApplicationModel";
 
 type StoresPropsType = {
@@ -71,11 +71,13 @@ class ProjectPage extends React.Component<PropsType> {
         const BuilderPage = getComponent("PAGER");
 
         return (
-            <div className={classes.root}>
-                {pagesStore.pages.map((page) => (
-                    <BuilderPage key={page.ckPage} pageStore={page} />
-                ))}
-            </div>
+            <ApplicationContext.Provider value={this.props.applicationStore}>
+                <div className={classes.root}>
+                    {pagesStore.pages.map((page) => (
+                        <BuilderPage key={page.ckPage} pageStore={page} />
+                    ))}
+                </div>
+            </ApplicationContext.Provider>
         );
     }
 }

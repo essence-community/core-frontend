@@ -27,6 +27,8 @@ export class FieldComboModel extends StoreBaseModel {
 
     highlightedIndex: number;
 
+    isFocus = false;
+
     loadDebounce: () => void;
 
     constructor(props: IStoreBaseModelProps) {
@@ -62,19 +64,24 @@ export class FieldComboModel extends StoreBaseModel {
                 return this.recordsStore.selectedRecord;
             },
             get suggestions() {
-                let suggestions = this.recordsStore.records.map(this.getSuggestion);
+                const inputValueLower = this.inputValue.toLowerCase();
+                let suggestions: ISuggestion[] = this.recordsStore.records.map(this.getSuggestion);
 
                 if (
                     bc.allownew === "true" &&
                     this.inputValue &&
-                    suggestions.findIndex((suggestion: ISuggestion) => suggestion.value === this.inputValue) === -1
+                    suggestions.findIndex(
+                        (suggestion: ISuggestion) =>
+                            suggestion.labelLower === inputValueLower || suggestion.value === this.inputValue,
+                    ) === -1
                 ) {
-                    suggestions = [{label: this.inputValue, value: this.inputValue}, ...suggestions];
+                    suggestions = [
+                        {label: this.inputValue, labelLower: inputValueLower, value: this.inputValue},
+                        ...suggestions,
+                    ];
                 }
 
                 if (bc.querymode !== "remote") {
-                    const inputValueLower = this.inputValue.toLowerCase();
-
                     return suggestions.filter((sug: ISuggestion) => sug.labelLower.indexOf(inputValueLower) !== -1);
                 }
 
@@ -117,10 +124,15 @@ export class FieldComboModel extends StoreBaseModel {
         this.handleSetValue(this.highlightedValue);
     };
 
+    handleSetIsFocus = (isFocus: boolean) => {
+        this.isFocus = isFocus;
+    };
+
     handleSetValue = debounce((value: FieldValue, loaded = false, isUserSearch = false) => {
         const stringValue = toString(value);
+        const isFocusNew = this.bc.allownew === "true" && this.isFocus;
 
-        if (this.bc.allownew === "true" && !loaded) {
+        if (this.bc.allownew === "true" && !loaded && !this.isFocus) {
             this.inputValue = stringValue;
         }
 
@@ -138,11 +150,11 @@ export class FieldComboModel extends StoreBaseModel {
                 this.recordsStore.setSelectionAction(record.ckId);
             }
 
-            if (!isUserSearch) {
+            if (!isUserSearch && !isFocusNew) {
                 this.inputValue = suggerstion.label;
             }
         } else if (loaded) {
-            if (!isUserSearch) {
+            if (!isUserSearch && !isFocusNew) {
                 this.inputValue = "";
             }
             if (this.recordsStore.selectedRecord) {

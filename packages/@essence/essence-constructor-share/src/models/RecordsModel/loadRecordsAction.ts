@@ -1,5 +1,6 @@
 import {ObservableMap} from "mobx";
 import {v4} from "uuid";
+import {isEqual} from "lodash";
 import {request} from "../../request";
 import {IPageModel, IRecordsModel, FieldValue, IResponse} from "../../types";
 import {findSetKey, findGetGlobalKey} from "../../utils/findKey";
@@ -116,7 +117,7 @@ export function setMask(isLoading: boolean, noglobalmask?: string, pageStore?: I
 }
 
 export function checkPageNumber(recordsStore: IRecordsModel, master: Record<string, FieldValue>) {
-    if (master !== recordsStore.jsonMaster) {
+    if (!isEqual(master, recordsStore.jsonMaster)) {
         recordsStore.jsonMaster = master;
         recordsStore.pageNumber = 0;
     }

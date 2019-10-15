@@ -19,7 +19,7 @@ interface IModelRequired extends IStoreBaseModel {
 export function useModel<IModel extends IModelRequired, P extends IUseModelProps>(
     createModel: (props: P) => IModel,
     props: P,
-) {
+): [IModel, boolean] {
     const {bc, pageStore, hidden, disabled} = props;
     const [store, setStore] = React.useState<IModel>(() => createModel(props));
     const [isAutoLoad, setIsAutoload] = React.useState(false);

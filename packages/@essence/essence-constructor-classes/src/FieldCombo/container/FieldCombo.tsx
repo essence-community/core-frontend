@@ -1,6 +1,6 @@
 import * as React from "react";
 import {reaction} from "mobx";
-import {Popover, ApplicationContext, useModel} from "@essence/essence-constructor-share";
+import {Popover, ApplicationContext, useModel, isEmpty} from "@essence/essence-constructor-share";
 import {IPopoverChildrenProps} from "@essence/essence-constructor-share/uicomponents/Popover/Popover.types";
 import {useDisposable} from "mobx-react-lite";
 import {FieldComboList} from "../components/FieldComboList";
@@ -38,11 +38,25 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
 
     const handleChangeOpen = React.useCallback(
         (open: boolean) => {
-            if (open === false) {
+            if (open === false && props.bc.allownew !== "true") {
                 store.handleSetValue(props.value);
             }
         },
-        [store, props.value],
+        [props.bc.allownew, store, props.value],
+    );
+
+    const handleBlur = React.useCallback(
+        () => {
+            requestAnimationFrame(() => {
+                if (isEmpty(props.value)) {
+                    store.handleSetValue(props.value);
+                    store.handleChangeValue("");
+                } else if (props.bc.allownew !== "true" && document.activeElement !== inputRef.current) {
+                    store.handleSetValue(props.value);
+                }
+            });
+        },
+        [props.bc.allownew, store, props.value],
     );
 
     useDisposable(
@@ -76,10 +90,10 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
         () => {
             store.handleSetValue(props.value);
         },
-        [store, props.value],
+        [props.value, store],
     );
 
-    if (!store) {
+    if (props.hidden) {
         return null;
     }
 
@@ -90,6 +104,7 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
             pageStore={props.pageStore}
             hideOnScroll
             onChangeOpen={handleChangeOpen}
+            onBlur={handleBlur}
         >
             {({onClose, onOpen, open}) => (
                 <FieldComboInput

@@ -1580,6 +1580,7 @@
     "@types/react-dom" "^16.9.1"
     axios "^0.19.0"
     classnames "^2.2.6"
+    clsx "^1.0.2"
     debug "4.0.1"
     dompurify "^1.0.11"
     esprima "^4.0.1"

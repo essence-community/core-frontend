@@ -10,7 +10,7 @@ export const PagerWindows: React.FC<IPagerWindowsProps> = (props) => {
     const {pageStore} = props;
 
     return useObserver(() =>
-        pageStore.windowsOne.map((windowStore) => {
+        (pageStore.windowsOne || pageStore.windows).map((windowStore) => {
             const {windowBc} = windowStore;
             const BuilderWindowComponent: React.ComponentType<any> =
                 windowBc.edittype === "inline" ? getComponent("INLINE_WINDOW") : getComponent("WINDOW");

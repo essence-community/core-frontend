@@ -3,6 +3,7 @@ import * as React from "react";
 import {compose} from "recompose";
 import {observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
+import cn from "classnames";
 import {Grid, Dialog, DialogTitle, Checkbox, FormControlLabel} from "@material-ui/core";
 import {toSize, toColumnStyleWidth} from "@essence/essence-constructor-share/utils";
 import {getComponent, Icon} from "@essence/essence-constructor-share";
@@ -79,6 +80,7 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType> {
             checkaddmore,
             stepnamenext,
             wintype = "base",
+            align,
             bottombtn,
             cvDescription,
             title,
@@ -108,7 +110,10 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType> {
 
         return (
             <Dialog
-                classes={{paper: classes[`winsize-${wintype}`]}}
+                classes={{
+                    container: classes[`dialod-align-${align}`],
+                    paper: cn(classes[`winsize-${wintype}`], classes[`paper-align-${align}`]),
+                }}
                 open
                 container={pageStore.pageEl}
                 style={{position: "absolute"}}

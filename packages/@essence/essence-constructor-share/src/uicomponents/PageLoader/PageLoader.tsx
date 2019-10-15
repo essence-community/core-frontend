@@ -6,13 +6,13 @@ import {LineLoader} from "../LineLoader";
 import {useStyles} from "./PageLoader.styles";
 
 interface IPagerLoaderProps {
-    pageStore: IPageModel;
+    pageStore?: IPageModel;
     container?: HTMLDivElement;
     isLoading?: boolean;
     loaderType?: "default" | "bfl-loader";
 }
 
-export const PageLoader: React.FC<IPagerLoaderProps> = ({pageStore, container, isLoading, loaderType}) => {
+export const PageLoader: React.FC<IPagerLoaderProps> = ({pageStore, container, isLoading, loaderType = "default"}) => {
     const classes = useStyles({});
 
     return useObserver(() => (

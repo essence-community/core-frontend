@@ -1,6 +1,39 @@
-import {IApplicationModel} from "./Application";
-import {Field, FormType, IBuilderMode, IObservableArray, ObservableMap, StoreModelTypes, WindowModelType} from "./Base";
-import {IBuilderConfig} from ".";
+// eslint-disable-next-line import/named
+import {ObservableMap, IObservableArray} from "mobx";
+import {Field} from "./Base";
+import {
+    FieldValue,
+    IBuilderConfig,
+    IStoreBaseModel,
+    IApplicationModel,
+    IBuilderMode,
+    IWindowModel,
+    IRouteRecord,
+    IRecordsModel,
+} from ".";
+
+export interface ICreateWindow {
+    windowBc: IBuilderConfig;
+    values?: Record<string, FieldValue>;
+    mode: IBuilderMode;
+}
+
+export interface IPageModelProps {
+    ckPage: string;
+    isActiveRedirect: boolean;
+    isReadOnly?: boolean;
+    applicationStore: IApplicationModel;
+}
+
+export interface INextComponentReturn {
+    childBc?: IBuilderConfig;
+    lastChildBc?: IBuilderConfig;
+}
+
+export type PageModelStores = ObservableMap<string, IStoreBaseModel>;
+export type PageModelWindows = IObservableArray<IWindowModel>;
+export type PageModelFieldValues = ObservableMap<string, FieldValue>;
+export type PageModelSaveCallback = (status: 0 | 1 | 2) => void;
 
 type PageModelParamsType = any;
 
@@ -11,61 +44,64 @@ export interface ICreateWindowType {
 }
 
 export interface IPageModel {
-    fieldValueMaster: Map<string, string>;
     pageBc: IBuilderConfig[];
-    stores: Map<string, any>;
-    globalValues: ObservableMap<string, any>;
+    fieldValueMaster: PageModelFieldValues;
+    stores: PageModelStores;
+    windows: PageModelWindows;
+    // @deprecated
+    windowsOne: PageModelWindows;
+    globalValues: ObservableMap<string, FieldValue>;
     ckPage: string;
     showQuestionWindow: boolean;
     questionWindow?: string;
-    route: Record<string, string>;
+    saveCallBack: PageModelSaveCallback | null;
+    route?: IRouteRecord;
     pageEl?: HTMLDivElement;
     pageInnerEl?: HTMLDivElement;
     isEdit: boolean;
-    isLoading: boolean;
     isReadOnly: boolean;
-    applicationStore: IApplicationModel;
+    currentStep?: string;
+    isLoading: boolean;
+    loadingCount: number;
     hiddenPage: boolean;
     isActiveRedirect: boolean;
-    globalStores: Map<string, any[]>;
-    masters: {
-        [$Key: string]: Field[];
-    };
+    globalStores: Map<string, IStoreBaseModel[]>;
+    masters: Record<string, Field[]>;
+    scrollEvents: Function[];
     visible: boolean;
-    windowsOne: IObservableArray<WindowModelType>;
-    styleTheme: "dark" | "light";
-    fireScrollEvent: () => void;
-    openQuestionWindow: (questionWindow: string, saveCallBack: (clWarningNew: any) => void) => void;
-    updateGlobalValues: (values: object) => void;
-    addStore: (store: StoreModelTypes, name: string) => void;
-    removeStore: (name: string, store: StoreModelTypes) => void;
-    addWindowAction: (window: WindowModelType, name: string) => void;
-    removeWindowAction: (name: string) => void;
-    addFieldValueMaster: (name: string, value: any) => void;
-    removeFieldValueMaster: (name: string) => void;
-    loadConfigAction: (ckPage: string, session: string) => Promise<void>;
-    setPageElAction: (pageEl?: HTMLDivElement) => void;
-    setPageInnerElAction: (pageInnerEl?: HTMLDivElement) => void;
-    addFormAction: (formType: FormType, form: any) => void;
-    removeFormAction: (formType: FormType, form: any) => void;
-    setLoadingAction: (isLoading: boolean) => void;
-    resetStepAction: () => void;
-    nextStepAction: (mode: IBuilderMode, bc: object) => void;
-    scrollToRecordAction: (params: object) => void;
-    handleQuestionAccept: () => void;
-    handleQuestionDecline: () => void;
-    reloadPageAction: () => void;
-    addGlobalStoresAction: (name: string, store: any) => void;
-    removeGlobalStoresAction: (name: string, store: any) => void;
-    freezeScrollAction: () => void;
-    addToMastersAction: (ckMaster: string, field: Field) => void;
-    removeFromMastersAction: (ckMaster?: string, field?: Field) => void;
-    clearAction: () => void;
-    removePageAction: () => void;
-    createWindowAction: (params: ICreateWindowType) => void;
-    closeWindowAction: (ckPageObject: string) => void;
-    addScrollEvent: (listener: () => void) => void;
-    removeScrollEvent: (listener: () => void) => void;
+    recordsStore: IRecordsModel;
+    updateGlobalValues(values: Record<string, FieldValue>): void;
+    openQuestionWindow(questionWindow: string, saveCallBack: PageModelSaveCallback): void;
+    handleQuestionAccept(): void;
+    handleQuestionDecline(): void;
+    addFieldValueMaster(name: string, value: FieldValue): void;
+    removeFieldValueMaster(name: string): void;
+    addStore(store: IStoreBaseModel, name: string): void;
+    removeStore(name: string, store: IStoreBaseModel): void;
+    addGlobalStoresAction(name: string, store: IStoreBaseModel): void;
+    removeGlobalStoresAction(name: string, store: IStoreBaseModel): void;
+    addWindowAction(window: IWindowModel): void;
+    removeWindowAction(window: IWindowModel): void;
+    loadConfigAction(ckPage: string): Promise<void | object>;
+    setPageElAction(pageEl?: HTMLDivElement): void;
+    setPageInnerElAction(pageInnerEl?: HTMLDivElement): void;
+    resetStepAction(): void;
+    handleNextStep(stepnamenext: string): void;
+    nextStepAction(mode: IBuilderMode, bc: IBuilderConfig): void;
+    getNextStepName(stepnamenext?: string): undefined | string;
+    setLoadingAction(isLoading: boolean): void;
+    scrollToRecordAction(params: Record<string, FieldValue>): void;
+    reloadPageAction(): void;
+    handleScrollAction(): void;
+    freezeScrollAction(): void;
+    addToMastersAction(ckMaster: string, field: Field): void;
+    removeFromMastersAction(ckMaster?: string, field?: Field): void;
+    addScrollEvent(scrollEvent: Function): void;
+    removeScrollEvent(scrollEvent: Function): void;
+    fireScrollEvent(): void;
+    clearAction(): void;
+    createWindowAction(params: ICreateWindow): void;
+    closeWindowAction(ckPageObject: string): void;
 }
 
 export type IPageModelConstructor = new (props: PageModelParamsType) => IPageModel;

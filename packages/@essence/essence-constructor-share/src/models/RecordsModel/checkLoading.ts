@@ -16,16 +16,17 @@
  * TODO:
  *      1. При autoload нет возможности ожидать установки значения в selectedRecord
  */
+// eslint-disable-next-line import/named
 import {Lambda, observe, reaction} from "mobx";
 import {IBuilderConfig, IPageModel, IRecordsModel} from "../../types";
-import {findGetGlobalKey} from "./utils";
+import {findGetGlobalKey} from "../../utils/findKey";
 
 type DisposerType = () => void;
 
 interface ICheckLoading {
-    pageStore: IPageModel,
-    bc: IBuilderConfig,
-    ckMaster: string,
+    pageStore: IPageModel;
+    bc: IBuilderConfig;
+    ckMaster: string;
 }
 
 // 15sec * 1000ms - cycle delay, if global set incoreclty
@@ -33,13 +34,21 @@ export const CYCLE_TIMEOUT = 5000;
 
 export class CheckLoading {
     private pageStore: IPageModel;
+
     private bc: IBuilderConfig;
+
     private ckMaster: string;
+
     private resolve: () => void;
+
     private reject: (error: any) => void;
+
     private checkers: {[$key: string]: Lambda} = {};
+
     private records: {[$key: string]: any} = {};
+
     private disposers: DisposerType[] = [];
+
     private timeoutId: any;
 
     constructor({pageStore, bc, ckMaster}: ICheckLoading) {
@@ -51,12 +60,13 @@ export class CheckLoading {
 
     public wait(): Promise<boolean> {
         const master = this.pageStore.stores.get(this.ckMaster);
-    
+
         return new Promise((resolve, reject) => {
             this.resolve = resolve;
             this.reject = reject;
 
             if (master && master.recordsStore && master.recordsStore.isLoading) {
+                // @ts-ignore
                 this.initMaster(master);
             }
 

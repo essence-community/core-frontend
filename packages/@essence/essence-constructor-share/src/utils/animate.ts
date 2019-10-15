@@ -4,10 +4,11 @@ function easeInOutSin(time: number) {
     return (1 + Math.sin(Math.PI * time - Math.PI / 2)) / 2;
 }
 
+// eslint-disable-next-line max-params
 function animate(prop: string, element: any, to: number, options: any = {}) {
     const {ease = easeInOutSin, duration = DEFAULT_DURATION} = options;
 
-    let start: number = null;
+    let start: number | null = null;
     const from = element[prop];
     let cancelled = false;
 

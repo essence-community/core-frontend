@@ -1,14 +1,24 @@
-// @flow
-import {IApplicationModel} from "./Application";
-import {IProgressModel} from "./ProgressModel";
-import {IRecordsModel} from "./RecordsModel";
+// eslint-disable-next-line import/named
+import {IObservableArray} from "mobx";
+import {IResponse, FieldValue, IRecordsModel, IProgressModel, IApplicationModel, IRouteRecord} from ".";
 
-export type StatusType = "warning" | "error" | "info" | "notification" | "debug" | "progress" | "block" | "unblock";
+export type SnackbarStatus =
+    | "all"
+    | "warning"
+    | "error"
+    | "info"
+    | "notification"
+    | "debug"
+    | "progress"
+    | "block"
+    | "unblock"
+    | "uploaded"
+    | "errorUpload";
 
 export interface ISnackbar {
     autoHidden: boolean;
-    text: string;
-    status: StatusType;
+    text: string | Element;
+    status: SnackbarStatus;
     id: string;
     createdAt: string;
     hiddenTimeout: number;
@@ -17,25 +27,43 @@ export interface ISnackbar {
     read: boolean;
     progressStore?: IProgressModel;
     type: "msg" | "progress";
+    title?: string;
+    description?: string;
+    code?: string;
+}
+
+export interface IErrorData {
+    errText: string;
+    errCode: string;
+    query: string;
+    errId: string;
 }
 
 export interface ISnackbarModel {
-    snackbars: ISnackbar[];
+    snackbars: IObservableArray<ISnackbar>;
     snackbarsAll: ISnackbar[];
     recordsStore: IRecordsModel;
-    applicationStore: IApplicationModel;
     snackbarsCount: number;
     snackbarsInStatus: ISnackbar[];
     snackbarsInStatusToReadCount: number;
     deleteAllSnackbarAction: () => void;
     readSnackbarAction: (snackbarId: string) => void;
     readActiveSnackbarsAction: () => void;
-    setStatusAction: (status: StatusType) => void;
+    setStatusAction: (status: SnackbarStatus) => void;
     deleteSnackbarAction: (snackbarId: string) => void;
     snackbarOpenAction: (snakebar: ISnackbar) => void;
     setClosebleAction: (snackbarId: string) => void;
     snackbarCloseAction: (snackbarId: string) => void;
-    checkValidResponseAction: (response: any, activePage: {[key: string]: any}, warnCallBack?: () => void) => number;
-    checkValidLoginResponse: (response: {[key: string]: any}) => boolean;
-    checkExceptResponse: (error: {[key: string]: any}, activePage: {[key: string]: any}) => boolean;
+    checkValidResponseAction: (
+        response: IResponse,
+        route?: Record<string, FieldValue>,
+        warnCallBack?: Function,
+        applicationStore?: IApplicationModel,
+    ) => number;
+    checkValidLoginResponse: (response: Record<string, FieldValue>) => boolean;
+    checkExceptResponse: (
+        error: Record<string, any>,
+        route?: IRouteRecord,
+        applicationStore?: IApplicationModel,
+    ) => boolean;
 }

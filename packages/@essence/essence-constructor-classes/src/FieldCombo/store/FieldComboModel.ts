@@ -1,14 +1,13 @@
 import {extendObservable} from "mobx";
 import {
     IStoreBaseModelProps,
-    StoreBaseModel,
     IRecordsModel,
     toString,
     camelCaseMemoized,
     debounce,
     FieldValue,
 } from "@essence/essence-constructor-share";
-import {RecordsModel} from "@essence/essence-constructor-share/models/RecordsModel/RecordsModel";
+import {StoreBaseModel, RecordsModel} from "@essence/essence-constructor-share/models";
 import {ISuggestion} from "./FieldComboModel.types";
 
 export class FieldComboModel extends StoreBaseModel {
@@ -30,14 +29,18 @@ export class FieldComboModel extends StoreBaseModel {
 
     loadDebounce: () => void;
 
-    constructor({bc, pageStore}: IStoreBaseModelProps) {
-        super({bc, pageStore});
+    constructor(props: IStoreBaseModelProps) {
+        super(props);
+
+        const {bc, pageStore, applicationStore} = props;
 
         this.displayfield = camelCaseMemoized(bc.displayfield);
         this.valuefield = camelCaseMemoized(bc.valuefield);
         this.valueLength = parseInt(bc.minchars, 10);
 
-        this.recordsStore = new RecordsModel(bc, pageStore, {
+        this.recordsStore = new RecordsModel(bc, {
+            applicationStore,
+            pageStore,
             valueField: this.valuefield,
         });
 
@@ -124,7 +127,7 @@ export class FieldComboModel extends StoreBaseModel {
         const suggerstionIndex = this.suggestions.findIndex((sug) => sug.value === stringValue);
 
         if (!value && value !== 0 && this.recordsStore.selectedRecord) {
-            this.recordsStore.setSelectionAction();
+            this.recordsStore.setSelectionAction(undefined);
         }
 
         if (suggerstionIndex >= 0) {
@@ -143,7 +146,7 @@ export class FieldComboModel extends StoreBaseModel {
                 this.inputValue = "";
             }
             if (this.recordsStore.selectedRecord) {
-                this.recordsStore.setSelectionAction();
+                this.recordsStore.setSelectionAction(undefined);
             }
         } else {
             this.recordsStore.searchAction({[this.bc.valuefield || this.bc.column || ""]: value});

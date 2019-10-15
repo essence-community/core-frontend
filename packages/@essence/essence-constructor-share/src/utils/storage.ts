@@ -6,11 +6,11 @@ function makeKey(key: string): string {
     return `${prefixKey}_${key}`;
 }
 
-export function saveToStore(key: string, value: ValueType) {
+export function saveToStore<T>(key: string, value: T) {
     return localStorage.setItem(makeKey(key), JSON.stringify(value));
 }
 
-export function getFromStore(key: string, defaultValue?: ValueType): ValueType {
+export function getFromStore<T = ValueType>(key: string, defaultValue?: T): T | undefined {
     const value = localStorage.getItem(makeKey(key));
 
     if (value) {

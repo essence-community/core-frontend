@@ -5,6 +5,22 @@ const BuilderWindowStyles = (theme) => ({
     contentScrollableParent: {
         display: "flex",
     },
+    "dialod-align-left": {
+        justifyContent: "flex-start",
+    },
+    "dialod-align-right": {
+        justifyContent: "flex-end",
+    },
+    "paper-align-left": {
+        // Height: "100%",
+        margin: 0,
+        // MaxHeight: "100%",
+    },
+    "paper-align-right": {
+        // Height: "100%",
+        margin: 0,
+        // MaxHeight: "100%",
+    },
     "winsize-base": {
         maxWidth: 800,
     },

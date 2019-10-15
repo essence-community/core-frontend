@@ -545,4 +545,10 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
     setGridColumns = action("setGridColumns", (gridColumns: Array<Object>) => {
         this.gridColumns = gridColumns;
     });
+
+    handlers = {
+        onPrintExcel: (mode: BuilderModeType, btnBc: BuilderBaseType, {values}: any) => {
+            return this.onPrintExcel(values, btnBc);
+        },
+    };
 }

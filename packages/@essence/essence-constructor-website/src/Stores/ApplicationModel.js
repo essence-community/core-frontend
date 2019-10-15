@@ -145,6 +145,11 @@ export class ApplicationModel implements ApplicationModelType {
 
         extendObservable(this, {
             authData: authValues,
+            get authStore() {
+                return {
+                    userInfo: this.authData,
+                };
+            },
             blockText: "",
             caActions: authValues.caActions,
             cvLogin: authValues.cvLogin,

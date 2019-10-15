@@ -1,1 +1,1 @@
-export * from "./PageModelAbstract";
+export {PageModel} from "./PageModel";

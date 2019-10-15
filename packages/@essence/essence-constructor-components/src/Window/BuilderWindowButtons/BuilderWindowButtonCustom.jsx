@@ -1,9 +1,8 @@
 // @flow
 import * as React from "react";
-import PropTypes from "prop-types";
 import {observer} from "mobx-react";
 import {DialogActions} from "@material-ui/core";
-import {mapComponents} from "@essence/essence-constructor-share";
+import {mapComponents, EditorContex} from "@essence/essence-constructor-share";
 import {type PageModelType} from "../../stores/PageModel";
 
 type PropsType = {
@@ -18,9 +17,7 @@ const SAVE_COMPONENT_PROPS = {
 };
 
 class BuilderWindowButtonCustom extends React.Component<PropsType> {
-    static contextTypes = {
-        form: PropTypes.object,
-    };
+    static contextType = EditorContex;
 
     buttons: Array<Object> = [];
 

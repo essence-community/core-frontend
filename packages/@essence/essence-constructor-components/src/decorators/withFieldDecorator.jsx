@@ -1,13 +1,13 @@
 /* eslint-disable max-lines */
 // @flow
 import * as React from "react";
-import PropTypes from "prop-types";
 import camelCase from "lodash/camelCase";
 import startsWith from "lodash/startsWith";
 import uniqueId from "lodash/uniqueId";
 import {reaction} from "mobx";
 import {disposeOnUnmount} from "mobx-react";
 import {Field, Form} from "mobx-react-form";
+import {EditorContex} from "@essence/essence-constructor-share";
 import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
 import {loggerRoot} from "../constants";
 import {isEmpty} from "../utils/base";
@@ -25,10 +25,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
 ) => React.ComponentType<$Diff<Props, WithFieldInjectPropsType>> {
     return (WrappedComponent) => {
         class WithFieldDecorator extends React.Component<Props> {
-            static contextTypes = {
-                form: PropTypes.object,
-                mode: PropTypes.string,
-            };
+            static contextType = EditorContex;
 
             static defaultProps = {
                 autoremove: true,

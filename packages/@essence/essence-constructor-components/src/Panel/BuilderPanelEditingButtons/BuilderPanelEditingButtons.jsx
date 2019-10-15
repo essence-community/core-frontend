@@ -2,7 +2,7 @@
 import * as React from "react";
 import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import PropTypes from "prop-types";
+import {EditorContex} from "@essence/essence-constructor-share";
 import {styleTheme, buttonDirection} from "../../constants";
 import {getModeTitle} from "../../utils/string";
 import BuilderMobxButton from "../../Button/BuilderMobxButton";
@@ -22,9 +22,7 @@ const SAVE_COMPONENT_PROPS = {
 };
 
 class BuilderPanelEditingButtons extends React.Component<PropsType> {
-    static contextTypes = {
-        form: PropTypes.object,
-    };
+    static contextType = EditorContex;
 
     handlePerformData = () => {
         const {form} = this.context;

@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
-import PropTypes from "prop-types";
 import {DialogActions} from "@material-ui/core";
+import {EditorContex} from "@essence/essence-constructor-share";
 import {type WindowModelType} from "../../stores/WindowModel";
 import {type PageModelType} from "../../stores/PageModel";
 import BuilderMobxButton from "../../Button/BuilderMobxButton";
@@ -21,9 +21,7 @@ const SAVE_COMPONENT_PROPS = {
 };
 
 class BuilderWindowButtonDefault extends React.PureComponent<PropsType> {
-    static contextTypes = {
-        form: PropTypes.object,
-    };
+    static contextType = EditorContex;
 
     handlePerformData = () => {
         const {form} = this.context;

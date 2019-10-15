@@ -1,9 +1,9 @@
 // @flow
 import * as React from "react";
-import PropTypes from "prop-types";
 import memoize from "lodash/memoize";
 import noop from "lodash/noop";
 import {observer} from "mobx-react";
+import {EditorContex} from "@essence/essence-constructor-share";
 import BuilderButtonCollector from "../Button/BuilderButtonCollector/BuilderButtonCollector";
 import BuilderMobxButton from "../Button/BuilderMobxButton";
 import {type FilterModelType} from "../stores/FilterModel";
@@ -29,9 +29,6 @@ type ButtonPropsType = {|
 type RenderFilterButtonsType = {
     buttonProps?: ButtonPropsType,
 };
-type ContextType = {
-    form: Object,
-};
 
 const getSubmitComponentProps = memoize((componentProps?: Object = {}) => ({
     ...componentProps,
@@ -40,13 +37,9 @@ const getSubmitComponentProps = memoize((componentProps?: Object = {}) => ({
 }));
 
 class BuilderFilterButtons extends React.Component<PropsType> {
-    static contextTypes = {
-        form: PropTypes.object,
-    };
+    static contextType = EditorContex;
 
     btnsFilter: Object;
-
-    context: ContextType;
 
     constructor(props: PropsType) {
         super(props);

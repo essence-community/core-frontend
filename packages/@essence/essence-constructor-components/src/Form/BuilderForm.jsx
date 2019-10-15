@@ -10,9 +10,8 @@ import forOwn from "lodash/forOwn";
 import {withStyles} from "@material-ui/core/styles";
 import debounce from "lodash/debounce";
 import isFunction from "lodash/isFunction";
-import PropTypes from "prop-types";
 import validatorjs from "validatorjs";
-import {FormContext} from "@essence/essence-constructor-share";
+import {FormContext, EditorContex, ModeContext} from "@essence/essence-constructor-share";
 import BuilderMobxForm from "../Components/MobxForm/BuilderMobxForm";
 import {styleTheme} from "../constants";
 import {type PageModelType} from "../stores/PageModel";
@@ -62,6 +61,7 @@ type PropsTypes = {|
 
 type StateTypes = {
     form?: Form,
+    mode?: BuilderModeType,
 };
 
 const FORM_OPTIONS = {
@@ -79,21 +79,11 @@ export class BuilderFormBase extends React.Component<PropsTypes, StateTypes> {
         submitOnChange: false,
     };
 
-    static childContextTypes = {
-        form: PropTypes.object,
-        mode: PropTypes.string,
+    state: StateTypes = {
+        mode: this.props.mode,
     };
 
-    state = {};
-
     disposers: Array<Function> = [];
-
-    getChildContext() {
-        return {
-            form: this.state.form,
-            mode: this.props.mode,
-        };
-    }
 
     // eslint-disable-next-line max-statements
     componentDidMount() {
@@ -133,6 +123,10 @@ export class BuilderFormBase extends React.Component<PropsTypes, StateTypes> {
     componentDidUpdate(prevProps: PropsTypes) {
         if (this.props.initialValues !== prevProps.initialValues || this.props.isEditing !== prevProps.isEditing) {
             this.handleFormUpdate();
+        }
+
+        if (this.props.mode !== prevProps.mode) {
+            this.setState({mode: this.props.mode});
         }
     }
 
@@ -302,23 +296,35 @@ export class BuilderFormBase extends React.Component<PropsTypes, StateTypes> {
         }
 
         if (this.props.noForm) {
-            return <FormContext.Provider value={form}>{this.props.children}</FormContext.Provider>;
+            return (
+                <FormContext.Provider value={form}>
+                    <ModeContext.Provider value={this.props.mode}>
+                        <EditorContex.Provider value={{form, mode: this.props.mode}}>
+                            {this.props.children}
+                        </EditorContex.Provider>
+                    </ModeContext.Provider>
+                </FormContext.Provider>
+            );
         }
 
         const {classes} = this.props;
 
         return (
             <FormContext.Provider value={form}>
-                <form
-                    action=""
-                    onSubmit={this.handleFormSubmit}
-                    className={cn(classes.form, this.props.className)}
-                    autoComplete="off"
-                    data-page-object={this.props.dataPageObject}
-                    style={this.props.style}
-                >
-                    {this.props.children}
-                </form>
+                <ModeContext.Provider value={this.props.mode}>
+                    <EditorContex.Provider value={this.state}>
+                        <form
+                            action=""
+                            onSubmit={this.handleFormSubmit}
+                            className={cn(classes.form, this.props.className)}
+                            autoComplete="off"
+                            data-page-object={this.props.dataPageObject}
+                            style={this.props.style}
+                        >
+                            {this.props.children}
+                        </form>
+                    </EditorContex.Provider>
+                </ModeContext.Provider>
             </FormContext.Provider>
         );
     }

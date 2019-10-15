@@ -41,8 +41,8 @@ const logger = loggerRoot.extend("FieldItemSelector");
 export class FieldItemSelectorBase extends React.Component<PropsType, StateType> {
     buttonsConfig: Array<Object>;
 
-    constructor(props?: PropsType, context?: any) {
-        super(props, context);
+    constructor(props: PropsType) {
+        super(props);
 
         const {
             bc: {childs, ckPageObject},

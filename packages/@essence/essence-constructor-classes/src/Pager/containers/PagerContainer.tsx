@@ -1,6 +1,7 @@
 import * as React from "react";
 import cn from "classnames";
 import {useObserver} from "mobx-react-lite";
+import MobxReactForm from "mobx-react-form";
 import {
     Scrollbars,
     mapComponents,
@@ -8,6 +9,11 @@ import {
     IBuilderConfig,
     PageLoader,
     ApplicationContext,
+    FormContext,
+    ModeContext,
+    EditorContex,
+    loggerRoot,
+    IEditorContext,
 } from "@essence/essence-constructor-share";
 import {settingsStore} from "@essence/essence-constructor-share/models";
 import {PagerWindows} from "../components/PagerWindows";
@@ -17,6 +23,10 @@ import {useStyles} from "./PagerContainer.styles";
 
 const VERTICAL_STYLE = {zIndex: 3};
 const SCROLLABRS_STYLE = {height: "100%", paddingRight: 10, width: "100%"};
+const logger = loggerRoot.extend("PagerContainer");
+const onFormChange = (form: typeof MobxReactForm) => {
+    logger("Данные изменены вне формы:", form.values());
+};
 
 interface IPagerProps extends IClassProps {}
 
@@ -24,6 +34,13 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
     const {pageStore} = props;
     const classes = useStyles(props);
     const applicationStore = React.useContext(ApplicationContext);
+    const editor: IEditorContext = React.useMemo(
+        () => ({
+            form: new MobxReactForm(undefined, {hooks: {onFieldChange: onFormChange}}),
+            mode: "1",
+        }),
+        [],
+    );
 
     // TODO: need to ferify it
     React.useEffect(
@@ -78,24 +95,23 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                         // @ts-ignore
                         loaderType={settingsStore.settings.projectLoader}
                     />
-                    {mapComponents(
-                        [
-                            {
-                                childs: pageStore.pageBc,
-                                ckPageObject: "FORMPANEL",
-                                ckParent: "PAGER",
-                                type: "FORMPANEL",
-                            },
-                        ],
-                        (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                            <ChildComponent
-                                readOnly={pageStore.isReadOnly}
-                                pageStore={pageStore}
-                                bc={childBc}
-                                visible={pageStore.visible}
-                            />
-                        ),
-                    )}
+                    <FormContext.Provider value={editor.form}>
+                        <ModeContext.Provider value={editor.mode}>
+                            <EditorContex.Provider value={editor}>
+                                {mapComponents(
+                                    pageStore.pageBc,
+                                    (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
+                                        <ChildComponent
+                                            readOnly={pageStore.isReadOnly}
+                                            pageStore={pageStore}
+                                            bc={childBc}
+                                            visible={pageStore.visible}
+                                        />
+                                    ),
+                                )}
+                            </EditorContex.Provider>
+                        </ModeContext.Provider>
+                    </FormContext.Provider>
                 </div>
             </Scrollbars>
             <PagerWindowMessage pageStore={pageStore} />

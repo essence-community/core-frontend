@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
-import PropTypes from "prop-types";
 import {Table, TableBody} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
+import {EditorContex} from "@essence/essence-constructor-share";
 import {type WindowModelType} from "../../stores/WindowModel";
 import {type PageModelType} from "../../stores/PageModel";
 import {GridModel} from "../../stores/GridModel";
@@ -30,9 +30,7 @@ export const WIDTH_MAP = {
 };
 
 class InlineTable extends React.PureComponent<PropsType> {
-    static contextTypes = {
-        form: PropTypes.object,
-    };
+    static contextType = EditorContex;
 
     render() {
         const {pageStore, store, classes, theme = {}, gridStore} = this.props;

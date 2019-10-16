@@ -11,8 +11,11 @@ import {
     IPagesModel,
     ISnackbarModel,
     IRecordsModel,
+    VAR_SELF_CV_URL,
+    VAR_SETTING_PROJECT_APPLICATION_PAGE,
 } from "@essence/essence-constructor-share";
-import {snackbarStore, RecordsModel} from "@essence/essence-constructor-share/models";
+import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
+import {snackbarStore, RecordsModel, settingsStore} from "@essence/essence-constructor-share/models";
 import {History} from "history";
 import {RoutesModel} from "./RoutesModel";
 import {IAuthSession} from "./AuthModel.types";
@@ -29,7 +32,7 @@ const MAX_RECONNECT = 5;
 const LOGOUT_CODE = 4001;
 
 export class ApplicationModel implements IApplicationModel {
-    routesStore: RoutesModel;
+    routesStore: RoutesModel | null;
 
     bc: IBuilderConfig;
 
@@ -62,14 +65,7 @@ export class ApplicationModel implements IApplicationModel {
     cvUrl: string;
 
     constructor(history: History, cvUrl: string) {
-        this.routesStore = new RoutesModel(
-            {
-                ckPageObject: "MTRoute",
-                ckParent: "root",
-                ckQuery: "MTRoute",
-            },
-            this,
-        );
+        this.routesStore = null;
         this.cvUrl = cvUrl;
         this.history = history;
         this.pagesStore = new PagesModel(this);
@@ -82,7 +78,11 @@ export class ApplicationModel implements IApplicationModel {
 
         extendObservable(this, {
             get bc() {
-                return this.recordsStore.recordsState.records[0] || {};
+                const bc = this.recordsStore.recordsState.records.find((rec: IBuilderConfig) => {
+                    return parseMemoize(rec.activerules).runer({get: this.handleGetValue});
+                });
+
+                return bc || {};
             },
             blockText: "",
             globalValues: observable.map(this.authStore.userInfo),
@@ -94,6 +94,14 @@ export class ApplicationModel implements IApplicationModel {
             },
         });
     }
+
+    handleGetValue = (name: string) => {
+        if (name === VAR_SELF_CV_URL) {
+            return this.cvUrl;
+        }
+
+        return undefined;
+    };
 
     updateGlobalValuesAction = action("updateGlobalValues", (values: Record<string, string>) => {
         Object.keys(values).forEach((key: string) => {
@@ -137,13 +145,26 @@ export class ApplicationModel implements IApplicationModel {
     });
 
     loadApplicationAction = action("loadApplicationAction", async () => {
-        // TODO: should be request to static application page {cvUrl: this.cvUrl}
-        await this.recordsStore.searchAction({ckPage: "F6D38648BBD84597B3882FAC7692DF3F"});
         await Promise.all([
-            snackbarStore.recordsStore.loadRecordsAction(),
-            this.routesStore.recordsStore.loadRecordsAction(),
+            this.recordsStore.recordsState.status === "init" &&
+                this.recordsStore.searchAction({ckPage: settingsStore.settings[VAR_SETTING_PROJECT_APPLICATION_PAGE]}),
+            snackbarStore.recordsStore.recordsState.status === "init" && snackbarStore.recordsStore.loadRecordsAction(),
         ]);
-        this.pagesStore.restorePagesAction(this.authStore.userInfo.cvLogin);
+
+        if (this.bc) {
+            this.routesStore = new RoutesModel(
+                {
+                    ckPageObject: "routes",
+                    ckParent: this.bc.ckPageObject,
+                    ckQuery: this.bc.ckQuery || "MTRoute",
+                },
+                this,
+            );
+
+            await this.routesStore.recordsStore.loadRecordsAction();
+            this.pagesStore.restorePagesAction(this.authStore.userInfo.cvLogin);
+        }
+
         this.isApplicationReady = true;
     });
 

@@ -15,6 +15,11 @@ html, body, #root, .root-height {
   height: 100%;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 

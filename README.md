@@ -64,3 +64,4 @@ You can find the most recent version of this guide [here](https://github.com/fac
 1. [ENV.md](./docs/ENV.md)
 1. [PROXY.md](./docs/PROXY.md)
 1. [REDIRECT.md](./docs/REDIRECT.md)
+1. [APPLICATION.md](./docs/APPLICATION.md)

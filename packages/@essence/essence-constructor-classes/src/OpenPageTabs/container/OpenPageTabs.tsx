@@ -1,4 +1,4 @@
-import {IClassProps, toColumnStyleWidth, toSize} from "@essence/essence-constructor-share";
+import {IClassProps, toColumnStyleWidth, toSize, ApplicationContext} from "@essence/essence-constructor-share";
 import {Tabs} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
 import * as React from "react";
@@ -12,6 +12,7 @@ const PAGE_WIDTH = 160;
 
 export const OpenPageTabs: React.FC<IClassProps> = (props) => {
     const classes = useStyles(props);
+    const applicationStore = React.useContext(ApplicationContext);
     const {bc} = props;
     const height = toSize(bc.height, "42");
     const contentStyle = {
@@ -29,7 +30,7 @@ export const OpenPageTabs: React.FC<IClassProps> = (props) => {
             : (index) => ({
                   transform: `translateY(${index * 42}px)`,
               });
-    const {pagesStore} = props.pageStore.applicationStore;
+    const {pagesStore} = applicationStore;
     const [isOpenMenu, setIsOpenMenu] = React.useState(true);
     const [menuPageValue, setMenuPageValue] = React.useState("");
     const [menuPosition, setMenuPosition] = React.useState({
@@ -37,7 +38,7 @@ export const OpenPageTabs: React.FC<IClassProps> = (props) => {
         top: 0,
     });
     const handleChangePage = (event: React.ChangeEvent, value: string) => {
-        pagesStore.setPageAction(value);
+        pagesStore.setPageAction(value, false);
     };
     const handleContextMenu = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, value: string) => {
         event.preventDefault();

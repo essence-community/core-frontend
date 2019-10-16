@@ -153,7 +153,7 @@ export class PageModel implements IPageModel {
         Object.entries(values).forEach(([key, value]) => {
             const oldValue = this.globalValues.get(key);
 
-            if (oldValue !== value && (typeof oldValue === undefined || typeof value === undefined)) {
+            if (oldValue !== value && (!isEmpty(oldValue) || !isEmpty(value))) {
                 this.globalValues.set(key, value);
             }
         });

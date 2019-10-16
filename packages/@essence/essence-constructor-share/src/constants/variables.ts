@@ -13,7 +13,11 @@ export const VAR_RECORD_RES_STACK_TRACE = "cvStackTrace";
 export const VAR_SETTING_VALUE = "cv_value";
 export const VAR_SETTING_BRANCH_NAME = "branch_name";
 export const VAR_SETTING_GATE_URL = "g_sys_gate_url";
+export const VAR_SETTING_PROJECT_APPLICATION_PAGE = "project_applications_page";
 
 // META
 export const META_OUT_RESULT = "out_result";
 export const META_PAGE_OBJECT = "page_object";
+
+// SELF
+export const VAR_SELF_CV_URL = "cvUrl";

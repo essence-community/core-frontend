@@ -2,6 +2,8 @@
 
 // BUILDER_CONFIG_START
 export interface IBuilderBaseConfig {
+    // Правила для выбора активного элемента
+    activerules?: string;
     // Расположение текста: left - слева, center - по центру, right - справа
     align?: string;
     // Признак доступности ввода нового значения (по умолчанию = false)
@@ -18,14 +20,10 @@ export interface IBuilderBaseConfig {
     btndelete?: string;
     // Показывать иконку с загрузкой excel для грида
     btnexcel?: string;
-    // Показывать иконку для печати
-    btnprint?: string;
     // Показывать иконку с обновлением для грида
     btnrefresh?: string;
     // Показать кнопку с настройками пользователя
     btnsettings?: string;
-    // Тип графика lineChar | barChart | areaChart | pieChart
-    charttype?: string;
     // Чекбокс для добавления еще одной записи
     checkaddmore?: string;
     // Идентификатор для поиска окна в мастере
@@ -56,11 +54,11 @@ export interface IBuilderBaseConfig {
     currencysign?: string;
     // Тип данных колонки
     datatype?: string;
-    // Точность после запятой
+    // Точность после запятой. Если не заполнен, то точность равна 2
     decimalprecision?: string;
     // Разделитель остатка
     decimalseparator?: string;
-    // Значение по умолчанию CheckBox: true/false DateField: sysdate - текущее время или дата в формате ISO 8601 2005-08-09T18:31:42 для выбора первой записи указать значение "first"
+    // Значение по умолчанию CheckBox: true/false DateField: sysdate - текущее время или дата в формате ISO 8601 2005-08-09T18:31:42 для выбора первой записи указать значение "first"  для выбора первой записи всегда - указать значение "alwaysfirst"
     defaultvalue?: string;
     // Сервис для запроса значения по умолчанию
     defaultvaluequery?: string;
@@ -114,8 +112,6 @@ export interface IBuilderBaseConfig {
     iconfont?: string;
     // Наименование класса или наименование колонки при динамике
     iconfontname?: string;
-    // Размер иконки: "xs", "lg", "2x", "3x", "4x", "5x"
-    iconsize?: string;
     // Наименование атрибута, по которому фильтруем значение от мастера
     idproperty?: string;
     // Маска ввода, например: (999) 999-99-99
@@ -124,8 +120,6 @@ export interface IBuilderBaseConfig {
     info?: string;
     // Признак колонки типа дерева
     istree?: string;
-    // Признак доступности линейного графика
-    lineсhart?: string;
     // Максимальный размер файла в байтах
     maxfile?: string;
     // Максимальная высота
@@ -144,7 +138,7 @@ export interface IBuilderBaseConfig {
     mode?: string;
     // Наименование action добавляемое в json вместо стандартных I,U,D
     modeaction?: string;
-    // Признак отключения глобальной маски при загрузке грида
+    // Признак отключения глобального лоадера при загрузке сервиса
     noglobalmask?: string;
     // Убираем текст и оставляем только иконку
     onlyicon?: string;
@@ -158,8 +152,6 @@ export interface IBuilderBaseConfig {
     pickerheight?: string;
     // Ширина выпадающего меню для выбора
     pickerwidth?: string;
-    // Признак доступности круговой диаграммы
-    pieсhart?: string;
     // Позиция компонента
     position?: string;
     // Время паузы перед вызовом сервиса с указанием фильтра
@@ -168,8 +160,6 @@ export interface IBuilderBaseConfig {
     querymode?: string;
     // Наименование параметра при вводе значения в combobox для фильтрации
     queryparam?: string;
-    // Переключение в режим "только для чтения"
-    readonly?: string;
     // Правила переключения в режим "только чтение"
     readonlyrules?: string;
     // URL страницы, на которую будет переход
@@ -202,8 +192,6 @@ export interface IBuilderBaseConfig {
     selmode?: string;
     // Имя глобальной переменой, должна начинаться с g
     setglobal?: string;
-    // Содержит название глобальной переменной, которая хранит список для combobox
-    setgloballist?: string;
     // Колонка по которой будет сортировать грид вместо column
     sortcolumn?: string;
     // Флаг наличия сплиттера   true - показывать
@@ -224,21 +212,13 @@ export interface IBuilderBaseConfig {
     title?: string;
     // Служебный параметр не править
     type?: string;
-    // Признак доступности графика с областями
-    typeareachart?: string;
-    // Признак доступности графика гистограммы
-    typebarсhart?: string;
-    // Признак доступности линейного графика
-    typelinechart?: string;
-    // Признак доступности круговой диаграммы
-    typepiechart?: string;
     // Тип вида кнопки: 1-primary 2-secondary
     uitype?: string;
     // Имя глобальной переменной для обновления
     updateglobal?: string;
     // Имя сервиса для кастомных операций
     updatequery?: string;
-    // Поле содержит информацию о файле
+    // Поле содержит уникальный идентификатор записи
     valuefield?: string;
     // Признак отображения в автособираемом окне неактивных полей
     visibileinwindow?: string;

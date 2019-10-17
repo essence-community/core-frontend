@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {extendObservable, action, observable, when, ObservableMap} from "mobx";
 import {
     camelCaseKeys,
@@ -13,9 +14,13 @@ import {
     IRecordsModel,
     VAR_SELF_CV_URL,
     VAR_SETTING_PROJECT_APPLICATION_PAGE,
+    IPageModel,
+    IBuilderMode,
+    IStoreBaseModel,
+    IHandlers,
 } from "@essence/essence-constructor-share";
 import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
-import {snackbarStore, RecordsModel, settingsStore} from "@essence/essence-constructor-share/models";
+import {snackbarStore, RecordsModel, settingsStore, PageModel} from "@essence/essence-constructor-share/models";
 import {History} from "history";
 import {RoutesModel} from "./RoutesModel";
 import {IAuthSession} from "./AuthModel.types";
@@ -31,7 +36,10 @@ const MAX_RECONNECT = 5;
 
 const LOGOUT_CODE = 4001;
 
-export class ApplicationModel implements IApplicationModel {
+/**
+ * @exports ApplicationModel
+ */
+export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
     routesStore: RoutesModel | null;
 
     bc: IBuilderConfig;
@@ -64,11 +72,14 @@ export class ApplicationModel implements IApplicationModel {
 
     cvUrl: string;
 
+    pageStore: IPageModel;
+
     constructor(history: History, cvUrl: string) {
         this.routesStore = null;
         this.cvUrl = cvUrl;
         this.history = history;
         this.pagesStore = new PagesModel(this);
+        this.pageStore = new PageModel({applicationStore: this, ckPage: "-1", isActiveRedirect: false});
         this.authStore = new AuthModel(this);
         this.countConnect = 0;
         this.recordsStore = new RecordsModel(
@@ -286,4 +297,34 @@ export class ApplicationModel implements IApplicationModel {
             }
         }
     });
+
+    reloadStoreAction = () => Promise.resolve({});
+
+    clearStoreAction = () => {};
+
+    handleWindowOpen = (_mode: IBuilderMode, btnBc: IBuilderConfig) => {
+        const window =
+            this.bc.childwindow && this.bc.childwindow.find((win: IBuilderConfig) => win.ckwindow === btnBc.ckwindow);
+
+        if (window) {
+            this.pageStore.createWindowAction({mode: "1", windowBc: window});
+
+            return Promise.resolve(true);
+        }
+
+        return Promise.resolve(false);
+    };
+
+    /**
+     * @memberof ApplicationModel
+     * @member
+     */
+    handlers: IHandlers = {
+        /**
+         * Отктиые окна по ckwindow
+         * @memberof ApplicationModel.handlers
+         * @instance
+         */
+        onWindowOpen: this.handleWindowOpen,
+    };
 }

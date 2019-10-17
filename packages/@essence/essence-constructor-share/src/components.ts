@@ -104,7 +104,15 @@ export function mapComponents(childs: IBuilderConfig[], resolve: TResolve) {
     }
 
     return childs.map((child, index) => {
-        const ChildComp = child.type ? getComponent(child.type) : undefined;
+        if (!child.type) {
+            return null;
+        }
+
+        let ChildComp = child.datatype ? getComponent(`${child.type}.${child.datatype}`) : getComponent(child.type);
+
+        if (!ChildComp && child.datatype) {
+            ChildComp = getComponent(child.type);
+        }
 
         if (!ChildComp) {
             return null;

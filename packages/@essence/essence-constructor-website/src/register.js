@@ -31,6 +31,7 @@ import "@essence/essence-constructor-classes/src/OpenPageTabs";
 import "@essence/essence-constructor-classes/src/Pager";
 import "@essence/essence-constructor-classes/src/Application";
 import "@essence/essence-constructor-classes/src/Pages";
+import "@essence/essence-constructor-classes/src/WindowDrawer";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

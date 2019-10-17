@@ -210,6 +210,8 @@ export interface IBuilderBaseConfig {
     tipmsg?: string;
     // Заголовок
     title?: string;
+    // Отступ от верха в пикселях
+    top?: string;
     // Служебный параметр не править
     type?: string;
     // Тип вида кнопки: 1-primary 2-secondary

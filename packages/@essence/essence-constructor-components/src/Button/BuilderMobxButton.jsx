@@ -170,9 +170,17 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
             if (ckPageObjectMain) {
                 const builderStore = pageStore.stores.get(ckPageObjectMain);
 
-                if (builderStore && builderStore[handlerBtn]) {
-                    promise = builderStore[handlerBtn](mode, bc, {...data, ...performData(bc)});
-                    break;
+                if (builderStore) {
+                    if (builderStore.handlers && typeof builderStore.handlers[handlerBtn] === "function") {
+                        promise = builderStore.handlers[handlerBtn](mode, bc, {...data, ...performData(bc)});
+                        break;
+                    }
+
+                    // @deprecated
+                    if (typeof builderStore[handlerBtn] === "function") {
+                        promise = builderStore[handlerBtn](mode, bc, {...data, ...performData(bc)});
+                        break;
+                    }
                 }
             }
         }

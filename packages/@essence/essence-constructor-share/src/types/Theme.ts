@@ -9,6 +9,38 @@ export interface IEssenceTheme extends Theme {
                 };
             };
         };
+        palette: {
+            common: {
+                black: string;
+                disabled: string;
+                link: string;
+                selectedMenu: string;
+                selectedRecord: string;
+                selectedRecordBorder: string;
+                stripeRecord: string;
+                success: string;
+                warning: string;
+                white: string;
+            };
+            icon: {
+                secondary: string;
+            };
+            grey: {
+                arrow: string;
+                backgroundInput: string;
+                checkbox: string;
+                disable: string;
+                info: string;
+                light: string;
+                main: string;
+                shadow: string;
+            };
+            text: {
+                dark: string;
+                disabled: string;
+                light: string;
+            };
+        };
         zIndex: {
             backdrop: number;
             loader: number;
@@ -16,27 +48,6 @@ export interface IEssenceTheme extends Theme {
         sizing: {
             appBarHeight: number;
             gridRowHeight: number;
-        };
-    };
-    palette: {
-        grey: {
-            main: string;
-            modal: string;
-            light: string;
-            arrow: string;
-        };
-        primary: {
-            main: string;
-            light: string;
-        };
-        secondary: {
-            main: string;
-        };
-        text: {
-            light: string;
-        };
-        common: {
-            white: string;
         };
     };
 }

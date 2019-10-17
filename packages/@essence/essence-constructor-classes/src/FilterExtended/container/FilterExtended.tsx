@@ -1,19 +1,12 @@
 import * as React from "react";
 import {Collapse, Grid, Typography} from "@material-ui/core";
+import clsx from "clsx";
 import {useObserver} from "mobx-react-lite";
-import {
-    mapComponents,
-    IBuilderConfig,
-    IClassProps,
-    Icon,
-    findColumns,
-    FormContext,
-} from "@essence/essence-constructor-share";
+import {mapComponents, IBuilderConfig, IClassProps, Icon, FormContext} from "@essence/essence-constructor-share";
+import {findColumns} from "@essence/essence-constructor-share/utils/findColumns";
 import {useStyles} from "./FilterExtended.style";
 
-// eslint-disable-next-line max-lines-per-function
 export const FilterExtended = (props: IClassProps) => {
-    // @ts-ignore
     const form = React.useContext(FormContext);
     const classes = useStyles(props);
     const {bc} = props;
@@ -30,17 +23,17 @@ export const FilterExtended = (props: IClassProps) => {
     };
 
     return useObserver(() => (
-        <Collapse in={isOpen} collapsedHeight="24px" data-page-object={`${bc.ckPageObject}-collapsible`}>
+        <Collapse in={isOpen} collapsedHeight="30px" data-page-object={`${bc.ckPageObject}-collapsible`}>
             <Grid container direction="column" spacing={0}>
                 <Grid item onClick={() => setIsOpen(!isOpen)} className={classes.header}>
                     <Grid container spacing={0}>
-                        <Grid item className={classes.headerLeft}>
+                        <Grid item className={clsx(classes.headerLeft, !isOpen && classes.headerClose)}>
                             &nbsp;
                         </Grid>
 
                         <Grid item>
                             <Typography variant="body2" component="span">
-                                {"Все параметры "}
+                                {`${bc.cvDisplayed || ""} `}
                             </Typography>
                             <Icon iconfont={isOpen ? "angle-up" : "angle-down"} />
                         </Grid>
@@ -53,18 +46,22 @@ export const FilterExtended = (props: IClassProps) => {
                             <Icon className={classes.iconClear} iconfont="close" />
                         </Grid>
 
-                        <Grid item className={classes.headerRight}>
+                        <Grid item className={clsx(classes.headerRight, !isOpen && classes.headerClose)}>
                             &nbsp;
                         </Grid>
                     </Grid>
                 </Grid>
                 <Grid item className={classes.content}>
-                    {mapComponents(
-                        props.bc.childs,
-                        (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                            <Child {...props} bc={childBc} />
-                        ),
-                    )}
+                    <Grid container direction="column" spacing={1}>
+                        {mapComponents(
+                            props.bc.childs,
+                            (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
+                                <Grid item key={childBc.ckPageObject}>
+                                    <Child {...props} bc={childBc} />
+                                </Grid>
+                            ),
+                        )}
+                    </Grid>
                 </Grid>
             </Grid>
         </Collapse>

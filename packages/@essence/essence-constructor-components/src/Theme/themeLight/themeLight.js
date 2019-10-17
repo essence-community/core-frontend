@@ -85,6 +85,36 @@ export const themeLight = {
                 },
             },
         },
+        palette: {
+            common: {
+                black: "#000",
+                link: "#0000EE",
+                selectedMenu: "#f98d00",
+                selectedRecord: "#c8cfde",
+                stripeRecord: "#f3f3f5",
+                success: "#0f9d58",
+                warning: "#fff82a",
+                white: "#fff",
+            },
+            icon: {
+                secondary: "#cbcaca",
+            },
+            grey: {
+                arrow: "#CBCDE0",
+                backgroundInput: "#fafafa",
+                checkbox: "#e5e8f4",
+                disable: "#bbb",
+                info: "#dbdfef",
+                light: "#EEEFF2",
+                main: "#cbcaca",
+                shadow: "rgb(203, 202, 202, 0.4)",
+            },
+            text: {
+                dark: "#2c3345",
+                disabled: "#2c3345",
+                light: "#dbdfef",
+            },
+        },
         zIndex: {
             backdrop: 3,
             loader: 1600,

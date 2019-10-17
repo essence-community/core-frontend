@@ -6,3 +6,4 @@ export {PageLoader} from "./PageLoader";
 export {Pagination} from "./Pagination";
 export {Popover} from "./Popover";
 export {Scrollbars} from "./Scrollbars";
+export {SideResizer} from "./SideResizer";

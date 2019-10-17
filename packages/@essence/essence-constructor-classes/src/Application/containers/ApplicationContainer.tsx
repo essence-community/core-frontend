@@ -9,10 +9,11 @@ import {
 } from "@essence/essence-constructor-share";
 import {settingsStore} from "@essence/essence-constructor-share/models";
 import {useDisposable, useObserver} from "mobx-react-lite";
-import {reaction} from "mobx";
+import {reaction, observe} from "mobx";
 import {useParams, useHistory} from "react-router-dom";
 import {ApplicationModel} from "../store/ApplicationModel";
 import {renderGlobalValuelsInfo} from "../utils/renderGlobalValuelsInfo";
+import {ApplicationWindows} from "../components/ApplicationWindows";
 
 export const ApplicationContainer: React.FC<IClassProps> = () => {
     const history = useHistory();
@@ -20,27 +21,35 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
     const [applicationStore] = React.useState(() => new ApplicationModel(history, cvUrl));
     const appName = "pages";
 
-    React.useEffect(
-        () => {
-            const loadApplication = async () => {
-                await applicationStore.loadApplicationAction();
-                const {routesStore, pagesStore} = applicationStore;
-                const routes = routesStore.recordsStore.records;
-                const pageConfig = routes.find((route) => route.ckId === ckId || route.cvUrl === ckId);
-                const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
+    React.useEffect(() => {
+        const loadApplication = async () => {
+            await applicationStore.loadApplicationAction();
+            const {routesStore, pagesStore} = applicationStore;
+            const routes = routesStore.recordsStore.records;
+            const pageConfig = routes.find((route) => route.ckId === ckId || route.cvUrl === ckId);
+            const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
-                if (typeof pageId === "string") {
-                    pagesStore.setPageAction(pageId, false);
-                } else {
-                    pagesStore.setPageAction(ckId, true);
-                }
-            };
+            if (typeof pageId === "string") {
+                pagesStore.setPageAction(pageId, false);
+            } else {
+                pagesStore.setPageAction(ckId, true);
+            }
+        };
 
-            loadApplication();
-        },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [applicationStore],
-    );
+        loadApplication();
+    }, [applicationStore, ckId]); // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    useDisposable(() => {
+        return observe(applicationStore, "bc", (change) => {
+            if (change.oldValue) {
+                applicationStore.pageStore.removeStore(change.oldValue.ckPageObject, applicationStore);
+            }
+
+            if (change.newValue) {
+                applicationStore.pageStore.addStore(applicationStore, change.newValue.ckPageObject);
+            }
+        });
+    });
 
     useDisposable(() => {
         return reaction(
@@ -93,9 +102,17 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
     return useObserver(() => (
         <ApplicationContext.Provider value={applicationStore}>
             {applicationStore.isApplicationReady && applicationStore.bc ? (
-                mapComponents(applicationStore.bc.childs, (ChildComponent, childBc) => (
-                    <ChildComponent pageStore={null} key={childBc.ckPageObject} bc={childBc} visible />
-                ))
+                <>
+                    {mapComponents(applicationStore.bc.childs, (ChildComponent, childBc) => (
+                        <ChildComponent
+                            pageStore={applicationStore.pageStore}
+                            key={childBc.ckPageObject}
+                            bc={childBc}
+                            visible
+                        />
+                    ))}
+                    <ApplicationWindows pageStore={applicationStore.pageStore} />
+                </>
             ) : (
                 // @ts-ignore
                 <PageLoader isLoading loaderType={settingsStore.settings.projectLoader} />

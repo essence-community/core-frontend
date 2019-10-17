@@ -43,7 +43,7 @@ export interface IHandlers {
  * clearStoreAction - Запускается при очистки зависимого стора/поля по ck_master
  */
 export interface IStoreBaseModel {
-    name: StoreBaseModelNameType;
+    name?: StoreBaseModelNameType;
     hidden?: boolean;
     disabled?: boolean;
     pageStore: IPageModel;

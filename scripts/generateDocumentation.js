@@ -7,6 +7,7 @@ documentation
         [
             "./demo/demoHTMLDoc.ts",
             "./packages/@essence/essence-constructor-share/src/models/WindowModel/WindowModel.ts",
+            "./packages/@essence/essence-constructor-classes/src/Application/store/ApplicationModel.ts",
         ],
         {parseExtension: ["ts"], shallow: false},
     )

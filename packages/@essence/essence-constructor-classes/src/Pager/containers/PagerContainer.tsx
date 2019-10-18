@@ -15,6 +15,7 @@ import {
     loggerRoot,
     IEditorContext,
 } from "@essence/essence-constructor-share";
+import {Grid} from "@material-ui/core";
 import {settingsStore} from "@essence/essence-constructor-share/models";
 import {PagerWindows} from "../components/PagerWindows";
 import {focusPageElement} from "../utils/focusPageElement";
@@ -43,28 +44,22 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
     );
 
     // TODO: need to ferify it
-    React.useEffect(
-        () => {
-            if (!pageStore.route.clMenu) {
-                setTimeout(() => {
-                    if (applicationStore) {
-                        applicationStore.pagesStore.removePageAction(pageStore.ckPage);
-                    }
-                });
-            }
-        },
-        [applicationStore, pageStore.ckPage, pageStore.route.clMenu],
-    );
+    React.useEffect(() => {
+        if (!pageStore.route.clMenu) {
+            setTimeout(() => {
+                if (applicationStore) {
+                    applicationStore.pagesStore.removePageAction(pageStore.ckPage);
+                }
+            });
+        }
+    }, [applicationStore, pageStore.ckPage, pageStore.route.clMenu]);
 
-    React.useEffect(
-        () => {
-            return () => {
-                pageStore.setPageElAction(null);
-                pageStore.setPageInnerElAction(null);
-            };
-        },
-        [pageStore],
-    );
+    React.useEffect(() => {
+        return () => {
+            pageStore.setPageElAction(null);
+            pageStore.setPageInnerElAction(null);
+        };
+    }, [pageStore]);
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
         focusPageElement(event, pageStore);
@@ -98,17 +93,21 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                     <FormContext.Provider value={editor.form}>
                         <ModeContext.Provider value={editor.mode}>
                             <EditorContex.Provider value={editor}>
-                                {mapComponents(
-                                    pageStore.pageBc,
-                                    (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                                        <ChildComponent
-                                            readOnly={pageStore.isReadOnly}
-                                            pageStore={pageStore}
-                                            bc={childBc}
-                                            visible={pageStore.visible}
-                                        />
-                                    ),
-                                )}
+                                <Grid container spacing={2}>
+                                    {mapComponents(
+                                        pageStore.pageBc,
+                                        (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
+                                            <Grid item key={childBc.ckPageObject}>
+                                                <ChildComponent
+                                                    readOnly={pageStore.isReadOnly}
+                                                    pageStore={pageStore}
+                                                    bc={childBc}
+                                                    visible={pageStore.visible}
+                                                />
+                                            </Grid>
+                                        ),
+                                    )}
+                                </Grid>
                             </EditorContex.Provider>
                         </ModeContext.Provider>
                     </FormContext.Provider>

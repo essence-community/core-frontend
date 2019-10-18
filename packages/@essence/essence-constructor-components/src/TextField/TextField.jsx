@@ -25,6 +25,8 @@ const OMIT_PROPS = [
     "maskChar",
     "textField",
 ];
+const FIELD_ICON_SIZE = 30;
+const FIELD_LABEL_RIGHT = 5;
 
 type PropsType = {
     field: Field,
@@ -37,6 +39,7 @@ type PropsType = {
     errorText?: string,
     noQtip?: boolean,
     inputProps?: Object,
+    tips?: React.Node[],
 };
 // eslint-disable-next-line max-statements
 const TextField = ({
@@ -50,6 +53,7 @@ const TextField = ({
     field,
     errorText = disabled || !field.get("error") ? "" : String(field.get("error")),
     inputProps = {},
+    tips,
     ...otherProps
 }: PropsType) => {
     const fieldFullValue = isEmpty(value) ? "" : value;
@@ -85,6 +89,7 @@ const TextField = ({
                         error={error}
                         info={bc.info}
                         isRequired={field.rules && field.rules.indexOf("required") >= 0}
+                        paddingRight={tips && tips.length * FIELD_ICON_SIZE - FIELD_LABEL_RIGHT}
                     />
                 )
             }

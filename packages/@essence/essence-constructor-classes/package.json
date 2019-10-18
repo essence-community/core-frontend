@@ -11,6 +11,7 @@
     "@essence/essence-constructor-share": "file:../essence-constructor-share/lib/",
     "@material-ui/core": "^4.4.3",
     "classnames": "^2.2.6",
+    "clsx": "^1.0.4",
     "history": "^4.10.1",
     "keycode": "^2.2.0",
     "mobx": "^5.9.0",

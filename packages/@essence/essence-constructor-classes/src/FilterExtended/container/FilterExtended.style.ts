@@ -1,44 +1,43 @@
 import {makeStyles} from "@material-ui/core/styles";
+import {IEssenceTheme} from "@essence/essence-constructor-share";
 
 export const useStyles = makeStyles(
-    (theme) => ({
+    (theme: IEssenceTheme) => ({
         content: {
-            // @ts-ignore
-            border: `1px solid ${theme.palette.grey.main}`,
+            border: `1px solid ${theme.essence.palette.grey.main}`,
             borderRadius: "0 0 3px 3px",
             borderTopColor: "transparent",
             padding: theme.spacing(1),
+            paddingTop: 0,
         },
         header: {
             color: theme.palette.text.primary,
             cursor: "pointer",
-            /*
-             * PaddingLeft: theme.spacing(1),
-             * paddingRight: theme.spacing(1),
-             */
+            height: theme.essence.sizing.gridRowHeight,
+        },
+        headerClose: {
+            height: 1,
         },
         headerLeft: {
-            // @ts-ignore
-            borderLeft: `1px solid ${theme.palette.grey.main}`,
+            borderLeft: `1px solid ${theme.essence.palette.grey.main}`,
             borderRadius: "3px 0 0 0",
-            // @ts-ignore
-            borderTop: `1px solid ${theme.palette.grey.main}`,
+            borderTop: `1px solid ${theme.essence.palette.grey.main}`,
             margin: "10px 5px -10px 0",
         },
         headerRight: {
             borderRadius: "0 3px 0 0",
-            // @ts-ignore
-            borderRight: `1px solid ${theme.palette.grey.main}`,
-            // @ts-ignore
-            borderTop: `1px solid ${theme.palette.grey.main}`,
+            borderRight: `1px solid ${theme.essence.palette.grey.main}`,
+            borderTop: `1px solid ${theme.essence.palette.grey.main}`,
             margin: "10px 0 -10px 5px",
         },
         iconClear: {
-            color: theme.palette.primary.main,
+            "&:hover": {
+                color: theme.palette.primary.main,
+            },
+            color: theme.essence.palette.icon.secondary,
         },
         topLine: {
-            // @ts-ignore
-            borderTop: `1px solid ${theme.palette.grey.main}`,
+            borderTop: `1px solid ${theme.essence.palette.grey.main}`,
             margin: "10px 5px -10px 5px",
         },
     }),

@@ -299,9 +299,7 @@ export class BuilderFormBase extends React.Component<PropsTypes, StateTypes> {
             return (
                 <FormContext.Provider value={form}>
                     <ModeContext.Provider value={this.props.mode}>
-                        <EditorContex.Provider value={{form, mode: this.props.mode}}>
-                            {this.props.children}
-                        </EditorContex.Provider>
+                        <EditorContex.Provider value={this.state}>{this.props.children}</EditorContex.Provider>
                     </ModeContext.Provider>
                 </FormContext.Provider>
             );

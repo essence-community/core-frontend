@@ -1,7 +1,6 @@
 /* eslint-disable max-lines */
 // @flow
 import * as React from "react";
-import PropTypes from "prop-types";
 import get from "lodash/get";
 import cn from "classnames";
 import {compose} from "recompose";
@@ -32,10 +31,6 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
 
     static defaultProps = {
         editing: true,
-    };
-
-    static contextTypes = {
-        mode: PropTypes.string,
     };
 
     static getDerivedStateFromProps({disabled, editing}: BuilderFieldPropsType) {

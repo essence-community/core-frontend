@@ -42,8 +42,8 @@ class PrivateBuilderFieldSet extends React.Component<PropsType, StateType> {
 
     fieldSetName: string;
 
-    constructor(props: PropsType) {
-        super(props);
+    constructor(...args: Array<*>) {
+        super(...args);
 
         const {bc} = this.props;
         const form = this.getForm();
@@ -143,7 +143,7 @@ class PrivateBuilderFieldSet extends React.Component<PropsType, StateType> {
         }
 
         return (
-            <EditorContex value={{form, mode: "1"}}>
+            <EditorContex.Provider value={this.state}>
                 <ModeContext.Provider value="1">
                     <Grid container spacing={2} direction={isRow ? "row" : "column"} wrap={isRow ? "nowrap" : "wrap"}>
                         {mapComponents(bc.childs || [], (ChildComp, child, index) => {
@@ -173,7 +173,7 @@ class PrivateBuilderFieldSet extends React.Component<PropsType, StateType> {
                         })}
                     </Grid>
                 </ModeContext.Provider>
-            </EditorContex>
+            </EditorContex.Provider>
         );
     }
 }

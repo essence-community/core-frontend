@@ -39,7 +39,7 @@ type PropsType = {
     errorText?: string,
     noQtip?: boolean,
     inputProps?: Object,
-    tips?: React.ElementType[],
+    tips?: React.Node[],
 };
 // eslint-disable-next-line max-statements
 const TextField = ({

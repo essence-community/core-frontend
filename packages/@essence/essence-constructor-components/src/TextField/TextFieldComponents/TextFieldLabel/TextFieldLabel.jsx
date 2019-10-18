@@ -16,11 +16,12 @@ type PropsType = {
     },
     info?: string,
     isRequired: boolean,
+    paddingRight?: number,
 };
 
 class TextFieldLabel extends React.PureComponent<PropsType> {
     render() {
-        const {bc, classes, error, info, isRequired} = this.props;
+        const {bc, classes, error, info, isRequired, paddingRight} = this.props;
         const label =
             bc.cvDisplayed && bc.cvDisplayed.indexOf("елеф") > 0
                 ? (bc.cvDisplayed.match(/.{1,6}/g) || []).reduce((sum, str) => {
@@ -58,7 +59,7 @@ class TextFieldLabel extends React.PureComponent<PropsType> {
         }
 
         return (
-            <span className={classes.lableRoot}>
+            <span className={classes.lableRoot} style={{paddingRight}}>
                 {label}
                 {required}
             </span>

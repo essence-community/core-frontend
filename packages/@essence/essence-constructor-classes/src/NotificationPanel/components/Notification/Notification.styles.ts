@@ -59,9 +59,12 @@ export const useStyles = makeStyles((theme: IEssenceTheme) => ({
         padding: 8,
     },
     notificationHeader: {
-        color: "#939393",
+        color: theme.essence.ui.notification.palette.gray,
         fontSize: 14,
         padding: "0 8px",
+    },
+    notificationHeaderInfo: {
+        paddingRight: 10,
     },
     notificationRoot: {
         "&:hover $clearButton": {

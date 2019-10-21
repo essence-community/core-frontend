@@ -10,7 +10,7 @@ export const useStyles = makeStyles((theme: IEssenceTheme) => ({
         "&.selected": {
             color: theme.essence.palette.common.selectedMenu,
         },
-        color: theme.palette.common.white,
+        color: theme.essence.palette.common.white,
         textTransform: "none",
     },
 }));

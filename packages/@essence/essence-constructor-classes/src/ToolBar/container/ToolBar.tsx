@@ -56,7 +56,7 @@ export const ToolBar: React.FC<IClassProps> = (props) => {
                 {...(GRID_CONFIGS[bc.contentview] || GRID_CONFIGS.hbox)}
             >
                 {mapComponents(bc.childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                    <Grid item style={calcStyle(childBc)}>
+                    <Grid item style={calcStyle(childBc)} key={childBc.ckPageObject}>
                         <Child {...props} bc={childBc} />
                     </Grid>
                 ))}

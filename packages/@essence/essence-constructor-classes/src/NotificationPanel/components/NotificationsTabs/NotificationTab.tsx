@@ -1,6 +1,6 @@
 import {commonDecorator} from "@essence/essence-constructor-share/decorators";
 import {Tab, Typography} from "@material-ui/core";
-import cn from "classnames";
+import clsx from "clsx";
 import {useObserver} from "mobx-react-lite";
 import * as React from "react";
 import {useStyles} from "./NotificationsTab.styles";
@@ -15,7 +15,6 @@ export const NotificationsTab: React.FC<INotificationsTabProps> = (props) => {
             value={bc.value}
             data-qtip={bc.cvDisplayed}
             data-page-object={`tab-${bc.value}`}
-            component={"div"}
             tabIndex={-1}
             label={
                 <React.Fragment>
@@ -23,7 +22,7 @@ export const NotificationsTab: React.FC<INotificationsTabProps> = (props) => {
                         variant="body2"
                         noWrap
                         color="inherit"
-                        className={cn([classes.tabText, selected ? "selected" : ""])}
+                        className={clsx(classes.tabText, selected ? "selected" : false)}
                     >
                         {bc.cvDisplayed}
                     </Typography>

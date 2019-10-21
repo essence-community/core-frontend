@@ -15,66 +15,76 @@ export const mapNotification = {
     warning: 3,
 };
 
-export function getAllPanelConfig(bc: IBuilderConfig) {
+export interface ITabBc extends IBuilderConfig, Record<string, string> {
+    value: string;
+}
+
+export function getAllPanelConfig(bc: IBuilderConfig): ITabBc {
     return {
         ckMaster: bc.ckPageObject,
         ckObject: `${bc.ckObject}_info`,
         ckPageObject: `${bc.ckPageObject}_info`,
+        ckParent: bc.ckPageObject,
         cvDisplayed: "Все",
         cvName: "Override All Tab",
         value: "all",
     };
 }
 
-export function getInfoPanelConfig(bc: IBuilderConfig) {
+export function getInfoPanelConfig(bc: IBuilderConfig): ITabBc {
     return {
         ckMaster: bc.ckPageObject,
         ckObject: `${bc.ckObject}_info`,
         ckPageObject: `${bc.ckPageObject}_info`,
+        ckParent: bc.ckPageObject,
         cvDisplayed: "Информация",
         cvName: "Override Info Tab",
         value: "info",
     };
 }
 
-export function getErrorPanelConfig(bc: IBuilderConfig) {
+export function getErrorPanelConfig(bc: IBuilderConfig): ITabBc {
     return {
         ckMaster: bc.ckPageObject,
         ckObject: `${bc.ckObject}_error`,
         ckPageObject: `${bc.ckPageObject}_error`,
+        ckParent: bc.ckPageObject,
         cvDisplayed: "Ошибки",
         cvName: "Override Error Tab",
         value: "error",
     };
 }
 
-export function getWarningPanelConfig(bc: IBuilderConfig) {
+export function getWarningPanelConfig(bc: IBuilderConfig): ITabBc {
     return {
         ckMaster: bc.ckPageObject,
         ckObject: `${bc.ckObject}_warning`,
         ckPageObject: `${bc.ckPageObject}_warning`,
+        ckParent: bc.ckPageObject,
         cvDisplayed: "Предупреждения",
         cvName: "Override Warning Tab",
         value: "warning",
     };
 }
 
-export function getNotificationPanelConfig(bc: IBuilderConfig) {
+export function getNotificationPanelConfig(bc: IBuilderConfig): ITabBc {
     return {
         ckMaster: bc.ckPageObject,
         ckObject: `${bc.ckObject}_notification`,
         ckPageObject: `${bc.ckPageObject}_notification`,
+        ckParent: bc.ckPageObject,
         cvDisplayed: "Оповещения",
         cvName: "Override Notification Tab",
         value: "notification",
     };
 }
 
-export function getDebugPanelConfig(bc: IBuilderConfig) {
+export function getDebugPanelConfig(bc: IBuilderConfig): ITabBc {
     return {
         ckMaster: bc.ckPageObject,
         ckObject: `${bc.ckObject}_debug`,
         ckPageObject: `${bc.ckPageObject}_debug`,
+        ckParent: bc.ckPageObject,
         cvDisplayed: "Разработка",
         cvName: "Override Debug Tab",
         hiddenrules: "!(499 in gSessCaActions)",
@@ -82,7 +92,7 @@ export function getDebugPanelConfig(bc: IBuilderConfig) {
     };
 }
 
-export const getTabsData = (bc: IBuilderConfig, childs: IBuilderConfig[]) => {
+export const getTabsData = (bc: IBuilderConfig, childs: IBuilderConfig[]): ITabBc[] => {
     const {overrides} = mergeComponents(childs, {
         "Override All Tab": getAllPanelConfig(bc),
         "Override Debug Tab": getDebugPanelConfig(bc),

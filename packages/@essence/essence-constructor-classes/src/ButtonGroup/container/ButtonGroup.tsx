@@ -24,20 +24,18 @@ const GRID_CONFIGS = {
 export const ButtonGroup: React.FC<IClassProps> = (props) => {
     const {bc} = props;
     const childs = React.useMemo(() => {
-        const temp = (bc.childs || [])
-            .map((child) => ({
-                ...child,
-                onlyicon: bc.onlyicon || child.onlyicon,
-            }))
-            .reduce((arr, row) => {
-                arr.push(row);
-                arr.push({
-                    contentview: bc.contentview || GRID_CONFIGS.hbox,
-                    type: "BTN_GROUP_DELIMITER",
-                });
+        const temp = (bc.childs || []).reduce((arr, row) => {
+            arr.push({
+                ...row,
+                onlyicon: bc.onlyicon || row.onlyicon,
+            });
+            arr.push({
+                contentview: bc.contentview || GRID_CONFIGS.hbox,
+                type: "BTN_GROUP_DELIMITER",
+            });
 
-                return arr;
-            }, []);
+            return arr;
+        }, []);
 
         return temp.slice(0, temp.length - 1);
     }, [bc.childs, bc.onlyicon, bc.contentview]);
@@ -52,7 +50,7 @@ export const ButtonGroup: React.FC<IClassProps> = (props) => {
             {...(GRID_CONFIGS[bc.contentview] || GRID_CONFIGS.hbox)}
         >
             {mapComponents(childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                <Grid item xs={true}>
+                <Grid item xs={true} key={childBc.ckPageObject}>
                     <Child {...props} bc={childBc} />
                 </Grid>
             ))}

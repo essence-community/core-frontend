@@ -91,6 +91,11 @@ export const themeDark = {
                     background: "#2c3345",
                 },
             },
+            notification: {
+                palette: {
+                    gray: "#939393",
+                },
+            },
         },
         palette: {
             common: {

@@ -38,11 +38,11 @@ export const Notification: React.FC<INotificationProps> = (props) => {
         <div className={classes.notificationRoot} onMouseEnter={snackbar.read === false ? handleRead : undefined}>
             {snackbar.read === false ? <span className={classes.dot} /> : null}
             <Grid container wrap="nowrap" justify="space-between" className={classes.notificationHeader}>
-                <Grid item data-qtip={snackbar.createdAt} style={{paddingRight: 10}}>
+                <Grid item data-qtip={snackbar.createdAt} className={classes.notificationHeaderInfo}>
                     {snackbar.createdAt}
                 </Grid>
                 {snackbar.status && statuses[snackbar.status] ? (
-                    <Grid item data-qtip={snackbar.createdAt} style={{paddingRight: 10}}>
+                    <Grid item data-qtip={statuses[snackbar.status]} className={classes.notificationHeaderInfo}>
                         {statuses[snackbar.status]}
                     </Grid>
                 ) : null}

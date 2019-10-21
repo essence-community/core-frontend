@@ -3,7 +3,7 @@ import {makeStyles} from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme: IEssenceTheme) => ({
     badge: {
-        borderColor: theme.palette.common.white,
+        borderColor: theme.essence.palette.common.white,
     },
     badgeDisabled: {
         backgroundColor: theme.essence.palette.grey.main,

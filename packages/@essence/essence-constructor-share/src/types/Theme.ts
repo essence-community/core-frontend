@@ -8,6 +8,11 @@ export interface IEssenceTheme extends Theme {
                     background: string;
                 };
             };
+            notification: {
+                palette: {
+                    gray: string;
+                };
+            };
         };
         palette: {
             common: {

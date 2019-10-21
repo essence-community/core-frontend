@@ -1,4 +1,4 @@
-import {IStoreBaseModelProps, IPageModel, FieldValue, IBuilderMode} from "../../types";
+import {IStoreBaseModelProps, IPageModel, FieldValue, IBuilderMode, IApplicationModel} from "../../types";
 
 /**
  * Конструкотр модели
@@ -7,6 +7,7 @@ import {IStoreBaseModelProps, IPageModel, FieldValue, IBuilderMode} from "../../
  * @param {any} values
  */
 export interface IWindowModelConstructor extends IStoreBaseModelProps {
+    applicationStore: IApplicationModel;
     pageStore: IPageModel;
     values?: Record<string, FieldValue>;
     mode: IBuilderMode;

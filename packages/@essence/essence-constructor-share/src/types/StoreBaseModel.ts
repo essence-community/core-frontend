@@ -8,7 +8,7 @@ import {IRecordsModel} from "./RecordsModel";
 export interface IStoreBaseModelProps {
     bc: IBuilderConfig;
     pageStore: IPageModel;
-    applicationStore?: IApplicationModel;
+    applicationStore: IApplicationModel | null;
     disabled?: boolean;
     hidden?: boolean;
 }
@@ -51,7 +51,7 @@ export interface IStoreBaseModel {
     bc: IBuilderConfig;
     handlers: IHandlers;
     recordsStore?: IRecordsModel;
-    applicationStore?: IApplicationModel;
+    applicationStore: IApplicationModel | null;
     selectedRecord?: RowRecord;
     selectedEntries?: RowRecord[];
     afterSelected?: () => void;

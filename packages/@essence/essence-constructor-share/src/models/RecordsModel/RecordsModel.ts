@@ -62,9 +62,9 @@ export class RecordsModel implements IRecordsModel {
 
     searchValues: Record<string, FieldValue>;
 
-    pageStore?: IPageModel;
+    pageStore: IPageModel | null;
 
-    applicationStore?: IApplicationModel;
+    applicationStore: IApplicationModel | null;
 
     isLoading: boolean;
 

@@ -110,7 +110,7 @@ export function attachGlobalStore({bc, json, globalValues}: IAttachGlobalStore):
     }
 }
 
-export function setMask(isLoading: boolean, noglobalmask?: string, pageStore?: IPageModel) {
+export function setMask(isLoading: boolean, noglobalmask?: string, pageStore?: IPageModel | null) {
     if (noglobalmask !== "true" && pageStore) {
         pageStore.setLoadingAction(isLoading);
     }
@@ -142,8 +142,12 @@ export const getAttachedRecords = (records: Record<string, FieldValue>[], newRec
 
 export function prepareRequst(recordsStore: IRecordsModel, {bc, status, selectedRecordId}: ILoadRecordsAction) {
     const {idproperty = "ck_id", ckMaster, noglobalmask} = bc;
-    const globalValues = recordsStore.pageStore && recordsStore.pageStore.globalValues;
-    const master = getMasterData(getMasterObject(ckMaster, recordsStore.pageStore), idproperty, globalValues);
+    const globalValues = recordsStore.pageStore ? recordsStore.pageStore.globalValues : undefined;
+    const master = getMasterData(
+        getMasterObject(ckMaster, recordsStore.pageStore ? recordsStore.pageStore : undefined),
+        idproperty,
+        globalValues,
+    );
     const filterData: IGetFilterDataOptions =
         status === "attach"
             ? {
@@ -203,9 +207,9 @@ export function loadRecordsAction(
             if (
                 snackbarStore.checkValidResponseAction(
                     response[0],
-                    this.pageStore && this.pageStore.route,
+                    this.pageStore ? this.pageStore.route : undefined,
                     undefined,
-                    this.applicationStore,
+                    this.applicationStore ? this.applicationStore : undefined,
                 )
             ) {
                 const records = (response || []).map((record: Record<string, FieldValue>) => {
@@ -222,7 +226,7 @@ export function loadRecordsAction(
                             status: "error",
                             text: "Неизвестное количество страниц",
                         },
-                        this.pageStore && this.pageStore.route,
+                        this.pageStore ? this.pageStore.route : undefined,
                     );
                 }
 
@@ -232,7 +236,11 @@ export function loadRecordsAction(
             return [];
         })
         .catch((response: IResponse): Record<string, FieldValue>[] => {
-            snackbarStore.checkExceptResponse(response, this.pageStore && this.pageStore.route, this.applicationStore);
+            snackbarStore.checkExceptResponse(
+                response,
+                this.pageStore ? this.pageStore.route : undefined,
+                this.applicationStore ? this.applicationStore : undefined,
+            );
 
             return [];
         })

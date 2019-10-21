@@ -1,6 +1,5 @@
 // @flow
 import * as React from "react";
-import PropTypes from "prop-types";
 import {observer} from "mobx-react";
 import {Grid} from "@material-ui/core";
 import {getComponent} from "@essence/essence-constructor-share";
@@ -24,10 +23,6 @@ type PropsType = {
 
 class BuilderHistoryPanelButtons extends React.Component<PropsType> {
     activeElement: ?HTMLElement = null;
-
-    static contextTypes = {
-        form: PropTypes.object,
-    };
 
     getSnapshotBeforeUpdate(prevProps) {
         if (!prevProps.editing && this.props.editing) {

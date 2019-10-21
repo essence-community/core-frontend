@@ -8,7 +8,7 @@ import {IApplicationModel} from "./Application";
 export interface IStoreBaseModelProps {
     bc: IBuilderConfig;
     pageStore: IPageModel;
-    applicationStore?: IApplicationModel;
+    applicationStore: IApplicationModel | null;
     disabled?: boolean;
     hidden?: boolean;
 }
@@ -50,7 +50,7 @@ export interface IStoreBaseModel {
     bc: IBuilderConfig;
     handlers: IHandlers;
     recordsStore?: IRecordsModel;
-    applicationStore?: IApplicationModel;
+    applicationStore: IApplicationModel | null;
     selectedRecord?: Record<string, FieldValue>;
     afterSelected?: () => void;
     reloadStoreAction: (checkParent?: boolean) => Promise<object | undefined>;

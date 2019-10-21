@@ -25,7 +25,7 @@ export const BadgeBtn: React.FC<IClassProps> = (props) => {
                         : mapComponents(
                               bc.childs,
                               (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                                  <Child {...props} bc={childBc} />
+                                  <Child {...props} bc={childBc} key={childBc.ckPageObject} />
                               ),
                           )}
                 </Badge>
@@ -35,7 +35,7 @@ export const BadgeBtn: React.FC<IClassProps> = (props) => {
         return children
             ? children
             : mapComponents(bc.childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                  <Child {...props} bc={childBc} />
+                  <Child {...props} bc={childBc} key={childBc.ckPageObject} />
               ));
     });
 };

@@ -1,4 +1,5 @@
-import {ApplicationContext, IClassProps, Icon, Scrollbars} from "@essence/essence-constructor-share";
+import {IClassProps, Icon, Scrollbars} from "@essence/essence-constructor-share";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {ButtonBase, Grid, Tabs} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
 import * as React from "react";
@@ -13,14 +14,14 @@ const SCROLLBARS_STYLE = {
 };
 
 export const NotificationPanel: React.FC<IClassProps> = (props) => {
-    const applicationStore = React.useContext(ApplicationContext);
-    const {snackbarStore} = applicationStore;
     const classes = useStyles(props);
     const tabsBc = React.useMemo(() => {
         return getTabsData(props.bc, props.bc.childs || []);
     }, [props.bc]);
-    const handlerChangeTab = (event, tabValue) => {
-        snackbarStore.setStatusAction(tabsBc[tabValue].value);
+    const handlerChangeTab = (event: React.ChangeEvent<{}>, tabValue: number) => {
+        const {value} = tabsBc[tabValue];
+
+        snackbarStore.setStatusAction(value);
     };
 
     return useObserver(() => (
@@ -33,7 +34,7 @@ export const NotificationPanel: React.FC<IClassProps> = (props) => {
                 variant="scrollable"
                 onChange={handlerChangeTab}
             >
-                {tabsBc.map((tabBc) => (
+                {tabsBc.map((tabBc: any) => (
                     <NotificationsTab
                         {...props}
                         key={tabBc.value}

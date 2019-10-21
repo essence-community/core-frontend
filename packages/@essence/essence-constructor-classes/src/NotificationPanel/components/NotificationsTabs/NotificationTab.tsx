@@ -23,7 +23,7 @@ export const NotificationsTab: React.FC<INotificationsTabProps> = (props) => {
                         variant="body2"
                         noWrap
                         color="inherit"
-                        className={cn([classes.text, selected ? "selected" : ""])}
+                        className={cn([classes.tabText, selected ? "selected" : ""])}
                     >
                         {bc.cvDisplayed}
                     </Typography>

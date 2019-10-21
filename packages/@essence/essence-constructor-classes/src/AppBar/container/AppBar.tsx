@@ -45,19 +45,23 @@ const calcStyle = (bc: IBuilderConfig) => ({
 export const AppBar: React.FC<IClassProps> = (props) => {
     const classes = useStyles(props);
     const {bc} = props;
-    const contentStyle = {
-        height: bc.height ? toSize(bc.height, "") : undefined,
-        maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
-        minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
-        padding: bc.contentview.startsWith("hbox") ? "0 5px" : undefined,
-        ...toColumnStyleWidth(bc.width),
-    };
+    const contentStyle = React.useMemo(
+        () => ({
+            height: bc.height ? toSize(bc.height, "") : undefined,
+            maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
+            minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
+            padding: bc.contentview && bc.contentview.startsWith("hbox") ? "0 5px" : undefined,
+            ...toColumnStyleWidth(bc.width),
+        }),
+        [bc.height, bc.maxheight, bc.minheight, bc.contentview, bc.width],
+    );
+    const position: any = React.useMemo(() => bc.position || "relative", [bc.position]);
 
     return (
         <MaterialAppBar
             classes={classes}
             color={colors[bc.uitype] || "static"}
-            position={bc.position || "relative"}
+            position={position}
             style={contentStyle}
         >
             <Grid
@@ -70,7 +74,7 @@ export const AppBar: React.FC<IClassProps> = (props) => {
                 {...(GRID_CONFIGS[bc.contentview] || GRID_CONFIGS.hbox)}
             >
                 {mapComponents(bc.childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                    <Grid item style={calcStyle(childBc)}>
+                    <Grid item style={calcStyle(childBc)} key={childBc.ckPageObject}>
                         <Child {...props} bc={childBc} />
                     </Grid>
                 ))}

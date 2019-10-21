@@ -10,8 +10,13 @@ interface INotificationProps {
     snackbar: ISnackbar;
     snackbarStore: ISnackbarModel;
 }
-
-const statuses = {
+interface IFileStatus {
+    errorUpload: "Неуспешно";
+    progress: "Загрузка";
+    uploaded: "Успешно";
+    [key: string]: string;
+}
+const statuses: IFileStatus = {
     errorUpload: "Неуспешно",
     progress: "Загрузка",
     uploaded: "Успешно",

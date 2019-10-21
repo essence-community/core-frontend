@@ -6,7 +6,7 @@ export const useStyles = makeStyles((theme: IEssenceTheme) => ({
         minHeight: 20,
         minWidth: "inherit",
     },
-    text: {
+    tabText: {
         "&.selected": {
             color: theme.essence.palette.common.selectedMenu,
         },

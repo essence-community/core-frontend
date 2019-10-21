@@ -6,7 +6,7 @@ export const useStyles = makeStyles((theme: IEssenceTheme) => ({
         visibility: "hidden",
     },
     dot: {
-        backgroundColor: theme.palette.common.selectedMenu,
+        backgroundColor: theme.essence.palette.common.selectedMenu,
         borderRadius: "50%",
         height: 6,
         minWidth: 6,
@@ -16,11 +16,11 @@ export const useStyles = makeStyles((theme: IEssenceTheme) => ({
     },
     notificationContent: {
         "&.block": {
-            backgroundColor: theme.palette.grey.light,
+            backgroundColor: theme.essence.palette.grey.light,
             color: theme.palette.text.primary,
         },
         "&.debug": {
-            backgroundColor: theme.palette.grey.light,
+            backgroundColor: theme.essence.palette.grey.light,
             color: theme.palette.text.primary,
         },
         "&.error": {
@@ -36,7 +36,7 @@ export const useStyles = makeStyles((theme: IEssenceTheme) => ({
             color: theme.palette.common.white,
         },
         "&.notification": {
-            backgroundColor: theme.palette.grey.light,
+            backgroundColor: theme.essence.palette.grey.light,
             color: theme.palette.text.primary,
         },
         "&.progress": {
@@ -44,15 +44,15 @@ export const useStyles = makeStyles((theme: IEssenceTheme) => ({
             color: theme.palette.common.white,
         },
         "&.unblock": {
-            backgroundColor: theme.palette.grey.light,
+            backgroundColor: theme.essence.palette.grey.light,
             color: theme.palette.text.primary,
         },
         "&.uploaded": {
-            backgroundColor: theme.palette.grey.light,
+            backgroundColor: theme.essence.palette.grey.light,
             color: theme.palette.text.primary,
         },
         "&.warning": {
-            backgroundColor: theme.palette.common.warning,
+            backgroundColor: theme.essence.palette.common.warning,
             color: theme.palette.text.primary,
         },
         borderRadius: 4,

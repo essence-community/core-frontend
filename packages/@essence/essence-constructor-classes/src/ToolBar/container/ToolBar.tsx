@@ -35,12 +35,15 @@ const calcStyle = (bc: IBuilderConfig) => ({
 
 export const ToolBar: React.FC<IClassProps> = (props) => {
     const {bc} = props;
-    const contentStyle = {
-        height: bc.height ? toSize(bc.height, "") : undefined,
-        maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
-        minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
-        ...toColumnStyleWidth(bc.width),
-    };
+    const contentStyle = React.useMemo(
+        () => ({
+            height: bc.height ? toSize(bc.height, "") : undefined,
+            maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
+            minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
+            ...toColumnStyleWidth(bc.width),
+        }),
+        [bc.height, bc.maxheight, bc.minheight, bc.width],
+    );
 
     return (
         <MaterialToolbar>

@@ -6,12 +6,12 @@ export const useStyles = makeStyles((theme: IEssenceTheme) => ({
         borderColor: theme.palette.common.white,
     },
     badgeDisabled: {
-        backgroundColor: theme.palette.grey.main,
+        backgroundColor: theme.essence.palette.grey.main,
     },
     btn: {
         padding: 12,
     },
     disabledBtn: {
-        color: theme.palette.grey.main,
+        color: theme.essence.palette.grey.main,
     },
 }));

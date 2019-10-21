@@ -12,13 +12,15 @@ export const OpenPageTabs: React.FC<IClassProps> = (props) => {
     const classes = useStyles(props);
     const applicationStore = React.useContext(ApplicationContext);
     const {bc} = props;
-    const height = toSize(bc.height, "42");
-    const contentStyle = {
-        height,
-        maxHeight: toSize(bc.maxheight, "100%"),
-        minHeight: toSize(bc.minheight, ""),
-        ...toColumnStyleWidth(bc.width),
-    };
+    const contentStyle = React.useMemo(
+        () => ({
+            height: toSize(bc.height, "42"),
+            maxHeight: toSize(bc.maxheight, "100%"),
+            minHeight: toSize(bc.minheight, ""),
+            ...toColumnStyleWidth(bc.width),
+        }),
+        [bc.height, bc.maxheight, bc.minheight, bc.width],
+    );
     const orientation = bc.contentview === "vbox" ? "vertical" : "horizontal";
     const tabStyleFn =
         orientation === "horizontal"

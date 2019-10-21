@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/named
+import {IObservableArray} from "mobx";
 import {Form} from "mobx-react-form";
 import {IApplicationModel} from "./Application";
 import {IBuilderConfig, IBuilderMode} from "./Builder";
@@ -53,7 +55,7 @@ export interface IStoreBaseModel {
     recordsStore?: IRecordsModel;
     applicationStore?: IApplicationModel;
     selectedRecord?: RowRecord;
-    selectedEntries?: RowRecord[];
+    selectedEntries?: IObservableArray<RowRecord>;
     afterSelected?: () => void;
     reloadStoreAction: (checkParent?: boolean) => Promise<object | undefined>;
     clearStoreAction: () => void;

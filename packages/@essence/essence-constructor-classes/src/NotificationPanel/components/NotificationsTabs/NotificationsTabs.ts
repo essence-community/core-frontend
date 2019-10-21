@@ -3,10 +3,15 @@ import {mergeComponents} from "@essence/essence-constructor-share/utils";
 
 export const mapNotification = {
     all: 0,
+    block: 7,
     debug: 5,
     error: 2,
+    errorUpload: 10,
     info: 1,
     notification: 4,
+    progress: 6,
+    unblock: 8,
+    uploaded: 9,
     warning: 3,
 };
 

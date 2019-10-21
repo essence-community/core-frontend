@@ -8,8 +8,6 @@ import {OpenPageTab} from "../components/OpenPageTab/OpenPageTab";
 import {ScrollButton} from "../components/ScrollButton/ScrollButton";
 import {useStyles} from "./OpenPageTabs.styles";
 
-const PAGE_WIDTH = 160;
-
 export const OpenPageTabs: React.FC<IClassProps> = (props) => {
     const classes = useStyles(props);
     const applicationStore = React.useContext(ApplicationContext);
@@ -24,14 +22,12 @@ export const OpenPageTabs: React.FC<IClassProps> = (props) => {
     const orientation = bc.contentview === "vbox" ? "vertical" : "horizontal";
     const tabStyleFn =
         orientation === "horizontal"
-            ? (index) => ({
-                  transform: `translateX(${index * PAGE_WIDTH}px)`,
-              })
+            ? () => ({})
             : (index) => ({
                   transform: `translateY(${index * 42}px)`,
               });
     const {pagesStore} = applicationStore;
-    const [isOpenMenu, setIsOpenMenu] = React.useState(true);
+    const [isOpenMenu, setIsOpenMenu] = React.useState(false);
     const [menuPageValue, setMenuPageValue] = React.useState("");
     const [menuPosition, setMenuPosition] = React.useState({
         left: 0,
@@ -64,7 +60,6 @@ export const OpenPageTabs: React.FC<IClassProps> = (props) => {
                 value={pagesStore.activePage ? pagesStore.activePage.ckPage : false}
                 classes={{
                     flexContainer: classes.tabsFlexContainer,
-                    indicator: classes.indicator,
                     root: classes.tabsRoot,
                     scroller: classes.scroller,
                 }}
@@ -88,7 +83,6 @@ export const OpenPageTabs: React.FC<IClassProps> = (props) => {
                             onClose={pagesStore.removePageAction}
                             onContextMenu={handleContextMenu}
                             orientation={orientation}
-                            className={classes.tabRoot}
                             style={tabStyleFn(index)}
                         />
                     );

@@ -35,6 +35,13 @@ const colors = {
     4: "inherit",
 };
 
+const calcStyle = (bc: IBuilderConfig) => ({
+    height: bc.height ? toSize(bc.height, "") : undefined,
+    maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
+    minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
+    ...toColumnStyleWidth(bc.width),
+});
+
 export const AppBar: React.FC<IClassProps> = (props) => {
     const classes = useStyles(props);
     const {bc} = props;
@@ -42,6 +49,7 @@ export const AppBar: React.FC<IClassProps> = (props) => {
         height: bc.height ? toSize(bc.height, "") : undefined,
         maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
         minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
+        padding: bc.contentview.startsWith("hbox") ? "0 5px" : undefined,
         ...toColumnStyleWidth(bc.width),
     };
 
@@ -55,13 +63,16 @@ export const AppBar: React.FC<IClassProps> = (props) => {
             <Grid
                 container
                 justify="flex-start"
-                alignItems="center"
                 alignContent="center"
-                spacing={0}
-                {...GRID_CONFIGS[bc.contentview] || GRID_CONFIGS.hbox}
+                direction="column"
+                alignItems="center"
+                spacing={1}
+                {...(GRID_CONFIGS[bc.contentview] || GRID_CONFIGS.hbox)}
             >
                 {mapComponents(bc.childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                    <Child {...props} bc={childBc} />
+                    <Grid item style={calcStyle(childBc)}>
+                        <Child {...props} bc={childBc} />
+                    </Grid>
                 ))}
             </Grid>
         </MaterialAppBar>

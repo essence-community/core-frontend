@@ -2,6 +2,7 @@ import {IEssenceTheme} from "@essence/essence-constructor-share";
 /* eslint-disable sort-keys */
 export default (theme: IEssenceTheme) => ({
     text: {
+        color: theme.essence.palette.common.black,
         fontSize: 15,
         width: 120,
     },
@@ -45,14 +46,14 @@ export default (theme: IEssenceTheme) => ({
         textTransform: "none",
     },
     activeCloseIcon: {
-        top: 2,
-        right: 2,
+        top: 0,
+        right: 0,
         position: "absolute",
         color: theme.palette.primary.main,
     },
     closeIcon: {
-        top: 2,
-        right: 2,
+        top: 0,
+        right: 0,
         position: "absolute",
         color: theme.palette.primary.main,
     },

@@ -50,7 +50,14 @@ export const WindowDrawerContainer: React.FC<IWindowClassProps> = (props) => {
             PaperProps={paperProps}
             SlideProps={{onExited: handleRemoveWindow}}
         >
-            <Grid container spacing={0} direction="row" alignItems="stretch" className={classes.container}>
+            <Grid
+                container
+                spacing={0}
+                wrap="nowrap"
+                direction="row"
+                alignItems="stretch"
+                className={classes.container}
+            >
                 {bc.align === "right" ? sideResizer : null}
                 <Grid item xs={true} className={classes.content}>
                     {mapComponents(bc.childs, (ChildComp, childBc) => (

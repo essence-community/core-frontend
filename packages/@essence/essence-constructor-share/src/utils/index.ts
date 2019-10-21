@@ -9,6 +9,7 @@ export * from "./transform";
 export * from "./validations";
 export * from "./base";
 export * from "./download";
+export * from "./builder";
 export {parseMemoize} from "./parser";
 export {findGetGlobalKey, findSetKey} from "./findKey";
 export {findColumns} from "./findColumns";

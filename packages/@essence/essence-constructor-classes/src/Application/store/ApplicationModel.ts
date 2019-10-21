@@ -121,6 +121,7 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
 
             if (oldValue !== value && (!isEmpty(oldValue) || !isEmpty(value))) {
                 this.globalValues.set(key, value);
+                this.pageStore.globalValues.set(key, value);
             }
         });
     });

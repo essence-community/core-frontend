@@ -26,6 +26,12 @@ const GRID_CONFIGS = {
         wrap: "wrap",
     },
 };
+const calcStyle = (bc: IBuilderConfig) => ({
+    height: bc.height ? toSize(bc.height, "") : undefined,
+    maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
+    minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
+    ...toColumnStyleWidth(bc.width),
+});
 
 export const ToolBar: React.FC<IClassProps> = (props) => {
     const {bc} = props;
@@ -40,14 +46,16 @@ export const ToolBar: React.FC<IClassProps> = (props) => {
         <MaterialToolbar>
             <Grid
                 container
-                spacing={0}
+                spacing={1}
                 style={contentStyle}
                 justify="flex-start"
                 alignItems="center"
-                {...GRID_CONFIGS[bc.contentview] || GRID_CONFIGS.hbox}
+                {...(GRID_CONFIGS[bc.contentview] || GRID_CONFIGS.hbox)}
             >
                 {mapComponents(bc.childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                    <Child {...props} bc={childBc} />
+                    <Grid item style={calcStyle(childBc)}>
+                        <Child {...props} bc={childBc} />
+                    </Grid>
                 ))}
             </Grid>
         </MaterialToolbar>

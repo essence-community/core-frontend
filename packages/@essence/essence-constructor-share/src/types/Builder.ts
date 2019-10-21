@@ -160,6 +160,8 @@ export interface IBuilderBaseConfig {
     querymode?: string;
     // Наименование параметра при вводе значения в combobox для фильтрации
     queryparam?: string;
+    // Режим чтения
+    readonly?: string;
     // Правила переключения в режим "только чтение"
     readonlyrules?: string;
     // URL страницы, на которую будет переход
@@ -244,6 +246,7 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     ckQuery?: string;
     ckPageObject: string;
     cvDisplayed?: string;
+    cvName?: string;
     ckObject?: string;
     contentwidth?: string;
     // Служебный параметр для иерархии

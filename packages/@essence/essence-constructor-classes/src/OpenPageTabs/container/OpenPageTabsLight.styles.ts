@@ -5,22 +5,14 @@ export default (theme: IEssenceTheme) => ({
         overflow: "hidden",
         height: theme.essence.sizing.appBarHeight,
     },
-    tabRoot: {
-        "& $tabWrapper > *:first-child": {
-            marginBottom: 0,
-        },
-        "& $activeTabWrapper > *:first-child": {
-            marginBottom: 0,
-        },
-        border: `1px solid ${theme.palette.primary.main}`,
-        padding: 0,
-        height: theme.essence.sizing.appBarHeight,
-        minHeight: theme.essence.sizing.appBarHeight,
-    },
     tabsFlexContainer: {
         borderRight: `1px solid ${theme.palette.primary.main}`,
         borderLeft: `1px solid ${theme.palette.primary.main}`,
         height: "100%",
         width: "100%",
+    },
+    tabsRoot: {
+        backgroundColor: theme.palette.grey.light,
+        minHeight: "inherit",
     },
 });

@@ -12,7 +12,7 @@ type ValueObjType = ValueComplexType | INestedValue;
 // @ts-ignore
 window.memoizedValues = memoizedValues;
 
-export const toSize = (value: string, defaultValue: string) => {
+export const toSize = (value?: string, defaultValue?: string) => {
     if (isEmpty(value) || !isString(value)) {
         return value || defaultValue;
     }

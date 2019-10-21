@@ -214,7 +214,7 @@ export class FieldDateRCBase extends React.Component<PropsType, StateType> {
         } = this.props;
         const errorText = field.get("error");
         const {formattedValue} = this.state;
-        const endAdornments = [...tips, disabled ? null : this.renderCalendarIcon()];
+        const endAdornments = disabled ? tips : [...tips, this.renderCalendarIcon()];
 
         return (
             <FieldMask
@@ -237,7 +237,7 @@ export class FieldDateRCBase extends React.Component<PropsType, StateType> {
                 form={form}
                 onChange={this.handleFieldChange}
                 onClear={onClear}
-                tips={tips}
+                tips={endAdornments}
                 pageStore={pageStore}
                 visible={visible}
                 onInitGlobal={onInitGlobal}

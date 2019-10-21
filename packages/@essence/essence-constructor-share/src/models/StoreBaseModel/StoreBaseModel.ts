@@ -27,11 +27,11 @@ export class StoreBaseModel implements IStoreBaseModel {
 
     public bc: IBuilderConfig;
 
-    public pageStore: IPageModel;
-
     public handlers: IHandlers = {};
 
-    public applicationStore?: IApplicationModel;
+    public pageStore: IPageModel;
+
+    public applicationStore: IApplicationModel | null;
 
     constructor({bc, pageStore, applicationStore, disabled, hidden}: IStoreBaseModelProps) {
         this.bc = bc;

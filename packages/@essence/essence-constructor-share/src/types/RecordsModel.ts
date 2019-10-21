@@ -36,8 +36,8 @@ export interface IOptions {
     valueField?: string;
     parentStore?: IStoreBaseModel;
     noLoadChilds?: boolean;
-    pageStore?: IPageModel;
-    applicationStore?: IApplicationModel;
+    pageStore: IPageModel | null;
+    applicationStore: IApplicationModel | null;
 }
 
 export interface ILoadRecordsProps {
@@ -80,8 +80,8 @@ export interface IRecordsModel {
     pageSize?: number;
     bc: IBuilderConfig;
     searchValues: Record<string, FieldValue>;
-    pageStore?: IPageModel;
-    applicationStore?: IApplicationModel;
+    pageStore: IPageModel | null;
+    applicationStore: IApplicationModel | null;
     isLoading: boolean;
     filter?: Record<string, FieldValue>[];
     loadCounter: number;

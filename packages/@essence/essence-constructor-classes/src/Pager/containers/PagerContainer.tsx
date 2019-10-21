@@ -97,7 +97,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                                     {mapComponents(
                                         pageStore.pageBc,
                                         (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                                            <Grid item key={childBc.ckPageObject}>
+                                            <Grid key={childBc.ckPageObject} item xs={12}>
                                                 <ChildComponent
                                                     readOnly={pageStore.isReadOnly}
                                                     pageStore={pageStore}

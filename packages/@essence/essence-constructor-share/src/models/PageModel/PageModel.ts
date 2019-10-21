@@ -412,9 +412,9 @@ export class PageModel implements IPageModel {
 
     createWindowAction = action("createWindowAction", (params: ICreateWindow) => {
         const window = new WindowModel({
+            applicationStore: this.applicationStore,
             bc: params.windowBc,
             mode: params.mode,
-            // @ts-ignore
             pageStore: this,
             values: params.values,
         });

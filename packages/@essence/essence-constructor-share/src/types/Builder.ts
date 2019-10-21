@@ -1,3 +1,5 @@
+import {FieldValue} from "./Field";
+
 /* eslint-disable max-len */
 
 // BUILDER_CONFIG_START
@@ -258,6 +260,10 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     editors?: IBuilderConfig[];
     // Служебный параметр для иерархии
     filters?: IBuilderConfig[];
+    // Служебный параметр для иерархии
+    topbtn?: IBuilderConfig[];
+    // Служебный параметр для передачи статических значений
+    records?: Record<string, FieldValue>[];
 }
 
 export type IBuilderMode = "1" | "2" | "3" | "4" | "6" | string;

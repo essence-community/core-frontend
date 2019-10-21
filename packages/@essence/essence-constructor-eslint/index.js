@@ -12,7 +12,7 @@ module.exports = {
         // Enables eslint-plugin-prettier and displays prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
         "plugin:prettier/recommended",
     ],
-    plugins: ["react-hooks"],
+    plugins: ["react-hooks", "import", "flowtype", "filenames"],
     parserOptions: {
         // Allows for the parsing of modern ECMAScript features
         ecmaVersion: 2018,

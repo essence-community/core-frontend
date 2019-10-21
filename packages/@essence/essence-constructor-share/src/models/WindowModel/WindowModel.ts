@@ -29,10 +29,10 @@ export class WindowModel extends StoreBaseModel implements IWindowModel {
 
     recordsStore: IRecordsModel;
 
-    constructor({bc, pageStore, values}: IWindowModelConstructor) {
-        super({bc, pageStore});
+    constructor({applicationStore, bc, pageStore, values}: IWindowModelConstructor) {
+        super({applicationStore, bc, pageStore});
 
-        this.recordsStore = new RecordsModel(this.bc, {pageStore: this.pageStore});
+        this.recordsStore = new RecordsModel(this.bc, {applicationStore, pageStore: this.pageStore});
 
         extendObservable(
             this,

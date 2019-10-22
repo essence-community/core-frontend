@@ -1,9 +1,11 @@
+// eslint-disable-next-line import/named
+import {IObservableArray} from "mobx";
 import {Form} from "mobx-react-form";
-import {IBuilderConfig, IBuilderMode} from "./Builder";
-import {IPageModel} from "./PageModel";
-import {FieldValue} from "./Field";
-import {IRecordsModel} from "./RecordsModel";
 import {IApplicationModel} from "./Application";
+import {IBuilderConfig, IBuilderMode} from "./Builder";
+import {FieldValue} from "./Field";
+import {IPageModel} from "./PageModel";
+import {IRecordsModel} from "./RecordsModel";
 
 export interface IStoreBaseModelProps {
     bc: IBuilderConfig;
@@ -35,6 +37,7 @@ export interface IHandlers {
     [name: string]: HandlerType;
 }
 
+export type RowRecord = Record<string, FieldValue>;
 /**
  * Базовая модель для построения сторов
  *
@@ -51,7 +54,8 @@ export interface IStoreBaseModel {
     handlers: IHandlers;
     recordsStore?: IRecordsModel;
     applicationStore: IApplicationModel | null;
-    selectedRecord?: Record<string, FieldValue>;
+    selectedRecord?: RowRecord;
+    selectedEntries?: IObservableArray<RowRecord>;
     afterSelected?: () => void;
     reloadStoreAction: (checkParent?: boolean) => Promise<object | undefined>;
     clearStoreAction: () => void;

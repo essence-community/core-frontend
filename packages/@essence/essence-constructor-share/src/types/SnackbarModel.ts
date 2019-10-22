@@ -44,6 +44,7 @@ export interface ISnackbarModel {
     snackbarsAll: ISnackbar[];
     recordsStore: IRecordsModel;
     snackbarsCount: number;
+    activeStatus: SnackbarStatus;
     snackbarsInStatus: ISnackbar[];
     snackbarsInStatusToReadCount: number;
     deleteAllSnackbarAction: () => void;

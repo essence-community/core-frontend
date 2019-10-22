@@ -7,14 +7,14 @@ interface IProps {
     iconfontname: "fa" | "mdi";
     iconfont: string;
     color?: string;
-    size?: "xs" | "lg" | "2x" | "3x" | "4x" | "5x";
+    size?: "xs" | "lg" | "1x" | "2x" | "3x" | "4x" | "5x";
 }
 
 interface IChildIconProps {
     iconfont: string;
     className?: string;
     color?: string;
-    size?: "xs" | "lg" | "2x" | "3x" | "4x" | "5x" | "";
+    size?: "xs" | "lg" | "1x" | "2x" | "3x" | "4x" | "5x" | "";
 }
 
 interface IMapComponents {

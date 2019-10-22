@@ -1,13 +1,12 @@
 import * as React from "react";
 import {
     IClassProps,
-    snackbarStore,
     mapComponents,
     ApplicationContext,
     VAR_RECORD_ID,
     PageLoader,
 } from "@essence/essence-constructor-share";
-import {settingsStore} from "@essence/essence-constructor-share/models";
+import {settingsStore, snackbarStore} from "@essence/essence-constructor-share/models";
 import {useDisposable, useObserver} from "mobx-react-lite";
 import {reaction, observe} from "mobx";
 import {useParams, useHistory} from "react-router-dom";
@@ -95,6 +94,16 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                     status: "debug",
                     text: renderGlobalValuelsInfo(globalValues),
                     title: "Супер Глобальные переменные",
+                }),
+        );
+    });
+
+    useDisposable(() => {
+        return reaction(
+            () => snackbarStore.snackbarsCount,
+            (snackbarsCount) =>
+                applicationStore.updateGlobalValuesAction({
+                    gSysNoReadSnack: `${snackbarsCount}`,
                 }),
         );
     });

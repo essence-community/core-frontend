@@ -26,6 +26,8 @@ import "@essence/essence-constructor-classes/src/ButtonGroup";
 import "@essence/essence-constructor-classes/src/ButtonGroupDelimiter";
 import "@essence/essence-constructor-classes/src/AppBar";
 import "@essence/essence-constructor-classes/src/ToolBar";
+import "@essence/essence-constructor-classes/src/NotificationPanel";
+import "@essence/essence-constructor-classes/src/BadgeBtn";
 import "@essence/essence-constructor-classes/src/FieldCombo";
 import "@essence/essence-constructor-classes/src/OpenPageTabs";
 import "@essence/essence-constructor-classes/src/Pager";

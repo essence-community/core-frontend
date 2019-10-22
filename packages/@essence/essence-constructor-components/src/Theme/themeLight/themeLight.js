@@ -84,6 +84,11 @@ export const themeLight = {
                     background: "#d8dde8",
                 },
             },
+            notification: {
+                palette: {
+                    gray: "#939393",
+                },
+            },
         },
         palette: {
             common: {

@@ -34,7 +34,7 @@ export const NotificationPanel: React.FC<IClassProps> = (props) => {
                 variant="scrollable"
                 onChange={handlerChangeTab}
             >
-                {tabsBc.map((tabBc: any) => (
+                {tabsBc.map((tabBc) => (
                     <NotificationsTab
                         {...props}
                         key={tabBc.value}

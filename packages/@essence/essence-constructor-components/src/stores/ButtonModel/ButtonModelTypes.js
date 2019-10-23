@@ -4,6 +4,7 @@ import {type BuilderModeType} from "../../BuilderType";
 export type ButtonConfigType = {
     modeaction?: string,
     cvDisplayed: string,
+    cnOrder?: number,
     ckPageObject: string,
     ckMaster?: string,
     extraplugingate?: string,

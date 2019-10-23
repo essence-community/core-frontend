@@ -7,6 +7,7 @@ import {type GridBuilderType, type GridModelType, type GridBtnsConfigType} from 
 const getBtnDeleteConfig = (bc: GridBuilderType) => ({
     ckMaster: bc.ckPageObject,
     ckPageObject: `${bc.ckPageObject}-remove`,
+    cnOrder: 1e6,
     confirmquestion: "Удалить?",
     cvDisplayed: "Удалить",
     handler: "removeSelectedRecordAction",
@@ -18,6 +19,7 @@ const getBtnDeleteConfig = (bc: GridBuilderType) => ({
 const getBtnAuditConfig = (bc: GridBuilderType) => ({
     ckMaster: bc.ckPageObject,
     ckPageObject: `${bc.ckPageObject}-audit`,
+    cnOrder: 1e6,
     cvDisplayed: "Информация",
     iconfont: "info",
     iconfontname: "fa",
@@ -29,6 +31,7 @@ const getBtnAuditConfig = (bc: GridBuilderType) => ({
 const getBtnRefreshConfig = (bc: GridBuilderType, handler: Function) => ({
     ckMaster: bc.ckPageObject,
     ckPageObject: `${bc.ckPageObject}-refresh`,
+    cnOrder: 1e6,
     cvDisplayed: "Обновить",
     handlerFn: handler,
     iconfont: "refresh",
@@ -41,6 +44,7 @@ const getBtnExcelConfig = (bc: GridBuilderType) => ({
     ckMaster: bc.ckPageObject,
     ckPageObject: `${bc.ckPageObject}-excel`,
     ckwindow: "btnexcel",
+    cnOrder: 1e6,
     cvDisplayed: "Печать в excel",
     disabledemptymaster: "true",
     edit: "false",
@@ -55,6 +59,7 @@ const getBtnExcelConfig = (bc: GridBuilderType) => ({
 const getSaveBtnConfig = (bc: GridBuilderType) => ({
     ckPageObject: `${bc.ckPageObject}_gridwindow-save`,
     ckParent: `${bc.ckPageObject}_gridwindow`,
+    cnOrder: 1e6,
     cvDisplayed: "Сохранить",
     handler: "onSimpleSaveWindow",
     iconfont: bc.edittype === "inline" && styleTheme === "dark" ? "save" : undefined,
@@ -63,6 +68,7 @@ const getSaveBtnConfig = (bc: GridBuilderType) => ({
 const getCancelInlineBtnConfig = (bc: GridBuilderType) => ({
     ckPageObject: `${bc.ckPageObject}_gridwindow-cancel`,
     ckParent: `${bc.ckPageObject}_gridwindow`,
+    cnOrder: 1e6,
     confirmquestion: "Отменить?",
     cvDisplayed: "Отмена",
     handler: "onCloseWindow",
@@ -72,6 +78,7 @@ const getCancelInlineBtnConfig = (bc: GridBuilderType) => ({
 const getCancelBtnConfig = (bc: GridBuilderType) => ({
     ckPageObject: `${bc.ckPageObject}_gridwindow-cancel`,
     ckParent: `${bc.ckPageObject}_gridwindow`,
+    cnOrder: 1e6,
     confirmquestion: "Отменить?",
     confirmquestionposition: "top",
     cvDisplayed: "Отмена",

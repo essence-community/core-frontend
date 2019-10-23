@@ -15,6 +15,7 @@ export type BuilderBaseType = {
     ckPageObject: string,
     ckMaster?: string,
     cvDisplayed?: string,
+    cnOrder?: number,
     ckPage?: string,
     className?: string,
     checkaddmore?: string,

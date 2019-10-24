@@ -5,6 +5,7 @@ import {
     toColumnStyleWidth,
     toSize,
 } from "@essence/essence-constructor-share";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants/variables";
 import {Grid, Toolbar as MaterialToolbar} from "@material-ui/core";
 import * as React from "react";
 
@@ -30,6 +31,7 @@ const calcStyle = (bc: IBuilderConfig) => ({
     height: bc.height ? toSize(bc.height, "") : undefined,
     maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
     minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
+    overflow: bc.width ? "hidden" : "none",
     ...toColumnStyleWidth(bc.width),
 });
 
@@ -56,7 +58,7 @@ export const ToolBar: React.FC<IClassProps> = (props) => {
                 {...(GRID_CONFIGS[bc.contentview] || GRID_CONFIGS.hbox)}
             >
                 {mapComponents(bc.childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                    <Grid item style={calcStyle(childBc)} key={childBc.ckPageObject}>
+                    <Grid item style={calcStyle(childBc)} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
                         <Child {...props} bc={childBc} />
                     </Grid>
                 ))}

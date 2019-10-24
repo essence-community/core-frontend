@@ -5,7 +5,16 @@
  * src/types/Request.ts - cvError, cvStackTrace
  */
 export const VAR_RECORD_ID = "ckId";
+export const VAR_RECORD_PARENT_ID = "ckParent";
+export const VAR_RECORD_MASTER_ID = "ckMaster";
+export const VAR_RECORD_PAGE_OBJECT_ID = "ckPageObject";
+export const VAR_RECORD_OBJECT_ID = "ckObject";
+export const VAR_RECORD_QUERY_ID = "ckQuery";
+export const VAR_RECORD_DISPLAYED = "cvDisplayed";
+export const VAR_RECORD_NAME = "cvName";
 export const VAR_RECORD_ROUTE_NAME = "cvName";
+export const VAR_RECORD_ICON_NAME = "cvIconName";
+export const VAR_RECORD_LEAF = "leaf";
 export const VAR_RECORD_RES_ERROR = "cvError";
 export const VAR_RECORD_RES_STACK_TRACE = "cvStackTrace";
 

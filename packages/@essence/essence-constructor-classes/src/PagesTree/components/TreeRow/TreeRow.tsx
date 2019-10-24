@@ -1,4 +1,10 @@
 import {Icon} from "@essence/essence-constructor-share";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_ROUTE_NAME,
+    VAR_RECORD_ICON_NAME,
+    VAR_RECORD_LEAF,
+} from "@essence/essence-constructor-share/constants/variables";
 import {Grid, Typography} from "@material-ui/core";
 import clsx from "clsx";
 import {useObserver} from "mobx-react-lite";
@@ -11,32 +17,30 @@ const LEFT_PADDING = 30;
 export const TreeRow: React.FC<ITreeRowProps> = (props) => {
     const classes = useStyles(props);
     const {pagesStore, routesStore, route, isOpen, level, treeModel} = props;
+    const leaf = route[VAR_RECORD_LEAF];
+    const id = route[VAR_RECORD_ID];
+    const name = route[VAR_RECORD_ROUTE_NAME];
+    const iconName = route[VAR_RECORD_ICON_NAME];
     const handleClick = () => {
-        const {leaf, ckId} = route;
-
         if (leaf === "true") {
-            pagesStore.setPageAction(ckId, true);
+            pagesStore.setPageAction(id, true);
         } else {
-            treeModel.openCloseExpansionAction(ckId);
+            treeModel.openCloseExpansionAction(id);
         }
     };
 
-    const handleToggleFavorit = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        const {leaf, ckId} = route;
-
+    const handleToggleFavorite = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         event.stopPropagation();
 
         if (leaf === "true") {
-            routesStore.setFavoritsAction(ckId);
+            routesStore.setFavoritsAction(id);
         }
     };
 
     const renderIcon = () => {
-        const {cvIconName} = route;
-
         return (
             <Grid item className={classes.iconRoot}>
-                {cvIconName ? <Icon iconfont={cvIconName} size="lg" iconfontname="fa" /> : null}
+                {iconName ? <Icon iconfont={iconName} size="lg" iconfontname="fa" /> : null}
             </Grid>
         );
     };
@@ -56,31 +60,32 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
 
     return useObserver(() => {
         const {favorits} = routesStore;
+        const isFavorite = favorits.get(route[VAR_RECORD_ID]);
 
         return (
-            <div className={clsx(classes.root)} style={{paddingLeft: level * LEFT_PADDING}} onClick={handleClick}>
+            <div className={classes.root} style={{paddingLeft: level * LEFT_PADDING}} onClick={handleClick}>
                 <Grid container wrap="nowrap" spacing={1} alignItems="center" className={classes.rootGrid}>
-                    {route.leaf === "true" ? renderIcon() : renderFolderIcon()}
+                    {leaf === "true" ? renderIcon() : renderFolderIcon()}
                     <Grid item xs zeroMinWidth>
                         <Typography
                             variant="body2"
                             color="inherit"
                             noWrap
-                            data-qtip={route.cvName}
+                            data-qtip={name}
                             className={classes.nameTypography}
                         >
-                            {route.cvName}
+                            {name}
                         </Typography>
                     </Grid>
                 </Grid>
-                {route.leaf === "true" ? (
+                {leaf === "true" ? (
                     <div
                         className={clsx(classes.favoriteRoot, {
-                            [classes.favoriteSelected]: favorits.get(route.ckId),
+                            [classes.favoriteSelected]: isFavorite,
                         })}
-                        onClick={handleToggleFavorit}
+                        onClick={handleToggleFavorite}
                     >
-                        <Icon iconfont={favorits.get(route.ckId) ? "star" : "star-o"} size="xs" />
+                        <Icon iconfont={isFavorite ? "star" : "star-o"} size="xs" />
                     </div>
                 ) : null}
             </div>

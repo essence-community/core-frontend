@@ -1,5 +1,13 @@
 import {IBuilderConfig} from "@essence/essence-constructor-share";
 import {mergeComponents} from "@essence/essence-constructor-share/utils";
+import {
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_NAME,
+} from "@essence/essence-constructor-share/constants/variables";
 
 export const mapNotification = {
     all: 0,
@@ -18,80 +26,87 @@ export const mapNotification = {
 export interface ITabBc extends IBuilderConfig, Record<string, string> {
     value: string;
 }
+/* eslint-disable sort-keys */
 
 export function getAllPanelConfig(bc: IBuilderConfig): ITabBc {
     return {
-        ckMaster: bc.ckPageObject,
-        ckObject: `${bc.ckObject}_info`,
-        ckPageObject: `${bc.ckPageObject}_info`,
-        ckParent: bc.ckPageObject,
-        cvDisplayed: "Все",
-        cvName: "Override All Tab",
+        [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_info`,
+        [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_info`,
+        [VAR_RECORD_DISPLAYED]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_DISPLAYED]: "Все",
+        [VAR_RECORD_NAME]: "Override All Tab",
         value: "all",
     };
 }
 
 export function getInfoPanelConfig(bc: IBuilderConfig): ITabBc {
     return {
-        ckMaster: bc.ckPageObject,
-        ckObject: `${bc.ckObject}_info`,
-        ckPageObject: `${bc.ckPageObject}_info`,
-        ckParent: bc.ckPageObject,
-        cvDisplayed: "Информация",
-        cvName: "Override Info Tab",
+        [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_info`,
+        [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_info`,
+        [VAR_RECORD_DISPLAYED]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_DISPLAYED]: "Информация",
+        [VAR_RECORD_NAME]: "Override Info Tab",
         value: "info",
     };
 }
 
 export function getErrorPanelConfig(bc: IBuilderConfig): ITabBc {
     return {
-        ckMaster: bc.ckPageObject,
-        ckObject: `${bc.ckObject}_error`,
-        ckPageObject: `${bc.ckPageObject}_error`,
-        ckParent: bc.ckPageObject,
-        cvDisplayed: "Ошибки",
-        cvName: "Override Error Tab",
+        [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_error`,
+        [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_error`,
+        [VAR_RECORD_DISPLAYED]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_DISPLAYED]: "Ошибки",
+        [VAR_RECORD_NAME]: "Override Error Tab",
         value: "error",
     };
 }
 
 export function getWarningPanelConfig(bc: IBuilderConfig): ITabBc {
     return {
-        ckMaster: bc.ckPageObject,
-        ckObject: `${bc.ckObject}_warning`,
-        ckPageObject: `${bc.ckPageObject}_warning`,
-        ckParent: bc.ckPageObject,
-        cvDisplayed: "Предупреждения",
-        cvName: "Override Warning Tab",
+        [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_warning`,
+        [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_warning`,
+        [VAR_RECORD_DISPLAYED]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_DISPLAYED]: "Предупреждения",
+        [VAR_RECORD_NAME]: "Override Warning Tab",
         value: "warning",
     };
 }
 
 export function getNotificationPanelConfig(bc: IBuilderConfig): ITabBc {
     return {
-        ckMaster: bc.ckPageObject,
-        ckObject: `${bc.ckObject}_notification`,
-        ckPageObject: `${bc.ckPageObject}_notification`,
-        ckParent: bc.ckPageObject,
-        cvDisplayed: "Оповещения",
-        cvName: "Override Notification Tab",
+        [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_notification`,
+        [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_notification`,
+        [VAR_RECORD_DISPLAYED]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_DISPLAYED]: "Оповещения",
+        [VAR_RECORD_NAME]: "Override Notification Tab",
         value: "notification",
     };
 }
 
 export function getDebugPanelConfig(bc: IBuilderConfig): ITabBc {
     return {
-        ckMaster: bc.ckPageObject,
-        ckObject: `${bc.ckObject}_debug`,
-        ckPageObject: `${bc.ckPageObject}_debug`,
-        ckParent: bc.ckPageObject,
-        cvDisplayed: "Разработка",
-        cvName: "Override Debug Tab",
+        [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_debug`,
+        [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_debug`,
+        [VAR_RECORD_DISPLAYED]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_DISPLAYED]: "Разработка",
+        [VAR_RECORD_NAME]: "Override Debug Tab",
         hiddenrules: "!(499 in gSessCaActions)",
         value: "debug",
     };
 }
-
+/* eslint-enable sort-keys */
 export const getTabsData = (bc: IBuilderConfig, childs: IBuilderConfig[]): ITabBc[] => {
     const {overrides} = mergeComponents(childs, {
         "Override All Tab": getAllPanelConfig(bc),

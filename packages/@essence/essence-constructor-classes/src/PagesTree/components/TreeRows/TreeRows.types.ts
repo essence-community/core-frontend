@@ -5,7 +5,7 @@ import {PagesTreeModel} from "../../stores/PagesTreeModel";
 export interface ITreeRowsProps {
     routesStore: IRoutesModel;
     pagesStore: IPagesModel;
-    ckParent: null | string;
+    parent: null | string;
     treeModel: PagesTreeModel;
     level: number;
 }

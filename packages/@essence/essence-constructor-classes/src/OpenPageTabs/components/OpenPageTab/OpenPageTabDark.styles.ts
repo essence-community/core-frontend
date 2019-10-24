@@ -20,7 +20,7 @@ export default (theme: IEssenceTheme) => ({
         "& $tabWrapper > *:first-child": {
             marginBottom: 0,
         },
-        border: `1px solid ${theme.palette.grey.main}`,
+        border: `1px solid ${theme.essence.palette.grey.main}`,
         height: theme.essence.sizing.appBarHeight,
         minHeight: theme.essence.sizing.appBarHeight,
         padding: 0,
@@ -42,15 +42,16 @@ export default (theme: IEssenceTheme) => ({
         height: theme.essence.sizing.appBarHeight,
     },
     activeTabWrapper: {
+        backgroundColor: theme.palette.primary.main,
         flexDirection: "row",
         textTransform: "none",
-        color: theme.palette.grey.light,
+        color: theme.essence.palette.common.white,
     },
     activeCloseIcon: {
         top: 0,
         right: 0,
         position: "absolute",
-        color: theme.palette.grey.light,
+        color: theme.essence.palette.grey.light,
     },
     closeIcon: {
         top: 0,
@@ -59,6 +60,6 @@ export default (theme: IEssenceTheme) => ({
         color: theme.palette.primary.main,
     },
     activeTabIcon: {
-        color: theme.palette.grey.light,
+        color: theme.essence.palette.grey.light,
     },
 });

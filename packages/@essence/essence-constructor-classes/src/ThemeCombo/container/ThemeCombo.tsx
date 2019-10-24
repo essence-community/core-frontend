@@ -1,5 +1,12 @@
 import {IClassProps} from "@essence/essence-constructor-share";
 import {saveToStore, getFromStore, camelCaseMemoized} from "@essence/essence-constructor-share/utils";
+import {
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+    VAR_RECORD_DISPLAYED,
+} from "@essence/essence-constructor-share/constants/variables";
 import * as React from "react";
 import {useDisposable} from "mobx-react-lite";
 import {getComponent} from "@essence/essence-constructor-share/components";
@@ -8,11 +15,11 @@ import {reaction} from "mobx";
 
 /* eslint-disable sort-keys */
 const getComponentBc = (bc: IBuilderConfig) => ({
-    ckParent: bc.ckParent,
-    ckPageObject: bc.ckPageObject,
-    ckObject: bc.ckObject,
-    ckQuery: bc.ckQuery,
-    cvDisplayed: "Тема",
+    [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PARENT_ID],
+    [VAR_RECORD_PAGE_OBJECT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+    [VAR_RECORD_OBJECT_ID]: bc[VAR_RECORD_OBJECT_ID],
+    [VAR_RECORD_QUERY_ID]: bc[VAR_RECORD_QUERY_ID],
+    [VAR_RECORD_DISPLAYED]: "Тема",
     clearable: "false",
     datatype: "COMBO",
     displayfield: bc.displayfield || "name",

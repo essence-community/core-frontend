@@ -39,6 +39,7 @@ const calcStyle = (bc: IBuilderConfig) => ({
     height: bc.height ? toSize(bc.height, "") : undefined,
     maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
     minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
+    overflow: bc.width ? "hidden" : "none",
     ...toColumnStyleWidth(bc.width),
 });
 

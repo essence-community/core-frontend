@@ -3,6 +3,7 @@ import * as React from "react";
 import {camelCaseKeys} from "@essence/essence-constructor-share";
 import {settingsStore} from "@essence/essence-constructor-share/models/SettingsModel";
 import {observer} from "mobx-react";
+import {COMMIT_ID, BRANCH_DATE_TIME, BRANCH_NAME} from "../../constants";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 
 type PropsType = {
@@ -14,7 +15,19 @@ class Settings extends React.Component<PropsType> {
     componentDidMount() {
         const {applicationStore} = this.props;
 
-        applicationStore.settingsStore.recordsStore.setRecordsAction(camelCaseKeys(window.SETTINGS));
+        /* eslint-disable camelcase */
+        const setting = [
+            ...window.SETTINGS,
+            {
+                ck_id: "gSysFrontAppVersion",
+                cv_value: `Версия ${COMMIT_ID} (${BRANCH_NAME} от ${BRANCH_DATE_TIME})`,
+            },
+        ];
+        /* eslint-enable camelcase */
+
+        applicationStore.settingsStore.recordsStore.setRecordsAction(camelCaseKeys(setting));
+
+        settingsStore.setSettings(setting);
 
         const {settings} = applicationStore.settingsStore;
 
@@ -25,8 +38,6 @@ class Settings extends React.Component<PropsType> {
 
             return acc;
         }, {});
-
-        settingsStore.setSettings(window.SETTINGS);
 
         applicationStore.updateGlobalValuesAction(globalSettings);
 

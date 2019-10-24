@@ -5,7 +5,7 @@ import {inject, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
 import {Dialog, DialogTitle, DialogContent, Typography, ButtonBase} from "@material-ui/core";
 import {sanitizeHtml} from "@essence/essence-constructor-share/utils";
-import {styleTheme, commitId, branchDateTime, branchName} from "../../constants";
+import {styleTheme, COMMIT_ID, BRANCH_DATE_TIME, BRANCH_NAME} from "../../constants";
 import * as lightLogo from "../../images/light_logo.png";
 import * as darkLogo from "../../images/dark_logo.png";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
@@ -65,7 +65,7 @@ class AppInfo extends React.Component<PropsType, StateType> {
                         </Typography>
 
                         <Typography variant="body2" paragraph>
-                            Версия {branchName} ({commitId} от {branchDateTime})
+                            Версия {BRANCH_NAME} ({COMMIT_ID} от {BRANCH_DATE_TIME})
                         </Typography>
                         {applicationStore.settingsStore.settings.projectAboutBoxDescription ? (
                             <div

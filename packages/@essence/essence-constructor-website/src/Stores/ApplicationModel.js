@@ -27,7 +27,7 @@ import {
     loadFiles,
 } from "@essence/essence-constructor-share";
 import {history} from "../history";
-import {branchName, colors} from "../constants";
+import {BRANCH_NAME, colors} from "../constants";
 
 export type SessionType = {
     session: string,
@@ -252,7 +252,7 @@ export class ApplicationModel implements ApplicationModelType {
             json: {
                 filter: {
                     clAvailable: 1,
-                    cvVersionApi: branchName,
+                    cvVersionApi: BRANCH_NAME,
                 },
             },
             list: true,

@@ -23,15 +23,25 @@ export class WindowModel extends StoreBaseModel implements IWindowModel {
 
     addMore: boolean;
 
+    // @deprecated
     windowBc: IBuilderConfig;
+
+    // @deprecated
+    config: {
+        mode: IBuilderMode;
+    };
 
     childs: IBuilderConfig[];
 
     recordsStore: IRecordsModel;
 
-    constructor({applicationStore, bc, pageStore, values}: IWindowModelConstructor) {
+    constructor({applicationStore, bc, mode, pageStore, values}: IWindowModelConstructor) {
         super({applicationStore, bc, pageStore});
-
+        this.windowBc = bc;
+        this.config = {
+            mode,
+        };
+        this.childs = bc.childs || [];
         this.recordsStore = new RecordsModel(this.bc, {applicationStore, pageStore: this.pageStore});
 
         extendObservable(

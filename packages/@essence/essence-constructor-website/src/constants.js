@@ -2,9 +2,9 @@
 import {getFromStore} from "@essence/essence-constructor-share/utils";
 
 export const styleTheme = getFromStore("theme", "light");
-export const commitId = process.env.REACT_APP_COMMIT_ID || "";
-export const branchName = process.env.REACT_APP_BRANCH_NAME || "";
-export const branchDateTime = process.env.REACT_APP_BRANCH_DATE_TIME || "";
+export const COMMIT_ID = process.env.REACT_APP_COMMIT_ID || "";
+export const BRANCH_NAME = process.env.REACT_APP_BRANCH_NAME || "";
+export const BRANCH_DATE_TIME = process.env.REACT_APP_BRANCH_DATE_TIME || "";
 
 export const colors = [
     "#FF6900",

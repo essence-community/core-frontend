@@ -107,6 +107,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                 }),
         );
     });
+    applicationStore.updateGlobalValuesAction(settingsStore.globals);
 
     return useObserver(() => (
         <ApplicationContext.Provider value={applicationStore}>

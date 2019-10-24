@@ -9,5 +9,5 @@ export type IOpenTabProps = TabProps & {
     selected?: boolean;
     component?: ReactNode;
     onClose?: (value: string) => void;
-    onContextMenu: (event: React.MouseEvent<HTMLDivElement, MouseEvent>, value: string) => void;
+    onContextMenuCustom: (event: React.MouseEvent<HTMLDivElement, MouseEvent>, value: string) => void;
 };

@@ -1,4 +1,5 @@
 import {camelCaseMemoized, IBuilderConfig, IClassProps, mapComponents} from "@essence/essence-constructor-share";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants/variables";
 import {Badge} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
 import * as React from "react";
@@ -25,7 +26,7 @@ export const BadgeBtn: React.FC<IClassProps> = (props) => {
                         : mapComponents(
                               bc.childs,
                               (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                                  <Child {...props} bc={childBc} key={childBc.ckPageObject} />
+                                  <Child {...props} bc={childBc} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} />
                               ),
                           )}
                 </Badge>
@@ -35,7 +36,7 @@ export const BadgeBtn: React.FC<IClassProps> = (props) => {
         return children
             ? children
             : mapComponents(bc.childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                  <Child {...props} bc={childBc} key={childBc.ckPageObject} />
+                  <Child {...props} bc={childBc} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} />
               ));
     });
 };

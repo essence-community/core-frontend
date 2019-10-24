@@ -11,4 +11,5 @@
         "autoFix": true
       }
     ],
+    "god.tsconfig": "./tsconfig.json",
 }

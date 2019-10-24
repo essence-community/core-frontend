@@ -7,9 +7,9 @@ import {IOpenTabProps} from "./OpenPageTab.types";
 
 export const OpenPageTab: React.FC<IOpenTabProps> = (props) => {
     const classes = useStyles(props);
-    const {value, iconfont, orientation, selected, label, onClose, onContextMenu, ...materialTabProps} = props;
+    const {value, iconfont, orientation, selected, label, onClose, onContextMenuCustom, ...materialTabProps} = props;
     const handleClickContext = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        onContextMenu(event, props.value);
+        onContextMenuCustom(event, props.value);
     };
     const handleClose = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         event.preventDefault();
@@ -41,13 +41,13 @@ export const OpenPageTab: React.FC<IOpenTabProps> = (props) => {
                     </div>
                 </React.Fragment>
             }
+            disableRipple
+            {...materialTabProps}
             classes={{
                 root: cn([classes.tabRoot, classes[`${orientation}TabRoot`]]),
                 selected: classes.activeTab,
                 wrapper: selected ? classes.activeTabWrapper : classes.tabWrapper,
             }}
-            disableRipple
-            {...materialTabProps}
             onContextMenu={handleClickContext}
         />
     );

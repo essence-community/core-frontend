@@ -1,4 +1,5 @@
 import {IBuilderConfig, IClassProps, mapComponents} from "@essence/essence-constructor-share";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants/variables";
 import {Grid} from "@material-ui/core";
 import * as React from "react";
 
@@ -50,7 +51,7 @@ export const ButtonGroup: React.FC<IClassProps> = (props) => {
             {...(GRID_CONFIGS[bc.contentview] || GRID_CONFIGS.hbox)}
         >
             {mapComponents(childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                <Grid item xs={true} key={childBc.ckPageObject}>
+                <Grid item xs={true} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
                     <Child {...props} bc={childBc} />
                 </Grid>
             ))}

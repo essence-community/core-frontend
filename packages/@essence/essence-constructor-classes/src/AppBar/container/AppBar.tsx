@@ -5,6 +5,7 @@ import {
     toColumnStyleWidth,
     toSize,
 } from "@essence/essence-constructor-share";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants/variables";
 import {AppBar as MaterialAppBar, Grid} from "@material-ui/core";
 import * as React from "react";
 import {useStyles} from "./AppBar.styles";
@@ -39,6 +40,7 @@ const calcStyle = (bc: IBuilderConfig) => ({
     height: bc.height ? toSize(bc.height, "") : undefined,
     maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
     minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
+    overflow: bc.width ? "hidden" : "none",
     ...toColumnStyleWidth(bc.width),
 });
 
@@ -56,14 +58,11 @@ export const AppBar: React.FC<IClassProps> = (props) => {
         [bc.height, bc.maxheight, bc.minheight, bc.contentview, bc.width],
     );
     const position: any = React.useMemo(() => bc.position || "relative", [bc.position]);
+    const uitype = React.useMemo(() => bc.uitype || "1", [bc.uitype]);
+    const contentview = React.useMemo(() => bc.contentview || "hbox", [bc.contentview]);
 
     return (
-        <MaterialAppBar
-            classes={classes}
-            color={colors[bc.uitype] || "static"}
-            position={position}
-            style={contentStyle}
-        >
+        <MaterialAppBar classes={classes} color={colors[uitype]} position={position} style={contentStyle}>
             <Grid
                 container
                 justify="flex-start"
@@ -71,10 +70,10 @@ export const AppBar: React.FC<IClassProps> = (props) => {
                 direction="column"
                 alignItems="center"
                 spacing={1}
-                {...(GRID_CONFIGS[bc.contentview] || GRID_CONFIGS.hbox)}
+                {...GRID_CONFIGS[contentview]}
             >
-                {mapComponents(bc.childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                    <Grid item style={calcStyle(childBc)} key={childBc.ckPageObject}>
+                {mapComponents(bc.childs || [], (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
+                    <Grid item style={calcStyle(childBc)} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
                         <Child {...props} bc={childBc} />
                     </Grid>
                 ))}

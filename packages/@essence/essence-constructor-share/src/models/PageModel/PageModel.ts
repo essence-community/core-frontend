@@ -100,7 +100,7 @@ export class PageModel implements IPageModel {
             fieldValueMaster: observable.map(),
             globalValues: observable.map(applicationStore.globalValues),
             get hiddenPage() {
-                return applicationStore.pagesStore.activePage !== this;
+                return applicationStore.pagesStore.activePage !== this && ckPage !== "-1";
             },
             get isInlineEdit(): boolean {
                 return (

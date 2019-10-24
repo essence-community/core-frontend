@@ -37,9 +37,9 @@ export default (theme: IEssenceTheme) => ({
         textTransform: "none",
     },
     activeTab: {
-        backgroundColor: theme.palette.common.white,
+        backgroundColor: theme.essence.palette.common.white,
         height: theme.essence.sizing.appBarHeight,
-        borderBottom: `2px solid ${theme.palette.common.white}`,
+        borderBottom: `2px solid ${theme.essence.palette.common.white}`,
     },
     activeTabWrapper: {
         flexDirection: "row",

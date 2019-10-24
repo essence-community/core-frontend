@@ -3,6 +3,6 @@ import BuilderWindow from "./BuilderWindow";
 import BuilderInlineWindow from "./BuilderInlineWindow/BuilderInlineWindow";
 
 setComponent("INLINE_WINDOW", BuilderInlineWindow);
-setComponent("WINDOW", BuilderWindow);
+setComponent("WIN", BuilderWindow);
 
 export {BuilderInlineWindow, BuilderWindow};

@@ -18,6 +18,7 @@ import Tab from "./Tab";
 import {type BuilderTabPanelPropsType, type BuilderTabPanelType} from "./BuilderTabPanelType";
 import {StyleTabPanelLight} from "./Styles/StyleTabPanelLight";
 import {StyleTabPanelDark} from "./Styles/StyleTabPanelDark";
+import {TAB_PANEL_CONTAIENR_PROPS} from "./TabPanelConfig";
 
 const styles = styleTheme === "light" ? StyleTabPanelLight : StyleTabPanelDark;
 
@@ -71,20 +72,22 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
         const {reverseTabs} = this.props.store;
         const {current} = this.tabsComponentRef;
 
-        this.setState(({tabsWidthMode}) => {
-            if (current) {
-                const contentWidth = current.offsetWidth;
-                const maxAutoModeWidth =
-                    styleTheme === "light"
-                        ? reverseTabs.length * MIN_TAB_WIDTH
-                        : reverseTabs.length * MIN_TAB_WIDTH + DARK_THEME_TABS_PADDING;
-                const newTabsWidthMode = contentWidth > maxAutoModeWidth ? "auto" : "slim";
+        if (this.props.bc.align === "center") {
+            this.setState(({tabsWidthMode}) => {
+                if (current) {
+                    const contentWidth = current.offsetWidth;
+                    const maxAutoModeWidth =
+                        styleTheme === "light"
+                            ? reverseTabs.length * MIN_TAB_WIDTH
+                            : reverseTabs.length * MIN_TAB_WIDTH + DARK_THEME_TABS_PADDING;
+                    const newTabsWidthMode = contentWidth > maxAutoModeWidth ? "auto" : "slim";
 
-                return newTabsWidthMode === tabsWidthMode ? null : {tabsWidthMode: newTabsWidthMode};
-            }
+                    return newTabsWidthMode === tabsWidthMode ? null : {tabsWidthMode: newTabsWidthMode};
+                }
 
-            return null;
-        });
+                return null;
+            });
+        }
     }, RESIZE_DELAY);
 
     handleCheckNewSelection = () => {
@@ -197,10 +200,17 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
         const {selectedTab, tabsWidthMode} = this.state;
         const {bc, store, classes, disabled, pageStore, visible} = this.props;
         const {tabValue, reverseTabs} = store;
+        const {align = "center", contentview = "hbox"} = bc;
 
         return (
-            <Grid container spacing={0} direction="column" data-page-object={bc.ckPageObject}>
-                <Grid item className={classes.fullWidth}>
+            <Grid
+                container
+                spacing={0}
+                className={classes[`container-${align}`]}
+                data-page-object={bc.ckPageObject}
+                {...TAB_PANEL_CONTAIENR_PROPS[align]}
+            >
+                <Grid item className={classes[`tabItem-${align}-${contentview}`]}>
                     <div
                         tabIndex={disabled ? undefined : "0"}
                         onKeyDown={this.handleKeyDown}
@@ -211,16 +221,17 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
                     >
                         <Tabs
                             component={this.renderBaseTabsComponent}
+                            orientation={align === "center" ? "horizontal" : "vertical"}
                             value={tabValue}
                             onChange={this.handleChangeTab}
                             data-page-object={`${bc.ckPageObject}-tabs`}
                             classes={{
-                                flexContainer: cn(classes.tabsFlexContainer, {
+                                flexContainer: cn(classes[`tabsFlexContainer-${align}-${contentview}`], {
                                     [classes.slimTabs]: tabsWidthMode === "slim",
                                 }),
                                 indicator: classes.tabsIndicator,
                                 root: classes.tabsRoot,
-                                scroller: classes.tabsScroller,
+                                scroller: classes[`tabsScroller-${align}-${contentview}`],
                             }}
                             scrollButtons="desktop"
                         >
@@ -235,13 +246,6 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
                                     })}
                                     classes={{
                                         disabled: classes.disabled,
-                                        /*
-                                         * Label:
-                                         *     classes.label && tabValue === child.ckPageObject
-                                         *         ? classes.label
-                                         *         : classes.tabLabel,
-                                         */
-                                        // LabelContainer: classes.tabLabelContainer,
                                         root: cn(classes.tabRoot, {
                                             [classes.slimTab]: tabsWidthMode === "slim",
                                         }),

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 // @flow
 import * as React from "react";
 import cn from "classnames";
@@ -7,43 +8,60 @@ import {reaction} from "mobx";
 import {observer, disposeOnUnmount} from "mobx-react";
 import {compose} from "recompose";
 import keycode from "keycode";
-import {Tabs, Grid} from "@material-ui/core";
+import {Tabs, Grid, List, ListItem, IconButton, Tab as MaterialTab} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {setComponent, mapComponents} from "@essence/essence-constructor-share";
+import {setComponent, mapComponents, Icon} from "@essence/essence-constructor-share";
+import {Popover} from "@essence/essence-constructor-share/uicomponents";
+import {getTextWidth} from "@essence/essence-constructor-share/utils";
 import commonDecorator from "../decorators/commonDecorator";
 import withModelDecorator from "../decorators/withModelDecorator";
 import {TabModel, type TabModelType} from "../stores/TabModel";
-import {styleTheme} from "../constants";
 import Tab from "./Tab";
 import {type BuilderTabPanelPropsType, type BuilderTabPanelType} from "./BuilderTabPanelType";
-import {StyleTabPanelLight} from "./Styles/StyleTabPanelLight";
-import {StyleTabPanelDark} from "./Styles/StyleTabPanelDark";
 import {TAB_PANEL_CONTAIENR_PROPS} from "./TabPanelConfig";
+import styles from "./Styles";
 
-const styles = styleTheme === "light" ? StyleTabPanelLight : StyleTabPanelDark;
+const anchorOrigin = {
+    horizontal: "right",
+    vertical: "bottom",
+};
+
+const transformOrigin = {
+    horizontal: "right",
+    vertical: "top",
+};
+const TAB_PLUS_WIDTH = {
+    dark: 58,
+    light: 53,
+};
+const TAB_EMPTY_SPACE = {
+    // Left panel (58) + left indent (25) + empty space (20) + menu (40)
+    dark: 143,
+    // Empty space (20) + menu (40)
+    light: 60,
+};
 
 type EnchengeProps = {
     classes: {
-        [$Keys<typeof styles>]: string,
+        [$Keys<$Call<typeof styles, any>>]: string,
     },
+    theme?: any,
     store: TabModelType,
 };
 
 type State = {
+    hiddenTabs: number,
     selectedTab: null | string,
-    tabsWidthMode: "auto" | "slim",
 };
 
 const RESIZE_DELAY = 100;
-const MIN_TAB_WIDTH = 90;
-const DARK_THEME_TABS_PADDING = 94;
 
 class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & EnchengeProps, State> {
     tabsComponentRef = React.createRef();
 
     state = {
+        hiddenTabs: 0,
         selectedTab: null,
-        tabsWidthMode: "auto",
     };
 
     componentDidMount() {
@@ -68,21 +86,34 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
         window.removeEventListener("resize", this.handleGetTabsMode);
     }
 
+    // eslint-disable-next-line max-statements
     handleGetTabsMode = debounce(() => {
-        const {reverseTabs} = this.props.store;
+        const {
+            store: {reverseTabs},
+            theme,
+            bc,
+            classes,
+        } = this.props;
         const {current} = this.tabsComponentRef;
+        const themeType = theme ? theme.palette.type : "light";
 
-        if (this.props.bc.align === "center") {
-            this.setState(({tabsWidthMode}) => {
-                if (current) {
-                    const contentWidth = current.offsetWidth;
-                    const maxAutoModeWidth =
-                        styleTheme === "light"
-                            ? reverseTabs.length * MIN_TAB_WIDTH
-                            : reverseTabs.length * MIN_TAB_WIDTH + DARK_THEME_TABS_PADDING;
-                    const newTabsWidthMode = contentWidth > maxAutoModeWidth ? "auto" : "slim";
+        if (bc.align === "center" && current) {
+            const additionWidth = TAB_PLUS_WIDTH[themeType];
+            const firstTabWrapper = current.querySelector(`.${classes.tabWrapper}`);
+            const {font} = firstTabWrapper ? window.getComputedStyle(firstTabWrapper) : {font: ""};
+            // Empty space
+            let currentWidth = TAB_EMPTY_SPACE[themeType];
 
-                    return newTabsWidthMode === tabsWidthMode ? null : {tabsWidthMode: newTabsWidthMode};
+            const currentInex = reverseTabs.reduceRight((lastIndex, tab) => {
+                currentWidth += getTextWidth(tab.cvDisplayed, font) + additionWidth;
+
+                return current.offsetWidth > currentWidth ? lastIndex + 1 : lastIndex;
+            }, 0);
+            const hiddenTabs = reverseTabs.length - currentInex;
+
+            this.setState((prevState) => {
+                if (prevState.hiddenTabs !== hiddenTabs) {
+                    return {hiddenTabs};
                 }
 
                 return null;
@@ -196,8 +227,38 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
         );
     };
 
+    renderPopoverContnet = ({onClose}) => {
+        const {store, pageStore, visible, classes} = this.props;
+        const {hiddenTabs} = this.state;
+
+        return (
+            <List button className={classes.listTabs}>
+                {(hiddenTabs ? store.reverseTabs.slice(0, hiddenTabs) : store.reverseTabs).map((tab) => (
+                    <Tab
+                        key={tab.ckPageObject}
+                        button
+                        selected={store.tabValue === tab.ckPageObject}
+                        onClick={(event) => {
+                            this.handleChangeTab(event, tab.ckPageObject);
+                            onClose();
+                        }}
+                        disableRipple
+                        pageStore={pageStore}
+                        bc={tab}
+                        store={store}
+                        visible={visible}
+                        Component={ListItem}
+                        isActive={store.tabValue === tab.ckPageObject}
+                    >
+                        {tab.cvDisplayed}
+                    </Tab>
+                ))}
+            </List>
+        );
+    };
+
     render() {
-        const {selectedTab, tabsWidthMode} = this.state;
+        const {selectedTab, hiddenTabs} = this.state;
         const {bc, store, classes, disabled, pageStore, visible} = this.props;
         const {tabValue, reverseTabs} = store;
         const {align = "center", contentview = "hbox"} = bc;
@@ -226,17 +287,38 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
                             onChange={this.handleChangeTab}
                             data-page-object={`${bc.ckPageObject}-tabs`}
                             classes={{
-                                flexContainer: cn(classes[`tabsFlexContainer-${align}-${contentview}`], {
-                                    [classes.slimTabs]: tabsWidthMode === "slim",
-                                }),
+                                flexContainer: classes[`tabsFlexContainer-${align}-${contentview}`],
                                 indicator: classes.tabsIndicator,
                                 root: classes.tabsRoot,
                                 scroller: classes[`tabsScroller-${align}-${contentview}`],
                             }}
                             scrollButtons="desktop"
                         >
-                            {reverseTabs.map((child) => (
+                            {Boolean(hiddenTabs) && (
+                                <React.Fragment>
+                                    <Popover
+                                        container={pageStore.pageEl}
+                                        popoverContent={this.renderPopoverContnet}
+                                        width="auto"
+                                        anchorOrigin={anchorOrigin}
+                                        transformOrigin={transformOrigin}
+                                    >
+                                        {({onOpen, open, onClose}) => (
+                                            <IconButton
+                                                onClick={open ? onClose : onOpen}
+                                                disableRipple
+                                                className={classes.popoverButton}
+                                            >
+                                                <Icon iconfont="dots-horizontal" iconfontname="mdi" color="inherit" />
+                                            </IconButton>
+                                        )}
+                                    </Popover>
+                                    <div className={classes.flexGrow} />
+                                </React.Fragment>
+                            )}
+                            {(hiddenTabs ? reverseTabs.slice(hiddenTabs) : reverseTabs).map((child) => (
                                 <Tab
+                                    Component={MaterialTab}
                                     value={child.ckPageObject}
                                     key={child.ckPageObject}
                                     label={child.cvDisplayed}
@@ -246,9 +328,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
                                     })}
                                     classes={{
                                         disabled: classes.disabled,
-                                        root: cn(classes.tabRoot, {
-                                            [classes.slimTab]: tabsWidthMode === "slim",
-                                        }),
+                                        root: classes.tabRoot,
                                         wrapper: classes.tabWrapper,
                                     }}
                                     disabled={disabled}
@@ -277,7 +357,7 @@ const BuilderTabPanel = compose(
         (bc: BuilderTabPanelType, props): TabModelType => new TabModel({bc, pageStore: props.pageStore}),
     ),
     commonDecorator,
-    withStyles(styles),
+    withStyles(styles, {withTheme: true}),
     observer,
 )(BaseBuilderTabPanel);
 

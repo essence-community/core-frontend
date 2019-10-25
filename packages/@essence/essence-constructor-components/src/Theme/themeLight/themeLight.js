@@ -5,6 +5,7 @@ export const themeLight = {
     palette: {
         background: {
             default: "#fff",
+            paper: "#fff",
         },
         button: {
             background: {

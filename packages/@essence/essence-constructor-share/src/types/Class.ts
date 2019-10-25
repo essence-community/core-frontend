@@ -12,6 +12,7 @@ export interface IClassProps {
     disabled?: boolean;
     readOnly?: boolean;
     visible: boolean;
+    elevation?: number;
 }
 
 export interface IWindowClassProps extends IClassProps {

@@ -41,7 +41,7 @@ const parseResponse = ({responseJSON, list}: IRequestCheckError) => {
     return responseSingleData;
 };
 
-export const request = async ({
+export const request = async <R = IRecord | IRecord[]>({
     json,
     query = "",
     action = "dml",
@@ -54,7 +54,7 @@ export const request = async ({
     gate = settingsStore.settings[VAR_SETTING_GATE_URL],
     method = "POST",
     formData,
-}: IRequest): Promise<IRecord | IRecord[]> => {
+}: IRequest): Promise<R> => {
     const queryParams = {
         action,
         plugin,

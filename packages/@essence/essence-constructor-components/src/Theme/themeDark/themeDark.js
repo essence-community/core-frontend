@@ -4,8 +4,17 @@ import {themeDarkOverrides} from "./themeDarkOverrides";
 
 export const themeDark = {
     palette: {
+        action: {
+            active: "rgba(0, 0, 0, 0.54)",
+            disabled: "rgba(0, 0, 0, 0.26)",
+            disabledBackground: "rgba(0, 0, 0, 0.12)",
+            hover: "rgba(0, 0, 0, 0.08)",
+            hoverOpacity: 0.08,
+            selected: "rgba(0, 0, 0, 0.14)",
+        },
         background: {
             default: "rgba(240,248,255,0.78)",
+            paper: "#fff",
         },
         button: {
             background: {
@@ -60,11 +69,15 @@ export const themeDark = {
         text: {
             dark: "#2c3345",
             disabled: "#2c3345",
+            hint: "rgba(0, 0, 0, 0.38)",
             light: "#dbdfef",
+            primary: "rgba(0, 0, 0, 0.87)",
+            secondary: "rgba(0, 0, 0, 0.54)",
         },
         transparent: {
             main: "transparent",
         },
+        type: "dark",
     },
     sizing: {
         appbarHeight: 45,

@@ -1,9 +1,10 @@
 import axios from "axios";
 import {setMask} from "../models/RecordsModel/loadRecordsAction";
-import {baseRequest} from "../request/baseRequest";
+import {request} from "../request";
 import {IPageModel} from "../types/PageModel";
 import {ISnackbarModel} from "../types/SnackbarModel";
-import {FieldValue} from "../types";
+import {FieldValue, IRecord, IResponse} from "../types";
+import {VAR_RECORD_RES_DOWNLOAD_URL} from "../constants";
 
 interface IPrintBC {
     ckParent: string;
@@ -31,6 +32,10 @@ interface IPrint {
     timeout?: string;
 }
 
+interface IResult extends IResponse, IRecord {
+    [VAR_RECORD_RES_DOWNLOAD_URL]: string | undefined;
+}
+
 export const print = async ({
     values: {...values},
     bc,
@@ -45,7 +50,7 @@ export const print = async ({
     values.ckId = null;
     values.clOnline = Number(isOnline);
     setMask(true, bcBtn.noglobalmask, pageStore);
-    const res = await baseRequest({
+    const result: any = await request({
         action: "dml",
         gate: bc.ckDEndpoint,
         json: {
@@ -61,12 +66,13 @@ export const print = async ({
         session,
         timeout,
     });
+    const res: IResult = result;
 
     setMask(false, bcBtn.noglobalmask, pageStore);
     const isValid = snackbarStore.checkValidResponseAction(res, pageStore.route);
 
-    if (isValid && isOnline) {
-        window.open(res.cvUrl);
+    if (isValid && isOnline && res[VAR_RECORD_RES_DOWNLOAD_URL]) {
+        window.open(res[VAR_RECORD_RES_DOWNLOAD_URL]);
     }
 
     return isValid;

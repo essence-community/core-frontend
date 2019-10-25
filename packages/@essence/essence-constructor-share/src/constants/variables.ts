@@ -17,6 +17,7 @@ export const VAR_RECORD_ICON_NAME = "cvIconName";
 export const VAR_RECORD_LEAF = "leaf";
 export const VAR_RECORD_RES_ERROR = "cvError";
 export const VAR_RECORD_RES_STACK_TRACE = "cvStackTrace";
+export const VAR_RECORD_RES_DOWNLOAD_URL = "cvUrl";
 
 // SETTING
 export const VAR_SETTING_VALUE = "cv_value";

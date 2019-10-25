@@ -4,5 +4,7 @@ import BuilderInlineWindow from "./BuilderInlineWindow/BuilderInlineWindow";
 
 setComponent("INLINE_WINDOW", BuilderInlineWindow);
 setComponent("WIN", BuilderWindow);
+// @depricated
+setComponent("WINDOW", BuilderWindow);
 
 export {BuilderInlineWindow, BuilderWindow};

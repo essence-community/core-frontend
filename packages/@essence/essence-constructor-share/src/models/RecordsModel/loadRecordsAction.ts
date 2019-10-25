@@ -192,7 +192,7 @@ export function loadRecordsAction(
         .then(() => {
             const {json} = prepareRequst(this, {bc, selectedRecordId, status});
 
-            return request({
+            return request<IResponse[]>({
                 action: "sql",
                 json,
                 list: true,

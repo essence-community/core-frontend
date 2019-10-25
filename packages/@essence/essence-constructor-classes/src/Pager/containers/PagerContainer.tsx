@@ -15,13 +15,14 @@ import {
     loggerRoot,
     IEditorContext,
 } from "@essence/essence-constructor-share";
-import {Grid} from "@material-ui/core";
+import {Grid, useTheme} from "@material-ui/core";
 import {settingsStore} from "@essence/essence-constructor-share/models";
 import {PagerWindows} from "../components/PagerWindows";
 import {focusPageElement} from "../utils/focusPageElement";
 import {PagerWindowMessage} from "../components/PagerWindowMessage";
 import {useStyles} from "./PagerContainer.styles";
 
+const DARK_PAPER_ELEVATION = 8;
 const VERTICAL_STYLE = {zIndex: 3};
 const SCROLLABRS_STYLE = {height: "100%", paddingRight: 10, width: "100%"};
 const logger = loggerRoot.extend("PagerContainer");
@@ -34,6 +35,7 @@ interface IPagerProps extends IClassProps {}
 export const PagerContainer: React.FC<IPagerProps> = (props) => {
     const {pageStore} = props;
     const classes = useStyles(props);
+    const theme = useTheme();
     const applicationStore = React.useContext(ApplicationContext);
     const editor: IEditorContext = React.useMemo(
         () => ({
@@ -103,6 +105,11 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                                                     pageStore={pageStore}
                                                     bc={childBc}
                                                     visible={pageStore.visible}
+                                                    elevation={
+                                                        theme.palette.type === "light"
+                                                            ? undefined
+                                                            : DARK_PAPER_ELEVATION
+                                                    }
                                                 />
                                             </Grid>
                                         ),

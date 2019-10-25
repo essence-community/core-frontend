@@ -1,3 +1,5 @@
+import {fade} from "@material-ui/core/styles";
+
 export const StyleTabPanelDark = (theme) => ({
     activeTabRoot: {
         "& $tabWrapper": {
@@ -16,6 +18,36 @@ export const StyleTabPanelDark = (theme) => ({
         },
         opacity: "1 !important",
     },
+    popoverButton: {
+        "&:before": {
+            backgroundColor: theme.palette.secondary.main,
+            borderLeft: `1px solid ${theme.palette.secondary.main}`,
+            borderTop: `1px solid ${theme.palette.secondary.main}`,
+            bottom: 0,
+            // eslint-disable-next-line quotes
+            content: '""',
+            left: -5,
+            position: "absolute",
+            right: -10,
+            top: 0,
+            transform: "skewX(-30deg)",
+            zIndex: -1,
+        },
+        "&:hover": {
+            "&:before": {
+                // Reset on touch devices, it doesn't add specificity
+                "@media (hover: none)": {
+                    backgroundColor: "transparent",
+                },
+                backgroundColor: fade(theme.palette.action.active, theme.palette.action.hoverOpacity),
+            },
+            backgroundColor: "transparent",
+        },
+        fill: theme.palette.primary.main,
+        height: 36,
+        position: "relative",
+        width: 26,
+    },
     selectedTabRoot: {
         "&$tabRoot": {
             "&:before": {
@@ -23,12 +55,6 @@ export const StyleTabPanelDark = (theme) => ({
             },
             boxShadow: `1px -1px 1px ${theme.palette.primary.main}`,
         },
-    },
-    slimTab: {
-        maxWidth: 65,
-    },
-    slimTabs: {
-        flexWrap: "wrap-reverse",
     },
     "tabItem-center-hbox": {
         width: "100%",
@@ -97,9 +123,6 @@ export const StyleTabPanelDark = (theme) => ({
         whiteSpace: "nowrap",
         width: "100%",
         zIndex: 11,
-    },
-    tabsContainer: {
-        outline: "none",
     },
     "tabsFlexContainer-center-hbox": {
         "& $tabRoot": {

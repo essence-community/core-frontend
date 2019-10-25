@@ -79,11 +79,11 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
 
             handleCalculateOffset();
 
-            if (current) {
+            if (current && !props.width) {
                 setWidth(current.offsetWidth);
             }
         }
-    }, [handleCalculateOffset, handleClose, hideOnResize]);
+    }, [handleCalculateOffset, handleClose, hideOnResize, props.width]);
 
     const handleOutsideClick = React.useCallback(
         (event: UIEvent) => {
@@ -194,7 +194,7 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
                           tabFocusable={tabFocusable}
                           focusableMount={props.focusableMount}
                           restoreFocusedElement={props.restoreFocusedElement}
-                          width={width}
+                          width={props.width || width}
                           onOpen={handleOpen}
                           onEntering={handleEntering}
                           onClose={handleClose}

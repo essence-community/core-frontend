@@ -1,6 +1,8 @@
 import axios from "axios";
 import {isArray, isString} from "lodash";
 import {stringify} from "qs";
+import {settingsStore} from "../../models";
+import {VAR_SETTING_GATE_URL, META_OUT_RESULT, META_PAGE_OBJECT} from "../../constants";
 import {camelCaseKeysAsync, snakeCaseKeys} from "../../utils";
 import {IBaseRequest} from "./baseRequest";
 
@@ -69,7 +71,7 @@ export const baseAxiosRequest = async ({
     onUploadProgress,
     plugin,
     timeout = "30",
-    gate,
+    gate = settingsStore.settings[VAR_SETTING_GATE_URL],
     method = "POST",
     formData,
     params,
@@ -80,11 +82,13 @@ export const baseAxiosRequest = async ({
         query,
     };
     const data = {
+        [META_OUT_RESULT]: "",
+        [META_PAGE_OBJECT]: pageObject.replace(
+            // eslint-disable-next-line prefer-named-capture-group
+            /^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[)}]?.*?$/giu,
+            "$1",
+        ),
         json: json ? JSON.stringify(snakeCaseKeys(json)) : undefined,
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        out_result: "",
-        // eslint-disable-next-line @typescript-eslint/camelcase, require-unicode-regexp, prefer-named-capture-group
-        page_object: pageObject.replace(/^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[)}]?.*?$/gi, "$1"),
         session,
         ...snakeCaseKeys(body),
     };

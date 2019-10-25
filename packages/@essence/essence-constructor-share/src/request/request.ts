@@ -3,6 +3,7 @@ import snakeCaseKeys from "snakecase-keys";
 import {IRequest, IRequestCheckError} from "../types";
 import {settingsStore} from "../models";
 import {camelCaseKeysAsync} from "../utils";
+import {IRecord} from "../types/Base";
 import {VAR_SETTING_GATE_URL, META_OUT_RESULT, META_PAGE_OBJECT} from "../constants";
 import {ResponseError} from "./error";
 
@@ -53,7 +54,7 @@ export const request = async ({
     gate = settingsStore.settings[VAR_SETTING_GATE_URL],
     method = "POST",
     formData,
-}: IRequest): Promise<object | object[]> => {
+}: IRequest): Promise<IRecord | IRecord[]> => {
     const queryParams = {
         action,
         plugin,

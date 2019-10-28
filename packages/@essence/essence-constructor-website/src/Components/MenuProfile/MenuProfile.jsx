@@ -107,7 +107,7 @@ class MenuProfile extends React.Component<PropsType> {
             cdPeriod: "",
             ckDept: userInfo.ckDept,
             cvEmail: userInfo.cvEmail,
-            cvFullName: `${userInfo.cvSurname} ${userInfo.cvName} ${userInfo.cvPatronymic}`,
+            cvFullName: `${userInfo.cvSurname || ""} ${userInfo.cvName || ""} ${userInfo.cvPatronymic || ""}`,
             cvLogin: userInfo.cvLogin,
             theme: styleTheme,
         };
@@ -122,21 +122,16 @@ class MenuProfile extends React.Component<PropsType> {
                         submitOnChange
                         onSetValues={this.handleSubmit}
                     >
-                        <Grid container spacing={2} direction="row">
-                            <Grid item xs={12}>
-                                {mapComponents(pageStore.pageBc, (ChildComponet, childBc) => (
-                                    <ChildComponet
-                                        readOnly={pageStore.isReadOnly}
-                                        hidden={false}
-                                        pageStore={pageStore}
-                                        pageBc={childBc}
-                                    />
+                        <Grid container spacing={2} direction="column">
+                            <Grid item xs>
+                                {mapComponents(pageStore.pageBc, (ChildComponent, childBc) => (
+                                    <ChildComponent {...this.props} pageStore={pageStore} bc={childBc} />
                                 ))}
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs>
                                 <BuilderPanel editing={true} bc={config} pageStore={pageStore} />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs>
                                 <Grid container justify="flex-end" spacing={1}>
                                     <Grid item>
                                         <Button color="primary" size="small" onClick={this.handleLogout}>

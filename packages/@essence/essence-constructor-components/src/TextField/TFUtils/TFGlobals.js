@@ -31,7 +31,7 @@ export const initGetGlobal = ({form, field, pageStore, bc, store}: InitGetGlobal
                 let value = "";
 
                 if (name.charAt(0) === "g") {
-                    value = globalValues.get(name);
+                    value = globalValues.has(name) ? globalValues.get(name) : "";
                 } else if (store) {
                     value = store.selectedRecord ? store.selectedRecord[name] : "";
                 } else {

@@ -47,6 +47,35 @@ const GRID_CONFIGS = {
         wrap: "nowrap",
     },
 };
+const GRID_ALIGN_CONFIGS = {
+    "center-hbox": {
+        justify: "center",
+    },
+    "center-hbox-wrap": {
+        justify: "center",
+    },
+    "center-vbox": {
+        alignItems: "center",
+    },
+    "left-hbox": {
+        justify: "flex-start",
+    },
+    "left-hbox-wrap": {
+        justify: "flex-start",
+    },
+    "left-vbox": {
+        alignItems: "flex-start",
+    },
+    "right-hbox": {
+        justify: "flex-end",
+    },
+    "right-hbox-wrap": {
+        justify: "flex-end",
+    },
+    "right-vbox": {
+        alignItems: "flex-end",
+    },
+};
 
 export class Panel extends React.Component<PropsType> {
     handleChangeChildWidth = (id: string, newWidth: number) => {
@@ -71,7 +100,7 @@ export class Panel extends React.Component<PropsType> {
             record,
             store,
         } = this.props;
-        const {childs = [], contentview = "vbox", spacing, resizable} = bc;
+        const {align = "left", childs = [], contentview = "vbox", spacing, resizable} = bc;
         const isRow = contentview === "hbox" || contentview === "hbox-wrap";
         const gridSpacing = spacing || DEFAULT_SPACING;
         const {childsWidths = {}} = store;
@@ -83,7 +112,8 @@ export class Panel extends React.Component<PropsType> {
                 className={classes[`rootSpacing${gridSpacing}`]}
                 spacing={gridSpacing}
                 data-page-object={bc.ckPageObject}
-                {...GRID_CONFIGS[contentview] || GRID_CONFIGS.vbox}
+                {...GRID_CONFIGS[contentview]}
+                {...GRID_ALIGN_CONFIGS[`${align}-${contentview}`]}
             >
                 {childs.map((child, index) => {
                     const ChildComp = getComponent(child.type, child.customid);

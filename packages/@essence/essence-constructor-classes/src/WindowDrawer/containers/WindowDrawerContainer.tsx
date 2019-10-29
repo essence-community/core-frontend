@@ -1,20 +1,27 @@
 import * as React from "react";
-import {mapComponents, SideResizer, IWindowClassProps} from "@essence/essence-constructor-share";
+import {mapComponents, SideResizer} from "@essence/essence-constructor-share";
+import {IWindowClassProps, IBuilderConfig, IClassProps} from "@essence/essence-constructor-share/types";
+import {toSize} from "@essence/essence-constructor-share/utils";
 import {Grid, Drawer} from "@material-ui/core";
 import {useStyles} from "./WindowDrawerContainer.styles";
-
-const ALIGNS = {
-    left: "left",
-    right: "right",
-};
 
 export const WindowDrawerContainer: React.FC<IWindowClassProps> = (props) => {
     const classes = useStyles(props);
     const {bc} = props;
-    const anchor = ALIGNS[bc.align];
+    const {align = "left", width = "5%", height} = bc;
+    // @ts-ignore
+    const anchor: "left" | "right" = align;
     const [isOpen, setIsOpen] = React.useState(false);
-    const [drawerWidth, setDrawerWidth] = React.useState(bc.width);
-    const paperProps = React.useMemo(() => ({style: {width: drawerWidth}}), [drawerWidth]);
+    const [drawerWidth, setDrawerWidth] = React.useState(width);
+    const paperProps = React.useMemo(
+        () => ({
+            style: {
+                height: height ? toSize(height) : undefined,
+                width: drawerWidth,
+            },
+        }),
+        [drawerWidth, height],
+    );
     const handleResizeWidth = React.useCallback((value: string) => {
         setDrawerWidth(value);
     }, []);
@@ -28,7 +35,7 @@ export const WindowDrawerContainer: React.FC<IWindowClassProps> = (props) => {
         <Grid item>
             <SideResizer
                 anchor={anchor}
-                minDrawerWidth={bc.width}
+                minDrawerWidth={width}
                 maxDrawerWidth="50%"
                 onChangeWidth={handleResizeWidth}
             />
@@ -60,9 +67,12 @@ export const WindowDrawerContainer: React.FC<IWindowClassProps> = (props) => {
             >
                 {bc.align === "right" ? sideResizer : null}
                 <Grid item xs={true} className={classes.content}>
-                    {mapComponents(bc.childs, (ChildComp, childBc) => (
-                        <ChildComp key={childBc.ckPageObject} {...props} bc={childBc} />
-                    ))}
+                    {mapComponents(
+                        bc.childs,
+                        (ChildComp: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
+                            <ChildComp key={childBc.ckPageObject} {...props} bc={childBc} />
+                        ),
+                    )}
                 </Grid>
                 {bc.align === "left" ? sideResizer : null}
             </Grid>

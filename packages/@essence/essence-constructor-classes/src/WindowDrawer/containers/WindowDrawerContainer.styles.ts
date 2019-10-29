@@ -5,6 +5,7 @@ export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         container: {
             height: "100%",
+            overflow: "hidden",
         },
         content: {
             "&:empty": {
@@ -15,7 +16,7 @@ export const useStyles = makeStyles(
             alignItems: "center",
             backgroundColor: theme.palette.primary.main,
             boxShadow: "none",
-            top: (props: IClassProps) => parseInt(props.bc.top, 10),
+            top: (props: IClassProps) => (props.bc.top ? parseInt(props.bc.top, 10) : 0),
         },
     }),
     {

@@ -98,7 +98,7 @@ export function getComponent(componentName: string): React.ComponentType<IClassP
 /**
  * Render components by childs config.
  */
-export function mapComponents(childs: IBuilderConfig[], resolve: TResolve) {
+export function mapComponents(childs?: IBuilderConfig[], resolve?: TResolve) {
     if (!childs) {
         return null;
     }
@@ -118,6 +118,6 @@ export function mapComponents(childs: IBuilderConfig[], resolve: TResolve) {
             return null;
         }
 
-        return resolve(ChildComp, child, index);
+        return resolve ? resolve(ChildComp, child, index) : null;
     });
 }

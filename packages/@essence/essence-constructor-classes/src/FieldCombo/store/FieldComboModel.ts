@@ -29,16 +29,19 @@ export class FieldComboModel extends StoreBaseModel {
 
     isFocus = false;
 
+    isListChanged: boolean;
+
     loadDebounce: () => void;
 
     constructor(props: IStoreBaseModelProps) {
         super(props);
 
         const {bc, pageStore, applicationStore} = props;
+        const {displayfield = "", valuefield = "", minchars = "", querydelay = ""} = bc;
 
-        this.displayfield = camelCaseMemoized(bc.displayfield);
-        this.valuefield = camelCaseMemoized(bc.valuefield);
-        this.valueLength = parseInt(bc.minchars, 10);
+        this.displayfield = camelCaseMemoized(displayfield);
+        this.valuefield = camelCaseMemoized(valuefield);
+        this.valueLength = parseInt(minchars, 10);
 
         this.recordsStore = new RecordsModel(bc, {
             applicationStore,
@@ -50,7 +53,7 @@ export class FieldComboModel extends StoreBaseModel {
             if (bc.queryparam && toString(this.inputValue).length >= this.valueLength) {
                 this.recordsStore.searchAction({[bc.queryparam]: this.inputValue}, {isUserReload: true});
             }
-        }, parseInt(bc.querydelay, 10) * 1000);
+        }, parseInt(querydelay, 10) * 1000);
 
         extendObservable(this, {
             get highlightedIndex() {
@@ -60,6 +63,7 @@ export class FieldComboModel extends StoreBaseModel {
             },
             highlightedValue: "",
             inputValue: "",
+            isListChanged: false,
             get selectedRecord() {
                 return this.recordsStore.selectedRecord;
             },
@@ -81,7 +85,7 @@ export class FieldComboModel extends StoreBaseModel {
                     ];
                 }
 
-                if (bc.querymode !== "remote") {
+                if (this.isListChanged) {
                     return suggestions.filter((sug: ISuggestion) => sug.labelLower.indexOf(inputValueLower) !== -1);
                 }
 
@@ -90,10 +94,19 @@ export class FieldComboModel extends StoreBaseModel {
         });
     }
 
-    handleChangeValue = (value: string) => {
-        this.inputValue = value;
+    handleSetListChanged = (isListChanged: boolean) => {
+        this.isListChanged = isListChanged;
+    };
 
-        if (value.length >= this.valueLength) {
+    handleChangeValue = (value: string) => {
+        const isEqual = value === this.inputValue;
+
+        if (!isEqual) {
+            this.isListChanged = true;
+            this.inputValue = value;
+        }
+
+        if (value.length >= this.valueLength && !isEqual) {
             this.loadDebounce();
         }
     };
@@ -120,6 +133,16 @@ export class FieldComboModel extends StoreBaseModel {
         }
     };
 
+    handleRestoreSelected = (value: FieldValue, code: "up" | "down") => {
+        const suggerstion = this.suggestions.find((sug) => sug.value === value);
+
+        if (suggerstion) {
+            this.highlightedValue = suggerstion.value;
+        } else {
+            this.handleChangeSelected(code);
+        }
+    };
+
     handleSetSelected = () => {
         this.handleSetValue(this.highlightedValue);
     };
@@ -128,8 +151,10 @@ export class FieldComboModel extends StoreBaseModel {
         this.isFocus = isFocus;
     };
 
+    // eslint-disable-next-line complexity
     handleSetValue = debounce((value: FieldValue, loaded = false, isUserSearch = false) => {
         const stringValue = toString(value);
+        const isEqual = stringValue === this.inputValue;
         const isFocusNew = this.bc.allownew === "true" && this.isFocus;
 
         if (this.bc.allownew === "true" && !loaded && !this.isFocus) {
@@ -160,8 +185,10 @@ export class FieldComboModel extends StoreBaseModel {
             if (this.recordsStore.selectedRecord) {
                 this.recordsStore.setSelectionAction(undefined);
             }
-        } else {
-            this.recordsStore.searchAction({[this.bc.valuefield || this.bc.column || ""]: value});
+        } else if (!isEqual && !this.recordsStore.isLoading) {
+            this.recordsStore.searchAction(
+                this.valueLength ? {[this.bc.valuefield || this.bc.column || ""]: value} : {},
+            );
         }
     }, 0);
 

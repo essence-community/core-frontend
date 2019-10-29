@@ -5,7 +5,7 @@ import {withStyles} from "@material-ui/core/styles";
 import {Grid} from "@material-ui/core";
 import {compose} from "recompose";
 import {toColumnStyleWidth} from "@essence/essence-constructor-share/utils";
-import {getComponent} from "@essence/essence-constructor-share";
+import {mapComponents} from "@essence/essence-constructor-share";
 import {type BuilderPanelType} from "../BuilderPanelType";
 import {type PageModelType} from "../../stores/PageModel";
 import HorizontalResizer from "../../Resizer/HorizontalResizer";
@@ -115,10 +115,11 @@ export class Panel extends React.Component<PropsType> {
                 {...GRID_CONFIGS[contentview]}
                 {...GRID_ALIGN_CONFIGS[`${align}-${contentview}`]}
             >
-                {childs.map((child, index) => {
-                    const ChildComp = getComponent(child.type, child.customid);
+                {mapComponents(childs, (ChildComp, child, index) => {
                     const isLast = index === childs.length - 1;
                     const childWidthData: ItemType | Object = isResizeEnable ? childsWidths[child.ckPageObject] : {};
+                    const isAddResizer =
+                        isResizeEnable && !isLast && !(childsWidths[childs[index + 1].ckPageObject] || {}).collapsed;
                     const style = isResizeEnable
                         ? {
                               flexBasis: "auto",
@@ -126,17 +127,13 @@ export class Panel extends React.Component<PropsType> {
                           }
                         : toColumnStyleWidth(child.width);
 
-                    if (!ChildComp) {
-                        return null;
-                    }
-
                     return (
                         <HorizontalResizer
                             key={child.ckPageObject}
                             xs={isRow ? true : MAX_PANEL_WIDTH}
                             className={isRow ? classes.panelItemFlexBasis : undefined}
                             style={style}
-                            isAddResizer={isResizeEnable && !isLast}
+                            isAddResizer={isAddResizer}
                             item={childWidthData}
                             itemsNumber={childs.length}
                             onChange={this.handleChangeChildWidth}

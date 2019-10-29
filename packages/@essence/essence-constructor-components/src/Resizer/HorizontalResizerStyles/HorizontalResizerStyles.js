@@ -3,6 +3,15 @@ export const HorizontalResizerStyles = (theme: any) => ({
     childrenContainer: {
         width: "calc(100% - 10px)",
     },
+    collapsedRoot: {
+        "&:hover": {
+            backgroundColor: theme.essence.palette.grey.main,
+        },
+        alignItems: "center",
+        cursor: "pointer",
+        display: "flex",
+        justifyContent: "center",
+    },
     resizeContainer: {
         display: "flex",
         flexDirection: "row",

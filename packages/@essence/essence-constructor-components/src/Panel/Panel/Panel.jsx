@@ -100,7 +100,7 @@ export class Panel extends React.Component<PropsType> {
             record,
             store,
         } = this.props;
-        const {align = "left", childs = [], contentview = "vbox", spacing, resizable} = bc;
+        const {align = "stretch", childs = [], contentview = "vbox", spacing, resizable} = bc;
         const isRow = contentview === "hbox" || contentview === "hbox-wrap";
         const gridSpacing = spacing || DEFAULT_SPACING;
         const {childsWidths = {}} = store;

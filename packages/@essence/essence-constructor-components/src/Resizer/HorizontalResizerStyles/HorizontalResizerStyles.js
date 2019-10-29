@@ -1,12 +1,5 @@
 // @flow
 export const HorizontalResizerStyles = (theme: any) => ({
-    btn: {
-        fontSize: 20,
-        fontWeight: 600,
-        left: 4,
-        position: "absolute",
-        transform: "rotate(90deg)",
-    },
     childrenContainer: {
         width: "calc(100% - 10px)",
     },
@@ -17,9 +10,9 @@ export const HorizontalResizerStyles = (theme: any) => ({
     resizer: {
         alignItems: "center",
         backgroundColor: theme.palette.common.white,
-        borderLeft: `1px solid ${theme.palette.primary.main}`,
-        borderRight: `1px solid ${theme.palette.primary.main}`,
-        cursor: "col-resize",
+        borderLeft: `1px solid ${theme.essence.palette.grey.main}`,
+        borderRight: `1px solid ${theme.essence.palette.grey.main}`,
+        cursor: "none",
         display: "flex",
         height: "100%",
         minWidth: 10,
@@ -27,6 +20,16 @@ export const HorizontalResizerStyles = (theme: any) => ({
         textAlign: "center",
         visibility: "hidden",
         width: 10,
+    },
+    resizerIcon: {
+        pointerEvents: "none",
+        position: "fixed",
+        transform: "translate(-50%, -50%)",
+        transition: "transform 0.2s ease",
+        zIndex: 2100,
+    },
+    resizerIconDown: {
+        transform: "translate(-50%, -50%) scaleX(0.5)",
     },
     resizerWrapper: {
         "&:hover": {

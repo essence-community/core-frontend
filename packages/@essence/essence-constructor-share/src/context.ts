@@ -10,7 +10,7 @@ export interface IEditorContext {
 export const EditorContex = React.createContext<IEditorContext | undefined>(undefined);
 export const FormContext = React.createContext<Form | undefined>(undefined);
 export const ModeContext = React.createContext<IBuilderMode>("1");
-export const ApplicationContext = React.createContext<IApplicationModel | undefined>(undefined);
+export const ApplicationContext = React.createContext<IApplicationModel | null>(null);
 export const PageContext = React.createContext<IPageModel | undefined>(undefined);
 export const RoutesContext = React.createContext<IRoutesModel | undefined>(undefined);
 export const PagesContext = React.createContext<IPagesModel | undefined>(undefined);

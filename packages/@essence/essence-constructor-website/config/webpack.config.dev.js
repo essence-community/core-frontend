@@ -12,7 +12,7 @@ const ManifestPlugin = require("webpack-manifest-plugin");
 const ModuleNotFoundPlugin = require("react-dev-utils/ModuleNotFoundPlugin");
 const HtmlWebpackIncludeAssetsPlugin = require("html-webpack-include-assets-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const CircularDependencyPlugin = require("circular-dependency-plugin");
+// Const CircularDependencyPlugin = require("circular-dependency-plugin");
 const paths = require("./paths");
 const getClientEnvironment = require("./env");
 
@@ -444,10 +444,11 @@ module.exports = {
          * Circular dependencies are often a necessity in complex software,
          * the presence of a circular dependency doesn't always imply a bug,
          * but in the case where you believe a bug exists, this module may help find it.
+         *
+         * new CircularDependencyPlugin({
+         * exclude: /node_modules/,
+         * }),
          */
-        new CircularDependencyPlugin({
-            exclude: /node_modules/,
-        }),
     ],
 
     /*

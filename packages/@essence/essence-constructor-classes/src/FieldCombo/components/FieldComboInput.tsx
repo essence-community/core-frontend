@@ -23,6 +23,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
     const classes = useStyles(props);
     const {textField: TextField, onClose, onOpen, open, ...otherProps} = props;
     const handleInputClick = (event: React.SyntheticEvent) => {
+        props.store.handleSetListChanged(false);
         onOpen(event);
     };
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,13 +34,16 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             const sugValue = props.store.suggestions.find((sug: ISuggestion) => sug.labelLower === lowerValue);
             const newValue = sugValue ? sugValue.value : value;
 
-            props.onChange(event, newValue);
             props.store.handleChangeValue(value);
+            props.onChange(event, newValue);
         } else {
             props.store.handleChangeValue(value);
         }
 
-        onOpen(event);
+        if (!props.open) {
+            props.store.handleSetListChanged(true);
+            onOpen(event);
+        }
     };
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         // @ts-ignore
@@ -49,6 +53,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             case "up":
             case "down":
                 event.preventDefault();
+                props.store.handleSetListChanged(false);
                 onOpen(event);
                 props.store.handleChangeSelected(code);
                 break;
@@ -56,7 +61,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
                 onClose(event);
                 break;
             case "enter":
-                if (props.store.highlightedValue) {
+                if (props.store.highlightedValue && open) {
                     event.preventDefault();
                     onClose(event);
                     props.onChange(null, props.store.highlightedValue);

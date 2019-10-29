@@ -27,7 +27,7 @@ interface IProps extends IPopoverChildrenProps {
 
 export const FieldComboList: React.FC<IProps> = (props) => {
     const {store, bc, onChange, onClose} = props;
-    const scrollbarRef: React.Ref<Scrollbars> = React.useRef();
+    const scrollbarRef = React.useRef<Scrollbars>(null);
     const stringValue = String(props.value);
     const classes = useStyles(props);
     const autoHeightMin = store.recordsStore.pageSize
@@ -49,15 +49,12 @@ export const FieldComboList: React.FC<IProps> = (props) => {
         [bc.allownew, onChange, onClose, props.inputRef, store],
     );
 
-    React.useEffect(
-        () => {
-            if (props.store.highlightedIndex >= 0 && scrollbarRef.current) {
-                // @ts-ignore
-                scrollbarRef.current.scrollTop(props.store.highlightedIndex * ITEM_HEIGHT);
-            }
-        },
-        [props.store.highlightedIndex],
-    );
+    React.useEffect(() => {
+        if (props.store.highlightedIndex >= 0 && scrollbarRef.current) {
+            // @ts-ignore
+            scrollbarRef.current.scrollTop(props.store.highlightedIndex * ITEM_HEIGHT);
+        }
+    }, [props.store.highlightedIndex]);
 
     useDisposable(
         () =>

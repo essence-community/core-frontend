@@ -15,7 +15,7 @@ import {IFieldComboProps} from "./FieldCombo.types";
  */
 const FieldCombo: React.FC<IFieldComboProps> = (props) => {
     const {field, onInitGlobal} = props;
-    const inputRef: React.RefObject<HTMLInputElement> = React.useRef();
+    const inputRef = React.useRef<HTMLInputElement>(null);
     const applicationStore = React.useContext(ApplicationContext);
     const [store] = useModel((modelProps) => new FieldComboModel(modelProps), {
         applicationStore,
@@ -45,28 +45,28 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
         [props.bc.allownew, store, props.value],
     );
 
-    const handleBlur = React.useCallback(
-        () => {
-            requestAnimationFrame(() => {
+    const handleBlur = React.useCallback(() => {
+        requestAnimationFrame(() => {
+            if (document.activeElement !== inputRef.current) {
                 if (isEmpty(props.value)) {
                     store.handleSetValue(props.value);
                     store.handleChangeValue("");
-                } else if (props.bc.allownew !== "true" && document.activeElement !== inputRef.current) {
+                } else if (props.bc.allownew !== "true") {
                     store.handleSetValue(props.value);
                 }
-            });
-        },
-        [props.bc.allownew, store, props.value],
-    );
+            }
+        });
+    }, [props.bc.allownew, store, props.value]);
 
     useDisposable(
         () =>
             reaction(
                 () => store.recordsStore.recordsState,
                 (recordsState) => {
-                    const value = recordsState.defaultValueSet
-                        ? store.recordsStore.selectedRecord[store.valuefield]
-                        : props.value;
+                    const value =
+                        recordsState.defaultValueSet && store.recordsStore.selectedRecord
+                            ? store.recordsStore.selectedRecord[store.valuefield]
+                            : props.value;
 
                     store.handleSetValue(value, true, recordsState.status === "search" && recordsState.isUserReload);
                 },
@@ -74,24 +74,18 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
         [props.value],
     );
 
-    React.useEffect(
-        () => {
-            field.store = store;
-            onInitGlobal(store);
+    React.useEffect(() => {
+        field.store = store;
+        onInitGlobal(store);
 
-            return () => {
-                props.field.store = undefined;
-            };
-        },
-        [field.store, onInitGlobal, props, store],
-    );
+        return () => {
+            field.store = undefined;
+        };
+    }, [field, onInitGlobal, store]);
 
-    React.useEffect(
-        () => {
-            store.handleSetValue(props.value);
-        },
-        [props.value, store],
-    );
+    React.useEffect(() => {
+        store.handleSetValue(props.value);
+    }, [props.value, store]);
 
     if (props.hidden) {
         return null;

@@ -133,6 +133,16 @@ export class FieldComboModel extends StoreBaseModel {
         }
     };
 
+    handleRestoreSelected = (value: FieldValue, code: "up" | "down") => {
+        const suggerstion = this.suggestions.find((sug) => sug.value === value);
+
+        if (suggerstion) {
+            this.highlightedValue = suggerstion.value;
+        } else {
+            this.handleChangeSelected(code);
+        }
+    };
+
     handleSetSelected = () => {
         this.handleSetValue(this.highlightedValue);
     };

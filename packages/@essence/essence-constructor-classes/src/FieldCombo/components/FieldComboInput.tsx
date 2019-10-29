@@ -23,8 +23,11 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
     const classes = useStyles(props);
     const {textField: TextField, onClose, onOpen, open, ...otherProps} = props;
     const handleInputClick = (event: React.SyntheticEvent) => {
-        props.store.handleSetListChanged(false);
-        onOpen(event);
+        if (!props.open) {
+            props.store.handleSetListChanged(false);
+            props.store.handleRestoreSelected(props.value, "down");
+            onOpen(event);
+        }
     };
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const {value} = event.target;
@@ -42,6 +45,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
 
         if (!props.open) {
             props.store.handleSetListChanged(true);
+            props.store.handleRestoreSelected(props.value, "down");
             onOpen(event);
         }
     };
@@ -54,8 +58,12 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             case "down":
                 event.preventDefault();
                 props.store.handleSetListChanged(false);
-                onOpen(event);
-                props.store.handleChangeSelected(code);
+                if (open) {
+                    props.store.handleChangeSelected(code);
+                } else {
+                    onOpen(event);
+                    props.store.handleRestoreSelected(props.value, code);
+                }
                 break;
             case "esc":
                 onClose(event);

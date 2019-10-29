@@ -15,7 +15,7 @@ import {IFieldComboProps} from "./FieldCombo.types";
  */
 const FieldCombo: React.FC<IFieldComboProps> = (props) => {
     const {field, onInitGlobal} = props;
-    const inputRef = React.useRef<HTMLInputElement>(null);
+    const inputRef: React.MutableRefObject<HTMLInputElement | null> = React.useRef(null);
     const applicationStore = React.useContext(ApplicationContext);
     const [store] = useModel((modelProps) => new FieldComboModel(modelProps), {
         applicationStore,

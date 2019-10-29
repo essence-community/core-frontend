@@ -1,9 +1,11 @@
 // @flow
 import * as React from "react";
+import {createPortal} from "react-dom";
 import debounce from "lodash/debounce";
 import cn from "classnames";
 import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
+import {HorizontalSizerIcon} from "@essence/essence-constructor-share/icons";
 import {getCoords} from "../utils/html";
 import type {ItemType} from "../stores/PanelModel";
 import {getWidth} from "./HorizontalResizerUtils/getWidth";
@@ -24,9 +26,11 @@ type PropsType = {
 };
 
 type StateType = {
+    down: boolean,
     initialX: number,
     initialWidthPx: number,
     initialWidthPercent: number,
+    over: boolean,
 };
 
 const DEBOUNCE_DELAY = 0;
@@ -36,10 +40,14 @@ const MIN_WIDTH = 10;
 class HorizontalResizer extends React.Component<PropsType, StateType> {
     rootRef = React.createRef();
 
+    resizerRef = React.createRef();
+
     state = {
+        down: false,
         initialWidthPercent: 0,
         initialWidthPx: 0,
         initialX: 0,
+        over: false,
     };
 
     componentWillUnmount() {
@@ -47,6 +55,14 @@ class HorizontalResizer extends React.Component<PropsType, StateType> {
         document.removeEventListener("mousemove", this.handleMouseMove);
     }
 
+    setCursorPosition = (clientX: number, clientY: number) => {
+        if (this.resizerRef.current) {
+            this.resizerRef.current.style.top = clientY;
+            this.resizerRef.current.style.left = clientX;
+        }
+    };
+
+    // eslint-disable-next-line max-statements
     handleMouseDown = (event: SyntheticMouseEvent<HTMLDivElement>) => {
         const {currentTarget} = event;
         const {left} = getCoords(currentTarget);
@@ -57,6 +73,7 @@ class HorizontalResizer extends React.Component<PropsType, StateType> {
         event.stopPropagation();
 
         this.setState({
+            down: true,
             initialWidthPercent: this.props.item.width,
             initialWidthPx: clientWidth,
             initialX: left,
@@ -64,33 +81,63 @@ class HorizontalResizer extends React.Component<PropsType, StateType> {
 
         document.addEventListener("mousemove", this.handleMouseMove);
         document.addEventListener("mouseup", this.handleMouseUp);
+
+        if (document.body) {
+            document.body.classList.add("cursor-hidden");
+        }
     };
 
     handleMouseMove = debounce((event: MouseEvent) => {
-        const currentX = event.clientX;
+        const {clientX, clientY} = event;
         const {initialX, initialWidthPx, initialWidthPercent} = this.state;
         const {item, onChange, itemsNumber} = this.props;
-        const offset = initialX - currentX;
+        const offset = initialX - clientX;
         const newWidth = getWidth(initialWidthPx, initialWidthPercent, offset);
         const maxWidth = FULL_WIDTH - (itemsNumber - 1) * MIN_WIDTH;
 
         if (item.id && newWidth <= maxWidth && newWidth >= MIN_WIDTH) {
             onChange(item.id, newWidth);
         }
+
+        this.setCursorPosition(clientX, clientY);
     }, DEBOUNCE_DELAY);
 
     handleMouseUp = () => {
         this.setState({
+            down: false,
             initialWidthPercent: 0,
             initialWidthPx: 0,
             initialX: 0,
         });
         document.removeEventListener("mousemove", this.handleMouseMove);
         document.removeEventListener("mouseup", this.handleMouseUp);
+
+        if (document.body) {
+            document.body.classList.remove("cursor-hidden");
+        }
+    };
+
+    // $FlowFixMe
+    handleMouseEnter = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const {clientX, clientY} = event;
+
+        this.setState({over: true}, () => {
+            this.setCursorPosition(clientX, clientY);
+        });
+        document.addEventListener("mousemove", this.handleMouseMove);
+    };
+
+    handleMouseLeave = () => {
+        this.setState({over: false});
+
+        if (!this.state.down) {
+            document.removeEventListener("mousemove", this.handleMouseMove);
+        }
     };
 
     render() {
         const {classes, className, style, xs, isAddResizer} = this.props;
+        const {over, down} = this.state;
 
         return isAddResizer ? (
             <Grid item xs={xs} className={className} style={style}>
@@ -102,11 +149,22 @@ class HorizontalResizer extends React.Component<PropsType, StateType> {
                                 [classes.show]: this.state.initialX,
                             })}
                             onMouseDown={this.handleMouseDown}
-                        >
-                            <span className={classes.btn}>...</span>
-                        </div>
+                            onMouseEnter={this.handleMouseEnter}
+                            onMouseLeave={this.handleMouseLeave}
+                        />
                     </div>
                 </div>
+                {document.body && (over || down)
+                    ? createPortal(
+                          <HorizontalSizerIcon
+                              ref={this.resizerRef}
+                              fontSize="large"
+                              className={cn(classes.resizerIcon, {[classes.resizerIconDown]: down})}
+                          />,
+                          // $FlowFixMe
+                          document.body,
+                      )
+                    : null}
             </Grid>
         ) : (
             <Grid item xs={xs} className={className} style={style}>

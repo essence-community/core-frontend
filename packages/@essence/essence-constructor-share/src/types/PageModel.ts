@@ -23,6 +23,7 @@ export interface IPageModelProps {
     isActiveRedirect: boolean;
     isReadOnly?: boolean;
     applicationStore: IApplicationModel;
+    defaultVisible?: boolean;
 }
 
 export interface INextComponentReturn {

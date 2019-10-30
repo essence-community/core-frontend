@@ -5,6 +5,8 @@ import {
     ApplicationContext,
     VAR_RECORD_ID,
     PageLoader,
+    VAR_SELF_CV_URL,
+    FieldValue,
 } from "@essence/essence-constructor-share";
 import {settingsStore, snackbarStore} from "@essence/essence-constructor-share/models";
 import {useDisposable, useObserver} from "mobx-react-lite";
@@ -25,18 +27,21 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
             await applicationStore.loadApplicationAction();
             const {routesStore, pagesStore} = applicationStore;
             const routes = routesStore.recordsStore.records;
-            const pageConfig = routes.find((route) => route.ckId === ckId || route.cvUrl === ckId);
+            const pageConfig = routes.find((route) => route[VAR_RECORD_ID] === ckId || route[VAR_SELF_CV_URL] === ckId);
             const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
             if (typeof pageId === "string") {
                 pagesStore.setPageAction(pageId, false);
-            } else {
+            } else if (ckId !== undefined) {
                 pagesStore.setPageAction(ckId, true);
+            } else if (pagesStore.pages.length) {
+                pagesStore.setPageAction(pagesStore.pages[0].ckPage, true);
             }
         };
 
         loadApplication();
-    }, [applicationStore, ckId]); // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [applicationStore]);
 
     useDisposable(() => {
         return observe(applicationStore, "bc", (change) => {
@@ -54,20 +59,25 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
         return reaction(
             () => applicationStore.pagesStore.activePage,
             (activePage) => {
-                let url = "";
+                const route = activePage && activePage.route;
+                let pageId: FieldValue = "";
 
-                if (activePage && activePage.route.clStatic && activePage.route.cvUrl) {
-                    url = `${appName}/${activePage.route.cvUrl}`;
-                } else if (activePage && activePage.route[VAR_RECORD_ID]) {
-                    url = `/${appName}/${activePage.route[VAR_RECORD_ID]}`;
+                if (route && route.clStatic && route[VAR_SELF_CV_URL]) {
+                    pageId = route[VAR_SELF_CV_URL];
+                } else if (route && route[VAR_RECORD_ID]) {
+                    pageId = route[VAR_RECORD_ID];
                 } else if (applicationStore.authStore.userInfo.session) {
-                    url = `/${appName}/${applicationStore.bc.defaultvalue}`;
-                } else {
-                    url = `/${applicationStore.bc.redirecturl}`;
+                    pageId = applicationStore.bc.defaultvalue;
                 }
+
+                const url = pageId ? `/${appName}/${pageId}` : `/${applicationStore.bc.redirecturl}`;
 
                 if (url && history.location.pathname !== url) {
                     history.push(url);
+                }
+
+                if (pageId && (!activePage || activePage.ckPage !== pageId)) {
+                    applicationStore.pagesStore.setPageAction(String(pageId), false);
                 }
             },
         );

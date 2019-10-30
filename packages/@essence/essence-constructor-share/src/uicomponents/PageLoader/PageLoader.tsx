@@ -12,8 +12,9 @@ interface IPagerLoaderProps {
     loaderType?: "default" | "bfl-loader";
 }
 
-export const PageLoader: React.FC<IPagerLoaderProps> = ({pageStore, container, isLoading, loaderType = "default"}) => {
-    const classes = useStyles({});
+export const PageLoader: React.FC<IPagerLoaderProps> = (props) => {
+    const {pageStore, container, isLoading, loaderType = "default"} = props;
+    const classes = useStyles(props);
 
     return useObserver(() => (
         <React.Fragment>

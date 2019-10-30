@@ -11,6 +11,8 @@ export const useStyles = makeStyles(
             "&:empty": {
                 display: "flex",
             },
+            display: "flex",
+            flexDirection: "column",
         },
         drawerPaper: {
             alignItems: "center",

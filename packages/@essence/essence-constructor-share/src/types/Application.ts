@@ -1,6 +1,7 @@
 import {ObservableMap} from "mobx";
 import {History} from "history";
 import {IRoutesModel} from "./RoutesModel";
+import {IStoreBaseModel} from "./StoreBaseModel";
 import {IBuilderConfig, FieldValue, IAuthModel, IPagesModel, IAuthSession, ISnackbarModel} from ".";
 
 export interface ISession {
@@ -13,7 +14,7 @@ export interface IConfigs {
     colors: string[];
 }
 
-export interface IApplicationModel {
+export interface IApplicationModel extends IStoreBaseModel {
     routesStore: IRoutesModel;
     bc: IBuilderConfig;
     authStore: IAuthModel;

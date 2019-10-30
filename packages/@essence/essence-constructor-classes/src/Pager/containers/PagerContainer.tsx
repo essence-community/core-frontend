@@ -14,9 +14,10 @@ import {
     EditorContex,
     loggerRoot,
     IEditorContext,
+    IPageModel,
 } from "@essence/essence-constructor-share";
 import {Grid, useTheme} from "@material-ui/core";
-import {settingsStore} from "@essence/essence-constructor-share/models";
+import {settingsStore, PageModel} from "@essence/essence-constructor-share/models";
 import {PagerWindows} from "../components/PagerWindows";
 import {focusPageElement} from "../utils/focusPageElement";
 import {PagerWindowMessage} from "../components/PagerWindowMessage";
@@ -33,10 +34,31 @@ const onFormChange = (form: typeof MobxReactForm) => {
 interface IPagerProps extends IClassProps {}
 
 export const PagerContainer: React.FC<IPagerProps> = (props) => {
-    const {pageStore} = props;
+    const applicationStore = React.useContext(ApplicationContext);
+    /**
+     * We are making a new pageStore when we get defaultvalue.
+     * It means that we want to make custom page and getting them from server by bc.ck_query
+     */
+    const pageStore: IPageModel | undefined = React.useMemo(() => {
+        if (applicationStore && props.bc && props.bc.defaultvalue) {
+            const newPageStore = new PageModel({
+                applicationStore,
+                ckPage: props.bc.defaultvalue,
+                defaultVisible: true,
+                isActiveRedirect: false,
+            });
+
+            newPageStore.loadConfigAction(props.bc.defaultvalue);
+
+            return newPageStore;
+        }
+
+        return props.pageStore;
+    }, [applicationStore, props.bc, props.pageStore]);
+
     const classes = useStyles(props);
     const theme = useTheme();
-    const applicationStore = React.useContext(ApplicationContext);
+    const {route} = pageStore;
     const editor: IEditorContext = React.useMemo(
         () => ({
             form: new MobxReactForm(undefined, {hooks: {onFieldChange: onFormChange}}),
@@ -47,14 +69,14 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
 
     // TODO: need to ferify it
     React.useEffect(() => {
-        if (!pageStore.route.clMenu) {
+        if (route && !route.clMenu) {
             setTimeout(() => {
                 if (applicationStore) {
                     applicationStore.pagesStore.removePageAction(pageStore.ckPage);
                 }
             });
         }
-    }, [applicationStore, pageStore.ckPage, pageStore.route.clMenu]);
+    }, [applicationStore, pageStore.ckPage, route]);
 
     React.useEffect(() => {
         return () => {

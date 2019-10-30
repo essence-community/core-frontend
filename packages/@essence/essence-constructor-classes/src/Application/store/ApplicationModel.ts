@@ -18,6 +18,7 @@ import {
     IBuilderMode,
     IStoreBaseModel,
     IHandlers,
+    IRecord,
 } from "@essence/essence-constructor-share";
 import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
 import {snackbarStore, RecordsModel, settingsStore, PageModel} from "@essence/essence-constructor-share/models";
@@ -35,6 +36,16 @@ const TIMEOUT_LONG_RECONNECT = 300000;
 const MAX_RECONNECT = 5;
 
 const LOGOUT_CODE = 4001;
+
+const prepareUserGlobals = (userInfo: Partial<IAuthSession>) => {
+    return camelCaseKeys(
+        Object.entries(userInfo).reduce((acc: IRecord, [key, value]) => {
+            acc[`g_sess_${key}`] = value;
+
+            return acc;
+        }, {}),
+    );
+};
 
 /**
  * @exports ApplicationModel
@@ -79,7 +90,12 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
         this.cvUrl = cvUrl;
         this.history = history;
         this.pagesStore = new PagesModel(this);
-        this.pageStore = new PageModel({applicationStore: this, ckPage: "-1", isActiveRedirect: false});
+        this.pageStore = new PageModel({
+            applicationStore: this,
+            ckPage: "-1",
+            defaultVisible: true,
+            isActiveRedirect: false,
+        });
         this.authStore = new AuthModel(this);
         this.countConnect = 0;
         this.recordsStore = new RecordsModel(
@@ -96,7 +112,7 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
                 return bc || {};
             },
             blockText: "",
-            globalValues: observable.map(this.authStore.userInfo),
+            globalValues: observable.map(prepareUserGlobals(this.authStore.userInfo)),
             isApplicationReady: false,
             isBlock: false,
             // @deprecated
@@ -127,7 +143,7 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
     });
 
     setSesssionAction = action("setSesssionAction", (userInfo: IAuthSession) => {
-        this.globalValues.merge(userInfo);
+        this.globalValues.merge(prepareUserGlobals(userInfo));
 
         return this.loadApplicationAction();
     });

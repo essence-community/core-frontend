@@ -57,11 +57,11 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             case "up":
             case "down":
                 event.preventDefault();
-                props.store.handleSetListChanged(false);
                 if (open) {
                     props.store.handleChangeSelected(code);
                 } else {
                     onOpen(event);
+                    props.store.handleSetListChanged(false);
                     props.store.handleRestoreSelected(props.value, code);
                 }
                 break;
@@ -74,6 +74,9 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
                     onClose(event);
                     props.onChange(null, props.store.highlightedValue);
                 }
+                break;
+            case "tab":
+                onClose(event);
                 break;
             default:
             // No need

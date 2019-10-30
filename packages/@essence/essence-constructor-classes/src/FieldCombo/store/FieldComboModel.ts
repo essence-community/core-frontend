@@ -104,6 +104,10 @@ export class FieldComboModel extends StoreBaseModel {
         if (!isEqual) {
             this.isListChanged = true;
             this.inputValue = value;
+
+            if (this.bc.allownew === "true") {
+                this.highlightedValue = value;
+            }
         }
 
         if (value.length >= this.valueLength && !isEqual) {

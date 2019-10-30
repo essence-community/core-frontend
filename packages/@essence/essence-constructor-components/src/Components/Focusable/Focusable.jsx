@@ -15,7 +15,7 @@ class Focusable extends React.Component<PropsType> {
 
     handleFocus = () => {
         const {current} = this.rootRef;
-        const firstInput = current && current.querySelector("input:enabled");
+        const firstInput = current && current.querySelector("input:enabled,textarea:enabled");
 
         if (firstInput && firstInput.getAttribute("tabindex") !== "-1") {
             firstInput.focus();

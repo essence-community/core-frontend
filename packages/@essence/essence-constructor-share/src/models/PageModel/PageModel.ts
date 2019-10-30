@@ -84,7 +84,7 @@ export class PageModel implements IPageModel {
     // @deprecated
     styleTheme = styleTheme;
 
-    constructor({ckPage, isActiveRedirect, isReadOnly, applicationStore}: IPageModelProps) {
+    constructor({ckPage, isActiveRedirect, isReadOnly, applicationStore, defaultVisible = false}: IPageModelProps) {
         const {routesStore} = applicationStore;
 
         this.ckPage = ckPage;
@@ -100,7 +100,7 @@ export class PageModel implements IPageModel {
             fieldValueMaster: observable.map(),
             globalValues: observable.map(applicationStore.globalValues),
             get hiddenPage() {
-                return applicationStore.pagesStore.activePage !== this && ckPage !== "-1";
+                return applicationStore.pagesStore.activePage !== this && !defaultVisible;
             },
             get isInlineEdit(): boolean {
                 return (
@@ -123,7 +123,7 @@ export class PageModel implements IPageModel {
             showQuestionWindow: false,
             stores: observable.map(),
             get visible() {
-                return applicationStore.pagesStore.activePage === this;
+                return applicationStore.pagesStore.activePage === this || defaultVisible;
             },
             windows: observable.array(),
             // @deprecated

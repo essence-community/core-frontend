@@ -22,7 +22,7 @@ export const AppRoutes = () => (
             <Route path="/redirect/:b64" component={(props: any) => <RedirectPage {...props} />} />
             <Route path="/reports/session/:session" component={(props: any) => <ReportsPage {...props} />} />
             <Route path="/reports/token/:token" component={(props: any) => <ReportsPage {...props} />} />
-            <Route path="/pages/:ckId" component={(props: any) => <ApplicationRouter {...props} />} />
+            <Route path="/pages/:ckId?" component={(props: any) => <ApplicationRouter {...props} />} />
             <AuthorizationPage>
                 <Switch>
                     <Route path="/page/:ckId" component={(props: any) => <ProjectPage {...props} />} />

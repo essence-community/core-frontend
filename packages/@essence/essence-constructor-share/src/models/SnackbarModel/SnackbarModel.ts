@@ -166,7 +166,8 @@ export class SnackbarModel implements ISnackbarModel {
 
     // eslint-disable-next-line max-statements
     checkValidResponseAction = action("checkValidResponseAction", (
-        response: IResponse,
+        // eslint-disable-next-line default-param-last
+        response: IResponse = {},
         route?: Record<string, FieldValue>,
         warnCallBack?: Function,
         applicationStore?: IApplicationModel,

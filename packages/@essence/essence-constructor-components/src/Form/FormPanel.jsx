@@ -106,7 +106,7 @@ class FormPanelComponent extends React.Component<PropsType, StateType> {
 
     render() {
         const {bc, disabled, pageStore, visible, parentBc} = this.props;
-        const {align = "left", contentview = "vbox"} = bc;
+        const {align = "stretch", contentview = "vbox"} = bc;
         const {initialValues} = this.state;
 
         return (

@@ -6,6 +6,7 @@ import cn from "classnames";
 import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {HorizontalSizerIcon} from "@essence/essence-constructor-share/icons";
+import {Icon} from "@essence/essence-constructor-share";
 import {getCoords} from "../utils/html";
 import type {ItemType} from "../stores/PanelModel";
 import {getWidth} from "./HorizontalResizerUtils/getWidth";
@@ -87,16 +88,22 @@ class HorizontalResizer extends React.Component<PropsType, StateType> {
         }
     };
 
+    // eslint-disable-next-line max-statements
     handleMouseMove = debounce((event: MouseEvent) => {
         const {clientX, clientY} = event;
         const {initialX, initialWidthPx, initialWidthPercent} = this.state;
         const {item, onChange, itemsNumber} = this.props;
         const offset = initialX - clientX;
         const newWidth = getWidth(initialWidthPx, initialWidthPercent, offset);
-        const maxWidth = FULL_WIDTH - (itemsNumber - 1) * MIN_WIDTH;
+        const maxWidth = FULL_WIDTH - (itemsNumber - 1) * 2;
 
-        if (item.id && newWidth <= maxWidth && newWidth >= MIN_WIDTH) {
+        if (item.id && newWidth <= maxWidth) {
             onChange(item.id, newWidth);
+
+            if (newWidth <= MIN_WIDTH) {
+                this.handleMouseUp();
+                this.setState({over: false});
+            }
         }
 
         this.setCursorPosition(clientX, clientY);
@@ -135,9 +142,27 @@ class HorizontalResizer extends React.Component<PropsType, StateType> {
         }
     };
 
+    handleExpand = () => {
+        this.props.onChange(this.props.item.id, MIN_WIDTH + 1);
+    };
+
     render() {
-        const {classes, className, style, xs, isAddResizer} = this.props;
+        const {classes, className, style, xs, isAddResizer, item, itemsNumber} = this.props;
         const {over, down} = this.state;
+
+        if (item.collapsed) {
+            return (
+                <Grid
+                    item
+                    xs={xs}
+                    className={cn(className, classes.collapsedRoot)}
+                    style={style}
+                    onClick={this.handleExpand}
+                >
+                    <Icon iconfont={itemsNumber - 1 === item.index ? "arrow-left" : "arrow-right"} />
+                </Grid>
+            );
+        }
 
         return isAddResizer ? (
             <Grid item xs={xs} className={className} style={style}>

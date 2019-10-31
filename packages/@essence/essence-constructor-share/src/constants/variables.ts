@@ -31,3 +31,5 @@ export const META_PAGE_OBJECT = "page_object";
 
 // SELF
 export const VAR_SELF_CV_URL = "cvUrl";
+export const VALUE_SELF_FIRST = "##first##";
+export const VALUE_SELF_ALWAYSFIRST = "##alwaysfirst##";

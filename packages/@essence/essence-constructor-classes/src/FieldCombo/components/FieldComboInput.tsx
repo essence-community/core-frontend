@@ -21,7 +21,7 @@ interface IProps extends IFieldProps {
 
 export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
     const classes = useStyles(props);
-    const {textField: TextField, onClose, onOpen, open, ...otherProps} = props;
+    const {textField: TextField, onClose, onOpen, open, store, onChange, ...otherProps} = props;
     const handleInputClick = (event: React.SyntheticEvent) => {
         if (!props.open) {
             props.store.handleSetListChanged(false);
@@ -32,7 +32,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const {value} = event.target;
 
-        if (props.bc.allownew === "true") {
+        if (props.bc.allownew) {
             const lowerValue = value.toLowerCase();
             const sugValue = props.store.suggestions.find((sug: ISuggestion) => sug.labelLower === lowerValue);
             const newValue = sugValue ? sugValue.value : value;
@@ -49,39 +49,44 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             onOpen(event);
         }
     };
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        // @ts-ignore
-        const code = keycode(event);
+    const handleKeyDown = React.useCallback(
+        (event: React.KeyboardEvent<HTMLInputElement>) => {
+            // @ts-ignore
+            const code = keycode(event);
 
-        switch (code) {
-            case "up":
-            case "down":
-                event.preventDefault();
-                if (open) {
-                    props.store.handleChangeSelected(code);
-                } else {
-                    onOpen(event);
-                    props.store.handleSetListChanged(false);
-                    props.store.handleRestoreSelected(props.value, code);
-                }
-                break;
-            case "esc":
-                onClose(event);
-                break;
-            case "enter":
-                if (props.store.highlightedValue && open) {
+            switch (code) {
+                case "up":
+                case "down":
                     event.preventDefault();
+                    if (open) {
+                        store.handleChangeSelected(code);
+                    } else {
+                        onOpen(event);
+                        store.handleSetListChanged(false);
+                        store.handleRestoreSelected(props.value, code);
+                    }
+                    break;
+                case "esc":
                     onClose(event);
-                    props.onChange(null, props.store.highlightedValue);
-                }
-                break;
-            case "tab":
-                onClose(event);
-                break;
-            default:
-            // No need
-        }
-    };
+                    break;
+                case "enter":
+                    if (store.highlightedValue && open) {
+                        event.preventDefault();
+                        onClose(event);
+                        const sugValue = store.suggestions[store.highlightedIndex];
+
+                        onChange(null, sugValue.isNew ? `${props.bc.allownew}${sugValue.value}` : sugValue.value);
+                    }
+                    break;
+                case "tab":
+                    onClose(event);
+                    break;
+                default:
+                // No need
+            }
+        },
+        [onChange, onClose, onOpen, open, props.bc.allownew, props.value, store],
+    );
     const handleButtonUp = (event: React.SyntheticEvent) => {
         event.stopPropagation();
         onClose(event);

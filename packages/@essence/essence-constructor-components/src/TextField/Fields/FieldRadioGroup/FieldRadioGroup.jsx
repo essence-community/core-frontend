@@ -7,6 +7,7 @@ import {Grid, Radio, RadioGroup, FormLabel} from "@material-ui/core";
 import cn from "classnames";
 import {withStyles} from "@material-ui/core/styles";
 import {camelCaseMemoized, toColumnStyleWidth} from "@essence/essence-constructor-share/utils";
+import {VALUE_SELF_FIRST} from "@essence/essence-constructor-share/constants";
 import TextFieldLabel from "../../TextFieldComponents/TextFieldLabel/TextFieldLabel";
 import withModelDecorator from "../../../decorators/withModelDecorator";
 import {FieldRadioGroupModel} from "../../../stores/FieldRadioGroupModel";
@@ -57,7 +58,7 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType, StateTyp
         const {value, store, onChange} = this.props;
         const {recordsState} = store.recordsStore;
 
-        if (recordsState.defaultValueSet && value === "first") {
+        if (recordsState.defaultValueSet && value === VALUE_SELF_FIRST) {
             onChange(null, getFirstValues(store.recordsStore));
         }
     };

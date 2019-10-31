@@ -1,5 +1,6 @@
 // @flow
 import {extendObservable} from "mobx";
+import {VALUE_SELF_ALWAYSFIRST} from "@essence/essence-constructor-share/constants";
 import {type PageModelType} from "../PageModel";
 import {type RecordsModelType, RecordsModel} from "../RecordsModel";
 import {StoreBaseModel} from "../StoreBaseModel";
@@ -24,7 +25,7 @@ export class BaseMultiFieldModel extends StoreBaseModel implements ModelInterfac
         const config = {
             ckPageObject: bc.ckPageObject,
             ckQuery,
-            defaultvalue: "alwaysfirst",
+            defaultvalue: VALUE_SELF_ALWAYSFIRST,
             orderdirection: "",
             orderproperty: "",
         };

@@ -2,6 +2,7 @@
 import forOwn from "lodash/forOwn";
 import {runInAction, when} from "mobx";
 import {Field, Form} from "mobx-react-form";
+import {VALUE_SELF_FIRST} from "@essence/essence-constructor-share/constants";
 import {loggerRoot} from "../../constants";
 import {isEmpty} from "../../utils/base";
 import {type PageModelInterface} from "./PageModelType";
@@ -25,8 +26,11 @@ function awaitFieldFilter(field: Field, skipCheckMaster: boolean): Promise<void>
         return Promise.resolve();
     }
 
-    if (field.value === "defaultvaluequery" || (field.value === "first" && bc.defaultvalue === "first")) {
-        return when(() => field.value !== "defaultvaluequery" && field.value !== "first");
+    if (
+        field.value === "defaultvaluequery" ||
+        (field.value === VALUE_SELF_FIRST && bc.defaultvalue === VALUE_SELF_FIRST)
+    ) {
+        return when(() => field.value !== "defaultvaluequery" && field.value !== VALUE_SELF_FIRST);
     }
 
     if (store && store.recordsStore.isLoading) {

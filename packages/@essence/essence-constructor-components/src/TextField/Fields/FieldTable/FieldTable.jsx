@@ -4,6 +4,7 @@ import isArray from "lodash/isArray";
 import {compose} from "recompose";
 import {observer} from "mobx-react";
 import {toSize} from "@essence/essence-constructor-share/utils";
+import {VALUE_SELF_FIRST} from "@essence/essence-constructor-share/constants";
 import {isEmpty} from "../../../utils/base";
 import Popover from "../../../Popover/Popover";
 import BuilderGrid from "../../../Grid/BuilderGrid";
@@ -49,7 +50,7 @@ export class FieldTableBase extends React.Component<PropsType, StateType> {
         if (value !== prevProps.value) {
             if (isEmpty(value)) {
                 store.clearAction();
-            } else if (value === "first") {
+            } else if (value === VALUE_SELF_FIRST) {
                 field.set(getFirstValues(store.recordsStore));
             } else if (!isArray(value)) {
                 store.setDefaultRecordAction(value);

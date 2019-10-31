@@ -31,7 +31,7 @@ export const toSize = (value?: string, defaultValue?: string) => {
  *
  * @returns {Object} [styleWidth] Ширина поля
  */
-export const toColumnStyleWidth = (width: number | string) => {
+export const toColumnStyleWidth = (width?: number | string) => {
     if (!width) {
         return undefined;
     }
@@ -39,6 +39,7 @@ export const toColumnStyleWidth = (width: number | string) => {
     return {
         flexBasis: width,
         maxWidth: width,
+        minWidth: width,
     };
 };
 

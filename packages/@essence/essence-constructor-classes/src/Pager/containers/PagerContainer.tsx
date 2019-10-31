@@ -15,6 +15,7 @@ import {
     loggerRoot,
     IEditorContext,
     IPageModel,
+    toColumnStyleWidth,
 } from "@essence/essence-constructor-share";
 import {Grid, useTheme} from "@material-ui/core";
 import {settingsStore, PageModel} from "@essence/essence-constructor-share/models";
@@ -121,7 +122,12 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                                     {mapComponents(
                                         pageStore.pageBc,
                                         (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                                            <Grid key={childBc.ckPageObject} item xs={12}>
+                                            <Grid
+                                                key={childBc.ckPageObject}
+                                                item
+                                                xs={12}
+                                                style={toColumnStyleWidth(childBc.width)}
+                                            >
                                                 <ChildComponent
                                                     readOnly={pageStore.isReadOnly}
                                                     pageStore={pageStore}

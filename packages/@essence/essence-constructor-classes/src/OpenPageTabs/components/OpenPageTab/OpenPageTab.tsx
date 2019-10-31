@@ -29,7 +29,6 @@ export const OpenPageTab: React.FC<IOpenTabProps> = (props) => {
             icon={iconNode}
             data-qtip={label}
             data-page-object={`tab-${value}`}
-            component={"div"}
             tabIndex={-1}
             label={
                 <React.Fragment>

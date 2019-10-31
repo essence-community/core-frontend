@@ -13,6 +13,7 @@ export function getBackButtonConfig(bc: BuilderBaseType) {
         hiddenrules: "gIsStart",
         readonly: "false",
         type: "BTN",
+        uitype: "2",
     };
 }
 

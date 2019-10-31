@@ -2,6 +2,7 @@
 export const StyleRoadMapBase = (theme) => ({
     verticalTabRootTheme: {
         backgroundColor: "transparent",
+        textAlign: "left",
     },
     textNum: {
         marginRight: 20,
@@ -10,11 +11,10 @@ export const StyleRoadMapBase = (theme) => ({
         display: "inline-block",
         textAlign: "center",
         borderRadius: "50%",
-        padding: "0.1px 0",
-        fontSize: 24,
-        marginRight: 20,
-        width: 40,
-        height: 40,
+        fontSize: 20,
+        marginRight: 16,
+        width: 36,
+        height: 36,
     },
     verticalTextNum: {
         backgroundColor: "transparent",
@@ -68,6 +68,7 @@ export const StyleRoadMapBase = (theme) => ({
         padding: 0,
         float: "right",
         transform: "rotate(270deg)",
+        position: "absolute",
     },
     "$rightSideTab::after": {
         content: "",
@@ -84,7 +85,6 @@ export const StyleRoadMapBase = (theme) => ({
         margin: 0,
         padding: 0,
         float: "left",
-        marginLeft: -26,
         transform: "rotate(270deg)",
     },
     "$leftSideTab::after": {
@@ -131,6 +131,28 @@ export const StyleRoadMapBase = (theme) => ({
     },
     tabsContainer: {
         outline: "none",
+    },
+    verticalLabelText: {
+        verticalAlign: "text-bottom",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textTransform: "none",
+    },
+    horizontalLabelText: {
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textTransform: "none",
+    },
+    horizontalTabRootTheme: {
+        textAlign: "left",
+        width: "100%",
+    },
+    horizontalContainerTab: {
+        minWidth: 228,
+        maxWidth: 228,
+        marginRight: 40,
     },
 });
 /* eslint-enable sort-keys */

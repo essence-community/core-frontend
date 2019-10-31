@@ -41,7 +41,7 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
             camelCaseKeys({
                 [`gIsEnd_${this.tabBc.ckPageObject}`]: this.isEnd(),
                 [`gIsStart_${this.tabBc.ckPageObject}`]: this.isStart(),
-                [`gPageNum_${this.tabBc.ckPageObject}`]: this.tabStatus.get(this.tabValue).num,
+                [`gPageNum_${this.tabBc.ckPageObject}`]: this.tabValue && this.tabStatus.get(this.tabValue).num,
                 [`gPageIndex_${this.tabBc.ckPageObject}`]: this.tabs
                     .map((tab) => tab.ckPageObject)
                     .indexOf(this.tabValue),

@@ -204,7 +204,7 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
         return (
             <div className={cn([classes.label, classes.horizontalLabel, classes.themeLabel])}>
                 <span className={classes.textNum}>{tabStatus.get(child.ckPageObject).num}</span>
-                <span>{child.cvDisplayed}</span>
+                <span className={classes.horizontalLabelText}>{child.cvDisplayed}</span>
             </div>
         );
     }
@@ -233,7 +233,7 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
         return (
             <Grid item className={classes.fullWidth}>
                 <div
-                    tabIndex={disabled ? undefined : "0"}
+                    tabIndex={disabled ? undefined : 0}
                     onKeyDown={this.handleKeyDown}
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}
@@ -241,7 +241,7 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
                     ref={this.tabsComponentRef}
                 >
                     <Tabs
-                        centered
+                        centered={orientation === "horizontal"}
                         orientation={orientation}
                         value={tabValue}
                         onChange={this.handleChangeTab}
@@ -261,6 +261,7 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
                                 label={this.renderLabel(child, orientation)}
                                 classes={{
                                     containerTab: cn({
+                                        [classes.horizontalContainerTab]: orientation === "horizontal",
                                         [classes.activeTabRoot]: tabValue === child.ckPageObject,
                                         [classes.selectedTab]: selectedTab === child.ckPageObject,
                                         [classes.disabled]: disabled || tabStatus.get(child.ckPageObject).disabled,

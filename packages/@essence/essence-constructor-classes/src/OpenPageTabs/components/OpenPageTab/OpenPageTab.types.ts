@@ -3,6 +3,8 @@ import {ReactNode} from "react";
 
 export type IOpenTabProps = TabProps & {
     value: string;
+    pageId: string;
+    pageIndex: number;
     iconfont?: string;
     label?: string;
     orientation: "horizontal" | "vertical";

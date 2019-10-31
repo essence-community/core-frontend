@@ -33,7 +33,7 @@ export const OpenPageTabs: React.FC<IClassProps> = (props) => {
             height: toSize(bc.height, "42"),
             maxHeight: toSize(bc.maxheight, "100%"),
             minHeight: toSize(bc.minheight, ""),
-            ...toColumnStyleWidth(bc.width),
+            ...(bc.width ? toColumnStyleWidth(bc.width) : {}),
         }),
         [bc.height, bc.maxheight, bc.minheight, bc.width],
     );
@@ -95,6 +95,8 @@ export const OpenPageTabs: React.FC<IClassProps> = (props) => {
                     return (
                         <OpenPageTab
                             key={ckPage}
+                            pageId={ckPage}
+                            pageIndex={index}
                             component={renderTabComponent}
                             label={name}
                             iconfont={iconName}

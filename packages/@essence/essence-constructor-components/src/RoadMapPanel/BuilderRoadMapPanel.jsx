@@ -44,7 +44,7 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
     componentDidMount() {
         const {bc, store} = this.props;
 
-        if (bc.align === "top") {
+        if (bc.align === "center") {
             window.addEventListener("resize", this.handleGetTabsMode);
             this.handleGetTabsMode();
         }
@@ -52,13 +52,13 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
     }
 
     componentDidUpdate(prevProps: BuilderRoadMapPanelPropsType & ExtraRoadMapProps) {
-        if (this.props.bc.align === "top" && this.props.visible && prevProps.visible !== this.props.visible) {
+        if (this.props.bc.align === "center" && this.props.visible && prevProps.visible !== this.props.visible) {
             this.handleGetTabsMode();
         }
     }
 
     componentWillUnmount() {
-        if (this.props.bc.align === "top") {
+        if (this.props.bc.align === "center") {
             window.removeEventListener("resize", this.handleGetTabsMode);
         }
     }
@@ -109,8 +109,8 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
             }
 
             if (
-                (align === "top" && (code === "left" || code === "right")) ||
-                (align !== "top" && (code === "up" || code === "down"))
+                (align === "center" && (code === "left" || code === "right")) ||
+                (align !== "center" && (code === "up" || code === "down"))
             ) {
                 this.handleMoveSelectedTab(code);
             }
@@ -220,7 +220,7 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
             <div>
                 {bc.align === "right" ? this.renderSide("row-reverse") : null}
                 {bc.align === "left" ? this.renderSide("row") : null}
-                {bc.align === "top" ? this.renderTop() : null}
+                {bc.align === "center" ? this.renderTop() : null}
             </div>
         );
     }

@@ -188,13 +188,11 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
     });
 
     getActiveTabs = (): Array<Object> =>
-        this.tabs.filter(
-            (tab): boolean => {
-                const status = this.tabStatus.get(tab.ckPageObject);
+        this.tabs.filter((tab): boolean => {
+            const status = this.tabStatus.get(tab.ckPageObject);
 
-                return status ? !status.disabled && !status.hidden : true;
-            },
-        );
+            return status ? !status.disabled && !status.hidden : true;
+        });
 
     checkForm = async (mode: BuilderModeType, btnBc: BuilderBaseType, {form, files}: any) => {
         await form.validate({showErrors: true});

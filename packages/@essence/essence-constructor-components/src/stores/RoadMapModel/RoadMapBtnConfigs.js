@@ -50,7 +50,6 @@ export const getCancelBtnConfig = (bc: BuilderBaseType) => ({
     cvDisplayed: "Отмена",
     cvName: "Override Cancel Button",
     handler: "onSimpleCancel",
-    hiddenrules: "!gIsEnd",
     type: "BTN",
     uitype: "2",
 });

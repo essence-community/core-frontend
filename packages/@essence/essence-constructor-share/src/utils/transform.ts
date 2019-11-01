@@ -39,7 +39,7 @@ export const toColumnStyleWidth = (width?: number | string) => {
     return {
         flexBasis: width,
         maxWidth: width,
-        minWidth: width,
+        width,
     };
 };
 

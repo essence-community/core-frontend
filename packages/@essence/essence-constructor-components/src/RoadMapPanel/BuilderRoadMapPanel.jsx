@@ -211,8 +211,9 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
 
     render() {
         const {bc, hidden} = this.props;
+        const {childs} = bc;
 
-        if (hidden) {
+        if (hidden || !childs || !childs.length) {
             return null;
         }
 

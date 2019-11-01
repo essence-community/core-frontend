@@ -35,10 +35,12 @@ const MAX_PANEL_WIDTH = 12;
 const DEFAULT_SPACING = 1;
 const GRID_CONFIGS = {
     hbox: {
+        alignItems: "flex-start",
         direction: "row",
         wrap: "nowrap",
     },
     "hbox-wrap": {
+        alignItems: "flex-start",
         direction: "row",
         wrap: "wrap",
     },

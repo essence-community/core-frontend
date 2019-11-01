@@ -37,10 +37,10 @@ export class FieldComboModel extends StoreBaseModel {
         super(props);
 
         const {bc, pageStore, applicationStore} = props;
-        const {displayfield = "", valuefield = "", minchars = "", querydelay = ""} = bc;
+        const {column = "", displayfield = "", valuefield = "", minchars = "", querydelay = ""} = bc;
 
         this.displayfield = camelCaseMemoized(displayfield);
-        this.valuefield = camelCaseMemoized(valuefield);
+        this.valuefield = camelCaseMemoized(valuefield || column);
         this.valueLength = parseInt(minchars, 10);
 
         this.recordsStore = new RecordsModel(bc, {
@@ -72,7 +72,7 @@ export class FieldComboModel extends StoreBaseModel {
                 let suggestions: ISuggestion[] = this.recordsStore.records.map(this.getSuggestion);
 
                 if (
-                    bc.allownew === "true" &&
+                    bc.allownew &&
                     this.inputValue &&
                     suggestions.findIndex(
                         (suggestion: ISuggestion) =>
@@ -80,7 +80,7 @@ export class FieldComboModel extends StoreBaseModel {
                     ) === -1
                 ) {
                     suggestions = [
-                        {label: this.inputValue, labelLower: inputValueLower, value: this.inputValue},
+                        {isNew: true, label: this.inputValue, labelLower: inputValueLower, value: this.inputValue},
                         ...suggestions,
                     ];
                 }
@@ -105,7 +105,7 @@ export class FieldComboModel extends StoreBaseModel {
             this.isListChanged = true;
             this.inputValue = value;
 
-            if (this.bc.allownew === "true") {
+            if (this.bc.allownew) {
                 this.highlightedValue = value;
             }
         }
@@ -138,7 +138,8 @@ export class FieldComboModel extends StoreBaseModel {
     };
 
     handleRestoreSelected = (value: FieldValue, code: "up" | "down") => {
-        const suggerstion = this.suggestions.find((sug) => sug.value === value);
+        const cleanValue = this.bc.allownew && typeof value === "string" ? value.replace(this.bc.allownew, "") : value;
+        const suggerstion = this.suggestions.find((sug) => sug.value === cleanValue);
 
         if (suggerstion) {
             this.highlightedValue = suggerstion.value;
@@ -157,11 +158,12 @@ export class FieldComboModel extends StoreBaseModel {
 
     // eslint-disable-next-line complexity
     handleSetValue = debounce((value: FieldValue, loaded = false, isUserSearch = false) => {
-        const stringValue = toString(value);
+        const stringValue =
+            this.bc.allownew && typeof value === "string" ? value.replace(this.bc.allownew, "") : toString(value);
         const isEqual = stringValue === this.inputValue;
-        const isFocusNew = this.bc.allownew === "true" && this.isFocus;
+        const isFocusNew = this.bc.allownew && this.isFocus;
 
-        if (this.bc.allownew === "true" && !loaded && !this.isFocus) {
+        if (this.bc.allownew && !loaded && !this.isFocus) {
             this.inputValue = stringValue;
         }
 
@@ -179,7 +181,7 @@ export class FieldComboModel extends StoreBaseModel {
                 this.recordsStore.setSelectionAction(record.ckId);
             }
 
-            if (!isUserSearch && !isFocusNew) {
+            if (!isUserSearch) {
                 this.inputValue = suggerstion.label;
             }
         } else if (loaded) {
@@ -191,7 +193,7 @@ export class FieldComboModel extends StoreBaseModel {
             }
         } else if (!isEqual && !this.recordsStore.isLoading) {
             this.recordsStore.searchAction(
-                this.valueLength ? {[this.bc.valuefield || this.bc.column || ""]: value} : {},
+                this.valueLength ? {[this.bc.allownew ? this.bc.queryparam || "" : this.valuefield]: value} : {},
             );
         }
     }, 0);

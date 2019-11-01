@@ -3,7 +3,7 @@ import forOwn from "lodash/forOwn";
 import {runInAction, when} from "mobx";
 import {Field, Form} from "mobx-react-form";
 // $FlowFixMe
-import {loggerRoot} from "../../constants";
+import {loggerRoot, VALUE_SELF_FIRST} from "../../constants";
 // $FlowFixMe
 import {isEmpty} from "../../utils/base";
 
@@ -26,8 +26,11 @@ function awaitFieldFilter(field: Field, skipCheckMaster: boolean): Promise<void>
         return Promise.resolve();
     }
 
-    if (field.value === "defaultvaluequery" || (field.value === "first" && bc.defaultvalue === "first")) {
-        return when(() => field.value !== "defaultvaluequery" && field.value !== "first");
+    if (
+        field.value === "defaultvaluequery" ||
+        (field.value === VALUE_SELF_FIRST && bc.defaultvalue === VALUE_SELF_FIRST)
+    ) {
+        return when(() => field.value !== "defaultvaluequery" && field.value !== VALUE_SELF_FIRST);
     }
 
     if (store && store.recordsStore.isLoading) {

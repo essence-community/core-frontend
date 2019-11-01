@@ -26,7 +26,7 @@ export type RecordsStateStatusType =
     | "attach"
     | "save-any";
 export interface IRecordsState<T> {
-    defaultValueSet?: "alwaysfirst" | "first";
+    defaultValueSet?: "##alwaysfirst##" | "##first##";
     isUserReload: boolean;
     records: T[];
     status: RecordsStateStatusType;

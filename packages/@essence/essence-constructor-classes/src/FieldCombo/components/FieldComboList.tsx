@@ -1,7 +1,7 @@
 import * as React from "react";
 import {useObserver, useDisposable} from "mobx-react-lite";
 import {Paper, MenuItem, CircularProgress} from "@material-ui/core";
-import {IBuilderConfig, Scrollbars, Pagination, FieldValue} from "@essence/essence-constructor-share";
+import {IBuilderConfig, Scrollbars, Pagination, FieldValue, toString} from "@essence/essence-constructor-share";
 import {IPopoverChildrenProps} from "@essence/essence-constructor-share/uicomponents/Popover/Popover.types";
 import {reaction} from "mobx";
 import {ISuggestion} from "../store/FieldComboModel.types";
@@ -28,17 +28,18 @@ interface IProps extends IPopoverChildrenProps {
 export const FieldComboList: React.FC<IProps> = (props) => {
     const {store, bc, onChange, onClose} = props;
     const scrollbarRef: React.MutableRefObject<Scrollbars | undefined> = React.useRef();
-    const stringValue = String(props.value);
+    const stringValue =
+        bc.allownew && typeof props.value === "string" ? props.value.replace(bc.allownew, "") : toString(props.value);
     const classes = useStyles(props);
     const autoHeightMin = store.recordsStore.pageSize
         ? Math.min(store.recordsStore.pageSize * ITEM_HEIGHT, AUTO_HEIGHT_MAX)
         : undefined;
     const handleSelect = React.useCallback(
         (event: React.SyntheticEvent, suggestion: ISuggestion) => {
-            onChange(null, suggestion.value);
+            onChange(null, suggestion.isNew ? `${bc.allownew}${suggestion.value}` : suggestion.value);
             onClose(event);
 
-            if (bc.allownew === "true") {
+            if (bc.allownew) {
                 store.handleChangeValue(suggestion.label);
             }
 

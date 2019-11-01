@@ -1,5 +1,6 @@
 // @flow
 import {extendObservable, action, observable} from "mobx";
+import {VALUE_SELF_ALWAYSFIRST} from "@essence/essence-constructor-share/constants";
 import {camelCaseKeys} from "@essence/essence-constructor-share/utils/transform";
 import isBoolean from "lodash/isBoolean";
 import {RecordsModel, type RecordsModelType} from "../RecordsModel";
@@ -28,7 +29,7 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
 
         const childs = (this.bc.childs || []).map((tab) => ({...tab, type: "TABBUTTON"}));
 
-        this.recordStore = new RecordsModel({...this.bc, defaultvalue: "alwaysfirst"}, this.pageStore);
+        this.recordStore = new RecordsModel({...this.bc, defaultvalue: VALUE_SELF_ALWAYSFIRST}, this.pageStore);
         this.childs = (this.bc.childs || []).map((tab) => ({...tab, editmodepanel: "false", topbtn: []}));
         this.tabBc = this.bc;
         this.tabs = [...childs];
@@ -71,7 +72,7 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
                 hidden: false,
                 index: 0,
                 num: 1,
-                recordStore: new RecordsModel({...this.tabs[0], defaultvalue: "alwaysfirst"}, this.pageStore),
+                recordStore: new RecordsModel({...this.tabs[0], defaultvalue: VALUE_SELF_ALWAYSFIRST}, this.pageStore),
             });
             childs.splice(1).forEach((child, index) => {
                 this.tabStatus.set(child.ckPageObject, {
@@ -83,7 +84,7 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
                     hidden: false,
                     index: index + 1,
                     num: index + 2,
-                    recordStore: new RecordsModel({...child, defaultvalue: "alwaysfirst"}, this.pageStore),
+                    recordStore: new RecordsModel({...child, defaultvalue: VALUE_SELF_ALWAYSFIRST}, this.pageStore),
                 });
             });
         }

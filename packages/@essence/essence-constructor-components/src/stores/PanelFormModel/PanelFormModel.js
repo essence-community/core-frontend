@@ -2,6 +2,7 @@
 import * as React from "react";
 import {action, extendObservable} from "mobx";
 import noop from "lodash/noop";
+import {VALUE_SELF_ALWAYSFIRST} from "@essence/essence-constructor-share/constants";
 import {type BuilderModeType, type CkIdType, type BuilderBaseType} from "../../BuilderType";
 import {type StoreBaseModelPropsType} from "../StoreBaseModel";
 import {HistoryModel} from "../HistoryModel";
@@ -26,7 +27,7 @@ export class PanelFormModel extends HistoryModel implements PanelFormModelInterf
     refs: Map<CkIdType, HTMLDivElement | React.ElementRef<*>> = new Map();
 
     constructor({pageStore, bc}: StoreBaseModelPropsType) {
-        super({bc: {...bc, defaultvalue: "alwaysfirst"}, pageStore});
+        super({bc: {...bc, defaultvalue: VALUE_SELF_ALWAYSFIRST}, pageStore});
 
         this.panelBc = {
             ...bc,

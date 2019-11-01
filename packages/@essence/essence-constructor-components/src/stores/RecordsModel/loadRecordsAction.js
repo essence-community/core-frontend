@@ -7,6 +7,7 @@ import pickBy from "lodash/pickBy";
 import forEach from "lodash/forEach";
 import isUndefined from "lodash/isUndefined";
 import isEqual from "lodash/isEqual";
+import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "@essence/essence-constructor-share/constants";
 import {loggerRoot} from "../../constants";
 import {type CkIdType} from "../../BuilderType";
 import {isEmpty, sleep} from "../../utils/base";
@@ -270,7 +271,7 @@ export function loadRecordsAction({
             let recordId = null;
 
             switch (true) {
-                case defaultvalue === "alwaysfirst":
+                case defaultvalue === VALUE_SELF_ALWAYSFIRST:
                     isDefault = true;
                     recordId = records[0] ? records[0][valueField] : null;
                     break;
@@ -280,7 +281,7 @@ export function loadRecordsAction({
                 case !isUndefined(this.selectedRecordId):
                     recordId = this.selectedRecordId;
                     break;
-                case defaultvalue === "first":
+                case defaultvalue === VALUE_SELF_FIRST:
                     isDefault = true;
                     recordId = records[0] ? records[0][valueField] : null;
                     break;

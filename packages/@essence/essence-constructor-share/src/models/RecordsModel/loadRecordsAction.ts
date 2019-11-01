@@ -4,6 +4,7 @@ import {isEqual} from "lodash";
 import {request} from "../../request";
 import {IPageModel, IRecordsModel, FieldValue, IResponse} from "../../types";
 import {findSetKey, findGetGlobalKey} from "../../utils/findKey";
+import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "../../constants";
 import {snackbarStore} from "../SnackbarModel";
 import {
     IGetFilterData,
@@ -246,12 +247,12 @@ export function loadRecordsAction(
         })
         .then((records: Record<string, FieldValue>[]) => {
             const valueField = status === "attach" ? "ckId" : this.valueField;
-            let isDefault: "alwaysfirst" | "first" | undefined = undefined;
+            let isDefault: "##alwaysfirst##" | "##first##" | undefined = undefined;
             let recordId = undefined;
 
             switch (true) {
-                case defaultvalue === "alwaysfirst":
-                    isDefault = "alwaysfirst";
+                case defaultvalue === VALUE_SELF_ALWAYSFIRST:
+                    isDefault = VALUE_SELF_ALWAYSFIRST;
                     recordId = records[0] ? records[0][valueField] : undefined;
                     break;
                 case selectedRecordId !== undefined:
@@ -260,8 +261,8 @@ export function loadRecordsAction(
                 case this.selectedRecordId !== undefined:
                     recordId = this.selectedRecordId;
                     break;
-                case defaultvalue === "first":
-                    isDefault = "first";
+                case defaultvalue === VALUE_SELF_FIRST:
+                    isDefault = VALUE_SELF_FIRST;
                     recordId = records[0] ? records[0][valueField] : undefined;
                     break;
                 default:

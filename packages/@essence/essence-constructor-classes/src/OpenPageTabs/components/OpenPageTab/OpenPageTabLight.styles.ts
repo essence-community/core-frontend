@@ -33,6 +33,7 @@ export default (theme: IEssenceTheme) => ({
         width: 160,
     },
     tabWrapper: {
+        height: "100%",
         flexDirection: "row",
         textTransform: "none",
     },
@@ -42,6 +43,7 @@ export default (theme: IEssenceTheme) => ({
         borderBottom: `2px solid ${theme.essence.palette.common.white}`,
     },
     activeTabWrapper: {
+        height: "100%",
         flexDirection: "row",
         textTransform: "none",
     },

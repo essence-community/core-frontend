@@ -2,7 +2,6 @@ import {IEssenceTheme} from "@essence/essence-constructor-share";
 /* eslint-disable sort-keys */
 export default (theme: IEssenceTheme) => ({
     text: {
-        color: theme.essence.palette.common.black,
         fontSize: 15,
         width: 120,
     },
@@ -32,6 +31,7 @@ export default (theme: IEssenceTheme) => ({
         width: 160,
     },
     tabWrapper: {
+        height: "100%",
         flexDirection: "row",
         textTransform: "none",
         color: theme.palette.primary.main,
@@ -40,8 +40,10 @@ export default (theme: IEssenceTheme) => ({
         borderBottom: "none",
         backgroundColor: theme.palette.primary.main,
         height: theme.essence.sizing.appBarHeight,
+        color: theme.essence.palette.common.white,
     },
     activeTabWrapper: {
+        height: "100%",
         backgroundColor: theme.palette.primary.main,
         flexDirection: "row",
         textTransform: "none",

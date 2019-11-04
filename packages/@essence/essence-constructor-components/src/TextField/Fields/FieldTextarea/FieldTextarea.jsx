@@ -1,26 +1,52 @@
-/* eslint-disable import/order */
 // @flow
 import * as React from "react";
 import TextField from "../../TextField";
 import type {TextFieldChildProps} from "../../BuilderFieldType";
-import Scrollbars from "../../../Components/Scrollbars/Scrollbars";
+import FieldTextareaInput from "./FieldTextareaInput";
 
-class FieldTextarea extends React.Component<TextFieldChildProps> {
+type FieldTextareaState = {
+    height?: number,
+};
+
+class FieldTextarea extends React.Component<TextFieldChildProps, FieldTextareaState> {
+    state = {
+        height: undefined,
+    };
+
+    componentDidUpdate(prevProps: TextFieldChildProps) {
+        if (prevProps.editing && !this.props.editing) {
+            this.setState({height: undefined});
+        }
+    }
+
+    handleChangeHeight = (height: number) => {
+        return this.setState({height});
+    };
+
     render() {
-        const {value} = this.props;
+        const {value, editing, bc} = this.props;
+        const {height} = this.state;
 
         return (
-            <Scrollbars autoHeight autoHeightMax={190} autoHeightMin={30}>
-                <TextField
-                    {...this.props}
-                    noQtip
-                    style={{
-                        height: "100%",
-                    }}
-                    value={value}
-                    multiline
-                />
-            </Scrollbars>
+            <TextField
+                {...this.props}
+                style={{height: "auto"}}
+                InputProps={{
+                    ...this.props.InputProps,
+                    inputComponent: FieldTextareaInput,
+                }}
+                // eslint-disable-next-line react/jsx-no-duplicate-props
+                inputProps={{
+                    ...this.props.inputProps,
+                    bc,
+                    editing,
+                    height,
+                    onChangeHeight: this.handleChangeHeight,
+                }}
+                noQtip
+                value={value}
+                multiline
+            />
         );
     }
 }

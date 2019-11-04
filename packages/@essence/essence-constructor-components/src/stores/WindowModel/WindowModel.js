@@ -25,8 +25,8 @@ const getDetailColumns = (detailBc?: Array<BuilderBaseType>) => {
     }
 
     return flattenDepth(
-        detailBc.map(
-            (panel) => (panel.childs ? panel.childs.map((child) => (child.childs ? child.childs : child)) : []),
+        detailBc.map((panel) =>
+            panel.childs ? panel.childs.map((child) => (child.childs ? child.childs : child)) : [],
         ),
         2,
     )
@@ -50,7 +50,7 @@ const getChilds = ({bc, gridStore}) => {
             // eslint-disable-next-line sort-keys
             cvDisplayed: field.cvDisplayed,
             edittype: bc.edittype,
-            visibileinwindow: field.visibileinwindow,
+            visibleinwindow: field.visibleinwindow,
             ...pick(field, fieldHoistAttributes),
             ...(bc.edittype === "inline" ? {width: "100%"} : {}),
         };

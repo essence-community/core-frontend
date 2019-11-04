@@ -151,7 +151,7 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType> {
                                 let fieldBc = field;
                                 const isDisabled = !checkEditable(store.config.mode, fieldBc.editmode);
 
-                                if (isDisabled && field.visibileinwindow === "false") {
+                                if (isDisabled && field.visibleinwindow === "false") {
                                     return null;
                                 }
 

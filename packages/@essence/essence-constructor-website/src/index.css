@@ -64,5 +64,5 @@ input::-ms-clear {
 }
 
 .cursor-hidden {
-  cursor: none;
+  cursor: none !important;
 }

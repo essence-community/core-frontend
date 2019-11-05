@@ -90,7 +90,7 @@ export const themeOverridesDefault = (theme) => ({
         root: {
             borderRadius: 4,
             display: "flex",
-            height: theme.sizing.gridRowHeight,
+            height: theme.essence.sizing.gridRowHeight,
         },
     },
     MuiFormLabel: {
@@ -146,6 +146,8 @@ export const themeOverridesDefault = (theme) => ({
         input: {
             "&$inputMultiline": {
                 paddingBottom: 1,
+                paddingTop: 0,
+                resize: "none",
             },
             color: theme.palette.text.dark,
             height: 16,
@@ -153,6 +155,7 @@ export const themeOverridesDefault = (theme) => ({
             width: "100%",
         },
         multiline: {
+            alignItems: "flex-start",
             height: "auto",
             "label + &": {
                 paddingBottom: 0,
@@ -181,9 +184,10 @@ export const themeOverridesDefault = (theme) => ({
             marginLeft: 0,
         },
         root: {
-            backgroundColor: theme.palette.grey.backgroundInput,
+            backgroundColor: "transparent",
             borderRadius: "0 4px 4px 0",
-            maxHeight: theme.sizing.gridRowHeight,
+            height: theme.essence.sizing.gridRowHeight - 2,
+            maxHeight: theme.essence.sizing.gridRowHeight,
             zIndex: 1,
         },
     },
@@ -193,7 +197,7 @@ export const themeOverridesDefault = (theme) => ({
             resize: "vertical",
         },
         root: {
-            height: theme.sizing.gridRowHeight,
+            height: theme.essence.sizing.gridRowHeight,
         },
     },
     MuiInputLabel: {

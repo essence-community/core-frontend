@@ -9,7 +9,6 @@ import FieldMulti from "./FieldMulti/FieldMulti";
 import FieldSmartMask from "./FieldSmartMask/FieldSmartMask";
 import FieldComputed from "./FieldComputed/FieldComputed";
 import FieldGroup from "./FieldGroup/FieldGroup";
-import FieldTextArea from "./FieldTextarea/FieldTextarea";
 import FieldInteger from "./FieldInteger";
 import FieldPassword from "./FieldPassword/FieldPassword";
 import FieldColorPicker from "./FieldColorPicker/FieldColorPicker";
@@ -32,7 +31,6 @@ export const fieldMap = {
     password: FieldPassword,
     radio: FieldRadioGroup,
     text: TextField,
-    textarea: FieldTextArea,
     tree: FieldTable,
 };
 

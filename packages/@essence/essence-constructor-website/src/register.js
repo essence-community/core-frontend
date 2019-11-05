@@ -37,6 +37,7 @@ import "@essence/essence-constructor-classes/src/Pager";
 import "@essence/essence-constructor-classes/src/Application";
 import "@essence/essence-constructor-classes/src/Pages";
 import "@essence/essence-constructor-classes/src/WindowDrawer";
+import "@essence/essence-constructor-classes/src/FieldTextarea";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

@@ -3,7 +3,7 @@ import {FieldTextareaInput} from "../components/FieldTextareaInput";
 import {IFieldTextareaContainerProps} from "./FieldTextareaContainer.types";
 
 export const FieldTextareaContainer: React.FC<IFieldTextareaContainerProps> = (props) => {
-    const {value, editing, bc, textField: TextField} = props;
+    const {editing, bc, textField: TextField} = props;
     const [height, setHeight]: [number, React.Dispatch<React.SetStateAction<number | undefined>>] = React.useState(0);
     const handleChangeHeight = React.useCallback((newHeight: number) => {
         setHeight(newHeight);
@@ -40,8 +40,7 @@ export const FieldTextareaContainer: React.FC<IFieldTextareaContainerProps> = (p
             InputProps={InputProps}
             // eslint-disable-next-line react/jsx-no-duplicate-props
             inputProps={inputProps}
-            noQtip
-            value={value}
+            noQtip={Boolean(props.value)}
             multiline
         />
     );

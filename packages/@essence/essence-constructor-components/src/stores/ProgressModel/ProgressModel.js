@@ -1,6 +1,7 @@
 // @flow
 import {extendObservable, action} from "mobx";
 import uuidv4 from "uuid/v4";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 import type {PageModelType} from "../PageModel/PageModelType";
 
 export type ProgressConfigType = {
@@ -41,7 +42,7 @@ export default class ProgressModel implements ProgressModelType {
             snackbar.title = filesNames.join(",");
         }
 
-        pageStore.applicationStore.snackbarStore.snackbarOpenAction(snackbar, pageStore.route);
+        snackbarStore.snackbarOpenAction(snackbar, pageStore.route);
     }
 
     changeProgress = action("changeProgress", (progressEvent: ProgressEvent) => {

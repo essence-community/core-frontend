@@ -8,6 +8,7 @@ import forEach from "lodash/forEach";
 import isUndefined from "lodash/isUndefined";
 import isEqual from "lodash/isEqual";
 import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "@essence/essence-constructor-share/constants";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {loggerRoot} from "../../constants";
 import {type CkIdType} from "../../BuilderType";
 import {isEmpty, sleep} from "../../utils/base";
@@ -231,12 +232,7 @@ export function loadRecordsAction({
             });
         })
         .then((response) => {
-            if (
-                applicationStore.snackbarStore.checkValidResponseAction(
-                    response[0],
-                    this.pageStore && this.pageStore.route,
-                )
-            ) {
+            if (snackbarStore.checkValidResponseAction(response[0], this.pageStore && this.pageStore.route)) {
                 const records = (response || []).map((record) => {
                     if (!record.ckId && isEmpty(record.ckId)) {
                         record.ckId = `auto-${uuidv4()}`;
@@ -246,7 +242,7 @@ export function loadRecordsAction({
                 });
 
                 if (bc.pagesize && records[0] && !records[0].jnTotalCnt) {
-                    applicationStore.snackbarStore.snackbarOpenAction(
+                    snackbarStore.snackbarOpenAction(
                         {
                             status: "error",
                             text: "Неизвестное количество страниц",
@@ -261,7 +257,7 @@ export function loadRecordsAction({
             return [];
         })
         .catch((response) => {
-            applicationStore.snackbarStore.checkExceptResponse(response, this.pageStore && this.pageStore.route);
+            snackbarStore.checkExceptResponse(response, this.pageStore && this.pageStore.route);
 
             return [];
         })

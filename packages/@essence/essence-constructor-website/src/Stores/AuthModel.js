@@ -3,6 +3,7 @@
 import {extendObservable, action} from "mobx";
 import {sendRequest} from "@essence/essence-constructor-components";
 import {getFromStore, saveToStore} from "@essence/essence-constructor-share/utils";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 import noop from "lodash/noop";
 import {applicationStore} from "./ApplicationModel";
 
@@ -29,7 +30,7 @@ export class AuthModel implements AuthModelType {
             query: "GetSessionData",
         })
             .then((response) => {
-                if (response && applicationStore.snackbarStore.checkValidLoginResponse(response)) {
+                if (response && snackbarStore.checkValidLoginResponse(response)) {
                     this.successLoginAction(response, history);
                 }
             })
@@ -43,7 +44,7 @@ export class AuthModel implements AuthModelType {
             query: "Login",
         })
             .then((response) => {
-                if (applicationStore.snackbarStore.checkValidLoginResponse(response)) {
+                if (snackbarStore.checkValidLoginResponse(response)) {
                     this.successLoginAction(
                         {
                             ...response,
@@ -54,7 +55,7 @@ export class AuthModel implements AuthModelType {
                 }
             })
             .catch((error) => {
-                applicationStore.snackbarStore.checkExceptResponse(error);
+                snackbarStore.checkExceptResponse(error);
                 applicationStore.logoutAction();
                 this.userInfo = {};
             }),

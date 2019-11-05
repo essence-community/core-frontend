@@ -1,6 +1,5 @@
 // @flow
 import {PageModel, type PageModelType} from "./PageModel";
-import {SnackbarModel} from "./SnackbarModel";
 
 export type StoresType = {
     pageStore: PageModelType,
@@ -29,8 +28,6 @@ export const createEmptyApplication = () => ({
             projectLoader: "default",
         },
     },
-    // $FlowFixMe
-    snackbarStore: new SnackbarModel({}),
     updateGlobalValuesAction: () => undefined,
 });
 

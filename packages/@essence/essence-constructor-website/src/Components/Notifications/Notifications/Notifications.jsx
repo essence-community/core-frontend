@@ -5,6 +5,7 @@ import {compose} from "recompose";
 import {inject, observer} from "mobx-react";
 import {Scrollbars} from "@essence/essence-constructor-components";
 import {Icon} from "@essence/essence-constructor-share/Icon";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {withStyles} from "@material-ui/core/styles";
 import NotificationsTabs from "../NotificationsTabs/NotificationsTabs";
 import {type ApplicationModelType} from "../../../Stores/ApplicationModel";
@@ -30,15 +31,12 @@ const SCROLLBARS_STYLE = {
 
 class Notifications extends React.Component<PropsType> {
     render() {
-        const {
-            applicationStore: {snackbarStore},
-            classes,
-        } = this.props;
+        const {classes, applicationStore} = this.props;
 
         return (
             <div className={classes.root}>
                 <NotificationsTabs
-                    applicationStore={this.props.applicationStore}
+                    applicationStore={applicationStore}
                     value={snackbarStore.activeStatus}
                     onChangeTab={snackbarStore.setStatusAction}
                 />

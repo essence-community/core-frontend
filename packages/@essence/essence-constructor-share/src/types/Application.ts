@@ -2,7 +2,7 @@ import {ObservableMap} from "mobx";
 import {History} from "history";
 import {IRoutesModel} from "./RoutesModel";
 import {IStoreBaseModel} from "./StoreBaseModel";
-import {IBuilderConfig, FieldValue, IAuthModel, IPagesModel, IAuthSession, ISnackbarModel} from ".";
+import {IBuilderConfig, FieldValue, IAuthModel, IPagesModel, IAuthSession} from ".";
 
 export interface ISession {
     session: string;
@@ -26,8 +26,6 @@ export interface IApplicationModel extends IStoreBaseModel {
     blockText: string;
     pagesStore: IPagesModel;
     history: History;
-    // @deprecated
-    snackbarStore: ISnackbarModel;
     cvUrl: string;
     updateGlobalValuesAction(values: Record<string, string>): void;
     setSesssionAction(userInfo: IAuthSession): Promise<void>;

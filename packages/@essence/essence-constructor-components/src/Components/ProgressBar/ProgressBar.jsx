@@ -1,11 +1,10 @@
 // @flow
 import * as React from "react";
 import {LinearProgress} from "@material-ui/core";
-import {type StatusType} from "../../stores/SnackbarModel/SnackbarModelType";
 
 type PropsType = {|
     progressCount: number,
-    status: StatusType,
+    status: any,
 |};
 
 const FULL_LOADED = 100;

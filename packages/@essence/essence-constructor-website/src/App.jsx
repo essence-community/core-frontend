@@ -6,6 +6,7 @@ import {ThemeProvider} from "@material-ui/styles";
 import moment from "moment";
 import "moment/locale/ru";
 import {SnackbarMobx, themeVars, Tooltip} from "@essence/essence-constructor-components";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 import HTML5Backend from "react-dnd-html5-backend";
 import {DndProvider} from "react-dnd";
 import {Block} from "./Components/Block/Block";
@@ -40,9 +41,9 @@ class App extends Component {
                             <AppRoutes />
                             <CssBaseline />
                             <SnackbarMobx
-                                snackbars={stores.applicationStore.snackbarStore.snackbars}
-                                onClose={stores.applicationStore.snackbarStore.snackbarCloseAction}
-                                onSetCloseble={stores.applicationStore.snackbarStore.setClosebleAction}
+                                snackbars={snackbarStore.snackbars}
+                                onClose={snackbarStore.snackbarCloseAction}
+                                onSetCloseble={snackbarStore.setClosebleAction}
                             />
                             <Tooltip />
                             <Block applicationStore={stores.applicationStore} />

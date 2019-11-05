@@ -1,5 +1,6 @@
 // @flow
 import {extendObservable, action} from "mobx";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {sendRequest} from "../../request/baseRequest";
 import {StoreBaseModel, type StoreBaseModelPropsType} from "../StoreBaseModel";
 import {type AuditModelInterface} from "./AuditModelType";
@@ -34,17 +35,12 @@ export class AuditModel extends StoreBaseModel implements AuditModelInterface {
             session: this.pageStore.applicationStore.session,
         })
             .then((response) => {
-                if (
-                    this.pageStore.applicationStore.snackbarStore.checkValidResponseAction(
-                        response,
-                        this.pageStore.route,
-                    )
-                ) {
+                if (snackbarStore.checkValidResponseAction(response, this.pageStore.route)) {
                     this.auditInfo.cvUsername = response.cvUsername;
                 }
             })
             .catch((response) => {
-                this.pageStore.applicationStore.snackbarStore.checkExceptResponse(response, this.pageStore.route);
+                snackbarStore.checkExceptResponse(response, this.pageStore.route);
             });
     });
 

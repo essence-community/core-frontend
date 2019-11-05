@@ -6,6 +6,7 @@ import {Field} from "mobx-react-form";
 import forEach from "lodash/forEach";
 import noop from "lodash/noop";
 import {parseMemoize, loadComponentsFromModules} from "@essence/essence-constructor-share";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {findClassNames} from "@essence/essence-constructor-share/utils";
 import {loggerRoot, styleTheme as styleThemeConst} from "../../constants";
 import {sendRequestList} from "../../request/baseRequest";
@@ -135,7 +136,7 @@ export class PageModel implements PageModelInterface {
                 // $FlowFixMe
                 () => this.globalValues.toJS(),
                 (globalValues) =>
-                    applicationStore.snackbarStore.snackbarOpenAction(
+                    snackbarStore.snackbarOpenAction(
                         {
                             autoHidden: true,
                             hiddenTimeout: 0,
@@ -269,7 +270,7 @@ export class PageModel implements PageModelInterface {
 
         return fetchResult
             .then((response) => {
-                if (this.applicationStore.snackbarStore.checkValidResponseAction(response[0], this.route)) {
+                if (snackbarStore.checkValidResponseAction(response[0], this.route)) {
                     const classNames = findClassNames(response);
 
                     loadComponentsFromModules(classNames).then(() => {
@@ -279,7 +280,7 @@ export class PageModel implements PageModelInterface {
             })
 
             .catch((error) => {
-                this.applicationStore.snackbarStore.checkExceptResponse(error, this.route);
+                snackbarStore.checkExceptResponse(error, this.route);
                 this.pageBc = [];
             })
             .then((res) => {

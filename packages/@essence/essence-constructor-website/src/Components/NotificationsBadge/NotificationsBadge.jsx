@@ -1,39 +1,22 @@
 // @flow
 import * as React from "react";
 import {compose} from "recompose";
-import {inject, observer} from "mobx-react";
+import {observer} from "mobx-react";
 import {Badge} from "@material-ui/core";
-import {type ApplicationModelType} from "../../Stores/ApplicationModel";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 
-type StoresPropsType = {
-    applicationStore: ApplicationModelType,
-};
-type PropsType = StoresPropsType & {
+type PropsType = {
     children: React.Node,
     classes: Object,
 };
 
-const mapStoresToProps = (stores: Object): StoresPropsType => ({
-    applicationStore: stores.applicationStore,
-});
-const MAX_SNACKBARS = 99;
-
-const NotificationsBadge = ({
-    applicationStore: {
-        snackbarStore: {snackbarsCount},
-    },
-    classes,
-    children,
-}: PropsType) =>
-    snackbarsCount ? (
-        <Badge classes={classes} badgeContent={snackbarsCount > MAX_SNACKBARS ? "99" : snackbarsCount} color="primary">
+const NotificationsBadge = ({classes, children}: PropsType) =>
+    snackbarStore.snackbarsCount ? (
+        <Badge classes={classes} badgeContent={snackbarStore.snackbarsCount} max={99} color="primary">
             {children}
         </Badge>
     ) : (
         children
     );
 
-export default compose(
-    inject(mapStoresToProps),
-    observer,
-)(NotificationsBadge);
+export default compose(observer)(NotificationsBadge);

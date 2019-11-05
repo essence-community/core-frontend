@@ -5,6 +5,7 @@
 import {action, extendObservable} from "mobx";
 import mime from "mime";
 import {fileTypeValidate, fileSizeValidate} from "@essence/essence-constructor-share/utils";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {type ButtonConfigType} from "../ButtonModel";
 import {StoreBaseModel} from "../StoreBaseModel";
 import {
@@ -98,12 +99,11 @@ export class FileInputModel extends StoreBaseModel implements FileInputModelType
     });
 
     validateFile = (file: File): boolean => {
-        const {applicationStore} = this.pageStore;
         let success = true;
 
         if (!fileSizeValidate(file, this.bc.maxfile)) {
             success = false;
-            applicationStore.snackbarStore.snackbarOpenAction(
+            snackbarStore.snackbarOpenAction(
                 {
                     status: "error",
                     text:
@@ -117,7 +117,7 @@ export class FileInputModel extends StoreBaseModel implements FileInputModelType
         }
         if (!fileTypeValidate(file, this.fileTypes)) {
             success = false;
-            applicationStore.snackbarStore.snackbarOpenAction(
+            snackbarStore.snackbarOpenAction(
                 {
                     status: "error",
                     text:

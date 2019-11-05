@@ -24,8 +24,8 @@ import {MAX_OPENED_SNACKBARS, CODE_ACCESS_DENIEND, GROUP_ACTION_MAP, CODE_GROUP_
  * @class SnackbarModel
  *
  * Класс является signleton и может экспортироваться как snackbarStore.
- * Использование происходит на всех приложениях и служить для выпода нотификаций между приложения.
- * Для создания нотификации для прииложения можно создавать отдельные экзепляры класса.
+ * Использование происходит на всех приложениях и служить для вывода нотификаций между приложениями.
+ * Для создания нотификации для отдельного приложения можно создавать отдельные экзепляры класса.
  */
 export class SnackbarModel implements ISnackbarModel {
     snackbars: IObservableArray<ISnackbar>;

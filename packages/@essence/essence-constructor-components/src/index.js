@@ -22,7 +22,6 @@ export {sendRequest} from "./request/baseRequest";
 
 export {PageModel, redirectToPage, renderGlobalValuelsInfo} from "./stores/PageModel";
 export {RoutesModel} from "./stores/RoutesModel";
-export {SnackbarModel} from "./stores/SnackbarModel";
 export {PagesModel} from "./stores/PagesModel";
 export {SettingsModel} from "./stores/SettingsModel";
 export {RecordsModel} from "./stores/RecordsModel";

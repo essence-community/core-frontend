@@ -1,6 +1,7 @@
 // @flow
 import get from "lodash/get";
 import {snakeCaseKeys} from "@essence/essence-constructor-share/utils";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {type RecordsModelType} from "../RecordsModel";
 import {
     getFilterData,
@@ -81,10 +82,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
     })
         .then((res) => {
             setMask("false", pageStore, false);
-            const isValid: number = pageStore.applicationStore.snackbarStore.checkValidResponseAction(
-                res,
-                pageStore.route,
-            );
+            const isValid: number = snackbarStore.checkValidResponseAction(res, pageStore.route);
 
             if (isValid) {
                 window.open(res.cvUrlResponse);

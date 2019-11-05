@@ -14,15 +14,11 @@ type PropsType = {
     minHeight: number,
     maxHeight: number,
     height: number,
-    className?: string,
-    style?: {},
     onChangeHeight: (height: number) => void,
-    getInitialHeight?: () => number,
 };
 
 type StateType = {
     down: boolean,
-    initialHeight: number,
     lineY: number,
     lineYLeft: number,
     lineWidth: number,
@@ -38,9 +34,8 @@ class VerticalResizer extends React.Component<PropsType, StateType> {
         minHeight: 50,
     };
 
-    state: StateType = {
+    state = {
         down: false,
-        initialHeight: 0,
         lineWidth: 0,
         lineY: 0,
         lineYLeft: 0,
@@ -64,7 +59,6 @@ class VerticalResizer extends React.Component<PropsType, StateType> {
 
     handleMouseDown = (event: SyntheticMouseEvent<HTMLDivElement>) => {
         const {currentTarget} = event;
-        const {height, getInitialHeight} = this.props;
         const {top, left} = getCoords(currentTarget);
 
         event.preventDefault();
@@ -72,7 +66,6 @@ class VerticalResizer extends React.Component<PropsType, StateType> {
 
         this.setState({
             down: true,
-            initialHeight: !height && getInitialHeight ? getInitialHeight() : height,
             lineWidth: currentTarget.offsetWidth,
             lineY: event.pageY,
             lineYLeft: left,
@@ -87,9 +80,9 @@ class VerticalResizer extends React.Component<PropsType, StateType> {
     };
 
     handleMouseMove = (event: MouseEvent) => {
-        const {down, initialHeight} = this.state;
-        const {minHeight, maxHeight} = this.props;
-        const newHeight = event.pageY - this.state.startOffset + initialHeight;
+        const {down} = this.state;
+        const {minHeight, maxHeight, height} = this.props;
+        const newHeight = event.pageY - this.state.startOffset + height;
 
         if (down) {
             if (newHeight < minHeight - LINE_HEIGHT) {
@@ -105,9 +98,8 @@ class VerticalResizer extends React.Component<PropsType, StateType> {
     };
 
     handleChangeHeight = (event: MouseEvent) => {
-        const {initialHeight, startOffset} = this.state;
-        const {minHeight, maxHeight} = this.props;
-        let newHeight = event.pageY - startOffset + initialHeight;
+        const {minHeight, maxHeight, height} = this.props;
+        let newHeight = event.pageY - this.state.startOffset + height;
 
         if (newHeight < minHeight + LINE_HEIGHT) {
             newHeight = minHeight;
@@ -155,16 +147,15 @@ class VerticalResizer extends React.Component<PropsType, StateType> {
 
     render() {
         const {lineY, lineYLeft, lineWidth, over, down} = this.state;
-        const {classes, className} = this.props;
+        const {classes} = this.props;
 
         return (
             <React.Fragment>
                 <div
-                    className={cn(classes.resizer, className)}
+                    className={classes.resizer}
                     onMouseDown={this.handleMouseDown}
                     onMouseEnter={this.handleMouseEnter}
                     onMouseLeave={this.handleMouseLeave}
-                    style={this.props.style}
                 />
                 {document.body && lineY
                     ? createPortal(

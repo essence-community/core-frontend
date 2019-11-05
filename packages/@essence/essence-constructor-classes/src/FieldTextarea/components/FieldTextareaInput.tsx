@@ -2,7 +2,7 @@ import * as React from "react";
 import {TextareaAutosize} from "@material-ui/core";
 import {Scrollbars, VerticalResizer} from "@essence/essence-constructor-share/uicomponents";
 import {useStyles} from "./FieldTextareaInput.styles";
-import {IFieldTextareaInputProps} from "./FieldTextareaInput.typs";
+import {IFieldTextareaInputProps} from "./FieldTextareaInput.types";
 
 const MIN_INPUT_HEIGHT = 17;
 

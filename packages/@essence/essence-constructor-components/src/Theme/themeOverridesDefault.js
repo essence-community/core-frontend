@@ -90,7 +90,7 @@ export const themeOverridesDefault = (theme) => ({
         root: {
             borderRadius: 4,
             display: "flex",
-            height: theme.sizing.gridRowHeight,
+            height: theme.essence.sizing.gridRowHeight,
         },
     },
     MuiFormLabel: {
@@ -186,8 +186,8 @@ export const themeOverridesDefault = (theme) => ({
         root: {
             backgroundColor: "transparent",
             borderRadius: "0 4px 4px 0",
-            height: theme.sizing.gridRowHeight - 2,
-            maxHeight: theme.sizing.gridRowHeight,
+            height: theme.essence.sizing.gridRowHeight - 2,
+            maxHeight: theme.essence.sizing.gridRowHeight,
             zIndex: 1,
         },
     },
@@ -197,7 +197,7 @@ export const themeOverridesDefault = (theme) => ({
             resize: "vertical",
         },
         root: {
-            height: theme.sizing.gridRowHeight,
+            height: theme.essence.sizing.gridRowHeight,
         },
     },
     MuiInputLabel: {

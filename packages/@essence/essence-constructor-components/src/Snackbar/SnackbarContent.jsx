@@ -8,7 +8,6 @@ import {withStyles} from "@material-ui/core/styles";
 import capitalize from "lodash/capitalize";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import ProgressBar from "../Components/ProgressBar/ProgressBar";
-import {type StatusType} from "../stores/SnackbarModel/SnackbarModelType";
 import type {ProgressModelType} from "../stores/ProgressModel/ProgressModel";
 import {SnackbarContentDarkStyle} from "./Styles/SnackbarContentDarkStyle";
 import SnackbarContentText from "./SnackbarContentText";
@@ -45,7 +44,7 @@ type PropsType = {|
     classes?: Object,
     snackbar: {
         open: boolean,
-        status: StatusType,
+        status: any,
         text: string,
         description: string,
         code: string,

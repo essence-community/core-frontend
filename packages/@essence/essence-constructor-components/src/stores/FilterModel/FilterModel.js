@@ -4,6 +4,7 @@ import {type Form, type Field} from "mobx-react-form";
 import camelCase from "lodash/camelCase";
 import forOwn from "lodash/forOwn";
 import {saveToStore, removeFromStore} from "@essence/essence-constructor-share/utils";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {print} from "@essence/essence-constructor-share/utils/download";
 import {isEmpty} from "../../utils/base";
 import {findSetKey} from "../../utils/findKey";
@@ -130,7 +131,7 @@ export class FilterModel extends StoreBaseModel implements FilterModelType {
                     ckPageObject: this.bc.ckMaster || this.bc.ckParent,
                 },
                 session: this.pageStore.applicationStore.session,
-                snackbarStore: this.pageStore.applicationStore.snackbarStore,
+                snackbarStore,
                 timeout: bcBtn.timeout || this.bc.timeout,
                 values: attachGlobalValues({
                     getglobaltostore: bcBtn.getglobaltostore,

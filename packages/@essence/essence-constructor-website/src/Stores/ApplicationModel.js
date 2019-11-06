@@ -6,7 +6,6 @@ import forEach from "lodash/forEach";
 import forOwn from "lodash/forOwn";
 import noop from "lodash/noop";
 import {
-    SnackbarModel,
     RoutesModel,
     PagesModel,
     PageModel,
@@ -26,6 +25,7 @@ import {
     setModule,
     loadFiles,
 } from "@essence/essence-constructor-share";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {history} from "../history";
 import {BRANCH_NAME, colors} from "../constants";
 
@@ -42,7 +42,6 @@ export interface ApplicationModelType {
     +blockText: string;
     +cvLogin: string;
     +caActions: Array<number>;
-    +snackbarStore: any;
     +pagesStore: any;
     +isApplicationReady: boolean;
     +isBlock: boolean;
@@ -83,8 +82,6 @@ export class ApplicationModel implements ApplicationModelType {
 
     caActions: Array<number>;
 
-    snackbarStore: any;
-
     routesStore: any;
 
     pagesStore: any;
@@ -120,7 +117,6 @@ export class ApplicationModel implements ApplicationModelType {
 
         this.routesStore = new RoutesModel({pageStore: globalPageStore});
         this.pagesStore = new PagesModel({applicationStore: this, routesStore: this.routesStore});
-        this.snackbarStore = new SnackbarModel({applicationStore: this, pageStore: globalPageStore});
         this.countConnect = 0;
         this.configs = getConfig();
 
@@ -177,7 +173,7 @@ export class ApplicationModel implements ApplicationModelType {
         reaction(
             () => this.globalValues.toJS(),
             (globalValues) =>
-                this.snackbarStore.snackbarOpenAction({
+                snackbarStore.snackbarOpenAction({
                     autoHidden: true,
                     hiddenTimeout: 0,
                     status: "debug",
@@ -268,11 +264,11 @@ export class ApplicationModel implements ApplicationModelType {
                 }),
             )
             .catch((error) => {
-                this.snackbarStore.snackbarOpenAction({
+                snackbarStore.snackbarOpenAction({
                     status: "error",
                     text: "Невозможно загрузить модули",
                 });
-                this.snackbarStore.snackbarOpenAction(
+                snackbarStore.snackbarOpenAction(
                     {
                         status: "debug",
                         text: error.message,
@@ -290,7 +286,7 @@ export class ApplicationModel implements ApplicationModelType {
             this.settingsStore.settings.moduleAvailable === "true"
                 ? this.loadModules(this.settingsStore.settings.gSysModuleUrl)
                 : undefined,
-            this.snackbarStore.recordsStore.loadRecordsAction(),
+            snackbarStore.recordsStore.loadRecordsAction(),
             this.routesStore.recordsStore.loadRecordsAction(),
         ])
             .then(() => this.pagesStore.restorePagesAction(this.cvLogin))
@@ -343,7 +339,7 @@ export class ApplicationModel implements ApplicationModelType {
                 } else if (this.session) {
                     this.countConnect = 0;
                     delay(this.initWsClient, TIMEOUT_LONG_RECONNECT, this.session);
-                    this.snackbarStore.snackbarOpenAction(
+                    snackbarStore.snackbarOpenAction(
                         {
                             pageName: "Оповещение",
                             status: "error",
@@ -358,7 +354,7 @@ export class ApplicationModel implements ApplicationModelType {
                 this.wsClient = wsClient || this.wsClient;
             })
             .catch((err) => {
-                this.snackbarStore.snackbarOpenAction(
+                snackbarStore.snackbarOpenAction(
                     {
                         pageName: "Оповещение",
                         status: "error",
@@ -375,7 +371,7 @@ export class ApplicationModel implements ApplicationModelType {
         json.forEach((event) => {
             switch (event.event) {
                 case "notification": {
-                    this.snackbarStore.checkValidResponseAction(camelCaseKeys(event.data), {
+                    snackbarStore.checkValidResponseAction(camelCaseKeys(event.data), {
                         cvName: "Оповещение",
                     });
                     break;

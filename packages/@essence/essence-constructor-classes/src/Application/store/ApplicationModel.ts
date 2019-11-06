@@ -10,7 +10,6 @@ import {
     isEmpty,
     IBuilderConfig,
     IPagesModel,
-    ISnackbarModel,
     IRecordsModel,
     VAR_SELF_CV_URL,
     VAR_SETTING_PROJECT_APPLICATION_PAGE,
@@ -72,9 +71,6 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
     pagesStore: IPagesModel;
 
     history: History;
-
-    // @deprecated
-    snackbarStore: ISnackbarModel = snackbarStore;
 
     // @deprecated
     session: string;

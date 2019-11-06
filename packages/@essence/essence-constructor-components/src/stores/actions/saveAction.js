@@ -4,6 +4,7 @@ import forOwn from "lodash/forOwn";
 import isArray from "lodash/isArray";
 import noop from "lodash/noop";
 import {toJS, type ObservableMap} from "mobx";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {findGetGlobalKey} from "../../utils/findKey";
 import {loggerRoot} from "../../constants";
 import {isEmpty} from "../../utils/base";
@@ -129,34 +130,30 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
             (response) =>
                 // eslint-disable-next-line max-statements
                 new Promise((resolve) => {
-                    const check = pageStore.applicationStore.snackbarStore.checkValidResponseAction(
-                        response,
-                        pageStore.route,
-                        (warningText) => {
-                            setMask(noglobalmask, pageStore, false);
+                    const check = snackbarStore.checkValidResponseAction(response, pageStore.route, (warningText) => {
+                        setMask(noglobalmask, pageStore, false);
 
-                            pageStore.openQuestionWindow(warningText, (clWarningNew) => {
-                                if (clWarningNew === 0) {
-                                    resolve(false);
-                                } else {
-                                    saveAction
-                                        .call(this, values, mode, {
-                                            action,
-                                            actionBc,
-                                            bc: config.bc,
-                                            clWarning: clWarningNew,
-                                            formData: config.formData,
-                                            pageStore: config.pageStore,
-                                            query: config.query,
-                                        })
-                                        .then(resolve);
-                                }
-                            });
-                        },
-                    );
+                        pageStore.openQuestionWindow(warningText, (clWarningNew) => {
+                            if (clWarningNew === 0) {
+                                resolve(false);
+                            } else {
+                                saveAction
+                                    .call(this, values, mode, {
+                                        action,
+                                        actionBc,
+                                        bc: config.bc,
+                                        clWarning: clWarningNew,
+                                        formData: config.formData,
+                                        pageStore: config.pageStore,
+                                        query: config.query,
+                                    })
+                                    .then(resolve);
+                            }
+                        });
+                    });
 
                     if (formData) {
-                        pageStore.applicationStore.snackbarStore.snackbarChangeStatusAction(
+                        snackbarStore.snackbarChangeStatusAction(
                             snackbarId,
                             check === 1 || check === 2 ? "uploaded" : "errorUpload",
                         );
@@ -194,10 +191,10 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
             logger("Ошибка при сохранении данных:", error);
 
             if (formData) {
-                pageStore.applicationStore.snackbarStore.snackbarChangeStatusAction(snackbarId, "errorUpload");
+                snackbarStore.snackbarChangeStatusAction(snackbarId, "errorUpload");
             }
 
-            pageStore.applicationStore.snackbarStore.checkExceptResponse(error);
+            snackbarStore.checkExceptResponse(error);
             pageStore.resetStepAction();
 
             return false;

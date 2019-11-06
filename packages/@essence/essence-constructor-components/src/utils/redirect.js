@@ -1,7 +1,7 @@
 // @flow
 import {type ObservableMap} from "mobx";
-import {camelCaseMemoized} from "@essence/essence-constructor-share/utils";
-import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
+import {camelCaseMemoized, parseMemoize} from "@essence/essence-constructor-share/utils";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 import forOwn from "lodash/forOwn";
 import qs from "qs";
 import {type PageModelType} from "../stores/PageModel";
@@ -155,7 +155,7 @@ export const redirectUseQuery = ({
         timeout: bc.timeout,
     })
         .then((res) => {
-            const isValid = pageStore.applicationStore.snackbarStore.checkValidResponseAction(res, pageStore.route);
+            const isValid = snackbarStore.checkValidResponseAction(res, pageStore.route);
 
             if (isValid) {
                 window.open(res.cvUrl);
@@ -164,7 +164,7 @@ export const redirectUseQuery = ({
             return isValid;
         })
         .catch(() => {
-            pageStore.applicationStore.snackbarStore.checkValidResponseAction(
+            snackbarStore.checkValidResponseAction(
                 {
                     ckId: null,
                     cvError: {

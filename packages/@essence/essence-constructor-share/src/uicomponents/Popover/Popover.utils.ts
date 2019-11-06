@@ -67,13 +67,14 @@ export function getOffsetContainer({
         left +
         getOffsetLeft(anchorRect, anchorOrigin.horizontal) -
         getOffsetLeft(popoverRect, transformOrigin.horizontal);
-    const topPopover =
+    const topPopoverAbsoulte =
         top + getOffsetTop(anchorRect, anchorOrigin.vertical) - getOffsetTop(popoverRect, transformOrigin.vertical);
-    const diffWindowTop = getDiffWindowTop(topPopover, popoverRect, containerRect);
+    const topPopoverRelative = topPopoverAbsoulte < marginThreshold ? marginThreshold : topPopoverAbsoulte;
+    const diffWindowTop = getDiffWindowTop(topPopoverRelative, popoverRect, containerRect);
 
     if (diffWindowTop > 0) {
         return {
-            bottom: containerRect.height - topPopover + anchorRect.height,
+            bottom: containerRect.height - topPopoverRelative + anchorRect.height,
             left: leftPopover - getDiffWindowLeft(leftPopover, popoverRect, containerRect),
             top: "auto",
         };
@@ -81,6 +82,6 @@ export function getOffsetContainer({
 
     return {
         left: leftPopover - getDiffWindowLeft(leftPopover, popoverRect, containerRect),
-        top: topPopover - getDiffWindowTop(topPopover, popoverRect, containerRect),
+        top: topPopoverRelative - diffWindowTop,
     };
 }

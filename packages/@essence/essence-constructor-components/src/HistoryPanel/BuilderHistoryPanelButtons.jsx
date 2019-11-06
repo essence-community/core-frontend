@@ -46,7 +46,6 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
     restoreFocusElement = () => {
         if (this.activeElement) {
             this.activeElement.focus();
-
             this.activeElement = null;
         }
     };
@@ -242,6 +241,7 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
                         color="inherit"
                         pageStore={pageStore}
                         visible={visible}
+                        onlyicon={onlyIcon}
                     />
                 ),
                 key: childBc.ckPageObject,

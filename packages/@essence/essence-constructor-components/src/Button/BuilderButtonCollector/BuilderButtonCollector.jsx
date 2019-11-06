@@ -6,9 +6,9 @@ import {withStyles} from "@material-ui/core/styles";
 import {ListItem, List} from "@material-ui/core";
 import noop from "lodash/noop";
 import {setComponent} from "@essence/essence-constructor-share";
+import {Popover} from "@essence/essence-constructor-share/uicomponents";
 import {styleTheme} from "../../constants";
 import commonDecorator, {type CommonDecoratorInjectType} from "../../decorators/commonDecorator";
-import Popover from "../../Popover/Popover";
 import Scrollbars from "../../Components/Scrollbars/Scrollbars";
 import {type ButtonPropsType} from "../ButtonTypes";
 import BuilderMobxButton from "../BuilderMobxButton";
@@ -77,7 +77,7 @@ class BaseBuilderButtonCollector extends React.Component<PropsType> {
         }));
     }
 
-    renderIcon = ({open, onOpen}) => {
+    renderIcon = ({open, onOpen, onClose}) => {
         const {classes, tranformName, ...btnProps} = this.props;
 
         const className =
@@ -85,7 +85,14 @@ class BaseBuilderButtonCollector extends React.Component<PropsType> {
                 ? cn(classes.iconButtonWindowRoot, {[classes.iconButtonWindowOpenRoot]: open})
                 : cn(classes.iconButtonRoot, {[classes.iconButtonOpenRoot]: open});
 
-        return <BuilderMobxButton {...btnProps} readOnly={false} className={className} handleClick={onOpen} />;
+        return (
+            <BuilderMobxButton
+                {...btnProps}
+                readOnly={false}
+                className={className}
+                handleClick={open ? onClose : onOpen}
+            />
+        );
     };
 
     renderPopoverContnet = ({onClose}) => {

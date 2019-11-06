@@ -155,6 +155,7 @@ export class Scrollbars extends React.Component<IProps, IState> {
 
     renderTrackHorizontal = ({style, ...props}: any) => {
         const finalStyle = {
+            visibility: "hidden",
             ...style,
             borderRadius: 3,
             bottom: 2,

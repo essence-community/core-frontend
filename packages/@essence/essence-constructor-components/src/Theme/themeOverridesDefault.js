@@ -230,6 +230,36 @@ export const themeOverridesDefault = (theme) => ({
             position: "absolute",
         },
     },
+    MuiSwitch: {
+        colorPrimary: {
+            "&$checked": {
+                "&:hover": {
+                    backgroundColor: "transparent",
+                },
+            },
+        },
+        colorSecondary: {
+            "&$checked": {
+                "&:hover": {
+                    backgroundColor: "transparent",
+                },
+            },
+        },
+        root: {
+            height: 30,
+            padding: "8px 10px",
+        },
+        switchBase: {
+            "&:hover": {
+                backgroundColor: "transparent",
+            },
+            height: 30,
+            width: "auto",
+        },
+        track: {
+            backgroundColor: theme.palette.type === "light" ? theme.palette.common.black : theme.palette.secondary.main,
+        },
+    },
     MuiTab: {
         root: {
             textAlign: undefined,

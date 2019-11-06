@@ -98,8 +98,8 @@ class GridSettings extends React.Component<PropsType, StateType> {
                 >
                     <DialogTitle disableTypography>Показать/скрыть колонки</DialogTitle>
                     <DialogContent>
-                        <Scrollbars autoHeight autoHeightMax={300} autoHeightMin={60}>
-                            <Grid container direction="column" spacing={1} style={{width: "100%"}}>
+                        <Scrollbars autoHeight autoHeightMax={300} autoHeightMin={38}>
+                            <Grid container direction="column" spacing={0} style={{width: "100%"}}>
                                 {gridStore.gridColumnsInitial.map((column) => {
                                     const {visible, hiddenrules} = column;
 
@@ -117,6 +117,7 @@ class GridSettings extends React.Component<PropsType, StateType> {
                                                     <Switch
                                                         name={column.ckPageObject}
                                                         checked={visibility[column.ckPageObject]}
+                                                        disableRipple
                                                         onChange={this.handleChangeVisibility}
                                                         value={column.ckPageObject}
                                                     />

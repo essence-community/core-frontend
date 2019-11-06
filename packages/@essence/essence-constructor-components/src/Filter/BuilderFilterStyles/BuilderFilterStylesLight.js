@@ -48,6 +48,7 @@ const BuilderFilterStylesLight = (theme: any) => ({
         overflow: "hidden",
     },
     titleTypography: {
+        color: theme.palette.text.primary,
         fontSize: 22,
         overflow: "hidden",
         textOverflow: "ellipsis",

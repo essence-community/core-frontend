@@ -197,7 +197,7 @@ export interface IBuilderBaseConfig {
     // Наименование парамента, по которому будет осуществлена сортировка вместо column
     sortcolumn?: string;
     // Признак отображения сплиттера (true/false)
-    spliter?: string;
+    splitter?: string;
     // Наименование шага
     stepname?: string;
     // Наименование следующего шага Может принимать выражение вида: "выражение?верный-шаг:неверный-шаг"

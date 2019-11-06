@@ -64,7 +64,7 @@ export type BuilderBaseType = {
     // Признак перезагрузки всех данных после сохранения/обновления.
     refreshallrecords?: "true" | "false",
     // Флаг наличия сплитера
-    spliter?: "true" | "false",
+    splitter?: "true" | "false",
     wintype?: "default" | "narrow" | "wide" | "xlwide" | "xwide",
 
     mode?: BuilderModeType,

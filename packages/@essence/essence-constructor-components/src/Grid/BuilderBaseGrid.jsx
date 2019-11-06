@@ -383,7 +383,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
                         />
                     ) : null}
                 </Grid>
-                {bc.spliter === "true" ? (
+                {bc.splitter === "true" ? (
                     <Grid item>
                         <VerticalResizer
                             height={store.gridHeight}

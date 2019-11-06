@@ -74,22 +74,22 @@ export const getBtn = (bc: BuilderBaseType, topbtn: Array<BuilderBaseType>) => {
             btn.hiddenrules = btn.hiddenrules
                 .replace(/gIsStart/gi, `gIsStart_${bc.ckPageObject}`)
                 .replace(/gIsEnd/gi, `gIsEnd_${bc.ckPageObject}`)
-                .replace(/gPageNum/gi, `gPageNum_${bc.ckPageObject}`)
-                .replace(/gPageIndex/gi, `gPageIndex_${bc.ckPageObject}`);
+                .replace(/gPanelNum/gi, `gPanelNum_${bc.ckPageObject}`)
+                .replace(/gPanelIndex/gi, `gPanelIndex_${bc.ckPageObject}`);
         }
         if (btn.disabledrules) {
             btn.disabledrules = btn.disabledrules
                 .replace(/gIsStart/gi, `gIsStart_${bc.ckPageObject}`)
                 .replace(/gIsEnd/gi, `gIsEnd_${bc.ckPageObject}`)
-                .replace(/gPageNum/gi, `gPageNum_${bc.ckPageObject}`)
-                .replace(/gPageIndex/gi, `gPageIndex_${bc.ckPageObject}`);
+                .replace(/gPanelNum/gi, `gPanelNum_${bc.ckPageObject}`)
+                .replace(/gPanelIndex/gi, `gPanelIndex_${bc.ckPageObject}`);
         }
         if (btn.getglobaltostore) {
             btn.getglobaltostore = btn.getglobaltostore
                 .replace(/gIsStart/gi, `gIsStart_${bc.ckPageObject}`)
                 .replace(/gIsEnd/gi, `gIsEnd_${bc.ckPageObject}`)
-                .replace(/gPageNum/gi, `gPageNum_${bc.ckPageObject}`)
-                .replace(/gPageIndex/gi, `gPageIndex_${bc.ckPageObject}`);
+                .replace(/gPanelNum/gi, `gPanelNum_${bc.ckPageObject}`)
+                .replace(/gPanelIndex/gi, `gPanelIndex_${bc.ckPageObject}`);
         }
     });
 

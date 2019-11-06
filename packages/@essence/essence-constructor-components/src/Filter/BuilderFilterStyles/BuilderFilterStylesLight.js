@@ -24,7 +24,7 @@ const BuilderFilterStylesLight = (theme: any) => ({
             borderRight: `2px solid ${theme.palette.primary.main}`,
             borderTop: `2px solid ${theme.palette.primary.main}`,
             borderTopRightRadius: 6,
-            bottom: -3,
+            bottom: -5,
             // eslint-disable-next-line quotes
             content: '""',
             height: 40,

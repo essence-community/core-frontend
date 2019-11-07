@@ -167,6 +167,11 @@ export const themeDarkOverrides = (theme) => ({
             color: theme.palette.primary.icon,
         },
     },
+    MuiTableCell: {
+        root: {
+            borderBottom: "none",
+        },
+    },
     MuiTableRow: {
         head: {
             height: theme.sizing.gridRowHeight,

@@ -60,7 +60,7 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
 
     return useObserver(() => {
         const {favorits} = routesStore;
-        const isFavorite = favorits.get(route[VAR_RECORD_ID]);
+        const isFavorite = favorits.get(id);
 
         return (
             <div className={classes.root} style={{paddingLeft: level * LEFT_PADDING}} onClick={handleClick}>

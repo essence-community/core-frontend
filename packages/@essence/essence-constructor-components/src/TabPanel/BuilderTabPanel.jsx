@@ -184,7 +184,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
         this.setState({selectedTab: null});
     };
 
-    renderTabComponent = (Cmp, child) => {
+    renderTabComponent = (Cmp, child, className) => {
         const {
             store: {tabValue, openedTabs},
             disabled,
@@ -201,7 +201,13 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
         }
 
         return (
-            <Grid xs={12} item key={child.ckPageObject} style={{display: isVisible ? "block" : "none"}}>
+            <Grid
+                xs={12}
+                className={className}
+                item
+                key={child.ckPageObject}
+                style={{display: isVisible ? "block" : "none"}}
+            >
                 <Cmp
                     type={child.type}
                     bc={child}
@@ -346,7 +352,9 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
                         </Tabs>
                     </div>
                 </Grid>
-                {mapComponents(bc.childs, this.renderTabComponent)}
+                {mapComponents(bc.childs, (Child, childBc) =>
+                    this.renderTabComponent(Child, childBc, classes[`content-${align}-${contentview}`]),
+                )}
             </Grid>
         );
     }

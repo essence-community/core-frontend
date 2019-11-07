@@ -5,6 +5,10 @@ import * as React from "react";
 import {TreeRows} from "../components/TreeRows/TreeRows";
 import {PagesTreeModel} from "../stores/PagesTreeModel";
 
+const SCROLLBARS_STYLE = {
+    height: "100%",
+};
+
 export const PagesTree: React.FC<IClassProps> = (props) => {
     const applicationStore = React.useContext(ApplicationContext);
 
@@ -23,7 +27,7 @@ export const PagesTree: React.FC<IClassProps> = (props) => {
     const {routesStore, pagesStore} = applicationStore;
 
     return (
-        <Scrollbars withRequestAnimationFrame>
+        <Scrollbars withRequestAnimationFrame style={SCROLLBARS_STYLE}>
             <TreeRows parent={null} treeModel={store} routesStore={routesStore} pagesStore={pagesStore} level={0} />
         </Scrollbars>
     );

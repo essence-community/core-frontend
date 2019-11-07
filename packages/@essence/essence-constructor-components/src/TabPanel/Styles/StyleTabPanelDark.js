@@ -1,11 +1,19 @@
-import {fade} from "@material-ui/core/styles";
-
+/* eslint-disable max-lines */
 export const StyleTabPanelDark = (theme) => {
     const tabsFlexContainerCenter = {
         "& $tabRoot": {
             "&:before": {
+                boxShadow: `-2px 0px 2px -2px ${theme.palette.primary.main}`,
+                left: -25,
                 transform: "skewX(-54deg)",
             },
+            "&:hover": {
+                "&:before": {
+                    boxShadow: `-2px -0.5px 1px ${theme.palette.primary.main}`,
+                },
+                boxShadow: `0.5px -0.5px 1px 1px ${theme.palette.primary.main}`,
+            },
+            boxShadow: `-2px 0px 2px -2px ${theme.palette.primary.main}`,
             marginRight: 25,
             transform: "skewX(34deg)",
         },
@@ -37,34 +45,102 @@ export const StyleTabPanelDark = (theme) => {
             opacity: "1 !important",
         },
         popoverButton: {
-            "&:before": {
+            "&$popoverButtonActive": {
+                "& $popoverButtonIcon": {
+                    color: theme.palette.text.light,
+                },
+                "&:after": {
+                    backgroundColor: theme.palette.primary.main,
+                },
+                "&:before": {
+                    background: theme.palette.primary.main,
+                    boxShadow: "none",
+                },
+                "&:hover": {
+                    "&:before": {
+                        background: theme.palette.primary.main,
+                        boxShadow: `-2px -0.5px 1px ${theme.palette.primary.main}`,
+                    },
+                    background: theme.palette.primary.main,
+                    boxShadow: `0.5px -0.5px 1px 1px ${theme.palette.primary.main}`,
+                },
+                background: theme.palette.primary.main,
+                boxShadow: "none",
+            },
+            "&:after": {
                 backgroundColor: theme.palette.secondary.main,
-                borderLeft: `1px solid ${theme.palette.secondary.main}`,
-                borderTop: `1px solid ${theme.palette.secondary.main}`,
                 bottom: 0,
                 // eslint-disable-next-line quotes
                 content: '""',
-                left: -5,
+                left: -22,
                 position: "absolute",
-                right: -10,
+                right: 10,
+                top: 20,
+                zIndex: -1,
+            },
+            "&:before": {
+                backgroundColor: theme.palette.secondary.main,
+                bottom: 0,
+                boxShadow: `-2px 0px 2px -2px ${theme.palette.primary.main}`,
+                // eslint-disable-next-line quotes
+                content: '""',
+                left: -25,
+                position: "absolute",
+                right: 24,
                 top: 0,
-                transform: "skewX(-30deg)",
+                transform: "skewX(-54deg)",
                 zIndex: -1,
             },
             "&:hover": {
                 "&:before": {
                     // Reset on touch devices, it doesn't add specificity
                     "@media (hover: none)": {
-                        backgroundColor: "transparent",
+                        backgroundColor: theme.palette.secondary.main,
                     },
-                    backgroundColor: fade(theme.palette.action.active, theme.palette.action.hoverOpacity),
+                    backgroundColor: theme.palette.secondary.main,
+                    boxShadow: `-2px -0.5px 1px ${theme.palette.primary.main}`,
                 },
-                backgroundColor: "transparent",
+                backgroundColor: theme.palette.secondary.main,
+                boxShadow: `0.5px -0.5px 1px 1px ${theme.palette.primary.main}`,
             },
+            backgroundColor: theme.palette.secondary.main,
+            borderRadius: 0,
+            boxShadow: `2px 0px 3px -2px ${theme.palette.primary.main}`,
             fill: theme.palette.primary.main,
             height: 36,
+            marginRight: 14,
             position: "relative",
+            transform: "skewX(34deg)",
+            transition: "none",
             width: 26,
+        },
+        popoverButtonActive: {},
+        popoverButtonIcon: {
+            color: theme.palette.text.dark,
+            marginLeft: -20,
+            transform: "skewX(-34deg)",
+        },
+        popoverButtonOpen: {},
+        popoverButtonPaper: {
+            backgroundColor: theme.palette.primary.main,
+        },
+        popoverButtonlistItem: {
+            "&:first-child": {
+                borderBottom: "none",
+            },
+            "&:hover, &:focus": {
+                backgroundColor: theme.palette.primary.light,
+                outline: "none",
+            },
+            borderBottom: `1px solid ${theme.palette.grey.light}`,
+            color: theme.palette.text.light,
+            cursor: "pointer",
+            fill: theme.palette.text.light,
+            maxHeight: theme.sizing.gridRowHeight,
+            maxWidth: 500,
+            minWidth: 0,
+            paddingLeft: theme.spacing(1),
+            paddingRight: theme.spacing(1),
         },
         selectedTabRoot: {
             "&$tabRoot": {
@@ -95,7 +171,6 @@ export const StyleTabPanelDark = (theme) => {
             "&:before": {
                 background: "#cdcaca",
                 bottom: 0,
-                boxShadow: `-2px 0px 2px -2px ${theme.palette.primary.main}`,
                 // eslint-disable-next-line quotes
                 content: '""',
                 left: -24,
@@ -104,14 +179,7 @@ export const StyleTabPanelDark = (theme) => {
                 width: 49,
                 zIndex: -16,
             },
-            "&:hover": {
-                "&:before": {
-                    boxShadow: `-2px -0px 1px ${theme.palette.primary.main}`,
-                },
-                boxShadow: `1px -1px 1px ${theme.palette.primary.main}`,
-            },
             background: "#cdcaca",
-            boxShadow: `2px 0px 3px -2px ${theme.palette.primary.main}`,
             flexShrink: 1,
             height: 36,
             minHeight: 36,

@@ -1,5 +1,3 @@
-import {fade} from "@material-ui/core/styles";
-
 export const StyleTabPanelLight = (theme) => ({
     activeTabRoot: {
         backgroundColor: "#fff0e1",
@@ -19,6 +17,17 @@ export const StyleTabPanelLight = (theme) => ({
         borderTop: `2px solid ${theme.palette.secondary.main}`,
     },
     popoverButton: {
+        "&$popoverButtonActive": {
+            "&:before": {
+                backgroundColor: "#fff0e1",
+            },
+        },
+        "&$popoverButtonOpen": {
+            "&:hover": {
+                borderBottomColor: "transparent",
+                borderRadius: "3px 3px 0 0",
+            },
+        },
         "&:before": {
             borderLeft: `1px solid ${theme.palette.secondary.main}`,
             borderTop: `1px solid ${theme.palette.secondary.main}`,
@@ -39,14 +48,32 @@ export const StyleTabPanelLight = (theme) => ({
                 "@media (hover: none)": {
                     backgroundColor: "transparent",
                 },
-                backgroundColor: fade(theme.palette.action.active, theme.palette.action.hoverOpacity),
+                backgroundColor: "#e9ecf4",
             },
             backgroundColor: "transparent",
         },
-        fill: theme.palette.primary.main,
+        borderRight: `1px solid ${theme.palette.secondary.main}`,
+        color: theme.palette.primary.main,
         height: 36,
         position: "relative",
-        width: 26,
+        width: 36,
+    },
+    popoverButtonActive: {},
+    popoverButtonOpen: {},
+    popoverButtonPaper: {
+        "&:before": {
+            backgroundColor: theme.palette.secondary.main,
+            // eslint-disable-next-line quotes
+            content: '""',
+            height: 1,
+            left: 2,
+            position: "absolute",
+            right: 50,
+            top: 0,
+        },
+        border: `1px solid ${theme.palette.secondary.main}`,
+        borderRadius: "3px 0 3px 3px",
+        borderTop: "none",
     },
     selectedTabRoot: {
         "&$tabRoot": {

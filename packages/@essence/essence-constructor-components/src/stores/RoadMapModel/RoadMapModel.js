@@ -42,8 +42,8 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
             camelCaseKeys({
                 [`gIsEnd_${this.tabBc.ckPageObject}`]: this.isEnd(),
                 [`gIsStart_${this.tabBc.ckPageObject}`]: this.isStart(),
-                [`gPageNum_${this.tabBc.ckPageObject}`]: this.tabValue && this.tabStatus.get(this.tabValue).num,
-                [`gPageIndex_${this.tabBc.ckPageObject}`]: this.tabs
+                [`gPanelNum_${this.tabBc.ckPageObject}`]: this.tabValue && this.tabStatus.get(this.tabValue).num,
+                [`gPanelIndex_${this.tabBc.ckPageObject}`]: this.tabs
                     .map((tab) => tab.ckPageObject)
                     .indexOf(this.tabValue),
             }),
@@ -96,8 +96,8 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
             camelCaseKeys({
                 [`gIsEnd_${this.tabBc.ckPageObject}`]: this.isEnd(),
                 [`gIsStart_${this.tabBc.ckPageObject}`]: this.isStart(),
-                [`gPageNum_${this.tabBc.ckPageObject}`]: this.tabStatus.get(this.tabValue).num,
-                [`gPageIndex_${this.tabBc.ckPageObject}`]: this.tabs
+                [`gPanelNum_${this.tabBc.ckPageObject}`]: this.tabStatus.get(this.tabValue).num,
+                [`gPanelIndex_${this.tabBc.ckPageObject}`]: this.tabs
                     .map((tab) => tab.ckPageObject)
                     .indexOf(this.tabValue),
             }),
@@ -182,7 +182,7 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
             });
             this.pageStore.updateGlobalValues(
                 camelCaseKeys({
-                    [`gPageNum_${this.tabBc.ckPageObject}`]: this.tabStatus.get(this.tabValue).num,
+                    [`gPanelNum_${this.tabBc.ckPageObject}`]: this.tabStatus.get(this.tabValue).num,
                 }),
             );
         }

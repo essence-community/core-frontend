@@ -6,6 +6,18 @@ export const StyleTabPanelLight = (theme) => ({
         borderRight: `2px solid ${theme.palette.secondary.main}`,
         borderTop: `2px solid ${theme.palette.secondary.main}`,
     },
+    "content-left-hbox": {
+        borderTop: `2px solid ${theme.palette.secondary.main}`,
+    },
+    "content-left-vbox": {
+        borderTop: `2px solid ${theme.palette.secondary.main}`,
+    },
+    "content-right-hbox": {
+        borderTop: `2px solid ${theme.palette.secondary.main}`,
+    },
+    "content-right-vbox": {
+        borderTop: `2px solid ${theme.palette.secondary.main}`,
+    },
     popoverButton: {
         "&:before": {
             borderLeft: `1px solid ${theme.palette.secondary.main}`,
@@ -45,10 +57,10 @@ export const StyleTabPanelLight = (theme) => ({
         width: "100%",
     },
     "tabItem-left-hbox": {
-        borderRight: `1px solid ${theme.palette.secondary.main}`,
+        borderRight: `2px solid ${theme.palette.secondary.main}`,
     },
     "tabItem-left-vbox": {
-        borderRight: `1px solid ${theme.palette.secondary.main}`,
+        borderRight: `2px solid ${theme.palette.secondary.main}`,
     },
     "tabItem-right-hbox": {
         borderLeft: `1px solid ${theme.palette.secondary.main}`,
@@ -105,7 +117,7 @@ export const StyleTabPanelLight = (theme) => ({
             transform: "skewX(-30deg)",
         },
         "& $tabWrapper": {
-            textAlign: "start",
+            textAlign: "end",
             transform: "skewX(30deg)",
         },
         flexDirection: "column-reverse",
@@ -119,12 +131,13 @@ export const StyleTabPanelLight = (theme) => ({
             borderTopRightRadius: 0,
             height: "auto",
             marginBottom: 15,
-            minWidth: 35,
+            minWidth: 36,
             padding: "10px 0",
             transform: "skewY(-30deg)",
-            width: 35,
+            width: 36,
         },
         "& $tabWrapper": {
+            maxHeight: 234,
             textAlign: "start",
             transform: "skewY(30deg) rotate(180deg)",
             writingMode: "vertical-rl",
@@ -150,12 +163,13 @@ export const StyleTabPanelLight = (theme) => ({
         "& $tabRoot": {
             height: "auto",
             marginBottom: 15,
-            minWidth: 35,
+            minWidth: 36,
             padding: "10px 0",
             transform: "skewY(30deg)",
-            width: 35,
+            width: 36,
         },
         "& $tabWrapper": {
+            maxHeight: 234,
             textAlign: "start",
             transform: "skewY(-30deg)",
             writingMode: "vertical-rl",

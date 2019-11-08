@@ -14,3 +14,4 @@ export const ApplicationContext = React.createContext<IApplicationModel | null>(
 export const PageContext = React.createContext<IPageModel | undefined>(undefined);
 export const RoutesContext = React.createContext<IRoutesModel | undefined>(undefined);
 export const PagesContext = React.createContext<IPagesModel | undefined>(undefined);
+export const PanelWidthContext = React.createContext<number | undefined>(undefined);

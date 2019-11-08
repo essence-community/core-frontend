@@ -15,6 +15,7 @@ export const HorizontalResizerStyles = (theme: any) => ({
     resizeContainer: {
         display: "flex",
         flexDirection: "row",
+        height: "100%",
     },
     resizer: {
         alignItems: "center",

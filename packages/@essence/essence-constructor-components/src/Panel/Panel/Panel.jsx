@@ -5,7 +5,7 @@ import {withStyles} from "@material-ui/core/styles";
 import {Grid} from "@material-ui/core";
 import {compose} from "recompose";
 import {toColumnStyleWidth} from "@essence/essence-constructor-share/utils";
-import {mapComponents} from "@essence/essence-constructor-share";
+import {mapComponents, PanelWidthContext} from "@essence/essence-constructor-share";
 import {type BuilderPanelType} from "../BuilderPanelType";
 import {type PageModelType} from "../../stores/PageModel";
 import HorizontalResizer from "../../Resizer/HorizontalResizer";
@@ -35,12 +35,10 @@ const MAX_PANEL_WIDTH = 12;
 const DEFAULT_SPACING = 1;
 const GRID_CONFIGS = {
     hbox: {
-        alignItems: "flex-start",
         direction: "row",
         wrap: "nowrap",
     },
     "hbox-wrap": {
-        alignItems: "flex-start",
         direction: "row",
         wrap: "wrap",
     },
@@ -140,19 +138,21 @@ export class Panel extends React.Component<PropsType> {
                             itemsNumber={childs.length}
                             onChange={this.handleChangeChildWidth}
                         >
-                            <ChildComp
-                                bc={child}
-                                editing={editing}
-                                disabled={disabled}
-                                hidden={hidden}
-                                readOnly={readOnly}
-                                elevation={elevation}
-                                pageStore={pageStore}
-                                visible={visible}
-                                onExpand={onExpand}
-                                tabIndex={tabIndex}
-                                record={record}
-                            />
+                            <PanelWidthContext.Provider value={childWidthData.width}>
+                                <ChildComp
+                                    bc={child}
+                                    editing={editing}
+                                    disabled={disabled}
+                                    hidden={hidden}
+                                    readOnly={readOnly}
+                                    elevation={elevation}
+                                    pageStore={pageStore}
+                                    visible={visible}
+                                    onExpand={onExpand}
+                                    tabIndex={tabIndex}
+                                    record={record}
+                                />
+                            </PanelWidthContext.Provider>
                         </HorizontalResizer>
                     );
                 })}

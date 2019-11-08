@@ -22,14 +22,14 @@ interface IProps extends IPopoverChildrenProps {
     bc: IBuilderConfig;
     value?: FieldValue;
     inputRef: React.RefObject<HTMLInputElement>;
+    listRef: React.MutableRefObject<HTMLInputElement | null>;
     onChange: (event: React.SyntheticEvent | null, value: string) => void;
 }
 
 export const FieldComboList: React.FC<IProps> = (props) => {
-    const {store, bc, onChange, onClose} = props;
+    const {store, bc, onChange, onClose, listRef} = props;
     const scrollbarRef: React.MutableRefObject<Scrollbars | undefined> = React.useRef();
-    const stringValue =
-        bc.allownew && typeof props.value === "string" ? props.value.replace(bc.allownew, "") : toString(props.value);
+    const stringValue = toString(props.value);
     const classes = useStyles(props);
     const autoHeightMin = store.recordsStore.pageSize
         ? Math.min(store.recordsStore.pageSize * ITEM_HEIGHT, AUTO_HEIGHT_MAX)
@@ -40,7 +40,7 @@ export const FieldComboList: React.FC<IProps> = (props) => {
             onClose(event);
 
             if (bc.allownew) {
-                store.handleChangeValue(suggestion.label);
+                store.handleSetValue(suggestion.value, false, false);
             }
 
             if (props.inputRef.current) {
@@ -73,7 +73,7 @@ export const FieldComboList: React.FC<IProps> = (props) => {
     );
 
     return useObserver(() => (
-        <Paper className={classes.paper} square data-page-object={`${bc.ckPageObject}-window`}>
+        <Paper className={classes.paper} square data-page-object={`${bc.ckPageObject}-window`} ref={listRef}>
             <Scrollbars
                 autoHeight
                 hideTracksWhenNotNeeded

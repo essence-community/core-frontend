@@ -61,16 +61,17 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
             (activePage) => {
                 const route = activePage && activePage.route;
                 let pageId: FieldValue = "";
+                let routeUrl: FieldValue = "";
 
-                if (route && route.clStatic && route[VAR_SELF_CV_URL]) {
-                    pageId = route[VAR_SELF_CV_URL];
-                } else if (route && route[VAR_RECORD_ID]) {
+                if (route && route[VAR_RECORD_ID]) {
                     pageId = route[VAR_RECORD_ID];
+                    routeUrl = route.clStatic && route[VAR_SELF_CV_URL] ? route[VAR_SELF_CV_URL] : route[VAR_RECORD_ID];
                 } else if (applicationStore.authStore.userInfo.session) {
                     pageId = applicationStore.bc.defaultvalue;
+                    routeUrl = applicationStore.bc.defaultvalue;
                 }
 
-                const url = pageId ? `/${appName}/${pageId}` : `/${applicationStore.bc.redirecturl}`;
+                const url = routeUrl ? `/${appName}/${routeUrl}` : `/${applicationStore.bc.redirecturl}`;
 
                 if (url && history.location.pathname !== url) {
                     history.push(url);

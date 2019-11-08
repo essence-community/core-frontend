@@ -45,6 +45,7 @@ export class FieldComboModel extends StoreBaseModel {
 
         this.recordsStore = new RecordsModel(bc, {
             applicationStore,
+            noLoadChilds: Boolean(bc.clIsMaster),
             pageStore,
             valueField: this.valuefield,
         });

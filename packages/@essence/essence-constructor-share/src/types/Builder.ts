@@ -248,6 +248,8 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     cvDisplayed?: string;
     cvName?: string;
     ckObject?: string;
+    // Определяет класс в качестве мастера
+    clIsMaster?: boolean;
     contentwidth?: string;
     // Служебный параметр для иерархии
     bottombtn?: IBuilderConfig[];

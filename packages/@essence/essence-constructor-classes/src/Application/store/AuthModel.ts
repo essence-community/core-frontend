@@ -57,7 +57,7 @@ export class AuthModel implements IAuthModel {
                     }
                 })
                 .catch((error) => {
-                    snackbarStore.checkExceptResponse(error);
+                    snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
                     this.applicationStore.logoutAction();
                     this.userInfo = {};
                 }),

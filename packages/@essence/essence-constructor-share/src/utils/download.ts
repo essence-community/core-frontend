@@ -3,7 +3,7 @@ import {setMask} from "../models/RecordsModel/loadRecordsAction";
 import {request} from "../request";
 import {IPageModel} from "../types/PageModel";
 import {ISnackbarModel} from "../types/SnackbarModel";
-import {FieldValue, IRecord, IResponse} from "../types";
+import {FieldValue, IRecord, IResponse, IApplicationModel} from "../types";
 import {VAR_RECORD_RES_DOWNLOAD_URL} from "../constants";
 
 interface IPrintBC {
@@ -21,11 +21,11 @@ interface IReloadPageObject {
 }
 
 interface IPrint {
+    applicationStore: IApplicationModel;
     values: Record<string, FieldValue>;
     bcBtn: IPrintBC;
     bc: IPrintBC;
     isOnline: boolean;
-    session: string;
     snackbarStore: ISnackbarModel;
     pageStore: IPageModel;
     reloadPageObject?: IReloadPageObject;
@@ -37,11 +37,11 @@ interface IResult extends IResponse, IRecord {
 }
 
 export const print = async ({
+    applicationStore,
     values: {...values},
     bc,
     bcBtn,
     isOnline,
-    session,
     snackbarStore,
     pageStore,
     reloadPageObject,
@@ -63,13 +63,13 @@ export const print = async ({
         pageObject: bc.ckParent,
         plugin: bcBtn.extraplugingate || bc.extraplugingate,
         query: bcBtn.updatequery || "Modify",
-        session,
+        session: applicationStore.authStore.userInfo.session,
         timeout,
     });
     const res: IResult = result;
 
     setMask(false, bcBtn.noglobalmask, pageStore);
-    const isValid = snackbarStore.checkValidResponseAction(res, pageStore.route);
+    const isValid = snackbarStore.checkValidResponseAction(res, pageStore.route, undefined, applicationStore);
 
     if (isValid && isOnline && res[VAR_RECORD_RES_DOWNLOAD_URL]) {
         window.open(res[VAR_RECORD_RES_DOWNLOAD_URL]);

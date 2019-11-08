@@ -130,27 +130,32 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
             (response) =>
                 // eslint-disable-next-line max-statements
                 new Promise((resolve) => {
-                    const check = snackbarStore.checkValidResponseAction(response, pageStore.route, (warningText) => {
-                        setMask(noglobalmask, pageStore, false);
+                    const check = snackbarStore.checkValidResponseAction(
+                        response,
+                        pageStore.route,
+                        (warningText) => {
+                            setMask(noglobalmask, pageStore, false);
 
-                        pageStore.openQuestionWindow(warningText, (clWarningNew) => {
-                            if (clWarningNew === 0) {
-                                resolve(false);
-                            } else {
-                                saveAction
-                                    .call(this, values, mode, {
-                                        action,
-                                        actionBc,
-                                        bc: config.bc,
-                                        clWarning: clWarningNew,
-                                        formData: config.formData,
-                                        pageStore: config.pageStore,
-                                        query: config.query,
-                                    })
-                                    .then(resolve);
-                            }
-                        });
-                    });
+                            pageStore.openQuestionWindow(warningText, (clWarningNew) => {
+                                if (clWarningNew === 0) {
+                                    resolve(false);
+                                } else {
+                                    saveAction
+                                        .call(this, values, mode, {
+                                            action,
+                                            actionBc,
+                                            bc: config.bc,
+                                            clWarning: clWarningNew,
+                                            formData: config.formData,
+                                            pageStore: config.pageStore,
+                                            query: config.query,
+                                        })
+                                        .then(resolve);
+                                }
+                            });
+                        },
+                        pageStore.applicationStore,
+                    );
 
                     if (formData) {
                         snackbarStore.snackbarChangeStatusAction(
@@ -194,7 +199,7 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
                 snackbarStore.snackbarChangeStatusAction(snackbarId, "errorUpload");
             }
 
-            snackbarStore.checkExceptResponse(error);
+            snackbarStore.checkExceptResponse(error, undefined, pageStore.applicationStore);
             pageStore.resetStepAction();
 
             return false;

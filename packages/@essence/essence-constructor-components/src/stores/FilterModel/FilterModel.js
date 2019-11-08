@@ -122,6 +122,7 @@ export class FilterModel extends StoreBaseModel implements FilterModelType {
 
         if (values) {
             const isValidPrint = await print({
+                applicationStore: this.pageStore.applicationStore,
                 bc: this.bc,
                 bcBtn,
                 isOnline,
@@ -130,7 +131,6 @@ export class FilterModel extends StoreBaseModel implements FilterModelType {
                     ckPage: this.pageStore.ckPage,
                     ckPageObject: this.bc.ckMaster || this.bc.ckParent,
                 },
-                session: this.pageStore.applicationStore.session,
                 snackbarStore,
                 timeout: bcBtn.timeout || this.bc.timeout,
                 values: attachGlobalValues({

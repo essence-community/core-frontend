@@ -170,7 +170,7 @@ export class SnackbarModel implements ISnackbarModel {
         response: IResponse = {},
         route?: Record<string, FieldValue>,
         warnCallBack?: Function,
-        applicationStore?: IApplicationModel,
+        applicationStore?: IApplicationModel | null,
         // eslint-disable-next-line max-params
     ) => {
         const cvError = response[VAR_RECORD_RES_ERROR];
@@ -277,7 +277,7 @@ export class SnackbarModel implements ISnackbarModel {
 
     checkExceptResponse = action(
         "checkExceptResponse",
-        (error: Record<string, any>, route?: IRouteRecord, applicationStore?: IApplicationModel) => {
+        (error: Record<string, any>, route?: IRouteRecord, applicationStore?: IApplicationModel | null) => {
             const responseError = error.responseError || {};
             const errCode = responseError.errCode as keyof typeof CODE_GROUP_MAP;
             const groupCode = CODE_GROUP_MAP[errCode] as keyof typeof GROUP_ACTION_MAP;

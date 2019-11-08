@@ -270,7 +270,7 @@ export class PageModel implements PageModelInterface {
 
         return fetchResult
             .then((response) => {
-                if (snackbarStore.checkValidResponseAction(response[0], this.route)) {
+                if (snackbarStore.checkValidResponseAction(response[0], this.route, undefined, this.applicationStore)) {
                     const classNames = findClassNames(response);
 
                     loadComponentsFromModules(classNames).then(() => {
@@ -280,7 +280,7 @@ export class PageModel implements PageModelInterface {
             })
 
             .catch((error) => {
-                snackbarStore.checkExceptResponse(error, this.route);
+                snackbarStore.checkExceptResponse(error, this.route, this.applicationStore);
                 this.pageBc = [];
             })
             .then((res) => {

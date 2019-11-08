@@ -1,5 +1,5 @@
 import {ObservableMap} from "mobx";
-import {FieldValue, IBuilderConfig, RecordsStateStatusType, IRecordsOrder} from "../../types";
+import {FieldValue, IBuilderConfig, RecordsStateStatusType, IRecordsOrder, IApplicationModel} from "../../types";
 
 export interface IJson {
     filter: Record<string, FieldValue>;
@@ -29,6 +29,7 @@ export interface IAttachGlobalStore {
 }
 
 export interface ILoadRecordsAction {
+    applicationStore: IApplicationModel | null;
     bc: IBuilderConfig;
     recordId?: string;
     selectedRecordId?: string;

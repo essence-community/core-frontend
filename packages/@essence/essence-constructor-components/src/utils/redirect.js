@@ -155,7 +155,12 @@ export const redirectUseQuery = ({
         timeout: bc.timeout,
     })
         .then((res) => {
-            const isValid = snackbarStore.checkValidResponseAction(res, pageStore.route);
+            const isValid = snackbarStore.checkValidResponseAction(
+                res,
+                pageStore.route,
+                undefined,
+                pageStore.applicationStore,
+            );
 
             if (isValid) {
                 window.open(res.cvUrl);
@@ -173,6 +178,8 @@ export const redirectUseQuery = ({
                     },
                 },
                 pageStore.route,
+                undefined,
+                pageStore.applicationStore,
             );
 
             return false;

@@ -141,6 +141,7 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
                                 }
                             });
                         },
+                        this.applicationStore,
                     );
 
                     if (check === 1 && noReload) {
@@ -174,7 +175,7 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
         .catch((error) => {
             logger("Ошибка при сохранении данных:", error);
 
-            snackbarStore.checkExceptResponse(error);
+            snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
             pageStore.resetStepAction();
 
             return false;

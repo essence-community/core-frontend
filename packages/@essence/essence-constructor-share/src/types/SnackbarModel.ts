@@ -59,7 +59,7 @@ export interface ISnackbarModel {
         response: IResponse,
         route?: Record<string, FieldValue>,
         warnCallBack?: Function,
-        applicationStore?: IApplicationModel,
+        applicationStore?: IApplicationModel | null,
     ) => number;
     checkValidLoginResponse: (response: Record<string, FieldValue>) => boolean;
     checkExceptResponse: (

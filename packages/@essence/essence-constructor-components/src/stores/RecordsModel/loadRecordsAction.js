@@ -232,7 +232,14 @@ export function loadRecordsAction({
             });
         })
         .then((response) => {
-            if (snackbarStore.checkValidResponseAction(response[0], this.pageStore && this.pageStore.route)) {
+            if (
+                snackbarStore.checkValidResponseAction(
+                    response[0],
+                    this.pageStore && this.pageStore.route,
+                    undefined,
+                    applicationStore,
+                )
+            ) {
                 const records = (response || []).map((record) => {
                     if (!record.ckId && isEmpty(record.ckId)) {
                         record.ckId = `auto-${uuidv4()}`;
@@ -257,7 +264,7 @@ export function loadRecordsAction({
             return [];
         })
         .catch((response) => {
-            snackbarStore.checkExceptResponse(response, this.pageStore && this.pageStore.route);
+            snackbarStore.checkExceptResponse(response, this.pageStore && this.pageStore.route, this.applicationStore);
 
             return [];
         })

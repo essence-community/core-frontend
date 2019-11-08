@@ -70,27 +70,27 @@ export interface IRecordsModel {
     recordsState: IRecordsState<IRecord>;
     selectedRecordId?: FieldValue;
     selectedRecord?: IRecord;
-    selectedRecrodValues: object;
+    selectedRecrodValues: IRecord;
     hasSelected: boolean;
     selectedRecordIndex: -1 | number;
     pageNumber: number;
     recordsCount: number;
     order: IRecordsOrder;
-    jsonMaster: Record<string, FieldValue>;
+    jsonMaster: IRecord;
     pageSize?: number;
     bc: IBuilderConfig;
-    searchValues: Record<string, FieldValue>;
+    searchValues: IRecord;
     pageStore: IPageModel | null;
     applicationStore: IApplicationModel | null;
     isLoading: boolean;
-    filter?: Record<string, FieldValue>[];
+    filter?: IRecord[];
     loadCounter: number;
     valueField: string;
     route: IRouteRecord;
-    loadRecordsAction: (props: ILoadRecordsProps) => Promise<any>;
+    loadRecordsAction: (props: ILoadRecordsProps) => Promise<undefined | IRecord>;
     clearRecordsAction: () => void;
-    saveAction: (values: object | object[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<string>;
-    downloadAction: (values: object | object[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<string>;
+    saveAction: (values: IRecord | IRecord[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<string>;
+    downloadAction: (values: IRecord | IRecord[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<string>;
     setSelectionAction: (ckId: FieldValue, key?: string) => Promise<number>;
     setRecordsAction: (records: IRecord[]) => void;
     removeSelectedRecordAction: (options: ISaveActionOptions) => boolean;
@@ -100,13 +100,17 @@ export interface IRecordsModel {
     setNextRecord: () => void;
     setLastRecord: () => void;
     setOrderAction: (property: string) => void;
-    searchAction: (values: Record<string, FieldValue>, options?: IRecordsSearchOptions) => Promise<void | object>;
-    setSearchValuesAction: (values: object) => void;
+    searchAction: (values: IRecord, options?: IRecordsSearchOptions) => Promise<void | object>;
+    setSearchValuesAction: (values: IRecord) => void;
     clearChildsStoresAction: () => void;
     sortRecordsAction: () => void;
-    addRecordsAction: (records: object[]) => void;
-    removeRecordsAction: (records: object[], key: string, reload?: boolean) => void;
+    addRecordsAction: (records: IRecord[]) => void;
+    removeRecordsAction: (records: IRecord[], key: string, reload?: boolean) => void;
     setLoadingAction: (isLoading: boolean) => void;
 }
 
-export type IRecordsModelConstructor = new (bc: object, pageStore: IPageModel, options?: IOptions) => IRecordsModel;
+export type IRecordsModelConstructor = new (
+    bc: IBuilderConfig,
+    pageStore: IPageModel,
+    options?: IOptions,
+) => IRecordsModel;

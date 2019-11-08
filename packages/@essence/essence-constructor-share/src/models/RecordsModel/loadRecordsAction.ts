@@ -182,7 +182,7 @@ export function prepareRequst(recordsStore: IRecordsModel, {bc, status, selected
 
 export function loadRecordsAction(
     this: IRecordsModel,
-    {bc, selectedRecordId, status, isUserReload = false}: ILoadRecordsAction,
+    {applicationStore, bc, selectedRecordId, status, isUserReload = false}: ILoadRecordsAction,
 ): Promise<object | undefined> {
     const {noglobalmask, defaultvalue} = bc;
 
@@ -191,7 +191,7 @@ export function loadRecordsAction(
     // Should be logic for wainting unfinished master request
     return Promise.resolve()
         .then(() => {
-            const {json} = prepareRequst(this, {bc, selectedRecordId, status});
+            const {json} = prepareRequst(this, {applicationStore, bc, selectedRecordId, status});
 
             return request<IResponse[]>({
                 action: "sql",
@@ -200,7 +200,7 @@ export function loadRecordsAction(
                 pageObject: bc.ckPageObject,
                 plugin: bc.extraplugingate,
                 query: bc.ckQuery || "",
-                session: this.applicationStore ? this.applicationStore.authStore.userInfo.session : "",
+                session: applicationStore ? applicationStore.authStore.userInfo.session : "",
                 timeout: bc.timeout,
             });
         })
@@ -210,7 +210,7 @@ export function loadRecordsAction(
                     response[0],
                     this.pageStore ? this.pageStore.route : undefined,
                     undefined,
-                    this.applicationStore ? this.applicationStore : undefined,
+                    applicationStore,
                 )
             ) {
                 const records = (response || []).map((record: Record<string, FieldValue>) => {
@@ -240,7 +240,7 @@ export function loadRecordsAction(
             snackbarStore.checkExceptResponse(
                 response,
                 this.pageStore ? this.pageStore.route : undefined,
-                this.applicationStore ? this.applicationStore : undefined,
+                applicationStore,
             );
 
             return [];

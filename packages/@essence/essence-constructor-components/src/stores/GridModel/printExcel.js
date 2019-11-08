@@ -82,7 +82,12 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
     })
         .then((res) => {
             setMask("false", pageStore, false);
-            const isValid: number = snackbarStore.checkValidResponseAction(res, pageStore.route);
+            const isValid: number = snackbarStore.checkValidResponseAction(
+                res,
+                pageStore.route,
+                undefined,
+                pageStore.applicationStore,
+            );
 
             if (isValid) {
                 window.open(res.cvUrlResponse);

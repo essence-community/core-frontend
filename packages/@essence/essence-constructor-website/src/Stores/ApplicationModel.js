@@ -371,9 +371,14 @@ export class ApplicationModel implements ApplicationModelType {
         json.forEach((event) => {
             switch (event.event) {
                 case "notification": {
-                    snackbarStore.checkValidResponseAction(camelCaseKeys(event.data), {
-                        cvName: "Оповещение",
-                    });
+                    snackbarStore.checkValidResponseAction(
+                        camelCaseKeys(event.data),
+                        {
+                            cvName: "Оповещение",
+                        },
+                        undefined,
+                        this,
+                    );
                     break;
                 }
                 case "mask": {

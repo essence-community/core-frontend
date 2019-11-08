@@ -40,7 +40,7 @@ class ProfileModel extends PageModel implements ProfileModelType {
             session: this.applicationStore.session,
         })
             .then((response = {}) => {
-                if (snackbarStore.checkValidResponseAction(response)) {
+                if (snackbarStore.checkValidResponseAction(response, undefined, undefined, this.applicationStore)) {
                     if (response.cdPeriod) {
                         this.applicationStore.updateGlobalValuesAction({gCdPeriod: response.cdPeriod});
                         this.updateGlobalValues({gCdPeriod: response.cdPeriod});
@@ -51,7 +51,7 @@ class ProfileModel extends PageModel implements ProfileModelType {
                 }
             })
             .catch((error) => {
-                snackbarStore.checkExceptResponse(error);
+                snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
             });
     });
 
@@ -68,14 +68,14 @@ class ProfileModel extends PageModel implements ProfileModelType {
             session: this.applicationStore.session,
         })
             .then((response = {}) => {
-                if (snackbarStore.checkValidResponseAction(response)) {
+                if (snackbarStore.checkValidResponseAction(response, undefined, undefined, this.applicationStore)) {
                     this.authStore.changeUserInfo({
                         ckDept: deptValue,
                     });
                 }
             })
             .catch((error) => {
-                snackbarStore.checkExceptResponse(error);
+                snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
             });
     });
 

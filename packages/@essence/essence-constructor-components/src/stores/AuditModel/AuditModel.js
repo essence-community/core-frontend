@@ -35,12 +35,19 @@ export class AuditModel extends StoreBaseModel implements AuditModelInterface {
             session: this.pageStore.applicationStore.session,
         })
             .then((response) => {
-                if (snackbarStore.checkValidResponseAction(response, this.pageStore.route)) {
+                if (
+                    snackbarStore.checkValidResponseAction(
+                        response,
+                        this.pageStore.route,
+                        undefined,
+                        this.pageStore.applicationStore,
+                    )
+                ) {
                     this.auditInfo.cvUsername = response.cvUsername;
                 }
             })
             .catch((response) => {
-                snackbarStore.checkExceptResponse(response, this.pageStore.route);
+                snackbarStore.checkExceptResponse(response, this.pageStore.route, this.pageStore.applicationStore);
             });
     });
 

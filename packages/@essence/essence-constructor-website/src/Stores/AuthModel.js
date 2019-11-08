@@ -55,7 +55,7 @@ export class AuthModel implements AuthModelType {
                 }
             })
             .catch((error) => {
-                snackbarStore.checkExceptResponse(error);
+                snackbarStore.checkExceptResponse(error, undefined, applicationStore);
                 applicationStore.logoutAction();
                 this.userInfo = {};
             }),

@@ -14,17 +14,18 @@ interface IProps extends IFieldProps {
     store: FieldComboModel;
     bc: IBuilderConfig;
     inputRef: React.RefObject<HTMLInputElement>;
+    textFieldRef: React.RefObject<HTMLDivElement>;
     onChange: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
     onClose: (event: React.SyntheticEvent) => void;
     onOpen: (event: React.SyntheticEvent) => void;
+    onBlur: (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
     const classes = useStyles(props);
-    const {textField: TextField, onClose, onOpen, open, store, onChange, ...otherProps} = props;
+    const {textField: TextField, onClose, onOpen, open, store, onChange, textFieldRef, ...otherProps} = props;
     const handleInputClick = (event: React.SyntheticEvent) => {
         if (!props.open) {
-            props.store.handleSetListChanged(false);
             props.store.handleRestoreSelected(props.value, "down");
             onOpen(event);
         }
@@ -35,16 +36,15 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
         if (props.bc.allownew) {
             const lowerValue = value.toLowerCase();
             const sugValue = props.store.suggestions.find((sug: ISuggestion) => sug.labelLower === lowerValue);
-            const newValue = sugValue ? sugValue.value : value;
+            const newValue = sugValue ? sugValue.value : `${props.bc.allownew}${value}`;
 
-            props.store.handleChangeValue(value);
+            props.store.handleChangeValue(value, !sugValue);
             props.onChange(event, newValue);
         } else {
             props.store.handleChangeValue(value);
         }
 
         if (!props.open) {
-            props.store.handleSetListChanged(true);
             props.store.handleRestoreSelected(props.value, "down");
             onOpen(event);
         }
@@ -62,7 +62,6 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
                         store.handleChangeSelected(code);
                     } else {
                         onOpen(event);
-                        store.handleSetListChanged(false);
                         store.handleRestoreSelected(props.value, code);
                     }
                     break;
@@ -73,9 +72,11 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
                     if (store.highlightedValue && open) {
                         event.preventDefault();
                         onClose(event);
-                        const sugValue = store.suggestions[store.highlightedIndex];
+                        const sugValue: ISuggestion | undefined = store.suggestions[store.highlightedIndex];
 
-                        onChange(null, sugValue.isNew ? `${props.bc.allownew}${sugValue.value}` : sugValue.value);
+                        if (sugValue) {
+                            onChange(null, sugValue.isNew ? `${props.bc.allownew}${sugValue.value}` : sugValue.value);
+                        }
                     }
                     break;
                 case "tab":
@@ -97,12 +98,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             props.inputRef.current.focus();
         }
     };
-    const handleBlur = () => {
-        props.store.handleSetIsFocus(false);
-    };
-    const handleFocus = () => {
-        props.store.handleSetIsFocus(true);
-    };
+
     const chevron = open ? (
         <IconButton
             color="secondary"
@@ -133,6 +129,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
     return useObserver(() => (
         <TextField
             {...otherProps}
+            ref={textFieldRef}
             InputProps={{
                 ...otherProps.InputProps,
                 endAdornment: <InputAdornment position="end">{[...props.tips, chevron]}</InputAdornment>,
@@ -141,8 +138,6 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             onClick={props.disabled ? undefined : handleInputClick}
             onChange={props.disabled ? undefined : handleChange}
             onKeyDown={props.disabled ? undefined : handleKeyDown}
-            onBlur={handleBlur}
-            onFocus={handleFocus}
         />
     ));
 });

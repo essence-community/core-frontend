@@ -16,6 +16,8 @@ import {IFieldComboProps} from "./FieldCombo.types";
 const FieldCombo: React.FC<IFieldComboProps> = (props) => {
     const {field, onInitGlobal} = props;
     const inputRef: React.MutableRefObject<HTMLInputElement | null> = React.useRef(null);
+    const listRef: React.MutableRefObject<HTMLInputElement | null> = React.useRef(null);
+    const textFieldRef: React.MutableRefObject<HTMLDivElement | null> = React.useRef(null);
     const applicationStore = React.useContext(ApplicationContext);
     const [store] = useModel((modelProps) => new FieldComboModel(modelProps), {
         applicationStore,
@@ -32,14 +34,15 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
             inputRef={inputRef}
             value={props.value}
             onChange={props.onChange}
+            listRef={listRef}
             {...popoverProps}
         />
     );
 
     const handleChangeOpen = React.useCallback(
         (open: boolean) => {
-            if (open === false && props.bc.allownew !== "true") {
-                store.handleSetValue(props.value);
+            if (open === false && !props.bc.allownew && store.lastValue !== props.value) {
+                store.handleSetValue(props.value, false, false);
             }
         },
         [props.bc.allownew, store, props.value],
@@ -71,12 +74,28 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
     }, [field, onInitGlobal, store]);
 
     React.useEffect(() => {
-        store.handleSetValue(props.value);
+        if (store.lastValue !== props.value) {
+            store.handleSetValue(props.value, false, false);
+        }
     }, [props.value, store]);
 
     if (props.hidden) {
         return null;
     }
+
+    const handleBlur = (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const {relatedTarget} = event;
+
+        if (relatedTarget instanceof Node) {
+            const isFocus = [listRef.current, textFieldRef.current].some((el: HTMLDivElement | null) => {
+                return el && el.contains(relatedTarget);
+            });
+
+            if (!isFocus && store.isInputChanged) {
+                store.handleSetValue(props.value, false, false);
+            }
+        }
+    };
 
     return (
         <Popover
@@ -91,9 +110,11 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
                     {...props}
                     store={store}
                     inputRef={inputRef}
+                    textFieldRef={textFieldRef}
                     onClose={onClose}
                     onOpen={onOpen}
                     open={open}
+                    onBlur={handleBlur}
                 />
             )}
         </Popover>

@@ -6,6 +6,7 @@ import {
     camelCaseMemoized,
     debounce,
     FieldValue,
+    VAR_RECORD_ID,
 } from "@essence/essence-constructor-share";
 import {StoreBaseModel, RecordsModel} from "@essence/essence-constructor-share/models";
 import {ISuggestion} from "./FieldComboModel.types";
@@ -27,11 +28,11 @@ export class FieldComboModel extends StoreBaseModel {
 
     highlightedIndex: number;
 
-    isFocus = false;
+    lastValue: FieldValue;
 
-    isListChanged: boolean;
+    isInputChanged: boolean;
 
-    loadDebounce: () => void;
+    loadDebounce: (value: string, isUserReload: boolean) => void;
 
     constructor(props: IStoreBaseModelProps) {
         super(props);
@@ -50,9 +51,9 @@ export class FieldComboModel extends StoreBaseModel {
             valueField: this.valuefield,
         });
 
-        this.loadDebounce = debounce(() => {
-            if (bc.queryparam && toString(this.inputValue).length >= this.valueLength) {
-                this.recordsStore.searchAction({[bc.queryparam]: this.inputValue}, {isUserReload: true});
+        this.loadDebounce = debounce((inputValue: string, isUserReload: boolean) => {
+            if (bc.queryparam && toString(inputValue).length >= this.valueLength) {
+                this.recordsStore.searchAction({[bc.queryparam]: inputValue}, {isUserReload});
             }
         }, parseInt(querydelay, 10) * 1000);
 
@@ -64,13 +65,14 @@ export class FieldComboModel extends StoreBaseModel {
             },
             highlightedValue: "",
             inputValue: "",
-            isListChanged: false,
+            isInputChanged: false,
+            lastValue: "",
             get selectedRecord() {
                 return this.recordsStore.selectedRecord;
             },
             get suggestions() {
                 const inputValueLower = this.inputValue.toLowerCase();
-                let suggestions: ISuggestion[] = this.recordsStore.records.map(this.getSuggestion);
+                let suggestions: ISuggestion[] = this.recordsStore.recordsState.records.map(this.getSuggestion);
 
                 if (
                     bc.allownew &&
@@ -86,7 +88,7 @@ export class FieldComboModel extends StoreBaseModel {
                     ];
                 }
 
-                if (this.isListChanged) {
+                if (this.isInputChanged) {
                     return suggestions.filter((sug: ISuggestion) => sug.labelLower.indexOf(inputValueLower) !== -1);
                 }
 
@@ -95,24 +97,17 @@ export class FieldComboModel extends StoreBaseModel {
         });
     }
 
-    handleSetListChanged = (isListChanged: boolean) => {
-        this.isListChanged = isListChanged;
-    };
+    handleChangeValue = (value: string, isNew?: boolean) => {
+        this.isInputChanged = true;
+        this.inputValue = value;
 
-    handleChangeValue = (value: string) => {
-        const isEqual = value === this.inputValue;
-
-        if (!isEqual) {
-            this.isListChanged = true;
-            this.inputValue = value;
-
-            if (this.bc.allownew) {
-                this.highlightedValue = value;
-            }
+        if (this.bc.allownew) {
+            this.lastValue = isNew ? `${this.bc.allownew}${value}` : value;
+            this.highlightedValue = value;
         }
 
-        if (value.length >= this.valueLength && !isEqual) {
-            this.loadDebounce();
+        if (value.length >= this.valueLength) {
+            this.loadDebounce(value, true);
         }
     };
 
@@ -139,8 +134,7 @@ export class FieldComboModel extends StoreBaseModel {
     };
 
     handleRestoreSelected = (value: FieldValue, code: "up" | "down") => {
-        const cleanValue = this.bc.allownew && typeof value === "string" ? value.replace(this.bc.allownew, "") : value;
-        const suggerstion = this.suggestions.find((sug) => sug.value === cleanValue);
+        const suggerstion = this.suggestions.find((sug) => sug.value === value);
 
         if (suggerstion) {
             this.highlightedValue = suggerstion.value;
@@ -150,54 +144,96 @@ export class FieldComboModel extends StoreBaseModel {
     };
 
     handleSetSelected = () => {
-        this.handleSetValue(this.highlightedValue);
+        this.handleSetValue(this.highlightedValue, false, false);
     };
 
-    handleSetIsFocus = (isFocus: boolean) => {
-        this.isFocus = isFocus;
-    };
+    handleSetValueList = (value: FieldValue, loaded: boolean, isUserSearch: boolean) => {
+        const stringValue = toString(value);
+        const suggestionIndex = this.suggestions.findIndex((sug) => sug.value === stringValue);
 
-    // eslint-disable-next-line complexity
-    handleSetValue = debounce((value: FieldValue, loaded = false, isUserSearch = false) => {
-        const stringValue =
-            this.bc.allownew && typeof value === "string" ? value.replace(this.bc.allownew, "") : toString(value);
-        const isEqual = stringValue === this.inputValue;
-        const isFocusNew = this.bc.allownew && this.isFocus;
-
-        if (this.bc.allownew && !loaded && !this.isFocus) {
-            this.inputValue = stringValue;
+        // Cancel loadDebounce when value select from list or press enter from list
+        if (!isUserSearch) {
+            // @ts-ignore
+            this.loadDebounce.cancel();
         }
 
-        const suggerstionIndex = this.suggestions.findIndex((sug) => sug.value === stringValue);
-
-        if (!value && value !== 0 && this.recordsStore.selectedRecord) {
-            this.recordsStore.setSelectionAction(undefined);
-        }
-
-        if (suggerstionIndex >= 0) {
-            const suggerstion = this.suggestions[suggerstionIndex];
-            const record = this.recordsStore.records[suggerstionIndex];
-
-            if (record) {
-                this.recordsStore.setSelectionAction(record.ckId);
-            }
-
-            if (!isUserSearch) {
-                this.inputValue = suggerstion.label;
-            }
+        if (suggestionIndex >= 0) {
+            return this.handleSetSuggestionValue(suggestionIndex, isUserSearch);
         } else if (loaded) {
-            if (!isUserSearch && !isFocusNew) {
+            if (!isUserSearch) {
                 this.inputValue = "";
             }
-            if (this.recordsStore.selectedRecord) {
-                this.recordsStore.setSelectionAction(undefined);
-            }
-        } else if (!isEqual && !this.recordsStore.isLoading) {
-            this.recordsStore.searchAction(
-                this.valueLength ? {[this.bc.allownew ? this.bc.queryparam || "" : this.valuefield]: value} : {},
-            );
+
+            return false;
+        } else if (!this.recordsStore.isLoading) {
+            this.recordsStore.searchAction(this.valueLength ? {[this.valuefield]: value} : {});
+
+            return true;
         }
-    }, 0);
+
+        return !value && value !== 0;
+    };
+
+    handleSetValueNew = (value: FieldValue, loaded: boolean, isUserSearch: boolean): boolean => {
+        const {allownew = ""} = this.bc;
+        const stringValue = toString(value);
+        const isNewValue = stringValue.indexOf(allownew) === 0;
+        const stringNewValue = isNewValue ? stringValue.replace(allownew, "") : stringValue;
+
+        this.inputValue = stringNewValue;
+
+        const suggestionIndex = this.suggestions.findIndex((sug) => sug.value === stringValue);
+
+        if (suggestionIndex >= 0) {
+            return this.handleSetSuggestionValue(suggestionIndex, isUserSearch);
+        } else if (loaded && !isUserSearch) {
+            this.inputValue = "";
+
+            return false;
+        } else if (!this.recordsStore.isLoading) {
+            this.loadDebounce(stringNewValue, false);
+
+            return true;
+        }
+
+        return !value && value !== 0;
+    };
+
+    handleSetSuggestionValue = (suggestionIndex: number, isUserSearch: boolean): boolean => {
+        const suggestion = this.suggestions[suggestionIndex];
+        const record = this.recordsStore.records[suggestionIndex];
+
+        if (record && this.recordsStore.selectedRecrodValues[VAR_RECORD_ID] !== record[VAR_RECORD_ID]) {
+            this.recordsStore.setSelectionAction(record[VAR_RECORD_ID]);
+        }
+
+        if (!isUserSearch) {
+            this.inputValue = suggestion.label;
+        }
+
+        return true;
+    };
+
+    handleSetValue = (value: FieldValue, loaded: boolean, isUserSearch: boolean) => {
+        this.lastValue = value;
+
+        // Check loadDebounce after user change value in input
+        if (!isUserSearch) {
+            this.isInputChanged = false;
+        }
+
+        const isFound = this.bc.allownew
+            ? this.handleSetValueNew(value, loaded, isUserSearch)
+            : this.handleSetValueList(value, loaded, isUserSearch);
+
+        if (!isFound) {
+            if (loaded) {
+                if (this.recordsStore.selectedRecord) {
+                    this.recordsStore.setSelectionAction(undefined);
+                }
+            }
+        }
+    };
 
     getSuggestion = (record: Record<string, never>): ISuggestion => {
         const label = toString(record[this.displayfield]);

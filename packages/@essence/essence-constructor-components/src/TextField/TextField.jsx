@@ -42,62 +42,69 @@ type PropsType = {
     tips?: React.Node[],
 };
 // eslint-disable-next-line max-statements
-const TextField = ({
-    bc,
-    disabled,
-    className,
-    label,
-    value,
-    noQtip,
-    maskInputProps = {},
-    field,
-    errorText = disabled || !field.get("error") ? "" : String(field.get("error")),
-    inputProps = {},
-    tips,
-    ...otherProps
-}: PropsType) => {
-    const fieldFullValue = isEmpty(value) ? "" : value;
-    const error = Boolean(!disabled && !field.get("isValid"));
+// $FlowFixMe
+const TextField = React.forwardRef(
+    (
+        {
+            bc,
+            disabled,
+            className,
+            label,
+            value,
+            noQtip,
+            maskInputProps = {},
+            field,
+            errorText = disabled || !field.get("error") ? "" : String(field.get("error")),
+            inputProps = {},
+            tips,
+            ...otherProps
+        }: PropsType,
+        ref,
+    ) => {
+        const fieldFullValue = isEmpty(value) ? "" : value;
+        const error = Boolean(!disabled && !field.get("isValid"));
 
-    const qtip = () => {
-        if (noQtip) {
-            return null;
+        const qtip = () => {
+            if (noQtip) {
+                return null;
+            }
+
+            return errorText || (bc.datatype === "password" ? "" : fieldFullValue) || bc.info || field.get("label");
+        };
+        let fieldValue = fieldFullValue;
+
+        if (disabled && fieldFullValue && typeof fieldFullValue === "string") {
+            fieldValue = fieldFullValue.replace(/<br[\s\S]*/i, "...");
         }
 
-        return errorText || (bc.datatype === "password" ? "" : fieldFullValue) || bc.info || field.get("label");
-    };
-    let fieldValue = fieldFullValue;
-
-    if (disabled && fieldFullValue && typeof fieldFullValue === "string") {
-        fieldValue = fieldFullValue.replace(/<br[\s\S]*/i, "...");
-    }
-
-    return (
-        <TextFieldMaterial
-            {...omit(otherProps, OMIT_PROPS)}
-            autoComplete="off"
-            error={error}
-            data-qtip={qtip()}
-            value={fieldValue}
-            disabled={disabled}
-            fullWidth
-            className={className}
-            label={
-                label || (
-                    <TextFieldLabel
-                        bc={bc}
-                        error={error}
-                        info={bc.info}
-                        isRequired={field.rules && field.rules.indexOf("required") >= 0}
-                        paddingRight={tips && tips.length * FIELD_ICON_SIZE - FIELD_LABEL_RIGHT}
-                    />
-                )
-            }
-            data-page-object={bc.ckPageObject}
-            inputProps={{...inputProps, autoComplete: "off", name: bc.ckPageObject}}
-            {...maskInputProps}
-        />
-    );
-};
+        return (
+            <TextFieldMaterial
+                {...omit(otherProps, OMIT_PROPS)}
+                ref={ref}
+                autoComplete="off"
+                error={error}
+                data-qtip={qtip()}
+                value={fieldValue}
+                disabled={disabled}
+                fullWidth
+                className={className}
+                label={
+                    label || (
+                        <TextFieldLabel
+                            bc={bc}
+                            error={error}
+                            info={bc.info}
+                            isRequired={field.rules && field.rules.indexOf("required") >= 0}
+                            paddingRight={tips && tips.length * FIELD_ICON_SIZE - FIELD_LABEL_RIGHT}
+                        />
+                    )
+                }
+                data-page-object={bc.ckPageObject}
+                inputProps={{...inputProps, autoComplete: "off", name: bc.ckPageObject}}
+                {...maskInputProps}
+            />
+        );
+    },
+);
 
 export default observer(TextField);

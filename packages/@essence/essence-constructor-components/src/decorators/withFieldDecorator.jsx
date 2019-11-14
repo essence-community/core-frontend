@@ -198,7 +198,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                 } else {
                     field.set("default", bc.defaultvalue);
                 }
-                if (this.context.mode === "1") {
+                if (this.context.mode === "1" || field.get("options").fieldSetObj) {
                     field.reset();
                     field.resetValidation();
                 }

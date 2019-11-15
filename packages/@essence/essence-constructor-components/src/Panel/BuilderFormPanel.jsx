@@ -5,6 +5,7 @@ import {reaction} from "mobx";
 import {observer} from "mobx-react";
 import noop from "lodash/noop";
 import {Paper, Grid} from "@material-ui/core";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import commonDecorator from "../decorators/commonDecorator";
 import {PanelFormModel, type PanelFormModelType} from "../stores/PanelFormModel";
 import {updateTopGrid} from "../stores/GridModel";
@@ -22,7 +23,7 @@ type OwnPropsType = {
     store: PanelFormModelType,
 };
 
-type PropsType = BuilderPanelPropsType & OwnPropsType;
+type PropsType = BuilderPanelPropsType & OwnPropsType & WithT;
 
 export class BuilderFormPanelBase extends React.Component<PropsType> {
     disposers: Array<Function> = [];
@@ -91,7 +92,8 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
     };
 
     render() {
-        const {store, bc, readOnly, hideTitle, pageStore, visible, elevation} = this.props;
+        // eslint-disable-next-line id-length
+        const {store, bc, readOnly, hideTitle, pageStore, visible, elevation, t} = this.props;
         const {filters = [], cvDisplayed, hideactions} = bc;
         const isEditing = readOnly ? false : store.editing;
 
@@ -115,7 +117,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
                         />
                     </Grid>
                 ))}
-                {hideTitle || hideactions === "true" ? null : <EmptyTitle title={cvDisplayed} filters={filters} />}
+                {hideTitle || hideactions === "true" ? null : <EmptyTitle title={t(cvDisplayed)} filters={filters} />}
                 <Grid item>
                     <BuilderForm
                         initialValues={store.recordsStore.records[0] || EMPTY_RECORD}
@@ -159,6 +161,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
 
 export default compose(
     commonDecorator,
+    withTranslation("meta"),
     withModelDecorator(
         (bc: $PropertyType<BuilderPanelPropsType, "bc">, {pageStore}: BuilderPanelPropsType): PanelFormModelType =>
             new PanelFormModel({bc, pageStore}),

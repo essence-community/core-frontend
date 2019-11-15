@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import {camelCaseKeys} from "@essence/essence-constructor-share";
+import {camelCaseKeys, initI18n} from "@essence/essence-constructor-share/utils";
 import {settingsStore} from "@essence/essence-constructor-share/models/SettingsModel";
 import {observer} from "mobx-react";
 import {COMMIT_ID, BRANCH_DATE_TIME, BRANCH_NAME} from "../../constants";
@@ -28,6 +28,8 @@ class Settings extends React.Component<PropsType> {
         applicationStore.settingsStore.recordsStore.setRecordsAction(camelCaseKeys(setting));
 
         settingsStore.setSettings(setting);
+
+        initI18n();
 
         const {settings} = applicationStore.settingsStore;
 

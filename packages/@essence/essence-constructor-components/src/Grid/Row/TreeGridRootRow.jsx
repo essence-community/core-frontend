@@ -30,21 +30,20 @@ class TreeGridRootRow extends React.Component<PropsType> {
                 bc={bc}
                 record={DEFAULT_ROOT_RECORD}
             >
-                {store.gridColumns.map(
-                    (column) =>
-                        column.istree === "true" ? (
-                            <GridCell
-                                key={column.ckPageObject}
-                                column={column}
-                                bc={bc}
-                                record={DEFAULT_ROOT_RECORD}
-                                pageStore={pageStore}
-                                store={store}
-                                visible
-                            />
-                        ) : (
-                            <td key={column.ckPageObject} />
-                        ),
+                {store.gridColumns.map((column) =>
+                    column.istree === "true" ? (
+                        <GridCell
+                            key={column.ckPageObject}
+                            column={column}
+                            bc={bc}
+                            record={DEFAULT_ROOT_RECORD}
+                            pageStore={pageStore}
+                            store={store}
+                            visible
+                        />
+                    ) : (
+                        <td key={column.ckPageObject} />
+                    ),
                 )}
             </BaseGridRow>
         );

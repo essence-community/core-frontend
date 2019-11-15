@@ -17,12 +17,12 @@ interface IConfig {
 }
 
 const actionModeMap = {
-    "1": "I",
-    "2": "U",
-    "3": "D",
-    "4": "U",
-    "6": "I",
-    "8": "I",
+    1: "I",
+    2: "U",
+    3: "D",
+    4: "U",
+    6: "I",
+    8: "I",
 };
 
 export function apiSaveAction(

@@ -1,8 +1,7 @@
 // @flow
 import * as React from "react";
 import {compose} from "recompose";
-import {observe} from "mobx";
-import {inject, observer, disposeOnUnmount} from "mobx-react";
+import {inject, observer} from "mobx-react";
 import {BuilderPanel, BuilderForm, PageModel, withModelDecorator} from "@essence/essence-constructor-components";
 import {saveToStore, removeFromStore} from "@essence/essence-constructor-share/utils";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";

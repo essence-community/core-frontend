@@ -11,6 +11,7 @@ export interface IRequest {
     timeout?: string;
     formData?: FormData;
     method?: "POST";
+    isCamelCase?: boolean;
     onUploadProgress?: (progressEvent: ProgressEvent) => void;
 }
 

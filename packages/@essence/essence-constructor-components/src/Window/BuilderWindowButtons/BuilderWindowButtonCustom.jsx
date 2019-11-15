@@ -26,7 +26,7 @@ class BuilderWindowButtonCustom extends React.Component<PropsType> {
 
         if (props.btns) {
             this.buttons = props.btns.map((bc) => ({
-                confirmquestion: bc.handler === "onCloseWindow" ? "Отменить?" : undefined,
+                confirmquestion: bc.handler === "onCloseWindow" ? "9b475e25ae8a40b0b158543b84ba8c08" : undefined,
                 confirmquestionposition: "top",
                 ...bc,
             }));

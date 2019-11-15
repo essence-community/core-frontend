@@ -1,5 +1,6 @@
 import * as React from "react";
 import {IconButton, Typography} from "@material-ui/core";
+import {useTranslation} from "../../utils/I18n";
 import {Icon} from "../../Icon";
 import {useStyles} from "./Pagination.styles";
 
@@ -16,6 +17,8 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
     const {count, page, rowsPerPage, ckPageObject, disabled} = props;
     const pages = Math.ceil(props.count / props.rowsPerPage);
     const classes = useStyles(props);
+
+    const [trans] = useTranslation("meta");
 
     const handleFirstPageButtonClick = () => {
         props.onChangePage(0);
@@ -36,7 +39,7 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
     return (
         <div className={classes.root}>
             <IconButton
-                data-qtip="Первая страница"
+                data-qtip={trans("23264e86a9cd446f83cee0eb86c20bd9")}
                 color="primary"
                 onClick={handleFirstPageButtonClick}
                 classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}
@@ -48,7 +51,7 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
                 <Icon iconfont="angle-double-left" />
             </IconButton>
             <IconButton
-                data-qtip="Предыдущая страница"
+                data-qtip={trans("267e96bb282843abaa25b3e78bd874f1")}
                 color="primary"
                 onClick={handleBackButtonClick}
                 classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}
@@ -68,7 +71,7 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
             </Typography>
 
             <IconButton
-                data-qtip="Следующая страница"
+                data-qtip={trans("d4d9e481a0e14bbd9e1e76537e8cbfd0")}
                 color="primary"
                 onClick={handleNextButtonClick}
                 classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}
@@ -80,7 +83,7 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
                 <Icon iconfont="angle-right" />
             </IconButton>
             <IconButton
-                data-qtip="Последняя страница"
+                data-qtip={trans("d0f0a046dee344d1b5bbbadcd8d848db")}
                 color="primary"
                 onClick={handleLastPageButtonClick}
                 classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}

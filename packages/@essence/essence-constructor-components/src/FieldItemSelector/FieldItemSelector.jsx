@@ -67,7 +67,7 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
         this.buttonsConfig = [
             {
                 ckPageObject: `${ckPageObject}-add-all`,
-                cvDisplayed: "Добавить все",
+                cvDisplayed: "d78431bbcb484da4b516bc00626965ba",
                 handlerFn: this.addAll,
                 iconfont: "fa-angle-double-right",
                 iconfontname: "fa",
@@ -76,7 +76,7 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
             {
                 ckMaster: fieldFrom.ckPageObject,
                 ckPageObject: `${ckPageObject}-add-selected`,
-                cvDisplayed: "Добавить выделенное",
+                cvDisplayed: "833289fd818f4340b584beb9068f670b",
                 handlerFn: this.addSelected,
                 iconfont: "fa-angle-right",
                 iconfontname: "fa",
@@ -87,7 +87,7 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
             {
                 ckMaster: fieldTo.ckPageObject,
                 ckPageObject: `${ckPageObject}-remove-selected`,
-                cvDisplayed: "Удалить выделенное",
+                cvDisplayed: "67677d8e457c409daaef5fe5b90ec491",
                 handlerFn: this.removeSelected,
                 iconfont: "fa-angle-left",
                 iconfontname: "fa",
@@ -97,7 +97,7 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
             },
             {
                 ckPageObject: `${ckPageObject}-remove-all`,
-                cvDisplayed: "Удалить все",
+                cvDisplayed: "c4684efb2ea444f4b9192db3c4b4b843",
                 handlerFn: this.removeAll,
                 iconfont: "fa-angle-double-left",
                 iconfontname: "fa",

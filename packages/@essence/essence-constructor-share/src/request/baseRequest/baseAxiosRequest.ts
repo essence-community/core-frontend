@@ -75,6 +75,7 @@ export const baseAxiosRequest = async ({
     method = "POST",
     formData,
     params,
+    isCamelCase = true,
 }: IBaseRequest) => {
     const queryParams = {
         action: formData ? "upload" : action,
@@ -106,7 +107,7 @@ export const baseAxiosRequest = async ({
         url: `${gate}?${stringify(formData ? {...queryParams, ...data} : queryParams)}`,
     });
 
-    const responseAllData: any = await camelCaseKeysAsync(response.data);
+    const responseAllData: any = isCamelCase ? await camelCaseKeysAsync(response.data) : response.data;
     const responseData = responseAllData.data;
 
     checkError({list, query, responseAllData, responseData});

@@ -9,6 +9,7 @@ import {
     FieldValue,
 } from "@essence/essence-constructor-share";
 import {settingsStore, snackbarStore} from "@essence/essence-constructor-share/models";
+import {useTranslation} from "@essence/essence-constructor-share/utils";
 import {useDisposable, useObserver} from "mobx-react-lite";
 import {reaction, observe} from "mobx";
 import {useParams, useHistory} from "react-router-dom";
@@ -20,6 +21,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
     const history = useHistory();
     const {ckId, cvUrl = "pages"} = useParams();
     const [applicationStore] = React.useState(() => new ApplicationModel(history, cvUrl));
+    const [trans] = useTranslation("meta");
     const appName = "pages";
 
     React.useEffect(() => {
@@ -104,7 +106,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                     hiddenTimeout: 0,
                     status: "debug",
                     text: renderGlobalValuelsInfo(globalValues),
-                    title: "Супер Глобальные переменные",
+                    title: trans("d2c071c58aca4b73853c1fcc6e2f08a3"),
                 }),
         );
     });

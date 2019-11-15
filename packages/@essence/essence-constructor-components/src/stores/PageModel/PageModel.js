@@ -7,7 +7,7 @@ import forEach from "lodash/forEach";
 import noop from "lodash/noop";
 import {parseMemoize, loadComponentsFromModules} from "@essence/essence-constructor-share";
 import {snackbarStore} from "@essence/essence-constructor-share/models";
-import {findClassNames} from "@essence/essence-constructor-share/utils";
+import {findClassNames, i18next} from "@essence/essence-constructor-share/utils";
 import {loggerRoot, styleTheme as styleThemeConst} from "../../constants";
 import {sendRequestList} from "../../request/baseRequest";
 import {isEmpty} from "../../utils/base";
@@ -142,7 +142,7 @@ export class PageModel implements PageModelInterface {
                             hiddenTimeout: 0,
                             status: "debug",
                             text: renderGlobalValuelsInfo(globalValues),
-                            title: `Глобальные переменные для: ${ckPage || ""}`,
+                            title: `${i18next.t("dcfb61366b054c6e95ae83593cfb9cd9")}: ${i18next.t(ckPage || "")}`,
                         },
                         this.route,
                     ),

@@ -47,12 +47,9 @@ export class FieldRadioGroupModel extends StoreBaseModel implements FieldRadioGr
         value: toString(record[this.valuefield]),
     });
 
-    reloadStoreAction = action(
-        "reloadStoreAction",
-        async (): Promise<void> => {
-            if (!this.recordsStore.isLoading) {
-                await this.recordsStore.loadRecordsAction();
-            }
-        },
-    );
+    reloadStoreAction = action("reloadStoreAction", async (): Promise<void> => {
+        if (!this.recordsStore.isLoading) {
+            await this.recordsStore.loadRecordsAction();
+        }
+    });
 }

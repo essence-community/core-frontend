@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/href-no-hash */
-import React, {Component} from "react";
+import React, {Component, Suspense} from "react";
 import {Provider} from "mobx-react";
 import {createMuiTheme, CssBaseline} from "@material-ui/core";
 import {ThemeProvider} from "@material-ui/styles";
@@ -34,24 +34,26 @@ class App extends Component {
 
     render() {
         return (
-            <Provider {...stores}>
-                <ThemeProvider theme={theme}>
-                    <DndProvider backend={HTML5Backend}>
-                        <Settings applicationStore={stores.applicationStore}>
-                            <AppRoutes />
-                            <CssBaseline />
-                            <SnackbarMobx
-                                snackbars={snackbarStore.snackbars}
-                                onClose={snackbarStore.snackbarCloseAction}
-                                onSetCloseble={snackbarStore.setClosebleAction}
-                            />
-                            <Tooltip />
-                            <Block applicationStore={stores.applicationStore} />
-                            {this.renderDevTools()}
-                        </Settings>
-                    </DndProvider>
-                </ThemeProvider>
-            </Provider>
+            <Suspense fallback={<div>...</div>}>
+                <Provider {...stores}>
+                    <ThemeProvider theme={theme}>
+                        <DndProvider backend={HTML5Backend}>
+                            <Settings applicationStore={stores.applicationStore}>
+                                <AppRoutes />
+                                <CssBaseline />
+                                <SnackbarMobx
+                                    snackbars={snackbarStore.snackbars}
+                                    onClose={snackbarStore.snackbarCloseAction}
+                                    onSetCloseble={snackbarStore.setClosebleAction}
+                                />
+                                <Tooltip />
+                                <Block applicationStore={stores.applicationStore} />
+                                {this.renderDevTools()}
+                            </Settings>
+                        </DndProvider>
+                    </ThemeProvider>
+                </Provider>
+            </Suspense>
         );
     }
 }

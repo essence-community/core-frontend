@@ -24,6 +24,7 @@ export const VAR_SETTING_VALUE = "cv_value";
 export const VAR_SETTING_BRANCH_NAME = "branch_name";
 export const VAR_SETTING_GATE_URL = "g_sys_gate_url";
 export const VAR_SETTING_PROJECT_APPLICATION_PAGE = "project_applications_page";
+export const VAR_SETTING_LANG = "g_sys_lang";
 
 // META
 export const META_OUT_RESULT = "out_result";
@@ -33,3 +34,7 @@ export const META_PAGE_OBJECT = "page_object";
 export const VAR_SELF_CV_URL = "cvUrl";
 export const VALUE_SELF_FIRST = "##first##";
 export const VALUE_SELF_ALWAYSFIRST = "##alwaysfirst##";
+
+// Localization
+export const VAR_LANG_ID = "ck_d_lang";
+export const VAR_NAMESPACE_VALUE = "cv_namespace";

@@ -15,6 +15,7 @@ export interface IBaseRequest {
     formData?: FormData;
     method?: string;
     params?: any;
+    isCamelCase?: boolean;
 }
 
 const baseRequest = baseAxiosRequest;

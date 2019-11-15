@@ -1,4 +1,5 @@
 import {Icon, ISnackbar, ISnackbarModel} from "@essence/essence-constructor-share";
+import {useTranslation} from "@essence/essence-constructor-share/utils";
 import {ButtonBase, Grid} from "@material-ui/core";
 import cn from "classnames";
 import {useObserver} from "mobx-react-lite";
@@ -16,16 +17,19 @@ interface IFileStatus {
     uploaded: "Успешно";
     [key: string]: string;
 }
-const statuses: IFileStatus = {
-    errorUpload: "Неуспешно",
-    progress: "Загрузка",
-    uploaded: "Успешно",
+const statusesRead = (trans: any): IFileStatus => {
+    return {
+        errorUpload: trans("73de7f460cc04bc8a068429d66e684ce"),
+        progress: trans("ad39828554114893872302a0aaa031af"),
+        uploaded: trans("5454b0c6f64b41daab8deb88f948a4f1"),
+    };
 };
 
 export const Notification: React.FC<INotificationProps> = (props) => {
     const {snackbarStore, snackbar} = props;
     const classes = useStyles(props);
-
+    const [trans] = useTranslation("meta");
+    const statuses = statusesRead(trans);
     const handleDelete = () => {
         snackbarStore.deleteSnackbarAction(snackbar.id);
     };
@@ -46,15 +50,15 @@ export const Notification: React.FC<INotificationProps> = (props) => {
                         {statuses[snackbar.status]}
                     </Grid>
                 ) : null}
-                <Grid item className={classes.pageName} data-qtip={snackbar.pageName}>
-                    {snackbar.pageName}
+                <Grid item className={classes.pageName} data-qtip={trans(snackbar.pageName)}>
+                    {trans(snackbar.pageName)}
                 </Grid>
                 <Grid item>
                     <ButtonBase
                         onClick={handleDelete}
                         className={classes.clearButton}
                         disableRipple
-                        data-qtip="Удалить"
+                        data-qtip={trans("f7e324760ede4c88b4f11f0af26c9e97")}
                         data-page-object={`snackbar-remove-${snackbar.id}`}
                     >
                         <Icon iconfont="times" iconfontname="fa" size="1x" />

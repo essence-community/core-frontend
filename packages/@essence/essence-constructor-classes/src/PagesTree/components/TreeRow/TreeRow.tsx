@@ -5,6 +5,7 @@ import {
     VAR_RECORD_ICON_NAME,
     VAR_RECORD_LEAF,
 } from "@essence/essence-constructor-share/constants/variables";
+import {useTranslation} from "@essence/essence-constructor-share/utils";
 import {Grid, Typography} from "@material-ui/core";
 import clsx from "clsx";
 import {useObserver} from "mobx-react-lite";
@@ -19,7 +20,8 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
     const {pagesStore, routesStore, route, isOpen, level, treeModel} = props;
     const leaf = route[VAR_RECORD_LEAF];
     const id = route[VAR_RECORD_ID];
-    const name = route[VAR_RECORD_ROUTE_NAME];
+    const [trans] = useTranslation("meta");
+    const name = trans(route[VAR_RECORD_ROUTE_NAME]);
     const iconName = route[VAR_RECORD_ICON_NAME];
     const handleClick = () => {
         if (leaf === "true") {

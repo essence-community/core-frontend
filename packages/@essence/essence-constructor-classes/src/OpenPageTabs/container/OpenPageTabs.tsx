@@ -8,6 +8,7 @@ import {
 import {Tabs} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
 import * as React from "react";
+import {useTranslation} from "@essence/essence-constructor-share/utils";
 import DragComponent from "../../DragComponent";
 import {OpenPageMenuContext} from "../components/OpenPageMenuContext/OpenPageMenuContext";
 import {OpenPageTab} from "../components/OpenPageTab/OpenPageTab";
@@ -71,6 +72,7 @@ export const OpenPageTabs: React.FC<IClassProps> = (props) => {
         pagesStore.movePages(dragIndex, hoverIndex);
     };
     const renderTabComponent = (propsTab: any) => <DragComponent {...propsTab} type="page" moveCard={handleMovePage} />;
+    const [trans] = useTranslation("meta");
 
     return useObserver(() => (
         <React.Fragment>
@@ -98,7 +100,7 @@ export const OpenPageTabs: React.FC<IClassProps> = (props) => {
                             pageId={ckPage}
                             pageIndex={index}
                             component={renderTabComponent}
-                            label={name}
+                            label={trans(name)}
                             iconfont={iconName}
                             value={ckPage}
                             onClose={pagesStore.removePageAction}

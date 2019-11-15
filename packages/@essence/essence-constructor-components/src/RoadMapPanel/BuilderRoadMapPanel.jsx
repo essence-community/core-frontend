@@ -9,6 +9,7 @@ import keycode from "keycode";
 import {Grid, Tabs} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {setComponent, mapComponents} from "@essence/essence-constructor-share";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import commonDecorator from "../decorators/commonDecorator";
 import withModelDecorator from "../decorators/withModelDecorator";
 import {RoadMapModel, type RoadMapModelType} from "../stores/RoadMapModel";
@@ -33,7 +34,7 @@ const RESIZE_DELAY = 100;
 const MIN_TAB_WIDTH = 90;
 const TABS_PADDING = 68;
 
-class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsType & ExtraRoadMapProps, State> {
+class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsType & ExtraRoadMapProps & WithT, State> {
     tabsComponentRef = React.createRef();
 
     state = {
@@ -189,14 +190,15 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
     };
 
     renderLabel(child, orientation: "horizontal" | "vertical") {
-        const {store, classes} = this.props;
+        // eslint-disable-next-line id-length
+        const {store, classes, t} = this.props;
         const {tabStatus} = store;
 
         if (orientation === "vertical") {
             return (
                 <div className={cn([classes.label, classes.verticalLabel, classes.themeLabel])}>
                     <span className={classes.cycleNum}>{tabStatus.get(child.ckPageObject).num}</span>
-                    <span className={classes.verticalLabelText}>{child.cvDisplayed}</span>
+                    <span className={classes.verticalLabelText}>{t(child.cvDisplayed)}</span>
                 </div>
             );
         }
@@ -204,7 +206,7 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
         return (
             <div className={cn([classes.label, classes.horizontalLabel, classes.themeLabel])}>
                 <span className={classes.textNum}>{tabStatus.get(child.ckPageObject).num}</span>
-                <span className={classes.horizontalLabelText}>{child.cvDisplayed}</span>
+                <span className={classes.horizontalLabelText}>{t(child.cvDisplayed)}</span>
             </div>
         );
     }
@@ -228,7 +230,8 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
 
     renderTabs(orientation: "horizontal" | "vertical") {
         const {selectedTab, tabsWidthMode} = this.state;
-        const {bc, store, classes, disabled, pageStore, visible} = this.props;
+        // eslint-disable-next-line id-length
+        const {bc, store, classes, disabled, pageStore, visible, t} = this.props;
         const {tabs, tabValue, tabStatus} = store;
 
         return (
@@ -276,7 +279,7 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
                                 disabled={disabled || tabStatus.get(child.ckPageObject).disabled}
                                 disableRipple
                                 data-page-object={`${child.ckPageObject}_tab`}
-                                data-qtip={child.cvDisplayed}
+                                data-qtip={t(child.cvDisplayed)}
                                 orientation={orientation}
                                 pageStore={pageStore}
                                 bc={child}
@@ -361,6 +364,7 @@ const BuilderRoadMapPanel = compose(
     withModelDecorator(
         (bc: BuilderRoadMapPanelType, props): RoadMapModelType => new RoadMapModel({bc, pageStore: props.pageStore}),
     ),
+    withTranslation("meta"),
     commonDecorator,
     withStyles(styles),
     observer,

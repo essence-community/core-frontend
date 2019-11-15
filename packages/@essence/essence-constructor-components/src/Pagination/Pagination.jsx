@@ -1,8 +1,10 @@
 // @flow
 import * as React from "react";
+import {compose} from "recompose";
 import {withStyles} from "@material-ui/core/styles";
 import {IconButton, Typography} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 
 const styles = (theme: any) => ({
     buttonRoot: {
@@ -36,7 +38,7 @@ type Props = {
     gridBc: Object,
 };
 
-class Pagination extends React.Component<Props> {
+class Pagination extends React.Component<Props & WithT> {
     static defaultProps = {
         gridBc: {},
     };
@@ -58,13 +60,14 @@ class Pagination extends React.Component<Props> {
     };
 
     render() {
-        const {classes = {}, count, page, rowsPerPage, gridBc, disabled} = this.props;
+        // eslint-disable-next-line id-length
+        const {classes = {}, count, page, rowsPerPage, gridBc, disabled, t} = this.props;
         const pages = Math.ceil(this.props.count / this.props.rowsPerPage);
 
         return (
             <div className={classes.root}>
                 <IconButton
-                    data-qtip="Первая страница"
+                    data-qtip={t("23264e86a9cd446f83cee0eb86c20bd9")}
                     color="primary"
                     onClick={this.handleFirstPageButtonClick}
                     classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}
@@ -76,7 +79,7 @@ class Pagination extends React.Component<Props> {
                     <Icon iconfont="angle-double-left" />
                 </IconButton>
                 <IconButton
-                    data-qtip="Предыдущая страница"
+                    data-qtip={t("267e96bb282843abaa25b3e78bd874f1")}
                     color="primary"
                     onClick={this.handleBackButtonClick}
                     classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}
@@ -96,7 +99,7 @@ class Pagination extends React.Component<Props> {
                 </Typography>
 
                 <IconButton
-                    data-qtip="Следующая страница"
+                    data-qtip={t("d4d9e481a0e14bbd9e1e76537e8cbfd0")}
                     color="primary"
                     onClick={this.handleNextButtonClick}
                     classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}
@@ -108,7 +111,7 @@ class Pagination extends React.Component<Props> {
                     <Icon iconfont="angle-right" />
                 </IconButton>
                 <IconButton
-                    data-qtip="Последняя страница"
+                    data-qtip={t("d0f0a046dee344d1b5bbbadcd8d848db")}
                     color="primary"
                     onClick={this.handleLastPageButtonClick}
                     classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}
@@ -124,4 +127,7 @@ class Pagination extends React.Component<Props> {
     }
 }
 
-export default withStyles(styles)(Pagination);
+export default compose(
+    withTranslation("meta"),
+    withStyles(styles),
+)(Pagination);

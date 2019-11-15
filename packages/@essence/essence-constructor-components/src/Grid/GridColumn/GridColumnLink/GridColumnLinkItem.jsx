@@ -2,13 +2,15 @@
 import * as React from "react";
 import forEach from "lodash/forEach";
 import isUndefined from "lodash/isUndefined";
+import {compose} from "recompose";
 import {ListItem} from "@material-ui/core";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import {findSetKey} from "../../../utils/findKey";
 import {type PageModelType} from "../../../stores/PageModel";
 import commonDecorator from "../../../decorators/commonDecorator";
 import {type GridColumnLinkType} from "../GridColumnTypes";
 
-type PropsType = {|
+type PropsType = WithT & {|
     bc: GridColumnLinkType,
     classes: {
         listItemRoot: string,
@@ -55,7 +57,8 @@ class GridColumnLinkItem extends React.Component<PropsType> {
     };
 
     render() {
-        const {bc, classes, hidden, disabled} = this.props;
+        // eslint-disable-next-line id-length
+        const {bc, classes, hidden, disabled, t} = this.props;
 
         if (hidden) {
             return null;
@@ -70,10 +73,13 @@ class GridColumnLinkItem extends React.Component<PropsType> {
                 data-page-object={bc.ckPageObject}
                 disabled={disabled}
             >
-                {bc.cvDisplayed}
+                {t(bc.cvDisplayed)}
             </ListItem>
         );
     }
 }
 
-export default commonDecorator(GridColumnLinkItem);
+export default compose(
+    withTranslation("meta"),
+    commonDecorator,
+)(GridColumnLinkItem);

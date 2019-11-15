@@ -7,6 +7,7 @@ import {withStyles} from "@material-ui/core/styles";
 import {Button, IconButton} from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
 import {setComponent, Icon} from "@essence/essence-constructor-share";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import commonDecorator, {type CommonDecoratorInjectType} from "../decorators/commonDecorator";
 import {styleTheme} from "../constants";
 import {isEmpty} from "../utils/base";
@@ -34,7 +35,7 @@ type OwnPropsType = {
     styleTheme: string,
     performData: (bc: ButtonConfigType) => ?Object,
 };
-type PropsType = ButtonPropsType & CommonDecoratorInjectType & OwnPropsType;
+type PropsType = ButtonPropsType & CommonDecoratorInjectType & OwnPropsType & WithT;
 
 export const popoverProps = {
     right: {
@@ -116,7 +117,7 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
                     : null,
             onlyicon,
             qtip: tipmsg || cvDisplayed,
-            windowTitle: confirmquestion || "Продолжить?",
+            windowTitle: confirmquestion || "5a33b10058114ae7876067447fde8242",
         };
     }
 
@@ -222,7 +223,8 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
     };
 
     renderIconOnlyLight = () => {
-        const {disabled, readOnly, className, componentProps, tabIndex} = this.props;
+        // eslint-disable-next-line id-length
+        const {disabled, readOnly, className, componentProps, tabIndex, t} = this.props;
         const {color, disabledState, qtip} = this.state;
         const {ckPageObject, iconfont, iconfontname, iconsize} = this.props.bc;
         const button = (
@@ -232,7 +234,7 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
                 disabled={readOnly || disabledState || disabled}
                 color={color}
                 data-page-object={ckPageObject}
-                data-qtip={qtip}
+                data-qtip={t(qtip)}
                 className={className}
                 onMouseDown={this.handleMouseDown}
                 tabIndex={tabIndex}
@@ -248,14 +250,15 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
     };
 
     renderIconOnlyDark = () => {
-        const {variant, disabled, readOnly, className, componentProps, tabIndex} = this.props;
+        // eslint-disable-next-line id-length
+        const {variant, disabled, readOnly, className, componentProps, tabIndex, t} = this.props;
         const {ckPageObject, iconfont, iconfontname, iconsize} = this.props.bc;
         const {disabledState, qtip} = this.state;
         const buttonProps = {
             className,
             color: this.state.color,
             "data-page-object": ckPageObject,
-            "data-qtip": qtip,
+            "data-qtip": t(qtip),
             disableRipple: true,
             disabled: readOnly || disabledState || disabled,
             onClick: this.handlerButtonClick,
@@ -279,13 +282,15 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
     };
 
     renderButton = () => {
-        const {disabled, classNameIcon, readOnly, className, componentProps, classes = {}, tabIndex} = this.props;
+        // eslint-disable-next-line id-length
+        const {disabled, classNameIcon, readOnly, className, componentProps, classes = {}, t, tabIndex} = this.props;
         const {Component, disabledState} = this.state;
         const {iconfont, iconfontname, cvDisplayed, ckPageObject, tipmsg, iconsize} = this.props.bc;
+        const qtip = tipmsg || cvDisplayed;
         const button = (
             <Component
                 color={this.state.color}
-                data-qtip={tipmsg || cvDisplayed}
+                data-qtip={t(qtip)}
                 onClick={this.handlerButtonClick}
                 disabled={readOnly || disabledState || disabled}
                 disableRipple
@@ -306,7 +311,7 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
                     />
                 ) : null}
                 {iconfont ? "\u00A0" : null}
-                <span className={classes.textOverflow}>{cvDisplayed}</span>
+                <span className={classes.textOverflow}>{t(cvDisplayed)}</span>
             </Component>
         );
 
@@ -378,6 +383,7 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
 
 const BuilderMobxButton = compose(
     commonDecorator,
+    withTranslation("meta"),
     withStyles(styles),
 )(BuilderMobxButtonBase);
 

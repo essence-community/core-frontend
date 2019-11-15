@@ -5,6 +5,7 @@ import {observer} from "mobx-react";
 import {compose} from "recompose";
 import moment from "moment";
 import {Typography, CardContent} from "@material-ui/core";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import {styleTheme} from "../../constants";
 import Popover from "../../Popover/Popover";
 import {type PopoverRenderChildren} from "../../Popover/PopoverTypes";
@@ -38,7 +39,7 @@ const TRANSFORM_ORIGIN = {
     vertical: "top",
 };
 
-class GridAudit extends React.Component<PropsType & PropsStoreType> {
+class GridAudit extends React.Component<PropsType & PropsStoreType & WithT> {
     handleChangeOpen = (isAuditOpen: boolean) => {
         const {store, parentStore, onClose} = this.props;
 
@@ -55,14 +56,18 @@ class GridAudit extends React.Component<PropsType & PropsStoreType> {
             children,
             pageStore,
             bc,
+            // eslint-disable-next-line id-length
+            t,
         } = this.props;
 
         const popoverContent = (
             <CardContent>
                 <Typography variant="body2">
-                    Изменен: {moment(auditInfo.ctChange).format("DD.MM.YYYY HH:mm:ss")}
+                    {t("a51733f718974db891606a516a906d4a")}: {moment(auditInfo.ctChange).format("DD.MM.YYYY HH:mm:ss")}
                 </Typography>
-                <Typography variant="body2">Пользователь: {auditInfo.cvUsername}</Typography>
+                <Typography variant="body2">
+                    {t("359b72856d284d1baf5ff9e14e8293c9")}: {auditInfo.cvUsername}
+                </Typography>
             </CardContent>
         );
 
@@ -86,5 +91,6 @@ class GridAudit extends React.Component<PropsType & PropsStoreType> {
 
 export default compose(
     withModelDecorator((bc: Object, {pageStore}: PropsType): AuditModelType => new AuditModel({bc, pageStore})),
+    withTranslation("meta"),
     observer,
 )(GridAudit);

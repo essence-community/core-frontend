@@ -1,10 +1,12 @@
 // @flow
 import * as React from "react";
+import {compose} from "recompose";
 import {ButtonBase, TextField} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import moment from "moment";
 import {downloadFile} from "@essence/essence-constructor-share/utils/download";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import BuilderMobxButton from "../../Button/BuilderMobxButton";
 import {type PageModelType} from "../../stores/PageModel";
 import {type FilePanelBcType, type FilePanelModelType} from "../../stores/FilePanelModel";
@@ -26,7 +28,7 @@ type PropsType = {
     readOnly?: boolean,
 };
 
-export class FileRecordBase extends React.PureComponent<PropsType> {
+export class FileRecordBase extends React.PureComponent<PropsType & WithT> {
     handleDownloadFile = () => {
         const {record, store} = this.props;
         const queryParams = store.getDownloadQueryParams(record.ckId);
@@ -43,7 +45,8 @@ export class FileRecordBase extends React.PureComponent<PropsType> {
     };
 
     getLabelInfo = () => {
-        const {classes = {}, record} = this.props;
+        // eslint-disable-next-line id-length
+        const {classes = {}, record, t} = this.props;
         let labelString = " ";
 
         if (record.cvDdName) {
@@ -53,14 +56,15 @@ export class FileRecordBase extends React.PureComponent<PropsType> {
             labelString += ` №${record.cvNumber}`;
         }
         if (record.cdDate) {
-            labelString += ` от ${moment(record.cdDate).format("DD.MM.YYYY")}`;
+            labelString += ` ${t("1f560294a2a446c4a23fb3f9d7f94dc6")} ${moment(record.cdDate).format("DD.MM.YYYY")}`;
         }
 
-        return <span className={classes.lableRoot}>{labelString}</span>;
+        return <span className={classes.lableRoot}>{t(labelString)}</span>;
     };
 
     render() {
-        const {record, classes = {}, store, bc, readOnly, disabled, pageStore} = this.props;
+        // eslint-disable-next-line id-length
+        const {record, classes = {}, store, bc, readOnly, disabled, pageStore, t} = this.props;
         const startAdornment = (
             <ButtonBase className={classes.adornment} disabled disableRipple>
                 <Icon iconfont="file" iconfontname="fa" size="lg" />
@@ -83,7 +87,7 @@ export class FileRecordBase extends React.PureComponent<PropsType> {
                                 className={classes.clearButton}
                                 pageStore={pageStore}
                                 bc={{
-                                    confirmquestion: `Удалить файл "${record.cvFileName}"?`,
+                                    confirmquestion: `${t("b711be91555b46bab25971b7da959653")} "${record.cvFileName}"?`,
                                     ...store.btnsConfig.overrides["Override Delete Button"],
                                 }}
                                 disabled={readOnly || disabled}
@@ -107,4 +111,7 @@ export class FileRecordBase extends React.PureComponent<PropsType> {
     }
 }
 
-export default withStyles(styles)(FileRecordBase);
+export default compose(
+    withTranslation("meta"),
+    withStyles(styles),
+)(FileRecordBase);

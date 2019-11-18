@@ -47,7 +47,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                 this.key = camelCase(bc.column || uniqueId("builderField"));
 
                 if (!bc.column) {
-                    logger("Поле может работать некорректно без column, автогенерируемое значение:", this.key);
+                    logger(this.props.t("d4055d1153af44a4ba5eb73ac9bc437e", {key: this.key}));
                 }
 
                 if (bc.defaultvaluequery) {
@@ -113,8 +113,8 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
             }
 
             componentDidCatch(error: any, info: any) {
-                logger("Поле не может быть построено:", this.key);
-                logger("Ошибка:", error, "Информация:", info);
+                logger(this.props.t("d56944511bd243b1a0914ccdea58ce0d", {key: this.key}));
+                logger(this.props.t("47b7b12c1d9c413da54a08331191aded"), error, this.props.t("cfac299d53f8466d9745ddfa53e09958"), info);
             }
 
             componentWillUnmount() {

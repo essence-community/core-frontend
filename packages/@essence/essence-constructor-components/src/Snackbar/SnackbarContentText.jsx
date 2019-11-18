@@ -1,15 +1,16 @@
 // @flow
 import * as React from "react";
 import {Typography} from "@material-ui/core";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 
-type PropsType = {
+type PropsType = WithT & {
     text?: string,
     title?: string,
     description?: string,
     code?: string,
 };
 
-const SnackbarContentText = ({text, title, description, code}: PropsType) => (
+const SnackbarContentText = ({text, title, description, code, t}: PropsType) => (
     <React.Fragment>
         {title ? (
             <Typography variant="body2" color="inherit">
@@ -23,15 +24,15 @@ const SnackbarContentText = ({text, title, description, code}: PropsType) => (
         ) : null}
         {description ? (
             <Typography variant="body2" color="inherit">
-                Описание: {description}
+                {t("b6c8c1519907418caad7f647068d1fb2", {description})}
             </Typography>
         ) : null}
         {code ? (
             <Typography variant="body2" color="inherit">
-                Код ошибки: {code}
+                {t("4cf741cfcf18478ab4ed3c3c79255a39", {code})}
             </Typography>
         ) : null}
     </React.Fragment>
 );
 
-export default SnackbarContentText;
+export default withTranslation("meta")(SnackbarContentText);

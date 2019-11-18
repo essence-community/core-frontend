@@ -5,8 +5,9 @@ import {ButtonBase, Grid} from "@material-ui/core";
 import cn from "classnames";
 import {SnackbarContentText} from "@essence/essence-constructor-components";
 import {Icon} from "@essence/essence-constructor-share/Icon";
+import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
 
-type PropsType = {|
+type PropsType = WithT & {|
     classes: {
         notificationContent: string,
         notificationContentData: string,
@@ -20,10 +21,12 @@ type PropsType = {|
     snackbarStore: Object,
 |};
 
-const statuses = {
-    errorUpload: "Неуспешно",
-    progress: "Загрузка",
-    uploaded: "Успешно",
+const statusesRead = (trans: any): IFileStatus => {
+    return {
+        errorUpload: trans("73de7f460cc04bc8a068429d66e684ce"),
+        progress: trans("ad39828554114893872302a0aaa031af"),
+        uploaded: trans("5454b0c6f64b41daab8deb88f948a4f1"),
+    };
 };
 
 class Notification extends React.Component<PropsType> {
@@ -41,6 +44,7 @@ class Notification extends React.Component<PropsType> {
 
     render() {
         const {classes = {}, snackbar} = this.props;
+        const statuses = statusesRead(this.props.t);
 
         return (
             <div
@@ -65,7 +69,7 @@ class Notification extends React.Component<PropsType> {
                             onClick={this.handleDelete}
                             className={classes.clearButton}
                             disableRipple
-                            data-qtip="Удалить"
+                            data-qtip={this.props.t("f7e324760ede4c88b4f11f0af26c9e97")}
                             data-page-object={`snackbar-remove-${snackbar.id}`}
                         >
                             <Icon iconfont="times" iconfontname="fa" size="1x" />
@@ -85,4 +89,4 @@ class Notification extends React.Component<PropsType> {
     }
 }
 
-export default observer(Notification);
+export default withTranslation("meta")(observer(Notification));

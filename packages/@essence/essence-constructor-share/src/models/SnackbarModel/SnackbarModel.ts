@@ -68,7 +68,8 @@ export class SnackbarModel implements ISnackbarModel {
                 } else if (this.activeStatus === "notification") {
                     return this.snackbarsAll.filter(
                         (snackbar: ISnackbar) =>
-                            snackbar.pageName === "Оповещение" || snackbar.status === this.activeStatus,
+                            snackbar.pageName === i18next.t("2ff612aa52314ddea65a5d303c867eb8") ||
+                            snackbar.status === this.activeStatus,
                     );
                 }
 
@@ -85,7 +86,9 @@ export class SnackbarModel implements ISnackbarModel {
             this.snackbarsAll = this.snackbarsAll.filter((snackbar) => snackbar.status === "debug");
         } else if (this.activeStatus === "notification") {
             this.snackbarsAll = this.snackbarsAll.filter(
-                (snackbar) => snackbar.pageName !== "Оповещение" && snackbar.status !== this.activeStatus,
+                (snackbar) =>
+                    snackbar.pageName !== i18next.t("2ff612aa52314ddea65a5d303c867eb8") &&
+                    snackbar.status !== this.activeStatus,
             );
         } else {
             this.snackbarsAll = this.snackbarsAll.filter((snackbar) => snackbar.status !== this.activeStatus);
@@ -302,7 +305,7 @@ export class SnackbarModel implements ISnackbarModel {
             {
                 status: "error",
                 text: errorData && errorData.errText ? errorData.errText : "",
-                title: `Ошибка обращения к сервису ${errorData.query}`,
+                title: i18next.t("515a199e09914e3287afd9c95938f3a7", errorData.query),
             },
             route,
         );
@@ -314,18 +317,18 @@ export class SnackbarModel implements ISnackbarModel {
                 code: errorData.errCode || errorData.errId,
                 description: errorData.errText,
                 status: "error",
-                title: `Сервис временно недоступен - ${errorData.query}. Попробуйте выполнить операцию позднее.`,
+                title: i18next.t("4fdb3577f24440ceb8c717adf68bac48", errorData),
             },
             route,
         );
     });
 
-    errorMaskAction = action("errorMaskAction", ({errId, query}: IErrorData, route?: IRouteRecord) => {
+    errorMaskAction = action("errorMaskAction", (errorData: IErrorData, route?: IRouteRecord) => {
         this.snackbarOpenAction(
             {
-                description: errId,
+                description: errorData.errId,
                 status: "error",
-                title: `Ошибка обращения к сервису ${query}.`,
+                title: i18next.t("515a199e09914e3287afd9c95938f3a7", errorData),
             },
             route,
         );
@@ -335,7 +338,7 @@ export class SnackbarModel implements ISnackbarModel {
         this.snackbarOpenAction(
             {
                 status: "error",
-                text: "Не получилось распознать ошибку. Возможно, возникла проблема с сетевым подключением",
+                text: i18next.t("2d209550310a4fae90389134a5b12353"),
             },
             route,
         );
@@ -345,7 +348,7 @@ export class SnackbarModel implements ISnackbarModel {
         this.snackbarOpenAction(
             {
                 status: "error",
-                text: "Сервер авторизации временно недоступен",
+                text: i18next.t("23cd49d589b74476acaa0b347b207d00"),
             },
             route,
         );
@@ -354,7 +357,7 @@ export class SnackbarModel implements ISnackbarModel {
     accessDeniedAction = action(
         "accessDeniedAction",
         (_error: Error, route?: Record<string, FieldValue>, applicationStore?: IApplicationModel) => {
-            this.snackbarOpenAction({status: "error", title: "Не удалось получить доступ к сервису"}, route);
+            this.snackbarOpenAction({status: "error", title: i18next.t("1d5ca35298f346cab823812e2b57e15a")}, route);
             const recordId = route ? route[VAR_RECORD_ID] : undefined;
 
             if (applicationStore && typeof recordId === "string") {
@@ -366,7 +369,7 @@ export class SnackbarModel implements ISnackbarModel {
     invalidSessionAction = action(
         "invalidSessionAction",
         (_error: Error, route?: IRouteRecord, applicationStore?: IApplicationModel) => {
-            this.snackbarOpenAction({status: "error", title: "Сессия недействительна"}, route);
+            this.snackbarOpenAction({status: "error", title: i18next.t("5bf781f61f9c44b8b23c76aec75e5d10")}, route);
 
             if (applicationStore) {
                 applicationStore.logoutAction();
@@ -375,6 +378,6 @@ export class SnackbarModel implements ISnackbarModel {
     );
 
     loginFailedAction = action("loginFailedAction", (_error: Error, route?: IRouteRecord) => {
-        this.snackbarOpenAction({status: "error", title: "Неверные имя пользователя или пароль"}, route);
+        this.snackbarOpenAction({status: "error", title: i18next.t("b5a60b8ff5cd419ebe487a68215f4490")}, route);
     });
 }

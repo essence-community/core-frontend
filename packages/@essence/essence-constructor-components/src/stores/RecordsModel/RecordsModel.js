@@ -10,6 +10,7 @@ import get from "lodash/get";
 import noop from "lodash/noop";
 import omit from "lodash/omit";
 import pLimit from "p-limit";
+import {i18next} from "@essence/essence-constructor-share/utils";
 import {loggerRoot} from "../../constants";
 import {isEmpty} from "../../utils/base";
 import {type BuilderModeType} from "../../BuilderType";
@@ -121,7 +122,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
 
     loadRecordsAction = action("loadRecordsAction", ({selectedRecordId, status = "load"} = {}) => {
         if (isEmpty(this.bc.ckQuery)) {
-            logger("Не могу загрузить данны. Не задан ck_query для конфига:", this.bc);
+            logger(i18next.t("0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
 
             return Promise.resolve();
         }

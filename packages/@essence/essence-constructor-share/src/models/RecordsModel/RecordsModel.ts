@@ -19,7 +19,7 @@ import {
     IRecordsSearchOptions,
     IRouteRecord,
 } from "../../types";
-import {camelCaseMemoized} from "../../utils";
+import {camelCaseMemoized, i18next} from "../../utils";
 import {loggerRoot, VAR_RECORD_ID} from "../../constants";
 import {loadRecordsAction} from "./loadRecordsAction";
 
@@ -139,7 +139,7 @@ export class RecordsModel implements IRecordsModel {
         "loadRecordsAction",
         ({selectedRecordId, status = "load", isUserReload}: ILoadRecordsProps = {}) => {
             if (!this.bc.ckQuery) {
-                logger("Не могу загрузить данны. Не задан ck_query для конфига:", this.bc);
+                logger(i18next.t("0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
 
                 return Promise.resolve();
             }

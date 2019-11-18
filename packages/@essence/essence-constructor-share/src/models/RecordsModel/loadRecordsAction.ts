@@ -4,6 +4,7 @@ import {isEqual} from "lodash";
 import {request} from "../../request";
 import {IPageModel, IRecordsModel, FieldValue, IResponse} from "../../types";
 import {findSetKey, findGetGlobalKey} from "../../utils/findKey";
+import {i18next} from "../../utils";
 import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "../../constants";
 import {snackbarStore} from "../SnackbarModel";
 import {
@@ -225,7 +226,7 @@ export function loadRecordsAction(
                     snackbarStore.snackbarOpenAction(
                         {
                             status: "error",
-                            text: "Неизвестное количество страниц",
+                            text: i18next.t("44e3485c6b0c47dc8a0792c90af62962"),
                         },
                         this.pageStore ? this.pageStore.route : undefined,
                     );

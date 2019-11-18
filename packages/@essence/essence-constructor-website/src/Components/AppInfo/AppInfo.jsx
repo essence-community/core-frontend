@@ -4,7 +4,7 @@ import {compose} from "recompose";
 import {inject, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
 import {Dialog, DialogTitle, DialogContent, Typography, ButtonBase} from "@material-ui/core";
-import {sanitizeHtml} from "@essence/essence-constructor-share/utils";
+import {sanitizeHtml, WithT, withTranslation} from "@essence/essence-constructor-share/utils";
 import {styleTheme, COMMIT_ID, BRANCH_DATE_TIME, BRANCH_NAME} from "../../constants";
 import * as lightLogo from "../../images/light_logo.png";
 import * as darkLogo from "../../images/dark_logo.png";
@@ -15,7 +15,7 @@ type StoresPropsType = {
     applicationStore: ApplicationModelType,
 };
 
-type PropsType = {
+type PropsType = WithT & {
     applicationStore: ApplicationModelType,
     classes?: Object,
 };
@@ -58,14 +58,18 @@ class AppInfo extends React.Component<PropsType, StateType> {
                     onClose={this.handleClose}
                     style={{position: "absolute"}}
                 >
-                    <DialogTitle disableTypography>О программе</DialogTitle>
+                    <DialogTitle disableTypography>{this.props.t("6cf398ee03df42529323bd4ff9f584d5")}</DialogTitle>
                     <DialogContent>
                         <Typography variant="title" paragraph className={classes.title}>
                             {applicationStore.settingsStore.settings.projectAboutBoxTitle}
                         </Typography>
 
                         <Typography variant="body2" paragraph>
-                            Версия {BRANCH_NAME} ({COMMIT_ID} от {BRANCH_DATE_TIME})
+                            {this.props.t("26686005b3584a12aeb9ca9e96e54753", {
+                                BRANCH_DATE_TIME,
+                                BRANCH_NAME,
+                                COMMIT_ID,
+                            })}
                         </Typography>
                         {applicationStore.settingsStore.settings.projectAboutBoxDescription ? (
                             <div
@@ -98,5 +102,6 @@ class AppInfo extends React.Component<PropsType, StateType> {
 export default compose(
     inject(mapStoresToProps),
     withStyles(styles),
+    withTranslation("meta"),
     observer,
 )(AppInfo);

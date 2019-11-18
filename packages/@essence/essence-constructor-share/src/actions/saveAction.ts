@@ -3,7 +3,7 @@ import {ObservableMap, toJS} from "mobx";
 import {loggerRoot} from "../constants";
 import {ProgressModel, snackbarStore} from "../models";
 import {IBuilderConfig, IBuilderMode, IGridBuilder, IPageModel, IRecordsModel, ILoadRecordsProps} from "../types";
-import {findGetGlobalKey, isEmpty} from "../utils";
+import {findGetGlobalKey, isEmpty, i18next} from "../utils";
 import {apiSaveAction} from "./apiSaveAction";
 import {setMask} from "./recordsActions";
 
@@ -173,7 +173,7 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
                 }),
         )
         .catch((error) => {
-            logger("Ошибка при сохранении данных:", error);
+            logger(i18next.t("27a9d844da20453195f59f75185d7c99"), error);
 
             snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
             pageStore.resetStepAction();

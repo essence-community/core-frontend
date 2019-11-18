@@ -174,7 +174,7 @@ export class WindowModel extends StoreBaseModel implements IWindowModel {
          */
         onPrintExcel: this.onPrintExcel,
         /**
-         * Сохраняем значение по кнопке "Сохранить"
+         * Сохраняем значение по кнопке "Save"
          * @memberof WindowModel.handlers
          * @instance
          */

@@ -8,6 +8,7 @@ import forEach from "lodash/forEach";
 import isUndefined from "lodash/isUndefined";
 import isEqual from "lodash/isEqual";
 import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "@essence/essence-constructor-share/constants";
+import {i18next} from "@essence/essence-constructor-share/utils";
 import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {loggerRoot} from "../../constants";
 import {type CkIdType} from "../../BuilderType";
@@ -208,10 +209,7 @@ export function loadRecordsAction({
             return sleep(WAIT_TIME).then(() => new CheckLoading({bc, ckMaster, pageStore: this.pageStore}));
         })
         .catch(() => {
-            logger(
-                `Ожидание загрузки привышено ${CYCLE_TIMEOUT}ms,` +
-                    ` проверьте циклиность использования глобальных переменных для сервиса ${bc.ckQuery}`,
-            );
+            logger(i18next.t("344bbb5fb4a84d89b93c448a5c29e1d7", {query: bc.ckQuery, timeout: CYCLE_TIMEOUT}));
         })
         .then(() => {
             const {json} = prepareRequst(this, {applicationStore, bc, selectedRecordId, status});
@@ -252,7 +250,7 @@ export function loadRecordsAction({
                     snackbarStore.snackbarOpenAction(
                         {
                             status: "error",
-                            text: "Неизвестное количество страниц",
+                            text: i18next.t("44e3485c6b0c47dc8a0792c90af62962"),
                         },
                         this.pageStore && this.pageStore.route,
                     );

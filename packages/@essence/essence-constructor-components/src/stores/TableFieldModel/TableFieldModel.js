@@ -298,7 +298,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
     };
 
     reloadStoreAction = action("reloadStoreAction", () => {
-        loggerInfo("Запрос 'reloadStoreAction' запрещен в TableFieldModel");
+        loggerInfo(i18next.t("58715205c88c4d60aac6bfe2c3bfa516"));
 
         this.selectedEntries = [];
     });

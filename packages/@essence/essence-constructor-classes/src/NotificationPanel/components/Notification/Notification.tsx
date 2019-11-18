@@ -12,9 +12,9 @@ interface INotificationProps {
     snackbarStore: ISnackbarModel;
 }
 interface IFileStatus {
-    errorUpload: "Неуспешно";
-    progress: "Загрузка";
-    uploaded: "Успешно";
+    errorUpload: string;
+    progress: string;
+    uploaded: string;
     [key: string]: string;
 }
 const statusesRead = (trans: any): IFileStatus => {

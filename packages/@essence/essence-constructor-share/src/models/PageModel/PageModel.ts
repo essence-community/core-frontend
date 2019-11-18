@@ -19,7 +19,7 @@ import {
     IWindowModel,
     IApplicationModel,
 } from "../../types";
-import {noop, isEmpty, parseMemoize} from "../../utils";
+import {noop, isEmpty, parseMemoize, i18next} from "../../utils";
 import {RecordsModel} from "../RecordsModel";
 import {WindowModel} from "../WindowModel";
 import {getNextComponent} from "./PageModel.utils";
@@ -193,7 +193,7 @@ export class PageModel implements IPageModel {
 
     addStore = action("addStore", (store: IStoreBaseModel, name: string) => {
         if (this.stores.has(name)) {
-            logger("Существует неудаленная store, нужно удалять ненужные сторы!.");
+            logger(i18next.t("7ef1547ac7084e178bf1447361e3ccc3"));
         }
 
         this.stores.set(name, store);

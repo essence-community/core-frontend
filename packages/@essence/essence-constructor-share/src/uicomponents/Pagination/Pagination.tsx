@@ -67,7 +67,7 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
                 classes={{root: classes.typoRoot}}
                 data-page-object={`${ckPageObject}-current-page`}
             >
-                {pages > 0 ? props.page + 1 : 0} из {pages}
+                {trans("3dd42493c346447897d017af3668d998", {currentpage: pages > 0 ? props.page + 1 : 0, pages})}
             </Typography>
 
             <IconButton

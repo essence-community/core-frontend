@@ -5,6 +5,7 @@ import {Expression, Property, Pattern, Super, LogicalExpression, UnaryExpression
 import memoize from "memoizee";
 import {FieldValue} from "../types";
 import {loggerRoot} from "../constants";
+import {i18next} from "./I18n";
 import {camelCaseMemoized} from "./transform";
 
 interface IParseReturnType {
@@ -102,18 +103,21 @@ export const parse = (src: string, withTokens = false): IParseReturnType => {
     try {
         parsedSrc = esprima.parseScript(`result = ${src}`, {tokens: withTokens});
     } catch (error) {
-        logger("Ошбика при выполнении parse: ", error.message);
+        logger(i18next.t("993c801f7f8b4284b3b1a0f624496ac8"), error.message);
 
         return {
-            runer: () => "Ошибка парсинга",
+            runer: () => String(i18next.t("4b067f4b55154c46b0a8d6b34d4d9bfb")),
             variables: [],
         };
     }
 
     return {
-        runer: (values: IValues = {}) =>
+        runer: (values: IValues = {}) => {
             // @ts-ignore
-            parsedSrc ? parseOperations(parsedSrc.body[0].expression, values) : "Ошибка запуска",
+            const expression = parsedSrc ? parsedSrc.body[0].expression : undefined;
+
+            return expression ? parseOperations(expression, values) : i18next.t("b621b9209813416dba9d5c12ccc93fdf");
+        },
         variables:
             withTokens && parsedSrc && parsedSrc.tokens
                 ? parsedSrc.tokens

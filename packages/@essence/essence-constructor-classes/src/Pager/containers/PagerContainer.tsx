@@ -17,6 +17,7 @@ import {
     IPageModel,
     toColumnStyleWidth,
 } from "@essence/essence-constructor-share";
+import {i18next} from "@essence/essence-constructor-share/utils";
 import {Grid, useTheme} from "@material-ui/core";
 import {settingsStore, PageModel} from "@essence/essence-constructor-share/models";
 import {PagerWindows} from "../components/PagerWindows";
@@ -29,7 +30,7 @@ const VERTICAL_STYLE = {zIndex: 3};
 const SCROLLABRS_STYLE = {height: "100%", paddingRight: 10, width: "100%"};
 const logger = loggerRoot.extend("PagerContainer");
 const onFormChange = (form: typeof MobxReactForm) => {
-    logger("Данные изменены вне формы:", form.values());
+    logger(i18next.t("f9c3bf3691864f4d87a46a9ba367a855"), form.values());
 };
 
 interface IPagerProps extends IClassProps {}

@@ -87,19 +87,19 @@ class GCFilterFieldDate extends React.Component<PropsType, StateType> {
         this.bcSt = {
             ...bc,
             column: `${this.column}St`,
-            cvDisplayed: "Дата с",
+            cvDisplayed: "6aa4a0027b7e41309787b086de051536",
         };
 
         this.bcEn = {
             ...bc,
             column: `${this.column}En`,
-            cvDisplayed: "Дата по",
+            cvDisplayed: "f806e79ffa3342ff81b150ce2279099f",
         };
 
         this.bcEq = {
             ...bc,
             column: this.column,
-            cvDisplayed: "Точная дата",
+            cvDisplayed: "e001f50e66034472a486099ea5f96218",
         };
     };
 

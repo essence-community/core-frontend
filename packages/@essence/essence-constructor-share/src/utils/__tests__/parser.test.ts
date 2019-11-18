@@ -2,6 +2,7 @@ import {parse} from "../parser";
 
 const getValue = (name: string) => name;
 
+// eslint-disable-next-line max-statements
 describe("parse", () => {
     it("operator !", () => {
         expect(parse("!false").runer({get: getValue})).toBe(true);
@@ -55,7 +56,7 @@ describe("parse", () => {
         expect(parse("{'temp': 5}['temp']").runer({get: getValue})).toBe(5);
     });
     it("array", () => {
-        expect(parse("[1,2]").runer({get: getValue})).toEqual([1,2]);
+        expect(parse("[1,2]").runer({get: getValue})).toEqual([1, 2]);
     });
     it("undefined", () => {
         expect(parse("{'temp': undefined}['temp']").runer({get: getValue})).toBe("undefined");

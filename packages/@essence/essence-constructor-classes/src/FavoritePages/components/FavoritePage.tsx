@@ -1,6 +1,7 @@
 import * as React from "react";
 import {Grid, Typography} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
+import {useTranslation} from "@essence/essence-constructor-share/utils";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_ROUTE_NAME,
@@ -20,12 +21,14 @@ export const FavoritePage: React.FC<IFavoritePageProps> = (props) => {
         routesStore.setFavoritsAction(ckId);
     };
 
+    const [trans] = useTranslation("meta");
+
     const handleClickMenu = () => {
         pagesStore.setPageAction(ckId, true);
     };
 
     return (
-        <Grid item className={classes.menuRoot} onClick={handleClickMenu}>
+        <Grid item className={classes.menuRoot} data-qtip={trans(cvName)} onClick={handleClickMenu}>
             <Grid container spacing={1} wrap="nowrap" alignItems="center" className={classes.menuContainer}>
                 <Grid item className={classes.iconRoot}>
                     {cvIconName ? <Icon iconfont={cvIconName} size="lg" /> : null}
@@ -35,7 +38,7 @@ export const FavoritePage: React.FC<IFavoritePageProps> = (props) => {
                 </Grid>
                 <Grid item>
                     <Typography variant="body2" color="inherit" noWrap className={classes.nameTypography}>
-                        {cvName}
+                        {trans(cvName)}
                     </Typography>
                 </Grid>
             </Grid>

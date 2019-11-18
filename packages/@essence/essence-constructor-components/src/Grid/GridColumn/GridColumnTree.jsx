@@ -1,5 +1,6 @@
 // @flow
 import * as React from "react";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import GridColumnDetailSchevron from "./GridColumnDetailSchevron/GridColumnDetailSchevron";
 import GridColumnTreeIcons from "./GridColumnTreeIcons";
 import {type GridColumnPropsType} from "./GridColumnTypes";
@@ -19,7 +20,9 @@ const GridColumnTree = ({
     readOnly,
     qtip,
     className,
-}: GridColumnPropsType) => {
+    // eslint-disable-next-line id-length
+    t,
+}: GridColumnPropsType & WithT) => {
     const CellComponent = columnsMap[bc.datatypeBase] || BaseGridColumn;
     const isLeaf = record.leaf === "true";
     const addPadding = isLeaf ? LEAF_ICON_WIDTH : 0;
@@ -45,7 +48,7 @@ const GridColumnTree = ({
             <GridColumnTreeIcons record={record} store={store} />
 
             {record && record.type === "root" ? (
-                "Корневой каталог"
+                t("e3e33760864d44f88a9ecfe8f5da7a0b")
             ) : (
                 <CellComponent
                     bc={{
@@ -68,4 +71,4 @@ const GridColumnTree = ({
     );
 };
 
-export default GridColumnTree;
+export default withTranslation("meta")(GridColumnTree);

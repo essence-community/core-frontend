@@ -2,6 +2,7 @@ import {List, ListItem, Popover} from "@material-ui/core";
 import cn from "classnames";
 import {useObserver} from "mobx-react-lite";
 import * as React from "react";
+import {useTranslation} from "@essence/essence-constructor-share/utils";
 import {useStyles} from "./OpenPageMenuContext.styles";
 import {IOpenPageMenuContextProps} from "./OpenPageMenuContext.types";
 
@@ -56,6 +57,8 @@ export const OpenPageMenuContext: React.FC<IOpenPageMenuContextProps> = (props) 
         event.preventDefault();
     };
 
+    const [trans] = useTranslation("meta");
+
     return useObserver(() => (
         <Popover
             open={open}
@@ -76,19 +79,19 @@ export const OpenPageMenuContext: React.FC<IOpenPageMenuContextProps> = (props) 
                     {...menuListProps}
                     className={cn([classes.listItem, classes.listItemDivider])}
                 >
-                    Обновить
+                    {trans("33c9b02a9140428d9747299b9a767abb")}
                 </ListItem>
                 <ListItem onClick={handleClose} button {...menuListProps}>
-                    Закрыть вкладку
+                    {trans("74776ef247274a55a2a76f7df34ffe41")}
                 </ListItem>
                 <ListItem onClick={handleCloseOther} button {...menuListProps}>
-                    Закрыть другие вкладки
+                    {trans("63b54227225e4ea5a2ba644eced838ec")}
                 </ListItem>
                 <ListItem onClick={handleCloseAllRight} button {...menuListProps}>
-                    Закрыть вкладки справа
+                    {trans("bceed776538747b9a0c88d4f73b70711")}
                 </ListItem>
                 <ListItem onClick={handleCloseAll} button {...menuListProps}>
-                    Закрыть все вкладки
+                    {trans("a0cb66a96d8740a19397ece02d537f86")}
                 </ListItem>
             </List>
         </Popover>

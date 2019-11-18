@@ -50,6 +50,7 @@
     dompurify "^1.0.11"
     esprima "^4.0.1"
     history "^4.10.1"
+    i18next "^19.0.0"
     keycode "^2.2.0"
     lodash "^4.17.11"
     mdi-react "3.4.0"
@@ -62,6 +63,7 @@
     react-custom-scrollbars "4.2.1"
     react-dom "16.8.6"
     react-fontawesome "^1.6.1"
+    react-i18next "^11.2.1"
     request "^2.88.0"
     snakecase-keys "^2.1.0"
     uuid "^3.3.2"
@@ -1969,6 +1971,13 @@ homedir-polyfill@^1.0.1:
   dependencies:
     parse-passwd "^1.0.0"
 
+html-parse-stringify2@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/html-parse-stringify2/-/html-parse-stringify2-2.0.1.tgz#dc5670b7292ca158b7bc916c9a6735ac8872834a"
+  integrity sha1-3FZwtyksoVi3vJFsmmc1rIhyg0o=
+  dependencies:
+    void-elements "^2.0.1"
+
 "http-parser-js@>=0.4.0 <0.4.11":
   version "0.4.10"
   resolved "https://registry.yarnpkg.com/http-parser-js/-/http-parser-js-0.4.10.tgz#92c9c1374c35085f75db359ec56cc257cbb93fa4"
@@ -1992,6 +2001,13 @@ hyphenate-style-name@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.0.3.tgz#097bb7fa0b8f1a9cf0bd5c734cf95899981a9b48"
   integrity sha512-EcuixamT82oplpoJ2XU4pDtKGWQ7b00CD9f1ug9IaQ3p1bkHMiKCZ9ut9QDI6qsa6cpUuB+A/I+zLtdNK4n2DQ==
+
+i18next@^19.0.0:
+  version "19.0.0"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-19.0.0.tgz#5418207d7286128e6cfe558e659fa8c60d89794b"
+  integrity sha512-xxNKNOqLdGP/M+/fzzBOhcc9hCAqv6gDhHq0xbYz/Vlz5PlMfr9P1LbBvmk7RkZjYoh/kyM1tnfSl+sJ2VaD0Q==
+  dependencies:
+    "@babel/runtime" "^7.3.1"
 
 iconv-lite@^0.4.24, iconv-lite@^0.4.4:
   version "0.4.24"
@@ -3408,6 +3424,14 @@ react-fontawesome@^1.6.1:
   dependencies:
     prop-types "^15.5.6"
 
+react-i18next@^11.2.1:
+  version "11.2.1"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.2.1.tgz#a56d9f1f52d003eb4fa8f1c7d6752123827160f0"
+  integrity sha512-F9uO4YMNgH5wnPzpyZo2NLaKJM8+JhrXSKUqe0gTRd79mRWVOq+mh/CjYeZuF8Wk+ocoOaJvfwE0lRjlfUNk9w==
+  dependencies:
+    "@babel/runtime" "^7.3.1"
+    html-parse-stringify2 "2.0.1"
+
 react-is@^16.7.0, react-is@^16.8.1:
   version "16.8.3"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.3.tgz#4ad8b029c2a718fc0cfc746c8d4e1b7221e5387d"
@@ -4304,6 +4328,11 @@ vm-browserify@0.0.4:
   integrity sha1-XX6kW7755Kb/ZflUOOCofDV9WnM=
   dependencies:
     indexof "0.0.1"
+
+void-elements@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
+  integrity sha1-wGavtYK7HLQSjWDqkjkulNXp2+w=
 
 watchpack@^1.5.0:
   version "1.6.0"

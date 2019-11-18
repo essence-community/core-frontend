@@ -1,5 +1,6 @@
 import {IClassProps, Icon, Scrollbars} from "@essence/essence-constructor-share";
 import {snackbarStore} from "@essence/essence-constructor-share/models";
+import {useTranslation} from "@essence/essence-constructor-share/utils";
 import {ButtonBase, Grid, Tabs} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
 import * as React from "react";
@@ -15,6 +16,7 @@ const SCROLLBARS_STYLE = {
 
 export const NotificationPanel: React.FC<IClassProps> = (props) => {
     const classes = useStyles(props);
+    const [trans] = useTranslation("meta");
     const tabsBc = React.useMemo(() => {
         return getTabsData(props.bc, props.bc.childs || []);
     }, [props.bc]);
@@ -58,7 +60,7 @@ export const NotificationPanel: React.FC<IClassProps> = (props) => {
                         }}
                         disabled={!snackbarStore.snackbarsInStatus.length}
                         disableRipple
-                        data-qtip="Очистить все"
+                        data-qtip={trans("b0c16afd6507416196e01223630f9d62")}
                         data-page-object={"snackbar-remove-all"}
                     >
                         <Icon iconfont="trash-o" iconfontname="fa" size="2x" />

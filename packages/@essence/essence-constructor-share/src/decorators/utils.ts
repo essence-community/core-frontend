@@ -4,7 +4,7 @@ interface ICheckAutoloadPropsType {
     recordsStore?: any;
 }
 
-export function checkAutoload({bc, pageStore, recordsStore}: ICheckAutoloadPropsType) {
+export function checkAutoload({bc, recordsStore}: ICheckAutoloadPropsType) {
     if (!recordsStore || bc.datatype === "tree" || bc.datatype === "grid") {
         return false;
     }
@@ -13,11 +13,13 @@ export function checkAutoload({bc, pageStore, recordsStore}: ICheckAutoloadProps
         return true;
     }
 
-    // if (!isEmpty(bc.ckMaster)) {
-    //     return !isEmptyLodash(
-    //         getMasterData(getMasterObject(bc.ckMaster, pageStore), bc.idproperty || "ck_id", pageStore.globalValues),
-    //     );
-    // }
+    /*
+     * If (!isEmpty(bc.ckMaster)) {
+     *     return !isEmptyLodash(
+     *         getMasterData(getMasterObject(bc.ckMaster, pageStore), bc.idproperty || "ck_id", pageStore.globalValues),
+     *     );
+     * }
+     */
 
     return false;
 }

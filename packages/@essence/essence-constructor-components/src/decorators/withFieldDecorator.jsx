@@ -8,6 +8,7 @@ import {reaction} from "mobx";
 import {disposeOnUnmount} from "mobx-react";
 import {Field, Form} from "mobx-react-form";
 import {EditorContex} from "@essence/essence-constructor-share";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
 import {loggerRoot} from "../constants";
 import {isEmpty} from "../utils/base";
@@ -24,7 +25,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
     React.ComponentType<Props>,
 ) => React.ComponentType<$Diff<Props, WithFieldInjectPropsType>> {
     return (WrappedComponent) => {
-        class WithFieldDecorator extends React.Component<Props> {
+        class WithFieldDecorator extends React.Component<Props & WithT> {
             static contextType = EditorContex;
 
             static defaultProps = {
@@ -141,6 +142,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
             // eslint-disable-next-line max-statements
             addField = (key: string, bc: BuilderFieldType): Field => {
                 const form = this.getForm();
+                const trans = this.props.t;
                 const keyField = this.props.parentKey ? this.props.parentKey.replace(/fieldSetObj_/gi, "") : key;
 
                 const inputType = inputTypes[bc.datatype || "text"];
@@ -168,7 +170,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                 });
 
                 if (bc.cvDisplayed) {
-                    field.set("label", bc.cvDisplayed);
+                    field.set("label", trans(bc.cvDisplayed));
                 }
 
                 if (!isEmpty(bc.defaultvalue)) {
@@ -304,7 +306,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
             }
         }
 
-        return WithFieldDecorator;
+        return withTranslation("meta")(WithFieldDecorator);
     };
 }
 

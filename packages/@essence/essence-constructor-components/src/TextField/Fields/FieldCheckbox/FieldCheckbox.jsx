@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
 import {compose} from "recompose";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import {observer} from "mobx-react";
 import cn from "classnames";
 import {withStyles} from "@material-ui/core/styles";
@@ -14,7 +15,7 @@ type StateType = {
     focused: boolean,
 };
 
-class FieldCheckbox extends React.Component<FieldCheckboxPropsType, StateType> {
+class FieldCheckbox extends React.Component<FieldCheckboxPropsType & WithT, StateType> {
     state = {
         focused: false,
     };
@@ -40,6 +41,8 @@ class FieldCheckbox extends React.Component<FieldCheckboxPropsType, StateType> {
             bc,
             tabIndex,
             field,
+            // eslint-disable-next-line id-length
+            t,
         } = this.props;
         const {focused} = this.state;
         const isInline = bc.edittype && bc.edittype === "inline";
@@ -52,7 +55,7 @@ class FieldCheckbox extends React.Component<FieldCheckboxPropsType, StateType> {
                     [classes.noLabelRender]: noLabel,
                     [classes.focused]: focused,
                 })}
-                data-qtip={value ? "Да" : "Нет"}
+                data-qtip={value ? t("dacf7ab025c344cb81b700cfcc50e403") : t("f0e9877df106481eb257c2c04f8eb039")}
                 data-page-object={bc.ckPageObject}
             >
                 <FormLabel
@@ -65,7 +68,7 @@ class FieldCheckbox extends React.Component<FieldCheckboxPropsType, StateType> {
                     ) : (
                         <TextFieldLabel
                             bc={bc}
-                            info={bc.info}
+                            info={t(bc.info)}
                             error={error}
                             isRequired={field.rules && field.rules.indexOf("required") >= 0}
                         />
@@ -91,5 +94,6 @@ class FieldCheckbox extends React.Component<FieldCheckboxPropsType, StateType> {
 
 export default compose(
     withStyles(FieldCheckboxStyles, {name: "EssenceFieldCheckbox"}),
+    withTranslation("meta"),
     observer,
 )(FieldCheckbox);

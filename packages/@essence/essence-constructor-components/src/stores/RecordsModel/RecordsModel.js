@@ -320,27 +320,24 @@ export class RecordsModel implements RecordsModelInterface<Object> {
         this.loadRecordsAction();
     });
 
-    searchAction = action(
-        "searchAction",
-        (values: Object, options = {}): Promise<null | Object> => {
-            const {filter, reset, noLoad, resetFilter, selectedRecordId} = options;
+    searchAction = action("searchAction", (values: Object, options = {}): Promise<null | Object> => {
+        const {filter, reset, noLoad, resetFilter, selectedRecordId} = options;
 
-            if (!isEqual(this.searchValues, values) || !isEqual(this.filter, filter)) {
-                this.pageNumber = 0;
-            }
-            this.searchValues = values;
+        if (!isEqual(this.searchValues, values) || !isEqual(this.filter, filter)) {
+            this.pageNumber = 0;
+        }
+        this.searchValues = values;
 
-            if (reset || resetFilter || !isUndefined(filter)) {
-                this.filter = filter;
-            }
+        if (reset || resetFilter || !isUndefined(filter)) {
+            this.filter = filter;
+        }
 
-            if (reset) {
-                this.clearRecordsAction();
-            }
+        if (reset) {
+            this.clearRecordsAction();
+        }
 
-            return noLoad ? Promise.resolve(null) : this.loadRecordsAction({selectedRecordId});
-        },
-    );
+        return noLoad ? Promise.resolve(null) : this.loadRecordsAction({selectedRecordId});
+    });
 
     setSearchValuesAction = action("setSearchValuesAction", (values: Object) => {
         this.searchValues = values;
@@ -351,11 +348,10 @@ export class RecordsModel implements RecordsModelInterface<Object> {
         const property = camelCase(this.order.property);
         const records = [...this.records];
 
-        records.sort(
-            (rec1, rec2) =>
-                direction === "DESC"
-                    ? Number(rec1[property] < rec2[property]) || -Number(rec1[property] > rec2[property])
-                    : Number(rec1[property] > rec2[property]) || -Number(rec1[property] < rec2[property]),
+        records.sort((rec1, rec2) =>
+            direction === "DESC"
+                ? Number(rec1[property] < rec2[property]) || -Number(rec1[property] > rec2[property])
+                : Number(rec1[property] > rec2[property]) || -Number(rec1[property] < rec2[property]),
         );
 
         this.recordsState = {

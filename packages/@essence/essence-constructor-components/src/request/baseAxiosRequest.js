@@ -3,7 +3,7 @@ import axios from "axios";
 import {stringify} from "qs";
 import isString from "lodash/isString";
 import isArray from "lodash/isArray";
-import {snakeCaseKeys, camelCaseKeysAsync} from "@essence/essence-constructor-share/utils";
+import {snakeCaseKeys, camelCaseKeysAsync, i18next} from "@essence/essence-constructor-share/utils";
 import {BASE_URL} from "../constants";
 import {type RequestType} from "./requestType";
 
@@ -24,7 +24,7 @@ const checkError = ({responseAllData, query, responseData, list}) => {
     }
 
     if (isError) {
-        const error = new Error("Ошибка в разпознавании данных");
+        const error = new Error(i18next.t("63538aa4bcd748349defdf7510fc9c10", "Ошибка в разпознавании данных"));
 
         // $FlowFixMe
         error.query = query;

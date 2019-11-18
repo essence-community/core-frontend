@@ -1,3 +1,4 @@
+import {i18next} from "../../utils/I18n";
 import {settingsStore} from "../SettingsModel";
 import {VAR_SETTING_BRANCH_NAME} from "../../constants";
 import {request} from "../../request";
@@ -29,14 +30,14 @@ export class ModulesModel {
             .catch((error) => {
                 snackbarStore.snackbarOpenAction({
                     status: "error",
-                    text: "Невозможно загрузить модули",
+                    text: i18next.t("b9c874da6b0e4694b93db69088a556da"),
                 });
                 snackbarStore.snackbarOpenAction(
                     {
                         status: "debug",
                         text: error.message,
                     },
-                    {cvName: "Модули"},
+                    {cvName: i18next.t("02f274362cf847cba8d806687d237698")},
                 );
             });
 }

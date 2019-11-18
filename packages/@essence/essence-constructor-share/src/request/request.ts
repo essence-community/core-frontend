@@ -54,6 +54,7 @@ export const request = async <R = IRecord | IRecord[]>({
     gate = settingsStore.settings[VAR_SETTING_GATE_URL],
     method = "POST",
     formData,
+    isCamelCase = true,
 }: IRequest): Promise<R> => {
     const queryParams = {
         action,
@@ -100,7 +101,7 @@ export const request = async <R = IRecord | IRecord[]>({
 
     clearTimeout(timeoutId);
 
-    const responseJSON = await camelCaseKeysAsync(await response.json());
+    const responseJSON = isCamelCase ? await camelCaseKeysAsync(await response.json()) : await response.json();
 
     checkError({list, query, responseJSON});
 

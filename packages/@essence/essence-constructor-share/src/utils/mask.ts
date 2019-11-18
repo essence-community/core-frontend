@@ -3,7 +3,8 @@ interface IMapMasksType {
 }
 
 const mapMasks: IMapMasksType = {
-    "9": /\d/,
+    // eslint-disable-next-line require-unicode-regexp
+    9: /\d/,
 };
 
 export const getMask = (inputMask: string): Array<string | RegExp> =>

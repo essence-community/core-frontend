@@ -1,9 +1,12 @@
+// eslint-disable-next-line require-unicode-regexp
 const phoneRegexp = /^[8]{1}[0-9]{10}$/;
+// eslint-disable-next-line require-unicode-regexp
 const passwordRegexp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+// eslint-disable-next-line require-unicode-regexp
 const emailRegexp = new RegExp(
     [
         // eslint-disable-next-line quotes
-        "/^(([^<>()[]\\.,;:s@\"]+(.[^<>()[]\\.,;:s@\"]+)*)|(\".+\"))",
+        '/^(([^<>()[]\\.,;:s@"]+(.[^<>()[]\\.,;:s@"]+)*)|(".+"))',
         "@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])",
         "|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/",
     ].join(""),
@@ -12,6 +15,7 @@ const maxFileSize = 5242880;
 
 export const requiredValidate = (value: string) => (value ? undefined : "Обязательно для заполнения");
 export const regexpValidate = (regString: string, errorMessage?: string) => {
+    // eslint-disable-next-line require-unicode-regexp
     const reg = new RegExp(regString);
 
     return (value: string) => (reg.test(value) ? undefined : errorMessage || `Введите текст по маске ${regString}`);

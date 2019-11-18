@@ -2,6 +2,7 @@
 import forOwn from "lodash/forOwn";
 import toString from "lodash/toString";
 import toNumber from "lodash/toNumber";
+import {i18next} from "@essence/essence-constructor-share/utils";
 import moment from "moment";
 import {BigNumber} from "bignumber.js";
 import validatorjs from "validatorjs";
@@ -28,7 +29,7 @@ forOwn(dateMap, (dateConfig) => {
 validatorjs.register(
     "maxsize",
     (value, req) => toString(value).length <= toNumber(req),
-    "Максимальная длина этого поля :maxsize",
+    i18next.t("e668fef0db6d4eeb9eb72c62a8d31052"),
 );
 
 validatorjs.register(
@@ -40,7 +41,7 @@ validatorjs.register(
 
         return toNumber(value) <= toNumber(req);
     },
-    "Значение этого поля не может быть больше :maxvalue",
+    i18next.t("58b71773e7664e70874020a45705bc4c"),
 );
 
 validatorjs.register(
@@ -52,13 +53,13 @@ validatorjs.register(
 
         return toNumber(value) >= toNumber(req);
     },
-    "Значение этого поля не может быть меньше :minvalue",
+    i18next.t("31d96e87a5514f509c75bc701b772504"),
 );
 
 validatorjs.register(
     "required-checkbox",
     (value) => value === 1 || value === "1" || value === true,
-    "Обязателен для заполнения",
+    i18next.t("58c125b1b34f445c9ae5640ff3122e03"),
 );
 
 /*
@@ -76,7 +77,7 @@ validatorjs.register(
 
         return Boolean(reqExp.test(toString(val)));
     },
-    "Неверный формат поля :attribute.",
+    i18next.t("f488a90cb69e4567a092325fecffb1ed"),
 );
 
 validatorjs.register(
@@ -92,7 +93,7 @@ validatorjs.register(
         return true;
     },
     // eslint-disable-next-line quotes
-    'Дата "по" не может быть меньше даты "с"',
+    i18next.t("4f5060a1dc7c4f5ca76a606b4977f868"),
 );
 
 validatorjs.register(
@@ -108,7 +109,7 @@ validatorjs.register(
         return true;
     },
     // eslint-disable-next-line quotes
-    'Дата "с" не может быть больше даты "по"',
+    i18next.t("93e0035fa0684768839021399baed028"),
 );
 
 validatorjs.register(
@@ -126,5 +127,5 @@ validatorjs.register(
 
         return parseInt(reqcount, 10) <= columnsCount - numberFields;
     },
-    "Поля должны быть заполнены в требуемом количестве",
+    i18next.t("a5a5d7213d1f4f77861ed40549ee9c57"),
 );

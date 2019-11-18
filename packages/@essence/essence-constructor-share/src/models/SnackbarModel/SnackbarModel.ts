@@ -15,7 +15,7 @@ import {
     IErrorData,
 } from "../../types";
 import {RecordsModel} from "../RecordsModel";
-import {isEmpty} from "../../utils";
+import {isEmpty, i18next} from "../../utils";
 import {VAR_RECORD_ROUTE_NAME, VAR_RECORD_RES_ERROR, VAR_RECORD_RES_STACK_TRACE, VAR_RECORD_ID} from "../../constants";
 import {IRouteRecord} from "../../types/RoutesModel";
 import {MAX_OPENED_SNACKBARS, CODE_ACCESS_DENIEND, GROUP_ACTION_MAP, CODE_GROUP_MAP} from "./SnackbarModel.contants";
@@ -208,8 +208,12 @@ export class SnackbarModel implements ISnackbarModel {
                     const {cvText = ""} = rec;
                     const text =
                         typeof cvText === "string"
-                            ? // eslint-disable-next-line require-unicode-regexp, prefer-named-capture-group
-                              cvText.replace(/{(\d+)}/g, (match, pattern) => (values && values[pattern]) || "")
+                            ? i18next
+                                  .t(cvText, cvText, {ns: "message"})
+                                  // eslint-disable-next-line require-unicode-regexp, prefer-named-capture-group
+                                  .replace(/{(\d+)}/g, (match, pattern) =>
+                                      i18next.t((values && values[pattern]) || "", "", {ns: "message"}),
+                                  )
                             : "";
 
                     if (rec.crType === "error") {

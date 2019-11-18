@@ -11,6 +11,6 @@ export default {
         },
     ],
     ckPageObject: "historypanel",
-    cvDisplayed: "Отображение Истории",
+    cvDisplayed: "20732b2df62f4dd5baf97d12cf2a3e9c",
     type: "HISTORYPANEL",
 };

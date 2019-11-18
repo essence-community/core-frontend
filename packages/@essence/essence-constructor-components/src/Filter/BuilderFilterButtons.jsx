@@ -49,21 +49,21 @@ class BuilderFilterButtons extends React.Component<PropsType> {
         this.btnsFilter = {
             buttonChevronConfigClose: {
                 ckPageObject: `${bc.ckPageObject}-chevron`,
-                cvDisplayed: "Развернуть фильтры",
+                cvDisplayed: "76dd4f170842474d9776fe712e48d8e6",
                 iconfont: "chevron-down",
                 onlyicon: "true",
                 readonly: "false",
             },
             buttonChevronConfigOpen: {
                 ckPageObject: `${bc.ckPageObject}-chevron`,
-                cvDisplayed: "Скрыть фильтры",
+                cvDisplayed: "72b93dbe37884153a95363420b9ceb59",
                 iconfont: "chevron-up",
                 onlyicon: "true",
                 readonly: "false",
             },
             buttonResetConfig: {
                 ckPageObject: `${bc.ckPageObject}-reset`,
-                cvDisplayed: "Очистить",
+                cvDisplayed: "cda88d85fb7e4a88932dc232d7604bfb",
                 iconfont: styleTheme === "light" ? "broom" : "eraser",
                 iconfontname: "mdi",
                 onlyicon: "true",
@@ -71,7 +71,7 @@ class BuilderFilterButtons extends React.Component<PropsType> {
             },
             buttonSearchConfig: {
                 ckPageObject: `${bc.ckPageObject}-search`,
-                cvDisplayed: "Поиск",
+                cvDisplayed: "704af666dbd3465781149e4282df5dcf",
                 iconfont: "search",
                 onlyicon: "true",
                 readonly: "false",

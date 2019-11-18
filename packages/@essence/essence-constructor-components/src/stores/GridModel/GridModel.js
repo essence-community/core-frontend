@@ -30,8 +30,9 @@ import {getGridBtnsConfig} from "./gridBtnsConfig";
 export type {GridBuilderType, GridModelType, GridModelInterface};
 
 function getGridColumns({columns = [], detail}: GridBuilderType) {
-    const gridColumns = columns.filter((column) => column.visible !== "false").map(
-        (column) =>
+    const gridColumns = columns
+        .filter((column) => column.visible !== "false")
+        .map((column) =>
             column.istree === "true"
                 ? {
                       ...column,
@@ -47,7 +48,7 @@ function getGridColumns({columns = [], detail}: GridBuilderType) {
                       iconfontColumn: column.iconfont ? camelCase(column.iconfont) : column.iconfont,
                       iconfontNameColumn: column.iconfontname ? camelCase(column.iconfontname) : column.iconfontname,
                   },
-    );
+        );
 
     if (detail && findIndex(gridColumns, ["datatype", "detail"]) === -1) {
         return [

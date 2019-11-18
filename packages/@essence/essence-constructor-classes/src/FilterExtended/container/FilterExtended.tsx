@@ -3,6 +3,7 @@ import {Collapse, Grid, Typography} from "@material-ui/core";
 import clsx from "clsx";
 import {useObserver} from "mobx-react-lite";
 import {mapComponents, IBuilderConfig, IClassProps, Icon, FormContext} from "@essence/essence-constructor-share";
+import {useTranslation} from "@essence/essence-constructor-share/utils";
 import {findColumns} from "@essence/essence-constructor-share/utils/findColumns";
 import {useStyles} from "./FilterExtended.style";
 
@@ -12,6 +13,7 @@ export const FilterExtended = (props: IClassProps) => {
     const {bc} = props;
     const [isOpen, setIsOpen] = React.useState(bc.collapsed !== "true");
     const columns = React.useMemo(() => findColumns(bc), [bc]);
+    const [trans] = useTranslation("meta");
     const handleClear = (event: React.SyntheticEvent) => {
         event.stopPropagation();
 
@@ -33,7 +35,7 @@ export const FilterExtended = (props: IClassProps) => {
 
                         <Grid item>
                             <Typography variant="body2" component="span">
-                                {`${bc.cvDisplayed || ""} `}
+                                {`${trans(bc.cvDisplayed) || ""} `}
                             </Typography>
                             <Icon iconfont={isOpen ? "angle-up" : "angle-down"} />
                         </Grid>

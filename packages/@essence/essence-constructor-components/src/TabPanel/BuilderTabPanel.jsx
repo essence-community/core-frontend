@@ -12,7 +12,7 @@ import {Tabs, Grid, List, ListItem, IconButton, Tab as MaterialTab} from "@mater
 import {withStyles} from "@material-ui/core/styles";
 import {setComponent, mapComponents, Icon, PanelWidthContext} from "@essence/essence-constructor-share";
 import {Popover} from "@essence/essence-constructor-share/uicomponents";
-import {getTextWidth} from "@essence/essence-constructor-share/utils";
+import {getTextWidth, withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import commonDecorator from "../decorators/commonDecorator";
 import withModelDecorator from "../decorators/withModelDecorator";
 import {TabModel, type TabModelType} from "../stores/TabModel";
@@ -61,7 +61,7 @@ type State = {
 
 const RESIZE_DELAY = 100;
 
-class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & EnchengeProps, State> {
+class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & WithT & EnchengeProps, State> {
     static contextType = PanelWidthContext;
 
     // TODO: should React.useEffect(..., [panelWidth]);
@@ -103,7 +103,8 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
 
     // eslint-disable-next-line max-statements
     handleGetTabsMode = debounce(() => {
-        const {store, theme, bc, classes} = this.props;
+        // eslint-disable-next-line id-length
+        const {store, theme, bc, classes, t} = this.props;
         const {current} = this.tabsComponentRef;
         const themeType = theme ? theme.palette.type : "light";
 
@@ -115,7 +116,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
             let currentWidth = TAB_EMPTY_SPACE[themeType];
 
             const currentInex = store.reverseTabs.reduceRight((lastIndex, tab) => {
-                currentWidth += getTextWidth(tab.cvDisplayed, font) + additionWidth;
+                currentWidth += getTextWidth(t(tab.cvDisplayed), font) + additionWidth;
 
                 return current.offsetWidth > currentWidth ? lastIndex + 1 : lastIndex;
             }, 0);
@@ -238,7 +239,8 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
     };
 
     renderPopoverContnet = ({onClose}) => {
-        const {store, pageStore, visible, classes} = this.props;
+        // eslint-disable-next-line id-length
+        const {store, pageStore, visible, classes, t} = this.props;
 
         return (
             <List disablePadding dense className={classes.listTabs}>
@@ -260,7 +262,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
                         isActive={store.tabValue === tab.ckPageObject}
                         className={classes.popoverButtonlistItem}
                     >
-                        {tab.cvDisplayed}
+                        {t(tab.cvDisplayed)}
                     </Tab>
                 ))}
             </List>
@@ -269,7 +271,8 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
 
     render() {
         const {selectedTab} = this.state;
-        const {bc, store, classes, disabled, pageStore, visible, theme} = this.props;
+        // eslint-disable-next-line id-length
+        const {bc, store, classes, disabled, pageStore, visible, theme, t} = this.props;
         const {tabValue, reverseTabs, hiddenTabsIndex, activeInHidden} = store;
         const {align = "center", contentview = "hbox"} = bc;
         const themeType = theme ? theme.palette.type : "light";
@@ -342,7 +345,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
                                     Component={MaterialTab}
                                     value={child.ckPageObject}
                                     key={child.ckPageObject}
-                                    label={child.cvDisplayed}
+                                    label={t(child.cvDisplayed)}
                                     className={cn({
                                         [classes.activeTabRoot]: tabValue === child.ckPageObject,
                                         [classes.selectedTabRoot]: selectedTab === child.ckPageObject,
@@ -355,7 +358,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Enc
                                     disabled={disabled}
                                     disableRipple
                                     data-page-object={`${child.ckPageObject}_tab`}
-                                    data-qtip={child.cvDisplayed}
+                                    data-qtip={t(child.cvDisplayed)}
                                     pageStore={pageStore}
                                     bc={child}
                                     isActive={tabValue === child.ckPageObject}
@@ -379,6 +382,7 @@ const BuilderTabPanel = compose(
     withModelDecorator(
         (bc: BuilderTabPanelType, props): TabModelType => new TabModel({bc, pageStore: props.pageStore}),
     ),
+    withTranslation("meta"),
     commonDecorator,
     withStyles(styles, {withTheme: true}),
     observer,

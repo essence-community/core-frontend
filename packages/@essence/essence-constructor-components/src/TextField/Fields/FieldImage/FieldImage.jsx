@@ -3,19 +3,21 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
 import {Icon} from "@essence/essence-constructor-share/Icon";
-import {toSize, parseMemoize} from "@essence/essence-constructor-share/utils";
+import {compose} from "recompose";
+import {toSize, parseMemoize, withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import {downloadImage} from "@essence/essence-constructor-share/utils/download";
 import {type PropsType} from "./FieldImageTypes";
 import {styles} from "./FieldImageStyle";
 
-class FieldImage extends React.Component<PropsType> {
+class FieldImage extends React.Component<PropsType & WithT> {
     handleDownload = () => {
-        const {field, form} = this.props;
+        // eslint-disable-next-line id-length
+        const {field, form, t} = this.props;
         const fieldWithName = form.select(`${field.key}Filename`, null, false);
 
         downloadImage(
             typeof field.value === "string" ? this.getSrc(field.value) : "",
-            (fieldWithName && fieldWithName.value) || "Изображение",
+            t((fieldWithName && fieldWithName.value) || "157badbc579e439d8cae1d60ceff9aa9"),
         );
     };
 
@@ -41,7 +43,8 @@ class FieldImage extends React.Component<PropsType> {
     };
 
     render() {
-        const {bc, classes, field, form} = this.props;
+        // eslint-disable-next-line id-length
+        const {bc, classes, field, form, t} = this.props;
         const {height} = bc;
         const fieldWithName = form.select(`${field.key}Filename`, null, false);
         const {origin} = window.location;
@@ -60,12 +63,12 @@ class FieldImage extends React.Component<PropsType> {
                             alt=""
                             src={src}
                             className={height ? classes.zoomImg : classes.img}
-                            data-qtip={fieldWithName ? fieldWithName.value : ""}
+                            data-qtip={t(fieldWithName ? fieldWithName.value : "157badbc579e439d8cae1d60ceff9aa9")}
                         />
                         {src.indexOf(origin) === 0 && (
                             <div className={classes.downloadBtn} onClick={this.handleDownload}>
                                 <Icon size="lg" iconfont="download" />
-                                <span className={classes.downloadBtnText}>Загрузить</span>
+                                <span className={classes.downloadBtnText}>{t("4a401209683245609626506a762717af")}</span>
                             </div>
                         )}
                     </React.Fragment>
@@ -75,4 +78,8 @@ class FieldImage extends React.Component<PropsType> {
     }
 }
 
-export default withStyles(styles)(observer(FieldImage));
+export default compose(
+    withTranslation("meta"),
+    withStyles(styles),
+    observer,
+)(FieldImage);

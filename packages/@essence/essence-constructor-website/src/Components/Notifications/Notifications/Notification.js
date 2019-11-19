@@ -21,7 +21,14 @@ type PropsType = WithT & {|
     snackbarStore: Object,
 |};
 
-const statusesRead = (trans: any): IFileStatus => {
+type FileStatus = {
+    errorUpload: string,
+    progress: string,
+    uploaded: string,
+    [key: string]: string,
+};
+
+const statusesRead = (trans: any): FileStatus => {
     return {
         errorUpload: trans("73de7f460cc04bc8a068429d66e684ce"),
         progress: trans("ad39828554114893872302a0aaa031af"),

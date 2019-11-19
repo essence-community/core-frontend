@@ -48,12 +48,12 @@ const listItemProps = {
 
 const MAX_HEIGHT = 300;
 
-type OwnPropsType = {|
+type OwnPropsType = {
     tranformName: string,
     renderGridButtons: (props: Object) => React.Node,
     classes: Object,
     visible: boolean,
-|};
+};
 type PropsType = ButtonPropsType & CommonDecoratorInjectType & OwnPropsType;
 
 class BaseBuilderButtonCollector extends React.Component<PropsType> {

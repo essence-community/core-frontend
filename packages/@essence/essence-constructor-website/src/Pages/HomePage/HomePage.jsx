@@ -7,10 +7,11 @@ import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
 import homeLogo from "../../images/home_logo.png";
 import styles from "./HomePageStyles";
 
-type PropsType = {
+type PropsType = WithT & {
     classes?: Object,
 };
 
+// eslint-disable-next-line id-length
 const HomePage = ({classes = {}, t}: PropsType) => (
     <Grid container justify="center" alignItems="center" className={classes.root}>
         <Grid item>

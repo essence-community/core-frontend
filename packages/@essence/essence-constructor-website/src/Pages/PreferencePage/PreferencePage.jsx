@@ -7,7 +7,7 @@ import {withStyles} from "@material-ui/core/styles";
 import {Typography, Button, TextField, Paper, Grid, Switch} from "@material-ui/core";
 import styles from "./PreferencePageStyles";
 
-type PropsType = {
+type PropsType = WithT & {
     classes: {
         [$Keys<$Call<typeof styles, any>>]: string,
     },

@@ -4,6 +4,7 @@ import {runInAction, when} from "mobx";
 import {Field, Form} from "mobx-react-form";
 // $FlowFixMe
 import {i18next} from "../../utils";
+// $FlowFixMe
 import {loggerRoot, VALUE_SELF_FIRST} from "../../constants";
 // $FlowFixMe
 import {isEmpty} from "../../utils/base";
@@ -55,7 +56,7 @@ export function awaitFormFilter(form: Form, skipCheckMaster: boolean): Promise<v
     });
 }
 
-function applyFieldFilter(field: Field, params: Record<string, any>) {
+function applyFieldFilter(field: Field, params: Object) {
     if (Object.prototype.hasOwnProperty.call(params, field.key)) {
         const value = params[field.key];
 
@@ -65,7 +66,7 @@ function applyFieldFilter(field: Field, params: Record<string, any>) {
     }
 }
 
-function runFormFilter(form: Form, params: Record<string, any>): Promise<void> {
+function runFormFilter(form: Form, params: Object): Promise<void> {
     return awaitFormFilter(form, true).then(() => {
         form.each((field) => {
             applyFieldFilter(field, params);
@@ -73,13 +74,13 @@ function runFormFilter(form: Form, params: Record<string, any>): Promise<void> {
     });
 }
 
-function filterAllForms(forms: Array<Form>, params: Record<string, any>): Promise<Record<string, any>> {
+function filterAllForms(forms: Array<Form>, params: Object): Promise<Object> {
     const notFieldParams = {...params};
 
     return Promise.all(forms.map((form: Form) => runFormFilter(form, notFieldParams))).then(() => notFieldParams);
 }
 
-export async function redirectToPage(page: any, params: Record<string, any>) {
+export async function redirectToPage(page: any, params: Object) {
     page.isActiveRedirect = true;
 
     // При переходе все поля нужно сбрасывать в значения по умолчанию.
@@ -98,7 +99,7 @@ export async function redirectToPage(page: any, params: Record<string, any>) {
     // $FlowFixMe
     const forms = page.formFilters.filter((form: Form) => !form.hasMaster);
     const notFieldParams = await filterAllForms(forms, params);
-    const emptyValues: Record<string, any> = {};
+    const emptyValues: Object = {};
 
     forOwn(notFieldParams, (fieldValue: mixed, fieldName: string) => {
         emptyValues[fieldName] = null;

@@ -90,10 +90,11 @@ class SnackbarContent extends React.Component<PropsType> {
     };
 
     render() {
+        // eslint-disable-next-line id-length
         const {snackbar, classes = {}, t} = this.props;
         const {code, status, text, description} = snackbar;
         const capitalizeStatus = capitalize(status);
-        const title = snackbar.title ? `${t(statusTitle[status])} ${snackbar.title}` : t(statusTitle[status]);
+        const title = snackbar.title ? `${t(statusTitle[status])} ${t(snackbar.title)}` : t(statusTitle[status]);
 
         return (
             <Grow in={snackbar.open} onExited={this.handleClose}>

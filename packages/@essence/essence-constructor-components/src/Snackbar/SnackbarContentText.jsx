@@ -15,12 +15,12 @@ const SnackbarContentText = ({text, title, description, code, t}: PropsType) => 
     <React.Fragment>
         {title ? (
             <Typography variant="body2" color="inherit">
-                {title}
+                {t(title)}
             </Typography>
         ) : null}
         {text ? (
             <Typography variant="body2" color="inherit" component="div">
-                {text}
+                {typeof text === "string" ? t(text) : text}
             </Typography>
         ) : null}
         {description ? (

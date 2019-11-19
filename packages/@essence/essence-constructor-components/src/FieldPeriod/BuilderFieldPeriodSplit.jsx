@@ -79,7 +79,7 @@ class BuilderFieldPeriodSplit extends React.Component<PropsType & WithT> {
         this.bcStart = {
             ckPageObject,
             column: columnStartCase,
-            cvDisplayed: `${transCvDisplayed} {{d7d40d765f0840beb7f0db2b9298ac0c}}`,
+            cvDisplayed: `${transCvDisplayed} $t(d7d40d765f0840beb7f0db2b9298ac0c)`,
             disabledstartdate: columnEndCase,
             rules: `before_not_required:${columnEndCase}`,
             validaterelated: `${columnEndCase}`,
@@ -89,7 +89,7 @@ class BuilderFieldPeriodSplit extends React.Component<PropsType & WithT> {
         this.bcEnd = {
             ckPageObject,
             column: columnEndCase,
-            cvDisplayed: `${transCvDisplayed} {{acc7f22ccbc6407bb253f8c47a684c45}}`,
+            cvDisplayed: `${transCvDisplayed} $t(acc7f22ccbc6407bb253f8c47a684c45)`,
             disabledenddate: columnStartCase,
             rules: `after_not_required:${columnStartCase}`,
             validaterelated: `${columnStartCase}`,

@@ -10,6 +10,7 @@ type PropsType = WithT & {
     code?: string,
 };
 
+// eslint-disable-next-line id-length
 const SnackbarContentText = ({text, title, description, code, t}: PropsType) => (
     <React.Fragment>
         {title ? (

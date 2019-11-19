@@ -250,10 +250,12 @@ export function loadRecordsAction(
             const valueField = status === "attach" ? "ckId" : this.valueField;
             let isDefault: "##alwaysfirst##" | "##first##" | undefined = undefined;
             let recordId = undefined;
+            let record = undefined;
 
             switch (true) {
                 case defaultvalue === VALUE_SELF_ALWAYSFIRST:
                     isDefault = VALUE_SELF_ALWAYSFIRST;
+                    [record] = records;
                     recordId = records[0] ? records[0][valueField] : undefined;
                     break;
                 case selectedRecordId !== undefined:
@@ -265,14 +267,17 @@ export function loadRecordsAction(
                 case defaultvalue === VALUE_SELF_FIRST:
                     isDefault = VALUE_SELF_FIRST;
                     recordId = records[0] ? records[0][valueField] : undefined;
+                    [record] = records;
                     break;
                 default:
                     recordId = undefined;
             }
 
             this.recordsState = {
-                defaultValueSet: isDefault && recordId === undefined ? isDefault : undefined,
+                defaultValueSet: isDefault && recordId !== undefined ? isDefault : undefined,
+                isDefault,
                 isUserReload,
+                record,
                 records: status === "attach" ? getAttachedRecords(this.recordsState.records, records[0]) : records,
                 status,
             };

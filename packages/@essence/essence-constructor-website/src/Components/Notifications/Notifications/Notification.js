@@ -28,12 +28,10 @@ type FileStatus = {
     [key: string]: string,
 };
 
-const statusesRead = (trans: any): FileStatus => {
-    return {
-        errorUpload: trans("73de7f460cc04bc8a068429d66e684ce"),
-        progress: trans("ad39828554114893872302a0aaa031af"),
-        uploaded: trans("5454b0c6f64b41daab8deb88f948a4f1"),
-    };
+const statuses: FileStatus = {
+    errorUpload: "73de7f460cc04bc8a068429d66e684ce",
+    progress: "ad39828554114893872302a0aaa031af",
+    uploaded: "5454b0c6f64b41daab8deb88f948a4f1",
 };
 
 class Notification extends React.Component<PropsType> {
@@ -50,8 +48,8 @@ class Notification extends React.Component<PropsType> {
     };
 
     render() {
-        const {classes = {}, snackbar} = this.props;
-        const statuses = statusesRead(this.props.t);
+        // eslint-disable-next-line id-length
+        const {classes = {}, snackbar, t} = this.props;
 
         return (
             <div
@@ -65,18 +63,18 @@ class Notification extends React.Component<PropsType> {
                     </Grid>
                     {snackbar.status && statuses[snackbar.status] ? (
                         <Grid item data-qtip={snackbar.createdAt} style={{paddingRight: 10}}>
-                            {statuses[snackbar.status]}
+                            {t(statuses[snackbar.status])}
                         </Grid>
                     ) : null}
-                    <Grid item className={classes.pageName} data-qtip={snackbar.pageName}>
-                        {snackbar.pageName}
+                    <Grid item className={classes.pageName} data-qtip={t(snackbar.pageName)}>
+                        {t(snackbar.pageName)}
                     </Grid>
                     <Grid item>
                         <ButtonBase
                             onClick={this.handleDelete}
                             className={classes.clearButton}
                             disableRipple
-                            data-qtip={this.props.t("f7e324760ede4c88b4f11f0af26c9e97")}
+                            data-qtip={t("f7e324760ede4c88b4f11f0af26c9e97")}
                             data-page-object={`snackbar-remove-${snackbar.id}`}
                         >
                             <Icon iconfont="times" iconfontname="fa" size="1x" />

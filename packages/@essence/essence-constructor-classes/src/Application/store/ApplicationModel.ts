@@ -240,9 +240,9 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
                     setTimeout(() => this.initWsClient(currentSession), TIMEOUT_LONG_RECONNECT);
                     snackbarStore.snackbarOpenAction(
                         {
-                            pageName: i18next.t("2ff612aa52314ddea65a5d303c867eb8"),
+                            pageName: "2ff612aa52314ddea65a5d303c867eb8",
                             status: "error",
-                            text: i18next.t("bcdc7e54547e405c9873b3ebea4f84c4"),
+                            text: "bcdc7e54547e405c9873b3ebea4f84c4",
                         },
                         {},
                     );
@@ -255,9 +255,9 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
             .catch((err) => {
                 snackbarStore.snackbarOpenAction(
                     {
-                        pageName: i18next.t("2ff612aa52314ddea65a5d303c867eb8"),
+                        pageName: "2ff612aa52314ddea65a5d303c867eb8",
                         status: "error",
-                        text: err.message || i18next.t("4b4ef9aed688462799f24efe8413da9f"),
+                        text: err.message || "4b4ef9aed688462799f24efe8413da9f",
                     },
                     {},
                 );
@@ -273,7 +273,7 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
                     snackbarStore.checkValidResponseAction(
                         camelCaseKeys(event.data),
                         {
-                            cvName: i18next.t("2ff612aa52314ddea65a5d303c867eb8"),
+                            cvName: "2ff612aa52314ddea65a5d303c867eb8",
                         },
                         undefined,
                         this,

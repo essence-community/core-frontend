@@ -179,7 +179,7 @@ export class ApplicationModel implements ApplicationModelType {
                     hiddenTimeout: 0,
                     status: "debug",
                     text: renderGlobalValuelsInfo(globalValues),
-                    title: i18next.t("d2c071c58aca4b73853c1fcc6e2f08a3"),
+                    title: "d2c071c58aca4b73853c1fcc6e2f08a3",
                 }),
         );
     };
@@ -267,14 +267,14 @@ export class ApplicationModel implements ApplicationModelType {
             .catch((error) => {
                 snackbarStore.snackbarOpenAction({
                     status: "error",
-                    text: i18next.t("b9c874da6b0e4694b93db69088a556da"),
+                    text: "b9c874da6b0e4694b93db69088a556da",
                 });
                 snackbarStore.snackbarOpenAction(
                     {
                         status: "debug",
                         text: error.message,
                     },
-                    {cvName: i18next.t("02f274362cf847cba8d806687d237698")},
+                    {cvName: "02f274362cf847cba8d806687d237698"},
                 );
             });
 
@@ -342,9 +342,9 @@ export class ApplicationModel implements ApplicationModelType {
                     delay(this.initWsClient, TIMEOUT_LONG_RECONNECT, this.session);
                     snackbarStore.snackbarOpenAction(
                         {
-                            pageName: i18next.t("2ff612aa52314ddea65a5d303c867eb8"),
+                            pageName: "2ff612aa52314ddea65a5d303c867eb8",
                             status: "error",
-                            text: i18next.t("bcdc7e54547e405c9873b3ebea4f84c4"),
+                            text: "bcdc7e54547e405c9873b3ebea4f84c4",
                         },
                         {},
                     );
@@ -357,9 +357,9 @@ export class ApplicationModel implements ApplicationModelType {
             .catch((err) => {
                 snackbarStore.snackbarOpenAction(
                     {
-                        pageName: i18next.t("2ff612aa52314ddea65a5d303c867eb8"),
+                        pageName: "2ff612aa52314ddea65a5d303c867eb8",
                         status: "error",
-                        text: err.message || i18next.t("4b4ef9aed688462799f24efe8413da9f"),
+                        text: err.message || "4b4ef9aed688462799f24efe8413da9f",
                     },
                     {},
                 );
@@ -375,7 +375,7 @@ export class ApplicationModel implements ApplicationModelType {
                     snackbarStore.checkValidResponseAction(
                         camelCaseKeys(event.data),
                         {
-                            cvName: i18next.t("2ff612aa52314ddea65a5d303c867eb8"),
+                            cvName: "2ff612aa52314ddea65a5d303c867eb8",
                         },
                         undefined,
                         this,

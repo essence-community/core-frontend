@@ -131,4 +131,4 @@ export const dateMap = {
 
 export const getFieldDate = (item?: string): Object => (item && dateMap[getFieldType(item)]) || dateMap.default;
 
-export const ru = {...ruRU, ok: "Ок"};
+export const ru = {...ruRU, ok: i18next.t("8004527cce454f8f83c7d739460f5822")};

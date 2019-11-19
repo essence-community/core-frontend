@@ -2,12 +2,12 @@
 import * as React from "react";
 import memoise from "lodash/memoize";
 import {Slider, preference} from "@essence/essence-constructor-components";
-import {saveToStore} from "@essence/essence-constructor-share/utils";
+import {saveToStore, WithT, withTranslation} from "@essence/essence-constructor-share/utils";
 import {withStyles} from "@material-ui/core/styles";
 import {Typography, Button, TextField, Paper, Grid, Switch} from "@material-ui/core";
 import styles from "./PreferencePageStyles";
 
-type PropsType = {
+type PropsType = WithT & {
     classes: {
         [$Keys<$Call<typeof styles, any>>]: string,
     },
@@ -64,7 +64,8 @@ class PreferencePage extends React.Component<PropsType, StateType> {
     );
 
     render() {
-        const {classes} = this.props;
+        // eslint-disable-next-line id-length
+        const {classes, t} = this.props;
         const {form} = this.state;
 
         return (
@@ -72,11 +73,11 @@ class PreferencePage extends React.Component<PropsType, StateType> {
                 <Grid container direction="column" spacing={2}>
                     <Grid item>
                         <Typography variant="headline" component="h3" align="center">
-                            Настройки системы
+                            {t("9c97fa4879f144a7b571c4905fa020cc")}
                         </Typography>
                     </Grid>
                     {this.renderPreference(
-                        "Задержка Tooltip перед показом (delayTooltipShow)",
+                        t("d39cbeb8128e4f68b201b25291889dd2"),
                         <Slider
                             value={form.delayTooltipShow}
                             min={100}
@@ -87,7 +88,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
                         />,
                     )}
                     {this.renderPreference(
-                        "Отступ Tooltip по диагонали (offsetTooltip)",
+                        t("a43c94932e3a48c9867ac7b39bb22e60"),
                         <Slider
                             value={form.offsetTooltip}
                             min={0}
@@ -98,7 +99,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
                         />,
                     )}
                     {this.renderPreference(
-                        "Задержка Tooltip при движении (debounceTooltipTime)",
+                        t("a376942ff8af4ec58eeb18ea5a05e772"),
                         <Slider
                             value={form.debounceTooltipTime}
                             min={8}
@@ -109,7 +110,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
                         />,
                     )}
                     {this.renderPreference(
-                        "Включить режим объединения ячеек таблиц в wysiwyg (wysiwygCombineFields)",
+                        t("9a381df0ef4948ebaacb05852324d036"),
                         <Switch
                             checked={form.wysiwygCombineFields}
                             onChange={this.handleChange("wysiwygCombineFields")}
@@ -117,8 +118,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
                         />,
                     )}
                     {this.renderPreference(
-                        "Включить режим отображения отладочного окна при передаче" +
-                            " параметров извне (redirectDebugWindow)",
+                        t("c038518f0652435ba9914848f8693454"),
                         <Switch
                             checked={form.redirectDebugWindow}
                             onChange={this.handleChange("redirectDebugWindow")}
@@ -126,7 +126,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
                         />,
                     )}
                     {this.renderPreference(
-                        "Включить эксперементальный режим (experimentalUI)",
+                        t("0852f8c548c741d39521833cd739a9f4"),
                         <Switch
                             checked={form.experimentalUI}
                             onChange={this.handleChange("experimentalUI")}
@@ -134,7 +134,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
                         />,
                     )}
                     <TextField
-                        label="Список модулей (modules)"
+                        label={t("ad56476c04ff4d6091d5e87f5d823a9b")}
                         value={form.modules}
                         name="modules"
                         onChange={this.handleChangeEvent}
@@ -143,7 +143,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
                         <Grid container justify="center">
                             <Grid item>
                                 <Button variant="contained" onClick={this.handleSave}>
-                                    Сохранить
+                                    {t("ef1415ca80804e149ceb5356efb2df97")}
                                 </Button>
                             </Grid>
                         </Grid>
@@ -154,4 +154,4 @@ class PreferencePage extends React.Component<PropsType, StateType> {
     }
 }
 
-export default withStyles(styles)(PreferencePage);
+export default withTranslation("meta")(withStyles(styles)(PreferencePage));

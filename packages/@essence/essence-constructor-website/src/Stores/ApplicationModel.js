@@ -25,6 +25,7 @@ import {
     setModule,
     loadFiles,
 } from "@essence/essence-constructor-share";
+import {i18next} from "@essence/essence-constructor-share/utils";
 import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {history} from "../history";
 import {BRANCH_NAME, colors} from "../constants";
@@ -178,7 +179,7 @@ export class ApplicationModel implements ApplicationModelType {
                     hiddenTimeout: 0,
                     status: "debug",
                     text: renderGlobalValuelsInfo(globalValues),
-                    title: "Супер Глобальные переменные",
+                    title: i18next.t("d2c071c58aca4b73853c1fcc6e2f08a3"),
                 }),
         );
     };
@@ -266,14 +267,14 @@ export class ApplicationModel implements ApplicationModelType {
             .catch((error) => {
                 snackbarStore.snackbarOpenAction({
                     status: "error",
-                    text: "Невозможно загрузить модули",
+                    text: i18next.t("b9c874da6b0e4694b93db69088a556da"),
                 });
                 snackbarStore.snackbarOpenAction(
                     {
                         status: "debug",
                         text: error.message,
                     },
-                    {cvName: "Модули"},
+                    {cvName: i18next.t("02f274362cf847cba8d806687d237698")},
                 );
             });
 
@@ -341,9 +342,9 @@ export class ApplicationModel implements ApplicationModelType {
                     delay(this.initWsClient, TIMEOUT_LONG_RECONNECT, this.session);
                     snackbarStore.snackbarOpenAction(
                         {
-                            pageName: "Оповещение",
+                            pageName: i18next.t("2ff612aa52314ddea65a5d303c867eb8"),
                             status: "error",
-                            text: "Ошибка подключения к серверу оповещения, превышен лимит попыток переподключения",
+                            text: i18next.t("bcdc7e54547e405c9873b3ebea4f84c4"),
                         },
                         {},
                     );
@@ -356,9 +357,9 @@ export class ApplicationModel implements ApplicationModelType {
             .catch((err) => {
                 snackbarStore.snackbarOpenAction(
                     {
-                        pageName: "Оповещение",
+                        pageName: i18next.t("2ff612aa52314ddea65a5d303c867eb8"),
                         status: "error",
-                        text: err.message || "Ошибка подключения к серверу оповещения",
+                        text: err.message || i18next.t("4b4ef9aed688462799f24efe8413da9f"),
                     },
                     {},
                 );
@@ -374,7 +375,7 @@ export class ApplicationModel implements ApplicationModelType {
                     snackbarStore.checkValidResponseAction(
                         camelCaseKeys(event.data),
                         {
-                            cvName: "Оповещение",
+                            cvName: i18next.t("2ff612aa52314ddea65a5d303c867eb8"),
                         },
                         undefined,
                         this,
@@ -394,7 +395,7 @@ export class ApplicationModel implements ApplicationModelType {
                     break;
                 }
                 default: {
-                    throw new Error(`Ошибка получения оповещения ${msg.data}`);
+                    throw new Error(i18next.t("8fe6e023ee11462db952d62d6b8b265e", {message: msg.data}));
                 }
             }
         });

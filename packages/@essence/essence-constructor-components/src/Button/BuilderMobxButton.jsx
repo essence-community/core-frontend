@@ -381,11 +381,7 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
     }
 }
 
-const BuilderMobxButton = compose(
-    commonDecorator,
-    withTranslation("meta"),
-    withStyles(styles),
-)(BuilderMobxButtonBase);
+const BuilderMobxButton = withTranslation("meta")(withStyles(styles)(commonDecorator(BuilderMobxButtonBase)));
 
 setComponent("BTN", BuilderMobxButton);
 

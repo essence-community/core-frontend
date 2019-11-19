@@ -8,6 +8,7 @@ import {
     IApplicationModel,
 } from "../../types";
 import {loggerRoot} from "../../constants";
+import {i18next} from "../../utils";
 
 const logger = loggerRoot.extend("StoreBaseModel");
 
@@ -42,12 +43,12 @@ export class StoreBaseModel implements IStoreBaseModel {
     }
 
     public reloadStoreAction = (): Promise<undefined | object> => {
-        logger(`Не определана reloadStoreAction для ${this.constructor.name}`);
+        logger(i18next.t("83490c56debb4a399f05518608e3bace", {name: this.constructor.name}));
 
         return Promise.resolve(undefined);
     };
 
     public clearStoreAction = (): void => {
-        logger(`Не определана clearStoreAction для ${this.constructor.name}`);
+        logger(i18next.t("5c3108d6508a4141bdca1e52881e196d", {name: this.constructor.name}));
     };
 }

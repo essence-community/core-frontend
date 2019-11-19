@@ -398,9 +398,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
     }
 
     renderWarning = () => (
-        <div className={this.props.classes.warning}>
-            Необходимо заполнить orderproperty для дальнейшей работы таблицы
-        </div>
+        <div className={this.props.classes.warning}>{this.props.t("40dd53ff1c214bfab79ecd40612de8f5")}</div>
     );
 
     render() {

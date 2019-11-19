@@ -170,7 +170,7 @@ export class WindowModel extends StoreBaseModel implements WindowModelInterface 
     onCloseWindowSilent = this.closeAction;
 
     /**
-     * Сохраняем значение по кнопке "Сохранить"
+     * Сохраняем значение по кнопке "Save"
      */
     onSimpleSaveWindow = this.saveAction;
 

@@ -7,6 +7,7 @@ import {Grid, Grow, Paper, CircularProgress} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import capitalize from "lodash/capitalize";
 import {Icon} from "@essence/essence-constructor-share/Icon";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import ProgressBar from "../Components/ProgressBar/ProgressBar";
 import type {ProgressModelType} from "../stores/ProgressModel/ProgressModel";
 import {SnackbarContentDarkStyle} from "./Styles/SnackbarContentDarkStyle";
@@ -15,16 +16,16 @@ import SnackbarContentText from "./SnackbarContentText";
 const styles = SnackbarContentDarkStyle;
 
 const statusTitle = {
-    block: "Блокировка",
-    debug: "Отладка",
-    error: "Ошибка",
-    errorUpload: "Ошибка загрузки",
-    info: "Информация",
+    block: "cad7307902954c1b92b626e42da53aa3",
+    debug: "4fdb2cdb2e5047048da10f9dbe83188d",
+    error: "c80abfb5b59c400ca1f8f9e868e4c761",
+    errorUpload: "cecc548fc7444813a3d00eb7bb067a3f",
+    info: "627518f4034947aa9989507c5688cfff",
     notification: "",
-    progress: "Загрузка",
-    unblock: "Снятие блокировки",
-    uploaded: "Загружено",
-    warning: "Предупреждение",
+    progress: "ad39828554114893872302a0aaa031af",
+    unblock: "d22b1f7a48b9402e9c0c17b508c5a906",
+    uploaded: "179cc83540e94b87a8d8aff919552f22",
+    warning: "e6f8166771e04b849855254c5d926ff6",
 };
 
 const statusIcon = {
@@ -40,7 +41,7 @@ const statusIcon = {
     warning: "exclamation-triangle",
 };
 
-type PropsType = {|
+type PropsType = WithT & {|
     classes?: Object,
     snackbar: {
         open: boolean,
@@ -89,10 +90,10 @@ class SnackbarContent extends React.Component<PropsType> {
     };
 
     render() {
-        const {snackbar, classes = {}} = this.props;
+        const {snackbar, classes = {}, t} = this.props;
         const {code, status, text, description} = snackbar;
         const capitalizeStatus = capitalize(status);
-        const title = snackbar.title ? `${statusTitle[status]} ${snackbar.title}` : statusTitle[status];
+        const title = snackbar.title ? `${t(statusTitle[status])} ${snackbar.title}` : t(statusTitle[status]);
 
         return (
             <Grow in={snackbar.open} onExited={this.handleClose}>
@@ -130,6 +131,7 @@ class SnackbarContent extends React.Component<PropsType> {
 }
 
 export default compose(
+    withTranslation("meta"),
     withStyles(styles),
     observer,
 )(SnackbarContent);

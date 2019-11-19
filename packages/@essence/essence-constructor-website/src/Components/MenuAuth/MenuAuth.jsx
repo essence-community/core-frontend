@@ -2,8 +2,9 @@
 import * as React from "react";
 import {compose} from "recompose";
 import {inject, observer} from "mobx-react";
+import memoize from "lodash/memoize";
 import {BuilderPanel, BuilderForm, PageModel, withModelDecorator} from "@essence/essence-constructor-components";
-import {saveToStore, removeFromStore} from "@essence/essence-constructor-share/utils";
+import {saveToStore, removeFromStore, WithT, withTranslation} from "@essence/essence-constructor-share/utils";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import {type AuthModelType} from "../../Stores/AuthModel";
 import {styleTheme} from "../../constants";
@@ -15,25 +16,28 @@ type StoresPropsType = {
 type OwnPropsType = {
     pageStore: Object,
 };
-type PropsType = StoresPropsType & OwnPropsType;
+type PropsType = WithT & StoresPropsType & OwnPropsType;
 
 const mapStoresToProps = (stores: Object): StoresPropsType => ({
     applicationStore: stores.applicationStore,
     authStore: stores.authStore,
 });
 
-const config = {
+const getConfig = memoize((trans) => ({
     childs: [
         {
             ckPageObject: "theme",
             clearable: "false",
             column: "theme",
-            cvDisplayed: "Тема",
+            cvDisplayed: "0b5e4673fa194e16a0c411ff471d21d2",
             datatype: "combo",
             displayfield: "name",
             noglobalmask: "true",
             querymode: "remote",
-            records: [{name: "Темная тема", value: "dark"}, {name: "Светлая тема", value: "light"}],
+            records: [
+                {name: trans("66ef0068472a4a0394710177f828a9b1"), value: "dark"},
+                {name: trans("fd7c7f3539954cc8a55876e3514906b5"), value: "light"},
+            ],
             type: "IFIELD",
             valuefield: "value",
         },
@@ -41,7 +45,7 @@ const config = {
     ckPageObject: "ChangeTheme",
     readonly: "false",
     type: "PANEL",
-};
+}));
 
 class MenuTheme extends React.Component<PropsType> {
     prevValues = {};
@@ -61,6 +65,7 @@ class MenuTheme extends React.Component<PropsType> {
 
     render() {
         const {pageStore} = this.props;
+        const config = getConfig(this.props.t);
         const initialValues = {
             theme: styleTheme,
         };
@@ -89,5 +94,6 @@ export default compose(
             }),
         "pageStore",
     ),
+    withTranslation("meta"),
     observer,
 )(MenuTheme);

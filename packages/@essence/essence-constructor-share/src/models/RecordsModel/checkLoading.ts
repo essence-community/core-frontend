@@ -18,6 +18,7 @@
  */
 // eslint-disable-next-line import/named
 import {Lambda, observe, reaction} from "mobx";
+import {i18next} from "../../utils";
 import {IBuilderConfig, IPageModel, IRecordsModel} from "../../types";
 import {findGetGlobalKey} from "../../utils/findKey";
 
@@ -147,7 +148,7 @@ export class CheckLoading {
         for (const dispose of this.checkers as any) {
             dispose();
         }
-        this.reject(new Error("Превышено время ожидания"));
+        this.reject(new Error(i18next.t("06dfd0c3b97b45e5abc146a14c0fab37")));
     };
 
     private handleFinishedLoading = (name: string, store: {recordsStore: IRecordsModel}) => (): void => {

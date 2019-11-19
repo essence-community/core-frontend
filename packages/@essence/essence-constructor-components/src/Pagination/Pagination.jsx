@@ -95,7 +95,10 @@ class Pagination extends React.Component<Props & WithT> {
                     classes={{root: classes.typoRoot}}
                     data-page-object={`${gridBc.ckPageObject}-current-page`}
                 >
-                    {pages > 0 ? this.props.page + 1 : 0} из {pages}
+                    {t("3dd42493c346447897d017af3668d998", {
+                        currentpage: pages > 0 ? this.props.page + 1 : 0,
+                        pages,
+                    })}
                 </Typography>
 
                 <IconButton

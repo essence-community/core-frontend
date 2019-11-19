@@ -4,6 +4,7 @@ import {compose} from "recompose";
 import {observer} from "mobx-react";
 import {Grid} from "@material-ui/core";
 import {setComponent, mapComponents} from "@essence/essence-constructor-share";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import {loggerRoot} from "../constants";
 import withModelDecorator from "../decorators/withModelDecorator";
 import {type PageModelType} from "../stores/PageModel";
@@ -28,7 +29,7 @@ type PropsStoreType = {|
     store: DynamicPanelModel,
 |};
 
-type PropsType = PropsStoreType & BuilderPanelDynamicType;
+type PropsType = WithT & PropsStoreType & BuilderPanelDynamicType;
 
 export class BaseBuilderPanelDynamic extends React.Component<PropsType> {
     render() {
@@ -48,10 +49,7 @@ export class BaseBuilderPanelDynamic extends React.Component<PropsType> {
                             ...child,
                             ckPageObject: `${bc.ckPageObject}_child_${index}`,
                         };
-                        logger(
-                            "Поле может работать некорректно без ck_page_object, автогенерируемое значение:",
-                            childBc.ckPageObject,
-                        );
+                        logger(this.props.t("c3513e8150484b31a4ad4227f9664e7f", {name: childBc.ckPageObject}));
                     }
 
                     return (
@@ -79,6 +77,7 @@ const BuilderPanelDynamic = compose(
         (bc: BuilderPanelDynamicBCType, {pageStore}: BuilderPanelDynamicType): DynamicPanelType =>
             new DynamicPanelModel({bc, pageStore}),
     ),
+    withTranslation("meta"),
     commonDecorator,
     observer,
 )(BaseBuilderPanelDynamic);

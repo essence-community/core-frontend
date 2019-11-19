@@ -19,6 +19,7 @@ import {
     IHandlers,
     IRecord,
 } from "@essence/essence-constructor-share";
+import {i18next} from "@essence/essence-constructor-share/utils";
 import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
 import {snackbarStore, RecordsModel, settingsStore, PageModel} from "@essence/essence-constructor-share/models";
 import {History} from "history";
@@ -239,9 +240,9 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
                     setTimeout(() => this.initWsClient(currentSession), TIMEOUT_LONG_RECONNECT);
                     snackbarStore.snackbarOpenAction(
                         {
-                            pageName: "Оповещение",
+                            pageName: i18next.t("2ff612aa52314ddea65a5d303c867eb8"),
                             status: "error",
-                            text: "Ошибка подключения к серверу оповещения, превышен лимит попыток переподключения",
+                            text: i18next.t("bcdc7e54547e405c9873b3ebea4f84c4"),
                         },
                         {},
                     );
@@ -254,9 +255,9 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
             .catch((err) => {
                 snackbarStore.snackbarOpenAction(
                     {
-                        pageName: "Оповещение",
+                        pageName: i18next.t("2ff612aa52314ddea65a5d303c867eb8"),
                         status: "error",
-                        text: err.message || "Ошибка подключения к серверу оповещения",
+                        text: err.message || i18next.t("4b4ef9aed688462799f24efe8413da9f"),
                     },
                     {},
                 );
@@ -272,7 +273,7 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
                     snackbarStore.checkValidResponseAction(
                         camelCaseKeys(event.data),
                         {
-                            cvName: "Оповещение",
+                            cvName: i18next.t("2ff612aa52314ddea65a5d303c867eb8"),
                         },
                         undefined,
                         this,
@@ -292,7 +293,7 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
                     break;
                 }
                 default: {
-                    throw new Error(`Ошибка получения оповещения ${msg.data}`);
+                    throw new Error(i18next.t("8fe6e023ee11462db952d62d6b8b265e", {message: msg.data}));
                 }
             }
         });

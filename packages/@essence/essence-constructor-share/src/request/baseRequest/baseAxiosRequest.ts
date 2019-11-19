@@ -3,7 +3,7 @@ import {isArray, isString} from "lodash";
 import {stringify} from "qs";
 import {settingsStore} from "../../models";
 import {VAR_SETTING_GATE_URL, META_OUT_RESULT, META_PAGE_OBJECT} from "../../constants";
-import {camelCaseKeysAsync, snakeCaseKeys} from "../../utils";
+import {camelCaseKeysAsync, snakeCaseKeys, i18next} from "../../utils";
 import {IBaseRequest} from "./baseRequest";
 
 const MILLISEC = 1000;
@@ -35,7 +35,7 @@ const checkError = ({responseAllData, query, responseData, list}: ICheckError) =
     }
 
     if (isError) {
-        const error = new Error("Ошибка в разпознавании данных");
+        const error = new Error(i18next.t("63538aa4bcd748349defdf7510fc9c10"));
 
         // @ts-ignore
         error.query = query;

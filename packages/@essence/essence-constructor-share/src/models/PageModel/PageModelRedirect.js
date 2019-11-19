@@ -3,6 +3,8 @@ import forOwn from "lodash/forOwn";
 import {runInAction, when} from "mobx";
 import {Field, Form} from "mobx-react-form";
 // $FlowFixMe
+import {i18next} from "../../utils";
+// $FlowFixMe
 import {loggerRoot, VALUE_SELF_FIRST} from "../../constants";
 // $FlowFixMe
 import {isEmpty} from "../../utils/base";
@@ -43,7 +45,7 @@ function awaitFieldFilter(field: Field, skipCheckMaster: boolean): Promise<void>
 export function awaitFormFilter(form: Form, skipCheckMaster: boolean): Promise<void> {
     return new Promise((resolve) => {
         const timerID = setTimeout(() => {
-            logger("Превышено время ожидаения формы.");
+            logger(i18next.t("5327513a9d344e2184cca94cde783a52"));
             resolve();
         }, AWAIT_DELAY);
 

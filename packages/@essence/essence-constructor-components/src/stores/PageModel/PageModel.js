@@ -208,7 +208,7 @@ export class PageModel implements PageModelInterface {
 
     addStore = action("addStore", (store: StoreModelTypes, name: string) => {
         if (this.stores.has(name)) {
-            logger("Существует неудаленная store, нужно удалять ненужные сторы!.");
+            logger(i18next.t("7ef1547ac7084e178bf1447361e3ccc3"));
         }
 
         this.stores.set(name, store);

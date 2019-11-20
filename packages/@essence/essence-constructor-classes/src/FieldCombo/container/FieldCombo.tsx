@@ -54,9 +54,13 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
                 () => store.recordsStore.recordsState,
                 (recordsState) => {
                     const value =
-                        recordsState.defaultValueSet && store.recordsStore.selectedRecord
-                            ? store.recordsStore.selectedRecord[store.valuefield]
+                        recordsState.isDefault && recordsState.record
+                            ? recordsState.record[store.valuefield]
                             : props.value;
+
+                    if (recordsState.isDefault) {
+                        props.onChange(null, recordsState.record ? recordsState.record[store.valuefield] : "");
+                    }
 
                     store.handleSetValue(value, true, recordsState.status === "search" && recordsState.isUserReload);
                 },

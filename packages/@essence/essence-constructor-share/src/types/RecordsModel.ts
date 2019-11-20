@@ -28,7 +28,9 @@ export type RecordsStateStatusType =
 export interface IRecordsState<T> {
     defaultValueSet?: "##alwaysfirst##" | "##first##";
     isUserReload: boolean;
+    isDefault: "##alwaysfirst##" | "##first##" | undefined;
     records: T[];
+    record?: T;
     status: RecordsStateStatusType;
 }
 

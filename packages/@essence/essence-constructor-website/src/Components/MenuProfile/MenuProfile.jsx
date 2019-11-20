@@ -162,7 +162,12 @@ class MenuProfile extends React.Component<PropsType> {
                             <Grid container spacing={2} direction="column">
                                 <Grid item xs>
                                     {mapComponents(pageStore.pageBc, (ChildComponent, childBc) => (
-                                        <ChildComponent {...this.props} pageStore={pageStore} bc={childBc} />
+                                        <ChildComponent
+                                            key={childBc.ckPageObject}
+                                            {...this.props}
+                                            pageStore={pageStore}
+                                            bc={childBc}
+                                        />
                                     ))}
                                 </Grid>
                                 <Grid item xs>

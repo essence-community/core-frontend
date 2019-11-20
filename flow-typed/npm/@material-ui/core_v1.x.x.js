@@ -2985,7 +2985,8 @@ declare module "@material-ui/core/Typography/Typography" {
     | "body2"
     | "body1"
     | "caption"
-    | "button";
+    | "button"
+    | "h3";
 
   declare module.exports: ComponentType<{
     align?: Align,

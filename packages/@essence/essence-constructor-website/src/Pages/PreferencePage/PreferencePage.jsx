@@ -72,7 +72,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
             <Paper className={classes.root}>
                 <Grid container direction="column" spacing={2}>
                     <Grid item>
-                        <Typography variant="headline" component="h3" align="center">
+                        <Typography variant="h3" component="h3" align="center">
                             {t("9c97fa4879f144a7b571c4905fa020cc")}
                         </Typography>
                     </Grid>

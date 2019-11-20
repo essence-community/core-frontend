@@ -1,5 +1,5 @@
 import {IBuilderConfig, IClassProps, mapComponents} from "@essence/essence-constructor-share";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants/variables";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_PARENT_ID} from "@essence/essence-constructor-share/constants/variables";
 import {Grid} from "@material-ui/core";
 import * as React from "react";
 
@@ -25,13 +25,16 @@ const GRID_CONFIGS = {
 export const ButtonGroup: React.FC<IClassProps> = (props) => {
     const {bc} = props;
     const childs = React.useMemo(() => {
-        const temp = (bc.childs || []).reduce((arr, row) => {
+        const temp = (bc.childs || []).reduce((arr: IBuilderConfig[], row: IBuilderConfig) => {
             arr.push({
                 ...row,
                 onlyicon: bc.onlyicon || row.onlyicon,
             });
+            // @ts-ignore
             arr.push({
-                contentview: bc.contentview || GRID_CONFIGS.hbox,
+                [VAR_RECORD_PAGE_OBJECT_ID]: `${row[VAR_RECORD_PAGE_OBJECT_ID]}_DELIMITER`,
+                [VAR_RECORD_PARENT_ID]: row[VAR_RECORD_PAGE_OBJECT_ID],
+                contentview: bc.contentview || "hbox",
                 type: "BTN_GROUP_DELIMITER",
             });
 

@@ -15,7 +15,7 @@ export interface IConfigs {
 }
 
 export interface IApplicationModel extends IStoreBaseModel {
-    routesStore: IRoutesModel;
+    routesStore: IRoutesModel | null;
     bc: IBuilderConfig;
     authStore: IAuthModel;
     globalValues: ObservableMap<string, FieldValue>;

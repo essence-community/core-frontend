@@ -12,6 +12,7 @@ type PropsType = WithT & {
     pageStore: PageModelType,
     gridStore: GridModelType,
     buttonProps: Object,
+    disabled?: boolean,
     onClose: () => void,
 };
 
@@ -77,7 +78,7 @@ class GridSettings extends React.Component<PropsType, StateType> {
 
     render() {
         // eslint-disable-next-line id-length
-        const {pageStore, buttonProps, gridStore, t} = this.props;
+        const {pageStore, buttonProps, gridStore, t, disabled} = this.props;
         const {visibility} = this.state;
 
         return (
@@ -88,6 +89,7 @@ class GridSettings extends React.Component<PropsType, StateType> {
                     pageStore={pageStore}
                     color="inherit"
                     visible
+                    disabled={disabled}
                     {...buttonProps}
                     readOnly={false}
                 />

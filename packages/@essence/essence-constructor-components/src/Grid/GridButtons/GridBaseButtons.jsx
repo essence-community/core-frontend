@@ -68,7 +68,8 @@ class GridBaseButtons extends React.Component<PropsType> {
 
     // eslint-disable-next-line max-statements
     getGridButtons = ({buttonProps, handleClose, isCollect = true}: Object) => {
-        const {disabled, bc, store, pageStore} = this.props;
+        const {bc, store, pageStore, isInlineEditing} = this.props;
+        const disabled = this.props.disabled || isInlineEditing;
         const {overrides} = store.gridBtnsConfig;
         const {btnaudit, btnexcel, btnsettings} = bc;
         const btns = [];
@@ -81,6 +82,7 @@ class GridBaseButtons extends React.Component<PropsType> {
                         buttonProps={buttonProps}
                         gridStore={store}
                         onClose={handleClose}
+                        disabled={disabled}
                     />
                 ),
                 key: "grid-setting",
@@ -97,6 +99,7 @@ class GridBaseButtons extends React.Component<PropsType> {
                         pageStore={pageStore}
                         onClose={handleClose}
                         isCollect={isCollect}
+                        disabled={disabled}
                     >
                         {this.renderGridAuditButton(buttonProps)}
                     </GridAudit>
@@ -138,7 +141,8 @@ class GridBaseButtons extends React.Component<PropsType> {
 
     // eslint-disable-next-line max-statements
     render() {
-        const {disabled, bc, store, classes, readOnly, pageStore, visible, isInlineEditing} = this.props;
+        const {bc, store, classes, readOnly, pageStore, visible, isInlineEditing} = this.props;
+        const disabled = this.props.disabled || isInlineEditing;
         const {overrides, btns, btnsCollector} = store.gridBtnsConfig;
         const {btndelete, btnrefresh} = bc;
         const {recordsStore} = store;

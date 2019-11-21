@@ -23,6 +23,7 @@ import {i18next} from "@essence/essence-constructor-share/utils";
 import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
 import {snackbarStore, RecordsModel, settingsStore, PageModel} from "@essence/essence-constructor-share/models";
 import {History} from "history";
+import pageSafeJson from "../mocks/page-safe.json";
 import {RoutesModel} from "./RoutesModel";
 import {IAuthSession} from "./AuthModel.types";
 import {PagesModel} from "./PagesModel";
@@ -53,6 +54,8 @@ const prepareUserGlobals = (userInfo: Partial<IAuthSession>) => {
 export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
     routesStore: RoutesModel | null;
 
+    applicationStore = null;
+
     bc: IBuilderConfig;
 
     authStore: AuthModel;
@@ -82,9 +85,12 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
 
     pageStore: IPageModel;
 
+    mode: string;
+
     constructor(history: History, cvUrl: string) {
         this.routesStore = null;
         this.cvUrl = cvUrl;
+        this.mode = cvUrl;
         this.history = history;
         this.pagesStore = new PagesModel(this);
         this.pageStore = new PageModel({
@@ -97,16 +103,14 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
         this.countConnect = 0;
         this.recordsStore = new RecordsModel(
             {ckPageObject: "application", ckParent: "application", ckQuery: "GetMetamodelPage"},
-            {applicationStore: this},
+            {applicationStore: this, pageStore: null},
         );
 
         extendObservable(this, {
             get bc() {
-                const bc = this.recordsStore.recordsState.records.find((rec: IBuilderConfig) => {
+                return this.recordsStore.recordsState.records.find((rec: IBuilderConfig) => {
                     return parseMemoize(rec.activerules).runer({get: this.handleGetValue});
                 });
-
-                return bc || {};
             },
             blockText: "",
             globalValues: observable.map(prepareUserGlobals(this.authStore.userInfo)),
@@ -124,10 +128,10 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
             return this.cvUrl;
         }
 
-        return undefined;
+        return this.globalValues.get(name);
     };
 
-    updateGlobalValuesAction = action("updateGlobalValues", (values: Record<string, string>) => {
+    updateGlobalValuesAction = action("updateGlobalValues", (values: Record<string, string>): void => {
         Object.keys(values).forEach((key: string) => {
             const value = values[key];
             const oldValue = this.globalValues.get(key);
@@ -172,7 +176,14 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
     loadApplicationAction = action("loadApplicationAction", async () => {
         await Promise.all([
             this.recordsStore.recordsState.status === "init" &&
-                this.recordsStore.searchAction({ckPage: settingsStore.settings[VAR_SETTING_PROJECT_APPLICATION_PAGE]}),
+                this.recordsStore
+                    .searchAction({ckPage: settingsStore.settings[VAR_SETTING_PROJECT_APPLICATION_PAGE]})
+                    .then(() =>
+                        this.recordsStore.setRecordsAction([
+                            camelCaseKeys(pageSafeJson),
+                            ...this.recordsStore.recordsState.records,
+                        ]),
+                    ),
             snackbarStore.recordsStore.recordsState.status === "init" && snackbarStore.recordsStore.loadRecordsAction(),
         ]);
 
@@ -323,7 +334,9 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
 
     handleWindowOpen = (_mode: IBuilderMode, btnBc: IBuilderConfig) => {
         const window =
-            this.bc.childwindow && this.bc.childwindow.find((win: IBuilderConfig) => win.ckwindow === btnBc.ckwindow);
+            this.bc &&
+            this.bc.childwindow &&
+            this.bc.childwindow.find((win: IBuilderConfig) => win.ckwindow === btnBc.ckwindow);
 
         if (window) {
             this.pageStore.createWindowAction({mode: "1", windowBc: window});

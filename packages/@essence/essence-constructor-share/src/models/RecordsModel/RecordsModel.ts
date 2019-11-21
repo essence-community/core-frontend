@@ -397,9 +397,12 @@ export class RecordsModel implements IRecordsModel {
         return true;
     };
 
-    setRecordsAction = () => {
-        // eslint-disable-next-line no-console
-        console.error("not implemented");
+    setRecordsAction = (records: IRecord[]) => {
+        this.recordsState = {
+            isUserReload: false,
+            records,
+            status: "set",
+        };
 
         return true;
     };

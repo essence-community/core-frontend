@@ -19,16 +19,15 @@ import {ApplicationWindows} from "../components/ApplicationWindows";
 
 export const ApplicationContainer: React.FC<IClassProps> = () => {
     const history = useHistory();
-    const {ckId, cvUrl = "pages"} = useParams();
-    const [applicationStore] = React.useState(() => new ApplicationModel(history, cvUrl));
+    const {ckId, appName} = useParams();
+    const [applicationStore] = React.useState(() => new ApplicationModel(history, appName));
     const [trans] = useTranslation("meta");
-    const appName = "pages";
 
     React.useEffect(() => {
         const loadApplication = async () => {
             await applicationStore.loadApplicationAction();
             const {routesStore, pagesStore} = applicationStore;
-            const routes = routesStore.recordsStore.records;
+            const routes = routesStore ? routesStore.recordsStore.records : [];
             const pageConfig = routes.find((route) => route[VAR_RECORD_ID] === ckId || route[VAR_SELF_CV_URL] === ckId);
             const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 

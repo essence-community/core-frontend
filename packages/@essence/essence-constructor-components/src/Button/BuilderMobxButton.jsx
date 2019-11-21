@@ -2,7 +2,6 @@
 // @flow
 import * as React from "react";
 import noop from "lodash/noop";
-import {compose} from "recompose";
 import {withStyles} from "@material-ui/core/styles";
 import {Button, IconButton} from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";

@@ -101,6 +101,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
 
     const chevron = open ? (
         <IconButton
+            key={`${props.bc.ckPageObject}-open`}
             color="secondary"
             disableRipple
             tabIndex={-1}
@@ -114,6 +115,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
         </IconButton>
     ) : (
         <IconButton
+            key={`${props.bc.ckPageObject}-close`}
             color="secondary"
             disableRipple
             tabIndex={-1}

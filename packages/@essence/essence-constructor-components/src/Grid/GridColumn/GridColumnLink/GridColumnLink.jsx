@@ -7,6 +7,7 @@ import {compose} from "recompose";
 import {withStyles} from "@material-ui/core/styles";
 import {IconButton, List, Paper} from "@material-ui/core";
 import Trigger from "rc-trigger";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import FocusableArrow from "../../../Components/Focusable/FocusableArrow";
 import {type PageModelType} from "../../../stores/StoreTypes";
 import {type BuilderGridType} from "../../BuilderGridType";
@@ -14,20 +15,21 @@ import commonDecorator, {type CommonDecoratorInjectType} from "../../../decorato
 import GridColumnLinkItem from "./GridColumnLinkItem";
 import styles from "./GridColumnLinkStyle";
 
-type PropsType = CommonDecoratorInjectType & {
-    bc: Object,
-    gridBc: BuilderGridType,
-    classes: {
-        [$Keys<$Call<typeof styles, any>>]: string,
-    },
-    iconComponent: React.Node,
-    pageStore: PageModelType,
-    record?: Object,
-    hidden?: boolean,
-    disabled?: boolean,
-    visible: boolean,
-    theme?: Object,
-};
+type PropsType = CommonDecoratorInjectType &
+    WithT & {
+        bc: Object,
+        gridBc: BuilderGridType,
+        classes: {
+            [$Keys<$Call<typeof styles, any>>]: string,
+        },
+        iconComponent: React.Node,
+        pageStore: PageModelType,
+        record?: Object,
+        hidden?: boolean,
+        disabled?: boolean,
+        visible: boolean,
+        theme?: Object,
+    };
 
 type StateType = {
     isOpen: boolean,
@@ -97,7 +99,7 @@ class GridColumnLink extends React.Component<PropsType, StateType> {
     getInnerEl = () => this.props.pageStore.pageInnerEl;
 
     renderIcon = (open) => {
-        const {classes = {}, iconComponent, gridBc, disabled} = this.props;
+        const {classes = {}, iconComponent, gridBc, disabled, bc} = this.props;
         const {openTop} = this.state;
 
         return (
@@ -110,6 +112,7 @@ class GridColumnLink extends React.Component<PropsType, StateType> {
                 })}
                 tabIndex="-1"
                 disabled={disabled}
+                data-qtip={bc.tipmsg && this.props.t(bc.tipmsg)}
                 data-page-object={`${gridBc.ckPageObject}-redirect-icon`}
                 data-tabindex-grid="0"
             >
@@ -179,5 +182,6 @@ class GridColumnLink extends React.Component<PropsType, StateType> {
 
 export default compose(
     commonDecorator,
+    withTranslation("main"),
     withStyles(styles, {withTheme: true}),
 )(GridColumnLink);

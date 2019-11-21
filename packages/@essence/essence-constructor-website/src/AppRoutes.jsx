@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/href-no-hash */
 // @flow
 import * as React from "react";
-import {Router, Route, Switch} from "react-router-dom";
+import {Router, Route, Switch, Redirect} from "react-router-dom";
 import AuthPage from "./Pages/AuthPage/AuthPage";
 import ProjectPage from "./Pages/ProjectPage";
 
@@ -23,13 +23,15 @@ export const AppRoutes = () => (
             <Route path="/reports/session/:session" render={(props: any) => <ReportsPage {...props} />} />
             <Route path="/reports/token/:token" render={(props: any) => <ReportsPage {...props} />} />
             <Route
-                path={["/page/:ckId", "/home", "/preference"]}
+                path={["/page/:ckId", "/home", "/preference", "/"]}
+                exact
                 render={() => (
                     <AuthorizationPage>
                         <Switch>
                             <Route path="/page/:ckId" render={(props: any) => <ProjectPage {...props} />} />
                             <Route path="/home" render={(props: any) => <HomePage {...props} />} />
                             <Route path="/preference" render={(props: any) => <PreferencePage {...props} />} />
+                            <Redirect to="/auth" />
                         </Switch>
                     </AuthorizationPage>
                 )}

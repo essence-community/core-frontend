@@ -1,9 +1,11 @@
 /* eslint-disable max-lines */
+const backgroundColorTab = "#cdcaca";
+
 export const StyleTabPanelDark = (theme) => {
     const tabsFlexContainerCenter = {
         "& $tabRoot": {
             "&:before": {
-                boxShadow: `-2px 0px 2px -2px ${theme.palette.primary.main}`,
+                boxShadow: `-2px -1px 2px -2px ${theme.palette.primary.main}`,
                 left: -25,
                 transform: "skewX(-54deg)",
             },
@@ -13,7 +15,7 @@ export const StyleTabPanelDark = (theme) => {
                 },
                 boxShadow: `0.5px -0.5px 1px 1px ${theme.palette.primary.main}`,
             },
-            boxShadow: `-2px 0px 2px -2px ${theme.palette.primary.main}`,
+            boxShadow: `0px 0px 2px 0px ${theme.palette.primary.main}`,
             marginRight: 25,
             transform: "skewX(34deg)",
         },
@@ -50,14 +52,11 @@ export const StyleTabPanelDark = (theme) => {
                     color: theme.palette.text.light,
                 },
                 "&:after": {
-                    backgroundColor: theme.palette.primary.main,
-                },
-                "&:before": {
                     background: theme.palette.primary.main,
                     boxShadow: "none",
                 },
                 "&:hover": {
-                    "&:before": {
+                    "&:after": {
                         background: theme.palette.primary.main,
                         boxShadow: `-2px -0.5px 1px ${theme.palette.primary.main}`,
                     },
@@ -68,57 +67,43 @@ export const StyleTabPanelDark = (theme) => {
                 boxShadow: "none",
             },
             "&:after": {
-                backgroundColor: theme.palette.secondary.main,
-                bottom: 0,
+                backgroundColor: backgroundColorTab,
+                bottom: -4,
+                boxShadow: `-2px -1px 2px -2px ${theme.palette.primary.main}`,
                 // eslint-disable-next-line quotes
                 content: '""',
-                left: -22,
+                left: -13,
                 position: "absolute",
-                right: 10,
-                top: 20,
-                zIndex: -1,
-            },
-            "&:before": {
-                backgroundColor: theme.palette.secondary.main,
-                bottom: 0,
-                boxShadow: `-2px 0px 2px -2px ${theme.palette.primary.main}`,
-                // eslint-disable-next-line quotes
-                content: '""',
-                left: -25,
-                position: "absolute",
-                right: 24,
+                right: 12,
                 top: 0,
-                transform: "skewX(-54deg)",
+                transform: "skewX(-34deg)",
                 zIndex: -1,
             },
             "&:hover": {
-                "&:before": {
+                "&:after": {
                     // Reset on touch devices, it doesn't add specificity
                     "@media (hover: none)": {
-                        backgroundColor: theme.palette.secondary.main,
+                        backgroundColor: backgroundColorTab,
                     },
-                    backgroundColor: theme.palette.secondary.main,
+                    backgroundColor: backgroundColorTab,
                     boxShadow: `-2px -0.5px 1px ${theme.palette.primary.main}`,
                 },
-                backgroundColor: theme.palette.secondary.main,
+                backgroundColor: backgroundColorTab,
                 boxShadow: `0.5px -0.5px 1px 1px ${theme.palette.primary.main}`,
             },
-            backgroundColor: theme.palette.secondary.main,
+            backgroundColor: backgroundColorTab,
             borderRadius: 0,
-            boxShadow: `2px 0px 3px -2px ${theme.palette.primary.main}`,
+            boxShadow: `0px 0px 2px 0px ${theme.palette.primary.main}`,
             fill: theme.palette.primary.main,
             height: 36,
-            marginRight: 14,
             position: "relative",
-            transform: "skewX(34deg)",
             transition: "none",
             width: 26,
+            zIndex: 1,
         },
         popoverButtonActive: {},
         popoverButtonIcon: {
             color: theme.palette.text.dark,
-            marginLeft: -20,
-            transform: "skewX(-34deg)",
         },
         popoverButtonOpen: {},
         popoverButtonPaper: {
@@ -132,7 +117,6 @@ export const StyleTabPanelDark = (theme) => {
                 backgroundColor: theme.palette.primary.light,
                 outline: "none",
             },
-            borderBottom: `1px solid ${theme.palette.grey.light}`,
             color: theme.palette.text.light,
             cursor: "pointer",
             fill: theme.palette.text.light,
@@ -169,7 +153,7 @@ export const StyleTabPanelDark = (theme) => {
                 zIndex: 2,
             },
             "&:before": {
-                background: "#cdcaca",
+                background: backgroundColorTab,
                 bottom: 0,
                 // eslint-disable-next-line quotes
                 content: '""',
@@ -179,7 +163,7 @@ export const StyleTabPanelDark = (theme) => {
                 width: 49,
                 zIndex: -16,
             },
-            background: "#cdcaca",
+            background: backgroundColorTab,
             flexShrink: 1,
             height: 36,
             minHeight: 36,
@@ -214,12 +198,11 @@ export const StyleTabPanelDark = (theme) => {
                 },
                 borderBottom: `1px solid ${theme.palette.primary.light}`,
                 boxShadow: `-0.5px -0.5px 2px 0 ${theme.palette.primary.main}`,
-                marginLeft: 20,
+                marginLeft: 14,
                 marginRight: -20,
                 transform: "skewX(-34deg)",
             },
             "& $tabWrapper": {
-                paddingRight: 2,
                 textAlign: "end",
                 transform: "skewX(34deg)",
             },
@@ -278,7 +261,7 @@ export const StyleTabPanelDark = (theme) => {
                 transform: "skewX(34deg)",
             },
             "& $tabWrapper": {
-                paddingLeft: 2,
+                paddingLeft: 4,
                 textAlign: "start",
                 transform: "skewX(-34deg)",
             },

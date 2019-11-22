@@ -92,7 +92,7 @@ export class PageModel implements IPageModel {
         this.applicationStore = applicationStore;
 
         this.recordsStore = new RecordsModel(
-            {ckPageObject: "root", ckParent: "root", ckQuery: "GetMetamodelPage"},
+            {ckPageObject: "root", ckParent: "root", ckQuery: "GetMetamodelPage2.0", defaultvalue: "##alwaysfirst##"},
             {applicationStore, pageStore: this},
         );
 
@@ -141,7 +141,7 @@ export class PageModel implements IPageModel {
                         : isReadOnly;
                 },
                 get pageBc(this: IPageModel) {
-                    return this.recordsStore.recordsState.records;
+                    return this.recordsStore.selectedRecrodValues.children;
                 },
             },
             undefined,

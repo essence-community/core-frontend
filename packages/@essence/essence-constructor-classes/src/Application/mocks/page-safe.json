@@ -384,7 +384,7 @@
                     "type": "PAGER",
                     "ck_page": "22D2F53FE7E24680917B85D9A95237BD",
                     "cv_name": "Pager Menu Profile",
-                    "ck_query": "GetMetamodelPage",
+                    "ck_query": "GetMetamodelPage2.0",
                     "cn_order": 40,
                     "ck_modify": "modify",
                     "ck_object": "8D9279245C364B3995587FC85C13B8CB",

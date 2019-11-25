@@ -260,7 +260,7 @@ export class PageModel implements PageModelInterface {
                     ckPage,
                 },
             },
-            query: "GetMetamodelPage",
+            query: "GetMetamodelPage2.0",
             session,
         });
 
@@ -274,7 +274,7 @@ export class PageModel implements PageModelInterface {
                     const classNames = findClassNames(response);
 
                     loadComponentsFromModules(classNames).then(() => {
-                        this.pageBc = response;
+                        this.pageBc = (response.length && response[0].children) || [];
                     });
                 }
             })

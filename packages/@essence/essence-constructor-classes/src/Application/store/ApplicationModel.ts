@@ -102,15 +102,25 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
         this.authStore = new AuthModel(this);
         this.countConnect = 0;
         this.recordsStore = new RecordsModel(
-            {ckPageObject: "application", ckParent: "application", ckQuery: "GetMetamodelPage"},
+            {
+                ckPageObject: "application",
+                ckParent: "application",
+                ckQuery: "GetMetamodelPage2.0",
+                defaultvalue: "##alwaysfirst##",
+            },
             {applicationStore: this, pageStore: null},
         );
 
         extendObservable(this, {
             get bc() {
-                return this.recordsStore.recordsState.records.find((rec: IBuilderConfig) => {
-                    return parseMemoize(rec.activerules).runer({get: this.handleGetValue});
-                });
+                const {children} = this.recordsStore.selectedRecrodValues;
+
+                return (
+                    children &&
+                    children.find((rec: IBuilderConfig) => {
+                        return parseMemoize(rec.activerules).runer({get: this.handleGetValue});
+                    })
+                );
             },
             blockText: "",
             globalValues: observable.map(prepareUserGlobals(this.authStore.userInfo)),
@@ -178,12 +188,19 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
             this.recordsStore.recordsState.status === "init" &&
                 this.recordsStore
                     .searchAction({ckPage: settingsStore.settings[VAR_SETTING_PROJECT_APPLICATION_PAGE]})
-                    .then(() =>
+                    .then(() => {
                         this.recordsStore.setRecordsAction([
-                            camelCaseKeys(pageSafeJson),
-                            ...this.recordsStore.recordsState.records,
-                        ]),
-                    ),
+                            {
+                                ...this.recordsStore.selectedRecrodValues,
+                                children: [
+                                    camelCaseKeys(pageSafeJson),
+                                    // @ts-ignore
+                                    ...this.recordsStore.selectedRecrodValues.children,
+                                ],
+                            },
+                        ]);
+                        this.recordsStore.setSelectionAction(this.recordsStore.selectedRecordId);
+                    }),
             snackbarStore.recordsStore.recordsState.status === "init" && snackbarStore.recordsStore.loadRecordsAction(),
         ]);
 

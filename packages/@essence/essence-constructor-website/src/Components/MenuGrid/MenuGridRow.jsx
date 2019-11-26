@@ -5,10 +5,11 @@ import {compose} from "recompose";
 import {observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
 import {Grid, Typography} from "@material-ui/core";
+import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import styles from "./MenuGridRowStyles";
 
-type PropsType = {|
+type PropsType = WithT & {|
     route: {
         ckId: string | number,
         cvName: string,
@@ -83,7 +84,8 @@ class MenuGridRow extends React.Component<PropsType> {
     }
 
     render() {
-        const {route, level, classes = {}, routesStore} = this.props;
+        // eslint-disable-next-line id-length
+        const {route, level, classes = {}, routesStore, t} = this.props;
         const {favorits} = routesStore;
 
         return (
@@ -98,7 +100,7 @@ class MenuGridRow extends React.Component<PropsType> {
                             data-qtip={route.cvName}
                             className={classes.nameTypography}
                         >
-                            {route.cvName}
+                            {t(route.cvName)}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -119,5 +121,6 @@ class MenuGridRow extends React.Component<PropsType> {
 
 export default compose(
     withStyles(styles),
+    withTranslation("meta"),
     observer,
 )(MenuGridRow);

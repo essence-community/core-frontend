@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import {extendObservable, action, observable, ObservableMap} from "mobx";
 import {Field} from "mobx-react-form";
-import {loggerRoot, VAR_RECORD_ID} from "../../constants";
+import {loggerRoot, VAR_RECORD_ID, VAR_RECORD_GLOBAL_VALUE} from "../../constants";
 import {styleTheme} from "../../constants/deprecated";
 import {
     IBuilderConfig,
@@ -237,10 +237,17 @@ export class PageModel implements IPageModel {
         this.windows.remove(window);
     });
 
-    loadConfigAction = action("loadConfigAction", (ckPage: string) => {
+    loadConfigAction = action("loadConfigAction", async (ckPage: string) => {
         this.ckPage = ckPage;
 
-        return this.recordsStore.searchAction({ckPage});
+        const response = await this.recordsStore.searchAction({ckPage});
+        const globalValue = this.recordsStore.selectedRecrodValues[VAR_RECORD_GLOBAL_VALUE];
+
+        if (globalValue) {
+            this.updateGlobalValues(globalValue);
+        }
+
+        return response;
     });
 
     setPageElAction = action("setPageElAction", (pageEl?: HTMLDivElement) => {

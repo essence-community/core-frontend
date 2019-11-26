@@ -18,6 +18,7 @@ export const VAR_RECORD_LEAF = "leaf";
 export const VAR_RECORD_RES_ERROR = "cvError";
 export const VAR_RECORD_RES_STACK_TRACE = "cvStackTrace";
 export const VAR_RECORD_RES_DOWNLOAD_URL = "cvUrl";
+export const VAR_RECORD_GLOBAL_VALUE = "globalValue";
 
 // SETTING
 export const VAR_SETTING_VALUE = "cv_value";

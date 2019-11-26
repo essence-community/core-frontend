@@ -39,9 +39,9 @@ const getDetailColumns = (detailBc?: Array<BuilderBaseType>) => {
 const getValidChild = (
     editors: Array<BuilderBaseType>,
     pageStore: PageModelType,
-    values: Object,
+    values?: Object,
 ): BuilderBaseType | {} => {
-    const getValue = (name) => (name in values ? values[name] : pageStore.globalValues.get(name));
+    const getValue = (name) => (values && values[name] ? values[name] : pageStore.globalValues.get(name));
 
     const findEditor = editors.find((editor: BuilderBaseType) => {
         return !editor.activerules || parse(editor.activerules).runer({get: getValue});

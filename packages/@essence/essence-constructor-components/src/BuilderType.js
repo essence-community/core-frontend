@@ -17,6 +17,7 @@ export type BuilderBaseType = {
     cvDisplayed?: string,
     cnOrder?: number,
     ckPage?: string,
+    activerules?: string,
     align?: string,
     className?: string,
     checkaddmore?: string,

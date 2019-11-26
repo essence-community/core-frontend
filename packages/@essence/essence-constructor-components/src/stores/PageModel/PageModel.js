@@ -8,6 +8,7 @@ import noop from "lodash/noop";
 import {parseMemoize, loadComponentsFromModules} from "@essence/essence-constructor-share";
 import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {findClassNames, i18next} from "@essence/essence-constructor-share/utils";
+import {VAR_RECORD_GLOBAL_VALUE} from "@essence/essence-constructor-share/constants";
 import {loggerRoot, styleTheme as styleThemeConst} from "../../constants";
 import {sendRequestList} from "../../request/baseRequest";
 import {isEmpty} from "../../utils/base";
@@ -275,6 +276,10 @@ export class PageModel implements PageModelInterface {
 
                     loadComponentsFromModules(classNames).then(() => {
                         this.pageBc = (response.length && response[0].children) || [];
+
+                        if (response.length && response[0]) {
+                            this.updateGlobalValues(response[0][VAR_RECORD_GLOBAL_VALUE]);
+                        }
                     });
                 }
             })

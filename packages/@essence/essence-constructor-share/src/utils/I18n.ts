@@ -1,5 +1,5 @@
 import i18next, {BackendModule, ReadCallback, Services, InitOptions, TFunction, WithT} from "i18next";
-import {initReactI18next, withTranslation, useTranslation} from "react-i18next";
+import {initReactI18next, withTranslation, useTranslation, Translation} from "react-i18next";
 import {request} from "../request/request";
 import {VAR_LANG_ID, VAR_NAMESPACE_VALUE, VAR_SETTING_LANG} from "../constants/variables";
 import {snackbarStore, settingsStore} from "../models";
@@ -71,4 +71,4 @@ export function initI18n() {
     window.i18next = i18next;
 }
 
-export {i18next, TFunction, WithT, withTranslation, useTranslation};
+export {i18next, TFunction, WithT, withTranslation, useTranslation, Translation};

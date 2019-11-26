@@ -5,6 +5,8 @@ import noop from "lodash/noop";
 import pick from "lodash/pick";
 import omit from "lodash/omit";
 import flattenDepth from "lodash/flattenDepth";
+import {parse} from "@essence/essence-constructor-share/utils/parser";
+import {type PageModelType} from "../PageModel";
 import {type BuilderBaseType, type BuilderModeType} from "../../BuilderType";
 import {type GridModelType} from "../GridModel/GridModelType";
 import {StoreBaseModel} from "../StoreBaseModel";
@@ -34,14 +36,31 @@ const getDetailColumns = (detailBc?: Array<BuilderBaseType>) => {
         .map((field) => omit(field, FIELD_OMIT_ATTRIBUTES_AUTOBUILD));
 };
 
-const getChilds = ({bc, gridStore}) => {
+const getValidChild = (
+    editors: Array<BuilderBaseType>,
+    pageStore: PageModelType,
+    values: Object,
+): BuilderBaseType | {} => {
+    const getValue = (name) => (name in values ? values[name] : pageStore.globalValues.get(name));
+
+    const findEditor = editors.find((editor: BuilderBaseType) => {
+        return !editor.activerules || parse(editor.activerules).runer({get: getValue});
+    });
+
+    // If not found fallback to first editor
+    return findEditor || editors[0];
+};
+
+const getChilds = ({bc, gridStore, pageStore, values}) => {
     const columns =
         bc.edittype === "inline" && gridStore ? gridStore.gridColumns : [...(bc.columns || []), ...(bc.childs || [])];
     const fieldHoistAttributes = FIELD_HOIST_ATTRIBUTES;
 
     const childs = columns.map((field: Object) => {
         const fieldProps =
-            field.editors && field.editors !== "false" && field.editors.length > 0 ? field.editors[0] : field;
+            field.editors && field.editors !== "false" && field.editors.length > 0
+                ? getValidChild(field.editors, pageStore, values)
+                : field;
 
         return {
             column: field.column,
@@ -93,7 +112,7 @@ export class WindowModel extends StoreBaseModel implements WindowModelInterface 
             mode,
         };
 
-        this.childs = getChilds({bc, gridStore});
+        this.childs = getChilds({bc, gridStore, pageStore, values});
 
         extendObservable(
             this,

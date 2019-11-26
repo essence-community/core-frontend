@@ -20,6 +20,7 @@ const GridColumnTree = ({
     readOnly,
     qtip,
     className,
+    trans,
     // eslint-disable-next-line id-length
     t,
 }: GridColumnPropsType & WithT) => {
@@ -55,7 +56,7 @@ const GridColumnTree = ({
                         ...bc,
                         datatype: bc.datatypeBase,
                     }}
-                    value={value}
+                    value={trans ? trans(value) : value}
                     record={record}
                     gridBc={bc}
                     store={store}

@@ -24,6 +24,7 @@ export type GridColumnPropsType = {|
     className?: string,
     gridBc: BuilderGridType,
     nesting?: number,
+    trans?: (name: string) => string,
 |};
 
 export type ColumnsMapType = {

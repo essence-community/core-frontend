@@ -11,14 +11,18 @@ import {
     IBuilderConfig,
     IPagesModel,
     IRecordsModel,
-    VAR_SELF_CV_URL,
-    VAR_SETTING_PROJECT_APPLICATION_PAGE,
     IPageModel,
     IBuilderMode,
     IStoreBaseModel,
     IHandlers,
     IRecord,
 } from "@essence/essence-constructor-share";
+import {
+    VAR_SELF_CV_URL,
+    VAR_SETTING_PROJECT_APPLICATION_PAGE,
+    VAR_LANG_ID,
+    VAR_NAMESPACE_VALUE,
+} from "@essence/essence-constructor-share/constants";
 import {i18next} from "@essence/essence-constructor-share/utils";
 import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
 import {snackbarStore, RecordsModel, settingsStore, PageModel} from "@essence/essence-constructor-share/models";
@@ -37,6 +41,8 @@ const TIMEOUT_LONG_RECONNECT = 300000;
 const MAX_RECONNECT = 5;
 
 const LOGOUT_CODE = 4001;
+
+export const CLOSE_CODE = 4002;
 
 const prepareUserGlobals = (userInfo: Partial<IAuthSession>) => {
     return camelCaseKeys(
@@ -253,7 +259,9 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
             wsClient.onerror = reject;
             wsClient.onmessage = this.handleWsMessage;
             wsClient.onclose = (event: Record<string, any>) => {
-                if (event.code === LOGOUT_CODE && session === currentSession) {
+                if (event.code === CLOSE_CODE) {
+                    return;
+                } else if (event.code === LOGOUT_CODE && session === currentSession) {
                     this.logoutAction();
 
                     return;
@@ -318,6 +326,10 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
                 }
                 case "reloadpageobject": {
                     this.reloadPageObjectAction(event.data.ck_page, event.data.ck_page_object);
+                    break;
+                }
+                case "localization": {
+                    i18next.reloadResources(event.data[VAR_LANG_ID], event.data[VAR_NAMESPACE_VALUE]);
                     break;
                 }
                 default: {

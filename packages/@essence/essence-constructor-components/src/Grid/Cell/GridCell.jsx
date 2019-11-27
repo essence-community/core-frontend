@@ -53,7 +53,7 @@ class GridCell extends React.PureComponent<PropsType> {
 
         if (column.localization) {
             return (
-                <Translation ns={column.localization}>
+                <Translation ns={column.localization} useSuspense={false}>
                     {(trans) => (
                         <td
                             style={style}

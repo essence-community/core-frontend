@@ -66,6 +66,9 @@ export function initI18n() {
             },
             lng: lang,
             ns: ["meta", "message"],
+            react: {
+                bindI18n: "languageChanged loaded",
+            },
         });
     // @ts-ignore
     window.i18next = i18next;

@@ -13,7 +13,7 @@ import {useTranslation} from "@essence/essence-constructor-share/utils";
 import {useDisposable, useObserver} from "mobx-react-lite";
 import {reaction, observe} from "mobx";
 import {useParams, useHistory} from "react-router-dom";
-import {ApplicationModel} from "../store/ApplicationModel";
+import {ApplicationModel, CLOSE_CODE} from "../store/ApplicationModel";
 import {renderGlobalValuelsInfo} from "../utils/renderGlobalValuelsInfo";
 import {ApplicationWindows} from "../components/ApplicationWindows";
 
@@ -26,7 +26,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
     React.useEffect(() => {
         const loadApplication = async () => {
             await applicationStore.loadApplicationAction();
-            const {routesStore, pagesStore} = applicationStore;
+            const {routesStore, pagesStore, authStore} = applicationStore;
             const routes = routesStore ? routesStore.recordsStore.records : [];
             const pageConfig = routes.find((route) => route[VAR_RECORD_ID] === ckId || route[VAR_SELF_CV_URL] === ckId);
             const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
@@ -38,9 +38,23 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
             } else if (pagesStore.pages.length) {
                 pagesStore.setPageAction(pagesStore.pages[0].ckPage, true);
             }
+
+            if (authStore.userInfo.session && process.env.REACT_APP_REQUEST !== "MOCK") {
+                applicationStore.initWsClient(authStore.userInfo.session);
+            }
         };
 
         loadApplication();
+
+        return () => {
+            if (applicationStore.wsClient) {
+                // TODO: check why not send close_code to close event;
+                applicationStore.wsClient.onclose = () => {};
+                applicationStore.wsClient.close(CLOSE_CODE);
+                applicationStore.wsClient = null;
+            }
+        };
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [applicationStore]);
 

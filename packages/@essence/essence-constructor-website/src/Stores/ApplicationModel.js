@@ -25,6 +25,7 @@ import {
     setModule,
     loadFiles,
 } from "@essence/essence-constructor-share";
+import {VAR_LANG_ID, VAR_NAMESPACE_VALUE} from "@essence/essence-constructor-share/constants";
 import {i18next} from "@essence/essence-constructor-share/utils";
 import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {history} from "../history";
@@ -392,6 +393,10 @@ export class ApplicationModel implements ApplicationModelType {
                 }
                 case "reloadpageobject": {
                     this.reloadPageObjectAction(event.data.ck_page, event.data.ck_page_object);
+                    break;
+                }
+                case "localization": {
+                    i18next.reloadResources(event.data[VAR_LANG_ID], event.data[VAR_NAMESPACE_VALUE]);
                     break;
                 }
                 default: {

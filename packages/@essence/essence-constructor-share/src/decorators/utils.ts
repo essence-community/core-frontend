@@ -1,7 +1,14 @@
+/*
+ * Import isEmptyLodash from "lodash/isEmpty";
+ * import {isEmpty} from "../utils";
+ * import {getMasterData, getMasterObject} from "../models/RecordsModel/RecordsModelUtils";
+ */
+import {IBuilderConfig, IPageModel, IRecordsModel} from "../types";
+
 interface ICheckAutoloadPropsType {
-    bc: any;
-    pageStore: any;
-    recordsStore?: any;
+    bc: IBuilderConfig;
+    pageStore: IPageModel;
+    recordsStore?: IRecordsModel;
 }
 
 export function checkAutoload({bc, recordsStore}: ICheckAutoloadPropsType) {
@@ -14,7 +21,7 @@ export function checkAutoload({bc, recordsStore}: ICheckAutoloadPropsType) {
     }
 
     /*
-     * If (!isEmpty(bc.ckMaster)) {
+     * If (!isEmpty(bc.ckMaster) && pageStore) {
      *     return !isEmptyLodash(
      *         getMasterData(getMasterObject(bc.ckMaster, pageStore), bc.idproperty || "ck_id", pageStore.globalValues),
      *     );

@@ -119,7 +119,7 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
             await this.props.pageStore.addFieldValueMaster(ckPageObject, change.newValue);
 
             this.props.pageStore.stores.forEach((store) => {
-                if (store.bc && store.bc.ckMaster === ckPageObject) {
+                if (store && store.bc && store.bc.ckMaster === ckPageObject) {
                     store.reloadStoreAction();
                     store.clearAction && store.clearAction();
                 }

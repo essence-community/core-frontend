@@ -97,6 +97,18 @@ export class FieldComboModel extends StoreBaseModel {
         });
     }
 
+    reloadStoreAction = (): Promise<object | undefined> => {
+        if (!this.recordsStore.isLoading) {
+            return this.recordsStore.loadRecordsAction({
+                selectedRecordId: this.recordsStore.selectedRecrodValues[VAR_RECORD_ID],
+            });
+        }
+
+        return Promise.resolve(undefined);
+    };
+
+    clearStoreAction = () => this.recordsStore.clearChildsStoresAction();
+
     handleChangeValue = (value: string, isNew?: boolean) => {
         this.isInputChanged = true;
         this.inputValue = value;

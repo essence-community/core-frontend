@@ -1,11 +1,10 @@
-import {ObservableMap} from "mobx";
 import {v4} from "uuid";
 import {isEqual} from "lodash";
 import {request} from "../../request";
 import {IPageModel, IRecordsModel, FieldValue, IResponse} from "../../types";
-import {findSetKey, findGetGlobalKey} from "../../utils/findKey";
+import {findGetGlobalKey} from "../../utils/findKey";
 import {i18next} from "../../utils";
-import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "../../constants";
+import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST, loggerRoot} from "../../constants";
 import {snackbarStore} from "../SnackbarModel";
 import {
     IGetFilterData,
@@ -14,50 +13,18 @@ import {
     ILoadRecordsAction,
     IJson,
 } from "./RecordsModel.types";
+import {getMasterObject, getMasterData} from "./RecordsModelUtils";
+import {CheckLoading, CYCLE_TIMEOUT} from "./checkLoading";
 
-export const getMasterData = (
-    masterObject?: Record<string, FieldValue>,
-    idproperty?: string,
-    globalValues?: ObservableMap<string, FieldValue>,
-) => {
-    const master: Record<string, FieldValue> = {};
+const logger = loggerRoot.extend("loadRecordsAction");
 
-    if (!idproperty) {
-        return master;
-    }
+// 2 frames (16ms)
+const WAIT_TIME = 32;
 
-    const idPropertyValues = findSetKey(idproperty || "");
-
-    Object.keys(idPropertyValues).forEach((globaleKey: string) => {
-        const fieldName = idPropertyValues[globaleKey];
-
-        if (masterObject && masterObject[globaleKey]) {
-            const value = masterObject[globaleKey];
-
-            master[fieldName] = typeof value === "string" && value.indexOf("auto-") === 0 ? undefined : value;
-        } else if (globalValues && globalValues.has(globaleKey)) {
-            const value = globalValues.get(globaleKey);
-
-            master[fieldName] = typeof value === "string" && value.indexOf("auto-") === 0 ? undefined : value;
-        }
+export const sleep = (time: number): Promise<void> =>
+    new Promise((resolve) => {
+        setTimeout(resolve, time);
     });
-
-    return master;
-};
-
-export function getMasterObject(ckMaster?: string, pageStore?: IPageModel): undefined | Record<string, FieldValue> {
-    if (!ckMaster || !pageStore) {
-        return undefined;
-    }
-
-    const masterObject = pageStore.stores.get(ckMaster);
-    const selectedRecord = masterObject ? masterObject.selectedRecord : {};
-
-    return {
-        ...selectedRecord,
-        ...(pageStore.fieldValueMaster.has(ckMaster) ? {ckId: pageStore.fieldValueMaster.get(ckMaster)} : {}),
-    };
-}
 
 export function getPageFilter(pageSize?: number, pageNumber = 0) {
     return pageSize
@@ -185,12 +152,25 @@ export function loadRecordsAction(
     this: IRecordsModel,
     {applicationStore, bc, selectedRecordId, status, isUserReload = false}: ILoadRecordsAction,
 ): Promise<object | undefined> {
-    const {noglobalmask, defaultvalue} = bc;
+    const {noglobalmask, defaultvalue, ckMaster} = bc;
+    const isWaiting = ckMaster || bc.getglobaltostore;
 
     this.isLoading = true;
 
     // Should be logic for wainting unfinished master request
     return Promise.resolve()
+        .then(() => {
+            if (!isWaiting) {
+                return true;
+            }
+
+            return sleep(WAIT_TIME)
+                .then(() => new CheckLoading({bc, ckMaster, pageStore: this.pageStore}))
+                .then((checkLoading) => checkLoading.wait());
+        })
+        .catch(() => {
+            logger(i18next.t("344bbb5fb4a84d89b93c448a5c29e1d7", {query: bc.ckQuery, timeout: CYCLE_TIMEOUT}));
+        })
         .then(() => {
             const {json} = prepareRequst(this, {applicationStore, bc, selectedRecordId, status});
 

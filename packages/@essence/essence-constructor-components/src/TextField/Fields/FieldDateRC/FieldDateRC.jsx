@@ -1,10 +1,11 @@
+/* eslint-disable max-lines */
 // @flow
-
 import * as React from "react";
 import moment from "moment";
 import {withStyles} from "@material-ui/core/styles";
 import {IconButton, InputAdornment} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
+import {parse} from "@essence/essence-constructor-share/utils/parser";
 import {type TextFieldChildProps} from "../../BuilderFieldType";
 import FieldMask from "../FieldMask/FieldMask";
 import {getFieldDate} from "./fieldDateHelpers";
@@ -30,6 +31,8 @@ export class FieldDateRCBase extends React.Component<PropsType, StateType> {
     inputElement: ?HTMLElement = null;
 
     dateConfig = getFieldDate(this.props.bc.format);
+
+    disabledDatePeriod: ((value: any) => boolean) | void = undefined;
 
     static defaultProps = {
         classes: {},
@@ -75,6 +78,12 @@ export class FieldDateRCBase extends React.Component<PropsType, StateType> {
             ...initialState,
             ...FieldDateRCBase.getDerivedStateFromProps(this.props, initialState),
         };
+
+        if (bc.disabledstartdate) {
+            this.disabledDatePeriod = this.disabledStartDate;
+        } else if (bc.disabledenddate) {
+            this.disabledDatePeriod = this.disabledEndDate;
+        }
     }
 
     componentWillUnmount() {
@@ -82,16 +91,46 @@ export class FieldDateRCBase extends React.Component<PropsType, StateType> {
     }
 
     getDisabledFunction = () => {
-        const {bc} = this.props;
+        return this.handleValidateDisabledDate;
+    };
 
-        switch (true) {
-            case Boolean(bc.disabledstartdate):
-                return this.disabledStartDate;
-            case Boolean(bc.disabledenddate):
-                return this.disabledEndDate;
-            default:
-                return undefined;
+    // eslint-disable-next-line max-statements
+    handleValidateDisabledDate = (value: any) => {
+        const {bc} = this.props;
+        const {minvalue, maxvalue} = bc;
+
+        if (!value) {
+            return false;
         }
+
+        if (this.disabledDatePeriod && this.disabledDatePeriod(value)) {
+            return true;
+        }
+
+        if (minvalue && this.handleDisableBcValue(value, minvalue, "min")) {
+            return true;
+        }
+
+        if (maxvalue && this.handleDisableBcValue(value, maxvalue, "max")) {
+            return true;
+        }
+
+        return false;
+    };
+
+    handleDisableBcValue = (valueField: any, valueBc: string, variant: "min" | "max") => {
+        const {pageStore} = this.props;
+        const valueBcParsed = parse(valueBc).runer(pageStore.globalValues);
+
+        const valueBcMoment = valueBcParsed ? moment(valueBcParsed) : valueBcParsed;
+
+        if (!valueBcMoment || !valueBcMoment.isValid()) {
+            return false;
+        }
+
+        return variant === "min"
+            ? valueField.diff(valueBcMoment, "days", true) < 0
+            : valueBcMoment.diff(valueField, "days", true) < 0;
     };
 
     disabledEndDate = (endValue: any) => {

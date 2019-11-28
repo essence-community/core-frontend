@@ -67,6 +67,8 @@ export type BuilderBaseType = {
     // Флаг наличия сплитера
     splitter?: "true" | "false",
     wintype?: "default" | "narrow" | "wide" | "xlwide" | "xwide",
+    minvalue?: string,
+    maxvalue?: string,
 
     mode?: BuilderModeType,
 

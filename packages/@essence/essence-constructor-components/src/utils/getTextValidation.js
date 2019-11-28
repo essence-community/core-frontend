@@ -1,5 +1,7 @@
 // @flow
 import {Field} from "mobx-react-form";
+import {parse} from "@essence/essence-constructor-share/utils/parser";
+import {type PageModel} from "../stores/PageModel";
 import {disabledSize} from "../TextField/TFUtils/TFConstants";
 import {getFieldDate} from "../TextField/Fields/FieldDateRC/fieldDateHelpers";
 
@@ -14,6 +16,7 @@ type BcType = {
 
 type GetTextValidationOptionsType = {
     isRequired: boolean,
+    pageStore: PageModel,
 };
 
 const getRequiredRule = (required?: "true" | "false", datatype: string, isRequired: boolean): ?string => {
@@ -34,15 +37,27 @@ const getRegexRule = (regexp?: string, imask?: string, field: Field): ?string =>
     return null;
 };
 
-const getValueSizeRules = (datatype: string, bc: BcType): Array<string> => {
+const getValueSizeRules = (datatype: string, bc: BcType, pageStore: PageModel): Array<string> => {
     const validations = [];
 
     if (!(datatype in disabledSize)) {
-        ["maxvalue", "minvalue", "maxsize"].forEach((rule: string) => {
-            if (bc[rule]) {
-                validations.push(`${rule}:${bc[rule]}`);
-            }
-        });
+        if (bc.datatype === "date") {
+            ["maxvalue", "minvalue"].forEach((rule: string) => {
+                if (bc[rule]) {
+                    const value = parse(bc[rule]).runer(pageStore.globalValues);
+
+                    if (value) {
+                        validations.push(`${bc.datatype === "date" ? `${rule}date` : rule}:${value}`);
+                    }
+                }
+            });
+        } else {
+            ["maxvalue", "minvalue", "maxsize"].forEach((rule: string) => {
+                if (bc[rule]) {
+                    validations.push(`${rule}:${bc[rule]}`);
+                }
+            });
+        }
     }
 
     return validations;
@@ -71,7 +86,7 @@ export const getTextValidation = (bc: BcType, field: Field, options: GetTextVali
     const validations: Array<?string> = [
         getRequiredRule(required, datatype, options.isRequired),
         getRegexRule(regexp, imask, field),
-        ...getValueSizeRules(datatype, bc),
+        ...getValueSizeRules(datatype, bc, options.pageStore),
         getDateRule(datatype, bc),
         ...getExtraRules(rules),
         field.get("options").imask,

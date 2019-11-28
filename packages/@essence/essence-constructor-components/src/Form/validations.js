@@ -57,6 +57,38 @@ validatorjs.register(
 );
 
 validatorjs.register(
+    "minvaluedate",
+    (value, req) => {
+        const val1 = moment(req);
+        const val2 = moment(value);
+
+        if (val1.isValid() && val2.isValid()) {
+            return val2.isSameOrAfter(val1, "days");
+        }
+
+        return true;
+    },
+    // TODO: Добавить текст валидации
+    i18next.t("31d96e87a5514f509c75bc701b772504"),
+);
+
+validatorjs.register(
+    "maxvaluedate",
+    (value, req) => {
+        const val1 = moment(req);
+        const val2 = moment(value);
+
+        if (val1.isValid() && val2.isValid()) {
+            return val2.isSameOrBefore(val1, "days");
+        }
+
+        return true;
+    },
+    // TODO: Добавить текст валидации
+    i18next.t("58b71773e7664e70874020a45705bc4c"),
+);
+
+validatorjs.register(
     "required-checkbox",
     (value) => value === 1 || value === "1" || value === true,
     i18next.t("58c125b1b34f445c9ae5640ff3122e03"),

@@ -79,7 +79,10 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
 
                 this.initValidation(field);
 
-                disposeOnUnmount(this, [reaction(() => field.isValid, this.handleIsValid)]);
+                disposeOnUnmount(this, [
+                    reaction(() => field.isValid, this.handleIsValid),
+                    reaction(this.handleGetReactionRules, this.handleSetRules),
+                ]);
 
                 this.forceUpdate();
             }
@@ -91,7 +94,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
 
                 if (field) {
                     if (prevProps.hidden !== hidden || prevProps.disabled !== disabled) {
-                        this.handleValidate(field);
+                        field.set("rules", this.handleGetRules(field));
                         field.resetValidation();
                     }
 
@@ -114,7 +117,12 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
 
             componentDidCatch(error: any, info: any) {
                 logger(this.props.t("d56944511bd243b1a0914ccdea58ce0d", {key: this.key}));
-                logger(this.props.t("47b7b12c1d9c413da54a08331191aded"), error, this.props.t("cfac299d53f8466d9745ddfa53e09958"), info);
+                logger(
+                    this.props.t("47b7b12c1d9c413da54a08331191aded"),
+                    error,
+                    this.props.t("cfac299d53f8466d9745ddfa53e09958"),
+                    info,
+                );
             }
 
             componentWillUnmount() {
@@ -161,7 +169,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                     });
                 }
 
-                this.handleValidate(field);
+                field.set("rules", this.handleGetRules(field));
                 field.set("options", {
                     ...field.get("options"),
                     bc,
@@ -212,18 +220,31 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                 this.isRequired = Boolean(isRequired);
 
                 if (field) {
-                    this.handleValidate(field);
+                    field.set("rules", this.handleGetRules(field));
                     field.resetValidation();
                 }
             };
 
-            handleValidate = (field: Field) => {
-                const {hidden, disabled} = this.props;
+            handleGetReactionRules = (): Array<string> => {
+                const field = this.getField();
 
-                field.set(
-                    "rules",
-                    hidden || disabled ? [] : getTextValidation(this.props.bc, field, {isRequired: this.isRequired}),
-                );
+                return field ? this.handleGetRules(field) : [];
+            };
+
+            handleGetRules = (field: Field): Array<string> => {
+                const {hidden, disabled, pageStore} = this.props;
+
+                return hidden || disabled
+                    ? []
+                    : getTextValidation(this.props.bc, field, {isRequired: this.isRequired, pageStore});
+            };
+
+            handleSetRules = (rules: Array<string>) => {
+                const field = this.getField();
+
+                if (field) {
+                    field.set("rules", rules);
+                }
             };
 
             handleRemoveField = () => {
@@ -266,14 +287,10 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
             };
 
             initValidation = (field: Field) => {
-                const {validaterelated, imask} = this.props.bc;
+                const {validaterelated} = this.props.bc;
 
                 if (validaterelated) {
                     field.observe(this.handleValidateRelatedFields);
-                }
-
-                if (imask) {
-                    disposeOnUnmount(this, [reaction(() => field.options, () => this.handleValidate(field))]);
                 }
             };
 

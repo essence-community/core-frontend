@@ -53,7 +53,7 @@ const ToolBarScrollButton = ({direction, visible, classes}: PropsType) => {
     const handleCickScroll = React.useCallback(
         (event: SyntheticEvent<HTMLButtonElement>) => {
             const {currentTarget} = event;
-            const toolbars: HTMLElement = get(currentTarget, "parentElement.children.1");
+            const toolbars: HTMLElement = get(currentTarget, "parentElement.children.2");
             const scrollLeft =
                 direction === "left"
                     ? toolbars.scrollLeft - toolbars.offsetWidth

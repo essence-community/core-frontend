@@ -25,7 +25,7 @@ export interface PanelModelType extends StoreBaseModelInterface {
     disabled: ?boolean;
     bc: BuilderPanelType;
     childsWidths: ChildsType;
-    +changeChildWidth: (id: string, newWidth: number) => void;
+    +changeChildWidth: (id: string, newWidth: number, side?: "right" | "left") => void;
     constructor(props: StoreBaseModelPropsType): void;
 }
 
@@ -47,9 +47,10 @@ export class PanelModel extends StoreBaseModel implements PanelModelType {
     }
 
     // eslint-disable-next-line max-statements
-    changeChildWidth = action("changeChildWidth", (id: string, userNewWidth: number) => {
+    changeChildWidth = action("changeChildWidth", (id: string, userNewWidth: number, side = "right") => {
         const record = this.childsWidths[id];
-        const nextChild = this.bc.childs ? this.bc.childs[record.index + 1] || this.bc.childs[record.index - 1] : null;
+        const offsetChild = side === "right" ? 1 : -1;
+        const nextChild = this.bc.childs ? this.bc.childs[record.index + offsetChild] : null;
         const nextRecord = nextChild && this.childsWidths[nextChild.ckPageObject];
         const oldWidth = record && record.width;
         const newWidth = userNewWidth < MIN_WIDTH ? 2 : userNewWidth;

@@ -78,10 +78,10 @@ const GRID_ALIGN_CONFIGS = {
 };
 
 export class Panel extends React.Component<PropsType> {
-    handleChangeChildWidth = (id: string, newWidth: number) => {
+    handleChangeChildWidth = (id: string, newWidth: number, side?: "right" | "left") => {
         const {store} = this.props;
 
-        store.changeChildWidth(id, newWidth);
+        store.changeChildWidth(id, newWidth, side);
     };
 
     render() {
@@ -118,8 +118,7 @@ export class Panel extends React.Component<PropsType> {
                 {mapComponents(childs, (ChildComp, child, index) => {
                     const isLast = index === childs.length - 1;
                     const childWidthData: ItemType | Object = isResizeEnable ? childsWidths[child.ckPageObject] : {};
-                    const isAddResizer =
-                        isResizeEnable && !isLast && !(childsWidths[childs[index + 1].ckPageObject] || {}).collapsed;
+                    const isAddResizer = isResizeEnable && !isLast;
                     const style = isResizeEnable
                         ? {
                               flexBasis: "auto",
@@ -134,6 +133,7 @@ export class Panel extends React.Component<PropsType> {
                             className={isRow ? classes.panelItemFlexBasis : undefined}
                             style={style}
                             isAddResizer={isAddResizer}
+                            nextItem={childsWidths[(childs[index + 1] || {}).ckPageObject]}
                             item={childWidthData}
                             itemsNumber={childs.length}
                             onChange={this.handleChangeChildWidth}

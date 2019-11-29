@@ -1,18 +1,15 @@
-// @flow
+import {makeStyles} from "@material-ui/core";
+import {IEssenceTheme} from "@essence/essence-constructor-share";
 
-export const BuilderIframeStyles = (theme: any) => ({
+export const useStyles = makeStyles((theme: IEssenceTheme) => ({
     disabled: {
         height: "100%",
         position: "absolute",
         width: "100%",
     },
-    iframe: {
-        border: "none",
-        width: "100%",
-    },
     loaderContainer: {
         alignItems: "center",
-        background: theme.palette.grey.backgroundInput,
+        background: theme.essence.palette.grey.backgroundInput,
         display: "flex",
         height: "100%",
         justifyContent: "center",
@@ -20,10 +17,9 @@ export const BuilderIframeStyles = (theme: any) => ({
     },
     root: {
         alignItems: "center",
+        backgroundColor: theme.palette.type === "light" ? theme.essence.palette.grey.light : undefined,
         display: "flex",
         justifyContent: "center",
         position: "relative",
     },
-});
-
-export default BuilderIframeStyles;
+}));

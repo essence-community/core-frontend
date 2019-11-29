@@ -18,7 +18,6 @@ import "@essence/essence-constructor-components/src/FieldItemSelector/FieldItemS
 import "@essence/essence-constructor-components/src/FieldPeriod/BuilderFieldPeriod";
 import "@essence/essence-constructor-components/src/EmptySpace/EmptySpace";
 import "@essence/essence-constructor-components/src/Form/FormPanel";
-import "@essence/essence-constructor-components/src/Iframe/BuilderIframe";
 import "@essence/essence-constructor-components/src/Window";
 
 import "@essence/essence-constructor-classes/src/FilterExtended";
@@ -38,6 +37,7 @@ import "@essence/essence-constructor-classes/src/Application";
 import "@essence/essence-constructor-classes/src/Pages";
 import "@essence/essence-constructor-classes/src/WindowDrawer";
 import "@essence/essence-constructor-classes/src/FieldTextarea";
+import "@essence/essence-constructor-classes/src/Iframe";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

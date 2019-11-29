@@ -58,7 +58,7 @@ class GridCell extends React.PureComponent<PropsType> {
                         <td
                             style={style}
                             className={this.getClassName()}
-                            data-qtip={trans(qtip)}
+                            data-qtip={trans(qtip, qtip)}
                             data-page-object={`${bc.ckPageObject}-column-datatype-${datatype}`}
                         >
                             <Cmp
@@ -70,7 +70,7 @@ class GridCell extends React.PureComponent<PropsType> {
                                 pageStore={pageStore}
                                 disabled={disabled}
                                 readOnly={readOnly}
-                                qtip={trans(qtip)}
+                                qtip={trans(qtip, qtip)}
                                 visible={visible}
                                 nesting={nesting}
                                 className={classes.child}

@@ -143,7 +143,7 @@ class GridColumnText extends React.Component<GridColumnPropsType, StateType> {
         }
 
         if (this.props.trans) {
-            value = this.props.trans(value);
+            value = this.props.trans(value, value);
         }
 
         if (pathname) {

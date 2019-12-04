@@ -71,14 +71,14 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
 
     // TODO: need to ferify it
     React.useEffect(() => {
-        if (route && !route.clMenu) {
+        if (route && !route.clMenu && props.bc && props.bc.defaultvalue !== pageStore.ckPage) {
             setTimeout(() => {
                 if (applicationStore) {
                     applicationStore.pagesStore.removePageAction(pageStore.ckPage);
                 }
             });
         }
-    }, [applicationStore, pageStore.ckPage, route]);
+    }, [applicationStore, pageStore.ckPage, route, props.bc]);
 
     React.useEffect(() => {
         return () => {

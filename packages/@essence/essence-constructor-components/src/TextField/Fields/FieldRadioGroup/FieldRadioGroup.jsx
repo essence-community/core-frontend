@@ -33,6 +33,12 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
         this.setReacions();
     }
 
+    componentDidUpdate(prevProps: FieldRadioGroupPropsType & WithT) {
+        if (this.props.value !== prevProps.value) {
+            this.handleReactValue(this.props.value);
+        }
+    }
+
     setReacions() {
         const {bc, store, pageStore} = this.props;
 
@@ -53,6 +59,14 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
             ]);
         }
     }
+
+    handleReactValue = (value: any) => {
+        const {store} = this.props;
+
+        if (!store.recordsStore.isLoading && value === VALUE_SELF_FIRST) {
+            this.props.onChange(null, getFirstValues(store.recordsStore));
+        }
+    };
 
     handleChangeSuggestions = () => {
         const {value, store, onChange} = this.props;

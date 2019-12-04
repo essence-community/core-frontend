@@ -116,8 +116,12 @@ export class PageModel implements PageModelInterface {
             questionWindow: null,
             get route() {
                 return (
-                    (routesStore && routesStore.recordsStore.records.find((record) => record.ckId === this.ckPage)) || {
+                    (routesStore &&
+                        routesStore.recordsStore.records.find(
+                            (record) => record.ckId === this.ckPage || record.cvUrl === this.ckPage,
+                        )) || {
                         ckId: this.ckPage,
+                        cvUrl: this.ckPage,
                     }
                 );
             },

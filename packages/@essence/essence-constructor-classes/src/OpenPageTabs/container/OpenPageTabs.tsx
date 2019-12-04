@@ -4,6 +4,8 @@ import {
     VAR_RECORD_ID,
     VAR_RECORD_ROUTE_NAME,
     VAR_RECORD_ICON_NAME,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    VAR_RECORD_ROUTE_VISIBLE_MENU,
 } from "@essence/essence-constructor-share/constants/variables";
 import {Tabs} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
@@ -90,26 +92,30 @@ export const OpenPageTabs: React.FC<IClassProps> = (props) => {
                 style={contentStyle}
                 onChange={handleChangePage}
             >
-                {pagesStore.pages.map(({route, ckPage}, index) => {
-                    const name: any = route && route[VAR_RECORD_ROUTE_NAME];
-                    const iconName: any = route && route[VAR_RECORD_ICON_NAME];
+                {pagesStore.pages
+                    .filter(({route}) => route[VAR_RECORD_ROUTE_VISIBLE_MENU])
+                    .map((page, index) => {
+                        const {route} = page;
+                        const ckPage = page[VAR_RECORD_ROUTE_PAGE_ID];
+                        const name: any = route && route[VAR_RECORD_ROUTE_NAME];
+                        const iconName: any = route && route[VAR_RECORD_ICON_NAME];
 
-                    return (
-                        <OpenPageTab
-                            key={ckPage}
-                            pageId={ckPage}
-                            pageIndex={index}
-                            component={renderTabComponent}
-                            label={trans(name)}
-                            iconfont={iconName}
-                            value={ckPage}
-                            onClose={pagesStore.removePageAction}
-                            onContextMenuCustom={handleContextMenu}
-                            orientation={orientation}
-                            style={tabStyleFn(index)}
-                        />
-                    );
-                })}
+                        return (
+                            <OpenPageTab
+                                key={ckPage}
+                                pageId={ckPage}
+                                pageIndex={index}
+                                component={renderTabComponent}
+                                label={trans(name)}
+                                iconfont={iconName}
+                                value={ckPage}
+                                onClose={pagesStore.removePageAction}
+                                onContextMenuCustom={handleContextMenu}
+                                orientation={orientation}
+                                style={tabStyleFn(index)}
+                            />
+                        );
+                    })}
             </Tabs>
             <OpenPageMenuContext
                 open={isOpenMenu}

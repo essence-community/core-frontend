@@ -59,7 +59,7 @@ export class PagesModel implements IPagesModel {
     };
 
     setPageAction = action(
-        "addPage",
+        "setPageAction",
         async (ckPage: string, isActiveRedirect = false): Promise<false | IPageModel> => {
             if (ckPage === "-1") {
                 return false;
@@ -79,7 +79,7 @@ export class PagesModel implements IPagesModel {
         },
     );
 
-    removePageAction = action("addPage", (ckPage: string) => {
+    removePageAction = action("removePageAction", (ckPage: string) => {
         const selectedPage = this.pages.find((page) => page.ckPage === ckPage);
 
         if (selectedPage) {

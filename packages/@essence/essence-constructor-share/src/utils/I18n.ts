@@ -60,7 +60,7 @@ export function initI18n() {
         .init({
             defaultNS: "meta",
             fallbackLng: defaultLng,
-            initImmediate: false,
+            initImmediate: true,
             interpolation: {
                 escapeValue: false,
             },

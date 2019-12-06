@@ -48,7 +48,7 @@ export class FilePanelModel extends StoreBaseModel implements FilePanelModelType
                         ckParent: this.bc.ckPageObject,
                         ckwindow: "add_document",
                         columns: this.bc.columns,
-                        cvDisplayed: "Добавление Документа",
+                        cvDisplayed: "6a4c7f4488164e7e8fabd46e0cc01ccc",
                         cvName: "",
                     },
                 ],

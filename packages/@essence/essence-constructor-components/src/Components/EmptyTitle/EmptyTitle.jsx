@@ -1,8 +1,7 @@
 // @flow
 import * as React from "react";
-import Grid from "@material-ui/core/Grid";
+import {Grid, Typography} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
 import styles from "./EmptyTitleStyles";
 
 type PropsType = {
@@ -26,7 +25,7 @@ const EmptyTitle = ({classes, title, filters, hideactions, slim}: PropsType) => 
                 </Grid>
             )}
             <Grid item xs zeroMinWidth>
-                <Typography noWrap className={classes.titleTypography} data-qtip={title}>
+                <Typography variant="body2" noWrap className={classes.titleTypography} data-qtip={title}>
                     {title}
                 </Typography>
             </Grid>

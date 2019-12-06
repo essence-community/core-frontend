@@ -16,30 +16,40 @@
  * TODO:
  *      1. При autoload нет возможности ожидать установки значения в selectedRecord
  */
+// eslint-disable-next-line import/named
 import {Lambda, observe, reaction} from "mobx";
+import {i18next} from "../../utils";
 import {IBuilderConfig, IPageModel, IRecordsModel} from "../../types";
-import {findGetGlobalKey} from "./utils";
+import {findGetGlobalKey} from "../../utils/findKey";
 
 type DisposerType = () => void;
 
 interface ICheckLoading {
-    pageStore: IPageModel,
-    bc: IBuilderConfig,
-    ckMaster: string,
+    pageStore: IPageModel | null;
+    bc: IBuilderConfig;
+    ckMaster?: string;
 }
 
 // 15sec * 1000ms - cycle delay, if global set incoreclty
 export const CYCLE_TIMEOUT = 5000;
 
 export class CheckLoading {
-    private pageStore: IPageModel;
+    private pageStore: IPageModel | null;
+
     private bc: IBuilderConfig;
-    private ckMaster: string;
+
+    private ckMaster?: string;
+
     private resolve: () => void;
+
     private reject: (error: any) => void;
+
     private checkers: {[$key: string]: Lambda} = {};
+
     private records: {[$key: string]: any} = {};
+
     private disposers: DisposerType[] = [];
+
     private timeoutId: any;
 
     constructor({pageStore, bc, ckMaster}: ICheckLoading) {
@@ -50,13 +60,14 @@ export class CheckLoading {
     }
 
     public wait(): Promise<boolean> {
-        const master = this.pageStore.stores.get(this.ckMaster);
-    
+        const master = this.pageStore && this.ckMaster ? this.pageStore.stores.get(this.ckMaster) : undefined;
+
         return new Promise((resolve, reject) => {
             this.resolve = resolve;
             this.reject = reject;
 
             if (master && master.recordsStore && master.recordsStore.isLoading) {
+                // @ts-ignore
                 this.initMaster(master);
             }
 
@@ -83,7 +94,7 @@ export class CheckLoading {
     private initGetGlobalToStore(getglobaltostore: string) {
         for (const globaleKey of findGetGlobalKey(getglobaltostore) as any) {
             if (typeof globaleKey === "string") {
-                const stores = this.pageStore.globalStores.get(globaleKey);
+                const stores = this.pageStore ? this.pageStore.globalStores.get(globaleKey) : undefined;
                 let isLoadingOne = false;
 
                 if (stores) {
@@ -101,7 +112,7 @@ export class CheckLoading {
                     });
                 }
 
-                if (isLoadingOne) {
+                if (isLoadingOne && this.pageStore) {
                     this.checkers[globaleKey] = observe(
                         this.pageStore.globalValues,
                         globaleKey,
@@ -137,7 +148,7 @@ export class CheckLoading {
         for (const dispose of this.checkers as any) {
             dispose();
         }
-        this.reject(new Error("Превышено время ожидания"));
+        this.reject(new Error(i18next.t("06dfd0c3b97b45e5abc146a14c0fab37")));
     };
 
     private handleFinishedLoading = (name: string, store: {recordsStore: IRecordsModel}) => (): void => {

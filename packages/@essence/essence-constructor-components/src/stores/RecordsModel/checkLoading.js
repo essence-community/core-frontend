@@ -19,6 +19,7 @@
  */
 import forOwn from "lodash/forOwn";
 import {observe, reaction} from "mobx";
+import {i18next} from "@essence/essence-constructor-share/utils";
 import {findGetGlobalKey} from "../../utils/findKey";
 import {type PageModelType} from "../PageModel";
 import {type RecordsModelType} from "./RecordsModelType";
@@ -134,7 +135,7 @@ export class CheckLoading {
     handleTimeoutError = () => {
         this.clear();
         forOwn(this.checkers, (dispose) => dispose());
-        this.reject(new Error("Превышено время ожидания"));
+        this.reject(new Error(i18next.t("06dfd0c3b97b45e5abc146a14c0fab37")));
     };
 
     handleFinishedLoading = (name: string, store: {recordsStore: RecordsModelType}) => (): void => {

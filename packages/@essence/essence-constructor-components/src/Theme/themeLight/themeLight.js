@@ -5,6 +5,7 @@ export const themeLight = {
     palette: {
         background: {
             default: "#fff",
+            paper: "#fff",
         },
         button: {
             background: {
@@ -37,7 +38,6 @@ export const themeLight = {
             info: "#dbdfef",
             light: "#EEEFF2",
             main: "#cbcaca",
-            modal: "#d8dde8",
             shadow: "rgb(203, 202, 202, 0.4)",
         },
         icon: {
@@ -65,23 +65,72 @@ export const themeLight = {
         appbarHeight: 45,
         gridRowHeight: 30,
     },
-    spacing: {
-        unit: 8,
-    },
     typography: {
         fontFamily: "'Roboto Light', 'Roboto Regular', 'Roboto'",
         useNextVariants: true,
     },
     zIndex: {
-        backdrop: 3,
         combo: 1900,
         drawer: 1700,
         grid: 2,
         linkPopover: 3,
-        loader: 1600,
         scroller: 2,
         tooltip: 2000,
     },
+    /* eslint-disable sort-keys */
+    essence: {
+        ui: {
+            modal: {
+                palette: {
+                    background: "#d8dde8",
+                },
+            },
+            notification: {
+                palette: {
+                    gray: "#939393",
+                },
+            },
+        },
+        palette: {
+            common: {
+                black: "#000",
+                link: "#0000EE",
+                selectedMenu: "#f98d00",
+                selectedRecord: "#c8cfde",
+                stripeRecord: "#f3f3f5",
+                success: "#0f9d58",
+                warning: "#fff82a",
+                white: "#fff",
+            },
+            icon: {
+                secondary: "#cbcaca",
+            },
+            grey: {
+                arrow: "#CBCDE0",
+                backgroundInput: "#fafafa",
+                checkbox: "#e5e8f4",
+                disable: "#bbb",
+                info: "#dbdfef",
+                light: "#EEEFF2",
+                main: "#cbcaca",
+                shadow: "rgb(203, 202, 202, 0.4)",
+            },
+            text: {
+                dark: "#2c3345",
+                disabled: "#2c3345",
+                light: "#dbdfef",
+            },
+        },
+        zIndex: {
+            backdrop: 3,
+            loader: 1600,
+        },
+        sizing: {
+            appBarHeight: 45,
+            gridRowHeight: 30,
+        },
+    },
+    /* eslint-enable sort-keys */
 };
 
 export default {

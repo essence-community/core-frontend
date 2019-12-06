@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "noImplicitAny": true,
+        "lib": ["dom", "es2018"],
+        "target": "es5",
+        "jsx": "react",
+        "esModuleInterop": true,
+        "strictNullChecks": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "noEmit": true
+    },
+    "include": ["src/**/*.tsx", "src/**/*.ts"]
+}

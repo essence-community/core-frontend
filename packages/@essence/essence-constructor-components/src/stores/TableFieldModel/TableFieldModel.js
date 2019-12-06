@@ -2,7 +2,7 @@
 // @flow
 import {extendObservable, action} from "mobx";
 import snakeCase from "lodash/snakeCase";
-import {toSize, declension, camelCaseMemoized} from "@essence/essence-constructor-share/utils";
+import {toSize, declension, camelCaseMemoized, i18next} from "@essence/essence-constructor-share/utils";
 import {Field} from "mobx-react-form";
 import {loggerRootInfo} from "../../constants";
 import {isEmpty} from "../../utils/base";
@@ -91,10 +91,15 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
                         const selCount = this.selectedEntries.length;
 
                         return selCount
-                            ? `${declension(selCount, ["Выбрана", "Выбрано", "Выбрано"])}  ${selCount} ${declension(
-                                  selCount,
-                                  ["запись", "записи", "записей"],
-                              )}`
+                            ? `${declension(selCount, [
+                                  i18next.t("e28e56d7b12e4ea2b7663b3e66473b9e"),
+                                  i18next.t("e28e56d7b12e4ea2b7663b3e66473b9e"),
+                                  i18next.t("783922ac8cf84a5eac8d1b17c77de544"),
+                              ])}  ${selCount} ${declension(selCount, [
+                                  i18next.t("0cd9a67ed46d4d70959182cc6260b221"),
+                                  i18next.t("87acd17f8ae243798e97549a5761cfaf"),
+                                  i18next.t("2485088fda3d4d9cb5de9c25534cdf23"),
+                              ])}`
                             : "";
                     }
 
@@ -129,7 +134,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
                 ckMaster: `grid_${this.bc.ckPageObject}`,
                 ckPageObject: `btnok_${this.bc.ckPageObject}`,
                 ckParent: this.bc.ckPageObject,
-                cvDisplayed: "Выбрать",
+                cvDisplayed: "147bb56012624451971b35b1a4ef55e6",
                 handlerFn: bc.collectionvalues === "array" ? this.selectArrayAction : this.selectAction,
                 iconfont: "fa-check",
                 iconfontname: "fa",
@@ -142,7 +147,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
             {
                 ckPageObject: `btnban_${this.bc.ckPageObject}`,
                 ckParent: this.bc.ckPageObject,
-                cvDisplayed: "Отмена",
+                cvDisplayed: "64aacc431c4c4640b5f2c45def57cae9",
                 handlerFn: this.closeAction,
                 iconfont: "fa-ban",
                 iconfontname: "fa",
@@ -293,7 +298,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
     };
 
     reloadStoreAction = action("reloadStoreAction", () => {
-        loggerInfo("Запрос 'reloadStoreAction' запрещен в TableFieldModel");
+        loggerInfo(i18next.t("58715205c88c4d60aac6bfe2c3bfa516"));
 
         this.selectedEntries = [];
     });

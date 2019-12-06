@@ -161,7 +161,9 @@ class Scrollbars extends React.Component<PropsType, StateType> {
 
     renderTrackHorizontal = ({style, ...props}: PropsType) => {
         const finalStyle = {
+            visibility: "hidden",
             ...style,
+            // eslint-disable-next-line sort-keys
             borderRadius: 3,
             bottom: 2,
             height: 10,

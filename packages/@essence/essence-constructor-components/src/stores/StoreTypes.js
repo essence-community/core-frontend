@@ -13,7 +13,6 @@ export interface ApplicationModelType {
     +blockText: string;
     +cvLogin: string;
     +caActions: Array<number>;
-    +snackbarStore: any;
     +pagesStore: any;
     +isApplicationReady: boolean;
     +isBlock: boolean;

@@ -1,6 +1,7 @@
 // @flow
 import {action} from "mobx";
 import {isEmpty, PageModel, sendRequest} from "@essence/essence-constructor-components";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 import type {AuthModelType} from "./AuthModel";
 import type {ApplicationModelType} from "./ApplicationModel";
 
@@ -39,7 +40,7 @@ class ProfileModel extends PageModel implements ProfileModelType {
             session: this.applicationStore.session,
         })
             .then((response = {}) => {
-                if (this.applicationStore.snackbarStore.checkValidResponseAction(response)) {
+                if (snackbarStore.checkValidResponseAction(response, undefined, undefined, this.applicationStore)) {
                     if (response.cdPeriod) {
                         this.applicationStore.updateGlobalValuesAction({gCdPeriod: response.cdPeriod});
                         this.updateGlobalValues({gCdPeriod: response.cdPeriod});
@@ -50,7 +51,7 @@ class ProfileModel extends PageModel implements ProfileModelType {
                 }
             })
             .catch((error) => {
-                this.applicationStore.snackbarStore.checkExceptResponse(error);
+                snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
             });
     });
 
@@ -67,14 +68,14 @@ class ProfileModel extends PageModel implements ProfileModelType {
             session: this.applicationStore.session,
         })
             .then((response = {}) => {
-                if (this.applicationStore.snackbarStore.checkValidResponseAction(response)) {
+                if (snackbarStore.checkValidResponseAction(response, undefined, undefined, this.applicationStore)) {
                     this.authStore.changeUserInfo({
                         ckDept: deptValue,
                     });
                 }
             })
             .catch((error) => {
-                this.applicationStore.snackbarStore.checkExceptResponse(error);
+                snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
             });
     });
 

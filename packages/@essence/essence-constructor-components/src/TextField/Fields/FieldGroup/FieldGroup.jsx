@@ -2,10 +2,11 @@
 import * as React from "react";
 import {reaction} from "mobx";
 import cn from "classnames";
+import {compose} from "recompose";
 import {disposeOnUnmount} from "mobx-react";
-import Grid from "@material-ui/core/Grid";
+import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {toColumnStyleWidth, camelCaseMemoized} from "@essence/essence-constructor-share/utils";
+import {toColumnStyleWidth, camelCaseMemoized, withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import {mapComponents, Icon} from "@essence/essence-constructor-share";
 import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
 import {BuilderTypeContext} from "../../../Contexts";
@@ -13,11 +14,12 @@ import {isEmpty} from "../../../utils/base";
 import {type TextFieldChildProps} from "../../BuilderFieldType";
 import styles from "./FieldGroupStyles";
 
-type PropsType = TextFieldChildProps & {
-    classes: {
-        [$Keys<$Call<typeof styles, any>>]: string,
-    },
-};
+type PropsType = TextFieldChildProps &
+    WithT & {
+        classes: {
+            [$Keys<$Call<typeof styles, any>>]: string,
+        },
+    };
 type StateType = {
     reqCount: number,
 };
@@ -46,6 +48,7 @@ class FieldGroup extends React.Component<PropsType, StateType> {
         this.columns = getColumns(childs);
 
         field.set("value", this.handleGetValues());
+        field.set("default", this.handleGetValues());
 
         this.handleChangeReqCount(reqcount || "0");
 
@@ -97,6 +100,7 @@ class FieldGroup extends React.Component<PropsType, StateType> {
         const {field} = this.props;
 
         field.set("value", status);
+        field.set("default", status);
         field.validate({showErrors: true});
     };
 
@@ -131,6 +135,14 @@ class FieldGroup extends React.Component<PropsType, StateType> {
         return ` ${columnsCount - value} / ${this.state.reqCount}`;
     };
 
+    isIncorrect = () => {
+        const {bc} = this.props;
+        const value = Number(this.props.value);
+        const columnsCount = bc.childs ? bc.childs.length : 0;
+
+        return columnsCount - value < this.state.reqCount;
+    };
+
     renderSuccess = () => {
         const {reqcount, reqcountrules} = this.props.bc;
 
@@ -138,15 +150,16 @@ class FieldGroup extends React.Component<PropsType, StateType> {
     };
 
     render() {
-        const {bc, pageStore, editing, visible, classes, form, error, readOnly} = this.props;
+        // eslint-disable-next-line id-length
+        const {bc, pageStore, editing, visible, classes, form, error, readOnly, t} = this.props;
         const isRow = bc.contentview === "hbox";
         const inFilter = this.context === "filter";
-        const status = error ? `${this.renderTip()} *` : this.renderSuccess();
+        const status = error || this.isIncorrect() ? `${this.renderTip()} *` : this.renderSuccess();
 
         return (
             <Grid
                 container
-                spacing={8}
+                spacing={1}
                 className={cn(classes.root, {
                     [classes.rootError]: error,
                     [classes.filterRoot]: inFilter,
@@ -154,15 +167,17 @@ class FieldGroup extends React.Component<PropsType, StateType> {
                 })}
                 direction={isRow ? "row" : "column"}
                 wrap={isRow ? "nowrap" : "wrap"}
-                data-qtip={error ? "Поля должны быть заполнены в требуемом количестве" : ""}
+                data-qtip={error ? t("a5a5d7213d1f4f77861ed40549ee9c57") : ""}
             >
                 <Grid container className={classes.label} wrap="nowrap" justify="space-between">
                     <Grid item className={classes.labelTextStartAngle}>
                         &nbsp;
                     </Grid>
-                    <Grid item className={`${classes.labelDisplay}`}>
-                        {bc.cvDisplayed ? <span className={classes.labelText}>{bc.cvDisplayed}</span> : null}
-                    </Grid>
+                    {Boolean(bc.cvDisplayed) && (
+                        <Grid item className={`${classes.labelDisplay}`}>
+                            <span className={classes.labelText}>{t(bc.cvDisplayed)}</span>
+                        </Grid>
+                    )}
                     <Grid item xs className={classes.labelTextLine}>
                         &nbsp;
                     </Grid>
@@ -198,4 +213,7 @@ class FieldGroup extends React.Component<PropsType, StateType> {
     }
 }
 
-export default withStyles(styles)(FieldGroup);
+export default compose(
+    withTranslation("meta"),
+    withStyles(styles),
+)(FieldGroup);

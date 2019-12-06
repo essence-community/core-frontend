@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import Checkbox from "@material-ui/core/Checkbox";
+import {Checkbox} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import {mountWithTheme} from "../../../utils/test";
 import {checkboxBc, gridBc} from "../../__mock__/builderConfigs";

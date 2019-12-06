@@ -1,9 +1,7 @@
 // @flow
 import * as React from "react";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import {camelCaseMemoized} from "@essence/essence-constructor-share/utils";
+import {Grid, TextField, Typography} from "@material-ui/core";
+import {camelCaseMemoized, withTranslation, WithT, i18next} from "@essence/essence-constructor-share/utils";
 import {parse} from "@essence/essence-constructor-share/utils/parser";
 import {type TextFieldChildProps} from "../../BuilderFieldType";
 
@@ -16,10 +14,10 @@ type StateType = {
     values: Object,
 };
 
-class FieldComputed extends React.Component<TextFieldChildProps, StateType> {
+class FieldComputed extends React.Component<TextFieldChildProps & WithT, StateType> {
     state = {
         parser: {
-            runer: (values?: Object) => `Инициазилация с ${JSON.stringify(values)} `,
+            runer: (values?: Object) => `${i18next.t("e077e7f97f954e85905a8e754511e441")} ${JSON.stringify(values)} `,
             variables: [],
         },
         source: "",
@@ -78,22 +76,24 @@ class FieldComputed extends React.Component<TextFieldChildProps, StateType> {
     };
 
     render() {
+        // eslint-disable-next-line id-length
+        const {t} = this.props;
         const {source, values, parser} = this.state;
         const result = parser.runer(values);
 
         return (
-            <Grid container spacing={8} direction="column">
+            <Grid container spacing={1} direction="column">
                 <Grid item>
-                    <Grid container spacing={8}>
+                    <Grid container spacing={1}>
                         <Grid item xs={6}>
-                            <Grid container spacing={8} direction="column">
+                            <Grid container spacing={1} direction="column">
                                 <Grid item>
-                                    <Typography>Выполнение</Typography>
+                                    <Typography variant="body2">{t("9207ff3b431a4dc58f16a28d2aae0ea8")}</Typography>
                                 </Grid>
                                 <Grid item>
                                     <TextField
                                         style={{height: "100%"}}
-                                        label="Исходный код"
+                                        label={t("6029c25920ff4f79b9b52d664322b3d9")}
                                         value={source}
                                         onChange={this.handleChangeSource}
                                         multiline
@@ -104,16 +104,16 @@ class FieldComputed extends React.Component<TextFieldChildProps, StateType> {
                         </Grid>
 
                         <Grid item xs={6}>
-                            <Grid container spacing={8} direction="column">
+                            <Grid container spacing={1} direction="column">
                                 <Grid item>
-                                    <Typography>Переменные</Typography>
+                                    <Typography variant="body2">{t("a363461339754846881b1f84b6706851")}</Typography>
                                 </Grid>
                                 {this.state.parser.variables.map((variable) => (
                                     <Grid item key={variable}>
                                         <TextField
                                             name={variable}
                                             value={this.state.values[variable]}
-                                            label={`Значение для ${variable}`}
+                                            label={`${t("a326c00cf6b54d7ebdc358e283383ccb")} ${variable}`}
                                             onChange={this.handleChangeField}
                                             autoComplete="off"
                                         />
@@ -126,17 +126,19 @@ class FieldComputed extends React.Component<TextFieldChildProps, StateType> {
                 <Grid item>
                     <TextField
                         value={result === undefined ? "" : JSON.stringify(result)}
-                        label="Результат"
+                        label={t("b4458be782404651a4cfcad47d2ae17a")}
                         disabled
                         autoComplete="off"
                     />
                 </Grid>
                 <Grid item>
-                    <Typography>Тип данных в результате: {typeof result}</Typography>
+                    <Typography variant="body2">
+                        {t("c816bc224d6e4ae5b60d9c7dd2e6b612")}: {typeof result}
+                    </Typography>
                 </Grid>
             </Grid>
         );
     }
 }
 
-export default FieldComputed;
+export default withTranslation("meta")(FieldComputed);

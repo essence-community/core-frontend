@@ -23,6 +23,7 @@ const DEFAULT_OVERRIDE_FIELD = [
     "hidden",
     "hiddenrules",
     "maxfile",
+    "mode",
     "modeaction",
     "redirecturl",
     "redirectusequery",
@@ -30,6 +31,7 @@ const DEFAULT_OVERRIDE_FIELD = [
     "updatequery",
     "columnsfilter",
     "filemode",
+    "cnOrder",
 ];
 
 export type TMergeOptions = {
@@ -57,13 +59,15 @@ export function mergeComponents<T: Object>(
              * например: cv_name и cv_displayed может повлиять на отображение
              */
             forOwn(
-                [...DEFAULT_OVERRIDE_FIELD, ...include].filter((value) => exclude.indexOf(value) === -1).reduce(
-                    (obj, value) => ({
-                        ...obj,
-                        [value]: component[value],
-                    }),
-                    {},
-                ),
+                [...DEFAULT_OVERRIDE_FIELD, ...include]
+                    .filter((value) => exclude.indexOf(value) === -1)
+                    .reduce(
+                        (obj, value) => ({
+                            ...obj,
+                            [value]: component[value],
+                        }),
+                        {},
+                    ),
                 (value, key) => {
                     if (!isEmpty(value)) {
                         overrideComponent[key] = value;

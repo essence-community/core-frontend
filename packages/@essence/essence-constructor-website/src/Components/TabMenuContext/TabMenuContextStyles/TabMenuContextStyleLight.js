@@ -2,7 +2,7 @@
 const TabMenuContextStyleLight = (theme: Object) => ({
     listItem: {
         "&:hover": {
-            backgroundColor: theme.palette.grey.modal,
+            backgroundColor: theme.essence.ui.modal.palette.background,
         },
         "&:last-child": {
             borderBottom: "none",
@@ -10,8 +10,8 @@ const TabMenuContextStyleLight = (theme: Object) => ({
         borderBottom: `1px solid ${theme.palette.grey.light}`,
         cursor: "pointer",
         maxHeight: theme.sizing.gridRowHeight,
-        paddingLeft: theme.spacing.unit,
-        paddingRight: theme.spacing.unit,
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1),
     },
     listItemDivider: {
         borderBottomWidth: 2,

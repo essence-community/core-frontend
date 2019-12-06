@@ -24,6 +24,14 @@
         "cl_menu": 1
     },
     {
+        "ck_id": "form",
+        "cn_action_edit": 516,
+        "ck_parent": null,
+        "cv_name": "Form",
+        "leaf": "true",
+        "cl_menu": 1
+    },
+    {
         "ck_id": "modules-list",
         "cn_action_edit": 516,
         "ck_parent": null,

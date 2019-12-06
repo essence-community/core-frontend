@@ -5,12 +5,14 @@ import {type IObservableArray} from "mobx/lib/mobx.js.flow";
 import {Field} from "mobx-react-form";
 import forEach from "lodash/forEach";
 import noop from "lodash/noop";
-import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
+import {parseMemoize, loadComponentsFromModules} from "@essence/essence-constructor-share";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
+import {findClassNames, i18next} from "@essence/essence-constructor-share/utils";
+import {VAR_RECORD_GLOBAL_VALUE} from "@essence/essence-constructor-share/constants";
 import {loggerRoot, styleTheme as styleThemeConst} from "../../constants";
-import {type BuilderPageType} from "../../Page/BuilderPageType";
 import {sendRequestList} from "../../request/baseRequest";
 import {isEmpty} from "../../utils/base";
-import {type BuilderModeType} from "../../BuilderType";
+import {type BuilderModeType, type BuilderBaseType} from "../../BuilderType";
 import {type WindowModelType} from "../WindowModel/WindowModelTypes";
 import {WindowModel} from "../WindowModel";
 import {type ApplicationModelType} from "../StoreTypes";
@@ -28,7 +30,7 @@ import {renderGlobalValuelsInfo, getNextComponent} from "./PageModelUtil";
 const logger = loggerRoot.extend("PageModel");
 
 export class PageModel implements PageModelInterface {
-    pageBc: BuilderPageType;
+    pageBc: BuilderBaseType[];
 
     fieldValueMaster: Map<string, string>;
 
@@ -114,15 +116,21 @@ export class PageModel implements PageModelInterface {
             questionWindow: null,
             get route() {
                 return (
-                    (routesStore && routesStore.recordsStore.records.find((record) => record.ckId === this.ckPage)) || {
+                    (routesStore &&
+                        routesStore.recordsStore.records.find(
+                            (record) => record.ckId === this.ckPage || record.cvUrl === this.ckPage,
+                        )) || {
                         ckId: this.ckPage,
+                        cvUrl: this.ckPage,
                     }
                 );
             },
             showQuestionWindow: false,
             stores: observable.map(),
             styleTheme,
-            visible: false,
+            get visible() {
+                return applicationStore.pagesStore.activePage === this;
+            },
             // TODO: Удалить windows и перевести windowsOne на windows
             windows: observable.map(),
             windowsOne: observable.array(),
@@ -133,13 +141,13 @@ export class PageModel implements PageModelInterface {
                 // $FlowFixMe
                 () => this.globalValues.toJS(),
                 (globalValues) =>
-                    applicationStore.snackbarStore.snackbarOpenAction(
+                    snackbarStore.snackbarOpenAction(
                         {
                             autoHidden: true,
                             hiddenTimeout: 0,
                             status: "debug",
                             text: renderGlobalValuelsInfo(globalValues),
-                            title: `Глобальные переменные для: ${ckPage || ""}`,
+                            title: `${i18next.t("dcfb61366b054c6e95ae83593cfb9cd9")}: ${i18next.t(ckPage || "")}`,
                         },
                         this.route,
                     ),
@@ -205,7 +213,7 @@ export class PageModel implements PageModelInterface {
 
     addStore = action("addStore", (store: StoreModelTypes, name: string) => {
         if (this.stores.has(name)) {
-            logger("Существует неудаленная store, нужно удалять ненужные сторы!.");
+            logger(i18next.t("7ef1547ac7084e178bf1447361e3ccc3"));
         }
 
         this.stores.set(name, store);
@@ -257,7 +265,7 @@ export class PageModel implements PageModelInterface {
                     ckPage,
                 },
             },
-            query: "GetMetamodelPage",
+            query: "GetMetamodelPage2.0",
             session,
         });
 
@@ -267,12 +275,21 @@ export class PageModel implements PageModelInterface {
 
         return fetchResult
             .then((response) => {
-                if (this.applicationStore.snackbarStore.checkValidResponseAction(response[0], this.route)) {
-                    this.pageBc = response;
+                if (snackbarStore.checkValidResponseAction(response[0], this.route, undefined, this.applicationStore)) {
+                    const classNames = findClassNames(response);
+
+                    loadComponentsFromModules(classNames).then(() => {
+                        this.pageBc = (response.length && response[0].children) || [];
+
+                        if (response.length && response[0]) {
+                            this.updateGlobalValues(response[0][VAR_RECORD_GLOBAL_VALUE]);
+                        }
+                    });
                 }
             })
+
             .catch((error) => {
-                this.applicationStore.snackbarStore.checkExceptResponse(error, this.route);
+                snackbarStore.checkExceptResponse(error, this.route, this.applicationStore);
                 this.pageBc = [];
             })
             .then((res) => {
@@ -456,10 +473,6 @@ export class PageModel implements PageModelInterface {
         this.windows.clear();
         this.windowsOne.clear();
         this.fieldValueMaster.clear();
-    });
-
-    setVisibleAction = action("setVisibleAction", (visible: boolean) => {
-        this.visible = visible;
     });
 
     removePageAction = () => {

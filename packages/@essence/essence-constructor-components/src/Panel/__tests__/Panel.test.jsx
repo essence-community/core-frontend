@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import Grid from "@material-ui/core/Grid/Grid";
+import {Grid} from "@material-ui/core";
 import panelMock from "../../../mocks/panel/panel";
 import {mountWithTheme} from "../../utils/test";
 import {createEmptyPageStore} from "../../stores/index";

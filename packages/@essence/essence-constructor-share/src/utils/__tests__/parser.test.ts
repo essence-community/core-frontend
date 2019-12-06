@@ -2,6 +2,7 @@ import {parse} from "../parser";
 
 const getValue = (name: string) => name;
 
+// eslint-disable-next-line max-statements
 describe("parse", () => {
     it("operator !", () => {
         expect(parse("!false").runer({get: getValue})).toBe(true);
@@ -40,10 +41,10 @@ describe("parse", () => {
         expect(parse("20 in (10, 20)").runer({get: getValue})).toBe(true);
     });
     it("without data", () => {
-        expect(parse("").runer({get: getValue})).toBe("Ошибка парсинга");
+        expect(parse("").runer({get: getValue})).toBe("4b067f4b55154c46b0a8d6b34d4d9bfb");
     });
     it("without right value", () => {
-        expect(parse("!true ==").runer({get: getValue})).toBe("Ошибка парсинга");
+        expect(parse("!true ==").runer({get: getValue})).toBe("4b067f4b55154c46b0a8d6b34d4d9bfb");
     });
     it("null value", () => {
         expect(parse("null").runer({get: getValue})).toBe(null);
@@ -55,7 +56,7 @@ describe("parse", () => {
         expect(parse("{'temp': 5}['temp']").runer({get: getValue})).toBe(5);
     });
     it("array", () => {
-        expect(parse("[1,2]").runer({get: getValue})).toEqual([1,2]);
+        expect(parse("[1,2]").runer({get: getValue})).toEqual([1, 2]);
     });
     it("undefined", () => {
         expect(parse("{'temp': undefined}['temp']").runer({get: getValue})).toBe("undefined");

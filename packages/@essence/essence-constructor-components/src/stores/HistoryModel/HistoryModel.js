@@ -3,6 +3,7 @@ import {extendObservable, action} from "mobx";
 import {Form} from "mobx-react-form";
 import isUndefined from "lodash/isUndefined";
 import groupBy from "lodash/groupBy";
+import {VALUE_SELF_FIRST} from "@essence/essence-constructor-share/constants";
 import {type BuilderModeType, type BuilderBaseType} from "../../BuilderType";
 import {mergeComponents} from "../../utils/builder";
 import {type RecordsModelType, RecordsModel} from "../RecordsModel";
@@ -41,7 +42,7 @@ export class HistoryModel extends StoreBaseModel implements HistoryModelInterfac
     constructor(props: StoreBaseModelPropsType) {
         super(props);
 
-        const recordsStore = new RecordsModel({defaultvalue: "first", ...this.bc}, this.pageStore);
+        const recordsStore = new RecordsModel({defaultvalue: VALUE_SELF_FIRST, ...this.bc}, this.pageStore);
 
         this.recordsStore = recordsStore;
         this.btnsConfig = this.getBtnsConfig(this.bc);

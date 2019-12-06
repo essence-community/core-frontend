@@ -52,7 +52,9 @@ export const updateMarginTopGrid = (gridStore: GridModelType, marginTop: number)
 
     if (tableInlintButton && tableInlintButton.previousSibling instanceof HTMLDivElement) {
         const buttonsContainer: HTMLDivElement = tableInlintButton.previousSibling;
-        const minHeightGrid = buttonsContainer.offsetHeight - marginTop - 2 * GRID_ROW_HEIGHT - ADDITIONAL_GRID_HEIGHT;
+        const paginationHeight = gridStore.bc.pagesize ? GRID_ROW_HEIGHT : 0;
+        const minHeightGrid =
+            buttonsContainer.offsetHeight - marginTop - GRID_ROW_HEIGHT - ADDITIONAL_GRID_HEIGHT - paginationHeight;
 
         if (gridStore.minHeight !== minHeightGrid) {
             gridStore.setMinHeightAction(minHeightGrid);

@@ -1,8 +1,9 @@
 import {action, extendObservable} from "mobx";
 import {IPageModel} from "../../types";
+import {snackbarStore} from "../SnackbarModel";
 
 export interface IProgressConfig {
-    pageStore: IPageModel,
+    pageStore: IPageModel;
 }
 
 export interface IProgressModel {
@@ -28,14 +29,15 @@ export class ProgressModel implements IProgressModel {
         extendObservable(this, {
             progressCount: 0,
         });
-        pageStore.applicationStore.snackbarStore.snackbarOpenAction(
+
+        snackbarStore.snackbarOpenAction(
             {
                 autoHidden: false,
                 progressStore: this,
                 status: "progress",
                 type: "progress",
             },
-            pageStore,
+            pageStore.route,
         );
     }
 }

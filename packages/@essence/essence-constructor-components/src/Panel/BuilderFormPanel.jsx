@@ -4,8 +4,8 @@ import {compose} from "recompose";
 import {reaction} from "mobx";
 import {observer} from "mobx-react";
 import noop from "lodash/noop";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
+import {Paper, Grid} from "@material-ui/core";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import commonDecorator from "../decorators/commonDecorator";
 import {PanelFormModel, type PanelFormModelType} from "../stores/PanelFormModel";
 import {updateTopGrid} from "../stores/GridModel";
@@ -23,7 +23,7 @@ type OwnPropsType = {
     store: PanelFormModelType,
 };
 
-type PropsType = BuilderPanelPropsType & OwnPropsType;
+type PropsType = BuilderPanelPropsType & OwnPropsType & WithT;
 
 export class BuilderFormPanelBase extends React.Component<PropsType> {
     disposers: Array<Function> = [];
@@ -92,12 +92,13 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
     };
 
     render() {
-        const {store, bc, readOnly, hideTitle, pageStore, visible, elevation} = this.props;
-        const {filters = [], cvDisplayed} = bc;
+        // eslint-disable-next-line id-length
+        const {store, bc, readOnly, hideTitle, pageStore, visible, elevation, t} = this.props;
+        const {filters = [], cvDisplayed, hideactions} = bc;
         const isEditing = readOnly ? false : store.editing;
 
         const content = (
-            <Grid container spacing={0} direction="column">
+            <Grid container spacing={0} direction="column" wrap="nowrap">
                 {filters.map((filter: Object) => (
                     <Grid item key={filter.ckPageObject}>
                         <BuilderFilter
@@ -116,7 +117,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
                         />
                     </Grid>
                 ))}
-                {hideTitle ? null : <EmptyTitle title={cvDisplayed} filters={filters} />}
+                {hideTitle || hideactions === "true" ? null : <EmptyTitle title={t(cvDisplayed)} filters={filters} />}
                 <Grid item>
                     <BuilderForm
                         initialValues={store.recordsStore.records[0] || EMPTY_RECORD}
@@ -126,7 +127,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
                         <BuilderBasePanel
                             {...this.props}
                             pageStore={pageStore}
-                            bc={bc}
+                            bc={store.panelBc}
                             elevation={undefined}
                             editing={isEditing}
                             readOnly={readOnly}
@@ -160,6 +161,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
 
 export default compose(
     commonDecorator,
+    withTranslation("meta"),
     withModelDecorator(
         (bc: $PropertyType<BuilderPanelPropsType, "bc">, {pageStore}: BuilderPanelPropsType): PanelFormModelType =>
             new PanelFormModel({bc, pageStore}),

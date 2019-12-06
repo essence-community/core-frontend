@@ -1,17 +1,21 @@
 // @flow
 import * as React from "react";
 import {compose} from "recompose";
-import {reaction, observe} from "mobx";
+import {reaction} from "mobx";
 import {inject, Provider, observer} from "mobx-react";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
+import memoize from "lodash/memoize";
+import {Grid, Button} from "@material-ui/core";
+import {BuilderPanel, BuilderForm, withModelDecorator} from "@essence/essence-constructor-components";
+import {mapComponents} from "@essence/essence-constructor-share";
+import {ApplicationContext} from "@essence/essence-constructor-share/context";
 import {
-    BuilderPanel,
-    BuilderForm,
-    BuilderPageChildren,
-    withModelDecorator,
-} from "@essence/essence-constructor-components";
-import {saveToStore, removeFromStore, removeFromStoreByRegex} from "@essence/essence-constructor-share/utils";
+    saveToStore,
+    removeFromStore,
+    removeFromStoreByRegex,
+    WithT,
+    withTranslation,
+    i18next,
+} from "@essence/essence-constructor-share/utils";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import {type AuthModelType} from "../../Stores/AuthModel";
 import {styleTheme} from "../../constants";
@@ -24,32 +28,51 @@ type StoresPropsType = {
 type OwnPropsType = {
     pageStore: Object,
 };
-type PropsType = StoresPropsType & OwnPropsType;
+type PropsType = WithT & StoresPropsType & OwnPropsType;
 
 const mapStoresToProps = (stores: Object): StoresPropsType => ({
     applicationStore: stores.applicationStore,
     authStore: stores.authStore,
 });
 
-const config = {
+const getConfig = memoize((trans) => ({
     childs: [
         {
             ckPageObject: "theme",
             clearable: "false",
             column: "theme",
-            cvDisplayed: "Тема",
+            cvDisplayed: "0b5e4673fa194e16a0c411ff471d21d2",
             datatype: "combo",
             displayfield: "name",
             noglobalmask: "true",
             querymode: "remote",
+
+            records: [
+                {name: trans("66ef0068472a4a0394710177f828a9b1"), value: "dark"},
+                {name: trans("fd7c7f3539954cc8a55876e3514906b5"), value: "light"},
+            ],
             type: "IFIELD",
             valuefield: "value",
+        },
+        {
+            autoload: "true",
+            ckPageObject: "EB7DA66474084531B31819AF930A2506",
+            ckQuery: "MTGetLang",
+            clearable: "false",
+            column: "lang",
+            cvDisplayed: "4ae012ef02dd4cf4a7eafb422d1db827",
+            datatype: "combo",
+            displayfield: "cv_name",
+            noglobalmask: "true",
+            querymode: "remote",
+            type: "IFIELD",
+            valuefield: "ck_id",
         },
     ],
     ckPageObject: "UserInfo",
     readonly: "false",
     type: "PANEL",
-};
+}));
 
 class MenuProfile extends React.Component<PropsType> {
     prevValues = {};
@@ -60,7 +83,6 @@ class MenuProfile extends React.Component<PropsType> {
         const {applicationStore, pageStore} = this.props;
 
         pageStore.loadConfigAction(pageStore.ckPage, pageStore.applicationStore.session);
-        this.disposers.push(observe(pageStore.stores, this.handleChangeStore));
         this.disposers.push(reaction(() => applicationStore.isBlock, this.handleBlockUpdate));
     }
 
@@ -70,16 +92,6 @@ class MenuProfile extends React.Component<PropsType> {
         this.prevValues = {};
     }
 
-    handleChangeStore = ({type, newValue: themeStore, name}: Object) => {
-        if (type === "add" && name === "theme") {
-            themeStore.recordsStore.setRecordsAction([
-                {name: "Темная тема", value: "dark"},
-                {name: "Светлая тема", value: "light"},
-            ]);
-            themeStore.changeValueAction(styleTheme);
-        }
-    };
-
     handleBlockUpdate = (value) => {
         if (!value) {
             this.props.pageStore.stores.forEach((store) => {
@@ -88,6 +100,7 @@ class MenuProfile extends React.Component<PropsType> {
         }
     };
 
+    // eslint-disable-next-line max-statements
     handleSubmit = (values, {form}) => {
         if (this.prevValues.ckDept !== values.ckDept && form.has("ckDept")) {
             const field = form.$("ckDept");
@@ -105,6 +118,11 @@ class MenuProfile extends React.Component<PropsType> {
             document.location.reload();
         }
 
+        if (this.prevValues.lang !== values.lang) {
+            saveToStore("lang", values.lang);
+            i18next.changeLanguage(values.lang);
+        }
+
         this.prevValues = values;
     };
 
@@ -117,50 +135,57 @@ class MenuProfile extends React.Component<PropsType> {
         const {
             authStore: {userInfo},
             pageStore,
+            applicationStore,
         } = this.props;
         const initialValues = {
             cdPeriod: "",
             ckDept: userInfo.ckDept,
             cvEmail: userInfo.cvEmail,
-            cvFullName: `${userInfo.cvSurname} ${userInfo.cvName} ${userInfo.cvPatronymic}`,
+            cvFullName: `${userInfo.cvSurname || ""} ${userInfo.cvName || ""} ${userInfo.cvPatronymic || ""}`,
             cvLogin: userInfo.cvLogin,
+            lang: i18next.language,
             theme: styleTheme,
         };
+        const config = getConfig(this.props.t);
 
         return (
             <Provider pageStore={pageStore}>
-                <div>
-                    <BuilderForm
-                        initialValues={initialValues}
-                        onSubmit={this.handleSubmit}
-                        mode="1"
-                        submitOnChange
-                        onSetValues={this.handleSubmit}
-                    >
-                        <Grid container spacing={16} direction="column">
-                            <Grid item>
-                                <BuilderPageChildren
-                                    readOnly={pageStore.isReadOnly}
-                                    hidden={false}
-                                    pageStore={pageStore}
-                                    pageBc={pageStore.pageBc}
-                                />
-                            </Grid>
-                            <Grid item>
-                                <BuilderPanel editing={true} bc={config} pageStore={pageStore} />
-                            </Grid>
-                            <Grid item>
-                                <Grid container justify="flex-end" spacing={8}>
-                                    <Grid item>
-                                        <Button color="primary" size="small" onClick={this.handleLogout}>
-                                            Выход
-                                        </Button>
+                <ApplicationContext.Provider value={applicationStore}>
+                    <div>
+                        <BuilderForm
+                            initialValues={initialValues}
+                            onSubmit={this.handleSubmit}
+                            mode="1"
+                            submitOnChange
+                            onSetValues={this.handleSubmit}
+                        >
+                            <Grid container spacing={2} direction="column">
+                                <Grid item xs>
+                                    {mapComponents(pageStore.pageBc, (ChildComponent, childBc) => (
+                                        <ChildComponent
+                                            key={childBc.ckPageObject}
+                                            {...this.props}
+                                            pageStore={pageStore}
+                                            bc={childBc}
+                                        />
+                                    ))}
+                                </Grid>
+                                <Grid item xs>
+                                    <BuilderPanel editing={true} bc={config} pageStore={pageStore} />
+                                </Grid>
+                                <Grid item xs>
+                                    <Grid container justify="flex-end" spacing={1}>
+                                        <Grid item>
+                                            <Button color="primary" size="small" onClick={this.handleLogout}>
+                                                {this.props.t("8c0119ba23c74e158c5d50c83884fcb5")}
+                                            </Button>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
                             </Grid>
-                        </Grid>
-                    </BuilderForm>
-                </div>
+                        </BuilderForm>
+                    </div>
+                </ApplicationContext.Provider>
             </Provider>
         );
     }
@@ -178,5 +203,6 @@ export default compose(
             }),
         "pageStore",
     ),
+    withTranslation("meta"),
     observer,
 )(MenuProfile);

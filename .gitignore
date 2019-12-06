@@ -1,2 +1,5 @@
 .vs
 *.log
+node_modules
+build
+html_doc

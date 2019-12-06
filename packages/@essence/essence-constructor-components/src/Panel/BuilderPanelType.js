@@ -10,7 +10,7 @@ export type BuilderPanelType = BuilderBaseType & {
     childs?: Array<Object>,
     filters?: Array<Object>,
     topbtn?: Array<Object>,
-    spacing?: 0 | 8 | 16 | 24 | 32 | 40,
+    spacing?: 0 | 1 | 2 | 3 | 4 | 5,
     resizable?: "true" | "false",
 };
 

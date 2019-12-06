@@ -1,8 +1,9 @@
 import axios from "axios";
 import {isArray, isString} from "lodash";
 import {stringify} from "qs";
-import {BASE_URL} from "../../constants";
-import {camelCaseKeysAsync, snakeCaseKeys} from "../../utils";
+import {settingsStore} from "../../models";
+import {VAR_SETTING_GATE_URL, META_OUT_RESULT, META_PAGE_OBJECT} from "../../constants";
+import {camelCaseKeysAsync, snakeCaseKeys, i18next} from "../../utils";
 import {IBaseRequest} from "./baseRequest";
 
 const MILLISEC = 1000;
@@ -14,12 +15,12 @@ interface ICheckError {
     responseAllData: any;
     query: string;
     responseData: any[];
-    list: boolean;
+    list?: boolean;
 }
 
 interface IParseResponse {
     responseData: any[];
-    list: boolean;
+    list?: boolean;
 }
 
 const checkError = ({responseAllData, query, responseData, list}: ICheckError) => {
@@ -34,7 +35,8 @@ const checkError = ({responseAllData, query, responseData, list}: ICheckError) =
     }
 
     if (isError) {
-        const error = new Error("Ошибка в разпознавании данных");
+        const error = new Error(i18next.t("63538aa4bcd748349defdf7510fc9c10"));
+
         // @ts-ignore
         error.query = query;
         // @ts-ignore
@@ -69,10 +71,11 @@ export const baseAxiosRequest = async ({
     onUploadProgress,
     plugin,
     timeout = "30",
-    gate = BASE_URL,
+    gate = settingsStore.settings[VAR_SETTING_GATE_URL],
     method = "POST",
     formData,
     params,
+    isCamelCase = true,
 }: IBaseRequest) => {
     const queryParams = {
         action: formData ? "upload" : action,
@@ -80,9 +83,13 @@ export const baseAxiosRequest = async ({
         query,
     };
     const data = {
+        [META_OUT_RESULT]: "",
+        [META_PAGE_OBJECT]: pageObject.replace(
+            // eslint-disable-next-line prefer-named-capture-group
+            /^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[)}]?.*?$/giu,
+            "$1",
+        ),
         json: json ? JSON.stringify(snakeCaseKeys(json)) : undefined,
-        out_result: "",
-        page_object: pageObject.replace(/^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[)}]?.*?$/gi, "$1"),
         session,
         ...snakeCaseKeys(body),
     };
@@ -100,7 +107,7 @@ export const baseAxiosRequest = async ({
         url: `${gate}?${stringify(formData ? {...queryParams, ...data} : queryParams)}`,
     });
 
-    const responseAllData: any = await camelCaseKeysAsync(response.data);
+    const responseAllData: any = isCamelCase ? await camelCaseKeysAsync(response.data) : response.data;
     const responseData = responseAllData.data;
 
     checkError({list, query, responseAllData, responseData});

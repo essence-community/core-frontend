@@ -4,10 +4,9 @@ import cn from "classnames";
 import {reaction} from "mobx";
 import {observer} from "mobx-react";
 import values from "lodash/values";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
+import {compose} from "recompose";
+import {TableHead, TableRow, TableCell, TableSortLabel} from "@material-ui/core";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import {type GridModelType} from "../stores/GridModel";
 import {type PageModelType} from "../stores/PageModel";
 import BuilderForm from "../Form/BuilderForm";
@@ -32,7 +31,7 @@ export const PADDING_MAP = {
     icon: "none",
 };
 
-type PropsType = {
+type PropsType = WithT & {
     classes: Object,
     store: GridModelType,
     property?: string,
@@ -96,7 +95,8 @@ class BaseGridTableHeader extends React.Component<PropsType, StateType> {
     };
 
     render() {
-        const {classes, property, lowerDirection, disabled, store, bc, readOnly, pageStore, visible} = this.props;
+        // eslint-disable-next-line id-length
+        const {classes, property, lowerDirection, disabled, store, bc, readOnly, pageStore, visible, t} = this.props;
         const isTreeGrid = bc.type === "TREEGRID";
 
         const tableHead = (
@@ -104,6 +104,8 @@ class BaseGridTableHeader extends React.Component<PropsType, StateType> {
                 <TableRow className={cn(classes.tableRow)}>
                     {store.gridColumns.map((bcColumn) => {
                         const {ckPageObject, cvDisplayed, column, type, datatype, width, sortcolumn, align} = bcColumn;
+
+                        const transCvDisplayed = t(cvDisplayed);
 
                         if (datatype === "detail") {
                             return <TableCell key={ckPageObject} padding="none" className={classes.tableHeadButton} />;
@@ -117,7 +119,7 @@ class BaseGridTableHeader extends React.Component<PropsType, StateType> {
                                 data-page-object={ckPageObject}
                             >
                                 {React.createElement(columnsHeaderMap[datatype], {
-                                    bc: {ckPageObject, column, cvDisplayed, datatype, type, width},
+                                    bc: {ckPageObject, column, cvDisplayed: transCvDisplayed, datatype, type, width},
                                     classes,
                                     disabled,
                                     readOnly,
@@ -126,13 +128,13 @@ class BaseGridTableHeader extends React.Component<PropsType, StateType> {
                             </TableCell>
                         ) : (
                             <TableCell
-                                data-qtip={cvDisplayed}
+                                data-qtip={transCvDisplayed}
                                 sortDirection={property === sortcolumn || property === column ? lowerDirection : false}
                                 key={ckPageObject}
                                 className={cn(classes.tableCell, {
                                     [classes.tableCellActive]: property === sortcolumn || property === column,
                                 })}
-                                padding="checkbox"
+                                padding="none"
                                 data-page-object={ckPageObject}
                             >
                                 <div className={classes.tableCellContent}>
@@ -146,7 +148,7 @@ class BaseGridTableHeader extends React.Component<PropsType, StateType> {
                                         tabIndex="-1"
                                         onClick={this.handleSort(sortcolumn || column)}
                                     >
-                                        <span className={classes.tableCellEllipsis}>{cvDisplayed}</span>
+                                        <span className={classes.tableCellEllipsis}>{transCvDisplayed}</span>
                                     </TableSortLabel>
                                     {isTreeGrid ? null : (
                                         <GridColumnFilter
@@ -192,4 +194,7 @@ class BaseGridTableHeader extends React.Component<PropsType, StateType> {
     }
 }
 
-export default observer(BaseGridTableHeader);
+export default compose(
+    withTranslation("meta"),
+    observer,
+)(BaseGridTableHeader);

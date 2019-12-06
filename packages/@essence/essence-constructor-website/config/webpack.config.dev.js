@@ -12,6 +12,7 @@ const ManifestPlugin = require("webpack-manifest-plugin");
 const ModuleNotFoundPlugin = require("react-dev-utils/ModuleNotFoundPlugin");
 const HtmlWebpackIncludeAssetsPlugin = require("html-webpack-include-assets-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+// Const CircularDependencyPlugin = require("circular-dependency-plugin");
 const paths = require("./paths");
 const getClientEnvironment = require("./env");
 
@@ -163,7 +164,7 @@ module.exports = {
          * `web` extension prefixes have been added for better support
          * for React Native Web.
          */
-        extensions: [".mjs", ".web.js", ".js", ".json", ".web.jsx", ".jsx"],
+        extensions: [".mjs", ".web.js", ".js", ".json", ".web.jsx", ".jsx", ".ts", ".tsx"],
         alias: {
             /*
              * Support React Native Web
@@ -226,8 +227,8 @@ module.exports = {
                      * The preset includes JSX, Flow, and some ESnext features.
                      */
                     {
-                        test: /\.(js|mjs|jsx)$/,
-                        include: [paths.appSrc, paths.appComponentsSrc, paths.appShareSrc],
+                        test: /\.(js|mjs|jsx|ts|tsx)$/,
+                        include: [paths.appSrc, paths.appComponentsSrc, paths.appClassesSrc],
                         loader: require.resolve("babel-loader"),
                         options: {
                             customize: require.resolve("babel-preset-react-app/webpack-overrides"),
@@ -436,6 +437,18 @@ module.exports = {
             manifest: require("../../essence-constructor-dll/dist/manifest_essence.json"),
             name: "essenceconstructorshare",
         }),
+
+        /**
+         * Detect modules with circular dependencies when bundling with webpack.
+         *
+         * Circular dependencies are often a necessity in complex software,
+         * the presence of a circular dependency doesn't always imply a bug,
+         * but in the case where you believe a bug exists, this module may help find it.
+         *
+         * new CircularDependencyPlugin({
+         * exclude: /node_modules/,
+         * }),
+         */
     ],
 
     /*

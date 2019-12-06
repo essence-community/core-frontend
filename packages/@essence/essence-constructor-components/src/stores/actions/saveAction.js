@@ -4,6 +4,8 @@ import forOwn from "lodash/forOwn";
 import isArray from "lodash/isArray";
 import noop from "lodash/noop";
 import {toJS, type ObservableMap} from "mobx";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
+import {i18next} from "@essence/essence-constructor-share/utils";
 import {findGetGlobalKey} from "../../utils/findKey";
 import {loggerRoot} from "../../constants";
 import {isEmpty} from "../../utils/base";
@@ -129,7 +131,7 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
             (response) =>
                 // eslint-disable-next-line max-statements
                 new Promise((resolve) => {
-                    const check = pageStore.applicationStore.snackbarStore.checkValidResponseAction(
+                    const check = snackbarStore.checkValidResponseAction(
                         response,
                         pageStore.route,
                         (warningText) => {
@@ -153,10 +155,11 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
                                 }
                             });
                         },
+                        pageStore.applicationStore,
                     );
 
                     if (formData) {
-                        pageStore.applicationStore.snackbarStore.snackbarChangeStatusAction(
+                        snackbarStore.snackbarChangeStatusAction(
                             snackbarId,
                             check === 1 || check === 2 ? "uploaded" : "errorUpload",
                         );
@@ -191,13 +194,13 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
                 }),
         )
         .catch((error) => {
-            logger("Ошибка при сохранении данных:", error);
+            logger(i18next.t("27a9d844da20453195f59f75185d7c99"), error);
 
             if (formData) {
-                pageStore.applicationStore.snackbarStore.snackbarChangeStatusAction(snackbarId, "errorUpload");
+                snackbarStore.snackbarChangeStatusAction(snackbarId, "errorUpload");
             }
 
-            pageStore.applicationStore.snackbarStore.checkExceptResponse(error);
+            snackbarStore.checkExceptResponse(error, undefined, pageStore.applicationStore);
             pageStore.resetStepAction();
 
             return false;

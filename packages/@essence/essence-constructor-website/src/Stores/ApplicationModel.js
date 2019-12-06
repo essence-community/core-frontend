@@ -4,10 +4,8 @@ import {extendObservable, action, reaction, observable, type ObservableMap, when
 import delay from "lodash/delay";
 import forEach from "lodash/forEach";
 import forOwn from "lodash/forOwn";
-import groupBy from "lodash/groupBy";
 import noop from "lodash/noop";
 import {
-    SnackbarModel,
     RoutesModel,
     PagesModel,
     PageModel,
@@ -18,18 +16,20 @@ import {
     preference,
     BASE_URL,
     sendRequest,
-    MODULE_URL,
 } from "@essence/essence-constructor-components";
 import {
     camelCaseKeys,
     getFromStore,
     removeFromStore,
     saveToStore,
-    loadJS,
-    loadCSS,
-} from "@essence/essence-constructor-share/utils";
+    setModule,
+    loadFiles,
+} from "@essence/essence-constructor-share";
+import {VAR_LANG_ID, VAR_NAMESPACE_VALUE} from "@essence/essence-constructor-share/constants";
+import {i18next} from "@essence/essence-constructor-share/utils";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {history} from "../history";
-import {branchName, colors} from "../constants";
+import {BRANCH_NAME, colors} from "../constants";
 
 export type SessionType = {
     session: string,
@@ -44,7 +44,6 @@ export interface ApplicationModelType {
     +blockText: string;
     +cvLogin: string;
     +caActions: Array<number>;
-    +snackbarStore: any;
     +pagesStore: any;
     +isApplicationReady: boolean;
     +isBlock: boolean;
@@ -76,32 +75,6 @@ const getConfig = () => ({
     colors,
 });
 
-function loadFiles(files, isLocal) {
-    return Promise.all(
-        files.map((url) => {
-            const splitUrl = url.split(".");
-            const ext = splitUrl[splitUrl.length - 1];
-            const runner = ext === "js" ? loadJS : loadCSS;
-
-            if (ext === "js" || ext === "css") {
-                return new Promise((resolve) => {
-                    runner(
-                        isLocal ? `${url}?t=${Number(new Date())}` : url,
-                        () => {
-                            resolve();
-                            // eslint-disable-next-line no-console
-                            console.log(`loaded ${url}`);
-                        },
-                        document.body,
-                    );
-                });
-            }
-
-            return null;
-        }),
-    );
-}
-
 export class ApplicationModel implements ApplicationModelType {
     authData: Object;
 
@@ -110,8 +83,6 @@ export class ApplicationModel implements ApplicationModelType {
     cvLogin: string;
 
     caActions: Array<number>;
-
-    snackbarStore: any;
 
     routesStore: any;
 
@@ -148,7 +119,6 @@ export class ApplicationModel implements ApplicationModelType {
 
         this.routesStore = new RoutesModel({pageStore: globalPageStore});
         this.pagesStore = new PagesModel({applicationStore: this, routesStore: this.routesStore});
-        this.snackbarStore = new SnackbarModel({applicationStore: this, pageStore: globalPageStore});
         this.countConnect = 0;
         this.configs = getConfig();
 
@@ -173,6 +143,11 @@ export class ApplicationModel implements ApplicationModelType {
 
         extendObservable(this, {
             authData: authValues,
+            get authStore() {
+                return {
+                    userInfo: this.authData,
+                };
+            },
             blockText: "",
             caActions: authValues.caActions,
             cvLogin: authValues.cvLogin,
@@ -200,13 +175,12 @@ export class ApplicationModel implements ApplicationModelType {
         reaction(
             () => this.globalValues.toJS(),
             (globalValues) =>
-                // eslint-disable-next-line no-use-before-define
-                applicationStore.snackbarStore.snackbarOpenAction({
+                snackbarStore.snackbarOpenAction({
                     autoHidden: true,
                     hiddenTimeout: 0,
                     status: "debug",
                     text: renderGlobalValuelsInfo(globalValues),
-                    title: "Супер Глобальные переменные",
+                    title: "d2c071c58aca4b73853c1fcc6e2f08a3",
                 }),
         );
     };
@@ -271,40 +245,37 @@ export class ApplicationModel implements ApplicationModelType {
         }
     });
 
-    loadModules = () =>
+    loadModules = (moduleUrl: string) =>
         sendRequest({
-            gate: `${MODULE_URL}/manifests/manifest-${branchName}.json`,
-            list: true,
-            method: "GET",
-            params: {
-                ver: Number(new Date()),
+            json: {
+                filter: {
+                    clAvailable: 1,
+                    cvVersionApi: BRANCH_NAME,
+                },
             },
+            list: true,
+            query: "GetModuleList",
         })
-            .then((modules) => groupBy(modules, "name"))
-            .then((modulesStore) =>
-                sendRequest({list: true, query: "GetModuleList"}).then((modules) => ({
-                    modules: modules.filter((mod) => mod.clAvailable && Boolean(modulesStore[mod.cvName])),
-                    modulesStore,
-                })),
-            )
-            .then(({modules, modulesStore}) =>
-                Promise.all(
-                    modules.map(({cvName}) =>
-                        loadFiles(modulesStore[cvName][0].files.map((fileName) => `${MODULE_URL}${fileName}`), false),
-                    ),
-                ),
+            .then((modules) =>
+                modules.forEach(({cvName, cvVersion, ccConfig, ccManifest}) => {
+                    const files = JSON.parse(ccConfig).files.map(
+                        (fileName) => `${moduleUrl}/${cvName}/${cvVersion}${fileName}`,
+                    );
+
+                    setModule(cvName, files, camelCaseKeys(JSON.parse(ccManifest)));
+                }),
             )
             .catch((error) => {
-                this.snackbarStore.snackbarOpenAction({
+                snackbarStore.snackbarOpenAction({
                     status: "error",
-                    text: "Невозможно загрузить модули",
+                    text: "b9c874da6b0e4694b93db69088a556da",
                 });
-                this.snackbarStore.snackbarOpenAction(
+                snackbarStore.snackbarOpenAction(
                     {
                         status: "debug",
                         text: error.message,
                     },
-                    {cvName: "Модули"},
+                    {cvName: "02f274362cf847cba8d806687d237698"},
                 );
             });
 
@@ -314,8 +285,10 @@ export class ApplicationModel implements ApplicationModelType {
         }
 
         return Promise.all([
-            this.settingsStore.settings.moduleAvailable === "true" ? this.loadModules() : undefined,
-            this.snackbarStore.recordsStore.loadRecordsAction(),
+            this.settingsStore.settings.moduleAvailable === "true"
+                ? this.loadModules(this.settingsStore.settings.gSysModuleUrl)
+                : undefined,
+            snackbarStore.recordsStore.loadRecordsAction(),
             this.routesStore.recordsStore.loadRecordsAction(),
         ])
             .then(() => this.pagesStore.restorePagesAction(this.cvLogin))
@@ -368,11 +341,11 @@ export class ApplicationModel implements ApplicationModelType {
                 } else if (this.session) {
                     this.countConnect = 0;
                     delay(this.initWsClient, TIMEOUT_LONG_RECONNECT, this.session);
-                    this.snackbarStore.snackbarOpenAction(
+                    snackbarStore.snackbarOpenAction(
                         {
-                            pageName: "Оповещение",
+                            pageName: "2ff612aa52314ddea65a5d303c867eb8",
                             status: "error",
-                            text: "Ошибка подключения к серверу оповещения, превышен лимит попыток переподключения",
+                            text: "bcdc7e54547e405c9873b3ebea4f84c4",
                         },
                         {},
                     );
@@ -383,11 +356,11 @@ export class ApplicationModel implements ApplicationModelType {
                 this.wsClient = wsClient || this.wsClient;
             })
             .catch((err) => {
-                this.snackbarStore.snackbarOpenAction(
+                snackbarStore.snackbarOpenAction(
                     {
-                        pageName: "Оповещение",
+                        pageName: "2ff612aa52314ddea65a5d303c867eb8",
                         status: "error",
-                        text: err.message || "Ошибка подключения к серверу оповещения",
+                        text: err.message || "4b4ef9aed688462799f24efe8413da9f",
                     },
                     {},
                 );
@@ -400,9 +373,14 @@ export class ApplicationModel implements ApplicationModelType {
         json.forEach((event) => {
             switch (event.event) {
                 case "notification": {
-                    this.snackbarStore.checkValidResponseAction(camelCaseKeys(event.data), {
-                        cvName: "Оповещение",
-                    });
+                    snackbarStore.checkValidResponseAction(
+                        camelCaseKeys(event.data),
+                        {
+                            cvName: "2ff612aa52314ddea65a5d303c867eb8",
+                        },
+                        undefined,
+                        this,
+                    );
                     break;
                 }
                 case "mask": {
@@ -417,8 +395,12 @@ export class ApplicationModel implements ApplicationModelType {
                     this.reloadPageObjectAction(event.data.ck_page, event.data.ck_page_object);
                     break;
                 }
+                case "localization": {
+                    i18next.reloadResources(event.data[VAR_LANG_ID], event.data[VAR_NAMESPACE_VALUE]);
+                    break;
+                }
                 default: {
-                    throw new Error(`Ошибка получения оповещения ${msg.data}`);
+                    throw new Error(i18next.t("8fe6e023ee11462db952d62d6b8b265e", {message: msg.data}));
                 }
             }
         });

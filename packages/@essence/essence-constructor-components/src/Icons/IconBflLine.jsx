@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import SvgIcon from "@material-ui/core/SvgIcon";
+import {SvgIcon} from "@material-ui/core";
 
 type PropsType = {
     firstPathClassName?: string,

@@ -1,10 +1,11 @@
 // @flow
 import * as React from "react";
 import get from "lodash/get";
-import ButtonBase from "@material-ui/core/ButtonBase";
+import {ButtonBase} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {animate} from "@essence/essence-constructor-share/utils";
 import {Icon} from "@essence/essence-constructor-share/Icon";
+import {useDrop} from "react-dnd";
 import {styleTheme} from "../constants";
 
 const styles = (theme: any) => ({
@@ -18,6 +19,7 @@ const styles = (theme: any) => ({
         color: theme.palette.grey.arrow,
     },
     lightButton: {
+        borderBottom: `2px solid ${theme.palette.primary.main}`,
         borderLeft: `1px solid ${theme.palette.primary.main}`,
         borderRight: `1px solid ${theme.palette.primary.main}`,
         width: 30,
@@ -44,42 +46,56 @@ function calcLeftSctoll(toolbars: HTMLElement, scrollLeft: number): number {
     return maxWidth - toolbars.offsetWidth - scrollRight;
 }
 
-class ToolBarScrollButton extends React.Component<PropsType> {
-    handleCickScroll = (event: SyntheticEvent<HTMLButtonElement>) => {
-        const {direction} = this.props;
-        const {currentTarget} = event;
-        const toolbars: HTMLElement = get(currentTarget, "parentElement.children.1");
-        const scrollLeft =
-            direction === "left"
-                ? toolbars.scrollLeft - toolbars.offsetWidth
-                : toolbars.scrollLeft + toolbars.offsetWidth;
+const ToolBarScrollButton = ({direction, visible, classes}: PropsType) => {
+    // $FlowFixMe
+    const ref = React.useRef(null);
+    // $FlowFixMe
+    const handleCickScroll = React.useCallback(
+        (event: SyntheticEvent<HTMLButtonElement>) => {
+            const {currentTarget} = event;
+            const toolbars: HTMLElement = get(currentTarget, "parentElement.children.2");
+            const scrollLeft =
+                direction === "left"
+                    ? toolbars.scrollLeft - toolbars.offsetWidth
+                    : toolbars.scrollLeft + toolbars.offsetWidth;
 
-        const newScrollLeft =
-            direction === "left"
-                ? calcLeftSctoll(toolbars, scrollLeft)
-                : Math.floor(scrollLeft / MENU_WIDTH) * MENU_WIDTH;
+            const newScrollLeft =
+                direction === "left"
+                    ? calcLeftSctoll(toolbars, scrollLeft)
+                    : Math.floor(scrollLeft / MENU_WIDTH) * MENU_WIDTH;
 
-        animate("scrollLeft", toolbars, newScrollLeft);
-    };
+            animate("scrollLeft", toolbars, newScrollLeft);
+        },
+        [direction],
+    );
+    const [, drop] = useDrop({
+        accept: "page",
+        hover() {
+            if (!ref.current) {
+                return;
+            }
 
-    render() {
-        const {direction, visible, classes} = this.props;
+            ref.current.click();
+        },
+    });
 
-        return (
-            <ButtonBase
-                onClick={this.handleCickScroll}
-                className={styleTheme === "light" ? classes.lightButton : classes.button}
-                disableRipple
-                tabIndex="-1"
-            >
-                <Icon
-                    iconfont={direction === "left" ? "arrow-left" : "arrow-right"}
-                    size="2x"
-                    className={visible ? classes.active : classes.disable}
-                />
-            </ButtonBase>
-        );
-    }
-}
+    drop(ref);
+
+    return (
+        <ButtonBase
+            onClick={handleCickScroll}
+            className={styleTheme === "light" ? classes.lightButton : classes.button}
+            disableRipple
+            tabIndex="-1"
+            buttonRef={ref}
+        >
+            <Icon
+                iconfont={direction === "left" ? "arrow-left" : "arrow-right"}
+                size="2x"
+                className={visible ? classes.active : classes.disable}
+            />
+        </ButtonBase>
+    );
+};
 
 export default withStyles(styles)(ToolBarScrollButton);

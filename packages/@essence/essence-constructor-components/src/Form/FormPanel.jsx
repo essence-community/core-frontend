@@ -3,13 +3,58 @@ import * as React from "react";
 import {observer, disposeOnUnmount} from "mobx-react";
 import {reaction} from "mobx";
 import {compose} from "recompose";
-import Grid from "@material-ui/core/Grid/Grid";
+import {Grid} from "@material-ui/core";
 import {setComponent, mapComponents} from "@essence/essence-constructor-share";
 import {toColumnStyleWidth, camelCaseMemoized} from "@essence/essence-constructor-share/utils";
 import forOwn from "lodash/forOwn";
 import {findSetKey} from "../utils/findKey";
 import BuilderForm from "./BuilderForm";
 import {type PropsType, type StateType} from "./FormPanelTypes";
+
+const GRID_CONFIGS = {
+    hbox: {
+        direction: "row",
+        wrap: "nowrap",
+    },
+    "hbox-wrap": {
+        direction: "row",
+        wrap: "wrap",
+    },
+    vbox: {
+        direction: "column",
+        wrap: "nowrap",
+    },
+};
+
+const GRID_ALIGN_CONFIGS = {
+    "center-hbox": {
+        justify: "center",
+    },
+    "center-hbox-wrap": {
+        justify: "center",
+    },
+    "center-vbox": {
+        alignItems: "center",
+    },
+    "left-hbox": {
+        justify: "flex-start",
+    },
+    "left-hbox-wrap": {
+        justify: "flex-start",
+    },
+    "left-vbox": {
+        alignItems: "flex-start",
+    },
+    "right-hbox": {
+        justify: "flex-end",
+    },
+    "right-hbox-wrap": {
+        justify: "flex-end",
+    },
+    "right-vbox": {
+        alignItems: "flex-end",
+    },
+};
 
 class FormPanelComponent extends React.Component<PropsType, StateType> {
     state = {
@@ -61,8 +106,8 @@ class FormPanelComponent extends React.Component<PropsType, StateType> {
 
     render() {
         const {bc, disabled, pageStore, visible, parentBc} = this.props;
+        const {align = "stretch", contentview = "vbox"} = bc;
         const {initialValues} = this.state;
-        const {width} = bc;
 
         return (
             <BuilderForm
@@ -75,9 +120,13 @@ class FormPanelComponent extends React.Component<PropsType, StateType> {
                 initialValues={initialValues}
                 pageStore={pageStore}
                 hasMaster={parentBc && Boolean(parentBc.ckMaster) && parentBc.ckMaster !== bc.ckPageObject}
-                style={width ? {width} : undefined}
             >
-                <Grid container spacing={8} alignItems="center">
+                <Grid
+                    container
+                    spacing={2}
+                    {...GRID_CONFIGS[contentview]}
+                    {...GRID_ALIGN_CONFIGS[`${align}-${contentview}`]}
+                >
                     {mapComponents(bc.childs, (ChildComp, child) => (
                         <Grid item key={child.ckPageObject} xs={12} style={toColumnStyleWidth(child.width)}>
                             <ChildComp

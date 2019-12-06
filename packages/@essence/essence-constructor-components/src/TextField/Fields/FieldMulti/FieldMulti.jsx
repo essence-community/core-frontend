@@ -5,9 +5,9 @@ import {compose} from "recompose";
 import last from "lodash/last";
 import camelCase from "lodash/camelCase";
 import {withStyles} from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import {Grid, Button} from "@material-ui/core";
 import validatorjs from "validatorjs";
-import Button from "@material-ui/core/Button";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import BuilderMobxForm from "../../../Components/MobxForm/BuilderMobxForm";
 import withModelDecorator from "../../../decorators/withModelDecorator";
 import {AddrMultiField} from "../../../stores/AddrMultiField";
@@ -31,7 +31,7 @@ type OwnPropsType = TextFieldChildProps & {
 type PropsStoreType = {
     store: FieldMultuStoreType,
 };
-type PropsType = PropsStoreType & OwnPropsType;
+type PropsType = PropsStoreType & OwnPropsType & WithT;
 
 const datatypeClass = {
     addr: AddrMultiField,
@@ -160,14 +160,15 @@ export class FieldMultiBase extends React.Component<PropsType> {
     };
 
     renderTextField = ({onOpen}: PopoverChildrenParamsType) => {
-        const {store, field, disabled, bc, tabIndex, error, errorText, style} = this.props;
+        // eslint-disable-next-line id-length
+        const {store, field, disabled, bc, tabIndex, error, errorText, style, t} = this.props;
 
         return (
             <SearchTextField
                 errorText={errorText}
                 store={store}
                 fullWidth
-                label={field.label}
+                label={t(field.label)}
                 disabled={disabled}
                 error={error}
                 onClick={onOpen}
@@ -182,7 +183,8 @@ export class FieldMultiBase extends React.Component<PropsType> {
     };
 
     renderPopup = ({onClose}: PopoverChildrenParamsType) => {
-        const {classes, store, pageStore, disabled, bc, visible, readOnly} = this.props;
+        // eslint-disable-next-line id-length
+        const {classes, store, pageStore, disabled, bc, visible, readOnly, t} = this.props;
         const handleAccept = (event) => {
             this.handleAccept();
             onClose(event);
@@ -194,7 +196,7 @@ export class FieldMultiBase extends React.Component<PropsType> {
 
         return (
             <div ref={this.popoverRef}>
-                <Grid container direction="column" spacing={8} className={classes.wrapper}>
+                <Grid container direction="column" spacing={1} className={classes.wrapper} wrap="nowrap">
                     <FieldMultiLoader store={store} className={classes.progressWrapper} />
                     {this.props.store.builderConfigs.map((config) => (
                         <Grid key={config.ckPageObject} item>
@@ -209,18 +211,18 @@ export class FieldMultiBase extends React.Component<PropsType> {
                         </Grid>
                     ))}
                     <Grid item>
-                        <Grid container justify="flex-end" spacing={8}>
+                        <Grid container justify="flex-end" spacing={1}>
                             <Grid item>
                                 <Button
                                     data-page-object={`${bc.ckPageObject}-accept`}
                                     disabled={disabled}
                                     disableRipple
-                                    data-qtip="Выбрать"
+                                    data-qtip={t("147bb56012624451971b35b1a4ef55e6")}
                                     onClick={handleAccept}
                                     color="primary"
                                     variant="contained"
                                 >
-                                    Выбрать
+                                    {t("147bb56012624451971b35b1a4ef55e6")}
                                 </Button>
                             </Grid>
                             <Grid item>
@@ -228,12 +230,12 @@ export class FieldMultiBase extends React.Component<PropsType> {
                                     data-page-object={`${bc.ckPageObject}-cancel`}
                                     disabled={disabled}
                                     disableRipple
-                                    data-qtip="Отменить"
+                                    data-qtip={t("3d27a32643ed4a7aa52b7e4b8a36806b")}
                                     onClick={handleCancel}
                                     color="secondary"
                                     variant="contained"
                                 >
-                                    Отменить
+                                    {t("3d27a32643ed4a7aa52b7e4b8a36806b")}
                                 </Button>
                             </Grid>
                         </Grid>
@@ -272,5 +274,6 @@ export default compose(
     withModelDecorator(
         (bc, {pageStore}: OwnPropsType): FieldMultuStoreType => new datatypeClass[bc.datatype]({bc, pageStore}),
     ),
+    withTranslation("meta"),
     observer,
 )(FieldMultiBase);

@@ -11,8 +11,8 @@ const TabMenuContextStyleDark = (theme: Object) => ({
         color: theme.palette.text.light,
         cursor: "pointer",
         maxHeight: theme.sizing.gridRowHeight,
-        paddingLeft: theme.spacing.unit,
-        paddingRight: theme.spacing.unit,
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1),
     },
     listItemDivider: {
         borderBottomWidth: 2,

@@ -1,0 +1,6 @@
+{
+    "extends": "@essence/eslint-config-essence-react",
+    "rules": {
+        "no-undef-init": "off"
+    }
+}

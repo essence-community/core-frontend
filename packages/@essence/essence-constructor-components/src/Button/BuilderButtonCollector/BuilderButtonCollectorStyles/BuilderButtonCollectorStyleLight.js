@@ -29,7 +29,7 @@ const BuilderButtonCollectorStyleLight = (theme) => ({
     },
     listItem: {
         "&:hover, &:focus": {
-            backgroundColor: theme.palette.grey.modal,
+            backgroundColor: theme.essence.ui.modal.palette.background,
             outline: "none",
         },
         "&:last-child": {
@@ -40,8 +40,8 @@ const BuilderButtonCollectorStyleLight = (theme) => ({
         maxHeight: theme.sizing.gridRowHeight,
         maxWidth: 500,
         minWidth: 0,
-        paddingLeft: theme.spacing.unit,
-        paddingRight: theme.spacing.unit,
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1),
     },
     popoverRoot: {
         "&:before": {

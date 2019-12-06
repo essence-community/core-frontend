@@ -4,8 +4,17 @@ import {themeDarkOverrides} from "./themeDarkOverrides";
 
 export const themeDark = {
     palette: {
+        action: {
+            active: "rgba(0, 0, 0, 0.54)",
+            disabled: "rgba(0, 0, 0, 0.26)",
+            disabledBackground: "rgba(0, 0, 0, 0.12)",
+            hover: "rgba(0, 0, 0, 0.08)",
+            hoverOpacity: 0.08,
+            selected: "rgba(0, 0, 0, 0.14)",
+        },
         background: {
             default: "rgba(240,248,255,0.78)",
+            paper: "#fff",
         },
         button: {
             background: {
@@ -41,7 +50,6 @@ export const themeDark = {
             info: "#dbdfef",
             light: "#dfdfdf",
             main: "#cbcaca",
-            modal: "#2c3345",
             shadow: "rgb(203, 202, 202, 0.4)",
         },
         icon: {
@@ -61,34 +69,90 @@ export const themeDark = {
         text: {
             dark: "#2c3345",
             disabled: "#2c3345",
+            hint: "rgba(0, 0, 0, 0.38)",
             light: "#dbdfef",
+            primary: "rgba(0, 0, 0, 0.87)",
+            secondary: "rgba(0, 0, 0, 0.54)",
         },
         transparent: {
             main: "transparent",
         },
+        type: "dark",
     },
     sizing: {
         appbarHeight: 45,
         controlPanelWidth: 58,
         gridRowHeight: 30,
     },
-    spacing: {
-        unit: 8,
-    },
     typography: {
         fontFamily: "'Roboto Light', 'Roboto Regular', 'Roboto'",
         useNextVariants: true,
     },
     zIndex: {
-        backdrop: 3,
         combo: 1900,
         drawer: 1700,
         grid: 2,
         linkPopover: 3,
-        loader: 1600,
         scroller: 2,
         tooltip: 2000,
     },
+    /* eslint-disable sort-keys */
+    essence: {
+        ui: {
+            modal: {
+                palette: {
+                    background: "#2c3345",
+                },
+            },
+            notification: {
+                palette: {
+                    gray: "#939393",
+                },
+            },
+        },
+        palette: {
+            common: {
+                black: "#000",
+                disabled: "#7f828d",
+                link: "#0000EE",
+                selectedMenu: "#f98d00",
+                selectedRecord: "#c8cfde",
+                selectedRecordBorder: "#60dfff",
+                stripeRecord: "#f3f3f5",
+                success: "#0f9d58",
+                warning: "#fff82a",
+                white: "#fff",
+            },
+            icon: {
+                secondary: "#80838d",
+            },
+            grey: {
+                arrow: "#CBCDE0",
+                authDisableBtn: "#4c5260",
+                backgroundInput: "#fafafa",
+                checkbox: "#e5e8f4",
+                disable: "#bbb",
+                info: "#dbdfef",
+                light: "#dfdfdf",
+                main: "#cbcaca",
+                shadow: "rgb(203, 202, 202, 0.4)",
+            },
+            text: {
+                dark: "#2c3345",
+                disabled: "#2c3345",
+                light: "#dbdfef",
+            },
+        },
+        zIndex: {
+            backdrop: 3,
+            loader: 1600,
+        },
+        sizing: {
+            appBarHeight: 45,
+            gridRowHeight: 30,
+        },
+    },
+    /* eslint-enable sort-keys */
 };
 
 export default {

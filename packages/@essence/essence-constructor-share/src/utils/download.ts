@@ -1,10 +1,10 @@
-// @flow
 import axios from "axios";
-import {BASE_URL} from "../constants";
-import {setMask} from "../models/RecordsModel";
-import {baseRequest} from "../request/baseRequest";
+import {setMask} from "../models/RecordsModel/loadRecordsAction";
+import {request} from "../request";
 import {IPageModel} from "../types/PageModel";
 import {ISnackbarModel} from "../types/SnackbarModel";
+import {FieldValue, IRecord, IResponse, IApplicationModel} from "../types";
+import {VAR_RECORD_RES_DOWNLOAD_URL} from "../constants";
 
 interface IPrintBC {
     ckParent: string;
@@ -21,23 +21,27 @@ interface IReloadPageObject {
 }
 
 interface IPrint {
-    values: {[key: string]: any};
+    applicationStore: IApplicationModel;
+    values: Record<string, FieldValue>;
     bcBtn: IPrintBC;
     bc: IPrintBC;
     isOnline: boolean;
-    session: string;
     snackbarStore: ISnackbarModel;
     pageStore: IPageModel;
     reloadPageObject?: IReloadPageObject;
     timeout?: string;
 }
 
+interface IResult extends IResponse, IRecord {
+    [VAR_RECORD_RES_DOWNLOAD_URL]: string | undefined;
+}
+
 export const print = async ({
+    applicationStore,
     values: {...values},
     bc,
     bcBtn,
     isOnline,
-    session,
     snackbarStore,
     pageStore,
     reloadPageObject,
@@ -45,8 +49,8 @@ export const print = async ({
 }: IPrint) => {
     values.ckId = null;
     values.clOnline = Number(isOnline);
-    setMask(bcBtn.noglobalmask, pageStore, true);
-    const res = await baseRequest({
+    setMask(true, bcBtn.noglobalmask, pageStore);
+    const result: any = await request({
         action: "dml",
         gate: bc.ckDEndpoint,
         json: {
@@ -58,27 +62,28 @@ export const print = async ({
         },
         pageObject: bc.ckParent,
         plugin: bcBtn.extraplugingate || bc.extraplugingate,
-        query: bcBtn.updateQuery || "Modify",
-        session,
+        query: bcBtn.updatequery || "Modify",
+        session: applicationStore.authStore.userInfo.session,
         timeout,
     });
+    const res: IResult = result;
 
-    setMask(bcBtn.noglobalmask, pageStore, false);
-    const isValid = snackbarStore.checkValidResponseAction(res, pageStore.route);
+    setMask(false, bcBtn.noglobalmask, pageStore);
+    const isValid = snackbarStore.checkValidResponseAction(res, pageStore.route, undefined, applicationStore);
 
-    if (isValid && isOnline) {
-        window.open(res.cvUrl);
+    if (isValid && isOnline && res[VAR_RECORD_RES_DOWNLOAD_URL]) {
+        window.open(res[VAR_RECORD_RES_DOWNLOAD_URL]);
     }
 
     return isValid;
 };
 
-export const downloadFile = (cvName: string, queryParams: string) => {
+export const downloadFile = (cvName: string, queryParams: string, gate: string) => {
     const form = document.createElement("form");
 
     form.setAttribute("method", "post");
     form.setAttribute("name", cvName);
-    form.setAttribute("action", `${BASE_URL}?${queryParams}`);
+    form.setAttribute("action", `${gate}?${queryParams}`);
     if (document.body) {
         document.body.appendChild(form);
     }
@@ -103,7 +108,7 @@ const createLink = (blobURL: string, filename: string, expotType: string) => {
     document.body.removeChild(tempLink);
 };
 
-export const downloadImage = (url: string, filename?: string, expotType: string = "jpg") => {
+export const downloadImage = (url: string, filename = "", expotType = "jpg") => {
     if (url.indexOf("http") === -1) {
         createLink(url, filename, expotType);
     } else {

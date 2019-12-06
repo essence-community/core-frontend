@@ -7,10 +7,9 @@ import {observer, disposeOnUnmount} from "mobx-react";
 import noop from "lodash/noop";
 import camelCase from "lodash/camelCase";
 import {withStyles} from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
+import {Grid, Table, TableBody} from "@material-ui/core";
 import {parse} from "@essence/essence-constructor-share/utils/parser";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import Scrollbars, {type ReactCustomScrollbarsType} from "../Components/Scrollbars/Scrollbars";
 import {isEmpty} from "../utils/base";
 import EmptyTitle from "../Components/EmptyTitle/EmptyTitle";
@@ -39,7 +38,7 @@ import GridBaseButtons from "./GridButtons/GridBaseButtons";
 import BaseGridTableHeader from "./BaseGridTableHeader";
 import GridColgroup from "./GridComponents/GridColgroup";
 
-type PropsType = {|
+type PropsType = WithT & {|
     classes: Object,
     bc: BuilderGridType,
     children: React.Node,
@@ -385,7 +384,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
                         />
                     ) : null}
                 </Grid>
-                {bc.spliter === "true" ? (
+                {bc.splitter === "true" ? (
                     <Grid item>
                         <VerticalResizer
                             height={store.gridHeight}
@@ -399,16 +398,16 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
     }
 
     renderWarning = () => (
-        <div className={this.props.classes.warning}>
-            Необходимо заполнить orderproperty для дальнейшей работы таблицы
-        </div>
+        <div className={this.props.classes.warning}>{this.props.t("40dd53ff1c214bfab79ecd40612de8f5")}</div>
     );
 
     render() {
-        const {bc, store, classes, disabled, hideTitle, readOnly, pageStore, visible} = this.props;
+        // eslint-disable-next-line id-length
+        const {bc, store, classes, disabled, hideTitle, readOnly, pageStore, visible, t} = this.props;
         const {filters = [], childwindow = [], orderproperty} = bc;
         const hideactionsDark = bc.hideactions === "true" && pageStore.styleTheme === "dark";
         const isInlineEditing = store.isEdit && bc.edittype === "inline" && childwindow.length === 0;
+        const transCvDisplayed = t(bc.cvDisplayed);
 
         return (
             <React.Fragment>
@@ -422,7 +421,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
                                 bc={filter}
                                 parentBc={bc}
                                 iconColor="inherit"
-                                title={hideTitle ? undefined : bc.cvDisplayed}
+                                title={hideTitle ? undefined : transCvDisplayed}
                                 open={store.isFilterOpen}
                                 onChangeCollapse={this.handleChangeCollapse}
                                 pageStore={pageStore}
@@ -434,7 +433,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
                     </Grid>
                     <Grid item>
                         {hideTitle ? null : (
-                            <EmptyTitle title={bc.cvDisplayed} filters={filters} hideactions={hideactionsDark} />
+                            <EmptyTitle title={transCvDisplayed} filters={filters} hideactions={hideactionsDark} />
                         )}
                     </Grid>
                     <Grid item xs className={store.isInlineEditing ? "panel-editing-focus" : undefined}>
@@ -486,5 +485,6 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
 
 export default compose(
     withStyles(styles),
+    withTranslation("meta"),
     observer,
 )(BuilderBaseGridBase);

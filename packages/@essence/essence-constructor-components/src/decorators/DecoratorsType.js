@@ -1,8 +1,9 @@
 // @flow
+import {WithT} from "@essence/essence-constructor-share/utils";
 import {type PageModelType} from "../stores/PageModel";
 import {type BuilderFieldType} from "../TextField/BuilderFieldType";
 
-export type WithFieldPropsType = {
+export type WithFieldPropsType = WithT & {
     autoremove?: boolean,
     parentKey?: string,
     bc: BuilderFieldType,

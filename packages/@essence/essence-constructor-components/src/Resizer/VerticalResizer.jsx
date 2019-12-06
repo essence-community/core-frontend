@@ -2,6 +2,8 @@
 import * as React from "react";
 import {createPortal} from "react-dom";
 import {withStyles} from "@material-ui/core/styles";
+import cn from "classnames";
+import {VerticalSizerIcon} from "@essence/essence-constructor-share/icons";
 import {getCoords} from "../utils/html";
 import VerticalResizerStyles from "./VerticalResizerStyles";
 
@@ -16,9 +18,11 @@ type PropsType = {
 };
 
 type StateType = {
+    down: boolean,
     lineY: number,
     lineYLeft: number,
     lineWidth: number,
+    over: boolean,
     startOffset: number,
 };
 
@@ -31,16 +35,27 @@ class VerticalResizer extends React.Component<PropsType, StateType> {
     };
 
     state = {
+        down: false,
         lineWidth: 0,
         lineY: 0,
         lineYLeft: 0,
+        over: false,
         startOffset: 0,
     };
+
+    resizerRef = React.createRef();
 
     componentWillUnmount() {
         document.removeEventListener("mouseup", this.handleMouseUp);
         document.removeEventListener("mousemove", this.handleMouseMove);
     }
+
+    setCursorPosition = (clientX: number, clientY: number) => {
+        if (this.resizerRef.current) {
+            this.resizerRef.current.style.top = clientY;
+            this.resizerRef.current.style.left = clientX;
+        }
+    };
 
     handleMouseDown = (event: SyntheticMouseEvent<HTMLDivElement>) => {
         const {currentTarget} = event;
@@ -50,27 +65,36 @@ class VerticalResizer extends React.Component<PropsType, StateType> {
         event.stopPropagation();
 
         this.setState({
+            down: true,
             lineWidth: currentTarget.offsetWidth,
             lineY: event.pageY,
             lineYLeft: left,
             startOffset: top + currentTarget.offsetHeight,
         });
-
         document.addEventListener("mousemove", this.handleMouseMove);
         document.addEventListener("mouseup", this.handleMouseUp);
+
+        if (document.body) {
+            document.body.classList.add("cursor-hidden");
+        }
     };
 
     handleMouseMove = (event: MouseEvent) => {
+        const {down} = this.state;
         const {minHeight, maxHeight, height} = this.props;
         const newHeight = event.pageY - this.state.startOffset + height;
 
-        if (newHeight < minHeight - LINE_HEIGHT) {
-            this.setState({lineY: event.pageY + minHeight - newHeight - LINE_HEIGHT});
-        } else if (newHeight > maxHeight) {
-            this.setState({lineY: event.pageY - newHeight + maxHeight});
-        } else {
-            this.setState({lineY: event.pageY});
+        if (down) {
+            if (newHeight < minHeight - LINE_HEIGHT) {
+                this.setState({lineY: event.pageY + minHeight - newHeight - LINE_HEIGHT});
+            } else if (newHeight > maxHeight) {
+                this.setState({lineY: event.pageY - newHeight + maxHeight});
+            } else {
+                this.setState({lineY: event.pageY});
+            }
         }
+
+        this.setCursorPosition(event.clientX, event.clientY);
     };
 
     handleChangeHeight = (event: MouseEvent) => {
@@ -90,20 +114,49 @@ class VerticalResizer extends React.Component<PropsType, StateType> {
 
     handleMouseUp = (event: MouseEvent) => {
         this.handleChangeHeight(event);
-        this.setState({lineY: 0, startOffset: 0});
+        this.setState({
+            down: false,
+            lineY: 0,
+            startOffset: 0,
+        });
         document.removeEventListener("mousemove", this.handleMouseMove);
         document.removeEventListener("mouseup", this.handleMouseUp);
+
+        if (document.body) {
+            document.body.classList.remove("cursor-hidden");
+        }
+    };
+
+    // $FlowFixMe
+    handleMouseEnter = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const {clientX, clientY} = event;
+
+        this.setState({over: true}, () => {
+            this.setCursorPosition(clientX, clientY);
+        });
+        document.addEventListener("mousemove", this.handleMouseMove);
+    };
+
+    handleMouseLeave = () => {
+        this.setState({over: false});
+
+        if (!this.state.down) {
+            document.removeEventListener("mousemove", this.handleMouseMove);
+        }
     };
 
     render() {
-        const {lineY, lineYLeft, lineWidth} = this.state;
+        const {lineY, lineYLeft, lineWidth, over, down} = this.state;
         const {classes} = this.props;
 
         return (
             <React.Fragment>
-                <div className={classes.resizer} onMouseDown={this.handleMouseDown}>
-                    <span className={classes.btn}>...</span>
-                </div>
+                <div
+                    className={classes.resizer}
+                    onMouseDown={this.handleMouseDown}
+                    onMouseEnter={this.handleMouseEnter}
+                    onMouseLeave={this.handleMouseLeave}
+                />
                 {document.body && lineY
                     ? createPortal(
                           <div
@@ -114,6 +167,17 @@ class VerticalResizer extends React.Component<PropsType, StateType> {
                                   width: lineWidth,
                               }}
                           />,
+                          document.body,
+                      )
+                    : null}
+                {document.body && (over || down)
+                    ? createPortal(
+                          <VerticalSizerIcon
+                              ref={this.resizerRef}
+                              fontSize="large"
+                              className={cn(classes.resizerIcon, {[classes.resizerIconDown]: down})}
+                          />,
+                          // $FlowFixMe
                           document.body,
                       )
                     : null}

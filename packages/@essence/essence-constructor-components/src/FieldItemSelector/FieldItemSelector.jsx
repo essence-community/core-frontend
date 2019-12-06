@@ -4,7 +4,7 @@ import camelCase from "lodash/camelCase";
 import {compose} from "recompose";
 import {reaction} from "mobx";
 import {observer} from "mobx-react";
-import Grid from "@material-ui/core/Grid";
+import {Grid} from "@material-ui/core";
 import {toSize} from "@essence/essence-constructor-share/utils";
 import {setComponent, getComponent} from "@essence/essence-constructor-share";
 import {loggerRoot} from "../constants";
@@ -41,8 +41,8 @@ const logger = loggerRoot.extend("FieldItemSelector");
 export class FieldItemSelectorBase extends React.Component<PropsType, StateType> {
     buttonsConfig: Array<Object>;
 
-    constructor(props?: PropsType, context?: any) {
-        super(props, context);
+    constructor(props: PropsType) {
+        super(props);
 
         const {
             bc: {childs, ckPageObject},
@@ -67,7 +67,7 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
         this.buttonsConfig = [
             {
                 ckPageObject: `${ckPageObject}-add-all`,
-                cvDisplayed: "Добавить все",
+                cvDisplayed: "d78431bbcb484da4b516bc00626965ba",
                 handlerFn: this.addAll,
                 iconfont: "fa-angle-double-right",
                 iconfontname: "fa",
@@ -76,7 +76,7 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
             {
                 ckMaster: fieldFrom.ckPageObject,
                 ckPageObject: `${ckPageObject}-add-selected`,
-                cvDisplayed: "Добавить выделенное",
+                cvDisplayed: "833289fd818f4340b584beb9068f670b",
                 handlerFn: this.addSelected,
                 iconfont: "fa-angle-right",
                 iconfontname: "fa",
@@ -87,7 +87,7 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
             {
                 ckMaster: fieldTo.ckPageObject,
                 ckPageObject: `${ckPageObject}-remove-selected`,
-                cvDisplayed: "Удалить выделенное",
+                cvDisplayed: "67677d8e457c409daaef5fe5b90ec491",
                 handlerFn: this.removeSelected,
                 iconfont: "fa-angle-left",
                 iconfontname: "fa",
@@ -97,7 +97,7 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
             },
             {
                 ckPageObject: `${ckPageObject}-remove-all`,
-                cvDisplayed: "Удалить все",
+                cvDisplayed: "c4684efb2ea444f4b9192db3c4b4b843",
                 handlerFn: this.removeAll,
                 iconfont: "fa-angle-double-left",
                 iconfontname: "fa",
@@ -212,7 +212,7 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
         }
 
         return (
-            <Grid container wrap="nowrap" spacing={8} data-page-object={ckPageObject} alignItems="center">
+            <Grid container wrap="nowrap" spacing={1} data-page-object={ckPageObject} alignItems="center">
                 <Grid item xs zeroMinWidth style={baseStyle}>
                     {ComponentFieldFrom ? (
                         <ComponentFieldFrom

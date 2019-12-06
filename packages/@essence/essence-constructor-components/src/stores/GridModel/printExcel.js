@@ -1,6 +1,7 @@
 // @flow
 import get from "lodash/get";
-import {snakeCaseKeys} from "@essence/essence-constructor-share/utils";
+import {snakeCaseKeys, i18next} from "@essence/essence-constructor-share/utils";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {type RecordsModelType} from "../RecordsModel";
 import {
     getFilterData,
@@ -49,15 +50,15 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
                 column: val.column || "",
                 currencysign: val.currencysign || "",
                 cvDescription: val.cvDescription || "",
-                cvDisplayed: val.cvDisplayed || "",
+                cvDisplayed: i18next.t(val.cvDisplayed) || "",
                 datatype: val.datatype || "",
                 decimalprecision: val.decimalprecision ? parseInt(val.decimalprecision, 10) : 2,
                 decimalseparator: val.decimalseparator ? val.decimalseparator : ",",
                 format: val.format || "",
                 thousandseparator: val.thousandseparator ? val.thousandseparator : " ",
             })),
-        cvDescription: bc.cvDescription || "",
-        cvDisplayed: bc.cvDisplayed || "",
+        cvDescription: i18next.t(bc.cvDescription) || "",
+        cvDisplayed: i18next.t(bc.cvDisplayed) || "",
         excelname: values.excelname,
         type: bc.type || "",
     };
@@ -81,9 +82,11 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
     })
         .then((res) => {
             setMask("false", pageStore, false);
-            const isValid: number = pageStore.applicationStore.snackbarStore.checkValidResponseAction(
+            const isValid: number = snackbarStore.checkValidResponseAction(
                 res,
                 pageStore.route,
+                undefined,
+                pageStore.applicationStore,
             );
 
             if (isValid) {

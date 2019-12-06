@@ -1,6 +1,5 @@
 // @flow
 import * as React from "react";
-import MaterialTab from "@material-ui/core/Tab";
 import omit from "lodash/omit";
 import commonDecorator from "../decorators/commonDecorator";
 import {type PageModelType} from "../stores/PageModel";
@@ -16,9 +15,10 @@ type PropsType = {
     pageStore: PageModelType,
     isActive: boolean,
     store: TabModelType,
+    Component: React.ComponentType<any>,
 };
 
-const OMIT_PROPS = ["visible", "isActive", "pageStore", "bc", "store"];
+const OMIT_PROPS = ["visible", "isActive", "pageStore", "bc", "store", "Component"];
 
 class Tab extends React.Component<PropsType> {
     componentDidMount() {
@@ -44,10 +44,10 @@ class Tab extends React.Component<PropsType> {
     };
 
     render() {
-        const {hidden} = this.props;
+        const {hidden, Component} = this.props;
 
         return (
-            <MaterialTab
+            <Component
                 style={{display: hidden ? "none" : undefined}}
                 {...omit(this.props, OMIT_PROPS)}
                 hidden={hidden}

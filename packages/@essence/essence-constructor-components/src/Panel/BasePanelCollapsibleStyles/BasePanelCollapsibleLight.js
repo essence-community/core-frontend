@@ -30,8 +30,11 @@ export const BasePanelCollapsibleLight = (theme: any) => ({
         cursor: "pointer",
         display: "flex",
         height: 35,
-        paddingLeft: `${theme.spacing.unit * 4}px !important`,
+        paddingLeft: `${theme.spacing(4)}px !important`,
         position: "relative",
+    },
+    collapseContainer: {
+        width: "100%",
     },
     collapseContent: {
         border: `1px solid ${theme.palette.grey.main}`,
@@ -40,6 +43,7 @@ export const BasePanelCollapsibleLight = (theme: any) => ({
     },
     editCollapseContainer: {
         backgroundColor: theme.palette.common.white,
+        width: "100%",
         zIndex: 4,
     },
     labelGrid: {
@@ -59,7 +63,7 @@ export const BasePanelCollapsibleLight = (theme: any) => ({
         cursor: "pointer",
         display: "flex",
         height: 35,
-        paddingLeft: `${theme.spacing.unit * 4}px !important`,
+        paddingLeft: `${theme.spacing(4)}px !important`,
         position: "relative",
     },
     labelTypography: {
@@ -69,5 +73,8 @@ export const BasePanelCollapsibleLight = (theme: any) => ({
         fontSize: 14,
         paddingRight: 16,
         zIndex: 1,
+    },
+    root: {
+        width: "100%",
     },
 });

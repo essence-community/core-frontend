@@ -1,9 +1,8 @@
 // @flow
 import * as React from "react";
-import PropTypes from "prop-types";
 import {observer} from "mobx-react";
-import DialogActions from "@material-ui/core/DialogActions";
-import {mapComponents} from "@essence/essence-constructor-share";
+import {DialogActions} from "@material-ui/core";
+import {mapComponents, EditorContex} from "@essence/essence-constructor-share";
 import {type PageModelType} from "../../stores/PageModel";
 
 type PropsType = {
@@ -18,9 +17,7 @@ const SAVE_COMPONENT_PROPS = {
 };
 
 class BuilderWindowButtonCustom extends React.Component<PropsType> {
-    static contextTypes = {
-        form: PropTypes.object,
-    };
+    static contextType = EditorContex;
 
     buttons: Array<Object> = [];
 
@@ -29,7 +26,7 @@ class BuilderWindowButtonCustom extends React.Component<PropsType> {
 
         if (props.btns) {
             this.buttons = props.btns.map((bc) => ({
-                confirmquestion: bc.handler === "onCloseWindow" ? "Отменить?" : undefined,
+                confirmquestion: bc.handler === "onCloseWindow" ? "9b475e25ae8a40b0b158543b84ba8c08" : undefined,
                 confirmquestionposition: "top",
                 ...bc,
             }));

@@ -1,10 +1,10 @@
 // @flow
 import * as React from "react";
-import PropTypes from "prop-types";
 import {observer} from "mobx-react";
 import compose from "recompose/compose";
-import Grid from "@material-ui/core/Grid";
+import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
+import {EditorContex} from "@essence/essence-constructor-share";
 import {styleTheme} from "../../constants";
 import {getModeTitle} from "../../utils/string";
 import {type GridModelType} from "../../stores/GridModel";
@@ -23,9 +23,7 @@ type PropsType = {
 };
 
 class InlineButtons extends React.Component<PropsType> {
-    static contextTypes = {
-        form: PropTypes.object,
-    };
+    static contextType = EditorContex;
 
     handlePerformData = () => {
         const {form} = this.context;
@@ -39,7 +37,7 @@ class InlineButtons extends React.Component<PropsType> {
         const isDarkTheme = styleTheme === "dark";
 
         return (
-            <Grid container spacing={8} alignItems="center" direction={isDarkTheme ? "column" : "row"}>
+            <Grid container spacing={1} alignItems="center" direction={isDarkTheme ? "column" : "row"}>
                 <Grid item>
                     <BuilderMobxButton
                         bc={overrides["Override Save Button"]}

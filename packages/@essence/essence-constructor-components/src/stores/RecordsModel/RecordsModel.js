@@ -10,6 +10,7 @@ import get from "lodash/get";
 import noop from "lodash/noop";
 import omit from "lodash/omit";
 import pLimit from "p-limit";
+import {i18next} from "@essence/essence-constructor-share/utils";
 import {loggerRoot} from "../../constants";
 import {isEmpty} from "../../utils/base";
 import {type BuilderModeType} from "../../BuilderType";
@@ -121,7 +122,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
 
     loadRecordsAction = action("loadRecordsAction", ({selectedRecordId, status = "load"} = {}) => {
         if (isEmpty(this.bc.ckQuery)) {
-            logger("Не могу загрузить данны. Не задан ck_query для конфига:", this.bc);
+            logger(i18next.t("0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
 
             return Promise.resolve();
         }
@@ -273,7 +274,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
         let result = false;
 
         if (this.selectedRecord) {
-            result = await this.saveAction(this.selectedRecord, "3", options);
+            result = await this.saveAction(this.selectedRecord, "3", {...options, query: options.actionBc.updatequery});
         }
 
         return result;
@@ -320,27 +321,24 @@ export class RecordsModel implements RecordsModelInterface<Object> {
         this.loadRecordsAction();
     });
 
-    searchAction = action(
-        "searchAction",
-        (values: Object, options = {}): Promise<null | Object> => {
-            const {filter, reset, noLoad, resetFilter, selectedRecordId} = options;
+    searchAction = action("searchAction", (values: Object, options = {}): Promise<null | Object> => {
+        const {filter, reset, noLoad, resetFilter, selectedRecordId} = options;
 
-            if (!isEqual(this.searchValues, values) || !isEqual(this.filter, filter)) {
-                this.pageNumber = 0;
-            }
-            this.searchValues = values;
+        if (!isEqual(this.searchValues, values) || !isEqual(this.filter, filter)) {
+            this.pageNumber = 0;
+        }
+        this.searchValues = values;
 
-            if (reset || resetFilter || !isUndefined(filter)) {
-                this.filter = filter;
-            }
+        if (reset || resetFilter || !isUndefined(filter)) {
+            this.filter = filter;
+        }
 
-            if (reset) {
-                this.clearRecordsAction();
-            }
+        if (reset) {
+            this.clearRecordsAction();
+        }
 
-            return noLoad ? Promise.resolve(null) : this.loadRecordsAction({selectedRecordId});
-        },
-    );
+        return noLoad ? Promise.resolve(null) : this.loadRecordsAction({selectedRecordId});
+    });
 
     setSearchValuesAction = action("setSearchValuesAction", (values: Object) => {
         this.searchValues = values;
@@ -351,11 +349,10 @@ export class RecordsModel implements RecordsModelInterface<Object> {
         const property = camelCase(this.order.property);
         const records = [...this.records];
 
-        records.sort(
-            (rec1, rec2) =>
-                direction === "DESC"
-                    ? Number(rec1[property] < rec2[property]) || -Number(rec1[property] > rec2[property])
-                    : Number(rec1[property] > rec2[property]) || -Number(rec1[property] < rec2[property]),
+        records.sort((rec1, rec2) =>
+            direction === "DESC"
+                ? Number(rec1[property] < rec2[property]) || -Number(rec1[property] > rec2[property])
+                : Number(rec1[property] > rec2[property]) || -Number(rec1[property] < rec2[property]),
         );
 
         this.recordsState = {

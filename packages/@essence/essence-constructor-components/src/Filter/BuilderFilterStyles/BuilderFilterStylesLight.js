@@ -24,7 +24,7 @@ const BuilderFilterStylesLight = (theme: any) => ({
             borderRight: `2px solid ${theme.palette.primary.main}`,
             borderTop: `2px solid ${theme.palette.primary.main}`,
             borderTopRightRadius: 6,
-            bottom: -3,
+            bottom: -5,
             // eslint-disable-next-line quotes
             content: '""',
             height: 40,
@@ -44,10 +44,11 @@ const BuilderFilterStylesLight = (theme: any) => ({
     },
     titleContainer: {
         display: "inline-flex",
-        marginLeft: theme.spacing.unit * 3,
+        marginLeft: theme.spacing(3),
         overflow: "hidden",
     },
     titleTypography: {
+        color: theme.palette.text.primary,
         fontSize: 22,
         overflow: "hidden",
         textOverflow: "ellipsis",

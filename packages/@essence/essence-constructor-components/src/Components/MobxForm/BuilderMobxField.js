@@ -54,7 +54,7 @@ const getValue = (value, {bc, fieldSet, fieldSetObj, output}) => {
 };
 
 /*
- * Заоверайдил parseCheckArray, 
+ * Заоверайдил parseCheckArray,
  * оригинал:
  * https://github.com/foxhound87/mobx-react-form/blob/bd6b0dbf075672620f0580bc3fac66c8c218e717/src/parser.js#L49
  */

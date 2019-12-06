@@ -2,9 +2,8 @@
 import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
 import {observer} from "mobx-react";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
+import {Grid, Paper, Typography} from "@material-ui/core";
+import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
 
 const styles = (theme) => ({
     grid: {
@@ -26,23 +25,26 @@ const styles = (theme) => ({
     },
 });
 
-type PropsType = {
+type PropsType = WithT & {
     classes: Object,
     applicationStore: Object,
 };
 
-const BaseBlock = ({applicationStore, classes = {}}: PropsType) =>
+// eslint-disable-next-line id-length
+const BaseBlock = ({applicationStore, classes = {}, t}: PropsType) =>
     applicationStore.isBlock ? (
         <div className={classes.root}>
-            <Grid container className={classes.grid} spacing={16} alignItems="center" direction="row" justify="center">
+            <Grid container className={classes.grid} spacing={2} alignItems="center" direction="row" justify="center">
                 <Grid item>
                     <Paper className={classes.paper} elevation={8}>
-                        Предупреждение
-                        <Typography color="inherit">{applicationStore.blockText}</Typography>
+                        {t("e6f8166771e04b849855254c5d926ff6")}
+                        <Typography variant="body2" color="inherit">
+                            {applicationStore.blockText}
+                        </Typography>
                     </Paper>
                 </Grid>
             </Grid>
         </div>
     ) : null;
 
-export const Block = withStyles(styles)(observer(BaseBlock));
+export const Block = withTranslation("meta")(withStyles(styles)(observer(BaseBlock)));

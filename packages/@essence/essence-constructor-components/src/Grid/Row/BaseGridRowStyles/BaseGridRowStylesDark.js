@@ -7,15 +7,13 @@ export const BaseGridRowStylesDark = (theme: any) => ({
         },
         "&$selectedDetail": {
             backgroundColor: theme.palette.common.selectedRecord,
-            boxShadow: `inset -1px -1px 0px 1px ${theme.palette.common.selectedRecordBorder}, inset 1px -1px 0px 1px ${
-                theme.palette.common.selectedRecordBorder
-            }`,
+            // eslint-disable-next-line max-len
+            boxShadow: `inset -1px -1px 0px 1px ${theme.palette.common.selectedRecordBorder}, inset 1px -1px 0px 1px ${theme.palette.common.selectedRecordBorder}`,
         },
         "&$selectedDetailExpanded": {
             backgroundColor: theme.palette.common.selectedRecord,
-            boxShadow: `inset -1px 1px 0px 1px ${theme.palette.common.selectedRecordBorder}, inset 1px 1px 0px 1px ${
-                theme.palette.common.selectedRecordBorder
-            }`,
+            // eslint-disable-next-line max-len
+            boxShadow: `inset -1px 1px 0px 1px ${theme.palette.common.selectedRecordBorder}, inset 1px 1px 0px 1px ${theme.palette.common.selectedRecordBorder}`,
         },
     },
 });

@@ -1,21 +1,20 @@
 /* eslint-disable max-lines */
 // @flow
 import * as React from "react";
-import PropTypes from "prop-types";
 import get from "lodash/get";
 import cn from "classnames";
 import {compose} from "recompose";
 import {observer} from "mobx-react";
 import {type ObserverCallPropsType, Field} from "mobx-react-form";
 import {withStyles} from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
+import {IconButton, InputAdornment} from "@material-ui/core";
 import {setComponent, Icon} from "@essence/essence-constructor-share";
 import commonDecorator from "../decorators/commonDecorator";
 import {isEmpty} from "../utils/base";
 import {makeRedirect} from "../utils/redirect";
 import withFieldDecorator from "../decorators/withFieldDecorator";
 import {getFieldInstance} from "./Fields";
+import TextField from "./TextField";
 import {type BuilderFieldType, type BuilderFieldPropsType} from "./BuilderFieldType";
 import {disabledSelfGlobal, inputTypes} from "./TFUtils/TFConstants";
 import {initGetGlobal, initSetGlobal} from "./TFUtils/TFGlobals";
@@ -32,10 +31,6 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
 
     static defaultProps = {
         editing: true,
-    };
-
-    static contextTypes = {
-        mode: PropTypes.string,
     };
 
     static getDerivedStateFromProps({disabled, editing}: BuilderFieldPropsType) {
@@ -124,7 +119,7 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
             await this.props.pageStore.addFieldValueMaster(ckPageObject, change.newValue);
 
             this.props.pageStore.stores.forEach((store) => {
-                if (store.bc && store.bc.ckMaster === ckPageObject) {
+                if (store && store.bc && store.bc.ckMaster === ckPageObject) {
                     store.reloadStoreAction();
                     store.clearAction && store.clearAction();
                 }
@@ -291,6 +286,7 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
                 visible={visible}
                 error={Boolean(!disabled && !field.get("isValid"))}
                 tabIndex={tabIndex}
+                textField={TextField}
             />
         );
     }

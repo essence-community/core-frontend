@@ -1,8 +1,9 @@
 // @flow
 import * as React from "react";
-import Grid from "@material-ui/core/Grid/Grid";
+import {Paper, Grid} from "@material-ui/core";
 import {setComponent, mapComponents} from "@essence/essence-constructor-share";
-import Paper from "@material-ui/core/Paper";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {compose} from "recompose";
 import {buttonDirection} from "../constants";
 import Content from "../Components/Content/Content";
 import EmptyTitle from "../Components/EmptyTitle/EmptyTitle";
@@ -13,7 +14,7 @@ import BasePanelCollapsible from "./BasePanelCollapsible";
 import BuilderFormPanel from "./BuilderFormPanel";
 import Panel from "./Panel/Panel";
 
-class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType, {isMounted: boolean}> {
+class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType & WithT, {isMounted: boolean}> {
     static defaultProps = {
         direction: "column",
         topPanel: false,
@@ -37,7 +38,7 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType, {i
 
         if (topbtn.length > 0 || (isForm && pageStore.styleTheme === "dark")) {
             return (
-                <Grid container alignItems="center" direction={buttonDirection} spacing={8}>
+                <Grid container alignItems="center" direction={buttonDirection} spacing={1}>
                     {mapComponents(topbtn, (ChildComp, child) => (
                         <Grid item key={child.ckPageObject}>
                             <ChildComp
@@ -92,13 +93,14 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType, {i
     };
 
     renderPanel(isThemePanelWrapper: boolean) {
-        const {bc, editing, readOnly, elevation} = this.props;
+        // eslint-disable-next-line id-length
+        const {bc, editing, readOnly, elevation, t} = this.props;
         const {collapsible, cvDisplayed} = bc;
 
         if (collapsible === "true") {
             return (
                 <BasePanelCollapsible
-                    title={cvDisplayed}
+                    title={t(cvDisplayed)}
                     editing={readOnly ? false : editing}
                     bc={bc}
                     renderBasePanel={this.renderBasePanel}
@@ -111,8 +113,9 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType, {i
 
     // eslint-disable-next-line max-statements
     render() {
-        const {bc, editing, hidden, visible, hideTitle, elevation, classNameRoot, topPanel} = this.props;
-        const {editmodepanel} = bc;
+        // eslint-disable-next-line id-length
+        const {bc, editing, hidden, visible, hideTitle, elevation, classNameRoot, topPanel, t} = this.props;
+        const {editmodepanel, hideactions} = bc;
         const isForm = editmodepanel === "true" && typeof editing === "undefined";
 
         if (hidden || !this.state.isMounted) {
@@ -127,12 +130,12 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType, {i
         const isThemePanelWrapper = Boolean(actions || isForm || Boolean(this.props.childRef));
         let content = this.renderPanel(isThemePanelWrapper);
 
-        if (isThemePanelWrapper) {
+        if (isThemePanelWrapper && hideactions !== "true") {
             if (bc.cvDisplayed && !hideTitle && bc.type !== "BOX") {
                 content = (
                     <Grid container spacing={0} direction="column">
                         <Grid item>
-                            <EmptyTitle title={bc.cvDisplayed} filters={bc.filters} slim={false} />
+                            <EmptyTitle title={t(bc.cvDisplayed)} filters={bc.filters} slim={false} />
                         </Grid>
                         <Grid item>
                             <ThemePanelWrapper
@@ -177,7 +180,10 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType, {i
     }
 }
 
-const BuilderBasePanel = commonDecorator(BaseBuilderBasePanel);
+const BuilderBasePanel = compose(
+    withTranslation("meta"),
+    commonDecorator,
+)(BaseBuilderBasePanel);
 
 setComponent("PANEL", BuilderBasePanel);
 setComponent("BOX", BuilderBasePanel);

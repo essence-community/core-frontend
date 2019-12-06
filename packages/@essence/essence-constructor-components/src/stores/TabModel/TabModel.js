@@ -22,6 +22,10 @@ export class TabModel extends StoreBaseModel implements TabModelType {
 
     openedTabs: OpenedTabsType;
 
+    activeInHidden: boolean;
+
+    hiddenTabsIndex: number;
+
     constructor(props: StoreBaseModelPropsType) {
         super(props);
 
@@ -39,6 +43,12 @@ export class TabModel extends StoreBaseModel implements TabModelType {
         });
 
         extendObservable(this, {
+            get activeInHidden() {
+                const activeTabIndex = this.reverseTabs.findIndex((tabBc) => this.tabValue === tabBc.ckPageObject);
+
+                return activeTabIndex < this.hiddenTabsIndex;
+            },
+            hiddenTabsIndex: 0,
             openedTabs: observable.map(),
             tabValue: this.bc.childs && this.bc.childs.length ? this.bc.childs[0].ckPageObject : null,
         });
@@ -82,13 +92,15 @@ export class TabModel extends StoreBaseModel implements TabModelType {
     };
 
     getActiveTabs = (): Array<Object> =>
-        this.tabs.filter(
-            (tab): boolean => {
-                const status = this.tabStatus[tab.ckPageObject];
+        this.tabs.filter((tab): boolean => {
+            const status = this.tabStatus[tab.ckPageObject];
 
-                return status ? !status.disabled && !status.hidden : true;
-            },
-        );
+            return status ? !status.disabled && !status.hidden : true;
+        });
+
+    setHiddenTabsIndex = (hiddenTabsIndex: number) => {
+        this.hiddenTabsIndex = hiddenTabsIndex;
+    };
 
     resetOpenedTabs = () => {
         this.openedTabs.clear();

@@ -1,10 +1,9 @@
 // @flow
 import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Dialog from "@material-ui/core/Dialog/Dialog";
-import Button from "@material-ui/core/Button";
-import DialogContent from "@material-ui/core/DialogContent";
+import {Grid, Dialog, Button, DialogContent} from "@material-ui/core";
+import {compose} from "recompose";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import Scrollbars from "../Components/Scrollbars/Scrollbars";
 import {type PageModelType} from "../stores/PageModel";
@@ -69,23 +68,25 @@ const WindowMessage = ({
     ckPageObject,
     maxWidth,
     disableRestoreFocus,
-}: PropsType) => {
+    // eslint-disable-next-line id-length
+    t,
+}: PropsType & WithT) => {
     const content = (
         <React.Fragment>
             <DialogContent className={classes.rootContent}>
-                <Grid container alignItems="center" spacing={16} wrap="nowrap">
+                <Grid container alignItems="center" spacing={2} wrap="nowrap">
                     <Grid item>
                         <Icon iconfont={statusIcons[status]} size="2x" color="grey" />
                     </Grid>
                     <Grid item className={classes.content} xs zeroMinWidth>
                         <Scrollbars autoHeight autoHeightMax={180} pageStore={pageStore}>
-                            {children}
+                            {typeof children === "string" ? t(children) : children}
                         </Scrollbars>
                     </Grid>
                 </Grid>
             </DialogContent>
             <div className={classes.rootActions}>
-                <Grid container justify="flex-end" spacing={8}>
+                <Grid container justify="flex-end" spacing={1}>
                     <Grid item>
                         <Button
                             onClick={onAccept}
@@ -96,7 +97,7 @@ const WindowMessage = ({
                             data-page-object={`${ckPageObject}-accept`}
                             autoFocus
                         >
-                            {textAccept}
+                            {t(textAccept)}
                         </Button>
                     </Grid>
                     <Grid item>
@@ -108,7 +109,7 @@ const WindowMessage = ({
                             disableFocusRipple
                             data-page-object={`${ckPageObject}-decline`}
                         >
-                            {textDecline}
+                            {t(textDecline)}
                         </Button>
                     </Grid>
                 </Grid>
@@ -147,6 +148,7 @@ const WindowMessage = ({
                 paperWidthMd: classes.rootDialogWidthMd,
                 paperWidthSm: classes.rootDialogWidthSm,
             }}
+            style={{position: "absolute"}}
             hideBackdrop={hideBackdrop}
             disableRestoreFocus={disableRestoreFocus}
         >
@@ -156,12 +158,15 @@ const WindowMessage = ({
 };
 
 WindowMessage.defaultProps = {
-    children: "Отменить?",
+    children: "9b475e25ae8a40b0b158543b84ba8c08",
     hideBackdrop: true,
     status: "info",
-    textAccept: "Да",
-    textDecline: "Нет",
-    title: "Подтверждение",
+    textAccept: "dacf7ab025c344cb81b700cfcc50e403",
+    textDecline: "f0e9877df106481eb257c2c04f8eb039",
+    title: "ec238e2ccc1842d780b140a4bbedfdaf",
 };
 
-export default withStyles(styles)(WindowMessage);
+export default compose(
+    withTranslation("meta"),
+    withStyles(styles),
+)(WindowMessage);

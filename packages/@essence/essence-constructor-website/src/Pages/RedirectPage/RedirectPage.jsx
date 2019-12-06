@@ -3,10 +3,11 @@
 import * as React from "react";
 import {inject, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button/Button";
-import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
-import {loggerRoot, PageLoader, preference} from "@essence/essence-constructor-components";
+import {Grid, Button} from "@material-ui/core";
+import {compose} from "recompose";
+import {camelCaseKeys, WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {PageLoader} from "@essence/essence-constructor-share";
+import {loggerRoot, preference} from "@essence/essence-constructor-components";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import {type AuthModelType} from "../../Stores/AuthModel";
 import AppBarAuth from "../../Components/AppBarAuth";
@@ -15,7 +16,7 @@ import {history} from "../../history";
 import AppBar from "../../Components/AppBar";
 import styles from "./RedirectPageStyles";
 
-type PropsType = {
+type PropsType = WithT & {
     applicationStore: ApplicationModelType,
     authStore: AuthModelType,
     classes?: Object,
@@ -78,10 +79,10 @@ class RedirectPage extends React.Component<PropsType, StateType> {
             const params = JSON.parse(data);
 
             if (!params.page) {
-                logger("Страница не обнаружена или заполнена неверно!");
+                logger(this.props.t("1764da1153734ec8b4fc4cf48cc78c88"));
                 // eslint-disable-next-line no-negated-condition
             } else if (!params.filter) {
-                logger("Не найдена информация о фильтрации!");
+                logger(this.props.t("e7f66e6d5b5340909ea4ded06f5a034f"));
             } else {
                 return params;
             }
@@ -106,24 +107,33 @@ class RedirectPage extends React.Component<PropsType, StateType> {
     };
 
     render() {
-        const {classes = {}, applicationStore} = this.props;
+        // eslint-disable-next-line id-length
+        const {classes = {}, applicationStore, t} = this.props;
         const {params} = this.state;
         const isAuthorized = Boolean(applicationStore.session);
 
         const content = (
             <Grid container justify="center" alignItems="center" className={classes.root}>
                 <Grid item>
-                    <Grid container className={classes.panel} spacing={8} direction="column" justify="center">
-                        <Grid item>Вы пытаетесь перейти на страницу c такими параметрами:</Grid>
+                    <Grid container className={classes.panel} spacing={1} direction="column" justify="center">
+                        <Grid item>{t("b35d5fa33cb14a1db46c4f684dc14037")}</Grid>
                         {params ? (
                             <React.Fragment>
-                                <Grid item>Страница: {params.page} </Grid>
-                                <Grid item>Фильтр: {JSON.stringify(params.filter)}</Grid>
+                                <Grid item>{t("6f93ca102d5f488aa3082e0344486e9e", {page: params.page})}</Grid>
+                                <Grid item>
+                                    {t("dda349a2de0049408168eb5d148442df", {filter: JSON.stringify(params.filter)})}
+                                </Grid>
                             </React.Fragment>
                         ) : (
-                            <Grid item>Параметры заданы не верно</Grid>
+                            <Grid item>{t("86d945313cbd41beb5f5068c2696bcec")}</Grid>
                         )}
-                        <Grid item>Статус авторизации: {isAuthorized ? "авторизирован" : "не авторизирован"}</Grid>
+                        <Grid item>
+                            {t("6512d68884cd4848ba6129655dec51d4", {
+                                status: isAuthorized
+                                    ? t("0d9c5a0b816947a781f02baad2c2ce22")
+                                    : t("e8281a11d60542c684f76ffab31216aa"),
+                            })}
+                        </Grid>
                         <Grid item className={classes.btnContainer}>
                             <Button
                                 type="submit"
@@ -132,7 +142,9 @@ class RedirectPage extends React.Component<PropsType, StateType> {
                                 disableRipple
                                 disabled={!params}
                             >
-                                {isAuthorized ? "Продолжить" : "Войти"}
+                                {isAuthorized
+                                    ? t("fad9bcdb1bf54640ab58d1781546c72c")
+                                    : t("82eafeb106eb41aaa205152471b1b7b6")}
                             </Button>
                         </Grid>
                     </Grid>
@@ -161,4 +173,9 @@ class RedirectPage extends React.Component<PropsType, StateType> {
     }
 }
 
-export default inject(mapStoresToProps)(withStyles(styles)(observer(RedirectPage)));
+export default compose(
+    inject(mapStoresToProps),
+    withStyles(styles),
+    withTranslation("meta"),
+    observer,
+)(RedirectPage);

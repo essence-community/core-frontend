@@ -4,6 +4,7 @@ import forOwn from "lodash/forOwn";
 import {Form, Field} from "mobx-react-form";
 import {camelCaseMemoized} from "@essence/essence-constructor-share/utils";
 import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
+import {VALUE_SELF_FIRST} from "@essence/essence-constructor-share/constants";
 import {type PageModelType} from "../../stores/PageModel";
 import {findSetKey} from "../../utils/findKey";
 import {toStringGlobal} from "../../utils/globalStringify";
@@ -31,7 +32,7 @@ export const initGetGlobal = ({form, field, pageStore, bc, store}: InitGetGlobal
                 let value = "";
 
                 if (name.charAt(0) === "g") {
-                    value = globalValues.get(name);
+                    value = globalValues.has(name) ? globalValues.get(name) : "";
                 } else if (store) {
                     value = store.selectedRecord ? store.selectedRecord[name] : "";
                 } else {
@@ -56,7 +57,7 @@ export const initGetGlobal = ({form, field, pageStore, bc, store}: InitGetGlobal
             }
         },
         {
-            fireImmediately: isEmpty(field.value) || field.value === "first",
+            fireImmediately: isEmpty(field.value) || field.value === VALUE_SELF_FIRST,
         },
     );
 };

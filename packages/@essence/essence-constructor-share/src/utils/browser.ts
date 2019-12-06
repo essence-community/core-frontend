@@ -2,15 +2,13 @@ export const isIE = () => {
     const ua = window.navigator.userAgent;
     const msie = ua.indexOf("MSIE ");
 
-    return msie > 0 || Boolean(navigator.userAgent.match(/Trident.*rv:11\./));
+    return msie > 0 || Boolean(navigator.userAgent.match(/Trident.*rv:11\./u));
 };
 
-export const getAbsoluteOffsetFromGivenElement = (el?: HTMLElement, relativeEl?: HTMLElement) => {
-    let currentEl: HTMLElement = el;
-    // tslint:disable:variable-name
-    let _x: number = 0;
-    // tslint:disable:variable-name
-    let _y: number = 0;
+export const getAbsoluteOffsetFromGivenElement = (el: null | HTMLElement, relativeEl?: HTMLElement) => {
+    let currentEl: HTMLElement | null = el;
+    let _x = 0;
+    let _y = 0;
 
     if (!relativeEl) {
         return {left: _x, top: _y};
@@ -25,10 +23,10 @@ export const getAbsoluteOffsetFromGivenElement = (el?: HTMLElement, relativeEl?:
     return {left: _x, top: _y};
 };
 
-export const loadJS = (url: string, implementationCode: () => void, location: HTMLBodyElement | HTMLDivElement) => {
+export const loadJS = (url: string, implementationCode: () => void, location: HTMLElement) => {
     /*
      * Url is URL of external file, implementationCode is the code
-     * to be called from the file, location is the location to 
+     * to be called from the file, location is the location to
      * insert the <script> element
      */
 
@@ -43,10 +41,10 @@ export const loadJS = (url: string, implementationCode: () => void, location: HT
     location.appendChild(scriptTag);
 };
 
-export const loadCSS = (url: string, implementationCode: () => void, location: HTMLBodyElement | HTMLDivElement) => {
+export const loadCSS = (url: string, implementationCode: () => void, location: HTMLElement) => {
     /*
      * Url is URL of external file, implementationCode is the code
-     * to be called from the file, location is the location to 
+     * to be called from the file, location is the location to
      * insert the <script> element
      */
 
@@ -62,3 +60,29 @@ export const loadCSS = (url: string, implementationCode: () => void, location: H
 
     location.appendChild(linkTag);
 };
+
+export function loadFiles(files: string[], isLocal = false) {
+    return Promise.all(
+        files.map((url) => {
+            const splitUrl = url.split(".");
+            const ext = splitUrl[splitUrl.length - 1];
+            const runner = ext === "js" ? loadJS : loadCSS;
+
+            if (ext === "js" || ext === "css") {
+                return new Promise((resolve) => {
+                    runner(
+                        isLocal ? `${url}?t=${Number(new Date())}` : url,
+                        () => {
+                            resolve();
+                            // eslint-disable-next-line no-console
+                            console.log(`loaded ${url}`);
+                        },
+                        document.body,
+                    );
+                });
+            }
+
+            return null;
+        }),
+    );
+}

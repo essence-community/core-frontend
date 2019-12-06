@@ -1,10 +1,17 @@
+/*
+ * Import isEmptyLodash from "lodash/isEmpty";
+ * import {isEmpty} from "../utils";
+ * import {getMasterData, getMasterObject} from "../models/RecordsModel/RecordsModelUtils";
+ */
+import {IBuilderConfig, IPageModel, IRecordsModel} from "../types";
+
 interface ICheckAutoloadPropsType {
-    bc: any;
-    pageStore: any;
-    recordsStore?: any;
+    bc: IBuilderConfig;
+    pageStore: IPageModel;
+    recordsStore?: IRecordsModel;
 }
 
-export function checkAutoload({bc, pageStore, recordsStore}: ICheckAutoloadPropsType) {
+export function checkAutoload({bc, recordsStore}: ICheckAutoloadPropsType) {
     if (!recordsStore || bc.datatype === "tree" || bc.datatype === "grid") {
         return false;
     }
@@ -13,11 +20,13 @@ export function checkAutoload({bc, pageStore, recordsStore}: ICheckAutoloadProps
         return true;
     }
 
-    // if (!isEmpty(bc.ckMaster)) {
-    //     return !isEmptyLodash(
-    //         getMasterData(getMasterObject(bc.ckMaster, pageStore), bc.idproperty || "ck_id", pageStore.globalValues),
-    //     );
-    // }
+    /*
+     * If (!isEmpty(bc.ckMaster) && pageStore) {
+     *     return !isEmptyLodash(
+     *         getMasterData(getMasterObject(bc.ckMaster, pageStore), bc.idproperty || "ck_id", pageStore.globalValues),
+     *     );
+     * }
+     */
 
     return false;
 }

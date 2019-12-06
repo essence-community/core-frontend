@@ -22,10 +22,12 @@ function getModifyMock({pageObject}: RequestType) {
 
 const mocks = {
     DIdentityDocType: comboRecords,
-    GetMetamodelPage: (requestConfig: RequestType) => {
+    "GetMetamodelPage2.0": (requestConfig: RequestType) => {
         try {
             // $FlowFixMe
-            return require(`../../mocks/page/${requestConfig.json.filter.ckPage}.json`);
+            const bc = require(`../../mocks/page/${requestConfig.json.filter.ckPage}.json`);
+
+            return {children: bc};
         } catch (exeption) {
             return [];
         }

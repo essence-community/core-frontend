@@ -3,12 +3,9 @@ import * as React from "react";
 import {compose} from "recompose";
 import {observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Dialog from "@material-ui/core/Dialog/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import {toSize, toColumnStyleWidth} from "@essence/essence-constructor-share/utils";
+import cn from "classnames";
+import {Grid, Dialog, DialogTitle, Checkbox, FormControlLabel} from "@material-ui/core";
+import {toSize, toColumnStyleWidth, withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import {getComponent, Icon} from "@essence/essence-constructor-share";
 import Scrollbars from "../Components/Scrollbars/Scrollbars";
 import BuilderField from "../TextField/BuilderField";
@@ -36,7 +33,7 @@ const renderScrollView = ({style, ...props}: any) => (
     />
 );
 
-class BuilderWindow extends React.Component<BuilderWindowPropsType> {
+class BuilderWindow extends React.Component<BuilderWindowPropsType & WithT> {
     contentStyle: Object;
 
     constructor(props: BuilderWindowPropsType) {
@@ -76,19 +73,22 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType> {
     };
 
     render() {
-        const {store, pageStore, classes, theme = {}, visible} = this.props;
+        // eslint-disable-next-line id-length
+        const {store, pageStore, classes, theme = {}, visible, t} = this.props;
         const {
             autobuild,
             ckPageObject,
             checkaddmore,
             stepnamenext,
             wintype = "base",
+            align,
             bottombtn,
             cvDescription,
             title,
             cvDisplayed,
         } = store.windowBc;
-        const windowTitle = title || cvDisplayed || `${getModeTitle(store.config.mode)} ${cvDescription || ""}`;
+        const windowTitle =
+            t(title) || t(cvDisplayed) || `${getModeTitle(store.config.mode)} ${t(cvDescription, cvDescription) || ""}`;
         const autoHeightMax = `calc(90vh - ${theme.sizing.appbarHeight +
             WINDOW_HEADER_HEIGHT +
             WINDOW_BOTTOM_HEIGHT}px)`;
@@ -104,7 +104,7 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType> {
                             disableRipple
                         />
                     }
-                    label="Добавить ещё"
+                    label={t("ba416597affb4e3a91b1be3f8e0c8960")}
                     classes={{label: classes.addMoreLabelColor}}
                     data-page-object={`${ckPageObject}-add-more`}
                 />
@@ -112,9 +112,13 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType> {
 
         return (
             <Dialog
-                classes={{paper: classes[`winsize-${wintype}`]}}
+                classes={{
+                    container: classes[`dialod-align-${align}`],
+                    paper: cn(classes[`winsize-${wintype}`], classes[`paper-align-${align}`]),
+                }}
                 open
                 container={pageStore.pageEl}
+                style={{position: "absolute"}}
                 onClose={this.handleCloseDialog}
                 fullWidth
                 data-page-object={ckPageObject}
@@ -140,7 +144,7 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType> {
                         <Grid
                             container
                             direction="column"
-                            spacing={8}
+                            spacing={1}
                             className={classes.content}
                             wrap="nowrap"
                             style={this.contentStyle}
@@ -149,7 +153,7 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType> {
                                 let fieldBc = field;
                                 const isDisabled = !checkEditable(store.config.mode, fieldBc.editmode);
 
-                                if (isDisabled && field.visibileinwindow === "false") {
+                                if (isDisabled && field.visibleinwindow === "false") {
                                     return null;
                                 }
 
@@ -202,5 +206,6 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType> {
 
 export default compose(
     withStyles(styles, {withTheme: true}),
+    withTranslation("meta"),
     observer,
 )(BuilderWindow);

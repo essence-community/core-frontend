@@ -5,6 +5,8 @@ import noop from "lodash/noop";
 import pick from "lodash/pick";
 import omit from "lodash/omit";
 import flattenDepth from "lodash/flattenDepth";
+import {parse} from "@essence/essence-constructor-share/utils/parser";
+import {type PageModelType} from "../PageModel";
 import {type BuilderBaseType, type BuilderModeType} from "../../BuilderType";
 import {type GridModelType} from "../GridModel/GridModelType";
 import {StoreBaseModel} from "../StoreBaseModel";
@@ -25,8 +27,8 @@ const getDetailColumns = (detailBc?: Array<BuilderBaseType>) => {
     }
 
     return flattenDepth(
-        detailBc.map(
-            (panel) => (panel.childs ? panel.childs.map((child) => (child.childs ? child.childs : child)) : []),
+        detailBc.map((panel) =>
+            panel.childs ? panel.childs.map((child) => (child.childs ? child.childs : child)) : [],
         ),
         2,
     )
@@ -34,14 +36,31 @@ const getDetailColumns = (detailBc?: Array<BuilderBaseType>) => {
         .map((field) => omit(field, FIELD_OMIT_ATTRIBUTES_AUTOBUILD));
 };
 
-const getChilds = ({bc, gridStore}) => {
+const getValidChild = (
+    editors: Array<BuilderBaseType>,
+    pageStore: PageModelType,
+    values?: Object,
+): BuilderBaseType | {} => {
+    const getValue = (name) => (values && values[name] ? values[name] : pageStore.globalValues.get(name));
+
+    const findEditor = editors.find((editor: BuilderBaseType) => {
+        return !editor.activerules || parse(editor.activerules).runer({get: getValue});
+    });
+
+    // If not found fallback to first editor
+    return findEditor || editors[0];
+};
+
+const getChilds = ({bc, gridStore, pageStore, values}) => {
     const columns =
         bc.edittype === "inline" && gridStore ? gridStore.gridColumns : [...(bc.columns || []), ...(bc.childs || [])];
     const fieldHoistAttributes = FIELD_HOIST_ATTRIBUTES;
 
     const childs = columns.map((field: Object) => {
         const fieldProps =
-            field.editors && field.editors !== "false" && field.editors.length > 0 ? field.editors[0] : field;
+            field.editors && field.editors !== "false" && field.editors.length > 0
+                ? getValidChild(field.editors, pageStore, values)
+                : field;
 
         return {
             column: field.column,
@@ -49,7 +68,8 @@ const getChilds = ({bc, gridStore}) => {
             ...(bc.autobuild === "true" ? omit(fieldProps, FIELD_OMIT_ATTRIBUTES_AUTOBUILD) : fieldProps),
             // eslint-disable-next-line sort-keys
             cvDisplayed: field.cvDisplayed,
-            visibileinwindow: field.visibileinwindow,
+            edittype: bc.edittype,
+            visibleinwindow: field.visibleinwindow,
             ...pick(field, fieldHoistAttributes),
             ...(bc.edittype === "inline" ? {width: "100%"} : {}),
         };
@@ -92,7 +112,7 @@ export class WindowModel extends StoreBaseModel implements WindowModelInterface 
             mode,
         };
 
-        this.childs = getChilds({bc, gridStore});
+        this.childs = getChilds({bc, gridStore, pageStore, values});
 
         extendObservable(
             this,
@@ -158,29 +178,6 @@ export class WindowModel extends StoreBaseModel implements WindowModelInterface 
         },
     );
 
-    onUpdateModule = async (mode: BuilderModeType, btnBc: BuilderBaseType, props: WindowSaveConfigType) => {
-        const {form} = props;
-
-        await form.validate({showErrors: true});
-
-        if (form.isValid && this.gridStore) {
-            const success = await this.gridStore.onUpdateModule(
-                btnBc.modeaction || btnBc.mode || this.config.mode,
-                btnBc,
-                {...props, values: props.form.values()},
-            );
-
-            if (success) {
-                if (this.addMore) {
-                    this.pageStore.resetStepAction();
-                    this.initialValues = {};
-                } else {
-                    this.closeAction();
-                }
-            }
-        }
-    };
-
     /**
      * Закрытие модального окна с сообщением
      */
@@ -192,7 +189,7 @@ export class WindowModel extends StoreBaseModel implements WindowModelInterface 
     onCloseWindowSilent = this.closeAction;
 
     /**
-     * Сохраняем значение по кнопке "Сохранить"
+     * Сохраняем значение по кнопке "Save"
      */
     onSimpleSaveWindow = this.saveAction;
 

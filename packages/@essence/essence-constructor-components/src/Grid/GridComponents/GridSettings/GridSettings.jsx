@@ -1,22 +1,18 @@
 // @flow
 import * as React from "react";
-import Dialog from "@material-ui/core/Dialog/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Grid from "@material-ui/core/Grid";
-import DialogContent from "@material-ui/core/DialogContent";
-import Switch from "@material-ui/core/Switch";
-import DialogActions from "@material-ui/core/DialogActions";
-import Button from "@material-ui/core/Button";
+import {Dialog, DialogTitle, Grid, DialogContent, Switch, DialogActions, Button} from "@material-ui/core";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import noop from "lodash/noop";
 import BuilderMobxButton from "../../../Button/BuilderMobxButton";
 import {type PageModelType} from "../../../stores/PageModel";
 import {type GridModelType} from "../../../stores/GridModel";
 import Scrollbars from "../../../Components/Scrollbars/Scrollbars";
 
-type PropsType = {
+type PropsType = WithT & {
     pageStore: PageModelType,
     gridStore: GridModelType,
     buttonProps: Object,
+    disabled?: boolean,
     onClose: () => void,
 };
 
@@ -39,7 +35,7 @@ class GridSettings extends React.Component<PropsType, StateType> {
 
     bc = {
         ckPageObject: "gridsettings",
-        cvDisplayed: "Настройки пользователя",
+        cvDisplayed: "102972d8258947b7b3cf2b70b258278a",
         iconfont: "fa-sliders",
         onlyicon: "true",
         type: "BTN",
@@ -81,7 +77,8 @@ class GridSettings extends React.Component<PropsType, StateType> {
     };
 
     render() {
-        const {pageStore, buttonProps, gridStore} = this.props;
+        // eslint-disable-next-line id-length
+        const {pageStore, buttonProps, gridStore, t, disabled} = this.props;
         const {visibility} = this.state;
 
         return (
@@ -92,14 +89,21 @@ class GridSettings extends React.Component<PropsType, StateType> {
                     pageStore={pageStore}
                     color="inherit"
                     visible
+                    disabled={disabled}
                     {...buttonProps}
                     readOnly={false}
                 />
-                <Dialog open={this.state.open} maxWidth="sm" fullWidth container={pageStore.pageEl}>
-                    <DialogTitle disableTypography>Показать/скрыть колонки</DialogTitle>
+                <Dialog
+                    open={this.state.open}
+                    maxWidth="sm"
+                    fullWidth
+                    container={pageStore.pageEl}
+                    style={{position: "absolute"}}
+                >
+                    <DialogTitle disableTypography>{t("017af47503474ec58542b9db53bdeeff")}</DialogTitle>
                     <DialogContent>
-                        <Scrollbars autoHeight autoHeightMax={300} autoHeightMin={60}>
-                            <Grid container direction="column" spacing={8} style={{width: "100%"}}>
+                        <Scrollbars autoHeight autoHeightMax={300} autoHeightMin={38}>
+                            <Grid container direction="column" spacing={0} style={{width: "100%"}}>
                                 {gridStore.gridColumnsInitial.map((column) => {
                                     const {visible, hiddenrules} = column;
 
@@ -111,12 +115,14 @@ class GridSettings extends React.Component<PropsType, StateType> {
                                         <Grid item key={column.ckPageObject}>
                                             <Grid container>
                                                 <Grid item xs={10}>
-                                                    {column.cvDisplayed || `Колонка с типом  ${column.datatype}`}
+                                                    {t(column.cvDisplayed) ||
+                                                        `${t("223dbd23bba54e4c91f59ef4cdea8ffa")}  ${column.datatype}`}
                                                 </Grid>
                                                 <Grid item xs={2}>
                                                     <Switch
                                                         name={column.ckPageObject}
                                                         checked={visibility[column.ckPageObject]}
+                                                        disableRipple
                                                         onChange={this.handleChangeVisibility}
                                                         value={column.ckPageObject}
                                                     />
@@ -130,10 +136,10 @@ class GridSettings extends React.Component<PropsType, StateType> {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleSave} color="primary" disableRipple variant="contained">
-                            Сохранить
+                            {t("8a930c6b5dd440429c0f0e867ce98316")}
                         </Button>
                         <Button onClick={this.handleClose} color="secondary" disableRipple variant="contained">
-                            Отменить
+                            {t("64aacc431c4c4640b5f2c45def57cae9")}
                         </Button>
                     </DialogActions>
                 </Dialog>
@@ -142,4 +148,4 @@ class GridSettings extends React.Component<PropsType, StateType> {
     }
 }
 
-export default GridSettings;
+export default withTranslation("meta")(GridSettings);

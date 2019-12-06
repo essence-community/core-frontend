@@ -1,16 +1,15 @@
 // @flow
 import * as React from "react";
-import Checkbox from "@material-ui/core/Checkbox";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import {FormControl} from "@material-ui/core";
+import {FormControl, Checkbox, DialogTitle} from "@material-ui/core";
 import BuilderWindowButtonCustom from "../BuilderWindowButtons/BuilderWindowButtonCustom";
 import {mountWithTheme} from "../../utils/test";
-import BuilderPage from "../../Page/BuilderPage";
 import BuilderWindow from "../BuilderWindow";
 import {GridModel} from "../../stores/GridModel";
 import {WindowModel} from "../../stores/WindowModel";
 import {createEmptyPageStore} from "../../stores";
 import TextField from "../../TextField/TextField";
+
+const BuilderPage = () => null;
 
 // eslint-disable-next-line max-statements
 describe("BuilderWindow", () => {

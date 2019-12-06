@@ -4,12 +4,12 @@ import cn from "classnames";
 import {compose} from "recompose";
 import {observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import {Grid, Typography} from "@material-ui/core";
+import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import styles from "./MenuGridRowStyles";
 
-type PropsType = {|
+type PropsType = WithT & {|
     route: {
         ckId: string | number,
         cvName: string,
@@ -84,16 +84,23 @@ class MenuGridRow extends React.Component<PropsType> {
     }
 
     render() {
-        const {route, level, classes = {}, routesStore} = this.props;
+        // eslint-disable-next-line id-length
+        const {route, level, classes = {}, routesStore, t} = this.props;
         const {favorits} = routesStore;
 
         return (
             <div className={cn(classes.root)} style={{paddingLeft: level * LEFT_PADDING}} onClick={this.handleClick}>
-                <Grid container wrap="nowrap" spacing={8} alignItems="center" className={classes.rootGrid}>
+                <Grid container wrap="nowrap" spacing={1} alignItems="center" className={classes.rootGrid}>
                     {route.leaf === "true" ? this.renderIcon() : this.renderFolderIcon()}
                     <Grid item xs zeroMinWidth>
-                        <Typography color="inherit" noWrap data-qtip={route.cvName} className={classes.nameTypography}>
-                            {route.cvName}
+                        <Typography
+                            variant="body2"
+                            color="inherit"
+                            noWrap
+                            data-qtip={route.cvName}
+                            className={classes.nameTypography}
+                        >
+                            {t(route.cvName)}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -114,5 +121,6 @@ class MenuGridRow extends React.Component<PropsType> {
 
 export default compose(
     withStyles(styles),
+    withTranslation("meta"),
     observer,
 )(MenuGridRow);

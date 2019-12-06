@@ -7,8 +7,9 @@ import {type GridBuilderType, type GridModelType, type GridBtnsConfigType} from 
 const getBtnDeleteConfig = (bc: GridBuilderType) => ({
     ckMaster: bc.ckPageObject,
     ckPageObject: `${bc.ckPageObject}-remove`,
-    confirmquestion: "Удалить?",
-    cvDisplayed: "Удалить",
+    cnOrder: 1e6,
+    confirmquestion: "0cd0fc9bff2641f68f0f9712395f7b82",
+    cvDisplayed: "f7e324760ede4c88b4f11f0af26c9e97",
     handler: "removeSelectedRecordAction",
     iconfont: "trash-o",
     onlyicon: "true",
@@ -18,7 +19,8 @@ const getBtnDeleteConfig = (bc: GridBuilderType) => ({
 const getBtnAuditConfig = (bc: GridBuilderType) => ({
     ckMaster: bc.ckPageObject,
     ckPageObject: `${bc.ckPageObject}-audit`,
-    cvDisplayed: "Информация",
+    cnOrder: 1e6,
+    cvDisplayed: "627518f4034947aa9989507c5688cfff",
     iconfont: "info",
     iconfontname: "fa",
     onlyicon: "true",
@@ -29,7 +31,8 @@ const getBtnAuditConfig = (bc: GridBuilderType) => ({
 const getBtnRefreshConfig = (bc: GridBuilderType, handler: Function) => ({
     ckMaster: bc.ckPageObject,
     ckPageObject: `${bc.ckPageObject}-refresh`,
-    cvDisplayed: "Обновить",
+    cnOrder: 1e6,
+    cvDisplayed: "33c9b02a9140428d9747299b9a767abb",
     handlerFn: handler,
     iconfont: "refresh",
     iconfontname: "fa",
@@ -41,7 +44,8 @@ const getBtnExcelConfig = (bc: GridBuilderType) => ({
     ckMaster: bc.ckPageObject,
     ckPageObject: `${bc.ckPageObject}-excel`,
     ckwindow: "btnexcel",
-    cvDisplayed: "Печать в excel",
+    cnOrder: 1e6,
+    cvDisplayed: "7578080854a84cc3b4faad62d4499a4b",
     disabledemptymaster: "true",
     edit: "false",
     extraplugingate: "PrintJasperServer",
@@ -55,7 +59,8 @@ const getBtnExcelConfig = (bc: GridBuilderType) => ({
 const getSaveBtnConfig = (bc: GridBuilderType) => ({
     ckPageObject: `${bc.ckPageObject}_gridwindow-save`,
     ckParent: `${bc.ckPageObject}_gridwindow`,
-    cvDisplayed: "Сохранить",
+    cnOrder: 1e6,
+    cvDisplayed: "8a930c6b5dd440429c0f0e867ce98316",
     handler: "onSimpleSaveWindow",
     iconfont: bc.edittype === "inline" && styleTheme === "dark" ? "save" : undefined,
 });
@@ -63,8 +68,9 @@ const getSaveBtnConfig = (bc: GridBuilderType) => ({
 const getCancelInlineBtnConfig = (bc: GridBuilderType) => ({
     ckPageObject: `${bc.ckPageObject}_gridwindow-cancel`,
     ckParent: `${bc.ckPageObject}_gridwindow`,
-    confirmquestion: "Отменить?",
-    cvDisplayed: "Отмена",
+    cnOrder: 1e6,
+    confirmquestion: "9b475e25ae8a40b0b158543b84ba8c08",
+    cvDisplayed: "64aacc431c4c4640b5f2c45def57cae9",
     handler: "onCloseWindow",
     iconfont: styleTheme === "dark" ? "times" : undefined,
 });
@@ -72,9 +78,10 @@ const getCancelInlineBtnConfig = (bc: GridBuilderType) => ({
 const getCancelBtnConfig = (bc: GridBuilderType) => ({
     ckPageObject: `${bc.ckPageObject}_gridwindow-cancel`,
     ckParent: `${bc.ckPageObject}_gridwindow`,
-    confirmquestion: "Отменить?",
+    cnOrder: 1e6,
+    confirmquestion: "9b475e25ae8a40b0b158543b84ba8c08",
     confirmquestionposition: "top",
-    cvDisplayed: "Отмена",
+    cvDisplayed: "64aacc431c4c4640b5f2c45def57cae9",
     handler: "onCloseWindow",
     type: "BTN",
     uitype: "2",

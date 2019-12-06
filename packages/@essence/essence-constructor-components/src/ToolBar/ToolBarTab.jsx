@@ -3,17 +3,17 @@ import * as React from "react";
 import cn from "classnames";
 import omit from "lodash/omit";
 import noop from "lodash/noop";
-import MaterialTab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
+import {Tab as MaterialTab, Typography} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {Icon} from "@essence/essence-constructor-share/Icon";
+import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
 import {styleTheme} from "../constants";
 import {StyleToolBarLight} from "./StyleToolBarLight";
 import {StyleToolBarDark} from "./StyleToolBarDark";
 
 const styles = styleTheme === "light" ? StyleToolBarLight : StyleToolBarDark;
 
-type PropsType<ValueType> = {
+type PropsType<ValueType> = WithT & {
     classes?: {
         [$Keys<$Call<typeof styles>>]: string,
     },
@@ -45,7 +45,8 @@ class ToolBarTab extends React.Component<PropsType<string | number>> {
     };
 
     render() {
-        const {classes = {}, value, iconfont, label, ...materialTabProps} = this.props;
+        // eslint-disable-next-line id-length
+        const {classes = {}, value, iconfont, label, t, ...materialTabProps} = this.props;
         const isActive = this.props.selected;
         const iconNode = iconfont && (
             <Icon iconfont={iconfont} className={cn(classes.tabIcon, {[classes.activeTabIcon]: isActive})} />
@@ -61,8 +62,8 @@ class ToolBarTab extends React.Component<PropsType<string | number>> {
                 tabIndex="-1"
                 label={
                     <React.Fragment>
-                        <Typography noWrap color="inherit" className={classes.text}>
-                            {label}
+                        <Typography variant="body2" noWrap color="inherit" className={classes.text}>
+                            {t(label)}
                         </Typography>
                         <Icon
                             iconfont="times"
@@ -72,7 +73,6 @@ class ToolBarTab extends React.Component<PropsType<string | number>> {
                     </React.Fragment>
                 }
                 classes={{
-                    labelContainer: classes.tabLabelContainer,
                     root: classes.tabRoot,
                     selected: classes.activeTab,
                     wrapper: isActive ? classes.activeTabWrapper : classes.tabWrapper,
@@ -85,4 +85,4 @@ class ToolBarTab extends React.Component<PropsType<string | number>> {
     }
 }
 
-export default withStyles(styles)(ToolBarTab);
+export default withStyles(styles)(withTranslation("meta")(ToolBarTab));

@@ -1,0 +1,34 @@
+{
+  "name": "@essence/essence-constructor-classes",
+  "version": "2.0.0",
+  "description": "Classes implementation for constructor",
+  "main": "src/index.js",
+  "repository": "https://github.com/essence-community/core-frontend",
+  "author": "Oleh Kutsenko",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "@essence/essence-constructor-share": "file:../essence-constructor-share/lib/",
+    "@material-ui/core": "^4.4.3",
+    "classnames": "^2.2.6",
+    "clsx": "^1.0.4",
+    "history": "^4.10.1",
+    "keycode": "^2.2.0",
+    "mobx": "^5.9.0",
+    "mobx-react-form": "1.35.1",
+    "mobx-react-lite": "^1.4.1",
+    "react": "16.8.6",
+    "react-dnd": "^9.0.1",
+    "react-router-dom": "^5.1.2"
+  },
+  "devDependencies": {
+    "@essence/eslint-config-essence-react": "file:../essence-constructor-eslint",
+    "@types/classnames": "^2.2.9",
+    "@types/history": "^4.7.3",
+    "@types/react": "16.8.6",
+    "@types/react-router-dom": "^5.1.0",
+    "@typescript-eslint/eslint-plugin": "^2.3.1",
+    "eslint": "^6.4.0",
+    "typescript": "^3.6.3"
+  }
+}

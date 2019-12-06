@@ -15,6 +15,7 @@ export type ItemType = {
     id: string,
     index: number,
     width: number,
+    collapsed: boolean,
 };
 export type ChildsType = {
     [key: string]: ItemType,
@@ -24,7 +25,7 @@ export interface PanelModelType extends StoreBaseModelInterface {
     disabled: ?boolean;
     bc: BuilderPanelType;
     childsWidths: ChildsType;
-    +changeChildWidth: (id: string, newWidth: number) => void;
+    +changeChildWidth: (id: string, newWidth: number, side?: "right" | "left") => void;
     constructor(props: StoreBaseModelPropsType): void;
 }
 
@@ -45,19 +46,30 @@ export class PanelModel extends StoreBaseModel implements PanelModelType {
         });
     }
 
-    changeChildWidth = action("changeChildWidth", (id: string, newWidth: number) => {
+    // eslint-disable-next-line max-statements
+    changeChildWidth = action("changeChildWidth", (id: string, userNewWidth: number, side = "right") => {
         const record = this.childsWidths[id];
-        const nextChild = this.bc.childs ? this.bc.childs[record.index + 1] : null;
+        const offsetChild = side === "right" ? 1 : -1;
+        const nextChild = this.bc.childs ? this.bc.childs[record.index + offsetChild] : null;
         const nextRecord = nextChild && this.childsWidths[nextChild.ckPageObject];
         const oldWidth = record && record.width;
+        const newWidth = userNewWidth < MIN_WIDTH ? 2 : userNewWidth;
 
         if (record && nextRecord) {
             const rest = oldWidth - newWidth;
             const nextRecordNewWidth = nextRecord && nextRecord.width + rest;
 
-            if (nextRecordNewWidth > MIN_WIDTH) {
+            if (nextRecordNewWidth) {
                 record.width = newWidth;
                 nextRecord.width = nextRecordNewWidth;
+
+                record.collapsed = record.width < MIN_WIDTH;
+                nextRecord.collapsed = nextRecord.width < MIN_WIDTH;
+            }
+
+            if (nextRecord.collapsed && nextRecord.width !== 2) {
+                record.width += nextRecord.width - 2;
+                nextRecord.width = 2;
             }
         }
     });

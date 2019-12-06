@@ -24,11 +24,11 @@ export const themeDarkOverrides = (theme) => ({
                 fill: theme.palette.common.selectedMenu,
             },
             "&:hover": {
-                backgroundColor: "#91c9c4",
+                backgroundColor: theme.palette.primary.icon,
                 borderColor: theme.palette.primary.light,
                 boxShadow: `inset 0 0 2px 2px ${theme.palette.primary.light}`,
             },
-            backgroundColor: "#91c9c4",
+            backgroundColor: theme.palette.primary.icon,
         },
         containedSecondary: {
             "&:focus": {
@@ -39,13 +39,6 @@ export const themeDarkOverrides = (theme) => ({
                 borderColor: theme.palette.primary.light,
                 boxShadow: `inset 0 0 1px 2px ${theme.palette.primary.light}`,
             },
-        },
-        fab: {
-            fontSize: 24,
-        },
-        mini: {
-            height: 42,
-            width: 42,
         },
     },
     MuiCheckbox: {
@@ -76,6 +69,31 @@ export const themeDarkOverrides = (theme) => ({
         root: {
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.common.white,
+        },
+    },
+    MuiFab: {
+        primary: {
+            "&:focus": {
+                borderColor: theme.palette.primary.light,
+                color: theme.palette.common.selectedMenu,
+                fill: theme.palette.common.selectedMenu,
+            },
+            "&:hover": {
+                backgroundColor: theme.palette.primary.icon,
+                borderColor: theme.palette.primary.light,
+                boxShadow: `inset 0 0 2px 2px ${theme.palette.primary.light}`,
+            },
+            backgroundColor: theme.palette.primary.icon,
+        },
+        root: {
+            "&$disabled": {
+                backgroundColor: undefined,
+            },
+        },
+        sizeSmall: {
+            fontSize: 24,
+            height: 42,
+            width: 42,
         },
     },
     MuiIconButton: {
@@ -149,9 +167,25 @@ export const themeDarkOverrides = (theme) => ({
             color: theme.palette.primary.icon,
         },
     },
+    MuiTableCell: {
+        root: {
+            borderBottom: "none",
+        },
+    },
     MuiTableRow: {
         head: {
             height: theme.sizing.gridRowHeight,
+        },
+    },
+    MuiTableSortLabel: {
+        root: {
+            "&$active": {
+                "&& $icon": {
+                    color: undefined,
+                },
+
+                color: undefined,
+            },
         },
     },
 });

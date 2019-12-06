@@ -7,8 +7,10 @@
         "target": "es5",
         "skipLibCheck": true,
         "jsx": "react",
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "strictNullChecks": true,
+        "typeRoots": ["src/typings"]
     },
-    "include": ["src/**/*.ts"],
+    "include": ["src/**/*.ts", "src/**/*.tsx"],
     "exclude": ["**/__tests__/**"]
 }

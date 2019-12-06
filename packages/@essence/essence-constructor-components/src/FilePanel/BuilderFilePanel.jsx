@@ -2,8 +2,7 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {compose} from "recompose";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
+import {Paper, Grid} from "@material-ui/core";
 import {toSize} from "@essence/essence-constructor-share/utils";
 import {setComponent} from "@essence/essence-constructor-share";
 import ThemePanelWrapper from "../Components/ThemePanelWrapper/ThemePanelWrapper";
@@ -71,7 +70,7 @@ export class BaseBuilderFilePanel extends React.Component<PropsType> {
             <Paper elevation={elevation} className="paper-overflow-hidden" data-page-object={bc.ckPageObject}>
                 <ThemePanelWrapper actionsBar={actionsBar}>
                     <Content verticalSize="16" horizontalSize="16" style={this.contentStyle}>
-                        <Grid container direction="row" spacing={8}>
+                        <Grid container direction="row" spacing={1}>
                             {store.recordsStore.records.map((record) => (
                                 <Grid item xs={6} key={record.ckId}>
                                     <FileRecord

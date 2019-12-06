@@ -2,6 +2,7 @@
 import * as React from "react";
 import cn from "classnames";
 import {withStyles} from "@material-ui/core/styles";
+import {Translation} from "@essence/essence-constructor-share/utils";
 import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
 import {type GridBuilderType, type GridModelType} from "../../stores/GridModel";
 import {type PageModelType} from "../../stores/PageModel";
@@ -37,6 +38,7 @@ class GridCell extends React.PureComponent<PropsType> {
         });
     };
 
+    // eslint-disable-next-line max-statements
     render() {
         const {bc, column, classes, disabled, readOnly, record, pageStore, store, visible, nesting} = this.props;
         const {datatype, format} = column;
@@ -47,6 +49,37 @@ class GridCell extends React.PureComponent<PropsType> {
 
         if (column.stylerules) {
             style = {...style, ...parseMemoize(column.stylerules).runer(record)};
+        }
+
+        if (column.localization) {
+            return (
+                <Translation ns={column.localization} useSuspense={false}>
+                    {(trans) => (
+                        <td
+                            style={style}
+                            className={this.getClassName()}
+                            data-qtip={trans(qtip, qtip)}
+                            data-page-object={`${bc.ckPageObject}-column-datatype-${datatype}`}
+                        >
+                            <Cmp
+                                bc={column}
+                                value={value}
+                                store={store}
+                                gridBc={bc}
+                                record={record}
+                                pageStore={pageStore}
+                                disabled={disabled}
+                                readOnly={readOnly}
+                                qtip={trans(qtip, qtip)}
+                                visible={visible}
+                                nesting={nesting}
+                                className={classes.child}
+                                trans={trans}
+                            />
+                        </td>
+                    )}
+                </Translation>
+            );
         }
 
         return (

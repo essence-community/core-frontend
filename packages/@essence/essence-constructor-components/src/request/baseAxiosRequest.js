@@ -3,7 +3,7 @@ import axios from "axios";
 import {stringify} from "qs";
 import isString from "lodash/isString";
 import isArray from "lodash/isArray";
-import {snakeCaseKeys, camelCaseKeysAsync} from "@essence/essence-constructor-share/utils";
+import {snakeCaseKeys, camelCaseKeysAsync, i18next} from "@essence/essence-constructor-share/utils";
 import {BASE_URL} from "../constants";
 import {type RequestType} from "./requestType";
 
@@ -24,7 +24,8 @@ const checkError = ({responseAllData, query, responseData, list}) => {
     }
 
     if (isError) {
-        const error = new Error("Ошибка в разпознавании данных");
+        // TODO: shoud be messages in build
+        const error = new Error(i18next.t("63538aa4bcd748349defdf7510fc9c10", "Ошибка в разпознавании данных"));
 
         // $FlowFixMe
         error.query = query;
@@ -71,7 +72,6 @@ const baseAxiosRequest = async ({
         query,
     };
     const data = {
-        json: json ? JSON.stringify(snakeCaseKeys(json)) : undefined,
         // eslint-disable-next-line camelcase
         out_result: "",
         // eslint-disable-next-line camelcase
@@ -79,6 +79,12 @@ const baseAxiosRequest = async ({
         session,
         ...snakeCaseKeys(body),
     };
+
+    if (formData && json) {
+        formData.append("json", JSON.stringify(snakeCaseKeys(json)));
+    } else if (json) {
+        data.json = JSON.stringify(snakeCaseKeys(json));
+    }
 
     const response = await axios({
         data: formData ? formData : stringify(data),

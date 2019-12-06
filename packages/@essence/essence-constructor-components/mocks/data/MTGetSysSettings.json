@@ -2,5 +2,9 @@
     {
         "ck_id": "module_available",
         "cv_value": "true"
+    },
+    {
+        "ck_id": "g_sys_module_url",
+        "cv_value": "/api_module"
     }
 ]

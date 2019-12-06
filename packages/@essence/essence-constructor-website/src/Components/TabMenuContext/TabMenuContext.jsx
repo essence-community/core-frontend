@@ -1,16 +1,15 @@
 // @flow
 import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
-import Popover from "@material-ui/core/Popover";
-import ListItem from "@material-ui/core/ListItem";
-import List from "@material-ui/core/List";
+import {Popover, ListItem, List} from "@material-ui/core";
+import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
 import styles from "./TabMenuContextStyles";
 
 export type PopoverPositionType = {
     left: number,
     top: number,
 };
-type PropsType = {
+type PropsType = WithT & {
     classes?: Object,
     open: boolean,
     position: PopoverPositionType,
@@ -91,19 +90,19 @@ class TabMenuContext extends React.Component<PropsType> {
                         {...menuListProps}
                         className={`${classes.listItem} ${classes.listItemDivider}`}
                     >
-                        Обновить
+                        {this.props.t("33c9b02a9140428d9747299b9a767abb")}
                     </ListItem>
                     <ListItem onClick={this.handleClose} {...menuListProps}>
-                        Закрыть вкладку
+                        {this.props.t("74776ef247274a55a2a76f7df34ffe41")}
                     </ListItem>
                     <ListItem onClick={this.handleCloseOther} {...menuListProps}>
-                        Закрыть другие вкладки
+                        {this.props.t("63b54227225e4ea5a2ba644eced838ec")}
                     </ListItem>
                     <ListItem onClick={this.handleCloseAllRight} {...menuListProps}>
-                        Закрыть вкладки справа
+                        {this.props.t("bceed776538747b9a0c88d4f73b70711")}
                     </ListItem>
                     <ListItem onClick={this.handleCloseAll} {...menuListProps}>
-                        Закрыть все вкладки
+                        {this.props.t("a0cb66a96d8740a19397ece02d537f86")}
                     </ListItem>
                 </List>
             </Popover>
@@ -111,4 +110,4 @@ class TabMenuContext extends React.Component<PropsType> {
     }
 }
 
-export default withStyles(styles)(TabMenuContext);
+export default withTranslation("meta")(withStyles(styles)(TabMenuContext));

@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
-import Typography from "@material-ui/core/Typography/Typography";
+import {Typography} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import {sleep} from "../../../utils/base";
 import {mountWithTheme, MAX_REQUEST_TIME} from "../../../utils/test";

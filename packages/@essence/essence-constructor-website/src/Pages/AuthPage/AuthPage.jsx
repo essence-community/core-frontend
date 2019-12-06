@@ -2,25 +2,20 @@
 // @flow
 import * as React from "react";
 import {inject, observer} from "mobx-react";
-import Grid from "@material-ui/core/Grid/Grid";
+import {Grid, TextField, Paper, Button, Typography, InputAdornment, IconButton} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField/TextField";
-import Paper from "@material-ui/core/Paper/Paper";
-import Button from "@material-ui/core/Button/Button";
-import Typography from "@material-ui/core/Typography";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
-import {PageLoader} from "@essence/essence-constructor-components";
+import {compose} from "recompose";
+import {PageLoader} from "@essence/essence-constructor-share";
 import {Icon} from "@essence/essence-constructor-share/Icon";
-import {getFromStore} from "@essence/essence-constructor-share/utils";
+import {getFromStore, WithT, withTranslation} from "@essence/essence-constructor-share/utils";
 import {MobxForm} from "../../Components/MobxForm";
 import {AuthModelType} from "../../Stores/AuthModel";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import {type StoresType} from "../../Stores/stores";
 import AppBarAuth from "../../Components/AppBarAuth";
 import {styleTheme} from "../../constants";
-import * as lightLogo from "../../images/12-01.png";
-import * as darkLogo from "../../images/14-01.png";
+import * as lightLogo from "../../images/light_logo.png";
+import * as darkLogo from "../../images/dark_logo.png";
 import styles from "./AuthPageStyles";
 
 const logo = styleTheme === "light" ? lightLogo : darkLogo;
@@ -35,7 +30,7 @@ type OwnPropsType = {
     },
     history?: History,
 };
-type PropsType = StoresPropsType & OwnPropsType;
+type PropsType = WithT & StoresPropsType & OwnPropsType;
 
 type StateType = {
     loaded: boolean,
@@ -98,9 +93,9 @@ class AuthPage extends React.Component<PropsType, StateType> {
             id: "cvLogin",
             margin: "normal",
             name: "cvLogin",
-            placeholder: "Имя пользователя",
+            placeholder: this.props.t("d016a5a3d0964cd69fd15c6e283db77e"),
             rules: "required",
-            title: "Имя пользователя",
+            title: this.props.t("d016a5a3d0964cd69fd15c6e283db77e"),
         },
         {
             autoFocus: false,
@@ -108,9 +103,9 @@ class AuthPage extends React.Component<PropsType, StateType> {
             id: "cvPassword",
             margin: "normal",
             name: "cvPassword",
-            placeholder: "Пароль",
+            placeholder: this.props.t("8d380b7c5e6d4fcfb9d608d69464fe2a"),
             rules: "required",
-            title: "Пароль",
+            title: this.props.t("8d380b7c5e6d4fcfb9d608d69464fe2a"),
         },
     ];
 
@@ -225,7 +220,7 @@ class AuthPage extends React.Component<PropsType, StateType> {
                 <Grid container justify="center" alignItems="center" className="root-height">
                     <Grid item>
                         <Paper classes={{root: classes.paper}} elevation={12}>
-                            <Typography classes={{root: classes.typography}}>
+                            <Typography variant="body2" classes={{root: classes.typography}}>
                                 <img src={logo} alt="logo" height="50" width="50" />
                                 {applicationStore.settingsStore.settings.projectAuthTitle}
                             </Typography>
@@ -234,7 +229,7 @@ class AuthPage extends React.Component<PropsType, StateType> {
                                     isLoading={form.submitting}
                                     loaderType={applicationStore.settingsStore.settings.projectLoader}
                                 />
-                                <Grid container direction="column" justyfy="space-between" spacing={24}>
+                                <Grid container direction="column" justyfy="space-between" spacing={3}>
                                     <Grid item>{this.renderLoginField({input: form.$("cvLogin").bind()})}</Grid>
                                     <Grid item>
                                         {this.renderPasswordField({
@@ -249,7 +244,7 @@ class AuthPage extends React.Component<PropsType, StateType> {
                                             disabled={form.submitting || !form.isValid}
                                             disableRipple
                                         >
-                                            Войти
+                                            {this.props.t("664bdebac78e47079bb685732899c5f6")}
                                         </Button>
                                     </Grid>
                                 </Grid>
@@ -262,4 +257,9 @@ class AuthPage extends React.Component<PropsType, StateType> {
     }
 }
 
-export default inject(mapStoresToProps)(withStyles(styles)(observer(AuthPage)));
+export default compose(
+    inject(mapStoresToProps),
+    withStyles(styles),
+    withTranslation("meta"),
+    observer,
+)(AuthPage);

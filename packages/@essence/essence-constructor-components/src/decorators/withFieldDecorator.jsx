@@ -1,13 +1,14 @@
 /* eslint-disable max-lines */
 // @flow
 import * as React from "react";
-import PropTypes from "prop-types";
 import camelCase from "lodash/camelCase";
 import startsWith from "lodash/startsWith";
 import uniqueId from "lodash/uniqueId";
 import {reaction} from "mobx";
 import {disposeOnUnmount} from "mobx-react";
 import {Field, Form} from "mobx-react-form";
+import {EditorContex} from "@essence/essence-constructor-share";
+import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
 import {loggerRoot} from "../constants";
 import {isEmpty} from "../utils/base";
@@ -24,11 +25,8 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
     React.ComponentType<Props>,
 ) => React.ComponentType<$Diff<Props, WithFieldInjectPropsType>> {
     return (WrappedComponent) => {
-        class WithFieldDecorator extends React.Component<Props> {
-            static contextTypes = {
-                form: PropTypes.object,
-                mode: PropTypes.string,
-            };
+        class WithFieldDecorator extends React.Component<Props & WithT> {
+            static contextType = EditorContex;
 
             static defaultProps = {
                 autoremove: true,
@@ -49,7 +47,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                 this.key = camelCase(bc.column || uniqueId("builderField"));
 
                 if (!bc.column) {
-                    logger("Поле может работать некорректно без column, автогенерируемое значение:", this.key);
+                    logger(this.props.t("d4055d1153af44a4ba5eb73ac9bc437e", {key: this.key}));
                 }
 
                 if (bc.defaultvaluequery) {
@@ -81,7 +79,10 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
 
                 this.initValidation(field);
 
-                disposeOnUnmount(this, [reaction(() => field.isValid, this.handleIsValid)]);
+                disposeOnUnmount(this, [
+                    reaction(() => field.isValid, this.handleIsValid),
+                    reaction(this.handleGetReactionRules, this.handleSetRules),
+                ]);
 
                 this.forceUpdate();
             }
@@ -93,7 +94,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
 
                 if (field) {
                     if (prevProps.hidden !== hidden || prevProps.disabled !== disabled) {
-                        this.handleValidate(field);
+                        field.set("rules", this.handleGetRules(field));
                         field.resetValidation();
                     }
 
@@ -115,8 +116,13 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
             }
 
             componentDidCatch(error: any, info: any) {
-                logger("Поле не может быть построено:", this.key);
-                logger("Ошибка:", error, "Информация:", info);
+                logger(this.props.t("d56944511bd243b1a0914ccdea58ce0d", {key: this.key}));
+                logger(
+                    this.props.t("47b7b12c1d9c413da54a08331191aded"),
+                    error,
+                    this.props.t("cfac299d53f8466d9745ddfa53e09958"),
+                    info,
+                );
             }
 
             componentWillUnmount() {
@@ -144,6 +150,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
             // eslint-disable-next-line max-statements
             addField = (key: string, bc: BuilderFieldType): Field => {
                 const form = this.getForm();
+                const trans = this.props.t;
                 const keyField = this.props.parentKey ? this.props.parentKey.replace(/fieldSetObj_/gi, "") : key;
 
                 const inputType = inputTypes[bc.datatype || "text"];
@@ -162,7 +169,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                     });
                 }
 
-                this.handleValidate(field);
+                field.set("rules", this.handleGetRules(field));
                 field.set("options", {
                     ...field.get("options"),
                     bc,
@@ -171,7 +178,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                 });
 
                 if (bc.cvDisplayed) {
-                    field.set("label", bc.cvDisplayed);
+                    field.set("label", trans(bc.cvDisplayed));
                 }
 
                 if (!isEmpty(bc.defaultvalue)) {
@@ -201,7 +208,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                 } else {
                     field.set("default", bc.defaultvalue);
                 }
-                if (this.context.mode === "1") {
+                if (this.context.mode === "1" || field.get("options").fieldSetObj) {
                     field.reset();
                     field.resetValidation();
                 }
@@ -213,18 +220,31 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                 this.isRequired = Boolean(isRequired);
 
                 if (field) {
-                    this.handleValidate(field);
+                    field.set("rules", this.handleGetRules(field));
                     field.resetValidation();
                 }
             };
 
-            handleValidate = (field: Field) => {
-                const {hidden, disabled} = this.props;
+            handleGetReactionRules = (): Array<string> => {
+                const field = this.getField();
 
-                field.set(
-                    "rules",
-                    hidden || disabled ? [] : getTextValidation(this.props.bc, field, {isRequired: this.isRequired}),
-                );
+                return field ? this.handleGetRules(field) : [];
+            };
+
+            handleGetRules = (field: Field): Array<string> => {
+                const {hidden, disabled, pageStore} = this.props;
+
+                return hidden || disabled
+                    ? []
+                    : getTextValidation(this.props.bc, field, {isRequired: this.isRequired, pageStore});
+            };
+
+            handleSetRules = (rules: Array<string>) => {
+                const field = this.getField();
+
+                if (field) {
+                    field.set("rules", rules);
+                }
             };
 
             handleRemoveField = () => {
@@ -267,14 +287,10 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
             };
 
             initValidation = (field: Field) => {
-                const {validaterelated, imask} = this.props.bc;
+                const {validaterelated} = this.props.bc;
 
                 if (validaterelated) {
                     field.observe(this.handleValidateRelatedFields);
-                }
-
-                if (imask) {
-                    disposeOnUnmount(this, [reaction(() => field.options, () => this.handleValidate(field))]);
                 }
             };
 
@@ -307,7 +323,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
             }
         }
 
-        return WithFieldDecorator;
+        return withTranslation("meta")(WithFieldDecorator);
     };
 }
 

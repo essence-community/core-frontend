@@ -59,7 +59,7 @@ export default () => ({
         },
     },
     firstPath: {
-        animation: "loader_first_path_animation 3s linear forwards",
+        animation: "$loader_first_path_animation 3s linear forwards",
         animationDelay: "0",
         animationIterationCount: "infinite",
         strokeDasharray: "244",
@@ -73,7 +73,7 @@ export default () => ({
         stroke: "#F78F1E",
     },
     secondPath: {
-        animation: "loader_second_path_animation 3s linear forwards",
+        animation: "$loader_second_path_animation 3s linear forwards",
         animationDelay: "0",
         animationIterationCount: "infinite",
         strokeDasharray: "54",

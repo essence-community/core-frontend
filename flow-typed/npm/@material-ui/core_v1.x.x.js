@@ -817,7 +817,7 @@ declare module "@material-ui/core/Grid/Grid" {
     | "flex-end"
     | "space-between"
     | "space-around";
-  declare type Spacing = 0 | 8 | 16 | 24 | 32 | 40;
+  declare type Spacing = 0 | 1 | 2 | 3 | 4 | 5;
   declare type Wrap = "nowrap" | "wrap" | "wrap-reverse";
   declare type GridProps = {
     children?: Node,
@@ -2682,7 +2682,7 @@ declare module "@material-ui/core/Tabs/Tabs" {
   import type {IndicatorStyle} from "@material-ui/core/Tabs/TabIndicator";
 
   declare type IndicatorColor = "accent" | "primary" | string;
-  declare type ScrollButtons = "auto" | "on" | "off";
+  declare type ScrollButtons = "auto" | "on" | "off" | "desktop";
   declare type TextColor = "accent" | "primary" | "inherit";
 
   declare module.exports: ComponentType<{
@@ -2985,7 +2985,8 @@ declare module "@material-ui/core/Typography/Typography" {
     | "body2"
     | "body1"
     | "caption"
-    | "button";
+    | "button"
+    | "h3";
 
   declare module.exports: ComponentType<{
     align?: Align,

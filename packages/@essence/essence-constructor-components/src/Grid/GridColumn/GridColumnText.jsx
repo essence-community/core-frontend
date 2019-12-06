@@ -127,6 +127,7 @@ class GridColumnText extends React.Component<GridColumnPropsType, StateType> {
         return new BigNumber(strValue).decimalPlaces(dPrecision).toFormat(dPrecision);
     };
 
+    // eslint-disable-next-line max-statements
     render() {
         const {BigNumber, blank, decimalPrecision, pathname} = this.state;
         let {value} = this.props;
@@ -139,6 +140,10 @@ class GridColumnText extends React.Component<GridColumnPropsType, StateType> {
             value = this.renderNumber(value, BigNumber, decimalPrecision);
         } else if (typeof value === "string") {
             value = value.replace(/<br[\s\S]*/i, "...");
+        }
+
+        if (this.props.trans) {
+            value = this.props.trans(value, value);
         }
 
         if (pathname) {

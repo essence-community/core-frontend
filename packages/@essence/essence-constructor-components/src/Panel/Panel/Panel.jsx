@@ -2,10 +2,10 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid/Grid";
+import {Grid} from "@material-ui/core";
 import {compose} from "recompose";
 import {toColumnStyleWidth} from "@essence/essence-constructor-share/utils";
-import {getComponent} from "@essence/essence-constructor-share";
+import {mapComponents, PanelWidthContext} from "@essence/essence-constructor-share";
 import {type BuilderPanelType} from "../BuilderPanelType";
 import {type PageModelType} from "../../stores/PageModel";
 import HorizontalResizer from "../../Resizer/HorizontalResizer";
@@ -32,7 +32,7 @@ type PropsType = {|
 |};
 
 const MAX_PANEL_WIDTH = 12;
-const DEFAULT_SPACING = 8;
+const DEFAULT_SPACING = 1;
 const GRID_CONFIGS = {
     hbox: {
         direction: "row",
@@ -44,15 +44,44 @@ const GRID_CONFIGS = {
     },
     vbox: {
         direction: "column",
-        wrap: "wrap",
+        wrap: "nowrap",
+    },
+};
+const GRID_ALIGN_CONFIGS = {
+    "center-hbox": {
+        justify: "center",
+    },
+    "center-hbox-wrap": {
+        justify: "center",
+    },
+    "center-vbox": {
+        alignItems: "center",
+    },
+    "left-hbox": {
+        justify: "flex-start",
+    },
+    "left-hbox-wrap": {
+        justify: "flex-start",
+    },
+    "left-vbox": {
+        alignItems: "flex-start",
+    },
+    "right-hbox": {
+        justify: "flex-end",
+    },
+    "right-hbox-wrap": {
+        justify: "flex-end",
+    },
+    "right-vbox": {
+        alignItems: "flex-end",
     },
 };
 
 export class Panel extends React.Component<PropsType> {
-    handleChangeChildWidth = (id: string, newWidth: number) => {
+    handleChangeChildWidth = (id: string, newWidth: number, side?: "right" | "left") => {
         const {store} = this.props;
 
-        store.changeChildWidth(id, newWidth);
+        store.changeChildWidth(id, newWidth, side);
     };
 
     render() {
@@ -71,22 +100,25 @@ export class Panel extends React.Component<PropsType> {
             record,
             store,
         } = this.props;
-        const {childs = [], contentview = "vbox", spacing, resizable} = bc;
+        const {align = "stretch", childs = [], contentview = "vbox", spacing, resizable} = bc;
         const isRow = contentview === "hbox" || contentview === "hbox-wrap";
+        const gridSpacing = spacing || DEFAULT_SPACING;
         const {childsWidths = {}} = store;
         const isResizeEnable = resizable === "true" && contentview === "hbox";
 
         return (
             <Grid
                 container
-                spacing={spacing || DEFAULT_SPACING}
+                className={classes[`rootSpacing${gridSpacing}`]}
+                spacing={gridSpacing}
                 data-page-object={bc.ckPageObject}
-                {...GRID_CONFIGS[contentview] || GRID_CONFIGS.vbox}
+                {...GRID_CONFIGS[contentview]}
+                {...GRID_ALIGN_CONFIGS[`${align}-${contentview}`]}
             >
-                {childs.map((child, index) => {
-                    const ChildComp = getComponent(child.type, child.customid);
+                {mapComponents(childs, (ChildComp, child, index) => {
                     const isLast = index === childs.length - 1;
                     const childWidthData: ItemType | Object = isResizeEnable ? childsWidths[child.ckPageObject] : {};
+                    const isAddResizer = isResizeEnable && !isLast;
                     const style = isResizeEnable
                         ? {
                               flexBasis: "auto",
@@ -94,34 +126,33 @@ export class Panel extends React.Component<PropsType> {
                           }
                         : toColumnStyleWidth(child.width);
 
-                    if (!ChildComp) {
-                        return null;
-                    }
-
                     return (
                         <HorizontalResizer
                             key={child.ckPageObject}
                             xs={isRow ? true : MAX_PANEL_WIDTH}
                             className={isRow ? classes.panelItemFlexBasis : undefined}
                             style={style}
-                            isAddResizer={isResizeEnable && !isLast}
+                            isAddResizer={isAddResizer}
+                            nextItem={childsWidths[(childs[index + 1] || {}).ckPageObject]}
                             item={childWidthData}
                             itemsNumber={childs.length}
                             onChange={this.handleChangeChildWidth}
                         >
-                            <ChildComp
-                                bc={child}
-                                editing={editing}
-                                disabled={disabled}
-                                hidden={hidden}
-                                readOnly={readOnly}
-                                elevation={elevation}
-                                pageStore={pageStore}
-                                visible={visible}
-                                onExpand={onExpand}
-                                tabIndex={tabIndex}
-                                record={record}
-                            />
+                            <PanelWidthContext.Provider value={childWidthData.width}>
+                                <ChildComp
+                                    bc={child}
+                                    editing={editing}
+                                    disabled={disabled}
+                                    hidden={hidden}
+                                    readOnly={readOnly}
+                                    elevation={elevation}
+                                    pageStore={pageStore}
+                                    visible={visible}
+                                    onExpand={onExpand}
+                                    tabIndex={tabIndex}
+                                    record={record}
+                                />
+                            </PanelWidthContext.Provider>
                         </HorizontalResizer>
                     );
                 })}

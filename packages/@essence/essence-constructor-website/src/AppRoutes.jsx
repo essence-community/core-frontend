@@ -11,25 +11,32 @@ import AuthorizationPage from "./Pages/AuthorizationPage/AuthorizationPage";
 import PreferencePage from "./Pages/PreferencePage/PreferencePage";
 import ReportsPage from "./Pages/ReportsPage/ReportsPage";
 import RedirectPage from "./Pages/RedirectPage/RedirectPage";
+
+import {ApplicationRouter} from "./containers/ApplicationRouter";
 import {history} from "./history";
 
-const AppRoutes = () => (
+export const AppRoutes = () => (
     <Router history={history}>
         <Switch>
-            <Route path="/auth" component={AuthPage} />
-            <Route path="/redirect/:b64" component={RedirectPage} />
-            <Route path="/reports/session/:session" component={ReportsPage} />
-            <Route path="/reports/token/:token" component={ReportsPage} />
-            <AuthorizationPage>
-                <Switch>
-                    <Route path="/page/:ckId" component={ProjectPage} />
-                    <Route path="/home" component={HomePage} />
-                    <Route path="/preference" component={PreferencePage} />
-                    <Redirect to="/auth" />
-                </Switch>
-            </AuthorizationPage>
+            <Route path="/auth" render={(props: any) => <AuthPage {...props} />} />
+            <Route path="/redirect/:b64" render={(props: any) => <RedirectPage {...props} />} />
+            <Route path="/reports/session/:session" render={(props: any) => <ReportsPage {...props} />} />
+            <Route path="/reports/token/:token" render={(props: any) => <ReportsPage {...props} />} />
+            <Route
+                path={["/page/:ckId", "/home", "/preference", "/"]}
+                exact
+                render={() => (
+                    <AuthorizationPage>
+                        <Switch>
+                            <Route path="/page/:ckId" render={(props: any) => <ProjectPage {...props} />} />
+                            <Route path="/home" render={(props: any) => <HomePage {...props} />} />
+                            <Route path="/preference" render={(props: any) => <PreferencePage {...props} />} />
+                            <Redirect to="/auth" />
+                        </Switch>
+                    </AuthorizationPage>
+                )}
+            />
+            <Route path="/:appName/:ckId?" render={(props: any) => <ApplicationRouter {...props} />} />
         </Switch>
     </Router>
 );
-
-export default AppRoutes;

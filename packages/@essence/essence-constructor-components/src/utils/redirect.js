@@ -1,7 +1,7 @@
 // @flow
 import {type ObservableMap} from "mobx";
-import {camelCaseMemoized} from "@essence/essence-constructor-share/utils";
-import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
+import {camelCaseMemoized, parseMemoize} from "@essence/essence-constructor-share/utils";
+import {snackbarStore} from "@essence/essence-constructor-share/models";
 import forOwn from "lodash/forOwn";
 import qs from "qs";
 import {type PageModelType} from "../stores/PageModel";
@@ -155,7 +155,12 @@ export const redirectUseQuery = ({
         timeout: bc.timeout,
     })
         .then((res) => {
-            const isValid = pageStore.applicationStore.snackbarStore.checkValidResponseAction(res, pageStore.route);
+            const isValid = snackbarStore.checkValidResponseAction(
+                res,
+                pageStore.route,
+                undefined,
+                pageStore.applicationStore,
+            );
 
             if (isValid) {
                 window.open(res.cvUrl);
@@ -164,7 +169,7 @@ export const redirectUseQuery = ({
             return isValid;
         })
         .catch(() => {
-            pageStore.applicationStore.snackbarStore.checkValidResponseAction(
+            snackbarStore.checkValidResponseAction(
                 {
                     ckId: null,
                     cvError: {
@@ -173,10 +178,18 @@ export const redirectUseQuery = ({
                     },
                 },
                 pageStore.route,
+                undefined,
+                pageStore.applicationStore,
             );
 
             return false;
         });
+
+function redirectToUrl(redirecturl: string, values: Object) {
+    const url = parseMemoize(redirecturl).runer(values);
+
+    window.open(url);
+}
 
 export const makeRedirect = (bc: BcType, pageStore: PageModelType, record: Object = {}): void => {
     const {redirecturl, redirectusequery, columnsfilter = ""} = bc;
@@ -193,7 +206,14 @@ export const makeRedirect = (bc: BcType, pageStore: PageModelType, record: Objec
         }
     });
 
-    redirecturl && pageStore.applicationStore.redirectToAction(redirecturl, values);
+    if (redirecturl) {
+        if (redirecturl.indexOf("/") >= 0) {
+            redirectToUrl(redirecturl, values);
+        } else {
+            pageStore.applicationStore.redirectToAction(redirecturl, values);
+        }
+    }
+
     redirectusequery &&
         redirectUseQuery({
             bc,

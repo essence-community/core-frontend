@@ -23,7 +23,7 @@ export type RecordsStateStatusType =
     | "attach"
     | "save-any";
 export type RecordsStateType<T> = {
-    defaultValueSet?: "alwaysfirst" | "first",
+    defaultValueSet?: "##alwaysfirst##" | "##first##",
     isUserReload: boolean,
     records: Array<T>,
     status: RecordsStateStatusType,

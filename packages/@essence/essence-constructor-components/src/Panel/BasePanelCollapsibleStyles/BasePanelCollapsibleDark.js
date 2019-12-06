@@ -12,11 +12,15 @@ export const BasePanelCollapsibleDark = (theme: any) => ({
         color: theme.palette.common.white,
         margin: "0 15px",
     },
+    collapseContainer: {
+        width: "100%",
+    },
     collapseContent: {
         padding: "12px 0 8px 0",
     },
     editCollapseContainer: {
         backgroundColor: theme.palette.common.white,
+        width: "100%",
         zIndex: 4,
     },
     labelGrid: {
@@ -31,5 +35,8 @@ export const BasePanelCollapsibleDark = (theme: any) => ({
         color: theme.palette.common.white,
         display: "flex",
         fontSize: 20,
+    },
+    root: {
+        width: "100%",
     },
 });

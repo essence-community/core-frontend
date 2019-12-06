@@ -1,33 +1,41 @@
 export interface IRequest {
-    query: string,
-    action?: string,
-    body?: object,
-    session?: string,
-    json?: object,
-    pageObject?: string,
-    list?: boolean,
-    plugin?: string,
-    gate?: string,
-    timeout?: string,
-    formData?: FormData,
+    query: string;
+    action?: string;
+    body?: object;
+    session?: string;
+    json?: object;
+    pageObject?: string;
+    list?: boolean;
+    plugin?: string;
+    gate?: string;
+    timeout?: string;
+    formData?: FormData;
+    method?: "POST";
+    isCamelCase?: boolean;
+    onUploadProgress?: (progressEvent: ProgressEvent) => void;
 }
 
 export interface IRequestData {
-    result?: string,
+    result?: string;
 }
 
 export interface IRequestResponse {
-    success: boolean | string,
-    data: IRequestData | IRequestData[],
+    success: boolean | string;
+    data: IRequestData | IRequestData[];
 }
 
 export interface IRequestCheckError {
-    response: IRequestResponse,
-    query: string,
-    list: boolean,
+    responseJSON: IRequestResponse;
+    query: string;
+    list: boolean;
 }
 
 export interface IResponseError extends Error {
-    responseError: IRequestResponse,
-    query: string,
-} 
+    responseError: IRequestResponse;
+    query: string;
+}
+
+export interface IResponse {
+    cvError?: Record<string, string[]>;
+    cvStackTrace?: string;
+}

@@ -182,6 +182,6 @@ class GridColumnLink extends React.Component<PropsType, StateType> {
 
 export default compose(
     commonDecorator,
-    withTranslation("main"),
+    withTranslation("meta"),
     withStyles(styles, {withTheme: true}),
 )(GridColumnLink);

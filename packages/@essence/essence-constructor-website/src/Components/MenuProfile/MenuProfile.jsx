@@ -173,13 +173,11 @@ class MenuProfile extends React.Component<PropsType> {
                                 <Grid item xs>
                                     <BuilderPanel editing={true} bc={config} pageStore={pageStore} />
                                 </Grid>
-                                <Grid item xs>
-                                    <Grid container justify="flex-end" spacing={1}>
-                                        <Grid item>
-                                            <Button color="primary" size="small" onClick={this.handleLogout}>
-                                                {this.props.t("8c0119ba23c74e158c5d50c83884fcb5")}
-                                            </Button>
-                                        </Grid>
+                                <Grid item xs container justify="flex-end" spacing={1}>
+                                    <Grid item>
+                                        <Button color="primary" size="small" onClick={this.handleLogout}>
+                                            {this.props.t("8c0119ba23c74e158c5d50c83884fcb5")}
+                                        </Button>
                                     </Grid>
                                 </Grid>
                             </Grid>

@@ -63,7 +63,8 @@ const getChilds = ({bc, gridStore, pageStore, values}) => {
                 : field;
 
         return {
-            column: field.column,
+            // CORE-1430: Для FieldPeriod не должно быть column: undefined
+            ...(field.column ? {column: field.column} : {}),
             editmode: field.editmode,
             ...(bc.autobuild === "true" ? omit(fieldProps, FIELD_OMIT_ATTRIBUTES_AUTOBUILD) : fieldProps),
             // eslint-disable-next-line sort-keys

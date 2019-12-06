@@ -6,7 +6,8 @@ import {ThemeProvider} from "@material-ui/styles";
 import moment from "moment";
 import "moment/locale/ru";
 import {SnackbarMobx, themeVars, Tooltip} from "@essence/essence-constructor-components";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
+import {snackbarStore, settingsStore} from "@essence/essence-constructor-share/models";
+import {PageLoader} from "@essence/essence-constructor-share/uicomponents";
 import HTML5Backend from "react-dnd-html5-backend";
 import {DndProvider} from "react-dnd";
 import {Block} from "./Components/Block/Block";
@@ -34,9 +35,9 @@ class App extends Component {
 
     render() {
         return (
-            <Suspense fallback={<div>...</div>}>
-                <Provider {...stores}>
-                    <ThemeProvider theme={theme}>
+            <Provider {...stores}>
+                <ThemeProvider theme={theme}>
+                    <Suspense fallback={<PageLoader isLoading loaderType={settingsStore.settings.projectLoader} />}>
                         <DndProvider backend={HTML5Backend}>
                             <Settings applicationStore={stores.applicationStore}>
                                 <AppRoutes />
@@ -51,9 +52,9 @@ class App extends Component {
                                 {this.renderDevTools()}
                             </Settings>
                         </DndProvider>
-                    </ThemeProvider>
-                </Provider>
-            </Suspense>
+                    </Suspense>
+                </ThemeProvider>
+            </Provider>
         );
     }
 }

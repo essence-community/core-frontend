@@ -40,6 +40,18 @@ export const StyleTabPanelDark = (theme) => {
                 boxShadow: "none",
             },
         },
+        "content-left-hbox": {
+            maxWidth: "calc(100% - 266px)",
+        },
+        "content-left-vbox": {
+            maxWidth: "calc(100% - 37px)",
+        },
+        "content-right-hbox": {
+            maxWidth: "calc(100% - 264px)",
+        },
+        "content-right-vbox": {
+            maxWidth: "calc(100% - 37px)",
+        },
         disabled: {
             "& $tabWrapper": {
                 color: theme.palette.common.disabled,

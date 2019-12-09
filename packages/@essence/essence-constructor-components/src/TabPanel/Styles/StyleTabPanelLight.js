@@ -17,15 +17,19 @@ export const StyleTabPanelLight = (theme) => {
         activeTabRoot: {},
         "content-left-hbox": {
             borderTop: `1px solid ${theme.palette.secondary.main}`,
+            overflow: "hidden",
         },
         "content-left-vbox": {
             borderTop: `1px solid ${theme.palette.secondary.main}`,
+            overflow: "hidden",
         },
         "content-right-hbox": {
             borderTop: `1px solid ${theme.palette.secondary.main}`,
+            overflow: "hidden",
         },
         "content-right-vbox": {
             borderTop: `1px solid ${theme.palette.secondary.main}`,
+            overflow: "hidden",
         },
         popoverButton: {
             "&$popoverButtonActive": {

@@ -8,7 +8,7 @@ import {reaction} from "mobx";
 import {observer, disposeOnUnmount} from "mobx-react";
 import {compose} from "recompose";
 import keycode from "keycode";
-import {Tabs, Grid, List, ListItem, IconButton, Tab as MaterialTab} from "@material-ui/core";
+import {Tabs, Grid, List, ListItem, IconButton, Tab as MaterialTab, Paper} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {setComponent, mapComponents, Icon, PanelWidthContext} from "@essence/essence-constructor-share";
 import {Popover} from "@essence/essence-constructor-share/uicomponents";
@@ -205,7 +205,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
             return null;
         }
 
-        return (
+        const content = (
             <Grid
                 xs={12}
                 className={className}
@@ -220,12 +220,22 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
                     hidden={hidden}
                     visible={isVisible ? visible : false}
                     readOnly={readOnly}
-                    elevation={elevation}
+                    elevation={child.type === "TABPANEL" ? undefined : elevation}
                     hideTitle
                     pageStore={pageStore}
                 />
             </Grid>
         );
+
+        if (child.type === "TABPANEL" && elevation) {
+            return (
+                <Paper className="paper-overflow-hidden" elevation={this.props.elevation}>
+                    {content}
+                </Paper>
+            );
+        }
+
+        return content;
     };
 
     renderBaseTabsComponent = (props) => {

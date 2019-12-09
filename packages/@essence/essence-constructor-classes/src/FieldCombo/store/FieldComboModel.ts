@@ -228,6 +228,8 @@ export class FieldComboModel extends StoreBaseModel {
 
     handleSetValue = (value: FieldValue, loaded: boolean, isUserSearch: boolean) => {
         this.lastValue = value === "##first##" || value === "##alwaysfirst##" ? "" : value;
+        const prevInputValue = this.inputValue;
+        const prevSsInputChanged = this.isInputChanged;
 
         // Check loadDebounce after user change value in input
         if (!isUserSearch) {
@@ -237,6 +239,11 @@ export class FieldComboModel extends StoreBaseModel {
         const isFound = this.bc.allownew
             ? this.handleSetValueNew(this.lastValue, loaded, isUserSearch)
             : this.handleSetValueList(this.lastValue, loaded, isUserSearch);
+
+        // Check loadDebounce after user change value in input
+        if (isUserSearch || prevInputValue === this.inputValue) {
+            this.isInputChanged = prevSsInputChanged;
+        }
 
         if (!isFound) {
             if (loaded) {

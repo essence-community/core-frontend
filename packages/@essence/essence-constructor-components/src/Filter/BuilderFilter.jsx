@@ -189,8 +189,8 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
                                 </Grid>
                             ) : null}
                             <Grid item xs zeroMinWidth>
-                                {styleTheme === "light" ? null : (
-                                    <Content horizontalSize="16">
+                                {!title || (styleTheme === "light" && bc.dynamicfilter !== "true") ? null : (
+                                    <Content horizontalSize="16" className={classes.dynamicTitle}>
                                         <Typography
                                             variant="body2"
                                             noWrap

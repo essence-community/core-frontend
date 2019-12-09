@@ -1,5 +1,24 @@
 // @flow
 const BuilderFilterStylesLight = (theme: any) => ({
+    dynamicTitle: {
+        "&:before": {
+            borderRight: `2px solid ${theme.palette.primary.main}`,
+            borderTop: `2px solid ${theme.palette.primary.main}`,
+            borderTopRightRadius: 6,
+            bottom: 0,
+            // eslint-disable-next-line quotes
+            content: '""',
+            left: 0,
+            position: "absolute",
+            top: 0,
+            transform: "skewX(30deg)",
+            width: 24,
+        },
+        borderBottom: `2px solid ${theme.palette.primary.main}`,
+        // eslint-disable-next-line no-magic-numbers
+        paddingLeft: theme.spacing(5),
+        position: "relative",
+    },
     filterButtons: {
         "&:after": {
             backgroundColor: theme.palette.primary.main,

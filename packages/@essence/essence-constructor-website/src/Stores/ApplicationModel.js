@@ -223,10 +223,9 @@ export class ApplicationModel implements ApplicationModelType {
             this.cvLogin = "";
             this.caActions = [];
             this.isApplicationReady = false;
-            const backUrl = this.pagesStore.activePage ? `page/${this.pagesStore.activePage.ckPage}` : undefined;
 
             removeFromStore("auth");
-            history.push("/auth", {backUrl});
+            history.push("/auth", {backUrl: history.location.pathname});
         }
         if (this.wsClient && this.wsClient.readyState === this.wsClient.OPEN) {
             this.wsClient.onclose = noop;

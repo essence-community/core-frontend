@@ -1,4 +1,5 @@
 import * as React from "react";
+import MobxReactForm from "mobx-react-form";
 import {
     IClassProps,
     mapComponents,
@@ -7,6 +8,9 @@ import {
     PageLoader,
     VAR_SELF_CV_URL,
     FieldValue,
+    loggerRoot,
+    EditorContex,
+    IEditorContext,
 } from "@essence/essence-constructor-share";
 import {settingsStore, snackbarStore} from "@essence/essence-constructor-share/models";
 import {useTranslation} from "@essence/essence-constructor-share/utils";
@@ -17,11 +21,28 @@ import {ApplicationModel, CLOSE_CODE} from "../store/ApplicationModel";
 import {renderGlobalValuelsInfo} from "../utils/renderGlobalValuelsInfo";
 import {ApplicationWindows} from "../components/ApplicationWindows";
 
+const logger = loggerRoot.extend("PagerContainer");
+
+// eslint-disable-next-line max-lines-per-function
 export const ApplicationContainer: React.FC<IClassProps> = () => {
     const history = useHistory();
     const {ckId, appName} = useParams();
     const [applicationStore] = React.useState(() => new ApplicationModel(history, appName));
     const [trans] = useTranslation("meta");
+    const onFormChange = React.useCallback(
+        (form: typeof MobxReactForm) => {
+            logger(trans("f9c3bf3691864f4d87a46a9ba367a855"), form.values());
+        },
+        [trans],
+    );
+
+    const editor: IEditorContext = React.useMemo(
+        () => ({
+            form: new MobxReactForm(undefined, {hooks: {onFieldChange: onFormChange}}),
+            mode: "1",
+        }),
+        [onFormChange],
+    );
 
     React.useEffect(() => {
         const loadApplication = async () => {
@@ -137,22 +158,24 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
 
     return useObserver(() => (
         <ApplicationContext.Provider value={applicationStore}>
-            {applicationStore.isApplicationReady && applicationStore.bc ? (
-                <>
-                    {mapComponents(applicationStore.bc.childs, (ChildComponent, childBc) => (
-                        <ChildComponent
-                            pageStore={applicationStore.pageStore}
-                            key={childBc.ckPageObject}
-                            bc={childBc}
-                            visible
-                        />
-                    ))}
-                    <ApplicationWindows pageStore={applicationStore.pageStore} />
-                </>
-            ) : (
-                // @ts-ignore
-                <PageLoader isLoading loaderType={settingsStore.settings.projectLoader} />
-            )}
+            <EditorContex.Provider value={editor}>
+                {applicationStore.isApplicationReady && applicationStore.bc ? (
+                    <>
+                        {mapComponents(applicationStore.bc.childs, (ChildComponent, childBc) => (
+                            <ChildComponent
+                                pageStore={applicationStore.pageStore}
+                                key={childBc.ckPageObject}
+                                bc={childBc}
+                                visible
+                            />
+                        ))}
+                        <ApplicationWindows pageStore={applicationStore.pageStore} />
+                    </>
+                ) : (
+                    // @ts-ignore
+                    <PageLoader isLoading loaderType={settingsStore.settings.projectLoader} />
+                )}
+            </EditorContex.Provider>
         </ApplicationContext.Provider>
     ));
 };

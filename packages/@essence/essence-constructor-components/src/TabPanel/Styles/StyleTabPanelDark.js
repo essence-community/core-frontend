@@ -126,6 +126,9 @@ export const StyleTabPanelDark = (theme) => {
             paddingLeft: theme.spacing(1),
             paddingRight: theme.spacing(1),
         },
+        popoverButtonlistItemSelected: {
+            color: theme.palette.common.selectedMenu,
+        },
         selectedTabRoot: {
             "&$tabRoot": {
                 "&:before": {

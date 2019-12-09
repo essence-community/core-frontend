@@ -260,6 +260,9 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
                         visible={visible}
                         Component={ListItem}
                         isActive={store.tabValue === tab.ckPageObject}
+                        classes={{
+                            selected: classes.popoverButtonlistItemSelected,
+                        }}
                         className={classes.popoverButtonlistItem}
                     >
                         {t(tab.cvDisplayed)}

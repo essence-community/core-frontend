@@ -38,6 +38,7 @@ export const FieldTextareaInput: React.FC<IFieldTextareaInputProps> = (props) =>
                 autoHeight
                 autoHeightMax={maxHeight && !height ? maxHeight : height}
                 autoHeightMin={minHeight && !height ? minHeight : height}
+                hideHorizontalScrollbar
                 style={{marginTop: 11}}
                 onClick={handleFocus}
                 // @ts-ignore

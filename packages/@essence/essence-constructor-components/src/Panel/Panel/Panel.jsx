@@ -78,6 +78,8 @@ const GRID_ALIGN_CONFIGS = {
 };
 
 export class Panel extends React.Component<PropsType> {
+    static contextType = PanelWidthContext;
+
     handleChangeChildWidth = (id: string, newWidth: number, side?: "right" | "left") => {
         const {store} = this.props;
 
@@ -126,6 +128,35 @@ export class Panel extends React.Component<PropsType> {
                           }
                         : toColumnStyleWidth(child.width);
 
+                    const childComponnt = (
+                        <ChildComp
+                            bc={child}
+                            editing={editing}
+                            disabled={disabled}
+                            hidden={hidden}
+                            readOnly={readOnly}
+                            elevation={elevation}
+                            pageStore={pageStore}
+                            visible={visible}
+                            onExpand={onExpand}
+                            tabIndex={tabIndex}
+                            record={record}
+                        />
+                    );
+
+                    if (!isResizeEnable) {
+                        return (
+                            <Grid
+                                item
+                                xs={isRow ? true : MAX_PANEL_WIDTH}
+                                className={isRow ? classes.panelItemFlexBasis : undefined}
+                                style={style}
+                            >
+                                {childComponnt}
+                            </Grid>
+                        );
+                    }
+
                     return (
                         <HorizontalResizer
                             key={child.ckPageObject}
@@ -138,20 +169,10 @@ export class Panel extends React.Component<PropsType> {
                             itemsNumber={childs.length}
                             onChange={this.handleChangeChildWidth}
                         >
-                            <PanelWidthContext.Provider value={childWidthData.width}>
-                                <ChildComp
-                                    bc={child}
-                                    editing={editing}
-                                    disabled={disabled}
-                                    hidden={hidden}
-                                    readOnly={readOnly}
-                                    elevation={elevation}
-                                    pageStore={pageStore}
-                                    visible={visible}
-                                    onExpand={onExpand}
-                                    tabIndex={tabIndex}
-                                    record={record}
-                                />
+                            <PanelWidthContext.Provider
+                                value={this.context ? `${this.context}:${childWidthData.width}` : childWidthData.width}
+                            >
+                                {childComponnt}
                             </PanelWidthContext.Provider>
                         </HorizontalResizer>
                     );

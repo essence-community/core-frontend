@@ -141,7 +141,7 @@ export const StyleTabPanelLight = (theme) => {
             "& $tabRoot": {
                 "&$activeTabRoot": {
                     borderLeft: `2px solid ${theme.palette.secondary.main}`,
-                    borderTop: `2px solid ${theme.palette.secondary.main}`,
+                    borderTop: `1px solid ${theme.palette.secondary.main}`,
                 },
                 "&:last-child": {
                     "&$activeTabRoot": {

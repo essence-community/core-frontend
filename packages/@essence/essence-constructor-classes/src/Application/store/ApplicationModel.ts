@@ -169,7 +169,9 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
         this.isApplicationReady = false;
 
         removeFromStore("auth");
-        this.history.push("/auth", {backUrl: this.history.location.pathname});
+        if (this.history.location.pathname.indexOf("auth") === -1) {
+            this.history.push("/auth", {backUrl: this.history.location.pathname});
+        }
 
         if (this.wsClient && this.wsClient.readyState === this.wsClient.OPEN) {
             this.wsClient.onclose = noop;
@@ -195,14 +197,12 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
                 this.recordsStore
                     .searchAction({ckPage: settingsStore.settings[VAR_SETTING_PROJECT_APPLICATION_PAGE]})
                     .then(() => {
+                        const {children} = this.recordsStore.selectedRecrodValues;
+
                         this.recordsStore.setRecordsAction([
                             {
                                 ...this.recordsStore.selectedRecrodValues,
-                                children: [
-                                    camelCaseKeys(pageSafeJson),
-                                    // @ts-ignore
-                                    ...this.recordsStore.selectedRecrodValues.children,
-                                ],
+                                children: [camelCaseKeys(pageSafeJson), ...(Array.isArray(children) ? children : [])],
                             },
                         ]);
                         this.recordsStore.setSelectionAction(this.recordsStore.selectedRecordId);

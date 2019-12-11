@@ -1,4 +1,4 @@
-import {extendObservable} from "mobx";
+import {computed, observable} from "mobx";
 import {
     IStoreBaseModelProps,
     IRecordsModel,
@@ -12,27 +12,58 @@ import {StoreBaseModel, RecordsModel} from "@essence/essence-constructor-share/m
 import {ISuggestion} from "./FieldComboModel.types";
 
 export class FieldComboModel extends StoreBaseModel {
-    suggestions: Array<ISuggestion>;
-
     recordsStore: IRecordsModel;
 
     displayfield: string;
 
     valuefield: string;
 
-    inputValue: string;
-
     valueLength: number;
 
-    highlightedValue: string;
-
-    highlightedIndex: number;
-
-    lastValue: FieldValue;
-
-    isInputChanged: boolean;
-
     loadDebounce: (value: string, isUserReload: boolean) => void;
+
+    @computed get highlightedIndex(): number {
+        return this.highlightedValue
+            ? this.suggestions.findIndex((sug: ISuggestion) => sug.value === this.highlightedValue)
+            : 0;
+    }
+
+    @observable highlightedValue = "";
+
+    @observable inputValue = "";
+
+    @observable isInputChanged = false;
+
+    @observable lastValue: FieldValue = "";
+
+    @computed get selectedRecord() {
+        return this.recordsStore.selectedRecord;
+    }
+
+    @computed get suggestions(): Array<ISuggestion> {
+        const inputValueLower = this.inputValue.toLowerCase();
+        let suggestions: ISuggestion[] = this.recordsStore.recordsState.records.map(this.getSuggestion);
+
+        if (
+            this.bc.allownew &&
+            this.inputValue &&
+            suggestions.findIndex(
+                (suggestion: ISuggestion) =>
+                    suggestion.labelLower === inputValueLower || suggestion.value === this.inputValue,
+            ) === -1
+        ) {
+            suggestions = [
+                {isNew: true, label: this.inputValue, labelLower: inputValueLower, value: this.inputValue},
+                ...suggestions,
+            ];
+        }
+
+        if (this.isInputChanged) {
+            return suggestions.filter((sug: ISuggestion) => sug.labelLower.indexOf(inputValueLower) !== -1);
+        }
+
+        return suggestions;
+    }
 
     constructor(props: IStoreBaseModelProps) {
         super(props);
@@ -56,45 +87,6 @@ export class FieldComboModel extends StoreBaseModel {
                 this.recordsStore.searchAction({[bc.queryparam]: inputValue}, {isUserReload});
             }
         }, parseInt(querydelay, 10) * 1000);
-
-        extendObservable(this, {
-            get highlightedIndex() {
-                return this.highlightedValue
-                    ? this.suggestions.findIndex((sug: ISuggestion) => sug.value === this.highlightedValue)
-                    : 0;
-            },
-            highlightedValue: "",
-            inputValue: "",
-            isInputChanged: false,
-            lastValue: "",
-            get selectedRecord() {
-                return this.recordsStore.selectedRecord;
-            },
-            get suggestions() {
-                const inputValueLower = this.inputValue.toLowerCase();
-                let suggestions: ISuggestion[] = this.recordsStore.recordsState.records.map(this.getSuggestion);
-
-                if (
-                    bc.allownew &&
-                    this.inputValue &&
-                    suggestions.findIndex(
-                        (suggestion: ISuggestion) =>
-                            suggestion.labelLower === inputValueLower || suggestion.value === this.inputValue,
-                    ) === -1
-                ) {
-                    suggestions = [
-                        {isNew: true, label: this.inputValue, labelLower: inputValueLower, value: this.inputValue},
-                        ...suggestions,
-                    ];
-                }
-
-                if (this.isInputChanged) {
-                    return suggestions.filter((sug: ISuggestion) => sug.labelLower.indexOf(inputValueLower) !== -1);
-                }
-
-                return suggestions;
-            },
-        });
     }
 
     reloadStoreAction = (): Promise<object | undefined> => {

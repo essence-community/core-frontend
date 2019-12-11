@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/href-no-hash */
 import {getFromStore} from "@essence/essence-constructor-share/utils";
 
 export const styleTheme = getFromStore("theme", "light");

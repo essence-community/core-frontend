@@ -1,8 +1,4 @@
-/* eslint react/no-multi-comp:0, no-console:0 */
 // @flow
-import "rc-calendar/assets/index.css";
-import "rc-time-picker/assets/index.css";
-
 import * as React from "react";
 import Calendar from "rc-calendar";
 import DatePicker from "rc-calendar/lib/Picker";

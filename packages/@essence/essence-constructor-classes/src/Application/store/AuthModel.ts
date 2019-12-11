@@ -1,4 +1,4 @@
-import {extendObservable, action} from "mobx";
+import {observable, action} from "mobx";
 import {History} from "history";
 import {
     getFromStore,
@@ -12,17 +12,10 @@ import {
 import {IAuthSession} from "./AuthModel.types";
 
 export class AuthModel implements IAuthModel {
-    userInfo: Partial<IAuthSession>;
+    @observable userInfo = getFromStore<Partial<IAuthSession>>("auth", {}) || {};
 
-    applicationStore: IApplicationModel;
-
-    constructor(applicationStore: IApplicationModel) {
-        this.applicationStore = applicationStore;
-
-        extendObservable(this, {
-            userInfo: getFromStore("auth", {}),
-        });
-    }
+    // eslint-disable-next-line no-useless-constructor
+    constructor(public applicationStore: IApplicationModel) {}
 
     checkAuthAction = action("checkAuthAction", (history: History) =>
         request({

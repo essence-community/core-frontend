@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/href-no-hash */
 // @flow
 const AuthPageStylesLight = (theme: any) => ({
     button: {

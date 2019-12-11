@@ -91,8 +91,11 @@ export class FieldComboModel extends StoreBaseModel {
 
     reloadStoreAction = (): Promise<object | undefined> => {
         if (!this.recordsStore.isLoading) {
+            const selectedRecordId = this.recordsStore.selectedRecrodValues[VAR_RECORD_ID];
+
             return this.recordsStore.loadRecordsAction({
-                selectedRecordId: this.recordsStore.selectedRecrodValues[VAR_RECORD_ID],
+                selectedRecordId:
+                    selectedRecordId === null || typeof selectedRecordId === "object" ? undefined : selectedRecordId,
             });
         }
 

@@ -139,7 +139,7 @@ export class PagesModel implements IPagesModel {
         const lastCvLogin = getFromStore(STORE_LAST_CV_LOGIN_KEY);
         const promise = Promise.resolve();
 
-        if (cvLogin === lastCvLogin) {
+        if (cvLogin === lastCvLogin && pagesIds) {
             pagesIds.forEach((ckPage) => {
                 const activePage = this.pages.find((page) => page.ckPage === ckPage);
 

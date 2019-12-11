@@ -15,7 +15,7 @@ interface IProps extends IFieldProps {
     bc: IBuilderConfig;
     inputRef: React.RefObject<HTMLInputElement>;
     textFieldRef: React.RefObject<HTMLDivElement>;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
+    onChange: (event: React.ChangeEvent<HTMLInputElement> | null, value: string) => void;
     onClose: (event: React.SyntheticEvent) => void;
     onOpen: (event: React.SyntheticEvent) => void;
     onBlur: (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;

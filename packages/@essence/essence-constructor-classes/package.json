@@ -7,6 +7,9 @@
   "author": "Oleh Kutsenko",
   "license": "MIT",
   "private": false,
+  "scripts": {
+      "tscheck": "tsc"
+  },
   "dependencies": {
     "@essence/essence-constructor-share": "file:../essence-constructor-share/lib/",
     "@material-ui/core": "^4.7.2",

@@ -34,7 +34,7 @@ export interface IApplicationModel extends IStoreBaseModel {
     loadApplicationAction(): Promise<void>;
     blockApplicationAction(type: string, text: string): void;
     initWsClient(session: string): void;
-    handleWsMessage(msg: Record<string, string>): void;
+    handleWsMessage(msg: MessageEvent): void;
     reloadUserInfoAction(authValues: IAuthSession): void;
     reloadPageObjectAction(ckPage: string, ckPageObject: string): void;
 }

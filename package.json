@@ -13,15 +13,14 @@
     "start-mock": "yarn workspace @essence/essence-constructor-website run start-mock",
     "build": "yarn workspace @essence/essence-constructor-website run build && cp -r ./packages/@essence/essence-constructor-website/build ./build",
     "rebuild-share:dev": "cd packages/@essence/essence-constructor-share && yarn run build && cd ../essence-constructor-dll && yarn install --force && yarn build:dev && cd ../../.. && yarn install --force --ignore-scripts",
-    "CI": "yarn lint",
-    "precommit": "lint-staged",
+    "tscheck:classes": "yarn workspace @essence/essence-constructor-classes run tsc",
+    "tscheck:share": "cd packages/@essence/essence-constructor-share && yarn tsc",
+    "CI": "concurrently \"yarn tscheck:classes\" \"yarn tscheck:share\" \"yarn lint\" \"yarn lint-ts\"",
     "preinstall": "cd packages/@essence/essence-constructor-share && yarn install && yarn build",
     "postinstall": "node scripts/postinstall.js",
-    "eslint": "eslint",
-    "lint": "eslint src license-checker.js packages/@essence/essence-constructor-components/src packages/@essence/essence-constructor-components/mocks packages/@essence/essence-constructor-website/src --ext js,jsx",
+    "lint": "eslint packages/@essence/essence-constructor-components/src packages/@essence/essence-constructor-components/mocks packages/@essence/essence-constructor-website/src --ext js,jsx",
     "lint-ts": "packages/@essence/essence-constructor-classes/node_modules/.bin/eslint --config .eslintrc-ts --ext ts,tsx packages/@essence/essence-constructor-classes/src packages/@essence/essence-constructor-share/src",
     "test": "node scripts/test.js --env=jsdom",
-    "test:snapshot": "node scripts/test.snapshot.js --config=jest.snapshot.config.js",
     "chrome:mac": "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --remote-debugging-port=9222 --user-data-dir=chrome",
     "chrome:win": "<path to chrome>/chrome.exe --remote-debugging-port=9222 --user-data-dir=chrome",
     "chrome:linux": "google-chrome --remote-debugging-port=9222 --user-data-dir=chrome",
@@ -36,6 +35,12 @@
       "packages/@essence/essence-constructor-classes/node_modules/.bin/eslint  --config .eslintrc-ts",
       "git add"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "concurrently \"yarn tscheck:classes\" \"yarn tscheck:share\""
+    }
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.7.4",

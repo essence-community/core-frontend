@@ -3,7 +3,7 @@ import * as React from "react";
 import {useTranslation} from "@essence/essence-constructor-share/utils";
 
 interface ISnackbarContentTextProps {
-    text?: string | Element;
+    text?: string | JSX.Element;
     title?: string;
     description?: string;
     code?: string;

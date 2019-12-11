@@ -7,7 +7,7 @@ import {useStyles} from "./PageLoader.styles";
 
 interface IPagerLoaderProps {
     pageStore?: IPageModel;
-    container?: HTMLDivElement;
+    container: HTMLDivElement | null;
     isLoading?: boolean;
     loaderType?: "default" | "bfl-loader";
 }

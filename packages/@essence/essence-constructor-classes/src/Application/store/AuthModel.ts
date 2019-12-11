@@ -22,7 +22,9 @@ export class AuthModel implements IAuthModel {
             action: "sql",
             query: "GetSessionData",
         })
+            // @ts-ignore
             .then((response: IAuthSession) => {
+                // @ts-ignore
                 if (response && snackbarStore.checkValidLoginResponse(response)) {
                     this.successLoginAction(response, history);
                 }
@@ -38,18 +40,19 @@ export class AuthModel implements IAuthModel {
                 body: authValues,
                 query: "Login",
             })
-                .then((response: IAuthSession) => {
-                    if (snackbarStore.checkValidLoginResponse(response)) {
+                .then((response) => {
+                    if (snackbarStore.checkValidLoginResponse(Array.isArray(response) ? response[0] : response)) {
                         this.successLoginAction(
                             {
-                                ...response,
+                                // @ts-ignore
+                                ...(response as IAuthSession),
                                 ...responseOptions,
                             },
                             history,
                         );
                     }
                 })
-                .catch((error) => {
+                .catch((error: any) => {
                     snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
                     this.applicationStore.logoutAction();
                     this.userInfo = {};

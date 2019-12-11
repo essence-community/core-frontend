@@ -16,7 +16,13 @@ export class IframeModel extends StoreBaseModel implements IStoreBaseModel {
     bc: IBuilderConfig;
 
     @computed get typeiframe(): "HTML" | "URL" | string {
-        return this.bc.typeiframe ? parse(this.bc.typeiframe).runer(this.pageStore.globalValues) : "URL";
+        const typeiframe = this.bc.typeiframe && parse(this.bc.typeiframe).runer(this.pageStore.globalValues);
+
+        if (typeof typeiframe === "string") {
+            return typeiframe;
+        }
+
+        return "URL";
     }
 
     @computed get value(): string {

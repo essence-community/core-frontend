@@ -50,9 +50,9 @@ export class PageModel implements IPageModel {
 
     route?: IRouteRecord;
 
-    pageEl?: HTMLDivElement;
+    pageEl: HTMLDivElement | null;
 
-    pageInnerEl?: HTMLDivElement;
+    pageInnerEl: HTMLDivElement | null;
 
     isEdit: boolean;
 
@@ -241,7 +241,10 @@ export class PageModel implements IPageModel {
         this.ckPage = ckPage;
 
         const response = await this.recordsStore.searchAction({ckPage});
-        const globalValue = this.recordsStore.selectedRecrodValues[VAR_RECORD_GLOBAL_VALUE];
+        const globalValue = this.recordsStore.selectedRecrodValues[VAR_RECORD_GLOBAL_VALUE] as Record<
+            string,
+            FieldValue
+        >;
 
         if (globalValue) {
             this.updateGlobalValues(globalValue);
@@ -250,11 +253,11 @@ export class PageModel implements IPageModel {
         return response;
     });
 
-    setPageElAction = action("setPageElAction", (pageEl?: HTMLDivElement) => {
+    setPageElAction = action("setPageElAction", (pageEl: HTMLDivElement | null) => {
         this.pageEl = pageEl;
     });
 
-    setPageInnerElAction = (pageInnerEl?: HTMLDivElement) => {
+    setPageInnerElAction = (pageInnerEl: HTMLDivElement | null) => {
         this.pageInnerEl = pageInnerEl;
     };
 

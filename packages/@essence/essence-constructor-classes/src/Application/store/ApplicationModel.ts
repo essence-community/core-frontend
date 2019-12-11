@@ -13,7 +13,6 @@ import {
     IRecordsModel,
     IPageModel,
     IBuilderMode,
-    IStoreBaseModel,
     IHandlers,
     IRecord,
 } from "@essence/essence-constructor-share";
@@ -53,11 +52,15 @@ const prepareUserGlobals = (userInfo: Partial<IAuthSession>) => {
         }, {}),
     );
 };
+const NONE_BC = {
+    ckPageObject: "none",
+    ckParent: "none",
+};
 
 /**
  * @exports ApplicationModel
  */
-export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
+export class ApplicationModel implements IApplicationModel {
     routesStore: RoutesModel | null;
 
     applicationStore = null;
@@ -80,11 +83,11 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
 
     mode: string;
 
-    @computed get bc(): IBuilderConfig | undefined {
+    @computed get bc(): IBuilderConfig {
         const {children} = this.recordsStore.selectedRecrodValues;
 
         if (!Array.isArray(children)) {
-            return undefined;
+            return NONE_BC;
         }
 
         return children.find((rec: IBuilderConfig) => {
@@ -177,6 +180,7 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
     redirectToAction = action("redirectToAction", async (ckPage: string, _params: Record<string, any>) => {
         const page = await this.pagesStore.setPageAction(ckPage, true);
 
+        // Log
         if (page) {
             await when(() => !page.isLoading);
 
@@ -203,7 +207,7 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
             snackbarStore.recordsStore.recordsState.status === "init" && snackbarStore.recordsStore.loadRecordsAction(),
         ]);
 
-        if (this.bc) {
+        if (this.bc.ckPageObject !== "none") {
             this.routesStore = new RoutesModel(
                 {
                     ckPageObject: "routes",
@@ -213,8 +217,8 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
                 this,
             );
 
-            await this.routesStore.recordsStore.loadRecordsAction();
-            this.pagesStore.restorePagesAction(this.authStore.userInfo.cvLogin);
+            await this.routesStore?.recordsStore.loadRecordsAction();
+            this.pagesStore.restorePagesAction(this.authStore.userInfo.cvLogin || "");
         }
 
         this.isApplicationReady = true;
@@ -229,7 +233,7 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
     });
 
     initWsClient = (session: string) => {
-        let wsClient = null;
+        let wsClient: WebSocket | null = null;
 
         new Promise((resolve, reject) => {
             let url = wsUrl;
@@ -293,10 +297,10 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
             });
     };
 
-    handleWsMessage = (msg: Record<string, string>) => {
+    handleWsMessage = (msg: MessageEvent) => {
         const json = JSON.parse(msg.data);
 
-        json.forEach((event) => {
+        json.forEach((event: any) => {
             switch (event.event) {
                 case "notification": {
                     snackbarStore.checkValidResponseAction(
@@ -357,9 +361,7 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
 
     handleWindowOpen = (_mode: IBuilderMode, btnBc: IBuilderConfig) => {
         const window =
-            this.bc &&
-            this.bc.childwindow &&
-            this.bc.childwindow.find((win: IBuilderConfig) => win.ckwindow === btnBc.ckwindow);
+            this.bc.childwindow && this.bc.childwindow.find((win: IBuilderConfig) => win.ckwindow === btnBc.ckwindow);
 
         if (window) {
             this.pageStore.createWindowAction({mode: "1", windowBc: window});

@@ -11,6 +11,8 @@ import {
     loggerRoot,
     EditorContex,
     IEditorContext,
+    IPageModel,
+    IRecord,
 } from "@essence/essence-constructor-share";
 import {settingsStore, snackbarStore} from "@essence/essence-constructor-share/models";
 import {useTranslation} from "@essence/essence-constructor-share/utils";
@@ -26,7 +28,7 @@ const logger = loggerRoot.extend("PagerContainer");
 // eslint-disable-next-line max-lines-per-function
 export const ApplicationContainer: React.FC<IClassProps> = () => {
     const history = useHistory();
-    const {ckId, appName} = useParams();
+    const {ckId, appName = ""} = useParams();
     const [applicationStore] = React.useState(() => new ApplicationModel(history, appName));
     const [trans] = useTranslation("meta");
     const onFormChange = React.useCallback(
@@ -49,7 +51,9 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
             await applicationStore.loadApplicationAction();
             const {routesStore, pagesStore, authStore} = applicationStore;
             const routes = routesStore ? routesStore.recordsStore.records : [];
-            const pageConfig = routes.find((route) => route[VAR_RECORD_ID] === ckId || route[VAR_SELF_CV_URL] === ckId);
+            const pageConfig = routes.find(
+                (route: IRecord) => route[VAR_RECORD_ID] === ckId || route[VAR_SELF_CV_URL] === ckId,
+            );
             const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
             if (typeof pageId === "string") {
@@ -70,6 +74,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
         return () => {
             if (applicationStore.wsClient) {
                 // TODO: check why not send close_code to close event;
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
                 applicationStore.wsClient.onclose = () => {};
                 applicationStore.wsClient.close(CLOSE_CODE);
                 applicationStore.wsClient = null;
@@ -124,7 +129,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
         return reaction(
             () => applicationStore.globalValues.toJSON(),
             (globalValues) => {
-                applicationStore.pagesStore.pages.forEach((page) => {
+                applicationStore.pagesStore.pages.forEach((page: IPageModel) => {
                     page.updateGlobalValues(globalValues);
                 });
             },

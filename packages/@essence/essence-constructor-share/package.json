@@ -14,7 +14,8 @@
   "scripts": {
     "build": "constructor-package-builder build:tsc",
     "deploy": "constructor-package-builder deploy",
-    "configsync": "node ./scripts/update.js"
+    "configsync": "node ./scripts/update.js",
+    "tscheck": "tsc"
   },
   "dependencies": {
     "@material-ui/core": "4.7.2",

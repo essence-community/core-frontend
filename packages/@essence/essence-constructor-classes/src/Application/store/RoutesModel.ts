@@ -15,7 +15,7 @@ export class RoutesModel implements IRoutesModel {
     @observable favorits: ObservableMap = observable.map(getFromStore(STORE_FAVORITS_KEY, {}));
 
     constructor(bc: IBuilderConfig, applicationStore: IApplicationModel) {
-        this.recordsStore = new RecordsModel(bc, {applicationStore});
+        this.recordsStore = new RecordsModel(bc, {applicationStore, pageStore: null});
     }
 
     setFavoritsAction = action("setFavoritsAction", (ckId: string) => {

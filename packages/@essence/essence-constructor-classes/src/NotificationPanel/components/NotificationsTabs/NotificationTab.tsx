@@ -12,6 +12,7 @@ export const NotificationsTab: React.FC<INotificationsTabProps> = (props) => {
     const {bc, selected, hidden} = props;
     const classes = useStyles(props);
     const [trans] = useTranslation("meta");
+    // @ts-ignore
     const cvDisplayed = trans(bc[VAR_RECORD_DISPLAYED]);
 
     return useObserver(() => (

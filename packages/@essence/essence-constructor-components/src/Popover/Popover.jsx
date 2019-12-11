@@ -22,9 +22,9 @@ type StateType = {|
 const EMPTY_RECT = {height: 0, left: 0, top: 0, width: 0};
 
 export class PopoverBase extends React.Component<PopoverPropsType, StateType> {
-    rootRef = React.createRef();
+    rootRef = React.createRef<HTMLDivElement>();
 
-    popupRef = React.createRef();
+    popupRef = React.createRef<HTMLDivElement>();
 
     static defaultProps = {
         anchorOrigin: {
@@ -168,8 +168,8 @@ export class PopoverBase extends React.Component<PopoverPropsType, StateType> {
              */
             switch (true) {
                 case this.isMouseDownPopover:
-                case rootEl && rootEl.contains(event.target):
-                case popupEl && popupEl.contains(event.target):
+                case rootEl && event.target instanceof Node && rootEl.contains(event.target):
+                case popupEl && event.target instanceof Node && popupEl.contains(event.target):
                     break;
                 default:
                     this.handleClose();
@@ -204,6 +204,7 @@ export class PopoverBase extends React.Component<PopoverPropsType, StateType> {
         }
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {left, top, open} = this.state;
         const {

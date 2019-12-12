@@ -1,9 +1,11 @@
+import {FieldValue} from "./Field";
+
 export interface IRequest {
     query: string;
     action?: string;
-    body?: object;
+    body?: Record<string, FieldValue>;
     session?: string;
-    json?: object;
+    json?: Record<string, FieldValue>;
     pageObject?: string;
     list?: boolean;
     plugin?: string;

@@ -8,8 +8,8 @@ export default (theme: IEssenceTheme) => ({
         "&:last-child": {
             borderBottom: "none",
         },
-        borderBottom: `1px solid ${theme.palette.grey.light}`,
-        color: theme.palette.text.light,
+        borderBottom: `1px solid ${theme.essence.palette.grey.light}`,
+        color: theme.essence.palette.text.light,
         cursor: "pointer",
         maxHeight: theme.essence.sizing.gridRowHeight,
         paddingLeft: theme.spacing(1),

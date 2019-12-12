@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/href-no-hash */
 // @flow
 import React from "react";
 import {Grid} from "@material-ui/core";

@@ -15,7 +15,7 @@ interface IProps extends IFieldProps {
     bc: IBuilderConfig;
     inputRef: React.RefObject<HTMLInputElement>;
     textFieldRef: React.RefObject<HTMLDivElement>;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
+    onChange: (event: React.ChangeEvent<HTMLInputElement> | null, value: string) => void;
     onClose: (event: React.SyntheticEvent) => void;
     onOpen: (event: React.SyntheticEvent) => void;
     onBlur: (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
@@ -34,8 +34,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
         const {value} = event.target;
 
         if (props.bc.allownew) {
-            const lowerValue = value.toLowerCase();
-            const sugValue = props.store.suggestions.find((sug: ISuggestion) => sug.labelLower === lowerValue);
+            const sugValue = props.store.suggestions.find((sug: ISuggestion) => sug.label === value);
             const newValue = sugValue ? sugValue.value : `${props.bc.allownew}${value}`;
 
             props.store.handleChangeValue(value, !sugValue);

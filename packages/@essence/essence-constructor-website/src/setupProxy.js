@@ -3,7 +3,9 @@ const proxy = require("http-proxy-middleware");
 let proxyConfig = null;
 
 try {
-    proxyConfig = JSON.parse(process.env.PROXY);
+    if (process.env.PROXY) {
+        proxyConfig = JSON.parse(process.env.PROXY);
+    }
 } catch (err) {
     console.warn("PROXY environment not set", err);
 }

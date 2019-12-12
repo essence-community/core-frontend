@@ -40,7 +40,6 @@ const calcStyle = (bc: IBuilderConfig) => ({
     height: bc.height ? toSize(bc.height, "") : undefined,
     maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
     minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
-    overflow: bc.width ? "hidden" : "none",
     ...toColumnStyleWidth(bc.width),
 });
 
@@ -57,12 +56,20 @@ export const AppBar: React.FC<IClassProps> = (props) => {
         }),
         [bc.height, bc.maxheight, bc.minheight, bc.contentview, bc.width],
     );
+    const contentGridHeightStyle = React.useMemo(
+        () => ({
+            height: bc.height ? toSize(bc.height, "") : undefined,
+            maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
+            minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
+        }),
+        [bc.height, bc.maxheight, bc.minheight],
+    );
     const position: any = React.useMemo(() => bc.position || "relative", [bc.position]);
     const uitype = React.useMemo(() => bc.uitype || "1", [bc.uitype]);
     const contentview = React.useMemo(() => bc.contentview || "hbox", [bc.contentview]);
 
     return (
-        <MaterialAppBar classes={classes} color={colors[uitype]} position={position} style={contentStyle}>
+        <MaterialAppBar classes={classes} color={(colors as any)[uitype]} position={position} style={contentStyle}>
             <Grid
                 container
                 justify="flex-start"
@@ -70,11 +77,14 @@ export const AppBar: React.FC<IClassProps> = (props) => {
                 direction="column"
                 alignItems="center"
                 spacing={1}
-                {...GRID_CONFIGS[contentview]}
+                style={contentGridHeightStyle}
+                {...(GRID_CONFIGS as any)[contentview]}
             >
                 {mapComponents(bc.childs || [], (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
                     <Grid item style={calcStyle(childBc)} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
-                        <Child {...props} bc={childBc} />
+                        <div>
+                            <Child {...props} bc={childBc} />
+                        </div>
                     </Grid>
                 ))}
             </Grid>

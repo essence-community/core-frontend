@@ -1,4 +1,4 @@
-import {IClassProps, Icon, Scrollbars} from "@essence/essence-constructor-share";
+import {IClassProps, Icon, Scrollbars, SnackbarStatus} from "@essence/essence-constructor-share";
 import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {useTranslation} from "@essence/essence-constructor-share/utils";
 import {ButtonBase, Grid, Tabs} from "@material-ui/core";
@@ -23,7 +23,7 @@ export const NotificationPanel: React.FC<IClassProps> = (props) => {
     const handlerChangeTab = (event: React.ChangeEvent<{}>, tabValue: number) => {
         const {value} = tabsBc[tabValue];
 
-        snackbarStore.setStatusAction(value);
+        snackbarStore.setStatusAction(value as SnackbarStatus);
     };
 
     return useObserver(() => (

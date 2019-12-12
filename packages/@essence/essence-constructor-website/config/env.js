@@ -9,7 +9,6 @@ const paths = require('./paths');
 delete require.cache[require.resolve('./paths')];
 
 const {NODE_ENV, PROJECT} = process.env;
-
 if (!NODE_ENV) {
   throw new Error(
     'The NODE_ENV environment variable is required but was not specified.'
@@ -17,8 +16,8 @@ if (!NODE_ENV) {
 }
 
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
-var dotenvFiles = [
-    PROJECT !== undefined && `${paths.dotenv}.${PROJECT}`,
+const dotenvFiles = [
+  PROJECT !== undefined && `${paths.dotenv}.${PROJECT}`,
   `${paths.dotenv}.${NODE_ENV}.local`,
   `${paths.dotenv}.${NODE_ENV}`,
   // Don't include `.env.local` for `test` environment

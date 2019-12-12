@@ -36,6 +36,7 @@ export const FieldTextareaContainer: React.FC<IFieldTextareaContainerProps> = (p
         // @ts-ignore
         <TextField
             {...props}
+            // @ts-ignore
             style={{height: "auto"}}
             InputProps={InputProps}
             // eslint-disable-next-line react/jsx-no-duplicate-props

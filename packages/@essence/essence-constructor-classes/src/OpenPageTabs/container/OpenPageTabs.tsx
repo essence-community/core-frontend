@@ -1,5 +1,5 @@
 import {IClassProps, ApplicationContext, IRouteRecord} from "@essence/essence-constructor-share";
-import {toColumnStyleWidth, toSize} from "@essence/essence-constructor-share/utils/transform";
+import {toSize} from "@essence/essence-constructor-share/utils/transform";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_ROUTE_NAME,
@@ -36,17 +36,10 @@ export const OpenPageTabs: React.FC<IClassProps> = (props) => {
             height: toSize(bc.height, "42"),
             maxHeight: toSize(bc.maxheight, "100%"),
             minHeight: toSize(bc.minheight, ""),
-            ...(bc.width ? toColumnStyleWidth(bc.width) : {}),
         }),
-        [bc.height, bc.maxheight, bc.minheight, bc.width],
+        [bc.height, bc.maxheight, bc.minheight],
     );
     const orientation = bc.contentview === "vbox" ? "vertical" : "horizontal";
-    const tabStyleFn =
-        orientation === "horizontal"
-            ? () => ({})
-            : (index: number) => ({
-                  transform: `translateY(${index * 42}px)`,
-              });
     const {pagesStore} = applicationStore;
     const [isOpenMenu, setIsOpenMenu] = React.useState(false);
     const [menuPageValue, setMenuPageValue] = React.useState("");
@@ -93,7 +86,7 @@ export const OpenPageTabs: React.FC<IClassProps> = (props) => {
                 onChange={handleChangePage}
             >
                 {pagesStore.pages
-                    .filter(({route}) => route[VAR_RECORD_ROUTE_VISIBLE_MENU])
+                    .filter(({route}) => route && route[VAR_RECORD_ROUTE_VISIBLE_MENU])
                     .map((page, index) => {
                         const {route} = page;
                         const ckPage = page[VAR_RECORD_ROUTE_PAGE_ID];
@@ -112,7 +105,7 @@ export const OpenPageTabs: React.FC<IClassProps> = (props) => {
                                 onClose={pagesStore.removePageAction}
                                 onContextMenuCustom={handleContextMenu}
                                 orientation={orientation}
-                                style={tabStyleFn(index)}
+                                style={contentStyle}
                             />
                         );
                     })}

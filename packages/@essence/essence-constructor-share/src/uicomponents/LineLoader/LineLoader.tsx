@@ -4,7 +4,7 @@ import {IconBflLine} from "../Icons/IconBflLine";
 import {useStyles} from "./LineLoader.styles";
 
 interface ILineLoaderProps {
-    loaderType: "default" | "bfl-loader";
+    loaderType: "default" | "bfl-loader" | string;
     size: number;
 }
 

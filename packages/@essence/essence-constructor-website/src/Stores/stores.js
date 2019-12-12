@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/href-no-hash */
 // @flow
 import {applicationStore, ApplicationModelType} from "./ApplicationModel";
 import {AuthModel, type AuthModelType} from "./AuthModel";

@@ -16,7 +16,6 @@
     "plugins": ["import", "prettier", "flowtype", "filenames"],
 
     "rules": {
-        "jsx-a11y/href-no-hash": "off",
         "jsx-a11y/anchor-is-valid": ["warn", {"aspects": ["invalidHref"]}],
         "prettier/prettier": "error",
         "jsx-quotes": ["error", "prefer-double"],

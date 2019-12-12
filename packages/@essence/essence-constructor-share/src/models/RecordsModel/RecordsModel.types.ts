@@ -4,6 +4,7 @@ import {FieldValue, IBuilderConfig, RecordsStateStatusType, IRecordsOrder, IAppl
 export interface IJson {
     filter: Record<string, FieldValue>;
     master: Record<string, FieldValue>;
+    [key: string]: FieldValue;
 }
 
 export interface IGetFilterDataOptions {

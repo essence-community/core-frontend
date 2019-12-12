@@ -12,6 +12,8 @@ import {getFieldDate} from "./fieldDateHelpers";
 import styles from "./FieldDateRCSStyles";
 
 import "moment/locale/ru";
+import "rc-calendar/assets/index.css";
+import "rc-time-picker/assets/index.css";
 
 type PropsType = TextFieldChildProps & {
     classes: {
@@ -171,7 +173,7 @@ export class FieldDateRCBase extends React.Component<PropsType, StateType> {
         const {onChange} = this.props;
         const {dateConfig} = this.state;
         const strValue = typeof value === "string" ? value : "";
-        const numberValue = strValue.replace(/\./g, "").trim();
+        const numberValue = strValue.replace(/\./gu, "").trim();
         const momentValue = moment(strValue, dateConfig.format, true);
 
         this.setState({formattedValue: strValue});

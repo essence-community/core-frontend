@@ -28,7 +28,9 @@ export const PagesTree: React.FC<IClassProps> = (props) => {
 
     return (
         <Scrollbars withRequestAnimationFrame style={SCROLLBARS_STYLE}>
-            <TreeRows parent={null} treeModel={store} routesStore={routesStore} pagesStore={pagesStore} level={0} />
+            {routesStore ? (
+                <TreeRows parent={null} treeModel={store} routesStore={routesStore} pagesStore={pagesStore} level={0} />
+            ) : null}
         </Scrollbars>
     );
 };

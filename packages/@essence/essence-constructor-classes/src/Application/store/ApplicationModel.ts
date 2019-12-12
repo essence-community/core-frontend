@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import {extendObservable, action, observable, when, ObservableMap} from "mobx";
+import {computed, action, observable, when, ObservableMap} from "mobx";
 import {
     camelCaseKeys,
     removeFromStore,
@@ -13,7 +13,6 @@ import {
     IRecordsModel,
     IPageModel,
     IBuilderMode,
-    IStoreBaseModel,
     IHandlers,
     IRecord,
 } from "@essence/essence-constructor-share";
@@ -53,37 +52,28 @@ const prepareUserGlobals = (userInfo: Partial<IAuthSession>) => {
         }, {}),
     );
 };
+const NONE_BC = {
+    ckPageObject: "none",
+    ckParent: "none",
+};
 
 /**
  * @exports ApplicationModel
  */
-export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
+export class ApplicationModel implements IApplicationModel {
     routesStore: RoutesModel | null;
 
     applicationStore = null;
 
-    bc: IBuilderConfig;
-
     authStore: AuthModel;
-
-    globalValues: ObservableMap<string, FieldValue>;
-
-    isApplicationReady: boolean;
 
     wsClient: WebSocket | null;
 
     countConnect: number;
 
-    isBlock: boolean;
-
-    blockText: string;
-
     pagesStore: IPagesModel;
 
     history: History;
-
-    // @deprecated
-    session: string;
 
     recordsStore: IRecordsModel;
 
@@ -92,6 +82,31 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
     pageStore: IPageModel;
 
     mode: string;
+
+    @computed get bc(): IBuilderConfig {
+        const {children} = this.recordsStore.selectedRecrodValues;
+
+        if (!Array.isArray(children)) {
+            return NONE_BC;
+        }
+
+        return children.find((rec: IBuilderConfig) => {
+            return parseMemoize(rec.activerules).runer({get: this.handleGetValue});
+        });
+    }
+
+    @observable blockText = "";
+
+    @observable globalValues: ObservableMap<string, FieldValue> = observable.map();
+
+    @observable isApplicationReady = false;
+
+    @observable isBlock = false;
+
+    // @deprecated
+    @computed get session(): string | undefined {
+        return this.authStore.userInfo.session;
+    }
 
     constructor(history: History, cvUrl: string) {
         this.routesStore = null;
@@ -117,26 +132,7 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
             {applicationStore: this, pageStore: null},
         );
 
-        extendObservable(this, {
-            get bc() {
-                const {children} = this.recordsStore.selectedRecrodValues;
-
-                return (
-                    children &&
-                    children.find((rec: IBuilderConfig) => {
-                        return parseMemoize(rec.activerules).runer({get: this.handleGetValue});
-                    })
-                );
-            },
-            blockText: "",
-            globalValues: observable.map(prepareUserGlobals(this.authStore.userInfo)),
-            isApplicationReady: false,
-            isBlock: false,
-            // @deprecated
-            get session() {
-                return this.authStore.userInfo.session;
-            },
-        });
+        this.globalValues.merge(prepareUserGlobals(this.authStore.userInfo));
     }
 
     handleGetValue = (name: string) => {
@@ -169,7 +165,9 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
         this.isApplicationReady = false;
 
         removeFromStore("auth");
-        this.history.push("/auth", {backUrl: this.history.location.pathname});
+        if (this.history.location.pathname.indexOf("auth") === -1) {
+            this.history.push("/auth", {backUrl: this.history.location.pathname});
+        }
 
         if (this.wsClient && this.wsClient.readyState === this.wsClient.OPEN) {
             this.wsClient.onclose = noop;
@@ -182,6 +180,7 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
     redirectToAction = action("redirectToAction", async (ckPage: string, _params: Record<string, any>) => {
         const page = await this.pagesStore.setPageAction(ckPage, true);
 
+        // Log
         if (page) {
             await when(() => !page.isLoading);
 
@@ -195,14 +194,12 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
                 this.recordsStore
                     .searchAction({ckPage: settingsStore.settings[VAR_SETTING_PROJECT_APPLICATION_PAGE]})
                     .then(() => {
+                        const {children} = this.recordsStore.selectedRecrodValues;
+
                         this.recordsStore.setRecordsAction([
                             {
                                 ...this.recordsStore.selectedRecrodValues,
-                                children: [
-                                    camelCaseKeys(pageSafeJson),
-                                    // @ts-ignore
-                                    ...this.recordsStore.selectedRecrodValues.children,
-                                ],
+                                children: [camelCaseKeys(pageSafeJson), ...(Array.isArray(children) ? children : [])],
                             },
                         ]);
                         this.recordsStore.setSelectionAction(this.recordsStore.selectedRecordId);
@@ -210,7 +207,7 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
             snackbarStore.recordsStore.recordsState.status === "init" && snackbarStore.recordsStore.loadRecordsAction(),
         ]);
 
-        if (this.bc) {
+        if (this.bc.ckPageObject !== "none") {
             this.routesStore = new RoutesModel(
                 {
                     ckPageObject: "routes",
@@ -220,8 +217,8 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
                 this,
             );
 
-            await this.routesStore.recordsStore.loadRecordsAction();
-            this.pagesStore.restorePagesAction(this.authStore.userInfo.cvLogin);
+            await this.routesStore?.recordsStore.loadRecordsAction();
+            this.pagesStore.restorePagesAction(this.authStore.userInfo.cvLogin || "");
         }
 
         this.isApplicationReady = true;
@@ -236,7 +233,7 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
     });
 
     initWsClient = (session: string) => {
-        let wsClient = null;
+        let wsClient: WebSocket | null = null;
 
         new Promise((resolve, reject) => {
             let url = wsUrl;
@@ -300,10 +297,10 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
             });
     };
 
-    handleWsMessage = (msg: Record<string, string>) => {
+    handleWsMessage = (msg: MessageEvent) => {
         const json = JSON.parse(msg.data);
 
-        json.forEach((event) => {
+        json.forEach((event: any) => {
             switch (event.event) {
                 case "notification": {
                     snackbarStore.checkValidResponseAction(
@@ -359,13 +356,12 @@ export class ApplicationModel implements IApplicationModel, IStoreBaseModel {
 
     reloadStoreAction = () => Promise.resolve({});
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     clearStoreAction = () => {};
 
     handleWindowOpen = (_mode: IBuilderMode, btnBc: IBuilderConfig) => {
         const window =
-            this.bc &&
-            this.bc.childwindow &&
-            this.bc.childwindow.find((win: IBuilderConfig) => win.ckwindow === btnBc.ckwindow);
+            this.bc.childwindow && this.bc.childwindow.find((win: IBuilderConfig) => win.ckwindow === btnBc.ckwindow);
 
         if (window) {
             this.pageStore.createWindowAction({mode: "1", windowBc: window});

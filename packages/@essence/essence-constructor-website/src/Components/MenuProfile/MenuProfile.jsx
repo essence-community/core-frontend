@@ -35,7 +35,7 @@ const mapStoresToProps = (stores: Object): StoresPropsType => ({
     authStore: stores.authStore,
 });
 
-const getConfig = memoize((trans) => ({
+const getConfig = memoize(() => ({
     childs: [
         {
             ckPageObject: "theme",
@@ -44,12 +44,13 @@ const getConfig = memoize((trans) => ({
             cvDisplayed: "0b5e4673fa194e16a0c411ff471d21d2",
             datatype: "combo",
             displayfield: "name",
+            localization: "meta",
             noglobalmask: "true",
             querymode: "remote",
 
             records: [
-                {name: trans("66ef0068472a4a0394710177f828a9b1"), value: "dark"},
-                {name: trans("fd7c7f3539954cc8a55876e3514906b5"), value: "light"},
+                {name: "66ef0068472a4a0394710177f828a9b1", value: "dark"},
+                {name: "fd7c7f3539954cc8a55876e3514906b5", value: "light"},
             ],
             type: "IFIELD",
             valuefield: "value",
@@ -127,10 +128,11 @@ class MenuProfile extends React.Component<PropsType> {
     };
 
     handleLogout = () => {
-        removeFromStoreByRegex(/_filter_/);
+        removeFromStoreByRegex(/_filter_/u);
         this.props.applicationStore.logoutAction();
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {
             authStore: {userInfo},
@@ -146,7 +148,7 @@ class MenuProfile extends React.Component<PropsType> {
             lang: i18next.language,
             theme: styleTheme,
         };
-        const config = getConfig(this.props.t);
+        const config = getConfig();
 
         return (
             <Provider pageStore={pageStore}>

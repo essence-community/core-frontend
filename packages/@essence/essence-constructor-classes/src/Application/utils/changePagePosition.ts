@@ -1,4 +1,6 @@
-const movePageRight = (pages: Array<PageMode>, dragIndex: number, hoverIndex: number) => {
+import {IPageModel} from "@essence/essence-constructor-share/types";
+
+const movePageRight = (pages: Array<IPageModel>, dragIndex: number, hoverIndex: number) => {
     const dragPage = pages[dragIndex];
     const hoverPage = pages[hoverIndex];
 
@@ -13,7 +15,7 @@ const movePageRight = (pages: Array<PageMode>, dragIndex: number, hoverIndex: nu
     return [...startPages, ...middlePages, hoverPage, dragPage, ...endPages];
 };
 
-const movePageLeft = (pages: Array<PageModelType>, dragIndex: number, hoverIndex: number) => {
+const movePageLeft = (pages: Array<IPageModel>, dragIndex: number, hoverIndex: number) => {
     const dragPage = pages[dragIndex];
     const hoverPage = pages[hoverIndex];
 
@@ -28,7 +30,7 @@ const movePageLeft = (pages: Array<PageModelType>, dragIndex: number, hoverIndex
     return [...startPages, dragPage, hoverPage, ...middlePages, ...endPages];
 };
 
-export const changePagePosition = (pages: Array<PageModelType>, dragIndex: number, hoverIndex: number) => {
+export const changePagePosition = (pages: Array<IPageModel>, dragIndex: number, hoverIndex: number) => {
     if (dragIndex > hoverIndex) {
         return movePageLeft(pages, dragIndex, hoverIndex);
     }

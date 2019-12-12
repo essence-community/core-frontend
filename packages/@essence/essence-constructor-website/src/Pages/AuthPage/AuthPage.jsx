@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/href-no-hash */
 // @flow
 import * as React from "react";
 import {inject, observer} from "mobx-react";
@@ -152,6 +151,7 @@ class AuthPage extends React.Component<PropsType, StateType> {
         );
     };
 
+    // eslint-disable-next-line max-lines-per-function
     renderPasswordField = ({input}) => {
         const {classes} = this.props;
         const {showPassword} = this.state;
@@ -257,9 +257,4 @@ class AuthPage extends React.Component<PropsType, StateType> {
     }
 }
 
-export default compose(
-    inject(mapStoresToProps),
-    withStyles(styles),
-    withTranslation("meta"),
-    observer,
-)(AuthPage);
+export default compose(inject(mapStoresToProps), withStyles(styles), withTranslation("meta"), observer)(AuthPage);

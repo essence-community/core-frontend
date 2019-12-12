@@ -1,4 +1,4 @@
-import {extendObservable, action} from "mobx";
+import {observable, action} from "mobx";
 import {History} from "history";
 import {
     getFromStore,
@@ -12,24 +12,19 @@ import {
 import {IAuthSession} from "./AuthModel.types";
 
 export class AuthModel implements IAuthModel {
-    userInfo: Partial<IAuthSession>;
+    @observable userInfo = getFromStore<Partial<IAuthSession>>("auth", {}) || {};
 
-    applicationStore: IApplicationModel;
-
-    constructor(applicationStore: IApplicationModel) {
-        this.applicationStore = applicationStore;
-
-        extendObservable(this, {
-            userInfo: getFromStore("auth", {}),
-        });
-    }
+    // eslint-disable-next-line no-useless-constructor
+    constructor(public applicationStore: IApplicationModel) {}
 
     checkAuthAction = action("checkAuthAction", (history: History) =>
         request({
             action: "sql",
             query: "GetSessionData",
         })
+            // @ts-ignore
             .then((response: IAuthSession) => {
+                // @ts-ignore
                 if (response && snackbarStore.checkValidLoginResponse(response)) {
                     this.successLoginAction(response, history);
                 }
@@ -45,18 +40,19 @@ export class AuthModel implements IAuthModel {
                 body: authValues,
                 query: "Login",
             })
-                .then((response: IAuthSession) => {
-                    if (snackbarStore.checkValidLoginResponse(response)) {
+                .then((response) => {
+                    if (snackbarStore.checkValidLoginResponse(Array.isArray(response) ? response[0] : response)) {
                         this.successLoginAction(
                             {
-                                ...response,
+                                // @ts-ignore
+                                ...(response as IAuthSession),
                                 ...responseOptions,
                             },
                             history,
                         );
                     }
                 })
-                .catch((error) => {
+                .catch((error: any) => {
                     snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
                     this.applicationStore.logoutAction();
                     this.userInfo = {};

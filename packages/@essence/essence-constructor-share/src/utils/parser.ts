@@ -8,8 +8,12 @@ import {loggerRoot} from "../constants";
 import {i18next} from "./I18n";
 import {camelCaseMemoized} from "./transform";
 
+interface IGetValue {
+    get: (key: string) => FieldValue;
+}
+
 interface IParseReturnType {
-    runer: (values?: Record<string, FieldValue>) => undefined | string | boolean | number;
+    runer: (values?: Record<string, FieldValue> | IGetValue) => undefined | string | boolean | number;
     variables: string[];
 }
 

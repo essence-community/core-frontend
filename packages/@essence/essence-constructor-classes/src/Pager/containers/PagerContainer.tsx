@@ -41,9 +41,9 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
      * We are making a new pageStore when we get defaultvalue.
      * It means that we want to make custom page and getting them from server by bc.ck_query
      */
-    const pageStore: IPageModel | undefined = React.useMemo(() => {
+    const pageStore = React.useMemo<IPageModel>(() => {
         if (applicationStore && props.bc && props.bc.defaultvalue) {
-            const newPageStore = new PageModel({
+            const newPageStore: IPageModel = new PageModel({
                 applicationStore,
                 ckPage: props.bc.defaultvalue,
                 defaultVisible: true,

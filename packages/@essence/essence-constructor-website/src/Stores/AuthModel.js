@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/href-no-hash */
 // @flow
 import {extendObservable, action} from "mobx";
 import {sendRequest} from "@essence/essence-constructor-components";

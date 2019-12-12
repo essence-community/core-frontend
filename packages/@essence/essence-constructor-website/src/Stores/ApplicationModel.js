@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/href-no-hash, max-lines */
+/* eslint-disable max-lines */
 // @flow
 import {extendObservable, action, reaction, observable, type ObservableMap, when} from "mobx";
 import delay from "lodash/delay";
@@ -106,7 +106,7 @@ export class ApplicationModel implements ApplicationModelType {
 
     configs: Object;
 
-    /* eslint max-statements: ["error", 13]*/
+    // eslint-disable-next-line max-statements, max-lines-per-function
     constructor() {
         const authValues: SessionType = getFromStore("auth", {});
         const globalPageStore = new PageModel({applicationStore: this, ckPage: "-1"});
@@ -216,6 +216,7 @@ export class ApplicationModel implements ApplicationModelType {
         return this.loadApplicationAction();
     });
 
+    // eslint-disable-next-line max-statements
     logoutAction = action("logoutAction", () => {
         if (history.location.pathname.indexOf("auth") === -1) {
             this.authData = {};
@@ -304,9 +305,11 @@ export class ApplicationModel implements ApplicationModelType {
         this.blockText = text;
     });
 
+    // eslint-disable-next-line max-lines-per-function
     initWsClient = (session: string) => {
         let wsClient = null;
 
+        // eslint-disable-next-line max-statements
         new Promise((resolve, reject) => {
             let url = wsUrl;
 
@@ -369,6 +372,7 @@ export class ApplicationModel implements ApplicationModelType {
     handleWsMessage = (msg: Object) => {
         const json = JSON.parse(msg.data);
 
+        // eslint-disable-next-line max-statements
         json.forEach((event) => {
             switch (event.event) {
                 case "notification": {

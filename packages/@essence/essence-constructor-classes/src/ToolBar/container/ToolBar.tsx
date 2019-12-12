@@ -55,7 +55,7 @@ export const ToolBar: React.FC<IClassProps> = (props) => {
                 style={contentStyle}
                 justify="flex-start"
                 alignItems="center"
-                {...(GRID_CONFIGS[bc.contentview] || GRID_CONFIGS.hbox)}
+                {...((bc.contentview && (GRID_CONFIGS as any)[bc.contentview]) || GRID_CONFIGS.hbox)}
             >
                 {mapComponents(bc.childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
                     <Grid item style={calcStyle(childBc)} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>

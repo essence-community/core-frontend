@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/named
-import {extendObservable, action, observable, IObservableArray, ObservableMap} from "mobx";
+import {action, observable, IObservableArray, ObservableMap} from "mobx";
 import {
     getFromStore,
     saveToStore,
@@ -15,23 +15,14 @@ import {PageModel} from "@essence/essence-constructor-share/models";
 import {changePagePosition} from "../../Application/utils/changePagePosition";
 
 export class PagesModel implements IPagesModel {
-    pages: IObservableArray<IPageModel>;
+    @observable activePage: IPageModel | null = null;
 
-    activePage: IPageModel | null;
+    @observable expansionRecords: ObservableMap<string, boolean> = observable.map();
 
-    expansionRecords: ObservableMap<string, boolean>;
+    @observable pages: IObservableArray<IPageModel> = observable.array();
 
-    applicationStore: IApplicationModel;
-
-    constructor(applicationStore: IApplicationModel) {
-        this.applicationStore = applicationStore;
-
-        extendObservable(this, {
-            activePage: null,
-            expansionRecords: observable.map(),
-            pages: [],
-        });
-    }
+    // eslint-disable-next-line no-useless-constructor
+    constructor(public applicationStore: IApplicationModel) {}
 
     loadActivePage = (ckPage: string, autoset = true, isActiveRedirect = false): Promise<IPageModel> => {
         const activePage = new PageModel({
@@ -73,7 +64,10 @@ export class PagesModel implements IPagesModel {
                 activePage = await this.loadActivePage(ckPage, true, isActiveRedirect);
             }
 
-            saveToStore(STORE_PAGES_IDS_KEY, this.pages.map((page) => page.ckPage));
+            saveToStore(
+                STORE_PAGES_IDS_KEY,
+                this.pages.map((page) => page.ckPage),
+            );
 
             return activePage;
         },
@@ -91,7 +85,10 @@ export class PagesModel implements IPagesModel {
             this.activePage = this.pages.length ? this.pages[0] : null;
         }
 
-        saveToStore(STORE_PAGES_IDS_KEY, this.pages.map((page) => page.ckPage));
+        saveToStore(
+            STORE_PAGES_IDS_KEY,
+            this.pages.map((page) => page.ckPage),
+        );
     });
 
     removePageOtherAction = action("removePageOtherAction", (ckPageLost: string) => {
@@ -102,7 +99,10 @@ export class PagesModel implements IPagesModel {
         });
 
         this.activePage = this.pages[0] || null;
-        saveToStore(STORE_PAGES_IDS_KEY, this.pages.map((page) => page.ckPage));
+        saveToStore(
+            STORE_PAGES_IDS_KEY,
+            this.pages.map((page) => page.ckPage),
+        );
     });
 
     removeAllPagesAction = action("removeAllPagesAction", () => {
@@ -124,7 +124,10 @@ export class PagesModel implements IPagesModel {
             this.activePage = this.pages[0] || null;
         }
 
-        saveToStore(STORE_PAGES_IDS_KEY, this.pages.map((page) => page.ckPage));
+        saveToStore(
+            STORE_PAGES_IDS_KEY,
+            this.pages.map((page) => page.ckPage),
+        );
     });
 
     openCloseExpansionAction = action("openCloseExpansionAction", (ckId: string) => {
@@ -136,7 +139,7 @@ export class PagesModel implements IPagesModel {
         const lastCvLogin = getFromStore(STORE_LAST_CV_LOGIN_KEY);
         const promise = Promise.resolve();
 
-        if (cvLogin === lastCvLogin) {
+        if (cvLogin === lastCvLogin && pagesIds) {
             pagesIds.forEach((ckPage) => {
                 const activePage = this.pages.find((page) => page.ckPage === ckPage);
 
@@ -164,6 +167,9 @@ export class PagesModel implements IPagesModel {
     movePages = (dragIndex: number, hoverIndex: number) => {
         this.pages.replace(changePagePosition(this.pages, dragIndex, hoverIndex));
 
-        saveToStore(STORE_PAGES_IDS_KEY, this.pages.map((page) => page.ckPage));
+        saveToStore(
+            STORE_PAGES_IDS_KEY,
+            this.pages.map((page) => page.ckPage),
+        );
     };
 }

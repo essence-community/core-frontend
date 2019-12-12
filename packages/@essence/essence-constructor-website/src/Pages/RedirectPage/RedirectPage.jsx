@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/href-no-hash */
 // @flow
 import * as React from "react";
 import {inject, observer} from "mobx-react";
@@ -106,6 +105,7 @@ class RedirectPage extends React.Component<PropsType, StateType> {
         }
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         // eslint-disable-next-line id-length
         const {classes = {}, applicationStore, t} = this.props;
@@ -173,9 +173,4 @@ class RedirectPage extends React.Component<PropsType, StateType> {
     }
 }
 
-export default compose(
-    inject(mapStoresToProps),
-    withStyles(styles),
-    withTranslation("meta"),
-    observer,
-)(RedirectPage);
+export default compose(inject(mapStoresToProps), withStyles(styles), withTranslation("meta"), observer)(RedirectPage);

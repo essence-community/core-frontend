@@ -76,6 +76,7 @@ const GRID_ALIGN_CONFIGS = {
         alignItems: "flex-end",
     },
 };
+/* eslint-disable max-lines-per-function */
 
 export class Panel extends React.Component<PropsType> {
     static contextType = PanelWidthContext;
@@ -148,6 +149,7 @@ export class Panel extends React.Component<PropsType> {
                         return (
                             <Grid
                                 item
+                                key={child.ckPageObject}
                                 xs={isRow ? true : MAX_PANEL_WIDTH}
                                 className={isRow ? classes.panelItemFlexBasis : undefined}
                                 style={style}
@@ -181,7 +183,7 @@ export class Panel extends React.Component<PropsType> {
         );
     }
 }
-
+/* eslint-enable max-lines-per-function */
 export default compose(
     withModelDecorator(
         (bc: BuilderPanelType, props): PanelModelType =>

@@ -17,7 +17,9 @@ const getGridWidth = ({calcGridWidth, tableContentNode, isAllSet}) => {
 };
 const getCloseMarginTop = (filterContent: HTMLDivElement): number =>
     // $FlowFixMe
-    filterContent.previousSibling.offsetHeight === 0 ? -BUTTON_HEIGHT : 0;
+    filterContent.previousSibling && filterContent.previousSibling.offsetHeight === 0
+        ? -BUTTON_HEIGHT
+        : filterContent.offsetTop - filterContent.offsetHeight;
 
 const MAX_PERCENT_COLUMN_WIDTH = 100;
 
@@ -33,7 +35,7 @@ export const updateTopGrid = (refs: Map<CkIdType, HTMLDivElement | React.Element
                   // $FlowFixMe
                   filterContent.parentElement.offsetHeight +
                   // $FlowFixMe
-                  filterContent.previousSibling.offsetHeight
+                  (filterContent.previousSibling && filterContent.previousSibling.offsetHeight)
                 : getCloseMarginTop(filterContent);
 
             gridContent.style.marginTop = `${marginTop}px`;

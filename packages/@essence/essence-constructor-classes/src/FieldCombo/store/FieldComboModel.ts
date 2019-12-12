@@ -7,7 +7,9 @@ import {
     debounce,
     FieldValue,
     VAR_RECORD_ID,
+    IRecord,
 } from "@essence/essence-constructor-share";
+import {i18next} from "@essence/essence-constructor-share/utils";
 import {StoreBaseModel, RecordsModel} from "@essence/essence-constructor-share/models";
 import {ISuggestion} from "./FieldComboModel.types";
 
@@ -36,13 +38,17 @@ export class FieldComboModel extends StoreBaseModel {
 
     @observable lastValue: FieldValue = "";
 
+    // Duplicate from i18next to control suggestions
+    @observable language: string = i18next.language;
+
     @computed get selectedRecord() {
         return this.recordsStore.selectedRecord;
     }
 
     @computed get suggestions(): Array<ISuggestion> {
         const inputValueLower = this.inputValue.toLowerCase();
-        let suggestions: ISuggestion[] = this.recordsStore.recordsState.records.map(this.getSuggestion);
+        const getSuggestion = this.bc.localization && this.language ? this.getSuggestionWithTrans : this.getSuggestion;
+        let suggestions: ISuggestion[] = this.recordsStore.recordsState.records.map(getSuggestion);
 
         if (
             this.bc.allownew &&
@@ -249,8 +255,35 @@ export class FieldComboModel extends StoreBaseModel {
         }
     };
 
-    getSuggestion = (record: Record<string, never>): ISuggestion => {
+    handleChangeLanguage = (value: FieldValue, language: string) => {
+        const stringValue = toString(value);
+
+        this.language = language;
+
+        if (stringValue) {
+            // Reload suggestios and reselect value into input
+            const suggestion = this.suggestions.find((sug) => sug.value === stringValue);
+
+            if (suggestion) {
+                this.inputValue = suggestion.label;
+            } else {
+                // Leave previes value. Something strange happens.
+            }
+        }
+    };
+
+    getSuggestion = (record: IRecord): ISuggestion => {
         const label = toString(record[this.displayfield]);
+
+        return {
+            label,
+            labelLower: label.toLowerCase(),
+            value: toString(record[this.valuefield]),
+        };
+    };
+
+    getSuggestionWithTrans = (record: IRecord): ISuggestion => {
+        const label = i18next.t(toString(record[this.displayfield]), {ns: this.bc.localization});
 
         return {
             label,

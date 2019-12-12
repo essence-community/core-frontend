@@ -4,7 +4,7 @@ import * as React from "react";
 import ReactDOM from "react-dom";
 import get from "lodash/get";
 import {type CkIdType} from "../../BuilderType";
-import {TABLE_CELL_MIN_WIDTH, styleTheme, loggerRoot, BUTTON_HEIGHT, GRID_ROW_HEIGHT} from "../../constants";
+import {TABLE_CELL_MIN_WIDTH, styleTheme, loggerRoot, GRID_ROW_HEIGHT} from "../../constants";
 import {type GridModelType, type PercentColumnsType} from "./GridModelType";
 
 const ADDITIONAL_GRID_HEIGHT = 19;
@@ -17,9 +17,7 @@ const getGridWidth = ({calcGridWidth, tableContentNode, isAllSet}) => {
 };
 const getCloseMarginTop = (filterContent: HTMLDivElement): number =>
     // $FlowFixMe
-    filterContent.previousSibling && filterContent.previousSibling.offsetHeight === 0
-        ? -BUTTON_HEIGHT
-        : filterContent.offsetTop - filterContent.offsetHeight;
+    filterContent.offsetTop - filterContent.offsetHeight;
 
 const MAX_PERCENT_COLUMN_WIDTH = 100;
 
@@ -33,9 +31,7 @@ export const updateTopGrid = (refs: Map<CkIdType, HTMLDivElement | React.Element
             const marginTop = open
                 ? filterContent.offsetHeight -
                   // $FlowFixMe
-                  filterContent.parentElement.offsetHeight +
-                  // $FlowFixMe
-                  (filterContent.previousSibling && filterContent.previousSibling.offsetHeight)
+                  filterContent.parentElement.offsetHeight
                 : getCloseMarginTop(filterContent);
 
             gridContent.style.marginTop = `${marginTop}px`;

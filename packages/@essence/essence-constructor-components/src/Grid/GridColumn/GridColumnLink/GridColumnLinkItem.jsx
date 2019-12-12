@@ -79,7 +79,4 @@ class GridColumnLinkItem extends React.Component<PropsType> {
     }
 }
 
-export default compose(
-    withTranslation("meta"),
-    commonDecorator,
-)(GridColumnLinkItem);
+export default compose(withTranslation("meta"), commonDecorator)(GridColumnLinkItem);

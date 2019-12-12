@@ -168,8 +168,8 @@ export class PopoverBase extends React.Component<PopoverPropsType, StateType> {
              */
             switch (true) {
                 case this.isMouseDownPopover:
-                case rootEl && event.target instanceof Node && rootEl.contains(event.target):
-                case popupEl && event.target instanceof Node && popupEl.contains(event.target):
+                case rootEl && rootEl.contains(event.target):
+                case popupEl && popupEl.contains(event.target):
                     break;
                 default:
                     this.handleClose();

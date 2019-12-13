@@ -382,6 +382,8 @@ export class ApplicationModel implements IApplicationModel {
     handlers: IHandlers = {
         /**
          * Выход из приложения
+         * @memberof ApplicationModel.handlers
+         * @instance
          */
         onLogout: this.logoutAction,
         /**

@@ -198,8 +198,10 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
             hidden,
             pageStore,
             visible,
+            classes,
         } = this.props;
         const isVisible = child.ckPageObject === tabValue;
+        const isPanel = child.type === "TABPANEL" && elevation;
 
         if (!isVisible && !openedTabs.get(child.ckPageObject)) {
             return null;
@@ -208,7 +210,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
         const content = (
             <Grid
                 xs={12}
-                className={className}
+                className={isPanel ? cn(className, classes.childPanel) : className}
                 item
                 key={child.ckPageObject}
                 style={{display: isVisible ? "block" : "none"}}
@@ -227,7 +229,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
             </Grid>
         );
 
-        if (child.type === "TABPANEL" && elevation) {
+        if (isPanel) {
             return (
                 <Paper className="paper-overflow-hidden" elevation={this.props.elevation}>
                     {content}
@@ -282,13 +284,18 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
         );
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {selectedTab} = this.state;
         // eslint-disable-next-line id-length
-        const {bc, store, classes, disabled, pageStore, visible, theme, t} = this.props;
+        const {bc, store, classes, disabled, pageStore, visible, theme, t, elevation} = this.props;
         const {tabValue, reverseTabs, hiddenTabsIndex, activeInHidden} = store;
         const {align = "center", contentview = "hbox"} = bc;
         const themeType = theme ? theme.palette.type : "light";
+        const classNameChild = cn({
+            [classes[`content-${align}-${contentview}`]]: true,
+            [classes.rightContentLine]: !elevation && bc.align === "right",
+        });
 
         return (
             <Grid
@@ -383,9 +390,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
                         </Tabs>
                     </div>
                 </Grid>
-                {mapComponents(bc.childs, (Child, childBc) =>
-                    this.renderTabComponent(Child, childBc, classes[`content-${align}-${contentview}`]),
-                )}
+                {mapComponents(bc.childs, (Child, childBc) => this.renderTabComponent(Child, childBc, classNameChild))}
             </Grid>
         );
     }

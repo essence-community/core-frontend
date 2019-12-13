@@ -8,7 +8,7 @@ import {reaction} from "mobx";
 import {observer, disposeOnUnmount} from "mobx-react";
 import {compose} from "recompose";
 import keycode from "keycode";
-import {Tabs, Grid, List, ListItem, IconButton, Tab as MaterialTab} from "@material-ui/core";
+import {Tabs, Grid, List, ListItem, IconButton, Tab as MaterialTab, Paper} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {setComponent, mapComponents, Icon, PanelWidthContext} from "@essence/essence-constructor-share";
 import {Popover} from "@essence/essence-constructor-share/uicomponents";
@@ -198,17 +198,19 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
             hidden,
             pageStore,
             visible,
+            classes,
         } = this.props;
         const isVisible = child.ckPageObject === tabValue;
+        const isPanel = child.type === "TABPANEL" && elevation;
 
         if (!isVisible && !openedTabs.get(child.ckPageObject)) {
             return null;
         }
 
-        return (
+        const content = (
             <Grid
                 xs={12}
-                className={className}
+                className={isPanel ? cn(className, classes.childPanel) : className}
                 item
                 key={child.ckPageObject}
                 style={{display: isVisible ? "block" : "none"}}
@@ -220,12 +222,22 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
                     hidden={hidden}
                     visible={isVisible ? visible : false}
                     readOnly={readOnly}
-                    elevation={elevation}
+                    elevation={child.type === "TABPANEL" ? undefined : elevation}
                     hideTitle
                     pageStore={pageStore}
                 />
             </Grid>
         );
+
+        if (isPanel) {
+            return (
+                <Paper className="paper-overflow-hidden" elevation={this.props.elevation}>
+                    {content}
+                </Paper>
+            );
+        }
+
+        return content;
     };
 
     renderBaseTabsComponent = (props) => {
@@ -272,13 +284,18 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
         );
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {selectedTab} = this.state;
         // eslint-disable-next-line id-length
-        const {bc, store, classes, disabled, pageStore, visible, theme, t} = this.props;
+        const {bc, store, classes, disabled, pageStore, visible, theme, t, elevation} = this.props;
         const {tabValue, reverseTabs, hiddenTabsIndex, activeInHidden} = store;
         const {align = "center", contentview = "hbox"} = bc;
         const themeType = theme ? theme.palette.type : "light";
+        const classNameChild = cn({
+            [classes[`content-${align}-${contentview}`]]: true,
+            [classes.rightContentLine]: !elevation && bc.align === "right",
+        });
 
         return (
             <Grid
@@ -373,9 +390,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
                         </Tabs>
                     </div>
                 </Grid>
-                {mapComponents(bc.childs, (Child, childBc) =>
-                    this.renderTabComponent(Child, childBc, classes[`content-${align}-${contentview}`]),
-                )}
+                {mapComponents(bc.childs, (Child, childBc) => this.renderTabComponent(Child, childBc, classNameChild))}
             </Grid>
         );
     }

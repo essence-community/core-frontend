@@ -1,4 +1,4 @@
-import {extendObservable} from "mobx";
+import {computed, observable} from "mobx";
 import {
     IStoreBaseModelProps,
     IRecordsModel,
@@ -7,32 +7,69 @@ import {
     debounce,
     FieldValue,
     VAR_RECORD_ID,
+    IRecord,
 } from "@essence/essence-constructor-share";
+import {i18next} from "@essence/essence-constructor-share/utils";
 import {StoreBaseModel, RecordsModel} from "@essence/essence-constructor-share/models";
 import {ISuggestion} from "./FieldComboModel.types";
 
 export class FieldComboModel extends StoreBaseModel {
-    suggestions: Array<ISuggestion>;
-
     recordsStore: IRecordsModel;
 
     displayfield: string;
 
     valuefield: string;
 
-    inputValue: string;
-
     valueLength: number;
 
-    highlightedValue: string;
-
-    highlightedIndex: number;
-
-    lastValue: FieldValue;
-
-    isInputChanged: boolean;
-
     loadDebounce: (value: string, isUserReload: boolean) => void;
+
+    @computed get highlightedIndex(): number {
+        return this.highlightedValue
+            ? this.suggestions.findIndex((sug: ISuggestion) => sug.value === this.highlightedValue)
+            : 0;
+    }
+
+    @observable highlightedValue = "";
+
+    @observable inputValue = "";
+
+    @observable isInputChanged = false;
+
+    @observable lastValue: FieldValue = "";
+
+    // Duplicate from i18next to control suggestions
+    @observable language: string = i18next.language;
+
+    @computed get selectedRecord() {
+        return this.recordsStore.selectedRecord;
+    }
+
+    @computed get suggestions(): Array<ISuggestion> {
+        const inputValueLower = this.inputValue.toLowerCase();
+        const getSuggestion = this.bc.localization && this.language ? this.getSuggestionWithTrans : this.getSuggestion;
+        let suggestions: ISuggestion[] = this.recordsStore.recordsState.records.map(getSuggestion);
+
+        if (
+            this.bc.allownew &&
+            this.inputValue &&
+            suggestions.findIndex(
+                (suggestion: ISuggestion) =>
+                    suggestion.labelLower === inputValueLower || suggestion.value === this.inputValue,
+            ) === -1
+        ) {
+            suggestions = [
+                {isNew: true, label: this.inputValue, labelLower: inputValueLower, value: this.inputValue},
+                ...suggestions,
+            ];
+        }
+
+        if (this.isInputChanged) {
+            return suggestions.filter((sug: ISuggestion) => sug.labelLower.indexOf(inputValueLower) !== -1);
+        }
+
+        return suggestions;
+    }
 
     constructor(props: IStoreBaseModelProps) {
         super(props);
@@ -56,51 +93,15 @@ export class FieldComboModel extends StoreBaseModel {
                 this.recordsStore.searchAction({[bc.queryparam]: inputValue}, {isUserReload});
             }
         }, parseInt(querydelay, 10) * 1000);
-
-        extendObservable(this, {
-            get highlightedIndex() {
-                return this.highlightedValue
-                    ? this.suggestions.findIndex((sug: ISuggestion) => sug.value === this.highlightedValue)
-                    : 0;
-            },
-            highlightedValue: "",
-            inputValue: "",
-            isInputChanged: false,
-            lastValue: "",
-            get selectedRecord() {
-                return this.recordsStore.selectedRecord;
-            },
-            get suggestions() {
-                const inputValueLower = this.inputValue.toLowerCase();
-                let suggestions: ISuggestion[] = this.recordsStore.recordsState.records.map(this.getSuggestion);
-
-                if (
-                    bc.allownew &&
-                    this.inputValue &&
-                    suggestions.findIndex(
-                        (suggestion: ISuggestion) =>
-                            suggestion.labelLower === inputValueLower || suggestion.value === this.inputValue,
-                    ) === -1
-                ) {
-                    suggestions = [
-                        {isNew: true, label: this.inputValue, labelLower: inputValueLower, value: this.inputValue},
-                        ...suggestions,
-                    ];
-                }
-
-                if (this.isInputChanged) {
-                    return suggestions.filter((sug: ISuggestion) => sug.labelLower.indexOf(inputValueLower) !== -1);
-                }
-
-                return suggestions;
-            },
-        });
     }
 
     reloadStoreAction = (): Promise<object | undefined> => {
         if (!this.recordsStore.isLoading) {
+            const selectedRecordId = this.recordsStore.selectedRecrodValues[VAR_RECORD_ID];
+
             return this.recordsStore.loadRecordsAction({
-                selectedRecordId: this.recordsStore.selectedRecrodValues[VAR_RECORD_ID],
+                selectedRecordId:
+                    selectedRecordId === null || typeof selectedRecordId === "object" ? undefined : selectedRecordId,
             });
         }
 
@@ -254,8 +255,35 @@ export class FieldComboModel extends StoreBaseModel {
         }
     };
 
-    getSuggestion = (record: Record<string, never>): ISuggestion => {
+    handleChangeLanguage = (value: FieldValue, language: string) => {
+        const stringValue = toString(value);
+
+        this.language = language;
+
+        if (stringValue) {
+            // Reload suggestios and reselect value into input
+            const suggestion = this.suggestions.find((sug) => sug.value === stringValue);
+
+            if (suggestion) {
+                this.inputValue = suggestion.label;
+            } else {
+                // Leave previes value. Something strange happens.
+            }
+        }
+    };
+
+    getSuggestion = (record: IRecord): ISuggestion => {
         const label = toString(record[this.displayfield]);
+
+        return {
+            label,
+            labelLower: label.toLowerCase(),
+            value: toString(record[this.valuefield]),
+        };
+    };
+
+    getSuggestionWithTrans = (record: IRecord): ISuggestion => {
+        const label = i18next.t(toString(record[this.displayfield]), {ns: this.bc.localization});
 
         return {
             label,

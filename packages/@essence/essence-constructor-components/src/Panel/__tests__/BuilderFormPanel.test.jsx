@@ -10,6 +10,7 @@ import type {PanelFormModelType} from "../../stores/PanelFormModel";
 import {createEmptyPageStore} from "../../stores/index";
 import {mountWithTheme} from "../../utils/test";
 
+// eslint-disable-next-line max-lines-per-function
 describe("BuilderFormPanel", () => {
     const filterBc = {
         childs: [],
@@ -102,18 +103,5 @@ describe("BuilderFormPanel", () => {
             .at(0)
             .simulate("click");
         expect(spyOnToggleIsFilterOpen).toHaveBeenLastCalledWith();
-    });
-    it("visible undefined", () => {
-        const wrapper = mountWithTheme(
-            <BuilderFormPanel
-                {...props}
-                bc={{...props.bc, childs: [], filters: [filterBc], topbtn}}
-                visible={undefined}
-                pageStore={createEmptyPageStore({styleTheme: "dark"})}
-            />,
-        );
-
-        expect(wrapper.exists()).toBeTruthy();
-        wrapper.unmount();
     });
 });

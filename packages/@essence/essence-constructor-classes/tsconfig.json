@@ -9,7 +9,8 @@
         "strictNullChecks": true,
         "skipLibCheck": true,
         "resolveJsonModule": true,
-        "noEmit": true
+        "noEmit": true,
+        "experimentalDecorators": true
     },
     "include": ["src/**/*.tsx", "src/**/*.ts"]
 }

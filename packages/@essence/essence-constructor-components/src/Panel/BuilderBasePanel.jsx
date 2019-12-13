@@ -111,7 +111,7 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType & W
         return this.renderBasePanel({elevation: isThemePanelWrapper ? undefined : elevation});
     }
 
-    // eslint-disable-next-line max-statements
+    // eslint-disable-next-line max-statements, max-lines-per-function
     render() {
         // eslint-disable-next-line id-length
         const {bc, editing, hidden, visible, hideTitle, elevation, classNameRoot, topPanel, t} = this.props;
@@ -180,10 +180,7 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType & W
     }
 }
 
-const BuilderBasePanel = compose(
-    withTranslation("meta"),
-    commonDecorator,
-)(BaseBuilderBasePanel);
+const BuilderBasePanel = compose(withTranslation("meta"), commonDecorator)(BaseBuilderBasePanel);
 
 setComponent("PANEL", BuilderBasePanel);
 setComponent("BOX", BuilderBasePanel);

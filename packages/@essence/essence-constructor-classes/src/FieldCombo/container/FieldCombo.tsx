@@ -1,6 +1,7 @@
 import * as React from "react";
 import {reaction} from "mobx";
 import {Popover, ApplicationContext, useModel} from "@essence/essence-constructor-share";
+import {useTranslation} from "@essence/essence-constructor-share/utils";
 import {IPopoverChildrenProps} from "@essence/essence-constructor-share/uicomponents/Popover/Popover.types";
 import {useDisposable} from "mobx-react-lite";
 import {FieldComboList} from "../components/FieldComboList";
@@ -15,6 +16,7 @@ import {IFieldComboProps} from "./FieldCombo.types";
  */
 const FieldCombo: React.FC<IFieldComboProps> = (props) => {
     const {field, onInitGlobal} = props;
+    const {i18n} = useTranslation();
     const inputRef: React.MutableRefObject<HTMLInputElement | null> = React.useRef(null);
     const listRef: React.MutableRefObject<HTMLInputElement | null> = React.useRef(null);
     const textFieldRef: React.MutableRefObject<HTMLDivElement | null> = React.useRef(null);
@@ -82,6 +84,12 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
             store.handleSetValue(props.value, false, false);
         }
     }, [props.value, store]);
+    React.useEffect(() => {
+        if (props.bc.localization && i18n.language) {
+            store.handleChangeLanguage(props.value, i18n.language);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [i18n.language, props.bc.localization]);
 
     if (props.hidden) {
         return null;

@@ -2,7 +2,7 @@ import React from "react";
 import {FieldValue} from "@essence/essence-constructor-share";
 
 export const renderGlobalValuelsInfo = (globalValues: Map<string, FieldValue>) => {
-    const blocks = [];
+    const blocks: JSX.Element[] = [];
 
     globalValues.forEach((value: FieldValue, key: string) => {
         blocks.push(

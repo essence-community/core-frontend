@@ -20,7 +20,6 @@ const TRANSFORM_ORIGIN: IPopoverTransfromOrigin = {
 export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
     const {
         anchorOrigin = ANCHOR_ORIGIN,
-        container = document.body,
         hideBackdrop = true,
         hideOnResize = true,
         onChangeOpen = noop,
@@ -28,6 +27,7 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
         tabFocusable = true,
         transformOrigin = TRANSFORM_ORIGIN,
     } = props;
+    const container = props.container || document.body;
     const rootRef = React.useRef<HTMLDivElement>(null);
     const popupRef = React.useRef<HTMLDivElement>(null);
     const [width, setWidth] = React.useState<number>(0);

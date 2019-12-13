@@ -5,13 +5,14 @@ import {useObserver} from "mobx-react-lite";
 import * as React from "react";
 import {useStyles} from "./BadgeBtn.styles";
 
+// @ts-ignore
 export const BadgeBtn: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, children} = props;
     const classes = useStyles(props);
-    const getGlobal = camelCaseMemoized(props.bc.getglobal);
+    const getGlobal = props.bc.getglobal && camelCaseMemoized(props.bc.getglobal);
 
     return useObserver(() => {
-        const value = pageStore.globalValues.get(getGlobal);
+        const value = getGlobal ? pageStore.globalValues.get(getGlobal) : "";
         const count = parseInt(`${value || "0"}`, 10);
 
         if (count) {
@@ -33,10 +34,16 @@ export const BadgeBtn: React.FC<IClassProps> = (props) => {
             );
         }
 
-        return children
-            ? children
-            : mapComponents(bc.childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                  <Child {...props} bc={childBc} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} />
-              ));
+        if (children) {
+            return children;
+        }
+
+        return (
+            <>
+                {mapComponents(bc.childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
+                    <Child {...props} bc={childBc} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} />
+                ))}
+            </>
+        );
     });
 };

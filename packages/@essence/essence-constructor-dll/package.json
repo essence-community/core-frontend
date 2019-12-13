@@ -16,19 +16,19 @@
   },
   "dependencies": {
     "@essence/essence-constructor-share": "file:../essence-constructor-share/lib",
-    "@material-ui/core": "^4.4.3",
-    "@material-ui/styles": "^4.4.3",
-    "mobx": "^5.9.0",
-    "mobx-react": "5.4.2",
-    "mobx-react-form": "1.35.1",
-    "react": "16.8.6",
-    "react-dom": "16.8.6"
+    "@material-ui/core": "^4.7.2",
+    "@material-ui/styles": "^4.7.1",
+    "mobx": "^5.15.0",
+    "mobx-react": "6.1.4",
+    "mobx-react-form": "2.0.8",
+    "react": "16.12.0",
+    "react-dom": "16.12.0"
   },
   "devDependencies": {
-    "fs-extra": "^7.0.1",
-    "react-dev-utils": "^8.0.0",
-    "terser-webpack-plugin": "^1.1.0",
-    "webpack": "^4.29.3",
-    "webpack-cli": "^3.2.3"
+    "fs-extra": "^8.1.0",
+    "react-dev-utils": "^10.0.0",
+    "terser-webpack-plugin": "^2.2.3",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   }
 }

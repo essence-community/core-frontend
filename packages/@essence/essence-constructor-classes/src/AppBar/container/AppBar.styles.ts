@@ -13,7 +13,7 @@ export const useStyles = makeStyles((theme: IEssenceTheme) => ({
             color: theme.palette.common.white,
         },
         "& .MuiIconButton-colorPrimary:hover": {
-            color: theme.palette.common.selectedMenu,
+            color: theme.essence.palette.common.selectedMenu,
         },
         "& .MuiToolbar-gutters": {
             paddingLeft: 0,

@@ -57,8 +57,8 @@ export interface IPageModel {
     questionWindow?: string;
     saveCallBack: PageModelSaveCallback | null;
     route?: IRouteRecord;
-    pageEl?: HTMLDivElement;
-    pageInnerEl?: HTMLDivElement;
+    pageEl: HTMLDivElement | null;
+    pageInnerEl: HTMLDivElement | null;
     isEdit: boolean;
     isReadOnly: boolean;
     currentStep?: string;
@@ -84,8 +84,8 @@ export interface IPageModel {
     addWindowAction(window: IWindowModel): void;
     removeWindowAction(window: IWindowModel): void;
     loadConfigAction(ckPage: string): Promise<void | object>;
-    setPageElAction(pageEl?: HTMLDivElement): void;
-    setPageInnerElAction(pageInnerEl?: HTMLDivElement): void;
+    setPageElAction(pageEl: HTMLDivElement | null): void;
+    setPageInnerElAction(pageInnerEl: HTMLDivElement | null): void;
     resetStepAction(): void;
     handleNextStep(stepnamenext: string): void;
     nextStepAction(mode: IBuilderMode, bc: IBuilderConfig): void;

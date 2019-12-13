@@ -35,7 +35,7 @@ export const FilterExtended = (props: IClassProps) => {
 
                         <Grid item>
                             <Typography variant="body2" component="span">
-                                {`${trans(bc.cvDisplayed) || ""} `}
+                                {`${(bc.cvDisplayed && trans(bc.cvDisplayed)) || ""} `}
                             </Typography>
                             <Icon iconfont={isOpen ? "angle-up" : "angle-down"} />
                         </Grid>

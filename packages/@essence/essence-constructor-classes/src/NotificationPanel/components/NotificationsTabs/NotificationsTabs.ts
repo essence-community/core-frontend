@@ -23,6 +23,7 @@ export const mapNotification = {
     warning: 3,
 };
 
+// @ts-ignore
 export interface ITabBc extends IBuilderConfig, Record<string, string> {
     value: string;
 }

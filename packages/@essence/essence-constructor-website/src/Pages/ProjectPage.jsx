@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/href-no-hash */
 // @flow
 import * as React from "react";
 import {inject, observer} from "mobx-react";
@@ -84,8 +83,4 @@ class ProjectPage extends React.Component<PropsType> {
     }
 }
 
-export default compose(
-    inject(mapStoresToProps),
-    withStyles(styles),
-    observer,
-)(ProjectPage);
+export default compose(inject(mapStoresToProps), withStyles(styles), observer)(ProjectPage);

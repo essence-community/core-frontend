@@ -9,7 +9,7 @@ type PropsType = {|
     classes: {
         [$Keys<$Call<typeof styles>>]: string,
     },
-    loaderType?: "default" | "bfl-loader",
+    loaderType?: "default" | "bfl-loader" | string,
     size: number,
 |};
 

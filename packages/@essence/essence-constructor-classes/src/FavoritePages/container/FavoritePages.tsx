@@ -16,22 +16,29 @@ export const FavoritePages: React.FC<IClassProps> = (props) => {
         throw new Error("Not found applicationStore");
     }
     const {routesStore, pagesStore} = applicationStore;
-    const {favorits, recordsStore} = routesStore;
 
-    return useObserver(() => (
-        <Scrollbars>
-            <Grid container direction="column" className={classes.root} wrap="nowrap">
-                {recordsStore.records
-                    .filter((rec: IRoute) => favorits.get(rec[VAR_RECORD_ID]))
-                    .map((record: IRoute) => (
-                        <FavoritePage
-                            route={record}
-                            routesStore={routesStore}
-                            key={record[VAR_RECORD_ID]}
-                            pagesStore={pagesStore}
-                        />
-                    ))}
-            </Grid>
-        </Scrollbars>
-    ));
+    return useObserver(() => {
+        if (!routesStore) {
+            return null;
+        }
+
+        const {favorits, recordsStore} = routesStore;
+
+        return (
+            <Scrollbars>
+                <Grid container direction="column" className={classes.root} wrap="nowrap">
+                    {recordsStore.records
+                        .filter((rec: IRoute) => favorits.get(rec[VAR_RECORD_ID]))
+                        .map((record: IRoute) => (
+                            <FavoritePage
+                                route={record}
+                                routesStore={routesStore}
+                                key={record[VAR_RECORD_ID]}
+                                pagesStore={pagesStore}
+                            />
+                        ))}
+                </Grid>
+            </Scrollbars>
+        );
+    });
 };

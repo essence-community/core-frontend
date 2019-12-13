@@ -161,9 +161,10 @@ export class ApplicationModel implements IApplicationModel {
         return this.loadApplicationAction();
     });
 
-    logoutAction = action("logoutAction", () => {
+    logoutAction = action("logoutAction", async () => {
         this.isApplicationReady = false;
 
+        await this.authStore.logoutAction();
         removeFromStore("auth");
         if (this.history.location.pathname.indexOf("auth") === -1) {
             this.history.push("/auth", {backUrl: this.history.location.pathname});
@@ -378,7 +379,11 @@ export class ApplicationModel implements IApplicationModel {
      */
     handlers: IHandlers = {
         /**
-         * Отктиые окна по ckwindow
+         * Выход из приложения
+         */
+        onLogout: this.logoutAction,
+        /**
+         * Открытие окна по ckwindow
          * @memberof ApplicationModel.handlers
          * @instance
          */

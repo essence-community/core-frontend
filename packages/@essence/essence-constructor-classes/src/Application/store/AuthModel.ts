@@ -3,13 +3,16 @@ import {History} from "history";
 import {
     getFromStore,
     saveToStore,
-    request,
     noop,
     snackbarStore,
     IAuthModel,
     IApplicationModel,
+    loggerRoot,
 } from "@essence/essence-constructor-share";
+import {request} from "@essence/essence-constructor-share/request";
 import {IAuthSession} from "./AuthModel.types";
+
+const logger = loggerRoot.extend("AuthModel");
 
 export class AuthModel implements IAuthModel {
     @observable userInfo = getFromStore<Partial<IAuthSession>>("auth", {}) || {};
@@ -75,5 +78,20 @@ export class AuthModel implements IAuthModel {
             ...userInfo,
         };
         saveToStore("auth", this.userInfo);
+    });
+
+    logoutAction = action("logoutAction", () => {
+        return request({
+            action: "auth",
+            query: "Logout",
+            session: this.userInfo.session,
+        })
+            .then(() => {
+                this.userInfo = {};
+            })
+            .catch((err) => {
+                logger(err);
+                this.userInfo = {};
+            });
     });
 }

@@ -175,6 +175,8 @@ export class ApplicationModel implements IApplicationModel {
             this.wsClient.close(LOGOUT_CODE, "logoutAction");
             this.wsClient = null;
         }
+
+        return true;
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars

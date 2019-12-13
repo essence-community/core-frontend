@@ -161,9 +161,10 @@ export class ApplicationModel implements IApplicationModel {
         return this.loadApplicationAction();
     });
 
-    logoutAction = action("logoutAction", () => {
+    logoutAction = action("logoutAction", async () => {
         this.isApplicationReady = false;
 
+        await this.authStore.logoutAction();
         removeFromStore("auth");
         if (this.history.location.pathname.indexOf("auth") === -1) {
             this.history.push("/auth", {backUrl: this.history.location.pathname});
@@ -174,6 +175,8 @@ export class ApplicationModel implements IApplicationModel {
             this.wsClient.close(LOGOUT_CODE, "logoutAction");
             this.wsClient = null;
         }
+
+        return true;
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
@@ -378,7 +381,13 @@ export class ApplicationModel implements IApplicationModel {
      */
     handlers: IHandlers = {
         /**
-         * Отктиые окна по ckwindow
+         * Выход из приложения
+         * @memberof ApplicationModel.handlers
+         * @instance
+         */
+        onLogout: this.logoutAction,
+        /**
+         * Открытие окна по ckwindow
          * @memberof ApplicationModel.handlers
          * @instance
          */

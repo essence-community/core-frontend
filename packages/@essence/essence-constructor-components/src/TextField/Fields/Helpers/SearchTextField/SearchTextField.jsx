@@ -61,6 +61,7 @@ class SearchTextField extends React.Component<PropsType> {
         this.inputRef = node;
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {
             classes = {},
@@ -79,35 +80,35 @@ class SearchTextField extends React.Component<PropsType> {
             style,
         } = this.props;
 
-        const endAdornment = (
-            <React.Fragment>
-                {store.displayText ? (
-                    <IconButton
-                        disabled={disabled}
-                        color="secondary"
-                        disableRipple
-                        className={classes.clear}
-                        onClick={handleClear}
-                        data-page-object={`${dataPageObject}-clear`}
-                        tabIndex={-1}
-                        onFocus={this.handleFocusButton}
-                    >
-                        <Icon iconfont="times" size="xs" />
-                    </IconButton>
-                ) : null}
+        const tips = [
+            store.displayText ? (
                 <IconButton
+                    key="clear"
                     disabled={disabled}
                     color="secondary"
                     disableRipple
-                    className={classes.search}
-                    data-page-object={`${dataPageObject}-search`}
+                    className={classes.clear}
+                    onClick={handleClear}
+                    data-page-object={`${dataPageObject}-clear`}
                     tabIndex={-1}
                     onFocus={this.handleFocusButton}
                 >
-                    <Icon iconfont="search" size="xs" />
+                    <Icon iconfont="times" size="xs" />
                 </IconButton>
-            </React.Fragment>
-        );
+            ) : null,
+            <IconButton
+                key="search"
+                disabled={disabled}
+                color="secondary"
+                disableRipple
+                className={classes.search}
+                data-page-object={`${dataPageObject}-search`}
+                tabIndex={-1}
+                onFocus={this.handleFocusButton}
+            >
+                <Icon iconfont="search" size="xs" />
+            </IconButton>,
+        ];
 
         return (
             <TextField
@@ -119,7 +120,8 @@ class SearchTextField extends React.Component<PropsType> {
                     className: classes.labelRoot,
                     shrink: !isEmpty(store.displayText),
                 }}
-                InputProps={{classes: {focused: classes.inputFocused}, endAdornment, readOnly: true}}
+                tips={tips}
+                InputProps={{classes: {focused: classes.inputFocused}, endAdornment: tips, readOnly: true}}
                 // eslint-disable-next-line react/jsx-no-duplicate-props
                 inputProps={{onKeyDown: this.handleKeyDown, tabIndex}}
                 value={store.displayText}
@@ -136,7 +138,4 @@ class SearchTextField extends React.Component<PropsType> {
     }
 }
 
-export default compose(
-    withStyles(styles),
-    observer,
-)(SearchTextField);
+export default compose(withStyles(styles), observer)(SearchTextField);

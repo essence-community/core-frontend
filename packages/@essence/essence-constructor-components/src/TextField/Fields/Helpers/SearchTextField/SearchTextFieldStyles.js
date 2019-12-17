@@ -14,6 +14,7 @@ const SearchTextFieldStyles = (theme) => ({
     },
     labelRoot: {
         cursor: "pointer",
+        display: "inline-flex",
     },
     search: {
         "&:focus": {

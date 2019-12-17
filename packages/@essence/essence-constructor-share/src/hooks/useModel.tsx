@@ -13,31 +13,33 @@ interface IUseModelProps {
 interface IModelRequired extends IStoreBaseModel {
     hidden?: boolean;
     disabled?: boolean;
-    recordsStore: IRecordsModel;
+    recordsStore?: IRecordsModel;
 }
 
 export function useModel<IModel extends IModelRequired, P extends IUseModelProps>(
     createModel: (props: P) => IModel,
     props: P,
-): [IModel, boolean] {
+): [IModel, boolean, string] {
     const {bc, pageStore, hidden, disabled} = props;
     const [store, setStore] = React.useState<IModel>(() => createModel(props));
     const [isAutoLoad, setIsAutoload] = React.useState(false);
+    const [storeName, setStoreName] = React.useState<string>(bc.ckPageObject || uuid());
 
     React.useEffect(() => {
-        const ckPageObject = bc.ckPageObject || uuid();
         // Const storeNext: IModel = createModel(props);
         const storeNext = store;
         const isAutoLoadNext = checkAutoload({bc, pageStore, recordsStore: storeNext.recordsStore});
 
-        pageStore.addStore(storeNext, ckPageObject);
+        const name = pageStore.addStore(storeNext, storeName, true);
 
         setStore(storeNext);
+        setStoreName(name);
         setIsAutoload(isAutoLoadNext);
 
         return () => {
-            pageStore.removeStore(bc.ckPageObject, storeNext);
+            pageStore.removeStore(name, storeNext);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [bc, createModel, pageStore, store]);
 
     React.useEffect(() => {
@@ -55,5 +57,5 @@ export function useModel<IModel extends IModelRequired, P extends IUseModelProps
         }
     }, [isAutoLoad, store]);
 
-    return [store, isAutoLoad];
+    return [store, isAutoLoad, storeName];
 }

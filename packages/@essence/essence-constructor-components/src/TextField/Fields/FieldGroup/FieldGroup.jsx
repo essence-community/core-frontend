@@ -9,7 +9,7 @@ import {withStyles} from "@material-ui/core/styles";
 import {toColumnStyleWidth, camelCaseMemoized, withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import {mapComponents, Icon} from "@essence/essence-constructor-share";
 import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
-import {BuilderTypeContext} from "../../../Contexts";
+import {BuilderTypeContext} from "@essence/essence-constructor-share/constants";
 import {isEmpty} from "../../../utils/base";
 import {type TextFieldChildProps} from "../../BuilderFieldType";
 import styles from "./FieldGroupStyles";
@@ -149,6 +149,7 @@ class FieldGroup extends React.Component<PropsType, StateType> {
         return reqcount || reqcountrules ? <Icon iconfont="check" /> : null;
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         // eslint-disable-next-line id-length
         const {bc, pageStore, editing, visible, classes, form, error, readOnly, t} = this.props;
@@ -213,7 +214,4 @@ class FieldGroup extends React.Component<PropsType, StateType> {
     }
 }
 
-export default compose(
-    withTranslation("meta"),
-    withStyles(styles),
-)(FieldGroup);
+export default compose(withTranslation("meta"), withStyles(styles))(FieldGroup);

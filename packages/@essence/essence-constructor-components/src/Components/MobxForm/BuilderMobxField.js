@@ -36,6 +36,8 @@ const getValue = (value, {bc, fieldSet, fieldSetObj, output}) => {
             return output(value);
         case !bc:
             return value;
+        case bc.datatype === "repeater":
+            return isObject(value) ? Object.values(value) : value;
         case fieldSet:
             return {
                 column: bc.column,
@@ -124,10 +126,11 @@ class BuilderMobxField extends Field {
      * оригинал:
      * https://github.com/foxhound87/mobx-react-form/blob/v1.35.1/src/shared/Actions.js#L135
      */
-    /* eslint max-statements: ["error", 18]*/
+    // eslint-disable-next-line max-lines-per-function
     deepGet(prop, fields) {
         return transform(
             utils.getObservableMapValues(fields),
+            // eslint-disable-next-line max-statements
             (obj, field) => {
                 const $nested = ($fields) => ($fields.size === 0 ? undefined : this.deepGet(prop, $fields));
 

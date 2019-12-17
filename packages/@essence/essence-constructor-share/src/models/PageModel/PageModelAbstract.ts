@@ -69,7 +69,7 @@ export class PageModelAbstract implements IPageModel {
 
     public updateGlobalValues = (_values: object) => {};
 
-    public addStore = (_store: any, _name: string) => {};
+    public addStore = (_store: any, _name: string): string => "";
 
     public removeStore = (_name: string, _store: any) => {};
 

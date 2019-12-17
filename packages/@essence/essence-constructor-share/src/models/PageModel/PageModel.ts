@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
 import {extendObservable, action, observable, ObservableMap} from "mobx";
 import {Field} from "mobx-react-form";
+import uuid from "uuid";
 import {loggerRoot, VAR_RECORD_ID, VAR_RECORD_GLOBAL_VALUE} from "../../constants";
 import {styleTheme} from "../../constants/deprecated";
 import {
@@ -191,12 +192,21 @@ export class PageModel implements IPageModel {
         this.fieldValueMaster.delete(name);
     });
 
-    addStore = action("addStore", (store: IStoreBaseModel, name: string) => {
+    // @ts-ignore
+    addStore = action("addStore", (store: IStoreBaseModel, name: string, allowNewName = false): string => {
+        let newName = name;
+
         if (this.stores.has(name)) {
             logger(i18next.t("7ef1547ac7084e178bf1447361e3ccc3"));
+
+            if (allowNewName) {
+                newName = name + uuid();
+            }
         }
 
-        this.stores.set(name, store);
+        this.stores.set(newName, store);
+
+        return newName;
     });
 
     removeStore = action("removeStore", (name: string, store: IStoreBaseModel) => {

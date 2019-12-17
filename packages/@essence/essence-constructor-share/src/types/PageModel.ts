@@ -77,7 +77,7 @@ export interface IPageModel {
     handleQuestionDecline(): void;
     addFieldValueMaster(name: string, value: FieldValue): void;
     removeFieldValueMaster(name: string): void;
-    addStore(store: IStoreBaseModel, name: string): void;
+    addStore(store: IStoreBaseModel, name: string, allowNewName?: boolean): string;
     removeStore(name: string, store: IStoreBaseModel): void;
     addGlobalStoresAction(name: string, store: IStoreBaseModel): void;
     removeGlobalStoresAction(name: string, store: IStoreBaseModel): void;

@@ -1,19 +1,12 @@
 import {computed} from "mobx";
 import {VALUE_SELF_ALWAYSFIRST} from "@essence/essence-constructor-share/constants";
 import {StoreBaseModel, RecordsModel} from "@essence/essence-constructor-share/models";
-import {
-    IRecordsModel,
-    IBuilderConfig,
-    IStoreBaseModelProps,
-    IStoreBaseModel,
-} from "@essence/essence-constructor-share/types";
+import {IRecordsModel, IStoreBaseModelProps, IStoreBaseModel} from "@essence/essence-constructor-share/types";
 import {camelCaseMemoized} from "@essence/essence-constructor-share/utils";
 import {parse} from "@essence/essence-constructor-share/utils/parser";
 
 export class IframeModel extends StoreBaseModel implements IStoreBaseModel {
     recordsStore: IRecordsModel;
-
-    bc: IBuilderConfig;
 
     @computed get typeiframe(): "HTML" | "URL" | string {
         const typeiframe = this.bc.typeiframe && parse(this.bc.typeiframe).runer(this.pageStore.globalValues);

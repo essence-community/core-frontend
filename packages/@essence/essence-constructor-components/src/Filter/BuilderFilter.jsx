@@ -5,13 +5,13 @@ import {compose} from "recompose";
 import forOwn from "lodash/forOwn";
 import isArray from "lodash/isArray";
 import {toColumnStyleWidth, getFromStore} from "@essence/essence-constructor-share/utils";
-import {setComponent, mapComponents} from "@essence/essence-constructor-share";
+import {setComponent, mapComponents} from "@essence/essence-constructor-share/components";
+import {BuilderTypeContext} from "@essence/essence-constructor-share/context";
 import {Grid, Collapse, Typography} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {Field} from "mobx-react-form";
 import withModelDecorator from "../decorators/withModelDecorator";
 import {styleTheme, wrapperPanelDirection} from "../constants";
-import {BuilderTypeContext} from "../Contexts";
 import BuilderForm from "../Form/BuilderForm";
 import {FilterModel, type FilterModelType} from "../stores/FilterModel";
 import {type PageModelType} from "../stores/PageModel";
@@ -155,6 +155,7 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
         );
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {bc, disabled, classes, title, store, pageStore, visible, open, parentBc} = this.props;
 

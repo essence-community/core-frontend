@@ -38,6 +38,7 @@ import "@essence/essence-constructor-classes/src/Pages";
 import "@essence/essence-constructor-classes/src/WindowDrawer";
 import "@essence/essence-constructor-classes/src/FieldTextarea";
 import "@essence/essence-constructor-classes/src/Iframe";
+import "@essence/essence-constructor-classes/src/FieldRepeater";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

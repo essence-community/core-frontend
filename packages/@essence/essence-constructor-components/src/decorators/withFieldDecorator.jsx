@@ -21,9 +21,11 @@ import {type WithFieldPropsType, type WithFieldInjectPropsType} from "./Decorato
 
 const logger: Function = loggerRoot.extend("withFieldDecorator");
 
+// eslint-disable-next-line max-lines-per-function
 function withFieldDecorator<Props: WithFieldPropsType>(): (
     React.ComponentType<Props>,
 ) => React.ComponentType<$Diff<Props, WithFieldInjectPropsType>> {
+    // eslint-disable-next-line max-lines-per-function
     return (WrappedComponent) => {
         class WithFieldDecorator extends React.Component<Props & WithT> {
             static contextType = EditorContex;
@@ -139,7 +141,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
             getField = (): ?Field => {
                 const parentKey = isEmpty(this.props.parentKey)
                     ? ""
-                    : `${this.props.parentKey.replace(/fieldSetObj_/gi, "")}.`;
+                    : `${this.props.parentKey.replace(/fieldSetObj_/giu, "")}.`;
 
                 /*
                  * TODO mobx-react-form@^1.34.0 вызываю silent ($() - метод вызывает exception)
@@ -147,11 +149,11 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                 return this.getForm().select(`${parentKey}${this.key}`, null, false);
             };
 
-            // eslint-disable-next-line max-statements
+            // eslint-disable-next-line max-statements, max-lines-per-function
             addField = (key: string, bc: BuilderFieldType): Field => {
                 const form = this.getForm();
                 const trans = this.props.t;
-                const keyField = this.props.parentKey ? this.props.parentKey.replace(/fieldSetObj_/gi, "") : key;
+                const keyField = this.props.parentKey ? this.props.parentKey.replace(/fieldSetObj_/giu, "") : key;
 
                 const inputType = inputTypes[bc.datatype || "text"];
 
@@ -159,7 +161,9 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                 let field = form.select(keyField, null, false);
 
                 if (isEmpty(field)) {
-                    field = form.add({key: keyField});
+                    field = form.add({
+                        key: keyField,
+                    });
                 }
 
                 if (this.props.parentKey && startsWith(this.props.parentKey, "fieldSetObj")) {
@@ -258,7 +262,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                     /*
                      * TODO mobx-react-form@^1.34.0 вызываю silent ($() - метод вызывает exception)
                      */
-                    const field = form.select(parentKey.replace(/fieldSetObj_/gi, ""), null, false);
+                    const field = form.select(parentKey.replace(/fieldSetObj_/giu, ""), null, false);
 
                     if (field) {
                         field.fields.delete(this.key);

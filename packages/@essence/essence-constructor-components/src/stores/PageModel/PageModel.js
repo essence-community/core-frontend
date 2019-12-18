@@ -5,6 +5,7 @@ import {type IObservableArray} from "mobx/lib/mobx.js.flow";
 import {Field} from "mobx-react-form";
 import forEach from "lodash/forEach";
 import noop from "lodash/noop";
+import uuid from "uuid";
 import {parseMemoize, loadComponentsFromModules} from "@essence/essence-constructor-share";
 import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {findClassNames, i18next} from "@essence/essence-constructor-share/utils";
@@ -86,6 +87,7 @@ export class PageModel implements PageModelInterface {
 
     windowsOne: IObservableArray<WindowModelType>;
 
+    // eslint-disable-next-line max-lines-per-function
     constructor({
         initialBc,
         applicationStore,
@@ -211,12 +213,20 @@ export class PageModel implements PageModelInterface {
         this.fieldValueMaster.delete(name);
     });
 
-    addStore = action("addStore", (store: StoreModelTypes, name: string) => {
+    addStore = action("addStore", (store: StoreModelTypes, name: string, allowNewName: boolean = false): string => {
+        let newName = name;
+
         if (this.stores.has(name)) {
             logger(i18next.t("7ef1547ac7084e178bf1447361e3ccc3"));
+
+            if (allowNewName) {
+                newName = name + uuid();
+            }
         }
 
-        this.stores.set(name, store);
+        this.stores.set(newName, store);
+
+        return newName;
     });
 
     removeStore = action("removeStore", (name: string, store: StoreModelTypes) => {

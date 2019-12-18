@@ -10,6 +10,7 @@ import AuthorizationPage from "./Pages/AuthorizationPage/AuthorizationPage";
 import PreferencePage from "./Pages/PreferencePage/PreferencePage";
 import ReportsPage from "./Pages/ReportsPage/ReportsPage";
 import RedirectPage from "./Pages/RedirectPage/RedirectPage";
+import FramePage from "./Pages/FramePage/FramePage";
 
 import {ApplicationRouter} from "./containers/ApplicationRouter";
 import {history} from "./history";
@@ -21,6 +22,8 @@ export const AppRoutes = () => (
             <Route path="/redirect/:b64" render={(props: any) => <RedirectPage {...props} />} />
             <Route path="/reports/session/:session" render={(props: any) => <ReportsPage {...props} />} />
             <Route path="/reports/token/:token" render={(props: any) => <ReportsPage {...props} />} />
+            <Route path="/frame/session/:session/:app/:pageId" render={(props: any) => <FramePage {...props} />} />
+            <Route path="/frame/token/:token/:app/:pageId" render={(props: any) => <FramePage {...props} />} />
             <Route
                 path={["/page/:ckId", "/home", "/preference", "/"]}
                 exact

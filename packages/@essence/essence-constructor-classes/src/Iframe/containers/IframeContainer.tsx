@@ -18,6 +18,8 @@ export const IframeContainer: React.FC<IClassProps> = (props) => {
     const [store] = useModel((options) => new IframeModel(options), {
         applicationStore,
         bc,
+        disabled,
+        hidden,
         pageStore,
     });
     const height = bc.height ? toSize(bc.height) : undefined;

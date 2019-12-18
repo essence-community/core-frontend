@@ -2,6 +2,7 @@
 import * as React from "react";
 import MaterialTab from "@material-ui/core/Tab";
 import omit from "lodash/omit";
+import {toColumnStyleWidth} from "@essence/essence-constructor-share/utils";
 import commonDecorator from "../decorators/commonDecorator";
 import {type PageModelType} from "../stores/PageModel";
 import {type RoadMapModelType} from "../stores/RoadMapModel";
@@ -23,6 +24,7 @@ type PropsType = {
 };
 
 const OMIT_PROPS = ["visible", "isActive", "pageStore", "bc", "store", "extraClasses"];
+const DEFAULT_WIDTH_TAB = 228;
 
 class Tab extends React.Component<PropsType> {
     componentDidMount() {
@@ -50,28 +52,24 @@ class Tab extends React.Component<PropsType> {
     };
 
     render() {
-        const {classes, hidden, orientation} = this.props;
+        const {classes, hidden, orientation, bc} = this.props;
+        const style = {
+            display: hidden ? "none" : undefined,
+            ...toColumnStyleWidth(bc.tabwidth ? bc.tabwidth : DEFAULT_WIDTH_TAB),
+        };
 
         if (orientation === "vertical") {
             return (
-                <div className={classes.containerTab}>
-                    <MaterialTab
-                        style={{display: hidden ? "none" : undefined}}
-                        {...omit(this.props, OMIT_PROPS)}
-                        hidden={hidden}
-                    />
+                <div className={classes.containerTab} style={style}>
+                    <MaterialTab {...omit(this.props, OMIT_PROPS)} hidden={hidden} />
                 </div>
             );
         }
 
         return (
-            <div className={classes.containerTab}>
+            <div className={classes.containerTab} style={style}>
                 <span className={classes.leftSideTab} />
-                <MaterialTab
-                    style={{display: hidden ? "none" : undefined}}
-                    {...omit(this.props, OMIT_PROPS)}
-                    hidden={hidden}
-                />
+                <MaterialTab {...omit(this.props, OMIT_PROPS)} hidden={hidden} />
                 <span className={classes.rightSideTab} />
             </div>
         );

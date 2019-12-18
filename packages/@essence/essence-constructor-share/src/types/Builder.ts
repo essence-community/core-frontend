@@ -212,6 +212,8 @@ export interface IBuilderBaseConfig {
     stepnamenext?: string;
     // Правила применения стилей для колонок.  Нужно возвращать валидный объект вида `{"color": "red"}`
     stylerules?: string;
+    // Ширина Tab Panel
+    tabwidth?: string;
     // Разделитель тысяч
     thousandseparator?: string;
     // Время ожидания выполнения запроса в секундах

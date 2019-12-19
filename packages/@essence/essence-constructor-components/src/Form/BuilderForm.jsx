@@ -12,7 +12,8 @@ import debounce from "lodash/debounce";
 import isFunction from "lodash/isFunction";
 import dvr from "mobx-react-form/lib/validators/DVR";
 import validatorjs from "validatorjs";
-import {FormContext, EditorContex, ModeContext} from "@essence/essence-constructor-share";
+import {FormContext, EditorContex, ModeContext} from "@essence/essence-constructor-share/context";
+import {VAR_RECORD_ID} from "@essence/essence-constructor-share/constants";
 import BuilderMobxForm from "../Components/MobxForm/BuilderMobxForm";
 import {styleTheme} from "../constants";
 import {type PageModelType} from "../stores/PageModel";
@@ -157,7 +158,7 @@ export class BuilderFormBase extends React.Component<PropsTypes, StateTypes> {
         return new BuilderMobxForm(
             {
                 values: {
-                    ckId: null,
+                    [VAR_RECORD_ID]: null,
                     ...initialValues,
                 },
             },

@@ -15,7 +15,7 @@ export type PageModelParamsType = {|
     initialBc?: BuilderBaseType[],
     applicationStore: ApplicationModelType,
     routesStore?: RoutesModelType,
-    ckPage: string,
+    pageId: string,
     isActiveRedirect: boolean,
     isReadOnly?: boolean,
     styleTheme?: "dark" | "light",
@@ -40,7 +40,7 @@ export interface PageModelInterface {
     stores: PageModelStoresType;
     windows: PageModelWindowsType;
     globalValues: ObservableMap<string, mixed>;
-    ckPage: string;
+    pageId: string;
     route: Object;
     pageEl: ?HTMLDivElement;
     pageInnerEl: ?HTMLDivElement;
@@ -70,7 +70,7 @@ export interface PageModelInterface {
     removeWindowAction: (name: string) => void;
     addFieldValueMaster: (name: string, value: any) => void;
     removeFieldValueMaster: (name: string) => void;
-    loadConfigAction: (ckPage: string, session: string) => Promise<void>;
+    loadConfigAction: (pageId: string, session: string) => Promise<void>;
     setPageElAction: (pageEl: ?HTMLDivElement) => void;
     setPageInnerElAction: (pageInnerEl: ?HTMLDivElement) => void;
     addFormAction: (formType: FormType, form: any) => void;
@@ -85,8 +85,8 @@ export interface PageModelInterface {
     addGlobalStoresAction: (name: string, store: any) => void;
     removeGlobalStoresAction: (name: string, store: any) => void;
     freezeScrollAction: () => void;
-    addToMastersAction: (ckMaster: string, field: Field) => void;
-    removeFromMastersAction: (ckMaster?: string, field: ?Field) => void;
+    addToMastersAction: (masterId: string, field: Field) => void;
+    removeFromMastersAction: (masterId?: string, field: ?Field) => void;
     clearAction: () => void;
     removePageAction: () => void;
 }

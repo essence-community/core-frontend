@@ -4,7 +4,6 @@ import {
     VAR_RECORD_ID,
     VAR_RECORD_ROUTE_NAME,
     VAR_RECORD_ICON_NAME,
-    VAR_RECORD_ROUTE_PAGE_ID,
     VAR_RECORD_ROUTE_VISIBLE_MENU,
 } from "@essence/essence-constructor-share/constants/variables";
 import {Tabs} from "@material-ui/core";
@@ -72,7 +71,7 @@ export const OpenPageTabs: React.FC<IClassProps> = (props) => {
     return useObserver(() => (
         <React.Fragment>
             <Tabs
-                value={pagesStore.activePage ? pagesStore.activePage.ckPage : false}
+                value={pagesStore.activePage ? pagesStore.activePage.pageId : false}
                 classes={{
                     flexContainer: classes.tabsFlexContainer,
                     root: classes.tabsRoot,
@@ -88,20 +87,19 @@ export const OpenPageTabs: React.FC<IClassProps> = (props) => {
                 {pagesStore.pages
                     .filter(({route}) => route && route[VAR_RECORD_ROUTE_VISIBLE_MENU])
                     .map((page, index) => {
-                        const {route} = page;
-                        const ckPage = page[VAR_RECORD_ROUTE_PAGE_ID];
+                        const {route, pageId} = page;
                         const name: any = route && route[VAR_RECORD_ROUTE_NAME];
                         const iconName: any = route && route[VAR_RECORD_ICON_NAME];
 
                         return (
                             <OpenPageTab
-                                key={ckPage}
-                                pageId={ckPage}
+                                key={pageId}
+                                pageId={pageId}
                                 pageIndex={index}
                                 component={renderTabComponent}
                                 label={trans(name)}
                                 iconfont={iconName}
-                                value={ckPage}
+                                value={pageId}
                                 onClose={pagesStore.removePageAction}
                                 onContextMenuCustom={handleContextMenu}
                                 orientation={orientation}

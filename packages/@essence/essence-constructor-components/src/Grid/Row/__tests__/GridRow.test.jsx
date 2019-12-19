@@ -1,5 +1,6 @@
 // @flow
 import * as React from "react";
+import {VAR_RECORD_ID} from "@essence/essence-constructor-share/constants";
 import {mountWithTheme, getBaseBc} from "../../../utils/test";
 import {createEmptyPageStore} from "../../../stores";
 import {GridModel} from "../../../stores/GridModel";
@@ -8,6 +9,7 @@ import BaseGridRow from "../BaseGridRow";
 import {records} from "../../__mock__/records";
 import {gridBc} from "../../__mock__/builderConfigs";
 
+// eslint-disable-next-line max-lines-per-function
 describe("GridRow", () => {
     const bc = {
         ...gridBc,
@@ -46,7 +48,7 @@ describe("GridRow", () => {
 
         expect(wrapper.find(BaseGridRow).length).toBe(1);
 
-        store.expansionRecords.set(record.ckId, true);
+        store.expansionRecords.set(record[VAR_RECORD_ID], true);
         wrapper.update();
 
         expect(wrapper.find(BaseGridRow).length).toBe(2);
@@ -57,7 +59,7 @@ describe("GridRow", () => {
     it("already open detail", () => {
         const [record] = records;
 
-        store.expansionRecords.set(record.ckId, true);
+        store.expansionRecords.set(record[VAR_RECORD_ID], true);
 
         const wrapper = mountWithTheme(
             <table>

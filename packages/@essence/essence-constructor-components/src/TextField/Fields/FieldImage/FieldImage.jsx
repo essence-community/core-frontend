@@ -78,8 +78,4 @@ class FieldImage extends React.Component<PropsType & WithT> {
     }
 }
 
-export default compose(
-    withTranslation("meta"),
-    withStyles(styles),
-    observer,
-)(FieldImage);
+export default compose(withTranslation("meta"), withStyles(styles), observer)(FieldImage);

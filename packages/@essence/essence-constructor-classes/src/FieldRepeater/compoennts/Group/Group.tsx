@@ -4,6 +4,7 @@ import {Grid} from "@material-ui/core";
 import {useTranslation, toColumnStyleWidth} from "@essence/essence-constructor-share/utils";
 import {mapComponents} from "@essence/essence-constructor-share/components";
 import {BuilderTypeContext} from "@essence/essence-constructor-share/context";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants";
 import {useStyles} from "./Group.styles";
 import {IGroupProps} from "./Group.types";
 
@@ -12,6 +13,7 @@ export const Group: React.FC<IGroupProps> = (props) => {
     const builderType = React.useContext(BuilderTypeContext);
     const inFilter = builderType === "filter";
     const classes = useStyles(undefined);
+    const label = bc[VAR_RECORD_DISPLAYED];
     // eslint-disable-next-line id-length
     const {t} = useTranslation();
 
@@ -32,9 +34,9 @@ export const Group: React.FC<IGroupProps> = (props) => {
                 <Grid item className={classes.labelTextStartAngle}>
                     &nbsp;
                 </Grid>
-                {bc.cvDisplayed ? (
+                {label ? (
                     <Grid item className={`${classes.labelDisplay}`}>
-                        <span>{t(bc.cvDisplayed)}</span>
+                        <span>{t(label)}</span>
                     </Grid>
                 ) : null}
                 <Grid item xs className={classes.labelTextLine}>
@@ -50,7 +52,7 @@ export const Group: React.FC<IGroupProps> = (props) => {
                     <Grid
                         item
                         xs={12}
-                        key={child.ckPageObject}
+                        key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                         className={classes.child}
                         style={toColumnStyleWidth(child.width)}
                     >

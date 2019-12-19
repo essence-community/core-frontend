@@ -1,7 +1,8 @@
 // @flow
 import * as React from "react";
-import {camelCaseKeys, initI18n, WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {initI18n, WithT, withTranslation} from "@essence/essence-constructor-share/utils";
 import {settingsStore} from "@essence/essence-constructor-share/models/SettingsModel";
+import {VAR_RECORD_ID, VAR_RECORD_CV_VALUE} from "@essence/essence-constructor-share/constants";
 import {observer} from "mobx-react";
 import {COMMIT_ID, BRANCH_DATE_TIME, BRANCH_NAME} from "../../constants";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
@@ -15,21 +16,19 @@ class Settings extends React.Component<PropsType> {
     componentDidMount() {
         const {applicationStore} = this.props;
 
-        /* eslint-disable camelcase */
         const setting = [
             ...window.SETTINGS,
             {
-                ck_id: "gSysFrontAppVersion",
-                cv_value: this.props.t("26686005b3584a12aeb9ca9e96e54753", {
+                [VAR_RECORD_CV_VALUE]: this.props.t("26686005b3584a12aeb9ca9e96e54753", {
                     BRANCH_DATE_TIME,
                     BRANCH_NAME,
                     COMMIT_ID,
                 }),
+                [VAR_RECORD_ID]: "gSysFrontAppVersion",
             },
         ];
-        /* eslint-enable camelcase */
 
-        applicationStore.settingsStore.recordsStore.setRecordsAction(camelCaseKeys(setting));
+        applicationStore.settingsStore.recordsStore.setRecordsAction(setting);
 
         settingsStore.setSettings(setting);
 

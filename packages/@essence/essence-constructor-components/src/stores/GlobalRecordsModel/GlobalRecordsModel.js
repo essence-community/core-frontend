@@ -1,11 +1,12 @@
 // @flow
 import {action, reaction} from "mobx";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_QUERY_ID} from "@essence/essence-constructor-share/constants";
 import {RecordsModel, type RecordsModelType} from "../RecordsModel";
 import {type ApplicationModelType} from "../StoreTypes";
 import {type GlobalRecordsModelInterface, type ConstructorType} from "./GlobalRecordsModelType";
 
 const INDENTITY_DOC_TYPES_BC = {
-    ckPageObject: "dIdentityDocType",
+    [VAR_RECORD_PAGE_OBJECT_ID]: "dIdentityDocType",
 };
 
 export class GlobalRecordsModel implements GlobalRecordsModelInterface {
@@ -21,7 +22,7 @@ export class GlobalRecordsModel implements GlobalRecordsModelInterface {
                     this.indentityDocTypeRecordsStore = new RecordsModel(
                         {
                             ...INDENTITY_DOC_TYPES_BC,
-                            ckQuery: settings.smartMaskQuery,
+                            [VAR_RECORD_QUERY_ID]: settings.smartMaskQuery,
                         },
                         pageStore,
                     );

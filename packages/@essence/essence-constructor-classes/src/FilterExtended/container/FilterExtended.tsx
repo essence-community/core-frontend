@@ -5,6 +5,7 @@ import {useObserver} from "mobx-react-lite";
 import {mapComponents, IBuilderConfig, IClassProps, Icon, FormContext} from "@essence/essence-constructor-share";
 import {useTranslation} from "@essence/essence-constructor-share/utils";
 import {findColumns} from "@essence/essence-constructor-share/utils/findColumns";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants";
 import {useStyles} from "./FilterExtended.style";
 
 export const FilterExtended = (props: IClassProps) => {
@@ -14,6 +15,7 @@ export const FilterExtended = (props: IClassProps) => {
     const [isOpen, setIsOpen] = React.useState(bc.collapsed !== "true");
     const columns = React.useMemo(() => findColumns(bc), [bc]);
     const [trans] = useTranslation("meta");
+    const label = bc[VAR_RECORD_DISPLAYED];
     const handleClear = (event: React.SyntheticEvent) => {
         event.stopPropagation();
 
@@ -25,7 +27,7 @@ export const FilterExtended = (props: IClassProps) => {
     };
 
     return useObserver(() => (
-        <Collapse in={isOpen} collapsedHeight="30px" data-page-object={`${bc.ckPageObject}-collapsible`}>
+        <Collapse in={isOpen} collapsedHeight="30px" data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-collapsible`}>
             <Grid container direction="column" spacing={0}>
                 <Grid item onClick={() => setIsOpen(!isOpen)} className={classes.header}>
                     <Grid container spacing={0}>
@@ -35,7 +37,7 @@ export const FilterExtended = (props: IClassProps) => {
 
                         <Grid item>
                             <Typography variant="body2" component="span">
-                                {`${(bc.cvDisplayed && trans(bc.cvDisplayed)) || ""} `}
+                                {`${(label && trans(label)) || ""} `}
                             </Typography>
                             <Icon iconfont={isOpen ? "angle-up" : "angle-down"} />
                         </Grid>
@@ -58,7 +60,7 @@ export const FilterExtended = (props: IClassProps) => {
                         {mapComponents(
                             props.bc.childs,
                             (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                                <Grid item key={childBc.ckPageObject}>
+                                <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
                                     <Child {...props} bc={childBc} />
                                 </Grid>
                             ),

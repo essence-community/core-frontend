@@ -2,6 +2,7 @@
 import * as React from "react";
 import {when} from "mobx";
 import {Modal, Button, IconButton} from "@material-ui/core";
+import {VAR_RECORD_CK_HOUSE} from "@essence/essence-constructor-share/constants";
 import BuilderMobxForm from "../../../../Components/MobxForm/BuilderMobxForm";
 import addrJson from "../../../../../mocks/fields/addr.json";
 import {stores} from "../../../../stores";
@@ -14,7 +15,7 @@ import FieldMulti, {FieldMultiBase} from "../FieldMulti";
 
 const TWO_FRAMES = 32;
 
-// eslint-disable-next-line max-statements
+// eslint-disable-next-line max-lines-per-function, max-statements
 describe("BuilderForm - FieldMulti", () => {
     let fieldConfig = {};
 
@@ -118,7 +119,7 @@ describe("BuilderForm - FieldMulti", () => {
         wrapper.find(TextField).simulate("click");
         wrapper.update();
 
-        form.set({ckHouse: "7781393"});
+        form.set({[VAR_RECORD_CK_HOUSE]: "7781393"});
 
         wrapper
             .find(Button)
@@ -135,7 +136,7 @@ describe("BuilderForm - FieldMulti", () => {
         wrapper.find(TextField).simulate("click");
         wrapper.update();
 
-        form.set({ckHouse: "7781393"});
+        form.set({[VAR_RECORD_CK_HOUSE]: "7781393"});
 
         wrapper
             .find(Button)
@@ -215,9 +216,9 @@ describe("BuilderForm - FieldMulti", () => {
         const {form} = wrapper.find(FieldMultiBase).instance();
 
         wrapper.find("input").simulate("click");
-        form.set({ckHouse: "7781393"});
+        form.set({[VAR_RECORD_CK_HOUSE]: "7781393"});
         wrapper.find(PopoverBase).prop("onClickOutside")();
 
-        expect(form.$("ckHouse").value).toBe("");
+        expect(form.$(VAR_RECORD_CK_HOUSE).value).toBe("");
     });
 });

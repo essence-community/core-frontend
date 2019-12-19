@@ -23,7 +23,7 @@ export class PageModelAbstract implements IPageModel {
 
     public globalValues: ObservableMap<string, FieldValue> = observable.map();
 
-    public ckPage = "1";
+    public pageId = "1";
 
     public showQuestionWindow = false;
 

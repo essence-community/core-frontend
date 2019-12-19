@@ -19,8 +19,14 @@ import {
     IRecordsSearchOptions,
     IRouteRecord,
 } from "../../types";
-import {camelCaseMemoized, i18next} from "../../utils";
-import {loggerRoot, VAR_RECORD_ID} from "../../constants";
+import {i18next} from "../../utils";
+import {
+    loggerRoot,
+    VAR_RECORD_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+} from "../../constants";
 import {loadRecordsAction} from "./loadRecordsAction";
 
 interface ILoadRecordsProps {
@@ -138,7 +144,7 @@ export class RecordsModel implements IRecordsModel {
     loadRecordsAction = action(
         "loadRecordsAction",
         ({selectedRecordId, status = "load", isUserReload}: ILoadRecordsProps = {}) => {
-            if (!this.bc.ckQuery) {
+            if (!this.bc[VAR_RECORD_QUERY_ID]) {
                 logger(i18next.t("0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
 
                 return Promise.resolve();
@@ -190,7 +196,7 @@ export class RecordsModel implements IRecordsModel {
             const promises: Array<Promise<any>> = [];
 
             this.pageStore.stores.forEach((store: IStoreBaseModel) => {
-                if (store.bc && store.bc.ckMaster === this.bc.ckPageObject) {
+                if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
                     const promise = store.reloadStoreAction();
 
                     if (promise) {
@@ -225,7 +231,7 @@ export class RecordsModel implements IRecordsModel {
 
         if (this.pageStore) {
             this.pageStore.stores.forEach((store) => {
-                if (store.bc && store.bc.ckMaster === this.bc.ckPageObject) {
+                if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
                     store.clearStoreAction();
 
                     if (store.recordsStore) {
@@ -249,25 +255,25 @@ export class RecordsModel implements IRecordsModel {
     setFirstRecord = action("setFirstRecord", () => {
         const newRecord = this.recordsState.records[0] || {};
 
-        this.setSelectionAction(newRecord.ckId);
+        this.setSelectionAction(newRecord[VAR_RECORD_ID]);
     });
 
     setPrevRecord = action("setPrevRecord", () => {
         const newRecord = this.recordsState.records[this.selectedRecordIndex - 1] || {};
 
-        this.setSelectionAction(newRecord.ckId);
+        this.setSelectionAction(newRecord[VAR_RECORD_ID]);
     });
 
     setNextRecord = action("setNextRecord", () => {
         const newRecord = this.recordsState.records[this.selectedRecordIndex + 1] || {};
 
-        this.setSelectionAction(newRecord.ckId);
+        this.setSelectionAction(newRecord[VAR_RECORD_ID]);
     });
 
     setLastRecord = action("setLastRecord", () => {
         const newRecord = this.recordsState.records[this.recordsState.records.length - 1] || {};
 
-        this.setSelectionAction(newRecord.ckId);
+        this.setSelectionAction(newRecord[VAR_RECORD_ID]);
     });
 
     setOrderAction = action("setOrderAction", (property: string) => {
@@ -313,7 +319,7 @@ export class RecordsModel implements IRecordsModel {
 
     sortRecordsAction = action("sortRecordsAction", () => {
         const {direction} = this.order;
-        const property = camelCaseMemoized(this.order.property || "");
+        const {property = ""} = this.order;
         const records = [...this.recordsState.records];
 
         records.sort((rec1, rec2) => {

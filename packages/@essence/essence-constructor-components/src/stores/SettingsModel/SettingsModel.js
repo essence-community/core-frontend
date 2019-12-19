@@ -1,6 +1,6 @@
 // @flow
-import camelCase from "lodash/camelCase";
 import {extendObservable} from "mobx";
+import {VAR_RECORD_ID, VAR_SETTING_VALUE} from "@essence/essence-constructor-share/constants";
 import {DefaultRecordsModel, type DefaultRecordsModelPropsType} from "../DefaultRecordsModel";
 
 export class SettingsModel extends DefaultRecordsModel {
@@ -10,7 +10,7 @@ export class SettingsModel extends DefaultRecordsModel {
         extendObservable(this, {
             get settings() {
                 return this.recordsStore.records.reduce((acc, setting) => {
-                    acc[camelCase(setting.ckId)] = setting.cvValue;
+                    acc[setting[VAR_RECORD_ID]] = setting[VAR_SETTING_VALUE];
 
                     return acc;
                 }, {});

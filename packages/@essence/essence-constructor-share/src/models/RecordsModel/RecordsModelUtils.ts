@@ -1,4 +1,5 @@
 import {ObservableMap} from "mobx";
+import {VAR_RECORD_ID} from "../../constants";
 import {IPageModel, FieldValue} from "../../types";
 import {findSetKey} from "../../utils";
 
@@ -32,16 +33,18 @@ export const getMasterData = (
     return master;
 };
 
-export function getMasterObject(ckMaster?: string, pageStore?: IPageModel): undefined | Record<string, FieldValue> {
-    if (!ckMaster || !pageStore) {
+export function getMasterObject(masterId?: string, pageStore?: IPageModel): undefined | Record<string, FieldValue> {
+    if (!masterId || !pageStore) {
         return undefined;
     }
 
-    const masterObject = pageStore.stores.get(ckMaster);
+    const masterObject = pageStore.stores.get(masterId);
     const selectedRecord = masterObject ? masterObject.selectedRecord : {};
 
     return {
         ...selectedRecord,
-        ...(pageStore.fieldValueMaster.has(ckMaster) ? {ckId: pageStore.fieldValueMaster.get(ckMaster)} : {}),
+        ...(pageStore.fieldValueMaster.has(masterId)
+            ? {[VAR_RECORD_ID]: pageStore.fieldValueMaster.get(masterId)}
+            : {}),
     };
 }

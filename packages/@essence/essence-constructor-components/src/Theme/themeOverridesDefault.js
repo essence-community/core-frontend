@@ -1,5 +1,6 @@
 import transitions from "@material-ui/core/styles/transitions";
 
+// eslint-disable-next-line max-lines-per-function
 export const themeOverridesDefault = (theme) => ({
     MuiBackdrop: {
         root: {

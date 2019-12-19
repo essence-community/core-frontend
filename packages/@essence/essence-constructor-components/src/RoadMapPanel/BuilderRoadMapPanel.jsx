@@ -10,6 +10,11 @@ import {Grid, Tabs} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {setComponent, mapComponents} from "@essence/essence-constructor-share";
 import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+} from "@essence/essence-constructor-share/constants";
 import commonDecorator from "../decorators/commonDecorator";
 import withModelDecorator from "../decorators/withModelDecorator";
 import {RoadMapModel, type RoadMapModelType} from "../stores/RoadMapModel";
@@ -85,7 +90,7 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
 
     handleCheckNewSelection = () => {
         const {bc, pageStore} = this.props;
-        const masterStore = bc.ckMaster ? pageStore.stores.get(bc.ckMaster) : undefined;
+        const masterStore = bc[VAR_RECORD_MASTER_ID] ? pageStore.stores.get(bc[VAR_RECORD_MASTER_ID]) : undefined;
 
         return masterStore ? masterStore.selectedRecord : undefined;
     };
@@ -135,12 +140,12 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
         const {store} = this.props;
         const tabs = store.getActiveTabs();
 
-        const currentTabIndex = tabs.findIndex((tab) => tab.ckPageObject === selectedTab);
+        const currentTabIndex = tabs.findIndex((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID] === selectedTab);
         const nextTabIndex = currentTabIndex + (code === "left" || code === "up" ? -1 : 1);
         const nextTab = tabs[nextTabIndex];
 
         if (nextTab) {
-            this.setState({selectedTab: nextTab.ckPageObject});
+            this.setState({selectedTab: nextTab[VAR_RECORD_PAGE_OBJECT_ID]});
         }
     };
 
@@ -162,17 +167,17 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
             pageStore,
             visible,
         } = this.props;
-        const isVisible = child.ckPageObject === tabValue;
+        const isVisible = child[VAR_RECORD_PAGE_OBJECT_ID] === tabValue;
 
         return (
-            <Grid xs={12} item key={child.ckPageObject} style={{display: isVisible ? "block" : "none"}}>
+            <Grid xs={12} item key={child[VAR_RECORD_PAGE_OBJECT_ID]} style={{display: isVisible ? "block" : "none"}}>
                 <BuilderForm
-                    onSetForm={(form) => setTabStatus(child.ckPageObject, {form})}
+                    onSetForm={(form) => setTabStatus(child[VAR_RECORD_PAGE_OBJECT_ID], {form})}
                     injectType="filter"
-                    dataPageObject={`${child.ckPageObject}-form`}
+                    dataPageObject={`${child[VAR_RECORD_PAGE_OBJECT_ID]}-form`}
                     mode="1"
                     pageStore={pageStore}
-                    initialValues={tabStatus.get(child.ckPageObject).recordStore.selectedRecrodValues}
+                    initialValues={tabStatus.get(child[VAR_RECORD_PAGE_OBJECT_ID]).recordStore.selectedRecrodValues}
                 >
                     <Cmp
                         type={child.type}
@@ -199,16 +204,16 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
         if (orientation === "vertical") {
             return (
                 <div className={cn([classes.label, classes.verticalLabel, classes.themeLabel])}>
-                    <span className={classes.cycleNum}>{tabStatus.get(child.ckPageObject).num}</span>
-                    <span className={classes.verticalLabelText}>{t(child.cvDisplayed)}</span>
+                    <span className={classes.cycleNum}>{tabStatus.get(child[VAR_RECORD_PAGE_OBJECT_ID]).num}</span>
+                    <span className={classes.verticalLabelText}>{t(child[VAR_RECORD_DISPLAYED])}</span>
                 </div>
             );
         }
 
         return (
             <div className={cn([classes.label, classes.horizontalLabel, classes.themeLabel])}>
-                <span className={classes.textNum}>{tabStatus.get(child.ckPageObject).num}</span>
-                <span className={classes.horizontalLabelText}>{t(child.cvDisplayed)}</span>
+                <span className={classes.textNum}>{tabStatus.get(child[VAR_RECORD_PAGE_OBJECT_ID]).num}</span>
+                <span className={classes.horizontalLabelText}>{t(child[VAR_RECORD_DISPLAYED])}</span>
             </div>
         );
     }
@@ -251,7 +256,7 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
                         orientation={orientation}
                         value={tabValue}
                         onChange={this.handleChangeTab}
-                        data-page-object={`${bc.ckPageObject}-tabs`}
+                        data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-tabs`}
                         classes={{
                             indicator: classes.tabsIndicator,
                             root: classes[`${orientation}TabsRoot`],
@@ -263,15 +268,16 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
                     >
                         {tabs.map((child) => (
                             <Tab
-                                value={child.ckPageObject}
-                                key={child.ckPageObject}
+                                value={child[VAR_RECORD_PAGE_OBJECT_ID]}
+                                key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                                 label={this.renderLabel(child, orientation)}
                                 classes={{
                                     containerTab: cn({
                                         [classes.horizontalContainerTab]: orientation === "horizontal",
-                                        [classes.activeTabRoot]: tabValue === child.ckPageObject,
-                                        [classes.selectedTab]: selectedTab === child.ckPageObject,
-                                        [classes.disabled]: disabled || tabStatus.get(child.ckPageObject).disabled,
+                                        [classes.activeTabRoot]: tabValue === child[VAR_RECORD_PAGE_OBJECT_ID],
+                                        [classes.selectedTab]: selectedTab === child[VAR_RECORD_PAGE_OBJECT_ID],
+                                        [classes.disabled]:
+                                            disabled || tabStatus.get(child[VAR_RECORD_PAGE_OBJECT_ID]).disabled,
                                     }),
                                     leftSideTab: cn([classes.leftSideTab, classes.leftSideTabTheme]),
                                     rightSideTab: cn([classes.rightSideTab, classes.rightSideTabTheme]),
@@ -279,14 +285,14 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
                                     textColorInherit: classes.textColorInherit,
                                     wrapper: classes.tabWrapper,
                                 }}
-                                disabled={disabled || tabStatus.get(child.ckPageObject).disabled}
+                                disabled={disabled || tabStatus.get(child[VAR_RECORD_PAGE_OBJECT_ID]).disabled}
                                 disableRipple
-                                data-page-object={`${child.ckPageObject}_tab`}
-                                data-qtip={t(child.cvDisplayed)}
+                                data-page-object={`${child[VAR_RECORD_PAGE_OBJECT_ID]}_tab`}
+                                data-qtip={t(child[VAR_RECORD_DISPLAYED])}
                                 orientation={orientation}
                                 pageStore={pageStore}
                                 bc={child}
-                                isActive={tabValue === child.ckPageObject}
+                                isActive={tabValue === child[VAR_RECORD_PAGE_OBJECT_ID]}
                                 store={store}
                                 visible={visible}
                                 tabIndex="-1"
@@ -308,7 +314,7 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
                     {this.renderTabs("vertical")}
                 </Grid>
                 <Grid item xs={10}>
-                    <Grid container spacing={0} direction="column" data-page-object={bc.ckPageObject}>
+                    <Grid container spacing={0} direction="column" data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}>
                         {mapComponents(childs, this.renderTabComponent)}
                     </Grid>
                 </Grid>
@@ -324,7 +330,7 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
                     {mapComponents(tabStatus.get(tabValue).btns, (BtnComponent, btn) => (
                         <Grid item>
                             <BtnComponent
-                                key={btn.ckPageObject}
+                                key={btn[VAR_RECORD_PAGE_OBJECT_ID]}
                                 bc={btn}
                                 disabled={disabled}
                                 pageStore={pageStore}
@@ -342,14 +348,14 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
         const {childs, tabValue, tabStatus} = store;
 
         return (
-            <Grid container spacing={1} direction="column" data-page-object={bc.ckPageObject}>
+            <Grid container spacing={1} direction="column" data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}>
                 {this.renderTabs("horizontal")}
                 {mapComponents(childs, this.renderTabComponent)}
                 <Grid item container spacing={1} justify={"flex-end"} className={classes.bottomBar} direction="row">
                     {mapComponents(tabStatus.get(tabValue).btns, (BtnComponent, btn) => (
                         <Grid item>
                             <BtnComponent
-                                key={btn.ckPageObject}
+                                key={btn[VAR_RECORD_PAGE_OBJECT_ID]}
                                 bc={btn}
                                 disabled={disabled}
                                 pageStore={pageStore}

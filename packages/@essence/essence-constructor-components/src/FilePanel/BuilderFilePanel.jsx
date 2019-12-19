@@ -4,7 +4,8 @@ import {observer} from "mobx-react";
 import {compose} from "recompose";
 import {Paper, Grid} from "@material-ui/core";
 import {toSize} from "@essence/essence-constructor-share/utils";
-import {setComponent} from "@essence/essence-constructor-share";
+import {setComponent} from "@essence/essence-constructor-share/components";
+import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import ThemePanelWrapper from "../Components/ThemePanelWrapper/ThemePanelWrapper";
 import BuilderMobxButton from "../Button/BuilderMobxButton";
 import {FilePanelModel, type FilePanelModelType, type FilePanelBcType} from "../stores/FilePanelModel";
@@ -67,12 +68,16 @@ export class BaseBuilderFilePanel extends React.Component<PropsType> {
         );
 
         return (
-            <Paper elevation={elevation} className="paper-overflow-hidden" data-page-object={bc.ckPageObject}>
+            <Paper
+                elevation={elevation}
+                className="paper-overflow-hidden"
+                data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
+            >
                 <ThemePanelWrapper actionsBar={actionsBar}>
                     <Content verticalSize="16" horizontalSize="16" style={this.contentStyle}>
                         <Grid container direction="row" spacing={1}>
                             {store.recordsStore.records.map((record) => (
-                                <Grid item xs={6} key={record.ckId}>
+                                <Grid item xs={6} key={record[VAR_RECORD_ID]}>
                                     <FileRecord
                                         pageStore={pageStore}
                                         bc={bc}

@@ -3,12 +3,12 @@ import {
     IStoreBaseModelProps,
     IRecordsModel,
     toString,
-    camelCaseMemoized,
     debounce,
     FieldValue,
     VAR_RECORD_ID,
     IRecord,
 } from "@essence/essence-constructor-share";
+import {VAR_RECORD_CL_IS_MASTER} from "@essence/essence-constructor-share/constants";
 import {i18next} from "@essence/essence-constructor-share/utils";
 import {StoreBaseModel, RecordsModel} from "@essence/essence-constructor-share/models";
 import {ISuggestion} from "./FieldComboModel.types";
@@ -77,13 +77,13 @@ export class FieldComboModel extends StoreBaseModel {
         const {bc, pageStore, applicationStore} = props;
         const {column = "", displayfield = "", valuefield = "", minchars = "", querydelay = ""} = bc;
 
-        this.displayfield = camelCaseMemoized(displayfield);
-        this.valuefield = camelCaseMemoized(valuefield || column);
+        this.displayfield = displayfield;
+        this.valuefield = valuefield || column;
         this.valueLength = parseInt(minchars, 10);
 
         this.recordsStore = new RecordsModel(bc, {
             applicationStore,
-            noLoadChilds: Boolean(bc.clIsMaster),
+            noLoadChilds: Boolean(bc[VAR_RECORD_CL_IS_MASTER]),
             pageStore,
             valueField: this.valuefield,
         });

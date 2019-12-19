@@ -7,6 +7,7 @@ import {compose} from "recompose";
 import {PageLoader} from "@essence/essence-constructor-share";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import {getFromStore, WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {VAR_RECORD_CV_LOGIN, VAR_RECORD_CV_PASSWORD} from "@essence/essence-constructor-share/constants";
 import {MobxForm} from "../../Components/MobxForm";
 import {AuthModelType} from "../../Stores/AuthModel";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
@@ -89,9 +90,9 @@ class AuthPage extends React.Component<PropsType, StateType> {
         {
             autoFocus: false,
             disabled: false,
-            id: "cvLogin",
+            id: VAR_RECORD_CV_LOGIN,
             margin: "normal",
-            name: "cvLogin",
+            name: VAR_RECORD_CV_LOGIN,
             placeholder: this.props.t("d016a5a3d0964cd69fd15c6e283db77e"),
             rules: "required",
             title: this.props.t("d016a5a3d0964cd69fd15c6e283db77e"),
@@ -99,9 +100,9 @@ class AuthPage extends React.Component<PropsType, StateType> {
         {
             autoFocus: false,
             disabled: false,
-            id: "cvPassword",
+            id: VAR_RECORD_CV_PASSWORD,
             margin: "normal",
-            name: "cvPassword",
+            name: VAR_RECORD_CV_PASSWORD,
             placeholder: this.props.t("8d380b7c5e6d4fcfb9d608d69464fe2a"),
             rules: "required",
             title: this.props.t("8d380b7c5e6d4fcfb9d608d69464fe2a"),
@@ -206,6 +207,7 @@ class AuthPage extends React.Component<PropsType, StateType> {
         );
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {classes, applicationStore} = this.props;
         const {form} = this.state;
@@ -230,10 +232,12 @@ class AuthPage extends React.Component<PropsType, StateType> {
                                     loaderType={applicationStore.settingsStore.settings.projectLoader}
                                 />
                                 <Grid container direction="column" justyfy="space-between" spacing={3}>
-                                    <Grid item>{this.renderLoginField({input: form.$("cvLogin").bind()})}</Grid>
+                                    <Grid item>
+                                        {this.renderLoginField({input: form.$(VAR_RECORD_CV_LOGIN).bind()})}
+                                    </Grid>
                                     <Grid item>
                                         {this.renderPasswordField({
-                                            input: form.$("cvPassword").bind(),
+                                            input: form.$(VAR_RECORD_CV_PASSWORD).bind(),
                                         })}
                                     </Grid>
                                     <Grid item>

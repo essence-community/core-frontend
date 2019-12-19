@@ -7,6 +7,7 @@ import {toSize} from "@essence/essence-constructor-share/utils";
 import {IClassProps} from "@essence/essence-constructor-share/types";
 import {LineLoader} from "@essence/essence-constructor-share/uicomponents";
 import {settingsStore} from "@essence/essence-constructor-share/models";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {IframeModel} from "../store/IframeModel";
 import {IFrame} from "../components/IFrame";
 import {useStyles} from "./IframeContainer.styles";
@@ -44,7 +45,11 @@ export const IframeContainer: React.FC<IClassProps> = (props) => {
 
         if (elevation) {
             return (
-                <Paper elevation={elevation} className="paper-overflow-hidden" data-page-object={bc.ckPageObject}>
+                <Paper
+                    elevation={elevation}
+                    className="paper-overflow-hidden"
+                    data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
+                >
                     {content}
                 </Paper>
             );

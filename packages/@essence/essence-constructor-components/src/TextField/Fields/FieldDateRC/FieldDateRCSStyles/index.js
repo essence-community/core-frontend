@@ -1,5 +1,6 @@
 // @flow
 
+// eslint-disable-next-line max-lines-per-function
 const FieldDateRCSStyles = (theme: Object) => ({
     "@global": {
         ".rc-calendar": {

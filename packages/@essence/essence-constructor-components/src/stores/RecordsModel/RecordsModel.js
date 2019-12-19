@@ -1,8 +1,7 @@
-/* eslint max-lines: ["error", 410]*/
+/* eslint-disable max-lines */
 // @flow
 import {extendObservable, action} from "mobx";
 import findIndex from "lodash/findIndex";
-import camelCase from "lodash/camelCase";
 import isUndefined from "lodash/isUndefined";
 import toString from "lodash/toString";
 import isEqual from "lodash/isEqual";
@@ -11,6 +10,12 @@ import noop from "lodash/noop";
 import omit from "lodash/omit";
 import pLimit from "p-limit";
 import {i18next} from "@essence/essence-constructor-share/utils";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+} from "@essence/essence-constructor-share/constants";
 import {loggerRoot} from "../../constants";
 import {isEmpty} from "../../utils/base";
 import {type BuilderModeType} from "../../BuilderType";
@@ -78,7 +83,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
         this.bc = bc;
         this.pageStore = pageStore;
         this.pageSize = bc.pagesize ? parseInt(bc.pagesize, 10) : undefined;
-        this.valueField = options.valueField || "ckId";
+        this.valueField = options.valueField || VAR_RECORD_ID;
         this.parentStore = options.parentStore;
         this.noLoadChilds = options.noLoadChilds || false;
         const {records = []} = bc;
@@ -121,7 +126,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
     }
 
     loadRecordsAction = action("loadRecordsAction", ({selectedRecordId, status = "load"} = {}) => {
-        if (isEmpty(this.bc.ckQuery)) {
+        if (isEmpty(this.bc[VAR_RECORD_QUERY_ID])) {
             logger(i18next.t("0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
 
             return Promise.resolve();
@@ -139,7 +144,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
 
     setSelectionAction = action(
         "setSelectionAction",
-        async (ckId: ?SelectedRecordIdType, key: string = "ckId"): Promise<number> => {
+        async (ckId: ?SelectedRecordIdType, key: string = VAR_RECORD_ID): Promise<number> => {
             const oldSelectedRecord = this.selectedRecord;
             const stringCkId = isUndefined(ckId) ? "" : toString(ckId);
 
@@ -170,7 +175,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
             const promises = [];
 
             this.pageStore.stores.forEach((store) => {
-                if (store.bc && store.bc.ckMaster === this.bc.ckPageObject) {
+                if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
                     const promise = store.reloadStoreAction();
 
                     if (promise) {
@@ -206,7 +211,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
         this.selectedRecordId = undefined;
 
         this.pageStore.stores.forEach((store) => {
-            if (store.bc && store.bc.ckMaster === this.bc.ckPageObject) {
+            if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
                 store.clearStoreAction();
 
                 if (store.recordsStore) {
@@ -288,25 +293,25 @@ export class RecordsModel implements RecordsModelInterface<Object> {
     setFirstRecord = action("setFirstRecord", () => {
         const newRecord = this.records[0] || {};
 
-        this.setSelectionAction(newRecord.ckId);
+        this.setSelectionAction(newRecord[VAR_RECORD_ID]);
     });
 
     setPrevRecord = action("setPrevRecord", () => {
         const newRecord = this.records[this.selectedRecordIndex - 1] || {};
 
-        this.setSelectionAction(newRecord.ckId);
+        this.setSelectionAction(newRecord[VAR_RECORD_ID]);
     });
 
     setNextRecord = action("setNextRecord", () => {
         const newRecord = this.records[this.selectedRecordIndex + 1] || {};
 
-        this.setSelectionAction(newRecord.ckId);
+        this.setSelectionAction(newRecord[VAR_RECORD_ID]);
     });
 
     setLastRecord = action("setLastRecord", () => {
         const newRecord = this.records[this.records.length - 1] || {};
 
-        this.setSelectionAction(newRecord.ckId);
+        this.setSelectionAction(newRecord[VAR_RECORD_ID]);
     });
 
     setOrderAction = action("setOrderAction", (property) => {
@@ -346,7 +351,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
 
     sortRecordsAction = action("sortRecordsAction", () => {
         const {direction} = this.order;
-        const property = camelCase(this.order.property);
+        const {property} = this.order;
         const records = [...this.records];
 
         records.sort((rec1, rec2) =>

@@ -6,8 +6,12 @@ import {reaction} from "mobx";
 import {Grid, Radio, RadioGroup, FormLabel} from "@material-ui/core";
 import cn from "classnames";
 import {withStyles} from "@material-ui/core/styles";
-import {camelCaseMemoized, toColumnStyleWidth, withTranslation, WithT} from "@essence/essence-constructor-share/utils";
-import {VALUE_SELF_FIRST} from "@essence/essence-constructor-share/constants";
+import {toColumnStyleWidth, withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {
+    VALUE_SELF_FIRST,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+} from "@essence/essence-constructor-share/constants";
 import TextFieldLabel from "../../TextFieldComponents/TextFieldLabel/TextFieldLabel";
 import withModelDecorator from "../../../decorators/withModelDecorator";
 import {FieldRadioGroupModel} from "../../../stores/FieldRadioGroupModel";
@@ -47,7 +51,7 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
         if (bc.getgloballist) {
             disposeOnUnmount(this, [
                 reaction(
-                    () => pageStore.globalValues.get(camelCaseMemoized(bc.getgloballist)),
+                    () => pageStore.globalValues.get(bc.getgloballist),
                     (records) => {
                         if (Array.isArray(records)) {
                             // $FlowFixMe
@@ -105,12 +109,17 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
                     [classes.disabled]: disabled,
                     [classes.focused]: focused,
                 })}
-                data-page-object={bc.ckPageObject}
+                data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                 key={value}
                 data-qtip={t(label)}
             >
                 <FormLabel {...InputLabelProps} classes={{root: classes.formLabel}} error={error}>
-                    <TextFieldLabel bc={{...bc, cvDisplayed: label}} info={bc.info} error={error} isRequired={false} />
+                    <TextFieldLabel
+                        bc={{...bc, [VAR_RECORD_DISPLAYED]: label}}
+                        info={bc.info}
+                        error={error}
+                        isRequired={false}
+                    />
                 </FormLabel>
                 <Radio
                     checked={String(value) === String(this.props.value)}
@@ -128,6 +137,7 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
         );
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         // eslint-disable-next-line id-length
         const {store, bc, classes, error, field, t} = this.props;
@@ -155,7 +165,7 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
             </Scrollbars>
         );
 
-        if (bc.cvDisplayed) {
+        if (bc[VAR_RECORD_DISPLAYED]) {
             return (
                 <Grid
                     container
@@ -169,8 +179,8 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
                             &nbsp;
                         </Grid>
                         <Grid item className={classes.labelTextWrapper}>
-                            <span data-qtip={t(bc.cvDisplayed)} className={classes.labelText}>
-                                {t(bc.cvDisplayed)}
+                            <span data-qtip={t(bc[VAR_RECORD_DISPLAYED])} className={classes.labelText}>
+                                {t(bc[VAR_RECORD_DISPLAYED])}
                             </span>
                         </Grid>
                         {field && field.rules && field.rules.indexOf("required") >= 0 ? (

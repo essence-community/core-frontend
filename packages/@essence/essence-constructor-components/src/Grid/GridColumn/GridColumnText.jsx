@@ -139,7 +139,7 @@ class GridColumnText extends React.Component<GridColumnPropsType, StateType> {
         if (BigNumber) {
             value = this.renderNumber(value, BigNumber, decimalPrecision);
         } else if (typeof value === "string") {
-            value = value.replace(/<br[\s\S]*/i, "...");
+            value = value.replace(/<br[\s\S]*/iu, "...");
         }
 
         if (this.props.trans) {

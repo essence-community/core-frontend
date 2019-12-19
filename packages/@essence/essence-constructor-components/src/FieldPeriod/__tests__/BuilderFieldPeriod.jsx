@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react";
 import omit from "lodash/omit";
-import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
 import dateperiodJson from "../../../mocks/fields/dateperiod.json";
 import BuilderMobxForm from "../../Components/MobxForm/BuilderMobxForm";
 import {createEmptyPageStore} from "../../stores/index";
@@ -10,7 +9,6 @@ import BuilderFieldPeriod from "../BuilderFieldPeriod";
 import BuilderFieldPeriodSplit from "../BuilderFieldPeriodSplit";
 
 describe("FieldMask", () => {
-    const bc = camelCaseKeys(dateperiodJson);
     let fieldConfig = {};
 
     beforeEach(() => {
@@ -29,7 +27,7 @@ describe("FieldMask", () => {
     });
 
     it("render", () => {
-        const wrapper = mountWithTheme(<BuilderFieldPeriod {...fieldConfig} bc={bc} />);
+        const wrapper = mountWithTheme(<BuilderFieldPeriod {...fieldConfig} bc={dateperiodJson} />);
 
         expect(wrapper.exists()).toBeTruthy();
         expect(wrapper.find(BuilderFieldPeriodSplit).length).toBe(1);
@@ -39,7 +37,7 @@ describe("FieldMask", () => {
 
     it("render без колонок", () => {
         const wrapper = mountWithTheme(
-            <BuilderFieldPeriod {...fieldConfig} bc={omit(bc, ["columnstart", "columnend"])} />,
+            <BuilderFieldPeriod {...fieldConfig} bc={omit(dateperiodJson, ["columnstart", "columnend"])} />,
         );
 
         expect(wrapper.exists()).toBeTruthy();

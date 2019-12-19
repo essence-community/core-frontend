@@ -6,7 +6,7 @@ import {type StoreBaseModelInterface} from "../StoreBaseModel";
 export type PropsType = {
     bc: Object,
     pageStore: PageModelType,
-    ckQuery: string,
+    ck_query: string,
 };
 
 export interface BaseMultiFieldModelInterface extends StoreBaseModelInterface {

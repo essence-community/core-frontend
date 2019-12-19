@@ -46,6 +46,7 @@ function calcLeftSctoll(toolbars: HTMLElement, scrollLeft: number): number {
     return maxWidth - toolbars.offsetWidth - scrollRight;
 }
 
+// eslint-disable-next-line max-lines-per-function
 const ToolBarScrollButton = ({direction, visible, classes}: PropsType) => {
     // $FlowFixMe
     const ref = React.useRef(null);

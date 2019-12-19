@@ -11,6 +11,7 @@ import {
     IBuilderMode,
 } from "../../types";
 import {RecordsModel} from "../RecordsModel";
+import {VAR_RECORD_PARENT_ID} from "../../constants";
 import {IWindowModelConstructor} from "./WindowModel.types";
 
 /**
@@ -60,7 +61,7 @@ export class WindowModel extends StoreBaseModel implements IWindowModel {
         "WindowModel.closeAction",
         (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
             this.pageStore.windows.remove(this);
-            const parentStore: IStoreBaseModel | undefined = this.pageStore.stores.get(this.bc.ckParent);
+            const parentStore: IStoreBaseModel | undefined = this.pageStore.stores.get(this.bc[VAR_RECORD_PARENT_ID]);
 
             if (parentStore && parentStore.handlers.onReloadStores) {
                 // TODO: call winReloadStores for gridStore
@@ -131,7 +132,7 @@ export class WindowModel extends StoreBaseModel implements IWindowModel {
     );
 
     onPrintExcel = async (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
-        const parentStore: IStoreBaseModel | undefined = this.pageStore.stores.get(this.bc.ckParent);
+        const parentStore: IStoreBaseModel | undefined = this.pageStore.stores.get(this.bc[VAR_RECORD_PARENT_ID]);
 
         if (!options.form) {
             return false;

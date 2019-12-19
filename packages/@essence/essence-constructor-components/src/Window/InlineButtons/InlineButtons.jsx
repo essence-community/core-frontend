@@ -4,7 +4,8 @@ import {observer} from "mobx-react";
 import compose from "recompose/compose";
 import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {EditorContex} from "@essence/essence-constructor-share";
+import {EditorContex} from "@essence/essence-constructor-share/context";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {styleTheme} from "../../constants";
 import {getModeTitle} from "../../utils/string";
 import {type GridModelType} from "../../stores/GridModel";
@@ -62,7 +63,11 @@ class InlineButtons extends React.Component<PropsType> {
                         hideOnResize={false}
                     />
                 </Grid>
-                <Grid item className={classes.label} data-page-object={`${store.windowBc.ckPageObject}-mode-title`}>
+                <Grid
+                    item
+                    className={classes.label}
+                    data-page-object={`${store.windowBc[VAR_RECORD_PAGE_OBJECT_ID]}-mode-title`}
+                >
                     {getModeTitle(store.config.mode)}
                 </Grid>
             </Grid>
@@ -70,7 +75,4 @@ class InlineButtons extends React.Component<PropsType> {
     }
 }
 
-export default compose(
-    withStyles(styles),
-    observer,
-)(InlineButtons);
+export default compose(withStyles(styles), observer)(InlineButtons);

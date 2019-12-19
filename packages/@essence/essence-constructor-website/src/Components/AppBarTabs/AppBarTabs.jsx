@@ -3,6 +3,7 @@ import * as React from "react";
 import {inject, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
 import {ToolBarTabs, ToolBarTab, DragComponent} from "@essence/essence-constructor-components";
+import {VAR_RECORD_NAME, VAR_RECORD_ICON_NAME} from "@essence/essence-constructor-share/constants";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import TabMenuContext from "../TabMenuContext/TabMenuContext";
 import styles from "./AppBarTabsStyles/AppBarTabsStyles";
@@ -74,23 +75,23 @@ class AppBarTabs extends React.Component<PropsType, StateType> {
         return (
             <React.Fragment>
                 <ToolBarTabs
-                    value={pagesStore.activePage ? pagesStore.activePage.ckPage : false}
+                    value={pagesStore.activePage ? pagesStore.activePage.pageId : false}
                     onChange={this.handleChangePage}
                 >
-                    {pagesStore.pages.map(({route, ckPage}, index) => {
-                        const iconName = route.cvIconName;
+                    {pagesStore.pages.map(({route, pageId}, index) => {
+                        const iconName = route[VAR_RECORD_ICON_NAME];
 
                         return (
                             <ToolBarTab
-                                key={ckPage}
+                                key={pageId}
                                 component={this.renderTabComponent}
-                                label={route.cvName}
+                                label={route[VAR_RECORD_NAME]}
                                 iconfont={iconName}
-                                value={ckPage}
+                                value={pageId}
                                 onClose={pagesStore.removePageAction}
                                 onContextMenu={this.handleContextMenu}
                                 pageIndex={index}
-                                pageId={ckPage}
+                                pageId={pageId}
                                 className={classes.tabRoot}
                                 style={{
                                     transform: `translateX(${index * PAGE_WIDTH}px)`,

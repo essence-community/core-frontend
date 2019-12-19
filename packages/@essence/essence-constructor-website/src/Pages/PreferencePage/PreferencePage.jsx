@@ -63,6 +63,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
         </Grid>
     );
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         // eslint-disable-next-line id-length
         const {classes, t} = this.props;

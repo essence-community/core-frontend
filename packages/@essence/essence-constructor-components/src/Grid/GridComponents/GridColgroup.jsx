@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
 import {observer} from "mobx-react";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {type GridModelType} from "../../stores/GridModel";
 import {WIDTH_MAP} from "../BaseGridTableHeader";
 
@@ -14,7 +15,7 @@ export class GridColgroup extends React.Component<PropsType> {
 
         return (
             <colgroup>
-                {store.gridColumns.map(({ckPageObject, datatype}, index) => (
+                {store.gridColumns.map(({[VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject, datatype}, index) => (
                     <col
                         key={index}
                         style={{

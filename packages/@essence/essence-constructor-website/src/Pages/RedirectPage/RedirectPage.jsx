@@ -4,7 +4,7 @@ import {inject, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
 import {Grid, Button} from "@material-ui/core";
 import {compose} from "recompose";
-import {camelCaseKeys, WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
 import {PageLoader} from "@essence/essence-constructor-share";
 import {loggerRoot, preference} from "@essence/essence-constructor-components";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
@@ -97,7 +97,7 @@ class RedirectPage extends React.Component<PropsType, StateType> {
         const {params} = this.state;
 
         if (params && applicationStore.session) {
-            applicationStore.redirectToAction(`${params.page}`, camelCaseKeys(params.filter));
+            applicationStore.redirectToAction(`${params.page}`, params.filter);
         } else if (params) {
             history.push("/auth", {backUrl: `/redirect/${this.props.match.params.b64}`});
         } else {

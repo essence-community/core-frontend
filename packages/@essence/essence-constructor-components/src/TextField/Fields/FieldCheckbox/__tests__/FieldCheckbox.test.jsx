@@ -8,6 +8,7 @@ import checkboxJson from "../../../../../mocks/fields/checkbox.json";
 import TextFieldLabel from "../../../TextFieldComponents/TextFieldLabel/TextFieldLabel";
 import FieldCheckbox from "../FieldCheckbox";
 
+// eslint-disable-next-line max-lines-per-function
 describe("FieldCheckbox", () => {
     let fieldConfig = {};
 

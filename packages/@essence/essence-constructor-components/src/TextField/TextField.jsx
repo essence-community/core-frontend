@@ -4,6 +4,7 @@ import omit from "lodash/omit";
 import {observer} from "mobx-react";
 import {Field} from "mobx-react-form";
 import {TextField as TextFieldMaterial} from "@material-ui/core";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {isEmpty} from "../utils/base";
 import TextFieldLabel from "./TextFieldComponents/TextFieldLabel/TextFieldLabel";
 import {type BuilderFieldType} from "./BuilderFieldType";
@@ -41,9 +42,9 @@ type PropsType = {
     inputProps?: Object,
     tips?: React.Node[],
 };
-// eslint-disable-next-line max-statements
-// $FlowFixMe
+// eslint-disable-next-line react/display-name, max-statements
 const TextField = React.forwardRef(
+    // eslint-disable-next-line max-lines-per-function
     (
         {
             bc,
@@ -74,7 +75,7 @@ const TextField = React.forwardRef(
         let fieldValue = fieldFullValue;
 
         if (disabled && fieldFullValue && typeof fieldFullValue === "string") {
-            fieldValue = fieldFullValue.replace(/<br[\s\S]*/i, "...");
+            fieldValue = fieldFullValue.replace(/<br[\s\S]*/iu, "...");
         }
 
         return (
@@ -99,8 +100,8 @@ const TextField = React.forwardRef(
                         />
                     )
                 }
-                data-page-object={bc.ckPageObject}
-                inputProps={{...inputProps, autoComplete: "off", name: bc.ckPageObject}}
+                data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
+                inputProps={{...inputProps, autoComplete: "off", name: bc[VAR_RECORD_PAGE_OBJECT_ID]}}
                 {...maskInputProps}
             />
         );

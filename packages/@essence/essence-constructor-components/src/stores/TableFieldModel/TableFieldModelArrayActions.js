@@ -1,4 +1,5 @@
 // @flow
+import {VAR_RECORD_ID} from "@essence/essence-constructor-share/constants";
 import {type CkIdType} from "../../BuilderType";
 import {type TableFieldModelType} from "./TableFieldModelType";
 
@@ -30,7 +31,7 @@ export function prepareArrayValues(
                 records.push(record[valueField]);
                 break;
             default:
-                records.push(record.ckId);
+                records.push(record[VAR_RECORD_ID]);
                 break;
         }
     }

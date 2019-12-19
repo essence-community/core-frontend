@@ -1,4 +1,4 @@
-import {camelCaseMemoized, IBuilderConfig, IClassProps, mapComponents} from "@essence/essence-constructor-share";
+import {IBuilderConfig, IClassProps, mapComponents} from "@essence/essence-constructor-share";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants/variables";
 import {Badge} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
@@ -9,10 +9,9 @@ import {useStyles} from "./BadgeBtn.styles";
 export const BadgeBtn: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, children} = props;
     const classes = useStyles(props);
-    const getGlobal = props.bc.getglobal && camelCaseMemoized(props.bc.getglobal);
 
     return useObserver(() => {
-        const value = getGlobal ? pageStore.globalValues.get(getGlobal) : "";
+        const value = bc.getglobal ? pageStore.globalValues.get(bc.getglobal) : "";
         const count = parseInt(`${value || "0"}`, 10);
 
         if (count) {

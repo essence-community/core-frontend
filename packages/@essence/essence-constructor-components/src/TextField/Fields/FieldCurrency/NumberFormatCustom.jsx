@@ -44,7 +44,7 @@ class NumberFormatCustom extends React.Component<PropsType> {
     handleIsAllowed = ({value}: NumberFormatParamsType) => {
         const {maxsize} = this;
 
-        if (maxsize && value.replace(/[,. ]/g, "").length > maxsize) {
+        if (maxsize && value.replace(/[,. ]/gu, "").length > maxsize) {
             return false;
         }
 

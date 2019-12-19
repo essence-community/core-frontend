@@ -1,7 +1,7 @@
 // @flow
 import {extendObservable, action} from "mobx";
-import camelCase from "lodash/camelCase";
 import toString from "lodash/toString";
+import {VAR_RECORD_CL_IS_MASTER} from "@essence/essence-constructor-share/constants";
 import {RecordsModel, type RecordsModelType} from "../RecordsModel";
 import {StoreBaseModel} from "../StoreBaseModel/StoreBaseModel";
 import {
@@ -25,10 +25,10 @@ export class FieldRadioGroupModel extends StoreBaseModel implements FieldRadioGr
     constructor({bc, pageStore}: RadioConstructorType) {
         super({bc, pageStore});
 
-        const noLoadChilds = Boolean(bc.clIsMaster);
+        const noLoadChilds = Boolean(bc[VAR_RECORD_CL_IS_MASTER]);
 
-        this.displayfield = camelCase(bc.displayfield);
-        this.valuefield = camelCase(bc.valuefield);
+        this.displayfield = bc.displayfield;
+        this.valuefield = bc.valuefield;
 
         this.recordsStore = new RecordsModel(bc, pageStore, {
             noLoadChilds,

@@ -16,7 +16,18 @@ import {
 } from "../../types";
 import {RecordsModel} from "../RecordsModel";
 import {isEmpty, i18next} from "../../utils";
-import {VAR_RECORD_ROUTE_NAME, VAR_RECORD_RES_ERROR, VAR_RECORD_RES_STACK_TRACE, VAR_RECORD_ID} from "../../constants";
+import {
+    VAR_RECORD_ROUTE_NAME,
+    VAR_RECORD_RES_ERROR,
+    VAR_RECORD_RES_STACK_TRACE,
+    VAR_RECORD_ID,
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+    VAR_RECORD_CV_TEXT,
+    VAR_RECORD_CR_TYPE,
+    VAR_RECORD_CV_RESULT,
+} from "../../constants";
 import {IRouteRecord} from "../../types/RoutesModel";
 import {MAX_OPENED_SNACKBARS, CODE_ACCESS_DENIEND, GROUP_ACTION_MAP, CODE_GROUP_MAP} from "./SnackbarModel.contants";
 
@@ -46,9 +57,9 @@ export class SnackbarModel implements ISnackbarModel {
         // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
         const mod = require("../RecordsModel/RecordsModel");
         const bc: IBuilderConfig = {
-            ckPageObject: "Snackbar",
-            ckParent: "root",
-            ckQuery: "GetMsgList",
+            [VAR_RECORD_PAGE_OBJECT_ID]: "Snackbar",
+            [VAR_RECORD_PARENT_ID]: "root",
+            [VAR_RECORD_QUERY_ID]: "GetMsgList",
         };
 
         this.recordsStore = new mod.RecordsModel(bc);
@@ -168,96 +179,100 @@ export class SnackbarModel implements ISnackbarModel {
     });
 
     // eslint-disable-next-line max-statements
-    checkValidResponseAction = action("checkValidResponseAction", (
-        // eslint-disable-next-line default-param-last
-        response: IResponse = {},
-        route?: Record<string, FieldValue>,
-        warnCallBack?: Function,
-        applicationStore?: IApplicationModel | null,
-        // eslint-disable-next-line max-params
-    ) => {
-        const cvError = response[VAR_RECORD_RES_ERROR];
-        let isError = false;
-        let isWarn = false;
-        let rec: boolean | IRecord | undefined = false;
-        let warningText = "";
+    checkValidResponseAction = action(
+        "checkValidResponseAction",
+        (
+            // eslint-disable-next-line default-param-last
+            response: IResponse = {},
+            route?: Record<string, FieldValue>,
+            warnCallBack?: Function,
+            applicationStore?: IApplicationModel | null,
+            // eslint-disable-next-line max-params
+        ) => {
+            const error = response[VAR_RECORD_RES_ERROR];
+            let isError = false;
+            let isWarn = false;
+            let rec: boolean | IRecord | undefined = false;
+            let warningText = "";
 
-        if (isEmpty(cvError)) {
-            return 1;
-        }
+            if (isEmpty(error)) {
+                return 1;
+            }
 
-        if (isObject(cvError)) {
-            const cvStackTrace = response[VAR_RECORD_RES_STACK_TRACE];
+            if (isObject(error)) {
+                const stackTrace = response[VAR_RECORD_RES_STACK_TRACE];
 
-            forEach(cvError, (values: string[], code) => {
-                rec =
-                    code === "block" || code === "unblock"
-                        ? {
-                              crType: code,
-                              cvText: "{0}",
-                          }
-                        : this.recordsStore.recordsState.records.find(
-                              (record: IRecord) => String(record.ckId) === code,
-                          );
+                forEach(error, (values: string[], code) => {
+                    rec =
+                        code === "block" || code === "unblock"
+                            ? {
+                                  [VAR_RECORD_CR_TYPE]: code,
+                                  [VAR_RECORD_CV_TEXT]: "{0}",
+                              }
+                            : this.recordsStore.recordsState.records.find(
+                                  (record: IRecord) => String(record[VAR_RECORD_ID]) === code,
+                              );
 
-                if (code === CODE_ACCESS_DENIEND && applicationStore && route) {
-                    const routeId = route[VAR_RECORD_ID];
+                    if (code === CODE_ACCESS_DENIEND && applicationStore && route) {
+                        const routeId = route[VAR_RECORD_ID];
 
-                    if (typeof routeId === "string") {
-                        applicationStore.pagesStore.removePageAction(routeId);
+                        if (typeof routeId === "string") {
+                            applicationStore.pagesStore.removePageAction(routeId);
+                        }
                     }
-                }
-                if (rec) {
-                    const {cvText = ""} = rec;
-                    const text =
-                        typeof cvText === "string"
-                            ? i18next
-                                  .t(cvText, cvText, {ns: "message"})
-                                  // eslint-disable-next-line require-unicode-regexp, prefer-named-capture-group
-                                  .replace(/{(\d+)}/g, (match, pattern) =>
-                                      i18next.t((values && values[pattern]) || "", "", {ns: "message"}),
-                                  )
-                            : "";
+                    if (rec) {
+                        const {[VAR_RECORD_CV_TEXT]: message = ""} = rec;
+                        const messageType = rec[VAR_RECORD_CR_TYPE];
+                        const text =
+                            typeof message === "string"
+                                ? i18next
+                                      .t(message, message, {ns: "message"})
+                                      // eslint-disable-next-line require-unicode-regexp, prefer-named-capture-group
+                                      .replace(/{(\d+)}/g, (match, pattern) =>
+                                          i18next.t((values && values[pattern]) || "", "", {ns: "message"}),
+                                      )
+                                : "";
 
-                    if (rec.crType === "error") {
-                        isError = true;
-                    }
-                    if (warnCallBack && rec.crType === "warning") {
-                        isWarn = true;
-                        warningText = `${warningText}${text}\r\n`;
-                    }
+                        if (messageType === "error") {
+                            isError = true;
+                        }
+                        if (warnCallBack && rec[VAR_RECORD_CR_TYPE] === "warning") {
+                            isWarn = true;
+                            warningText = `${warningText}${text}\r\n`;
+                        }
 
-                    if ((rec.crType === "block" || rec.crType === "unblock") && applicationStore) {
-                        applicationStore.blockApplicationAction(rec.crType, text);
+                        if ((messageType === "block" || messageType === "unblock") && applicationStore) {
+                            applicationStore.blockApplicationAction(messageType, text);
+                        }
+                        this.snackbarOpenAction(
+                            {
+                                status: String(messageType) as SnackbarStatus,
+                                text,
+                            },
+                            route,
+                        );
                     }
+                });
+
+                if (stackTrace) {
                     this.snackbarOpenAction(
                         {
-                            status: String(rec.crType) as SnackbarStatus,
-                            text,
+                            status: "debug",
+                            text: stackTrace,
                         },
                         route,
                     );
                 }
-            });
-
-            if (cvStackTrace) {
-                this.snackbarOpenAction(
-                    {
-                        status: "debug",
-                        text: cvStackTrace,
-                    },
-                    route,
-                );
             }
-        }
-        if (!isError && isWarn && warnCallBack) {
-            warnCallBack(`${warningText.trim()}`);
+            if (!isError && isWarn && warnCallBack) {
+                warnCallBack(`${warningText.trim()}`);
 
-            return 2;
-        }
+                return 2;
+            }
 
-        return isError ? 0 : 1;
-    });
+            return isError ? 0 : 1;
+        },
+    );
 
     snackbarChangeStatusAction = action("snackbarChangeStatusAction", (snackbarId: string, status: SnackbarStatus) => {
         const changedSnakebar = this.snackbars.find((snakebar) => snakebar.id === snackbarId);
@@ -274,7 +289,7 @@ export class SnackbarModel implements ISnackbarModel {
 
     checkValidLoginResponse = action("checkValidLoginResponse", (response: Record<string, FieldValue>) => {
         if (isEmpty(response.session)) {
-            this.snackbarOpenAction({status: "warning", text: String(response.cvResult)});
+            this.snackbarOpenAction({status: "warning", text: String(response[VAR_RECORD_CV_RESULT])});
 
             return false;
         }

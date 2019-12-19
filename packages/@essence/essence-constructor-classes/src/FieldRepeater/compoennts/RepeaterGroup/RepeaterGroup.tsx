@@ -2,17 +2,22 @@ import * as React from "react";
 import {Grid} from "@material-ui/core";
 import {mapComponents, IBuilderConfig, toColumnStyleWidth} from "@essence/essence-constructor-share";
 import {EditorContex, IEditorContext} from "@essence/essence-constructor-share/context";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PARENT_ID,
+} from "@essence/essence-constructor-share/constants";
 import {IRepeaterGroupProps} from "./RepeaterGroup.types";
 
 export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
     // eslint-disable-next-line no-unused-vars
     const {bc, field, form, mode, isDisabledDel, storeName, ...fieldProps} = props;
 
-    const deleteBtnConfig: IBuilderConfig = React.useMemo(
+    const deleteBtnConfig: IBuilderConfig = React.useMemo<IBuilderConfig>(
         () => ({
-            ckMaster: storeName,
-            ckPageObject: `${bc.ckPageObject}_delete`,
-            ckParent: bc.ckPageObject,
+            [VAR_RECORD_MASTER_ID]: storeName,
+            [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_delete`,
+            [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
             defaultvalue: field.key,
             disabled: bc.maxvalue,
             handler: "onDel",
@@ -21,7 +26,7 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
             onlyicon: "true",
             type: "BTN",
         }),
-        [bc.ckPageObject, bc.maxvalue, bc.minvalue, field.key, storeName],
+        [bc, field.key, storeName],
     );
     const editorValue: IEditorContext = React.useMemo(
         () => ({
@@ -35,14 +40,19 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
         <Grid container spacing={1}>
             <EditorContex.Provider value={editorValue}>
                 {mapComponents(bc.childs, (ChildCmp, bcChild) => (
-                    <Grid item key={bcChild.ckPageObject} xs style={toColumnStyleWidth(bcChild.width)}>
+                    <Grid item key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]} xs style={toColumnStyleWidth(bcChild.width)}>
                         <ChildCmp {...fieldProps} bc={bcChild} />
                     </Grid>
                 ))}
             </EditorContex.Provider>
             <Grid item>
                 {mapComponents([deleteBtnConfig], (ChildCmp, bcChild) => (
-                    <ChildCmp key={bcChild.ckPageObject} {...props} bc={bcChild} disabled={isDisabledDel} />
+                    <ChildCmp
+                        key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]}
+                        {...props}
+                        bc={bcChild}
+                        disabled={isDisabledDel}
+                    />
                 ))}
             </Grid>
         </Grid>

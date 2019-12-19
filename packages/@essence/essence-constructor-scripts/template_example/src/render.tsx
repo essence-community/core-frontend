@@ -5,8 +5,8 @@ import App from "./App";
 
 const props = {
     bc: {
-        ckObject: "render-module",
-        ckPageObject: "render-module",
+        ck_object: "render-module",
+        ck_page_bject: "render-module",
     },
     pageStore: new PageModelAbstract(),
     visible: true,

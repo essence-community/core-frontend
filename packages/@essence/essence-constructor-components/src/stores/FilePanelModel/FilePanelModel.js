@@ -5,7 +5,15 @@
 import {action} from "mobx";
 import {stringify} from "qs";
 import noop from "lodash/noop";
-import {snakeCaseKeys} from "@essence/essence-constructor-share/utils";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_NAME,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    META_PAGE_OBJECT,
+} from "@essence/essence-constructor-share/constants";
 import {type BuilderBaseType, type BuilderModeType} from "../../BuilderType";
 import {type RecordsModelType} from "../RecordsModel";
 import {GridModel} from "../GridModel";
@@ -38,18 +46,18 @@ export class FilePanelModel extends StoreBaseModel implements FilePanelModelType
                 ...this.bc,
                 childwindow: [
                     {
+                        [VAR_RECORD_DISPLAYED]: "6a4c7f4488164e7e8fabd46e0cc01ccc",
+                        [VAR_RECORD_NAME]: "",
+                        [VAR_RECORD_PAGE_OBJECT_ID]: `${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow`,
+                        [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+                        [VAR_RECORD_ROUTE_PAGE_ID]: this.bc[VAR_RECORD_ROUTE_PAGE_ID],
                         bottombtn: [
                             this.btnsConfig.overrides["Override Save Button"],
                             this.btnsConfig.overrides["Override Cancel Button"],
                         ],
                         childs: this.bc.childs,
-                        ckPage: this.bc.ckPage,
-                        ckPageObject: `${this.bc.ckPageObject}_gridwindow`,
-                        ckParent: this.bc.ckPageObject,
                         ckwindow: "add_document",
                         columns: this.bc.columns,
-                        cvDisplayed: "6a4c7f4488164e7e8fabd46e0cc01ccc",
-                        cvName: "",
                     },
                 ],
                 orderdirection: "asc",
@@ -76,21 +84,19 @@ export class FilePanelModel extends StoreBaseModel implements FilePanelModelType
         const btnBc = this.btnsConfig.overrides["Override Download Button"];
 
         const url = {
+            [META_PAGE_OBJECT]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
             action: "file",
-            json: JSON.stringify(
-                snakeCaseKeys({
-                    filter: {
-                        ckId: fileId,
-                    },
-                }),
-            ),
-            pageObject: this.bc.ckPageObject,
+            json: JSON.stringify({
+                filter: {
+                    [VAR_RECORD_ID]: fileId,
+                },
+            }),
             plugin: btnBc.extraplugingate || this.bc.extraplugingate,
             query: btnBc.updatequery,
             session: this.pageStore.applicationStore.session,
         };
 
-        return stringify(snakeCaseKeys(url));
+        return stringify(url);
     };
 
     clearStoreAction = noop;

@@ -41,6 +41,7 @@ export class PanelFormModel extends HistoryModel implements PanelFormModelInterf
 
     defaultHandlerBtnAction = action(
         "defaultHandlerBtnAction",
+        // eslint-disable-next-line default-param-last
         (mode: BuilderModeType = "1", bc: BuilderBaseType, {files} = {}) => {
             switch (mode) {
                 case "1":
@@ -72,6 +73,7 @@ export class PanelFormModel extends HistoryModel implements PanelFormModelInterf
         },
     );
 
+    // eslint-disable-next-line default-param-last
     updateBtnAction = (mode: BuilderModeType = "1", bc: Object, obj: Object) =>
         this.defaultHandlerBtnAction(mode, bc, obj);
 

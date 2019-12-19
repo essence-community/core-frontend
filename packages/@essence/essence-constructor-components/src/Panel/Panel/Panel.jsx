@@ -6,6 +6,7 @@ import {Grid} from "@material-ui/core";
 import {compose} from "recompose";
 import {toColumnStyleWidth} from "@essence/essence-constructor-share/utils";
 import {mapComponents, PanelWidthContext} from "@essence/essence-constructor-share";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {type BuilderPanelType} from "../BuilderPanelType";
 import {type PageModelType} from "../../stores/PageModel";
 import HorizontalResizer from "../../Resizer/HorizontalResizer";
@@ -114,13 +115,15 @@ export class Panel extends React.Component<PropsType> {
                 container
                 className={classes[`rootSpacing${gridSpacing}`]}
                 spacing={gridSpacing}
-                data-page-object={bc.ckPageObject}
+                data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                 {...GRID_CONFIGS[contentview]}
                 {...GRID_ALIGN_CONFIGS[`${align}-${contentview}`]}
             >
                 {mapComponents(childs, (ChildComp, child, index) => {
                     const isLast = index === childs.length - 1;
-                    const childWidthData: ItemType | Object = isResizeEnable ? childsWidths[child.ckPageObject] : {};
+                    const childWidthData: ItemType | Object = isResizeEnable
+                        ? childsWidths[child[VAR_RECORD_PAGE_OBJECT_ID]]
+                        : {};
                     const isAddResizer = isResizeEnable && !isLast;
                     const style = isResizeEnable
                         ? {
@@ -149,7 +152,7 @@ export class Panel extends React.Component<PropsType> {
                         return (
                             <Grid
                                 item
-                                key={child.ckPageObject}
+                                key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                                 xs={isRow ? true : MAX_PANEL_WIDTH}
                                 className={isRow ? classes.panelItemFlexBasis : undefined}
                                 style={style}
@@ -161,12 +164,12 @@ export class Panel extends React.Component<PropsType> {
 
                     return (
                         <HorizontalResizer
-                            key={child.ckPageObject}
+                            key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                             xs={isRow ? true : MAX_PANEL_WIDTH}
                             className={isRow ? classes.panelItemFlexBasis : undefined}
                             style={style}
                             isAddResizer={isAddResizer}
-                            nextItem={childsWidths[(childs[index + 1] || {}).ckPageObject]}
+                            nextItem={childsWidths[(childs[index + 1] || {})[VAR_RECORD_PAGE_OBJECT_ID]]}
                             item={childWidthData}
                             itemsNumber={childs.length}
                             onChange={this.handleChangeChildWidth}
@@ -187,7 +190,10 @@ export class Panel extends React.Component<PropsType> {
 export default compose(
     withModelDecorator(
         (bc: BuilderPanelType, props): PanelModelType =>
-            new PanelModel({bc: {...bc, ckPageObject: `${bc.ckPageObject}_panel`}, pageStore: props.pageStore}),
+            new PanelModel({
+                bc: {...bc, [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_panel`},
+                pageStore: props.pageStore,
+            }),
     ),
     withStyles(styles),
     observer,

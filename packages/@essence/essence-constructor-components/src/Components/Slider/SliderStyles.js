@@ -2,6 +2,7 @@
 // @flow
 import {fade} from "@material-ui/core/styles/colorManipulator";
 
+// eslint-disable-next-line max-lines-per-function
 const SliderStyles = (theme: Object) => {
     const commonTransitionsOptions = {
         duration: theme.transitions.duration.shortest,

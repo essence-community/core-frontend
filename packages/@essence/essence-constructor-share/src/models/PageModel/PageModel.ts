@@ -2,7 +2,17 @@
 import {extendObservable, action, observable, ObservableMap} from "mobx";
 import {Field} from "mobx-react-form";
 import uuid from "uuid";
-import {loggerRoot, VAR_RECORD_ID, VAR_RECORD_GLOBAL_VALUE} from "../../constants";
+import {
+    loggerRoot,
+    VAR_RECORD_ID,
+    VAR_RECORD_GLOBAL_VALUE,
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    VAR_RECORD_CA_ACTIONS,
+    VAR_RECORD_CN_ACTION_EDIT,
+} from "../../constants";
 import {styleTheme} from "../../constants/deprecated";
 import {
     IBuilderConfig,
@@ -41,7 +51,7 @@ export class PageModel implements IPageModel {
 
     globalValues: ObservableMap<string, FieldValue>;
 
-    ckPage: string;
+    pageId: string;
 
     showQuestionWindow: boolean;
 
@@ -85,15 +95,20 @@ export class PageModel implements IPageModel {
     // @deprecated
     styleTheme = styleTheme;
 
-    constructor({ckPage, isActiveRedirect, isReadOnly, applicationStore, defaultVisible = false}: IPageModelProps) {
+    constructor({pageId, isActiveRedirect, isReadOnly, applicationStore, defaultVisible = false}: IPageModelProps) {
         const {routesStore} = applicationStore;
 
-        this.ckPage = ckPage;
+        this.pageId = pageId;
         this.isActiveRedirect = isActiveRedirect;
         this.applicationStore = applicationStore;
 
         this.recordsStore = new RecordsModel(
-            {ckPageObject: "root", ckParent: "root", ckQuery: "GetMetamodelPage2.0", defaultvalue: "##alwaysfirst##"},
+            {
+                [VAR_RECORD_PAGE_OBJECT_ID]: "root",
+                [VAR_RECORD_PARENT_ID]: "root",
+                [VAR_RECORD_QUERY_ID]: "GetMetamodelPage2.0",
+                defaultvalue: "##alwaysfirst##",
+            },
             {applicationStore, pageStore: this},
         );
 
@@ -115,9 +130,9 @@ export class PageModel implements IPageModel {
                 return (
                     (routesStore &&
                         routesStore.recordsStore.recordsState.records.find(
-                            (record: Record<string, FieldValue>) => record[VAR_RECORD_ID] === this.ckPage,
+                            (record: Record<string, FieldValue>) => record[VAR_RECORD_ID] === this.pageId,
                         )) || {
-                        ckId: this.ckPage,
+                        [VAR_RECORD_ID]: this.pageId,
                     }
                 );
             },
@@ -138,7 +153,9 @@ export class PageModel implements IPageModel {
             {
                 get isReadOnly() {
                     return typeof isReadOnly === "undefined"
-                        ? (applicationStore.authStore.userInfo.caActions || []).indexOf(this.route.cnActionEdit) < 0
+                        ? (applicationStore.authStore.userInfo[VAR_RECORD_CA_ACTIONS] || []).indexOf(
+                              this.route[VAR_RECORD_CN_ACTION_EDIT],
+                          ) < 0
                         : isReadOnly;
                 },
                 get pageBc(this: IPageModel) {
@@ -247,10 +264,10 @@ export class PageModel implements IPageModel {
         this.windows.remove(window);
     });
 
-    loadConfigAction = action("loadConfigAction", async (ckPage: string) => {
-        this.ckPage = ckPage;
+    loadConfigAction = action("loadConfigAction", async (pageId: string) => {
+        this.pageId = pageId;
 
-        const response = await this.recordsStore.searchAction({ckPage});
+        const response = await this.recordsStore.searchAction({[VAR_RECORD_ROUTE_PAGE_ID]: pageId});
         const globalValue = this.recordsStore.selectedRecrodValues[VAR_RECORD_GLOBAL_VALUE] as Record<
             string,
             FieldValue
@@ -282,7 +299,7 @@ export class PageModel implements IPageModel {
             return false;
         }
 
-        const nextComponentStore = this.stores.get(nextStepComponent.ckPageObject);
+        const nextComponentStore = this.stores.get(nextStepComponent[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (!nextComponentStore) {
             return false;
@@ -307,11 +324,11 @@ export class PageModel implements IPageModel {
             this.currentStep = stepnamenext;
             getNextComponent(stepnamenext, this.pageBc, (childBc: IBuilderConfig, parentBc: IBuilderConfig) => {
                 if (parentBc.type === "TABPANEL") {
-                    const tabStore = this.stores.get(parentBc.ckPageObject);
+                    const tabStore = this.stores.get(parentBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
                     if (tabStore) {
                         // @ts-ignore
-                        tabStore.setActiveTab(childBc.ckPageObject);
+                        tabStore.setActiveTab(childBc[VAR_RECORD_PAGE_OBJECT_ID]);
                     }
                 }
             });
@@ -362,7 +379,7 @@ export class PageModel implements IPageModel {
          * TODO: check this
          * this.globalValues.merge(this.applicationStore.globalValues);
          */
-        this.loadConfigAction(this.ckPage);
+        this.loadConfigAction(this.pageId);
     });
 
     handleScrollAction = () => {
@@ -394,17 +411,17 @@ export class PageModel implements IPageModel {
         }
     };
 
-    addToMastersAction = (ckMaster: string, field: Field) => {
-        if (!this.masters[ckMaster]) {
-            this.masters[ckMaster] = [];
+    addToMastersAction = (masterId: string, field: Field) => {
+        if (!this.masters[masterId]) {
+            this.masters[masterId] = [];
         }
 
-        this.masters[ckMaster].push(field);
+        this.masters[masterId].push(field);
     };
 
-    removeFromMastersAction = (ckMaster?: string, field?: Field) => {
-        if (ckMaster && field && this.masters[ckMaster]) {
-            this.masters[ckMaster] = this.masters[ckMaster].filter((masterBc) => masterBc !== field);
+    removeFromMastersAction = (masterId?: string, field?: Field) => {
+        if (masterId && field && this.masters[masterId]) {
+            this.masters[masterId] = this.masters[masterId].filter((masterBc) => masterBc !== field);
         }
     };
 
@@ -443,7 +460,7 @@ export class PageModel implements IPageModel {
     });
 
     closeWindowAction = action("closeWindowAction", (ckPageObject) => {
-        const window = this.windows.find((win) => win.bc.ckPageObject === ckPageObject);
+        const window = this.windows.find((win) => win.bc[VAR_RECORD_PAGE_OBJECT_ID] === ckPageObject);
 
         if (window) {
             this.windows.remove(window);

@@ -42,11 +42,11 @@ export function getStrRegexFromImask(imask: string): string {
  * @returns {RegExp} Регулярное выражение для валидации
  */
 export function getRegexFromImask(imask: string): RegExp {
-    return new RegExp(`^${getStrRegexFromImask(imask)}$`);
+    return new RegExp(`^${getStrRegexFromImask(imask)}$`, "u");
 }
 
 function getCharRegex(imask: string, index: number) {
-    return new RegExp(`^${formatChars[imask[index]] || imask[index]}$`);
+    return new RegExp(`^${formatChars[imask[index]] || imask[index]}$`, "u");
 }
 
 function prepareImask(imask: string, value: string) {

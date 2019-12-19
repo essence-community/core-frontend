@@ -3,11 +3,11 @@ import * as React from "react";
 import cn from "classnames";
 import {compose} from "recompose";
 import pick from "lodash/pick";
-import camelCase from "lodash/camelCase";
 import {observer} from "mobx-react";
 import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {Icon} from "@essence/essence-constructor-share/Icon";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants";
 import Popover from "../../../Popover/Popover";
 import GridColumnFilterFields from "../GridColumnFilterFields/GridColumnFilterFields";
 import {type GridModelType} from "../../../stores/GridModel";
@@ -35,7 +35,7 @@ const transformOrigin = {
     vertical: "top",
 };
 
-const filterAttrs = ["datatype", "column", "format", "displayfield", "valuefield", "cvDisplayed"];
+const filterAttrs = ["datatype", "column", "format", "displayfield", "valuefield", VAR_RECORD_DISPLAYED];
 
 class GridColumnFilter extends React.Component<PropsType> {
     static defaultProps = {
@@ -50,10 +50,10 @@ class GridColumnFilter extends React.Component<PropsType> {
     constructor(props: PropsType) {
         super(props);
 
-        this.column = camelCase(props.bc.column);
+        this.column = props.bc.column;
         this.bc = {
             ...pick(props.bc, filterAttrs),
-            ckPageObject: `${props.bc.ckPageObject}Filter`,
+            [VAR_RECORD_PAGE_OBJECT_ID]: `${props.bc[VAR_RECORD_PAGE_OBJECT_ID]}Filter`,
         };
     }
 
@@ -122,7 +122,4 @@ class GridColumnFilter extends React.Component<PropsType> {
     }
 }
 
-export default compose(
-    withStyles(styles),
-    observer,
-)(GridColumnFilter);
+export default compose(withStyles(styles), observer)(GridColumnFilter);

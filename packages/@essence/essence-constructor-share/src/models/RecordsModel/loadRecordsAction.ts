@@ -4,7 +4,16 @@ import {request} from "../../request";
 import {IPageModel, IRecordsModel, FieldValue, IResponse} from "../../types";
 import {findGetGlobalKey} from "../../utils/findKey";
 import {i18next} from "../../utils";
-import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST, loggerRoot} from "../../constants";
+import {
+    VALUE_SELF_FIRST,
+    VALUE_SELF_ALWAYSFIRST,
+    loggerRoot,
+    VAR_RECORD_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+    META_PAGE_OBJECT,
+} from "../../constants";
 import {snackbarStore} from "../SnackbarModel";
 import {
     IGetFilterData,
@@ -94,9 +103,8 @@ export function checkPageNumber(recordsStore: IRecordsModel, master: Record<stri
 
 export const getAttachedRecords = (records: Record<string, FieldValue>[], newRecord?: Record<string, FieldValue>) => {
     if (newRecord) {
-        const {ckId} = newRecord;
         const firstRecord = records[0] || {};
-        const recordIndex = records.findIndex((rec) => rec.ckId === ckId);
+        const recordIndex = records.findIndex((rec) => rec[VAR_RECORD_ID] === newRecord[VAR_RECORD_ID]);
         const record = {...newRecord, jnTotalCnt: firstRecord.jnTotalCnt};
 
         if (recordIndex === -1) {
@@ -110,10 +118,10 @@ export const getAttachedRecords = (records: Record<string, FieldValue>[], newRec
 };
 
 export function prepareRequst(recordsStore: IRecordsModel, {bc, status, selectedRecordId}: ILoadRecordsAction) {
-    const {idproperty = "ck_id", ckMaster, noglobalmask} = bc;
+    const {idproperty = "ck_id", noglobalmask} = bc;
     const globalValues = recordsStore.pageStore ? recordsStore.pageStore.globalValues : undefined;
     const master = getMasterData(
-        getMasterObject(ckMaster, recordsStore.pageStore ? recordsStore.pageStore : undefined),
+        getMasterObject(bc[VAR_RECORD_MASTER_ID], recordsStore.pageStore ? recordsStore.pageStore : undefined),
         idproperty,
         globalValues,
     );
@@ -124,7 +132,7 @@ export function prepareRequst(recordsStore: IRecordsModel, {bc, status, selected
                   order: recordsStore.order,
                   pageNumber: 0,
                   pageSize: 1,
-                  searchValues: {ckId: selectedRecordId},
+                  searchValues: {[VAR_RECORD_ID]: selectedRecordId},
               }
             : {
                   filter: recordsStore.filter,
@@ -152,8 +160,8 @@ export function loadRecordsAction(
     this: IRecordsModel,
     {applicationStore, bc, selectedRecordId, status, isUserReload = false}: ILoadRecordsAction,
 ): Promise<object | undefined> {
-    const {noglobalmask, defaultvalue, ckMaster} = bc;
-    const isWaiting = ckMaster || bc.getglobaltostore;
+    const {noglobalmask, defaultvalue} = bc;
+    const isWaiting = bc[VAR_RECORD_MASTER_ID] || bc.getglobaltostore;
 
     this.isLoading = true;
 
@@ -165,22 +173,24 @@ export function loadRecordsAction(
             }
 
             return sleep(WAIT_TIME)
-                .then(() => new CheckLoading({bc, ckMaster, pageStore: this.pageStore}))
+                .then(() => new CheckLoading({bc, masterId: bc[VAR_RECORD_MASTER_ID], pageStore: this.pageStore}))
                 .then((checkLoading) => checkLoading.wait());
         })
         .catch(() => {
-            logger(i18next.t("344bbb5fb4a84d89b93c448a5c29e1d7", {query: bc.ckQuery, timeout: CYCLE_TIMEOUT}));
+            logger(
+                i18next.t("344bbb5fb4a84d89b93c448a5c29e1d7", {query: bc[VAR_RECORD_QUERY_ID], timeout: CYCLE_TIMEOUT}),
+            );
         })
         .then(() => {
             const {json} = prepareRequst(this, {applicationStore, bc, selectedRecordId, status});
 
             return request<IResponse[]>({
+                [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
                 action: "sql",
                 json,
                 list: true,
-                pageObject: bc.ckPageObject,
                 plugin: bc.extraplugingate,
-                query: bc.ckQuery || "",
+                query: bc[VAR_RECORD_QUERY_ID] || "",
                 session: applicationStore ? applicationStore.authStore.userInfo.session : "",
                 timeout: bc.timeout,
             });
@@ -195,8 +205,8 @@ export function loadRecordsAction(
                 )
             ) {
                 const records = (response || []).map((record: Record<string, FieldValue>) => {
-                    if (record.ckId === undefined) {
-                        record.ckId = `auto-${v4()}`;
+                    if (record[VAR_RECORD_ID] === undefined) {
+                        record[VAR_RECORD_ID] = `auto-${v4()}`;
                     }
 
                     return record;
@@ -227,7 +237,7 @@ export function loadRecordsAction(
             return [];
         })
         .then((records: Record<string, FieldValue>[]) => {
-            const valueField = status === "attach" ? "ckId" : this.valueField;
+            const valueField = status === "attach" ? VAR_RECORD_ID : this.valueField;
             let isDefault: "##alwaysfirst##" | "##first##" | undefined = undefined;
             let recordId = undefined;
             let record = undefined;

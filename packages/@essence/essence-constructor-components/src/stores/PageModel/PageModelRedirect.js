@@ -2,7 +2,7 @@
 import forOwn from "lodash/forOwn";
 import {runInAction, when} from "mobx";
 import {Field, Form} from "mobx-react-form";
-import {VALUE_SELF_FIRST} from "@essence/essence-constructor-share/constants";
+import {VALUE_SELF_FIRST, VAR_RECORD_MASTER_ID} from "@essence/essence-constructor-share/constants";
 import {i18next} from "@essence/essence-constructor-share/utils";
 import {loggerRoot} from "../../constants";
 import {isEmpty} from "../../utils/base";
@@ -23,7 +23,7 @@ function awaitFieldFilter(field: Field, skipCheckMaster: boolean): Promise<void>
     const {store, options} = field;
     const bc = options && options.bc;
 
-    if (skipCheckMaster && bc && bc.ckMaster) {
+    if (skipCheckMaster && bc && bc[VAR_RECORD_MASTER_ID]) {
         return Promise.resolve();
     }
 
@@ -110,6 +110,7 @@ export async function redirectToPage(page: PageModelInterface, params: Object) {
         page.globalValues.merge(notFieldParams);
     });
 
+    // eslint-disable-next-line require-atomic-updates
     page.isActiveRedirect = false;
 
     // Дожидаемся загрузки данных, потом делаем скрол к записи

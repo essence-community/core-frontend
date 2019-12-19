@@ -2,7 +2,8 @@
 import * as React from "react";
 import {Table, TableBody} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {EditorContex} from "@essence/essence-constructor-share";
+import {EditorContex} from "@essence/essence-constructor-share/context";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {type WindowModelType} from "../../stores/WindowModel";
 import {type PageModelType} from "../../stores/PageModel";
 import {GridModel} from "../../stores/GridModel";
@@ -42,7 +43,10 @@ class InlineTable extends React.PureComponent<PropsType> {
             <form style={{top}} className={isNew ? undefined : classes.inlineRoot} onSubmit={form.onSubmit}>
                 <button type="submit" name="save" className={classes.hidden} />
                 <Focusable>
-                    <Table className={classes.inlineTable} data-page-object={`${store.windowBc.ckPageObject}-table`}>
+                    <Table
+                        className={classes.inlineTable}
+                        data-page-object={`${store.windowBc[VAR_RECORD_PAGE_OBJECT_ID]}-table`}
+                    >
                         <GridColgroup store={gridStore} />
                         <TableBody>
                             <GridRow
@@ -56,10 +60,10 @@ class InlineTable extends React.PureComponent<PropsType> {
                             >
                                 {store.childs.map((field) => (
                                     <td
-                                        key={field.ckPageObject}
+                                        key={field[VAR_RECORD_PAGE_OBJECT_ID]}
                                         className={classes.tableCell}
                                         style={{width: WIDTH_MAP[field.datatype]}}
-                                        data-page-object={`${field.ckPageObject}-cell`}
+                                        data-page-object={`${field[VAR_RECORD_PAGE_OBJECT_ID]}-cell`}
                                     >
                                         {Boolean(checkEditable(store.config.mode, field.editmode)) && (
                                             <BuilderField

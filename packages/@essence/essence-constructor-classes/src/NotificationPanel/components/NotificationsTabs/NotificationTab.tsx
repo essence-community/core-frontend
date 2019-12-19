@@ -12,13 +12,13 @@ export const NotificationsTab: React.FC<INotificationsTabProps> = (props) => {
     const {bc, selected, hidden} = props;
     const classes = useStyles(props);
     const [trans] = useTranslation("meta");
-    // @ts-ignore
-    const cvDisplayed = trans(bc[VAR_RECORD_DISPLAYED]);
+    const displayed = bc[VAR_RECORD_DISPLAYED];
+    const label = displayed && trans(displayed);
 
     return useObserver(() => (
         <Tab
             value={bc.value}
-            data-qtip={cvDisplayed}
+            data-qtip={label}
             data-page-object={`tab-${bc.value}`}
             tabIndex={-1}
             label={
@@ -29,7 +29,7 @@ export const NotificationsTab: React.FC<INotificationsTabProps> = (props) => {
                         color="inherit"
                         className={clsx(classes.tabText, selected ? "selected" : false)}
                     >
-                        {cvDisplayed}
+                        {label}
                     </Typography>
                 </React.Fragment>
             }

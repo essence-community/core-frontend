@@ -2,6 +2,7 @@
 import * as React from "react";
 import moment from "moment";
 import {reaction} from "mobx";
+import {VAR_RECORD_MASTER_ID, VAR_RECORD_CV_VALUE} from "@essence/essence-constructor-share/constants";
 import {isEmpty} from "../utils/base";
 import {type BuilderModeType} from "../BuilderType";
 import {type PageModelType} from "../stores/PageModel";
@@ -93,12 +94,12 @@ class TFDefaultValueQuery extends React.Component<PropsType> {
             if (bc.datatype === "date") {
                 field.set(getDateValue({bc, rec}));
             } else {
-                field.set(rec.cvValue);
+                field.set(rec[VAR_RECORD_CV_VALUE]);
             }
         }
     };
 
-    isRedirectWithMaster = () => this.props.pageStore.isActiveRedirect && this.props.bc.ckMaster;
+    isRedirectWithMaster = () => this.props.pageStore.isActiveRedirect && this.props.bc[VAR_RECORD_MASTER_ID];
 
     render() {
         return null;

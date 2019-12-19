@@ -1,6 +1,7 @@
 // @flow
 import forOwn from "lodash/forOwn";
 import isEmptyLodash from "lodash/isEmpty";
+import {VAR_RECORD_MASTER_ID, VAR_RECORD_NAME, VAR_RECORD_CN_ORDER} from "@essence/essence-constructor-share/constants";
 import {isEmpty} from "../utils/base";
 import {type PageModelType} from "../stores/PageModel";
 import {type RecordsModelType, getMasterObject, getMasterData} from "../stores/RecordsModel";
@@ -31,7 +32,7 @@ const DEFAULT_OVERRIDE_FIELD = [
     "updatequery",
     "columnsfilter",
     "filemode",
-    "cnOrder",
+    VAR_RECORD_CN_ORDER,
 ];
 
 export type TMergeOptions = {
@@ -40,6 +41,7 @@ export type TMergeOptions = {
 };
 
 export function mergeComponents<T: Object>(
+    // eslint-disable-next-line default-param-last
     bcComponents: Array<Object> = [],
     overrides: T,
     options: TMergeOptions = {
@@ -48,11 +50,11 @@ export function mergeComponents<T: Object>(
     },
 ): {components: Array<Object>, overrides: T} {
     const {exclude = [], include = []} = options;
-    const components = bcComponents.filter((component) => !(component.cvName in overrides));
+    const components = bcComponents.filter((component) => !(component[VAR_RECORD_NAME] in overrides));
 
     bcComponents.forEach((component) => {
-        if (component.cvName in overrides) {
-            const overrideComponent = overrides[component.cvName];
+        if (component[VAR_RECORD_NAME] in overrides) {
+            const overrideComponent = overrides[component[VAR_RECORD_NAME]];
 
             /*
              * Определяем что нужно наследовать, не все параметры правильно ложатся
@@ -85,13 +87,17 @@ export function checkAutoload({bc, pageStore, recordsStore}: CheckAutoloadPropsT
         return false;
     }
 
-    if (bc.autoload === "true" && (isEmpty(bc.ckMaster) || bc.reqsel !== "true")) {
+    if (bc.autoload === "true" && (isEmpty(bc[VAR_RECORD_MASTER_ID]) || bc.reqsel !== "true")) {
         return true;
     }
 
-    if (!isEmpty(bc.ckMaster) && bc.autoload === "true") {
+    if (!isEmpty(bc[VAR_RECORD_MASTER_ID]) && bc.autoload === "true") {
         return !isEmptyLodash(
-            getMasterData(getMasterObject(bc.ckMaster, pageStore), bc.idproperty || "ck_id", pageStore.globalValues),
+            getMasterData(
+                getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore),
+                bc.idproperty || "ck_id",
+                pageStore.globalValues,
+            ),
         );
     }
 

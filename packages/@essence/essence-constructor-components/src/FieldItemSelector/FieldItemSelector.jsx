@@ -1,12 +1,16 @@
 // @flow
 import * as React from "react";
-import camelCase from "lodash/camelCase";
 import {compose} from "recompose";
 import {reaction} from "mobx";
 import {observer} from "mobx-react";
 import {Grid} from "@material-ui/core";
 import {toSize} from "@essence/essence-constructor-share/utils";
 import {setComponent, getComponent} from "@essence/essence-constructor-share";
+import {
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+} from "@essence/essence-constructor-share/constants";
 import {loggerRoot} from "../constants";
 import {type PageModelType} from "../stores/PageModel";
 import {type GridModelType} from "../stores/GridModel";
@@ -41,13 +45,12 @@ const logger = loggerRoot.extend("FieldItemSelector");
 export class FieldItemSelectorBase extends React.Component<PropsType, StateType> {
     buttonsConfig: Array<Object>;
 
+    // eslint-disable-next-line max-lines-per-function
     constructor(props: PropsType) {
         super(props);
 
-        const {
-            bc: {childs, ckPageObject},
-        } = this.props;
-        const [fieldFrom, fieldTo] = childs;
+        const {bc} = this.props;
+        const [fieldFrom, fieldTo] = bc.childs;
         const ComponentFieldFrom = getComponent(fieldFrom.type, fieldFrom.customid);
         const ComponentFieldTo = getComponent(fieldTo.type, fieldTo.customid);
         const hasError = !ComponentFieldFrom || !ComponentFieldTo;
@@ -66,17 +69,17 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
 
         this.buttonsConfig = [
             {
-                ckPageObject: `${ckPageObject}-add-all`,
-                cvDisplayed: "d78431bbcb484da4b516bc00626965ba",
+                [VAR_RECORD_DISPLAYED]: "d78431bbcb484da4b516bc00626965ba",
+                [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-add-all`,
                 handlerFn: this.addAll,
                 iconfont: "fa-angle-double-right",
                 iconfontname: "fa",
                 onlyicon: "true",
             },
             {
-                ckMaster: fieldFrom.ckPageObject,
-                ckPageObject: `${ckPageObject}-add-selected`,
-                cvDisplayed: "833289fd818f4340b584beb9068f670b",
+                [VAR_RECORD_DISPLAYED]: "833289fd818f4340b584beb9068f670b",
+                [VAR_RECORD_MASTER_ID]: fieldFrom[VAR_RECORD_PAGE_OBJECT_ID],
+                [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-add-selected`,
                 handlerFn: this.addSelected,
                 iconfont: "fa-angle-right",
                 iconfontname: "fa",
@@ -85,9 +88,9 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
                 uitype: "1",
             },
             {
-                ckMaster: fieldTo.ckPageObject,
-                ckPageObject: `${ckPageObject}-remove-selected`,
-                cvDisplayed: "67677d8e457c409daaef5fe5b90ec491",
+                [VAR_RECORD_DISPLAYED]: "67677d8e457c409daaef5fe5b90ec491",
+                [VAR_RECORD_MASTER_ID]: fieldTo[VAR_RECORD_PAGE_OBJECT_ID],
+                [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-remove-selected`,
                 handlerFn: this.removeSelected,
                 iconfont: "fa-angle-left",
                 iconfontname: "fa",
@@ -96,8 +99,8 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
                 uitype: "1",
             },
             {
-                ckPageObject: `${ckPageObject}-remove-all`,
-                cvDisplayed: "c4684efb2ea444f4b9192db3c4b4b843",
+                [VAR_RECORD_DISPLAYED]: "c4684efb2ea444f4b9192db3c4b4b843",
+                [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-remove-all`,
                 handlerFn: this.removeAll,
                 iconfont: "fa-angle-double-left",
                 iconfontname: "fa",
@@ -126,22 +129,14 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
                             fromStore.recordsStore.setRecordsAction(this.prevRecords);
                             this.prevRecords = fromStore.recordsStore.records;
                         } else {
-                            fromStore.recordsStore.removeRecordsAction(
-                                toStore.recordsStore.records,
-                                camelCase(bc.column),
-                                true,
-                            );
+                            fromStore.recordsStore.removeRecordsAction(toStore.recordsStore.records, bc.column, true);
                         }
                     },
                 ),
                 reaction(
                     () => toStore.recordsStore.recordsAll,
                     () => {
-                        fromStore.recordsStore.removeRecordsAction(
-                            toStore.recordsStore.records,
-                            camelCase(bc.column),
-                            true,
-                        );
+                        fromStore.recordsStore.removeRecordsAction(toStore.recordsStore.records, bc.column, true);
                     },
                 ),
             );
@@ -180,7 +175,7 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
 
     checkDisabled = (gridBc: BuilderGridType) => {
         const {pageStore} = this.props;
-        const gridStore: ?GridModelType = pageStore.stores.get(gridBc.ckPageObject);
+        const gridStore: ?GridModelType = pageStore.stores.get(gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (!gridStore) {
             return false;
@@ -191,19 +186,14 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
             : !gridStore.recordsStore.selectedRecord;
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {ComponentFieldFrom, ComponentFieldTo, hasError} = this.state;
-        const {
-            bc: {childs, ckPageObject, height},
-            editing,
-            disabled,
-            pageStore,
-            visible,
-        } = this.props;
-        const [fieldFrom, fieldTo] = childs;
+        const {bc, editing, disabled, pageStore, visible} = this.props;
+        const [fieldFrom, fieldTo] = bc.childs;
         const baseStyle = {
             flexBasis: "0%",
-            height: toSize(height),
+            height: toSize(bc.height),
         };
         const [btnAddAll, btnAddSelected, btnRemoveSelected, btnRemoveAll] = this.buttonsConfig;
 
@@ -212,7 +202,13 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
         }
 
         return (
-            <Grid container wrap="nowrap" spacing={1} data-page-object={ckPageObject} alignItems="center">
+            <Grid
+                container
+                wrap="nowrap"
+                spacing={1}
+                data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
+                alignItems="center"
+            >
                 <Grid item xs zeroMinWidth style={baseStyle}>
                     {ComponentFieldFrom ? (
                         <ComponentFieldFrom

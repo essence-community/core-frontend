@@ -25,7 +25,6 @@ class I18nBackend implements BackendModule {
 
     read(languages: string, namespaces: string, callback: ReadCallback) {
         request({
-            isCamelCase: false,
             json: {
                 filter: {
                     [VAR_LANG_ID]: languages,

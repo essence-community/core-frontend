@@ -16,7 +16,12 @@ describe("Pagination", () => {
         wrapper.unmount();
     });
 
-    [["first page", 0], ["prev page", 1], ["next page", 3], ["last page", 4]].forEach(([name, page], index) => {
+    [
+        ["first page", 0],
+        ["prev page", 1],
+        ["next page", 3],
+        ["last page", 4],
+    ].forEach(([name, page], index) => {
         it(name, () => {
             const onChangePage = jest.fn();
             const wrapper = mountWithTheme(

@@ -246,7 +246,7 @@ class Slider extends React.Component<PropsType, {currentState: string}> {
         });
     }
 
-    // eslint-disable-next-line max-statements
+    // eslint-disable-next-line max-statements, max-lines-per-function
     render() {
         const {currentState} = this.state;
         const {

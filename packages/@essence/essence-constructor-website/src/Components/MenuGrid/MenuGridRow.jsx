@@ -7,18 +7,24 @@ import {withStyles} from "@material-ui/core/styles";
 import {Grid, Typography} from "@material-ui/core";
 import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
 import {Icon} from "@essence/essence-constructor-share/Icon";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_LEAF,
+    VAR_RECORD_NAME,
+    VAR_RECORD_ICON_NAME,
+} from "@essence/essence-constructor-share/constants";
 import styles from "./MenuGridRowStyles";
 
 type PropsType = WithT & {|
     route: {
-        ckId: string | number,
-        cvName: string,
-        cvIconName?: string,
+        ck_id: string | number,
+        cv_name: string,
+        cv_icon_name?: string,
         leaf: "true" | "false",
     },
     pagesStore: {
         activePage?: {
-            ckPage: string,
+            pageId: string,
         },
         setPageAction: (ckId: string | number) => void,
     },
@@ -32,38 +38,31 @@ const LEFT_PADDING = 30;
 
 class MenuGridRow extends React.Component<PropsType> {
     handleClick = () => {
-        const {
-            route: {leaf, ckId},
-        } = this.props;
+        const {route} = this.props;
 
-        if (leaf === "true") {
-            this.props.pagesStore.setPageAction(ckId);
+        if (route[VAR_RECORD_LEAF] === "true") {
+            this.props.pagesStore.setPageAction(route[VAR_RECORD_ID]);
         } else {
-            this.props.routesStore.openCloseExpansionAction(this.props.route.ckId);
+            this.props.routesStore.openCloseExpansionAction(route[VAR_RECORD_ID]);
         }
     };
 
     handleToggleFavorit = (event: SyntheticEvent<>) => {
-        const {
-            route: {leaf},
-        } = this.props;
+        const {route} = this.props;
 
         event.stopPropagation();
 
-        if (leaf === "true") {
-            this.props.routesStore.setFavoritsAction(this.props.route.ckId);
+        if (route[VAR_RECORD_LEAF] === "true") {
+            this.props.routesStore.setFavoritsAction(route[VAR_RECORD_ID]);
         }
     };
 
     renderIcon() {
-        const {
-            route: {cvIconName},
-            classes = {},
-        } = this.props;
+        const {route, classes = {}} = this.props;
 
         return (
             <Grid item className={classes.iconRoot}>
-                <Icon iconfont={cvIconName} size="lg" iconfontname="fa" />
+                <Icon iconfont={route[VAR_RECORD_ICON_NAME]} size="lg" iconfontname="fa" />
             </Grid>
         );
     }
@@ -91,27 +90,27 @@ class MenuGridRow extends React.Component<PropsType> {
         return (
             <div className={cn(classes.root)} style={{paddingLeft: level * LEFT_PADDING}} onClick={this.handleClick}>
                 <Grid container wrap="nowrap" spacing={1} alignItems="center" className={classes.rootGrid}>
-                    {route.leaf === "true" ? this.renderIcon() : this.renderFolderIcon()}
+                    {route[VAR_RECORD_ID] === "true" ? this.renderIcon() : this.renderFolderIcon()}
                     <Grid item xs zeroMinWidth>
                         <Typography
                             variant="body2"
                             color="inherit"
                             noWrap
-                            data-qtip={route.cvName}
+                            data-qtip={route[VAR_RECORD_NAME]}
                             className={classes.nameTypography}
                         >
-                            {t(route.cvName)}
+                            {t(route[VAR_RECORD_NAME])}
                         </Typography>
                     </Grid>
                 </Grid>
-                {route.leaf === "true" ? (
+                {route[VAR_RECORD_LEAF] === "true" ? (
                     <div
                         className={cn(classes.favoriteRoot, {
-                            [classes.favoriteSelected]: favorits.get(route.ckId),
+                            [classes.favoriteSelected]: favorits.get(route[VAR_RECORD_ID]),
                         })}
                         onClick={this.handleToggleFavorit}
                     >
-                        <Icon iconfont={favorits.get(route.ckId) ? "star" : "star-o"} size="xs" />
+                        <Icon iconfont={favorits.get(route[VAR_RECORD_ID]) ? "star" : "star-o"} size="xs" />
                     </div>
                 ) : null}
             </div>
@@ -119,8 +118,4 @@ class MenuGridRow extends React.Component<PropsType> {
     }
 }
 
-export default compose(
-    withStyles(styles),
-    withTranslation("meta"),
-    observer,
-)(MenuGridRow);
+export default compose(withStyles(styles), withTranslation("meta"), observer)(MenuGridRow);

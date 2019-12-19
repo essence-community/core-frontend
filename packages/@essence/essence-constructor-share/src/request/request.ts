@@ -1,8 +1,7 @@
 import {stringify} from "qs";
-import snakeCaseKeys from "snakecase-keys";
 import {IRequest, IRequestCheckError} from "../types";
 import {settingsStore} from "../models";
-import {camelCaseKeysAsync, i18next} from "../utils";
+import {i18next} from "../utils";
 import {IRecord} from "../types/Base";
 import {VAR_SETTING_GATE_URL, META_OUT_RESULT, META_PAGE_OBJECT} from "../constants";
 import {ResponseError} from "./error";
@@ -45,7 +44,7 @@ export const request = async <R = IRecord | IRecord[]>({
     json,
     query = "",
     action = "dml",
-    pageObject = "",
+    [META_PAGE_OBJECT]: pageObjectName = "",
     session,
     body,
     list = true,
@@ -54,7 +53,6 @@ export const request = async <R = IRecord | IRecord[]>({
     gate = settingsStore.settings[VAR_SETTING_GATE_URL],
     method = "POST",
     formData,
-    isCamelCase = true,
 }: IRequest): Promise<R> => {
     const queryParams = {
         action,
@@ -63,14 +61,14 @@ export const request = async <R = IRecord | IRecord[]>({
     };
     const data = {
         [META_OUT_RESULT]: "",
-        [META_PAGE_OBJECT]: pageObject.replace(
+        [META_PAGE_OBJECT]: pageObjectName.replace(
             // eslint-disable-next-line prefer-named-capture-group
             /^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[)}]?.*?$/giu,
             "$1",
         ),
-        json: json ? JSON.stringify(snakeCaseKeys(json)) : undefined,
+        json: json ? JSON.stringify(json) : undefined,
         session,
-        ...(body ? snakeCaseKeys(body) : {}),
+        ...(body ? body : {}),
     };
     const url = `${gate}?${stringify(formData ? {...queryParams, ...data} : queryParams)}`;
     const controller = new AbortController();
@@ -101,7 +99,7 @@ export const request = async <R = IRecord | IRecord[]>({
 
     clearTimeout(timeoutId);
 
-    const responseJSON = isCamelCase ? await camelCaseKeysAsync(await response.json()) : await response.json();
+    const responseJSON = await response.json();
 
     checkError({list, query, responseJSON});
 

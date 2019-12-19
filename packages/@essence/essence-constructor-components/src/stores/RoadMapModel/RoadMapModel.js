@@ -1,7 +1,10 @@
 // @flow
 import {extendObservable, action, observable} from "mobx";
-import {VALUE_SELF_ALWAYSFIRST} from "@essence/essence-constructor-share/constants";
-import {camelCaseKeys} from "@essence/essence-constructor-share/utils/transform";
+import {
+    VALUE_SELF_ALWAYSFIRST,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_NAME,
+} from "@essence/essence-constructor-share/constants";
 import isBoolean from "lodash/isBoolean";
 import {RecordsModel, type RecordsModelType} from "../RecordsModel";
 import {StoreBaseModel, type StoreBaseModelPropsType} from "../StoreBaseModel";
@@ -35,19 +38,18 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
         this.tabs = [...childs];
         extendObservable(this, {
             tabStatus: observable.map(),
-            tabValue: this.bc.childs && this.bc.childs.length ? this.bc.childs[0].ckPageObject : "",
+            tabValue: this.bc.childs && this.bc.childs.length ? this.bc.childs[0][VAR_RECORD_PAGE_OBJECT_ID] : "",
         });
         this.initTabs();
-        this.pageStore.updateGlobalValues(
-            camelCaseKeys({
-                [`gIsEnd_${this.tabBc.ckPageObject}`]: this.isEnd(),
-                [`gIsStart_${this.tabBc.ckPageObject}`]: this.isStart(),
-                [`gPanelNum_${this.tabBc.ckPageObject}`]: this.tabValue && this.tabStatus.get(this.tabValue).num,
-                [`gPanelIndex_${this.tabBc.ckPageObject}`]: this.tabs
-                    .map((tab) => tab.ckPageObject)
-                    .indexOf(this.tabValue),
-            }),
-        );
+        this.pageStore.updateGlobalValues({
+            [`g_is_end_${this.tabBc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isEnd(),
+            [`g_is_start_${this.tabBc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isStart(),
+            [`g_panel_num_${this.tabBc[VAR_RECORD_PAGE_OBJECT_ID]}`]:
+                this.tabValue && this.tabStatus.get(this.tabValue).num,
+            [`g_panel_index_${this.tabBc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabs
+                .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
+                .indexOf(this.tabValue),
+        });
     }
 
     initTabs = () => {
@@ -63,10 +65,10 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
         if (childs.length) {
             const [first] = childs;
 
-            this.tabStatus.set(first.ckPageObject, {
+            this.tabStatus.set(first[VAR_RECORD_PAGE_OBJECT_ID], {
                 btns: getBtn(this.tabBc, [
                     ...btns,
-                    ...(first.topbtn || []).filter((btn) => namesTabBtn.indexOf(btn.cvName) !== -1),
+                    ...(first.topbtn || []).filter((btn) => namesTabBtn.indexOf(btn[VAR_RECORD_NAME]) !== -1),
                 ]),
                 disabled: false,
                 hidden: false,
@@ -75,10 +77,10 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
                 recordStore: new RecordsModel({...this.tabs[0], defaultvalue: VALUE_SELF_ALWAYSFIRST}, this.pageStore),
             });
             childs.splice(1).forEach((child, index) => {
-                this.tabStatus.set(child.ckPageObject, {
+                this.tabStatus.set(child[VAR_RECORD_PAGE_OBJECT_ID], {
                     btns: getBtn(this.tabBc, [
                         ...btns,
-                        ...(child.topbtn || []).filter((btn) => namesTabBtn.indexOf(btn.cvName) !== -1),
+                        ...(child.topbtn || []).filter((btn) => namesTabBtn.indexOf(btn[VAR_RECORD_NAME]) !== -1),
                     ]),
                     disabled: true,
                     hidden: false,
@@ -92,21 +94,19 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
 
     changeTabAction = action("changeTabAction", (tabValue: string) => {
         this.tabValue = tabValue;
-        this.pageStore.updateGlobalValues(
-            camelCaseKeys({
-                [`gIsEnd_${this.tabBc.ckPageObject}`]: this.isEnd(),
-                [`gIsStart_${this.tabBc.ckPageObject}`]: this.isStart(),
-                [`gPanelNum_${this.tabBc.ckPageObject}`]: this.tabStatus.get(this.tabValue).num,
-                [`gPanelIndex_${this.tabBc.ckPageObject}`]: this.tabs
-                    .map((tab) => tab.ckPageObject)
-                    .indexOf(this.tabValue),
-            }),
-        );
+        this.pageStore.updateGlobalValues({
+            [`g_is_end_${this.tabBc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isEnd(),
+            [`g_is_start_${this.tabBc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isStart(),
+            [`g_panel_num_${this.tabBc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabStatus.get(this.tabValue).num,
+            [`g_panel_index_${this.tabBc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabs
+                .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
+                .indexOf(this.tabValue),
+        });
     });
 
     isEnd = () => {
         const tabs = this.tabs
-            .map((tab) => tab.ckPageObject)
+            .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
             .filter((ckPageObject) => !this.tabStatus.get(ckPageObject).hidden);
         const index = tabs.indexOf(this.tabValue);
 
@@ -115,7 +115,7 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
 
     isStart = () => {
         const tabs = this.tabs
-            .map((tab) => tab.ckPageObject)
+            .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
             .filter((ckPageObject) => !this.tabStatus.get(ckPageObject).hidden);
         const index = tabs.indexOf(this.tabValue);
 
@@ -128,7 +128,7 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
 
         if (isSuccess) {
             const tabs = this.tabs
-                .map((tab) => tab.ckPageObject)
+                .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
                 .filter((ckPageObject) => !this.tabStatus.get(ckPageObject).hidden);
             const index = tabs.indexOf(this.tabValue);
             const tab = tabs[index + 1];
@@ -142,7 +142,7 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
 
     setBackTab = action("setBackTab", () => {
         const tabs = this.tabs
-            .map((tab) => tab.ckPageObject)
+            .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
             .filter((ckPageObject) => !this.tabStatus.get(ckPageObject).hidden);
         const index = tabs.indexOf(this.tabValue);
         const tab = tabs[index - 1];
@@ -153,10 +153,11 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
     });
 
     setFirstActiveTab = action("setFirstActiveTab", () => {
-        const tab = this.tabs && this.tabs.find((child) => !this.tabStatus.get(child.ckPageObject).hidden);
+        const tab =
+            this.tabs && this.tabs.find((child) => !this.tabStatus.get(child[VAR_RECORD_PAGE_OBJECT_ID]).hidden);
 
         if (tab) {
-            this.changeTabAction(tab.ckPageObject);
+            this.changeTabAction(tab[VAR_RECORD_PAGE_OBJECT_ID]);
         }
     });
 
@@ -172,25 +173,23 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
             let index = 1;
 
             this.tabs.forEach((child) => {
-                if (!this.tabStatus.get(child.ckPageObject).hidden) {
-                    this.tabStatus.set(child.ckPageObject, {
-                        ...this.tabStatus.get(child.ckPageObject),
+                if (!this.tabStatus.get(child[VAR_RECORD_PAGE_OBJECT_ID]).hidden) {
+                    this.tabStatus.set(child[VAR_RECORD_PAGE_OBJECT_ID], {
+                        ...this.tabStatus.get(child[VAR_RECORD_PAGE_OBJECT_ID]),
                         num: index,
                     });
                     index += 1;
                 }
             });
-            this.pageStore.updateGlobalValues(
-                camelCaseKeys({
-                    [`gPanelNum_${this.tabBc.ckPageObject}`]: this.tabStatus.get(this.tabValue).num,
-                }),
-            );
+            this.pageStore.updateGlobalValues({
+                [`g_panel_num_${this.tabBc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabStatus.get(this.tabValue).num,
+            });
         }
     });
 
     getActiveTabs = (): Array<Object> =>
         this.tabs.filter((tab): boolean => {
-            const status = this.tabStatus.get(tab.ckPageObject);
+            const status = this.tabStatus.get(tab[VAR_RECORD_PAGE_OBJECT_ID]);
 
             return status ? !status.disabled && !status.hidden : true;
         });
@@ -211,7 +210,7 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
 
     onSimpleSave = async (mode: BuilderModeType, btnBc: BuilderBaseType, {files}: any) => {
         const tabs = this.tabs
-            .map((tab) => tab.ckPageObject)
+            .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
             .filter((ckPageObject) => !this.tabStatus.get(ckPageObject).hidden);
         const isSuccess = await tabs
             .reduce(
@@ -219,7 +218,7 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
                     val.then(async () => {
                         const tab = this.tabStatus.get(ckPageObject);
                         const {form, btns} = tab;
-                        const [bcBtn] = btns.filter((btn) => btn.cvName === "Override Next Button");
+                        const [bcBtn] = btns.filter((btn) => btn[VAR_RECORD_NAME] === "Override Next Button");
 
                         const result = bcBtn.updatequery
                             ? await this.checkForm(bcBtn.mode || "1", bcBtn, {form})
@@ -238,7 +237,7 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
 
         if (isSuccess) {
             const values = this.tabs.map((bc) => {
-                const {disabled, hidden, num, form} = this.tabStatus.get(bc.ckPageObject);
+                const {disabled, hidden, num, form} = this.tabStatus.get(bc[VAR_RECORD_PAGE_OBJECT_ID]);
 
                 return {
                     isPageDisabled: disabled,
@@ -261,7 +260,7 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
     cancelAction = action("cancelAction", () => {
         this.setFirstActiveTab();
         const tabs = this.tabs
-            .map((tab) => tab.ckPageObject)
+            .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
             .filter((ckPageObject) => !this.tabStatus.get(ckPageObject).hidden);
         const first = this.tabStatus.get(this.tabValue);
 
@@ -283,7 +282,7 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
 
     postMountAction = action("postMountAction", () => {
         this.tabs.forEach((bc) => {
-            const tabObj = this.tabStatus.get(bc.ckPageObject);
+            const tabObj = this.tabStatus.get(bc[VAR_RECORD_PAGE_OBJECT_ID]);
 
             if (
                 !tabObj.hidden &&

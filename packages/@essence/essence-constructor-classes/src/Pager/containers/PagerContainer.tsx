@@ -20,6 +20,7 @@ import {
 import {i18next} from "@essence/essence-constructor-share/utils";
 import {Grid, useTheme} from "@material-ui/core";
 import {settingsStore, PageModel} from "@essence/essence-constructor-share/models";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_ROUTE_VISIBLE_MENU} from "@essence/essence-constructor-share/constants";
 import {PagerWindows} from "../components/PagerWindows";
 import {focusPageElement} from "../utils/focusPageElement";
 import {PagerWindowMessage} from "../components/PagerWindowMessage";
@@ -45,9 +46,9 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
         if (applicationStore && props.bc && props.bc.defaultvalue) {
             const newPageStore: IPageModel = new PageModel({
                 applicationStore,
-                ckPage: props.bc.defaultvalue,
                 defaultVisible: true,
                 isActiveRedirect: false,
+                pageId: props.bc.defaultvalue,
             });
 
             newPageStore.loadConfigAction(props.bc.defaultvalue);
@@ -71,14 +72,14 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
 
     // TODO: need to ferify it
     React.useEffect(() => {
-        if (route && !route.clMenu && props.bc && props.bc.defaultvalue !== pageStore.ckPage) {
+        if (route && !route[VAR_RECORD_ROUTE_VISIBLE_MENU] && props.bc && props.bc.defaultvalue !== pageStore.pageId) {
             setTimeout(() => {
                 if (applicationStore) {
-                    applicationStore.pagesStore.removePageAction(pageStore.ckPage);
+                    applicationStore.pagesStore.removePageAction(pageStore.pageId);
                 }
             });
         }
-    }, [applicationStore, pageStore.ckPage, route, props.bc]);
+    }, [applicationStore, pageStore.pageId, route, props.bc]);
 
     React.useEffect(() => {
         return () => {
@@ -124,7 +125,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                                         pageStore.pageBc,
                                         (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
                                             <Grid
-                                                key={childBc.ckPageObject}
+                                                key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
                                                 item
                                                 xs={12}
                                                 style={toColumnStyleWidth(childBc.width)}

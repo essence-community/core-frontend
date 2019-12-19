@@ -2,6 +2,7 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import keycode from "keycode";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {type BuilderBaseType} from "../BuilderType";
 import {type PageModelType} from "../stores/PageModel";
 import WindowMessage from "./WindowMessage";
@@ -52,7 +53,7 @@ class WindowMessageCancel extends React.Component<PropsType> {
                 open={store.cancel}
                 onAccept={onAccept || store.closeAction}
                 onDecline={store.resetCancelAction}
-                ckPageObject={bc.ckPageObject}
+                ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                 pageStore={pageStore}
                 hideBackdrop={false}
             />

@@ -2,6 +2,7 @@
 import * as React from "react";
 import {compose} from "recompose";
 import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {observer} from "mobx-react";
 import cn from "classnames";
 import {withStyles} from "@material-ui/core/styles";
@@ -28,6 +29,7 @@ class FieldCheckbox extends React.Component<FieldCheckboxPropsType & WithT, Stat
         this.setState({focused: false});
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {
             value,
@@ -56,7 +58,7 @@ class FieldCheckbox extends React.Component<FieldCheckboxPropsType & WithT, Stat
                     [classes.focused]: focused,
                 })}
                 data-qtip={value ? t("dacf7ab025c344cb81b700cfcc50e403") : t("f0e9877df106481eb257c2c04f8eb039")}
-                data-page-object={bc.ckPageObject}
+                data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
             >
                 <FormLabel
                     {...InputLabelProps}

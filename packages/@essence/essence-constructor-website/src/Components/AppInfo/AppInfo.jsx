@@ -42,6 +42,7 @@ class AppInfo extends React.Component<PropsType, StateType> {
         this.setState({open: false});
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {applicationStore, classes = {}} = this.props;
         const {open} = this.state;
@@ -85,7 +86,7 @@ class AppInfo extends React.Component<PropsType, StateType> {
                                 dangerouslySetInnerHTML={{
                                     __html: sanitizeHtml(
                                         applicationStore.settingsStore.settings.projectAboutBoxFooter.replace(
-                                            /\{REACT_APP_PUBLIC_URL\}/gi,
+                                            /\{REACT_APP_PUBLIC_URL\}/giu,
                                             process.env.REACT_APP_PUBLIC_URL || "",
                                         ),
                                     ),
@@ -99,9 +100,4 @@ class AppInfo extends React.Component<PropsType, StateType> {
     }
 }
 
-export default compose(
-    inject(mapStoresToProps),
-    withStyles(styles),
-    withTranslation("meta"),
-    observer,
-)(AppInfo);
+export default compose(inject(mapStoresToProps), withStyles(styles), withTranslation("meta"), observer)(AppInfo);

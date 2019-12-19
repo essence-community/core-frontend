@@ -1,4 +1,5 @@
 // @flow
+// eslint-disable-next-line max-lines-per-function
 const BuilderBaseGridStylesLight = (theme: any) => ({
     editActionsGrid: {
         backgroundColor: theme.palette.common.white,

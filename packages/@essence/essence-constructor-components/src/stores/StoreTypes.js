@@ -5,14 +5,14 @@ export {PageModelType} from "./PageModel";
 
 export type SessionType = {
     session: string,
-    cvLogin: string,
+    login: string,
 };
 
 export interface ApplicationModelType {
     +session: string;
     +blockText: string;
-    +cvLogin: string;
-    +caActions: Array<number>;
+    +login: string;
+    +actions: Array<number>;
     +pagesStore: any;
     +isApplicationReady: boolean;
     +isBlock: boolean;
@@ -22,7 +22,7 @@ export interface ApplicationModelType {
     +authData: any;
     +setSesssionAction: (session: SessionType) => void;
     +logoutAction: () => void;
-    +redirectToAction: (ckPage: string, params: Object) => void;
+    +redirectToAction: (pageId: string, params: Object) => void;
     +updateGlobalValuesAction: (values: Object) => void;
     +blockApplicationAction: (type: string, text: string) => void;
 }

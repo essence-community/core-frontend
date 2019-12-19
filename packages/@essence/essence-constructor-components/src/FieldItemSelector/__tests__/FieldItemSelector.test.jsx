@@ -1,6 +1,5 @@
 // @flow
 import * as React from "react";
-import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
 import {when} from "mobx";
 import BuilderGrid from "../../Grid/BuilderGrid";
 import GridRow from "../../Grid/Row/BaseGridRow";
@@ -25,15 +24,13 @@ const getStores = async (store, {fieldFrom, fieldTo}) => {
     return [fromStore, toStore];
 };
 
+// eslint-disable-next-line max-lines-per-function
 describe("FieldItemSelector", () => {
-    const itemselectorCamelaze = camelCaseKeys(itemselectorJson);
-    const [fieldFrom, fieldTo] = itemselectorCamelaze.childs;
+    const [fieldFrom, fieldTo] = itemselectorJson.childs;
     const pageStore = createEmptyPageStore();
 
     it("render", () => {
-        const wrapper = mountWithTheme(
-            <FieldItemSelector bc={camelCaseKeys(itemselectorCamelaze)} pageStore={pageStore} visible />,
-        );
+        const wrapper = mountWithTheme(<FieldItemSelector bc={itemselectorJson} pageStore={pageStore} visible />);
         const itemSelector = wrapper.find(FieldItemSelectorBase);
 
         expect(wrapper.exists()).toBeTruthy();
@@ -44,9 +41,7 @@ describe("FieldItemSelector", () => {
     });
 
     it("Проверяем выбор всех значений", async () => {
-        const wrapper = mountWithTheme(
-            <FieldItemSelector bc={camelCaseKeys(itemselectorCamelaze)} pageStore={pageStore} visible />,
-        );
+        const wrapper = mountWithTheme(<FieldItemSelector bc={itemselectorJson} pageStore={pageStore} visible />);
         const {store} = wrapper.find(FieldItemSelectorBase).props();
         const [fromStore, toStore] = await getStores(store, {fieldFrom, fieldTo});
 
@@ -63,9 +58,7 @@ describe("FieldItemSelector", () => {
     });
 
     it("Проверяем удаление всех значений", async () => {
-        const wrapper = mountWithTheme(
-            <FieldItemSelector bc={camelCaseKeys(itemselectorCamelaze)} pageStore={pageStore} visible />,
-        );
+        const wrapper = mountWithTheme(<FieldItemSelector bc={itemselectorJson} pageStore={pageStore} visible />);
         const {store} = wrapper.find(FieldItemSelectorBase).props();
         const [fromStore, toStore] = await getStores(store, {fieldFrom, fieldTo});
 
@@ -82,9 +75,7 @@ describe("FieldItemSelector", () => {
     });
 
     it("Выбор первого значения", async () => {
-        const wrapper = mountWithTheme(
-            <FieldItemSelector bc={camelCaseKeys(itemselectorCamelaze)} pageStore={pageStore} visible />,
-        );
+        const wrapper = mountWithTheme(<FieldItemSelector bc={itemselectorJson} pageStore={pageStore} visible />);
         const {store} = wrapper.find(FieldItemSelectorBase).props();
         const [fromStore, toStore] = await getStores(store, {fieldFrom, fieldTo});
 
@@ -111,9 +102,7 @@ describe("FieldItemSelector", () => {
     });
 
     it("Удаление первого значения", async () => {
-        const wrapper = mountWithTheme(
-            <FieldItemSelector bc={camelCaseKeys(itemselectorCamelaze)} pageStore={pageStore} visible />,
-        );
+        const wrapper = mountWithTheme(<FieldItemSelector bc={itemselectorJson} pageStore={pageStore} visible />);
         const {store} = wrapper.find(FieldItemSelectorBase).props();
         const [fromStore, toStore] = await getStores(store, {fieldFrom, fieldTo});
 

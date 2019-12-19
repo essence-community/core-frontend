@@ -7,7 +7,7 @@ import {toSize} from "@essence/essence-constructor-share/utils";
 import {IClassProps} from "@essence/essence-constructor-share/types";
 import {LineLoader} from "@essence/essence-constructor-share/uicomponents";
 import {settingsStore} from "@essence/essence-constructor-share/models";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_SETTING_PROJECT_LOADER} from "@essence/essence-constructor-share/constants";
 import {IframeModel} from "../store/IframeModel";
 import {IFrame} from "../components/IFrame";
 import {useStyles} from "./IframeContainer.styles";
@@ -35,7 +35,7 @@ export const IframeContainer: React.FC<IClassProps> = (props) => {
                 {disabled ? <div className={classes.disabled} /> : null}
                 {store.recordsStore.isLoading ? (
                     <div className={classes.loaderContainer}>
-                        <LineLoader loaderType={settingsStore.settings.projectLoader} size={100} />
+                        <LineLoader loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER]} size={100} />
                     </div>
                 ) : (
                     <IFrame height={height} bc={bc} value={store.value} typeiframe={store.typeiframe} />

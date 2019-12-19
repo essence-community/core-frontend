@@ -13,6 +13,10 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_QUERY_ID,
     META_PAGE_OBJECT,
+    VAR_META_JN_FETCH,
+    VAR_META_JN_OFFSET,
+    VAR_META_JL_FILTER,
+    VAR_META_JL_SORT,
 } from "../../constants";
 import {snackbarStore} from "../SnackbarModel";
 import {
@@ -38,12 +42,12 @@ export const sleep = (time: number): Promise<void> =>
 export function getPageFilter(pageSize?: number, pageNumber = 0) {
     return pageSize
         ? {
-              jnFetch: pageSize,
-              jnOffset: pageSize * pageNumber,
+              [VAR_META_JN_FETCH]: pageSize,
+              [VAR_META_JN_OFFSET]: pageSize * pageNumber,
           }
         : {
-              jnFetch: 1000,
-              jnOffset: 0,
+              [VAR_META_JN_FETCH]: 1000,
+              [VAR_META_JN_OFFSET]: 0,
           };
 }
 
@@ -67,8 +71,8 @@ export function getFilterData({
     pageNumber,
 }: IGetFilterDataOptions): IGetFilterData {
     return {
-        jlFilter: filter,
-        jlSort: [order],
+        [VAR_META_JL_FILTER]: filter,
+        [VAR_META_JL_SORT]: [order],
         ...getNotEmptyData(searchValues),
         ...getPageFilter(pageSize, pageNumber),
     };

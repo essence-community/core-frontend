@@ -20,7 +20,11 @@ import {
 import {i18next} from "@essence/essence-constructor-share/utils";
 import {Grid, useTheme} from "@material-ui/core";
 import {settingsStore, PageModel} from "@essence/essence-constructor-share/models";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_ROUTE_VISIBLE_MENU} from "@essence/essence-constructor-share/constants";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_ROUTE_VISIBLE_MENU,
+    VAR_SETTING_PROJECT_LOADER,
+} from "@essence/essence-constructor-share/constants";
 import {PagerWindows} from "../components/PagerWindows";
 import {focusPageElement} from "../utils/focusPageElement";
 import {PagerWindowMessage} from "../components/PagerWindowMessage";
@@ -115,7 +119,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                         pageStore={pageStore}
                         container={pageStore.pageEl}
                         // @ts-ignore
-                        loaderType={settingsStore.settings.projectLoader}
+                        loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER]}
                     />
                     <FormContext.Provider value={editor.form}>
                         <ModeContext.Provider value={editor.mode}>

@@ -33,14 +33,16 @@ export class MoMultiField extends BaseMultiFieldModel implements MoMultiFieldTyp
     constructor({bc, pageStore}: StoreBaseModelPropsType) {
         super({[VAR_RECORD_QUERY_ID]: "jNSIGetAddrByMO", bc, pageStore});
 
-        const displayfield = (bc.displayfield || "").replace(/{(\w+)}/gu, (match, pattern) => `{${pattern}}`);
+        // eslint-disable-next-line require-unicode-regexp,  prefer-named-capture-group
+        const displayfield = (bc.displayfield || "").replace(/{(\w+)}/g, (match, pattern) => `{${pattern}}`);
 
         this.builderConfigs = getMoMultiFieldConfig(bc);
 
         extendObservable(this, {
             get displayText() {
                 return this.selectedRecord
-                    ? displayfield.replace(/{([A-z]+)}/gu, (match, pattern) => this.selectedRecord[pattern] || "")
+                    ? // eslint-disable-next-line require-unicode-regexp,  prefer-named-capture-group
+                      displayfield.replace(/{([A-z]+)}/g, (match, pattern) => this.selectedRecord[pattern] || "")
                     : "";
             },
         });

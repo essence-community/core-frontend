@@ -1,6 +1,10 @@
 // @flow
 import {action, reaction} from "mobx";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_QUERY_ID} from "@essence/essence-constructor-share/constants";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+    VAR_SETTING_SMART_MASK_QUERY,
+} from "@essence/essence-constructor-share/constants";
 import {RecordsModel, type RecordsModelType} from "../RecordsModel";
 import {type ApplicationModelType} from "../StoreTypes";
 import {type GlobalRecordsModelInterface, type ConstructorType} from "./GlobalRecordsModelType";
@@ -22,7 +26,7 @@ export class GlobalRecordsModel implements GlobalRecordsModelInterface {
                     this.indentityDocTypeRecordsStore = new RecordsModel(
                         {
                             ...INDENTITY_DOC_TYPES_BC,
-                            [VAR_RECORD_QUERY_ID]: settings.smartMaskQuery,
+                            [VAR_RECORD_QUERY_ID]: settings[VAR_SETTING_SMART_MASK_QUERY],
                         },
                         pageStore,
                     );
@@ -34,7 +38,7 @@ export class GlobalRecordsModel implements GlobalRecordsModelInterface {
     loadAllStoresAction = action("loadAllStoresAction", (applicationStore: ApplicationModelType) => {
         const {settingsStore} = applicationStore;
 
-        if (settingsStore.settings.smartMaskQuery) {
+        if (settingsStore.settings[VAR_SETTING_SMART_MASK_QUERY]) {
             this.indentityDocTypeRecordsStore.loadRecordsAction();
         }
     });

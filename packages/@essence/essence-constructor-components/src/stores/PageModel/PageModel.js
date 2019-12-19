@@ -168,7 +168,7 @@ export class PageModel implements PageModelInterface {
             {
                 get isReadOnly() {
                     return isEmpty(isReadOnly)
-                        ? (applicationStore.acions || []).indexOf(this.route[VAR_RECORD_CN_ACTION_EDIT]) < 0
+                        ? (applicationStore.actions || []).indexOf(this.route[VAR_RECORD_CN_ACTION_EDIT]) < 0
                         : isReadOnly;
                 },
                 pageBc: initialBc || [],

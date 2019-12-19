@@ -32,6 +32,8 @@ import {
     VAR_RECORD_CC_MANIFEST,
     VAR_RECORD_CV_LOGIN,
     VAR_RECORD_CA_ACTIONS,
+    VAR_SETTING_MODULE_AVAILABLE,
+    VAR_SETTING_MODULE_URL,
 } from "@essence/essence-constructor-share/constants";
 import {i18next} from "@essence/essence-constructor-share/utils";
 import {snackbarStore} from "@essence/essence-constructor-share/models";
@@ -303,8 +305,8 @@ export class ApplicationModel implements ApplicationModelType {
         }
 
         return Promise.all([
-            this.settingsStore.settings.moduleAvailable === "true"
-                ? this.loadModules(this.settingsStore.settings.gSysModuleUrl)
+            this.settingsStore.settings[VAR_SETTING_MODULE_AVAILABLE] === "true"
+                ? this.loadModules(this.settingsStore.settings[VAR_SETTING_MODULE_URL])
                 : undefined,
             snackbarStore.recordsStore.loadRecordsAction(),
             this.routesStore.recordsStore.loadRecordsAction(),

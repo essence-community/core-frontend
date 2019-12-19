@@ -90,7 +90,7 @@ class MenuGridRow extends React.Component<PropsType> {
         return (
             <div className={cn(classes.root)} style={{paddingLeft: level * LEFT_PADDING}} onClick={this.handleClick}>
                 <Grid container wrap="nowrap" spacing={1} alignItems="center" className={classes.rootGrid}>
-                    {route[VAR_RECORD_ID] === "true" ? this.renderIcon() : this.renderFolderIcon()}
+                    {route[VAR_RECORD_LEAF] === "true" ? this.renderIcon() : this.renderFolderIcon()}
                     <Grid item xs zeroMinWidth>
                         <Typography
                             variant="body2"

@@ -79,13 +79,27 @@ export const VAR_RECORD_CL_IS_MASTER = "cl_is_master";
 // SETTING
 export const VAR_SETTING_VALUE = "cv_value";
 export const VAR_SETTING_BRANCH_NAME = "branch_name";
+export const VAR_SETTING_PROJECT_NAME = "project_name";
 export const VAR_SETTING_GATE_URL = "g_sys_gate_url";
 export const VAR_SETTING_PROJECT_APPLICATION_PAGE = "project_applications_page";
 export const VAR_SETTING_LANG = "g_sys_lang";
+export const VAR_SETTING_PROJECT_LOADER = "project_loader";
+export const VAR_SETTING_SMART_MASK_QUERY = "smart_mask_query";
+export const VAR_SETTING_PROJECT_ABOUT_BOX_TITLE = "project_about_box_title";
+export const VAR_SETTING_PROJECT_ABOUT_BOX_DESCRIPTION = "project_about_box_description";
+export const VAR_SETTING_PROJECT_ABOUT_BOX_FOOTER = "project_about_box_footer";
+export const VAR_SETTING_PROJECT_PROFILE_PAGE = "project_profile_page";
+export const VAR_SETTING_PROJECT_AUTH_TITLE = "project_auth_title";
+export const VAR_SETTING_MODULE_AVAILABLE = "module_available";
+export const VAR_SETTING_MODULE_URL = "g_sys_module_url";
 
 // META
 export const META_OUT_RESULT = "out_result";
 export const META_PAGE_OBJECT = "page_object";
+export const VAR_META_JN_FETCH = "jn_fetch";
+export const VAR_META_JN_OFFSET = "jn_offset";
+export const VAR_META_JL_FILTER = "jl_filter";
+export const VAR_META_JL_SORT = "jl_sort";
 
 // SELF
 export const VALUE_SELF_FIRST = "##first##";

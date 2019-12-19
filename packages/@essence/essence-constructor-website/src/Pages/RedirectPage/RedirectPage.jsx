@@ -7,6 +7,7 @@ import {compose} from "recompose";
 import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
 import {PageLoader} from "@essence/essence-constructor-share";
 import {loggerRoot, preference} from "@essence/essence-constructor-components";
+import {VAR_SETTING_PROJECT_LOADER} from "@essence/essence-constructor-share/constants";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import {type AuthModelType} from "../../Stores/AuthModel";
 import AppBarAuth from "../../Components/AppBarAuth";
@@ -158,7 +159,10 @@ class RedirectPage extends React.Component<PropsType, StateType> {
                     {applicationStore.isApplicationReady ? (
                         content
                     ) : (
-                        <PageLoader isLoading loaderType={applicationStore.settingsStore.settings.projectLoader} />
+                        <PageLoader
+                            isLoading
+                            loaderType={applicationStore.settingsStore.settings[VAR_SETTING_PROJECT_LOADER]}
+                        />
                     )}
                 </AppBar>
             );

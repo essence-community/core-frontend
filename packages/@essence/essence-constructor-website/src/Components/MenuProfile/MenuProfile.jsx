@@ -29,6 +29,7 @@ import {
     VAR_RECORD_CV_LOGIN,
     VAR_RECORD_CV_PATRONYMIC,
     VAR_RECORD_CV_TIMEZONE,
+    VAR_SETTING_PROJECT_PROFILE_PAGE,
 } from "@essence/essence-constructor-share/constants";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import {type AuthModelType} from "../../Stores/AuthModel";
@@ -214,7 +215,7 @@ export default compose(
                 applicationStore,
                 authStore,
                 isReadOnly: false,
-                pageId: applicationStore.settingsStore.settings.projectProfilePage,
+                pageId: applicationStore.settingsStore.settings[VAR_SETTING_PROJECT_PROFILE_PAGE],
             }),
         "pageStore",
     ),

@@ -108,7 +108,8 @@ export function makeRedirectUrl(props: {
         return url;
     }
 
-    url.pathname = url.pathname.replace(/{([^}]+)}/gu, (match, pattern) => {
+    // eslint-disable-next-line require-unicode-regexp,  prefer-named-capture-group
+    url.pathname = url.pathname.replace(/{([^}]+)}/g, (match, pattern) => {
         if (pattern.indexOf(SESSION_PREFIX) > -1) {
             return authData[pattern.substring(SESSION_PREFIX.length)];
         }

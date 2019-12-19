@@ -16,7 +16,7 @@ import {
 } from "@essence/essence-constructor-share";
 import {settingsStore, snackbarStore} from "@essence/essence-constructor-share/models";
 import {useTranslation} from "@essence/essence-constructor-share/utils";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_SETTING_PROJECT_LOADER} from "@essence/essence-constructor-share/constants";
 import {useDisposable, useObserver} from "mobx-react-lite";
 import {reaction, observe} from "mobx";
 import {useParams, useHistory} from "react-router-dom";
@@ -179,7 +179,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                     </>
                 ) : (
                     // @ts-ignore
-                    <PageLoader isLoading loaderType={settingsStore.settings.projectLoader} />
+                    <PageLoader isLoading loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER]} />
                 )}
             </EditorContex.Provider>
         </ApplicationContext.Provider>

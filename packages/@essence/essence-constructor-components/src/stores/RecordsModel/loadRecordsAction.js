@@ -15,6 +15,10 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_QUERY_ID,
     META_PAGE_OBJECT,
+    VAR_META_JN_FETCH,
+    VAR_META_JN_OFFSET,
+    VAR_META_JL_FILTER,
+    VAR_META_JL_SORT,
 } from "@essence/essence-constructor-share/constants";
 import {i18next} from "@essence/essence-constructor-share/utils";
 import {snackbarStore} from "@essence/essence-constructor-share/models";
@@ -94,19 +98,19 @@ export function getMasterObject(masterId?: string, pageStore?: PageModelType): t
 export function getPageFilter(pageSize: ?number, pageNumber: number) {
     return pageSize
         ? {
-              jnFetch: pageSize,
-              jnOffset: pageSize * pageNumber,
+              [VAR_META_JN_FETCH]: pageSize,
+              [VAR_META_JN_OFFSET]: pageSize * pageNumber,
           }
         : {
-              jnFetch: 1000,
-              jnOffset: 0,
+              [VAR_META_JN_FETCH]: 1000,
+              [VAR_META_JN_OFFSET]: 0,
           };
 }
 
 export function getFilterData({filter, order, searchValues, pageSize, pageNumber}: GetFilterDataType): Object {
     return {
-        jlFilter: filter,
-        jlSort: [order],
+        [VAR_META_JL_FILTER]: filter,
+        [VAR_META_JL_SORT]: [order],
         ...pickBy(searchValues, (value) => value !== ""),
         ...getPageFilter(pageSize, pageNumber),
     };

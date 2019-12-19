@@ -104,7 +104,3 @@ export const VAR_MOCK_DATE_COLUMN_EN = "date_column_en";
 export const VAR_MOCK_DATE_COLUMN_ST = "date_column_st";
 export const VAR_MOCK_CV_INTERNAL = "cv_internal";
 export const VAR_MOCK_CV_KPP = "cv_kpp";
-
-/*
- * Удалить snakecase-keys
- */

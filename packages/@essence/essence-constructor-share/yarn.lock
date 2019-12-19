@@ -220,11 +220,6 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@types/snakecase-keys@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@types/snakecase-keys/-/snakecase-keys-2.1.0.tgz#d64fe4793a2a2b143644415d299c69748e911e66"
-  integrity sha512-yoDyTa4SBpcENbp+X5voveHWKGJUBBqYeF3Ua5jsatVgyO6ZVCBTDKm5JByb3KIOZJ6AuBpkwHMdIFL/MTfFMg==
-
 "@types/trusted-types@*":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@types/trusted-types/-/trusted-types-1.0.4.tgz#922d092c84a776a59acb0bd6785fd82b59b9bad5"
@@ -1520,11 +1515,6 @@ lru-queue@0.1:
   dependencies:
     es5-ext "~0.10.2"
 
-map-obj@^4.0.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-4.1.0.tgz#b91221b542734b9f14256c0132c897c5d7256fd5"
-  integrity sha512-glc9y00wgtwcDmp7GaE/0b0OnxpNJsVf3ael/An6Fe2Q51LLwN1er6sdomLRzz5h0+yMpiYLhWYF5R7HeqVd4g==
-
 mdi-react@3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/mdi-react/-/mdi-react-3.4.0.tgz#62e6d6ba4f049707e78ca6bd891060add7199286"
@@ -2116,14 +2106,6 @@ slice-ansi@^2.1.0:
     astral-regex "^1.0.0"
     is-fullwidth-code-point "^2.0.0"
 
-snakecase-keys@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/snakecase-keys/-/snakecase-keys-3.1.0.tgz#38b5fee561267248d855a9cd4ac94d98fc2de21f"
-  integrity sha512-QM038drLbhdOY5HcRQVjO1ZJ1WR7yV5D5TIBzcOB/g3f5HURHhfpYEnvOyzXet8K+MQsgeIUA7O7vn90nAX6EA==
-  dependencies:
-    map-obj "^4.0.0"
-    to-snake-case "^1.0.0"
-
 spdx-correct@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/spdx-correct/-/spdx-correct-3.1.0.tgz#fb83e504445268f154b074e218c87c003cd31df4"
@@ -2291,13 +2273,6 @@ to-no-case@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/to-no-case/-/to-no-case-1.0.2.tgz#c722907164ef6b178132c8e69930212d1b4aa16a"
   integrity sha1-xyKQcWTvaxeBMsjmmTAhLRtKoWo=
-
-to-snake-case@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/to-snake-case/-/to-snake-case-1.0.0.tgz#ce746913897946019a87e62edfaeaea4c608ab8c"
-  integrity sha1-znRpE4l5RgGah+Yu366upMYIq4w=
-  dependencies:
-    to-space-case "^1.0.0"
 
 to-space-case@^1.0.0:
   version "1.0.0"

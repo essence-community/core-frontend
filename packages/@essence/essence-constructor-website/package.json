@@ -1,6 +1,6 @@
 {
   "name": "@essence/essence-constructor-website",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@babel/core": "7.7.5",
-    "@essence/essence-constructor-classes": "2.0.0",
-    "@essence/essence-constructor-components": "2.0.0",
+    "@essence/essence-constructor-classes": "2.0.1",
+    "@essence/essence-constructor-components": "2.0.1",
     "@essence/essence-constructor-share": "file:../essence-constructor-share/lib",
     "@material-ui/core": "^4.7.2",
     "@svgr/webpack": "4.3.3",

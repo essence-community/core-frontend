@@ -286,10 +286,11 @@ export class PageModel implements PageModelInterface {
         return fetchResult
             .then((response) => {
                 if (snackbarStore.checkValidResponseAction(response[0], this.route, undefined, this.applicationStore)) {
-                    const classNames = findClassNames(response);
+                    const pageBc = (response.length && response[0].children) || [];
+                    const classNames = findClassNames(pageBc);
 
                     loadComponentsFromModules(classNames).then(() => {
-                        this.pageBc = (response.length && response[0].children) || [];
+                        this.pageBc = pageBc;
 
                         if (response.length && response[0]) {
                             this.updateGlobalValues(response[0][VAR_RECORD_GLOBAL_VALUE]);

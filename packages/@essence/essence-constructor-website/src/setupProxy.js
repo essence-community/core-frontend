@@ -19,6 +19,7 @@ module.exports = function(app) {
     } else {
         // Local
         app.use(proxy("/api", {changeOrigin: true, target: "http://localhost:9020/"}));
+        app.use(proxy("/api_module", {changeOrigin: true, target: "http://localhost:9020/"}));
         app.use(proxy("/notification", {changeOrigin: true, target: "http://localhost:9020/", ws: true}));
     }
 };

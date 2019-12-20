@@ -1,6 +1,6 @@
 {
   "name": "@essence/essence-constructor-scripts",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Scripts for constructor",
   "main": "index.js",
   "repository": "https://github.com/essence-community/core",

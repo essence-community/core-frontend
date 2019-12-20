@@ -1,6 +1,6 @@
 {
   "name": "@essence/essence-constructor-classes",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Classes implementation for constructor",
   "main": "src/index.js",
   "repository": "https://github.com/essence-community/core-frontend",

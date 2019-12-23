@@ -5,6 +5,7 @@ export interface IRepeaterGroupProps extends IClassProps {
     field: Field;
     form: FormType;
     mode?: IBuilderMode;
+    deleteLabel: string;
     isDisabledDel?: boolean;
     storeName: string;
 }

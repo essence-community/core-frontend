@@ -43,7 +43,7 @@ validatorjs.register(
 
         return valueSize >= toNumber(req);
     },
-    i18next.t("e668fef0db6d4eeb9eb72c62a8d31052"),
+    i18next.t("a240c31303c74c5490623d7781964c11"),
 );
 
 validatorjs.register(

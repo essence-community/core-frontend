@@ -228,6 +228,7 @@ export function loadRecordsAction(
         })
         .then((records: Record<string, FieldValue>[]) => {
             const valueField = status === "attach" ? "ckId" : this.valueField;
+            const beforeSelectedRecord = this.selectedRecord;
             let isDefault: "##alwaysfirst##" | "##first##" | undefined = undefined;
             let recordId = undefined;
             let record = undefined;
@@ -262,6 +263,15 @@ export function loadRecordsAction(
                 status,
             };
             this.recordsAll = this.recordsState.records;
+
+            /*
+             * We can call setSelectionAction in listen for recordsState.
+             * check this handle by verify selectedRecord
+             * We use this for combo field
+             */
+            if (beforeSelectedRecord !== this.selectedRecord) {
+                return this.selectedRecordIndex;
+            }
 
             return this.setSelectionAction(recordId, valueField);
         })

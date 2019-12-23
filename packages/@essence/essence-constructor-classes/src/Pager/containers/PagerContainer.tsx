@@ -43,7 +43,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
      * It means that we want to make custom page and getting them from server by bc.ck_query
      */
     const pageStore = React.useMemo<IPageModel>(() => {
-        if (applicationStore && bc && bc.defaultvalue && bc.defaultvalue !== applicationStore.bc.defaultvalue) {
+        if (applicationStore && bc && bc.defaultvalue && bc.ckParent !== applicationStore.bc.ckPageObject) {
             const newPageStore: IPageModel = new PageModel({
                 applicationStore,
                 ckPage: bc.defaultvalue,

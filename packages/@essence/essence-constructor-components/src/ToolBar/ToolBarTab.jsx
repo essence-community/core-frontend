@@ -51,19 +51,20 @@ class ToolBarTab extends React.Component<PropsType<string | number>> {
         const iconNode = iconfont && (
             <Icon iconfont={iconfont} className={cn(classes.tabIcon, {[classes.activeTabIcon]: isActive})} />
         );
+        const translatedLabel = t(label);
 
         return (
             <MaterialTab
                 value={value}
                 icon={iconNode}
-                data-qtip={label}
+                data-qtip={translatedLabel}
                 data-page-object={`tab-${value}`}
                 component={this.props.component || "div"}
                 tabIndex="-1"
                 label={
                     <React.Fragment>
                         <Typography variant="body2" noWrap color="inherit" className={classes.text}>
-                            {t(label)}
+                            {translatedLabel}
                         </Typography>
                         <Icon
                             iconfont="times"

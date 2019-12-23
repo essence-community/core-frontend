@@ -19,6 +19,11 @@ export class PageModelAbstract implements IPageModel {
 
     public pageBc: IBuilderConfig[] = [];
 
+    public pagerBc: IBuilderConfig = {
+        ckPageObject: "null",
+        ckParent: "null",
+    };
+
     public stores: ObservableMap<string, IStoreBaseModel> = observable.map();
 
     public globalValues: ObservableMap<string, FieldValue> = observable.map();

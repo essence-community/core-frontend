@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-lines-per-function
 export const StyleTabPanelLight = (theme) => {
     const tabsFlexContainerCenter = {
         "& $tabRoot": {
@@ -139,7 +140,10 @@ export const StyleTabPanelLight = (theme) => {
             whiteSpace: "nowrap",
             width: "100%",
         },
-        "tabsFlexContainer-center-hbox": tabsFlexContainerCenter,
+        "tabsFlexContainer-center-hbox": {
+            ...tabsFlexContainerCenter,
+            overflow: "hidden",
+        },
         "tabsFlexContainer-center-vbox": tabsFlexContainerCenter,
         "tabsFlexContainer-left-hbox": {
             "& $tabRoot": {

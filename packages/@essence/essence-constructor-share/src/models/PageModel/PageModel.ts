@@ -32,6 +32,8 @@ const logger = loggerRoot.extend("PageModel");
 export class PageModel implements IPageModel {
     pageBc: IBuilderConfig[];
 
+    pagerBc: IBuilderConfig;
+
     fieldValueMaster: PageModelFieldValues;
 
     stores: PageModelStores;
@@ -112,6 +114,13 @@ export class PageModel implements IPageModel {
                 );
             },
             isLoading: false,
+            get pagerBc(): IBuilderConfig {
+                return {
+                    ckPageObject: ckPage,
+                    ckParent: applicationStore.bc.ckPageObject,
+                    defaultvalue: applicationStore.bc.defaultvalue,
+                };
+            },
             questionWindow: null,
             get route() {
                 return (

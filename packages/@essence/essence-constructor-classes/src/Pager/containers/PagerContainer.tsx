@@ -36,27 +36,28 @@ const onFormChange = (form: typeof MobxReactForm) => {
 interface IPagerProps extends IClassProps {}
 
 export const PagerContainer: React.FC<IPagerProps> = (props) => {
+    const {bc} = props;
     const applicationStore = React.useContext(ApplicationContext);
     /**
      * We are making a new pageStore when we get defaultvalue.
      * It means that we want to make custom page and getting them from server by bc.ck_query
      */
     const pageStore = React.useMemo<IPageModel>(() => {
-        if (applicationStore && props.bc && props.bc.defaultvalue) {
+        if (applicationStore && bc && bc.defaultvalue && bc.ckParent !== applicationStore.bc.ckPageObject) {
             const newPageStore: IPageModel = new PageModel({
                 applicationStore,
-                ckPage: props.bc.defaultvalue,
+                ckPage: bc.defaultvalue,
                 defaultVisible: true,
                 isActiveRedirect: false,
             });
 
-            newPageStore.loadConfigAction(props.bc.defaultvalue);
+            newPageStore.loadConfigAction(bc.defaultvalue);
 
             return newPageStore;
         }
 
         return props.pageStore;
-    }, [applicationStore, props.bc, props.pageStore]);
+    }, [applicationStore, bc, props.pageStore]);
 
     const classes = useStyles(props);
     const theme = useTheme();
@@ -71,14 +72,14 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
 
     // TODO: need to ferify it
     React.useEffect(() => {
-        if (route && !route.clMenu && props.bc && props.bc.defaultvalue !== pageStore.ckPage) {
+        if (route && !route.clMenu && bc && bc.defaultvalue !== pageStore.ckPage) {
             setTimeout(() => {
                 if (applicationStore) {
                     applicationStore.pagesStore.removePageAction(pageStore.ckPage);
                 }
             });
         }
-    }, [applicationStore, pageStore.ckPage, route, props.bc]);
+    }, [applicationStore, pageStore.ckPage, route, bc]);
 
     React.useEffect(() => {
         return () => {

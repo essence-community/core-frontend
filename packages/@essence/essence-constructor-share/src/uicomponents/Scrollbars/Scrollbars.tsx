@@ -203,6 +203,14 @@ export class Scrollbars extends React.Component<IProps, IState> {
             newStyle.height = newStyle.minHeight;
         }
 
+        if (this.props.hideHorizontalScrollbar) {
+            newStyle.overflowX = "hidden";
+        }
+
+        if (this.props.hideVerticalScrollbar) {
+            newStyle.overflowY = "hidden";
+        }
+
         return <div style={newStyle} onWheel={this.props.preventAltScroll ? this.handleWheel : undefined} {...props} />;
     };
 

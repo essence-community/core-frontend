@@ -25,7 +25,7 @@ const appendInputForm = ({form, name, type = "text", value}: InputFormType) => {
     form.appendChild(input);
 };
 
-// eslint-disable-next-line max-statements
+// eslint-disable-next-line max-statements, max-lines-per-function
 export function downloadAction(values: Object | Array<Object>, mode: BuilderModeType, config: ConfigType) {
     const {actionBc, clWarning = 0, query = "Modify", bc, pageStore} = config;
     const {extraplugingate, getglobaltostore} = actionBc;
@@ -53,6 +53,7 @@ export function downloadAction(values: Object | Array<Object>, mode: BuilderMode
             globalValues: pageStore.globalValues,
             values: filter(values),
         });
+        // eslint-disable-next-line require-unicode-regexp
         modeCheck = isEmpty(filteredValues.ckId) && /^\d+$/.test(mode) ? "1" : mode;
     }
 
@@ -91,4 +92,6 @@ export function downloadAction(values: Object | Array<Object>, mode: BuilderMode
     if (document.body) {
         document.body.removeChild(form);
     }
+
+    return Promise.resolve(true);
 }

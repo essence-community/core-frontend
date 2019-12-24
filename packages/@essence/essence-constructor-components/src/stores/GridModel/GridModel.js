@@ -148,7 +148,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
 
     minHeight: number;
 
-    // eslint-disable-next-line max-statements
+    // eslint-disable-next-line max-statements, max-lines-per-function
     constructor({bc, pageStore}: StoreBaseModelPropsType) {
         super({bc, pageStore});
 
@@ -252,7 +252,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
     // eslint-disable-next-line max-statements
     defaultHandlerBtnAction = action(
         "defaultHandlerBtnAction",
-        // eslint-disable-next-line max-statements
+        // eslint-disable-next-line max-statements, default-param-last
         (mode: BuilderModeType = "1", bc: Object, {ckwindow} = {}) => {
             if (this.isInlineEditing) {
                 return null;
@@ -275,7 +275,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
             {
                 actionBc: bc,
                 files,
-                query: bc.updatequery,
+                query: bc.updatequery || "Modify",
             },
         ),
     );
@@ -287,9 +287,10 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
      */
     saveAction = action("saveAction", (values: Object, config: GridSaveConfigType) => {
         const {actionBc, files, mode, windowStore} = config;
+        const isDownload = mode === "7" || actionBc.mode === "7";
         const gridValues = getGridValues({gridStore: this, mode, pageStore: this.pageStore, values, windowStore});
 
-        return this.recordsStore.saveAction(gridValues, mode, {
+        return this.recordsStore[isDownload ? "downloadAction" : "saveAction"](gridValues, mode, {
             actionBc,
             files,
             query: actionBc.updatequery,
@@ -421,7 +422,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
      *
      * @returns {undefined}
      */
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars, default-param-last
     onCreateChildWindowMaster = (mode: BuilderModeType = "1", bc: BuilderBaseType) => {
         const ckwindow =
             bc.ckwindow || get(this.bc, "childwindow.0.ckwindow") || get(this.bc, "childwindow.0.ckPageObject");
@@ -436,7 +437,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
      *
      * @returns {undefined}
      */
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars, default-param-last
     onRowCreateChildWindowMaster = (mode: BuilderModeType = "2", bc: BuilderBaseType) => {
         const ckwindow =
             bc.ckwindow || get(this.bc, "childwindow.0.ckwindow") || get(this.bc, "childwindow.0.ckPageObject");
@@ -552,5 +553,6 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
         onPrintExcel: (mode: BuilderModeType, btnBc: BuilderBaseType, {values}: any) => {
             return this.onPrintExcel(values, btnBc);
         },
+        onUpdate: this.updateBtnAction,
     };
 }

@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
 const backgroundColorTab = "#cdcaca";
 
+// eslint-disable-next-line max-lines-per-function
 export const StyleTabPanelDark = (theme) => {
     const tabsFlexContainerCenter = {
         "& $tabRoot": {
@@ -38,6 +39,27 @@ export const StyleTabPanelDark = (theme) => {
                     boxShadow: "none",
                 },
                 boxShadow: "none",
+            },
+        },
+        childPanel: {},
+        "content-left-hbox": {
+            "&:not($childPanel)": {
+                maxWidth: "calc(100% - 266px)",
+            },
+        },
+        "content-left-vbox": {
+            "&:not($childPanel)": {
+                maxWidth: "calc(100% - 37px)",
+            },
+        },
+        "content-right-hbox": {
+            "&:not($childPanel)": {
+                maxWidth: "calc(100% - 264px)",
+            },
+        },
+        "content-right-vbox": {
+            "&:not($childPanel)": {
+                maxWidth: "calc(100% - 37px)",
             },
         },
         disabled: {
@@ -125,6 +147,13 @@ export const StyleTabPanelDark = (theme) => {
             minWidth: 0,
             paddingLeft: theme.spacing(1),
             paddingRight: theme.spacing(1),
+        },
+        popoverButtonlistItemSelected: {
+            color: theme.palette.common.selectedMenu,
+        },
+        rightContentLine: {
+            borderRadius: "0 3px 3px 0",
+            borderRight: `1px solid ${theme.palette.primary.light}`,
         },
         selectedTabRoot: {
             "&$tabRoot": {

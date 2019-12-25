@@ -1,8 +1,7 @@
-/* eslint-disable jsx-a11y/href-no-hash */
-import "core-js/fn/array/find";
-import "core-js/fn/array/find-index";
-import "core-js/es6/symbol";
-import "core-js/fn/symbol/iterator";
+import "core-js/features/array/find";
+import "core-js/features/array/find-index";
+import "core-js/features/symbol";
+import "core-js/features/symbol/iterator";
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";

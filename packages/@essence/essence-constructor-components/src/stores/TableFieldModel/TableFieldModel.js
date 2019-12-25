@@ -56,7 +56,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
 
     fieldHandlers: $PropertyType<ConstructorType, "fieldHandlers">;
 
-    /* eslint max-statements: ["error", 14]*/
+    // eslint-disable-next-line max-lines-per-function, max-statements
     constructor({bc, pageStore, form, field, fieldHandlers}: ConstructorType) {
         super({bc, pageStore});
 
@@ -93,7 +93,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
                         return selCount
                             ? `${declension(selCount, [
                                   i18next.t("e28e56d7b12e4ea2b7663b3e66473b9e"),
-                                  i18next.t("e28e56d7b12e4ea2b7663b3e66473b9e"),
+                                  i18next.t("783922ac8cf84a5eac8d1b17c77de544"),
                                   i18next.t("783922ac8cf84a5eac8d1b17c77de544"),
                               ])}  ${selCount} ${declension(selCount, [
                                   i18next.t("0cd9a67ed46d4d70959182cc6260b221"),

@@ -1,4 +1,4 @@
-/* eslint-disable sort-keys */
+/* eslint-disable sort-keys, prefer-named-capture-group, require-unicode-regexp */
 const path = require("path");
 const webpack = require("webpack");
 const TerserPlugin = require("terser-webpack-plugin");
@@ -36,6 +36,48 @@ module.exports = {
         path: path.join(__dirname, "..", "dist", "assets"),
         filename: isEnvProduction ? "[name].[contenthash:8].min.js" : "[name].js",
         library: "essenceconstructorshare",
+    },
+    module: {
+        strictExportPresence: true,
+        rules: [
+            // Disable require.ensure as it's not a standard language feature.
+            {parser: {requireEnsure: false}},
+            {
+                /*
+                 * "oneOf" will traverse all following loaders until one will
+                 * Match the requirements. When no loader matches it will fall
+                 * Back to the "file" loader at the end of the loader list.
+                 */
+                oneOf: [
+                    /*
+                     * Process any JS outside of the app with Babel.
+                     * Unlike the application JS, we only compile the standard ES features.
+                     */
+                    {
+                        test: /\.(js|mjs)$/,
+                        exclude: /@babel(?:\/|\\{1,2})runtime/,
+                        loader: require.resolve("babel-loader"),
+                        options: {
+                            babelrc: false,
+                            configFile: false,
+                            compact: false,
+                            presets: [[require.resolve("babel-preset-react-app/dependencies"), {helpers: true}]],
+                            cacheDirectory: true,
+                            // See #6846 for context on why cacheCompression is disabled
+                            cacheCompression: false,
+
+                            /*
+                             * Babel sourcemaps are needed for debugging into node_modules
+                             * code.  Without the options below, debuggers like VSCode
+                             * show incorrect code and set breakpoints on the wrong lines.
+                             */
+                            sourceMaps: !isEnvProduction,
+                            inputSourceMap: !isEnvProduction,
+                        },
+                    },
+                ],
+            },
+        ],
     },
     optimization: {
         namedModules: true,

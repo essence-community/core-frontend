@@ -60,7 +60,7 @@ export interface IPopoverProps {
     hideBackdrop?: boolean;
     transformOrigin?: IPopoverTransfromOrigin;
     anchorOrigin?: IPopoverAnchorOrigin;
-    container?: HTMLElement;
+    container: HTMLElement | null;
     disableRestoreFocus?: boolean;
     pageStore: IPageModel;
     restoreFocusedElement?: boolean;

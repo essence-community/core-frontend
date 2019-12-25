@@ -3,7 +3,9 @@ const proxy = require("http-proxy-middleware");
 let proxyConfig = null;
 
 try {
-    proxyConfig = JSON.parse(process.env.PROXY);
+    if (process.env.PROXY) {
+        proxyConfig = JSON.parse(process.env.PROXY);
+    }
 } catch (err) {
     console.warn("PROXY environment not set", err);
 }
@@ -17,6 +19,7 @@ module.exports = function(app) {
     } else {
         // Local
         app.use(proxy("/api", {changeOrigin: true, target: "http://localhost:9020/"}));
+        app.use(proxy("/api_module", {changeOrigin: true, target: "http://localhost:9020/"}));
         app.use(proxy("/notification", {changeOrigin: true, target: "http://localhost:9020/", ws: true}));
     }
 };

@@ -8,7 +8,7 @@ export interface IBuilderBaseConfig {
     activerules?: string;
     // Расположение текста: left - слева, center - по центру, right - справа
     align?: string;
-    // Признак доступности ввода нового значения. Если не заполнен = false
+    // Префикс-метка для нового значения. Пример: "allownew" = "NEW:", на сервер уйдет значение "NEW:введенное значение"
     allownew?: string;
     // Признак автозагрузки сервиса
     autoload?: string;
@@ -60,7 +60,7 @@ export interface IBuilderBaseConfig {
     decimalprecision?: string;
     // Разделитель дробного остатка
     decimalseparator?: string;
-    // Значение по умолчанию CheckBox: true/false DateField: sysdate - текущее время или дата в формате ISO 8601 2005-08-09T18:31:42 для выбора первой записи указать значение "first"  для выбора первой записи всегда - указать значение "alwaysfirst"
+    // Значение по умолчанию CheckBox: true/false DateField: sysdate - текущее время или дата в формате ISO 8601 2005-08-09T18:31:42 для выбора первой записи указать значение "##first##"  для выбора первой записи всегда - указать значение "##alwaysfirst##"
     defaultvalue?: string;
     // Сервис для запроса значения по умолчанию
     defaultvaluequery?: string;
@@ -122,6 +122,8 @@ export interface IBuilderBaseConfig {
     info?: string;
     // Признак колонки типа "Дерево" (true/false)
     istree?: string;
+    // Установка значение из локализационного пакета. Возможные значения: meta, message
+    localization?: string;
     // Максимальный размер файла в байтах
     maxfile?: string;
     // Максимальная высота
@@ -134,6 +136,8 @@ export interface IBuilderBaseConfig {
     minchars?: string;
     // Минимальная высота
     minheight?: string;
+    // Минимальное количество символов
+    minsize?: string;
     // Минимальное значение
     minvalue?: string;
     // Тип операции 1 - Добавление 2 - Редактирование 3 - Удаление 4 - Вызов сервиса из атрибута updatequery 5 - Вызов меню с информацией 6 - Режим клонирования значений 7 - Режим выгрузки файла 8 - Режим загрузки файла
@@ -166,6 +170,8 @@ export interface IBuilderBaseConfig {
     readonly?: string;
     // Правила отображения объекта. Если правило вернет true, то объект перейдет в режим "Только чтение".  Синтаксис: == - равно != - не равно '>' - больше '<' - меньше '&&' - и '||' - или Пример: gck_mo>1   // если глобальная переменная gck_mo больше 1, то объект перейдет в режим "только чтение"
     readonlyrules?: string;
+    // Список Ключ-Значения в Combo
+    records?: Record<string, FieldValue>[];
     // URL страницы, на которую будет произведен переход
     redirecturl?: string;
     // Наименование запроса, возвращающего cv_url для перехода
@@ -206,6 +212,8 @@ export interface IBuilderBaseConfig {
     stepnamenext?: string;
     // Правила применения стилей для колонок.  Нужно возвращать валидный объект вида `{"color": "red"}`
     stylerules?: string;
+    // Ширина Tab Panel
+    tabwidth?: string;
     // Разделитель тысяч
     thousandseparator?: string;
     // Время ожидания выполнения запроса в секундах
@@ -218,6 +226,8 @@ export interface IBuilderBaseConfig {
     top?: string;
     // Служебный параметр не править
     type?: string;
+    // Формат возвращаемого значения с сервиса. Значения: "URL", "HTML". Допускаются условия с учетом глобальных переменных.
+    typeiframe?: string;
     // Тип вида кнопки: 1-primary 2-secondary
     uitype?: string;
     // Наименование глобальной переменной для обновления

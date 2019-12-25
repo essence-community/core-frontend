@@ -11,5 +11,5 @@
         "autoFix": true
       }
     ],
-    "god.tsconfig": "./tsconfig.json",
+    "typescript.tsdk": "../../../node_modules/typescript/lib"
 }

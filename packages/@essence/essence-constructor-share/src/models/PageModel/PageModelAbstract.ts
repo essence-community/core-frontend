@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
 import {ObservableMap, observable} from "mobx";
 import {
@@ -18,6 +19,11 @@ export class PageModelAbstract implements IPageModel {
 
     public pageBc: IBuilderConfig[] = [];
 
+    public pagerBc: IBuilderConfig = {
+        ckPageObject: "null",
+        ckParent: "null",
+    };
+
     public stores: ObservableMap<string, IStoreBaseModel> = observable.map();
 
     public globalValues: ObservableMap<string, FieldValue> = observable.map();
@@ -28,9 +34,9 @@ export class PageModelAbstract implements IPageModel {
 
     public route: Record<string, string>;
 
-    public pageEl?: HTMLDivElement;
+    public pageEl: HTMLDivElement | null;
 
-    public pageInnerEl?: HTMLDivElement;
+    public pageInnerEl: HTMLDivElement | null;
 
     public isEdit: boolean;
 
@@ -68,7 +74,7 @@ export class PageModelAbstract implements IPageModel {
 
     public updateGlobalValues = (_values: object) => {};
 
-    public addStore = (_store: any, _name: string) => {};
+    public addStore = (_store: any, _name: string): string => "";
 
     public removeStore = (_name: string, _store: any) => {};
 
@@ -82,9 +88,9 @@ export class PageModelAbstract implements IPageModel {
 
     public loadConfigAction = (_ckPage: string | number) => Promise.resolve(undefined);
 
-    public setPageElAction = (_pageEl?: HTMLDivElement) => {};
+    public setPageElAction = (_pageEl: HTMLDivElement | null) => {};
 
-    public setPageInnerElAction = (_pageInnerEl?: HTMLDivElement) => {};
+    public setPageInnerElAction = (_pageInnerEl: HTMLDivElement | null) => {};
 
     public addFormAction = (_formType: any, _form: any) => {};
 

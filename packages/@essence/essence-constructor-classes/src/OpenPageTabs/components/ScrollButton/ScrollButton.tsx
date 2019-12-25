@@ -23,8 +23,11 @@ export const ScrollButton: React.FC<IScrollButtonProps> = (props) => {
         return null;
     }
 
+    // @ts-ignore
+    const className = classes[`${orientation}Button`];
+
     return (
-        <ButtonBase onClick={onClick} className={classes[`${orientation}Button`]} disableRipple tabIndex={-1}>
+        <ButtonBase onClick={onClick} className={className} disableRipple tabIndex={-1}>
             <Icon
                 iconfont={iconName[orientation][direction]}
                 size="2x"

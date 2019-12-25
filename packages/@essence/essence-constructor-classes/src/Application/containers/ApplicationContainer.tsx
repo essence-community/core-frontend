@@ -1,4 +1,5 @@
 import * as React from "react";
+import MobxReactForm from "mobx-react-form";
 import {
     IClassProps,
     mapComponents,
@@ -7,6 +8,11 @@ import {
     PageLoader,
     VAR_SELF_CV_URL,
     FieldValue,
+    loggerRoot,
+    EditorContex,
+    IEditorContext,
+    IPageModel,
+    IRecord,
 } from "@essence/essence-constructor-share";
 import {settingsStore, snackbarStore} from "@essence/essence-constructor-share/models";
 import {useTranslation} from "@essence/essence-constructor-share/utils";
@@ -17,18 +23,37 @@ import {ApplicationModel, CLOSE_CODE} from "../store/ApplicationModel";
 import {renderGlobalValuelsInfo} from "../utils/renderGlobalValuelsInfo";
 import {ApplicationWindows} from "../components/ApplicationWindows";
 
+const logger = loggerRoot.extend("PagerContainer");
+
+// eslint-disable-next-line max-lines-per-function
 export const ApplicationContainer: React.FC<IClassProps> = () => {
     const history = useHistory();
-    const {ckId, appName} = useParams();
+    const {ckId, appName = ""} = useParams();
     const [applicationStore] = React.useState(() => new ApplicationModel(history, appName));
     const [trans] = useTranslation("meta");
+    const onFormChange = React.useCallback(
+        (form: typeof MobxReactForm) => {
+            logger(trans("f9c3bf3691864f4d87a46a9ba367a855"), form.values());
+        },
+        [trans],
+    );
+
+    const editor: IEditorContext = React.useMemo(
+        () => ({
+            form: new MobxReactForm(undefined, {hooks: {onFieldChange: onFormChange}}),
+            mode: "1",
+        }),
+        [onFormChange],
+    );
 
     React.useEffect(() => {
         const loadApplication = async () => {
             await applicationStore.loadApplicationAction();
             const {routesStore, pagesStore, authStore} = applicationStore;
             const routes = routesStore ? routesStore.recordsStore.records : [];
-            const pageConfig = routes.find((route) => route[VAR_RECORD_ID] === ckId || route[VAR_SELF_CV_URL] === ckId);
+            const pageConfig = routes.find(
+                (route: IRecord) => route[VAR_RECORD_ID] === ckId || route[VAR_SELF_CV_URL] === ckId,
+            );
             const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
             if (typeof pageId === "string") {
@@ -49,6 +74,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
         return () => {
             if (applicationStore.wsClient) {
                 // TODO: check why not send close_code to close event;
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
                 applicationStore.wsClient.onclose = () => {};
                 applicationStore.wsClient.close(CLOSE_CODE);
                 applicationStore.wsClient = null;
@@ -103,7 +129,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
         return reaction(
             () => applicationStore.globalValues.toJSON(),
             (globalValues) => {
-                applicationStore.pagesStore.pages.forEach((page) => {
+                applicationStore.pagesStore.pages.forEach((page: IPageModel) => {
                     page.updateGlobalValues(globalValues);
                 });
             },
@@ -137,22 +163,24 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
 
     return useObserver(() => (
         <ApplicationContext.Provider value={applicationStore}>
-            {applicationStore.isApplicationReady && applicationStore.bc ? (
-                <>
-                    {mapComponents(applicationStore.bc.childs, (ChildComponent, childBc) => (
-                        <ChildComponent
-                            pageStore={applicationStore.pageStore}
-                            key={childBc.ckPageObject}
-                            bc={childBc}
-                            visible
-                        />
-                    ))}
-                    <ApplicationWindows pageStore={applicationStore.pageStore} />
-                </>
-            ) : (
-                // @ts-ignore
-                <PageLoader isLoading loaderType={settingsStore.settings.projectLoader} />
-            )}
+            <EditorContex.Provider value={editor}>
+                {applicationStore.isApplicationReady && applicationStore.bc ? (
+                    <>
+                        {mapComponents(applicationStore.bc.childs, (ChildComponent, childBc) => (
+                            <ChildComponent
+                                pageStore={applicationStore.pageStore}
+                                key={childBc.ckPageObject}
+                                bc={childBc}
+                                visible
+                            />
+                        ))}
+                        <ApplicationWindows pageStore={applicationStore.pageStore} />
+                    </>
+                ) : (
+                    // @ts-ignore
+                    <PageLoader isLoading loaderType={settingsStore.settings.projectLoader} />
+                )}
+            </EditorContex.Provider>
         </ApplicationContext.Provider>
     ));
 };

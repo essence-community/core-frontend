@@ -28,8 +28,22 @@ forOwn(dateMap, (dateConfig) => {
 
 validatorjs.register(
     "maxsize",
-    (value, req) => toString(value).length <= toNumber(req),
+    (value, req) => {
+        const valueSize = Array.isArray(value) ? value.length : toString(value).length;
+
+        return valueSize <= toNumber(req);
+    },
     i18next.t("e668fef0db6d4eeb9eb72c62a8d31052"),
+);
+
+validatorjs.register(
+    "minsize",
+    (value, req) => {
+        const valueSize = Array.isArray(value) ? value.length : toString(value).length;
+
+        return valueSize >= toNumber(req);
+    },
+    i18next.t("a240c31303c74c5490623d7781964c11"),
 );
 
 validatorjs.register(
@@ -101,7 +115,7 @@ validatorjs.register(
 validatorjs.register(
     "regex",
     (val?: string | number, req: string) => {
-        const mod = /[g|i|m]{1,3}$/;
+        const mod = /[g|i|m]{1,3}$/u;
         const flagMatch = req.match(mod);
         const flag = flagMatch ? flagMatch[0] : "";
         const clearReq = req.replace(mod, "").slice(1, -1);

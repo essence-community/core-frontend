@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-lines-per-function
 export const StyleTabPanelLight = (theme) => {
     const tabsFlexContainerCenter = {
         "& $tabRoot": {
@@ -17,15 +18,19 @@ export const StyleTabPanelLight = (theme) => {
         activeTabRoot: {},
         "content-left-hbox": {
             borderTop: `1px solid ${theme.palette.secondary.main}`,
+            overflow: "hidden",
         },
         "content-left-vbox": {
             borderTop: `1px solid ${theme.palette.secondary.main}`,
+            overflow: "hidden",
         },
         "content-right-hbox": {
             borderTop: `1px solid ${theme.palette.secondary.main}`,
+            overflow: "hidden",
         },
         "content-right-vbox": {
             borderTop: `1px solid ${theme.palette.secondary.main}`,
+            overflow: "hidden",
         },
         popoverButton: {
             "&$popoverButtonActive": {
@@ -135,13 +140,16 @@ export const StyleTabPanelLight = (theme) => {
             whiteSpace: "nowrap",
             width: "100%",
         },
-        "tabsFlexContainer-center-hbox": tabsFlexContainerCenter,
+        "tabsFlexContainer-center-hbox": {
+            ...tabsFlexContainerCenter,
+            overflow: "hidden",
+        },
         "tabsFlexContainer-center-vbox": tabsFlexContainerCenter,
         "tabsFlexContainer-left-hbox": {
             "& $tabRoot": {
                 "&$activeTabRoot": {
                     borderLeft: `2px solid ${theme.palette.secondary.main}`,
-                    borderTop: `2px solid ${theme.palette.secondary.main}`,
+                    borderTop: `1px solid ${theme.palette.secondary.main}`,
                 },
                 "&:last-child": {
                     "&$activeTabRoot": {
@@ -155,7 +163,7 @@ export const StyleTabPanelLight = (theme) => {
                 borderTop: "none",
                 borderTopLeftRadius: 6,
                 borderTopRightRadius: 0,
-                marginLeft: 20,
+                marginLeft: 24,
                 marginRight: -20,
                 transform: "skewX(-30deg)",
             },
@@ -207,10 +215,11 @@ export const StyleTabPanelLight = (theme) => {
                 },
                 borderBottom: `1px solid ${theme.palette.secondary.main}`,
                 borderTop: "none",
-                marginLeft: -20,
+                marginLeft: -24,
                 transform: "skewX(30deg)",
             },
             "& $tabWrapper": {
+                paddingLeft: 8,
                 textAlign: "start",
                 transform: "skewX(-30deg)",
             },

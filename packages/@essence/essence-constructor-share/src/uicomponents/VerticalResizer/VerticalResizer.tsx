@@ -1,6 +1,6 @@
 import * as React from "react";
 import {createPortal} from "react-dom";
-import cn from "classnames";
+import cn from "clsx";
 import {VerticalSizerIcon} from "../../icons";
 import {getCoords} from "../../utils/html/getCoords";
 import {useStyles} from "./VerticalResizer.styles";

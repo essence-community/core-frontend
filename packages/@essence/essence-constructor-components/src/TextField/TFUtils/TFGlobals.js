@@ -62,6 +62,7 @@ export const initGetGlobal = ({form, field, pageStore, bc, store}: InitGetGlobal
     );
 };
 
+// eslint-disable-next-line max-lines-per-function
 export const initSetGlobal = ({form, field, pageStore, bc, store, disposers}: InitGetGlobalType) => {
     const {globalValues} = pageStore;
     const {setglobal = "", collectionvalues, valuefield} = bc;
@@ -138,6 +139,7 @@ export const initSetGlobal = ({form, field, pageStore, bc, store, disposers}: In
                 clearValues[key] = null;
             });
 
+            // To trigger mobx change value event
             pageStore.updateGlobalValues(clearValues);
             pageStore.updateGlobalValues(values);
         },

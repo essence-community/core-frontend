@@ -10,6 +10,7 @@ import forOwn from "lodash/forOwn";
 import {withStyles} from "@material-ui/core/styles";
 import debounce from "lodash/debounce";
 import isFunction from "lodash/isFunction";
+import dvr from "mobx-react-form/lib/validators/DVR";
 import validatorjs from "validatorjs";
 import {FormContext, EditorContex, ModeContext} from "@essence/essence-constructor-share";
 import BuilderMobxForm from "../Components/MobxForm/BuilderMobxForm";
@@ -35,7 +36,7 @@ const lightStyles = {
 
 const styles = styleTheme === "light" ? lightStyles : darkStyles;
 
-const plugins = {dvr: validatorjs};
+const plugins = {dvr: dvr(validatorjs)};
 
 type PropsTypes = {|
     noForm: boolean,
@@ -105,10 +106,14 @@ export class BuilderFormBase extends React.Component<PropsTypes, StateTypes> {
 
         if (submitOnChange) {
             this.disposers.push(
-                reaction(() => form.values(), (values) => this.handleReactValues(form, values), {
-                    delay: CHANGE_DEFAULT_DELAY,
-                    fireImmediately: true,
-                }),
+                reaction(
+                    () => form.values(),
+                    (values) => this.handleReactValues(form, values),
+                    {
+                        delay: CHANGE_DEFAULT_DELAY,
+                        fireImmediately: true,
+                    },
+                ),
             );
         }
 
@@ -185,6 +190,18 @@ export class BuilderFormBase extends React.Component<PropsTypes, StateTypes> {
             } else {
                 form.clear();
             }
+
+            // Remove repeater items by self.
+            form.each((field) => {
+                const {options} = field;
+
+                if (options && options.bc && options.bc.datatype === "repeater") {
+                    field.fields.forEach((childField) => {
+                        field.del(childField.key);
+                    });
+                }
+            });
+
             form.update(initialValues);
 
             form.each((field) => {

@@ -56,6 +56,8 @@ interface IProps extends ScrollbarProps {
     horizontalStyle?: Record<string, any>;
     verticalStyle?: Record<string, any>;
     fireScrollEvent: boolean;
+    hideVerticalScrollbar?: boolean;
+    hideHorizontalScrollbar?: boolean;
     onScrollFrame?: (values: ValuesType) => void;
     scrollbarsRef?: (scrollbars?: Record<string, any>) => void;
 }
@@ -165,6 +167,10 @@ export class Scrollbars extends React.Component<IProps, IState> {
             ...this.props.horizontalStyle,
         };
 
+        if (this.props.hideHorizontalScrollbar) {
+            finalStyle.display = "none";
+        }
+
         return <div style={finalStyle} {...props} />;
     };
 
@@ -181,6 +187,10 @@ export class Scrollbars extends React.Component<IProps, IState> {
             ...this.props.verticalStyle,
         };
 
+        if (this.props.hideVerticalScrollbar) {
+            finalStyle.display = "none";
+        }
+
         return <div style={finalStyle} {...props} />;
     };
 
@@ -191,6 +201,14 @@ export class Scrollbars extends React.Component<IProps, IState> {
 
         if (!newStyle.height && newStyle.minHeight === newStyle.maxHeight) {
             newStyle.height = newStyle.minHeight;
+        }
+
+        if (this.props.hideHorizontalScrollbar) {
+            newStyle.overflowX = "hidden";
+        }
+
+        if (this.props.hideVerticalScrollbar) {
+            newStyle.overflowY = "hidden";
         }
 
         return <div style={newStyle} onWheel={this.props.preventAltScroll ? this.handleWheel : undefined} {...props} />;

@@ -121,6 +121,7 @@ class GridColumnLink extends React.Component<PropsType, StateType> {
         );
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         if (this.props.hidden) {
             return null;
@@ -180,8 +181,4 @@ class GridColumnLink extends React.Component<PropsType, StateType> {
     }
 }
 
-export default compose(
-    commonDecorator,
-    withTranslation("meta"),
-    withStyles(styles, {withTheme: true}),
-)(GridColumnLink);
+export default compose(commonDecorator, withTranslation("meta"), withStyles(styles, {withTheme: true}))(GridColumnLink);

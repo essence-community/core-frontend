@@ -24,6 +24,7 @@ const GRID_CONFIGS = {
 
 export const ButtonGroup: React.FC<IClassProps> = (props) => {
     const {bc} = props;
+    const {contentview = "hbox"} = bc;
     const childs = React.useMemo(() => {
         const temp = (bc.childs || []).reduce((arr: IBuilderConfig[], row: IBuilderConfig) => {
             arr.push({
@@ -34,7 +35,7 @@ export const ButtonGroup: React.FC<IClassProps> = (props) => {
             arr.push({
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${row[VAR_RECORD_PAGE_OBJECT_ID]}_DELIMITER`,
                 [VAR_RECORD_PARENT_ID]: row[VAR_RECORD_PAGE_OBJECT_ID],
-                contentview: bc.contentview || "hbox",
+                contentview,
                 type: "BTN_GROUP_DELIMITER",
             });
 
@@ -42,7 +43,7 @@ export const ButtonGroup: React.FC<IClassProps> = (props) => {
         }, []);
 
         return temp.slice(0, temp.length - 1);
-    }, [bc.childs, bc.onlyicon, bc.contentview]);
+    }, [bc.childs, bc.onlyicon, contentview]);
 
     return (
         <Grid
@@ -51,7 +52,7 @@ export const ButtonGroup: React.FC<IClassProps> = (props) => {
             justify="flex-start"
             alignItems="center"
             alignContent="center"
-            {...(GRID_CONFIGS[bc.contentview] || GRID_CONFIGS.hbox)}
+            {...((GRID_CONFIGS as any)[contentview] || GRID_CONFIGS.hbox)}
         >
             {mapComponents(childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
                 <Grid item xs={true} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>

@@ -1,5 +1,6 @@
 // @flow
 import {Field} from "mobx-react-form";
+import {camelCaseMemoized} from "@essence/essence-constructor-share/utils";
 import {parse} from "@essence/essence-constructor-share/utils/parser";
 import {type PageModel} from "../stores/PageModel";
 import {disabledSize} from "../TextField/TFUtils/TFConstants";
@@ -52,9 +53,14 @@ const getValueSizeRules = (datatype: string, bc: BcType, pageStore: PageModel): 
                 }
             });
         } else {
-            ["maxvalue", "minvalue", "maxsize"].forEach((rule: string) => {
-                if (bc[rule]) {
-                    validations.push(`${rule}:${bc[rule]}`);
+            ["maxvalue", "minvalue", "maxsize", "minsize"].forEach((rule: string) => {
+                const ruleValue =
+                    bc[rule] && /[g_]/u.test(bc[rule])
+                        ? pageStore.globalValues.get(camelCaseMemoized(bc[rule]))
+                        : bc[rule];
+
+                if (ruleValue) {
+                    validations.push(`${rule}:${ruleValue}`);
                 }
             });
         }

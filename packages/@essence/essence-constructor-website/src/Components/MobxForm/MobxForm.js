@@ -1,5 +1,6 @@
 // @flow
 import {Form} from "mobx-react-form";
+import dvr from "mobx-react-form/lib/validators/DVR";
 import validatorjs from "validatorjs";
 
 type MobxFormPropsType = {
@@ -12,7 +13,10 @@ validatorjs.useLang("ru");
 
 export class MobxForm extends Form {
     constructor({fields, hooks}: MobxFormPropsType) {
-        super({fields}, {hooks, options: {validateOnChange: true, validateOnInit: false}, plugins: {dvr: validatorjs}});
+        super(
+            {fields},
+            {hooks, options: {validateOnChange: true, validateOnInit: false}, plugins: {dvr: dvr(validatorjs)}},
+        );
     }
 
     bindings() {

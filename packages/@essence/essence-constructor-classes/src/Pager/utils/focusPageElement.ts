@@ -2,7 +2,7 @@ import * as React from "react";
 import {IPageModel, QUERY_ELEMENT} from "@essence/essence-constructor-share";
 import keycode from "keycode";
 
-const isActiveElement = (editingPanel: Element) => (el: Element) => editingPanel && editingPanel.contains(el);
+const isActiveElement = (editingPanel: Element | null) => (el: Element) => editingPanel && editingPanel.contains(el);
 
 export function focusPageElement(event: React.KeyboardEvent<HTMLDivElement>, pageStore: IPageModel) {
     const {isEdit, pageEl, hiddenPage} = pageStore;
@@ -15,11 +15,10 @@ export function focusPageElement(event: React.KeyboardEvent<HTMLDivElement>, pag
                 !pageEl.contains(document.activeElement) ||
                 (isEdit && !isActiveElement(pageEl.querySelector(".panel-editing-focus"))(document.activeElement))
             ) {
-                const focusableElementsAll = pageEl.querySelectorAll(QUERY_ELEMENT);
-                const focusableElements = (shiftKey
-                    ? [...focusableElementsAll].reverse()
-                    : [...focusableElementsAll]
-                ).filter((el) => el.getAttribute("tabindex") !== "-1");
+                const focusableElementsAll = Array.from(pageEl.querySelectorAll(QUERY_ELEMENT));
+                const focusableElements = (shiftKey ? focusableElementsAll.reverse() : focusableElementsAll).filter(
+                    (el) => el.getAttribute("tabindex") !== "-1",
+                );
 
                 const element = isEdit
                     ? focusableElements.find(isActiveElement(pageEl.querySelector(".panel-editing-focus")))

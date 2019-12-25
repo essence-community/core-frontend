@@ -1,4 +1,4 @@
-import {action, observable, extendObservable, ObservableMap} from "mobx";
+import {action, observable, ObservableMap} from "mobx";
 import {
     getFromStore,
     saveToStore,
@@ -10,16 +10,12 @@ import {
 import {RecordsModel} from "@essence/essence-constructor-share/models";
 
 export class RoutesModel implements IRoutesModel {
-    favorits: ObservableMap;
-
     recordsStore: RecordsModel;
 
-    constructor(bc: IBuilderConfig, applicationStore: IApplicationModel) {
-        this.recordsStore = new RecordsModel(bc, {applicationStore});
+    @observable favorits: ObservableMap = observable.map(getFromStore(STORE_FAVORITS_KEY, {}));
 
-        extendObservable(this, {
-            favorits: observable.map(getFromStore(STORE_FAVORITS_KEY, {})),
-        });
+    constructor(bc: IBuilderConfig, applicationStore: IApplicationModel) {
+        this.recordsStore = new RecordsModel(bc, {applicationStore, pageStore: null});
     }
 
     setFavoritsAction = action("setFavoritsAction", (ckId: string) => {

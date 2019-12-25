@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/href-no-hash */
 // @flow
 import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";

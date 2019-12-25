@@ -69,7 +69,7 @@ export const AppBar: React.FC<IClassProps> = (props) => {
     const contentview = React.useMemo(() => bc.contentview || "hbox", [bc.contentview]);
 
     return (
-        <MaterialAppBar classes={classes} color={colors[uitype]} position={position} style={contentStyle}>
+        <MaterialAppBar classes={classes} color={(colors as any)[uitype]} position={position} style={contentStyle}>
             <Grid
                 container
                 justify="flex-start"
@@ -78,7 +78,7 @@ export const AppBar: React.FC<IClassProps> = (props) => {
                 alignItems="center"
                 spacing={1}
                 style={contentGridHeightStyle}
-                {...GRID_CONFIGS[contentview]}
+                {...(GRID_CONFIGS as any)[contentview]}
             >
                 {mapComponents(bc.childs || [], (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
                     <Grid item style={calcStyle(childBc)} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>

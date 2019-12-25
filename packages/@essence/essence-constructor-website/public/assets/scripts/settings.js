@@ -3,7 +3,7 @@ window.SETTINGS = [
     {
         ck_id: "core_gate_version",
         cv_description: "Версия шлюза",
-        cv_value: "2.0.0 (mock)",
+        cv_value: "2.0.1 (mock)",
     },
     {ck_id: "project_profile_page", cv_value: "1875398035771", cv_description: "ИД страницы-профиля"},
     {
@@ -51,7 +51,7 @@ window.SETTINGS = [
         cv_value: null,
         cv_description: "Хэш коммита, по которому собрана установленная сборка БД CORE",
     },
-    {ck_id: "core_db_major_version", cv_value: "2.0.0", cv_description: "Версия релиза БД CORE"},
+    {ck_id: "core_db_major_version", cv_value: "2.0.1", cv_description: "Версия релиза БД CORE"},
     {
         ck_id: "core_db_deployment_date",
         cv_value: null,

@@ -31,8 +31,7 @@ type State = {
 };
 
 const RESIZE_DELAY = 100;
-const MIN_TAB_WIDTH = 90;
-const TABS_PADDING = 68;
+const DEFAULT_WIDTH_TAB = 228;
 
 class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsType & ExtraRoadMapProps & WithT, State> {
     tabsComponentRef = React.createRef();
@@ -65,13 +64,16 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
     }
 
     handleGetTabsMode = debounce(() => {
+        const {tabwidth} = this.props.bc;
         const {tabs} = this.props.store;
         const {current} = this.tabsComponentRef;
 
         this.setState(({tabsWidthMode}) => {
             if (current) {
+                // eslint-disable-next-line prefer-named-capture-group, require-unicode-regexp
+                const tabWidth = tabwidth && /^\d+(px)?$/.test(tabwidth) ? parseInt(tabwidth, 10) : DEFAULT_WIDTH_TAB;
                 const contentWidth = current.offsetWidth;
-                const maxAutoModeWidth = tabs.length * (MIN_TAB_WIDTH + TABS_PADDING);
+                const maxAutoModeWidth = tabs.length * tabWidth;
                 const newTabsWidthMode = contentWidth > maxAutoModeWidth ? "standard" : "scrollable";
 
                 return newTabsWidthMode === tabsWidthMode ? null : {tabsWidthMode: newTabsWidthMode};
@@ -228,6 +230,7 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
         );
     }
 
+    // eslint-disable-next-line max-lines-per-function
     renderTabs(orientation: "horizontal" | "vertical") {
         const {selectedTab, tabsWidthMode} = this.state;
         // eslint-disable-next-line id-length
@@ -242,7 +245,6 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}
                     className={classes.tabsContainer}
-                    ref={this.tabsComponentRef}
                 >
                     <Tabs
                         centered={orientation === "horizontal"}
@@ -257,6 +259,7 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
                         }}
                         variant={tabsWidthMode}
                         scrollButtons="desktop"
+                        ref={this.tabsComponentRef}
                     >
                         {tabs.map((child) => (
                             <Tab

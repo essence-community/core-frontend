@@ -1,4 +1,5 @@
 /* eslint-disable sort-keys */
+// eslint-disable-next-line max-lines-per-function
 export const StyleRoadMapBase = (theme) => ({
     verticalTabRootTheme: {
         backgroundColor: "transparent",
@@ -48,10 +49,10 @@ export const StyleRoadMapBase = (theme) => ({
     },
     disabled: {
         "& $rightSideTab": {
-            opacity: 0.4,
+            opacity: 0.5,
         },
         "& $leftSideTab": {
-            opacity: 0.4,
+            opacity: 0.5,
         },
         "& $horizontalTabRootTheme $label": {
             color: theme.palette.common.white,
@@ -119,7 +120,9 @@ export const StyleRoadMapBase = (theme) => ({
         },
     },
     bottomBar: {
-        borderTop: `1px solid ${theme.palette.grey.main}`,
+        "& .MuiButtonBase-root": {
+            boxShadow: "none",
+        },
         height: 48,
         overflow: "hidden",
     },
@@ -150,8 +153,6 @@ export const StyleRoadMapBase = (theme) => ({
         width: "100%",
     },
     horizontalContainerTab: {
-        minWidth: 228,
-        maxWidth: 228,
         marginRight: 40,
     },
 });

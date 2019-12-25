@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
 import {extendObservable, action, observable, ObservableMap} from "mobx";
 import {Field} from "mobx-react-form";
+import uuid from "uuid";
 import {loggerRoot, VAR_RECORD_ID, VAR_RECORD_GLOBAL_VALUE} from "../../constants";
 import {styleTheme} from "../../constants/deprecated";
 import {
@@ -19,15 +20,19 @@ import {
     IWindowModel,
     IApplicationModel,
 } from "../../types";
-import {noop, isEmpty, parseMemoize, i18next} from "../../utils";
+import {noop, isEmpty, parseMemoize, i18next, findClassNames} from "../../utils";
 import {RecordsModel} from "../RecordsModel";
 import {WindowModel} from "../WindowModel";
+import {snackbarStore} from "../SnackbarModel";
+import {loadComponentsFromModules} from "../../components";
 import {getNextComponent} from "./PageModel.utils";
 
 const logger = loggerRoot.extend("PageModel");
 
 export class PageModel implements IPageModel {
     pageBc: IBuilderConfig[];
+
+    pagerBc: IBuilderConfig;
 
     fieldValueMaster: PageModelFieldValues;
 
@@ -50,9 +55,9 @@ export class PageModel implements IPageModel {
 
     route?: IRouteRecord;
 
-    pageEl?: HTMLDivElement;
+    pageEl: HTMLDivElement | null;
 
-    pageInnerEl?: HTMLDivElement;
+    pageInnerEl: HTMLDivElement | null;
 
     isEdit: boolean;
 
@@ -109,6 +114,13 @@ export class PageModel implements IPageModel {
                 );
             },
             isLoading: false,
+            get pagerBc(): IBuilderConfig {
+                return {
+                    ckPageObject: ckPage,
+                    ckParent: applicationStore.bc.ckPageObject,
+                    defaultvalue: applicationStore.bc.defaultvalue,
+                };
+            },
             questionWindow: null,
             get route() {
                 return (
@@ -140,9 +152,7 @@ export class PageModel implements IPageModel {
                         ? (applicationStore.authStore.userInfo.caActions || []).indexOf(this.route.cnActionEdit) < 0
                         : isReadOnly;
                 },
-                get pageBc(this: IPageModel) {
-                    return this.recordsStore.selectedRecrodValues.children;
-                },
+                pageBc: [],
             },
             undefined,
             {deep: false},
@@ -191,12 +201,21 @@ export class PageModel implements IPageModel {
         this.fieldValueMaster.delete(name);
     });
 
-    addStore = action("addStore", (store: IStoreBaseModel, name: string) => {
+    // @ts-ignore
+    addStore = action("addStore", (store: IStoreBaseModel, name: string, allowNewName = false): string => {
+        let newName = name;
+
         if (this.stores.has(name)) {
             logger(i18next.t("7ef1547ac7084e178bf1447361e3ccc3"));
+
+            if (allowNewName) {
+                newName = name + uuid();
+            }
         }
 
-        this.stores.set(name, store);
+        this.stores.set(newName, store);
+
+        return newName;
     });
 
     removeStore = action("removeStore", (name: string, store: IStoreBaseModel) => {
@@ -238,23 +257,49 @@ export class PageModel implements IPageModel {
     });
 
     loadConfigAction = action("loadConfigAction", async (ckPage: string) => {
+        let response = undefined;
+
         this.ckPage = ckPage;
 
-        const response = await this.recordsStore.searchAction({ckPage});
-        const globalValue = this.recordsStore.selectedRecrodValues[VAR_RECORD_GLOBAL_VALUE];
+        this.setLoadingAction(true);
 
-        if (globalValue) {
-            this.updateGlobalValues(globalValue);
+        try {
+            response = await this.recordsStore.searchAction({ckPage});
+
+            // @ts-ignore
+            if (snackbarStore.checkValidResponseAction(response[0], this.route, undefined, this.applicationStore)) {
+                const {children} = this.recordsStore.selectedRecrodValues;
+                const pageBc = Array.isArray(children) ? children : [];
+
+                const classNames = findClassNames(pageBc);
+                const globalValue = this.recordsStore.selectedRecrodValues[VAR_RECORD_GLOBAL_VALUE] as Record<
+                    string,
+                    FieldValue
+                >;
+
+                await loadComponentsFromModules(classNames);
+
+                this.pageBc = pageBc;
+
+                if (globalValue) {
+                    this.updateGlobalValues(globalValue);
+                }
+            }
+        } catch (error) {
+            this.pageBc = [];
+            snackbarStore.checkExceptResponse(error, this.route, this.applicationStore);
         }
+
+        this.setLoadingAction(false);
 
         return response;
     });
 
-    setPageElAction = action("setPageElAction", (pageEl?: HTMLDivElement) => {
+    setPageElAction = action("setPageElAction", (pageEl: HTMLDivElement | null) => {
         this.pageEl = pageEl;
     });
 
-    setPageInnerElAction = (pageInnerEl?: HTMLDivElement) => {
+    setPageInnerElAction = (pageInnerEl: HTMLDivElement | null) => {
         this.pageInnerEl = pageInnerEl;
     };
 
@@ -345,10 +390,7 @@ export class PageModel implements IPageModel {
         if (this.showQuestionWindow) {
             this.handleQuestionDecline();
         }
-        /*
-         * TODO: check this
-         * this.globalValues.merge(this.applicationStore.globalValues);
-         */
+
         this.loadConfigAction(this.ckPage);
     });
 
@@ -415,6 +457,7 @@ export class PageModel implements IPageModel {
         this.stores.clear();
         this.windows.clear();
         this.fieldValueMaster.clear();
+        this.pageBc = [];
     });
 
     createWindowAction = action("createWindowAction", (params: ICreateWindow) => {

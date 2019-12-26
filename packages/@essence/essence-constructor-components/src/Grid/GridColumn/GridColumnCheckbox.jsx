@@ -3,6 +3,7 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import {Checkbox} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
+import {VAR_RECORD_ID, VAR_RECORD_LEAF} from "@essence/essence-constructor-share/constants";
 import {type GridModelType} from "../../stores/GridModel";
 import {type GridColumnPropsType} from "./GridColumnTypes";
 
@@ -10,15 +11,15 @@ const isCheckedChilds = (store: GridModelType, parentId: string | number, parent
     const records = store.recordsTree[parentId];
 
     if (!records) {
-        return Boolean(store.selectedRecords.get(parentRecord.ckId));
+        return Boolean(store.selectedRecords.get(parentRecord[VAR_RECORD_ID]));
     }
 
     return records.every((record) => {
-        if (record.leaf === "true") {
-            return Boolean(store.selectedRecords.get(record.ckId));
+        if (record[VAR_RECORD_LEAF] === "true") {
+            return Boolean(store.selectedRecords.get(record[VAR_RECORD_ID]));
         }
 
-        return isCheckedChilds(store, record.ckId, record);
+        return isCheckedChilds(store, record[VAR_RECORD_ID], record);
     });
 };
 
@@ -26,15 +27,15 @@ const isMinusChecked = (store: GridModelType, parentId: string | number, parentR
     const records = store.recordsTree[parentId];
 
     if (!records) {
-        return Boolean(store.selectedRecords.get(parentRecord.ckId));
+        return Boolean(store.selectedRecords.get(parentRecord[VAR_RECORD_ID]));
     }
 
     return records.some((record) => {
-        if (record.leaf === "true") {
-            return Boolean(store.selectedRecords.get(record.ckId));
+        if (record[VAR_RECORD_LEAF] === "true") {
+            return Boolean(store.selectedRecords.get(record[VAR_RECORD_ID]));
         }
 
-        return isMinusChecked(store, record.ckId, record);
+        return isMinusChecked(store, record[VAR_RECORD_ID], record);
     });
 };
 
@@ -42,7 +43,7 @@ class GridColumnCheckbox extends React.Component<GridColumnPropsType> {
     handleChange = () => {
         const {store, record = {}} = this.props;
 
-        store.toggleSelectedRecordAction(record.ckId, record, this.isChecked());
+        store.toggleSelectedRecordAction(record[VAR_RECORD_ID], record, this.isChecked());
     };
 
     handlePrevent = (event: SyntheticEvent<HTMLInputElement>) => {
@@ -51,7 +52,8 @@ class GridColumnCheckbox extends React.Component<GridColumnPropsType> {
 
     isChecked = (): boolean => {
         const {record = {}, store} = this.props;
-        const {ckId, leaf} = record;
+        const leaf = record[VAR_RECORD_LEAF];
+        const ckId = record[VAR_RECORD_ID];
 
         if (store.bc.type === "TREEGRID" && leaf === "false") {
             return isCheckedChilds(store, ckId, record);
@@ -63,11 +65,11 @@ class GridColumnCheckbox extends React.Component<GridColumnPropsType> {
     getIconFont = () => {
         const {store, record = {}} = this.props;
 
-        if (store.bc.type !== "TREEGRID" || record.leaf !== "false") {
+        if (store.bc.type !== "TREEGRID" || record[VAR_RECORD_LEAF] !== "false") {
             return "square-o";
         }
 
-        return isMinusChecked(store, record.ckId, record) ? "minus-square" : "square-o";
+        return isMinusChecked(store, record[VAR_RECORD_ID], record) ? "minus-square" : "square-o";
     };
 
     render() {

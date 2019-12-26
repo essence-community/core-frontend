@@ -7,7 +7,19 @@ import pickBy from "lodash/pickBy";
 import forEach from "lodash/forEach";
 import isUndefined from "lodash/isUndefined";
 import isEqual from "lodash/isEqual";
-import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "@essence/essence-constructor-share/constants";
+import {
+    VALUE_SELF_FIRST,
+    VALUE_SELF_ALWAYSFIRST,
+    VAR_RECORD_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+    META_PAGE_OBJECT,
+    VAR_META_JN_FETCH,
+    VAR_META_JN_OFFSET,
+    VAR_META_JL_FILTER,
+    VAR_META_JL_SORT,
+} from "@essence/essence-constructor-share/constants";
 import {i18next} from "@essence/essence-constructor-share/utils";
 import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {loggerRoot} from "../../constants";
@@ -72,11 +84,13 @@ export const getMasterData = (masterObject?: Object, idproperty?: string, global
     return master;
 };
 
-export function getMasterObject(ckMaster?: string, pageStore?: PageModelType): typeof undefined | Object {
-    return ckMaster && pageStore
+export function getMasterObject(masterId?: string, pageStore?: PageModelType): typeof undefined | Object {
+    return masterId && pageStore
         ? {
-              ...get(pageStore.stores.get(ckMaster), "selectedRecord", {}),
-              ...(pageStore.fieldValueMaster.has(ckMaster) ? {ckId: pageStore.fieldValueMaster.get(ckMaster)} : {}),
+              ...get(pageStore.stores.get(masterId), "selectedRecord", {}),
+              ...(pageStore.fieldValueMaster.has(masterId)
+                  ? {[VAR_RECORD_ID]: pageStore.fieldValueMaster.get(masterId)}
+                  : {}),
           }
         : undefined;
 }
@@ -84,19 +98,19 @@ export function getMasterObject(ckMaster?: string, pageStore?: PageModelType): t
 export function getPageFilter(pageSize: ?number, pageNumber: number) {
     return pageSize
         ? {
-              jnFetch: pageSize,
-              jnOffset: pageSize * pageNumber,
+              [VAR_META_JN_FETCH]: pageSize,
+              [VAR_META_JN_OFFSET]: pageSize * pageNumber,
           }
         : {
-              jnFetch: 1000,
-              jnOffset: 0,
+              [VAR_META_JN_FETCH]: 1000,
+              [VAR_META_JN_OFFSET]: 0,
           };
 }
 
 export function getFilterData({filter, order, searchValues, pageSize, pageNumber}: GetFilterDataType): Object {
     return {
-        jlFilter: filter,
-        jlSort: [order],
+        [VAR_META_JL_FILTER]: filter,
+        [VAR_META_JL_SORT]: [order],
         ...pickBy(searchValues, (value) => value !== ""),
         ...getPageFilter(pageSize, pageNumber),
     };
@@ -127,9 +141,8 @@ export function checkPageNumber(recordsStore: RecordsModelInstanceType, master: 
 
 export const getAttachedRecords = (records: Array<Object>, newRecord?: Object) => {
     if (newRecord) {
-        const {ckId} = newRecord;
         const firstRecord = records[0] || {};
-        const recordIndex = records.findIndex((rec) => rec.ckId === ckId);
+        const recordIndex = records.findIndex((rec) => rec[VAR_RECORD_ID] === newRecord[VAR_RECORD_ID]);
         const record = {...newRecord, jnTotalCnt: firstRecord.jnTotalCnt};
 
         if (recordIndex === -1) {
@@ -146,9 +159,13 @@ export function prepareRequst(
     recordsStore: RecordsModelInstanceType,
     {bc, status, selectedRecordId}: LoadRecordsActionType,
 ) {
-    const {idproperty = "ck_id", ckMaster, noglobalmask} = bc;
+    const {idproperty = "ck_id", noglobalmask} = bc;
     const globalValues = get(recordsStore.pageStore, "globalValues");
-    const master = getMasterData(getMasterObject(ckMaster, recordsStore.pageStore), idproperty, globalValues);
+    const master = getMasterData(
+        getMasterObject(bc[VAR_RECORD_MASTER_ID], recordsStore.pageStore),
+        idproperty,
+        globalValues,
+    );
     const filterData =
         status === "attach"
             ? {
@@ -156,7 +173,7 @@ export function prepareRequst(
                   order: recordsStore.order,
                   pageNumber: 0,
                   pageSize: 1,
-                  searchValues: {ckId: selectedRecordId},
+                  searchValues: {[VAR_RECORD_ID]: selectedRecordId},
               }
             : {
                   filter: recordsStore.filter,
@@ -187,6 +204,7 @@ function loadRecordsResolve(noglobalmask: string) {
     return this.selectedRecord;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export function loadRecordsAction({
     bc,
     applicationStore,
@@ -194,8 +212,8 @@ export function loadRecordsAction({
     status,
     isUserReload = false,
 }: LoadRecordsActionType): Promise<*> {
-    const {ckMaster, noglobalmask, defaultvalue, reloadservice} = bc;
-    const isWaiting = ckMaster || bc.getglobaltostore;
+    const {noglobalmask, defaultvalue, reloadservice} = bc;
+    const isWaiting = bc[VAR_RECORD_MASTER_ID] || bc.getglobaltostore;
     const resolve = loadRecordsResolve.bind(this);
 
     this.isLoading = true;
@@ -206,10 +224,14 @@ export function loadRecordsAction({
                 return true;
             }
 
-            return sleep(WAIT_TIME).then(() => new CheckLoading({bc, ckMaster, pageStore: this.pageStore}));
+            return sleep(WAIT_TIME).then(
+                () => new CheckLoading({bc, masterId: bc[VAR_RECORD_MASTER_ID], pageStore: this.pageStore}),
+            );
         })
         .catch(() => {
-            logger(i18next.t("344bbb5fb4a84d89b93c448a5c29e1d7", {query: bc.ckQuery, timeout: CYCLE_TIMEOUT}));
+            logger(
+                i18next.t("344bbb5fb4a84d89b93c448a5c29e1d7", {query: bc[VAR_RECORD_QUERY_ID], timeout: CYCLE_TIMEOUT}),
+            );
         })
         .then(() => {
             const {json} = prepareRequst(this, {applicationStore, bc, selectedRecordId, status});
@@ -220,11 +242,11 @@ export function loadRecordsAction({
             this.prevFetchJson = json;
 
             return sendRequestList({
+                [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
                 action: "sql",
                 json,
-                pageObject: bc.ckPageObject,
                 plugin: bc.extraplugingate,
-                query: bc.ckQuery,
+                query: bc[VAR_RECORD_QUERY_ID],
                 session: applicationStore.session,
                 timeout: bc.timeout,
             });
@@ -239,8 +261,8 @@ export function loadRecordsAction({
                 )
             ) {
                 const records = (response || []).map((record) => {
-                    if (!record.ckId && isEmpty(record.ckId)) {
-                        record.ckId = `auto-${uuidv4()}`;
+                    if (!record[VAR_RECORD_ID] && isEmpty(record[VAR_RECORD_ID])) {
+                        record[VAR_RECORD_ID] = `auto-${uuidv4()}`;
                     }
 
                     return record;
@@ -267,7 +289,7 @@ export function loadRecordsAction({
             return [];
         })
         .then((records) => {
-            const valueField = status === "attach" ? "ckId" : this.valueField;
+            const valueField = status === "attach" ? VAR_RECORD_ID : this.valueField;
             let isDefault = false;
             let recordId = null;
 

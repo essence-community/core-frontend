@@ -3,8 +3,8 @@ import {isArray, isString} from "lodash";
 import {stringify} from "qs";
 import {settingsStore} from "../../models";
 import {VAR_SETTING_GATE_URL, META_OUT_RESULT, META_PAGE_OBJECT} from "../../constants";
-import {camelCaseKeysAsync, snakeCaseKeys, i18next} from "../../utils";
-import {IBaseRequest} from "./baseRequest";
+import {i18next} from "../../utils";
+import {IBaseRequest} from "./baseRequest.types";
 
 const MILLISEC = 1000;
 
@@ -60,23 +60,23 @@ const parseResponse = ({responseData, list}: IParseResponse) => {
     return responseSingleData;
 };
 
-export const baseAxiosRequest = async ({
-    json,
-    query = "",
-    action = "dml",
-    pageObject = "",
-    session,
-    body,
-    list,
-    onUploadProgress,
-    plugin,
-    timeout = "30",
-    gate = settingsStore.settings[VAR_SETTING_GATE_URL],
-    method = "POST",
-    formData,
-    params,
-    isCamelCase = true,
-}: IBaseRequest) => {
+export const baseAxiosRequest = async (props: IBaseRequest) => {
+    const {
+        json,
+        query = "",
+        action = "dml",
+        [META_PAGE_OBJECT]: pageObjectName = "",
+        session,
+        body,
+        list,
+        onUploadProgress,
+        plugin,
+        timeout = "30",
+        gate = settingsStore.settings[VAR_SETTING_GATE_URL],
+        method = "POST",
+        formData,
+        params,
+    } = props;
     const queryParams = {
         action: formData ? "upload" : action,
         plugin,
@@ -84,14 +84,14 @@ export const baseAxiosRequest = async ({
     };
     const data = {
         [META_OUT_RESULT]: "",
-        [META_PAGE_OBJECT]: pageObject.replace(
+        [META_PAGE_OBJECT]: pageObjectName.replace(
             // eslint-disable-next-line prefer-named-capture-group
             /^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[)}]?.*?$/giu,
             "$1",
         ),
-        json: json ? JSON.stringify(snakeCaseKeys(json)) : undefined,
+        json: json ? JSON.stringify(json) : undefined,
         session,
-        ...snakeCaseKeys(body),
+        ...body,
     };
 
     // @ts-ignore
@@ -107,7 +107,7 @@ export const baseAxiosRequest = async ({
         url: `${gate}?${stringify(formData ? {...queryParams, ...data} : queryParams)}`,
     });
 
-    const responseAllData: any = isCamelCase ? await camelCaseKeysAsync(response.data) : response.data;
+    const responseAllData: any = response.data;
     const responseData = responseAllData.data;
 
     checkError({list, query, responseAllData, responseData});

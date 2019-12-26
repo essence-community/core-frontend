@@ -2,13 +2,14 @@
 import * as React from "react";
 import keycode from "keycode";
 import {Icon} from "@essence/essence-constructor-share/Icon";
+import {VAR_RECORD_ID} from "@essence/essence-constructor-share/constants";
 import {mountWithTheme} from "../../../../utils/test";
 import {createEmptyPageStore} from "../../../../stores";
 import gridBc from "../../../../../mocks/fields/gridlinks.json";
 import GridColumnLink from "../GridColumnLink";
 import GridColumnLinkItem from "../GridColumnLinkItem";
 
-// eslint-disable-next-line max-statements
+// eslint-disable-next-line max-statements, max-lines-per-function
 describe("GridColumnLink", () => {
     const pageStore = createEmptyPageStore();
     const icon = <Icon iconfont="close" />;
@@ -76,7 +77,7 @@ describe("GridColumnLink", () => {
     });
 
     it("Проверка закрытия меню по клику на меню", () => {
-        const wrapper = mountWithTheme(<GridColumnLink {...props} record={{ckId: 1}} />);
+        const wrapper = mountWithTheme(<GridColumnLink {...props} record={{[VAR_RECORD_ID]: 1}} />);
 
         wrapper.find(Icon).simulate("click");
         wrapper
@@ -85,10 +86,9 @@ describe("GridColumnLink", () => {
             .simulate("click");
 
         expect(wrapper.find(GridColumnLinkItem).length).toBe(0);
-        expect(pageStore.applicationStore.redirectToAction).toHaveBeenLastCalledWith(
-            gridBc.contextmenus[0].redirecturl.substring(4),
-            {gckMo: 1, gckMoSelect: 1},
-        );
+        expect(
+            pageStore.applicationStore.redirectToAction,
+        ).toHaveBeenLastCalledWith(gridBc.contextmenus[0].redirecturl.substring(4), {gckMo: 1, gckMoSelect: 1});
 
         wrapper.unmount();
     });

@@ -1,8 +1,15 @@
 // @flow
 import * as React from "react";
 import {type ReactWrapper} from "enzyme";
-import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
 import {TableCell, TableSortLabel} from "@material-ui/core";
+import {
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_NAME,
+    VAR_RECORD_CV_DESCRIPTION,
+} from "@essence/essence-constructor-share/constants";
 import gridMock from "../../../mocks/grid/grid";
 import {createEmptyPageStore} from "../../stores";
 import {mountWithTheme} from "../../utils/test";
@@ -35,30 +42,29 @@ const mountGrid = ({bc, visible = true}: GridPropsType): MountGridRetunType => {
     return {pageStore, store, wrapper};
 };
 
-// eslint-disable-next-line max-statements
+// eslint-disable-next-line max-lines-per-function
 describe("BuilderGrid", () => {
-    const gridBc = camelCaseKeys(gridMock);
     const filterBc = {
+        [VAR_RECORD_CV_DESCRIPTION]: "Фильтр организаций",
+        [VAR_RECORD_NAME]: "Filters Panel",
+        [VAR_RECORD_OBJECT_ID]: "filter",
+        [VAR_RECORD_PAGE_OBJECT_ID]: "filter",
+        [VAR_RECORD_PARENT_ID]: "grid",
         childs: [
             {
-                ckPageObject: "cv_short_filter_column",
+                [VAR_RECORD_DISPLAYED]: "Краткое наименование организации",
+                [VAR_RECORD_NAME]: "cv_short",
+                [VAR_RECORD_PAGE_OBJECT_ID]: "cv_short_filter_column",
                 column: "cv_short",
-                cvDisplayed: "Краткое наименование организации",
-                cvName: "cv_short",
                 datatype: "text",
                 type: "IFIELD",
             },
         ],
-        ckObject: "filter",
-        ckPageObject: "filter",
-        ckParent: "grid",
-        cvDescription: "Фильтр организаций",
-        cvName: "Filters Panel",
         type: "FILTERPANEL",
     };
 
     it("render grid", () => {
-        const {wrapper} = mountGrid({bc: gridBc});
+        const {wrapper} = mountGrid({bc: gridMock});
 
         wrapper.update();
 
@@ -69,7 +75,7 @@ describe("BuilderGrid", () => {
     });
 
     it("render tree grid", () => {
-        const {wrapper} = mountGrid({bc: {...gridBc, rootvisible: "true", type: "TREEGRID"}});
+        const {wrapper} = mountGrid({bc: {...gridMock, rootvisible: "true", type: "TREEGRID"}});
 
         expect(wrapper.find(BuilderFilter).exists()).toBeFalsy();
         expect(wrapper.exists()).toBeTruthy();
@@ -78,7 +84,7 @@ describe("BuilderGrid", () => {
     });
 
     it("render filter", () => {
-        const {wrapper} = mountGrid({bc: {...gridBc, filters: [filterBc]}});
+        const {wrapper} = mountGrid({bc: {...gridMock, filters: [filterBc]}});
 
         expect(wrapper.exists()).toBeTruthy();
 
@@ -86,7 +92,7 @@ describe("BuilderGrid", () => {
     });
 
     it("can move to next page", async () => {
-        const {store, wrapper} = mountGrid({bc: {...gridBc, filters: [filterBc]}});
+        const {store, wrapper} = mountGrid({bc: {...gridMock, filters: [filterBc]}});
         const spyOnSetPageNumberAction = jest.spyOn(store.recordsStore, "setPageNumberAction");
 
         await store.loadRecordsAction();
@@ -104,7 +110,7 @@ describe("BuilderGrid", () => {
     });
 
     it("Check text structure for row", async () => {
-        const {store, wrapper} = mountGrid({bc: {...gridBc, filters: [filterBc]}});
+        const {store, wrapper} = mountGrid({bc: {...gridMock, filters: [filterBc]}});
 
         await store.loadRecordsAction();
 
@@ -118,7 +124,7 @@ describe("BuilderGrid", () => {
     });
 
     it("Check text structure for header", async () => {
-        const {store, wrapper} = mountGrid({bc: {...gridBc, filters: [filterBc]}});
+        const {store, wrapper} = mountGrid({bc: {...gridMock, filters: [filterBc]}});
 
         await store.loadRecordsAction();
 
@@ -135,7 +141,7 @@ describe("BuilderGrid", () => {
     });
 
     it("Ckeck search action", async () => {
-        const {store, wrapper} = mountGrid({bc: {...gridBc, filters: [filterBc]}});
+        const {store, wrapper} = mountGrid({bc: {...gridMock, filters: [filterBc]}});
         const spyOnLoadRecordsAction = jest.spyOn(store.recordsStore, "loadRecordsAction");
 
         // Submit search form
@@ -152,10 +158,13 @@ describe("BuilderGrid", () => {
     });
 
     it("Change sort of column", () => {
-        const {store, wrapper} = mountGrid({bc: {...gridBc, filters: [filterBc]}});
+        const {store, wrapper} = mountGrid({bc: {...gridMock, filters: [filterBc]}});
         const spyOnLoadRecordsAction = jest.spyOn(store.recordsStore, "loadRecordsAction");
 
-        expect(store.recordsStore.order).toEqual({direction: gridBc.orderdirection, property: gridBc.orderproperty});
+        expect(store.recordsStore.order).toEqual({
+            direction: gridMock.orderdirection,
+            property: gridMock.orderproperty,
+        });
 
         wrapper
             .find(TableSortLabel)
@@ -175,7 +184,7 @@ describe("BuilderGrid", () => {
     });
 
     it("orderproperty is required for grid", () => {
-        const {wrapper} = mountGrid({bc: {...gridBc, orderproperty: ""}});
+        const {wrapper} = mountGrid({bc: {...gridMock, orderproperty: ""}});
 
         expect(wrapper.text()).toContain("Необходимо заполнить orderproperty для дальнейшей работы таблицы");
 

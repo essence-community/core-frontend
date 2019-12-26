@@ -5,6 +5,7 @@ import compose from "recompose/compose";
 import {reaction} from "mobx";
 import {disposeOnUnmount, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
+import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {type GridModelType} from "../../stores/GridModel";
 import {type PageModelType} from "../../stores/PageModel";
 import {type BuilderGridType} from "../BuilderGridType";
@@ -66,11 +67,11 @@ class BaseGridRow extends React.Component<PropsType, StateType> {
                 this.handleCtrlSelect();
             } else {
                 store.selectedRecords.clear();
-                store.selectedRecords.set(record.ckId, record);
-                store.recordsStore.setSelectionAction(record.ckId);
+                store.selectedRecords.set(record[VAR_RECORD_ID], record);
+                store.recordsStore.setSelectionAction(record[VAR_RECORD_ID]);
             }
         } else if (!disabled) {
-            store.recordsStore.setSelectionAction(record.ckId);
+            store.recordsStore.setSelectionAction(record[VAR_RECORD_ID]);
         }
     };
 
@@ -83,7 +84,7 @@ class BaseGridRow extends React.Component<PropsType, StateType> {
 
         store.selectedRecords.clear();
         records.forEach((rec) => {
-            store.selectedRecords.set(rec.ckId, rec);
+            store.selectedRecords.set(rec[VAR_RECORD_ID], rec);
         });
     };
 
@@ -91,11 +92,11 @@ class BaseGridRow extends React.Component<PropsType, StateType> {
         const {store, record} = this.props;
 
         if (this.isSelected()) {
-            store.selectedRecords.delete(record.ckId);
+            store.selectedRecords.delete(record[VAR_RECORD_ID]);
         } else {
-            store.selectedRecords.set(record.ckId, record);
+            store.selectedRecords.set(record[VAR_RECORD_ID], record);
         }
-        store.recordsStore.setSelectionAction(record.ckId);
+        store.recordsStore.setSelectionAction(record[VAR_RECORD_ID]);
     };
 
     handleSelect = (selected: boolean) => {
@@ -112,8 +113,8 @@ class BaseGridRow extends React.Component<PropsType, StateType> {
         const {bc, store, record} = this.props;
 
         return bc.selmode === "MULTI"
-            ? store.selectedRecords.has(record.ckId)
-            : store.recordsStore.selectedRecordId === record.ckId;
+            ? store.selectedRecords.has(record[VAR_RECORD_ID])
+            : store.recordsStore.selectedRecordId === record[VAR_RECORD_ID];
     };
 
     renderChildren = () => {
@@ -121,7 +122,7 @@ class BaseGridRow extends React.Component<PropsType, StateType> {
 
         return store.gridColumns.map((column) => (
             <GridCell
-                key={column.ckPageObject}
+                key={column[VAR_RECORD_PAGE_OBJECT_ID]}
                 column={column}
                 bc={bc}
                 disabled={disabled}
@@ -169,7 +170,7 @@ class BaseGridRow extends React.Component<PropsType, StateType> {
                 style={record.jvRowcolor && !selected ? {backgroundColor: record.jvRowcolor} : undefined}
                 className={className}
                 onClick={this.handleClick}
-                data-page-object={`${bc.ckPageObject}-row-${record.ckId}`}
+                data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-row-${record[VAR_RECORD_ID]}`}
                 onDoubleClick={onDoubleClick}
                 tabIndex="-1"
             >
@@ -179,7 +180,4 @@ class BaseGridRow extends React.Component<PropsType, StateType> {
     }
 }
 
-export default compose(
-    withStyles(styles, {name: "EssenceBaseGridRow"}),
-    observer,
-)(BaseGridRow);
+export default compose(withStyles(styles, {name: "EssenceBaseGridRow"}), observer)(BaseGridRow);

@@ -20,6 +20,12 @@ import {
 import {i18next} from "@essence/essence-constructor-share/utils";
 import {Grid, useTheme} from "@material-ui/core";
 import {settingsStore, PageModel} from "@essence/essence-constructor-share/models";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_ROUTE_VISIBLE_MENU,
+    VAR_SETTING_PROJECT_LOADER,
+    VAR_RECORD_PARENT_ID,
+} from "@essence/essence-constructor-share/constants";
 import {PagerWindows} from "../components/PagerWindows";
 import {focusPageElement} from "../utils/focusPageElement";
 import {PagerWindowMessage} from "../components/PagerWindowMessage";
@@ -43,12 +49,17 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
      * It means that we want to make custom page and getting them from server by bc.ck_query
      */
     const pageStore = React.useMemo<IPageModel>(() => {
-        if (applicationStore && bc && bc.defaultvalue && bc.ckParent !== applicationStore.bc.ckPageObject) {
+        if (
+            applicationStore &&
+            bc &&
+            bc.defaultvalue &&
+            bc[VAR_RECORD_PARENT_ID] !== applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID]
+        ) {
             const newPageStore: IPageModel = new PageModel({
                 applicationStore,
-                ckPage: bc.defaultvalue,
                 defaultVisible: true,
                 isActiveRedirect: false,
+                pageId: bc.defaultvalue,
             });
 
             newPageStore.loadConfigAction(bc.defaultvalue);
@@ -72,14 +83,14 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
 
     // TODO: need to ferify it
     React.useEffect(() => {
-        if (route && !route.clMenu && bc && bc.defaultvalue !== pageStore.ckPage) {
+        if (route && !route[VAR_RECORD_ROUTE_VISIBLE_MENU] && bc && bc.defaultvalue !== pageStore.pageId) {
             setTimeout(() => {
                 if (applicationStore) {
-                    applicationStore.pagesStore.removePageAction(pageStore.ckPage);
+                    applicationStore.pagesStore.removePageAction(pageStore.pageId);
                 }
             });
         }
-    }, [applicationStore, pageStore.ckPage, route, bc]);
+    }, [applicationStore, pageStore.pageId, route, bc]);
 
     React.useEffect(() => {
         return () => {
@@ -115,7 +126,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                         pageStore={pageStore}
                         container={pageStore.pageEl}
                         // @ts-ignore
-                        loaderType={settingsStore.settings.projectLoader}
+                        loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER]}
                     />
                     <FormContext.Provider value={editor.form}>
                         <ModeContext.Provider value={editor.mode}>
@@ -125,7 +136,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                                         pageStore.pageBc,
                                         (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
                                             <Grid
-                                                key={childBc.ckPageObject}
+                                                key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
                                                 item
                                                 xs={12}
                                                 style={toColumnStyleWidth(childBc.width)}

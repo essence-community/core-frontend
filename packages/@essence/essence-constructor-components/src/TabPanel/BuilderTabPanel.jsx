@@ -13,6 +13,11 @@ import {withStyles} from "@material-ui/core/styles";
 import {setComponent, mapComponents, Icon, PanelWidthContext} from "@essence/essence-constructor-share";
 import {Popover} from "@essence/essence-constructor-share/uicomponents";
 import {getTextWidth, withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+} from "@essence/essence-constructor-share/constants";
 import commonDecorator from "../decorators/commonDecorator";
 import withModelDecorator from "../decorators/withModelDecorator";
 import {TabModel, type TabModelType} from "../stores/TabModel";
@@ -78,7 +83,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
 
         window.addEventListener("resize", this.handleGetTabsMode);
 
-        if (bc.ckMaster) {
+        if (bc[VAR_RECORD_MASTER_ID]) {
             disposeOnUnmount(this, [reaction(this.handleCheckNewSelection, store.resetOpenedTabs, {equals: isEqual})]);
         }
 
@@ -116,7 +121,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
             let currentWidth = TAB_EMPTY_SPACE[themeType];
 
             const currentInex = store.reverseTabs.reduceRight((lastIndex, tab) => {
-                currentWidth += getTextWidth(t(tab.cvDisplayed), font) + additionWidth;
+                currentWidth += getTextWidth(t(tab[VAR_RECORD_DISPLAYED]), font) + additionWidth;
 
                 return current.offsetWidth > currentWidth ? lastIndex + 1 : lastIndex;
             }, 0);
@@ -128,7 +133,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
 
     handleCheckNewSelection = () => {
         const {bc, pageStore} = this.props;
-        const masterStore = bc.ckMaster ? pageStore.stores.get(bc.ckMaster) : undefined;
+        const masterStore = bc[VAR_RECORD_MASTER_ID] ? pageStore.stores.get(bc[VAR_RECORD_MASTER_ID]) : undefined;
 
         return masterStore ? masterStore.selectedRecord : undefined;
     };
@@ -172,12 +177,12 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
         const {store} = this.props;
         const tabs = store.getActiveTabs();
 
-        const currentTabIndex = tabs.findIndex((tab) => tab.ckPageObject === selectedTab);
+        const currentTabIndex = tabs.findIndex((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID] === selectedTab);
         const nextTabIndex = currentTabIndex + (code === "left" ? -1 : 1);
         const nextTab = tabs[nextTabIndex];
 
         if (nextTab) {
-            this.setState({selectedTab: nextTab.ckPageObject});
+            this.setState({selectedTab: nextTab[VAR_RECORD_PAGE_OBJECT_ID]});
         }
     };
 
@@ -200,10 +205,10 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
             visible,
             classes,
         } = this.props;
-        const isVisible = child.ckPageObject === tabValue;
+        const isVisible = child[VAR_RECORD_PAGE_OBJECT_ID] === tabValue;
         const isPanel = child.type === "TABPANEL" && elevation;
 
-        if (!isVisible && !openedTabs.get(child.ckPageObject)) {
+        if (!isVisible && !openedTabs.get(child[VAR_RECORD_PAGE_OBJECT_ID])) {
             return null;
         }
 
@@ -212,7 +217,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
                 xs={12}
                 className={isPanel ? cn(className, classes.childPanel) : className}
                 item
-                key={child.ckPageObject}
+                key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                 style={{display: isVisible ? "block" : "none"}}
             >
                 <Cmp
@@ -258,11 +263,11 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
             <List disablePadding dense className={classes.listTabs}>
                 {store.reverseTabs.slice(0, store.hiddenTabsIndex).map((tab) => (
                     <Tab
-                        key={tab.ckPageObject}
+                        key={tab[VAR_RECORD_PAGE_OBJECT_ID]}
                         button
-                        selected={store.tabValue === tab.ckPageObject}
+                        selected={store.tabValue === tab[VAR_RECORD_PAGE_OBJECT_ID]}
                         onClick={(event) => {
-                            this.handleChangeTab(event, tab.ckPageObject);
+                            this.handleChangeTab(event, tab[VAR_RECORD_PAGE_OBJECT_ID]);
                             onClose();
                         }}
                         disableRipple
@@ -271,13 +276,13 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
                         store={store}
                         visible={visible}
                         Component={ListItem}
-                        isActive={store.tabValue === tab.ckPageObject}
+                        isActive={store.tabValue === tab[VAR_RECORD_PAGE_OBJECT_ID]}
                         classes={{
                             selected: classes.popoverButtonlistItemSelected,
                         }}
                         className={classes.popoverButtonlistItem}
                     >
-                        {t(tab.cvDisplayed)}
+                        {t(tab[VAR_RECORD_DISPLAYED])}
                     </Tab>
                 ))}
             </List>
@@ -302,7 +307,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
                 container
                 spacing={0}
                 className={classes[`container-${align}`]}
-                data-page-object={bc.ckPageObject}
+                data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                 {...TAB_PANEL_CONTAIENR_PROPS[align]}
             >
                 <Grid item className={classes[`tabItem-${align}-${contentview}`]}>
@@ -319,7 +324,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
                             orientation={align === "center" ? "horizontal" : "vertical"}
                             value={activeInHidden ? 0 : tabValue}
                             onChange={this.handleChangeTab}
-                            data-page-object={`${bc.ckPageObject}-tabs`}
+                            data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-tabs`}
                             classes={{
                                 flexContainer: classes[`tabsFlexContainer-${align}-${contentview}`],
                                 indicator: classes.tabsIndicator,
@@ -363,12 +368,12 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
                             {(hiddenTabsIndex ? reverseTabs.slice(hiddenTabsIndex) : reverseTabs).map((child) => (
                                 <Tab
                                     Component={MaterialTab}
-                                    value={child.ckPageObject}
-                                    key={child.ckPageObject}
-                                    label={t(child.cvDisplayed)}
+                                    value={child[VAR_RECORD_PAGE_OBJECT_ID]}
+                                    key={child[VAR_RECORD_PAGE_OBJECT_ID]}
+                                    label={t(child[VAR_RECORD_DISPLAYED])}
                                     className={cn({
-                                        [classes.activeTabRoot]: tabValue === child.ckPageObject,
-                                        [classes.selectedTabRoot]: selectedTab === child.ckPageObject,
+                                        [classes.activeTabRoot]: tabValue === child[VAR_RECORD_PAGE_OBJECT_ID],
+                                        [classes.selectedTabRoot]: selectedTab === child[VAR_RECORD_PAGE_OBJECT_ID],
                                     })}
                                     classes={{
                                         disabled: classes.disabled,
@@ -377,11 +382,11 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
                                     }}
                                     disabled={disabled}
                                     disableRipple
-                                    data-page-object={`${child.ckPageObject}_tab`}
-                                    data-qtip={t(child.cvDisplayed)}
+                                    data-page-object={`${child[VAR_RECORD_PAGE_OBJECT_ID]}_tab`}
+                                    data-qtip={t(child[VAR_RECORD_DISPLAYED])}
                                     pageStore={pageStore}
                                     bc={child}
-                                    isActive={tabValue === child.ckPageObject}
+                                    isActive={tabValue === child[VAR_RECORD_PAGE_OBJECT_ID]}
                                     store={store}
                                     visible={visible}
                                     tabIndex="-1"

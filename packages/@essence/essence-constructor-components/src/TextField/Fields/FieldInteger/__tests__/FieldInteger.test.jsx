@@ -1,5 +1,4 @@
 import * as React from "react";
-import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
 import {mountWithTheme} from "../../../../utils/test";
 import {createEmptyPageStore} from "../../../../stores/index";
 import BuilderMobxForm from "../../../../Components/MobxForm/BuilderMobxForm";
@@ -7,9 +6,8 @@ import integerJson from "../../../../../mocks/fields/integer.json";
 import FieldInteger from "../FieldInteger";
 
 describe("FieldInteger", () => {
-    const bc = camelCaseKeys(integerJson);
     const form = new BuilderMobxForm();
-    const field = form.add({key: bc.column});
+    const field = form.add({key: integerJson.column});
     const pageStore = createEmptyPageStore();
     let fieldConfig = {};
 
@@ -29,7 +27,7 @@ describe("FieldInteger", () => {
     });
 
     it("render", () => {
-        const wrapper = mountWithTheme(<FieldInteger bc={bc} {...fieldConfig} />);
+        const wrapper = mountWithTheme(<FieldInteger bc={integerJson} {...fieldConfig} />);
 
         expect(wrapper.find(FieldInteger).exists()).toBeTruthy();
     });

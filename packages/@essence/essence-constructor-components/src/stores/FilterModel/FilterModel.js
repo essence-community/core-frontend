@@ -1,11 +1,17 @@
 // @flow
 import {extendObservable, action} from "mobx";
 import {type Form, type Field} from "mobx-react-form";
-import camelCase from "lodash/camelCase";
 import forOwn from "lodash/forOwn";
 import {saveToStore, removeFromStore} from "@essence/essence-constructor-share/utils";
 import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {print} from "@essence/essence-constructor-share/utils/download";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_ROUTE_PAGE_ID,
+} from "@essence/essence-constructor-share/constants";
 import {isEmpty} from "../../utils/base";
 import {findSetKey} from "../../utils/findKey";
 import {attachGlobalValues} from "../actions/saveAction";
@@ -33,8 +39,8 @@ export class FilterModel extends StoreBaseModel implements FilterModelType {
     constructor({bc, pageStore}: ConstructorConfigType) {
         super({bc, pageStore});
 
-        if (bc.filtervaluessave === "true" && pageStore.ckPage) {
-            this.valuesStorageKey = `${pageStore.ckPage}_filter_${bc.ckPageObject}`;
+        if (bc.filtervaluessave === "true" && pageStore.pageId) {
+            this.valuesStorageKey = `${pageStore.pageId}_filter_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
         }
 
         extendObservable(this, {
@@ -53,10 +59,10 @@ export class FilterModel extends StoreBaseModel implements FilterModelType {
     setValues = (values: FilterValues): void => {
         const filterValues = {...values};
 
-        if (isEmpty(filterValues.ckId)) {
+        if (isEmpty(filterValues[VAR_RECORD_ID])) {
             for (const child of this.bc.childs) {
                 if (child.required === "true") {
-                    filterValues.ckId = filterValues[camelCase(child.column)];
+                    filterValues[VAR_RECORD_ID] = filterValues[child.column];
                     break;
                 }
             }
@@ -86,8 +92,8 @@ export class FilterModel extends StoreBaseModel implements FilterModelType {
                 this.pageStore.stores.forEach((store) => {
                     if (
                         store.bc &&
-                        store.bc.ckMaster === this.bc.ckPageObject &&
-                        (!parentBc || parentBc.ckMaster !== store.bc.ckMaster)
+                        store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID] &&
+                        (!parentBc || parentBc[VAR_RECORD_MASTER_ID] !== store.bc[VAR_RECORD_MASTER_ID])
                     ) {
                         store.reloadStoreAction();
                     }
@@ -128,8 +134,8 @@ export class FilterModel extends StoreBaseModel implements FilterModelType {
                 isOnline,
                 pageStore: this.pageStore,
                 reloadPageObject: {
-                    ckPage: this.pageStore.ckPage,
-                    ckPageObject: this.bc.ckMaster || this.bc.ckParent,
+                    [VAR_RECORD_PAGE_OBJECT_ID]: this.bc[VAR_RECORD_MASTER_ID] || this.bc[VAR_RECORD_PARENT_ID],
+                    [VAR_RECORD_ROUTE_PAGE_ID]: this.pageStore[VAR_RECORD_ROUTE_PAGE_ID],
                 },
                 snackbarStore,
                 timeout: bcBtn.timeout || this.bc.timeout,

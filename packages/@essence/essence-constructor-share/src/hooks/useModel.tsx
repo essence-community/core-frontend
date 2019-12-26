@@ -2,6 +2,7 @@ import * as React from "react";
 import uuid from "uuid";
 import {IBuilderConfig, IPageModel, IRecordsModel, IStoreBaseModel} from "../types";
 import {checkAutoload} from "../decorators/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
 
 interface IUseModelProps {
     bc: IBuilderConfig;
@@ -23,7 +24,7 @@ export function useModel<IModel extends IModelRequired, P extends IUseModelProps
     const {bc, pageStore, hidden, disabled} = props;
     const [store, setStore] = React.useState<IModel>(() => createModel(props));
     const [isAutoLoad, setIsAutoload] = React.useState(false);
-    const [storeName, setStoreName] = React.useState<string>(bc.ckPageObject || uuid());
+    const [storeName, setStoreName] = React.useState<string>(bc[VAR_RECORD_PAGE_OBJECT_ID] || uuid());
 
     React.useEffect(() => {
         // Const storeNext: IModel = createModel(props);

@@ -18,8 +18,8 @@ export interface PagesModelInterface {
     +globalPageStore: PageModelType;
     +expansionRecords: Map<CkIdType, boolean>;
     +globalRecordsStore: GlobalRecordsModelType;
-    +setPageAction: (ckPage: string) => void;
-    +removePageAction: (ckPage: string) => void;
+    +setPageAction: (pageId: string) => void;
+    +removePageAction: (pageId: string) => void;
     +removeAllPagesAction: () => void;
     +openCloseExpansionAction: (ckId: string) => void;
     +reloadPageAction: (ckId: string) => void;

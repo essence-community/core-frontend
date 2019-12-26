@@ -5,6 +5,7 @@ import {inject} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
 import {Grid} from "@material-ui/core";
 import {Scrollbars} from "@essence/essence-constructor-components";
+import {VAR_RECORD_ID} from "@essence/essence-constructor-share/constants";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import MenuFavoritsItem from "./MenuFavoritsItem";
 import styles from "./MenuFavoritsStyles";
@@ -33,7 +34,7 @@ const MenuFavorits = ({applicationStore: {routesStore, pagesStore}, classes = {}
                         classes={classes}
                         route={record}
                         routesStore={routesStore}
-                        key={record.ckId}
+                        key={record[VAR_RECORD_ID]}
                         pagesStore={pagesStore}
                     />
                 ))}
@@ -42,7 +43,4 @@ const MenuFavorits = ({applicationStore: {routesStore, pagesStore}, classes = {}
     );
 };
 
-export default compose(
-    inject(mapStoresToProps),
-    withStyles(styles),
-)(MenuFavorits);
+export default compose(inject(mapStoresToProps), withStyles(styles))(MenuFavorits);

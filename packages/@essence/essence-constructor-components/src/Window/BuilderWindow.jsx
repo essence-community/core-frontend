@@ -7,6 +7,11 @@ import cn from "classnames";
 import {Grid, Dialog, DialogTitle, Checkbox, FormControlLabel} from "@material-ui/core";
 import {toSize, toColumnStyleWidth, withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import {getComponent, Icon} from "@essence/essence-constructor-share";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_CV_DESCRIPTION,
+} from "@essence/essence-constructor-share/constants";
 import Scrollbars from "../Components/Scrollbars/Scrollbars";
 import BuilderField from "../TextField/BuilderField";
 import BuilderForm from "../Form/BuilderForm";
@@ -51,13 +56,13 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType & WithT> {
     componentDidMount() {
         const {pageStore, store} = this.props;
 
-        pageStore.addStore(store, store.windowBc.ckPageObject);
+        pageStore.addStore(store, store.windowBc[VAR_RECORD_PAGE_OBJECT_ID]);
     }
 
     componentWillUnmount() {
         const {pageStore, store} = this.props;
 
-        pageStore.removeStore(store.windowBc.ckPageObject, store);
+        pageStore.removeStore(store.windowBc[VAR_RECORD_PAGE_OBJECT_ID], store);
     }
 
     handleFormSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
@@ -72,23 +77,24 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType & WithT> {
         }
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         // eslint-disable-next-line id-length
         const {store, pageStore, classes, theme = {}, visible, t} = this.props;
         const {
             autobuild,
-            ckPageObject,
+            [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
             checkaddmore,
             stepnamenext,
             wintype = "base",
             align,
             bottombtn,
-            cvDescription,
+            [VAR_RECORD_CV_DESCRIPTION]: description,
             title,
-            cvDisplayed,
+            [VAR_RECORD_DISPLAYED]: displayed,
         } = store.windowBc;
         const windowTitle =
-            t(title) || t(cvDisplayed) || `${getModeTitle(store.config.mode)} ${t(cvDescription, cvDescription) || ""}`;
+            t(title) || t(displayed) || `${getModeTitle(store.config.mode)} ${t(description, description) || ""}`;
         const autoHeightMax = `calc(90vh - ${theme.sizing.appbarHeight +
             WINDOW_HEADER_HEIGHT +
             WINDOW_BOTTOM_HEIGHT}px)`;
@@ -167,7 +173,11 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType & WithT> {
                                 const Component = getComponent(fieldBc.type, fieldBc.customid) || BuilderField;
 
                                 return (
-                                    <Grid key={field.ckPageObject} item style={toColumnStyleWidth(field.width)}>
+                                    <Grid
+                                        key={field[VAR_RECORD_PAGE_OBJECT_ID]}
+                                        item
+                                        style={toColumnStyleWidth(field.width)}
+                                    >
                                         <Component bc={fieldBc} editing pageStore={pageStore} visible={visible} />
                                     </Grid>
                                 );
@@ -204,8 +214,4 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType & WithT> {
     }
 }
 
-export default compose(
-    withStyles(styles, {withTheme: true}),
-    withTranslation("meta"),
-    observer,
-)(BuilderWindow);
+export default compose(withStyles(styles, {withTheme: true}), withTranslation("meta"), observer)(BuilderWindow);

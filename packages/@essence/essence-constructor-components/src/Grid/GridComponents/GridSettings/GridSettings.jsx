@@ -2,6 +2,7 @@
 import * as React from "react";
 import {Dialog, DialogTitle, Grid, DialogContent, Switch, DialogActions, Button} from "@material-ui/core";
 import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants";
 import noop from "lodash/noop";
 import BuilderMobxButton from "../../../Button/BuilderMobxButton";
 import {type PageModelType} from "../../../stores/PageModel";
@@ -34,8 +35,8 @@ class GridSettings extends React.Component<PropsType, StateType> {
     };
 
     bc = {
-        ckPageObject: "gridsettings",
-        cvDisplayed: "102972d8258947b7b3cf2b70b258278a",
+        [VAR_RECORD_DISPLAYED]: "102972d8258947b7b3cf2b70b258278a",
+        [VAR_RECORD_PAGE_OBJECT_ID]: "gridsettings",
         iconfont: "fa-sliders",
         onlyicon: "true",
         type: "BTN",
@@ -46,7 +47,7 @@ class GridSettings extends React.Component<PropsType, StateType> {
         const visibility = {};
 
         gridStore.gridColumns.forEach((column) => {
-            visibility[column.ckPageObject] = true;
+            visibility[column[VAR_RECORD_PAGE_OBJECT_ID]] = true;
         });
 
         this.setState({open: true, visibility});
@@ -72,10 +73,13 @@ class GridSettings extends React.Component<PropsType, StateType> {
         const {gridStore} = this.props;
         const {visibility} = this.state;
 
-        gridStore.setGridColumns(gridStore.gridColumnsInitial.filter((column) => visibility[column.ckPageObject]));
+        gridStore.setGridColumns(
+            gridStore.gridColumnsInitial.filter((column) => visibility[column[VAR_RECORD_PAGE_OBJECT_ID]]),
+        );
         this.handleClose();
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         // eslint-disable-next-line id-length
         const {pageStore, buttonProps, gridStore, t, disabled} = this.props;
@@ -112,19 +116,19 @@ class GridSettings extends React.Component<PropsType, StateType> {
                                     }
 
                                     return (
-                                        <Grid item key={column.ckPageObject}>
+                                        <Grid item key={column[VAR_RECORD_PAGE_OBJECT_ID]}>
                                             <Grid container>
                                                 <Grid item xs={10}>
-                                                    {t(column.cvDisplayed) ||
+                                                    {t(column[VAR_RECORD_DISPLAYED]) ||
                                                         `${t("223dbd23bba54e4c91f59ef4cdea8ffa")}  ${column.datatype}`}
                                                 </Grid>
                                                 <Grid item xs={2}>
                                                     <Switch
-                                                        name={column.ckPageObject}
-                                                        checked={visibility[column.ckPageObject]}
+                                                        name={column[VAR_RECORD_PAGE_OBJECT_ID]}
+                                                        checked={visibility[column[VAR_RECORD_PAGE_OBJECT_ID]]}
                                                         disableRipple
                                                         onChange={this.handleChangeVisibility}
-                                                        value={column.ckPageObject}
+                                                        value={column[VAR_RECORD_PAGE_OBJECT_ID]}
                                                     />
                                                 </Grid>
                                             </Grid>

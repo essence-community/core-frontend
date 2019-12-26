@@ -5,7 +5,7 @@ import {Field, Form} from "mobx-react-form";
 // $FlowFixMe
 import {i18next} from "../../utils";
 // $FlowFixMe
-import {loggerRoot, VALUE_SELF_FIRST} from "../../constants";
+import {loggerRoot, VALUE_SELF_FIRST, VAR_RECORD_MASTER_ID} from "../../constants";
 // $FlowFixMe
 import {isEmpty} from "../../utils/base";
 
@@ -24,7 +24,7 @@ function awaitFieldFilter(field: Field, skipCheckMaster: boolean): Promise<void>
     const {store, options} = field;
     const bc = options && options.bc;
 
-    if (skipCheckMaster && bc && bc.ckMaster) {
+    if (skipCheckMaster && bc && bc[VAR_RECORD_MASTER_ID]) {
         return Promise.resolve();
     }
 
@@ -56,7 +56,7 @@ export function awaitFormFilter(form: Form, skipCheckMaster: boolean): Promise<v
     });
 }
 
-function applyFieldFilter(field: Field, params: Object) {
+function applyFieldFilter(field: Field, params: Record<string, any>) {
     if (Object.prototype.hasOwnProperty.call(params, field.key)) {
         const value = params[field.key];
 
@@ -66,7 +66,7 @@ function applyFieldFilter(field: Field, params: Object) {
     }
 }
 
-function runFormFilter(form: Form, params: Object): Promise<void> {
+function runFormFilter(form: Form, params: Record<string, any>): Promise<void> {
     return awaitFormFilter(form, true).then(() => {
         form.each((field) => {
             applyFieldFilter(field, params);
@@ -74,13 +74,13 @@ function runFormFilter(form: Form, params: Object): Promise<void> {
     });
 }
 
-function filterAllForms(forms: Array<Form>, params: Object): Promise<Object> {
+function filterAllForms(forms: Array<Form>, params: Record<string, any>): Promise<Record<string, any>> {
     const notFieldParams = {...params};
 
     return Promise.all(forms.map((form: Form) => runFormFilter(form, notFieldParams))).then(() => notFieldParams);
 }
 
-export async function redirectToPage(page: any, params: Object) {
+export async function redirectToPage(page: any, params: Record<string, any>) {
     page.isActiveRedirect = true;
 
     // При переходе все поля нужно сбрасывать в значения по умолчанию.
@@ -99,7 +99,7 @@ export async function redirectToPage(page: any, params: Object) {
     // $FlowFixMe
     const forms = page.formFilters.filter((form: Form) => !form.hasMaster);
     const notFieldParams = await filterAllForms(forms, params);
-    const emptyValues: Object = {};
+    const emptyValues: Record<string, any> = {};
 
     forOwn(notFieldParams, (fieldValue: mixed, fieldName: string) => {
         emptyValues[fieldName] = null;

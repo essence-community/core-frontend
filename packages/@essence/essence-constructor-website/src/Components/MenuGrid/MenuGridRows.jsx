@@ -3,6 +3,7 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {Collapse} from "@material-ui/core";
+import {VAR_RECORD_ID, VAR_RECORD_PARENT_ID} from "@essence/essence-constructor-share/constants";
 import MenuGridRow from "./MenuGridRow";
 
 type PropsType = {|
@@ -13,31 +14,31 @@ type PropsType = {|
         },
     },
     pagesStore: Object,
-    ckParent: null | string | number,
+    parentId: null | string | number,
     level: number,
     className?: string,
 |};
 
-const BaseMenuGridRows = ({routesStore, ckParent, level, pagesStore, className}: PropsType) => {
-    const isClose = ckParent !== null && !routesStore.expansionRecords.get(ckParent);
+const BaseMenuGridRows = ({routesStore, parentId, level, pagesStore, className}: PropsType) => {
+    const isClose = parentId !== null && !routesStore.expansionRecords.get(parentId);
 
-    const records = routesStore.recordsStore.records.filter((record) => record.ckParent === ckParent);
+    const records = routesStore.recordsStore.records.filter((record) => record[VAR_RECORD_PARENT_ID] === parentId);
 
     return (
         <Collapse in={!isClose} className={className} mountOnEnter unmountOnExit>
             <React.Fragment>
                 {records.map((record) => (
-                    <React.Fragment key={record.ckId}>
+                    <React.Fragment key={record[VAR_RECORD_ID]}>
                         <MenuGridRow
                             route={record}
                             routesStore={routesStore}
                             level={level}
-                            isOpen={Boolean(routesStore.expansionRecords.get(record.ckId))}
+                            isOpen={Boolean(routesStore.expansionRecords.get(record[VAR_RECORD_ID]))}
                             pagesStore={pagesStore}
                         />
                         <MenuGridRows
                             level={level + 1}
-                            ckParent={record.ckId}
+                            parentId={record[VAR_RECORD_ID]}
                             routesStore={routesStore}
                             pagesStore={pagesStore}
                         />

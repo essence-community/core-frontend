@@ -2,6 +2,7 @@ import * as React from "react";
 import {useObserver, useDisposable} from "mobx-react-lite";
 import {Paper, MenuItem, CircularProgress} from "@material-ui/core";
 import {IBuilderConfig, Scrollbars, Pagination, FieldValue, toString} from "@essence/essence-constructor-share";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {IPopoverChildrenProps} from "@essence/essence-constructor-share/uicomponents/Popover/Popover.types";
 import {reaction} from "mobx";
 import {ISuggestion} from "../store/FieldComboModel.types";
@@ -73,7 +74,12 @@ export const FieldComboList: React.FC<IProps> = (props) => {
     );
 
     return useObserver(() => (
-        <Paper className={classes.paper} square data-page-object={`${bc.ckPageObject}-window`} ref={listRef}>
+        <Paper
+            className={classes.paper}
+            square
+            data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-window`}
+            ref={listRef}
+        >
             <Scrollbars
                 autoHeight
                 hideTracksWhenNotNeeded
@@ -86,7 +92,7 @@ export const FieldComboList: React.FC<IProps> = (props) => {
                 {store.recordsStore.isLoading ? (
                     <CircularProgress
                         classes={{root: classes.loader}}
-                        data-page-object={`${bc.ckPageObject}-progress`}
+                        data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-progress`}
                     />
                 ) : (
                     store.suggestions.map((suggestion) => {
@@ -100,7 +106,7 @@ export const FieldComboList: React.FC<IProps> = (props) => {
                                 onSelect={handleSelect}
                                 isSelectedValue={isSelectedValue}
                                 isHighlightedValue={isHighlightedValue}
-                                ckPageObject={bc.ckPageObject}
+                                ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                             />
                         );
                     })
@@ -116,7 +122,7 @@ export const FieldComboList: React.FC<IProps> = (props) => {
                         rowsPerPage={store.recordsStore.pageSize}
                         page={store.recordsStore.pageNumber}
                         onChangePage={store.recordsStore.setPageNumberAction}
-                        ckPageObject={bc.ckPageObject}
+                        ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                     />
                 </MenuItem>
             ) : null}

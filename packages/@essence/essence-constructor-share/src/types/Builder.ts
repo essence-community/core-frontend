@@ -251,17 +251,17 @@ export interface IBuilderBaseConfig {
 
 export interface IBuilderConfig extends IBuilderBaseConfig {
     // Идентификатор класса
-    ckId?: string;
+    ck_id?: string;
     // Ротельно класса
-    ckParent: string;
-    ckMaster?: string;
-    ckQuery?: string;
-    ckPageObject: string;
-    cvDisplayed?: string;
-    cvName?: string;
-    ckObject?: string;
+    ck_parent: string;
+    ck_master?: string;
+    ck_query?: string;
+    ck_page_object: string;
+    cv_displayed?: string;
+    cv_name?: string;
+    ck_object?: string;
     // Определяет класс в качестве мастера
-    clIsMaster?: boolean;
+    cl_is_master?: boolean;
     contentwidth?: string;
     // Служебный параметр для иерархии
     bottombtn?: IBuilderConfig[];

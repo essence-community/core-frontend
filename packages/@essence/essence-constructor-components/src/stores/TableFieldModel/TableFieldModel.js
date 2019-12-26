@@ -2,7 +2,14 @@
 // @flow
 import {extendObservable, action} from "mobx";
 import snakeCase from "lodash/snakeCase";
-import {toSize, declension, camelCaseMemoized, i18next} from "@essence/essence-constructor-share/utils";
+import {toSize, declension, i18next} from "@essence/essence-constructor-share/utils";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+} from "@essence/essence-constructor-share/constants";
 import {Field} from "mobx-react-form";
 import {loggerRootInfo} from "../../constants";
 import {isEmpty} from "../../utils/base";
@@ -19,7 +26,7 @@ export type {TableFieldModelType};
 
 const clearChildStores = ({pageStore, bc}: {pageStore: PageModelType, bc: Object}) => {
     pageStore.stores.forEach((store) => {
-        if (store.bc && store.bc.ckMaster === bc.ckPageObject) {
+        if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === bc[VAR_RECORD_PAGE_OBJECT_ID]) {
             store.clearAction && store.clearAction();
         }
     });
@@ -60,14 +67,14 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
     constructor({bc, pageStore, form, field, fieldHandlers}: ConstructorType) {
         super({bc, pageStore});
 
-        this.column = camelCaseMemoized(bc.column);
-        this.valueField = camelCaseMemoized(bc.valuefield) || "ckId";
+        this.column = bc.column;
+        this.valueField = bc.valuefield || VAR_RECORD_ID;
 
         if (bc.valuefield) {
             this.valueFields = bc.valuefield.split(",").map((key) => {
                 const keys = key.split("=");
-                const fieldKeyName = camelCaseMemoized(keys[1] || keys[0]);
-                const valueField = camelCaseMemoized(keys[0]);
+                const fieldKeyName = keys[1] || keys[0];
+                const [valueField] = keys;
 
                 if (fieldKeyName === this.column) {
                     this.valueField = valueField;
@@ -80,7 +87,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
         this.recordsStore = new RecordsModel(this.bc, this.pageStore, {valueField: this.valueField});
         this.form = form;
         this.field = field;
-        this.displayField = camelCaseMemoized(bc.displayfield);
+        this.displayField = bc.displayfield;
         this.fieldHandlers = fieldHandlers;
 
         extendObservable(
@@ -111,7 +118,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
                 },
                 openField: false,
                 get recordsGridStore() {
-                    const gridStore = this.pageStore.stores.get(this.gridBc.ckPageObject);
+                    const gridStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
                     return gridStore && gridStore.recordsStore;
                 },
@@ -131,10 +138,10 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
 
         this.builderConfigs = [
             {
-                ckMaster: `grid_${this.bc.ckPageObject}`,
-                ckPageObject: `btnok_${this.bc.ckPageObject}`,
-                ckParent: this.bc.ckPageObject,
-                cvDisplayed: "147bb56012624451971b35b1a4ef55e6",
+                [VAR_RECORD_DISPLAYED]: "147bb56012624451971b35b1a4ef55e6",
+                [VAR_RECORD_MASTER_ID]: `grid_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+                [VAR_RECORD_PAGE_OBJECT_ID]: `btnok_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+                [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
                 handlerFn: bc.collectionvalues === "array" ? this.selectArrayAction : this.selectAction,
                 iconfont: "fa-check",
                 iconfontname: "fa",
@@ -145,9 +152,9 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
                 uitype: "1",
             },
             {
-                ckPageObject: `btnban_${this.bc.ckPageObject}`,
-                ckParent: this.bc.ckPageObject,
-                cvDisplayed: "64aacc431c4c4640b5f2c45def57cae9",
+                [VAR_RECORD_DISPLAYED]: "64aacc431c4c4640b5f2c45def57cae9",
+                [VAR_RECORD_PAGE_OBJECT_ID]: `btnban_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+                [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
                 handlerFn: this.closeAction,
                 iconfont: "fa-ban",
                 iconfontname: "fa",
@@ -161,7 +168,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
         // Блокировка происходит на уровне поля
         this.gridBc = {
             ...bc,
-            ckPageObject: `grid_${bc.ckPageObject}`,
+            [VAR_RECORD_PAGE_OBJECT_ID]: `grid_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
             clearonsearch: "false",
             datatype: undefined,
             disabled: undefined,
@@ -195,14 +202,14 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
             const records = prepareArrayValues(this, this.recordsStore.records);
 
             this.fieldHandlers.onChange(null, records);
-            this.selectedEntries = this.recordsStore.records.map((record: Object) => [record.ckId, record]);
+            this.selectedEntries = this.recordsStore.records.map((record: Object) => [record[VAR_RECORD_ID], record]);
         } else if (this.recordsStore.selectedRecord) {
             this.handleChangeRecord(this.recordsStore.selectedRecord);
         }
     });
 
     selectArrayAction = action("seletctArrayAction", () => {
-        const gridStore = this.pageStore.stores.get(this.gridBc.ckPageObject);
+        const gridStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (gridStore) {
             this.fieldHandlers.onChange(null, prepareArrayValues(this, gridStore.selectedRecords));
@@ -230,7 +237,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
     });
 
     clearAction = action("clearAction", () => {
-        const gridStore = this.pageStore.stores.get(this.gridBc.ckPageObject);
+        const gridStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (gridStore) {
             gridStore.recordsStore.clearRecordsAction();
@@ -251,7 +258,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
     });
 
     closeAction = action("closeAction", () => {
-        const gridStore = this.pageStore.stores.get(`grid_${this.bc.ckPageObject}`);
+        const gridStore = this.pageStore.stores.get(`grid_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`);
 
         if (gridStore && this.bc.collectionvalues === "array") {
             gridStore.selectedRecords.clear();
@@ -283,7 +290,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
         } else if (this.valueFields && this.valueFields.length) {
             column = this.valueField;
         } else {
-            column = "ckId";
+            column = VAR_RECORD_ID;
         }
 
         const value: mixed = record[column];
@@ -315,7 +322,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
     });
 
     restoreSelectedAction = action("restoreSelectedAction", () => {
-        const gridStore = this.pageStore.stores.get(this.gridBc.ckPageObject);
+        const gridStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (gridStore) {
             this.selectedEntries.forEach(([key, value]) => {

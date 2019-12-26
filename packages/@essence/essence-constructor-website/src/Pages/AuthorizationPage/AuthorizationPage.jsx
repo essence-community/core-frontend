@@ -2,6 +2,7 @@
 import * as React from "react";
 import {inject, observer} from "mobx-react";
 import {PageLoader} from "@essence/essence-constructor-share";
+import {VAR_SETTING_PROJECT_LOADER} from "@essence/essence-constructor-share/constants";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import AppBar from "../../Components/AppBar";
 import ReportsContent from "../../Components/ReportsContent/ReportsContent";
@@ -41,7 +42,12 @@ class AuthorizationPage extends React.Component<PropsType> {
 
         switch (true) {
             case !applicationStore.isApplicationReady:
-                return <PageLoader isLoading loaderType={applicationStore.settingsStore.settings.projectLoader} />;
+                return (
+                    <PageLoader
+                        isLoading
+                        loaderType={applicationStore.settingsStore.settings[VAR_SETTING_PROJECT_LOADER]}
+                    />
+                );
             case applicationStore.mode === "reports":
                 return <ReportsContent>{children}</ReportsContent>;
             default:

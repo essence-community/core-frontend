@@ -7,6 +7,7 @@ import Panel from "../Panel/Panel";
 import panelMock from "../../../mocks/panel/panel";
 import {createEmptyPageStore} from "../../stores/index";
 
+// eslint-disable-next-line max-lines-per-function
 describe("BasePanelCollapsible", () => {
     const panelProps = {
         bc: panelMock,

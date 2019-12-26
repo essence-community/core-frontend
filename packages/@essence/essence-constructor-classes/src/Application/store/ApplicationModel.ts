@@ -1,7 +1,6 @@
 /* eslint-disable max-lines */
 import {computed, action, observable, when, ObservableMap} from "mobx";
 import {
-    camelCaseKeys,
     removeFromStore,
     saveToStore,
     FieldValue,
@@ -17,10 +16,17 @@ import {
     IRecord,
 } from "@essence/essence-constructor-share";
 import {
-    VAR_SELF_CV_URL,
+    VAR_RECORD_URL,
     VAR_SETTING_PROJECT_APPLICATION_PAGE,
     VAR_LANG_ID,
     VAR_NAMESPACE_VALUE,
+    VAR_RECORD_ROUTE_NAME,
+    VAR_RECORD_QUERY_ID,
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    VAR_RECORD_CV_LOGIN,
+    VAR_SETTING_MODULE_URL,
 } from "@essence/essence-constructor-share/constants";
 import {i18next} from "@essence/essence-constructor-share/utils";
 import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
@@ -50,17 +56,15 @@ const LOGOUT_CODE = 4001;
 export const CLOSE_CODE = 4002;
 
 const prepareUserGlobals = (userInfo: Partial<IAuthSession>) => {
-    return camelCaseKeys(
-        Object.entries(userInfo).reduce((acc: IRecord, [key, value]) => {
-            acc[`g_sess_${key}`] = value;
+    return Object.entries(userInfo).reduce((acc: IRecord, [key, value]) => {
+        acc[`g_sess_${key}`] = value;
 
-            return acc;
-        }, {}),
-    );
+        return acc;
+    }, {});
 };
 const NONE_BC = {
-    ckPageObject: "none",
-    ckParent: "none",
+    [VAR_RECORD_PAGE_OBJECT_ID]: "none",
+    [VAR_RECORD_PARENT_ID]: "none",
 };
 
 /**
@@ -83,7 +87,7 @@ export class ApplicationModel implements IApplicationModel {
 
     recordsStore: IRecordsModel;
 
-    cvUrl: string;
+    url: string;
 
     pageStore: IPageModel;
 
@@ -114,25 +118,25 @@ export class ApplicationModel implements IApplicationModel {
         return this.authStore.userInfo.session;
     }
 
-    constructor(history: History, cvUrl: string) {
+    constructor(history: History, url: string) {
         this.routesStore = null;
-        this.cvUrl = cvUrl;
-        this.mode = cvUrl;
+        this.url = url;
+        this.mode = url;
         this.history = history;
         this.pagesStore = new PagesModel(this);
         this.pageStore = new PageModel({
             applicationStore: this,
-            ckPage: "-1",
             defaultVisible: true,
             isActiveRedirect: false,
+            pageId: "-1",
         });
         this.authStore = new AuthModel(this);
         this.countConnect = 0;
         this.recordsStore = new RecordsModel(
             {
-                ckPageObject: "application",
-                ckParent: "application",
-                ckQuery: "GetMetamodelPage2.0",
+                [VAR_RECORD_PAGE_OBJECT_ID]: "application",
+                [VAR_RECORD_PARENT_ID]: "application",
+                [VAR_RECORD_QUERY_ID]: "GetMetamodelPage2.0",
                 defaultvalue: "##alwaysfirst##",
             },
             {applicationStore: this, pageStore: null},
@@ -142,8 +146,8 @@ export class ApplicationModel implements IApplicationModel {
     }
 
     handleGetValue = (name: string) => {
-        if (name === VAR_SELF_CV_URL) {
-            return this.cvUrl;
+        if (name === VAR_RECORD_URL) {
+            return this.url;
         }
 
         return this.globalValues.get(name);
@@ -186,8 +190,8 @@ export class ApplicationModel implements IApplicationModel {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-    redirectToAction = action("redirectToAction", async (ckPage: string, _params: Record<string, any>) => {
-        const page = await this.pagesStore.setPageAction(ckPage, true);
+    redirectToAction = action("redirectToAction", async (pageId: string, _params: Record<string, any>) => {
+        const page = await this.pagesStore.setPageAction(pageId, true);
 
         // Log
         if (page) {
@@ -201,36 +205,38 @@ export class ApplicationModel implements IApplicationModel {
         await Promise.all([
             this.recordsStore.recordsState.status === "init" &&
                 this.recordsStore
-                    .searchAction({ckPage: settingsStore.settings[VAR_SETTING_PROJECT_APPLICATION_PAGE]})
+                    .searchAction({
+                        [VAR_RECORD_ROUTE_PAGE_ID]: settingsStore.settings[VAR_SETTING_PROJECT_APPLICATION_PAGE],
+                    })
                     .then(() => {
                         const {children} = this.recordsStore.selectedRecrodValues;
 
                         this.recordsStore.setRecordsAction([
                             {
                                 ...this.recordsStore.selectedRecrodValues,
-                                children: [camelCaseKeys(pageSafeJson), ...(Array.isArray(children) ? children : [])],
+                                children: [pageSafeJson, ...(Array.isArray(children) ? children : [])],
                             },
                         ]);
                         this.recordsStore.setSelectionAction(this.recordsStore.selectedRecordId);
                     }),
             settingsStore.settings.module_available === "true" &&
                 !modulesStore.isLoaded &&
-                modulesStore.loadModules(settingsStore.settings.g_sys_module_url),
+                modulesStore.loadModules(settingsStore.settings[VAR_SETTING_MODULE_URL]),
             snackbarStore.recordsStore.recordsState.status === "init" && snackbarStore.recordsStore.loadRecordsAction(),
         ]);
 
-        if (this.bc.ckPageObject !== "none") {
+        if (this.bc[VAR_RECORD_PAGE_OBJECT_ID] !== "none") {
             this.routesStore = new RoutesModel(
                 {
-                    ckPageObject: "routes",
-                    ckParent: this.bc.ckPageObject,
-                    ckQuery: this.bc.ckQuery || "MTRoute",
+                    [VAR_RECORD_PAGE_OBJECT_ID]: "routes",
+                    [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+                    [VAR_RECORD_QUERY_ID]: this.bc[VAR_RECORD_QUERY_ID] || "MTRoute",
                 },
                 this,
             );
 
             await this.routesStore?.recordsStore.loadRecordsAction();
-            this.pagesStore.restorePagesAction(this.authStore.userInfo.cvLogin || "");
+            this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
         }
 
         this.isApplicationReady = true;
@@ -316,9 +322,9 @@ export class ApplicationModel implements IApplicationModel {
             switch (event.event) {
                 case "notification": {
                     snackbarStore.checkValidResponseAction(
-                        camelCaseKeys(event.data),
+                        event.data,
                         {
-                            cvName: "2ff612aa52314ddea65a5d303c867eb8",
+                            [VAR_RECORD_ROUTE_NAME]: "2ff612aa52314ddea65a5d303c867eb8",
                         },
                         undefined,
                         this,
@@ -330,7 +336,7 @@ export class ApplicationModel implements IApplicationModel {
                     break;
                 }
                 case "reloaduser": {
-                    this.reloadUserInfoAction(camelCaseKeys(event.data));
+                    this.reloadUserInfoAction(event.data);
                     break;
                 }
                 case "reloadpageobject": {
@@ -354,8 +360,8 @@ export class ApplicationModel implements IApplicationModel {
         saveToStore("auth", authValues);
     });
 
-    reloadPageObjectAction = action("reloadPageObject", (ckPage: string, ckPageObject: string) => {
-        const findedPage = this.pagesStore.pages.find((page) => page.ckPage === ckPage);
+    reloadPageObjectAction = action("reloadPageObject", (pageId: string, ckPageObject: string) => {
+        const findedPage = this.pagesStore.pages.find((page) => page.pageId === pageId);
 
         if (findedPage) {
             const store = findedPage.stores.get(ckPageObject);

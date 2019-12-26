@@ -3,7 +3,6 @@ import * as React from "react";
 import moment from "moment";
 import TodayButton from "rc-calendar/lib/calendar/TodayButton";
 import {IconButton} from "@material-ui/core";
-import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
 import dateJson from "../../../../../mocks/fields/date.json";
 import BuilderMobxForm from "../../../../Components/MobxForm/BuilderMobxForm";
 import {createEmptyPageStore} from "../../../../stores/index";
@@ -11,20 +10,19 @@ import {mountWithTheme} from "../../../../utils/test";
 import FieldMask from "../../FieldMask/FieldMask";
 import FieldDateRC, {FieldDateRCBase} from "../FieldDateRC";
 
-// eslint-disable-next-line max-statements
+// eslint-disable-next-line max-lines-per-function, max-statements
 describe("FieldDateRC", () => {
     const form = new BuilderMobxForm();
     const field = form.add({key: dateJson.column});
     const pageStore = createEmptyPageStore();
     const value = "2018-10-15T00:00:00";
-    const bc = camelCaseKeys(dateJson);
     let fieldConfig = {};
 
-    form.add({key: `${bc.column}_en`, value: "2018-11-01T00:00:00"});
-    form.add({key: `${bc.column}_st`, value: "2018-10-01T00:00:00"});
+    form.add({key: `${dateJson.column}_en`, value: "2018-11-01T00:00:00"});
+    form.add({key: `${dateJson.column}_st`, value: "2018-10-01T00:00:00"});
 
-    form.add({key: `${bc.column}_en_error`, value: ""});
-    form.add({key: `${bc.column}_st_error`, value: ""});
+    form.add({key: `${dateJson.column}_en_error`, value: ""});
+    form.add({key: `${dateJson.column}_st_error`, value: ""});
 
     beforeEach(() => {
         fieldConfig = {
@@ -41,7 +39,7 @@ describe("FieldDateRC", () => {
     });
 
     it("render", () => {
-        const wrapper = mountWithTheme(<FieldDateRC bc={bc} {...fieldConfig} />);
+        const wrapper = mountWithTheme(<FieldDateRC bc={dateJson} {...fieldConfig} />);
 
         wrapper.find(IconButton).simulate("focus");
 
@@ -51,7 +49,7 @@ describe("FieldDateRC", () => {
     it("Проверяем disabledstartdate - валидное значение", () => {
         const momentValue = moment(value);
         const wrapper = mountWithTheme(
-            <FieldDateRC bc={{...bc, disabledstartdate: `${bc.column}_en`}} {...fieldConfig} />,
+            <FieldDateRC bc={{...dateJson, disabledstartdate: `${dateJson.column}_en`}} {...fieldConfig} />,
         );
         const dateRCInstance = wrapper.find(FieldDateRCBase).instance();
 
@@ -63,7 +61,7 @@ describe("FieldDateRC", () => {
     it("Проверяем disabledstartdate  - не валидное значение", () => {
         const momentValue = moment("2018-12-01T00:00:00");
         const wrapper = mountWithTheme(
-            <FieldDateRC bc={{...bc, disabledstartdate: `${bc.column}_en`}} {...fieldConfig} />,
+            <FieldDateRC bc={{...dateJson, disabledstartdate: `${dateJson.column}_en`}} {...fieldConfig} />,
         );
         const dateRCInstance = wrapper.find(FieldDateRCBase).instance();
 
@@ -74,7 +72,7 @@ describe("FieldDateRC", () => {
     it("Проверяем disabledenddate - валидное значение", () => {
         const momentValue = moment(value);
         const wrapper = mountWithTheme(
-            <FieldDateRC bc={{...bc, disabledenddate: `${bc.column}_st`}} {...fieldConfig} />,
+            <FieldDateRC bc={{...dateJson, disabledenddate: `${dateJson.column}_st`}} {...fieldConfig} />,
         );
         const dateRCInstance = wrapper.find(FieldDateRCBase).instance();
 
@@ -86,7 +84,7 @@ describe("FieldDateRC", () => {
     it("Проверяем disabledenddate - не валидное значение", () => {
         const momentValue = moment("2018-09-01T00:00:00");
         const wrapper = mountWithTheme(
-            <FieldDateRC bc={{...bc, disabledenddate: `${bc.column}_st`}} {...fieldConfig} />,
+            <FieldDateRC bc={{...dateJson, disabledenddate: `${dateJson.column}_st`}} {...fieldConfig} />,
         );
         const dateRCInstance = wrapper.find(FieldDateRCBase).instance();
 
@@ -98,7 +96,11 @@ describe("FieldDateRC", () => {
         const momentValue = moment("2018-09-01T00:00:00");
         const wrapper = mountWithTheme(
             <FieldDateRC
-                bc={{...bc, disabledenddate: `${bc.column}_st_error`, disabledstartdate: `${bc.column}_en_error`}}
+                bc={{
+                    ...dateJson,
+                    disabledenddate: `${dateJson.column}_st_error`,
+                    disabledstartdate: `${dateJson.column}_en_error`,
+                }}
                 {...fieldConfig}
             />,
         );
@@ -110,7 +112,7 @@ describe("FieldDateRC", () => {
 
     ["1", "2", "3", "4", "5", "6"].forEach((format) => {
         it(`Проверяем открытии/закрытие календаря, format: ${format}`, (done) => {
-            const wrapper = mountWithTheme(<FieldDateRC bc={{...bc, format}} {...fieldConfig} />);
+            const wrapper = mountWithTheme(<FieldDateRC bc={{...dateJson, format}} {...fieldConfig} />);
             const dateRCInstance = wrapper.find(FieldDateRCBase).instance();
             const formatSelector = {
                 // $FlowFixMe
@@ -142,7 +144,7 @@ describe("FieldDateRC", () => {
     });
 
     it("Проверяем открытии/закрытие календаря, format: 2", (done) => {
-        const wrapper = mountWithTheme(<FieldDateRC bc={{...bc, format: "2"}} {...fieldConfig} />);
+        const wrapper = mountWithTheme(<FieldDateRC bc={{...dateJson, format: "2"}} {...fieldConfig} />);
         const dateRCInstance = wrapper.find(FieldDateRCBase).instance();
 
         expect.assertions(2);
@@ -163,7 +165,7 @@ describe("FieldDateRC", () => {
     });
 
     it("Измнение значение через ввод значения в полей ввода", () => {
-        const wrapper = mountWithTheme(<FieldDateRC bc={bc} {...fieldConfig} />);
+        const wrapper = mountWithTheme(<FieldDateRC bc={dateJson} {...fieldConfig} />);
 
         wrapper.find(FieldMask).prop("onChange")(null, "19.11.2018 12:00");
 
@@ -171,7 +173,7 @@ describe("FieldDateRC", () => {
     });
 
     it("Измнение значение через ввод значения в полей ввода - невалидное значение", () => {
-        const wrapper = mountWithTheme(<FieldDateRC bc={bc} {...fieldConfig} />);
+        const wrapper = mountWithTheme(<FieldDateRC bc={dateJson} {...fieldConfig} />);
 
         wrapper.find(FieldMask).prop("onChange")(null, "");
 

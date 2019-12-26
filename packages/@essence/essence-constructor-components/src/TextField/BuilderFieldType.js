@@ -13,7 +13,7 @@ export type BuilderFieldHanlers = {
 
 export type BaseBuilderFieldType = BuilderBaseType & {
     currencysign?: "string",
-    cvDisplayed?: string,
+    cv_displayed?: string,
     required?: "true" | "false",
     maxsize?: number,
     regexp?: string,

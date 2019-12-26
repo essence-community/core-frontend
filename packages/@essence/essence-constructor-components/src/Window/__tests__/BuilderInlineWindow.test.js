@@ -1,5 +1,16 @@
 // @flow
 import * as React from "react";
+import {
+    VAR_RECORD_ID,
+    VAR_MOCK_CV_INTERNAL,
+    VAR_RECORD_OBJECT_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_NAME,
+    VAR_MOCK_CV_KPP,
+    VAR_RECORD_QUERY_ID,
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_CV_DESCRIPTION,
+} from "@essence/essence-constructor-share/constants";
 import {GRID_ROW_HEIGHT} from "../../constants";
 import {mountWithTheme} from "../../utils/test";
 import {createEmptyPageStore} from "../../stores";
@@ -10,38 +21,38 @@ import InlineButtons from "../InlineButtons/InlineButtons";
 
 const BuilderPage = () => null;
 
-// eslint-disable-next-line max-statements
+// eslint-disable-next-line max-statements, max-lines-per-function
 describe("BuilderInlineWindow", () => {
     const btnBc = {
-        ckObject: "btn",
-        ckPageObject: "btn",
-        cvName: "btn",
+        [VAR_RECORD_NAME]: "btn",
+        [VAR_RECORD_OBJECT_ID]: "btn",
+        [VAR_RECORD_PAGE_OBJECT_ID]: "btn",
         type: "BTN",
     };
     const columnText = {
-        ckObject: "cv_internal",
-        ckPageObject: "cv_internal",
+        [VAR_RECORD_OBJECT_ID]: "cv_internal",
+        [VAR_RECORD_PAGE_OBJECT_ID]: "cv_internal",
         column: "cv_internal",
         datatype: "text",
         type: "IFIELD",
     };
     const columnHidden = {
-        ckObject: "cv_kpp",
-        ckPageObject: "cv_kpp",
+        [VAR_RECORD_OBJECT_ID]: "cv_kpp",
+        [VAR_RECORD_PAGE_OBJECT_ID]: "cv_kpp",
         column: "cv_kpp",
         datatype: "text",
         editmode: "disabled",
         type: "IFIELD",
     };
     const gridBc = {
+        [VAR_RECORD_CV_DESCRIPTION]: "Грид Результат поиска Организации",
+        [VAR_RECORD_DISPLAYED]: "Грид Организации",
+        [VAR_RECORD_NAME]: "Org Search Grid",
+        [VAR_RECORD_OBJECT_ID]: "grid",
+        [VAR_RECORD_PAGE_OBJECT_ID]: "grid",
+        [VAR_RECORD_QUERY_ID]: "OrgShowOrganizations",
         autoload: "false",
-        ckObject: "grid",
-        ckPageObject: "grid",
-        ckQuery: "OrgShowOrganizations",
         columns: [columnHidden, columnText],
-        cvDescription: "Грид Результат поиска Организации",
-        cvDisplayed: "Грид Организации",
-        cvName: "Org Search Grid",
         edittype: "inline",
         orderdirection: "ASC",
         orderproperty: "cv_name",
@@ -176,7 +187,11 @@ describe("BuilderInlineWindow", () => {
             .at(0)
             .prop("onClick")(new Event("click"));
 
-        expect(onSpySaveAction.mock.calls[0][0]).toEqual({ckId: "", cvInternal: "test", cvKpp: ""});
+        expect(onSpySaveAction.mock.calls[0][0]).toEqual({
+            [VAR_MOCK_CV_INTERNAL]: "test",
+            [VAR_MOCK_CV_KPP]: "",
+            [VAR_RECORD_ID]: "",
+        });
 
         wrapper.unmount();
     });

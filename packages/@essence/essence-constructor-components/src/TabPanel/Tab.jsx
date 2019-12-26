@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
 import omit from "lodash/omit";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import commonDecorator from "../decorators/commonDecorator";
 import {type PageModelType} from "../stores/PageModel";
 import {type TabModelType} from "../stores/TabModel";
@@ -26,7 +27,10 @@ class Tab extends React.Component<PropsType> {
     }
 
     componentDidUpdate() {
-        this.props.store.setOpenedTab(this.props.bc.ckPageObject, !(this.props.disabled || this.props.hidden));
+        this.props.store.setOpenedTab(
+            this.props.bc[VAR_RECORD_PAGE_OBJECT_ID],
+            !(this.props.disabled || this.props.hidden),
+        );
 
         this.handleChangeHidden();
     }
@@ -34,7 +38,7 @@ class Tab extends React.Component<PropsType> {
     handleChangeHidden = () => {
         const {isActive, hidden, store, bc} = this.props;
 
-        store.setTabStatus(bc.ckPageObject, {
+        store.setTabStatus(bc[VAR_RECORD_PAGE_OBJECT_ID], {
             hidden,
         });
 

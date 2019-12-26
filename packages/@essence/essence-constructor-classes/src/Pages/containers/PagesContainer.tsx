@@ -11,7 +11,7 @@ export const PagesContainer: React.FC = () => {
             {applicationStore &&
                 BuilderPage &&
                 applicationStore.pagesStore.pages.map((page: IPageModel) => (
-                    <BuilderPage key={page.ckPage} pageStore={page} visible bc={page.pagerBc} />
+                    <BuilderPage key={page.pageId} pageStore={page} visible bc={page.pagerBc} />
                 ))}
         </>
     ));

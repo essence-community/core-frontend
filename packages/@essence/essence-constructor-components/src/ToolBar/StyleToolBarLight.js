@@ -1,6 +1,7 @@
 // @flow
 
 /* eslint-disable sort-keys */
+// eslint-disable-next-line max-lines-per-function
 export const StyleToolBarLight = (theme: any) => ({
     activeButton: {
         color: theme.palette.common.selectedMenu,

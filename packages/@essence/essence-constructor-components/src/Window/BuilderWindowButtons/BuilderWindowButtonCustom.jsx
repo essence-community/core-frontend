@@ -3,6 +3,7 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import {DialogActions} from "@material-ui/core";
 import {mapComponents, EditorContex} from "@essence/essence-constructor-share";
+import VAR_RECORD_PAGE_OBJECT_ID from "@essence/essence-constructor-share/constants";
 import {type PageModelType} from "../../stores/PageModel";
 
 type PropsType = {
@@ -48,7 +49,7 @@ class BuilderWindowButtonCustom extends React.Component<PropsType> {
                 {checkboxAddMode}
                 {mapComponents(this.buttons, (BtnComponent, btn) => (
                     <BtnComponent
-                        key={btn.ckPageObject}
+                        key={btn[VAR_RECORD_PAGE_OBJECT_ID]}
                         bc={btn}
                         disabled={btn.handler === "onCloseWindow" ? false : !form.isValid || form.submitting}
                         tranformName="window"

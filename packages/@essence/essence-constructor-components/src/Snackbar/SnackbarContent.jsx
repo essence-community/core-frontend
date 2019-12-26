@@ -131,8 +131,4 @@ class SnackbarContent extends React.Component<PropsType> {
     }
 }
 
-export default compose(
-    withTranslation("meta"),
-    withStyles(styles),
-    observer,
-)(SnackbarContent);
+export default compose(withTranslation("meta"), withStyles(styles), observer)(SnackbarContent);

@@ -6,7 +6,7 @@ export type RequestType = {
     body?: Object,
     session?: string,
     json?: Object,
-    pageObject?: string,
+    page_object?: string,
     list?: boolean,
     onUploadProgress?: (progressEvent: ProgressEvent) => void,
     plugin?: string,

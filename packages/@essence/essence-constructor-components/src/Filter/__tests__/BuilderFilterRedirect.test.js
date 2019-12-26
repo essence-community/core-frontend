@@ -1,6 +1,14 @@
 // @flow
 import * as React from "react";
 import noop from "lodash/noop";
+import {
+    VAR_RECORD_ID,
+    VAR_MOCK_VALUE_DATE,
+    VAR_MOCK_VALUE_TEXT_DATE,
+    VAR_RECORD_OBJECT_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_NAME,
+} from "@essence/essence-constructor-share/constants";
 import {mountWithTheme} from "../../utils/test";
 import {createEmptyPageStore} from "../../stores";
 import BuilderFilter from "../BuilderFilter";
@@ -10,6 +18,7 @@ import filterComboGlobalBc from "../__mocks__/filterComboGlobalBc";
 
 import "../../TextField/BuilderField";
 
+// eslint-disable-next-line max-lines-per-function
 describe("BuilderFilterRedirect", () => {
     const getWrapper = ({handleSearch, bc, pageStore}) =>
         mountWithTheme(
@@ -20,7 +29,11 @@ describe("BuilderFilterRedirect", () => {
                 onChangeCollapse={noop}
                 onSearch={handleSearch}
                 pageStore={pageStore}
-                parentBc={{ckObject: "testfilter", ckPageObject: "testfilter", cvName: "testfilter"}}
+                parentBc={{
+                    [VAR_RECORD_NAME]: "testfilter",
+                    [VAR_RECORD_OBJECT_ID]: "testfilter",
+                    [VAR_RECORD_PAGE_OBJECT_ID]: "testfilter",
+                }}
                 editing
                 visible
                 open
@@ -33,7 +46,7 @@ describe("BuilderFilterRedirect", () => {
         const pageStore = createEmptyPageStore();
         const handleSearch = (values) => {
             expect(values).toEqual({
-                ckId: "",
+                [VAR_RECORD_ID]: "",
                 value1: "test",
                 value2: "t1 - test",
                 value3: "t2 - t1 - test",
@@ -54,12 +67,12 @@ describe("BuilderFilterRedirect", () => {
         const pageStore = createEmptyPageStore();
         const handleSearch = (values) => {
             expect(values).toEqual({
-                ckId: "",
+                [VAR_MOCK_VALUE_DATE]: "2018-03-01T00:00:00",
+                [VAR_MOCK_VALUE_TEXT_DATE]: "2018-03-01T00:00:00",
+                [VAR_RECORD_ID]: "",
                 value1: "test",
                 value2: "t1 - test",
                 value3: "t2 - t1 - test",
-                valueDate: "2018-03-01T00:00:00",
-                valueTextDate: "2018-03-01T00:00:00",
             });
         };
         const wrapper = getWrapper({bc: filterGlobalDefaultvaluesBc, handleSearch, pageStore});
@@ -76,7 +89,7 @@ describe("BuilderFilterRedirect", () => {
         const pageStore = createEmptyPageStore();
         const handleSearch = (values) => {
             expect(values).toEqual({
-                ckId: "",
+                [VAR_RECORD_ID]: "",
                 combo1: "71400",
                 value1: "71400",
                 value2: "АНО",
@@ -95,7 +108,7 @@ describe("BuilderFilterRedirect", () => {
         const pageStore = createEmptyPageStore();
         const handleSearch = (values) => {
             expect(values).toEqual({
-                ckId: "",
+                [VAR_RECORD_ID]: "",
                 combo1: "71400",
                 value1: "71400",
                 value2: "АНО",

@@ -1,5 +1,6 @@
 // @flow
 import {extendObservable, action, observable} from "mobx";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {StoreBaseModel, type StoreBaseModelPropsType} from "../StoreBaseModel";
 import {
     type BuilderTabType,
@@ -36,7 +37,7 @@ export class TabModel extends StoreBaseModel implements TabModelType {
         this.tabs = [...childs];
 
         childs.forEach((child) => {
-            this.tabStatus[child.ckPageObject] = {
+            this.tabStatus[child[VAR_RECORD_PAGE_OBJECT_ID]] = {
                 disabled: false,
                 hidden: false,
             };
@@ -44,13 +45,15 @@ export class TabModel extends StoreBaseModel implements TabModelType {
 
         extendObservable(this, {
             get activeInHidden() {
-                const activeTabIndex = this.reverseTabs.findIndex((tabBc) => this.tabValue === tabBc.ckPageObject);
+                const activeTabIndex = this.reverseTabs.findIndex(
+                    (tabBc) => this.tabValue === tabBc[VAR_RECORD_PAGE_OBJECT_ID],
+                );
 
                 return activeTabIndex < this.hiddenTabsIndex;
             },
             hiddenTabsIndex: 0,
             openedTabs: observable.map(),
-            tabValue: this.bc.childs && this.bc.childs.length ? this.bc.childs[0].ckPageObject : null,
+            tabValue: this.bc.childs && this.bc.childs.length ? this.bc.childs[0][VAR_RECORD_PAGE_OBJECT_ID] : null,
         });
     }
 
@@ -60,7 +63,7 @@ export class TabModel extends StoreBaseModel implements TabModelType {
     });
 
     setActiveTab = action("setActiveTab", (tabValue) => {
-        if (this.tabBc.childs && this.tabBc.childs.find((child) => child.ckPageObject === tabValue)) {
+        if (this.tabBc.childs && this.tabBc.childs.find((child) => child[VAR_RECORD_PAGE_OBJECT_ID] === tabValue)) {
             this.tabValue = tabValue;
             this.openedTabs.set(this.tabValue, true);
         }
@@ -69,10 +72,11 @@ export class TabModel extends StoreBaseModel implements TabModelType {
     setFirstActiveTab = action("setFirstActiveTab", () => {
         if (!this.tabValue || this.tabStatus[this.tabValue].hidden) {
             const tab =
-                this.tabBc.childs && this.tabBc.childs.find((child) => !this.tabStatus[child.ckPageObject].hidden);
+                this.tabBc.childs &&
+                this.tabBc.childs.find((child) => !this.tabStatus[child[VAR_RECORD_PAGE_OBJECT_ID]].hidden);
 
             if (tab) {
-                this.tabValue = tab.ckPageObject;
+                this.tabValue = tab[VAR_RECORD_PAGE_OBJECT_ID];
                 this.openedTabs.set(this.tabValue, true);
             }
         }
@@ -93,7 +97,7 @@ export class TabModel extends StoreBaseModel implements TabModelType {
 
     getActiveTabs = (): Array<Object> =>
         this.tabs.filter((tab): boolean => {
-            const status = this.tabStatus[tab.ckPageObject];
+            const status = this.tabStatus[tab[VAR_RECORD_PAGE_OBJECT_ID]];
 
             return status ? !status.disabled && !status.hidden : true;
         });

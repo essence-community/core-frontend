@@ -1,13 +1,14 @@
 // @flow
 import {action} from "mobx";
+import {VAR_RECORD_ROUTE_PAGE_ID, VAR_RECORD_CA_CHILDS} from "@essence/essence-constructor-share/constants";
 import {type RecordsModelType, RecordsModel} from "../RecordsModel";
 import {StoreBaseModel, type StoreBaseModelPropsType} from "../StoreBaseModel";
 import {type DynamicPanelType} from "./DynamicPanelModelType";
 
 const getSearchValues = (values: Object, bc: Object) => ({
     ...values,
-    caChilds: bc.childs && bc.childs.length ? bc.childs : undefined,
-    ckPage: bc.ckPage,
+    [VAR_RECORD_CA_CHILDS]: bc.childs && bc.childs.length ? bc.childs : undefined,
+    [VAR_RECORD_ROUTE_PAGE_ID]: bc[VAR_RECORD_ROUTE_PAGE_ID],
 });
 
 export class DynamicPanelModel extends StoreBaseModel implements DynamicPanelType {

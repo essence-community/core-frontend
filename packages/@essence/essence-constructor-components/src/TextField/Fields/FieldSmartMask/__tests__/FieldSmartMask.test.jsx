@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react";
 import InputMask from "react-input-mask";
-import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
 import DIdentityDocTypeJson from "../../../../../mocks/data/DIdentityDocType.json";
 import baseJson from "../../../../../mocks/fields/base.json";
 import BuilderMobxForm from "../../../../Components/MobxForm/BuilderMobxForm";
@@ -21,9 +20,8 @@ function changeField(value, input, selectionStart = 0) {
     input.simulate("change", event);
 }
 
+// eslint-disable-next-line max-lines-per-function
 describe("FieldSmartMask", () => {
-    const dIdentityDocTypeData = camelCaseKeys(DIdentityDocTypeJson);
-
     let fieldConfig = {};
     let form = {};
     let pageStore = {};
@@ -34,7 +32,7 @@ describe("FieldSmartMask", () => {
 
         pageStore.applicationStore.pagesStore.globalRecordsStore = new GlobalRecordsModel({pageStore});
         pageStore.applicationStore.pagesStore.globalRecordsStore.indentityDocTypeRecordsStore.setRecordsAction(
-            dIdentityDocTypeData,
+            DIdentityDocTypeJson,
         );
 
         fieldConfig = {

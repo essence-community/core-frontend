@@ -1,6 +1,18 @@
 // @flow
 import * as React from "react";
 import {FormControl, Checkbox, DialogTitle} from "@material-ui/core";
+import {
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_NAME,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    VAR_RECORD_CV_DESCRIPTION,
+    VAR_RECORD_CL_DATASET,
+} from "@essence/essence-constructor-share/constants";
 import BuilderWindowButtonCustom from "../BuilderWindowButtons/BuilderWindowButtonCustom";
 import {mountWithTheme} from "../../utils/test";
 import BuilderWindow from "../BuilderWindow";
@@ -11,59 +23,59 @@ import TextField from "../../TextField/TextField";
 
 const BuilderPage = () => null;
 
-// eslint-disable-next-line max-statements
+// eslint-disable-next-line max-statements, max-lines-per-function
 describe("BuilderWindow", () => {
     const btnBc = {
-        ckObject: "btn",
-        ckPageObject: "btn",
-        cvName: "btn",
+        [VAR_RECORD_NAME]: "btn",
+        [VAR_RECORD_OBJECT_ID]: "btn",
+        [VAR_RECORD_PAGE_OBJECT_ID]: "btn",
         type: "BTN",
     };
     const columnText = {
-        ckObject: "cv_internal",
-        ckPageObject: "cv_internal",
+        [VAR_RECORD_OBJECT_ID]: "cv_internal",
+        [VAR_RECORD_PAGE_OBJECT_ID]: "cv_internal",
         column: "cv_internal",
         datatype: "text",
         type: "IFIELD",
     };
     const gridBc = {
+        [VAR_RECORD_CV_DESCRIPTION]: "Грид Результат поиска Организации",
+        [VAR_RECORD_DISPLAYED]: "Грид Организации",
+        [VAR_RECORD_NAME]: "Org Search Grid",
+        [VAR_RECORD_OBJECT_ID]: "grid",
+        [VAR_RECORD_PAGE_OBJECT_ID]: "grid",
+        [VAR_RECORD_QUERY_ID]: "OrgShowOrganizations",
         autoload: "false",
-        ckObject: "grid",
-        ckPageObject: "grid",
-        ckQuery: "OrgShowOrganizations",
         columns: [columnText],
-        cvDescription: "Грид Результат поиска Организации",
-        cvDisplayed: "Грид Организации",
-        cvName: "Org Search Grid",
         edittype: "modalwindow",
         orderdirection: "ASC",
         orderproperty: "cv_name",
         type: "GRID",
     };
     const windowBc = {
+        [VAR_RECORD_CV_DESCRIPTION]: "Роли",
+        [VAR_RECORD_DISPLAYED]: "Великолепный мир2",
+        [VAR_RECORD_MASTER_ID]: "7FF99ACF84713521E053809BA8C08289",
+        [VAR_RECORD_NAME]: "Org Roles_gridwindow",
+        [VAR_RECORD_OBJECT_ID]: "7FF99ACF84713521E053809BA8C08289_gridwindow",
+        [VAR_RECORD_PAGE_OBJECT_ID]: "7FF99ACF84713521E053809BA8C08289_gridwindow",
+        [VAR_RECORD_PARENT_ID]: "7FF99ACF84713521E053809BA8C08289",
+        [VAR_RECORD_ROUTE_PAGE_ID]: "61",
         autobuild: "true",
         bottombtn: [],
         checkaddmore: "true",
         childs: [],
-        ckMaster: "7FF99ACF84713521E053809BA8C08289",
-        ckObject: "7FF99ACF84713521E053809BA8C08289_gridwindow",
-        ckPage: "61",
-        ckPageObject: "7FF99ACF84713521E053809BA8C08289_gridwindow",
-        ckParent: "7FF99ACF84713521E053809BA8C08289",
         ckwindow: "gridwindow",
         columns: [],
-        cvDescription: "Роли",
-        cvDisplayed: "Великолепный мир2",
-        cvName: "Org Roles_gridwindow",
         edittype: "modalwindow",
     };
     const inputRow = {
-        ckObject: "68E2ADA0B2CC4BD893CEB06D7D8D17D2",
-        ckPage: "2",
-        ckPageObject: "8149AF5CC0E2435FE053809BA8C0DBC7",
-        ckParent: "8149AF5CC0D5435FE053809BA8C0DBC7",
-        clDataset: "0",
-        cvName: "name",
+        [VAR_RECORD_CL_DATASET]: "0",
+        [VAR_RECORD_NAME]: "name",
+        [VAR_RECORD_OBJECT_ID]: "68E2ADA0B2CC4BD893CEB06D7D8D17D2",
+        [VAR_RECORD_PAGE_OBJECT_ID]: "8149AF5CC0E2435FE053809BA8C0DBC7",
+        [VAR_RECORD_PARENT_ID]: "8149AF5CC0D5435FE053809BA8C0DBC7",
+        [VAR_RECORD_ROUTE_PAGE_ID]: "2",
         datatype: "text",
         type: "IFIELD",
     };
@@ -109,7 +121,7 @@ describe("BuilderWindow", () => {
 
         wrapper.unmount();
     });
-    it("Create a new default window for update  and title = cvDescription", async () => {
+    it("Create a new default window for update  and title = cv_description", async () => {
         const wrapper = mountWithTheme(<BuilderPage pageStore={pageStore} visible />);
         const gridStore = new GridModel({bc: gridBc, pageStore});
 
@@ -120,11 +132,11 @@ describe("BuilderWindow", () => {
         expect(wrapper.find(TextField).prop("value")).toBe("Великолепный мир1");
         const dialogtitle = wrapper.find(DialogTitle);
 
-        expect(dialogtitle.find("div").text()).toBe(`Редактирование ${gridBc.cvDescription}`);
+        expect(dialogtitle.find("div").text()).toBe(`Редактирование ${gridBc[VAR_RECORD_CV_DESCRIPTION]}`);
 
         wrapper.unmount();
     });
-    it("Create a new default window with windowTitle = cvDisplayed and check Добавить ещё", async () => {
+    it("Create a new default window with windowTitle = [VAR_RECORD_DISPLAYED] and check Добавить ещё", async () => {
         const gridStore = new GridModel({bc: gridBc, pageStore});
         const windowStore = new WindowModel({
             bc: windowBc,

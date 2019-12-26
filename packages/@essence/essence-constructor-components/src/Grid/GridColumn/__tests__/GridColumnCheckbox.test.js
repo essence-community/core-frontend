@@ -2,6 +2,7 @@
 import * as React from "react";
 import {Checkbox} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
+import {VAR_RECORD_ID} from "@essence/essence-constructor-share";
 import {mountWithTheme} from "../../../utils/test";
 import {createEmptyPageStore} from "../../../stores";
 import {GridModel} from "../../../stores/GridModel";
@@ -9,6 +10,7 @@ import {gridBc as baseGridBc, checkboxBc} from "../../__mock__/builderConfigs";
 import {records, treeRecords} from "../../__mock__/records";
 import GridColumnCheckbox from "../GridColumnCheckbox";
 
+// eslint-disable-next-line max-lines-per-function
 describe("GridColumnCheckbox", () => {
     const pageStore = createEmptyPageStore();
     const baseProps = {
@@ -59,7 +61,7 @@ describe("GridColumnCheckbox", () => {
         const store = new GridModel({bc: gridBc, pageStore});
 
         store.recordsStore.setRecordsAction(treeRecords);
-        store.toggleSelectedRecordAction(treeRecords[2].ckId, treeRecords[2], false);
+        store.toggleSelectedRecordAction(treeRecords[2][VAR_RECORD_ID], treeRecords[2], false);
 
         const wrapper = mountWithTheme(
             <GridColumnCheckbox {...baseProps} gridBc={gridBc} bc={checkboxBc} store={store} record={treeRecords[1]} />,
@@ -107,7 +109,7 @@ describe("GridColumnCheckbox", () => {
         const store = new GridModel({bc: gridBc, pageStore});
 
         store.recordsStore.setRecordsAction(treeRecords);
-        store.toggleSelectedRecordAction(treeRecords[2].ckId, treeRecords[2], false);
+        store.toggleSelectedRecordAction(treeRecords[2][VAR_RECORD_ID], treeRecords[2], false);
 
         const wrapper = mountWithTheme(
             <GridColumnCheckbox {...baseProps} gridBc={gridBc} bc={checkboxBc} store={store} record={treeRecords[0]} />,

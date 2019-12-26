@@ -5,11 +5,15 @@ import {compose} from "recompose";
 import {reaction, observe} from "mobx";
 import {observer, disposeOnUnmount} from "mobx-react";
 import noop from "lodash/noop";
-import camelCase from "lodash/camelCase";
 import {withStyles} from "@material-ui/core/styles";
 import {Grid, Table, TableBody} from "@material-ui/core";
 import {parse} from "@essence/essence-constructor-share/utils/parser";
 import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+} from "@essence/essence-constructor-share/constants";
 import Scrollbars, {type ReactCustomScrollbarsType} from "../Components/Scrollbars/Scrollbars";
 import {isEmpty} from "../utils/base";
 import EmptyTitle from "../Components/EmptyTitle/EmptyTitle";
@@ -80,7 +84,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
 
         const {autoselectidentity} = props.bc;
 
-        this.autoSelectIdentity = isEmpty(autoselectidentity) ? null : camelCase(autoselectidentity);
+        this.autoSelectIdentity = isEmpty(autoselectidentity) ? null : autoselectidentity;
     }
 
     componentDidMount() {
@@ -157,8 +161,8 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
         const {store} = this.props;
 
         store.recordsStore.records.forEach((rec) => {
-            if (rec.expanded === "true" && !store.expansionRecords.has(rec.ckId)) {
-                store.openCloseExpansionAction(rec.ckId, true);
+            if (rec.expanded === "true" && !store.expansionRecords.has(rec[VAR_RECORD_ID])) {
+                store.openCloseExpansionAction(rec[VAR_RECORD_ID], true);
             }
         });
 
@@ -167,7 +171,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
             !isEmpty(store.recordsStore.searchValues[this.autoSelectIdentity]) &&
             store.recordsStore.records.length > 0
         ) {
-            store.recordsStore.setSelectionAction(store.recordsStore.records[0].ckId);
+            store.recordsStore.setSelectionAction(store.recordsStore.records[0][VAR_RECORD_ID]);
         }
     };
 
@@ -290,6 +294,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
         return visible !== false && pageStore.visible;
     };
 
+    // eslint-disable-next-line max-lines-per-function
     renderTable(isInlineEditing: boolean, height: number) {
         const {
             classes,
@@ -313,7 +318,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
                 <Grid item xs zeroMinWidth className={classes.headerItem}>
                     <div className={classes.headerScroll} ref={this.setHeaderElement}>
                         <Table
-                            data-page-object={`${bc.ckPageObject}-table-header`}
+                            data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-table-header`}
                             ref={this.setRefTableHeader}
                             className={classes.tableHeader}
                         >
@@ -359,7 +364,10 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
                             }
                         >
                             {bc.edittype === "inline" ? <div ref={this.setRefGridInline} /> : null}
-                            <Table data-page-object={`${bc.ckPageObject}-table-body`} className={classes.tableBodyRoot}>
+                            <Table
+                                data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-table-body`}
+                                className={classes.tableBodyRoot}
+                            >
                                 <GridColgroup store={store} />
                                 <TableBody ref={this.setRefBody} onMouseDown={this.handleGridBodyMouseDown}>
                                     {children}
@@ -401,13 +409,14 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
         <div className={this.props.classes.warning}>{this.props.t("40dd53ff1c214bfab79ecd40612de8f5")}</div>
     );
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         // eslint-disable-next-line id-length
         const {bc, store, classes, disabled, hideTitle, readOnly, pageStore, visible, t} = this.props;
         const {filters = [], childwindow = [], orderproperty} = bc;
         const hideactionsDark = bc.hideactions === "true" && pageStore.styleTheme === "dark";
         const isInlineEditing = store.isEdit && bc.edittype === "inline" && childwindow.length === 0;
-        const transCvDisplayed = t(bc.cvDisplayed);
+        const transCvDisplayed = t(bc[VAR_RECORD_DISPLAYED]);
 
         return (
             <React.Fragment>
@@ -416,7 +425,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
                         {filters.map((filter) => (
                             <BuilderFilter
                                 disabled={disabled}
-                                key={filter.ckPageObject}
+                                key={filter[VAR_RECORD_PAGE_OBJECT_ID]}
                                 onSearch={store.searchAction}
                                 bc={filter}
                                 parentBc={bc}
@@ -483,8 +492,4 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
     }
 }
 
-export default compose(
-    withStyles(styles),
-    withTranslation("meta"),
-    observer,
-)(BuilderBaseGridBase);
+export default compose(withStyles(styles), withTranslation("meta"), observer)(BuilderBaseGridBase);

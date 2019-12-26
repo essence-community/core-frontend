@@ -3,6 +3,7 @@ import * as React from "react";
 import {Paper, Grid} from "@material-ui/core";
 import {setComponent, mapComponents} from "@essence/essence-constructor-share";
 import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants";
 import {compose} from "recompose";
 import {buttonDirection} from "../constants";
 import Content from "../Components/Content/Content";
@@ -40,7 +41,7 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType & W
             return (
                 <Grid container alignItems="center" direction={buttonDirection} spacing={1}>
                     {mapComponents(topbtn, (ChildComp, child) => (
-                        <Grid item key={child.ckPageObject}>
+                        <Grid item key={child[VAR_RECORD_PAGE_OBJECT_ID]}>
                             <ChildComp
                                 bc={child}
                                 disabled={disabled}
@@ -95,12 +96,11 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType & W
     renderPanel(isThemePanelWrapper: boolean) {
         // eslint-disable-next-line id-length
         const {bc, editing, readOnly, elevation, t} = this.props;
-        const {collapsible, cvDisplayed} = bc;
 
-        if (collapsible === "true") {
+        if (bc.collapsible === "true") {
             return (
                 <BasePanelCollapsible
-                    title={t(cvDisplayed)}
+                    title={t(bc[VAR_RECORD_DISPLAYED])}
                     editing={readOnly ? false : editing}
                     bc={bc}
                     renderBasePanel={this.renderBasePanel}
@@ -131,11 +131,11 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType & W
         let content = this.renderPanel(isThemePanelWrapper);
 
         if (isThemePanelWrapper && hideactions !== "true") {
-            if (bc.cvDisplayed && !hideTitle && bc.type !== "BOX") {
+            if (bc[VAR_RECORD_DISPLAYED] && !hideTitle && bc.type !== "BOX") {
                 content = (
                     <Grid container spacing={0} direction="column">
                         <Grid item>
-                            <EmptyTitle title={t(bc.cvDisplayed)} filters={bc.filters} slim={false} />
+                            <EmptyTitle title={t(bc[VAR_RECORD_DISPLAYED])} filters={bc.filters} slim={false} />
                         </Grid>
                         <Grid item>
                             <ThemePanelWrapper

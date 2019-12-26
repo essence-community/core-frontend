@@ -4,20 +4,30 @@ import {request} from "../request";
 import {IPageModel} from "../types/PageModel";
 import {ISnackbarModel} from "../types/SnackbarModel";
 import {FieldValue, IRecord, IResponse, IApplicationModel} from "../types";
-import {VAR_RECORD_RES_DOWNLOAD_URL} from "../constants";
+import {
+    VAR_RECORD_URL,
+    VAR_RECORD_ID,
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_CL_ONLINE,
+    VAR_RECORD_CV_ACTION,
+    META_PAGE_OBJECT,
+    VAR_RECORD_CK_D_ENDPOINT,
+} from "../constants";
 
 interface IPrintBC {
-    ckParent: string;
+    ck_parent: string;
     updatequery?: string;
-    ckDEndpoint?: string;
-    updateQuery?: string;
+    ck_d_endpoint?: string;
+    update_query?: string;
     extraplugingate?: string;
     noglobalmask?: string;
 }
 
 interface IReloadPageObject {
-    ckPage: string;
-    ckPageObject: string;
+    [VAR_RECORD_ROUTE_PAGE_ID]: string;
+    [VAR_RECORD_PAGE_OBJECT_ID]: string;
 }
 
 interface IPrint {
@@ -33,7 +43,7 @@ interface IPrint {
 }
 
 interface IResult extends IResponse, IRecord {
-    [VAR_RECORD_RES_DOWNLOAD_URL]: string | undefined;
+    [VAR_RECORD_URL]: string | undefined;
 }
 
 export const print = async ({
@@ -47,20 +57,20 @@ export const print = async ({
     reloadPageObject,
     timeout,
 }: IPrint) => {
-    values.ckId = null;
-    values.clOnline = Number(isOnline);
+    values[VAR_RECORD_ID] = null;
+    values[VAR_RECORD_CL_ONLINE] = Number(isOnline);
     setMask(true, bcBtn.noglobalmask, pageStore);
     const result: any = await request({
+        [META_PAGE_OBJECT]: bc[VAR_RECORD_PARENT_ID],
         action: "dml",
-        gate: bc.ckDEndpoint,
+        gate: bc[VAR_RECORD_CK_D_ENDPOINT],
         json: {
             data: values,
             reloadpageobject: reloadPageObject,
             service: {
-                cvAction: "I",
+                [VAR_RECORD_CV_ACTION]: "I",
             },
         },
-        pageObject: bc.ckParent,
         plugin: bcBtn.extraplugingate || bc.extraplugingate,
         query: bcBtn.updatequery || "Modify",
         session: applicationStore.authStore.userInfo.session,
@@ -71,18 +81,18 @@ export const print = async ({
     setMask(false, bcBtn.noglobalmask, pageStore);
     const isValid = snackbarStore.checkValidResponseAction(res, pageStore.route, undefined, applicationStore);
 
-    if (isValid && isOnline && res[VAR_RECORD_RES_DOWNLOAD_URL]) {
-        window.open(res[VAR_RECORD_RES_DOWNLOAD_URL]);
+    if (isValid && isOnline && res[VAR_RECORD_URL]) {
+        window.open(res[VAR_RECORD_URL]);
     }
 
     return isValid;
 };
 
-export const downloadFile = (cvName: string, queryParams: string, gate: string) => {
+export const downloadFile = (name: string, queryParams: string, gate: string) => {
     const form = document.createElement("form");
 
     form.setAttribute("method", "post");
-    form.setAttribute("name", cvName);
+    form.setAttribute("name", name);
     form.setAttribute("action", `${gate}?${queryParams}`);
     if (document.body) {
         document.body.appendChild(form);

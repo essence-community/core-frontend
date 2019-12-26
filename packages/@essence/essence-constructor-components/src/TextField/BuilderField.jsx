@@ -9,6 +9,11 @@ import {type ObserverCallPropsType, Field} from "mobx-react-form";
 import {withStyles} from "@material-ui/core/styles";
 import {IconButton, InputAdornment} from "@material-ui/core";
 import {setComponent, Icon} from "@essence/essence-constructor-share";
+import {
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_CL_IS_MASTER,
+} from "@essence/essence-constructor-share/constants";
 import commonDecorator from "../decorators/commonDecorator";
 import {isEmpty} from "../utils/base";
 import {makeRedirect} from "../utils/redirect";
@@ -51,18 +56,14 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
     }
 
     componentDidMount() {
-        const {
-            bc: {datatype = "", clIsMaster},
-            field,
-            form,
-        } = this.props;
+        const {bc, field, form} = this.props;
         const {value} = field;
 
-        if (!(datatype in disabledSelfGlobal)) {
+        if (bc.datatype && !(bc.datatype in disabledSelfGlobal)) {
             setTimeout(this.handleInitGlobal, 0);
         }
 
-        if (clIsMaster) {
+        if (bc[VAR_RECORD_CL_IS_MASTER]) {
             if (!isEmpty(value)) {
                 this.handleChangeField({
                     change: {
@@ -92,8 +93,8 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
     componentWillUnmount() {
         const {form} = this.props;
 
-        if (form && this.props.bc.clIsMaster && this.props.pageStore) {
-            this.props.pageStore.removeFieldValueMaster(this.props.bc.ckPageObject);
+        if (form && this.props.bc[VAR_RECORD_CL_IS_MASTER] && this.props.pageStore) {
+            this.props.pageStore.removeFieldValueMaster(this.props.bc[VAR_RECORD_PAGE_OBJECT_ID]);
         }
 
         this.disposers.forEach((disposer) => disposer());
@@ -114,12 +115,12 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
 
     handleChangeField = async ({change}: ObserverCallPropsType) => {
         if (this.props.pageStore && change.type === "update") {
-            const {ckPageObject} = this.props.bc;
+            const ckPageObject = this.props.bc[VAR_RECORD_PAGE_OBJECT_ID];
 
             await this.props.pageStore.addFieldValueMaster(ckPageObject, change.newValue);
 
             this.props.pageStore.stores.forEach((store) => {
-                if (store && store.bc && store.bc.ckMaster === ckPageObject) {
+                if (store && store.bc && store.bc[VAR_RECORD_MASTER_ID] === ckPageObject) {
                     store.reloadStoreAction();
                     store.clearAction && store.clearAction();
                 }
@@ -129,7 +130,13 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
 
     handleClick = () => {
         const {bc, pageStore, form} = this.props;
-        const {ckPageObject, columnsfilter, extraplugingate, redirecturl, redirectusequery} = bc;
+        const {
+            [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
+            columnsfilter,
+            extraplugingate,
+            redirecturl,
+            redirectusequery,
+        } = bc;
 
         if (redirecturl || redirectusequery) {
             makeRedirect(
@@ -143,7 +150,7 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
     handleChange = (event: SyntheticEvent<>, value: mixed) => {
         const {field, onChange, bc, form} = this.props;
 
-        this.handleResetChilds(bc.ckPageObject);
+        this.handleResetChilds(bc[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (onChange) {
             onChange(event, value);
@@ -169,7 +176,7 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
             event.stopPropagation();
         }
 
-        this.handleResetChilds(bc.ckPageObject);
+        this.handleResetChilds(bc[VAR_RECORD_PAGE_OBJECT_ID]);
         field.clear();
 
         if (field.hasError) {
@@ -185,7 +192,7 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
 
         if (childs) {
             childs.forEach((childField: Field) => {
-                const ckPageObjectChild: ?string = get(childField, "options.bc.ckPageObject");
+                const ckPageObjectChild: ?string = get(childField, `options.bc.${VAR_RECORD_PAGE_OBJECT_ID}`);
 
                 childField.clear();
                 childField.resetValidation();
@@ -231,6 +238,7 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
         return tips;
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {bc, editing, readOnly, hidden, classes, form, field, visible, disabled, tabIndex} = this.props;
         const {BuilderFieldComponent} = this.state;
@@ -292,12 +300,7 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
     }
 }
 
-const BuilderField = compose(
-    commonDecorator,
-    withFieldDecorator(),
-    withStyles(styles),
-    observer,
-)(BuilderFieldBase);
+const BuilderField = compose(commonDecorator, withFieldDecorator(), withStyles(styles), observer)(BuilderFieldBase);
 
 setComponent("IFIELD", BuilderField);
 setComponent("CUSTOM", BuilderField);

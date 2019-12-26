@@ -2,28 +2,34 @@
 import {action} from "mobx";
 import {isEmpty, PageModel, sendRequest} from "@essence/essence-constructor-components";
 import {snackbarStore} from "@essence/essence-constructor-share/models";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_CD_PERIOD,
+    VAR_RECORD_CK_DEPT,
+    VAR_RECORD_CV_TIMEZONE,
+} from "@essence/essence-constructor-share/constants";
 import type {AuthModelType} from "./AuthModel";
 import type {ApplicationModelType} from "./ApplicationModel";
 
 export interface ProfileModelType {
     +authStore: AuthModelType;
-    +changeDeptAction: (deptValue?: string | number, cvTimezone?: string) => void;
+    +changeDeptAction: (deptValue?: string | number, timezone?: string) => void;
 }
 
 export type ProfileModelParamsType = {
     authStore: AuthModelType,
     applicationStore: ApplicationModelType,
-    ckPage: string,
+    pageId: string,
 };
 
 class ProfileModel extends PageModel implements ProfileModelType {
     authStore: AuthModelType;
 
-    constructor({applicationStore, authStore, ckPage}: ProfileModelParamsType) {
+    constructor({applicationStore, authStore, pageId}: ProfileModelParamsType) {
         super({
             applicationStore,
-            ckPage,
             isReadOnly: false,
+            pageId,
         });
         this.authStore = authStore;
     }
@@ -33,7 +39,7 @@ class ProfileModel extends PageModel implements ProfileModelType {
             action: "sql",
             json: {
                 master: {
-                    ckId: deptValue,
+                    [VAR_RECORD_ID]: deptValue,
                 },
             },
             query: "ProfileShowUserDepartmentPeriodStatus",
@@ -41,9 +47,9 @@ class ProfileModel extends PageModel implements ProfileModelType {
         })
             .then((response = {}) => {
                 if (snackbarStore.checkValidResponseAction(response, undefined, undefined, this.applicationStore)) {
-                    if (response.cdPeriod) {
-                        this.applicationStore.updateGlobalValuesAction({gCdPeriod: response.cdPeriod});
-                        this.updateGlobalValues({gCdPeriod: response.cdPeriod});
+                    if (response[VAR_RECORD_CD_PERIOD]) {
+                        this.applicationStore.updateGlobalValuesAction({gCdPeriod: response[VAR_RECORD_CD_PERIOD]});
+                        this.updateGlobalValues({gCdPeriod: response[VAR_RECORD_CD_PERIOD]});
                     } else {
                         this.applicationStore.updateGlobalValuesAction({gCdPeriod: ""});
                         this.updateGlobalValues({gCdPeriod: ""});
@@ -55,13 +61,13 @@ class ProfileModel extends PageModel implements ProfileModelType {
             });
     });
 
-    updateDefaultDepartment = action("loadPeriodAction", (deptValue: string, cvTimezone?: string = "+03:00") => {
+    updateDefaultDepartment = action("loadPeriodAction", (deptValue: string, timezone?: string = "+03:00") => {
         sendRequest({
             action: "dml",
             json: {
                 data: {
-                    ckDept: parseInt(deptValue, 10),
-                    cvTimezone,
+                    [VAR_RECORD_CK_DEPT]: parseInt(deptValue, 10),
+                    [VAR_RECORD_CV_TIMEZONE]: timezone,
                 },
             },
             query: "ModifyDefaultDepartment",
@@ -70,7 +76,7 @@ class ProfileModel extends PageModel implements ProfileModelType {
             .then((response = {}) => {
                 if (snackbarStore.checkValidResponseAction(response, undefined, undefined, this.applicationStore)) {
                     this.authStore.changeUserInfo({
-                        ckDept: deptValue,
+                        [VAR_RECORD_CK_DEPT]: deptValue,
                     });
                 }
             })

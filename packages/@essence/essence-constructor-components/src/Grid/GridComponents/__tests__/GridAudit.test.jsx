@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
-import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
 import {Typography} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
+import {VAR_RECORD_CT_CHANGE} from "@essence/essence-constructor-share/constants";
 import {sleep} from "../../../utils/base";
 import {mountWithTheme, MAX_REQUEST_TIME} from "../../../utils/test";
 import {createEmptyPageStore} from "../../../stores";
@@ -11,19 +11,18 @@ import gridJson from "../../../../mocks/grid/grid";
 import GridAudit from "../GridAudit";
 
 describe("GridAudit", () => {
-    const bc = camelCaseKeys(gridJson);
     const pageStore = createEmptyPageStore();
-    const gridStore = new GridModel({bc, pageStore});
+    const gridStore = new GridModel({bc: gridJson, pageStore});
     const renderChildren = ({onOpen, open, onClose}) => <Icon iconfont="info" onClick={open ? onClose : onOpen} />;
 
     // $FlowFixMe
     gridStore.recordsStore.selectedRecord = {
-        ctChange: "2018-05-24T09:13:39",
+        [VAR_RECORD_CT_CHANGE]: "2018-05-24T09:13:39",
     };
 
     it("Открытие аудита и заполнения данных", async () => {
         const wrapper = mountWithTheme(
-            <GridAudit parentStore={gridStore} bc={bc} pageStore={pageStore}>
+            <GridAudit parentStore={gridStore} bc={gridJson} pageStore={pageStore}>
                 {renderChildren}
             </GridAudit>,
         );
@@ -43,7 +42,7 @@ describe("GridAudit", () => {
     it("Открытие аудита и закрытие по одной кнопке", () => {
         const onClose = jest.fn();
         const wrapper = mountWithTheme(
-            <GridAudit parentStore={gridStore} bc={bc} pageStore={pageStore} onClose={onClose}>
+            <GridAudit parentStore={gridStore} bc={gridJson} pageStore={pageStore} onClose={onClose}>
                 {renderChildren}
             </GridAudit>,
         );

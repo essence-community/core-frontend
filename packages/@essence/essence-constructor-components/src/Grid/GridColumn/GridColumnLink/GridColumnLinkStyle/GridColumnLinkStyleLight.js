@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-lines-per-function
 export const GridColumnLinkStyleLight = (theme) => ({
     iconButtonOpentop: {
         "&$iconButtonOpenRoot": {

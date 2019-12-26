@@ -2,6 +2,7 @@
 import * as React from "react";
 import {Checkbox} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
+import {VAR_RECORD_ID} from "@essence/essence-constructor-share/constants";
 import {mountWithTheme} from "../../../utils/test";
 import {checkboxBc, gridBc} from "../../__mock__/builderConfigs";
 import {records} from "../../__mock__/records";
@@ -9,6 +10,7 @@ import {createEmptyPageStore} from "../../../stores";
 import {GridModel} from "../../../stores/GridModel";
 import GridColumnHeaderCheckbox from "../GridColumnHeaderCheckbox";
 
+// eslint-disable-next-line max-lines-per-function
 describe("GridColumnHeaderCheckbox", () => {
     const bc = checkboxBc;
     const pageStore = createEmptyPageStore();
@@ -39,7 +41,7 @@ describe("GridColumnHeaderCheckbox", () => {
     });
 
     it("Select one record", () => {
-        store.selectedRecords.set(records[0].ckId, records[0]);
+        store.selectedRecords.set(records[0][VAR_RECORD_ID], records[0]);
 
         const wrapper = mountWithTheme(<GridColumnHeaderCheckbox bc={bc} store={store} />);
 

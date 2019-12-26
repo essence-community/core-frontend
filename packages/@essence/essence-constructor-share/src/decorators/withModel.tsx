@@ -1,5 +1,6 @@
 import * as React from "react";
 import {IBuilderConfig, IPageModel, IRecordsModel} from "../types";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
 import {checkAutoload} from "./utils";
 
 export interface IWithModelProps {
@@ -40,9 +41,9 @@ export const withModel = <Model extends IModelType, P extends IWithModelProps>(
             const {recordsStore} = store;
             const isAutoLoad = checkAutoload({bc, pageStore, recordsStore: store.recordsStore});
 
-            if (bc.ckPageObject) {
+            if (bc[VAR_RECORD_PAGE_OBJECT_ID]) {
                 // @ts-ignore
-                this.props.pageStore.addStore(store, bc.ckPageObject);
+                this.props.pageStore.addStore(store, bc[VAR_RECORD_PAGE_OBJECT_ID]);
             }
 
             this.setState(
@@ -72,9 +73,9 @@ export const withModel = <Model extends IModelType, P extends IWithModelProps>(
         }
 
         public componentWillUnmount() {
-            if (this.props.bc.ckPageObject) {
+            if (this.props.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
                 // @ts-ignore
-                this.props.pageStore.removeStore(this.props.bc.ckPageObject, this.state.store);
+                this.props.pageStore.removeStore(this.props.bc[VAR_RECORD_PAGE_OBJECT_ID], this.state.store);
             }
         }
 

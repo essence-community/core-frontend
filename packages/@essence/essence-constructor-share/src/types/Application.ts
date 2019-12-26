@@ -1,13 +1,14 @@
 import {ObservableMap} from "mobx";
 import {History} from "history";
+import {VAR_RECORD_CV_LOGIN, VAR_RECORD_CA_ACTIONS} from "../constants";
 import {IRoutesModel} from "./RoutesModel";
 import {IStoreBaseModel} from "./StoreBaseModel";
 import {IBuilderConfig, FieldValue, IAuthModel, IPagesModel, IAuthSession} from ".";
 
 export interface ISession {
     session: string;
-    cvLogin: string;
-    caActions: number[];
+    [VAR_RECORD_CV_LOGIN]: string;
+    [VAR_RECORD_CA_ACTIONS]: number[];
 }
 export interface IConfigs {
     baseUrl: string;
@@ -26,15 +27,15 @@ export interface IApplicationModel extends IStoreBaseModel {
     blockText: string;
     pagesStore: IPagesModel;
     history: History;
-    cvUrl: string;
+    url: string;
     updateGlobalValuesAction(values: Record<string, string>): void;
     setSesssionAction(userInfo: IAuthSession): Promise<void>;
     logoutAction(): void;
-    redirectToAction(ckPage: string, params: Record<string, FieldValue>): Promise<void>;
+    redirectToAction(pageId: string, params: Record<string, FieldValue>): Promise<void>;
     loadApplicationAction(): Promise<void>;
     blockApplicationAction(type: string, text: string): void;
     initWsClient(session: string): void;
     handleWsMessage(msg: MessageEvent): void;
     reloadUserInfoAction(authValues: IAuthSession): void;
-    reloadPageObjectAction(ckPage: string, ckPageObject: string): void;
+    reloadPageObjectAction(pageId: string, ckPageObject: string): void;
 }

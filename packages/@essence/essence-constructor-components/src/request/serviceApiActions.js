@@ -1,15 +1,23 @@
 // @flow
 import isArray from "lodash/isArray";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    VAR_RECORD_CK_MAIN,
+    VAR_RECORD_CL_WARNING,
+    VAR_RECORD_CV_ACTION,
+} from "@essence/essence-constructor-share/constants";
 import {type BuilderModeType} from "../BuilderType";
 import {sendRequest} from "./baseRequest";
 
 type ConfigType = {|
     action?: string,
     mode: BuilderModeType,
-    ckPage: string,
-    ckPageObject: string,
-    ckMain?: null | string,
-    clWarning?: number,
+    ck_page: string,
+    ck_page_object: string,
+    ck_main?: null | string,
+    cl_warning?: number,
     session: string,
     query?: string,
     onUploadProgress?: (progressEvent: ProgressEvent) => void,
@@ -34,7 +42,7 @@ function getValues(values: Object | Array<*>, mode: BuilderModeType) {
     if (!isArray(values) && (mode === "6" || mode === "1")) {
         return {
             ...values,
-            ckId: null,
+            [VAR_RECORD_ID]: null,
         };
     }
 
@@ -45,11 +53,11 @@ export function apiSaveAction(
     values: Object | Array<*>,
     {
         mode,
-        ckPage,
-        ckPageObject,
-        clWarning = 0,
+        [VAR_RECORD_ROUTE_PAGE_ID]: pageId,
+        [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
+        [VAR_RECORD_CL_WARNING]: warningStatus = 0,
         session,
-        ckMain,
+        [VAR_RECORD_CK_MAIN]: main,
         query = "Modify",
         onUploadProgress,
         plugin,
@@ -59,20 +67,20 @@ export function apiSaveAction(
     }: ConfigType,
 ) {
     return sendRequest({
+        [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
         action,
         formData,
         json: {
             data: values,
             service: {
-                ckMain,
-                ckPage,
-                ckPageObject,
-                clWarning,
-                cvAction: actionModeMap[mode] || mode,
+                [VAR_RECORD_CK_MAIN]: main,
+                [VAR_RECORD_CL_WARNING]: warningStatus,
+                [VAR_RECORD_CV_ACTION]: actionModeMap[mode] || mode,
+                [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
+                [VAR_RECORD_ROUTE_PAGE_ID]: pageId,
             },
         },
         onUploadProgress,
-        pageObject: ckPageObject,
         plugin,
         query,
         session,

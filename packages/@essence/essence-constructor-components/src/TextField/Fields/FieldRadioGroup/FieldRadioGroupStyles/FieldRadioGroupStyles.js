@@ -1,5 +1,6 @@
 // @flow
 
+// eslint-disable-next-line max-lines-per-function
 const FieldRadioGroupStyles = (theme: any) => ({
     disabled: {},
     focused: {},

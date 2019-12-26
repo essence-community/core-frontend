@@ -4,7 +4,8 @@
 
 import isEmpty from "lodash/isEmpty";
 
-const KEY_REG = /(?!\w|").([gc][A-z_0-9]+)|^([gc][A-z_0-9]+)/gi;
+// eslint-disable-next-line prefer-named-capture-group
+const KEY_REG = /(?!\w|").([gc][A-z_0-9]+)|^([gc][A-z_0-9]+)/giu;
 
 function findKey(str) {
     const arr = [];
@@ -33,7 +34,7 @@ function isHiddenByRules(hiddenrules, record = {}, globalValues = {}) {
     const hiddenrulesArr = findKey(hiddenrules);
 
     hiddenrulesArr.forEach((key) => {
-        obj[key] = key.match(/^g/i) ? globalValues[key] : record[key];
+        obj[key] = key.match(/^g/iu) ? globalValues[key] : record[key];
     });
 
     if (isEmpty(obj)) {

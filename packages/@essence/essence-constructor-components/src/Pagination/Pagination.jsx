@@ -5,6 +5,7 @@ import {withStyles} from "@material-ui/core/styles";
 import {IconButton, Typography} from "@material-ui/core";
 import {Icon} from "@essence/essence-constructor-share/Icon";
 import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 
 const styles = (theme: any) => ({
     buttonRoot: {
@@ -59,6 +60,7 @@ class Pagination extends React.Component<Props & WithT> {
         this.props.onChangePage(Math.max(0, Math.ceil(this.props.count / this.props.rowsPerPage) - 1));
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         // eslint-disable-next-line id-length
         const {classes = {}, count, page, rowsPerPage, gridBc, disabled, t} = this.props;
@@ -74,7 +76,7 @@ class Pagination extends React.Component<Props & WithT> {
                     disabled={disabled || page === 0}
                     aria-label="First Page"
                     disableRipple
-                    data-page-object={`${gridBc.ckPageObject}-first-page`}
+                    data-page-object={`${gridBc[VAR_RECORD_PAGE_OBJECT_ID]}-first-page`}
                 >
                     <Icon iconfont="angle-double-left" />
                 </IconButton>
@@ -85,7 +87,7 @@ class Pagination extends React.Component<Props & WithT> {
                     classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}
                     disabled={disabled || page === 0}
                     aria-label="Previous Page"
-                    data-page-object={`${gridBc.ckPageObject}-previous-page`}
+                    data-page-object={`${gridBc[VAR_RECORD_PAGE_OBJECT_ID]}-previous-page`}
                     disableRipple
                 >
                     <Icon iconfont="angle-left" />
@@ -93,7 +95,7 @@ class Pagination extends React.Component<Props & WithT> {
                 <Typography
                     variant="body2"
                     classes={{root: classes.typoRoot}}
-                    data-page-object={`${gridBc.ckPageObject}-current-page`}
+                    data-page-object={`${gridBc[VAR_RECORD_PAGE_OBJECT_ID]}-current-page`}
                 >
                     {t("3dd42493c346447897d017af3668d998", {
                         currentpage: pages > 0 ? this.props.page + 1 : 0,
@@ -108,7 +110,7 @@ class Pagination extends React.Component<Props & WithT> {
                     classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}
                     disabled={disabled || page >= Math.ceil(count / rowsPerPage) - 1}
                     aria-label="Next Page"
-                    data-page-object={`${gridBc.ckPageObject}-next-page`}
+                    data-page-object={`${gridBc[VAR_RECORD_PAGE_OBJECT_ID]}-next-page`}
                     disableRipple
                 >
                     <Icon iconfont="angle-right" />
@@ -120,7 +122,7 @@ class Pagination extends React.Component<Props & WithT> {
                     classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}
                     disabled={disabled || page >= Math.ceil(count / rowsPerPage) - 1}
                     aria-label="Last Page"
-                    data-page-object={`${gridBc.ckPageObject}-last-page`}
+                    data-page-object={`${gridBc[VAR_RECORD_PAGE_OBJECT_ID]}-last-page`}
                     disableRipple
                 >
                     <Icon iconfont="angle-double-right" />
@@ -130,7 +132,4 @@ class Pagination extends React.Component<Props & WithT> {
     }
 }
 
-export default compose(
-    withTranslation("meta"),
-    withStyles(styles),
-)(Pagination);
+export default compose(withTranslation("meta"), withStyles(styles))(Pagination);

@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
 import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {VAR_RECORD_LEAF} from "@essence/essence-constructor-share/constants";
 import GridColumnDetailSchevron from "./GridColumnDetailSchevron/GridColumnDetailSchevron";
 import GridColumnTreeIcons from "./GridColumnTreeIcons";
 import {type GridColumnPropsType} from "./GridColumnTypes";
@@ -9,6 +10,7 @@ import {columnsMap, BaseGridColumn} from "./index";
 const NESTING_SPACING = 16;
 const LEAF_ICON_WIDTH = 30;
 
+// eslint-disable-next-line max-lines-per-function
 const GridColumnTree = ({
     record = {},
     store,
@@ -25,7 +27,7 @@ const GridColumnTree = ({
     t,
 }: GridColumnPropsType & WithT) => {
     const CellComponent = columnsMap[bc.datatypeBase] || BaseGridColumn;
-    const isLeaf = record.leaf === "true";
+    const isLeaf = record[VAR_RECORD_LEAF] === "true";
     const addPadding = isLeaf ? LEAF_ICON_WIDTH : 0;
 
     return (

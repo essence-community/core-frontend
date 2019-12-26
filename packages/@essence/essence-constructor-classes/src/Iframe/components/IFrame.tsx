@@ -1,5 +1,6 @@
 import * as React from "react";
-import {IBuilderConfig} from "@essence/essence-constructor-share";
+import {IBuilderConfig} from "@essence/essence-constructor-share/types";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {useStyles} from "./IFrame.styles";
 
 interface IIFrameProps {
@@ -28,7 +29,7 @@ export const IFrame: React.FC<IIFrameProps> = (props) => {
         allowFullScreen: true,
         className: classes.iframe,
         height,
-        title: bc.ckPageObject,
+        title: bc[VAR_RECORD_PAGE_OBJECT_ID],
         width: "100%",
     };
 

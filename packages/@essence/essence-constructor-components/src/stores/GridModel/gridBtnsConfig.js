@@ -1,15 +1,22 @@
 // @flow
 import groupBy from "lodash/groupBy";
+import {
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_CN_ORDER,
+} from "@essence/essence-constructor-share/constants";
 import {mergeComponents} from "../../utils/builder";
 import {styleTheme} from "../../constants";
 import {type GridBuilderType, type GridModelType, type GridBtnsConfigType} from "./GridModelType";
 
 const getBtnDeleteConfig = (bc: GridBuilderType) => ({
-    ckMaster: bc.ckPageObject,
-    ckPageObject: `${bc.ckPageObject}-remove`,
-    cnOrder: 1e6,
+    [VAR_RECORD_CN_ORDER]: 1e6,
+    [VAR_RECORD_DISPLAYED]: "f7e324760ede4c88b4f11f0af26c9e97",
+    [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+    [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-remove`,
     confirmquestion: "0cd0fc9bff2641f68f0f9712395f7b82",
-    cvDisplayed: "f7e324760ede4c88b4f11f0af26c9e97",
     handler: "removeSelectedRecordAction",
     iconfont: "trash-o",
     onlyicon: "true",
@@ -17,10 +24,10 @@ const getBtnDeleteConfig = (bc: GridBuilderType) => ({
 });
 
 const getBtnAuditConfig = (bc: GridBuilderType) => ({
-    ckMaster: bc.ckPageObject,
-    ckPageObject: `${bc.ckPageObject}-audit`,
-    cnOrder: 1e6,
-    cvDisplayed: "627518f4034947aa9989507c5688cfff",
+    [VAR_RECORD_CN_ORDER]: 1e6,
+    [VAR_RECORD_DISPLAYED]: "627518f4034947aa9989507c5688cfff",
+    [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+    [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-audit`,
     iconfont: "info",
     iconfontname: "fa",
     onlyicon: "true",
@@ -29,10 +36,10 @@ const getBtnAuditConfig = (bc: GridBuilderType) => ({
 });
 
 const getBtnRefreshConfig = (bc: GridBuilderType, handler: Function) => ({
-    ckMaster: bc.ckPageObject,
-    ckPageObject: `${bc.ckPageObject}-refresh`,
-    cnOrder: 1e6,
-    cvDisplayed: "33c9b02a9140428d9747299b9a767abb",
+    [VAR_RECORD_CN_ORDER]: 1e6,
+    [VAR_RECORD_DISPLAYED]: "33c9b02a9140428d9747299b9a767abb",
+    [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+    [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-refresh`,
     handlerFn: handler,
     iconfont: "refresh",
     iconfontname: "fa",
@@ -41,11 +48,11 @@ const getBtnRefreshConfig = (bc: GridBuilderType, handler: Function) => ({
 });
 
 const getBtnExcelConfig = (bc: GridBuilderType) => ({
-    ckMaster: bc.ckPageObject,
-    ckPageObject: `${bc.ckPageObject}-excel`,
+    [VAR_RECORD_CN_ORDER]: 1e6,
+    [VAR_RECORD_DISPLAYED]: "7578080854a84cc3b4faad62d4499a4b",
+    [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+    [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-excel`,
     ckwindow: "btnexcel",
-    cnOrder: 1e6,
-    cvDisplayed: "7578080854a84cc3b4faad62d4499a4b",
     disabledemptymaster: "true",
     edit: "false",
     extraplugingate: "PrintJasperServer",
@@ -57,31 +64,31 @@ const getBtnExcelConfig = (bc: GridBuilderType) => ({
 });
 
 const getSaveBtnConfig = (bc: GridBuilderType) => ({
-    ckPageObject: `${bc.ckPageObject}_gridwindow-save`,
-    ckParent: `${bc.ckPageObject}_gridwindow`,
-    cnOrder: 1e6,
-    cvDisplayed: "8a930c6b5dd440429c0f0e867ce98316",
+    [VAR_RECORD_CN_ORDER]: 1e6,
+    [VAR_RECORD_DISPLAYED]: "8a930c6b5dd440429c0f0e867ce98316",
+    [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow-save`,
+    [VAR_RECORD_PARENT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow`,
     handler: "onSimpleSaveWindow",
     iconfont: bc.edittype === "inline" && styleTheme === "dark" ? "save" : undefined,
 });
 
 const getCancelInlineBtnConfig = (bc: GridBuilderType) => ({
-    ckPageObject: `${bc.ckPageObject}_gridwindow-cancel`,
-    ckParent: `${bc.ckPageObject}_gridwindow`,
-    cnOrder: 1e6,
+    [VAR_RECORD_CN_ORDER]: 1e6,
+    [VAR_RECORD_DISPLAYED]: "64aacc431c4c4640b5f2c45def57cae9",
+    [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow-cancel`,
+    [VAR_RECORD_PARENT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow`,
     confirmquestion: "9b475e25ae8a40b0b158543b84ba8c08",
-    cvDisplayed: "64aacc431c4c4640b5f2c45def57cae9",
     handler: "onCloseWindow",
     iconfont: styleTheme === "dark" ? "times" : undefined,
 });
 
 const getCancelBtnConfig = (bc: GridBuilderType) => ({
-    ckPageObject: `${bc.ckPageObject}_gridwindow-cancel`,
-    ckParent: `${bc.ckPageObject}_gridwindow`,
-    cnOrder: 1e6,
+    [VAR_RECORD_CN_ORDER]: 1e6,
+    [VAR_RECORD_DISPLAYED]: "64aacc431c4c4640b5f2c45def57cae9",
+    [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow-cancel`,
+    [VAR_RECORD_PARENT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow`,
     confirmquestion: "9b475e25ae8a40b0b158543b84ba8c08",
     confirmquestionposition: "top",
-    cvDisplayed: "64aacc431c4c4640b5f2c45def57cae9",
     handler: "onCloseWindow",
     type: "BTN",
     uitype: "2",

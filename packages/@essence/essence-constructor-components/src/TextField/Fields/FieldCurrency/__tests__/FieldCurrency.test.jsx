@@ -1,6 +1,5 @@
 import * as React from "react";
 import NumberFormat from "react-number-format";
-import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
 import {mountWithTheme} from "../../../../utils/test";
 import {createEmptyPageStore} from "../../../../stores/index";
 import BuilderMobxForm from "../../../../Components/MobxForm/BuilderMobxForm";
@@ -8,9 +7,8 @@ import integerJson from "../../../../../mocks/fields/integer.json";
 import FieldCurrency from "../FieldCurrency";
 
 describe("FieldCurrency", () => {
-    const bc = camelCaseKeys(integerJson);
     const form = new BuilderMobxForm();
-    const field = form.add({key: bc.column});
+    const field = form.add({key: integerJson.column});
     const pageStore = createEmptyPageStore();
     let fieldConfig = {};
 
@@ -30,13 +28,13 @@ describe("FieldCurrency", () => {
     });
 
     it("render", () => {
-        const wrapper = mountWithTheme(<FieldCurrency bc={bc} {...fieldConfig} />);
+        const wrapper = mountWithTheme(<FieldCurrency bc={integerJson} {...fieldConfig} />);
 
         expect(wrapper.find(FieldCurrency).exists()).toBeTruthy();
     });
 
     it("Измнение значения", () => {
-        const wrapper = mountWithTheme(<FieldCurrency bc={bc} {...fieldConfig} />);
+        const wrapper = mountWithTheme(<FieldCurrency bc={integerJson} {...fieldConfig} />);
 
         wrapper.find(NumberFormat).prop("onValueChange")({value: "1"});
 
@@ -44,7 +42,7 @@ describe("FieldCurrency", () => {
     });
 
     it("Валидация вводимого значения", () => {
-        const wrapper = mountWithTheme(<FieldCurrency bc={bc} {...fieldConfig} />);
+        const wrapper = mountWithTheme(<FieldCurrency bc={integerJson} {...fieldConfig} />);
 
         expect(wrapper.find(NumberFormat).prop("isAllowed")({value: "1"})).toBeTruthy();
         expect(wrapper.find(NumberFormat).prop("isAllowed")({value: "1234567890"})).toBeFalsy();

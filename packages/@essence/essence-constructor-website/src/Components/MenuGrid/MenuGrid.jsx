@@ -24,7 +24,7 @@ const MenuGrid = ({applicationStore: {routesStore, pagesStore}, classes = {}}: P
     <Scrollbars withRequestAnimationFrame>
         <MenuGridRows
             className={classes.menuGridRows}
-            ckParent={null}
+            parentId={null}
             routesStore={routesStore}
             pagesStore={pagesStore}
             level={0}
@@ -32,8 +32,4 @@ const MenuGrid = ({applicationStore: {routesStore, pagesStore}, classes = {}}: P
     </Scrollbars>
 );
 
-export default compose(
-    inject(mapStoresToProps),
-    withStyles(styles),
-    observer,
-)(MenuGrid);
+export default compose(inject(mapStoresToProps), withStyles(styles), observer)(MenuGrid);

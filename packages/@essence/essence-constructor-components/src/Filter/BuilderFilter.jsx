@@ -7,6 +7,7 @@ import isArray from "lodash/isArray";
 import {toColumnStyleWidth, getFromStore} from "@essence/essence-constructor-share/utils";
 import {setComponent, mapComponents} from "@essence/essence-constructor-share/components";
 import {BuilderTypeContext} from "@essence/essence-constructor-share/context";
+import {VAR_RECORD_MASTER_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {Grid, Collapse, Typography} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {Field} from "mobx-react-form";
@@ -168,12 +169,16 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
                         injectType="filter"
                         submitOnChange={bc.dynamicfilter === "true"}
                         onSetFormStatus={store.handleFormStatus}
-                        dataPageObject={`${bc.ckPageObject}-form`}
+                        dataPageObject={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-form`}
                         mode="1"
                         onSetForm={store.onSetForm}
                         initialValues={this.state.searchValues}
                         pageStore={pageStore}
-                        hasMaster={parentBc && Boolean(parentBc.ckMaster) && parentBc.ckMaster !== bc.ckPageObject}
+                        hasMaster={
+                            parentBc &&
+                            Boolean(parentBc[VAR_RECORD_MASTER_ID]) &&
+                            parentBc[VAR_RECORD_MASTER_ID] !== bc[VAR_RECORD_PAGE_OBJECT_ID]
+                        }
                     >
                         <button tabIndex="-1" type="submit" name="search" className={classes.hidden} />
                         <Grid
@@ -181,7 +186,7 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
                             container
                             direction={wrapperPanelDirection}
                             wrap="nowrap"
-                            data-page-object={bc.ckPageObject}
+                            data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                         >
                             {bc.dynamicfilter === "true" ? null : this.renderButton()}
                             {bc.dynamicfilter === "true" && styleTheme !== "light" ? (
@@ -212,7 +217,7 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
                                         {mapComponents(bc.childs, (ChildComp, child) => (
                                             <Grid
                                                 item
-                                                key={child.ckPageObject}
+                                                key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                                                 xs={12}
                                                 style={toColumnStyleWidth(child.width)}
                                             >

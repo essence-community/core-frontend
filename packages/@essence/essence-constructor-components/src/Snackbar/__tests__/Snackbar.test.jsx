@@ -7,6 +7,7 @@ import Snackbar from "../Snackbar";
 import SnackbarContent from "../SnackbarContent";
 import {sleep} from "../../utils/base";
 
+// eslint-disable-next-line max-lines-per-function
 describe("Snackbar", () => {
     const timer = 15;
     const snackbarDefault = {

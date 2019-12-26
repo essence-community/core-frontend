@@ -6,6 +6,7 @@ import {observer} from "mobx-react";
 import noop from "lodash/noop";
 import {Paper, Grid} from "@material-ui/core";
 import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants";
 import commonDecorator from "../decorators/commonDecorator";
 import {PanelFormModel, type PanelFormModelType} from "../stores/PanelFormModel";
 import {updateTopGrid} from "../stores/GridModel";
@@ -91,16 +92,17 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
         }
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         // eslint-disable-next-line id-length
         const {store, bc, readOnly, hideTitle, pageStore, visible, elevation, t} = this.props;
-        const {filters = [], cvDisplayed, hideactions} = bc;
+        const {filters = [], hideactions} = bc;
         const isEditing = readOnly ? false : store.editing;
 
         const content = (
             <Grid container spacing={0} direction="column" wrap="nowrap">
                 {filters.map((filter: Object) => (
-                    <Grid item key={filter.ckPageObject}>
+                    <Grid item key={filter[VAR_RECORD_PAGE_OBJECT_ID]}>
                         <BuilderFilter
                             onChangeCollapse={this.handleChangeCollapse}
                             open={store.isFilterOpen}
@@ -117,7 +119,9 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
                         />
                     </Grid>
                 ))}
-                {hideTitle || hideactions === "true" ? null : <EmptyTitle title={t(cvDisplayed)} filters={filters} />}
+                {hideTitle || hideactions === "true" ? null : (
+                    <EmptyTitle title={t(bc[VAR_RECORD_DISPLAYED])} filters={filters} />
+                )}
                 <Grid item>
                     <BuilderForm
                         initialValues={store.recordsStore.records[0] || EMPTY_RECORD}

@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import {Grid, TextField, Typography} from "@material-ui/core";
-import {camelCaseMemoized, withTranslation, WithT, i18next} from "@essence/essence-constructor-share/utils";
+import {withTranslation, WithT, i18next} from "@essence/essence-constructor-share/utils";
 import {parse} from "@essence/essence-constructor-share/utils/parser";
 import {type TextFieldChildProps} from "../../BuilderFieldType";
 
@@ -54,7 +54,7 @@ class FieldComputed extends React.Component<TextFieldChildProps & WithT, StateTy
         let parsedValue = null;
 
         switch (true) {
-            case /^g?_?[c][nk]_/.test(name) && /^[\d.]+$/.test(value):
+            case /^g?_?[c][nk]_/u.test(name) && /^[\d.]+$/u.test(value):
                 parsedValue = parseFloat(value);
                 break;
             case value === "null":
@@ -70,11 +70,12 @@ class FieldComputed extends React.Component<TextFieldChildProps & WithT, StateTy
         this.setState((prevState) => ({
             values: {
                 ...prevState.values,
-                [camelCaseMemoized(name)]: parsedValue,
+                [name]: parsedValue,
             },
         }));
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         // eslint-disable-next-line id-length
         const {t} = this.props;

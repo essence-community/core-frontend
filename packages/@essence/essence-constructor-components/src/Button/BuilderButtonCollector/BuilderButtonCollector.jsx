@@ -6,6 +6,7 @@ import {withStyles} from "@material-ui/core/styles";
 import {ListItem, List} from "@material-ui/core";
 import noop from "lodash/noop";
 import {setComponent} from "@essence/essence-constructor-share";
+import {VAR_RECORD_PARENT_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {Popover} from "@essence/essence-constructor-share/uicomponents";
 import {styleTheme} from "../../constants";
 import commonDecorator, {type CommonDecoratorInjectType} from "../../decorators/commonDecorator";
@@ -69,11 +70,11 @@ class BaseBuilderButtonCollector extends React.Component<PropsType> {
     constructor(props: PropsType) {
         super(props);
 
-        const {topbtn = [], ckParent} = props.bc;
+        const {topbtn = []} = props.bc;
 
         this.btns = topbtn.map((btn) => ({
             ...btn,
-            ckParent,
+            [VAR_RECORD_PARENT_ID]: props.bc[VAR_RECORD_PARENT_ID],
         }));
     }
 
@@ -116,7 +117,7 @@ class BaseBuilderButtonCollector extends React.Component<PropsType> {
                 <List disablePadding dense>
                     {this.btns.map((btn) => (
                         <BuilderMobxButton
-                            key={btn.ckPageObject}
+                            key={btn[VAR_RECORD_PAGE_OBJECT_ID]}
                             component={ListItem}
                             bc={btn}
                             componentProps={listItemProps}
@@ -162,10 +163,7 @@ class BaseBuilderButtonCollector extends React.Component<PropsType> {
     }
 }
 
-const BuilderButtonCollector = compose(
-    commonDecorator,
-    withStyles(styles),
-)(BaseBuilderButtonCollector);
+const BuilderButtonCollector = compose(commonDecorator, withStyles(styles))(BaseBuilderButtonCollector);
 
 setComponent("BTNCOLLECTOR", BuilderButtonCollector);
 

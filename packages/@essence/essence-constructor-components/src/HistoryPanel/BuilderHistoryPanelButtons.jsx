@@ -1,9 +1,11 @@
+/* eslint-disable max-lines */
 // @flow
 import * as React from "react";
 import {observer} from "mobx-react";
 import {Grid} from "@material-ui/core";
 import orderBy from "lodash/orderBy";
-import {mapComponents} from "@essence/essence-constructor-share";
+import {mapComponents} from "@essence/essence-constructor-share/components";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_CN_ORDER} from "@essence/essence-constructor-share/constants";
 import {buttonDirection, styleTheme} from "../constants";
 import GridAudit from "../Grid/GridComponents/GridAudit";
 import BuilderMobxButton from "../Button/BuilderMobxButton";
@@ -115,7 +117,7 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
         return btns;
     };
 
-    // eslint-disable-next-line max-statements
+    // eslint-disable-next-line max-statements, max-lines-per-function
     render() {
         const {disabled, store, readOnly, pageStore, editing, visible, bc} = this.props;
         const {btnrefresh, btndelete} = bc;
@@ -137,7 +139,7 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
                     />
                 ),
                 key: "Add Button",
-                order: overrides["Override Add Button"].cnOrder,
+                order: overrides["Override Add Button"][VAR_RECORD_CN_ORDER],
             },
             {
                 component: (
@@ -151,7 +153,7 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
                     />
                 ),
                 key: "Edit Button",
-                order: overrides["Override Edit Button"].cnOrder,
+                order: overrides["Override Edit Button"][VAR_RECORD_CN_ORDER],
             },
             {
                 component: (
@@ -165,7 +167,7 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
                     />
                 ),
                 key: "Clone Button",
-                order: overrides["Override Clone Button"].cnOrder,
+                order: overrides["Override Clone Button"][VAR_RECORD_CN_ORDER],
             },
         ];
 
@@ -182,7 +184,7 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
                     />
                 ),
                 key: "Delete Button",
-                order: overrides["Override Delete Button"].cnOrder,
+                order: overrides["Override Delete Button"][VAR_RECORD_CN_ORDER],
             });
         }
 
@@ -198,7 +200,7 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
                     />
                 ),
                 key: "Refresh Button",
-                order: overrides["Override Refresh Button"].cnOrder,
+                order: overrides["Override Refresh Button"][VAR_RECORD_CN_ORDER],
             });
         }
 
@@ -214,7 +216,7 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
                     />
                 ),
                 key: "Left Button",
-                order: overrides["Override Left Button"].cnOrder,
+                order: overrides["Override Left Button"][VAR_RECORD_CN_ORDER],
             },
             {
                 component: (
@@ -227,7 +229,7 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
                     />
                 ),
                 key: "Right Button",
-                order: overrides["Override Right Button"].cnOrder,
+                order: overrides["Override Right Button"][VAR_RECORD_CN_ORDER],
             },
         );
 
@@ -244,8 +246,8 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
                         onlyicon={onlyIcon}
                     />
                 ),
-                key: childBc.ckPageObject,
-                order: childBc.cnOrder,
+                key: childBc[VAR_RECORD_PAGE_OBJECT_ID],
+                order: childBc[VAR_RECORD_CN_ORDER],
             });
         });
 
@@ -272,8 +274,8 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
                             visible={visible}
                         />
                     ),
-                    key: btn.ckPageObject,
-                    order: btn.cnOrder,
+                    key: btn[VAR_RECORD_PAGE_OBJECT_ID],
+                    order: btn[VAR_RECORD_CN_ORDER],
                 });
             });
         }

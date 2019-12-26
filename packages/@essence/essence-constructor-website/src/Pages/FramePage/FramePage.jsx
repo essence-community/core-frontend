@@ -1,5 +1,6 @@
 import * as React from "react";
 import {inject} from "mobx-react";
+import {VAR_RECORD_CV_TOKEN} from "@essence/essence-constructor-share/constants";
 
 const mapStoresToProps = (stores) => ({
     authStore: stores.authStore,
@@ -14,7 +15,7 @@ export const FramePage = (props) => {
         const loginByToken = async () => {
             await authStore.loginAction(
                 {
-                    cvToken: token,
+                    [VAR_RECORD_CV_TOKEN]: token,
                 },
                 history,
             );

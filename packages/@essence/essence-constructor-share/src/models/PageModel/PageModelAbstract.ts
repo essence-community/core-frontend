@@ -13,6 +13,7 @@ import {
     PageModelSaveCallback,
     IRecordsModel,
 } from "../../types";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_PARENT_ID} from "../../constants";
 
 export class PageModelAbstract implements IPageModel {
     public fieldValueMaster: ObservableMap<string, FieldValue> = observable.map();
@@ -20,15 +21,15 @@ export class PageModelAbstract implements IPageModel {
     public pageBc: IBuilderConfig[] = [];
 
     public pagerBc: IBuilderConfig = {
-        ckPageObject: "null",
-        ckParent: "null",
+        [VAR_RECORD_PAGE_OBJECT_ID]: "null",
+        [VAR_RECORD_PARENT_ID]: "null",
     };
 
     public stores: ObservableMap<string, IStoreBaseModel> = observable.map();
 
     public globalValues: ObservableMap<string, FieldValue> = observable.map();
 
-    public ckPage = "1";
+    public pageId = "1";
 
     public showQuestionWindow = false;
 

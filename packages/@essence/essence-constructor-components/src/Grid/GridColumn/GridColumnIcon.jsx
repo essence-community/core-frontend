@@ -19,6 +19,7 @@ const getIconComponent = ({bc, record}) => {
     return <Icon iconfont={bc.iconfont} iconfontname={bc.iconfontname} size="xs" />;
 };
 
+// eslint-disable-next-line max-lines-per-function
 export const GridColumnIcon = ({
     bc,
     className,
@@ -29,6 +30,14 @@ export const GridColumnIcon = ({
     pageStore,
     visible,
 }: GridColumnPropsType) => {
+    const iconBc = React.useMemo(
+        () => ({
+            ...bc,
+            iconsize: "xs",
+        }),
+        [bc],
+    );
+
     if (bc.handler === "showMenu") {
         return (
             <GridColumnLink
@@ -50,15 +59,6 @@ export const GridColumnIcon = ({
             </IconButton>
         );
     }
-
-    // $FlowFixMe
-    const iconBc = React.useMemo(
-        () => ({
-            ...bc,
-            iconsize: "xs",
-        }),
-        [bc],
-    );
 
     return (
         <BuilderMobxButton

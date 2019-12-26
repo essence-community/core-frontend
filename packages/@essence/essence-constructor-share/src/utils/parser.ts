@@ -6,7 +6,6 @@ import memoize from "memoizee";
 import {FieldValue} from "../types";
 import {loggerRoot} from "../constants";
 import {i18next} from "./I18n";
-import {camelCaseMemoized} from "./transform";
 
 interface IGetValue {
     get: (key: string) => FieldValue;
@@ -67,9 +66,7 @@ function parseOperations(expression: Expression | Pattern | Super, values: IValu
         case "Literal":
             return expression.value;
         case "Identifier":
-            return values.get
-                ? values.get(camelCaseMemoized(expression.name))
-                : values[camelCaseMemoized(expression.name)];
+            return values.get ? values.get(expression.name) : values[expression.name];
         case "AssignmentExpression":
             return parseOperations(expression.right, values);
         case "ObjectExpression":

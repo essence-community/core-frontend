@@ -1,3 +1,4 @@
+import {META_PAGE_OBJECT} from "../constants";
 import {FieldValue} from "./Field";
 
 export interface IRequest {
@@ -6,14 +7,13 @@ export interface IRequest {
     body?: Record<string, FieldValue>;
     session?: string;
     json?: Record<string, FieldValue>;
-    pageObject?: string;
+    [META_PAGE_OBJECT]?: string;
     list?: boolean;
     plugin?: string;
     gate?: string;
     timeout?: string;
     formData?: FormData;
     method?: "POST";
-    isCamelCase?: boolean;
     onUploadProgress?: (progressEvent: ProgressEvent) => void;
 }
 
@@ -38,6 +38,6 @@ export interface IResponseError extends Error {
 }
 
 export interface IResponse {
-    cvError?: Record<string, string[]>;
-    cvStackTrace?: string;
+    cv_error?: Record<string, string[]>;
+    cv_stack_trace?: string;
 }

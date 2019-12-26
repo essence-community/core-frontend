@@ -1,5 +1,6 @@
 // @flow
 
+// eslint-disable-next-line max-lines-per-function
 export default () => ({
     "@keyframes loader_first_path_animation": {
         "0%": {

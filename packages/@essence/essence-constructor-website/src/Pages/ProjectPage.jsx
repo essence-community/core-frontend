@@ -4,6 +4,7 @@ import {inject, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
 import {compose} from "recompose";
 import {getComponent, ApplicationContext} from "@essence/essence-constructor-share";
+import {VAR_RECORD_ID, VAR_RECORD_URL} from "@essence/essence-constructor-share/constants";
 import {type ApplicationModelType} from "../Stores/ApplicationModel";
 
 type StoresPropsType = {
@@ -12,7 +13,7 @@ type StoresPropsType = {
 type OwnPropsType = {
     match: {
         params: {
-            ckId: string,
+            ck_id: string,
         },
     },
     classes?: Object,
@@ -42,7 +43,7 @@ class ProjectPage extends React.Component<PropsType> {
     componentDidUpdate(prevProps: PropsType) {
         const {ckId} = this.props.match.params;
 
-        if (prevProps.match.params.ckId !== ckId) {
+        if (prevProps.match.params[VAR_RECORD_ID] !== ckId) {
             this.handleSetPage();
         }
     }
@@ -51,10 +52,10 @@ class ProjectPage extends React.Component<PropsType> {
         const {ckId} = this.props.match.params;
         const {routesStore, pagesStore} = this.props.applicationStore;
         const routes = routesStore.recordsStore.records;
-        const pageConfig = routes.find((route) => route.ckId === ckId || route.cvUrl === ckId);
+        const pageConfig = routes.find((route) => route[VAR_RECORD_ID] === ckId || route[VAR_RECORD_URL] === ckId);
 
         if (pageConfig) {
-            pagesStore.setPageAction(pageConfig.ckId, false);
+            pagesStore.setPageAction(pageConfig[VAR_RECORD_ID], false);
         } else {
             pagesStore.setPageAction(ckId);
         }
@@ -75,7 +76,7 @@ class ProjectPage extends React.Component<PropsType> {
             <ApplicationContext.Provider value={this.props.applicationStore}>
                 <div className={classes.root}>
                     {pagesStore.pages.map((page) => (
-                        <BuilderPage key={page.ckPage} pageStore={page} />
+                        <BuilderPage key={page.pageId} pageStore={page} />
                     ))}
                 </div>
             </ApplicationContext.Provider>

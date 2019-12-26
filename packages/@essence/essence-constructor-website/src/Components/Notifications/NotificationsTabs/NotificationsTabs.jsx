@@ -56,7 +56,7 @@ const NotificationsTabs = ({applicationStore, classes = {}, value, onChangeTab, 
             onChangeTab={onChangeTab}
             label={t("880a932500234fa2b2f22a4b36bd6cd8")}
         />
-        {applicationStore.caActions.indexOf(ACTIONS_VIEW) > -1 ? (
+        {applicationStore.actions.indexOf(ACTIONS_VIEW) > -1 ? (
             <NotificationsTab
                 classes={classes}
                 value="debug"

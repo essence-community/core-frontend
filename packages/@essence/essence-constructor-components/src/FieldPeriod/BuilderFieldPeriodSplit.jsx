@@ -1,9 +1,9 @@
 // @flow
 import * as React from "react";
-import camelCase from "lodash/camelCase";
 import {compose} from "recompose";
 import {Grid} from "@material-ui/core";
 import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants";
 import commonDecorator, {type CommonDecoratorInjectType} from "../decorators/commonDecorator";
 import {loggerRoot} from "../constants";
 import {isEmpty} from "../utils/base";
@@ -39,33 +39,36 @@ class BuilderFieldPeriodSplit extends React.Component<PropsType & WithT> {
     iniChildsFields = () => {
         const {childs} = this.props.bc;
 
-        const columnStartCase = camelCase(childs[0].column);
-        const columnEndCase = camelCase(childs[1].column);
+        const columnStart = childs[0].column;
+        const columnEnd = childs[1].column;
 
         this.bcStart = {
-            disabledstartdate: columnEndCase,
-            rules: `before_not_required:${columnEndCase}`,
-            validaterelated: `${columnEndCase}`,
+            disabledstartdate: columnEnd,
+            rules: `before_not_required:${columnEnd}`,
+            validaterelated: `${columnEnd}`,
             ...childs[0],
         };
 
         this.bcEnd = {
-            disabledenddate: columnStartCase,
-            rules: `after_not_required:${columnStartCase}`,
-            validaterelated: `${columnStartCase}`,
+            disabledenddate: columnStart,
+            rules: `after_not_required:${columnStart}`,
+            validaterelated: `${columnStart}`,
             ...childs[1],
         };
     };
 
     initDefaultFields = () => {
         const {
-            bc: {columnstart, columnend, cvDisplayed, ckPageObject, ...childBc},
+            bc: {
+                columnstart,
+                columnend,
+                [VAR_RECORD_DISPLAYED]: displayed,
+                [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
+                ...childBc
+            },
             // eslint-disable-next-line id-length
             t,
         } = this.props;
-
-        const columnStartCase = camelCase(columnstart);
-        const columnEndCase = camelCase(columnend);
 
         if (isEmpty(columnstart)) {
             logger(`Required param "columnstart" empty ck_page_object: ${ckPageObject}`);
@@ -74,25 +77,25 @@ class BuilderFieldPeriodSplit extends React.Component<PropsType & WithT> {
             logger(`Required param "columnend" empty ck_page_object: ${ckPageObject}`);
         }
 
-        const transCvDisplayed = t(cvDisplayed);
+        const transCvDisplayed = t(displayed);
 
         this.bcStart = {
-            ckPageObject,
-            column: columnStartCase,
-            cvDisplayed: `${transCvDisplayed} $t(d7d40d765f0840beb7f0db2b9298ac0c)`,
-            disabledstartdate: columnEndCase,
-            rules: `before_not_required:${columnEndCase}`,
-            validaterelated: `${columnEndCase}`,
+            [VAR_RECORD_DISPLAYED]: `${transCvDisplayed} $t(d7d40d765f0840beb7f0db2b9298ac0c)`,
+            [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
+            column: columnstart,
+            disabledstartdate: columnend,
+            rules: `before_not_required:${columnend}`,
+            validaterelated: `${columnend}`,
             ...childBc,
         };
 
         this.bcEnd = {
-            ckPageObject,
-            column: columnEndCase,
-            cvDisplayed: `${transCvDisplayed} $t(acc7f22ccbc6407bb253f8c47a684c45)`,
-            disabledenddate: columnStartCase,
-            rules: `after_not_required:${columnStartCase}`,
-            validaterelated: `${columnStartCase}`,
+            [VAR_RECORD_DISPLAYED]: `${transCvDisplayed} $t(acc7f22ccbc6407bb253f8c47a684c45)`,
+            [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
+            column: columnend,
+            disabledenddate: columnstart,
+            rules: `after_not_required:${columnstart}`,
+            validaterelated: `${columnstart}`,
             ...childBc,
         };
     };
@@ -118,7 +121,4 @@ class BuilderFieldPeriodSplit extends React.Component<PropsType & WithT> {
     }
 }
 
-export default compose(
-    withTranslation("meta"),
-    commonDecorator,
-)(BuilderFieldPeriodSplit);
+export default compose(withTranslation("meta"), commonDecorator)(BuilderFieldPeriodSplit);

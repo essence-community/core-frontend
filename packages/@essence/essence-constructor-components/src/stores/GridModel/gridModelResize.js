@@ -3,6 +3,7 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
 import get from "lodash/get";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {type CkIdType} from "../../BuilderType";
 import {TABLE_CELL_MIN_WIDTH, styleTheme, loggerRoot, BUTTON_HEIGHT, GRID_ROW_HEIGHT} from "../../constants";
 import {type GridModelType, type PercentColumnsType} from "./GridModelType";
@@ -74,7 +75,7 @@ export const updateGridWidth = (gridStore: GridModelType) => {
     let staticCols = 0;
 
     const calcGridWidth = gridStore.gridColumns.reduce((sum, column, index) => {
-        let columnWidth = gridStore.columnsWidth.get(column.ckPageObject);
+        let columnWidth = gridStore.columnsWidth.get(column[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (typeof columnWidth === "string") {
             columnWidth = tableHeaderNode

@@ -4,6 +4,7 @@ import {observer} from "mobx-react";
 import noop from "lodash/noop";
 import orderBy from "lodash/orderBy";
 import {Grid} from "@material-ui/core";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_CN_ORDER} from "@essence/essence-constructor-share/constants";
 import BuilderButtonCollector from "../../Button/BuilderButtonCollector/BuilderButtonCollector";
 import Pagination from "../../Pagination/Pagination";
 import BuilderMobxButton from "../../Button/BuilderMobxButton";
@@ -66,7 +67,7 @@ class GridBaseButtons extends React.Component<PropsType> {
         );
     };
 
-    // eslint-disable-next-line max-statements
+    // eslint-disable-next-line max-statements, max-lines-per-function
     getGridButtons = ({buttonProps, handleClose, isCollect = true}: Object) => {
         const {bc, store, pageStore, isInlineEditing} = this.props;
         const disabled = this.props.disabled || isInlineEditing;
@@ -105,7 +106,7 @@ class GridBaseButtons extends React.Component<PropsType> {
                     </GridAudit>
                 ),
                 key: "grid-audit",
-                order: overrides["Override Audit Button"].cnOrder,
+                order: overrides["Override Audit Button"][VAR_RECORD_CN_ORDER],
             });
         }
 
@@ -122,7 +123,7 @@ class GridBaseButtons extends React.Component<PropsType> {
                     />
                 ),
                 key: "grid-excel",
-                order: overrides["Override Excel Button"].cnOrder,
+                order: overrides["Override Excel Button"][VAR_RECORD_CN_ORDER],
             });
         }
 
@@ -139,7 +140,7 @@ class GridBaseButtons extends React.Component<PropsType> {
         ));
     };
 
-    // eslint-disable-next-line max-statements
+    // eslint-disable-next-line  max-lines-per-function, max-statements
     render() {
         const {bc, store, classes, readOnly, pageStore, visible, isInlineEditing} = this.props;
         const disabled = this.props.disabled || isInlineEditing;
@@ -168,8 +169,8 @@ class GridBaseButtons extends React.Component<PropsType> {
                             preventFocus={false}
                         />
                     ),
-                    key: btn.ckPageObject,
-                    order: btn.cnOrder,
+                    key: btn[VAR_RECORD_PAGE_OBJECT_ID],
+                    order: btn[VAR_RECORD_CN_ORDER],
                 };
             }),
         ];
@@ -187,8 +188,8 @@ class GridBaseButtons extends React.Component<PropsType> {
                         visible={visible}
                     />
                 ),
-                key: overrides["Override Delete Button"].ckPageObject,
-                order: overrides["Override Delete Button"].cnOrder,
+                key: overrides["Override Delete Button"][VAR_RECORD_PAGE_OBJECT_ID],
+                order: overrides["Override Delete Button"][VAR_RECORD_CN_ORDER],
             });
         }
 
@@ -203,8 +204,8 @@ class GridBaseButtons extends React.Component<PropsType> {
                         visible={visible}
                     />
                 ),
-                key: overrides["Override Refresh Button"].ckPageObject,
-                order: overrides["Override Refresh Button"].cnOrder,
+                key: overrides["Override Refresh Button"][VAR_RECORD_PAGE_OBJECT_ID],
+                order: overrides["Override Refresh Button"][VAR_RECORD_CN_ORDER],
             });
         }
 
@@ -227,8 +228,8 @@ class GridBaseButtons extends React.Component<PropsType> {
                             visible={visible}
                         />
                     ),
-                    key: btn.ckPageObject,
-                    order: btn.cnOrder,
+                    key: btn[VAR_RECORD_PAGE_OBJECT_ID],
+                    order: btn[VAR_RECORD_CN_ORDER],
                 });
             });
         }

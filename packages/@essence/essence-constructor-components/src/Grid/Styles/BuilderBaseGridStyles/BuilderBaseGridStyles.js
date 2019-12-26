@@ -1,6 +1,7 @@
 // @flow
 import {SCROLL_WEIGHT} from "../../../constants";
 
+// eslint-disable-next-line max-lines-per-function
 const BuilderBaseGridStyles = (theme: Object) => ({
     activeSortLabel: {},
     "align-center": {

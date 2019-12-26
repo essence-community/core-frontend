@@ -31,6 +31,7 @@ const SCROLLBARS_STYLE = {
 };
 
 class Notifications extends React.Component<PropsType> {
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {classes, applicationStore} = this.props;
 
@@ -92,9 +93,4 @@ class Notifications extends React.Component<PropsType> {
     }
 }
 
-export default compose(
-    inject(mapStoresToProps),
-    withStyles(styles),
-    withTranslation("meta"),
-    observer,
-)(Notifications);
+export default compose(inject(mapStoresToProps), withStyles(styles), withTranslation("meta"), observer)(Notifications);

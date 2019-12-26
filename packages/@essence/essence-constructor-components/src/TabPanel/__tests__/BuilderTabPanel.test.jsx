@@ -12,6 +12,7 @@ const TabPanelChild = () => null;
 
 setComponent("TABPANELCHILD", TabPanelChild);
 
+// eslint-disable-next-line max-lines-per-function
 describe("BuilderTabPanel", () => {
     const bc = getBaseBc("tab", {
         childs: [

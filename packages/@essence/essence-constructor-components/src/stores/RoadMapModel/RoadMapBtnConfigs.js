@@ -1,16 +1,28 @@
 // @flow
+import {
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_NAME,
+    VAR_RECORD_G_IS_START,
+    VAR_RECORD_G_IS_END,
+    VAR_RECORD_G_PANEL_NUM,
+    VAR_RECORD_G_PANEL_INDEX,
+} from "@essence/essence-constructor-share/constants";
 import {type BuilderBaseType} from "../../BuilderType";
 import {mergeComponents} from "../../utils/builder";
 
 export function getBackButtonConfig(bc: BuilderBaseType) {
     return {
-        ckMaster: bc.ckPageObject,
-        ckObject: `${bc.ckObject}_back`,
-        ckPageObject: `${bc.ckPageObject}_back`,
-        cvDisplayed: "85c19e316e9e446d9383a9ffe184d19a",
-        cvName: "Override Back Button",
+        [VAR_RECORD_DISPLAYED]: "85c19e316e9e446d9383a9ffe184d19a",
+        [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_NAME]: "Override Back Button",
+        [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_back`,
+        [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_back`,
         handler: "setBackTab",
-        hiddenrules: "gIsStart",
+        hiddenrules: VAR_RECORD_G_IS_START,
         readonly: "false",
         type: "BTN",
         uitype: "2",
@@ -19,37 +31,37 @@ export function getBackButtonConfig(bc: BuilderBaseType) {
 
 export function getNextButtonConfig(bc: BuilderBaseType) {
     return {
-        ckMaster: bc.ckPageObject,
-        ckObject: `${bc.ckObject}_next`,
-        ckPageObject: `${bc.ckPageObject}_next`,
-        cvDisplayed: "dcfd5234c348410994c690eec7d28028",
-        cvName: "Override Next Button",
+        [VAR_RECORD_DISPLAYED]: "dcfd5234c348410994c690eec7d28028",
+        [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_NAME]: "Override Next Button",
+        [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_next`,
+        [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_next`,
         handler: "setNextTab",
-        hiddenrules: "gIsEnd",
+        hiddenrules: VAR_RECORD_G_IS_END,
         readonly: "false",
         type: "BTN",
     };
 }
 
 export const getSaveBtnConfig = (bc: BuilderBaseType) => ({
-    ckObject: `${bc.ckObject}-save`,
-    ckPageObject: `${bc.ckPageObject}-save`,
-    ckParent: bc.ckPageObject,
-    cvDisplayed: "8a930c6b5dd440429c0f0e867ce98316",
-    cvName: "Override Save Button",
+    [VAR_RECORD_DISPLAYED]: "8a930c6b5dd440429c0f0e867ce98316",
+    [VAR_RECORD_NAME]: "Override Save Button",
+    [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}-save`,
+    [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-save`,
+    [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
     handler: "onSimpleSave",
-    hiddenrules: "!gIsEnd",
+    hiddenrules: `!${VAR_RECORD_G_IS_END}`,
     mode: "1",
     type: "BTN",
 });
 
 export const getCancelBtnConfig = (bc: BuilderBaseType) => ({
-    ckObject: `${bc.ckObject}-cancel`,
-    ckPageObject: `${bc.ckPageObject}-cancel`,
-    ckParent: bc.ckPageObject,
+    [VAR_RECORD_DISPLAYED]: "64aacc431c4c4640b5f2c45def57cae9",
+    [VAR_RECORD_NAME]: "Override Cancel Button",
+    [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}-cancel`,
+    [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-cancel`,
+    [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
     confirmquestion: "b03cbbb047ca438f920c799c5f48ecaf",
-    cvDisplayed: "64aacc431c4c4640b5f2c45def57cae9",
-    cvName: "Override Cancel Button",
     handler: "onSimpleCancel",
     type: "BTN",
     uitype: "2",
@@ -72,24 +84,24 @@ export const getBtn = (bc: BuilderBaseType, topbtn: Array<BuilderBaseType>) => {
     btns.forEach((btn: BuilderBaseType) => {
         if (btn.hiddenrules) {
             btn.hiddenrules = btn.hiddenrules
-                .replace(/gIsStart/gi, `gIsStart_${bc.ckPageObject}`)
-                .replace(/gIsEnd/gi, `gIsEnd_${bc.ckPageObject}`)
-                .replace(/gPanelNum/gi, `gPanelNum_${bc.ckPageObject}`)
-                .replace(/gPanelIndex/gi, `gPanelIndex_${bc.ckPageObject}`);
+                .replace(new RegExp(VAR_RECORD_G_IS_START, "giu"), `gIsStart_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`)
+                .replace(new RegExp(VAR_RECORD_G_IS_END, "giu"), `gIsEnd_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`)
+                .replace(new RegExp(VAR_RECORD_G_PANEL_NUM, "giu"), `gPanelNum_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`)
+                .replace(new RegExp(VAR_RECORD_G_PANEL_INDEX, "giu"), `gPanelIndex_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`);
         }
         if (btn.disabledrules) {
             btn.disabledrules = btn.disabledrules
-                .replace(/gIsStart/gi, `gIsStart_${bc.ckPageObject}`)
-                .replace(/gIsEnd/gi, `gIsEnd_${bc.ckPageObject}`)
-                .replace(/gPanelNum/gi, `gPanelNum_${bc.ckPageObject}`)
-                .replace(/gPanelIndex/gi, `gPanelIndex_${bc.ckPageObject}`);
+                .replace(new RegExp(VAR_RECORD_G_IS_START, "giu"), `gIsStart_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`)
+                .replace(new RegExp(VAR_RECORD_G_IS_END, "giu"), `gIsEnd_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`)
+                .replace(new RegExp(VAR_RECORD_G_PANEL_NUM, "giu"), `gPanelNum_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`)
+                .replace(new RegExp(VAR_RECORD_G_PANEL_INDEX, "giu"), `gPanelIndex_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`);
         }
         if (btn.getglobaltostore) {
             btn.getglobaltostore = btn.getglobaltostore
-                .replace(/gIsStart/gi, `gIsStart_${bc.ckPageObject}`)
-                .replace(/gIsEnd/gi, `gIsEnd_${bc.ckPageObject}`)
-                .replace(/gPanelNum/gi, `gPanelNum_${bc.ckPageObject}`)
-                .replace(/gPanelIndex/gi, `gPanelIndex_${bc.ckPageObject}`);
+                .replace(new RegExp(VAR_RECORD_G_IS_START, "giu"), `gIsStart_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`)
+                .replace(new RegExp(VAR_RECORD_G_IS_END, "giu"), `gIsEnd_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`)
+                .replace(new RegExp(VAR_RECORD_G_PANEL_NUM, "giu"), `gPanelNum_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`)
+                .replace(new RegExp(VAR_RECORD_G_PANEL_INDEX, "giu"), `gPanelIndex_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`);
         }
     });
 

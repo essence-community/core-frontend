@@ -6,7 +6,7 @@ import {type PageModelType} from "../stores/PageModel";
 export type BuilderWindowType = BuilderBaseType & {
     columns: Array<Object>,
     childs: Array<Object>,
-    ckParent: string,
+    ck_parent: string,
     ckwindow: string,
     title?: string,
     wintype?: string,

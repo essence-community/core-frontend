@@ -16,6 +16,21 @@ import {
     withTranslation,
     i18next,
 } from "@essence/essence-constructor-share/utils";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_NAME,
+    VAR_RECORD_CV_SURNAME,
+    VAR_RECORD_CD_PERIOD,
+    VAR_RECORD_CK_DEPT,
+    VAR_RECORD_CV_EMAIL,
+    VAR_RECORD_CV_FULL_NAME,
+    VAR_RECORD_CV_LOGIN,
+    VAR_RECORD_CV_PATRONYMIC,
+    VAR_RECORD_CV_TIMEZONE,
+    VAR_SETTING_PROJECT_PROFILE_PAGE,
+} from "@essence/essence-constructor-share/constants";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import {type AuthModelType} from "../../Stores/AuthModel";
 import {styleTheme} from "../../constants";
@@ -36,12 +51,13 @@ const mapStoresToProps = (stores: Object): StoresPropsType => ({
 });
 
 const getConfig = memoize(() => ({
+    [VAR_RECORD_PAGE_OBJECT_ID]: "UserInfo",
     childs: [
         {
-            ckPageObject: "theme",
+            [VAR_RECORD_DISPLAYED]: "0b5e4673fa194e16a0c411ff471d21d2",
+            [VAR_RECORD_PAGE_OBJECT_ID]: "theme",
             clearable: "false",
             column: "theme",
-            cvDisplayed: "0b5e4673fa194e16a0c411ff471d21d2",
             datatype: "combo",
             displayfield: "name",
             localization: "meta",
@@ -56,12 +72,12 @@ const getConfig = memoize(() => ({
             valuefield: "value",
         },
         {
+            [VAR_RECORD_DISPLAYED]: "4ae012ef02dd4cf4a7eafb422d1db827",
+            [VAR_RECORD_PAGE_OBJECT_ID]: "EB7DA66474084531B31819AF930A2506",
+            [VAR_RECORD_QUERY_ID]: "MTGetLang",
             autoload: "true",
-            ckPageObject: "EB7DA66474084531B31819AF930A2506",
-            ckQuery: "MTGetLang",
             clearable: "false",
             column: "lang",
-            cvDisplayed: "4ae012ef02dd4cf4a7eafb422d1db827",
             datatype: "combo",
             displayfield: "cv_name",
             noglobalmask: "true",
@@ -70,7 +86,6 @@ const getConfig = memoize(() => ({
             valuefield: "ck_id",
         },
     ],
-    ckPageObject: "UserInfo",
     readonly: "false",
     type: "PANEL",
 }));
@@ -83,7 +98,7 @@ class MenuProfile extends React.Component<PropsType> {
     componentDidMount() {
         const {applicationStore, pageStore} = this.props;
 
-        pageStore.loadConfigAction(pageStore.ckPage, pageStore.applicationStore.session);
+        pageStore.loadConfigAction(pageStore.pageId, pageStore.applicationStore.session);
         this.disposers.push(reaction(() => applicationStore.isBlock, this.handleBlockUpdate));
     }
 
@@ -103,11 +118,11 @@ class MenuProfile extends React.Component<PropsType> {
 
     // eslint-disable-next-line max-statements
     handleSubmit = (values, {form}) => {
-        if (this.prevValues.ckDept !== values.ckDept && form.has("ckDept")) {
-            const field = form.$("ckDept");
+        if (this.prevValues[VAR_RECORD_CK_DEPT] !== values[VAR_RECORD_CK_DEPT] && form.has(VAR_RECORD_CK_DEPT)) {
+            const field = form.$(VAR_RECORD_CK_DEPT);
 
             if (field && field.options.bc) {
-                this.props.pageStore.changeDeptAction(values.ckDept, values.cvTimezone);
+                this.props.pageStore.changeDeptAction(values[VAR_RECORD_CK_DEPT], values[VAR_RECORD_CV_TIMEZONE]);
             }
         }
         if (styleTheme !== values.theme) {
@@ -140,11 +155,12 @@ class MenuProfile extends React.Component<PropsType> {
             applicationStore,
         } = this.props;
         const initialValues = {
-            cdPeriod: "",
-            ckDept: userInfo.ckDept,
-            cvEmail: userInfo.cvEmail,
-            cvFullName: `${userInfo.cvSurname || ""} ${userInfo.cvName || ""} ${userInfo.cvPatronymic || ""}`,
-            cvLogin: userInfo.cvLogin,
+            [VAR_RECORD_CD_PERIOD]: "",
+            [VAR_RECORD_CK_DEPT]: userInfo[VAR_RECORD_CK_DEPT],
+            [VAR_RECORD_CV_EMAIL]: userInfo[VAR_RECORD_CV_EMAIL],
+            [VAR_RECORD_CV_FULL_NAME]: `${userInfo[VAR_RECORD_CV_SURNAME] || ""} ${userInfo[VAR_RECORD_NAME] ||
+                ""} ${userInfo[VAR_RECORD_CV_PATRONYMIC] || ""}`,
+            [VAR_RECORD_CV_LOGIN]: userInfo[VAR_RECORD_CV_LOGIN],
             lang: i18next.language,
             theme: styleTheme,
         };
@@ -165,7 +181,7 @@ class MenuProfile extends React.Component<PropsType> {
                                 <Grid item xs>
                                     {mapComponents(pageStore.pageBc, (ChildComponent, childBc) => (
                                         <ChildComponent
-                                            key={childBc.ckPageObject}
+                                            key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
                                             {...this.props}
                                             pageStore={pageStore}
                                             bc={childBc}
@@ -198,8 +214,8 @@ export default compose(
             new ProfileModel({
                 applicationStore,
                 authStore,
-                ckPage: applicationStore.settingsStore.settings.projectProfilePage,
                 isReadOnly: false,
+                pageId: applicationStore.settingsStore.settings[VAR_SETTING_PROJECT_PROFILE_PAGE],
             }),
         "pageStore",
     ),

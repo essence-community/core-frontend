@@ -51,6 +51,7 @@ const transformOrigin = {
     vertical: "center",
 };
 
+// eslint-disable-next-line max-lines-per-function
 const WindowMessage = ({
     children,
     textAccept,
@@ -166,7 +167,4 @@ WindowMessage.defaultProps = {
     title: "ec238e2ccc1842d780b140a4bbedfdaf",
 };
 
-export default compose(
-    withTranslation("meta"),
-    withStyles(styles),
-)(WindowMessage);
+export default compose(withTranslation("meta"), withStyles(styles))(WindowMessage);

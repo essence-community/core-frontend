@@ -6,10 +6,11 @@ import {compose} from "recompose";
 import {disposeOnUnmount} from "mobx-react";
 import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {toColumnStyleWidth, camelCaseMemoized, withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {toColumnStyleWidth, withTranslation, WithT} from "@essence/essence-constructor-share/utils";
 import {mapComponents, Icon} from "@essence/essence-constructor-share";
 import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
-import {BuilderTypeContext} from "@essence/essence-constructor-share/constants";
+import {BuilderTypeContext} from "@essence/essence-constructor-share/context";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants";
 import {isEmpty} from "../../../utils/base";
 import {type TextFieldChildProps} from "../../BuilderFieldType";
 import styles from "./FieldGroupStyles";
@@ -24,7 +25,7 @@ type StateType = {
     reqCount: number,
 };
 
-const getColumns = (childs?: Array<Object>) => (childs ? childs.map((child) => camelCaseMemoized(child.column)) : []);
+const getColumns = (childs?: Array<Object>) => (childs ? childs.map((child) => child.column) : []);
 
 class FieldGroup extends React.Component<PropsType, StateType> {
     static contextType = BuilderTypeContext;
@@ -174,9 +175,9 @@ class FieldGroup extends React.Component<PropsType, StateType> {
                     <Grid item className={classes.labelTextStartAngle}>
                         &nbsp;
                     </Grid>
-                    {Boolean(bc.cvDisplayed) && (
+                    {Boolean(bc[VAR_RECORD_DISPLAYED]) && (
                         <Grid item className={`${classes.labelDisplay}`}>
-                            <span className={classes.labelText}>{t(bc.cvDisplayed)}</span>
+                            <span className={classes.labelText}>{t(bc[VAR_RECORD_DISPLAYED])}</span>
                         </Grid>
                     )}
                     <Grid item xs className={classes.labelTextLine}>
@@ -195,7 +196,7 @@ class FieldGroup extends React.Component<PropsType, StateType> {
                     <Grid
                         item
                         xs={12}
-                        key={child.ckPageObject}
+                        key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                         className={classes.child}
                         style={toColumnStyleWidth(child.width)}
                     >

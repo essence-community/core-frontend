@@ -4,6 +4,7 @@ import cn from "classnames";
 import {observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
 import {Icon} from "@essence/essence-constructor-share/Icon";
+import {VAR_RECORD_ID, VAR_RECORD_LEAF} from "@essence/essence-constructor-share/constants";
 
 const style = (theme: any) => ({
     icon: {
@@ -19,7 +20,7 @@ const style = (theme: any) => ({
 
 export const GridColumnTreeIcons = ({color, classes = {}, store, record}: any) => (
     <React.Fragment>
-        {record.leaf === "true" ? (
+        {record[VAR_RECORD_LEAF] === "true" ? (
             <Icon
                 iconfont="file-o"
                 tabIndex="-1"
@@ -30,7 +31,8 @@ export const GridColumnTreeIcons = ({color, classes = {}, store, record}: any) =
         ) : (
             <Icon
                 iconfont={
-                    (record.ckId === "root" && store.rootNode) || store.expansionRecords.get(record.ckId)
+                    (record[VAR_RECORD_ID] === "root" && store.rootNode) ||
+                    store.expansionRecords.get(record[VAR_RECORD_ID])
                         ? "folder-open-o"
                         : "folder-o"
                 }

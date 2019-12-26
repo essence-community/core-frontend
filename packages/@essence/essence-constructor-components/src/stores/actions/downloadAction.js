@@ -1,8 +1,15 @@
 // @flow
 import get from "lodash/get";
 import isArray from "lodash/isArray";
-import {snakeCaseKeys} from "@essence/essence-constructor-share/utils";
 import {stringify} from "qs";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_CK_MAIN,
+    VAR_RECORD_CL_WARNING,
+    VAR_RECORD_CV_ACTION,
+} from "@essence/essence-constructor-share/constants";
 import {isEmpty} from "../../utils/base";
 import {type BuilderModeType} from "../../BuilderType";
 import {filter, attachGlobalValues, type ConfigType} from "./saveAction";
@@ -27,9 +34,8 @@ const appendInputForm = ({form, name, type = "text", value}: InputFormType) => {
 
 // eslint-disable-next-line max-statements, max-lines-per-function
 export function downloadAction(values: Object | Array<Object>, mode: BuilderModeType, config: ConfigType) {
-    const {actionBc, clWarning = 0, query = "Modify", bc, pageStore} = config;
+    const {actionBc, [VAR_RECORD_CL_WARNING]: warningStatus = 0, query = "Modify", bc, pageStore} = config;
     const {extraplugingate, getglobaltostore} = actionBc;
-    const {ckMaster, ckPageObject} = bc;
     const queryStr = {
         action: "file",
         plugin: extraplugingate || bc.extraplugingate,
@@ -37,10 +43,12 @@ export function downloadAction(values: Object | Array<Object>, mode: BuilderMode
     };
     let modeCheck = mode;
     let filteredValues = null;
-    let ckMain = null;
+    let main = null;
 
-    if (ckMaster) {
-        ckMain = get(pageStore.stores.get(ckMaster), "selectedRecord.ckId") || pageStore.fieldValueMaster.get(ckMaster);
+    if (bc[VAR_RECORD_MASTER_ID]) {
+        main =
+            get(pageStore.stores.get(bc[VAR_RECORD_MASTER_ID]), `selectedRecord.${VAR_RECORD_ID}`) ||
+            pageStore.fieldValueMaster.get(bc[VAR_RECORD_MASTER_ID]);
     }
 
     if (isArray(values)) {
@@ -54,17 +62,17 @@ export function downloadAction(values: Object | Array<Object>, mode: BuilderMode
             values: filter(values),
         });
         // eslint-disable-next-line require-unicode-regexp
-        modeCheck = isEmpty(filteredValues.ckId) && /^\d+$/.test(mode) ? "1" : mode;
+        modeCheck = isEmpty(filteredValues[VAR_RECORD_ID]) && /^\d+$/.test(mode) ? "1" : mode;
     }
 
     const form = document.createElement("form");
 
     form.setAttribute("method", "post");
-    form.setAttribute("action", `${baseUrl}?${stringify(snakeCaseKeys(queryStr))}`);
+    form.setAttribute("action", `${baseUrl}?${stringify(queryStr)}`);
     appendInputForm({
         form,
         name: "page_object",
-        value: ckPageObject,
+        value: bc[VAR_RECORD_PAGE_OBJECT_ID],
     });
     appendInputForm({
         form,
@@ -74,16 +82,14 @@ export function downloadAction(values: Object | Array<Object>, mode: BuilderMode
     appendInputForm({
         form,
         name: "json",
-        value: JSON.stringify(
-            snakeCaseKeys({
-                data: filteredValues,
-                service: {
-                    ckMain,
-                    clWarning,
-                    cvAction: modeCheck === "7" ? "download" : modeCheck,
-                },
-            }),
-        ),
+        value: JSON.stringify({
+            data: filteredValues,
+            service: {
+                [VAR_RECORD_CK_MAIN]: main,
+                [VAR_RECORD_CL_WARNING]: warningStatus,
+                [VAR_RECORD_CV_ACTION]: modeCheck === "7" ? "download" : modeCheck,
+            },
+        }),
     });
     if (document.body) {
         document.body.appendChild(form);

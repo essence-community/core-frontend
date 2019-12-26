@@ -4,7 +4,7 @@ import isArray from "lodash/isArray";
 import {compose} from "recompose";
 import {observer} from "mobx-react";
 import {toSize} from "@essence/essence-constructor-share/utils";
-import {VALUE_SELF_FIRST} from "@essence/essence-constructor-share/constants";
+import {VALUE_SELF_FIRST, VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {isEmpty} from "../../../utils/base";
 import Popover from "../../../Popover/Popover";
 import BuilderGrid from "../../../Grid/BuilderGrid";
@@ -89,7 +89,7 @@ export class FieldTableBase extends React.Component<PropsType, StateType> {
                 error={error}
                 onClick={store.openFieldAction}
                 handleClear={this.handleClear}
-                dataPageObject={bc.ckPageObject}
+                dataPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                 bc={bc}
                 field={field}
                 style={this.props.style}

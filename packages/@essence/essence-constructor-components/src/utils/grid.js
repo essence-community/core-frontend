@@ -1,5 +1,6 @@
 // @flow
 import forOwn from "lodash/forOwn";
+import {VAR_RECORD_ID} from "@essence/essence-constructor-share/constants";
 import {GRID_ROW_HEIGHT} from "../constants";
 import {type GridModelType} from "../stores/GridModel";
 import {isEmpty, valuesMap} from "./base";
@@ -7,14 +8,14 @@ import {findSetKey} from "./findKey";
 
 function getGridCkId(getglobal: ?string, params: Object): string {
     if (getglobal) {
-        const keys = findSetKey(getglobal, "ckId");
+        const keys = findSetKey(getglobal, VAR_RECORD_ID);
         const values = {};
 
         forOwn(keys, (fieldName, globalKey) => {
             values[fieldName] = params[globalKey];
         });
 
-        return values.ckId;
+        return values[VAR_RECORD_ID];
     }
 
     return "";
@@ -29,8 +30,8 @@ export const getGridHeight = ({height}: {height?: string}) => {
 };
 
 const calculateTreeRecords = (store: GridModelType, record: Object, nesting: number = 1) =>
-    store.expansionRecords.get(record.ckId) && store.recordsTree[record.ckId]
-        ? store.recordsTree[record.ckId].reduce(
+    store.expansionRecords.get(record[VAR_RECORD_ID]) && store.recordsTree[record[VAR_RECORD_ID]]
+        ? store.recordsTree[record[VAR_RECORD_ID]].reduce(
               (acc, rec) => [...acc, ...calculateTreeRecords(store, rec, nesting + 1)],
               [{...record, nesting}],
           )
@@ -52,7 +53,7 @@ export const gridScrollToRecordAction = async (params: Object, gridStore: GridMo
         await gridStore.expandSelectedAction();
 
         const allVisibleRecords = getAllVisibleGridRecords(gridStore);
-        const recordIndex = allVisibleRecords.findIndex((rec) => rec.ckId === ckId);
+        const recordIndex = allVisibleRecords.findIndex((rec) => rec[VAR_RECORD_ID] === ckId);
 
         if (recordIndex !== -1) {
             const tableContent = gridStore.refs.get("table-content");
@@ -74,7 +75,7 @@ export const gridSetGlobalValues = (gridStore: GridModelType) => {
     const selectedRecords = gridStore.selectedRecords ? valuesMap(gridStore.selectedRecords) : [];
     const {valueFields} = gridStore;
     const values = {};
-    const keys = findSetKey(setglobal, "ckId");
+    const keys = findSetKey(setglobal, VAR_RECORD_ID);
 
     forOwn(keys, (fieldName, globaleKey) => {
         if (selmode === "MULTI" || selmode === "SIMPLE") {

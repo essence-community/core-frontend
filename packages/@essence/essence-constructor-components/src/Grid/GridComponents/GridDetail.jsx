@@ -3,6 +3,7 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import {Grid, TableCell} from "@material-ui/core";
 import {toColumnStyleWidth} from "@essence/essence-constructor-share/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import BuilderForm from "../../Form/BuilderForm";
 import {type GridModelType} from "../../stores/GridModel";
 import {type PageModelType} from "../../stores/PageModel";
@@ -23,7 +24,12 @@ const GridDetail = ({record, detail, pageStore, visible, store}: PropsType) => (
             <Content verticalSize="8" contentType="detail">
                 <Grid container spacing={1}>
                     {detail.map((panelBc) => (
-                        <Grid item key={panelBc.ckPageObject} xs={12} style={toColumnStyleWidth(panelBc.width)}>
+                        <Grid
+                            item
+                            key={panelBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                            xs={12}
+                            style={toColumnStyleWidth(panelBc.width)}
+                        >
                             <BuilderBasePanel
                                 bc={panelBc}
                                 editing={false}

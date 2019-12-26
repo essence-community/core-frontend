@@ -27,7 +27,7 @@ import {type RecordsModelType} from "./RecordsModelType";
 type CheckLoadingType = {|
     pageStore: PageModelType,
     bc: $PropertyType<RecordsModelType, "bc">,
-    ckMaster: string,
+    masterId: string,
 |};
 
 // 15sec * 1000ms - cycle delay, if global set incoreclty
@@ -48,12 +48,13 @@ export class CheckLoading {
 
     timeoutId: TimeoutID;
 
-    constructor({pageStore, bc, ckMaster}: CheckLoadingType): Promise<any> {
-        const master = pageStore.stores.get(ckMaster);
+    constructor({pageStore, bc, masterId}: CheckLoadingType): Promise<any> {
+        const master = pageStore.stores.get(masterId);
 
         this.pageStore = pageStore;
         this.timeoutId = setTimeout(this.handleTimeoutError, CYCLE_TIMEOUT);
 
+        // eslint-disable-next-line no-constructor-return
         return new Promise((resolve, reject) => {
             this.resolve = resolve;
             this.reject = reject;

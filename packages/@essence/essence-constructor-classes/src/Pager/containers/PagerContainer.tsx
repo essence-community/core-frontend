@@ -24,6 +24,7 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_ROUTE_VISIBLE_MENU,
     VAR_SETTING_PROJECT_LOADER,
+    VAR_RECORD_PARENT_ID,
 } from "@essence/essence-constructor-share/constants";
 import {PagerWindows} from "../components/PagerWindows";
 import {focusPageElement} from "../utils/focusPageElement";
@@ -48,7 +49,12 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
      * It means that we want to make custom page and getting them from server by bc.ck_query
      */
     const pageStore = React.useMemo<IPageModel>(() => {
-        if (applicationStore && bc && bc.defaultvalue && bc.ckParent !== applicationStore.bc.ckPageObject) {
+        if (
+            applicationStore &&
+            bc &&
+            bc.defaultvalue &&
+            bc[VAR_RECORD_PARENT_ID] !== applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID]
+        ) {
             const newPageStore: IPageModel = new PageModel({
                 applicationStore,
                 defaultVisible: true,

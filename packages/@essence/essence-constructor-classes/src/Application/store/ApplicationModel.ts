@@ -26,6 +26,7 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_ROUTE_PAGE_ID,
     VAR_RECORD_CV_LOGIN,
+    VAR_SETTING_MODULE_URL,
 } from "@essence/essence-constructor-share/constants";
 import {i18next} from "@essence/essence-constructor-share/utils";
 import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
@@ -220,7 +221,7 @@ export class ApplicationModel implements IApplicationModel {
                     }),
             settingsStore.settings.module_available === "true" &&
                 !modulesStore.isLoaded &&
-                modulesStore.loadModules(settingsStore.settings.g_sys_module_url),
+                modulesStore.loadModules(settingsStore.settings[VAR_SETTING_MODULE_URL]),
             snackbarStore.recordsStore.recordsState.status === "init" && snackbarStore.recordsStore.loadRecordsAction(),
         ]);
 

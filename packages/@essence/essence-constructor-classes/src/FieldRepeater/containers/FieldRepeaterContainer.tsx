@@ -5,7 +5,9 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PARENT_ID,
+    VAR_RECORD_DISPLAYED,
 } from "@essence/essence-constructor-share/constants";
+import {useTranslation} from "@essence/essence-constructor-share/utils";
 import {Grid} from "@material-ui/core";
 import {Field, FormType} from "@essence/essence-constructor-share/types/Base";
 import {useObserver} from "mobx-react-lite";
@@ -22,6 +24,7 @@ export const FieldRepeaterContainer: React.FC<IProps> = (props) => {
     const {field, bc, pageStore, disabled, hidden} = props;
     const applicationStore = React.useContext(ApplicationContext);
     const editorValue = React.useContext(EditorContex);
+    const [trans] = useTranslation("meta");
     const modelOptions = useModel((options) => new FieldRepeaterModel(options), {
         applicationStore,
         bc,
@@ -32,8 +35,10 @@ export const FieldRepeaterContainer: React.FC<IProps> = (props) => {
     });
     // eslint-disable-next-line prefer-destructuring
     const storeName = modelOptions[2];
+    const addLabel = trans("3a5239ee97d9464c9c4143c18fda9815");
     const addBtnConfig: IBuilderConfig = React.useMemo<IBuilderConfig>(
         () => ({
+            [VAR_RECORD_DISPLAYED]: addLabel,
             [VAR_RECORD_MASTER_ID]: storeName,
             [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_add`,
             [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
@@ -43,7 +48,7 @@ export const FieldRepeaterContainer: React.FC<IProps> = (props) => {
             onlyicon: "true",
             type: "BTN",
         }),
-        [bc, storeName],
+        [addLabel, bc, storeName],
     );
 
     return useObserver(() => {
@@ -63,6 +68,7 @@ export const FieldRepeaterContainer: React.FC<IProps> = (props) => {
                             field={childField}
                             isDisabledDel={isDisabledDel}
                             storeName={storeName}
+                            deleteLabel={trans("f7e324760ede4c88b4f11f0af26c9e97")}
                         />
                     ))}
                 </Grid>

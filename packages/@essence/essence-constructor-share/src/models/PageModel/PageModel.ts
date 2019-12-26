@@ -30,15 +30,19 @@ import {
     IWindowModel,
     IApplicationModel,
 } from "../../types";
-import {noop, isEmpty, parseMemoize, i18next} from "../../utils";
+import {noop, isEmpty, parseMemoize, i18next, findClassNames} from "../../utils";
 import {RecordsModel} from "../RecordsModel";
 import {WindowModel} from "../WindowModel";
+import {snackbarStore} from "../SnackbarModel";
+import {loadComponentsFromModules} from "../../components";
 import {getNextComponent} from "./PageModel.utils";
 
 const logger = loggerRoot.extend("PageModel");
 
 export class PageModel implements IPageModel {
     pageBc: IBuilderConfig[];
+
+    pagerBc: IBuilderConfig;
 
     fieldValueMaster: PageModelFieldValues;
 
@@ -125,6 +129,13 @@ export class PageModel implements IPageModel {
                 );
             },
             isLoading: false,
+            get pagerBc(): IBuilderConfig {
+                return {
+                    [VAR_RECORD_PAGE_OBJECT_ID]: pageId,
+                    [VAR_RECORD_PARENT_ID]: applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID],
+                    defaultvalue: applicationStore.bc.defaultvalue,
+                };
+            },
             questionWindow: null,
             get route() {
                 return (
@@ -158,9 +169,7 @@ export class PageModel implements IPageModel {
                           ) < 0
                         : isReadOnly;
                 },
-                get pageBc(this: IPageModel) {
-                    return this.recordsStore.selectedRecrodValues.children;
-                },
+                pageBc: [],
             },
             undefined,
             {deep: false},
@@ -265,17 +274,40 @@ export class PageModel implements IPageModel {
     });
 
     loadConfigAction = action("loadConfigAction", async (pageId: string) => {
+        let response = undefined;
+
         this.pageId = pageId;
 
-        const response = await this.recordsStore.searchAction({[VAR_RECORD_ROUTE_PAGE_ID]: pageId});
-        const globalValue = this.recordsStore.selectedRecrodValues[VAR_RECORD_GLOBAL_VALUE] as Record<
-            string,
-            FieldValue
-        >;
+        this.setLoadingAction(true);
 
-        if (globalValue) {
-            this.updateGlobalValues(globalValue);
+        try {
+            response = await this.recordsStore.searchAction({[VAR_RECORD_ROUTE_PAGE_ID]: pageId});
+
+            // @ts-ignore
+            if (snackbarStore.checkValidResponseAction(response[0], this.route, undefined, this.applicationStore)) {
+                const {children} = this.recordsStore.selectedRecrodValues;
+                const pageBc = Array.isArray(children) ? children : [];
+
+                const classNames = findClassNames(pageBc);
+                const globalValue = this.recordsStore.selectedRecrodValues[VAR_RECORD_GLOBAL_VALUE] as Record<
+                    string,
+                    FieldValue
+                >;
+
+                await loadComponentsFromModules(classNames);
+
+                this.pageBc = pageBc;
+
+                if (globalValue) {
+                    this.updateGlobalValues(globalValue);
+                }
+            }
+        } catch (error) {
+            this.pageBc = [];
+            snackbarStore.checkExceptResponse(error, this.route, this.applicationStore);
         }
+
+        this.setLoadingAction(false);
 
         return response;
     });
@@ -375,10 +407,7 @@ export class PageModel implements IPageModel {
         if (this.showQuestionWindow) {
             this.handleQuestionDecline();
         }
-        /*
-         * TODO: check this
-         * this.globalValues.merge(this.applicationStore.globalValues);
-         */
+
         this.loadConfigAction(this.pageId);
     });
 
@@ -445,6 +474,7 @@ export class PageModel implements IPageModel {
         this.stores.clear();
         this.windows.clear();
         this.fieldValueMaster.clear();
+        this.pageBc = [];
     });
 
     createWindowAction = action("createWindowAction", (params: ICreateWindow) => {

@@ -86,6 +86,7 @@ class MenuGridRow extends React.Component<PropsType> {
         // eslint-disable-next-line id-length
         const {route, level, classes = {}, routesStore, t} = this.props;
         const {favorits} = routesStore;
+        const translatedName = t(route[VAR_RECORD_NAME]);
 
         return (
             <div className={cn(classes.root)} style={{paddingLeft: level * LEFT_PADDING}} onClick={this.handleClick}>
@@ -96,10 +97,10 @@ class MenuGridRow extends React.Component<PropsType> {
                             variant="body2"
                             color="inherit"
                             noWrap
-                            data-qtip={route[VAR_RECORD_NAME]}
+                            data-qtip={translatedName}
                             className={classes.nameTypography}
                         >
-                            {t(route[VAR_RECORD_NAME])}
+                            {translatedName}
                         </Typography>
                     </Grid>
                 </Grid>

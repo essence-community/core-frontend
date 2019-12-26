@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {computed, observable} from "mobx";
 import {
     IStoreBaseModelProps,
@@ -193,21 +194,32 @@ export class FieldComboModel extends StoreBaseModel {
         const isNewValue = stringValue.indexOf(allownew) === 0;
         const stringNewValue = isNewValue ? stringValue.replace(allownew, "") : stringValue;
 
-        this.inputValue = stringNewValue;
-
         const suggestionIndex = this.suggestions.findIndex((sug) => sug.value === stringValue);
 
         if (suggestionIndex >= 0) {
+            this.inputValue = stringNewValue;
+
             return this.handleSetSuggestionValue(suggestionIndex, isUserSearch);
         } else if (loaded && !isUserSearch) {
-            this.inputValue = "";
+            if (!isNewValue) {
+                this.inputValue = "";
+            }
 
             return false;
-        } else if (!this.recordsStore.isLoading) {
-            this.loadDebounce(stringNewValue, false);
+        } else if (!this.recordsStore.isLoading && !isNewValue) {
+            // Load only necessary data while minchars more then 0
+            if (this.valueLength) {
+                if (toString(stringNewValue).length >= this.valueLength) {
+                    this.recordsStore.searchAction({[this.valuefield]: value}, {isUserReload: false});
+                }
+            } else {
+                this.loadDebounce(stringNewValue, false);
+            }
 
             return true;
         }
+
+        this.inputValue = stringNewValue;
 
         return !value && value !== 0;
     };

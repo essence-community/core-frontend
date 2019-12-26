@@ -136,6 +136,7 @@ export const initSetGlobal = ({form, field, pageStore, bc, store, disposers}: In
                 clearValues[key] = null;
             });
 
+            // To trigger mobx change value event
             pageStore.updateGlobalValues(clearValues);
             pageStore.updateGlobalValues(values);
         },

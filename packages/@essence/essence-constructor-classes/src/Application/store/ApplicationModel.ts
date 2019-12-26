@@ -29,7 +29,13 @@ import {
 } from "@essence/essence-constructor-share/constants";
 import {i18next} from "@essence/essence-constructor-share/utils";
 import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
-import {snackbarStore, RecordsModel, settingsStore, PageModel} from "@essence/essence-constructor-share/models";
+import {
+    snackbarStore,
+    RecordsModel,
+    settingsStore,
+    PageModel,
+    modulesStore,
+} from "@essence/essence-constructor-share/models";
 import {History} from "history";
 import pageSafeJson from "../mocks/page-safe.json";
 import {RoutesModel} from "./RoutesModel";
@@ -212,6 +218,9 @@ export class ApplicationModel implements IApplicationModel {
                         ]);
                         this.recordsStore.setSelectionAction(this.recordsStore.selectedRecordId);
                     }),
+            settingsStore.settings.module_available === "true" &&
+                !modulesStore.isLoaded &&
+                modulesStore.loadModules(settingsStore.settings.g_sys_module_url),
             snackbarStore.recordsStore.recordsState.status === "init" && snackbarStore.recordsStore.loadRecordsAction(),
         ]);
 

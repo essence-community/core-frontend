@@ -14,6 +14,8 @@ import {setModule} from "../../components";
 import {snackbarStore} from "../SnackbarModel";
 
 export class ModulesModel {
+    isLoaded = false;
+
     loadModules = (moduleUrl: string) =>
         request({
             json: {
@@ -53,5 +55,8 @@ export class ModulesModel {
                     },
                     {[VAR_RECORD_NAME]: i18next.t("02f274362cf847cba8d806687d237698")},
                 );
+            })
+            .then(() => {
+                this.isLoaded = true;
             });
 }

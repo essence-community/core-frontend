@@ -191,6 +191,18 @@ export class BuilderFormBase extends React.Component<PropsTypes, StateTypes> {
             } else {
                 form.clear();
             }
+
+            // Remove repeater items by self.
+            form.each((field) => {
+                const {options} = field;
+
+                if (options && options.bc && options.bc.datatype === "repeater") {
+                    field.fields.forEach((childField) => {
+                        field.del(childField.key);
+                    });
+                }
+            });
+
             form.update(initialValues);
 
             form.each((field) => {

@@ -61,7 +61,8 @@ export function downloadAction(values: Object | Array<Object>, mode: BuilderMode
             globalValues: pageStore.globalValues,
             values: filter(values),
         });
-        modeCheck = isEmpty(filteredValues[VAR_RECORD_ID]) && /^\d+$/u.test(mode) ? "1" : mode;
+        // eslint-disable-next-line require-unicode-regexp
+        modeCheck = isEmpty(filteredValues[VAR_RECORD_ID]) && /^\d+$/.test(mode) ? "1" : mode;
     }
 
     const form = document.createElement("form");
@@ -97,4 +98,6 @@ export function downloadAction(values: Object | Array<Object>, mode: BuilderMode
     if (document.body) {
         document.body.removeChild(form);
     }
+
+    return Promise.resolve(true);
 }

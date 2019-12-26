@@ -41,27 +41,28 @@ const onFormChange = (form: typeof MobxReactForm) => {
 interface IPagerProps extends IClassProps {}
 
 export const PagerContainer: React.FC<IPagerProps> = (props) => {
+    const {bc} = props;
     const applicationStore = React.useContext(ApplicationContext);
     /**
      * We are making a new pageStore when we get defaultvalue.
      * It means that we want to make custom page and getting them from server by bc.ck_query
      */
     const pageStore = React.useMemo<IPageModel>(() => {
-        if (applicationStore && props.bc && props.bc.defaultvalue) {
+        if (applicationStore && bc && bc.defaultvalue && bc.ckParent !== applicationStore.bc.ckPageObject) {
             const newPageStore: IPageModel = new PageModel({
                 applicationStore,
                 defaultVisible: true,
                 isActiveRedirect: false,
-                pageId: props.bc.defaultvalue,
+                pageId: bc.defaultvalue,
             });
 
-            newPageStore.loadConfigAction(props.bc.defaultvalue);
+            newPageStore.loadConfigAction(bc.defaultvalue);
 
             return newPageStore;
         }
 
         return props.pageStore;
-    }, [applicationStore, props.bc, props.pageStore]);
+    }, [applicationStore, bc, props.pageStore]);
 
     const classes = useStyles(props);
     const theme = useTheme();
@@ -76,14 +77,14 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
 
     // TODO: need to ferify it
     React.useEffect(() => {
-        if (route && !route[VAR_RECORD_ROUTE_VISIBLE_MENU] && props.bc && props.bc.defaultvalue !== pageStore.pageId) {
+        if (route && !route[VAR_RECORD_ROUTE_VISIBLE_MENU] && bc && bc.defaultvalue !== pageStore.pageId) {
             setTimeout(() => {
                 if (applicationStore) {
                     applicationStore.pagesStore.removePageAction(pageStore.pageId);
                 }
             });
         }
-    }, [applicationStore, pageStore.pageId, route, props.bc]);
+    }, [applicationStore, pageStore.pageId, route, bc]);
 
     React.useEffect(() => {
         return () => {

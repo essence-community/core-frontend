@@ -6,15 +6,17 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PARENT_ID,
+    VAR_RECORD_DISPLAYED,
 } from "@essence/essence-constructor-share/constants";
 import {IRepeaterGroupProps} from "./RepeaterGroup.types";
 
 export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
     // eslint-disable-next-line no-unused-vars
-    const {bc, field, form, mode, isDisabledDel, storeName, ...fieldProps} = props;
+    const {bc, field, form, mode, isDisabledDel, storeName, deleteLabel, ...fieldProps} = props;
 
     const deleteBtnConfig: IBuilderConfig = React.useMemo<IBuilderConfig>(
         () => ({
+            [VAR_RECORD_DISPLAYED]: deleteLabel,
             [VAR_RECORD_MASTER_ID]: storeName,
             [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_delete`,
             [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
@@ -26,7 +28,7 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
             onlyicon: "true",
             type: "BTN",
         }),
-        [bc, field.key, storeName],
+        [bc, deleteLabel, field.key, storeName],
     );
     const editorValue: IEditorContext = React.useMemo(
         () => ({

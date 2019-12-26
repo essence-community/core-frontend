@@ -145,7 +145,7 @@ export class RecordsModel implements IRecordsModel {
         "loadRecordsAction",
         ({selectedRecordId, status = "load", isUserReload}: ILoadRecordsProps = {}) => {
             if (!this.bc[VAR_RECORD_QUERY_ID]) {
-                logger(i18next.t("0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
+                logger(i18next.t("static:0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
 
                 return Promise.resolve();
             }

@@ -26,7 +26,7 @@ const checkError = ({responseAllData, query, responseData, list}) => {
 
     if (isError) {
         // TODO: shoud be messages in build
-        const error = new Error(i18next.t("63538aa4bcd748349defdf7510fc9c10", "Ошибка в разпознавании данных"));
+        const error = new Error(i18next.t("static:63538aa4bcd748349defdf7510fc9c10", "Ошибка в разпознавании данных"));
 
         // $FlowFixMe
         error.query = query;

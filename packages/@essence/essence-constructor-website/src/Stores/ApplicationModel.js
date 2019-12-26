@@ -193,7 +193,7 @@ export class ApplicationModel implements ApplicationModelType {
                     hiddenTimeout: 0,
                     status: "debug",
                     text: renderGlobalValuelsInfo(globalValues),
-                    title: "d2c071c58aca4b73853c1fcc6e2f08a3",
+                    title: "static:d2c071c58aca4b73853c1fcc6e2f08a3",
                 }),
         );
     };
@@ -288,14 +288,14 @@ export class ApplicationModel implements ApplicationModelType {
             .catch((error) => {
                 snackbarStore.snackbarOpenAction({
                     status: "error",
-                    text: "b9c874da6b0e4694b93db69088a556da",
+                    text: "static:b9c874da6b0e4694b93db69088a556da",
                 });
                 snackbarStore.snackbarOpenAction(
                     {
                         status: "debug",
                         text: error.message,
                     },
-                    {[VAR_RECORD_NAME]: "02f274362cf847cba8d806687d237698"},
+                    {[VAR_RECORD_NAME]: "static:02f274362cf847cba8d806687d237698"},
                 );
             });
 
@@ -365,9 +365,9 @@ export class ApplicationModel implements ApplicationModelType {
                     delay(this.initWsClient, TIMEOUT_LONG_RECONNECT, this.session);
                     snackbarStore.snackbarOpenAction(
                         {
-                            pageName: "2ff612aa52314ddea65a5d303c867eb8",
+                            pageName: "static:2ff612aa52314ddea65a5d303c867eb8",
                             status: "error",
-                            text: "bcdc7e54547e405c9873b3ebea4f84c4",
+                            text: "static:bcdc7e54547e405c9873b3ebea4f84c4",
                         },
                         {},
                     );
@@ -380,9 +380,9 @@ export class ApplicationModel implements ApplicationModelType {
             .catch((err) => {
                 snackbarStore.snackbarOpenAction(
                     {
-                        pageName: "2ff612aa52314ddea65a5d303c867eb8",
+                        pageName: "static:2ff612aa52314ddea65a5d303c867eb8",
                         status: "error",
-                        text: err.message || "4b4ef9aed688462799f24efe8413da9f",
+                        text: err.message || "static:4b4ef9aed688462799f24efe8413da9f",
                     },
                     {},
                 );
@@ -399,7 +399,7 @@ export class ApplicationModel implements ApplicationModelType {
                     snackbarStore.checkValidResponseAction(
                         event.data,
                         {
-                            [VAR_RECORD_NAME]: "2ff612aa52314ddea65a5d303c867eb8",
+                            [VAR_RECORD_NAME]: "static:2ff612aa52314ddea65a5d303c867eb8",
                         },
                         undefined,
                         this,
@@ -423,7 +423,7 @@ export class ApplicationModel implements ApplicationModelType {
                     break;
                 }
                 default: {
-                    throw new Error(i18next.t("8fe6e023ee11462db952d62d6b8b265e", {message: msg.data}));
+                    throw new Error(i18next.t("static:8fe6e023ee11462db952d62d6b8b265e", {message: msg.data}));
                 }
             }
         });

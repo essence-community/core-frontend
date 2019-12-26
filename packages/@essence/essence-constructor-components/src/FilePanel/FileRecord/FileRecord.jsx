@@ -64,7 +64,7 @@ export class FileRecordBase extends React.PureComponent<PropsType & WithT> {
             labelString += ` №${record[VAR_RECORD_CV_NUMBER]}`;
         }
         if (record[VAR_RECORD_CD_DATE]) {
-            labelString += ` ${t("1f560294a2a446c4a23fb3f9d7f94dc6")} ${moment(record[VAR_RECORD_CD_DATE]).format(
+            labelString += ` ${t("static:1f560294a2a446c4a23fb3f9d7f94dc6")} ${moment(record[VAR_RECORD_CD_DATE]).format(
                 "DD.MM.YYYY",
             )}`;
         }
@@ -97,7 +97,7 @@ export class FileRecordBase extends React.PureComponent<PropsType & WithT> {
                                 className={classes.clearButton}
                                 pageStore={pageStore}
                                 bc={{
-                                    confirmquestion: `${t("b711be91555b46bab25971b7da959653")} "${
+                                    confirmquestion: `${t("static:b711be91555b46bab25971b7da959653")} "${
                                         record[VAR_RECORD_CV_FILENAME]
                                     }"?`,
                                     ...store.btnsConfig.overrides["Override Delete Button"],

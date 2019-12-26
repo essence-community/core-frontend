@@ -34,7 +34,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
     const [trans] = useTranslation("meta");
     const onFormChange = React.useCallback(
         (form: typeof MobxReactForm) => {
-            logger(trans("f9c3bf3691864f4d87a46a9ba367a855"), form.values());
+            logger(trans("static:f9c3bf3691864f4d87a46a9ba367a855"), form.values());
         },
         [trans],
     );
@@ -146,7 +146,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                     hiddenTimeout: 0,
                     status: "debug",
                     text: renderGlobalValuelsInfo(globalValues),
-                    title: trans("d2c071c58aca4b73853c1fcc6e2f08a3"),
+                    title: trans("static:d2c071c58aca4b73853c1fcc6e2f08a3"),
                 }),
         );
     });

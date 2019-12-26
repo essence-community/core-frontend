@@ -54,7 +54,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                 this.key = bc.column || uniqueId("builderield");
 
                 if (!bc.column) {
-                    logger(this.props.t("d4055d1153af44a4ba5eb73ac9bc437e", {key: this.key}));
+                    logger(this.props.t("static:d4055d1153af44a4ba5eb73ac9bc437e", {key: this.key}));
                 }
 
                 if (bc.defaultvaluequery) {
@@ -123,11 +123,11 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
             }
 
             componentDidCatch(error: any, info: any) {
-                logger(this.props.t("d56944511bd243b1a0914ccdea58ce0d", {key: this.key}));
+                logger(this.props.t("static:d56944511bd243b1a0914ccdea58ce0d", {key: this.key}));
                 logger(
-                    this.props.t("47b7b12c1d9c413da54a08331191aded"),
+                    this.props.t("static:47b7b12c1d9c413da54a08331191aded"),
                     error,
-                    this.props.t("cfac299d53f8466d9745ddfa53e09958"),
+                    this.props.t("static:cfac299d53f8466d9745ddfa53e09958"),
                     info,
                 );
             }

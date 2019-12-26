@@ -69,7 +69,7 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
 
         this.buttonsConfig = [
             {
-                [VAR_RECORD_DISPLAYED]: "d78431bbcb484da4b516bc00626965ba",
+                [VAR_RECORD_DISPLAYED]: "static:d78431bbcb484da4b516bc00626965ba",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-add-all`,
                 handlerFn: this.addAll,
                 iconfont: "fa-angle-double-right",
@@ -77,7 +77,7 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
                 onlyicon: "true",
             },
             {
-                [VAR_RECORD_DISPLAYED]: "833289fd818f4340b584beb9068f670b",
+                [VAR_RECORD_DISPLAYED]: "static:833289fd818f4340b584beb9068f670b",
                 [VAR_RECORD_MASTER_ID]: fieldFrom[VAR_RECORD_PAGE_OBJECT_ID],
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-add-selected`,
                 handlerFn: this.addSelected,
@@ -88,7 +88,7 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
                 uitype: "1",
             },
             {
-                [VAR_RECORD_DISPLAYED]: "67677d8e457c409daaef5fe5b90ec491",
+                [VAR_RECORD_DISPLAYED]: "static:67677d8e457c409daaef5fe5b90ec491",
                 [VAR_RECORD_MASTER_ID]: fieldTo[VAR_RECORD_PAGE_OBJECT_ID],
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-remove-selected`,
                 handlerFn: this.removeSelected,
@@ -99,7 +99,7 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
                 uitype: "1",
             },
             {
-                [VAR_RECORD_DISPLAYED]: "c4684efb2ea444f4b9192db3c4b4b843",
+                [VAR_RECORD_DISPLAYED]: "static:c4684efb2ea444f4b9192db3c4b4b843",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-remove-all`,
                 handlerFn: this.removeAll,
                 iconfont: "fa-angle-double-left",

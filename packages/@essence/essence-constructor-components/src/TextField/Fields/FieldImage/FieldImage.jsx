@@ -17,7 +17,7 @@ class FieldImage extends React.Component<PropsType & WithT> {
 
         downloadImage(
             typeof field.value === "string" ? this.getSrc(field.value) : "",
-            t((fieldWithName && fieldWithName.value) || "157badbc579e439d8cae1d60ceff9aa9"),
+            t((fieldWithName && fieldWithName.value) || "static:157badbc579e439d8cae1d60ceff9aa9"),
         );
     };
 
@@ -63,12 +63,12 @@ class FieldImage extends React.Component<PropsType & WithT> {
                             alt=""
                             src={src}
                             className={height ? classes.zoomImg : classes.img}
-                            data-qtip={t(fieldWithName ? fieldWithName.value : "157badbc579e439d8cae1d60ceff9aa9")}
+                            data-qtip={t(fieldWithName ? fieldWithName.value : "static:157badbc579e439d8cae1d60ceff9aa9")}
                         />
                         {src.indexOf(origin) === 0 && (
                             <div className={classes.downloadBtn} onClick={this.handleDownload}>
                                 <Icon size="lg" iconfont="download" />
-                                <span className={classes.downloadBtnText}>{t("02260da507494f2f9956ba9e0f37b1f1")}</span>
+                                <span className={classes.downloadBtnText}>{t("static:02260da507494f2f9956ba9e0f37b1f1")}</span>
                             </div>
                         )}
                     </React.Fragment>

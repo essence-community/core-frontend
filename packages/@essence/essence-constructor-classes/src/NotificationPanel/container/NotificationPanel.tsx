@@ -60,7 +60,7 @@ export const NotificationPanel: React.FC<IClassProps> = (props) => {
                         }}
                         disabled={!snackbarStore.snackbarsInStatus.length}
                         disableRipple
-                        data-qtip={trans("b0c16afd6507416196e01223630f9d62")}
+                        data-qtip={trans("static:b0c16afd6507416196e01223630f9d62")}
                         data-page-object={"snackbar-remove-all"}
                     >
                         <Icon iconfont="trash-o" iconfontname="fa" size="2x" />

@@ -98,9 +98,9 @@ class AuthPage extends React.Component<PropsType, StateType> {
             id: VAR_RECORD_CV_LOGIN,
             margin: "normal",
             name: VAR_RECORD_CV_LOGIN,
-            placeholder: this.props.t("d016a5a3d0964cd69fd15c6e283db77e"),
+            placeholder: this.props.t("static:d016a5a3d0964cd69fd15c6e283db77e"),
             rules: "required",
-            title: this.props.t("d016a5a3d0964cd69fd15c6e283db77e"),
+            title: this.props.t("static:d016a5a3d0964cd69fd15c6e283db77e"),
         },
         {
             autoFocus: false,
@@ -108,9 +108,9 @@ class AuthPage extends React.Component<PropsType, StateType> {
             id: VAR_RECORD_CV_PASSWORD,
             margin: "normal",
             name: VAR_RECORD_CV_PASSWORD,
-            placeholder: this.props.t("8d380b7c5e6d4fcfb9d608d69464fe2a"),
+            placeholder: this.props.t("static:8d380b7c5e6d4fcfb9d608d69464fe2a"),
             rules: "required",
-            title: this.props.t("8d380b7c5e6d4fcfb9d608d69464fe2a"),
+            title: this.props.t("static:8d380b7c5e6d4fcfb9d608d69464fe2a"),
         },
     ];
 
@@ -253,7 +253,7 @@ class AuthPage extends React.Component<PropsType, StateType> {
                                             disabled={form.submitting || !form.isValid}
                                             disableRipple
                                         >
-                                            {this.props.t("664bdebac78e47079bb685732899c5f6")}
+                                            {this.props.t("static:664bdebac78e47079bb685732899c5f6")}
                                         </Button>
                                     </Grid>
                                 </Grid>

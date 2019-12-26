@@ -39,7 +39,7 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
     return (
         <div className={classes.root}>
             <IconButton
-                data-qtip={trans("23264e86a9cd446f83cee0eb86c20bd9")}
+                data-qtip={trans("static:23264e86a9cd446f83cee0eb86c20bd9")}
                 color="primary"
                 onClick={handleFirstPageButtonClick}
                 classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}
@@ -51,7 +51,7 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
                 <Icon iconfont="angle-double-left" />
             </IconButton>
             <IconButton
-                data-qtip={trans("267e96bb282843abaa25b3e78bd874f1")}
+                data-qtip={trans("static:267e96bb282843abaa25b3e78bd874f1")}
                 color="primary"
                 onClick={handleBackButtonClick}
                 classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}
@@ -67,11 +67,11 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
                 classes={{root: classes.typoRoot}}
                 data-page-object={`${ckPageObject}-current-page`}
             >
-                {trans("3dd42493c346447897d017af3668d998", {currentpage: pages > 0 ? props.page + 1 : 0, pages})}
+                {trans("static:3dd42493c346447897d017af3668d998", {currentpage: pages > 0 ? props.page + 1 : 0, pages})}
             </Typography>
 
             <IconButton
-                data-qtip={trans("d4d9e481a0e14bbd9e1e76537e8cbfd0")}
+                data-qtip={trans("static:d4d9e481a0e14bbd9e1e76537e8cbfd0")}
                 color="primary"
                 onClick={handleNextButtonClick}
                 classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}
@@ -83,7 +83,7 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
                 <Icon iconfont="angle-right" />
             </IconButton>
             <IconButton
-                data-qtip={trans("d0f0a046dee344d1b5bbbadcd8d848db")}
+                data-qtip={trans("static:d0f0a046dee344d1b5bbbadcd8d848db")}
                 color="primary"
                 onClick={handleLastPageButtonClick}
                 classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}

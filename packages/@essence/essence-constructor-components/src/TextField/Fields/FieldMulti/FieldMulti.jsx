@@ -221,12 +221,12 @@ export class FieldMultiBase extends React.Component<PropsType> {
                                     data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-accept`}
                                     disabled={disabled}
                                     disableRipple
-                                    data-qtip={t("147bb56012624451971b35b1a4ef55e6")}
+                                    data-qtip={t("static:147bb56012624451971b35b1a4ef55e6")}
                                     onClick={handleAccept}
                                     color="primary"
                                     variant="contained"
                                 >
-                                    {t("147bb56012624451971b35b1a4ef55e6")}
+                                    {t("static:147bb56012624451971b35b1a4ef55e6")}
                                 </Button>
                             </Grid>
                             <Grid item>
@@ -234,12 +234,12 @@ export class FieldMultiBase extends React.Component<PropsType> {
                                     data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-cancel`}
                                     disabled={disabled}
                                     disableRipple
-                                    data-qtip={t("3d27a32643ed4a7aa52b7e4b8a36806b")}
+                                    data-qtip={t("static:3d27a32643ed4a7aa52b7e4b8a36806b")}
                                     onClick={handleCancel}
                                     color="secondary"
                                     variant="contained"
                                 >
-                                    {t("3d27a32643ed4a7aa52b7e4b8a36806b")}
+                                    {t("static:3d27a32643ed4a7aa52b7e4b8a36806b")}
                                 </Button>
                             </Grid>
                         </Grid>

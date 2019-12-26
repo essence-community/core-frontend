@@ -148,7 +148,7 @@ export class CheckLoading {
         for (const dispose of this.checkers as any) {
             dispose();
         }
-        this.reject(new Error(i18next.t("06dfd0c3b97b45e5abc146a14c0fab37")));
+        this.reject(new Error(i18next.t("static:06dfd0c3b97b45e5abc146a14c0fab37")));
     };
 
     private handleFinishedLoading = (name: string, store: {recordsStore: IRecordsModel}) => (): void => {

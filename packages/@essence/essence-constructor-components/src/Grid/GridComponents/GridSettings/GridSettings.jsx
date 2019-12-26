@@ -35,7 +35,7 @@ class GridSettings extends React.Component<PropsType, StateType> {
     };
 
     bc = {
-        [VAR_RECORD_DISPLAYED]: "102972d8258947b7b3cf2b70b258278a",
+        [VAR_RECORD_DISPLAYED]: "static:102972d8258947b7b3cf2b70b258278a",
         [VAR_RECORD_PAGE_OBJECT_ID]: "gridsettings",
         iconfont: "fa-sliders",
         onlyicon: "true",
@@ -104,7 +104,7 @@ class GridSettings extends React.Component<PropsType, StateType> {
                     container={pageStore.pageEl}
                     style={{position: "absolute"}}
                 >
-                    <DialogTitle disableTypography>{t("017af47503474ec58542b9db53bdeeff")}</DialogTitle>
+                    <DialogTitle disableTypography>{t("static:017af47503474ec58542b9db53bdeeff")}</DialogTitle>
                     <DialogContent>
                         <Scrollbars autoHeight autoHeightMax={300} autoHeightMin={38}>
                             <Grid container direction="column" spacing={0} style={{width: "100%"}}>
@@ -120,7 +120,7 @@ class GridSettings extends React.Component<PropsType, StateType> {
                                             <Grid container>
                                                 <Grid item xs={10}>
                                                     {t(column[VAR_RECORD_DISPLAYED]) ||
-                                                        `${t("223dbd23bba54e4c91f59ef4cdea8ffa")}  ${column.datatype}`}
+                                                        `${t("static:223dbd23bba54e4c91f59ef4cdea8ffa")}  ${column.datatype}`}
                                                 </Grid>
                                                 <Grid item xs={2}>
                                                     <Switch
@@ -140,10 +140,10 @@ class GridSettings extends React.Component<PropsType, StateType> {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleSave} color="primary" disableRipple variant="contained">
-                            {t("8a930c6b5dd440429c0f0e867ce98316")}
+                            {t("static:8a930c6b5dd440429c0f0e867ce98316")}
                         </Button>
                         <Button onClick={this.handleClose} color="secondary" disableRipple variant="contained">
-                            {t("64aacc431c4c4640b5f2c45def57cae9")}
+                            {t("static:64aacc431c4c4640b5f2c45def57cae9")}
                         </Button>
                     </DialogActions>
                 </Dialog>

@@ -35,7 +35,7 @@ export const FieldRepeaterContainer: React.FC<IProps> = (props) => {
     });
     // eslint-disable-next-line prefer-destructuring
     const storeName = modelOptions[2];
-    const addLabel = trans("3a5239ee97d9464c9c4143c18fda9815");
+    const addLabel = trans("static:3a5239ee97d9464c9c4143c18fda9815");
     const addBtnConfig: IBuilderConfig = React.useMemo<IBuilderConfig>(
         () => ({
             [VAR_RECORD_DISPLAYED]: addLabel,
@@ -68,7 +68,7 @@ export const FieldRepeaterContainer: React.FC<IProps> = (props) => {
                             field={childField}
                             isDisabledDel={isDisabledDel}
                             storeName={storeName}
-                            deleteLabel={trans("f7e324760ede4c88b4f11f0af26c9e97")}
+                            deleteLabel={trans("static:f7e324760ede4c88b4f11f0af26c9e97")}
                         />
                     ))}
                 </Grid>

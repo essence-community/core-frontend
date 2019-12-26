@@ -214,7 +214,7 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
                 }),
         )
         .catch((error) => {
-            logger(i18next.t("27a9d844da20453195f59f75185d7c99"), error);
+            logger(i18next.t("static:27a9d844da20453195f59f75185d7c99"), error);
 
             if (formData) {
                 snackbarStore.snackbarChangeStatusAction(snackbarId, "errorUpload");

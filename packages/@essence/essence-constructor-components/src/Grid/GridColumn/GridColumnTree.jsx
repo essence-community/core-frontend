@@ -51,7 +51,7 @@ const GridColumnTree = ({
             <GridColumnTreeIcons record={record} store={store} />
 
             {record && record.type === "root" ? (
-                t("e3e33760864d44f88a9ecfe8f5da7a0b")
+                t("static:e3e33760864d44f88a9ecfe8f5da7a0b")
             ) : (
                 <CellComponent
                     bc={{

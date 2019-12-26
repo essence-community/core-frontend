@@ -156,7 +156,7 @@ export class PageModel implements PageModelInterface {
                             hiddenTimeout: 0,
                             status: "debug",
                             text: renderGlobalValuelsInfo(globalValues),
-                            title: `${i18next.t("dcfb61366b054c6e95ae83593cfb9cd9")}: ${i18next.t(pageId || "")}`,
+                            title: `${i18next.t("static:dcfb61366b054c6e95ae83593cfb9cd9")}: ${i18next.t(pageId || "")}`,
                         },
                         this.route,
                     ),
@@ -224,7 +224,7 @@ export class PageModel implements PageModelInterface {
         let newName = name;
 
         if (this.stores.has(name)) {
-            logger(i18next.t("7ef1547ac7084e178bf1447361e3ccc3"));
+            logger(i18next.t("static:7ef1547ac7084e178bf1447361e3ccc3"));
 
             if (allowNewName) {
                 newName = name + uuid();

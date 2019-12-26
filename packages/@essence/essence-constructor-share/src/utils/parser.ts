@@ -104,10 +104,10 @@ export const parse = (src: string, withTokens = false): IParseReturnType => {
     try {
         parsedSrc = esprima.parseScript(`result = ${src}`, {tokens: withTokens});
     } catch (error) {
-        logger(i18next.t("993c801f7f8b4284b3b1a0f624496ac8"), error.message);
+        logger(i18next.t("static:993c801f7f8b4284b3b1a0f624496ac8"), error.message);
 
         return {
-            runer: () => String(i18next.t("4b067f4b55154c46b0a8d6b34d4d9bfb")),
+            runer: () => String(i18next.t("static:4b067f4b55154c46b0a8d6b34d4d9bfb")),
             variables: [],
         };
     }
@@ -117,7 +117,7 @@ export const parse = (src: string, withTokens = false): IParseReturnType => {
             // @ts-ignore
             const expression = parsedSrc ? parsedSrc.body[0].expression : undefined;
 
-            return expression ? parseOperations(expression, values) : i18next.t("b621b9209813416dba9d5c12ccc93fdf");
+            return expression ? parseOperations(expression, values) : i18next.t("static:b621b9209813416dba9d5c12ccc93fdf");
         },
         variables:
             withTokens && parsedSrc && parsedSrc.tokens

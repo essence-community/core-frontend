@@ -14,7 +14,7 @@ type PropsType = WithT & {
 const HomePage = ({classes = {}, t}: PropsType) => (
     <Grid container justify="center" alignItems="center" className={classes.root}>
         <Grid item>
-            <img className={classes.homeLogo} src={homeLogo} alt={t("a54bed8bf1574dc185aaf1f74aa85148")} />
+            <img className={classes.homeLogo} src={homeLogo} alt={t("static:a54bed8bf1574dc185aaf1f74aa85148")} />
         </Grid>
     </Grid>
 );

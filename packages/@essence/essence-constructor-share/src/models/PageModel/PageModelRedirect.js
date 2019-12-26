@@ -45,7 +45,7 @@ function awaitFieldFilter(field: Field, skipCheckMaster: boolean): Promise<void>
 export function awaitFormFilter(form: Form, skipCheckMaster: boolean): Promise<void> {
     return new Promise((resolve) => {
         const timerID = setTimeout(() => {
-            logger(i18next.t("5327513a9d344e2184cca94cde783a52"));
+            logger(i18next.t("static:5327513a9d344e2184cca94cde783a52"));
             resolve();
         }, AWAIT_DELAY);
 

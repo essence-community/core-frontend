@@ -46,7 +46,7 @@ export class FilePanelModel extends StoreBaseModel implements FilePanelModelType
                 ...this.bc,
                 childwindow: [
                     {
-                        [VAR_RECORD_DISPLAYED]: "6a4c7f4488164e7e8fabd46e0cc01ccc",
+                        [VAR_RECORD_DISPLAYED]: "static:6a4c7f4488164e7e8fabd46e0cc01ccc",
                         [VAR_RECORD_NAME]: "",
                         [VAR_RECORD_PAGE_OBJECT_ID]: `${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow`,
                         [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],

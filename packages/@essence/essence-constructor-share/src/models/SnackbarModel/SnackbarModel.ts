@@ -79,7 +79,7 @@ export class SnackbarModel implements ISnackbarModel {
                 } else if (this.activeStatus === "notification") {
                     return this.snackbarsAll.filter(
                         (snackbar: ISnackbar) =>
-                            snackbar.pageName === i18next.t("2ff612aa52314ddea65a5d303c867eb8") ||
+                            snackbar.pageName === i18next.t("static:2ff612aa52314ddea65a5d303c867eb8") ||
                             snackbar.status === this.activeStatus,
                     );
                 }
@@ -98,7 +98,7 @@ export class SnackbarModel implements ISnackbarModel {
         } else if (this.activeStatus === "notification") {
             this.snackbarsAll = this.snackbarsAll.filter(
                 (snackbar) =>
-                    snackbar.pageName !== i18next.t("2ff612aa52314ddea65a5d303c867eb8") &&
+                    snackbar.pageName !== i18next.t("static:2ff612aa52314ddea65a5d303c867eb8") &&
                     snackbar.status !== this.activeStatus,
             );
         } else {
@@ -320,7 +320,7 @@ export class SnackbarModel implements ISnackbarModel {
             {
                 status: "error",
                 text: errorData && errorData.errText ? errorData.errText : "",
-                title: i18next.t("515a199e09914e3287afd9c95938f3a7", errorData.query),
+                title: i18next.t("static:515a199e09914e3287afd9c95938f3a7", errorData.query),
             },
             route,
         );
@@ -332,7 +332,7 @@ export class SnackbarModel implements ISnackbarModel {
                 code: errorData.errCode || errorData.errId,
                 description: errorData.errText,
                 status: "error",
-                title: i18next.t("4fdb3577f24440ceb8c717adf68bac48", errorData),
+                title: i18next.t("static:4fdb3577f24440ceb8c717adf68bac48", errorData),
             },
             route,
         );
@@ -343,7 +343,7 @@ export class SnackbarModel implements ISnackbarModel {
             {
                 description: errorData.errId,
                 status: "error",
-                title: i18next.t("515a199e09914e3287afd9c95938f3a7", errorData),
+                title: i18next.t("static:515a199e09914e3287afd9c95938f3a7", errorData),
             },
             route,
         );
@@ -353,7 +353,7 @@ export class SnackbarModel implements ISnackbarModel {
         this.snackbarOpenAction(
             {
                 status: "error",
-                text: i18next.t("2d209550310a4fae90389134a5b12353"),
+                text: i18next.t("static:2d209550310a4fae90389134a5b12353"),
             },
             route,
         );
@@ -363,7 +363,7 @@ export class SnackbarModel implements ISnackbarModel {
         this.snackbarOpenAction(
             {
                 status: "error",
-                text: i18next.t("23cd49d589b74476acaa0b347b207d00"),
+                text: i18next.t("static:23cd49d589b74476acaa0b347b207d00"),
             },
             route,
         );
@@ -372,7 +372,7 @@ export class SnackbarModel implements ISnackbarModel {
     accessDeniedAction = action(
         "accessDeniedAction",
         (_error: Error, route?: Record<string, FieldValue>, applicationStore?: IApplicationModel) => {
-            this.snackbarOpenAction({status: "error", title: i18next.t("1d5ca35298f346cab823812e2b57e15a")}, route);
+            this.snackbarOpenAction({status: "error", title: i18next.t("static:1d5ca35298f346cab823812e2b57e15a")}, route);
             const recordId = route ? route[VAR_RECORD_ID] : undefined;
 
             if (applicationStore && typeof recordId === "string") {
@@ -384,7 +384,7 @@ export class SnackbarModel implements ISnackbarModel {
     invalidSessionAction = action(
         "invalidSessionAction",
         (_error: Error, route?: IRouteRecord, applicationStore?: IApplicationModel) => {
-            this.snackbarOpenAction({status: "error", title: i18next.t("5bf781f61f9c44b8b23c76aec75e5d10")}, route);
+            this.snackbarOpenAction({status: "error", title: i18next.t("static:5bf781f61f9c44b8b23c76aec75e5d10")}, route);
 
             if (applicationStore) {
                 applicationStore.logoutAction();
@@ -393,6 +393,6 @@ export class SnackbarModel implements ISnackbarModel {
     );
 
     loginFailedAction = action("loginFailedAction", (_error: Error, route?: IRouteRecord) => {
-        this.snackbarOpenAction({status: "error", title: i18next.t("b5a60b8ff5cd419ebe487a68215f4490")}, route);
+        this.snackbarOpenAction({status: "error", title: i18next.t("static:b5a60b8ff5cd419ebe487a68215f4490")}, route);
     });
 }

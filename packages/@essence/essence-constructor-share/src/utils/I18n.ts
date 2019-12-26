@@ -64,7 +64,7 @@ export function initI18n() {
                 escapeValue: false,
             },
             lng: lang,
-            ns: ["meta", "message"],
+            ns: ["meta", "message", "static"],
             react: {
                 bindI18n: "languageChanged loaded",
             },

@@ -16,16 +16,16 @@ import SnackbarContentText from "./SnackbarContentText";
 const styles = SnackbarContentDarkStyle;
 
 const statusTitle = {
-    block: "cad7307902954c1b92b626e42da53aa3",
-    debug: "4fdb2cdb2e5047048da10f9dbe83188d",
-    error: "c80abfb5b59c400ca1f8f9e868e4c761",
-    errorUpload: "cecc548fc7444813a3d00eb7bb067a3f",
-    info: "627518f4034947aa9989507c5688cfff",
+    block: "static:cad7307902954c1b92b626e42da53aa3",
+    debug: "static:4fdb2cdb2e5047048da10f9dbe83188d",
+    error: "static:c80abfb5b59c400ca1f8f9e868e4c761",
+    errorUpload: "static:cecc548fc7444813a3d00eb7bb067a3f",
+    info: "static:627518f4034947aa9989507c5688cfff",
     notification: "",
-    progress: "ad39828554114893872302a0aaa031af",
-    unblock: "d22b1f7a48b9402e9c0c17b508c5a906",
-    uploaded: "179cc83540e94b87a8d8aff919552f22",
-    warning: "e6f8166771e04b849855254c5d926ff6",
+    progress: "static:ad39828554114893872302a0aaa031af",
+    unblock: "static:d22b1f7a48b9402e9c0c17b508c5a906",
+    uploaded: "static:179cc83540e94b87a8d8aff919552f22",
+    warning: "static:e6f8166771e04b849855254c5d926ff6",
 };
 
 const statusIcon = {

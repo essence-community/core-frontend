@@ -28,7 +28,7 @@ const getConfig = memoize((trans) => ({
     [VAR_RECORD_PAGE_OBJECT_ID]: "ChangeTheme",
     childs: [
         {
-            [VAR_RECORD_DISPLAYED]: "0b5e4673fa194e16a0c411ff471d21d2",
+            [VAR_RECORD_DISPLAYED]: "static:0b5e4673fa194e16a0c411ff471d21d2",
             [VAR_RECORD_PAGE_OBJECT_ID]: "theme",
             clearable: "false",
             column: "theme",
@@ -37,8 +37,8 @@ const getConfig = memoize((trans) => ({
             noglobalmask: "true",
             querymode: "remote",
             records: [
-                {name: trans("66ef0068472a4a0394710177f828a9b1"), value: "dark"},
-                {name: trans("fd7c7f3539954cc8a55876e3514906b5"), value: "light"},
+                {name: trans("static:66ef0068472a4a0394710177f828a9b1"), value: "dark"},
+                {name: trans("static:fd7c7f3539954cc8a55876e3514906b5"), value: "light"},
             ],
             type: "IFIELD",
             valuefield: "value",

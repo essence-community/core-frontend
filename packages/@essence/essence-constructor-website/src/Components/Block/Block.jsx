@@ -37,7 +37,7 @@ const BaseBlock = ({applicationStore, classes = {}, t}: PropsType) =>
             <Grid container className={classes.grid} spacing={2} alignItems="center" direction="row" justify="center">
                 <Grid item>
                     <Paper className={classes.paper} elevation={8}>
-                        {t("e6f8166771e04b849855254c5d926ff6")}
+                        {t("static:e6f8166771e04b849855254c5d926ff6")}
                         <Typography variant="body2" color="inherit">
                             {applicationStore.blockText}
                         </Typography>

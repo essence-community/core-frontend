@@ -99,13 +99,13 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
 
                         return selCount
                             ? `${declension(selCount, [
-                                  i18next.t("e28e56d7b12e4ea2b7663b3e66473b9e"),
-                                  i18next.t("783922ac8cf84a5eac8d1b17c77de544"),
-                                  i18next.t("783922ac8cf84a5eac8d1b17c77de544"),
+                                  i18next.t("static:e28e56d7b12e4ea2b7663b3e66473b9e"),
+                                  i18next.t("static:783922ac8cf84a5eac8d1b17c77de544"),
+                                  i18next.t("static:783922ac8cf84a5eac8d1b17c77de544"),
                               ])}  ${selCount} ${declension(selCount, [
-                                  i18next.t("0cd9a67ed46d4d70959182cc6260b221"),
-                                  i18next.t("87acd17f8ae243798e97549a5761cfaf"),
-                                  i18next.t("2485088fda3d4d9cb5de9c25534cdf23"),
+                                  i18next.t("static:0cd9a67ed46d4d70959182cc6260b221"),
+                                  i18next.t("static:87acd17f8ae243798e97549a5761cfaf"),
+                                  i18next.t("static:2485088fda3d4d9cb5de9c25534cdf23"),
                               ])}`
                             : "";
                     }
@@ -138,7 +138,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
 
         this.builderConfigs = [
             {
-                [VAR_RECORD_DISPLAYED]: "147bb56012624451971b35b1a4ef55e6",
+                [VAR_RECORD_DISPLAYED]: "static:147bb56012624451971b35b1a4ef55e6",
                 [VAR_RECORD_MASTER_ID]: `grid_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
                 [VAR_RECORD_PAGE_OBJECT_ID]: `btnok_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
                 [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
@@ -152,7 +152,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
                 uitype: "1",
             },
             {
-                [VAR_RECORD_DISPLAYED]: "64aacc431c4c4640b5f2c45def57cae9",
+                [VAR_RECORD_DISPLAYED]: "static:64aacc431c4c4640b5f2c45def57cae9",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `btnban_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
                 [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
                 handlerFn: this.closeAction,
@@ -305,7 +305,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
     };
 
     reloadStoreAction = action("reloadStoreAction", () => {
-        loggerInfo(i18next.t("58715205c88c4d60aac6bfe2c3bfa516"));
+        loggerInfo(i18next.t("static:58715205c88c4d60aac6bfe2c3bfa516"));
 
         this.selectedEntries = [];
     });

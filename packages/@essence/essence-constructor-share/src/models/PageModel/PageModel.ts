@@ -223,7 +223,7 @@ export class PageModel implements IPageModel {
         let newName = name;
 
         if (this.stores.has(name)) {
-            logger(i18next.t("7ef1547ac7084e178bf1447361e3ccc3"));
+            logger(i18next.t("static:7ef1547ac7084e178bf1447361e3ccc3"));
 
             if (allowNewName) {
                 newName = name + uuid();

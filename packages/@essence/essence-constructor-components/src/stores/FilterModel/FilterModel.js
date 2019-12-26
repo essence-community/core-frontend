@@ -59,7 +59,7 @@ export class FilterModel extends StoreBaseModel implements FilterModelType {
     setValues = (values: FilterValues): void => {
         const filterValues = {...values};
 
-        if (isEmpty(filterValues[VAR_RECORD_ID])) {
+        if (isEmpty(filterValues[VAR_RECORD_ID]) && this.bc.childs) {
             for (const child of this.bc.childs) {
                 if (child.required === "true") {
                     filterValues[VAR_RECORD_ID] = filterValues[child.column];

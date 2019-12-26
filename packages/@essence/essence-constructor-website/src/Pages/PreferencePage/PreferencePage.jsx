@@ -143,7 +143,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
                         <Grid container justify="center">
                             <Grid item>
                                 <Button variant="contained" onClick={this.handleSave}>
-                                    {t("ef1415ca80804e149ceb5356efb2df97")}
+                                    {t("8a930c6b5dd440429c0f0e867ce98316")}
                                 </Button>
                             </Grid>
                         </Grid>

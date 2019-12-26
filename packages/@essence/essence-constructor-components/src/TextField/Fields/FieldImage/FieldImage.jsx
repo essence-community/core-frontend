@@ -68,7 +68,7 @@ class FieldImage extends React.Component<PropsType & WithT> {
                         {src.indexOf(origin) === 0 && (
                             <div className={classes.downloadBtn} onClick={this.handleDownload}>
                                 <Icon size="lg" iconfont="download" />
-                                <span className={classes.downloadBtnText}>{t("4a401209683245609626506a762717af")}</span>
+                                <span className={classes.downloadBtnText}>{t("02260da507494f2f9956ba9e0f37b1f1")}</span>
                             </div>
                         )}
                     </React.Fragment>

@@ -144,7 +144,7 @@ class RedirectPage extends React.Component<PropsType, StateType> {
                             >
                                 {isAuthorized
                                     ? t("fad9bcdb1bf54640ab58d1781546c72c")
-                                    : t("82eafeb106eb41aaa205152471b1b7b6")}
+                                    : t("664bdebac78e47079bb685732899c5f6")}
                             </Button>
                         </Grid>
                     </Grid>

@@ -15,6 +15,7 @@ import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_QUERY_ID,
+    VAR_RECORD_JN_TOTAL_CNT,
 } from "@essence/essence-constructor-share/constants";
 import {loggerRoot} from "../../constants";
 import {isEmpty} from "../../utils/base";
@@ -107,7 +108,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
                 },
                 recordsAll: records,
                 get recordsCount() {
-                    return (this.records[0] || {}).jnTotalCnt || 0;
+                    return (this.records[0] || {})[VAR_RECORD_JN_TOTAL_CNT] || 0;
                 },
                 recordsState: {
                     isUserReload: false,

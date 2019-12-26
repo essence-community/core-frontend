@@ -9,6 +9,7 @@ import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
+    VAR_RECORD_JN_TOTAL_CNT,
 } from "@essence/essence-constructor-share/constants";
 import {Field} from "mobx-react-form";
 import {loggerRootInfo} from "../../constants";
@@ -331,7 +332,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
 
             if (this.bc.collectionvalues === "array") {
                 gridStore.recordsStore.setRecordsAction(
-                    this.selectedEntries.map((args) => ({...args[1], jnTotalCnt: 1})),
+                    this.selectedEntries.map((args) => ({...args[1], [VAR_RECORD_JN_TOTAL_CNT]: 1})),
                 );
             }
         }

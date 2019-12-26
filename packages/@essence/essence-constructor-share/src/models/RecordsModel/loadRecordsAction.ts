@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {v4} from "uuid";
 import {isEqual} from "lodash";
 import {request} from "../../request";
@@ -17,6 +18,7 @@ import {
     VAR_META_JN_OFFSET,
     VAR_META_JL_FILTER,
     VAR_META_JL_SORT,
+    VAR_RECORD_JN_TOTAL_CNT,
 } from "../../constants";
 import {snackbarStore} from "../SnackbarModel";
 import {
@@ -109,7 +111,7 @@ export const getAttachedRecords = (records: Record<string, FieldValue>[], newRec
     if (newRecord) {
         const firstRecord = records[0] || {};
         const recordIndex = records.findIndex((rec) => rec[VAR_RECORD_ID] === newRecord[VAR_RECORD_ID]);
-        const record = {...newRecord, jnTotalCnt: firstRecord.jnTotalCnt};
+        const record = {...newRecord, [VAR_RECORD_JN_TOTAL_CNT]: firstRecord[VAR_RECORD_JN_TOTAL_CNT]};
 
         if (recordIndex === -1) {
             return [record, ...records];
@@ -182,7 +184,10 @@ export function loadRecordsAction(
         })
         .catch(() => {
             logger(
-                i18next.t("static:344bbb5fb4a84d89b93c448a5c29e1d7", {query: bc[VAR_RECORD_QUERY_ID], timeout: CYCLE_TIMEOUT}),
+                i18next.t("static:344bbb5fb4a84d89b93c448a5c29e1d7", {
+                    query: bc[VAR_RECORD_QUERY_ID],
+                    timeout: CYCLE_TIMEOUT,
+                }),
             );
         })
         .then(() => {
@@ -216,7 +221,7 @@ export function loadRecordsAction(
                     return record;
                 });
 
-                if (bc.pagesize && records[0] && !records[0].jnTotalCnt) {
+                if (bc.pagesize && records[0] && !records[0][VAR_RECORD_JN_TOTAL_CNT]) {
                     snackbarStore.snackbarOpenAction(
                         {
                             status: "error",

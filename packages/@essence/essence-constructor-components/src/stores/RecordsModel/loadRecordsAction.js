@@ -19,6 +19,7 @@ import {
     VAR_META_JN_OFFSET,
     VAR_META_JL_FILTER,
     VAR_META_JL_SORT,
+    VAR_RECORD_JN_TOTAL_CNT,
 } from "@essence/essence-constructor-share/constants";
 import {i18next} from "@essence/essence-constructor-share/utils";
 import {snackbarStore} from "@essence/essence-constructor-share/models";
@@ -143,7 +144,7 @@ export const getAttachedRecords = (records: Array<Object>, newRecord?: Object) =
     if (newRecord) {
         const firstRecord = records[0] || {};
         const recordIndex = records.findIndex((rec) => rec[VAR_RECORD_ID] === newRecord[VAR_RECORD_ID]);
-        const record = {...newRecord, jnTotalCnt: firstRecord.jnTotalCnt};
+        const record = {...newRecord, [VAR_RECORD_JN_TOTAL_CNT]: firstRecord[VAR_RECORD_JN_TOTAL_CNT]};
 
         if (recordIndex === -1) {
             return [record, ...records];
@@ -230,7 +231,10 @@ export function loadRecordsAction({
         })
         .catch(() => {
             logger(
-                i18next.t("static:344bbb5fb4a84d89b93c448a5c29e1d7", {query: bc[VAR_RECORD_QUERY_ID], timeout: CYCLE_TIMEOUT}),
+                i18next.t("static:344bbb5fb4a84d89b93c448a5c29e1d7", {
+                    query: bc[VAR_RECORD_QUERY_ID],
+                    timeout: CYCLE_TIMEOUT,
+                }),
             );
         })
         .then(() => {
@@ -268,7 +272,7 @@ export function loadRecordsAction({
                     return record;
                 });
 
-                if (bc.pagesize && records[0] && !records[0].jnTotalCnt) {
+                if (bc.pagesize && records[0] && !records[0][VAR_RECORD_JN_TOTAL_CNT]) {
                     snackbarStore.snackbarOpenAction(
                         {
                             status: "error",

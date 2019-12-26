@@ -7,6 +7,7 @@ import {
     VAR_RECORD_CK_MAIN,
     VAR_RECORD_CL_WARNING,
     VAR_RECORD_CV_ACTION,
+    META_PAGE_OBJECT,
 } from "@essence/essence-constructor-share/constants";
 import {type BuilderModeType} from "../BuilderType";
 import {sendRequest} from "./baseRequest";
@@ -67,7 +68,7 @@ export function apiSaveAction(
     }: ConfigType,
 ) {
     return sendRequest({
-        [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
+        [META_PAGE_OBJECT]: ckPageObject,
         action,
         formData,
         json: {

@@ -26,6 +26,7 @@ import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_QUERY_ID,
+    VAR_RECORD_JN_TOTAL_CNT,
 } from "../../constants";
 import {loadRecordsAction} from "./loadRecordsAction";
 
@@ -119,7 +120,7 @@ export class RecordsModel implements IRecordsModel {
                 },
                 recordsAll: records,
                 get recordsCount() {
-                    return (this.records[0] || {}).jnTotalCnt || 0;
+                    return (this.records[0] || {})[VAR_RECORD_JN_TOTAL_CNT] || 0;
                 },
                 recordsState: {
                     isUserReload: false,

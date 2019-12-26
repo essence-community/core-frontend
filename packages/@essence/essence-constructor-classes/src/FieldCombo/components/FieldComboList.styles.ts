@@ -13,7 +13,7 @@ export const useStyles = makeStyles(
             },
             alignItems: "center",
             display: "flex",
-            height: 10,
+            height: 30,
             justifyContent: "center",
         },
         paper: {

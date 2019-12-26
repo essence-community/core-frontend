@@ -116,6 +116,7 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
             pageStore={props.pageStore}
             hideOnScroll
             onChangeOpen={handleChangeOpen}
+            disableFocusableArrow
         >
             {({onClose, onOpen, open}) => (
                 <FieldComboInput

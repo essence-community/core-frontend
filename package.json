@@ -43,6 +43,7 @@
     }
   },
   "devDependencies": {
+    "@babel/code-frame": "^7.5.5",
     "@babel/preset-typescript": "^7.7.4",
     "babel-jest": "^24.9.0",
     "babel-preset-react-app": "^9.1.0",

@@ -76,6 +76,7 @@ export const VAR_RECORD_CN_ACTION_EDIT = "cn_action_edit";
 export const VAR_RECORD_CK_MO = "ck_mo";
 export const VAR_RECORD_CL_IS_MASTER = "cl_is_master";
 export const VAR_RECORD_CLASS_ATTRIBUTES = "class_attributes";
+export const VAR_RECORD_JN_TOTAL_CNT = "jn_total_cnt";
 
 // SETTING
 export const VAR_SETTING_VALUE = "cv_value";

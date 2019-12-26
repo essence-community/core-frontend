@@ -110,7 +110,7 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType & WithT> {
                             disableRipple
                         />
                     }
-                    label={t("ba416597affb4e3a91b1be3f8e0c8960")}
+                    label={t("static:ba416597affb4e3a91b1be3f8e0c8960")}
                     classes={{label: classes.addMoreLabelColor}}
                     data-page-object={`${ckPageObject}-add-more`}
                 />

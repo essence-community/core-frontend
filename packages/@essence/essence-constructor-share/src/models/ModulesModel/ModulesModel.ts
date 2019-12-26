@@ -46,14 +46,14 @@ export class ModulesModel {
             .catch((error) => {
                 snackbarStore.snackbarOpenAction({
                     status: "error",
-                    text: i18next.t("b9c874da6b0e4694b93db69088a556da"),
+                    text: i18next.t("static:b9c874da6b0e4694b93db69088a556da"),
                 });
                 snackbarStore.snackbarOpenAction(
                     {
                         status: "debug",
                         text: error.message,
                     },
-                    {[VAR_RECORD_NAME]: i18next.t("02f274362cf847cba8d806687d237698")},
+                    {[VAR_RECORD_NAME]: i18next.t("static:02f274362cf847cba8d806687d237698")},
                 );
             })
             .then(() => {

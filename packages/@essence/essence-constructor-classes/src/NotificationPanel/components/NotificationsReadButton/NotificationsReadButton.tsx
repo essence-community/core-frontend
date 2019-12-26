@@ -29,7 +29,7 @@ export const NotificationsReadButton: React.FC<INotificationsReadButtonProps> = 
                     }}
                     disabled={disabled}
                     disableRipple
-                    data-qtip={trans("f42e28fe1287412fa6ec91b421377139")}
+                    data-qtip={trans("static:f42e28fe1287412fa6ec91b421377139")}
                     data-page-object="snackbar-read-all"
                 >
                     <Icon iconfont="bell" iconfontname="fa" size="2x" />

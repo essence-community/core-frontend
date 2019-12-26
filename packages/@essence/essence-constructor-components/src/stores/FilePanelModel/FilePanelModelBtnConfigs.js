@@ -15,7 +15,7 @@ import {type FilePanelBcType} from "./FilePanelModelTypes";
 
 const getAddBtnConfig = (bc: FilePanelBcType) => ({
     [VAR_RECORD_CV_DESCRIPTION]: "A1FF62833BA8490FB626BAA1DDF0F0F7",
-    [VAR_RECORD_DISPLAYED]: "3a5239ee97d9464c9c4143c18fda9815",
+    [VAR_RECORD_DISPLAYED]: "static:3a5239ee97d9464c9c4143c18fda9815",
     [VAR_RECORD_NAME]: "Add Document Button",
     [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_add`,
     [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_add`,
@@ -32,7 +32,7 @@ const getAddBtnConfig = (bc: FilePanelBcType) => ({
 });
 
 export const getSaveBtnConfig = (bc: FilePanelBcType) => ({
-    [VAR_RECORD_DISPLAYED]: "0e55e1e9994c44f7978f3b76f5bd819f",
+    [VAR_RECORD_DISPLAYED]: "static:0e55e1e9994c44f7978f3b76f5bd819f",
     [VAR_RECORD_NAME]: "Override Save Button",
     [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_gridwindow-save`,
     [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow-save`,
@@ -46,11 +46,11 @@ export const getSaveBtnConfig = (bc: FilePanelBcType) => ({
 });
 
 export const getCancelBtnConfig = (bc: FilePanelBcType) => ({
-    [VAR_RECORD_DISPLAYED]: "64aacc431c4c4640b5f2c45def57cae9",
+    [VAR_RECORD_DISPLAYED]: "static:64aacc431c4c4640b5f2c45def57cae9",
     [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_gridwindow-cancel`,
     [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow-cancel`,
     [VAR_RECORD_PARENT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow`,
-    confirmquestion: "9b475e25ae8a40b0b158543b84ba8c08",
+    confirmquestion: "static:9b475e25ae8a40b0b158543b84ba8c08",
     confirmquestionposition: "top",
     handler: "onCloseWindow",
     type: "BTN",
@@ -58,7 +58,7 @@ export const getCancelBtnConfig = (bc: FilePanelBcType) => ({
 });
 
 export const getDownloadBtnConfig = (bc: FilePanelBcType) => ({
-    [VAR_RECORD_DISPLAYED]: "02260da507494f2f9956ba9e0f37b1f1",
+    [VAR_RECORD_DISPLAYED]: "static:02260da507494f2f9956ba9e0f37b1f1",
     [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}-download`,
     [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-download`,
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
@@ -66,7 +66,7 @@ export const getDownloadBtnConfig = (bc: FilePanelBcType) => ({
 });
 
 const getDeleteButton = (bc: FilePanelBcType) => ({
-    [VAR_RECORD_DISPLAYED]: "f7e324760ede4c88b4f11f0af26c9e97",
+    [VAR_RECORD_DISPLAYED]: "static:f7e324760ede4c88b4f11f0af26c9e97",
     [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}-cancel`,
     [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-cancel`,
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],

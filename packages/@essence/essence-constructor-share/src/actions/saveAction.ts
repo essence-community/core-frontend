@@ -193,7 +193,7 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
                 }),
         )
         .catch((error) => {
-            logger(i18next.t("27a9d844da20453195f59f75185d7c99"), error);
+            logger(i18next.t("static:27a9d844da20453195f59f75185d7c99"), error);
 
             snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
             pageStore.resetStepAction();

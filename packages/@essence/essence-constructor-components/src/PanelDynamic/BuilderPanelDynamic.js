@@ -51,7 +51,7 @@ export class BaseBuilderPanelDynamic extends React.Component<PropsType> {
                             [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_child_${index}`,
                         };
                         logger(
-                            this.props.t("c3513e8150484b31a4ad4227f9664e7f", {
+                            this.props.t("static:c3513e8150484b31a4ad4227f9664e7f", {
                                 name: childBc[VAR_RECORD_PAGE_OBJECT_ID],
                             }),
                         );

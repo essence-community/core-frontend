@@ -49,21 +49,21 @@ class BuilderFilterButtons extends React.Component<PropsType> {
 
         this.btnsFilter = {
             buttonChevronConfigClose: {
-                [VAR_RECORD_DISPLAYED]: "76dd4f170842474d9776fe712e48d8e6",
+                [VAR_RECORD_DISPLAYED]: "static:76dd4f170842474d9776fe712e48d8e6",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-chevron`,
                 iconfont: "chevron-down",
                 onlyicon: "true",
                 readonly: "false",
             },
             buttonChevronConfigOpen: {
-                [VAR_RECORD_DISPLAYED]: "72b93dbe37884153a95363420b9ceb59",
+                [VAR_RECORD_DISPLAYED]: "static:72b93dbe37884153a95363420b9ceb59",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-chevron`,
                 iconfont: "chevron-up",
                 onlyicon: "true",
                 readonly: "false",
             },
             buttonResetConfig: {
-                [VAR_RECORD_DISPLAYED]: "cda88d85fb7e4a88932dc232d7604bfb",
+                [VAR_RECORD_DISPLAYED]: "static:cda88d85fb7e4a88932dc232d7604bfb",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-reset`,
                 iconfont: styleTheme === "light" ? "broom" : "eraser",
                 iconfontname: "mdi",
@@ -71,7 +71,7 @@ class BuilderFilterButtons extends React.Component<PropsType> {
                 readonly: "false",
             },
             buttonSearchConfig: {
-                [VAR_RECORD_DISPLAYED]: "704af666dbd3465781149e4282df5dcf",
+                [VAR_RECORD_DISPLAYED]: "static:704af666dbd3465781149e4282df5dcf",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-search`,
                 iconfont: "search",
                 onlyicon: "true",

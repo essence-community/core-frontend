@@ -17,8 +17,8 @@ type ConfigBtnExcelWindowType = {
 
 // eslint-disable-next-line max-lines-per-function
 const configBtnExcelWindow = ({ckPageObject, gridStore}: ConfigBtnExcelWindowType) => ({
-    [VAR_RECORD_CV_DESCRIPTION]: "7578080854A84CC3B4FAAD62D4499A4B",
-    [VAR_RECORD_DISPLAYED]: "7578080854a84cc3b4faad62d4499a4b",
+    [VAR_RECORD_CV_DESCRIPTION]: "static:7578080854a84cc3b4faad62d4499a4b",
+    [VAR_RECORD_DISPLAYED]: "static:7578080854a84cc3b4faad62d4499a4b",
     [VAR_RECORD_NAME]: "Excel Window",
     [VAR_RECORD_OBJECT_ID]: `${ckPageObject}_excel_window`,
     [VAR_RECORD_PAGE_OBJECT_ID]: `${ckPageObject}_excel_window`,
@@ -26,8 +26,8 @@ const configBtnExcelWindow = ({ckPageObject, gridStore}: ConfigBtnExcelWindowTyp
     bottombtn: [
         {
             ...gridStore.gridBtnsConfig.overrides["Override Excel Button"],
-            [VAR_RECORD_CV_DESCRIPTION]: "937E99F97AEA414F97F501E3B8A0B843",
-            [VAR_RECORD_DISPLAYED]: "937e99f97aea414f97f501e3b8a0b843",
+            [VAR_RECORD_CV_DESCRIPTION]: "static:937e99f97aea414f97f501e3b8a0b843",
+            [VAR_RECORD_DISPLAYED]: "static:937e99f97aea414f97f501e3b8a0b843",
             [VAR_RECORD_MASTER_ID]: undefined,
             [VAR_RECORD_NAME]: "Botton Btn Print",
             [VAR_RECORD_OBJECT_ID]: `${ckPageObject}_excel_window_btn_print`,
@@ -40,8 +40,8 @@ const configBtnExcelWindow = ({ckPageObject, gridStore}: ConfigBtnExcelWindowTyp
             uitype: "1",
         },
         {
-            [VAR_RECORD_CV_DESCRIPTION]: "64AACC431C4C4640B5F2C45DEF57CAE9",
-            [VAR_RECORD_DISPLAYED]: "64aacc431c4c4640b5f2c45def57cae9",
+            [VAR_RECORD_CV_DESCRIPTION]: "static:64aacc431c4c4640b5f2c45def57cae9",
+            [VAR_RECORD_DISPLAYED]: "static:64aacc431c4c4640b5f2c45def57cae9",
             [VAR_RECORD_NAME]: "Botton Btn Close",
             [VAR_RECORD_OBJECT_ID]: `${ckPageObject}_excel_window_btn_cancel`,
             [VAR_RECORD_PAGE_OBJECT_ID]: `${ckPageObject}_excel_window_btn_cancel`,
@@ -53,8 +53,8 @@ const configBtnExcelWindow = ({ckPageObject, gridStore}: ConfigBtnExcelWindowTyp
     ],
     childs: [
         {
-            [VAR_RECORD_CV_DESCRIPTION]: "662D857575ED4A26BCA536B18FBAC6FF",
-            [VAR_RECORD_DISPLAYED]: "662d857575ed4a26bca536b18fbac6ff",
+            [VAR_RECORD_CV_DESCRIPTION]: "static:662d857575ed4a26bca536b18fbac6ff",
+            [VAR_RECORD_DISPLAYED]: "static:662d857575ed4a26bca536b18fbac6ff",
             [VAR_RECORD_NAME]: "File Name",
             [VAR_RECORD_OBJECT_ID]: `${ckPageObject}_excel_window_filename`,
             [VAR_RECORD_PAGE_OBJECT_ID]: `${ckPageObject}_excel_window_filename`,

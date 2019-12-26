@@ -182,7 +182,7 @@ export function loadRecordsAction(
         })
         .catch(() => {
             logger(
-                i18next.t("344bbb5fb4a84d89b93c448a5c29e1d7", {query: bc[VAR_RECORD_QUERY_ID], timeout: CYCLE_TIMEOUT}),
+                i18next.t("static:344bbb5fb4a84d89b93c448a5c29e1d7", {query: bc[VAR_RECORD_QUERY_ID], timeout: CYCLE_TIMEOUT}),
             );
         })
         .then(() => {
@@ -220,7 +220,7 @@ export function loadRecordsAction(
                     snackbarStore.snackbarOpenAction(
                         {
                             status: "error",
-                            text: i18next.t("44e3485c6b0c47dc8a0792c90af62962"),
+                            text: i18next.t("static:44e3485c6b0c47dc8a0792c90af62962"),
                         },
                         this.pageStore ? this.pageStore.route : undefined,
                     );

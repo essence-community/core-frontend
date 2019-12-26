@@ -10,7 +10,7 @@ import {mergeComponents} from "../../utils/builder";
 import {type BuilderFieldType} from "../../TextField/BuilderFieldType";
 
 export const getAreaFieldConfig = (bc: BuilderFieldType) => ({
-    [VAR_RECORD_DISPLAYED]: "d0e89e0caa6c476e87fb9564ca0d45ac",
+    [VAR_RECORD_DISPLAYED]: "static:d0e89e0caa6c476e87fb9564ca0d45ac",
     [VAR_RECORD_PAGE_OBJECT_ID]: `area_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
     [VAR_RECORD_QUERY_ID]: "jNSIGetAddrArea",
     clearfield: "ck_street,ck_house",
@@ -33,7 +33,7 @@ export const getAreaFieldConfig = (bc: BuilderFieldType) => ({
 });
 
 export const getRegionFieldConfig = (bc: BuilderFieldType) => ({
-    [VAR_RECORD_DISPLAYED]: "dd72982c8ecd46e094823c088e2aa91e",
+    [VAR_RECORD_DISPLAYED]: "static:dd72982c8ecd46e094823c088e2aa91e",
     [VAR_RECORD_PAGE_OBJECT_ID]: `region_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
     [VAR_RECORD_QUERY_ID]: "jNSIGetAddrRegion",
     clearfield: "ck_area,ck_street,ck_house",
@@ -54,7 +54,7 @@ export const getRegionFieldConfig = (bc: BuilderFieldType) => ({
 });
 
 export const getStreetFieldConfig = (bc: BuilderFieldType) => ({
-    [VAR_RECORD_DISPLAYED]: "efdf47b812344d3aaa5228520f04a04e",
+    [VAR_RECORD_DISPLAYED]: "static:efdf47b812344d3aaa5228520f04a04e",
     [VAR_RECORD_PAGE_OBJECT_ID]: `street_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
     [VAR_RECORD_QUERY_ID]: "jNSIGetAddrStreet",
     clearfield: "ck_house",
@@ -79,7 +79,7 @@ export const getStreetFieldConfig = (bc: BuilderFieldType) => ({
 });
 
 export const getHouseFieldConfig = (bc: BuilderFieldType) => ({
-    [VAR_RECORD_DISPLAYED]: "c215efe4c3254c9690a5d0744c0a89b4",
+    [VAR_RECORD_DISPLAYED]: "static:c215efe4c3254c9690a5d0744c0a89b4",
     [VAR_RECORD_PAGE_OBJECT_ID]: `house_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
     [VAR_RECORD_QUERY_ID]: "jNSIGetAddrHouse",
     column: "ck_house",
@@ -105,7 +105,7 @@ export const getHouseFieldConfig = (bc: BuilderFieldType) => ({
 
 export const getMoFieldConfig = (bc: BuilderFieldType) => ({
     [VAR_RECORD_CK_D_ENDPOINT]: bc[VAR_RECORD_CK_D_ENDPOINT],
-    [VAR_RECORD_DISPLAYED]: "1dabbff97463462f9776c1c62160c0ed",
+    [VAR_RECORD_DISPLAYED]: "static:1dabbff97463462f9776c1c62160c0ed",
     [VAR_RECORD_MASTER_ID]: `house_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
     [VAR_RECORD_PAGE_OBJECT_ID]: `mo_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
     [VAR_RECORD_QUERY_ID]: "MOShowMOsByAddress",

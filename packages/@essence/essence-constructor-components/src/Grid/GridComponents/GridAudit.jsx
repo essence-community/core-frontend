@@ -68,11 +68,11 @@ class GridAudit extends React.Component<PropsType & PropsStoreType & WithT> {
         const popoverContent = (
             <CardContent>
                 <Typography variant="body2">
-                    {t("a51733f718974db891606a516a906d4a")}:{" "}
+                    {t("static:a51733f718974db891606a516a906d4a")}:{" "}
                     {moment(auditInfo[VAR_RECORD_CT_CHANGE]).format("DD.MM.YYYY HH:mm:ss")}
                 </Typography>
                 <Typography variant="body2">
-                    {t("359b72856d284d1baf5ff9e14e8293c9")}: {auditInfo[VAR_RECORD_CV_USERNAME]}
+                    {t("static:359b72856d284d1baf5ff9e14e8293c9")}: {auditInfo[VAR_RECORD_CV_USERNAME]}
                 </Typography>
             </CardContent>
         );

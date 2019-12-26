@@ -23,7 +23,7 @@ class Settings extends React.Component<PropsType> {
         const setting = [
             ...window.SETTINGS,
             {
-                [VAR_RECORD_CV_VALUE]: this.props.t("26686005b3584a12aeb9ca9e96e54753", {
+                [VAR_RECORD_CV_VALUE]: this.props.t("static:26686005b3584a12aeb9ca9e96e54753", {
                     BRANCH_DATE_TIME,
                     BRANCH_NAME,
                     COMMIT_ID,
@@ -57,7 +57,7 @@ class Settings extends React.Component<PropsType> {
 
     render() {
         if (this.props.applicationStore.settingsStore.recordsStore.records.length === 0) {
-            return this.props.t("8aebd9c71dda43fc8583d96f1d4d0d01");
+            return this.props.t("static:8aebd9c71dda43fc8583d96f1d4d0d01");
         }
 
         return this.props.children;

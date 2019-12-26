@@ -29,7 +29,7 @@ const NotificationsReadButton = ({snackbarStore, classes, t}: PropsType) => {
             disabled={disabled}
             disableRipple
             disableFocusRipple
-            data-qtip={t("f42e28fe1287412fa6ec91b421377139")}
+            data-qtip={t("static:f42e28fe1287412fa6ec91b421377139")}
             data-page-object="snackbar-read-all"
         >
             <Icon iconfont="bell" iconfontname="fa" size="2x" />

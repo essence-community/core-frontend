@@ -80,7 +80,7 @@ class BuilderFieldPeriodSplit extends React.Component<PropsType & WithT> {
         const transCvDisplayed = t(displayed);
 
         this.bcStart = {
-            [VAR_RECORD_DISPLAYED]: `${transCvDisplayed} $t(d7d40d765f0840beb7f0db2b9298ac0c)`,
+            [VAR_RECORD_DISPLAYED]: `${transCvDisplayed} $t(static:d7d40d765f0840beb7f0db2b9298ac0c)`,
             [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
             column: columnstart,
             disabledstartdate: columnend,
@@ -90,7 +90,7 @@ class BuilderFieldPeriodSplit extends React.Component<PropsType & WithT> {
         };
 
         this.bcEnd = {
-            [VAR_RECORD_DISPLAYED]: `${transCvDisplayed} $t(acc7f22ccbc6407bb253f8c47a684c45)`,
+            [VAR_RECORD_DISPLAYED]: `${transCvDisplayed} $t(static:acc7f22ccbc6407bb253f8c47a684c45)`,
             [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
             column: columnend,
             disabledenddate: columnstart,

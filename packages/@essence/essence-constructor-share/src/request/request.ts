@@ -20,7 +20,7 @@ const checkError = ({responseJSON, query, list}: IRequestCheckError) => {
     }
 
     if (isError) {
-        throw new ResponseError(i18next.t("63538aa4bcd748349defdf7510fc9c10"), responseJSON, query);
+        throw new ResponseError(i18next.t("static:63538aa4bcd748349defdf7510fc9c10"), responseJSON, query);
     }
 };
 

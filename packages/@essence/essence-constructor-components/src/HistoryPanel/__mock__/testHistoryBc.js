@@ -1,7 +1,7 @@
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants";
 
 export default {
-    [VAR_RECORD_DISPLAYED]: "20732b2df62f4dd5baf97d12cf2a3e9c",
+    [VAR_RECORD_DISPLAYED]: "static:20732b2df62f4dd5baf97d12cf2a3e9c",
     [VAR_RECORD_PAGE_OBJECT_ID]: "historypanel",
     btnaudit: "true",
     childs: [

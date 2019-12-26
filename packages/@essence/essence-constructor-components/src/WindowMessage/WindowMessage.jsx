@@ -159,12 +159,12 @@ const WindowMessage = ({
 };
 
 WindowMessage.defaultProps = {
-    children: "9b475e25ae8a40b0b158543b84ba8c08",
+    children: "static:9b475e25ae8a40b0b158543b84ba8c08",
     hideBackdrop: true,
     status: "info",
-    textAccept: "dacf7ab025c344cb81b700cfcc50e403",
-    textDecline: "f0e9877df106481eb257c2c04f8eb039",
-    title: "ec238e2ccc1842d780b140a4bbedfdaf",
+    textAccept: "static:dacf7ab025c344cb81b700cfcc50e403",
+    textDecline: "static:f0e9877df106481eb257c2c04f8eb039",
+    title: "static:ec238e2ccc1842d780b140a4bbedfdaf",
 };
 
 export default compose(withTranslation("meta"), withStyles(styles))(WindowMessage);

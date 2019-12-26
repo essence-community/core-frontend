@@ -14,7 +14,7 @@ import {IBuilderConfig} from "@essence/essence-constructor-share/types";
 import {reaction} from "mobx";
 
 const getComponentBc = (bc: IBuilderConfig, trans: TFunction) => ({
-    [VAR_RECORD_DISPLAYED]: "0b5e4673fa194e16a0c411ff471d21d2",
+    [VAR_RECORD_DISPLAYED]: "static:0b5e4673fa194e16a0c411ff471d21d2",
     [VAR_RECORD_OBJECT_ID]: bc[VAR_RECORD_OBJECT_ID],
     [VAR_RECORD_PAGE_OBJECT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PARENT_ID],
@@ -26,8 +26,8 @@ const getComponentBc = (bc: IBuilderConfig, trans: TFunction) => ({
     noglobalmask: "true",
     querymode: "remote",
     records: [
-        {name: trans("66ef0068472a4a0394710177f828a9b1"), value: "dark"},
-        {name: trans("fd7c7f3539954cc8a55876e3514906b5"), value: "light"},
+        {name: trans("static:66ef0068472a4a0394710177f828a9b1"), value: "dark"},
+        {name: trans("static:fd7c7f3539954cc8a55876e3514906b5"), value: "light"},
     ],
     setglobal: "g_sys_theme_change",
     type: "IFIELD",

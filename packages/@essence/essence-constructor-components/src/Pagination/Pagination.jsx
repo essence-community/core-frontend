@@ -69,7 +69,7 @@ class Pagination extends React.Component<Props & WithT> {
         return (
             <div className={classes.root}>
                 <IconButton
-                    data-qtip={t("23264e86a9cd446f83cee0eb86c20bd9")}
+                    data-qtip={t("static:23264e86a9cd446f83cee0eb86c20bd9")}
                     color="primary"
                     onClick={this.handleFirstPageButtonClick}
                     classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}
@@ -81,7 +81,7 @@ class Pagination extends React.Component<Props & WithT> {
                     <Icon iconfont="angle-double-left" />
                 </IconButton>
                 <IconButton
-                    data-qtip={t("267e96bb282843abaa25b3e78bd874f1")}
+                    data-qtip={t("static:267e96bb282843abaa25b3e78bd874f1")}
                     color="primary"
                     onClick={this.handleBackButtonClick}
                     classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}
@@ -97,14 +97,14 @@ class Pagination extends React.Component<Props & WithT> {
                     classes={{root: classes.typoRoot}}
                     data-page-object={`${gridBc[VAR_RECORD_PAGE_OBJECT_ID]}-current-page`}
                 >
-                    {t("3dd42493c346447897d017af3668d998", {
+                    {t("static:3dd42493c346447897d017af3668d998", {
                         currentpage: pages > 0 ? this.props.page + 1 : 0,
                         pages,
                     })}
                 </Typography>
 
                 <IconButton
-                    data-qtip={t("d4d9e481a0e14bbd9e1e76537e8cbfd0")}
+                    data-qtip={t("static:d4d9e481a0e14bbd9e1e76537e8cbfd0")}
                     color="primary"
                     onClick={this.handleNextButtonClick}
                     classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}
@@ -116,7 +116,7 @@ class Pagination extends React.Component<Props & WithT> {
                     <Icon iconfont="angle-right" />
                 </IconButton>
                 <IconButton
-                    data-qtip={t("d0f0a046dee344d1b5bbbadcd8d848db")}
+                    data-qtip={t("static:d0f0a046dee344d1b5bbbadcd8d848db")}
                     color="primary"
                     onClick={this.handleLastPageButtonClick}
                     classes={{disabled: classes.disabledButton, root: classes.buttonRoot}}

@@ -291,9 +291,9 @@ export class ApplicationModel implements IApplicationModel {
                     setTimeout(() => this.initWsClient(currentSession), TIMEOUT_LONG_RECONNECT);
                     snackbarStore.snackbarOpenAction(
                         {
-                            pageName: "2ff612aa52314ddea65a5d303c867eb8",
+                            pageName: "static:2ff612aa52314ddea65a5d303c867eb8",
                             status: "error",
-                            text: "bcdc7e54547e405c9873b3ebea4f84c4",
+                            text: "static:bcdc7e54547e405c9873b3ebea4f84c4",
                         },
                         {},
                     );
@@ -306,9 +306,9 @@ export class ApplicationModel implements IApplicationModel {
             .catch((err) => {
                 snackbarStore.snackbarOpenAction(
                     {
-                        pageName: "2ff612aa52314ddea65a5d303c867eb8",
+                        pageName: "static:2ff612aa52314ddea65a5d303c867eb8",
                         status: "error",
-                        text: err.message || "4b4ef9aed688462799f24efe8413da9f",
+                        text: err.message || "static:4b4ef9aed688462799f24efe8413da9f",
                     },
                     {},
                 );
@@ -324,7 +324,7 @@ export class ApplicationModel implements IApplicationModel {
                     snackbarStore.checkValidResponseAction(
                         event.data,
                         {
-                            [VAR_RECORD_ROUTE_NAME]: "2ff612aa52314ddea65a5d303c867eb8",
+                            [VAR_RECORD_ROUTE_NAME]: "static:2ff612aa52314ddea65a5d303c867eb8",
                         },
                         undefined,
                         this,
@@ -348,7 +348,7 @@ export class ApplicationModel implements IApplicationModel {
                     break;
                 }
                 default: {
-                    throw new Error(i18next.t("8fe6e023ee11462db952d62d6b8b265e", {message: msg.data}));
+                    throw new Error(i18next.t("static:8fe6e023ee11462db952d62d6b8b265e", {message: msg.data}));
                 }
             }
         });

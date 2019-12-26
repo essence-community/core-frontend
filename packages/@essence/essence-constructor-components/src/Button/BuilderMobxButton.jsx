@@ -122,7 +122,7 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
                     : null,
             onlyicon,
             qtip: tipmsg || bc[VAR_RECORD_DISPLAYED],
-            windowTitle: confirmquestion || "5a33b10058114ae7876067447fde8242",
+            windowTitle: confirmquestion || "static:5a33b10058114ae7876067447fde8242",
         };
     }
 

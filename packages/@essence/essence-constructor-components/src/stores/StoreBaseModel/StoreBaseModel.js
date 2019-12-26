@@ -31,10 +31,10 @@ export class StoreBaseModel implements StoreBaseModelInterface {
     }
 
     reloadStoreAction = (): void => {
-        logger(i18next.t("83490c56debb4a399f05518608e3bace", {name: this.constructor.name}));
+        logger(i18next.t("static:83490c56debb4a399f05518608e3bace", {name: this.constructor.name}));
     };
 
     clearStoreAction = (): void => {
-        logger(i18next.t("5c3108d6508a4141bdca1e52881e196d", {name: this.constructor.name}));
+        logger(i18next.t("static:5c3108d6508a4141bdca1e52881e196d", {name: this.constructor.name}));
     };
 }

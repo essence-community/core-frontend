@@ -70,7 +70,7 @@ class Notifications extends React.Component<PropsType> {
                             }}
                             disabled={!snackbarStore.snackbarsInStatus.length}
                             disableRipple
-                            data-qtip={this.props.t("b0c16afd6507416196e01223630f9d62")}
+                            data-qtip={this.props.t("static:b0c16afd6507416196e01223630f9d62")}
                             data-page-object={"snackbar-remove-all"}
                         >
                             <Icon iconfont="trash-o" iconfontname="fa" size="2x" />

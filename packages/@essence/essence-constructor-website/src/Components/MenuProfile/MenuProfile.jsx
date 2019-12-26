@@ -54,7 +54,7 @@ const getConfig = memoize(() => ({
     [VAR_RECORD_PAGE_OBJECT_ID]: "UserInfo",
     childs: [
         {
-            [VAR_RECORD_DISPLAYED]: "0b5e4673fa194e16a0c411ff471d21d2",
+            [VAR_RECORD_DISPLAYED]: "static:0b5e4673fa194e16a0c411ff471d21d2",
             [VAR_RECORD_PAGE_OBJECT_ID]: "theme",
             clearable: "false",
             column: "theme",
@@ -65,14 +65,14 @@ const getConfig = memoize(() => ({
             querymode: "remote",
 
             records: [
-                {name: "66ef0068472a4a0394710177f828a9b1", value: "dark"},
-                {name: "fd7c7f3539954cc8a55876e3514906b5", value: "light"},
+                {name: "static:66ef0068472a4a0394710177f828a9b1", value: "dark"},
+                {name: "static:fd7c7f3539954cc8a55876e3514906b5", value: "light"},
             ],
             type: "IFIELD",
             valuefield: "value",
         },
         {
-            [VAR_RECORD_DISPLAYED]: "4ae012ef02dd4cf4a7eafb422d1db827",
+            [VAR_RECORD_DISPLAYED]: "static:4ae012ef02dd4cf4a7eafb422d1db827",
             [VAR_RECORD_PAGE_OBJECT_ID]: "EB7DA66474084531B31819AF930A2506",
             [VAR_RECORD_QUERY_ID]: "MTGetLang",
             autoload: "true",
@@ -194,7 +194,7 @@ class MenuProfile extends React.Component<PropsType> {
                                 <Grid item xs container justify="flex-end" spacing={1}>
                                     <Grid item>
                                         <Button color="primary" size="small" onClick={this.handleLogout}>
-                                            {this.props.t("8c0119ba23c74e158c5d50c83884fcb5")}
+                                            {this.props.t("static:8c0119ba23c74e158c5d50c83884fcb5")}
                                         </Button>
                                     </Grid>
                                 </Grid>

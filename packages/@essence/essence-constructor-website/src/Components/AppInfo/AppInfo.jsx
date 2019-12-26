@@ -64,14 +64,14 @@ class AppInfo extends React.Component<PropsType, StateType> {
                     onClose={this.handleClose}
                     style={{position: "absolute"}}
                 >
-                    <DialogTitle disableTypography>{this.props.t("6cf398ee03df42529323bd4ff9f584d5")}</DialogTitle>
+                    <DialogTitle disableTypography>{this.props.t("static:6cf398ee03df42529323bd4ff9f584d5")}</DialogTitle>
                     <DialogContent>
                         <Typography variant="title" paragraph className={classes.title}>
                             {applicationStore.settingsStore.settings[VAR_SETTING_PROJECT_ABOUT_BOX_TITLE]}
                         </Typography>
 
                         <Typography variant="body2" paragraph>
-                            {this.props.t("26686005b3584a12aeb9ca9e96e54753", {
+                            {this.props.t("static:26686005b3584a12aeb9ca9e96e54753", {
                                 BRANCH_DATE_TIME,
                                 BRANCH_NAME,
                                 COMMIT_ID,

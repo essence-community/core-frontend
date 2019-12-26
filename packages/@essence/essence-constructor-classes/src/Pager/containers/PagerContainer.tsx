@@ -36,7 +36,7 @@ const VERTICAL_STYLE = {zIndex: 3};
 const SCROLLABRS_STYLE = {height: "100%", paddingRight: 10, width: "100%"};
 const logger = loggerRoot.extend("PagerContainer");
 const onFormChange = (form: typeof MobxReactForm) => {
-    logger(i18next.t("f9c3bf3691864f4d87a46a9ba367a855"), form.values());
+    logger(i18next.t("static:f9c3bf3691864f4d87a46a9ba367a855"), form.values());
 };
 
 interface IPagerProps extends IClassProps {}

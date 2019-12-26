@@ -406,7 +406,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
     }
 
     renderWarning = () => (
-        <div className={this.props.classes.warning}>{this.props.t("40dd53ff1c214bfab79ecd40612de8f5")}</div>
+        <div className={this.props.classes.warning}>{this.props.t("static:40dd53ff1c214bfab79ecd40612de8f5")}</div>
     );
 
     // eslint-disable-next-line max-lines-per-function

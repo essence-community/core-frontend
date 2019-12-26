@@ -11,9 +11,9 @@ import {useTranslation} from "@essence/essence-constructor-share/utils";
 import {Grid} from "@material-ui/core";
 import {Field, FormType} from "@essence/essence-constructor-share/types/Base";
 import {useObserver} from "mobx-react-lite";
-import {Group} from "../compoennts/Group";
+import {Group} from "../components/Group";
 import {FieldRepeaterModel} from "../Store/FieldRepeaterModel";
-import {RepeaterGroup} from "../compoennts/RepeaterGroup";
+import {RepeaterGroup} from "../components/RepeaterGroup";
 
 interface IProps extends IClassProps {
     field: Field;

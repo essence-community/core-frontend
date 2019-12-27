@@ -7,10 +7,7 @@ const BuilderButtonCollectorStyleLight = (theme) => ({
             borderColor: theme.palette.primary.main,
             borderRadius: "4px 4px 0 0",
         },
-        color: theme.palette.primary.main,
-        height: 30,
         transition: "background-color 220ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-        width: 30,
     },
     iconButtonWindowOpenRoot: {},
     iconButtonWindowRoot: {
@@ -20,9 +17,7 @@ const BuilderButtonCollectorStyleLight = (theme) => ({
             borderTopColor: "transparent",
         },
         color: theme.palette.primary.main,
-        height: 30,
         transition: "background-color 220ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-        width: 30,
     },
     internalIcon: {
         textAlign: "center",
@@ -50,7 +45,7 @@ const BuilderButtonCollectorStyleLight = (theme) => ({
             // eslint-disable-next-line quotes
             content: '""',
             height: 2,
-            left: 28,
+            left: 30,
             position: "absolute",
             right: 2,
             top: 0,

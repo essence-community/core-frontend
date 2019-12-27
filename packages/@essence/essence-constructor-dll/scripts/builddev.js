@@ -44,7 +44,6 @@ compiler.run((err, stats) => {
     console.log();
 
     if (messages.errors.length === 0) {
-        console.log("Для разработки необходимо собрать `yarn build:dev` в essence-constructor-dll!");
         console.log("Files:");
         statsJSON.assets.forEach((asset) => {
             console.log(`    ${asset.name}`);

@@ -36,10 +36,14 @@ const colors = {
     4: "inherit",
 };
 
-const calcStyle = (bc: IBuilderConfig) => ({
+const calcStyleHeight = (bc: IBuilderConfig) => ({
     height: bc.height ? toSize(bc.height, "") : undefined,
     maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
     minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
+});
+
+const calcStyle = (bc: IBuilderConfig) => ({
+    overflow: bc.width ? "hidden" : "none",
     ...toColumnStyleWidth(bc.width),
 });
 
@@ -70,24 +74,28 @@ export const AppBar: React.FC<IClassProps> = (props) => {
 
     return (
         <MaterialAppBar classes={classes} color={(colors as any)[uitype]} position={position} style={contentStyle}>
-            <Grid
-                container
-                justify="flex-start"
-                alignContent="center"
-                direction="column"
-                alignItems="center"
-                spacing={1}
-                style={contentGridHeightStyle}
-                {...(GRID_CONFIGS as any)[contentview]}
-            >
-                {mapComponents(bc.childs || [], (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                    <Grid item style={calcStyle(childBc)} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
-                        <div>
-                            <Child {...props} bc={childBc} />
-                        </div>
-                    </Grid>
-                ))}
-            </Grid>
+            <div style={contentGridHeightStyle}>
+                <Grid
+                    container
+                    justify="flex-start"
+                    alignContent="center"
+                    direction="column"
+                    alignItems="center"
+                    spacing={1}
+                    {...(GRID_CONFIGS as any)[contentview]}
+                >
+                    {mapComponents(
+                        bc.childs || [],
+                        (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
+                            <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} style={calcStyle(childBc)}>
+                                <div style={calcStyleHeight(childBc)}>
+                                    <Child {...props} bc={childBc} />
+                                </div>
+                            </Grid>
+                        ),
+                    )}
+                </Grid>
+            </div>
         </MaterialAppBar>
     );
 };

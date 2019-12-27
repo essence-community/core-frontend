@@ -15,6 +15,18 @@ export const PopoverContent: React.FC<IPopoverContentProps> = React.forwardRef<H
             right: "auto",
             ...props.styleOffset,
         };
+        const content = (
+            <Paper className={props.paperClassName} style={{width: props.width}}>
+                {isFunction(props.popoverContent)
+                    ? props.popoverContent({
+                          onClose: props.onClose,
+                          onOpen: props.onOpen,
+                          open: props.open,
+                          position: style.bottom ? "top" : "bottom",
+                      })
+                    : props.popoverContent}
+            </Paper>
+        );
 
         return (
             <React.Fragment>
@@ -35,22 +47,17 @@ export const PopoverContent: React.FC<IPopoverContentProps> = React.forwardRef<H
                 >
                     <div ref={ref}>
                         <Grow appear in onEntering={props.onEntering} timeout={ANIMATION_TIMEOUT}>
-                            <FocusableArrow
-                                tabFocusable={props.tabFocusable}
-                                focusableMount={props.focusableMount}
-                                restoreFocusedElement={props.restoreFocusedElement}
-                            >
-                                <Paper className={props.paperClassName} style={{width: props.width}}>
-                                    {isFunction(props.popoverContent)
-                                        ? props.popoverContent({
-                                              onClose: props.onClose,
-                                              onOpen: props.onOpen,
-                                              open: props.open,
-                                              position: style.bottom ? "top" : "bottom",
-                                          })
-                                        : props.popoverContent}
-                                </Paper>
-                            </FocusableArrow>
+                            {props.disableFocusableArrow ? (
+                                content
+                            ) : (
+                                <FocusableArrow
+                                    tabFocusable={props.tabFocusable}
+                                    focusableMount={props.focusableMount}
+                                    restoreFocusedElement={props.restoreFocusedElement}
+                                >
+                                    {content}
+                                </FocusableArrow>
+                            )}
                         </Grow>
                     </div>
                 </Modal>

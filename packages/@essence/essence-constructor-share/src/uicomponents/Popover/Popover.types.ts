@@ -73,6 +73,7 @@ export interface IPopoverProps {
     disableEscapeKeyDown?: boolean;
     tabFocusable?: boolean;
     width?: number | "auto";
+    disableFocusableArrow?: boolean;
     onBackdropClick?: () => void;
     onClickOutside?: () => void;
     onChangeOpen?: (isOpen: boolean) => void;
@@ -94,6 +95,7 @@ export interface IPopoverContentProps {
     width: number | "auto";
     onEscapeKeyDown?: React.ReactEventHandler<{}>;
     popoverContent: React.ReactNode | PopoverRenderChildren;
+    disableFocusableArrow?: boolean;
     onClose: () => void;
     onOpen: () => void;
     onEntering: (node: HTMLElement, isAppearing: boolean) => void;

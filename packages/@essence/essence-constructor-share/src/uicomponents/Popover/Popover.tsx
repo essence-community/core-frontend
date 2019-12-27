@@ -201,6 +201,7 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
                           onEscapeKeyDown={handleEscapeKeyDown}
                           paperClassName={props.paperClassName}
                           popoverContent={props.popoverContent}
+                          disableFocusableArrow={props.disableFocusableArrow}
                       />,
                       container,
                   )

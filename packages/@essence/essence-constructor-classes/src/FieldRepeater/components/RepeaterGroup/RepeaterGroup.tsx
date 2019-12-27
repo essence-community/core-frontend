@@ -7,12 +7,15 @@ import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_DISPLAYED,
+    GRID_CONFIGS,
+    GRID_ALIGN_CONFIGS,
 } from "@essence/essence-constructor-share/constants";
 import {IRepeaterGroupProps} from "./RepeaterGroup.types";
 
 export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
     // eslint-disable-next-line no-unused-vars
     const {bc, field, form, mode, isDisabledDel, storeName, deleteLabel, ...fieldProps} = props;
+    const {contentview = "", align} = bc;
 
     const deleteBtnConfig: IBuilderConfig = React.useMemo<IBuilderConfig>(
         () => ({
@@ -40,13 +43,27 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
 
     return (
         <Grid container spacing={1}>
-            <EditorContex.Provider value={editorValue}>
-                {mapComponents(bc.childs, (ChildCmp, bcChild) => (
-                    <Grid item key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]} xs style={toColumnStyleWidth(bcChild.width)}>
-                        <ChildCmp {...fieldProps} bc={bcChild} />
-                    </Grid>
-                ))}
-            </EditorContex.Provider>
+            <Grid
+                item
+                xs
+                container
+                {...GRID_CONFIGS[contentview]}
+                {...GRID_ALIGN_CONFIGS[`${align}-${contentview}`]}
+                spacing={1}
+            >
+                <EditorContex.Provider value={editorValue}>
+                    {mapComponents(bc.childs, (ChildCmp, bcChild) => (
+                        <Grid
+                            item
+                            key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]}
+                            xs
+                            style={toColumnStyleWidth(bcChild.width)}
+                        >
+                            <ChildCmp {...fieldProps} bc={bcChild} />
+                        </Grid>
+                    ))}
+                </EditorContex.Provider>
+            </Grid>
             <Grid item>
                 {mapComponents([deleteBtnConfig], (ChildCmp, bcChild) => (
                     <ChildCmp

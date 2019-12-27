@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 // @flow
 import * as React from "react";
 import {observer} from "mobx-react";
@@ -5,7 +6,7 @@ import {withStyles} from "@material-ui/core/styles";
 import {Grid} from "@material-ui/core";
 import {compose} from "recompose";
 import {toColumnStyleWidth} from "@essence/essence-constructor-share/utils";
-import {mapComponents, PanelWidthContext} from "@essence/essence-constructor-share";
+import {mapComponents, PanelWidthContext, GRID_CONFIGS, GRID_ALIGN_CONFIGS} from "@essence/essence-constructor-share";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {type BuilderPanelType} from "../BuilderPanelType";
 import {type PageModelType} from "../../stores/PageModel";
@@ -34,50 +35,6 @@ type PropsType = {|
 
 const MAX_PANEL_WIDTH = 12;
 const DEFAULT_SPACING = 1;
-const GRID_CONFIGS = {
-    hbox: {
-        direction: "row",
-        wrap: "nowrap",
-    },
-    "hbox-wrap": {
-        direction: "row",
-        wrap: "wrap",
-    },
-    vbox: {
-        direction: "column",
-        wrap: "nowrap",
-    },
-};
-const GRID_ALIGN_CONFIGS = {
-    "center-hbox": {
-        justify: "center",
-    },
-    "center-hbox-wrap": {
-        justify: "center",
-    },
-    "center-vbox": {
-        alignItems: "center",
-    },
-    "left-hbox": {
-        justify: "flex-start",
-    },
-    "left-hbox-wrap": {
-        justify: "flex-start",
-    },
-    "left-vbox": {
-        alignItems: "flex-start",
-    },
-    "right-hbox": {
-        justify: "flex-end",
-    },
-    "right-hbox-wrap": {
-        justify: "flex-end",
-    },
-    "right-vbox": {
-        alignItems: "flex-end",
-    },
-};
-/* eslint-disable max-lines-per-function */
 
 export class Panel extends React.Component<PropsType> {
     static contextType = PanelWidthContext;

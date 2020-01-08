@@ -52,8 +52,8 @@ class VerticalResizer extends React.Component<PropsType, StateType> {
 
     setCursorPosition = (clientX: number, clientY: number) => {
         if (this.resizerRef.current) {
-            this.resizerRef.current.style.top = clientY;
-            this.resizerRef.current.style.left = clientX;
+            this.resizerRef.current.style.top = `${clientY}px`;
+            this.resizerRef.current.style.left = `${clientX}px`;
         }
     };
 

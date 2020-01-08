@@ -40,6 +40,7 @@ export const FieldTextareaContainer: React.FC<IFieldTextareaContainerProps> = (p
             style={{height: "auto"}}
             InputProps={InputProps}
             // eslint-disable-next-line react/jsx-no-duplicate-props
+            // @ts-ignore
             inputProps={inputProps}
             noQtip={Boolean(props.value)}
             multiline

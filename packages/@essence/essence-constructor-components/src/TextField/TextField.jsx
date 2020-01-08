@@ -75,7 +75,7 @@ const TextField = React.forwardRef(
             const tip =
                 errorText || (bc.datatype === "password" ? "" : fieldFullValue) || bc.info || field.get("label");
 
-            return tip && trans(tip);
+            return tip && trans(tip, tip);
         };
         let fieldValue = fieldFullValue;
 

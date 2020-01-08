@@ -5,6 +5,7 @@ import {observer} from "mobx-react";
 import {Field} from "mobx-react-form";
 import {TextField as TextFieldMaterial} from "@material-ui/core";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {useTranslation} from "@essence/essence-constructor-share/utils";
 import {isEmpty} from "../utils/base";
 import TextFieldLabel from "./TextFieldComponents/TextFieldLabel/TextFieldLabel";
 import {type BuilderFieldType} from "./BuilderFieldType";
@@ -62,6 +63,7 @@ const TextField = React.forwardRef(
         }: PropsType,
         ref,
     ) => {
+        const [trans] = useTranslation("meta");
         const fieldFullValue = isEmpty(value) ? "" : value;
         const error = Boolean(!disabled && !field.get("isValid"));
 
@@ -70,7 +72,10 @@ const TextField = React.forwardRef(
                 return null;
             }
 
-            return errorText || (bc.datatype === "password" ? "" : fieldFullValue) || bc.info || field.get("label");
+            const tip =
+                errorText || (bc.datatype === "password" ? "" : fieldFullValue) || bc.info || field.get("label");
+
+            return tip && trans(tip);
         };
         let fieldValue = fieldFullValue;
 

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {IBuilderConfig} from "@essence/essence-constructor-share/types";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants";
 import {useStyles} from "./IFrame.styles";
 
 interface IIFrameProps {
@@ -9,6 +9,8 @@ interface IIFrameProps {
     value: string;
     typeiframe: "URL" | "HTML" | string;
 }
+
+const ABSOLUTE_URL_REG = /^(?:[a-z]+:)?\/\//iu;
 
 export const IFrame: React.FC<IIFrameProps> = (props) => {
     const {height, bc, value, typeiframe} = props;
@@ -34,8 +36,13 @@ export const IFrame: React.FC<IIFrameProps> = (props) => {
     };
 
     return typeiframe === "URL" ? (
-        <iframe key="URL" src={typeiframe === "URL" ? value : undefined} {...frameProps} />
+        <iframe
+            title={bc[VAR_RECORD_DISPLAYED]}
+            key="URL"
+            src={ABSOLUTE_URL_REG.test(value) ? value : `//${value}`}
+            {...frameProps}
+        />
     ) : (
-        <iframe key="HTML" ref={iframeRef} {...frameProps} />
+        <iframe title={bc[VAR_RECORD_DISPLAYED]} key="HTML" ref={iframeRef} {...frameProps} />
     );
 };

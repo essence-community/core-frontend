@@ -51,7 +51,6 @@ type PropsType = WithT & {|
     readOnly?: boolean,
     height?: number,
     hideTitle?: boolean,
-    autoHeightGrid?: boolean,
     hidden?: boolean,
     visible: boolean,
     pageStore: PageModelType,
@@ -64,7 +63,6 @@ const GRID_FOCUS_KEYS = [KEY_ARROW_DOWN, KEY_ARROW_LEFT, KEY_ARROW_RIGHT, KEY_AR
 
 export class BuilderBaseGridBase extends React.Component<PropsType, {focused: boolean}> {
     static defaultProps = {
-        autoHeightGrid: true,
         classes: {},
         height: 0,
     };
@@ -296,18 +294,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
 
     // eslint-disable-next-line max-lines-per-function
     renderTable(isInlineEditing: boolean, height: number) {
-        const {
-            classes,
-            store,
-            children,
-            bc,
-            disabled,
-            autoHeightGrid,
-            readOnly,
-            pageStore,
-            visible,
-            fireScrollEvent,
-        } = this.props;
+        const {classes, store, children, bc, disabled, readOnly, pageStore, visible, fireScrollEvent} = this.props;
         const {recordsStore} = store;
         // eslint-disable-next-line no-unused-vars
         const {pageSize, records} = recordsStore;
@@ -338,7 +325,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
                 </Grid>
                 <Grid item xs zeroMinWidth>
                     <Scrollbars
-                        autoHeight={autoHeightGrid}
+                        autoHeight={true}
                         autoHeightMin={height}
                         autoHeightMax={height}
                         onScrollFrame={this.handleScrollFrameBody}

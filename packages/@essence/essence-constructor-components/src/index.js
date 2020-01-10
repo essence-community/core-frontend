@@ -10,7 +10,6 @@ import SnackbarContentText from "./Snackbar/SnackbarContentText";
 import Slider from "./Components/Slider/Slider";
 import BuilderPanel from "./Panel/BuilderBasePanel";
 import Popover from "./Popover/Popover";
-import SideResizer from "./Resizer/SideResizer";
 import BuilderRoadMapPanel from "./RoadMapPanel/BuilderRoadMapPanel";
 
 export {themeVars} from "./Theme";
@@ -40,7 +39,6 @@ export {
     withModelDecorator,
     Scrollbars,
     SnackbarContentText,
-    SideResizer,
     Slider,
     Popover,
 };

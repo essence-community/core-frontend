@@ -2,7 +2,7 @@
 import * as React from "react";
 import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {SideResizer} from "@essence/essence-constructor-components";
+import {SideResizer} from "@essence/essence-constructor-share/uicomponents";
 import MenuGrid from "../MenuGrid/MenuGrid";
 import styles from "./ReportsContentStyles";
 
@@ -43,8 +43,8 @@ class ReportsContent extends React.Component<PropsType, StateType> {
                         anchor="left"
                         minDrawerWidth={MENU_GRID_WIDTH}
                         maxDrawerWidth={window.innerWidth / 2}
-                        drawerWidth={width}
                         onChangeWidth={this.handleResizeWidth}
+                        point="px"
                     />
                 </Grid>
                 <Grid item xs className={classes.content}>

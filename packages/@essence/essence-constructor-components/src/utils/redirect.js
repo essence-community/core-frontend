@@ -1,12 +1,13 @@
 // @flow
 import {type ObservableMap} from "mobx";
-import {parseMemoize} from "@essence/essence-constructor-share/utils";
+import {parseMemoize, getMasterObject} from "@essence/essence-constructor-share/utils";
 import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_RES_ERROR,
     VAR_RECORD_URL,
+    VAR_RECORD_MASTER_ID,
     META_PAGE_OBJECT,
     VAR_RECORD_CK_D_ENDPOINT,
 } from "@essence/essence-constructor-share/constants";
@@ -157,6 +158,7 @@ export const redirectUseQuery = ({
         gate: bc[VAR_RECORD_CK_D_ENDPOINT],
         json: {
             filter: values,
+            master: getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, bc.getmastervalue),
         },
         plugin: bc.extraplugingate,
         query,

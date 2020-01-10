@@ -12,6 +12,7 @@ import {
 import {ProgressModel, snackbarStore} from "../models";
 import {IBuilderConfig, IBuilderMode, IGridBuilder, IPageModel, IRecordsModel, ILoadRecordsProps} from "../types";
 import {findGetGlobalKey, isEmpty, i18next} from "../utils";
+import {getMasterObject} from "../utils/getMasterObject";
 import {apiSaveAction} from "./apiSaveAction";
 import {setMask} from "./recordsActions";
 
@@ -88,16 +89,19 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
         formData,
         noReload,
     } = config;
-    const {extraplugingate, getglobaltostore, timeout} = actionBc;
+    const {extraplugingate, getglobaltostore, getmastervalue, timeout} = actionBc;
+    let master = undefined;
     let modeCheck = mode;
     let onUploadProgress = noop;
     let filteredValues = null;
+    const getMasterValue = getmastervalue || bc.getmastervalue;
     let main = null;
 
     if (bc[VAR_RECORD_MASTER_ID]) {
         main =
             get(pageStore.stores.get(bc[VAR_RECORD_MASTER_ID]), `selectedRecord.${VAR_RECORD_ID}`) ||
             pageStore.fieldValueMaster.get(bc[VAR_RECORD_MASTER_ID]);
+        master = getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, getMasterValue);
     }
 
     if (formData) {
@@ -127,6 +131,7 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
         [VAR_RECORD_ROUTE_PAGE_ID]: pageStore.pageId,
         action,
         formData,
+        master,
         mode: modeCheck,
         onUploadProgress,
         plugin: extraplugingate || bc.extraplugingate,

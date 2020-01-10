@@ -21,7 +21,7 @@ import {
     VAR_META_JL_SORT,
     VAR_RECORD_JN_TOTAL_CNT,
 } from "@essence/essence-constructor-share/constants";
-import {i18next} from "@essence/essence-constructor-share/utils";
+import {i18next, getMasterObject} from "@essence/essence-constructor-share/utils";
 import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {loggerRoot} from "../../constants";
 import {type CkIdType} from "../../BuilderType";
@@ -58,43 +58,6 @@ type LoadRecordsActionType = {
 const logger = loggerRoot.extend("recordsActions");
 // 2 frames (16ms)
 const WAIT_TIME = 32;
-
-export const getMasterData = (masterObject?: Object, idproperty?: string, globalValues?: Object) => {
-    const master = {};
-
-    if (isEmpty(idproperty)) {
-        return master;
-    }
-
-    forEach(findSetKey(idproperty || ""), (fieldName: string, globaleKey: string) => {
-        if (masterObject && masterObject[globaleKey]) {
-            const value = masterObject[globaleKey];
-
-            master[fieldName] = isString(value) && value.indexOf("auto-") === 0 ? undefined : value;
-        } else if (globalValues && globalValues.has(globaleKey)) {
-            const value = globalValues.get(globaleKey);
-
-            master[fieldName] = isString(value) && value.indexOf("auto-") === 0 ? undefined : value;
-        }
-
-        if (isEmpty(master[fieldName])) {
-            master[fieldName] = undefined;
-        }
-    });
-
-    return master;
-};
-
-export function getMasterObject(masterId?: string, pageStore?: PageModelType): typeof undefined | Object {
-    return masterId && pageStore
-        ? {
-              ...get(pageStore.stores.get(masterId), "selectedRecord", {}),
-              ...(pageStore.fieldValueMaster.has(masterId)
-                  ? {[VAR_RECORD_ID]: pageStore.fieldValueMaster.get(masterId)}
-                  : {}),
-          }
-        : undefined;
-}
 
 export function getPageFilter(pageSize: ?number, pageNumber: number) {
     return pageSize
@@ -160,13 +123,9 @@ export function prepareRequst(
     recordsStore: RecordsModelInstanceType,
     {bc, status, selectedRecordId}: LoadRecordsActionType,
 ) {
-    const {idproperty = "ck_id", noglobalmask} = bc;
+    const {getmastervalue, noglobalmask} = bc;
     const globalValues = get(recordsStore.pageStore, "globalValues");
-    const master = getMasterData(
-        getMasterObject(bc[VAR_RECORD_MASTER_ID], recordsStore.pageStore),
-        idproperty,
-        globalValues,
-    );
+    const master = getMasterObject(bc[VAR_RECORD_MASTER_ID], recordsStore.pageStore, getmastervalue);
     const filterData =
         status === "attach"
             ? {

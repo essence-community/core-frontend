@@ -70,7 +70,7 @@ describe("GridColumnText", () => {
         const wrapper = mountWithTheme(
             <GridColumnText
                 {...props}
-                bc={{...textBc, columnsfilter: "ck_id", redirecturl: "core-1"}}
+                bc={{...textBc, columnsfilter: VAR_RECORD_ID, redirecturl: "core-1"}}
                 value="test"
                 record={{[VAR_RECORD_ID]: "100500"}}
             />,

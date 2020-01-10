@@ -8,6 +8,7 @@ import {
 } from "../constants";
 import {baseRequest} from "../request/baseRequest";
 import {IBuilderMode} from "../types";
+import {FieldValue} from '../types/Field';
 
 interface IConfig {
     action?: string;
@@ -17,6 +18,7 @@ interface IConfig {
     ck_main?: null | string;
     cl_warning?: number;
     session: string;
+    master?: Record<string, FieldValue>;
     query?: string;
     onUploadProgress?: (progressEvent: ProgressEvent) => void;
     plugin?: string;
@@ -36,6 +38,7 @@ const actionModeMap = {
 export function apiSaveAction(
     values: any,
     {
+        master,
         mode,
         [VAR_RECORD_ROUTE_PAGE_ID]: pageId,
         [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
@@ -56,6 +59,7 @@ export function apiSaveAction(
         formData,
         json: {
             data: values,
+            master,
             service: {
                 [VAR_RECORD_CK_MAIN]: main,
                 [VAR_RECORD_CL_WARNING]: warningStatus,

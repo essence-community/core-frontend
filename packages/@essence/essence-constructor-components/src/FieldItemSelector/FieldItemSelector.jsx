@@ -4,7 +4,6 @@ import {compose} from "recompose";
 import {reaction} from "mobx";
 import {observer} from "mobx-react";
 import {Grid} from "@material-ui/core";
-import {toSize} from "@essence/essence-constructor-share/utils";
 import {setComponent, getComponent} from "@essence/essence-constructor-share";
 import {
     VAR_RECORD_MASTER_ID,
@@ -62,8 +61,14 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
         this.state = {
             ComponentFieldFrom,
             ComponentFieldTo,
-            fieldFrom,
-            fieldTo,
+            fieldFrom: {
+                height: bc.height,
+                ...fieldFrom,
+            },
+            fieldTo: {
+                height: bc.height,
+                ...fieldTo,
+            },
             hasError,
         };
 
@@ -188,13 +193,8 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
 
     // eslint-disable-next-line max-lines-per-function
     render() {
-        const {ComponentFieldFrom, ComponentFieldTo, hasError} = this.state;
+        const {ComponentFieldFrom, ComponentFieldTo, hasError, fieldFrom, fieldTo} = this.state;
         const {bc, editing, disabled, pageStore, visible} = this.props;
-        const [fieldFrom, fieldTo] = bc.childs;
-        const baseStyle = {
-            flexBasis: "0%",
-            height: toSize(bc.height),
-        };
         const [btnAddAll, btnAddSelected, btnRemoveSelected, btnRemoveAll] = this.buttonsConfig;
 
         if (hasError) {
@@ -207,22 +207,21 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
                 wrap="nowrap"
                 spacing={1}
                 data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
-                alignItems="center"
+                alignItems="stretch"
             >
-                <Grid item xs zeroMinWidth style={baseStyle}>
+                <Grid item xs zeroMinWidth>
                     {ComponentFieldFrom ? (
                         <ComponentFieldFrom
                             bc={fieldFrom}
                             editing={editing}
                             disabled={disabled}
-                            autoHeightGrid={false}
                             pageStore={pageStore}
                             visible={visible}
                         />
                     ) : null}
                 </Grid>
                 <Grid item>
-                    <Grid container spacing={0} direction="column" justify="center">
+                    <Grid style={{height: "100%"}} container spacing={0} direction="column" justify="center">
                         <Grid item>
                             <BuilderMobxButton
                                 disabled={disabled}
@@ -257,13 +256,12 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item xs zeroMinWidth style={baseStyle}>
+                <Grid item xs zeroMinWidth>
                     {ComponentFieldTo ? (
                         <ComponentFieldTo
                             bc={fieldTo}
                             editing={editing}
                             disabled={disabled}
-                            autoHeightGrid={false}
                             pageStore={pageStore}
                             visible={visible}
                         />

@@ -4,7 +4,7 @@ import cn from "classnames";
 import {ButtonBase, Drawer, Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {Icon} from "@essence/essence-constructor-share/Icon";
-import SideResizer from "../Resizer/SideResizer";
+import {SideResizer} from "@essence/essence-constructor-share/uicomponents";
 import {styleTheme} from "../constants";
 import {StyleToolBarLight} from "./StyleToolBarLight";
 import {StyleToolBarDark} from "./StyleToolBarDark";
@@ -55,7 +55,6 @@ class ToolBarDrawerButton extends React.Component<Props, State> {
 
     renderSideResizer = () => {
         const {width, anchor} = this.props;
-        const {drawerWidth} = this.state;
 
         return (
             <Grid item>
@@ -63,8 +62,8 @@ class ToolBarDrawerButton extends React.Component<Props, State> {
                     anchor={anchor}
                     minDrawerWidth={width || MENU_GRID_WIDTH}
                     maxDrawerWidth={window.innerWidth / 2}
-                    drawerWidth={drawerWidth || width || MENU_GRID_WIDTH}
                     onChangeWidth={this.handleResizeWidth}
+                    point="px"
                 />
             </Grid>
         );

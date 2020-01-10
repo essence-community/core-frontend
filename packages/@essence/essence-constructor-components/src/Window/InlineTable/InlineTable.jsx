@@ -33,6 +33,20 @@ export const WIDTH_MAP = {
 class InlineTable extends React.PureComponent<PropsType> {
     static contextType = EditorContex;
 
+    // Duplicate data-qtip from visible column
+    getQtip = (idx) => {
+        const {gridStore} = this.props;
+
+        try {
+            return gridStore.refs
+                .get("body")
+                .children[gridStore.recordsStore.selectedRecordIndex].children[idx].getAttribute("data-qtip");
+        } catch {
+            return "";
+        }
+    };
+
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {pageStore, store, classes, theme = {}, gridStore} = this.props;
         const {form} = this.context;
@@ -58,23 +72,30 @@ class InlineTable extends React.PureComponent<PropsType> {
                                 record={gridStore.recordsStore.selectedRecrodValues}
                                 disableSelect
                             >
-                                {store.childs.map((field) => (
-                                    <td
-                                        key={field[VAR_RECORD_PAGE_OBJECT_ID]}
-                                        className={classes.tableCell}
-                                        style={{width: WIDTH_MAP[field.datatype]}}
-                                        data-page-object={`${field[VAR_RECORD_PAGE_OBJECT_ID]}-cell`}
-                                    >
-                                        {Boolean(checkEditable(store.config.mode, field.editmode)) && (
-                                            <BuilderField
-                                                bc={field}
-                                                noLabel={field.datatype === "boolean" || field.datatype === "checkbox"}
-                                                pageStore={pageStore}
-                                                visible
-                                            />
-                                        )}
-                                    </td>
-                                ))}
+                                {store.childs.map((field, idx) => {
+                                    const isEditable = Boolean(checkEditable(store.config.mode, field.editmode));
+
+                                    return (
+                                        <td
+                                            key={field[VAR_RECORD_PAGE_OBJECT_ID]}
+                                            className={classes.tableCell}
+                                            style={{width: WIDTH_MAP[field.datatype]}}
+                                            data-page-object={`${field[VAR_RECORD_PAGE_OBJECT_ID]}-cell`}
+                                            data-qtip={isEditable || isNew ? undefined : this.getQtip(idx)}
+                                        >
+                                            {isEditable && (
+                                                <BuilderField
+                                                    bc={field}
+                                                    noLabel={
+                                                        field.datatype === "boolean" || field.datatype === "checkbox"
+                                                    }
+                                                    pageStore={pageStore}
+                                                    visible
+                                                />
+                                            )}
+                                        </td>
+                                    );
+                                })}
                             </GridRow>
                         </TableBody>
                     </Table>

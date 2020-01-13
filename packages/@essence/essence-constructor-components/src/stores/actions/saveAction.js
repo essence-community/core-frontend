@@ -105,7 +105,7 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
     let main = null;
     let snackbarId = null;
     const getMasterValue = getmastervalue || bc.getmastervalue;
-    let master;
+    let master = undefined;
 
     if (bc[VAR_RECORD_MASTER_ID]) {
         main =

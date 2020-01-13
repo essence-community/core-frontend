@@ -1,7 +1,6 @@
 /* eslint max-lines: ["error", 500]*/
 // @flow
 import get from "lodash/get";
-import isString from "lodash/isString";
 import uuidv4 from "uuid/v4";
 import pickBy from "lodash/pickBy";
 import forEach from "lodash/forEach";
@@ -28,7 +27,7 @@ import {type CkIdType} from "../../BuilderType";
 import {isEmpty, sleep} from "../../utils/base";
 import {type PageModelType} from "../PageModel";
 import {sendRequestList} from "../../request/baseRequest";
-import {findSetKey, findGetGlobalKey} from "../../utils/findKey";
+import {findGetGlobalKey} from "../../utils/findKey";
 import {type RecordsModelType, type RecordsModelInstanceType, type RecordsStateStatusType} from "./RecordsModelType";
 import {CheckLoading, CYCLE_TIMEOUT} from "./checkLoading";
 

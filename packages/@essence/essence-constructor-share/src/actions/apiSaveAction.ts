@@ -8,7 +8,7 @@ import {
 } from "../constants";
 import {baseRequest} from "../request/baseRequest";
 import {IBuilderMode} from "../types";
-import {FieldValue} from '../types/Field';
+import {FieldValue} from "../types/Field";
 
 interface IConfig {
     action?: string;

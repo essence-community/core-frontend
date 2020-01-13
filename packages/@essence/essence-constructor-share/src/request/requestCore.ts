@@ -7,12 +7,13 @@ import {
     VAR_RECORD_CV_ACTION,
     META_PAGE_OBJECT,
 } from "../constants";
+import {FieldValue} from "../types/Field";
 import {request} from "./request";
 
 interface IRequestConfig {
     action?: string;
     mode: IBuilderMode;
-    master?: Record<string, any>;
+    master?: Record<string, FieldValue>;
     ck_page: string;
     ck_page_object: string;
     ck_main?: null | string;

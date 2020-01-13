@@ -1,6 +1,6 @@
 // @flow
 import get from "lodash/get";
-import {i18next} from "@essence/essence-constructor-share/utils";
+import {i18next, getMasterObject} from "@essence/essence-constructor-share/utils";
 import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {
     VAR_RECORD_MASTER_ID,
@@ -14,13 +14,7 @@ import {
     VAR_RECORD_ID,
 } from "@essence/essence-constructor-share/constants";
 import {type RecordsModelType} from "../RecordsModel";
-import {
-    getFilterData,
-    getMasterObject,
-    getMasterData,
-    setMask,
-    attachGlobalStore,
-} from "../RecordsModel/loadRecordsAction";
+import {getFilterData, setMask, attachGlobalStore} from "../RecordsModel/loadRecordsAction";
 import {sendRequest} from "../../request/baseRequest";
 import {type GridModelType} from "./GridModelType";
 
@@ -34,7 +28,7 @@ type PrintExcelType = {
 // eslint-disable-next-line max-lines-per-function
 export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelType): Promise<boolean> {
     const {bc, pageStore} = gridStore;
-    const {idproperty = VAR_RECORD_ID, columns} = bc;
+    const {getmastervalue, columns} = bc;
     const globalValues = get(pageStore, "globalValues");
     const json = {
         filter: getFilterData({
@@ -44,7 +38,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
             pageSize: 50000,
             searchValues: recordsStore.searchValues,
         }),
-        master: getMasterData(getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore), idproperty, globalValues),
+        master: getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, getmastervalue),
     };
 
     attachGlobalStore({bc, globalValues, json});

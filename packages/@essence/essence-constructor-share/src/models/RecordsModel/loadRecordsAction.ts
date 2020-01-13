@@ -4,7 +4,7 @@ import {isEqual} from "lodash";
 import {request} from "../../request";
 import {IPageModel, IRecordsModel, FieldValue, IResponse} from "../../types";
 import {findGetGlobalKey} from "../../utils/findKey";
-import {i18next} from "../../utils";
+import {i18next, getMasterObject} from "../../utils";
 import {
     VALUE_SELF_FIRST,
     VALUE_SELF_ALWAYSFIRST,
@@ -28,7 +28,6 @@ import {
     ILoadRecordsAction,
     IJson,
 } from "./RecordsModel.types";
-import {getMasterObject, getMasterData} from "./RecordsModelUtils";
 import {CheckLoading, CYCLE_TIMEOUT} from "./checkLoading";
 
 const logger = loggerRoot.extend("loadRecordsAction");
@@ -100,7 +99,7 @@ export function setMask(isLoading: boolean, noglobalmask?: string, pageStore?: I
     }
 }
 
-export function checkPageNumber(recordsStore: IRecordsModel, master: Record<string, FieldValue>) {
+export function checkPageNumber(recordsStore: IRecordsModel, master: Record<string, FieldValue> = {}) {
     if (!isEqual(master, recordsStore.jsonMaster)) {
         recordsStore.jsonMaster = master;
         recordsStore.pageNumber = 0;
@@ -124,13 +123,9 @@ export const getAttachedRecords = (records: Record<string, FieldValue>[], newRec
 };
 
 export function prepareRequst(recordsStore: IRecordsModel, {bc, status, selectedRecordId}: ILoadRecordsAction) {
-    const {idproperty = "ck_id", noglobalmask} = bc;
+    const {getmastervalue, noglobalmask} = bc;
     const globalValues = recordsStore.pageStore ? recordsStore.pageStore.globalValues : undefined;
-    const master = getMasterData(
-        getMasterObject(bc[VAR_RECORD_MASTER_ID], recordsStore.pageStore ? recordsStore.pageStore : undefined),
-        idproperty,
-        globalValues,
-    );
+    const master = getMasterObject(bc[VAR_RECORD_MASTER_ID], recordsStore.pageStore, getmastervalue);
     const filterData: IGetFilterDataOptions =
         status === "attach"
             ? {

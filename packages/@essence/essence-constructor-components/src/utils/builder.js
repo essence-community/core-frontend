@@ -2,9 +2,10 @@
 import forOwn from "lodash/forOwn";
 import isEmptyLodash from "lodash/isEmpty";
 import {VAR_RECORD_MASTER_ID, VAR_RECORD_NAME, VAR_RECORD_CN_ORDER} from "@essence/essence-constructor-share/constants";
+import {getMasterObject} from "@essence/essence-constructor-share/utils";
 import {isEmpty} from "../utils/base";
 import {type PageModelType} from "../stores/PageModel";
-import {type RecordsModelType, getMasterObject, getMasterData} from "../stores/RecordsModel";
+import {type RecordsModelType} from "../stores/RecordsModel";
 import {type BuilderBaseType} from "../BuilderType";
 
 type CheckAutoloadPropsType = {
@@ -92,13 +93,7 @@ export function checkAutoload({bc, pageStore, recordsStore}: CheckAutoloadPropsT
     }
 
     if (!isEmpty(bc[VAR_RECORD_MASTER_ID]) && bc.autoload === "true") {
-        return !isEmptyLodash(
-            getMasterData(
-                getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore),
-                bc.idproperty || "ck_id",
-                pageStore.globalValues,
-            ),
-        );
+        return !isEmptyLodash(getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, bc.getmastervalue));
     }
 
     return false;

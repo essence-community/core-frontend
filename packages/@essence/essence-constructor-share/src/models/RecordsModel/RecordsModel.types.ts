@@ -4,7 +4,7 @@ import {VAR_META_JN_FETCH, VAR_META_JN_OFFSET, VAR_META_JL_FILTER, VAR_META_JL_S
 
 export interface IJson {
     filter: Record<string, FieldValue>;
-    master: Record<string, FieldValue>;
+    master?: Record<string, FieldValue>;
     [key: string]: FieldValue;
 }
 

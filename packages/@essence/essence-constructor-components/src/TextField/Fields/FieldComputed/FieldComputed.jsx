@@ -17,7 +17,8 @@ type StateType = {
 class FieldComputed extends React.Component<TextFieldChildProps & WithT, StateType> {
     state = {
         parser: {
-            runer: (values?: Object) => `${i18next.t("static:e077e7f97f954e85905a8e754511e441")} ${JSON.stringify(values)} `,
+            runer: (values?: Object) =>
+                `${i18next.t("static:e077e7f97f954e85905a8e754511e441")} ${JSON.stringify(values)} `,
             variables: [],
         },
         source: "",
@@ -89,7 +90,9 @@ class FieldComputed extends React.Component<TextFieldChildProps & WithT, StateTy
                         <Grid item xs={6}>
                             <Grid container spacing={1} direction="column">
                                 <Grid item>
-                                    <Typography variant="body2">{t("static:9207ff3b431a4dc58f16a28d2aae0ea8")}</Typography>
+                                    <Typography variant="body2">
+                                        {t("static:9207ff3b431a4dc58f16a28d2aae0ea8")}
+                                    </Typography>
                                 </Grid>
                                 <Grid item>
                                     <TextField
@@ -107,7 +110,9 @@ class FieldComputed extends React.Component<TextFieldChildProps & WithT, StateTy
                         <Grid item xs={6}>
                             <Grid container spacing={1} direction="column">
                                 <Grid item>
-                                    <Typography variant="body2">{t("static:a363461339754846881b1f84b6706851")}</Typography>
+                                    <Typography variant="body2">
+                                        {t("static:a363461339754846881b1f84b6706851")}
+                                    </Typography>
                                 </Grid>
                                 {this.state.parser.variables.map((variable) => (
                                     <Grid item key={variable}>

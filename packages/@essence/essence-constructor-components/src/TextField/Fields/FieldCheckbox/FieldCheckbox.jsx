@@ -57,7 +57,9 @@ class FieldCheckbox extends React.Component<FieldCheckboxPropsType & WithT, Stat
                     [classes.noLabelRender]: noLabel,
                     [classes.focused]: focused,
                 })}
-                data-qtip={value ? t("static:dacf7ab025c344cb81b700cfcc50e403") : t("static:f0e9877df106481eb257c2c04f8eb039")}
+                data-qtip={
+                    value ? t("static:dacf7ab025c344cb81b700cfcc50e403") : t("static:f0e9877df106481eb257c2c04f8eb039")
+                }
                 data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
             >
                 <FormLabel

@@ -12,7 +12,7 @@ import {
 import {request} from "../../request";
 import {setModule} from "../../components";
 import {snackbarStore} from "../SnackbarModel";
-import { loadFiles } from "../../utils/browser";
+import {loadFiles} from "../../utils/browser";
 
 export class ModulesModel {
     isLoaded = false;
@@ -67,5 +67,5 @@ export class ModulesModel {
             .then(() => {
                 this.isLoaded = true;
             });
-    }
+    };
 }

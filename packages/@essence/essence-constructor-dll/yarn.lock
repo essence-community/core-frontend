@@ -872,10 +872,8 @@
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.7.3.tgz#a166882c81c0c6040975dd30df24fae8549bd96f"
   integrity sha512-14ZVlsB9akwvydAdaEnVnvqu6J2P6ySv39hYyl/aoB6w/V+bXX0tay8cF6paqbgZsN2n5Xh15uF4pE+GvE+itw==
 
-"@essence-community/constructor-share@^2.0.1":
+"@essence-community/constructor-share@file:../essence-constructor-share":
   version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@essence-community/constructor-share/-/constructor-share-2.0.2.tgz#29ba772b1a974144380bc12d975d13695c452d9e"
-  integrity sha512-C3IgWjgdV7BTkH/6T0JRloQYlPkK5joXNQTRc3ebEA1M6CJOii23saE+A1WLi4F3+dLykfusiTT/E+RBzRF4YA==
   dependencies:
     "@material-ui/core" "4.7.2"
     "@types/react-custom-scrollbars" "^4.0.6"

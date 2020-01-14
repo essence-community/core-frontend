@@ -1,7 +1,11 @@
 /* eslint-disable global-require */
 // @flow
 import isFunction from "lodash/isFunction";
-import {VAR_RECORD_ID, VAR_RECORD_ROUTE_PAGE_ID, META_PAGE_OBJECT} from "@essence-community/constructor-share/constants";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    META_PAGE_OBJECT,
+} from "@essence-community/constructor-share/constants";
 import comboRecords from "../../mocks/data/comboRecords.json";
 import {sleep} from "../utils/base";
 import {MIN_REQUEST_TIME, MAX_REQUEST_TIME} from "../utils/test";

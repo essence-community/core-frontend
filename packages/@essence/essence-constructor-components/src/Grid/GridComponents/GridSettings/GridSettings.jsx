@@ -120,7 +120,9 @@ class GridSettings extends React.Component<PropsType, StateType> {
                                             <Grid container>
                                                 <Grid item xs={10}>
                                                     {t(column[VAR_RECORD_DISPLAYED]) ||
-                                                        `${t("static:223dbd23bba54e4c91f59ef4cdea8ffa")}  ${column.datatype}`}
+                                                        `${t("static:223dbd23bba54e4c91f59ef4cdea8ffa")}  ${
+                                                            column.datatype
+                                                        }`}
                                                 </Grid>
                                                 <Grid item xs={2}>
                                                     <Switch

@@ -372,7 +372,10 @@ export class SnackbarModel implements ISnackbarModel {
     accessDeniedAction = action(
         "accessDeniedAction",
         (_error: Error, route?: Record<string, FieldValue>, applicationStore?: IApplicationModel) => {
-            this.snackbarOpenAction({status: "error", title: i18next.t("static:1d5ca35298f346cab823812e2b57e15a")}, route);
+            this.snackbarOpenAction(
+                {status: "error", title: i18next.t("static:1d5ca35298f346cab823812e2b57e15a")},
+                route,
+            );
             const recordId = route ? route[VAR_RECORD_ID] : undefined;
 
             if (applicationStore && typeof recordId === "string") {
@@ -384,7 +387,10 @@ export class SnackbarModel implements ISnackbarModel {
     invalidSessionAction = action(
         "invalidSessionAction",
         (_error: Error, route?: IRouteRecord, applicationStore?: IApplicationModel) => {
-            this.snackbarOpenAction({status: "error", title: i18next.t("static:5bf781f61f9c44b8b23c76aec75e5d10")}, route);
+            this.snackbarOpenAction(
+                {status: "error", title: i18next.t("static:5bf781f61f9c44b8b23c76aec75e5d10")},
+                route,
+            );
 
             if (applicationStore) {
                 applicationStore.logoutAction();

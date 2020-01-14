@@ -117,7 +117,9 @@ export const parse = (src: string, withTokens = false): IParseReturnType => {
             // @ts-ignore
             const expression = parsedSrc ? parsedSrc.body[0].expression : undefined;
 
-            return expression ? parseOperations(expression, values) : i18next.t("static:b621b9209813416dba9d5c12ccc93fdf");
+            return expression
+                ? parseOperations(expression, values)
+                : i18next.t("static:b621b9209813416dba9d5c12ccc93fdf");
         },
         variables:
             withTokens && parsedSrc && parsedSrc.tokens

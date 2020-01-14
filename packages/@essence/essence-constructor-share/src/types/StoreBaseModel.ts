@@ -49,6 +49,7 @@ export interface IStoreBaseModel {
     name?: StoreBaseModelNameType;
     hidden?: boolean;
     disabled?: boolean;
+    recordId: string;
     pageStore: IPageModel;
     bc: IBuilderConfig;
     handlers: IHandlers;

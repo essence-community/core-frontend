@@ -3,7 +3,7 @@ import * as React from "react";
 import {compose} from "recompose";
 import {Paper} from "@material-ui/core";
 import {setComponent} from "@essence/essence-constructor-share/components";
-import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {type PageModelType} from "../stores/PageModel";
 import {GridModel, type GridModelType} from "../stores/GridModel";
 import withModelDecorator from "../decorators/withModelDecorator";
@@ -38,7 +38,7 @@ export class BaseBuilderGrid extends React.Component<BuilderGridPropsType & Prop
 
         return (
             <GridRow
-                key={record[VAR_RECORD_ID]}
+                key={record[store.recordsStore.recordId]}
                 index={index}
                 pageStore={this.props.pageStore}
                 record={record}

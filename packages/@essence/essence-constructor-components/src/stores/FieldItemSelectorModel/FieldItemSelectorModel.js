@@ -36,6 +36,7 @@ export class FieldItemSelectorModel extends StoreBaseModel implements FieldItemS
             },
             bc: this.bc,
             pageStore: this.pageStore,
+            recordId: this.recordsStore.recordId,
         }),
     );
 

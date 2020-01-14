@@ -69,7 +69,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
         super({bc, pageStore});
 
         this.column = bc.column;
-        this.valueField = bc.valuefield || VAR_RECORD_ID;
+        this.valueField = bc.valuefield || bc.idproperty || VAR_RECORD_ID;
 
         if (bc.valuefield) {
             this.valueFields = bc.valuefield.split(",").map((key) => {
@@ -200,10 +200,13 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
         await this.recordsStore.searchAction({}, {filter, selectedRecordId: value});
 
         if (this.bc.collectionvalues === "array") {
-            const records = prepareArrayValues(this, this.recordsStore.records);
+            const records = prepareArrayValues(this, this.recordsStore.records, this.recordsStore.recordId);
 
             this.fieldHandlers.onChange(null, records);
-            this.selectedEntries = this.recordsStore.records.map((record: Object) => [record[VAR_RECORD_ID], record]);
+            this.selectedEntries = this.recordsStore.records.map((record: Object) => [
+                record[this.recordsStore.recordId],
+                record,
+            ]);
         } else if (this.recordsStore.selectedRecord) {
             this.handleChangeRecord(this.recordsStore.selectedRecord);
         }
@@ -213,7 +216,10 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
         const gridStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (gridStore) {
-            this.fieldHandlers.onChange(null, prepareArrayValues(this, gridStore.selectedRecords));
+            this.fieldHandlers.onChange(
+                null,
+                prepareArrayValues(this, gridStore.selectedRecords, this.recordsStore.recordId),
+            );
             this.selectedEntries = [];
             gridStore.selectedRecords.forEach((value, key) => {
                 this.selectedEntries.push([key, value]);
@@ -291,7 +297,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
         } else if (this.valueFields && this.valueFields.length) {
             column = this.valueField;
         } else {
-            column = VAR_RECORD_ID;
+            column = this.recordsStore.recordId || VAR_RECORD_ID;
         }
 
         const value: mixed = record[column];

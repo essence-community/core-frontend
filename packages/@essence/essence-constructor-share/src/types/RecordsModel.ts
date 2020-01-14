@@ -68,6 +68,7 @@ export interface IRecordsSearchOptions {
 
 export interface IRecordsModel {
     recordsAll: IRecord[];
+    recordId: string;
     records: IRecord[];
     recordsState: IRecordsState<IRecord>;
     selectedRecordId?: FieldValue;

@@ -1,4 +1,4 @@
-import {forOwn, get, isArray, noop} from "lodash";
+import {forOwn, isArray, noop} from "lodash";
 import {ObservableMap, toJS} from "mobx";
 import {
     VAR_RECORD_ID,
@@ -23,6 +23,7 @@ export interface IConfig {
     [VAR_RECORD_CL_WARNING]?: number;
     bc: any;
     pageStore: IPageModel;
+    recordId: string;
     formData?: FormData;
     noReload?: boolean;
 }
@@ -77,7 +78,7 @@ export const attachGlobalValues = ({globalValues, getglobaltostore, values}: IAt
     return values;
 };
 
-// eslint-disable-next-line max-params
+// eslint-disable-next-line max-params, max-statements
 export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: IBuilderMode, config: IConfig) {
     const {
         actionBc,
@@ -86,6 +87,7 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
         query,
         bc,
         pageStore,
+        recordId = VAR_RECORD_ID,
         formData,
         noReload,
     } = config;
@@ -98,9 +100,11 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
     let main = null;
 
     if (bc[VAR_RECORD_MASTER_ID]) {
-        main =
-            get(pageStore.stores.get(bc[VAR_RECORD_MASTER_ID]), `selectedRecord.${VAR_RECORD_ID}`) ||
-            pageStore.fieldValueMaster.get(bc[VAR_RECORD_MASTER_ID]);
+        const masterStore = pageStore.stores.get(bc[VAR_RECORD_MASTER_ID]);
+
+        main = masterStore
+            ? masterStore.selectedRecord && masterStore.selectedRecord[masterStore.recordId]
+            : pageStore.fieldValueMaster.get(bc[VAR_RECORD_MASTER_ID]);
         master = getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, getMasterValue);
     }
 
@@ -119,7 +123,7 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
             globalValues: pageStore.globalValues,
             values: filter(values),
         });
-        modeCheck = isEmpty(filteredValues[VAR_RECORD_ID]) && /^\d+$/u.test(mode) ? "1" : mode;
+        modeCheck = isEmpty(filteredValues[recordId]) && /^\d+$/u.test(mode) ? "1" : mode;
     }
 
     setMask(bc.noglobalmask, pageStore, true);
@@ -161,6 +165,7 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
                                             formData: config.formData,
                                             pageStore: config.pageStore,
                                             query: config.query,
+                                            recordId,
                                         })
                                         .then(resolve);
                                 }
@@ -176,11 +181,11 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
                         const isAttach =
                             bc.refreshallrecords === "false" &&
                             (mode === "1" || mode === "2" || mode === "4") &&
-                            !isEmpty(response[VAR_RECORD_ID]);
+                            !isEmpty(response[recordId]);
 
                         loadRecordsAction
                             ? loadRecordsAction({
-                                  selectedRecordId: response[VAR_RECORD_ID],
+                                  selectedRecordId: response[recordId],
                                   status: isAttach ? "attach" : "save-any",
                               }).then(() => {
                                   pageStore.nextStepAction(mode, bc);
@@ -197,7 +202,7 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
                     }
                 }),
         )
-        .catch((error) => {
+        .catch((error: Error) => {
             logger(i18next.t("static:27a9d844da20453195f59f75185d7c99"), error);
 
             snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
@@ -205,7 +210,7 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
 
             return false;
         })
-        .then((res) => {
+        .then((res: boolean) => {
             setMask(bc.noglobalmask, pageStore, false);
 
             return res;

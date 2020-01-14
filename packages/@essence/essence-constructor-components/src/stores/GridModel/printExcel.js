@@ -11,7 +11,6 @@ import {
     META_PAGE_OBJECT,
     VAR_RECORD_CK_D_ENDPOINT,
     VAR_RECORD_CV_URL_RESPONSE,
-    VAR_RECORD_ID,
 } from "@essence/essence-constructor-share/constants";
 import {type RecordsModelType} from "../RecordsModel";
 import {getFilterData, setMask, attachGlobalStore} from "../RecordsModel/loadRecordsAction";

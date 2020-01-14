@@ -1,11 +1,7 @@
 // @flow
 import get from "lodash/get";
 import isString from "lodash/isString";
-import {
-    VAR_RECORD_ID,
-    VAR_RECORD_PARENT_ID,
-    VAR_RECORD_PAGE_OBJECT_ID,
-} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_PARENT_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
 import {type PageModelType} from "../PageModel";
 import {type WindowModelType} from "../WindowModel/WindowModelTypes";
 import {type BuilderModeType} from "../../BuilderType";
@@ -36,7 +32,9 @@ function getFirstSubGridValues(
                 gridStore.selectedRecords.forEach((value, key) => {
                     if (value) {
                         const checkedRecord =
-                            gridStore.recordsStore.records.find((record) => record[VAR_RECORD_ID] === key) || value;
+                            gridStore.recordsStore.records.find(
+                                (record) => record[gridStore.recordsStore.recordId] === key,
+                            ) || value;
 
                         values.push({
                             ...gridValues,
@@ -77,9 +75,10 @@ export function getGridValues({
     if (gridStore.bc.type === "TREEGRID" && mode === "1") {
         gridValues = {
             [VAR_RECORD_PARENT_ID]:
-                isString(selectedRecord[VAR_RECORD_ID]) && selectedRecord[VAR_RECORD_ID].indexOf("auto-") === 0
+                isString(selectedRecord[gridStore.recordsStore.recordId]) &&
+                selectedRecord[gridStore.recordsStore.recordId].indexOf("auto-") === 0
                     ? null
-                    : selectedRecord[VAR_RECORD_ID],
+                    : selectedRecord[gridStore.recordsStore.recordId],
             ...gridValues,
         };
     }

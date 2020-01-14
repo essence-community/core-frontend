@@ -26,6 +26,7 @@ import ProgressModel from "../ProgressModel/ProgressModel";
 
 export type ConfigType = {|
     actionBc: BuilderBaseType,
+    recordId: string,
     action?: "dml" | "upload",
     query?: string,
     cl_warning?: number,
@@ -89,6 +90,7 @@ export const attachGlobalValues = ({globalValues, getglobaltostore, values}: Att
 export function saveAction(values: Object | Array<Object> | FormData, mode: BuilderModeType, config: ConfigType) {
     const {
         actionBc,
+        recordId = VAR_RECORD_ID,
         action,
         [VAR_RECORD_CL_WARNING]: warningStatus = 0,
         query,
@@ -105,7 +107,8 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
     let main = null;
     let snackbarId = null;
     const getMasterValue = getmastervalue || bc.getmastervalue;
-    let master = undefined;
+    // eslint-disable-next-line init-declarations
+    let master;
 
     if (bc[VAR_RECORD_MASTER_ID]) {
         main =
@@ -130,7 +133,7 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
             globalValues: pageStore.globalValues,
             values: filter(values),
         });
-        modeCheck = isEmpty(filteredValues[VAR_RECORD_ID]) && /^\d+$/u.test(mode) ? "1" : mode;
+        modeCheck = isEmpty(filteredValues[recordId]) && /^\d+$/u.test(mode) ? "1" : mode;
     }
 
     setMask(bc.noglobalmask, pageStore, true);
@@ -174,6 +177,7 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
                                             formData: config.formData,
                                             pageStore: config.pageStore,
                                             query: config.query,
+                                            recordId,
                                         })
                                         .then(resolve);
                                 }
@@ -196,11 +200,11 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
                         const isAttach =
                             bc.refreshallrecords === "false" &&
                             (mode === "1" || mode === "2" || mode === "4") &&
-                            !isEmpty(response[VAR_RECORD_ID]);
+                            !isEmpty(response[recordId]);
 
                         loadRecordsAction
                             ? loadRecordsAction({
-                                  selectedRecordId: response[VAR_RECORD_ID],
+                                  selectedRecordId: response[recordId],
                                   status: isAttach ? "attach" : "save-any",
                               }).then(() => {
                                   pageStore.nextStepAction(mode, bc);

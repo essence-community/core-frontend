@@ -77,7 +77,7 @@ export class RecordsModel implements IRecordsModel {
 
     filter?: Record<string, FieldValue>[];
 
-    valueField: string = VAR_RECORD_ID;
+    valueField: string;
 
     parentStore: IStoreBaseModel | undefined;
 
@@ -87,12 +87,16 @@ export class RecordsModel implements IRecordsModel {
 
     route: IRouteRecord;
 
+    recordId: string;
+
     constructor(bc: IBuilderConfig, options?: IOptions) {
         this.bc = bc;
         this.pageSize = bc.pagesize ? parseInt(bc.pagesize, 10) : undefined;
+        this.recordId = bc.idproperty || VAR_RECORD_ID;
+        this.valueField = this.recordId;
 
         if (options) {
-            this.valueField = options.valueField || VAR_RECORD_ID;
+            this.valueField = options.valueField || this.recordId;
             this.parentStore = options.parentStore;
             this.noLoadChilds = options.noLoadChilds || false;
             this.pageStore = options.pageStore;
@@ -157,6 +161,7 @@ export class RecordsModel implements IRecordsModel {
                 applicationStore: this.applicationStore,
                 bc: this.bc,
                 isUserReload,
+                recordId: this.recordId,
                 selectedRecordId,
                 status,
             });
@@ -165,7 +170,7 @@ export class RecordsModel implements IRecordsModel {
 
     setSelectionAction = action(
         "setSelectionAction",
-        async (ckId?: FieldValue, key = VAR_RECORD_ID): Promise<number> => {
+        async (ckId?: FieldValue, key = this.recordId): Promise<number> => {
             const oldSelectedRecord = this.selectedRecord;
             const stringCkId = ckId === undefined ? "" : String(ckId);
 
@@ -256,25 +261,25 @@ export class RecordsModel implements IRecordsModel {
     setFirstRecord = action("setFirstRecord", () => {
         const newRecord = this.recordsState.records[0] || {};
 
-        this.setSelectionAction(newRecord[VAR_RECORD_ID]);
+        this.setSelectionAction(newRecord[this.recordId]);
     });
 
     setPrevRecord = action("setPrevRecord", () => {
         const newRecord = this.recordsState.records[this.selectedRecordIndex - 1] || {};
 
-        this.setSelectionAction(newRecord[VAR_RECORD_ID]);
+        this.setSelectionAction(newRecord[this.recordId]);
     });
 
     setNextRecord = action("setNextRecord", () => {
         const newRecord = this.recordsState.records[this.selectedRecordIndex + 1] || {};
 
-        this.setSelectionAction(newRecord[VAR_RECORD_ID]);
+        this.setSelectionAction(newRecord[this.recordId]);
     });
 
     setLastRecord = action("setLastRecord", () => {
         const newRecord = this.recordsState.records[this.recordsState.records.length - 1] || {};
 
-        this.setSelectionAction(newRecord[VAR_RECORD_ID]);
+        this.setSelectionAction(newRecord[this.recordId]);
     });
 
     setOrderAction = action("setOrderAction", (property: string) => {
@@ -386,6 +391,7 @@ export class RecordsModel implements IRecordsModel {
             saveAction.call(this, values, mode, {
                 bc: this.bc,
                 pageStore: this.pageStore,
+                recordId: this.recordId,
                 ...options,
             }),
     );

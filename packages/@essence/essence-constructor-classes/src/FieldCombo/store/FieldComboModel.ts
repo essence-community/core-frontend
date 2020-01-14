@@ -6,7 +6,6 @@ import {
     toString,
     debounce,
     FieldValue,
-    VAR_RECORD_ID,
     IRecord,
 } from "@essence/essence-constructor-share";
 import {VAR_RECORD_CL_IS_MASTER} from "@essence/essence-constructor-share/constants";
@@ -61,7 +60,7 @@ export class FieldComboModel extends StoreBaseModel {
         ) {
             suggestions = [
                 {
-                    [VAR_RECORD_ID]: -1,
+                    [this.recordsStore.recordId]: -1,
                     isNew: true,
                     label: this.inputValue,
                     labelLower: inputValueLower,
@@ -104,7 +103,7 @@ export class FieldComboModel extends StoreBaseModel {
 
     reloadStoreAction = (): Promise<object | undefined> => {
         if (!this.recordsStore.isLoading) {
-            const selectedRecordId = this.recordsStore.selectedRecrodValues[VAR_RECORD_ID];
+            const selectedRecordId = this.recordsStore.selectedRecrodValues[this.recordsStore.recordId];
 
             return this.recordsStore.loadRecordsAction({
                 selectedRecordId:
@@ -233,8 +232,13 @@ export class FieldComboModel extends StoreBaseModel {
     };
 
     handleSetSuggestionValue = (suggestion: ISuggestion, isUserSearch: boolean): boolean => {
-        if (this.recordsStore.selectedRecrodValues[VAR_RECORD_ID] !== suggestion[VAR_RECORD_ID]) {
-            this.recordsStore.setSelectionAction(suggestion[VAR_RECORD_ID]);
+        if (
+            this.recordsStore.selectedRecrodValues[this.recordsStore.recordId] !==
+            suggestion[this.recordsStore.recordId]
+        ) {
+            const rec: any = suggestion[this.recordsStore.recordId];
+
+            this.recordsStore.setSelectionAction(rec, this.recordsStore.recordId);
         }
 
         if (!isUserSearch) {
@@ -293,7 +297,7 @@ export class FieldComboModel extends StoreBaseModel {
         const label = toString(record[this.displayfield]);
 
         return {
-            [VAR_RECORD_ID]: record[VAR_RECORD_ID],
+            [this.recordsStore.recordId]: record[this.recordsStore.recordId],
             label,
             labelLower: label.toLowerCase(),
             value: toString(record[this.valuefield]),
@@ -304,7 +308,7 @@ export class FieldComboModel extends StoreBaseModel {
         const label = i18next.t(toString(record[this.displayfield]), {ns: this.bc.localization});
 
         return {
-            [VAR_RECORD_ID]: record[VAR_RECORD_ID],
+            [this.recordsStore.recordId]: record[this.recordsStore.recordId],
             label,
             labelLower: label.toLowerCase(),
             value: toString(record[this.valuefield]),

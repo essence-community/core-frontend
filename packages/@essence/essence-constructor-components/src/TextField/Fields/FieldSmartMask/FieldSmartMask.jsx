@@ -76,8 +76,8 @@ class FieldSmartMask extends React.Component<PropsType, StateType> {
                     }
 
                     const recordId = form.$(this.valueColumnName).get("value");
-                    const indentityDoctTypeRecord = indentityDocTypeRecordsStore.records.find((recod) =>
-                        isEqualStr(recod[VAR_RECORD_ID], recordId),
+                    const indentityDoctTypeRecord = indentityDocTypeRecordsStore.records.find((record) =>
+                        isEqualStr(record[indentityDoctTypeRecord.recordId || VAR_RECORD_ID], recordId),
                     );
 
                     return indentityDoctTypeRecord;
@@ -108,7 +108,7 @@ class FieldSmartMask extends React.Component<PropsType, StateType> {
         const {field} = this.props;
         const imask = indentityDoctTypeRecord[this.maskColumnName];
         const imaskDesc = indentityDoctTypeRecord[`${this.maskColumnName}Desc`];
-        const identityId = indentityDoctTypeRecord[VAR_RECORD_ID];
+        const identityId = indentityDoctTypeRecord[indentityDoctTypeRecord.recordId || VAR_RECORD_ID];
         const regex = getRegexFromImask(imask || "");
 
         this.setState({

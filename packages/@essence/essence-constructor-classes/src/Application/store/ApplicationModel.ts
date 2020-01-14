@@ -16,6 +16,7 @@ import {
     IRecord,
 } from "@essence/essence-constructor-share";
 import {
+    VAR_RECORD_ID,
     VAR_RECORD_URL,
     VAR_SETTING_PROJECT_APPLICATION_PAGE,
     VAR_LANG_ID,
@@ -92,6 +93,8 @@ export class ApplicationModel implements IApplicationModel {
     pageStore: IPageModel;
 
     mode: string;
+
+    recordId: string = VAR_RECORD_ID;
 
     @computed get bc(): IBuilderConfig {
         const {children} = this.recordsStore.selectedRecrodValues;

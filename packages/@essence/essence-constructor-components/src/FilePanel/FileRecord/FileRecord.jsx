@@ -64,9 +64,9 @@ export class FileRecordBase extends React.PureComponent<PropsType & WithT> {
             labelString += ` №${record[VAR_RECORD_CV_NUMBER]}`;
         }
         if (record[VAR_RECORD_CD_DATE]) {
-            labelString += ` ${t("static:1f560294a2a446c4a23fb3f9d7f94dc6")} ${moment(record[VAR_RECORD_CD_DATE]).format(
-                "DD.MM.YYYY",
-            )}`;
+            labelString += ` ${t("static:1f560294a2a446c4a23fb3f9d7f94dc6")} ${moment(
+                record[VAR_RECORD_CD_DATE],
+            ).format("DD.MM.YYYY")}`;
         }
 
         return <span className={classes.lableRoot}>{t(labelString)}</span>;

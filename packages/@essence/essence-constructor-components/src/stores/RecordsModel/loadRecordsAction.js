@@ -48,7 +48,7 @@ type AttachGlobalStore = {
 type LoadRecordsActionType = {
     bc: $PropertyType<RecordsModelType, "bc">,
     applicationStore: Object,
-    recordId?: any,
+    recordId: string,
     selectedRecordId?: CkIdType,
     isUserReload?: boolean,
     status: RecordsStateStatusType,
@@ -102,10 +102,10 @@ export function checkPageNumber(recordsStore: RecordsModelInstanceType, master: 
     }
 }
 
-export const getAttachedRecords = (records: Array<Object>, newRecord?: Object) => {
+export const getAttachedRecords = (records: Array<Object>, newRecord?: Object, recordId: string = VAR_RECORD_ID) => {
     if (newRecord) {
         const firstRecord = records[0] || {};
-        const recordIndex = records.findIndex((rec) => rec[VAR_RECORD_ID] === newRecord[VAR_RECORD_ID]);
+        const recordIndex = records.findIndex((rec) => rec[recordId] === newRecord[recordId]);
         const record = {...newRecord, [VAR_RECORD_JN_TOTAL_CNT]: firstRecord[VAR_RECORD_JN_TOTAL_CNT]};
 
         if (recordIndex === -1) {
@@ -120,7 +120,7 @@ export const getAttachedRecords = (records: Array<Object>, newRecord?: Object) =
 
 export function prepareRequst(
     recordsStore: RecordsModelInstanceType,
-    {bc, status, selectedRecordId}: LoadRecordsActionType,
+    {bc, status, selectedRecordId, recordId = VAR_RECORD_ID}: LoadRecordsActionType,
 ) {
     const {getmastervalue, noglobalmask} = bc;
     const globalValues = get(recordsStore.pageStore, "globalValues");
@@ -132,7 +132,7 @@ export function prepareRequst(
                   order: recordsStore.order,
                   pageNumber: 0,
                   pageSize: 1,
-                  searchValues: {[VAR_RECORD_ID]: selectedRecordId},
+                  searchValues: {[recordId]: selectedRecordId},
               }
             : {
                   filter: recordsStore.filter,
@@ -166,6 +166,7 @@ function loadRecordsResolve(noglobalmask: string) {
 // eslint-disable-next-line max-lines-per-function
 export function loadRecordsAction({
     bc,
+    recordId = VAR_RECORD_ID,
     applicationStore,
     selectedRecordId,
     status,
@@ -196,7 +197,7 @@ export function loadRecordsAction({
             );
         })
         .then(() => {
-            const {json} = prepareRequst(this, {applicationStore, bc, selectedRecordId, status});
+            const {json} = prepareRequst(this, {applicationStore, bc, recordId, selectedRecordId, status});
 
             if (reloadservice === "true" && this.prevFetchJson && isEqual(this.prevFetchJson, json)) {
                 return resolve(noglobalmask);
@@ -223,8 +224,8 @@ export function loadRecordsAction({
                 )
             ) {
                 const records = (response || []).map((record) => {
-                    if (!record[VAR_RECORD_ID] && isEmpty(record[VAR_RECORD_ID])) {
-                        record[VAR_RECORD_ID] = `auto-${uuidv4()}`;
+                    if (!record[recordId] && isEmpty(record[recordId])) {
+                        record[recordId] = `auto-${uuidv4()}`;
                     }
 
                     return record;
@@ -251,38 +252,41 @@ export function loadRecordsAction({
             return [];
         })
         .then((records) => {
-            const valueField = status === "attach" ? VAR_RECORD_ID : this.valueField;
+            const valueField = status === "attach" ? recordId : this.valueField;
             let isDefault = false;
-            let recordId = null;
+            let recId = null;
 
             switch (true) {
                 case defaultvalue === VALUE_SELF_ALWAYSFIRST:
                     isDefault = true;
-                    recordId = records[0] ? records[0][valueField] : null;
+                    recId = records[0] ? records[0][valueField] : null;
                     break;
                 case !isUndefined(selectedRecordId):
-                    recordId = selectedRecordId;
+                    recId = selectedRecordId;
                     break;
                 case !isUndefined(this.selectedRecordId):
-                    recordId = this.selectedRecordId;
+                    recId = this.selectedRecordId;
                     break;
                 case defaultvalue === VALUE_SELF_FIRST:
                     isDefault = true;
-                    recordId = records[0] ? records[0][valueField] : null;
+                    recId = records[0] ? records[0][valueField] : null;
                     break;
                 default:
-                    recordId = null;
+                    recId = null;
             }
 
             this.recordsState = {
-                defaultValueSet: isDefault && !isEmpty(recordId) ? defaultvalue : undefined,
+                defaultValueSet: isDefault && !isEmpty(recId) ? defaultvalue : undefined,
                 isUserReload,
-                records: status === "attach" ? getAttachedRecords(this.recordsState.records, records[0]) : records,
+                records:
+                    status === "attach"
+                        ? getAttachedRecords(this.recordsState.records, records[0], valueField)
+                        : records,
                 status,
             };
             this.recordsAll = this.recordsState.records;
 
-            return this.setSelectionAction(recordId, valueField);
+            return this.setSelectionAction(recId, valueField);
         })
         .then(() => resolve(noglobalmask));
 }

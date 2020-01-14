@@ -156,7 +156,9 @@ export class PageModel implements PageModelInterface {
                             hiddenTimeout: 0,
                             status: "debug",
                             text: renderGlobalValuelsInfo(globalValues),
-                            title: `${i18next.t("static:dcfb61366b054c6e95ae83593cfb9cd9")}: ${i18next.t(pageId || "")}`,
+                            title: `${i18next.t("static:dcfb61366b054c6e95ae83593cfb9cd9")}: ${i18next.t(
+                                pageId || "",
+                            )}`,
                         },
                         this.route,
                     ),

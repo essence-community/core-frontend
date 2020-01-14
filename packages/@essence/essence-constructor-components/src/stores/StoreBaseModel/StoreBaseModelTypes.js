@@ -32,6 +32,7 @@ export interface StoreBaseModelInterface {
     // TODO: разкоментить constructor(props: StoreBaseModelPropsType): void;
     +reloadStoreAction: (checkParent?: boolean) => void;
     +clearStoreAction: () => void;
+    +recordId: string;
 }
 
 export type StoreBaseModelType = StoreBaseModelInterface;

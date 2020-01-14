@@ -2,7 +2,7 @@ import {isString} from "lodash";
 // eslint-disable-next-line import/named
 import {autorun, IReactionDisposer} from "mobx";
 import * as React from "react";
-import {VAR_RECORD_ID, VAR_RECORD_MASTER_ID} from "../constants";
+import {VAR_RECORD_MASTER_ID} from "../constants";
 import {IClassProps} from "../types/Class";
 import {RowRecord} from "../types/StoreBaseModel";
 import {isEmpty} from "../utils/base";
@@ -161,26 +161,30 @@ export function commonDecorator<Props extends ICommonHOCProps>(
             if (reqsel === "true" && masterId) {
                 const masterStore = pageStore.stores.get(masterId);
 
-                if (masterStore && masterStore.bc && masterStore.bc.collectionvalues === "array" && type === "IFIELD") {
-                    return masterStore.selectedEntries && masterStore.selectedEntries.length === 0;
-                }
+                if (masterStore) {
+                    if (masterStore.bc && masterStore.bc.collectionvalues === "array" && type === "IFIELD") {
+                        return masterStore.selectedEntries && masterStore.selectedEntries.length === 0;
+                    }
 
-                if (masterStore && typeof masterStore.selectedRecord !== "undefined") {
-                    return (
-                        !masterStore.selectedRecord ||
-                        (isString(masterStore.selectedRecord[VAR_RECORD_ID]) &&
-                            // @ts-ignore
-                            masterStore.selectedRecord[VAR_RECORD_ID].indexOf("auto-") === 0)
-                    );
-                }
+                    if (typeof masterStore.selectedRecord !== "undefined") {
+                        return (
+                            !masterStore.selectedRecord ||
+                            (isString(masterStore.selectedRecord[masterStore.recordId]) &&
+                                // @ts-ignore
+                                masterStore.selectedRecord[masterStore.recordId].indexOf("auto-") === 0)
+                        );
+                    }
 
-                if (masterStore && masterStore.recordsStore) {
-                    return (
-                        !masterStore.recordsStore.selectedRecord ||
-                        (isString(masterStore.recordsStore.selectedRecord[VAR_RECORD_ID]) &&
-                            // @ts-ignore
-                            masterStore.recordsStore.selectedRecord[VAR_RECORD_ID].indexOf("auto-") === 0)
-                    );
+                    if (masterStore.recordsStore) {
+                        return (
+                            !masterStore.recordsStore.selectedRecord ||
+                            (isString(masterStore.recordsStore.selectedRecord[masterStore.recordsStore.recordId]) &&
+                                // @ts-ignore
+                                masterStore.recordsStore.selectedRecord[masterStore.recordsStore.recordId].indexOf(
+                                    "auto-",
+                                ) === 0)
+                        );
+                    }
                 }
             }
 

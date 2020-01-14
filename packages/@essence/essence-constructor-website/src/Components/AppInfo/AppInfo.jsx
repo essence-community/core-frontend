@@ -64,7 +64,9 @@ class AppInfo extends React.Component<PropsType, StateType> {
                     onClose={this.handleClose}
                     style={{position: "absolute"}}
                 >
-                    <DialogTitle disableTypography>{this.props.t("static:6cf398ee03df42529323bd4ff9f584d5")}</DialogTitle>
+                    <DialogTitle disableTypography>
+                        {this.props.t("static:6cf398ee03df42529323bd4ff9f584d5")}
+                    </DialogTitle>
                     <DialogContent>
                         <Typography variant="title" paragraph className={classes.title}>
                             {applicationStore.settingsStore.settings[VAR_SETTING_PROJECT_ABOUT_BOX_TITLE]}

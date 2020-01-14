@@ -12,12 +12,20 @@ import {
 import {request} from "../../request";
 import {setModule} from "../../components";
 import {snackbarStore} from "../SnackbarModel";
+import { loadFiles } from "../../utils/browser";
 
 export class ModulesModel {
     isLoaded = false;
 
-    loadModules = (moduleUrl: string) =>
-        request({
+    loadModules = async (moduleUrl: string) => {
+        // @ts-ignore
+        const {preference} = window;
+
+        if (preference.modules) {
+            await loadFiles(preference.modules.split(","), true);
+        }
+
+        return request({
             json: {
                 filter: {
                     [VAR_RECORD_CL_AVAILABLE]: 1,
@@ -59,4 +67,5 @@ export class ModulesModel {
             .then(() => {
                 this.isLoaded = true;
             });
+    }
 }

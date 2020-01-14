@@ -1,5 +1,5 @@
 {
-  "name": "@essence/essence-constructor-website",
+  "name": "@essence-community/constructor-website",
   "version": "2.0.1",
   "private": true,
   "scripts": {
@@ -12,9 +12,9 @@
   },
   "dependencies": {
     "@babel/core": "7.7.5",
-    "@essence/essence-constructor-classes": "2.0.1",
-    "@essence/essence-constructor-components": "2.0.1",
-    "@essence/essence-constructor-share": "file:../essence-constructor-share/lib",
+    "@essence-community/constructor-classes": "2.0.1",
+    "@essence-community/constructor-components": "2.0.1",
+    "@essence-community/constructor-share": "file:../essence-constructor-share/lib",
     "@material-ui/core": "^4.7.2",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "^4.2.4",

@@ -258,8 +258,12 @@ export class ApplicationModel implements ApplicationModelType {
         }
     });
 
-    loadModules = (moduleUrl: string) =>
-        sendRequest({
+    loadModules = async (moduleUrl: string) => {
+        if (preference.modules) {
+            await loadFiles(preference.modules.split(","), true);
+        }
+
+        return sendRequest({
             json: {
                 filter: {
                     [VAR_RECORD_CL_AVAILABLE]: 1,
@@ -298,12 +302,9 @@ export class ApplicationModel implements ApplicationModelType {
                     {[VAR_RECORD_NAME]: "static:02f274362cf847cba8d806687d237698"},
                 );
             });
+    };
 
     loadApplicationAction = action("loadApplicationAction", () => {
-        if (preference.modules) {
-            loadFiles(preference.modules.split(","), true);
-        }
-
         return Promise.all([
             this.settingsStore.settings[VAR_SETTING_MODULE_AVAILABLE] === "true"
                 ? this.loadModules(this.settingsStore.settings[VAR_SETTING_MODULE_URL])

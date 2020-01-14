@@ -1,10 +1,10 @@
 {
-  "name": "@essence/essence-constructor-package-builder",
+  "name": "@essence-community/constructor-package-builder",
   "version": "2.0.1",
   "description": "Builder lib for package",
   "main": "index.js",
-  "repository": "https://github.com/essence-community/core",
-  "author": "Oleh Kucenko",
+  "repository": "https://github.com/essence-community/core-frontend",
+  "author": "Oleh Kutsenko",
   "license": "MIT",
   "private": true,
   "bin": {

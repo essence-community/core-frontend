@@ -223,7 +223,7 @@ module.exports = {
             }),
         !isEnvProduction &&
             new CopyWebpackPlugin([
-                {from: path.join(__dirname, "..", "..", "essence-constructor-dll", "dist", "assets"), to: "static/"},
+                {from: path.join(__dirname, "..", "..", "constructor-dll", "dist", "assets"), to: "static/"},
             ]),
         !isEnvProduction &&
             new HtmlWebpackIncludeAssetsPlugin({
@@ -231,14 +231,14 @@ module.exports = {
                     {
                         path: "static",
                         glob: "*.js",
-                        globPath: path.join(__dirname, "..", "..", "essence-constructor-dll", "dist", "assets"),
+                        globPath: path.join(__dirname, "..", "..", "constructor-dll", "dist", "assets"),
                     },
                 ],
                 append: false,
             }),
         new webpack.DllReferencePlugin({
             context: resolveApp(""),
-            manifest: require("../../essence-constructor-dll/dist/manifest.json"),
+            manifest: require("../../constructor-dll/dist/manifest.json"),
             name: "essenceconstructorshare",
         }),
         !isEnvProduction && new webpack.HotModuleReplacementPlugin(),

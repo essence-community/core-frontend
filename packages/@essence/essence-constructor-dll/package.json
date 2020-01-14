@@ -1,12 +1,12 @@
 {
-  "name": "@essence/essence-constructor-dll",
+  "name": "@essence-community/constructor-dll",
   "version": "2.0.1",
   "description": "Dll vendor",
   "main": "index.js",
-  "repository": "https://github.com/essence-community/core",
-  "author": "Oleh Kucenko",
+  "repository": "https://github.com/essence-community/core-frontend",
+  "author": "Oleh Kutsenko",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "scripts": {
     "build": "node scripts/build",
     "build:dev": "node scripts/builddev"
@@ -15,7 +15,7 @@
     "constructor-dll-build": "./scripts/build.js"
   },
   "dependencies": {
-    "@essence/essence-constructor-share": "file:../essence-constructor-share/lib",
+    "@essence-community/constructor-share": "^2.0.1",
     "@material-ui/core": "^4.7.2",
     "@material-ui/styles": "^4.7.1",
     "babel-loader": "^8.0.6",

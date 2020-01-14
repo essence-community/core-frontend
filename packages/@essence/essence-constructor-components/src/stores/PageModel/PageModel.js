@@ -156,7 +156,9 @@ export class PageModel implements PageModelInterface {
                             hiddenTimeout: 0,
                             status: "debug",
                             text: renderGlobalValuelsInfo(globalValues),
-                            title: `${i18next.t("static:dcfb61366b054c6e95ae83593cfb9cd9")}: ${i18next.t(pageId || "")}`,
+                            title: `${i18next.t("static:dcfb61366b054c6e95ae83593cfb9cd9")}: ${i18next.t(
+                                pageId || "",
+                            )}`,
                         },
                         this.route,
                     ),
@@ -296,7 +298,7 @@ export class PageModel implements PageModelInterface {
                     const pageBc = (response.length && response[0].children) || [];
                     const classNames = findClassNames(pageBc);
 
-                    loadComponentsFromModules(classNames).then(() => {
+                    return loadComponentsFromModules(classNames).then(() => {
                         this.pageBc = pageBc;
 
                         if (response.length && response[0]) {
@@ -304,16 +306,16 @@ export class PageModel implements PageModelInterface {
                         }
                     });
                 }
+
+                return undefined;
             })
 
             .catch((error) => {
                 snackbarStore.checkExceptResponse(error, this.route, this.applicationStore);
                 this.pageBc = [];
             })
-            .then((res) => {
+            .then(() => {
                 this.setLoadingAction(false);
-
-                return res;
             });
     });
 

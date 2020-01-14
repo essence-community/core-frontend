@@ -131,16 +131,26 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
     handleClick = () => {
         const {bc, pageStore, form} = this.props;
         const {
+            [VAR_RECORD_MASTER_ID]: ckMaster,
             [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
             columnsfilter,
             extraplugingate,
+            getmastervalue,
             redirecturl,
             redirectusequery,
         } = bc;
 
         if (redirecturl || redirectusequery) {
             makeRedirect(
-                {ckPageObject, columnsfilter, extraplugingate, redirecturl, redirectusequery},
+                {
+                    [VAR_RECORD_MASTER_ID]: ckMaster,
+                    [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
+                    columnsfilter,
+                    extraplugingate,
+                    getmastervalue,
+                    redirecturl,
+                    redirectusequery,
+                },
                 pageStore,
                 form.values(),
             );

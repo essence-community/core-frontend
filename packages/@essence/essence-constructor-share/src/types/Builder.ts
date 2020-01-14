@@ -100,6 +100,8 @@ export interface IBuilderBaseConfig {
     getgloballist?: string;
     // Список глобальных переменных(через запятую), передаваемых в filter сервиса на объекте.  Пример: Если указать gck_mo, то положит в json.filter.gck_mo Если указать gck_mo=ck_mo, то положит в json.filter.ck_mo
     getglobaltostore?: string;
+    // Данные получаемые из мастера
+    getmastervalue?: string;
     // Обработчик в ExtJS onCreateChildWindowMaster - для вызова окна при создании onRowCreateChildWindowMaster - для вызова окна при редактировании onSimpleSaveWindow - сохранение данных по кнопке для модального окна onCloseWindow - закрытие модального окна onCloseWindowSilent - закрытие модального окна без сообщения onPrintHandleOnline - Онлайн печать onPrintHandleOffline - Отложенная печать
     handler?: string;
     // Статическая высота в пикселях (px)

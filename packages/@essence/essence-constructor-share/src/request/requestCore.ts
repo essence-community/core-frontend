@@ -7,11 +7,13 @@ import {
     VAR_RECORD_CV_ACTION,
     META_PAGE_OBJECT,
 } from "../constants";
+import {FieldValue} from "../types/Field";
 import {request} from "./request";
 
 interface IRequestConfig {
     action?: string;
     mode: IBuilderMode;
+    master?: Record<string, FieldValue>;
     ck_page: string;
     ck_page_object: string;
     ck_main?: null | string;
@@ -37,6 +39,7 @@ export function requestCore(
     values: object | object[],
     {
         mode,
+        master,
         [VAR_RECORD_ROUTE_PAGE_ID]: pageId,
         [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
         [VAR_RECORD_CL_WARNING]: warningStatus = 0,
@@ -55,6 +58,7 @@ export function requestCore(
         formData,
         json: {
             data: values,
+            master,
             service: {
                 [VAR_RECORD_CK_MAIN]: main,
                 [VAR_RECORD_CL_WARNING]: warningStatus,

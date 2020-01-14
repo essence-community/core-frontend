@@ -5,7 +5,7 @@ import isArray from "lodash/isArray";
 import noop from "lodash/noop";
 import {toJS, type ObservableMap} from "mobx";
 import {snackbarStore} from "@essence-community/constructor-share/models";
-import {i18next} from "@essence-community/constructor-share/utils";
+import {i18next, getMasterObject} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_MASTER_ID,
@@ -98,17 +98,21 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
         noReload,
         filesNames,
     } = config;
-    const {extraplugingate, getglobaltostore, timeout} = actionBc;
+    const {extraplugingate, getglobaltostore, getmastervalue, timeout} = actionBc;
     let modeCheck = mode;
     let onUploadProgress = noop;
     let filteredValues = null;
     let main = null;
     let snackbarId = null;
+    const getMasterValue = getmastervalue || bc.getmastervalue;
+    // eslint-disable-next-line init-declarations
+    let master;
 
     if (bc[VAR_RECORD_MASTER_ID]) {
         main =
             get(pageStore.stores.get(bc[VAR_RECORD_MASTER_ID]), `selectedRecord.${VAR_RECORD_ID}`) ||
             pageStore.fieldValueMaster.get(bc[VAR_RECORD_MASTER_ID]);
+        master = getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, getMasterValue);
     }
 
     if (formData) {
@@ -139,6 +143,7 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
         [VAR_RECORD_ROUTE_PAGE_ID]: pageStore.pageId,
         action,
         formData,
+        master,
         mode: modeCheck,
         onUploadProgress,
         plugin: extraplugingate || bc.extraplugingate,

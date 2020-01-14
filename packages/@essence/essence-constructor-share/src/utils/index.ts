@@ -16,5 +16,6 @@ export {findGetGlobalKey, findSetKey} from "./findKey";
 export {findColumns} from "./findColumns";
 export {findClassNames} from "./findClassNames";
 export * from "./getTextWidth";
+export {getMasterObject} from "./getMasterObject";
 
 export {animate};

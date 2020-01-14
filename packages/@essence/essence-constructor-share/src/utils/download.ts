@@ -4,6 +4,7 @@ import {request} from "../request";
 import {IPageModel} from "../types/PageModel";
 import {ISnackbarModel} from "../types/SnackbarModel";
 import {FieldValue, IRecord, IResponse, IApplicationModel} from "../types";
+import {VAR_RECORD_MASTER_ID} from "../constants/variables";
 import {
     VAR_RECORD_URL,
     VAR_RECORD_ID,
@@ -15,6 +16,7 @@ import {
     META_PAGE_OBJECT,
     VAR_RECORD_CK_D_ENDPOINT,
 } from "../constants";
+import {getMasterObject} from "./getMasterObject";
 
 interface IPrintBC {
     ck_parent: string;
@@ -23,6 +25,8 @@ interface IPrintBC {
     update_query?: string;
     extraplugingate?: string;
     noglobalmask?: string;
+    getmastervalue?: string;
+    [VAR_RECORD_MASTER_ID]: string | undefined;
 }
 
 interface IReloadPageObject {
@@ -59,6 +63,8 @@ export const print = async ({
 }: IPrint) => {
     values[VAR_RECORD_ID] = null;
     values[VAR_RECORD_CL_ONLINE] = Number(isOnline);
+    const getMasterValue = bcBtn.getmastervalue || bc.getmastervalue;
+
     setMask(true, bcBtn.noglobalmask, pageStore);
     const result: any = await request({
         [META_PAGE_OBJECT]: bc[VAR_RECORD_PARENT_ID],
@@ -66,6 +72,7 @@ export const print = async ({
         gate: bc[VAR_RECORD_CK_D_ENDPOINT],
         json: {
             data: values,
+            master: getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, getMasterValue),
             reloadpageobject: reloadPageObject,
             service: {
                 [VAR_RECORD_CV_ACTION]: "I",

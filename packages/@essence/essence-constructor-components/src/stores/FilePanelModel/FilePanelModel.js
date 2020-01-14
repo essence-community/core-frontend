@@ -61,7 +61,7 @@ export class FilePanelModel extends StoreBaseModel implements FilePanelModelType
                     },
                 ],
                 orderdirection: "asc",
-                orderproperty: "ck_id",
+                orderproperty: VAR_RECORD_ID,
                 type: "GRID",
             },
             pageStore: this.pageStore,

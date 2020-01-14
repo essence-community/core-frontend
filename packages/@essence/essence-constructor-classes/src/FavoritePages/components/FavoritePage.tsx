@@ -1,12 +1,12 @@
 import * as React from "react";
 import {Grid, Typography} from "@material-ui/core";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {useTranslation} from "@essence/essence-constructor-share/utils";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {useTranslation} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_ROUTE_NAME,
     VAR_RECORD_ICON_NAME,
-} from "@essence/essence-constructor-share/constants/variables";
+} from "@essence-community/constructor-share/constants/variables";
 import {IFavoritePageProps} from "./FavoritePage.types";
 import {useStyles} from "./FavoritePage.styles";
 

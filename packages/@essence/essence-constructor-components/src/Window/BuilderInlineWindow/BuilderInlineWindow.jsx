@@ -3,7 +3,7 @@ import * as React from "react";
 import {createPortal} from "react-dom";
 import {compose} from "recompose";
 import {observer} from "mobx-react";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import BuilderForm from "../../Form/BuilderForm";
 import {type WindowModelType} from "../../stores/WindowModel";
 import {type PageModelType} from "../../stores/PageModel";

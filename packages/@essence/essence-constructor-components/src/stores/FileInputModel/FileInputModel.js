@@ -4,8 +4,8 @@
  */
 import {action, extendObservable} from "mobx";
 import mime from "mime";
-import {fileTypeValidate, fileSizeValidate, i18next} from "@essence/essence-constructor-share/utils";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
+import {fileTypeValidate, fileSizeValidate, i18next} from "@essence-community/constructor-share/utils";
+import {snackbarStore} from "@essence-community/constructor-share/models";
 import {type ButtonConfigType} from "../ButtonModel";
 import {StoreBaseModel} from "../StoreBaseModel";
 import {

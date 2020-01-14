@@ -2,8 +2,8 @@
 import * as React from "react";
 import {Table, TableBody} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {EditorContex} from "@essence/essence-constructor-share/context";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {EditorContex} from "@essence-community/constructor-share/context";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type WindowModelType} from "../../stores/WindowModel";
 import {type PageModelType} from "../../stores/PageModel";
 import {GridModel} from "../../stores/GridModel";

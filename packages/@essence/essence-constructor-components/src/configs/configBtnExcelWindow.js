@@ -7,7 +7,7 @@ import {
     VAR_RECORD_CV_DESCRIPTION,
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_NAME,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {type GridModelType} from "../stores/GridModel";
 
 type ConfigBtnExcelWindowType = {

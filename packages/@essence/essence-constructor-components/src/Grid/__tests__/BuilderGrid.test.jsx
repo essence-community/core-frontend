@@ -9,7 +9,7 @@ import {
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_NAME,
     VAR_RECORD_CV_DESCRIPTION,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import gridMock from "../../../mocks/grid/grid";
 import {createEmptyPageStore} from "../../stores";
 import {mountWithTheme} from "../../utils/test";

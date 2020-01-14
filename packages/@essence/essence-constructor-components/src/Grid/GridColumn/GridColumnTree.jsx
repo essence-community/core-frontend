@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
-import {VAR_RECORD_LEAF} from "@essence/essence-constructor-share/constants";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {VAR_RECORD_LEAF} from "@essence-community/constructor-share/constants";
 import GridColumnDetailSchevron from "./GridColumnDetailSchevron/GridColumnDetailSchevron";
 import GridColumnTreeIcons from "./GridColumnTreeIcons";
 import {type GridColumnPropsType} from "./GridColumnTypes";

@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import {Typography} from "@material-ui/core";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
 
 type PropsType = WithT & {
     text?: string,

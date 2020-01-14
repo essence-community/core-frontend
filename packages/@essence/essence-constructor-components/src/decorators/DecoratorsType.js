@@ -1,5 +1,5 @@
 // @flow
-import {WithT} from "@essence/essence-constructor-share/utils";
+import {WithT} from "@essence-community/constructor-share/utils";
 import {type PageModelType} from "../stores/PageModel";
 import {type BuilderFieldType} from "../TextField/BuilderFieldType";
 

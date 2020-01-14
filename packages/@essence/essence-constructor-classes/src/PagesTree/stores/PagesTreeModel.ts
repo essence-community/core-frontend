@@ -1,7 +1,7 @@
-import {IRecordsModel, IStoreBaseModelProps} from "@essence/essence-constructor-share";
-import {StoreBaseModel} from "@essence/essence-constructor-share/models";
+import {IRecordsModel, IStoreBaseModelProps} from "@essence-community/constructor-share";
+import {StoreBaseModel} from "@essence-community/constructor-share/models";
 import {action, observable, ObservableMap} from "mobx";
-import {RecordsModel} from "@essence/essence-constructor-share/models/RecordsModel";
+import {RecordsModel} from "@essence-community/constructor-share/models/RecordsModel";
 
 export class PagesTreeModel extends StoreBaseModel {
     expansionRecords: ObservableMap<string, boolean> = observable.map();

@@ -1,6 +1,6 @@
-import {commonDecorator} from "@essence/essence-constructor-share/decorators";
-import {VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants/variables";
-import {useTranslation} from "@essence/essence-constructor-share/utils";
+import {commonDecorator} from "@essence-community/constructor-share/decorators";
+import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants/variables";
+import {useTranslation} from "@essence-community/constructor-share/utils";
 import {Tab, Typography} from "@material-ui/core";
 import clsx from "clsx";
 import {useObserver} from "mobx-react-lite";

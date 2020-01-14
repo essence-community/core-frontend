@@ -4,8 +4,8 @@ import {
     mapComponents,
     toColumnStyleWidth,
     toSize,
-} from "@essence/essence-constructor-share";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants/variables";
+} from "@essence-community/constructor-share";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
 import {AppBar as MaterialAppBar, Grid} from "@material-ui/core";
 import * as React from "react";
 import {useStyles} from "./AppBar.styles";

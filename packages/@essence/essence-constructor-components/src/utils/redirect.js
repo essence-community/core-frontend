@@ -1,7 +1,7 @@
 // @flow
 import {type ObservableMap} from "mobx";
-import {parseMemoize} from "@essence/essence-constructor-share/utils";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
+import {parseMemoize} from "@essence-community/constructor-share/utils";
+import {snackbarStore} from "@essence-community/constructor-share/models";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -9,7 +9,7 @@ import {
     VAR_RECORD_URL,
     META_PAGE_OBJECT,
     VAR_RECORD_CK_D_ENDPOINT,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import forOwn from "lodash/forOwn";
 import qs from "qs";
 import {type PageModelType} from "../stores/PageModel";

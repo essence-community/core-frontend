@@ -1,13 +1,13 @@
 // @flow
 import {action} from "mobx";
-import {isEmpty, PageModel, sendRequest} from "@essence/essence-constructor-components";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
+import {isEmpty, PageModel, sendRequest} from "@essence-community/constructor-components";
+import {snackbarStore} from "@essence-community/constructor-share/models";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_CD_PERIOD,
     VAR_RECORD_CK_DEPT,
     VAR_RECORD_CV_TIMEZONE,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import type {AuthModelType} from "./AuthModel";
 import type {ApplicationModelType} from "./ApplicationModel";
 

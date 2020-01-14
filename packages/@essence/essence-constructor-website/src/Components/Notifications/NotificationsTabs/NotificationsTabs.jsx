@@ -2,7 +2,7 @@
 import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
 import {Grid} from "@material-ui/core";
-import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {WithT, withTranslation} from "@essence-community/constructor-share/utils";
 import {type ApplicationModelType} from "../../../Stores/ApplicationModel";
 import styles from "./NotificationsTabsStyles";
 import NotificationsTab from "./NotificationsTab";

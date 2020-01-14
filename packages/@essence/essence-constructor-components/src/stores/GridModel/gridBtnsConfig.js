@@ -6,7 +6,7 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_CN_ORDER,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {mergeComponents} from "../../utils/builder";
 import {styleTheme} from "../../constants";
 import {type GridBuilderType, type GridModelType, type GridBtnsConfigType} from "./GridModelType";

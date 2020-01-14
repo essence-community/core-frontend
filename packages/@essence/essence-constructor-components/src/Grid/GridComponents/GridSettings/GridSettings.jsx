@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import {Dialog, DialogTitle, Grid, DialogContent, Switch, DialogActions, Button} from "@material-ui/core";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import noop from "lodash/noop";
 import BuilderMobxButton from "../../../Button/BuilderMobxButton";
 import {type PageModelType} from "../../../stores/PageModel";

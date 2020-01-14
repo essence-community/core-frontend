@@ -1,4 +1,4 @@
-import {getFromStore} from "@essence/essence-constructor-share/utils";
+import {getFromStore} from "@essence-community/constructor-share/utils";
 
 export const styleTheme = getFromStore("theme", "light");
 export const COMMIT_ID = process.env.REACT_APP_COMMIT_ID || "";

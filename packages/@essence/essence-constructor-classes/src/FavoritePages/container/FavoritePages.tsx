@@ -1,6 +1,6 @@
-import {IClassProps, Scrollbars} from "@essence/essence-constructor-share";
-import {VAR_RECORD_ID} from "@essence/essence-constructor-share/constants";
-import {ApplicationContext} from "@essence/essence-constructor-share/context";
+import {IClassProps, Scrollbars} from "@essence-community/constructor-share";
+import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
+import {ApplicationContext} from "@essence-community/constructor-share/context";
 import * as React from "react";
 import {useObserver} from "mobx-react-lite";
 import {Grid} from "@material-ui/core";

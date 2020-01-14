@@ -3,7 +3,7 @@ import {extendObservable, action} from "mobx";
 import {Form} from "mobx-react-form";
 import isUndefined from "lodash/isUndefined";
 import groupBy from "lodash/groupBy";
-import {VALUE_SELF_FIRST} from "@essence/essence-constructor-share/constants";
+import {VALUE_SELF_FIRST} from "@essence-community/constructor-share/constants";
 import {type BuilderModeType, type BuilderBaseType} from "../../BuilderType";
 import {mergeComponents} from "../../utils/builder";
 import {type RecordsModelType, RecordsModel} from "../RecordsModel";

@@ -2,7 +2,7 @@
 import * as React from "react";
 import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {SideResizer} from "@essence/essence-constructor-share/uicomponents";
+import {SideResizer} from "@essence-community/constructor-share/uicomponents";
 import MenuGrid from "../MenuGrid/MenuGrid";
 import styles from "./ReportsContentStyles";
 

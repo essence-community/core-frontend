@@ -4,12 +4,12 @@ import {compose} from "recompose";
 import {inject, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
 import {Dialog, DialogTitle, DialogContent, Typography, ButtonBase} from "@material-ui/core";
-import {sanitizeHtml, WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {sanitizeHtml, WithT, withTranslation} from "@essence-community/constructor-share/utils";
 import {
     VAR_SETTING_PROJECT_ABOUT_BOX_TITLE,
     VAR_SETTING_PROJECT_ABOUT_BOX_DESCRIPTION,
     VAR_SETTING_PROJECT_ABOUT_BOX_FOOTER,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {styleTheme, COMMIT_ID, BRANCH_DATE_TIME, BRANCH_NAME} from "../../constants";
 import * as lightLogo from "../../images/light_logo.png";
 import * as darkLogo from "../../images/dark_logo.png";

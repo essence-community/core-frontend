@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import {Checkbox} from "@material-ui/core";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {VAR_RECORD_ID} from "@essence/essence-constructor-share";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {VAR_RECORD_ID} from "@essence-community/constructor-share";
 import {mountWithTheme} from "../../../utils/test";
 import {createEmptyPageStore} from "../../../stores";
 import {GridModel} from "../../../stores/GridModel";

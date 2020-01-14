@@ -2,7 +2,7 @@
 import * as React from "react";
 import {reaction} from "mobx";
 import {observer} from "mobx-react";
-import {VAR_RECORD_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {isEqualStr} from "../../../utils/base";
 import TextFieldLabel from "../../TextFieldComponents/TextFieldLabel/TextFieldLabel";
 import {type TextFieldChildProps} from "../../BuilderFieldType";

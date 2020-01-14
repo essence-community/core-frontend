@@ -8,7 +8,7 @@ import {
     VAR_RECORD_CL_WARNING,
     VAR_RECORD_CV_ACTION,
     META_PAGE_OBJECT,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {type BuilderModeType} from "../BuilderType";
 import {sendRequest} from "./baseRequest";
 

@@ -10,8 +10,8 @@ import {
     IPageModel,
     IPagesModel,
     IApplicationModel,
-} from "@essence/essence-constructor-share";
-import {PageModel} from "@essence/essence-constructor-share/models";
+} from "@essence-community/constructor-share";
+import {PageModel} from "@essence-community/constructor-share/models";
 import {changePagePosition} from "../../Application/utils/changePagePosition";
 
 export class PagesModel implements IPagesModel {

@@ -1,5 +1,5 @@
 // @flow
-import {i18next} from "@essence/essence-constructor-share/utils";
+import {i18next} from "@essence-community/constructor-share/utils";
 import {loggerRoot} from "../../constants";
 import {type PageModelType} from "../PageModel";
 import {type StoreBaseModelInterface, type StoreBaseModelPropsType} from "./StoreBaseModelTypes";

@@ -1,5 +1,5 @@
 import React from "react";
-import {FieldValue} from "@essence/essence-constructor-share";
+import {FieldValue} from "@essence-community/constructor-share";
 
 export const renderGlobalValuelsInfo = (globalValues: Map<string, FieldValue>) => {
     const blocks: JSX.Element[] = [];

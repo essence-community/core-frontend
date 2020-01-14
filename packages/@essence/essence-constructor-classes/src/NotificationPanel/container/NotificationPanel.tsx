@@ -1,6 +1,6 @@
-import {IClassProps, Icon, Scrollbars, SnackbarStatus} from "@essence/essence-constructor-share";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
-import {useTranslation} from "@essence/essence-constructor-share/utils";
+import {IClassProps, Icon, Scrollbars, SnackbarStatus} from "@essence-community/constructor-share";
+import {snackbarStore} from "@essence-community/constructor-share/models";
+import {useTranslation} from "@essence-community/constructor-share/utils";
 import {ButtonBase, Grid, Tabs} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
 import * as React from "react";

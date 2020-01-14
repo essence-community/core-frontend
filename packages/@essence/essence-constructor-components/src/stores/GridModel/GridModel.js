@@ -4,7 +4,7 @@ import {action, extendObservable, observable} from "mobx";
 import get from "lodash/get";
 import findIndex from "lodash/findIndex";
 import groupBy from "lodash/groupBy";
-import {i18next} from "@essence/essence-constructor-share/utils";
+import {i18next} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_PARENT_ID,
@@ -12,7 +12,7 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_LEAF,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {isEmpty} from "../../utils/base";
 import {gridScrollToRecordAction, gridSetGlobalValues, getGridHeight} from "../../utils/grid";
 import {type BuilderModeType, type CkIdType, type BuilderBaseType, type FormOptionsType} from "../../BuilderType";

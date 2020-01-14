@@ -10,14 +10,14 @@ import {compose} from "recompose";
 import keycode from "keycode";
 import {Tabs, Grid, List, ListItem, IconButton, Tab as MaterialTab, Paper} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {setComponent, mapComponents, Icon, PanelWidthContext} from "@essence/essence-constructor-share";
-import {Popover} from "@essence/essence-constructor-share/uicomponents";
-import {getTextWidth, withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {setComponent, mapComponents, Icon, PanelWidthContext} from "@essence-community/constructor-share";
+import {Popover} from "@essence-community/constructor-share/uicomponents";
+import {getTextWidth, withTranslation, WithT} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import commonDecorator from "../decorators/commonDecorator";
 import withModelDecorator from "../decorators/withModelDecorator";
 import {TabModel, type TabModelType} from "../stores/TabModel";

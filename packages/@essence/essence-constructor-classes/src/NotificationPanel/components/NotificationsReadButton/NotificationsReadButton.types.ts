@@ -1,4 +1,4 @@
-import {ISnackbarModel} from "@essence/essence-constructor-share";
+import {ISnackbarModel} from "@essence-community/constructor-share";
 
 export interface INotificationsReadButtonProps {
     snackbarStore: ISnackbarModel;

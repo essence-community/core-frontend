@@ -1,5 +1,5 @@
 // @flow
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
 import {type GridColumnPropsType} from "./GridColumnTypes";
 
 // eslint-disable-next-line id-length

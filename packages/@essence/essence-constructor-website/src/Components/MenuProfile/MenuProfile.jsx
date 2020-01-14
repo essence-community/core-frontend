@@ -5,9 +5,9 @@ import {reaction} from "mobx";
 import {inject, Provider, observer} from "mobx-react";
 import memoize from "lodash/memoize";
 import {Grid, Button} from "@material-ui/core";
-import {BuilderPanel, BuilderForm, withModelDecorator} from "@essence/essence-constructor-components";
-import {mapComponents} from "@essence/essence-constructor-share";
-import {ApplicationContext} from "@essence/essence-constructor-share/context";
+import {BuilderPanel, BuilderForm, withModelDecorator} from "@essence-community/constructor-components";
+import {mapComponents} from "@essence-community/constructor-share";
+import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {
     saveToStore,
     removeFromStore,
@@ -15,7 +15,7 @@ import {
     WithT,
     withTranslation,
     i18next,
-} from "@essence/essence-constructor-share/utils";
+} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_QUERY_ID,
@@ -30,7 +30,7 @@ import {
     VAR_RECORD_CV_PATRONYMIC,
     VAR_RECORD_CV_TIMEZONE,
     VAR_SETTING_PROJECT_PROFILE_PAGE,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import {type AuthModelType} from "../../Stores/AuthModel";
 import {styleTheme} from "../../constants";

@@ -1,6 +1,6 @@
 // @flow
 import {extendObservable, action} from "mobx";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
+import {snackbarStore} from "@essence-community/constructor-share/models";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     META_PAGE_OBJECT,
@@ -8,7 +8,7 @@ import {
     VAR_RECORD_CV_USERNAME,
     VAR_RECORD_CN_USER,
     VAR_RECORD_CK_USER,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {sendRequest} from "../../request/baseRequest";
 import {StoreBaseModel, type StoreBaseModelPropsType} from "../StoreBaseModel";
 import {type AuditModelInterface} from "./AuditModelType";

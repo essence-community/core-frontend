@@ -3,8 +3,8 @@ import * as React from "react";
 import cn from "classnames";
 import {observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {VAR_RECORD_ID, VAR_RECORD_LEAF} from "@essence/essence-constructor-share/constants";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {VAR_RECORD_ID, VAR_RECORD_LEAF} from "@essence-community/constructor-share/constants";
 
 const style = (theme: any) => ({
     icon: {

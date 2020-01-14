@@ -14,7 +14,7 @@ import {
     VAR_RECORD_CK_NSI_ADR_OBJECTS,
     VAR_RECORD_CK_HOUSE,
     VAR_RECORD_QUERY_ID,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {loggerRoot} from "../../constants";
 import {type StoreBaseModelPropsType} from "../StoreBaseModel";
 import {BaseMultiFieldModel} from "../BaseMultiFieldModel";

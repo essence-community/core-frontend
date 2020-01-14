@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import {Button, Paper} from "@material-ui/core";
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {Icon} from "@essence-community/constructor-share/Icon";
 import {
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -11,7 +11,7 @@ import {
     VAR_RECORD_ROUTE_PAGE_ID,
     VAR_RECORD_CV_DESCRIPTION,
     VAR_RECORD_CL_DATASET,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {when} from "mobx";
 import BuilderFormPanel, {BuilderFormPanelBase} from "../BuilderFormPanel";
 import BuilderMobxButton from "../../Button/BuilderMobxButton";

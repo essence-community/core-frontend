@@ -2,8 +2,8 @@
 import * as React from "react";
 import {Grid, Dialog, Button, DialogContent} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
-import {Icon, Scrollbars, IPageModel, CARRY_LINES_REGEXP} from "@essence/essence-constructor-share";
-import {useTranslation} from "@essence/essence-constructor-share/utils";
+import {Icon, Scrollbars, IPageModel, CARRY_LINES_REGEXP} from "@essence-community/constructor-share";
+import {useTranslation} from "@essence-community/constructor-share/utils";
 import {useStyles} from "./PagerWindowMessage.styles";
 
 export const prepareTip = (tip: string): Array<string> => tip.split(CARRY_LINES_REGEXP);

@@ -1,6 +1,6 @@
 // @flow
 import moment from "moment";
-import {i18next} from "@essence/essence-constructor-share/utils";
+import {i18next} from "@essence-community/constructor-share/utils";
 import {getFieldDate} from "../../TextField/Fields/FieldDateRC/fieldDateHelpers";
 
 type ForamtedColumnType = {

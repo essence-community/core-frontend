@@ -1,4 +1,4 @@
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {Icon} from "@essence-community/constructor-share/Icon";
 import {Tab, Typography} from "@material-ui/core";
 import cn from "classnames";
 import * as React from "react";

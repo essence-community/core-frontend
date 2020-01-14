@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import omit from "lodash/omit";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import commonDecorator from "../decorators/commonDecorator";
 import {type PageModelType} from "../stores/PageModel";
 import {type TabModelType} from "../stores/TabModel";

@@ -2,10 +2,10 @@ import * as React from "react";
 import {Collapse, Grid, Typography} from "@material-ui/core";
 import clsx from "clsx";
 import {useObserver} from "mobx-react-lite";
-import {mapComponents, IBuilderConfig, IClassProps, Icon, FormContext} from "@essence/essence-constructor-share";
-import {useTranslation} from "@essence/essence-constructor-share/utils";
-import {findColumns} from "@essence/essence-constructor-share/utils/findColumns";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants";
+import {mapComponents, IBuilderConfig, IClassProps, Icon, FormContext} from "@essence-community/constructor-share";
+import {useTranslation} from "@essence-community/constructor-share/utils";
+import {findColumns} from "@essence-community/constructor-share/utils/findColumns";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {useStyles} from "./FilterExtended.style";
 
 export const FilterExtended = (props: IClassProps) => {

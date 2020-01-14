@@ -13,10 +13,10 @@ import {
     IEditorContext,
     IPageModel,
     IRecord,
-} from "@essence/essence-constructor-share";
-import {settingsStore, snackbarStore} from "@essence/essence-constructor-share/models";
-import {useTranslation} from "@essence/essence-constructor-share/utils";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_SETTING_PROJECT_LOADER} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share";
+import {settingsStore, snackbarStore} from "@essence-community/constructor-share/models";
+import {useTranslation} from "@essence-community/constructor-share/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_SETTING_PROJECT_LOADER} from "@essence-community/constructor-share/constants";
 import {useDisposable, useObserver} from "mobx-react-lite";
 import {reaction, observe} from "mobx";
 import {useParams, useHistory} from "react-router-dom";

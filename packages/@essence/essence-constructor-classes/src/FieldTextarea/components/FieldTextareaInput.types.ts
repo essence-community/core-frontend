@@ -1,4 +1,4 @@
-import {IBuilderConfig} from "@essence/essence-constructor-share";
+import {IBuilderConfig} from "@essence-community/constructor-share";
 
 export interface IFieldTextareaInputProps {
     height: number;

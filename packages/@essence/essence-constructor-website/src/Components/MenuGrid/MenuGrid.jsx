@@ -3,7 +3,7 @@ import * as React from "react";
 import {compose} from "recompose";
 import {inject, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
-import {Scrollbars} from "@essence/essence-constructor-components";
+import {Scrollbars} from "@essence-community/constructor-components";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import MenuGridRows from "./MenuGridRows";
 import styles from "./MenuGridStyles";

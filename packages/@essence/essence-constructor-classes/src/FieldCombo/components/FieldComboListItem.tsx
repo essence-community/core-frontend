@@ -1,6 +1,6 @@
 import * as React from "react";
 import {MenuItem} from "@material-ui/core";
-import {Icon} from "@essence/essence-constructor-share";
+import {Icon} from "@essence-community/constructor-share";
 import {ISuggestion} from "../store/FieldComboModel.types";
 import {useStyles} from "./FieldComboListItem.styles";
 

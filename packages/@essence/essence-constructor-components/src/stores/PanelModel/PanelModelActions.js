@@ -1,7 +1,7 @@
 // @flow
 import reduce from "lodash/reduce";
 import forEach from "lodash/forEach";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type ItemType, type ChildsType} from "./PanelModel";
 
 const FULL_WIDTH = 100;

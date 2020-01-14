@@ -2,8 +2,8 @@
 import * as React from "react";
 import {compose} from "recompose";
 import {Paper} from "@material-ui/core";
-import {setComponent} from "@essence/essence-constructor-share/components";
-import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {setComponent} from "@essence-community/constructor-share/components";
+import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type PageModelType} from "../stores/PageModel";
 import {GridModel, type GridModelType} from "../stores/GridModel";
 import withModelDecorator from "../decorators/withModelDecorator";

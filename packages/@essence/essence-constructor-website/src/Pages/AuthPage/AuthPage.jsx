@@ -4,15 +4,15 @@ import {inject, observer} from "mobx-react";
 import {Grid, TextField, Paper, Button, Typography, InputAdornment, IconButton} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {compose} from "recompose";
-import {PageLoader} from "@essence/essence-constructor-share";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {getFromStore, WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {PageLoader} from "@essence-community/constructor-share";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {getFromStore, WithT, withTranslation} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_CV_LOGIN,
     VAR_RECORD_CV_PASSWORD,
     VAR_SETTING_PROJECT_LOADER,
     VAR_SETTING_PROJECT_AUTH_TITLE,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {MobxForm} from "../../Components/MobxForm";
 import {AuthModelType} from "../../Stores/AuthModel";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";

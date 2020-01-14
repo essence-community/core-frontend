@@ -1,7 +1,7 @@
 // @flow
 import forOwn from "lodash/forOwn";
 import isEmptyLodash from "lodash/isEmpty";
-import {VAR_RECORD_MASTER_ID, VAR_RECORD_NAME, VAR_RECORD_CN_ORDER} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_MASTER_ID, VAR_RECORD_NAME, VAR_RECORD_CN_ORDER} from "@essence-community/constructor-share/constants";
 import {isEmpty} from "../utils/base";
 import {type PageModelType} from "../stores/PageModel";
 import {type RecordsModelType, getMasterObject, getMasterData} from "../stores/RecordsModel";

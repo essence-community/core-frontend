@@ -4,12 +4,12 @@ import {compose} from "recompose";
 import {reaction} from "mobx";
 import {observer} from "mobx-react";
 import {Grid} from "@material-ui/core";
-import {setComponent, getComponent} from "@essence/essence-constructor-share";
+import {setComponent, getComponent} from "@essence-community/constructor-share";
 import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {loggerRoot} from "../constants";
 import {type PageModelType} from "../stores/PageModel";
 import {type GridModelType} from "../stores/GridModel";

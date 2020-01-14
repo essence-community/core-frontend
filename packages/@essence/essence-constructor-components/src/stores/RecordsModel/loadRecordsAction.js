@@ -20,9 +20,9 @@ import {
     VAR_META_JL_FILTER,
     VAR_META_JL_SORT,
     VAR_RECORD_JN_TOTAL_CNT,
-} from "@essence/essence-constructor-share/constants";
-import {i18next} from "@essence/essence-constructor-share/utils";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
+} from "@essence-community/constructor-share/constants";
+import {i18next} from "@essence-community/constructor-share/utils";
+import {snackbarStore} from "@essence-community/constructor-share/models";
 import {loggerRoot} from "../../constants";
 import {type CkIdType} from "../../BuilderType";
 import {isEmpty, sleep} from "../../utils/base";

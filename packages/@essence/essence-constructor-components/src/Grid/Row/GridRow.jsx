@@ -2,7 +2,7 @@
 import * as React from "react";
 import {reaction} from "mobx";
 import {disposeOnUnmount} from "mobx-react";
-import {VAR_RECORD_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {type BuilderGridType} from "../BuilderGridType";
 import {type GridModelType} from "../../stores/GridModel";
 import GridDetail from "../GridComponents/GridDetail";

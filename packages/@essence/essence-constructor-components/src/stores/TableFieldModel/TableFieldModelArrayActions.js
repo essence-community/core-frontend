@@ -1,5 +1,5 @@
 // @flow
-import {VAR_RECORD_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {type CkIdType} from "../../BuilderType";
 import {type TableFieldModelType} from "./TableFieldModelType";
 

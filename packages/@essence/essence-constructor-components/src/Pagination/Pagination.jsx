@@ -3,9 +3,9 @@ import * as React from "react";
 import {compose} from "recompose";
 import {withStyles} from "@material-ui/core/styles";
 import {IconButton, Typography} from "@material-ui/core";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 
 const styles = (theme: any) => ({
     buttonRoot: {

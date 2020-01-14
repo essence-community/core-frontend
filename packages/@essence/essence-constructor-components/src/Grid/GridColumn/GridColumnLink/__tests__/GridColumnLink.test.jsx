@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import keycode from "keycode";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {VAR_RECORD_ID} from "@essence/essence-constructor-share/constants";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {mountWithTheme} from "../../../../utils/test";
 import {createEmptyPageStore} from "../../../../stores";
 import gridBc from "../../../../../mocks/fields/gridlinks.json";

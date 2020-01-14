@@ -1,7 +1,7 @@
 // @flow
 import get from "lodash/get";
-import {i18next} from "@essence/essence-constructor-share/utils";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
+import {i18next} from "@essence-community/constructor-share/utils";
+import {snackbarStore} from "@essence-community/constructor-share/models";
 import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -12,7 +12,7 @@ import {
     VAR_RECORD_CK_D_ENDPOINT,
     VAR_RECORD_CV_URL_RESPONSE,
     VAR_RECORD_ID,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {type RecordsModelType} from "../RecordsModel";
 import {
     getFilterData,

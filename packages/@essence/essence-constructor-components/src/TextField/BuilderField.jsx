@@ -8,12 +8,12 @@ import {observer} from "mobx-react";
 import {type ObserverCallPropsType, Field} from "mobx-react-form";
 import {withStyles} from "@material-ui/core/styles";
 import {IconButton, InputAdornment} from "@material-ui/core";
-import {setComponent, Icon} from "@essence/essence-constructor-share";
+import {setComponent, Icon} from "@essence-community/constructor-share";
 import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_CL_IS_MASTER,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import commonDecorator from "../decorators/commonDecorator";
 import {isEmpty} from "../utils/base";
 import {makeRedirect} from "../utils/redirect";

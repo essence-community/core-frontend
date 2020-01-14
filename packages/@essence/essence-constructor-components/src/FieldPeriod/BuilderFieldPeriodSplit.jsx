@@ -2,8 +2,8 @@
 import * as React from "react";
 import {compose} from "recompose";
 import {Grid} from "@material-ui/core";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import commonDecorator, {type CommonDecoratorInjectType} from "../decorators/commonDecorator";
 import {loggerRoot} from "../constants";
 import {isEmpty} from "../utils/base";

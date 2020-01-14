@@ -8,8 +8,8 @@ import {
     IAuthModel,
     IApplicationModel,
     loggerRoot,
-} from "@essence/essence-constructor-share";
-import {request} from "@essence/essence-constructor-share/request";
+} from "@essence-community/constructor-share";
+import {request} from "@essence-community/constructor-share/request";
 import {IAuthSession} from "./AuthModel.types";
 
 const logger = loggerRoot.extend("AuthModel");

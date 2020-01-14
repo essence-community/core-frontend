@@ -10,7 +10,7 @@ import {
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_CV_DESCRIPTION,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {GRID_ROW_HEIGHT} from "../../constants";
 import {mountWithTheme} from "../../utils/test";
 import {createEmptyPageStore} from "../../stores";

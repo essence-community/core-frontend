@@ -1,12 +1,12 @@
 // @flow
 import {action, observable, extendObservable} from "mobx";
-import {getFromStore, saveToStore} from "@essence/essence-constructor-share/utils";
+import {getFromStore, saveToStore} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_OBJECT_ID,
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_NAME,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import forOwn from "lodash/forOwn";
 import {type RecordsModelType} from "../RecordsModel";
 import {GridModel, type GridBuilderType} from "../GridModel";

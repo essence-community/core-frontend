@@ -1,8 +1,8 @@
 import * as React from "react";
 import {reaction} from "mobx";
-import {Popover, ApplicationContext, useModel} from "@essence/essence-constructor-share";
-import {useTranslation} from "@essence/essence-constructor-share/utils";
-import {IPopoverChildrenProps} from "@essence/essence-constructor-share/uicomponents/Popover/Popover.types";
+import {Popover, ApplicationContext, useModel} from "@essence-community/constructor-share";
+import {useTranslation} from "@essence-community/constructor-share/utils";
+import {IPopoverChildrenProps} from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";
 import {useDisposable} from "mobx-react-lite";
 import {FieldComboList} from "../components/FieldComboList";
 import {FieldComboInput} from "../components/FieldComboInput";

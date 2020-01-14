@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 // @flow
 import * as React from "react";
-import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {createEmptyPageStore} from "../../stores/index";
 import {mountWithTheme} from "../../utils/test";
 import BuilderHistoryPanel, {BaseBuilderHistoryPanel} from "../BuilderHistoryPanel";

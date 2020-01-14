@@ -19,7 +19,7 @@
  */
 import forOwn from "lodash/forOwn";
 import {observe, reaction} from "mobx";
-import {i18next} from "@essence/essence-constructor-share/utils";
+import {i18next} from "@essence-community/constructor-share/utils";
 import {findGetGlobalKey} from "../../utils/findKey";
 import {type PageModelType} from "../PageModel";
 import {type RecordsModelType} from "./RecordsModelType";

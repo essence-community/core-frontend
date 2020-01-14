@@ -1,12 +1,12 @@
-import {IRecord} from "@essence/essence-constructor-share/types/Base";
+import {IRecord} from "@essence-community/constructor-share/types/Base";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_ROUTE_NAME,
     VAR_RECORD_ICON_NAME,
     VAR_RECORD_LEAF,
-} from "@essence/essence-constructor-share/constants/variables";
-import {IPagesModel} from "@essence/essence-constructor-share/types/PagesModel";
-import {IRoutesModel} from "@essence/essence-constructor-share/types/RoutesModel";
+} from "@essence-community/constructor-share/constants/variables";
+import {IPagesModel} from "@essence-community/constructor-share/types/PagesModel";
+import {IRoutesModel} from "@essence-community/constructor-share/types/RoutesModel";
 import {PagesTreeModel} from "../../stores/PagesTreeModel";
 
 export interface IRoute extends IRecord {

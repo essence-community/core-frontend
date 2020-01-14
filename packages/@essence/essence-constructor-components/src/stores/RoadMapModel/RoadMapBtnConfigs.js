@@ -10,7 +10,7 @@ import {
     VAR_RECORD_G_IS_END,
     VAR_RECORD_G_PANEL_NUM,
     VAR_RECORD_G_PANEL_INDEX,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {type BuilderBaseType} from "../../BuilderType";
 import {mergeComponents} from "../../utils/builder";
 

@@ -1,5 +1,5 @@
-import {Icon, ISnackbar, ISnackbarModel} from "@essence/essence-constructor-share";
-import {useTranslation} from "@essence/essence-constructor-share/utils";
+import {Icon, ISnackbar, ISnackbarModel} from "@essence-community/constructor-share";
+import {useTranslation} from "@essence-community/constructor-share/utils";
 import {ButtonBase, Grid} from "@material-ui/core";
 import cn from "classnames";
 import {useObserver} from "mobx-react-lite";

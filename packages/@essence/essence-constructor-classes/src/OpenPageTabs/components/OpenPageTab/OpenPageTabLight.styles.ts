@@ -1,4 +1,4 @@
-import {IEssenceTheme} from "@essence/essence-constructor-share";
+import {IEssenceTheme} from "@essence-community/constructor-share";
 /* eslint-disable sort-keys */
 export default (theme: IEssenceTheme) => ({
     text: {

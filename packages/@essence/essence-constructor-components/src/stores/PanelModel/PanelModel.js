@@ -1,6 +1,6 @@
 // @flow
 import {extendObservable, action} from "mobx";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import type {BuilderPanelType} from "../../Panel/BuilderPanelType";
 import {type StoreBaseModelInterface, type StoreBaseModelPropsType, StoreBaseModel} from "../StoreBaseModel";
 import {type RecordsModelType} from "../RecordsModel";

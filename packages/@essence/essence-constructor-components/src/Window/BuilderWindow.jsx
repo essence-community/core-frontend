@@ -5,13 +5,13 @@ import {observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
 import cn from "classnames";
 import {Grid, Dialog, DialogTitle, Checkbox, FormControlLabel} from "@material-ui/core";
-import {toSize, toColumnStyleWidth, withTranslation, WithT} from "@essence/essence-constructor-share/utils";
-import {getComponent, Icon} from "@essence/essence-constructor-share";
+import {toSize, toColumnStyleWidth, withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {getComponent, Icon} from "@essence-community/constructor-share";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_CV_DESCRIPTION,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import Scrollbars from "../Components/Scrollbars/Scrollbars";
 import BuilderField from "../TextField/BuilderField";
 import BuilderForm from "../Form/BuilderForm";

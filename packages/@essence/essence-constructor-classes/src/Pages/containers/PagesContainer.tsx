@@ -1,6 +1,6 @@
 import * as React from "react";
 import {useObserver} from "mobx-react-lite";
-import {getComponent, ApplicationContext, IPageModel} from "@essence/essence-constructor-share";
+import {getComponent, ApplicationContext, IPageModel} from "@essence-community/constructor-share";
 
 export const PagesContainer: React.FC = () => {
     const applicationStore = React.useContext(ApplicationContext);

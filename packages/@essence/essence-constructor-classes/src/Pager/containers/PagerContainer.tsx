@@ -16,16 +16,16 @@ import {
     IEditorContext,
     IPageModel,
     toColumnStyleWidth,
-} from "@essence/essence-constructor-share";
-import {i18next} from "@essence/essence-constructor-share/utils";
+} from "@essence-community/constructor-share";
+import {i18next} from "@essence-community/constructor-share/utils";
 import {Grid, useTheme} from "@material-ui/core";
-import {settingsStore, PageModel} from "@essence/essence-constructor-share/models";
+import {settingsStore, PageModel} from "@essence-community/constructor-share/models";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_ROUTE_VISIBLE_MENU,
     VAR_SETTING_PROJECT_LOADER,
     VAR_RECORD_PARENT_ID,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {PagerWindows} from "../components/PagerWindows";
 import {focusPageElement} from "../utils/focusPageElement";
 import {PagerWindowMessage} from "../components/PagerWindowMessage";

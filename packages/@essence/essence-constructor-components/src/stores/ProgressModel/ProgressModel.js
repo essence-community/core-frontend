@@ -1,7 +1,7 @@
 // @flow
 import {extendObservable, action} from "mobx";
 import uuidv4 from "uuid/v4";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
+import {snackbarStore} from "@essence-community/constructor-share/models";
 import type {PageModelType} from "../PageModel/PageModelType";
 
 export type ProgressConfigType = {

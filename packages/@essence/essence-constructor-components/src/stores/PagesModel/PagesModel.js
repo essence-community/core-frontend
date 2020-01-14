@@ -5,7 +5,7 @@ import {
     saveToStore,
     removeFromStore,
     removeFromStoreByRegex,
-} from "@essence/essence-constructor-share/utils";
+} from "@essence-community/constructor-share/utils";
 import {STORE_PAGES_IDS_KEY, STORE_LAST_CV_LOGIN_KEY} from "../../constants";
 import {type CkIdType} from "../../BuilderType";
 import {changePagePosition} from "../../utils/changePagePosition";

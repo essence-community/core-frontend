@@ -3,7 +3,7 @@ import * as React from "react";
 import {compose} from "recompose";
 import {ButtonBase, TextField} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {Icon} from "@essence-community/constructor-share/Icon";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -11,10 +11,10 @@ import {
     VAR_RECORD_CV_DD_NAME,
     VAR_RECORD_CV_NUMBER,
     VAR_RECORD_CD_DATE,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import moment from "moment";
-import {downloadFile} from "@essence/essence-constructor-share/utils/download";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {downloadFile} from "@essence-community/constructor-share/utils/download";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
 import BuilderMobxButton from "../../Button/BuilderMobxButton";
 import {type PageModelType} from "../../stores/PageModel";
 import {type FilePanelBcType, type FilePanelModelType} from "../../stores/FilePanelModel";

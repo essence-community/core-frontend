@@ -2,7 +2,7 @@
 import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
 import {Popover, ListItem, List} from "@material-ui/core";
-import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {WithT, withTranslation} from "@essence-community/constructor-share/utils";
 import styles from "./TabMenuContextStyles";
 
 export type PopoverPositionType = {

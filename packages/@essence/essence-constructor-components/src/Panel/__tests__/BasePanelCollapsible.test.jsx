@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {Icon} from "@essence-community/constructor-share/Icon";
 import {mountWithTheme} from "../../utils/test";
 import BasePanelCollapsible, {BasePanelCollapsibleBase} from "../BasePanelCollapsible";
 import Panel from "../Panel/Panel";

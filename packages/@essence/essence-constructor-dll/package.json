@@ -15,7 +15,7 @@
     "constructor-dll-build": "./scripts/build.js"
   },
   "dependencies": {
-    "@essence-community/constructor-share": "^2.0.1",
+    "@essence-community/constructor-share": "file:../essence-constructor-share",
     "@material-ui/core": "^4.7.2",
     "@material-ui/styles": "^4.7.1",
     "babel-loader": "^8.0.6",

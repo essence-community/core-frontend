@@ -1,4 +1,4 @@
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 
 export default {
     [VAR_RECORD_DISPLAYED]: "static:20732b2df62f4dd5baf97d12cf2a3e9c",

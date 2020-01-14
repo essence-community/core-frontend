@@ -1,5 +1,5 @@
 // @flow
-import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
+import {parseMemoize} from "@essence-community/constructor-share/utils/parser";
 import {type PageModelType} from "../stores/PageModel";
 import {type RecordsModelType} from "../stores/RecordsModel";
 

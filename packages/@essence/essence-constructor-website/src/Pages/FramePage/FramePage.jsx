@@ -1,6 +1,6 @@
 import * as React from "react";
 import {inject} from "mobx-react";
-import {VAR_RECORD_CV_TOKEN} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_CV_TOKEN} from "@essence-community/constructor-share/constants";
 
 const mapStoresToProps = (stores) => ({
     authStore: stores.authStore,

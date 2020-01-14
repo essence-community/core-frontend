@@ -16,8 +16,8 @@ import {
     preference,
     BASE_URL,
     sendRequest,
-} from "@essence/essence-constructor-components";
-import {getFromStore, removeFromStore, saveToStore, setModule, loadFiles} from "@essence/essence-constructor-share";
+} from "@essence-community/constructor-components";
+import {getFromStore, removeFromStore, saveToStore, setModule, loadFiles} from "@essence-community/constructor-share";
 import {
     VAR_LANG_ID,
     VAR_NAMESPACE_VALUE,
@@ -34,9 +34,9 @@ import {
     VAR_RECORD_CA_ACTIONS,
     VAR_SETTING_MODULE_AVAILABLE,
     VAR_SETTING_MODULE_URL,
-} from "@essence/essence-constructor-share/constants";
-import {i18next} from "@essence/essence-constructor-share/utils";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
+} from "@essence-community/constructor-share/constants";
+import {i18next} from "@essence-community/constructor-share/utils";
+import {snackbarStore} from "@essence-community/constructor-share/models";
 
 import {history} from "../history";
 import {BRANCH_NAME, colors} from "../constants";

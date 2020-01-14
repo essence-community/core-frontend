@@ -1,5 +1,5 @@
-import {IBuilderConfig} from "@essence/essence-constructor-share";
-import {mergeComponents} from "@essence/essence-constructor-share/utils";
+import {IBuilderConfig} from "@essence-community/constructor-share";
+import {mergeComponents} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -7,7 +7,7 @@ import {
     VAR_RECORD_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_NAME,
-} from "@essence/essence-constructor-share/constants/variables";
+} from "@essence-community/constructor-share/constants/variables";
 
 export const mapNotification = {
     all: 0,

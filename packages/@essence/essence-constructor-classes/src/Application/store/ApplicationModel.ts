@@ -14,7 +14,7 @@ import {
     IBuilderMode,
     IHandlers,
     IRecord,
-} from "@essence/essence-constructor-share";
+} from "@essence-community/constructor-share";
 import {
     VAR_RECORD_URL,
     VAR_SETTING_PROJECT_APPLICATION_PAGE,
@@ -27,16 +27,16 @@ import {
     VAR_RECORD_ROUTE_PAGE_ID,
     VAR_RECORD_CV_LOGIN,
     VAR_SETTING_MODULE_URL,
-} from "@essence/essence-constructor-share/constants";
-import {i18next} from "@essence/essence-constructor-share/utils";
-import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
+} from "@essence-community/constructor-share/constants";
+import {i18next} from "@essence-community/constructor-share/utils";
+import {parseMemoize} from "@essence-community/constructor-share/utils/parser";
 import {
     snackbarStore,
     RecordsModel,
     settingsStore,
     PageModel,
     modulesStore,
-} from "@essence/essence-constructor-share/models";
+} from "@essence-community/constructor-share/models";
 import {History} from "history";
 import pageSafeJson from "../mocks/page-safe.json";
 import {RoutesModel} from "./RoutesModel";

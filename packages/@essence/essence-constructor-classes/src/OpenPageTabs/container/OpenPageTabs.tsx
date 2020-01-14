@@ -1,15 +1,15 @@
-import {IClassProps, ApplicationContext, IRouteRecord} from "@essence/essence-constructor-share";
-import {toSize} from "@essence/essence-constructor-share/utils/transform";
+import {IClassProps, ApplicationContext, IRouteRecord} from "@essence-community/constructor-share";
+import {toSize} from "@essence-community/constructor-share/utils/transform";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_ROUTE_NAME,
     VAR_RECORD_ICON_NAME,
     VAR_RECORD_ROUTE_VISIBLE_MENU,
-} from "@essence/essence-constructor-share/constants/variables";
+} from "@essence-community/constructor-share/constants/variables";
 import {Tabs} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
 import * as React from "react";
-import {useTranslation} from "@essence/essence-constructor-share/utils";
+import {useTranslation} from "@essence-community/constructor-share/utils";
 import DragComponent from "../../DragComponent";
 import {OpenPageMenuContext} from "../components/OpenPageMenuContext/OpenPageMenuContext";
 import {OpenPageTab} from "../components/OpenPageTab/OpenPageTab";

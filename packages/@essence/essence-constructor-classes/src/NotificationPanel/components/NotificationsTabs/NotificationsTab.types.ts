@@ -1,4 +1,4 @@
-import {IBuilderConfig, IClassProps} from "@essence/essence-constructor-share";
+import {IBuilderConfig, IClassProps} from "@essence-community/constructor-share";
 
 export interface ITabBc extends IBuilderConfig {
     value: string;

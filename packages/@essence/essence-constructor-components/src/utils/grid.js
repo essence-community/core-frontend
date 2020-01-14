@@ -1,6 +1,6 @@
 // @flow
 import forOwn from "lodash/forOwn";
-import {VAR_RECORD_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {GRID_ROW_HEIGHT} from "../constants";
 import {type GridModelType} from "../stores/GridModel";
 import {isEmpty, valuesMap} from "./base";

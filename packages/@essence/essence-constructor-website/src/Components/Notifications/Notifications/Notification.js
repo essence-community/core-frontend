@@ -3,9 +3,9 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import {ButtonBase, Grid} from "@material-ui/core";
 import cn from "classnames";
-import {SnackbarContentText} from "@essence/essence-constructor-components";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {SnackbarContentText} from "@essence-community/constructor-components";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {WithT, withTranslation} from "@essence-community/constructor-share/utils";
 
 type PropsType = WithT & {|
     classes: {

@@ -5,7 +5,7 @@ import {
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_CK_D_ENDPOINT,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {mergeComponents} from "../../utils/builder";
 import {type BuilderFieldType} from "../../TextField/BuilderFieldType";
 

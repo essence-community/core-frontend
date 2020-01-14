@@ -5,7 +5,7 @@ import {
     VAR_RECORD_ID,
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {type PageModelType} from "../PageModel";
 import {type WindowModelType} from "../WindowModel/WindowModelTypes";
 import {type BuilderModeType} from "../../BuilderType";

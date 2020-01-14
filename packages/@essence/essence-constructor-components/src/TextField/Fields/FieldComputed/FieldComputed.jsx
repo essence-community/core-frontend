@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import {Grid, TextField, Typography} from "@material-ui/core";
-import {withTranslation, WithT, i18next} from "@essence/essence-constructor-share/utils";
-import {parse} from "@essence/essence-constructor-share/utils/parser";
+import {withTranslation, WithT, i18next} from "@essence-community/constructor-share/utils";
+import {parse} from "@essence-community/constructor-share/utils/parser";
 import {type TextFieldChildProps} from "../../BuilderFieldType";
 
 type StateType = {

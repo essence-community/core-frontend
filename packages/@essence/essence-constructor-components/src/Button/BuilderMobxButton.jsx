@@ -5,14 +5,14 @@ import noop from "lodash/noop";
 import {withStyles} from "@material-ui/core/styles";
 import {Button, IconButton} from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
-import {setComponent, Icon} from "@essence/essence-constructor-share";
+import {setComponent, Icon} from "@essence-community/constructor-share";
 import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
-} from "@essence/essence-constructor-share/constants";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+} from "@essence-community/constructor-share/constants";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
 import commonDecorator, {type CommonDecoratorInjectType} from "../decorators/commonDecorator";
 import {styleTheme} from "../constants";
 import {isEmpty} from "../utils/base";

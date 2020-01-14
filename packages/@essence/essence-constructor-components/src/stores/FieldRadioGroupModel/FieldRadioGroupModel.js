@@ -1,7 +1,7 @@
 // @flow
 import {extendObservable, action} from "mobx";
 import toString from "lodash/toString";
-import {VAR_RECORD_CL_IS_MASTER} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_CL_IS_MASTER} from "@essence-community/constructor-share/constants";
 import {RecordsModel, type RecordsModelType} from "../RecordsModel";
 import {StoreBaseModel} from "../StoreBaseModel/StoreBaseModel";
 import {

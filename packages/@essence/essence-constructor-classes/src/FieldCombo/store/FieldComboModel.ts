@@ -8,10 +8,10 @@ import {
     FieldValue,
     VAR_RECORD_ID,
     IRecord,
-} from "@essence/essence-constructor-share";
-import {VAR_RECORD_CL_IS_MASTER} from "@essence/essence-constructor-share/constants";
-import {i18next, isEmpty} from "@essence/essence-constructor-share/utils";
-import {StoreBaseModel, RecordsModel} from "@essence/essence-constructor-share/models";
+} from "@essence-community/constructor-share";
+import {VAR_RECORD_CL_IS_MASTER} from "@essence-community/constructor-share/constants";
+import {i18next, isEmpty} from "@essence-community/constructor-share/utils";
+import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {ISuggestion} from "./FieldComboModel.types";
 
 export class FieldComboModel extends StoreBaseModel {

@@ -3,7 +3,7 @@ import * as React from "react";
 import {autorun} from "mobx";
 import isString from "lodash/isString";
 import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
-import {VAR_RECORD_ID, VAR_RECORD_MASTER_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_MASTER_ID} from "@essence/essence-constructor-share/constants";
 import {type PageModelType} from "../stores/PageModel";
 import {isEmpty} from "../utils/base";
 
@@ -172,15 +172,10 @@ function commonDecorator<Props: CommonHOCProps>(
                     }
 
                     if (typeof masterStore.selectedRecord !== "undefined") {
-                        const recordId =
-                            (masterStore.recordsStore && masterStore.recordsStore.recordId) ||
-                            (masterStore.bc && masterStore.bc.idproperty) ||
-                            VAR_RECORD_ID;
-
                         return (
                             !masterStore.selectedRecord ||
-                            (isString(masterStore.selectedRecord[recordId]) &&
-                                masterStore.selectedRecord[recordId].indexOf("auto-") === 0)
+                            (isString(masterStore.selectedRecord[masterStore.recordId]) &&
+                                masterStore.selectedRecord[masterStore.recordId].indexOf("auto-") === 0)
                         );
                     }
 

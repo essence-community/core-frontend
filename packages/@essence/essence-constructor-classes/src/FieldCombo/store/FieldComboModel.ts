@@ -60,7 +60,7 @@ export class FieldComboModel extends StoreBaseModel {
         ) {
             suggestions = [
                 {
-                    [this.recordsStore.recordId]: -1,
+                    id: -1,
                     isNew: true,
                     label: this.inputValue,
                     labelLower: inputValueLower,
@@ -103,7 +103,7 @@ export class FieldComboModel extends StoreBaseModel {
 
     reloadStoreAction = (): Promise<object | undefined> => {
         if (!this.recordsStore.isLoading) {
-            const selectedRecordId = this.recordsStore.selectedRecrodValues[this.recordsStore.recordId];
+            const selectedRecordId = this.recordsStore.selectedRecordValues[this.recordsStore.recordId];
 
             return this.recordsStore.loadRecordsAction({
                 selectedRecordId:
@@ -232,11 +232,8 @@ export class FieldComboModel extends StoreBaseModel {
     };
 
     handleSetSuggestionValue = (suggestion: ISuggestion, isUserSearch: boolean): boolean => {
-        if (
-            this.recordsStore.selectedRecrodValues[this.recordsStore.recordId] !==
-            suggestion[this.recordsStore.recordId]
-        ) {
-            const rec: any = suggestion[this.recordsStore.recordId];
+        if (this.recordsStore.selectedRecordValues[this.recordsStore.recordId] !== suggestion.id) {
+            const rec: any = suggestion.id;
 
             this.recordsStore.setSelectionAction(rec, this.recordsStore.recordId);
         }
@@ -297,7 +294,7 @@ export class FieldComboModel extends StoreBaseModel {
         const label = toString(record[this.displayfield]);
 
         return {
-            [this.recordsStore.recordId]: record[this.recordsStore.recordId],
+            id: record[this.recordsStore.recordId],
             label,
             labelLower: label.toLowerCase(),
             value: toString(record[this.valuefield]),
@@ -308,7 +305,7 @@ export class FieldComboModel extends StoreBaseModel {
         const label = i18next.t(toString(record[this.displayfield]), {ns: this.bc.localization});
 
         return {
-            [this.recordsStore.recordId]: record[this.recordsStore.recordId],
+            id: record[this.recordsStore.recordId],
             label,
             labelLower: label.toLowerCase(),
             value: toString(record[this.valuefield]),

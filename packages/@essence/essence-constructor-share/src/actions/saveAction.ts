@@ -103,7 +103,7 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
         const masterStore = pageStore.stores.get(bc[VAR_RECORD_MASTER_ID]);
 
         main = masterStore
-            ? masterStore.selectedRecord && masterStore.selectedRecord[masterStore.recordId]
+            ? masterStore.selectedRecord?.[masterStore.recordId]
             : pageStore.fieldValueMaster.get(bc[VAR_RECORD_MASTER_ID]);
         master = getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, getMasterValue);
     }

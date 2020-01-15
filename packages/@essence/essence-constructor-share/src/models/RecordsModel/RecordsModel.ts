@@ -43,7 +43,7 @@ export class RecordsModel implements IRecordsModel {
 
     selectedRecord: IRecord | undefined;
 
-    selectedRecrodValues: IRecord;
+    selectedRecordValues: IRecord;
 
     recordsState: IRecordsState<IRecord>;
 
@@ -137,7 +137,7 @@ export class RecordsModel implements IRecordsModel {
                     return this.selectedRecord ? this.selectedRecord[this.valueField] : undefined;
                 },
                 selectedRecordIndex: -1,
-                get selectedRecrodValues() {
+                get selectedRecordValues() {
                     return this.selectedRecord || {};
                 },
             },

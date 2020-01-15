@@ -258,32 +258,32 @@ export function loadRecordsAction(
             const valueField = status === "attach" ? recordId : this.valueField;
             const beforeSelectedRecord = this.selectedRecord;
             let isDefault: "##alwaysfirst##" | "##first##" | undefined = undefined;
-            let recId = undefined;
+            let recordIdValue = undefined;
             let record = undefined;
 
             switch (true) {
                 case defaultvalue === VALUE_SELF_ALWAYSFIRST:
                     isDefault = VALUE_SELF_ALWAYSFIRST;
                     [record] = records;
-                    recId = records[0] ? records[0][valueField] : undefined;
+                    recordIdValue = records[0] ? records[0][valueField] : undefined;
                     break;
                 case selectedRecordId !== undefined:
-                    recId = selectedRecordId;
+                    recordIdValue = selectedRecordId;
                     break;
                 case this.selectedRecordId !== undefined:
-                    recId = this.selectedRecordId;
+                    recordIdValue = this.selectedRecordId;
                     break;
                 case defaultvalue === VALUE_SELF_FIRST:
                     isDefault = VALUE_SELF_FIRST;
-                    recId = records[0] ? records[0][valueField] : undefined;
+                    recordIdValue = records[0] ? records[0][valueField] : undefined;
                     [record] = records;
                     break;
                 default:
-                    recId = undefined;
+                    recordIdValue = undefined;
             }
 
             this.recordsState = {
-                defaultValueSet: isDefault && recId !== undefined ? isDefault : undefined,
+                defaultValueSet: isDefault && recordIdValue !== undefined ? isDefault : undefined,
                 isDefault,
                 isUserReload,
                 record,
@@ -302,7 +302,7 @@ export function loadRecordsAction(
                 return this.selectedRecordIndex;
             }
 
-            return this.setSelectionAction(recId, valueField);
+            return this.setSelectionAction(recordIdValue, valueField);
         })
         .then(() => {
             setMask(false, noglobalmask, this.pageStore);

@@ -69,7 +69,7 @@ class InlineTable extends React.PureComponent<PropsType> {
                                 indexStripe={false}
                                 store={gridStore}
                                 pageStore={pageStore}
-                                record={gridStore.recordsStore.selectedRecrodValues}
+                                record={gridStore.recordsStore.selectedRecordValues}
                                 disableSelect
                             >
                                 {store.childs.map((field, idx) => {

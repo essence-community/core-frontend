@@ -5,5 +5,5 @@ export interface ISuggestion {
     labelLower: string;
     value: string;
     isNew?: boolean;
-    [key: string]: FieldValue | boolean;
+    id: FieldValue;
 }

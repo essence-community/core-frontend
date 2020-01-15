@@ -73,7 +73,7 @@ export interface IRecordsModel {
     recordsState: IRecordsState<IRecord>;
     selectedRecordId?: FieldValue;
     selectedRecord?: IRecord;
-    selectedRecrodValues: IRecord;
+    selectedRecordValues: IRecord;
     hasSelected: boolean;
     selectedRecordIndex: -1 | number;
     pageNumber: number;

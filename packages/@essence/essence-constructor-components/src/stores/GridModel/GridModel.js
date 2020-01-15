@@ -72,13 +72,13 @@ function setGridSelections(gridStore: GridModelType, isSelected: boolean, parent
     gridStore.recordsStore.records.forEach((record) => {
         if (record[VAR_RECORD_PARENT_ID] === parentId) {
             if (record[VAR_RECORD_LEAF] === "false") {
-                setGridSelections(gridStore, isSelected, record[this.recordsStore.recordId]);
+                setGridSelections(gridStore, isSelected, record[gridStore.recordsStore.recordId]);
             }
 
             if (isSelected) {
-                gridStore.selectedRecords.delete(record[this.recordsStore.recordId]);
+                gridStore.selectedRecords.delete(record[gridStore.recordsStore.recordId]);
             } else {
-                gridStore.selectedRecords.set(record[this.recordsStore.recordId], record);
+                gridStore.selectedRecords.set(record[gridStore.recordsStore.recordId], record);
             }
         }
     });
@@ -86,15 +86,15 @@ function setGridSelections(gridStore: GridModelType, isSelected: boolean, parent
 
 function setGridSelectionsTop(gridStore: GridModelType, isSelected: boolean, ckChild: CkIdType) {
     gridStore.recordsStore.records.forEach((record) => {
-        if (record[this.recordsStore.recordId] === ckChild) {
+        if (record[gridStore.recordsStore.recordId] === ckChild) {
             if (!isEmpty(record[VAR_RECORD_PARENT_ID])) {
                 setGridSelectionsTop(gridStore, isSelected, record[VAR_RECORD_PARENT_ID]);
             }
 
             if (isSelected) {
-                gridStore.selectedRecords.delete(record[this.recordsStore.recordId]);
+                gridStore.selectedRecords.delete(record[gridStore.recordsStore.recordId]);
             } else {
-                gridStore.selectedRecords.set(record[this.recordsStore.recordId], record);
+                gridStore.selectedRecords.set(record[gridStore.recordsStore.recordId], record);
             }
         }
     });

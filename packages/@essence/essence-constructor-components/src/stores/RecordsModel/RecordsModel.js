@@ -42,7 +42,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
 
     selectedRecord: ?Object;
 
-    selectedRecrodValues: Object;
+    selectedRecordValues: Object;
 
     records: Array<any>;
 
@@ -122,7 +122,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
                 selectedRecord: undefined,
                 selectedRecordId: undefined,
                 selectedRecordIndex: -1,
-                selectedRecrodValues: {},
+                selectedRecordValues: {},
             },
             undefined,
             {deep: false},
@@ -156,7 +156,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
             this.selectedRecordIndex = findIndex(this.records, (record) => toString(record[key]) === stringCkId);
             this.selectedRecord = this.records[this.selectedRecordIndex];
 
-            this.selectedRecrodValues = this.selectedRecord || {};
+            this.selectedRecordValues = this.selectedRecord || {};
             this.selectedRecordId = this.selectedRecord ? this.selectedRecord[this.valueField] : undefined;
 
             await get(this.parentStore, "afterSelected", noop)();
@@ -212,7 +212,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
     clearChildsStoresAction = action("clearChildsStoresAction", () => {
         this.selectedRecordIndex = -1;
         this.selectedRecord = undefined;
-        this.selectedRecrodValues = {};
+        this.selectedRecordValues = {};
         this.selectedRecordId = undefined;
 
         this.pageStore.stores.forEach((store) => {

@@ -254,29 +254,29 @@ export function loadRecordsAction({
         .then((records) => {
             const valueField = status === "attach" ? recordId : this.valueField;
             let isDefault = false;
-            let recId = null;
+            let recordIdValue = null;
 
             switch (true) {
                 case defaultvalue === VALUE_SELF_ALWAYSFIRST:
                     isDefault = true;
-                    recId = records[0] ? records[0][valueField] : null;
+                    recordIdValue = records[0] ? records[0][valueField] : null;
                     break;
                 case !isUndefined(selectedRecordId):
-                    recId = selectedRecordId;
+                    recordIdValue = selectedRecordId;
                     break;
                 case !isUndefined(this.selectedRecordId):
-                    recId = this.selectedRecordId;
+                    recordIdValue = this.selectedRecordId;
                     break;
                 case defaultvalue === VALUE_SELF_FIRST:
                     isDefault = true;
-                    recId = records[0] ? records[0][valueField] : null;
+                    recordIdValue = records[0] ? records[0][valueField] : null;
                     break;
                 default:
-                    recId = null;
+                    recordIdValue = null;
             }
 
             this.recordsState = {
-                defaultValueSet: isDefault && !isEmpty(recId) ? defaultvalue : undefined,
+                defaultValueSet: isDefault && !isEmpty(recordIdValue) ? defaultvalue : undefined,
                 isUserReload,
                 records:
                     status === "attach"
@@ -286,7 +286,7 @@ export function loadRecordsAction({
             };
             this.recordsAll = this.recordsState.records;
 
-            return this.setSelectionAction(recId, valueField);
+            return this.setSelectionAction(recordIdValue, valueField);
         })
         .then(() => resolve(noglobalmask));
 }

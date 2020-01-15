@@ -97,7 +97,7 @@ export class ApplicationModel implements IApplicationModel {
     recordId: string = VAR_RECORD_ID;
 
     @computed get bc(): IBuilderConfig {
-        const {children} = this.recordsStore.selectedRecrodValues;
+        const {children} = this.recordsStore.selectedRecordValues;
 
         if (!Array.isArray(children)) {
             return NONE_BC;
@@ -212,11 +212,11 @@ export class ApplicationModel implements IApplicationModel {
                         [VAR_RECORD_ROUTE_PAGE_ID]: settingsStore.settings[VAR_SETTING_PROJECT_APPLICATION_PAGE],
                     })
                     .then(() => {
-                        const {children} = this.recordsStore.selectedRecrodValues;
+                        const {children} = this.recordsStore.selectedRecordValues;
 
                         this.recordsStore.setRecordsAction([
                             {
-                                ...this.recordsStore.selectedRecrodValues,
+                                ...this.recordsStore.selectedRecordValues,
                                 children: [pageSafeJson, ...(Array.isArray(children) ? children : [])],
                             },
                         ]);

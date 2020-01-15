@@ -111,9 +111,11 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
     let master;
 
     if (bc[VAR_RECORD_MASTER_ID]) {
-        main =
-            get(pageStore.stores.get(bc[VAR_RECORD_MASTER_ID]), `selectedRecord.${VAR_RECORD_ID}`) ||
-            pageStore.fieldValueMaster.get(bc[VAR_RECORD_MASTER_ID]);
+        const masterStore = pageStore.stores.get(bc[VAR_RECORD_MASTER_ID]);
+
+        main = masterStore
+            ? get(masterStore, `selectedRecord.${masterStore.recordId}`)
+            : pageStore.fieldValueMaster.get(bc[VAR_RECORD_MASTER_ID]);
         master = getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, getMasterValue);
     }
 

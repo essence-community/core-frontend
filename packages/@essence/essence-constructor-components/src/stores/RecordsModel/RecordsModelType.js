@@ -55,7 +55,7 @@ export interface RecordsModelInterface<T: {}> {
     recordsState: RecordsStateType<T>;
     selectedRecordId: ?SelectedRecordIdType;
     selectedRecord: any | T;
-    selectedRecrodValues: Object;
+    selectedRecordValues: Object;
     hasSelected: boolean;
     selectedRecordIndex: -1 | number;
     pageNumber: number;

@@ -1,4 +1,4 @@
-import {IClassProps} from "@essence/essence-constructor-share";
+import {IClassProps} from "@essence-community/constructor-share";
 import {Divider} from "@material-ui/core";
 import * as React from "react";
 import {useStyles} from "./ButtonGroupDelimiter.styles";

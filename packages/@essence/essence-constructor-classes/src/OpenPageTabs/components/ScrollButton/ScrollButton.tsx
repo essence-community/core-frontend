@@ -1,4 +1,4 @@
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {Icon} from "@essence-community/constructor-share/Icon";
 import {ButtonBase} from "@material-ui/core";
 import * as React from "react";
 import {useStyles} from "./ScrollButton.styles";

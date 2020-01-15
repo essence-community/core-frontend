@@ -3,8 +3,8 @@ import * as React from "react";
 import get from "lodash/get";
 import {ButtonBase} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {animate} from "@essence/essence-constructor-share/utils";
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {animate} from "@essence-community/constructor-share/utils";
+import {Icon} from "@essence-community/constructor-share/Icon";
 import {useDrop} from "react-dnd";
 import {styleTheme} from "../constants";
 

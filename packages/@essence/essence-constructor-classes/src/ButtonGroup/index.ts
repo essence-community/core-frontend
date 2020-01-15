@@ -1,4 +1,4 @@
-import {setComponent} from "@essence/essence-constructor-share";
+import {setComponent} from "@essence-community/constructor-share";
 import {ButtonGroup} from "./container/ButtonGroup";
 
 setComponent("BTN_GROUP", ButtonGroup);

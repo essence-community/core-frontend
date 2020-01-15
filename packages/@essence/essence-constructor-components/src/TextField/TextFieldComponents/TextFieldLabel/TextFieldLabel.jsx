@@ -3,9 +3,9 @@ import * as React from "react";
 import cn from "classnames";
 import {compose} from "recompose";
 import {withStyles} from "@material-ui/core/styles";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
-import {VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import styles from "./TextFieldLabelStyles";
 
 type PropsType = {

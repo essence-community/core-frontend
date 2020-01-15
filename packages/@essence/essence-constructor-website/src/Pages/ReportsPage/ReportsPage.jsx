@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import {inject} from "mobx-react";
-import {VAR_RECORD_CV_TOKEN} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_CV_TOKEN} from "@essence-community/constructor-share/constants";
 import {type StoresType} from "../../Stores/stores";
 import {type AuthModelType} from "../../Stores/AuthModel";
 

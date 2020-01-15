@@ -4,7 +4,7 @@ import {
     VALUE_SELF_ALWAYSFIRST,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_NAME,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import isBoolean from "lodash/isBoolean";
 import {RecordsModel, type RecordsModelType} from "../RecordsModel";
 import {StoreBaseModel, type StoreBaseModelPropsType} from "../StoreBaseModel";

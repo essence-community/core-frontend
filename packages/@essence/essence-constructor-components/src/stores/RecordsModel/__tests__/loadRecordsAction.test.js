@@ -1,4 +1,4 @@
-import {VAR_RECORD_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {getAttachedRecords} from "../loadRecordsAction";
 
 describe("loadRecordsAction", () => {

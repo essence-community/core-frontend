@@ -5,7 +5,7 @@ import compose from "recompose/compose";
 import {reaction} from "mobx";
 import {disposeOnUnmount, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type GridModelType} from "../../stores/GridModel";
 import {type PageModelType} from "../../stores/PageModel";
 import {type BuilderGridType} from "../BuilderGridType";

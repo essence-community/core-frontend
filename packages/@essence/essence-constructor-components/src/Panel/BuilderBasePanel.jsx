@@ -1,9 +1,9 @@
 // @flow
 import * as React from "react";
 import {Paper, Grid} from "@material-ui/core";
-import {setComponent, mapComponents} from "@essence/essence-constructor-share";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants";
+import {setComponent, mapComponents} from "@essence-community/constructor-share";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {compose} from "recompose";
 import {buttonDirection} from "../constants";
 import Content from "../Components/Content/Content";

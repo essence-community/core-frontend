@@ -1,5 +1,5 @@
 import * as React from "react";
-import {IBuilderConfig, IClassProps} from "@essence/essence-constructor-share";
+import {IBuilderConfig, IClassProps} from "@essence-community/constructor-share";
 
 export interface IGroupProps {
     error: boolean;

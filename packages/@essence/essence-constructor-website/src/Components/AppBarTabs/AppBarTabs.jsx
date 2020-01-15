@@ -2,8 +2,8 @@
 import * as React from "react";
 import {inject, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
-import {ToolBarTabs, ToolBarTab, DragComponent} from "@essence/essence-constructor-components";
-import {VAR_RECORD_NAME, VAR_RECORD_ICON_NAME} from "@essence/essence-constructor-share/constants";
+import {ToolBarTabs, ToolBarTab, DragComponent} from "@essence-community/constructor-components";
+import {VAR_RECORD_NAME, VAR_RECORD_ICON_NAME} from "@essence-community/constructor-share/constants";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import TabMenuContext from "../TabMenuContext/TabMenuContext";
 import styles from "./AppBarTabsStyles/AppBarTabsStyles";

@@ -1,6 +1,6 @@
 import * as React from "react";
-import {mapComponents} from "@essence/essence-constructor-share/components";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {mapComponents} from "@essence-community/constructor-share/components";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 
 export class ApplicationRouter extends React.Component {
     render() {

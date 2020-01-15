@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import memoise from "lodash/memoize";
-import {Slider, preference} from "@essence/essence-constructor-components";
-import {saveToStore, WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {Slider, preference} from "@essence-community/constructor-components";
+import {saveToStore, WithT, withTranslation} from "@essence-community/constructor-share/utils";
 import {withStyles} from "@material-ui/core/styles";
 import {Typography, Button, TextField, Paper, Grid, Switch} from "@material-ui/core";
 import styles from "./PreferencePageStyles";

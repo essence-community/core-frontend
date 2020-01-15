@@ -3,7 +3,7 @@
 
 import ruRU from "rc-calendar/lib/locale/ru_RU";
 import moment from "moment";
-import {i18next} from "@essence/essence-constructor-share/utils";
+import {i18next} from "@essence-community/constructor-share/utils";
 import FieldDateMonth from "./FieldDateMonth";
 import FieldDateMain from "./FieldDateMain";
 import FieldDateBase from "./FieldDateBase";

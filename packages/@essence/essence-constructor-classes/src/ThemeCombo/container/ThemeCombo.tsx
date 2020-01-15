@@ -1,16 +1,16 @@
-import {IClassProps} from "@essence/essence-constructor-share";
-import {saveToStore, getFromStore, useTranslation, TFunction} from "@essence/essence-constructor-share/utils";
+import {IClassProps} from "@essence-community/constructor-share";
+import {saveToStore, getFromStore, useTranslation, TFunction} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_OBJECT_ID,
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_DISPLAYED,
-} from "@essence/essence-constructor-share/constants/variables";
+} from "@essence-community/constructor-share/constants/variables";
 import * as React from "react";
 import {useDisposable} from "mobx-react-lite";
-import {getComponent} from "@essence/essence-constructor-share/components";
-import {IBuilderConfig} from "@essence/essence-constructor-share/types";
+import {getComponent} from "@essence-community/constructor-share/components";
+import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {reaction} from "mobx";
 
 const getComponentBc = (bc: IBuilderConfig, trans: TFunction) => ({

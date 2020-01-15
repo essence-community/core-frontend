@@ -1,7 +1,7 @@
 // @flow
 import get from "lodash/get";
 import isString from "lodash/isString";
-import {VAR_RECORD_PARENT_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_PARENT_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type PageModelType} from "../PageModel";
 import {type WindowModelType} from "../WindowModel/WindowModelTypes";
 import {type BuilderModeType} from "../../BuilderType";

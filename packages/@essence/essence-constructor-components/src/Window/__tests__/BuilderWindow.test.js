@@ -12,7 +12,7 @@ import {
     VAR_RECORD_ROUTE_PAGE_ID,
     VAR_RECORD_CV_DESCRIPTION,
     VAR_RECORD_CL_DATASET,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import BuilderWindowButtonCustom from "../BuilderWindowButtons/BuilderWindowButtonCustom";
 import {mountWithTheme} from "../../utils/test";
 import BuilderWindow from "../BuilderWindow";

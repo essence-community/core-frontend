@@ -1,10 +1,10 @@
 {
-  "name": "@essence/essence-constructor-share",
-  "version": "2.0.1",
+  "name": "@essence-community/constructor-share",
+  "version": "2.0.2",
   "description": "Share package for building modules",
   "main": "index.js",
-  "repository": "https://github.com/essence-community/core",
-  "author": "Oleh Kucenko",
+  "repository": "https://github.com/essence-community/core-frontend",
+  "author": "Oleh Kutsenko",
   "license": "MIT",
   "private": false,
   "engines": {
@@ -45,8 +45,8 @@
     "uuid": "^3.3.3"
   },
   "devDependencies": {
-    "@essence/eslint-config-essence-react": "file:../essence-constructor-eslint",
-    "@essence/essence-constructor-package-builder": "file:../essence-constructor-package-builder",
+    "@essence-community/eslint-config-react": "file:../essence-constructor-eslint",
+    "@essence-community/constructor-package-builder": "file:../essence-constructor-package-builder",
     "@types/debug": "^4.1.5",
     "@types/dompurify": "^2.0.0",
     "@types/esprima": "^4.0.2",

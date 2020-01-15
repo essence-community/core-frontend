@@ -2,7 +2,7 @@
 import * as React from "react";
 import {ButtonBase} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {Icon} from "@essence-community/constructor-share/Icon";
 import Popover from "../Popover/Popover";
 import {styleTheme} from "../constants";
 import {StyleToolBarLight} from "./StyleToolBarLight";

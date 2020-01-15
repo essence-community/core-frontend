@@ -2,15 +2,15 @@
 import {extendObservable, action} from "mobx";
 import {type Form, type Field} from "mobx-react-form";
 import forOwn from "lodash/forOwn";
-import {saveToStore, removeFromStore} from "@essence/essence-constructor-share/utils";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
-import {print} from "@essence/essence-constructor-share/utils/download";
+import {saveToStore, removeFromStore} from "@essence-community/constructor-share/utils";
+import {snackbarStore} from "@essence-community/constructor-share/models";
+import {print} from "@essence-community/constructor-share/utils/download";
 import {
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_ROUTE_PAGE_ID,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {isEmpty} from "../../utils/base";
 import {findSetKey} from "../../utils/findKey";
 import {attachGlobalValues} from "../actions/saveAction";

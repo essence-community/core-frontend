@@ -8,7 +8,7 @@ import {
     VAR_RECORD_NAME,
     VAR_RECORD_ROUTE_PAGE_ID,
     VAR_RECORD_CN_ORDER,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {styleTheme} from "../../constants";
 import {type BuilderBaseType} from "../../BuilderType";
 

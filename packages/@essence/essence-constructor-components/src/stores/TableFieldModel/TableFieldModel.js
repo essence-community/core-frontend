@@ -2,7 +2,7 @@
 // @flow
 import {extendObservable, action} from "mobx";
 import snakeCase from "lodash/snakeCase";
-import {toSize, declension, i18next} from "@essence/essence-constructor-share/utils";
+import {toSize, declension, i18next} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_PARENT_ID,
@@ -10,7 +10,7 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_JN_TOTAL_CNT,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {Field} from "mobx-react-form";
 import {loggerRootInfo} from "../../constants";
 import {isEmpty} from "../../utils/base";

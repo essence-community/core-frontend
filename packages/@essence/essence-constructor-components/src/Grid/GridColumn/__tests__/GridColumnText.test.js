@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import {VAR_RECORD_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {mountWithTheme} from "../../../utils/test";
 import {createEmptyPageStore} from "../../../stores";
 import {GridModel} from "../../../stores/GridModel";

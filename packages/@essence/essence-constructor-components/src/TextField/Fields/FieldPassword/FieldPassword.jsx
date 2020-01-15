@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import {IconButton} from "@material-ui/core";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {isEmpty} from "../../../utils/base";
 import TextField from "../../TextField";
 import type {TextFieldChildProps} from "../../BuilderFieldType";

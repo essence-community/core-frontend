@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import {setComponent, toSize} from "@essence/essence-constructor-share";
+import {setComponent, toSize} from "@essence-community/constructor-share";
 import commonDecorator, {type CommonDecoratorInjectType} from "../decorators/commonDecorator";
 import {type BuilderBaseType} from "../BuilderType";
 

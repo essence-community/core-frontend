@@ -8,7 +8,7 @@ import {
     VAR_RECORD_CV_DESCRIPTION,
     VAR_RECORD_CK_MODIFY,
     VAR_RECORD_CL_DATASET,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {mountWithTheme} from "../../utils/test";
 import BuilderMobxForm from "../../Components/MobxForm/BuilderMobxForm";
 import BuilderFieldSet from "../BuilderFieldSet";

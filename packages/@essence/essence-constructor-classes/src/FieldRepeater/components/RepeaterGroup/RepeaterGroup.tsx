@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Grid} from "@material-ui/core";
-import {mapComponents, IBuilderConfig, toColumnStyleWidth} from "@essence/essence-constructor-share";
-import {EditorContex, IEditorContext} from "@essence/essence-constructor-share/context";
+import {mapComponents, IBuilderConfig, toColumnStyleWidth} from "@essence-community/constructor-share";
+import {EditorContex, IEditorContext} from "@essence-community/constructor-share/context";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_MASTER_ID,
@@ -9,7 +9,7 @@ import {
     VAR_RECORD_DISPLAYED,
     GRID_CONFIGS,
     GRID_ALIGN_CONFIGS,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {IRepeaterGroupProps} from "./RepeaterGroup.types";
 
 export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {

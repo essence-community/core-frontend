@@ -3,7 +3,7 @@ import * as React from "react";
 import {Grid, Divider, Checkbox} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import uniqueId from "lodash/uniqueId";
-import {VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import BuilderField from "../../../TextField/BuilderField";
 import styles from "./GridColumnFilterFieldsStyles";
 import {type GCFilterFieldBaseType} from "./GCFilterFieldTypes";

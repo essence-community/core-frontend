@@ -3,8 +3,8 @@ import axios from "axios";
 import {stringify} from "qs";
 import isString from "lodash/isString";
 import isArray from "lodash/isArray";
-import {i18next} from "@essence/essence-constructor-share/utils";
-import {META_OUT_RESULT, META_PAGE_OBJECT} from "@essence/essence-constructor-share/constants";
+import {i18next} from "@essence-community/constructor-share/utils";
+import {META_OUT_RESULT, META_PAGE_OBJECT} from "@essence-community/constructor-share/constants";
 import {BASE_URL} from "../constants";
 import {type RequestType} from "./requestType";
 

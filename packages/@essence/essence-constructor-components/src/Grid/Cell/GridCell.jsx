@@ -2,9 +2,9 @@
 import * as React from "react";
 import cn from "classnames";
 import {withStyles} from "@material-ui/core/styles";
-import {Translation} from "@essence/essence-constructor-share/utils";
-import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {Translation} from "@essence-community/constructor-share/utils";
+import {parseMemoize} from "@essence-community/constructor-share/utils/parser";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type GridBuilderType, type GridModelType} from "../../stores/GridModel";
 import {type PageModelType} from "../../stores/PageModel";
 import {WIDTH_MAP, PADDING_MAP} from "../BaseGridTableHeader";

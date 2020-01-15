@@ -4,7 +4,7 @@ import {
     VALUE_SELF_ALWAYSFIRST,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_QUERY_ID,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {type PageModelType} from "../PageModel";
 import {type RecordsModelType, RecordsModel} from "../RecordsModel";
 import {StoreBaseModel} from "../StoreBaseModel";

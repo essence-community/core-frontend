@@ -1,6 +1,6 @@
 import {Typography} from "@material-ui/core";
 import * as React from "react";
-import {useTranslation} from "@essence/essence-constructor-share/utils";
+import {useTranslation} from "@essence-community/constructor-share/utils";
 
 interface ISnackbarContentTextProps {
     text?: string | JSX.Element;

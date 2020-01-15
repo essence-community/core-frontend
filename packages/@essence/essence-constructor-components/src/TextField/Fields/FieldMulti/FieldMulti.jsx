@@ -11,8 +11,8 @@ import {
     VAR_RECORD_CK_AREA,
     VAR_RECORD_CK_STREET,
     VAR_RECORD_CK_HOUSE,
-} from "@essence/essence-constructor-share/constants";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+} from "@essence-community/constructor-share/constants";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
 import BuilderMobxForm from "../../../Components/MobxForm/BuilderMobxForm";
 import withModelDecorator from "../../../decorators/withModelDecorator";
 import {AddrMultiField} from "../../../stores/AddrMultiField";

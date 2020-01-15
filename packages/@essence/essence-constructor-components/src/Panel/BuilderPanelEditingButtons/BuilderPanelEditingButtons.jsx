@@ -2,8 +2,8 @@
 import * as React from "react";
 import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {EditorContex} from "@essence/essence-constructor-share/context";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {EditorContex} from "@essence-community/constructor-share/context";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {styleTheme, buttonDirection} from "../../constants";
 import {getModeTitle} from "../../utils/string";
 import BuilderMobxButton from "../../Button/BuilderMobxButton";

@@ -1,5 +1,5 @@
 // @flow
-import {getThemeStyles} from "@essence/essence-constructor-components";
+import {getThemeStyles} from "@essence-community/constructor-components";
 import RedirectPageStylesDark from "./RedirectPageStylesDark";
 import RedirectPageStylesLight from "./RedirectPageStylesLight";
 

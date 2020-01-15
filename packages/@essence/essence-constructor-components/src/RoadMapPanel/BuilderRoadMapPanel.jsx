@@ -8,13 +8,13 @@ import {compose} from "recompose";
 import keycode from "keycode";
 import {Grid, Tabs} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {setComponent, mapComponents} from "@essence/essence-constructor-share";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {setComponent, mapComponents} from "@essence-community/constructor-share";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import commonDecorator from "../decorators/commonDecorator";
 import withModelDecorator from "../decorators/withModelDecorator";
 import {RoadMapModel, type RoadMapModelType} from "../stores/RoadMapModel";

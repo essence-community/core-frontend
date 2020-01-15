@@ -1,8 +1,8 @@
 import * as React from "react";
-import {mapComponents, SideResizer} from "@essence/essence-constructor-share";
-import {IWindowClassProps, IBuilderConfig, IClassProps} from "@essence/essence-constructor-share/types";
-import {toSize} from "@essence/essence-constructor-share/utils";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {mapComponents, SideResizer} from "@essence-community/constructor-share";
+import {IWindowClassProps, IBuilderConfig, IClassProps} from "@essence-community/constructor-share/types";
+import {toSize} from "@essence-community/constructor-share/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {Grid, Drawer} from "@material-ui/core";
 import {useStyles} from "./WindowDrawerContainer.styles";
 

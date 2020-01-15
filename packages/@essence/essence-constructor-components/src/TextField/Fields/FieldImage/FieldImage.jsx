@@ -2,10 +2,10 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {Icon} from "@essence-community/constructor-share/Icon";
 import {compose} from "recompose";
-import {toSize, parseMemoize, withTranslation, WithT} from "@essence/essence-constructor-share/utils";
-import {downloadImage} from "@essence/essence-constructor-share/utils/download";
+import {toSize, parseMemoize, withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {downloadImage} from "@essence-community/constructor-share/utils/download";
 import {type PropsType} from "./FieldImageTypes";
 import {styles} from "./FieldImageStyle";
 

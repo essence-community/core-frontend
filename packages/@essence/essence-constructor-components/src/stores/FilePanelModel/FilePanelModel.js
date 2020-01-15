@@ -13,7 +13,7 @@ import {
     VAR_RECORD_NAME,
     VAR_RECORD_ROUTE_PAGE_ID,
     META_PAGE_OBJECT,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {type BuilderBaseType, type BuilderModeType} from "../../BuilderType";
 import {type RecordsModelType} from "../RecordsModel";
 import {GridModel} from "../GridModel";

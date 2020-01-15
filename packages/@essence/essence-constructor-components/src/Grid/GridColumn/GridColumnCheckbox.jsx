@@ -2,8 +2,8 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {Checkbox} from "@material-ui/core";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {VAR_RECORD_ID, VAR_RECORD_LEAF} from "@essence/essence-constructor-share/constants";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {VAR_RECORD_ID, VAR_RECORD_LEAF} from "@essence-community/constructor-share/constants";
 import {type GridModelType} from "../../stores/GridModel";
 import {type GridColumnPropsType} from "./GridColumnTypes";
 

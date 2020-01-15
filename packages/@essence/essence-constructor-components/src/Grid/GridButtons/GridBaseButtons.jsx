@@ -4,7 +4,7 @@ import {observer} from "mobx-react";
 import noop from "lodash/noop";
 import orderBy from "lodash/orderBy";
 import {Grid} from "@material-ui/core";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_CN_ORDER} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_CN_ORDER} from "@essence-community/constructor-share/constants";
 import BuilderButtonCollector from "../../Button/BuilderButtonCollector/BuilderButtonCollector";
 import Pagination from "../../Pagination/Pagination";
 import BuilderMobxButton from "../../Button/BuilderMobxButton";

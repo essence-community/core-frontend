@@ -6,9 +6,9 @@ import {Field} from "mobx-react-form";
 import forEach from "lodash/forEach";
 import noop from "lodash/noop";
 import uuid from "uuid";
-import {parseMemoize, loadComponentsFromModules} from "@essence/essence-constructor-share";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
-import {findClassNames, i18next} from "@essence/essence-constructor-share/utils";
+import {parseMemoize, loadComponentsFromModules} from "@essence-community/constructor-share";
+import {snackbarStore} from "@essence-community/constructor-share/models";
+import {findClassNames, i18next} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_GLOBAL_VALUE,
     VAR_RECORD_ID,
@@ -16,7 +16,7 @@ import {
     VAR_RECORD_ROUTE_PAGE_ID,
     VAR_RECORD_URL,
     VAR_RECORD_CN_ACTION_EDIT,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {loggerRoot, styleTheme as styleThemeConst} from "../../constants";
 import {sendRequestList} from "../../request/baseRequest";
 import {isEmpty} from "../../utils/base";
@@ -298,7 +298,7 @@ export class PageModel implements PageModelInterface {
                     const pageBc = (response.length && response[0].children) || [];
                     const classNames = findClassNames(pageBc);
 
-                    loadComponentsFromModules(classNames).then(() => {
+                    return loadComponentsFromModules(classNames).then(() => {
                         this.pageBc = pageBc;
 
                         if (response.length && response[0]) {
@@ -306,16 +306,16 @@ export class PageModel implements PageModelInterface {
                         }
                     });
                 }
+
+                return undefined;
             })
 
             .catch((error) => {
                 snackbarStore.checkExceptResponse(error, this.route, this.applicationStore);
                 this.pageBc = [];
             })
-            .then((res) => {
+            .then(() => {
                 this.setLoadingAction(false);
-
-                return res;
             });
     });
 

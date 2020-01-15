@@ -4,7 +4,7 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_QUERY_ID,
     VAR_SETTING_SMART_MASK_QUERY,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {RecordsModel, type RecordsModelType} from "../RecordsModel";
 import {type ApplicationModelType} from "../StoreTypes";
 import {type GlobalRecordsModelInterface, type ConstructorType} from "./GlobalRecordsModelType";

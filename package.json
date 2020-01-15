@@ -8,12 +8,12 @@
     "node": ">=9.0.0"
   },
   "scripts": {
-    "start": "yarn workspace @essence/essence-constructor-website run start",
-    "start-localhost": "yarn workspace @essence/essence-constructor-website run start-localhost",
-    "start-mock": "yarn workspace @essence/essence-constructor-website run start-mock",
-    "build": "yarn workspace @essence/essence-constructor-website run build && cp -r ./packages/@essence/essence-constructor-website/build ./build",
+    "start": "yarn workspace @essence-community/constructor-website run start",
+    "start-localhost": "yarn workspace @essence-community/constructor-website run start-localhost",
+    "start-mock": "yarn workspace @essence-community/constructor-website run start-mock",
+    "build": "yarn workspace @essence-community/constructor-website run build && cp -r ./packages/@essence/essence-constructor-website/build ./build",
     "rebuild-share:dev": "cd packages/@essence/essence-constructor-share && yarn run build && cd ../essence-constructor-dll && yarn install --force && yarn build:dev && cd ../../.. && yarn install --force --ignore-scripts",
-    "tscheck:classes": "yarn workspace @essence/essence-constructor-classes run tsc",
+    "tscheck:classes": "yarn workspace @essence-community/constructor-classes run tsc",
     "tscheck:share": "cd packages/@essence/essence-constructor-share && yarn tsc",
     "CI": "concurrently \"yarn tscheck:classes\" \"yarn tscheck:share\" \"yarn lint\" \"yarn lint-ts\"",
     "preinstall": "cd packages/@essence/essence-constructor-share && yarn install && yarn build",

@@ -3,7 +3,7 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
 import get from "lodash/get";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type CkIdType} from "../../BuilderType";
 import {TABLE_CELL_MIN_WIDTH, styleTheme, loggerRoot, BUTTON_HEIGHT, GRID_ROW_HEIGHT} from "../../constants";
 import {type GridModelType, type PercentColumnsType} from "./GridModelType";

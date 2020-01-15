@@ -1,14 +1,14 @@
 {
-  "name": "@essence/essence-constructor-components",
+  "name": "@essence-community/constructor-components",
   "version": "2.0.1",
   "private": false,
   "description": "",
   "license": "MIT",
-  "author": "Oleh Kucenko",
+  "author": "Oleh Kutsenko",
   "main": "index.js",
   "scripts": {},
   "dependencies": {
-    "@essence/essence-constructor-share": "file:../essence-constructor-share/lib",
+    "@essence-community/constructor-share": "file:../essence-constructor-share/lib",
     "@material-ui/core": "^4.7.2",
     "axios": "0.19.0",
     "bignumber.js": "9.0.0",

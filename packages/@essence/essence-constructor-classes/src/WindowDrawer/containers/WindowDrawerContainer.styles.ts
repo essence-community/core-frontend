@@ -1,5 +1,5 @@
 import {makeStyles} from "@material-ui/core";
-import {IEssenceTheme, IClassProps} from "@essence/essence-constructor-share";
+import {IEssenceTheme, IClassProps} from "@essence-community/constructor-share";
 
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({

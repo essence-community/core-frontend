@@ -9,7 +9,7 @@ import {
     VAR_RECORD_CK_MAIN,
     VAR_RECORD_CL_WARNING,
     VAR_RECORD_CV_ACTION,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {isEmpty} from "../../utils/base";
 import {type BuilderModeType} from "../../BuilderType";
 import {filter, attachGlobalValues, type ConfigType} from "./saveAction";

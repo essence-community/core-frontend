@@ -3,7 +3,7 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {Collapse} from "@material-ui/core";
-import {VAR_RECORD_ID, VAR_RECORD_PARENT_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import MenuGridRow from "./MenuGridRow";
 
 type PropsType = {|

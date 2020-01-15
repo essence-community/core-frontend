@@ -1,15 +1,15 @@
 import * as React from "react";
-import {IClassProps, mapComponents, IBuilderConfig, useModel} from "@essence/essence-constructor-share";
-import {ApplicationContext, EditorContex} from "@essence/essence-constructor-share/context";
+import {IClassProps, mapComponents, IBuilderConfig, useModel} from "@essence-community/constructor-share";
+import {ApplicationContext, EditorContex} from "@essence-community/constructor-share/context";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_DISPLAYED,
-} from "@essence/essence-constructor-share/constants";
-import {useTranslation} from "@essence/essence-constructor-share/utils";
+} from "@essence-community/constructor-share/constants";
+import {useTranslation} from "@essence-community/constructor-share/utils";
 import {Grid} from "@material-ui/core";
-import {Field, FormType} from "@essence/essence-constructor-share/types/Base";
+import {Field, FormType} from "@essence-community/constructor-share/types/Base";
 import {useObserver} from "mobx-react-lite";
 import {Group} from "../components/Group";
 import {FieldRepeaterModel} from "../Store/FieldRepeaterModel";

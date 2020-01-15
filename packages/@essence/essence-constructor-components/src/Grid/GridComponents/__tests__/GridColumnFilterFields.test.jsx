@@ -7,7 +7,7 @@ import {
     VAR_MOCK_DATE_COLUMN,
     VAR_MOCK_DATE_COLUMN_EN,
     VAR_MOCK_DATE_COLUMN_ST,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {mountWithTheme} from "../../../utils/test";
 import {createEmptyPageStore} from "../../../stores";
 import BuilderForm, {BuilderFormBase} from "../../../Form/BuilderForm";

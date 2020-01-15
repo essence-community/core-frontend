@@ -1,9 +1,9 @@
 import * as React from "react";
 import {useObserver, useDisposable} from "mobx-react-lite";
 import {Paper, MenuItem, CircularProgress} from "@material-ui/core";
-import {IBuilderConfig, Scrollbars, Pagination, FieldValue, toString} from "@essence/essence-constructor-share";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
-import {IPopoverChildrenProps} from "@essence/essence-constructor-share/uicomponents/Popover/Popover.types";
+import {IBuilderConfig, Scrollbars, Pagination, FieldValue, toString} from "@essence-community/constructor-share";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {IPopoverChildrenProps} from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";
 import {reaction} from "mobx";
 import {ISuggestion} from "../store/FieldComboModel.types";
 import {FieldComboModel} from "../store/FieldComboModel";

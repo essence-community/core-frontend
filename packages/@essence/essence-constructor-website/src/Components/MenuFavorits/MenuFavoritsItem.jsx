@@ -2,8 +2,8 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {Grid, Typography} from "@material-ui/core";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {VAR_RECORD_ID, VAR_RECORD_NAME, VAR_RECORD_ICON_NAME} from "@essence/essence-constructor-share/constants";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {VAR_RECORD_ID, VAR_RECORD_NAME, VAR_RECORD_ICON_NAME} from "@essence-community/constructor-share/constants";
 
 type PropsType = {|
     classes?: Object,

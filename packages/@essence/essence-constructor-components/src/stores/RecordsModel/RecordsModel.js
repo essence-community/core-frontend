@@ -9,14 +9,14 @@ import get from "lodash/get";
 import noop from "lodash/noop";
 import omit from "lodash/omit";
 import pLimit from "p-limit";
-import {i18next} from "@essence/essence-constructor-share/utils";
+import {i18next} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_JN_TOTAL_CNT,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {loggerRoot} from "../../constants";
 import {isEmpty} from "../../utils/base";
 import {type BuilderModeType} from "../../BuilderType";

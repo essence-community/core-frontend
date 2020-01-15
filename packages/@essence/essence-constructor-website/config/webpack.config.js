@@ -304,6 +304,10 @@ module.exports = function(webpackEnv) {
           'scheduler/tracing': 'scheduler/tracing-profiling',
         }),
         ...(modules.webpackAliases || {}),
+        '@essence/essence-constructor-dll': '@essence-community/constructor-dll',
+        '@essence/essence-constructor-classes': '@essence-community/constructor-classes',
+        '@essence/essence-constructor-components': '@essence-community/constructor-components',
+        '@essence/essence-constructor-share': '@essence-community/constructor-share'
       },
       plugins: [
         // Adds support for installing with Plug'n'Play, leading to faster installs and adding

@@ -5,7 +5,7 @@ import debounce from "lodash/debounce";
 import cn from "classnames";
 import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {HorizontalSizerIcon} from "@essence/essence-constructor-share/icons";
+import {HorizontalSizerIcon} from "@essence-community/constructor-share/icons";
 import {getCoords} from "../utils/html";
 import type {ItemType} from "../stores/PanelModel";
 import {getWidth} from "./HorizontalResizerUtils/getWidth";

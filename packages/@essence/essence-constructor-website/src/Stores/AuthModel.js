@@ -1,8 +1,8 @@
 // @flow
 import {extendObservable, action} from "mobx";
-import {sendRequest} from "@essence/essence-constructor-components";
-import {getFromStore, saveToStore} from "@essence/essence-constructor-share/utils";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
+import {sendRequest} from "@essence-community/constructor-components";
+import {getFromStore, saveToStore} from "@essence-community/constructor-share/utils";
+import {snackbarStore} from "@essence-community/constructor-share/models";
 import noop from "lodash/noop";
 import {applicationStore} from "./ApplicationModel";
 

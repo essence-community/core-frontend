@@ -6,12 +6,12 @@ import {reaction} from "mobx";
 import {Grid, Radio, RadioGroup, FormLabel} from "@material-ui/core";
 import cn from "classnames";
 import {withStyles} from "@material-ui/core/styles";
-import {toColumnStyleWidth, withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {toColumnStyleWidth, withTranslation, WithT} from "@essence-community/constructor-share/utils";
 import {
     VALUE_SELF_FIRST,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import TextFieldLabel from "../../TextFieldComponents/TextFieldLabel/TextFieldLabel";
 import withModelDecorator from "../../../decorators/withModelDecorator";
 import {FieldRadioGroupModel} from "../../../stores/FieldRadioGroupModel";

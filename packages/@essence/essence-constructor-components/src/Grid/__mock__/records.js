@@ -1,5 +1,5 @@
 // @flow
-import {VAR_RECORD_ID, VAR_RECORD_PARENT_ID, VAR_RECORD_NAME} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_ID, VAR_RECORD_PARENT_ID, VAR_RECORD_NAME} from "@essence-community/constructor-share/constants";
 
 export const treeRecords = [
     {[VAR_RECORD_ID]: "1", [VAR_RECORD_NAME]: "root", [VAR_RECORD_PARENT_ID]: null, leaf: "false"},

@@ -2,8 +2,8 @@
 import forOwn from "lodash/forOwn";
 import {runInAction, when} from "mobx";
 import {Field, Form} from "mobx-react-form";
-import {VALUE_SELF_FIRST, VAR_RECORD_MASTER_ID} from "@essence/essence-constructor-share/constants";
-import {i18next} from "@essence/essence-constructor-share/utils";
+import {VALUE_SELF_FIRST, VAR_RECORD_MASTER_ID} from "@essence-community/constructor-share/constants";
+import {i18next} from "@essence-community/constructor-share/utils";
 import {loggerRoot} from "../../constants";
 import {isEmpty} from "../../utils/base";
 import {type PageModelInterface} from "./PageModelType";

@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import {EditorContex} from "@essence/essence-constructor-share";
+import {EditorContex} from "@essence-community/constructor-share";
 import GCFilterFieldBase from "./GCFilterFieldBase";
 import GCFilterFieldDate from "./GCFilterFieldDate";
 import {type GCFilterFieldBaseType} from "./GCFilterFieldTypes";

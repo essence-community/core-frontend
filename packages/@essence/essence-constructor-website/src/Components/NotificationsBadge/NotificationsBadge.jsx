@@ -3,7 +3,7 @@ import * as React from "react";
 import {compose} from "recompose";
 import {observer} from "mobx-react";
 import {Badge} from "@material-ui/core";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
+import {snackbarStore} from "@essence-community/constructor-share/models";
 
 type PropsType = {
     children: React.Node,

@@ -1,6 +1,6 @@
 // @flow
 import {Field} from "mobx-react-form";
-import {parse} from "@essence/essence-constructor-share/utils/parser";
+import {parse} from "@essence-community/constructor-share/utils/parser";
 import {type PageModel} from "../stores/PageModel";
 import {disabledSize} from "../TextField/TFUtils/TFConstants";
 import {getFieldDate} from "../TextField/Fields/FieldDateRC/fieldDateHelpers";

@@ -3,7 +3,7 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_OBJECT_ID,
     VAR_RECORD_NAME,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 
 const filterGlobalDefaultvaluesBc = {
     [VAR_RECORD_NAME]: "filter",

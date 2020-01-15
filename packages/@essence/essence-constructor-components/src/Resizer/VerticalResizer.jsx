@@ -3,7 +3,7 @@ import * as React from "react";
 import {createPortal} from "react-dom";
 import {withStyles} from "@material-ui/core/styles";
 import cn from "classnames";
-import {VerticalSizerIcon} from "@essence/essence-constructor-share/icons";
+import {VerticalSizerIcon} from "@essence-community/constructor-share/icons";
 import {getCoords} from "../utils/html";
 import VerticalResizerStyles from "./VerticalResizerStyles";
 

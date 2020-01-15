@@ -1,6 +1,6 @@
-import {IHandlers, HandlerType} from "@essence/essence-constructor-share/types";
-import {Field} from "@essence/essence-constructor-share/types/Base";
-import {StoreBaseModel} from "@essence/essence-constructor-share/models";
+import {IHandlers, HandlerType} from "@essence-community/constructor-share/types";
+import {Field} from "@essence-community/constructor-share/types/Base";
+import {StoreBaseModel} from "@essence-community/constructor-share/models";
 import {IFieldRepeaterModelProps} from "./FieldRepeaterModel.types";
 
 /**

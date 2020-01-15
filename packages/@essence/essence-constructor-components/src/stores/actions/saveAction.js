@@ -4,8 +4,8 @@ import forOwn from "lodash/forOwn";
 import isArray from "lodash/isArray";
 import noop from "lodash/noop";
 import {toJS, type ObservableMap} from "mobx";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
-import {i18next, getMasterObject} from "@essence/essence-constructor-share/utils";
+import {snackbarStore} from "@essence-community/constructor-share/models";
+import {i18next, getMasterObject} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_MASTER_ID,
@@ -13,7 +13,7 @@ import {
     VAR_RECORD_ROUTE_PAGE_ID,
     VAR_RECORD_CK_MAIN,
     VAR_RECORD_CL_WARNING,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {findGetGlobalKey} from "../../utils/findKey";
 import {loggerRoot} from "../../constants";
 import {isEmpty} from "../../utils/base";

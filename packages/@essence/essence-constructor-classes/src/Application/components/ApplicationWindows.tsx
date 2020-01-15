@@ -1,7 +1,7 @@
 import * as React from "react";
 import {useObserver} from "mobx-react-lite";
-import {IPageModel, IWindowModel, mapComponents, IWindowClassProps} from "@essence/essence-constructor-share";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {IPageModel, IWindowModel, mapComponents, IWindowClassProps} from "@essence-community/constructor-share";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 
 interface IApplicationWindowsProps {
     pageStore: IPageModel;

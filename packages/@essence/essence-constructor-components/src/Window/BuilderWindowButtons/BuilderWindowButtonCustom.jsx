@@ -2,8 +2,8 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {DialogActions} from "@material-ui/core";
-import {mapComponents, EditorContex} from "@essence/essence-constructor-share";
-import VAR_RECORD_PAGE_OBJECT_ID from "@essence/essence-constructor-share/constants";
+import {mapComponents, EditorContex} from "@essence-community/constructor-share";
+import VAR_RECORD_PAGE_OBJECT_ID from "@essence-community/constructor-share/constants";
 import {type PageModelType} from "../../stores/PageModel";
 
 type PropsType = {

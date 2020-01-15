@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import {Typography} from "@material-ui/core";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {VAR_RECORD_CT_CHANGE} from "@essence/essence-constructor-share/constants";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {VAR_RECORD_CT_CHANGE} from "@essence-community/constructor-share/constants";
 import {sleep} from "../../../utils/base";
 import {mountWithTheme, MAX_REQUEST_TIME} from "../../../utils/test";
 import {createEmptyPageStore} from "../../../stores";

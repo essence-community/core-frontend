@@ -1,6 +1,6 @@
 // @flow
 import {extendObservable, action, observable} from "mobx";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {StoreBaseModel, type StoreBaseModelPropsType} from "../StoreBaseModel";
 import {
     type BuilderTabType,

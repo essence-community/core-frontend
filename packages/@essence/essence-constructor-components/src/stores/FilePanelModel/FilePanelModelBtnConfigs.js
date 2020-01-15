@@ -8,7 +8,7 @@ import {
     VAR_RECORD_NAME,
     VAR_RECORD_ROUTE_PAGE_ID,
     VAR_RECORD_CV_DESCRIPTION,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {styleTheme} from "../../constants";
 import {mergeComponents} from "../../utils/builder";
 import {type FilePanelBcType} from "./FilePanelModelTypes";

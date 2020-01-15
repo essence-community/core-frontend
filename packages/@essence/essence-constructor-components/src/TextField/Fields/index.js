@@ -1,4 +1,4 @@
-import {getComponent} from "@essence/essence-constructor-share";
+import {getComponent} from "@essence-community/constructor-share";
 import TextField from "../TextField";
 import FieldMask from "./FieldMask/FieldMask";
 import FieldDateRC from "./FieldDateRC/FieldDateRC";

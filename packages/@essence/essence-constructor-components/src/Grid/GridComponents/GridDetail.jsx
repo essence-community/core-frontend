@@ -2,8 +2,8 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {Grid, TableCell} from "@material-ui/core";
-import {toColumnStyleWidth} from "@essence/essence-constructor-share/utils";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {toColumnStyleWidth} from "@essence-community/constructor-share/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import BuilderForm from "../../Form/BuilderForm";
 import {type GridModelType} from "../../stores/GridModel";
 import {type PageModelType} from "../../stores/PageModel";

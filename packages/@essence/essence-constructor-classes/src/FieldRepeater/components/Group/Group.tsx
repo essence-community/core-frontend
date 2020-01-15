@@ -1,10 +1,10 @@
 import * as React from "react";
 import cn from "clsx";
 import {Grid} from "@material-ui/core";
-import {useTranslation, toColumnStyleWidth} from "@essence/essence-constructor-share/utils";
-import {mapComponents} from "@essence/essence-constructor-share/components";
-import {BuilderTypeContext} from "@essence/essence-constructor-share/context";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence/essence-constructor-share/constants";
+import {useTranslation, toColumnStyleWidth} from "@essence-community/constructor-share/utils";
+import {mapComponents} from "@essence-community/constructor-share/components";
+import {BuilderTypeContext} from "@essence-community/constructor-share/context";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {useStyles} from "./Group.styles";
 import {IGroupProps} from "./Group.types";
 

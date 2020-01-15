@@ -1,6 +1,6 @@
 // @flow
 import {extendObservable} from "mobx";
-import {VAR_RECORD_ID, VAR_SETTING_VALUE} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_ID, VAR_SETTING_VALUE} from "@essence-community/constructor-share/constants";
 import {DefaultRecordsModel, type DefaultRecordsModelPropsType} from "../DefaultRecordsModel";
 
 export class SettingsModel extends DefaultRecordsModel {

@@ -6,7 +6,7 @@ import {
     VAR_RECORD_CK_AREA,
     VAR_RECORD_CV_REGION,
     VAR_RECORD_CK_STREET,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {mergeComponents} from "../../utils/builder";
 import {type BuilderFieldType} from "../../TextField/BuilderFieldType";
 

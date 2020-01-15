@@ -1,6 +1,6 @@
 // @flow
-import {i18next} from "@essence/essence-constructor-share/utils";
-import {VAR_RECORD_ID} from "@essence/essence-constructor-share/constants";
+import {i18next} from "@essence-community/constructor-share/utils";
+import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {loggerRoot} from "../../constants";
 import {type PageModelType} from "../PageModel";
 import {type StoreBaseModelInterface, type StoreBaseModelPropsType} from "./StoreBaseModelTypes";

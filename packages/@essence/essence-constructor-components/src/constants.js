@@ -1,5 +1,5 @@
 // @flow
-import {getFromStore} from "@essence/essence-constructor-share/utils";
+import {getFromStore} from "@essence-community/constructor-share/utils";
 import debug from "debug/dist/debug";
 
 if (process.env.NODE_ENV === "developent") {

@@ -5,12 +5,12 @@ import {observer} from "mobx-react";
 import {compose} from "recompose";
 import moment from "moment";
 import {Typography, CardContent} from "@material-ui/core";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_CT_CHANGE,
     VAR_RECORD_CV_USERNAME,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {styleTheme} from "../../constants";
 import Popover from "../../Popover/Popover";
 import {type PopoverRenderChildren} from "../../Popover/PopoverTypes";

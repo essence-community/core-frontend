@@ -1,8 +1,8 @@
 import {computed} from "mobx";
-import {VALUE_SELF_ALWAYSFIRST} from "@essence/essence-constructor-share/constants";
-import {StoreBaseModel, RecordsModel} from "@essence/essence-constructor-share/models";
-import {IRecordsModel, IStoreBaseModelProps, IStoreBaseModel} from "@essence/essence-constructor-share/types";
-import {parse} from "@essence/essence-constructor-share/utils/parser";
+import {VALUE_SELF_ALWAYSFIRST} from "@essence-community/constructor-share/constants";
+import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
+import {IRecordsModel, IStoreBaseModelProps, IStoreBaseModel} from "@essence-community/constructor-share/types";
+import {parse} from "@essence-community/constructor-share/utils/parser";
 
 export class IframeModel extends StoreBaseModel implements IStoreBaseModel {
     recordsStore: IRecordsModel;

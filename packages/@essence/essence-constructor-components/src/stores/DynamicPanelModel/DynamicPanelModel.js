@@ -1,6 +1,6 @@
 // @flow
 import {action} from "mobx";
-import {VAR_RECORD_ROUTE_PAGE_ID, VAR_RECORD_CA_CHILDS} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_ROUTE_PAGE_ID, VAR_RECORD_CA_CHILDS} from "@essence-community/constructor-share/constants";
 import {type RecordsModelType, RecordsModel} from "../RecordsModel";
 import {StoreBaseModel, type StoreBaseModelPropsType} from "../StoreBaseModel";
 import {type DynamicPanelType} from "./DynamicPanelModelType";

@@ -5,14 +5,14 @@ import {compose} from "recompose";
 import {observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
 import {Grid, Typography} from "@material-ui/core";
-import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {WithT, withTranslation} from "@essence-community/constructor-share/utils";
+import {Icon} from "@essence-community/constructor-share/Icon";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_LEAF,
     VAR_RECORD_NAME,
     VAR_RECORD_ICON_NAME,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import styles from "./MenuGridRowStyles";
 
 type PropsType = WithT & {|

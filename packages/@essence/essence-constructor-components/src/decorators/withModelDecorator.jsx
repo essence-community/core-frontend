@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type PageModelType} from "../stores/PageModel";
 import {type RecordsModelType} from "../stores/RecordsModel";
 import {type BuilderBaseType} from "../BuilderType";

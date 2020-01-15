@@ -1,5 +1,5 @@
 import * as React from "react";
-import {IPageModel, QUERY_ELEMENT} from "@essence/essence-constructor-share";
+import {IPageModel, QUERY_ELEMENT} from "@essence-community/constructor-share";
 import keycode from "keycode";
 
 const isActiveElement = (editingPanel: Element | null) => (el: Element) => editingPanel && editingPanel.contains(el);

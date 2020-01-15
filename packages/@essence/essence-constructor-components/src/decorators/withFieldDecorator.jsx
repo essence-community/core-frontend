@@ -6,15 +6,15 @@ import uniqueId from "lodash/uniqueId";
 import {reaction} from "mobx";
 import {disposeOnUnmount} from "mobx-react";
 import {Field, Form} from "mobx-react-form";
-import {EditorContex} from "@essence/essence-constructor-share";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
-import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
+import {EditorContex} from "@essence-community/constructor-share";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {parseMemoize} from "@essence-community/constructor-share/utils/parser";
 import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_DISPLAYED,
-} from "@essence/essence-constructor-share/constants";
+} from "@essence-community/constructor-share/constants";
 import {loggerRoot} from "../constants";
 import {isEmpty} from "../utils/base";
 import {checkEditable} from "../utils/access";

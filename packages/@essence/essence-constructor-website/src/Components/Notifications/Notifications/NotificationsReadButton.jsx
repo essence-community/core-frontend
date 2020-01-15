@@ -2,8 +2,8 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {Badge, ButtonBase} from "@material-ui/core";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {WithT, withTranslation} from "@essence-community/constructor-share/utils";
 
 type PropsType = WithT & {
     classes: {

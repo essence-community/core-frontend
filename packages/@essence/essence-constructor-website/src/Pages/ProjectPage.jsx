@@ -3,8 +3,8 @@ import * as React from "react";
 import {inject, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
 import {compose} from "recompose";
-import {getComponent, ApplicationContext} from "@essence/essence-constructor-share";
-import {VAR_RECORD_ID, VAR_RECORD_URL} from "@essence/essence-constructor-share/constants";
+import {getComponent, ApplicationContext} from "@essence-community/constructor-share";
+import {VAR_RECORD_ID, VAR_RECORD_URL} from "@essence-community/constructor-share/constants";
 import {type ApplicationModelType} from "../Stores/ApplicationModel";
 
 type StoresPropsType = {

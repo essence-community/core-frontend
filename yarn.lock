@@ -1122,24 +1122,8 @@
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.7.3.tgz#a166882c81c0c6040975dd30df24fae8549bd96f"
   integrity sha512-14ZVlsB9akwvydAdaEnVnvqu6J2P6ySv39hYyl/aoB6w/V+bXX0tay8cF6paqbgZsN2n5Xh15uF4pE+GvE+itw==
 
-"@essence/eslint-config-essence-react@file:packages/@essence/essence-constructor-eslint":
-  version "2.0.1"
-  dependencies:
-    "@typescript-eslint/eslint-plugin" "^2.11.0"
-    "@typescript-eslint/parser" "^2.11.0"
-    eslint "^6.7.2"
-    eslint-config-prettier "^6.7.0"
-    eslint-plugin-filenames "^1.3.2"
-    eslint-plugin-flowtype "^4.5.2"
-    eslint-plugin-import "^2.19.1"
-    eslint-plugin-prettier "^3.1.1"
-    eslint-plugin-react "^7.17.0"
-    eslint-plugin-react-hooks "^2.3.0"
-    prettier "^1.19.1"
-    typescript "^3.7.3"
-
-"@essence/essence-constructor-share@file:packages/@essence/essence-constructor-share/lib":
-  version "2.0.1"
+"@essence-community/constructor-share@file:packages/@essence/essence-constructor-share/lib":
+  version "2.0.2"
   dependencies:
     "@material-ui/core" "4.7.2"
     "@types/react-custom-scrollbars" "^4.0.6"
@@ -1166,6 +1150,22 @@
     react-i18next "^11.2.5"
     request "^2.88.0"
     uuid "^3.3.3"
+
+"@essence-community/eslint-config-react@file:packages/@essence/essence-constructor-eslint":
+  version "2.0.1"
+  dependencies:
+    "@typescript-eslint/eslint-plugin" "^2.11.0"
+    "@typescript-eslint/parser" "^2.11.0"
+    eslint "^6.7.2"
+    eslint-config-prettier "^6.7.0"
+    eslint-plugin-filenames "^1.3.2"
+    eslint-plugin-flowtype "^4.5.2"
+    eslint-plugin-import "^2.19.1"
+    eslint-plugin-prettier "^3.1.1"
+    eslint-plugin-react "^7.17.0"
+    eslint-plugin-react-hooks "^2.3.0"
+    prettier "^1.19.1"
+    typescript "^3.7.3"
 
 "@hapi/address@2.x.x":
   version "2.1.4"

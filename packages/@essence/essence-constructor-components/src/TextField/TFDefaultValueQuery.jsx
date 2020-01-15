@@ -2,7 +2,7 @@
 import * as React from "react";
 import moment from "moment";
 import {reaction} from "mobx";
-import {VAR_RECORD_MASTER_ID, VAR_RECORD_CV_VALUE} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_MASTER_ID, VAR_RECORD_CV_VALUE} from "@essence-community/constructor-share/constants";
 import {isEmpty} from "../utils/base";
 import {type BuilderModeType} from "../BuilderType";
 import {type PageModelType} from "../stores/PageModel";

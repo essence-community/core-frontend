@@ -22,6 +22,8 @@ try {
 
     fs.emptyDirSync(resolveApp("lib"));
     fs.writeFileSync(resolveApp(path.join("lib", "package.json")), JSON.stringify(newPackageJson, null, 2));
+    fs.copyFileSync(resolveApp(path.join("yarn.lock")), resolveApp(path.join("lib", "yarn.lock")));
+    fs.copyFileSync(resolveApp(path.join("README.md")), resolveApp(path.join("lib", "README.md")));
 
     spawn.sync("tsc", ["--project", appDirectory], {
         stdio: "inherit",

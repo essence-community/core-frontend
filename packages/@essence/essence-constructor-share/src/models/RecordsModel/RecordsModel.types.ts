@@ -33,7 +33,7 @@ export interface IAttachGlobalStore {
 export interface ILoadRecordsAction {
     applicationStore: IApplicationModel | null;
     bc: IBuilderConfig;
-    recordId?: string;
+    recordId: string;
     selectedRecordId?: string;
     isUserReload?: boolean;
     status: RecordsStateStatusType;

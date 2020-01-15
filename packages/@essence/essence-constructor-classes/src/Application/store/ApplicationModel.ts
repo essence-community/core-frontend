@@ -16,6 +16,7 @@ import {
     IRecord,
 } from "@essence/essence-constructor-share";
 import {
+    VAR_RECORD_ID,
     VAR_RECORD_URL,
     VAR_SETTING_PROJECT_APPLICATION_PAGE,
     VAR_LANG_ID,
@@ -93,8 +94,10 @@ export class ApplicationModel implements IApplicationModel {
 
     mode: string;
 
+    recordId: string = VAR_RECORD_ID;
+
     @computed get bc(): IBuilderConfig {
-        const {children} = this.recordsStore.selectedRecrodValues;
+        const {children} = this.recordsStore.selectedRecordValues;
 
         if (!Array.isArray(children)) {
             return NONE_BC;
@@ -209,11 +212,11 @@ export class ApplicationModel implements IApplicationModel {
                         [VAR_RECORD_ROUTE_PAGE_ID]: settingsStore.settings[VAR_SETTING_PROJECT_APPLICATION_PAGE],
                     })
                     .then(() => {
-                        const {children} = this.recordsStore.selectedRecrodValues;
+                        const {children} = this.recordsStore.selectedRecordValues;
 
                         this.recordsStore.setRecordsAction([
                             {
-                                ...this.recordsStore.selectedRecrodValues,
+                                ...this.recordsStore.selectedRecordValues,
                                 children: [pageSafeJson, ...(Array.isArray(children) ? children : [])],
                             },
                         ]);

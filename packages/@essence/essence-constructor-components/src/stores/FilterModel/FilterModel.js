@@ -6,7 +6,6 @@ import {saveToStore, removeFromStore} from "@essence/essence-constructor-share/u
 import {snackbarStore} from "@essence/essence-constructor-share/models";
 import {print} from "@essence/essence-constructor-share/utils/download";
 import {
-    VAR_RECORD_ID,
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -59,10 +58,10 @@ export class FilterModel extends StoreBaseModel implements FilterModelType {
     setValues = (values: FilterValues): void => {
         const filterValues = {...values};
 
-        if (isEmpty(filterValues[VAR_RECORD_ID]) && this.bc.childs) {
+        if (isEmpty(filterValues[this.recordId]) && this.bc.childs) {
             for (const child of this.bc.childs) {
                 if (child.required === "true") {
-                    filterValues[VAR_RECORD_ID] = filterValues[child.column];
+                    filterValues[this.recordId] = filterValues[child.column];
                     break;
                 }
             }

@@ -51,7 +51,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
 
                 const {bc} = this.props;
 
-                this.key = bc.column || uniqueId("builderield");
+                this.key = bc.column || uniqueId("builderfield");
 
                 if (!bc.column) {
                     logger(this.props.t("static:d4055d1153af44a4ba5eb73ac9bc437e", {key: this.key}));

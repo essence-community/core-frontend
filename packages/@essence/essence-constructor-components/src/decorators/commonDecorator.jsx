@@ -3,7 +3,7 @@ import * as React from "react";
 import {autorun} from "mobx";
 import isString from "lodash/isString";
 import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
-import {VAR_RECORD_ID, VAR_RECORD_MASTER_ID} from "@essence/essence-constructor-share/constants";
+import {VAR_RECORD_MASTER_ID} from "@essence/essence-constructor-share/constants";
 import {type PageModelType} from "../stores/PageModel";
 import {isEmpty} from "../utils/base";
 
@@ -153,7 +153,7 @@ function commonDecorator<Props: CommonHOCProps>(
             }
         };
 
-        // eslint-disable-next-line max-statements, complexity
+        // eslint-disable-next-line max-statements, complexity, max-lines-per-function
         isDisabled() {
             const {pageStore, disabled} = this.props;
             const {reqsel, disabledrules, disabledemptymaster, type} = this.props.bc;
@@ -166,24 +166,28 @@ function commonDecorator<Props: CommonHOCProps>(
             if (reqsel === "true" && masterId) {
                 const masterStore = pageStore.stores.get(masterId);
 
-                if (masterStore && masterStore.bc && masterStore.bc.collectionvalues === "array" && type === "IFIELD") {
-                    return masterStore.selectedEntries && masterStore.selectedEntries.length === 0;
-                }
+                if (masterStore) {
+                    if (masterStore.bc && masterStore.bc.collectionvalues === "array" && type === "IFIELD") {
+                        return masterStore.selectedEntries && masterStore.selectedEntries.length === 0;
+                    }
 
-                if (masterStore && typeof masterStore.selectedRecord !== "undefined") {
-                    return (
-                        !masterStore.selectedRecord ||
-                        (isString(masterStore.selectedRecord[VAR_RECORD_ID]) &&
-                            masterStore.selectedRecord[VAR_RECORD_ID].indexOf("auto-") === 0)
-                    );
-                }
+                    if (typeof masterStore.selectedRecord !== "undefined") {
+                        return (
+                            !masterStore.selectedRecord ||
+                            (isString(masterStore.selectedRecord[masterStore.recordId]) &&
+                                masterStore.selectedRecord[masterStore.recordId].indexOf("auto-") === 0)
+                        );
+                    }
 
-                if (masterStore && masterStore.recordsStore) {
-                    return (
-                        !masterStore.recordsStore.selectedRecord ||
-                        (isString(masterStore.recordsStore.selectedRecord[VAR_RECORD_ID]) &&
-                            masterStore.recordsStore.selectedRecord[VAR_RECORD_ID].indexOf("auto-") === 0)
-                    );
+                    if (masterStore.recordsStore) {
+                        return (
+                            !masterStore.recordsStore.selectedRecord ||
+                            (isString(masterStore.recordsStore.selectedRecord[masterStore.recordsStore.recordId]) &&
+                                masterStore.recordsStore.selectedRecord[masterStore.recordsStore.recordId].indexOf(
+                                    "auto-",
+                                ) === 0)
+                        );
+                    }
                 }
             }
 

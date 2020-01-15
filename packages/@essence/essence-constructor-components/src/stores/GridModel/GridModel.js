@@ -6,7 +6,6 @@ import findIndex from "lodash/findIndex";
 import groupBy from "lodash/groupBy";
 import {i18next} from "@essence/essence-constructor-share/utils";
 import {
-    VAR_RECORD_ID,
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -73,13 +72,13 @@ function setGridSelections(gridStore: GridModelType, isSelected: boolean, parent
     gridStore.recordsStore.records.forEach((record) => {
         if (record[VAR_RECORD_PARENT_ID] === parentId) {
             if (record[VAR_RECORD_LEAF] === "false") {
-                setGridSelections(gridStore, isSelected, record[VAR_RECORD_ID]);
+                setGridSelections(gridStore, isSelected, record[gridStore.recordsStore.recordId]);
             }
 
             if (isSelected) {
-                gridStore.selectedRecords.delete(record[VAR_RECORD_ID]);
+                gridStore.selectedRecords.delete(record[gridStore.recordsStore.recordId]);
             } else {
-                gridStore.selectedRecords.set(record[VAR_RECORD_ID], record);
+                gridStore.selectedRecords.set(record[gridStore.recordsStore.recordId], record);
             }
         }
     });
@@ -87,15 +86,15 @@ function setGridSelections(gridStore: GridModelType, isSelected: boolean, parent
 
 function setGridSelectionsTop(gridStore: GridModelType, isSelected: boolean, ckChild: CkIdType) {
     gridStore.recordsStore.records.forEach((record) => {
-        if (record[VAR_RECORD_ID] === ckChild) {
+        if (record[gridStore.recordsStore.recordId] === ckChild) {
             if (!isEmpty(record[VAR_RECORD_PARENT_ID])) {
                 setGridSelectionsTop(gridStore, isSelected, record[VAR_RECORD_PARENT_ID]);
             }
 
             if (isSelected) {
-                gridStore.selectedRecords.delete(record[VAR_RECORD_ID]);
+                gridStore.selectedRecords.delete(record[gridStore.recordsStore.recordId]);
             } else {
-                gridStore.selectedRecords.set(record[VAR_RECORD_ID], record);
+                gridStore.selectedRecords.set(record[gridStore.recordsStore.recordId], record);
             }
         }
     });
@@ -163,7 +162,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
         this.bc = bc;
         this.pageStore = pageStore;
         this.recordsStore = recordsStore;
-        this.valueFields = [[VAR_RECORD_ID, VAR_RECORD_ID]];
+        this.valueFields = [[this.recordsStore.recordId, this.recordsStore.recordId]];
 
         this.gridColumnsInitial = getGridColumns(bc);
         this.gridBtnsConfig = getGridBtnsConfig(bc, this);
@@ -195,12 +194,12 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
                     return this.recordsStore.records.every(
                         (record) =>
                             record[VAR_RECORD_LEAF] === "false" ||
-                            Boolean(this.selectedRecords.get(record[VAR_RECORD_ID])),
+                            Boolean(this.selectedRecords.get(record[this.recordsStore.recordId])),
                     );
                 }
 
                 return this.recordsStore.records.every((record) =>
-                    Boolean(this.selectedRecords.get(record[VAR_RECORD_ID])),
+                    Boolean(this.selectedRecords.get(record[this.recordsStore.recordId])),
                 );
             },
             minHeight: GRID_ROW_HEIGHT * GRID_ROWS_COUNT,
@@ -351,7 +350,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
                     this,
                     !this.recordsStore.records
                         .filter((rec) => rec[VAR_RECORD_PARENT_ID] === record[VAR_RECORD_PARENT_ID])
-                        .some((rec) => this.selectedRecords.has(rec[VAR_RECORD_ID])),
+                        .some((rec) => this.selectedRecords.has(rec[this.recordsStore.recordId])),
                     record[VAR_RECORD_PARENT_ID],
                 );
             }
@@ -378,11 +377,11 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
 
                 record = this.recordsStore.records.find(
                     // eslint-disable-next-line eqeqeq
-                    (rec) => rec[VAR_RECORD_ID] == childRecord[VAR_RECORD_PARENT_ID],
+                    (rec) => rec[this.recordsStore.recordId] == childRecord[VAR_RECORD_PARENT_ID],
                 );
 
                 if (record) {
-                    this.expansionRecords.set(record[VAR_RECORD_ID], true);
+                    this.expansionRecords.set(record[this.recordsStore.recordId], true);
                 }
             }
         }
@@ -494,8 +493,8 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
                 this.recordsStore.setPageNumberAction(0);
             }
 
-            if (record && Boolean(this.selectedRecords.get(record[VAR_RECORD_ID]))) {
-                this.toggleSelectedRecordAction(record[VAR_RECORD_ID], record);
+            if (record && Boolean(this.selectedRecords.get(record[this.recordsStore.recordId]))) {
+                this.toggleSelectedRecordAction(record[this.recordsStore.recordId], record);
             }
 
             return res;
@@ -505,7 +504,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
     setAllSelectedRecords = action("setAllSelectedRecords", (all: boolean) => {
         if (all) {
             this.recordsStore.records.forEach((record) => {
-                this.selectedRecords.set(record[VAR_RECORD_ID], record);
+                this.selectedRecords.set(record[this.recordsStore.recordId], record);
             });
         } else {
             this.selectedRecords.clear();

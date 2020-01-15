@@ -285,11 +285,11 @@ export class PageModel implements IPageModel {
 
             // @ts-ignore
             if (snackbarStore.checkValidResponseAction(response[0], this.route, undefined, this.applicationStore)) {
-                const {children} = this.recordsStore.selectedRecrodValues;
+                const {children} = this.recordsStore.selectedRecordValues;
                 const pageBc = Array.isArray(children) ? children : [];
 
                 const classNames = findClassNames(pageBc);
-                const globalValue = this.recordsStore.selectedRecrodValues[VAR_RECORD_GLOBAL_VALUE] as Record<
+                const globalValue = this.recordsStore.selectedRecordValues[VAR_RECORD_GLOBAL_VALUE] as Record<
                     string,
                     FieldValue
                 >;

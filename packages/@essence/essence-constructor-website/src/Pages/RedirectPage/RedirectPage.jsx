@@ -122,7 +122,9 @@ class RedirectPage extends React.Component<PropsType, StateType> {
                             <React.Fragment>
                                 <Grid item>{t("static:6f93ca102d5f488aa3082e0344486e9e", {page: params.page})}</Grid>
                                 <Grid item>
-                                    {t("static:dda349a2de0049408168eb5d148442df", {filter: JSON.stringify(params.filter)})}
+                                    {t("static:dda349a2de0049408168eb5d148442df", {
+                                        filter: JSON.stringify(params.filter),
+                                    })}
                                 </Grid>
                             </React.Fragment>
                         ) : (

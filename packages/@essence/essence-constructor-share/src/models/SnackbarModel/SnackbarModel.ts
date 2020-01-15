@@ -202,7 +202,8 @@ export class SnackbarModel implements ISnackbarModel {
             if (isObject(error)) {
                 const stackTrace = response[VAR_RECORD_RES_STACK_TRACE];
 
-                forEach(error, (values: string[], code) => {
+                // eslint-disable-next-line default-param-last
+                forEach(error, (values: string[] = [], code) => {
                     rec =
                         code === "block" || code === "unblock"
                             ? {
@@ -226,10 +227,18 @@ export class SnackbarModel implements ISnackbarModel {
                         const text =
                             typeof message === "string"
                                 ? i18next
-                                      .t(message, message, {ns: "message"})
+                                      .t(message, {
+                                          defaultValue: message,
+                                          ns: "message",
+                                      })
                                       // eslint-disable-next-line require-unicode-regexp, prefer-named-capture-group
                                       .replace(/{(\d+)}/g, (match, pattern) =>
-                                          i18next.t((values && values[pattern]) || "", "", {ns: "message"}),
+                                          values.length
+                                              ? i18next.t(values[pattern], {
+                                                    defaultValue: values[pattern],
+                                                    ns: "message",
+                                                })
+                                              : "",
                                       )
                                 : "";
 

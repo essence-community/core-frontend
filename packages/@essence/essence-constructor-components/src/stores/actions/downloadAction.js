@@ -34,7 +34,14 @@ const appendInputForm = ({form, name, type = "text", value}: InputFormType) => {
 
 // eslint-disable-next-line max-statements, max-lines-per-function
 export function downloadAction(values: Object | Array<Object>, mode: BuilderModeType, config: ConfigType) {
-    const {actionBc, [VAR_RECORD_CL_WARNING]: warningStatus = 0, query = "Modify", bc, pageStore} = config;
+    const {
+        actionBc,
+        recordId = VAR_RECORD_ID,
+        [VAR_RECORD_CL_WARNING]: warningStatus = 0,
+        query = "Modify",
+        bc,
+        pageStore,
+    } = config;
     const {extraplugingate, getglobaltostore} = actionBc;
     const queryStr = {
         action: "file",
@@ -62,7 +69,7 @@ export function downloadAction(values: Object | Array<Object>, mode: BuilderMode
             values: filter(values),
         });
         // eslint-disable-next-line require-unicode-regexp
-        modeCheck = isEmpty(filteredValues[VAR_RECORD_ID]) && /^\d+$/.test(mode) ? "1" : mode;
+        modeCheck = isEmpty(filteredValues[recordId]) && /^\d+$/.test(mode) ? "1" : mode;
     }
 
     const form = document.createElement("form");

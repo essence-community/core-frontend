@@ -5,7 +5,7 @@ import {observer} from "mobx-react";
 import {IconButton} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import commonDecorator from "../../../decorators/commonDecorator";
 import {type GridColumnPropsType} from "../GridColumnTypes";
 import styles from "./GridColumnDetailSchevronStyles";
@@ -26,7 +26,7 @@ class GridColumnDetailSchevron extends React.Component<PropsType> {
             if (record.type === "root") {
                 store.openRoot();
             } else {
-                store.openCloseExpansionAction(record[VAR_RECORD_ID]);
+                store.openCloseExpansionAction(record[store.recordsStore.recordId]);
             }
         }
     };
@@ -38,7 +38,8 @@ class GridColumnDetailSchevron extends React.Component<PropsType> {
             return null;
         }
 
-        const isExpanded = record.type === "root" ? store.rootNode : store.expansionRecords.get(record[VAR_RECORD_ID]);
+        const isExpanded =
+            record.type === "root" ? store.rootNode : store.expansionRecords.get(record[store.recordsStore.recordId]);
 
         return (
             <IconButton

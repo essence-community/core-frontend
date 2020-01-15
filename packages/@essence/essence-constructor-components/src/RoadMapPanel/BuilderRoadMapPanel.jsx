@@ -177,7 +177,7 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
                     dataPageObject={`${child[VAR_RECORD_PAGE_OBJECT_ID]}-form`}
                     mode="1"
                     pageStore={pageStore}
-                    initialValues={tabStatus.get(child[VAR_RECORD_PAGE_OBJECT_ID]).recordStore.selectedRecrodValues}
+                    initialValues={tabStatus.get(child[VAR_RECORD_PAGE_OBJECT_ID]).recordStore.selectedRecordValues}
                 >
                     <Cmp
                         type={child.type}

@@ -11,12 +11,12 @@ import {IBuilderMode} from "../types";
 import {FieldValue} from "../types/Field";
 
 interface IConfig {
+    [VAR_RECORD_ROUTE_PAGE_ID]: string;
+    [VAR_RECORD_PAGE_OBJECT_ID]: string;
+    [VAR_RECORD_CK_MAIN]: FieldValue;
+    [VAR_RECORD_CL_WARNING]: number | undefined;
     action?: string;
     mode: IBuilderMode;
-    ck_page: string;
-    ck_page_object: string;
-    ck_main?: null | string;
-    cl_warning?: number;
     session: string;
     master?: Record<string, FieldValue>;
     query?: string;

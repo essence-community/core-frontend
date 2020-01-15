@@ -49,7 +49,7 @@ export class BaseBuilderHistoryPanel extends React.Component<PropsType & PropsSt
 
     renderBody() {
         const {store, bc, disabled, readOnly, pageStore, visible} = this.props;
-        const {selectedRecrodValues} = store.recordsStore;
+        const {selectedRecordValues} = store.recordsStore;
 
         const actions = (
             <React.Fragment>
@@ -68,7 +68,7 @@ export class BaseBuilderHistoryPanel extends React.Component<PropsType & PropsSt
 
         return (
             <BuilderForm
-                initialValues={selectedRecrodValues}
+                initialValues={selectedRecordValues}
                 dataPageObject={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-form`}
                 isEditing={store.editing}
                 mode={store.mode}

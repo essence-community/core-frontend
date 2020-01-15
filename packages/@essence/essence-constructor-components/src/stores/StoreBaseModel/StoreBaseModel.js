@@ -1,5 +1,6 @@
 // @flow
 import {i18next} from "@essence-community/constructor-share/utils";
+import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {loggerRoot} from "../../constants";
 import {type PageModelType} from "../PageModel";
 import {type StoreBaseModelInterface, type StoreBaseModelPropsType} from "./StoreBaseModelTypes";
@@ -25,9 +26,12 @@ export class StoreBaseModel implements StoreBaseModelInterface {
 
     pageStore: PageModelType;
 
+    recordId: string;
+
     constructor({bc, pageStore}: StoreBaseModelPropsType) {
         this.bc = bc;
         this.pageStore = pageStore;
+        this.recordId = bc.idproperty || VAR_RECORD_ID;
     }
 
     reloadStoreAction = (): void => {

@@ -14,9 +14,10 @@ export function getMasterObject(
     const result: Record<string, FieldValue> = {};
     const keys = findSetKey(getMasterValue);
     const {globalValues} = pageStore;
-    const idProperty = VAR_RECORD_ID;
+    const masterStore = pageStore.stores.get(idMaster);
+    const idProperty = masterStore?.recordId || VAR_RECORD_ID;
     const record: Record<string, FieldValue> = {
-        ...(pageStore.stores.get(idMaster)?.selectedRecord || {}),
+        ...(masterStore?.selectedRecord || {}),
         ...(pageStore.fieldValueMaster.has(idMaster) ? {[idProperty]: pageStore.fieldValueMaster.get(idMaster)} : {}),
     };
 

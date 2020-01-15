@@ -210,7 +210,7 @@ export class SnackbarModel implements ISnackbarModel {
                                   [VAR_RECORD_CV_TEXT]: "{0}",
                               }
                             : this.recordsStore.recordsState.records.find(
-                                  (record: IRecord) => String(record[VAR_RECORD_ID]) === code,
+                                  (record: IRecord) => String(record[this.recordsStore.recordId]) === code,
                               );
 
                     if (code === CODE_ACCESS_DENIEND && applicationStore && route) {

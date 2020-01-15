@@ -9,11 +9,7 @@ import {withStyles} from "@material-ui/core/styles";
 import {Grid, Table, TableBody} from "@material-ui/core";
 import {parse} from "@essence-community/constructor-share/utils/parser";
 import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
-import {
-    VAR_RECORD_ID,
-    VAR_RECORD_PAGE_OBJECT_ID,
-    VAR_RECORD_DISPLAYED,
-} from "@essence-community/constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import Scrollbars, {type ReactCustomScrollbarsType} from "../Components/Scrollbars/Scrollbars";
 import {isEmpty} from "../utils/base";
 import EmptyTitle from "../Components/EmptyTitle/EmptyTitle";
@@ -159,8 +155,8 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
         const {store} = this.props;
 
         store.recordsStore.records.forEach((rec) => {
-            if (rec.expanded === "true" && !store.expansionRecords.has(rec[VAR_RECORD_ID])) {
-                store.openCloseExpansionAction(rec[VAR_RECORD_ID], true);
+            if (rec.expanded === "true" && !store.expansionRecords.has(rec[store.recordsStore.recordId])) {
+                store.openCloseExpansionAction(rec[store.recordsStore.recordId], true);
             }
         });
 
@@ -169,7 +165,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
             !isEmpty(store.recordsStore.searchValues[this.autoSelectIdentity]) &&
             store.recordsStore.records.length > 0
         ) {
-            store.recordsStore.setSelectionAction(store.recordsStore.records[0][VAR_RECORD_ID]);
+            store.recordsStore.setSelectionAction(store.recordsStore.records[0][store.recordsStore.recordId]);
         }
     };
 

@@ -6,16 +6,16 @@ import {type GridModelType} from "../stores/GridModel";
 import {isEmpty, valuesMap} from "./base";
 import {findSetKey} from "./findKey";
 
-function getGridCkId(getglobal: ?string, params: Object): string {
+function getGridCkId(getglobal: ?string, params: Object, recordId: string = VAR_RECORD_ID): string {
     if (getglobal) {
-        const keys = findSetKey(getglobal, VAR_RECORD_ID);
+        const keys = findSetKey(getglobal, recordId);
         const values = {};
 
         forOwn(keys, (fieldName, globalKey) => {
             values[fieldName] = params[globalKey];
         });
 
-        return values[VAR_RECORD_ID];
+        return values[recordId];
     }
 
     return "";
@@ -30,8 +30,9 @@ export const getGridHeight = ({height}: {height?: string}) => {
 };
 
 const calculateTreeRecords = (store: GridModelType, record: Object, nesting: number = 1) =>
-    store.expansionRecords.get(record[VAR_RECORD_ID]) && store.recordsTree[record[VAR_RECORD_ID]]
-        ? store.recordsTree[record[VAR_RECORD_ID]].reduce(
+    store.expansionRecords.get(record[store.recordsStore.recordId]) &&
+    store.recordsTree[record[store.recordsStore.recordId]]
+        ? store.recordsTree[record[store.recordsStore.recordId]].reduce(
               (acc, rec) => [...acc, ...calculateTreeRecords(store, rec, nesting + 1)],
               [{...record, nesting}],
           )
@@ -46,14 +47,14 @@ const getAllVisibleGridRecords = (store: GridModelType) =>
     store.bc.type === "GRID" ? store.recordsStore.records : getTreeRecords(store);
 
 export const gridScrollToRecordAction = async (params: Object, gridStore: GridModelType) => {
-    const ckId = getGridCkId(gridStore.bc.getglobal, params);
+    const ckId = getGridCkId(gridStore.bc.getglobal, params, gridStore.recordsStore.recordId);
 
     if (!isEmpty(ckId)) {
         await gridStore.recordsStore.setSelectionAction(ckId);
         await gridStore.expandSelectedAction();
 
         const allVisibleRecords = getAllVisibleGridRecords(gridStore);
-        const recordIndex = allVisibleRecords.findIndex((rec) => rec[VAR_RECORD_ID] === ckId);
+        const recordIndex = allVisibleRecords.findIndex((rec) => rec[gridStore.recordsStore.recordId] === ckId);
 
         if (recordIndex !== -1) {
             const tableContent = gridStore.refs.get("table-content");
@@ -75,7 +76,7 @@ export const gridSetGlobalValues = (gridStore: GridModelType) => {
     const selectedRecords = gridStore.selectedRecords ? valuesMap(gridStore.selectedRecords) : [];
     const {valueFields} = gridStore;
     const values = {};
-    const keys = findSetKey(setglobal, VAR_RECORD_ID);
+    const keys = findSetKey(setglobal, gridStore.recordsStore.recordId);
 
     forOwn(keys, (fieldName, globaleKey) => {
         if (selmode === "MULTI" || selmode === "SIMPLE") {

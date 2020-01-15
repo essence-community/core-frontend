@@ -2,7 +2,6 @@
 import * as React from "react";
 import {reaction} from "mobx";
 import {disposeOnUnmount} from "mobx-react";
-import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {type BuilderGridType} from "../BuilderGridType";
 import {type GridModelType} from "../../stores/GridModel";
 import GridDetail from "../GridComponents/GridDetail";
@@ -47,7 +46,7 @@ class GridRow extends React.Component<PropsType, StateType> {
     handleCheckExpanded = (): boolean => {
         const {store, record} = this.props;
 
-        return Boolean(store.expansionRecords.get(record[VAR_RECORD_ID]));
+        return Boolean(store.expansionRecords.get(record[store.recordsStore.recordId]));
     };
 
     render() {

@@ -106,10 +106,14 @@ export function checkPageNumber(recordsStore: IRecordsModel, master: Record<stri
     }
 }
 
-export const getAttachedRecords = (records: Record<string, FieldValue>[], newRecord?: Record<string, FieldValue>) => {
+export const getAttachedRecords = (
+    records: Record<string, FieldValue>[],
+    newRecord?: Record<string, FieldValue>,
+    recordId: string = VAR_RECORD_ID,
+) => {
     if (newRecord) {
         const firstRecord = records[0] || {};
-        const recordIndex = records.findIndex((rec) => rec[VAR_RECORD_ID] === newRecord[VAR_RECORD_ID]);
+        const recordIndex = records.findIndex((rec) => rec[recordId] === newRecord[recordId]);
         const record = {...newRecord, [VAR_RECORD_JN_TOTAL_CNT]: firstRecord[VAR_RECORD_JN_TOTAL_CNT]};
 
         if (recordIndex === -1) {
@@ -122,7 +126,10 @@ export const getAttachedRecords = (records: Record<string, FieldValue>[], newRec
     return records;
 };
 
-export function prepareRequst(recordsStore: IRecordsModel, {bc, status, selectedRecordId}: ILoadRecordsAction) {
+export function prepareRequst(
+    recordsStore: IRecordsModel,
+    {bc, recordId, status, selectedRecordId}: ILoadRecordsAction,
+) {
     const {getmastervalue, noglobalmask} = bc;
     const globalValues = recordsStore.pageStore ? recordsStore.pageStore.globalValues : undefined;
     const master = getMasterObject(bc[VAR_RECORD_MASTER_ID], recordsStore.pageStore, getmastervalue);
@@ -133,7 +140,7 @@ export function prepareRequst(recordsStore: IRecordsModel, {bc, status, selected
                   order: recordsStore.order,
                   pageNumber: 0,
                   pageSize: 1,
-                  searchValues: {[VAR_RECORD_ID]: selectedRecordId},
+                  searchValues: {[recordId]: selectedRecordId},
               }
             : {
                   filter: recordsStore.filter,
@@ -159,7 +166,14 @@ export function prepareRequst(recordsStore: IRecordsModel, {bc, status, selected
 
 export function loadRecordsAction(
     this: IRecordsModel,
-    {applicationStore, bc, selectedRecordId, status, isUserReload = false}: ILoadRecordsAction,
+    {
+        applicationStore,
+        bc,
+        selectedRecordId,
+        status,
+        recordId = VAR_RECORD_ID,
+        isUserReload = false,
+    }: ILoadRecordsAction,
 ): Promise<object | undefined> {
     const {noglobalmask, defaultvalue} = bc;
     const isWaiting = bc[VAR_RECORD_MASTER_ID] || bc.getglobaltostore;
@@ -186,7 +200,7 @@ export function loadRecordsAction(
             );
         })
         .then(() => {
-            const {json} = prepareRequst(this, {applicationStore, bc, selectedRecordId, status});
+            const {json} = prepareRequst(this, {applicationStore, bc, recordId, selectedRecordId, status});
 
             return request<IResponse[]>({
                 [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
@@ -209,8 +223,8 @@ export function loadRecordsAction(
                 )
             ) {
                 const records = (response || []).map((record: Record<string, FieldValue>) => {
-                    if (record[VAR_RECORD_ID] === undefined) {
-                        record[VAR_RECORD_ID] = `auto-${v4()}`;
+                    if (record[recordId] === undefined) {
+                        record[recordId] = `auto-${v4()}`;
                     }
 
                     return record;
@@ -241,39 +255,40 @@ export function loadRecordsAction(
             return [];
         })
         .then((records: Record<string, FieldValue>[]) => {
-            const valueField = status === "attach" ? VAR_RECORD_ID : this.valueField;
+            const valueField = status === "attach" ? recordId : this.valueField;
             const beforeSelectedRecord = this.selectedRecord;
             let isDefault: "##alwaysfirst##" | "##first##" | undefined = undefined;
-            let recordId = undefined;
+            let recordIdValue = undefined;
             let record = undefined;
 
             switch (true) {
                 case defaultvalue === VALUE_SELF_ALWAYSFIRST:
                     isDefault = VALUE_SELF_ALWAYSFIRST;
                     [record] = records;
-                    recordId = records[0] ? records[0][valueField] : undefined;
+                    recordIdValue = records[0] ? records[0][valueField] : undefined;
                     break;
                 case selectedRecordId !== undefined:
-                    recordId = selectedRecordId;
+                    recordIdValue = selectedRecordId;
                     break;
                 case this.selectedRecordId !== undefined:
-                    recordId = this.selectedRecordId;
+                    recordIdValue = this.selectedRecordId;
                     break;
                 case defaultvalue === VALUE_SELF_FIRST:
                     isDefault = VALUE_SELF_FIRST;
-                    recordId = records[0] ? records[0][valueField] : undefined;
+                    recordIdValue = records[0] ? records[0][valueField] : undefined;
                     [record] = records;
                     break;
                 default:
-                    recordId = undefined;
+                    recordIdValue = undefined;
             }
 
             this.recordsState = {
-                defaultValueSet: isDefault && recordId !== undefined ? isDefault : undefined,
+                defaultValueSet: isDefault && recordIdValue !== undefined ? isDefault : undefined,
                 isDefault,
                 isUserReload,
                 record,
-                records: status === "attach" ? getAttachedRecords(this.recordsState.records, records[0]) : records,
+                records:
+                    status === "attach" ? getAttachedRecords(this.recordsState.records, records[0], recordId) : records,
                 status,
             };
             this.recordsAll = this.recordsState.records;
@@ -287,7 +302,7 @@ export function loadRecordsAction(
                 return this.selectedRecordIndex;
             }
 
-            return this.setSelectionAction(recordId, valueField);
+            return this.setSelectionAction(recordIdValue, valueField);
         })
         .then(() => {
             setMask(false, noglobalmask, this.pageStore);

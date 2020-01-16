@@ -1,6 +1,6 @@
 {
   "name": "@essence-community/constructor-scripts",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "apiversion": "2.0.1",
   "description": "Scripts for constructor",
   "main": "index.js",

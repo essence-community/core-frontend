@@ -1,3 +1,4 @@
+/* eslint-disable require-unicode-regexp, prefer-named-capture-group */
 /* eslint-disable no-sync, sort-keys, global-require */
 const path = require("path");
 const fs = require("fs");
@@ -88,6 +89,7 @@ module.exports = {
         filename: isEnvProduction ? "[name].[contenthash:8].js" : "[name].js",
     },
     module: {
+        strictExportPresence: true,
         rules: [
             // Disable require.ensure as it's not a standard language feature.
             {parser: {requireEnsure: false}},
@@ -98,23 +100,60 @@ module.exports = {
                      * The preset includes JSX, Flow, TypeScript, and some ESnext features.
                      */
                     {
-                        test: isTS ? /\.(js|mjs|jsx|ts|tsx)$/ : /\.(js|mjs|jsx)$/,
+                        test: /\.(js|mjs|jsx|ts|tsx)$/,
                         include: resolveApp("src"),
                         loader: require.resolve("babel-loader"),
                         options: {
+                            customize: require.resolve("babel-preset-react-app/webpack-overrides"),
+
+                            plugins: [
+                                [
+                                    require.resolve("babel-plugin-named-asset-import"),
+                                    {
+                                        loaderMap: {
+                                            svg: {
+                                                ReactComponent: "@svgr/webpack?-svgo,+titleProp,+ref![path]",
+                                            },
+                                        },
+                                    },
+                                ],
+                            ],
+                            presets: ["react-app"],
                             /*
                              * This is a feature of `babel-loader` for webpack (not Babel itself).
                              * It enables caching results in ./node_modules/.cache/babel-loader/
                              * directory for faster rebuilds.
                              */
                             cacheDirectory: true,
-                            cacheCompression: isEnvProduction,
+                            // See #6846 for context on why cacheCompression is disabled
+                            cacheCompression: false,
                             compact: isEnvProduction,
-                            sourceMap: false,
-                            presets: [
-                                require.resolve("babel-preset-react-app"),
-                                isTS && require.resolve("@babel/preset-typescript"),
-                            ].filter(Boolean),
+                        },
+                    },
+                    /*
+                     * Process any JS outside of the app with Babel.
+                     * Unlike the application JS, we only compile the standard ES features.
+                     */
+                    {
+                        test: /\.(js|mjs)$/,
+                        exclude: /@babel(?:\/|\\{1,2})runtime/,
+                        loader: require.resolve("babel-loader"),
+                        options: {
+                            babelrc: false,
+                            configFile: false,
+                            compact: false,
+                            presets: [[require.resolve("babel-preset-react-app/dependencies"), {helpers: true}]],
+                            cacheDirectory: true,
+                            // See #6846 for context on why cacheCompression is disabled
+                            cacheCompression: false,
+
+                            /*
+                             * Babel sourcemaps are needed for debugging into node_modules
+                             * code.  Without the options below, debuggers like VSCode
+                             * show incorrect code and set breakpoints on the wrong lines.
+                             */
+                            sourceMaps: shouldUseSourceMap,
+                            inputSourceMap: shouldUseSourceMap,
                         },
                     },
                     useCssModule && {
@@ -212,7 +251,7 @@ module.exports = {
         ],
     },
     resolve: {
-        extensions: isTS ? [".tsx", ".ts", ".js"] : [".jsx", ".js"],
+        extensions: [".tsx", ".ts", ".jsx", ".js"],
     },
     plugins: [
         !isEnvProduction &&
@@ -251,4 +290,9 @@ module.exports = {
                 filename: "[name].[contenthash:8].css",
             }),
     ].filter(Boolean),
+    /*
+     * Turn off performance processing because we utilize
+     * our own hints via the FileSizeReporter
+     */
+    performance: false,
 };

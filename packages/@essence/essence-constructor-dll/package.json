@@ -1,6 +1,6 @@
 {
   "name": "@essence-community/constructor-dll",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Dll vendor",
   "main": "index.js",
   "repository": "https://github.com/essence-community/core-frontend",
@@ -15,7 +15,7 @@
     "constructor-dll-build": "./scripts/build.js"
   },
   "dependencies": {
-    "@essence-community/constructor-share": "file:../essence-constructor-share",
+    "@essence-community/constructor-share": "file:../essence-constructor-share/lib",
     "@material-ui/core": "^4.7.2",
     "@material-ui/styles": "^4.7.1",
     "babel-loader": "^8.0.6",

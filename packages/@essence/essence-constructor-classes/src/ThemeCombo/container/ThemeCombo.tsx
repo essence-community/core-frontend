@@ -7,6 +7,7 @@ import {
     VAR_RECORD_OBJECT_ID,
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_DISPLAYED,
+    VAR_SETTING_THEME,
 } from "@essence-community/constructor-share/constants/variables";
 import * as React from "react";
 import {useDisposable} from "mobx-react-lite";
@@ -14,7 +15,6 @@ import {getComponent} from "@essence-community/constructor-share/components";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {reaction} from "mobx";
 
-const GLOBAL_VALUE = "g_sys_theme";
 const getComponentBc = (bc: IBuilderConfig, defaultTheme?: string) => ({
     [VAR_RECORD_DISPLAYED]: "static:0b5e4673fa194e16a0c411ff471d21d2",
     [VAR_RECORD_OBJECT_ID]: bc[VAR_RECORD_OBJECT_ID],
@@ -26,15 +26,15 @@ const getComponentBc = (bc: IBuilderConfig, defaultTheme?: string) => ({
     datatype: "COMBO",
     defaultvalue: defaultTheme,
     displayfield: bc.displayfield || "name",
-    getglobal: GLOBAL_VALUE,
-    localization: "meta",
+    getglobal: VAR_SETTING_THEME,
+    localization: "static",
     noglobalmask: "true",
     querymode: "remote",
     records: [
         {name: "static:66ef0068472a4a0394710177f828a9b1", value: "dark"},
         {name: "static:fd7c7f3539954cc8a55876e3514906b5", value: "light"},
     ],
-    setglobal: GLOBAL_VALUE,
+    setglobal: VAR_SETTING_THEME,
     type: "IFIELD",
     valuefield: bc.valuefield || "value",
 });
@@ -44,14 +44,20 @@ interface IComboClassProps extends IClassProps {
 }
 
 export const ThemeCombo: React.FC<IClassProps> = (props) => {
-    const themeGlobal = settingsStore.settings[GLOBAL_VALUE];
-    let currentTheme = getFromStore("theme", themeGlobal);
+    const [currentTheme, setCurrentTheme] = React.useState(
+        getFromStore("theme", settingsStore.settings[VAR_SETTING_THEME]),
+    );
 
-    if (themeGlobal !== currentTheme) {
-        props.pageStore.updateGlobalValues({
-            [GLOBAL_VALUE]: currentTheme,
-        });
-    }
+    React.useEffect(() => {
+        const ct = getFromStore("theme", settingsStore.settings[VAR_SETTING_THEME]);
+
+        if (settingsStore.settings[VAR_SETTING_THEME] !== ct) {
+            props.pageStore.updateGlobalValues({
+                [VAR_SETTING_THEME]: ct,
+            });
+        }
+    }, [props.pageStore]);
+
     const bc = React.useMemo(() => getComponentBc(props.bc, currentTheme), [props.bc, currentTheme]);
 
     useDisposable(() => {
@@ -60,7 +66,7 @@ export const ThemeCombo: React.FC<IClassProps> = (props) => {
             (theme: string) => {
                 if (theme && currentTheme !== theme) {
                     saveToStore("theme", theme);
-                    currentTheme = theme;
+                    setCurrentTheme(theme);
                     document.location.reload();
                 } else if (!theme) {
                     props.pageStore.updateGlobalValues({

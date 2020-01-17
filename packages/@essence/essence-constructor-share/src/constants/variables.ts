@@ -85,6 +85,7 @@ export const VAR_SETTING_PROJECT_NAME = "project_name";
 export const VAR_SETTING_GATE_URL = "g_sys_gate_url";
 export const VAR_SETTING_PROJECT_APPLICATION_PAGE = "project_applications_page";
 export const VAR_SETTING_LANG = "g_sys_lang";
+export const VAR_SETTING_THEME = "g_sys_theme";
 export const VAR_SETTING_PROJECT_LOADER = "project_loader";
 export const VAR_SETTING_SMART_MASK_QUERY = "smart_mask_query";
 export const VAR_SETTING_PROJECT_ABOUT_BOX_TITLE = "project_about_box_title";

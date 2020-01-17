@@ -7,14 +7,13 @@ import {
     VAR_RECORD_OBJECT_ID,
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_DISPLAYED,
+    VAR_SETTING_LANG,
 } from "@essence-community/constructor-share/constants/variables";
 import * as React from "react";
 import {useDisposable} from "mobx-react-lite";
 import {getComponent} from "@essence-community/constructor-share/components";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {reaction} from "mobx";
-
-const GLOBAL_VALUE = "g_sys_lang";
 
 const getComponentBc = (bc: IBuilderConfig, defaultValue?: string) => ({
     [VAR_RECORD_DISPLAYED]: "static:4ae012ef02dd4cf4a7eafb422d1db827",
@@ -29,10 +28,10 @@ const getComponentBc = (bc: IBuilderConfig, defaultValue?: string) => ({
     datatype: "COMBO",
     defaultvalue: defaultValue,
     displayfield: bc.displayfield || "cv_name",
-    getglobal: GLOBAL_VALUE,
+    getglobal: VAR_SETTING_LANG,
     noglobalmask: "true",
     querymode: "remote",
-    setglobal: GLOBAL_VALUE,
+    setglobal: VAR_SETTING_LANG,
     type: "IFIELD",
     valuefield: bc.valuefield || "ck_id",
 });
@@ -42,14 +41,20 @@ interface IComboClassProps extends IClassProps {
 }
 
 export const LangCombo: React.FC<IClassProps> = (props) => {
-    const langGlobal = settingsStore.settings[GLOBAL_VALUE];
-    let currentLang = getFromStore("lang", langGlobal);
+    const [currentLang, setCurrentLang] = React.useState(
+        getFromStore("lang", settingsStore.settings[VAR_SETTING_LANG]),
+    );
 
-    if (langGlobal !== currentLang) {
-        props.pageStore.updateGlobalValues({
-            [GLOBAL_VALUE]: currentLang,
-        });
-    }
+    React.useEffect(() => {
+        const curLang = getFromStore("lang", settingsStore.settings[VAR_SETTING_LANG]);
+
+        if (settingsStore.settings[VAR_SETTING_LANG] !== curLang) {
+            props.pageStore.updateGlobalValues({
+                [VAR_SETTING_LANG]: curLang,
+            });
+        }
+    }, [props.pageStore]);
+
     const bc = React.useMemo(() => getComponentBc(props.bc, currentLang), [props.bc, currentLang]);
 
     useDisposable(() => {
@@ -58,7 +63,7 @@ export const LangCombo: React.FC<IClassProps> = (props) => {
             (lang: string) => {
                 if (lang && currentLang !== lang) {
                     saveToStore("lang", lang);
-                    currentLang = lang;
+                    setCurrentLang(lang);
                     i18next.changeLanguage(lang);
                 } else if (!lang) {
                     props.pageStore.updateGlobalValues({

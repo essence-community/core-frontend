@@ -36,17 +36,17 @@ const getComponentBc = (bc: IBuilderConfig, defaultValue?: string) => ({
     valuefield: bc.valuefield || "ck_id",
 });
 
+const getLang = () => getFromStore("lang", settingsStore.settings[VAR_SETTING_LANG]);
+
 interface IComboClassProps extends IClassProps {
     editing?: boolean;
 }
 
 export const LangCombo: React.FC<IClassProps> = (props) => {
-    const [currentLang, setCurrentLang] = React.useState(
-        getFromStore("lang", settingsStore.settings[VAR_SETTING_LANG]),
-    );
+    const [currentLang, setCurrentLang] = React.useState(getLang);
 
     React.useEffect(() => {
-        const curLang = getFromStore("lang", settingsStore.settings[VAR_SETTING_LANG]);
+        const curLang = getLang();
 
         if (settingsStore.settings[VAR_SETTING_LANG] !== curLang) {
             props.pageStore.updateGlobalValues({
@@ -61,13 +61,15 @@ export const LangCombo: React.FC<IClassProps> = (props) => {
         return reaction(
             () => props.pageStore.globalValues.get(bc.setglobal),
             (lang: string) => {
-                if (lang && currentLang !== lang) {
+                const curLang = getLang();
+
+                if (lang && curLang !== lang) {
                     saveToStore("lang", lang);
                     setCurrentLang(lang);
                     i18next.changeLanguage(lang);
                 } else if (!lang) {
                     props.pageStore.updateGlobalValues({
-                        [bc.getglobal]: currentLang,
+                        [bc.getglobal]: curLang,
                     });
                 }
             },

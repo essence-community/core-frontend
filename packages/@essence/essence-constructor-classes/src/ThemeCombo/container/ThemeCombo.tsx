@@ -39,21 +39,21 @@ const getComponentBc = (bc: IBuilderConfig, defaultTheme?: string) => ({
     valuefield: bc.valuefield || "value",
 });
 
+const getTheme = () => getFromStore("theme", settingsStore.settings[VAR_SETTING_THEME]);
+
 interface IComboClassProps extends IClassProps {
     editing?: boolean;
 }
 
 export const ThemeCombo: React.FC<IClassProps> = (props) => {
-    const [currentTheme, setCurrentTheme] = React.useState(
-        getFromStore("theme", settingsStore.settings[VAR_SETTING_THEME]),
-    );
+    const [currentTheme, setCurrentTheme] = React.useState(getTheme);
 
     React.useEffect(() => {
-        const ct = getFromStore("theme", settingsStore.settings[VAR_SETTING_THEME]);
+        const curTheme = getTheme();
 
-        if (settingsStore.settings[VAR_SETTING_THEME] !== ct) {
+        if (settingsStore.settings[VAR_SETTING_THEME] !== curTheme) {
             props.pageStore.updateGlobalValues({
-                [VAR_SETTING_THEME]: ct,
+                [VAR_SETTING_THEME]: curTheme,
             });
         }
     }, [props.pageStore]);
@@ -64,13 +64,15 @@ export const ThemeCombo: React.FC<IClassProps> = (props) => {
         return reaction(
             () => props.pageStore.globalValues.get(bc.setglobal),
             (theme: string) => {
-                if (theme && currentTheme !== theme) {
+                const curTheme = getTheme();
+
+                if (theme && curTheme !== theme) {
                     saveToStore("theme", theme);
                     setCurrentTheme(theme);
                     document.location.reload();
                 } else if (!theme) {
                     props.pageStore.updateGlobalValues({
-                        [bc.getglobal]: currentTheme,
+                        [bc.getglobal]: curTheme,
                     });
                 }
             },

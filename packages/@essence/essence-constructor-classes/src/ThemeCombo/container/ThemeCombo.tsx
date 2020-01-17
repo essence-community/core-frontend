@@ -14,6 +14,7 @@ import {useDisposable} from "mobx-react-lite";
 import {getComponent} from "@essence-community/constructor-share/components";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {reaction} from "mobx";
+import {ApplicationContext} from "@essence-community/constructor-share/context";
 
 const getComponentBc = (bc: IBuilderConfig, defaultTheme?: string) => ({
     [VAR_RECORD_DISPLAYED]: "static:0b5e4673fa194e16a0c411ff471d21d2",
@@ -46,17 +47,23 @@ interface IComboClassProps extends IClassProps {
 }
 
 export const ThemeCombo: React.FC<IClassProps> = (props) => {
+    const applicationStore = React.useContext(ApplicationContext);
     const [currentTheme, setCurrentTheme] = React.useState(getTheme);
 
     React.useEffect(() => {
         const curTheme = getTheme();
 
         if (settingsStore.settings[VAR_SETTING_THEME] !== curTheme) {
+            if (applicationStore) {
+                applicationStore.updateGlobalValuesAction({
+                    [VAR_SETTING_THEME]: curTheme || "",
+                });
+            }
             props.pageStore.updateGlobalValues({
                 [VAR_SETTING_THEME]: curTheme,
             });
         }
-    }, [props.pageStore]);
+    }, [applicationStore, props.pageStore]);
 
     const bc = React.useMemo(() => getComponentBc(props.bc, currentTheme), [props.bc, currentTheme]);
 
@@ -69,8 +76,18 @@ export const ThemeCombo: React.FC<IClassProps> = (props) => {
                 if (theme && curTheme !== theme) {
                     saveToStore("theme", theme);
                     setCurrentTheme(theme);
+                    if (applicationStore) {
+                        applicationStore.updateGlobalValuesAction({
+                            [VAR_SETTING_THEME]: theme,
+                        });
+                    }
                     document.location.reload();
                 } else if (!theme) {
+                    if (applicationStore) {
+                        applicationStore.updateGlobalValuesAction({
+                            [VAR_SETTING_THEME]: curTheme || "",
+                        });
+                    }
                     props.pageStore.updateGlobalValues({
                         [bc.getglobal]: curTheme,
                     });

@@ -14,6 +14,7 @@ import {useDisposable} from "mobx-react-lite";
 import {getComponent} from "@essence-community/constructor-share/components";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {reaction} from "mobx";
+import {ApplicationContext} from "@essence-community/constructor-share/context";
 
 const getComponentBc = (bc: IBuilderConfig, defaultValue?: string) => ({
     [VAR_RECORD_DISPLAYED]: "static:4ae012ef02dd4cf4a7eafb422d1db827",
@@ -43,17 +44,23 @@ interface IComboClassProps extends IClassProps {
 }
 
 export const LangCombo: React.FC<IClassProps> = (props) => {
+    const applicationStore = React.useContext(ApplicationContext);
     const [currentLang, setCurrentLang] = React.useState(getLang);
 
     React.useEffect(() => {
         const curLang = getLang();
 
         if (settingsStore.settings[VAR_SETTING_LANG] !== curLang) {
+            if (applicationStore) {
+                applicationStore.updateGlobalValuesAction({
+                    [VAR_SETTING_LANG]: curLang || "",
+                });
+            }
             props.pageStore.updateGlobalValues({
                 [VAR_SETTING_LANG]: curLang,
             });
         }
-    }, [props.pageStore]);
+    }, [applicationStore, props.pageStore]);
 
     const bc = React.useMemo(() => getComponentBc(props.bc, currentLang), [props.bc, currentLang]);
 
@@ -68,6 +75,11 @@ export const LangCombo: React.FC<IClassProps> = (props) => {
                     setCurrentLang(lang);
                     i18next.changeLanguage(lang);
                 } else if (!lang) {
+                    if (applicationStore) {
+                        applicationStore.updateGlobalValuesAction({
+                            [VAR_SETTING_LANG]: curLang || "",
+                        });
+                    }
                     props.pageStore.updateGlobalValues({
                         [bc.getglobal]: curLang,
                     });

@@ -32,6 +32,7 @@ import "@essence-community/constructor-classes/src/OpenPageTabs";
 import "@essence-community/constructor-classes/src/PagesTree";
 import "@essence-community/constructor-classes/src/FavoritePages";
 import "@essence-community/constructor-classes/src/ThemeCombo";
+import "@essence-community/constructor-classes/src/LangCombo";
 import "@essence-community/constructor-classes/src/Pager";
 import "@essence-community/constructor-classes/src/Application";
 import "@essence-community/constructor-classes/src/Pages";

@@ -8,18 +8,9 @@ import {Grid, Button} from "@material-ui/core";
 import {BuilderPanel, BuilderForm, withModelDecorator} from "@essence-community/constructor-components";
 import {mapComponents} from "@essence-community/constructor-share";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
-import {
-    saveToStore,
-    removeFromStore,
-    removeFromStoreByRegex,
-    WithT,
-    withTranslation,
-    i18next,
-} from "@essence-community/constructor-share/utils";
+import {removeFromStoreByRegex, WithT, withTranslation, i18next} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
-    VAR_RECORD_QUERY_ID,
-    VAR_RECORD_DISPLAYED,
     VAR_RECORD_NAME,
     VAR_RECORD_CV_SURNAME,
     VAR_RECORD_CD_PERIOD,
@@ -54,36 +45,12 @@ const getConfig = memoize(() => ({
     [VAR_RECORD_PAGE_OBJECT_ID]: "UserInfo",
     childs: [
         {
-            [VAR_RECORD_DISPLAYED]: "static:0b5e4673fa194e16a0c411ff471d21d2",
             [VAR_RECORD_PAGE_OBJECT_ID]: "theme",
-            clearable: "false",
-            column: "theme",
-            datatype: "combo",
-            displayfield: "name",
-            localization: "meta",
-            noglobalmask: "true",
-            querymode: "remote",
-
-            records: [
-                {name: "static:66ef0068472a4a0394710177f828a9b1", value: "dark"},
-                {name: "static:fd7c7f3539954cc8a55876e3514906b5", value: "light"},
-            ],
-            type: "IFIELD",
-            valuefield: "value",
+            type: "THEME_COMBO",
         },
         {
-            [VAR_RECORD_DISPLAYED]: "static:4ae012ef02dd4cf4a7eafb422d1db827",
-            [VAR_RECORD_PAGE_OBJECT_ID]: "EB7DA66474084531B31819AF930A2506",
-            [VAR_RECORD_QUERY_ID]: "MTGetLang",
-            autoload: "true",
-            clearable: "false",
-            column: "lang",
-            datatype: "combo",
-            displayfield: "cv_name",
-            noglobalmask: "true",
-            querymode: "remote",
-            type: "IFIELD",
-            valuefield: "ck_id",
+            [VAR_RECORD_PAGE_OBJECT_ID]: "lang",
+            type: "LANG_COMBO",
         },
     ],
     readonly: "false",
@@ -124,19 +91,6 @@ class MenuProfile extends React.Component<PropsType> {
             if (field && field.options.bc) {
                 this.props.pageStore.changeDeptAction(values[VAR_RECORD_CK_DEPT], values[VAR_RECORD_CV_TIMEZONE]);
             }
-        }
-        if (styleTheme !== values.theme) {
-            if (values.theme) {
-                saveToStore("theme", values.theme);
-            } else {
-                removeFromStore("theme");
-            }
-            document.location.reload();
-        }
-
-        if (this.prevValues.lang !== values.lang) {
-            saveToStore("lang", values.lang);
-            i18next.changeLanguage(values.lang);
         }
 
         this.prevValues = values;

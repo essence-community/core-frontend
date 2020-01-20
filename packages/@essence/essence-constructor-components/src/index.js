@@ -25,8 +25,6 @@ export {PagesModel} from "./stores/PagesModel";
 export {SettingsModel} from "./stores/SettingsModel";
 export {RecordsModel} from "./stores/RecordsModel";
 
-export {DragComponent} from "./dnd/DragComponent";
-
 export {
     BuilderPanel,
     BuilderRoadMapPanel,

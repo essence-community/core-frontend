@@ -1,15 +1,14 @@
 import {TabProps} from "@material-ui/core/Tab";
-import {ReactNode} from "react";
 
 export type IOpenTabProps = TabProps & {
     value: string;
-    pageId: string;
     pageIndex: number;
     iconfont?: string;
     label?: string;
     orientation: "horizontal" | "vertical";
     selected?: boolean;
-    component?: ReactNode;
+    onDragStartIndex: (index: number) => void;
+    onDragEnterIndex: (index: number) => void;
     onClose?: (value: string) => void;
     onContextMenuCustom: (event: React.MouseEvent<HTMLDivElement, MouseEvent>, value: string) => void;
 };

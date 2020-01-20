@@ -5,6 +5,11 @@ import openPageTabLight from "./OpenPageTabLight.styles";
 
 export const useStyles = makeStyles(
     // @ts-ignore
-    (theme: IEssenceTheme) => (theme.palette.type === "light" ? openPageTabLight(theme) : openPageTabDark(theme)),
+    (theme: IEssenceTheme) => ({
+        ...(theme.palette.type === "light" ? openPageTabLight(theme) : openPageTabDark(theme)),
+        tabDrag: {
+            opacity: 0,
+        },
+    }),
     {name: "EssenceOpenPageTab"},
 );

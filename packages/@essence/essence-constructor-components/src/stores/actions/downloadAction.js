@@ -9,6 +9,7 @@ import {
     VAR_RECORD_CK_MAIN,
     VAR_RECORD_CL_WARNING,
     VAR_RECORD_CV_ACTION,
+    VAR_RECORD_ROUTE_PAGE_ID,
 } from "@essence-community/constructor-share/constants";
 import {isEmpty} from "../../utils/base";
 import {type BuilderModeType} from "../../BuilderType";
@@ -95,6 +96,8 @@ export function downloadAction(values: Object | Array<Object>, mode: BuilderMode
                 [VAR_RECORD_CK_MAIN]: main,
                 [VAR_RECORD_CL_WARNING]: warningStatus,
                 [VAR_RECORD_CV_ACTION]: modeCheck === "7" ? "download" : modeCheck,
+                [VAR_RECORD_PAGE_OBJECT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+                [VAR_RECORD_ROUTE_PAGE_ID]: pageStore.pageId,
             },
         }),
     });

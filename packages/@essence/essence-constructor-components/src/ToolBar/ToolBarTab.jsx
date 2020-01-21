@@ -86,4 +86,4 @@ class ToolBarTab extends React.Component<PropsType<string | number>> {
     }
 }
 
-export default withStyles(styles)(withTranslation("meta")(ToolBarTab));
+export default withStyles(styles, {name: "ToolBarTab"})(withTranslation("meta")(ToolBarTab));

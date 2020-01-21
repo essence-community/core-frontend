@@ -7,8 +7,7 @@ import {SnackbarMobx, themeVars, Tooltip} from "@essence-community/constructor-c
 import {snackbarStore, settingsStore} from "@essence-community/constructor-share/models";
 import {PageLoader} from "@essence-community/constructor-share/uicomponents";
 import {VAR_SETTING_PROJECT_LOADER} from "@essence-community/constructor-share/constants";
-import HTML5Backend from "react-dnd-html5-backend";
-import {DndProvider} from "react-dnd";
+
 import {Block} from "./Components/Block/Block";
 import Settings from "./Components/Settings/Settings";
 import {AppRoutes} from "./AppRoutes";
@@ -30,19 +29,17 @@ class App extends Component {
                             <PageLoader isLoading loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER]} />
                         }
                     >
-                        <DndProvider backend={HTML5Backend}>
-                            <Settings applicationStore={stores.applicationStore}>
-                                <AppRoutes />
-                                <CssBaseline />
-                                <SnackbarMobx
-                                    snackbars={snackbarStore.snackbars}
-                                    onClose={snackbarStore.snackbarCloseAction}
-                                    onSetCloseble={snackbarStore.setClosebleAction}
-                                />
-                                <Tooltip />
-                                <Block applicationStore={stores.applicationStore} />
-                            </Settings>
-                        </DndProvider>
+                        <Settings applicationStore={stores.applicationStore}>
+                            <AppRoutes />
+                            <CssBaseline />
+                            <SnackbarMobx
+                                snackbars={snackbarStore.snackbars}
+                                onClose={snackbarStore.snackbarCloseAction}
+                                onSetCloseble={snackbarStore.setClosebleAction}
+                            />
+                            <Tooltip />
+                            <Block applicationStore={stores.applicationStore} />
+                        </Settings>
                     </Suspense>
                 </ThemeProvider>
             </Provider>

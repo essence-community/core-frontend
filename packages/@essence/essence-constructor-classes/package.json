@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-      "tscheck": "tsc"
+    "tscheck": "tsc"
   },
   "dependencies": {
     "@essence-community/constructor-share": "file:../essence-constructor-share/lib/",
@@ -21,7 +21,6 @@
     "mobx-react-form": "2.0.8",
     "mobx-react-lite": "^1.5.1",
     "react": "16.12.0",
-    "react-dnd": "^10.0.2",
     "react-router-dom": "^5.1.2"
   },
   "devDependencies": {

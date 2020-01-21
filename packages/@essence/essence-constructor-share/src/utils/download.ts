@@ -76,6 +76,7 @@ export const print = async ({
             reloadpageobject: reloadPageObject,
             service: {
                 [VAR_RECORD_CV_ACTION]: "I",
+                ...reloadPageObject,
             },
         },
         plugin: bcBtn.extraplugingate || bc.extraplugingate,

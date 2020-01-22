@@ -127,6 +127,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
                         initialValues={store.recordsStore.records[0] || EMPTY_RECORD}
                         pageStore={pageStore}
                         isEditing={isEditing}
+                        mode={store.mode}
                     >
                         <BuilderBasePanel
                             {...this.props}

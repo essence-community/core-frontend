@@ -3,6 +3,8 @@ import {VAR_RECORD_ID} from "../constants/variables";
 import {FieldValue} from "../types/Field";
 import {findSetKey} from "./findKey";
 
+const getValue = (value: FieldValue) => (typeof value === "string" && value.indexOf("auto-") === 0 ? undefined : value);
+
 export function getMasterObject(
     idMaster?: string,
     pageStore?: IPageModel | null,
@@ -16,22 +18,21 @@ export function getMasterObject(
     const {globalValues} = pageStore;
     const masterStore = pageStore.stores.get(idMaster);
     const idProperty = masterStore?.recordId || VAR_RECORD_ID;
+    const masterFieldValue = pageStore.fieldValueMaster.get(idMaster);
     const record: Record<string, FieldValue> = {
         ...(masterStore?.selectedRecord || {}),
-        ...(pageStore.fieldValueMaster.has(idMaster) ? {[idProperty]: pageStore.fieldValueMaster.get(idMaster)} : {}),
+        ...(typeof masterFieldValue === "undefined" ? {} : {[idProperty]: masterFieldValue}),
     };
 
     Object.keys(keys).forEach((globaleKey: string) => {
         const fieldName = keys[globaleKey];
 
-        if (record[globaleKey]) {
-            const value = record[globaleKey];
-
-            result[fieldName] = typeof value === "string" && value.indexOf("auto-") === 0 ? undefined : value;
+        if (Object.prototype.hasOwnProperty.call(record, globaleKey)) {
+            result[fieldName] = getValue(record[globaleKey]);
         } else if (globalValues.has(globaleKey)) {
-            const value = globalValues.get(globaleKey);
-
-            result[fieldName] = typeof value === "string" && value.indexOf("auto-") === 0 ? undefined : value;
+            result[fieldName] = getValue(globalValues.get(globaleKey));
+        } else if (typeof masterFieldValue !== "undefined") {
+            result[fieldName] = getValue(masterFieldValue);
         }
     });
 

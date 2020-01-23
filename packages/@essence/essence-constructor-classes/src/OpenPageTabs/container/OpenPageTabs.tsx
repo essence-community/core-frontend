@@ -10,9 +10,11 @@ import {Tabs} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
 import * as React from "react";
 import {useTranslation} from "@essence-community/constructor-share/utils";
+import ReactDOM from "react-dom";
 import {OpenPageMenuContext} from "../components/OpenPageMenuContext/OpenPageMenuContext";
 import {OpenPageTab} from "../components/OpenPageTab/OpenPageTab";
 import {ScrollButton} from "../components/ScrollButton/ScrollButton";
+import {IDragPos} from "../components/OpenPageTab/OpenPageTab.types";
 import {useStyles} from "./OpenPageTabs.styles";
 
 export interface IRoute extends IRouteRecord {
@@ -21,7 +23,17 @@ export interface IRoute extends IRouteRecord {
     [VAR_RECORD_ICON_NAME]: string | undefined;
 }
 
-// eslint-disable-next-line max-statements
+const INITIAL_DRAG = {
+    deltaX: 0,
+    deltaY: 0,
+    height: 0,
+    isDrag: false,
+    posX: 0,
+    posY: 0,
+    width: 0,
+};
+
+// eslint-disable-next-line max-statements, max-lines-per-function
 export const OpenPageTabs: React.FC<IClassProps> = React.memo((props) => {
     const classes = useStyles(props);
     const applicationStore = React.useContext(ApplicationContext);
@@ -38,9 +50,11 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo((props) => {
         }),
         [bc.height, bc.maxheight, bc.minheight],
     );
+    const dragElRef = React.useRef<HTMLDivElement | null>(null);
     const orientation = bc.contentview === "vbox" ? "vertical" : "horizontal";
     const {pagesStore} = applicationStore;
     const [isOpenMenu, setIsOpenMenu] = React.useState(false);
+    const [dragHtml, setDragHtml] = React.useState("");
     const [menuPageValue, setMenuPageValue] = React.useState("");
     const [menuPosition, setMenuPosition] = React.useState({
         left: 0,
@@ -48,6 +62,7 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo((props) => {
     });
     const dragIndexRef = React.useRef<undefined | number>();
     const hoverIndexRef = React.useRef<undefined | number>();
+    const dragEventRef = React.useRef<typeof INITIAL_DRAG>(INITIAL_DRAG);
     const handleChangePage = (event: React.ChangeEvent, value: string) => {
         pagesStore.setPageAction(value, false);
     };
@@ -65,12 +80,48 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo((props) => {
         event.stopPropagation();
         setIsOpenMenu(false);
     };
-    const handeDragStartIndex = React.useCallback((dragStartIndex: number) => {
-        dragIndexRef.current = dragStartIndex;
+    const handleMouseMove = React.useCallback((event: MouseEvent) => {
+        const dragEl = dragElRef.current;
+
+        if (dragEl) {
+            dragEl.style.left = `${event.clientX - dragEventRef.current.deltaX}px`;
+            dragEl.style.top = `${event.clientY - dragEventRef.current.deltaY}px`;
+        }
     }, []);
+    const handleMouseUp = React.useCallback(() => {
+        dragEventRef.current = INITIAL_DRAG;
+        dragIndexRef.current = undefined;
+        hoverIndexRef.current = undefined;
+        setDragHtml("");
+        document.removeEventListener("mouseup", handleMouseUp);
+        document.removeEventListener("mousemove", handleMouseMove);
+    }, [handleMouseMove]);
+    const handeDragStartIndex = React.useCallback(
+        (dragStartIndex: number, dragPos: IDragPos, element: HTMLDivElement | null) => {
+            dragIndexRef.current = dragStartIndex;
+
+            if (element) {
+                const rect = element.getBoundingClientRect();
+
+                dragEventRef.current = {
+                    ...dragPos,
+                    deltaX: dragPos.posX - rect.left,
+                    deltaY: dragPos.posY - rect.top,
+                    height: rect.height,
+                    isDrag: true,
+                    width: rect.width,
+                };
+                setDragHtml(element.outerHTML);
+                document.addEventListener("mouseup", handleMouseUp);
+                document.addEventListener("mousemove", handleMouseMove);
+            }
+        },
+        [handleMouseMove, handleMouseUp],
+    );
     const handleDragEnterIndex = React.useCallback(
         (hoverIndex: number) => {
             if (
+                dragHtml &&
                 dragIndexRef.current !== undefined &&
                 dragIndexRef.current !== hoverIndex &&
                 hoverIndexRef.current !== hoverIndex
@@ -80,20 +131,21 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo((props) => {
                 dragIndexRef.current = hoverIndex;
             }
         },
-        [pagesStore],
+        [dragHtml, pagesStore],
     );
-    const handleTabsDragEnter = React.useCallback(
-        (event: React.DragEvent) => {
-            event.preventDefault();
+    const handleTabsDragEnter = React.useCallback(() => {
+        if (dragHtml) {
             handleDragEnterIndex(pagesStore.pages.length - 1);
-        },
-        [handleDragEnterIndex, pagesStore.pages.length],
-    );
-    const handleTabsDragEnd = React.useCallback(() => {
-        dragIndexRef.current = undefined;
-        hoverIndexRef.current = undefined;
-    }, []);
+        }
+    }, [dragHtml, handleDragEnterIndex, pagesStore.pages.length]);
     const [trans] = useTranslation("meta");
+
+    React.useEffect(() => {
+        return () => {
+            document.removeEventListener("mouseup", handleMouseUp);
+            document.removeEventListener("mousemove", handleMouseMove);
+        };
+    }, [handleMouseMove, handleMouseUp]);
 
     return useObserver(() => (
         <React.Fragment>
@@ -110,8 +162,6 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo((props) => {
                 ScrollButtonComponent={ScrollButton}
                 style={contentStyle}
                 onChange={handleChangePage}
-                onDragEnter={handleTabsDragEnter}
-                onDragEnd={handleTabsDragEnd}
             >
                 {pagesStore.pages
                     .filter(({route}) => route && route[VAR_RECORD_ROUTE_VISIBLE_MENU])
@@ -133,9 +183,11 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo((props) => {
                                 style={contentStyle}
                                 onDragStartIndex={handeDragStartIndex}
                                 onDragEnterIndex={handleDragEnterIndex}
+                                tabDragClassName={classes.tabDrag}
                             />
                         );
                     })}
+                <div className={classes.emtySpace} onMouseOver={handleTabsDragEnter} />
             </Tabs>
             <OpenPageMenuContext
                 open={isOpenMenu}
@@ -145,6 +197,22 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo((props) => {
                 position={menuPosition}
                 pagesStore={pagesStore}
             />
+            {dragHtml
+                ? ReactDOM.createPortal(
+                      <div
+                          ref={dragElRef}
+                          className={classes.dragElement}
+                          style={{
+                              height: dragEventRef.current.height,
+                              left: dragEventRef.current.posX,
+                              top: dragEventRef.current.posY,
+                              width: dragEventRef.current.width,
+                          }}
+                          dangerouslySetInnerHTML={{__html: dragHtml}}
+                      />,
+                      document.body,
+                  )
+                : null}
         </React.Fragment>
     ));
 });

@@ -22,6 +22,7 @@ export default (theme: IEssenceTheme) => ({
         },
         border: `1px solid ${theme.palette.primary.main}`,
         padding: 0,
+        opacity: 1,
         height: theme.essence.sizing.appBarHeight,
         minHeight: theme.essence.sizing.appBarHeight,
     },

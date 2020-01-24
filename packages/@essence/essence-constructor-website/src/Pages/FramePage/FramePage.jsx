@@ -25,14 +25,16 @@ export const FramePage = (props) => {
                 history.replace(history.location.pathname, {backUrl: `/${app}/${pageId}`});
             }
         };
+        const loginBySesstion = async () => {
+            await authStore.checkAuthAction(history, session);
+            // If not session go to auth page
+            if (!authStore.userInfo.session) {
+                history.replace("/auth", {backUrl: `/${app}/${pageId}`});
+            }
+        };
 
         if (session) {
-            authStore.successLoginAction(
-                {
-                    session,
-                },
-                history,
-            );
+            loginBySesstion();
         } else if (token) {
             loginByToken();
         }

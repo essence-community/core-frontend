@@ -23,10 +23,11 @@ export class AuthModel implements AuthModelType {
         });
     }
 
-    checkAuthAction = action("checkAuthAction", (history?: History) =>
+    checkAuthAction = action("checkAuthAction", (history?: History, session?: string) =>
         sendRequest({
             action: "sql",
             query: "GetSessionData",
+            session,
         })
             .then((response) => {
                 if (response && snackbarStore.checkValidLoginResponse(response)) {

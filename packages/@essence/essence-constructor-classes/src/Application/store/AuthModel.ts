@@ -20,10 +20,11 @@ export class AuthModel implements IAuthModel {
     // eslint-disable-next-line no-useless-constructor
     constructor(public applicationStore: IApplicationModel) {}
 
-    checkAuthAction = action("checkAuthAction", (history: History) =>
+    checkAuthAction = action("checkAuthAction", (history: History, session?: string) =>
         request({
             action: "sql",
             query: "GetSessionData",
+            session,
         })
             // @ts-ignore
             .then((response: IAuthSession) => {

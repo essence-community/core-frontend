@@ -2,6 +2,7 @@
   "name": "@essence-community/constructor-website",
   "version": "2.0.1",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
     "start": "node scripts/start.js",

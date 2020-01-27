@@ -23,6 +23,7 @@ export const useStyles = makeStyles(
             },
             display: "flex",
             flexGrow: 1,
+            height: "inherit",
             position: "relative",
         },
         rootDialogContent: {},

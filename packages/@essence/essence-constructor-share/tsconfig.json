@@ -9,6 +9,7 @@
         "jsx": "react",
         "esModuleInterop": true,
         "strictNullChecks": true,
+        "experimentalDecorators": true,
         "typeRoots": ["src/typings"]
     },
     "include": ["src/**/*.ts", "src/**/*.tsx"],

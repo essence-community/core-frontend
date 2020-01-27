@@ -4,6 +4,7 @@ import omit from "lodash/omit";
 import isEqual from "lodash/isEqual";
 import debounce from "lodash/debounce";
 import {Scrollbars as ReactCustomScrollbars} from "react-custom-scrollbars";
+import {ProjectContext} from "@essence-community/constructor-share/context";
 import getScrollbarWidth from "react-custom-scrollbars/lib/utils/getScrollbarWidth";
 import {type PageModelType} from "../../stores/PageModel";
 
@@ -24,6 +25,7 @@ const customVerticalStyle = {
 const OMITED_PROPS = ["preventAltScroll", "pageStore", "horizontalStyle", "verticalStyle", "fireScrollEvent"];
 
 export const SCROLL_DEBOUNCE = 8;
+const KEY_S = 83;
 
 /*
  * Values about the current position
@@ -67,6 +69,8 @@ type StateType = {
 export type ReactCustomScrollbarsType = ReactCustomScrollbars;
 
 class Scrollbars extends React.Component<PropsType, StateType> {
+    static contextType = ProjectContext;
+
     static defaultProps = {
         fireScrollEvent: true,
     };
@@ -101,7 +105,7 @@ class Scrollbars extends React.Component<PropsType, StateType> {
 
     handleWheel = (event: SyntheticWheelEvent<HTMLDivElement>) => {
         const {currentTarget} = event;
-        const isWheelAlt = event.altKey || event.metaKey;
+        const isWheelAlt = this.context?.keyboardState.keyCodes.includes(KEY_S);
 
         if (isWheelAlt !== this.lastWheelAlt) {
             if (isWheelAlt) {

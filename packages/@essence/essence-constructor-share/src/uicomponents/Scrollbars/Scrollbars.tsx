@@ -5,6 +5,7 @@ import {Scrollbars as ReactCustomScrollbars, ScrollbarProps} from "react-custom-
 // @ts-ignore
 import getScrollbarWidth from "react-custom-scrollbars/lib/utils/getScrollbarWidth";
 import {IPageModel} from "../../types";
+import {ProjectContext} from "../../context";
 
 const customHorizontalStyle = {
     backgroundColor: "#cbcaca",
@@ -31,6 +32,7 @@ const OMITED_PROPS = [
 ];
 
 export const SCROLL_DEBOUNCE = 8;
+const KEY_S = 83;
 
 /*
  * Values about the current position
@@ -75,6 +77,8 @@ interface IState {
 }
 
 export class Scrollbars extends React.Component<IProps, IState> {
+    static contextType = ProjectContext;
+
     static defaultProps = {
         fireScrollEvent: true,
     };
@@ -109,7 +113,7 @@ export class Scrollbars extends React.Component<IProps, IState> {
 
     handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
         const {currentTarget} = event;
-        const isWheelAlt = event.altKey || event.metaKey;
+        const isWheelAlt = this.context?.keyboardState.keyCodes.includes(KEY_S);
 
         if (isWheelAlt !== this.lastWheelAlt) {
             if (isWheelAlt) {

@@ -529,7 +529,13 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
 
     scrollToRecordAction = (params: Object) => gridScrollToRecordAction(params, this);
 
-    afterSelected = () => {
+    afterSelected = async () => {
+        if (
+            this.recordsStore.recordsState.status === "attach" ||
+            this.recordsStore.recordsState.status === "save-any"
+        ) {
+            await this.scrollToRecordAction({});
+        }
         if (this.bc.setglobal) {
             return gridSetGlobalValues(this);
         }

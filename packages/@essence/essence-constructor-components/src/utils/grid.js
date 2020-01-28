@@ -46,11 +46,16 @@ export const getTreeRecords = (store: GridModelType) =>
 const getAllVisibleGridRecords = (store: GridModelType) =>
     store.bc.type === "GRID" ? store.recordsStore.records : getTreeRecords(store);
 
+// eslint-disable-next-line max-statements
 export const gridScrollToRecordAction = async (params: Object, gridStore: GridModelType) => {
-    const ckId = getGridCkId(gridStore.bc.getglobal, params, gridStore.recordsStore.recordId);
+    const ckId =
+        getGridCkId(gridStore.bc.getglobal, params, gridStore.recordsStore.recordId) ||
+        gridStore.recordsStore.selectedRecordId;
 
     if (!isEmpty(ckId)) {
-        await gridStore.recordsStore.setSelectionAction(ckId);
+        if (ckId !== gridStore.recordsStore.selectedRecordId) {
+            await gridStore.recordsStore.setSelectionAction(ckId);
+        }
         await gridStore.expandSelectedAction();
 
         const allVisibleRecords = getAllVisibleGridRecords(gridStore);

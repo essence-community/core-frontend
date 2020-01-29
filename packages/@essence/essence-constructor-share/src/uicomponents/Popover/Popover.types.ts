@@ -17,12 +17,10 @@ export interface IPopoverAnchorOrigin {
     horizontal: "left" | "center" | "right" | number;
 }
 
-export interface IGetOffsetContainerProps {
+export interface IGetOffsetContainerProps extends IOffset {
     container: null | HTMLElement;
     popupEl: null | HTMLElement;
     rootEl: null | HTMLElement;
-    left: number;
-    top: number;
     transformOrigin: IPopoverTransfromOrigin;
     anchorOrigin: IPopoverAnchorOrigin;
 }
@@ -38,6 +36,7 @@ export interface IPopoverChildrenProps {
     position: "top" | "bottom";
     onOpen: (event: React.SyntheticEvent) => void;
     onClose: (event: React.SyntheticEvent) => void;
+    onCalculateOffset: () => void;
 }
 
 export type PopoverRenderChildren = (props: IPopoverChildrenProps) => React.ReactNode;
@@ -98,5 +97,6 @@ export interface IPopoverContentProps {
     disableFocusableArrow?: boolean;
     onClose: () => void;
     onOpen: () => void;
+    onCalculateOffset: () => void;
     onEntering: (node: HTMLElement, isAppearing: boolean) => void;
 }

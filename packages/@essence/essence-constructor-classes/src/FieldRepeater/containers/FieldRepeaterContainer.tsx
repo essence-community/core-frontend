@@ -1,5 +1,5 @@
 import * as React from "react";
-import {IClassProps, mapComponents, IBuilderConfig, useModel} from "@essence-community/constructor-share";
+import {IClassProps, mapComponents, IBuilderConfig, useModel, FieldValue} from "@essence-community/constructor-share";
 import {ApplicationContext, EditorContex} from "@essence-community/constructor-share/context";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -18,10 +18,11 @@ import {RepeaterGroup} from "../components/RepeaterGroup";
 interface IProps extends IClassProps {
     field: Field;
     form: FormType;
+    value: FieldValue;
 }
 
 export const FieldRepeaterContainer: React.FC<IProps> = (props) => {
-    const {field, bc, pageStore, disabled, hidden} = props;
+    const {field, bc, pageStore, disabled, hidden, value} = props;
     const applicationStore = React.useContext(ApplicationContext);
     const editorValue = React.useContext(EditorContex);
     const [trans] = useTranslation("meta");
@@ -50,6 +51,17 @@ export const FieldRepeaterContainer: React.FC<IProps> = (props) => {
         }),
         [addLabel, bc, storeName],
     );
+
+    // CORE-1538 - minzise - guaranteed minimum fields for the repeater
+    React.useEffect(() => {
+        if (bc.minsize && !value) {
+            Array.from({length: parseInt(bc.minsize, 10)}, () => {
+                field.add();
+
+                return undefined;
+            });
+        }
+    }, [bc.minsize, field, value]);
 
     return useObserver(() => {
         const maxSize = bc.maxsize && /[g_]/u.test(bc.maxsize) ? pageStore.globalValues.get(bc.maxsize) : bc.maxsize;

@@ -194,6 +194,7 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
         this.setState({selectedTab: null});
     };
 
+    // eslint-disable-next-line max-lines-per-function
     renderTabComponent = (Cmp, child, className) => {
         const {
             store: {tabValue, openedTabs},
@@ -215,7 +216,11 @@ class BaseBuilderTabPanel extends React.Component<BuilderTabPanelPropsType & Wit
         const content = (
             <Grid
                 xs={12}
-                className={isPanel ? cn(className, classes.childPanel) : className}
+                className={cn(
+                    className,
+                    isPanel && classes.childPanel,
+                    child.type === "TABPANEL" && classes.childTabPanel,
+                )}
                 item
                 key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                 style={{display: isVisible ? "block" : "none"}}

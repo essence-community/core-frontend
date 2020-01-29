@@ -16,6 +16,15 @@ export const StyleTabPanelLight = (theme) => {
 
     return {
         activeTabRoot: {},
+        childTabPanel: {
+            paddingTop: 3,
+        },
+        "content-center-hbox": {
+            paddingTop: 0,
+        },
+        "content-center-vbox": {
+            paddingTop: 0,
+        },
         "content-left-hbox": {
             borderTop: `1px solid ${theme.palette.secondary.main}`,
             overflow: "hidden",

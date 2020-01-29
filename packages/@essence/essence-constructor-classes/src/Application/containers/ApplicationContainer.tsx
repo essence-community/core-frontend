@@ -16,7 +16,11 @@ import {
 } from "@essence-community/constructor-share";
 import {settingsStore, snackbarStore} from "@essence-community/constructor-share/models";
 import {useTranslation} from "@essence-community/constructor-share/utils";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_SETTING_PROJECT_LOADER} from "@essence-community/constructor-share/constants";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_SETTING_PROJECT_LOADER,
+    VAR_RECORD_CL_STATIC,
+} from "@essence-community/constructor-share/constants";
 import {useDisposable, useObserver} from "mobx-react-lite";
 import {reaction, observe} from "mobx";
 import {useParams, useHistory} from "react-router-dom";
@@ -107,7 +111,10 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
 
                 if (route && route[VAR_RECORD_ID]) {
                     pageId = route[VAR_RECORD_ID];
-                    routeUrl = route.clStatic && route[VAR_RECORD_URL] ? route[VAR_RECORD_URL] : route[VAR_RECORD_ID];
+                    routeUrl =
+                        route[VAR_RECORD_CL_STATIC] && route[VAR_RECORD_URL]
+                            ? route[VAR_RECORD_URL]
+                            : route[VAR_RECORD_ID];
                 } else if (applicationStore.authStore.userInfo.session) {
                     pageId = applicationStore.bc.defaultvalue;
                     routeUrl = applicationStore.bc.defaultvalue;

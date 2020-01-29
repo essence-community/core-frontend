@@ -34,6 +34,7 @@ import {
     VAR_RECORD_CA_ACTIONS,
     VAR_SETTING_MODULE_AVAILABLE,
     VAR_SETTING_MODULE_URL,
+    VAR_RECORD_CL_STATIC,
 } from "@essence-community/constructor-share/constants";
 import {i18next} from "@essence-community/constructor-share/utils";
 import {snackbarStore} from "@essence-community/constructor-share/models";
@@ -140,7 +141,7 @@ export class ApplicationModel implements ApplicationModelType {
             (activePage) => {
                 let url = "auth";
 
-                if (activePage && activePage.route.clStatic && activePage.route[VAR_RECORD_URL]) {
+                if (activePage && activePage.route[VAR_RECORD_CL_STATIC] && activePage.route[VAR_RECORD_URL]) {
                     url = `/page/${activePage.route[VAR_RECORD_URL]}`;
                 } else if (activePage && activePage.pageId) {
                     url = `/page/${activePage.pageId}`;

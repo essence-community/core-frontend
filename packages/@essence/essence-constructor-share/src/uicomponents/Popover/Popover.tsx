@@ -48,23 +48,30 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
 
     const handleCalculateOffset = React.useCallback(() => {
         const {current: rootElement} = rootRef;
-        const {left, top} = getAbsoluteOffsetFromGivenElement(rootElement, container);
+        let newPosition: IOffset = getAbsoluteOffsetFromGivenElement(rootElement, container);
 
         if (rootElement) {
-            setStyle(
-                getOffsetContainer({
-                    anchorOrigin,
-                    container,
-                    left,
-                    popupEl: popupRef.current,
-                    rootEl: rootElement,
-                    top,
-                    transformOrigin,
-                }),
-            );
-        } else {
-            setStyle({left, top});
+            newPosition = getOffsetContainer({
+                ...newPosition,
+                anchorOrigin,
+                container,
+                popupEl: popupRef.current,
+                rootEl: rootElement,
+                transformOrigin,
+            });
         }
+
+        setStyle((prevStyle) => {
+            if (
+                prevStyle.left !== newPosition.left ||
+                prevStyle.top !== newPosition.top ||
+                prevStyle.bottom !== newPosition.bottom
+            ) {
+                return newPosition;
+            }
+
+            return prevStyle;
+        });
     }, [anchorOrigin, container, transformOrigin]);
 
     const handleEntering = () => {
@@ -175,6 +182,7 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
         <div ref={rootRef} onMouseDown={handleMouseDownPopover} onBlur={props.onBlur}>
             {isFunction(props.children)
                 ? props.children({
+                      onCalculateOffset: handleCalculateOffset,
                       onClose: handleClose,
                       onOpen: handleOpen,
                       open: isOpen,
@@ -198,6 +206,7 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
                           onOpen={handleOpen}
                           onEntering={handleEntering}
                           onClose={handleClose}
+                          onCalculateOffset={handleCalculateOffset}
                           onEscapeKeyDown={handleEscapeKeyDown}
                           paperClassName={props.paperClassName}
                           popoverContent={props.popoverContent}

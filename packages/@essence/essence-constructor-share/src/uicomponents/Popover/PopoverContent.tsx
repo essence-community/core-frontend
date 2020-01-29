@@ -19,6 +19,7 @@ export const PopoverContent: React.FC<IPopoverContentProps> = React.forwardRef<H
             <Paper className={props.paperClassName} style={{width: props.width}}>
                 {isFunction(props.popoverContent)
                     ? props.popoverContent({
+                          onCalculateOffset: props.onCalculateOffset,
                           onClose: props.onClose,
                           onOpen: props.onOpen,
                           open: props.open,

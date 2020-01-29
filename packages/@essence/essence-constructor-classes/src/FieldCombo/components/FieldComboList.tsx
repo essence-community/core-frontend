@@ -28,7 +28,7 @@ interface IProps extends IPopoverChildrenProps {
 }
 
 export const FieldComboList: React.FC<IProps> = (props) => {
-    const {store, bc, onChange, onClose, listRef} = props;
+    const {store, bc, onChange, onClose, listRef, onCalculateOffset} = props;
     const scrollbarRef: React.MutableRefObject<Scrollbars | undefined> = React.useRef();
     const stringValue = toString(props.value);
     const classes = useStyles(props);
@@ -72,6 +72,10 @@ export const FieldComboList: React.FC<IProps> = (props) => {
             ),
         [],
     );
+
+    React.useEffect(() => {
+        onCalculateOffset();
+    });
 
     return useObserver(() => (
         <Paper

@@ -1,7 +1,7 @@
 import * as React from "react";
 import {mapComponents, SideResizer} from "@essence-community/constructor-share";
 import {IWindowClassProps, IBuilderConfig, IClassProps} from "@essence-community/constructor-share/types";
-import {toSize} from "@essence-community/constructor-share/utils";
+import {toSize, toColumnStyleWidth} from "@essence-community/constructor-share/utils";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {Grid, Drawer} from "@material-ui/core";
 import {useStyles} from "./WindowDrawerContainer.styles";
@@ -68,12 +68,25 @@ export const WindowDrawerContainer: React.FC<IWindowClassProps> = (props) => {
             >
                 {bc.align === "right" ? sideResizer : null}
                 <Grid item xs={true} className={classes.content}>
-                    {mapComponents(
-                        bc.childs,
-                        (ChildComp: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                            <ChildComp key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} {...props} bc={childBc} />
-                        ),
-                    )}
+                    <Grid container spacing={1} direction="row">
+                        {mapComponents(
+                            bc.childs,
+                            (ChildComp: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
+                                <Grid
+                                    key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                    item
+                                    xs={12}
+                                    style={{
+                                        // Pager has scrollbars, we should pass initial height for this page
+                                        height: childBc.type === "PAGER" ? "100%" : undefined,
+                                        ...toColumnStyleWidth(childBc.width),
+                                    }}
+                                >
+                                    <ChildComp {...props} bc={childBc} />
+                                </Grid>
+                            ),
+                        )}
+                    </Grid>
                 </Grid>
                 {bc.align === "left" ? sideResizer : null}
             </Grid>

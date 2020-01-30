@@ -42,6 +42,7 @@ export const WindowDrawerContainer: React.FC<IWindowClassProps> = (props) => {
             />
         </Grid>
     );
+    const isOneChild = bc.childs?.length === 1;
 
     React.useEffect(() => {
         setIsOpen(true);
@@ -67,26 +68,25 @@ export const WindowDrawerContainer: React.FC<IWindowClassProps> = (props) => {
                 className={classes.container}
             >
                 {bc.align === "right" ? sideResizer : null}
-                <Grid item xs={true} className={classes.content}>
-                    <Grid container spacing={1} direction="row">
-                        {mapComponents(
-                            bc.childs,
-                            (ChildComp: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                                <Grid
-                                    key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                    item
-                                    xs={12}
-                                    style={{
-                                        // Pager has scrollbars, we should pass initial height for this page
-                                        height: childBc.type === "PAGER" ? "100%" : undefined,
-                                        ...toColumnStyleWidth(childBc.width),
-                                    }}
-                                >
-                                    <ChildComp {...props} bc={childBc} />
-                                </Grid>
-                            ),
-                        )}
-                    </Grid>
+                <Grid item xs={true} container spacing={1} direction="column" alignItems="stretch">
+                    {mapComponents(
+                        bc.childs,
+                        (ChildComp: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
+                            <Grid
+                                key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                item
+                                xs={childBc.type === "PAGER" || isOneChild ? true : undefined}
+                                style={{
+                                    // Pager has scrollbars, we should pass initial height for this page
+                                    height: childBc.type === "PAGER" ? "100%" : undefined,
+                                    ...toColumnStyleWidth(childBc.width),
+                                    flexBasis: undefined,
+                                }}
+                            >
+                                <ChildComp {...props} bc={childBc} />
+                            </Grid>
+                        ),
+                    )}
                 </Grid>
                 {bc.align === "left" ? sideResizer : null}
             </Grid>

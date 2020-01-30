@@ -126,7 +126,7 @@ class FormPanelComponent extends React.Component<PropsType, StateType> {
             >
                 <Grid
                     container
-                    spacing={2}
+                    spacing={1}
                     {...GRID_CONFIGS[contentview]}
                     {...GRID_ALIGN_CONFIGS[`${align}-${contentview}`]}
                 >

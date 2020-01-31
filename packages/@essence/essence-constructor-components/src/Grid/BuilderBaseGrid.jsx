@@ -381,7 +381,6 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
         const {bc, store, classes, disabled, hideTitle, readOnly, pageStore, visible, t} = this.props;
         const {filters = [], childwindow = [], orderproperty} = bc;
         const isHideActions = bc.hideactions === "true";
-        const hideactionsDark = isHideActions && pageStore.styleTheme === "dark";
         const isInlineEditing = store.isEdit && bc.edittype === "inline" && childwindow.length === 0;
         const transCvDisplayed = t(bc[VAR_RECORD_DISPLAYED]);
         const isFilterActionsPresent = filters.length > 0 && filters[0].dynamicfilter !== "true";
@@ -463,12 +462,10 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
             return (
                 <Grid container direction="row" className={classNameRoot} wrap="nowrap">
                     {actionsComponent}
-                    <Grid item>
-                        {hideTitle ? null : (
-                            <EmptyTitle title={transCvDisplayed} filters={filters} hideactions={hideactionsDark} />
-                        )}
-                    </Grid>
                     <Grid item container direction="column" className={classes.contentRoot}>
+                        <Grid item>
+                            {hideTitle ? null : <EmptyTitle title={transCvDisplayed} filters={filters} hideactions />}
+                        </Grid>
                         {filterComponent}
                         {tableComponent}
                     </Grid>
@@ -479,11 +476,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
         return (
             <Grid container direction="column" className={classNameRoot} wrap="nowrap">
                 {filterComponent}
-                <Grid item>
-                    {hideTitle ? null : (
-                        <EmptyTitle title={transCvDisplayed} filters={filters} hideactions={hideactionsDark} />
-                    )}
-                </Grid>
+                <Grid item>{hideTitle ? null : <EmptyTitle title={transCvDisplayed} filters={filters} />}</Grid>
                 {tableComponent}
             </Grid>
         );

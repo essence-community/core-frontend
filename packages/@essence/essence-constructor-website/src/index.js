@@ -8,6 +8,7 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker.ts";
 import "./register";
+import "./themeCheck";
 
 ReactDOM.render(<App />, document.getElementById("root"));
 

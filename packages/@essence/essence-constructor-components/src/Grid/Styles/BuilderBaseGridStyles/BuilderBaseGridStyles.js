@@ -16,9 +16,6 @@ const BuilderBaseGridStyles = (theme: Object) => ({
     editableTable: {
         zIndex: 3,
     },
-    fullHeight: {
-        height: "100%",
-    },
     gridOverflow: {
         overflow: "auto",
     },
@@ -30,6 +27,10 @@ const BuilderBaseGridStyles = (theme: Object) => ({
     },
     inlineButton: {},
     mainButton: {},
+    root: {
+        height: "100%",
+        position: "relative",
+    },
     tableBody: {
         display: "flex",
         height: "100%",

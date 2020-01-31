@@ -11,6 +11,8 @@ import {
     VALUE_SELF_FIRST,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
+    GRID_CONFIGS,
+    GRID_ALIGN_CONFIGS,
 } from "@essence-community/constructor-share/constants";
 import TextFieldLabel from "../../TextFieldComponents/TextFieldLabel/TextFieldLabel";
 import withModelDecorator from "../../../decorators/withModelDecorator";
@@ -141,7 +143,7 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
     render() {
         // eslint-disable-next-line id-length
         const {store, bc, classes, error, field, t} = this.props;
-        const isRow = bc.contentview === "hbox";
+        const {contentview = "", align} = bc;
 
         const content = (
             <Scrollbars autoHeight autoHeightMax={371} autoHeightMin={30} hideTracksWhenNotNeeded preventAltScroll>
@@ -150,8 +152,8 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
                         <Grid
                             container
                             spacing={1}
-                            direction={isRow ? "row" : "column"}
-                            wrap={isRow ? "nowrap" : "wrap"}
+                            {...GRID_CONFIGS[contentview]}
+                            {...GRID_ALIGN_CONFIGS[`${align}-${contentview}`]}
                             style={{overflow: "hidden", width: "100%"}}
                         >
                             {store.suggestions.map((record) => (

@@ -34,6 +34,7 @@ type PropsType = {
     open: boolean,
     title?: string,
     visible: boolean,
+    isHideActions?: boolean,
     addRefAction?: (name: string, node: ?React.ElementRef<*>) => void,
     onChangeCollapse?: () => void,
     handleGlobals?: (values: Object) => void,
@@ -124,6 +125,18 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
 
     renderButton = () => {
         const {classes, bc, title, disabled, store, onChangeCollapse, open, parentBc, pageStore, visible} = this.props;
+        const buttons = (
+            <BuilderFilterButtons
+                disabled={disabled}
+                bc={bc}
+                parentBc={parentBc}
+                store={store}
+                onChangeCollapse={onChangeCollapse}
+                open={open}
+                pageStore={pageStore}
+                visible={visible}
+            />
+        );
 
         return (
             <Grid
@@ -131,18 +144,13 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
                 xs={styleTheme === "light" ? GRID_FULL_WIDTH : false}
                 className={cn(classes.filterButtons, {[classes.filterButtonsCollect]: bc.topbtn})}
             >
-                <div className={classes.filterButtonsContainer}>
-                    <BuilderFilterButtons
-                        disabled={disabled}
-                        bc={bc}
-                        parentBc={parentBc}
-                        store={store}
-                        onChangeCollapse={onChangeCollapse}
-                        open={open}
-                        pageStore={pageStore}
-                        visible={visible}
-                    />
-                </div>
+                {pageStore.styleTheme === "dark" ? (
+                    <Collapse in={open} collapsedHeight="42px" className={classes.filterButtonsContainer}>
+                        {buttons}
+                    </Collapse>
+                ) : (
+                    <div className={classes.filterButtonsContainer}>{buttons}</div>
+                )}
 
                 {styleTheme === "light" ? (
                     <Grid item xs={12} className={classes.titleContainer}>
@@ -158,11 +166,11 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
 
     // eslint-disable-next-line max-lines-per-function
     render() {
-        const {bc, disabled, classes, title, store, pageStore, visible, open, parentBc} = this.props;
+        const {bc, disabled, classes, title, store, pageStore, visible, open, parentBc, isHideActions} = this.props;
 
         return (
             <BuilderTypeContext.Provider value="filter">
-                <Collapse in={open} collapsedHeight="42px">
+                <Collapse in={open} collapsedHeight={title || pageStore.styleTheme === "light" ? "42px" : "1px"}>
                     <BuilderForm
                         onSubmit={this.handleSearch}
                         onSetValues={this.handleSetValues}
@@ -188,7 +196,7 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
                             wrap="nowrap"
                             data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                         >
-                            {bc.dynamicfilter === "true" ? null : this.renderButton()}
+                            {bc.dynamicfilter === "true" || isHideActions ? null : this.renderButton()}
                             {bc.dynamicfilter === "true" && styleTheme !== "light" ? (
                                 <Grid item className={classes.filterButtons}>
                                     &nbsp;

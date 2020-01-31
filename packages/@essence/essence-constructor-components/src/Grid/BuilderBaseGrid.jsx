@@ -6,6 +6,7 @@ import {reaction, observe} from "mobx";
 import {observer, disposeOnUnmount} from "mobx-react";
 import noop from "lodash/noop";
 import {withStyles} from "@material-ui/core/styles";
+import cn from "classnames";
 import {Grid, Table, TableBody} from "@material-ui/core";
 import {parse} from "@essence-community/constructor-share/utils/parser";
 import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
@@ -16,13 +17,7 @@ import EmptyTitle from "../Components/EmptyTitle/EmptyTitle";
 import VerticalResizer from "../Resizer/VerticalResizer";
 import Pagination from "../Pagination/Pagination";
 import BuilderFilter from "../Filter/BuilderFilter";
-import {
-    type GridModelType,
-    updateGridWidth,
-    updateTopGrid,
-    updateMarginTopGrid,
-    handleFocusAfterKeyDown,
-} from "../stores/GridModel";
+import {type GridModelType, updateGridWidth, handleFocusAfterKeyDown} from "../stores/GridModel";
 import {type PageModelType} from "../stores/PageModel";
 import {
     QUERY_GRID_ELEMENT,
@@ -56,6 +51,8 @@ type PropsType = WithT & {|
 |};
 
 const GRID_FOCUS_KEYS = [KEY_ARROW_DOWN, KEY_ARROW_LEFT, KEY_ARROW_RIGHT, KEY_ARROW_UP];
+const FITER_ONE_BUTTON = 42;
+const FILTER_THREE_BUTTON = 128;
 
 export class BuilderBaseGridBase extends React.Component<PropsType, {focused: boolean}> {
     static defaultProps = {
@@ -114,16 +111,6 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
                     });
                 });
             });
-        }
-    }
-
-    componentDidUpdate(prevProps: PropsType) {
-        const {store, visible, pageStore} = this.props;
-
-        if (!prevProps.visible && visible && pageStore.styleTheme === "dark") {
-            const marginTop = updateTopGrid(store.refs, store.isFilterOpen);
-
-            updateMarginTopGrid(store, marginTop);
         }
     }
 
@@ -190,13 +177,9 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
     };
 
     handleChangeCollapse = () => {
-        const {store, pageStore} = this.props;
+        const {store} = this.props;
 
         store.toggleIsFilterOpen();
-
-        if (pageStore.styleTheme === "dark" && this.isVisible()) {
-            updateTopGrid(store.refs, store.isFilterOpen);
-        }
     };
 
     handleSelectRow = (
@@ -392,85 +375,117 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
         <div className={this.props.classes.warning}>{this.props.t("static:40dd53ff1c214bfab79ecd40612de8f5")}</div>
     );
 
-    // eslint-disable-next-line max-lines-per-function
+    // eslint-disable-next-line max-lines-per-function,  max-statements
     render() {
         // eslint-disable-next-line id-length
         const {bc, store, classes, disabled, hideTitle, readOnly, pageStore, visible, t} = this.props;
         const {filters = [], childwindow = [], orderproperty} = bc;
-        const hideactionsDark = bc.hideactions === "true" && pageStore.styleTheme === "dark";
+        const isHideActions = bc.hideactions === "true";
+        const hideactionsDark = isHideActions && pageStore.styleTheme === "dark";
         const isInlineEditing = store.isEdit && bc.edittype === "inline" && childwindow.length === 0;
         const transCvDisplayed = t(bc[VAR_RECORD_DISPLAYED]);
+        const isFilterActionsPresent = filters.length > 0 && filters[0].dynamicfilter !== "true";
+        const classNameRoot = cn(classes.root, isHideActions ? classes.rootActionsHide : classes.rootActions);
+        // eslint-disable-next-line init-declarations
+        let paddingTop;
 
-        return (
-            <React.Fragment>
-                <Grid container direction="column" className={classes.fullHeight} wrap="nowrap">
-                    <Grid item>
-                        {filters.map((filter) => (
-                            <BuilderFilter
-                                disabled={disabled}
-                                key={filter[VAR_RECORD_PAGE_OBJECT_ID]}
-                                onSearch={store.searchAction}
-                                bc={filter}
-                                parentBc={bc}
-                                iconColor="inherit"
-                                title={hideTitle ? undefined : transCvDisplayed}
-                                open={store.isFilterOpen}
-                                onChangeCollapse={this.handleChangeCollapse}
-                                pageStore={pageStore}
-                                handleGlobals={noop}
-                                visible={visible}
-                                addRefAction={store.addRefAction}
-                            />
-                        ))}
+        if (isFilterActionsPresent && pageStore.styleTheme === "dark") {
+            paddingTop = store.isFilterOpen ? FILTER_THREE_BUTTON : FITER_ONE_BUTTON;
+        }
+
+        const actionsComponent = isHideActions ? null : (
+            <Grid
+                style={{paddingTop}}
+                item
+                className={store.isInlineEditing ? classes.editActionsGrid : classes.tableActions}
+            >
+                <GridBaseButtons
+                    classes={classes}
+                    disabled={disabled}
+                    bc={bc}
+                    readOnly={readOnly}
+                    store={store}
+                    pageStore={pageStore}
+                    visible={visible}
+                    isInlineEditing={store.isInlineEditing}
+                />
+                <div ref={this.setRefGridInlineButton} />
+            </Grid>
+        );
+        const filterComponent = (
+            <Grid item>
+                {filters.map((filter) => (
+                    <BuilderFilter
+                        disabled={disabled}
+                        key={filter[VAR_RECORD_PAGE_OBJECT_ID]}
+                        onSearch={store.searchAction}
+                        bc={filter}
+                        parentBc={bc}
+                        iconColor="inherit"
+                        title={hideTitle ? undefined : transCvDisplayed}
+                        open={store.isFilterOpen}
+                        onChangeCollapse={this.handleChangeCollapse}
+                        pageStore={pageStore}
+                        handleGlobals={noop}
+                        visible={visible}
+                        addRefAction={store.addRefAction}
+                        isHideActions={isHideActions}
+                    />
+                ))}
+            </Grid>
+        );
+        const tableComponent = (
+            <Grid item xs className={store.isInlineEditing ? "panel-editing-focus" : undefined}>
+                <Grid
+                    container
+                    spacing={0}
+                    direction={pageStore.styleTheme === "light" ? "column" : "row"}
+                    wrap="nowrap"
+                    className={classes.fullHeight}
+                >
+                    {pageStore.styleTheme === "light" ? actionsComponent : null}
+                    <Grid
+                        item
+                        xs
+                        className={`${classes.tableBodyItem} ${store.isInlineEditing ? classes.editableTable : ""}`}
+                        zeroMinWidth
+                        ref={this.setRefGridContent}
+                    >
+                        {isEmpty(orderproperty)
+                            ? this.renderWarning()
+                            : this.renderTable(isInlineEditing, store.gridHeight + SCROLL_WEIGHT)}
                     </Grid>
+                </Grid>
+            </Grid>
+        );
+
+        if (pageStore.styleTheme === "dark") {
+            return (
+                <Grid container direction="row" className={classNameRoot} wrap="nowrap">
+                    {actionsComponent}
                     <Grid item>
                         {hideTitle ? null : (
                             <EmptyTitle title={transCvDisplayed} filters={filters} hideactions={hideactionsDark} />
                         )}
                     </Grid>
-                    <Grid item xs className={store.isInlineEditing ? "panel-editing-focus" : undefined}>
-                        <Grid
-                            container
-                            spacing={0}
-                            direction={pageStore.styleTheme === "light" ? "column" : "row"}
-                            wrap="nowrap"
-                            className={classes.fullHeight}
-                        >
-                            {bc.hideactions === "true" ? null : (
-                                <Grid
-                                    item
-                                    className={store.isInlineEditing ? classes.editActionsGrid : classes.tableActions}
-                                >
-                                    <GridBaseButtons
-                                        classes={classes}
-                                        disabled={disabled}
-                                        bc={bc}
-                                        readOnly={readOnly}
-                                        store={store}
-                                        pageStore={pageStore}
-                                        visible={visible}
-                                        isInlineEditing={store.isInlineEditing}
-                                    />
-                                    <div ref={this.setRefGridInlineButton} />
-                                </Grid>
-                            )}
-                            <Grid
-                                item
-                                xs
-                                className={`${classes.tableBodyItem} ${
-                                    store.isInlineEditing ? classes.editableTable : ""
-                                }`}
-                                zeroMinWidth
-                                ref={this.setRefGridContent}
-                            >
-                                {isEmpty(orderproperty)
-                                    ? this.renderWarning()
-                                    : this.renderTable(isInlineEditing, store.gridHeight + SCROLL_WEIGHT)}
-                            </Grid>
-                        </Grid>
+                    <Grid item container direction="column" className={classes.contentRoot}>
+                        {filterComponent}
+                        {tableComponent}
                     </Grid>
                 </Grid>
-            </React.Fragment>
+            );
+        }
+
+        return (
+            <Grid container direction="column" className={classNameRoot} wrap="nowrap">
+                {filterComponent}
+                <Grid item>
+                    {hideTitle ? null : (
+                        <EmptyTitle title={transCvDisplayed} filters={filters} hideactions={hideactionsDark} />
+                    )}
+                </Grid>
+                {tableComponent}
+            </Grid>
         );
     }
 }

@@ -21,7 +21,7 @@ class NumberFormatCustom extends React.Component<PropsType> {
 
     maxValue: ?number;
 
-    dPrecision: Number;
+    decimalPrecision: Number;
 
     BigNumber: BigNumberBase;
 
@@ -29,12 +29,12 @@ class NumberFormatCustom extends React.Component<PropsType> {
         super(...args);
 
         const {bc} = this.props;
-        const {BigNumber} = getBigNumberInstance(bc);
+        const {BigNumber, decimalPrecision} = getBigNumberInstance(bc);
 
         this.maxsize = bc.maxsize ? parseInt(bc.maxsize, 10) : undefined;
         this.minValue = bc.minvalue ? parseInt(bc.minvalue, 10) : 0;
         this.maxValue = bc.maxvalue ? parseInt(bc.maxvalue, 10) : undefined;
-        this.dPrecision = parseInt(bc.decimalprecision || "2", 10);
+        this.decimalPrecision = decimalPrecision;
         this.BigNumber = BigNumber;
     }
 
@@ -50,7 +50,7 @@ class NumberFormatCustom extends React.Component<PropsType> {
         }
         const [, decimal] = value.split(".");
 
-        if (decimal && decimal.length > this.dPrecision) {
+        if (decimal && decimal.length > this.decimalPrecision) {
             return false;
         }
         const num = new this.BigNumber(value);

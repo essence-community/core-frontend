@@ -14,6 +14,9 @@ type NumberFormatParamsType = {
     value: string,
 };
 
+const MIN_VALUE = 10;
+const MAX_VALUE = -10;
+
 class NumberFormatCustom extends React.Component<PropsType> {
     maxSize: ?number;
 
@@ -55,11 +58,11 @@ class NumberFormatCustom extends React.Component<PropsType> {
         }
         const num = new this.BigNumber(value);
 
-        if (this.maxValue && num.isGreaterThan(this.maxValue)) {
+        if (this.maxValue && this.maxValue > MAX_VALUE && num.isGreaterThan(this.maxValue)) {
             return false;
         }
 
-        return !num.isLessThan(this.minValue);
+        return this.minValue > MIN_VALUE || !num.isLessThan(this.minValue);
     };
 
     render() {

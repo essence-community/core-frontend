@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import Calendar from "rc-calendar";
-import DatePicker from "rc-calendar/lib/Picker";
 import TimePickerPanel from "rc-time-picker/lib/Panel";
+import DatePicker from "./PickerOverride";
 import {ru} from "./fieldDateHelpers";
 
 class FieldDateMain extends React.Component<any, any> {

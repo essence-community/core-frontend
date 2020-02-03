@@ -78,24 +78,6 @@ class BaseBuilderButtonCollector extends React.Component<PropsType> {
         }));
     }
 
-    renderIcon = ({open, onOpen, onClose}) => {
-        const {classes, tranformName, ...btnProps} = this.props;
-
-        const className =
-            tranformName === "window"
-                ? cn(classes.iconButtonWindowRoot, {[classes.iconButtonWindowOpenRoot]: open})
-                : cn(classes.iconButtonRoot, {[classes.iconButtonOpenRoot]: open});
-
-        return (
-            <BuilderMobxButton
-                {...btnProps}
-                readOnly={false}
-                className={className}
-                handleClick={open ? onClose : onOpen}
-            />
-        );
-    };
-
     renderPopoverContnet = ({onClose}) => {
         const {
             pageStore,
@@ -137,7 +119,7 @@ class BaseBuilderButtonCollector extends React.Component<PropsType> {
     };
 
     render() {
-        const {hidden, pageStore, tranformName, classes} = this.props;
+        const {hidden, pageStore, tranformName, classes, ...btnProps} = this.props;
 
         if (hidden) {
             return null;
@@ -157,7 +139,22 @@ class BaseBuilderButtonCollector extends React.Component<PropsType> {
                 restoreFocusedElement
                 tabFocusable={false}
             >
-                {this.renderIcon}
+                {({open, onOpen, onClose}) => {
+                    const className =
+                        tranformName === "window"
+                            ? cn(classes.iconButtonWindowRoot, {[classes.iconButtonWindowOpenRoot]: open})
+                            : cn(classes.iconButtonRoot, {[classes.iconButtonOpenRoot]: open});
+
+                    return (
+                        <BuilderMobxButton
+                            {...btnProps}
+                            readOnly={false}
+                            className={className}
+                            handleClick={open ? onClose : onOpen}
+                            pageStore={pageStore}
+                        />
+                    );
+                }}
             </Popover>
         );
     }

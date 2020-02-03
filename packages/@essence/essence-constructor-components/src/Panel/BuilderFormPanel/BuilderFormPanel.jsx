@@ -54,7 +54,9 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
         const isEditing = readOnly ? false : store.editing;
         const isFilterActionsPresent = filters.length > 0 && filters[0].dynamicfilter !== "true";
         const transCvDisplayed = t(bc[VAR_RECORD_DISPLAYED]);
-        const classNameRoot = cn(classes.root, isHideActions ? classes.rootActionsHide : classes.rootActions);
+        const classNameRoot = cn(classes.root, isHideActions ? classes.rootActionsHide : classes.rootActions, {
+            [classes.panelEditing]: isEditing,
+        });
         // eslint-disable-next-line init-declarations
         let paddingTop;
 
@@ -111,7 +113,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
         );
 
         const formComponent = (
-            <Grid item>
+            <Grid item className={classes.formRoot}>
                 <BuilderForm
                     initialValues={store.recordsStore.records[0] || EMPTY_RECORD}
                     pageStore={pageStore}
@@ -140,7 +142,9 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
                 <Grid container direction="row" className={classNameRoot} wrap="nowrap">
                     {isHideActions ? null : actionsComponent}
                     <Grid item container direction="column" className={classes.contentRoot}>
-                        <Grid item>{hideTitle ? null : <EmptyTitle title={transCvDisplayed} filters={filters} />}</Grid>
+                        <Grid item>
+                            {hideTitle ? null : <EmptyTitle hideactions title={transCvDisplayed} filters={filters} />}
+                        </Grid>
                         {filterComponent}
                         {formComponent}
                     </Grid>

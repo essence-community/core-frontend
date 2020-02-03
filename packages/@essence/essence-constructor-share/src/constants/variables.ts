@@ -97,6 +97,10 @@ export const VAR_SETTING_PROJECT_PROFILE_PAGE = "project_profile_page";
 export const VAR_SETTING_PROJECT_AUTH_TITLE = "project_auth_title";
 export const VAR_SETTING_MODULE_AVAILABLE = "module_available";
 export const VAR_SETTING_MODULE_URL = "g_sys_module_url";
+export const VAR_SETTING_FRONT_APP_VERSION = "g_sys_front_app_version";
+export const VAR_SETTING_FRONT_BRANCH_DATE_TIME = "g_sys_front_branch_date_time";
+export const VAR_SETTING_FRONT_BRANCH_NAME = "g_sys_front_branch_name";
+export const VAR_SETTING_FRONT_COMMIT_ID = "g_sys_front_commit_id";
 
 // META
 export const META_OUT_RESULT = "out_result";

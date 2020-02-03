@@ -28,7 +28,7 @@ interface IProps extends IPopoverChildrenProps {
 }
 
 export const FieldComboList: React.FC<IProps> = (props) => {
-    const {store, bc, onChange, onClose, listRef, onCalculateOffset} = props;
+    const {store, bc, onChange, onClose, listRef, onCalculateOffset, height} = props;
     const scrollbarRef: React.MutableRefObject<Scrollbars | undefined> = React.useRef();
     const stringValue = toString(props.value);
     const classes = useStyles(props);
@@ -88,7 +88,7 @@ export const FieldComboList: React.FC<IProps> = (props) => {
                 autoHeight
                 hideTracksWhenNotNeeded
                 autoHeightMin={autoHeightMin}
-                autoHeightMax={AUTO_HEIGHT_MAX}
+                autoHeightMax={height || AUTO_HEIGHT_MAX}
                 onWheel={handleContentWheel}
                 // @ts-ignore
                 scrollbarsRef={scrollbarRef}

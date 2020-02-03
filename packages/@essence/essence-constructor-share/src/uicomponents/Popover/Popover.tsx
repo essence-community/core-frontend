@@ -182,6 +182,7 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
         <div ref={rootRef} onMouseDown={handleMouseDownPopover} onBlur={props.onBlur}>
             {isFunction(props.children)
                 ? props.children({
+                      height: style.height,
                       onCalculateOffset: handleCalculateOffset,
                       onClose: handleClose,
                       onOpen: handleOpen,

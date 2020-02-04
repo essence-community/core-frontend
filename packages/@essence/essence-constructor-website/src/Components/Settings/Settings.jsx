@@ -6,6 +6,10 @@ import {
     VAR_RECORD_ID,
     VAR_RECORD_CV_VALUE,
     VAR_SETTING_PROJECT_NAME,
+    VAR_SETTING_FRONT_APP_VERSION,
+    VAR_SETTING_FRONT_BRANCH_DATE_TIME,
+    VAR_SETTING_FRONT_BRANCH_NAME,
+    VAR_SETTING_FRONT_COMMIT_ID,
 } from "@essence-community/constructor-share/constants";
 import {observer} from "mobx-react";
 import {COMMIT_ID, BRANCH_DATE_TIME, BRANCH_NAME} from "../../constants";
@@ -28,7 +32,19 @@ class Settings extends React.Component<PropsType> {
                     BRANCH_NAME,
                     COMMIT_ID,
                 }),
-                [VAR_RECORD_ID]: "gSysFrontAppVersion",
+                [VAR_RECORD_ID]: VAR_SETTING_FRONT_APP_VERSION,
+            },
+            {
+                [VAR_RECORD_CV_VALUE]: BRANCH_DATE_TIME,
+                [VAR_RECORD_ID]: VAR_SETTING_FRONT_BRANCH_DATE_TIME,
+            },
+            {
+                [VAR_RECORD_CV_VALUE]: BRANCH_NAME,
+                [VAR_RECORD_ID]: VAR_SETTING_FRONT_BRANCH_NAME,
+            },
+            {
+                [VAR_RECORD_CV_VALUE]: COMMIT_ID,
+                [VAR_RECORD_ID]: VAR_SETTING_FRONT_COMMIT_ID,
             },
         ];
 

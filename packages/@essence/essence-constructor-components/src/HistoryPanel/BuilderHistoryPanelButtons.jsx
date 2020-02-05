@@ -5,6 +5,7 @@ import {observer} from "mobx-react";
 import {Grid} from "@material-ui/core";
 import orderBy from "lodash/orderBy";
 import {mapComponents} from "@essence-community/constructor-share/components";
+import {EditorContex} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_CN_ORDER} from "@essence-community/constructor-share/constants";
 import {buttonDirection, styleTheme} from "../constants";
 import GridAudit from "../Grid/GridComponents/GridAudit";
@@ -25,6 +26,8 @@ type PropsType = {
 };
 
 class BuilderHistoryPanelButtons extends React.Component<PropsType> {
+    static contextType = EditorContex;
+
     activeElement: ?HTMLElement = null;
 
     getSnapshotBeforeUpdate(prevProps) {
@@ -115,6 +118,12 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
         }
 
         return btns;
+    };
+
+    handlePerformData = () => {
+        const {form} = this.context;
+
+        return {form};
     };
 
     // eslint-disable-next-line max-statements, max-lines-per-function
@@ -244,6 +253,7 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
                         pageStore={pageStore}
                         visible={visible}
                         onlyicon={onlyIcon}
+                        performData={this.handlePerformData}
                     />
                 ),
                 key: childBc[VAR_RECORD_PAGE_OBJECT_ID],

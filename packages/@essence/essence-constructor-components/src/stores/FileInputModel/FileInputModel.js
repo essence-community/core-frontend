@@ -57,17 +57,22 @@ export class FileInputModel extends StoreBaseModel implements FileInputModelType
         );
 
         this.fileTypes = this.bc.filetypes
-            ? this.bc.filetypes
-                  .split(",")
-                  .map((ext) => mime.getType(ext.trim()))
-                  .reduce((obj, value) => {
-                      obj.push(value);
-                      if (value === "application/zip") {
-                          obj.push("application/x-zip-compressed");
-                      }
+            ? this.bc.filetypes.split(",").reduce((obj, ext) => {
+                  const value = mime.getType(ext.trim());
 
-                      return obj;
-                  }, [])
+                  obj.push(`.${ext}`);
+                  if (value) {
+                      obj.push(value);
+                  }
+                  if (value === "application/zip") {
+                      obj.push("application/x-zip-compressed");
+                  }
+                  if (ext === "csv") {
+                      obj.push("text/csv");
+                  }
+
+                  return obj;
+              }, [])
             : [
                   "application/pdf",
                   "application/zip",
@@ -77,6 +82,14 @@ export class FileInputModel extends StoreBaseModel implements FileInputModelType
                   "application/msword",
                   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                   "application/vnd.oasis.opendocument.text",
+                  ".doc",
+                  ".docx",
+                  ".odt",
+                  ".ods",
+                  ".zip",
+                  ".csv",
+                  ".xls",
+                  ".xlsx",
                   "application/vnd.oasis.opendocument.spreadsheet",
                   "text/plain",
               ];

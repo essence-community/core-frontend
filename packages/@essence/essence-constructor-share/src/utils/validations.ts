@@ -17,9 +17,17 @@ export const fileTypeValidate = (file: File, fileMime: string[] = []) => {
               "application/vnd.oasis.opendocument.text",
               "application/vnd.oasis.opendocument.spreadsheet",
               "text/plain",
+              ".doc",
+              ".docx",
+              ".odt",
+              ".zip",
+              ".csv",
+              ".xls",
+              ".xlsx",
+              ".ods",
           ];
 
-    return fileTypes.includes(file.type);
+    return fileTypes.includes(file.type) || fileTypes.findIndex((type) => file.name.endsWith(type)) > -1;
 };
 
 /**

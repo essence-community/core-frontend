@@ -276,8 +276,8 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
         },
     );
 
-    updateBtnAction = action("updateBtnAction", (mode: BuilderModeType, bc: BuilderBaseType, {files}) =>
-        this.recordsStore[mode === "7" ? "downloadAction" : "saveAction"](
+    updateBtnAction = action("updateBtnAction", async (mode: BuilderModeType, bc: BuilderBaseType, {files}) => {
+        const result = await this.recordsStore[mode === "7" ? "downloadAction" : "saveAction"](
             this.recordsStore.selectedRecord || {},
             bc.modeaction || mode,
             {
@@ -285,24 +285,32 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
                 files,
                 query: bc.updatequery || "Modify",
             },
-        ),
-    );
+        );
+
+        await this.scrollToRecordAction({});
+
+        return result;
+    });
 
     /**
      * Форма сохранения:
      * 1. values - все значения
      * 2. config - конфиг сохранения, берется из кнопки и передаваемых параметров
      */
-    saveAction = action("saveAction", (values: Object, config: GridSaveConfigType) => {
+    saveAction = action("saveAction", async (values: Object, config: GridSaveConfigType) => {
         const {actionBc, files, mode, windowStore} = config;
         const isDownload = mode === "7" || actionBc.mode === "7";
         const gridValues = getGridValues({gridStore: this, mode, pageStore: this.pageStore, values, windowStore});
 
-        return this.recordsStore[isDownload ? "downloadAction" : "saveAction"](gridValues, mode, {
+        const result = await this.recordsStore[isDownload ? "downloadAction" : "saveAction"](gridValues, mode, {
             actionBc,
             files,
             query: actionBc.updatequery,
         });
+
+        await this.scrollToRecordAction({});
+
+        return result;
     });
 
     reloadStoreAction = action("reloadStoreAction", (checkParent) => {
@@ -529,13 +537,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
 
     scrollToRecordAction = (params: Object) => gridScrollToRecordAction(params, this);
 
-    afterSelected = async () => {
-        if (
-            this.recordsStore.recordsState.status === "attach" ||
-            this.recordsStore.recordsState.status === "save-any"
-        ) {
-            await this.scrollToRecordAction({});
-        }
+    afterSelected = () => {
         if (this.bc.setglobal) {
             return gridSetGlobalValues(this);
         }

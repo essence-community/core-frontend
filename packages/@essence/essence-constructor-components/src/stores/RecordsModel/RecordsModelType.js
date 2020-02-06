@@ -92,6 +92,7 @@ export interface RecordsModelInterface<T: {}> {
     setNextRecord: () => void;
     setLastRecord: () => void;
     setOrderAction: (property: string) => void;
+    setRecordToGlobal: () => void;
     searchAction: (values: Object, options?: FormOptionsType) => Promise<void | Object>;
     setSearchValuesAction: (values: Object) => void;
     +clearChildsStoresAction: () => void;

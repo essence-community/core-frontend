@@ -35,6 +35,7 @@ type PropsType = {
     title?: string,
     visible: boolean,
     isHideActions?: boolean,
+    absolute?: Boolean,
     addRefAction?: (name: string, node: ?React.ElementRef<*>) => void,
     onChangeCollapse?: () => void,
     handleGlobals?: (values: Object) => void,
@@ -198,7 +199,10 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
                         >
                             {bc.dynamicfilter === "true" || isHideActions ? null : this.renderButton()}
                             {bc.dynamicfilter === "true" && styleTheme !== "light" ? (
-                                <Grid item className={classes.filterButtons}>
+                                <Grid
+                                    item
+                                    className={cn(classes.filterButtons, {[classes.absolute]: this.props.absolute})}
+                                >
                                     &nbsp;
                                 </Grid>
                             ) : null}

@@ -1,13 +1,17 @@
 // @flow
 const BuilderFilterStylesDark = (theme: any) => ({
+    absolute: {
+        backgroundColor: "none",
+        left: 0,
+        position: "absolute",
+    },
     filterButtons: {
         alignItems: "center",
+        backgroundColor: theme.palette.primary.main,
         color: theme.palette.common.white,
         display: "flex",
         fill: theme.palette.common.white,
         flexDirection: "column",
-        left: 0,
-        position: "absolute",
         width: theme.sizing.controlPanelWidth,
     },
     filterButtonsContainer: {

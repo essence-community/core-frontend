@@ -429,6 +429,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
                         visible={visible}
                         addRefAction={store.addRefAction}
                         isHideActions={isHideActions}
+                        absolute={true}
                     />
                 ))}
             </Grid>

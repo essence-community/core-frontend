@@ -75,6 +75,44 @@ export class HistoryModel extends StoreBaseModel implements HistoryModelInterfac
         return {btns: BTN, btnsCollector: BTNCOLLECTOR, overrides};
     };
 
+    defaultHandlerBtnAction = action(
+        "defaultHandlerBtnAction",
+        // eslint-disable-next-line default-param-last
+        (mode: BuilderModeType = "1", bc: BuilderBaseType, {files} = {}) => {
+            switch (mode) {
+                case "1":
+                    return this.addAction();
+                case "2":
+                    return this.editAction();
+                case "3":
+                case "4":
+                    return this.recordsStore.saveAction(this.recordsStore.records[0], bc.modeaction || mode, {
+                        actionBc: bc,
+                        query: bc.updatequery,
+                    });
+                case "6":
+                    return this.cloneAction();
+                case "7":
+                    return this.recordsStore.downloadAction(this.recordsStore.records[0], bc.modeaction || mode, {
+                        actionBc: bc,
+                        query: bc.updatequery,
+                    });
+                case "8":
+                    return this.recordsStore.saveAction(this.recordsStore.records[0], bc.modeaction || mode, {
+                        actionBc: bc,
+                        files,
+                        query: bc.updatequery,
+                    });
+                default:
+                    return false;
+            }
+        },
+    );
+
+    // eslint-disable-next-line default-param-last
+    updateBtnAction = (mode: BuilderModeType = "1", bc: Object, obj: Object) =>
+        this.defaultHandlerBtnAction(mode, bc, obj);
+
     reloadStoreAction = action("reloadStoreAction", async () => {
         await this.recordsStore.loadRecordsAction();
         await this.recordsStore.setFirstRecord();

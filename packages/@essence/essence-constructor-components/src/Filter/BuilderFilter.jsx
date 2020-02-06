@@ -143,7 +143,10 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
             <Grid
                 item
                 xs={styleTheme === "light" ? GRID_FULL_WIDTH : false}
-                className={cn(classes.filterButtons, {[classes.filterButtonsCollect]: bc.topbtn})}
+                className={cn(classes.filterButtons, {
+                    [classes.filterButtonsCollect]: bc.topbtn,
+                    [classes.filterButtonsAbsolute]: this.props.absolute,
+                })}
             >
                 {pageStore.styleTheme === "dark" ? (
                     <Collapse in={open} collapsedHeight="42px" className={classes.filterButtonsContainer}>
@@ -201,7 +204,9 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
                             {bc.dynamicfilter === "true" && styleTheme !== "light" ? (
                                 <Grid
                                     item
-                                    className={cn(classes.filterButtons, {[classes.absolute]: this.props.absolute})}
+                                    className={cn(classes.filterButtons, {
+                                        [classes.filterButtonsAbsolute]: this.props.absolute,
+                                    })}
                                 >
                                     &nbsp;
                                 </Grid>

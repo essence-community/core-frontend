@@ -6,6 +6,7 @@ import {withStyles} from "@material-ui/core/styles";
 import {Button, IconButton} from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
 import {setComponent, Icon} from "@essence-community/constructor-share";
+import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PARENT_ID,
@@ -22,6 +23,7 @@ import FileInput from "../FileInput/FileInput";
 import WindowMessageButton from "../WindowMessage/WindowMessageButton";
 import {type ButtonPropsType, type ButtonConfigType} from "./ButtonTypes";
 import styles from "./BuilderMobxButtonStyles/BuilderMobxButtonStyles";
+import {handers} from "./handlers/index.ts";
 
 const DEFAULT_HANDLER = "defaultHandlerBtnAction";
 
@@ -87,6 +89,8 @@ const getHandlerBtn = (bc: ButtonConfigType) => {
 };
 
 export class BuilderMobxButtonBase extends React.Component<PropsType, StateType> {
+    static contextType = ApplicationContext;
+
     static defaultProps = {
         color: "primary",
         onClick: noop,
@@ -171,20 +175,26 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
         let promise = null;
         const handlerBtn = getHandlerBtn(bc);
 
-        for (const ckPageObjectMain of [bc[VAR_RECORD_MASTER_ID], bc[VAR_RECORD_PARENT_ID]]) {
-            if (ckPageObjectMain) {
-                const builderStore = pageStore.stores.get(ckPageObjectMain);
+        if (handers[handlerBtn]) {
+            promise = handers[handlerBtn]({applicationStore: this.context, bc, files: data.files, pageStore});
+        } else {
+            for (const ckPageObjectMain of [bc[VAR_RECORD_MASTER_ID], bc[VAR_RECORD_PARENT_ID]]) {
+                if (ckPageObjectMain) {
+                    const builderStore = pageStore.stores.get(ckPageObjectMain);
 
-                if (builderStore) {
-                    if (builderStore.handlers && typeof builderStore.handlers[handlerBtn] === "function") {
-                        promise = builderStore.handlers[handlerBtn](bc.mode, bc, {...data, ...performData(bc)});
-                        break;
-                    }
+                    if (builderStore) {
+                        // eslint-disable-next-line max-depth
+                        if (builderStore.handlers && typeof builderStore.handlers[handlerBtn] === "function") {
+                            promise = builderStore.handlers[handlerBtn](bc.mode, bc, {...data, ...performData(bc)});
+                            break;
+                        }
 
-                    // @deprecated
-                    if (typeof builderStore[handlerBtn] === "function") {
-                        promise = builderStore[handlerBtn](bc.mode, bc, {...data, ...performData(bc)});
-                        break;
+                        // @deprecated
+                        // eslint-disable-next-line max-depth
+                        if (typeof builderStore[handlerBtn] === "function") {
+                            promise = builderStore[handlerBtn](bc.mode, bc, {...data, ...performData(bc)});
+                            break;
+                        }
                     }
                 }
             }

@@ -167,6 +167,8 @@ export class RecordsModel implements RecordsModelInterface<Object> {
                 }
             });
 
+            this.setRecordToGlobal();
+
             return this.selectedRecordIndex;
         },
     );
@@ -214,6 +216,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
         this.selectedRecord = undefined;
         this.selectedRecordValues = {};
         this.selectedRecordId = undefined;
+        this.setRecordToGlobal();
 
         this.pageStore.stores.forEach((store) => {
             if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
@@ -356,6 +359,14 @@ export class RecordsModel implements RecordsModelInterface<Object> {
     setSearchValuesAction = action("setSearchValuesAction", (values: Object) => {
         this.searchValues = values;
     });
+
+    setRecordToGlobal = () => {
+        if (this.bc.setrecordtoglobal) {
+            this.pageStore.updateGlobalValues({
+                [this.bc.setrecordtoglobal]: this.selectedRecord || null,
+            });
+        }
+    };
 
     sortRecordsAction = action("sortRecordsAction", () => {
         const {direction} = this.order;

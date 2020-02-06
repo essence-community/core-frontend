@@ -12,7 +12,7 @@ import {
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_LEAF,
 } from "@essence-community/constructor-share/constants";
-import {isEmpty} from "../../utils/base";
+import {isEmpty, valuesMap} from "../../utils/base";
 import {gridScrollToRecordAction, gridSetGlobalValues, getGridHeight} from "../../utils/grid";
 import {type BuilderModeType, type CkIdType, type BuilderBaseType, type FormOptionsType} from "../../BuilderType";
 import {WIDTH_MAP} from "../../Grid/BaseGridTableHeader";
@@ -156,14 +156,13 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
     constructor({bc, pageStore}: StoreBaseModelPropsType) {
         super({bc, pageStore});
 
-        const recordsStore = new RecordsModel(bc, pageStore, {parentStore: this});
+        const recordsStore = new RecordsModel({...bc, setrecordtoglobal: null}, pageStore, {parentStore: this});
         const gridHeight = getGridHeight(bc);
 
         this.bc = bc;
         this.pageStore = pageStore;
         this.recordsStore = recordsStore;
         this.valueFields = [[this.recordsStore.recordId, this.recordsStore.recordId]];
-
         this.gridColumnsInitial = getGridColumns(bc);
         this.gridBtnsConfig = getGridBtnsConfig(bc, this);
 
@@ -542,6 +541,8 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
             return gridSetGlobalValues(this);
         }
 
+        this.setRecordToGlobal();
+
         return undefined;
     };
 
@@ -570,6 +571,20 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
     setGridColumns = action("setGridColumns", (gridColumns: Array<Object>) => {
         this.gridColumns = gridColumns;
     });
+
+    setRecordToGlobal = () => {
+        if (this.bc.setrecordtoglobal) {
+            const selectedRecords = this.selectedRecords ? valuesMap(this.selectedRecords) : [];
+            const {selmode} = this.bc;
+
+            this.pageStore.updateGlobalValues({
+                [this.bc.setrecordtoglobal]:
+                    selmode === "MULTI" || selmode === "SIMPLE"
+                        ? selectedRecords
+                        : this.recordsStore.selectedRecord || null,
+            });
+        }
+    };
 
     handlers = {
         onPrintExcel: (mode: BuilderModeType, btnBc: BuilderBaseType, {values}: any) => {

@@ -204,6 +204,8 @@ export interface IBuilderBaseConfig {
     selmode?: string;
     // Наименование глобальной переменной. Должно начинаться с g
     setglobal?: string;
+    // Наименование глобальной переменной. Должно начинаться с g
+    setrecordtoglobal?: string;
     // Наименование парамента, по которому будет осуществлена сортировка вместо column
     sortcolumn?: string;
     // Признак отображения сплиттера (true/false)

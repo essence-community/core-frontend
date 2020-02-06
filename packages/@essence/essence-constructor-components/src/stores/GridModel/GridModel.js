@@ -12,7 +12,7 @@ import {
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_LEAF,
 } from "@essence-community/constructor-share/constants";
-import {isEmpty, valuesMap} from "../../utils/base";
+import {isEmpty} from "../../utils/base";
 import {gridScrollToRecordAction, gridSetGlobalValues, getGridHeight} from "../../utils/grid";
 import {type BuilderModeType, type CkIdType, type BuilderBaseType, type FormOptionsType} from "../../BuilderType";
 import {WIDTH_MAP} from "../../Grid/BaseGridTableHeader";
@@ -156,7 +156,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
     constructor({bc, pageStore}: StoreBaseModelPropsType) {
         super({bc, pageStore});
 
-        const recordsStore = new RecordsModel({...bc, setrecordtoglobal: null}, pageStore, {parentStore: this});
+        const recordsStore = new RecordsModel({...bc, setrecordtoglobal: undefined}, pageStore, {parentStore: this});
         const gridHeight = getGridHeight(bc);
 
         this.bc = bc;
@@ -574,7 +574,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
 
     setRecordToGlobal = () => {
         if (this.bc.setrecordtoglobal) {
-            const selectedRecords = this.selectedRecords ? valuesMap(this.selectedRecords) : [];
+            const selectedRecords = this.selectedRecords ? [...this.selectedRecords.values()] : [];
             const {selmode} = this.bc;
 
             this.pageStore.updateGlobalValues({

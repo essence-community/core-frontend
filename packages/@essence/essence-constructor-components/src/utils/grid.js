@@ -3,7 +3,7 @@ import forOwn from "lodash/forOwn";
 import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {GRID_ROW_HEIGHT} from "../constants";
 import {type GridModelType} from "../stores/GridModel";
-import {isEmpty, valuesMap} from "./base";
+import {isEmpty} from "./base";
 import {findSetKey} from "./findKey";
 
 function getGridCkId(getglobal: ?string, params: Object, recordId: string = VAR_RECORD_ID): string {
@@ -78,7 +78,7 @@ export const gridSetGlobalValues = (gridStore: GridModelType) => {
     } = gridStore;
     const {setglobal = "", selmode} = gridStore.bc;
     const selectedRecord = gridStore.selectedRecord || {};
-    const selectedRecords = gridStore.selectedRecords ? valuesMap(gridStore.selectedRecords) : [];
+    const selectedRecords = gridStore.selectedRecords ? [...gridStore.selectedRecords.values()] : [];
     const {valueFields} = gridStore;
     const values = {};
     const keys = findSetKey(setglobal, gridStore.recordsStore.recordId);

@@ -3,6 +3,7 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import {Grid, Typography} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
 import {VAR_RECORD_ID, VAR_RECORD_NAME, VAR_RECORD_ICON_NAME} from "@essence-community/constructor-share/constants";
 
 type PropsType = {|
@@ -15,7 +16,7 @@ type PropsType = {|
     routesStore: Object,
     pagesStore: any,
     favorits: any,
-|};
+|} & WithT;
 
 class MenuFavoritsItem extends React.Component<PropsType> {
     handleRemoveFavorite = (event: SyntheticEvent<>) => {
@@ -39,8 +40,10 @@ class MenuFavoritsItem extends React.Component<PropsType> {
             return null;
         }
 
+        const name = this.props.t(route[VAR_RECORD_NAME]);
+
         return (
-            <Grid item className={classes.menuRoot} onClick={this.handleClickMenu}>
+            <Grid item className={classes.menuRoot} onClick={this.handleClickMenu} data-qtip={name}>
                 <Grid container spacing={1} wrap="nowrap" alignItems="center" className={classes.menuContainer}>
                     <Grid item className={classes.iconRoot}>
                         {route[VAR_RECORD_ICON_NAME] ? <Icon iconfont={route[VAR_RECORD_ICON_NAME]} size="lg" /> : null}
@@ -50,7 +53,7 @@ class MenuFavoritsItem extends React.Component<PropsType> {
                     </Grid>
                     <Grid item>
                         <Typography variant="body2" color="inherit" noWrap className={classes.nameTypography}>
-                            {route[VAR_RECORD_NAME]}
+                            {name}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -59,4 +62,4 @@ class MenuFavoritsItem extends React.Component<PropsType> {
     }
 }
 
-export default observer(MenuFavoritsItem);
+export default withTranslation("meta")(observer(MenuFavoritsItem));

@@ -29,6 +29,7 @@ import {
     VAR_RECORD_CV_RESULT,
 } from "../../constants";
 import {IRouteRecord} from "../../types/RoutesModel";
+import {VAR_ERROR_CODE, VAR_ERROR_ID, VAR_ERROR_TEXT} from "../../constants/variables";
 import {MAX_OPENED_SNACKBARS, CODE_ACCESS_DENIEND, GROUP_ACTION_MAP, CODE_GROUP_MAP} from "./SnackbarModel.contants";
 
 /**
@@ -310,7 +311,7 @@ export class SnackbarModel implements ISnackbarModel {
         "checkExceptResponse",
         (error: Record<string, any>, route?: IRouteRecord, applicationStore?: IApplicationModel | null) => {
             const responseError = error.responseError || {};
-            const errCode = responseError.errCode as keyof typeof CODE_GROUP_MAP;
+            const errCode = responseError[VAR_ERROR_CODE] as keyof typeof CODE_GROUP_MAP;
             const groupCode = CODE_GROUP_MAP[errCode] as keyof typeof GROUP_ACTION_MAP;
             const functionName = `${get(GROUP_ACTION_MAP[groupCode], "TEST", "error")}Action`;
             // @ts-ignore
@@ -328,7 +329,7 @@ export class SnackbarModel implements ISnackbarModel {
         this.snackbarOpenAction(
             {
                 status: "error",
-                text: errorData && errorData.errText ? errorData.errText : "",
+                text: errorData && errorData[VAR_ERROR_TEXT] ? errorData[VAR_ERROR_TEXT] : "",
                 title: i18next.t("static:515a199e09914e3287afd9c95938f3a7", errorData.query),
             },
             route,
@@ -338,8 +339,8 @@ export class SnackbarModel implements ISnackbarModel {
     errorDetailsAction = action("errorDetailsAction", (errorData: IErrorData, route?: IRouteRecord) => {
         this.snackbarOpenAction(
             {
-                code: errorData.errCode || errorData.errId,
-                description: errorData.errText,
+                code: errorData[VAR_ERROR_CODE] || errorData[VAR_ERROR_ID],
+                description: errorData[VAR_ERROR_TEXT],
                 status: "error",
                 title: i18next.t("static:4fdb3577f24440ceb8c717adf68bac48", errorData),
             },
@@ -350,7 +351,7 @@ export class SnackbarModel implements ISnackbarModel {
     errorMaskAction = action("errorMaskAction", (errorData: IErrorData, route?: IRouteRecord) => {
         this.snackbarOpenAction(
             {
-                description: errorData.errId,
+                description: errorData[VAR_ERROR_ID],
                 status: "error",
                 title: i18next.t("static:515a199e09914e3287afd9c95938f3a7", errorData),
             },

@@ -127,3 +127,8 @@ export const VAR_MOCK_DATE_COLUMN_EN = "date_column_en";
 export const VAR_MOCK_DATE_COLUMN_ST = "date_column_st";
 export const VAR_MOCK_CV_INTERNAL = "cv_internal";
 export const VAR_MOCK_CV_KPP = "cv_kpp";
+
+// Error
+export const VAR_ERROR_ID = "err_id";
+export const VAR_ERROR_TEXT = "err_text";
+export const VAR_ERROR_CODE = "err_code";

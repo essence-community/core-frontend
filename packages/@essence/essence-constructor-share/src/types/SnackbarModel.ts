@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/named
 import {IObservableArray} from "mobx";
+import {VAR_ERROR_TEXT, VAR_ERROR_ID, VAR_ERROR_CODE} from "../constants/variables";
 import {IResponse, FieldValue, IRecordsModel, IProgressModel, IApplicationModel, IRouteRecord} from ".";
 
 export type SnackbarStatus =
@@ -33,10 +34,10 @@ export interface ISnackbar {
 }
 
 export interface IErrorData {
-    errText: string;
-    errCode: string;
+    [VAR_ERROR_ID]: string;
+    [VAR_ERROR_TEXT]: string;
+    [VAR_ERROR_CODE]: string;
     query: string;
-    errId: string;
 }
 
 export interface ISnackbarModel {

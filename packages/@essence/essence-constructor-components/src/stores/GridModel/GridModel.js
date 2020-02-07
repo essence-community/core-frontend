@@ -575,11 +575,11 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
     setRecordToGlobal = () => {
         if (this.bc.setrecordtoglobal) {
             const selectedRecords = this.selectedRecords ? [...this.selectedRecords.values()] : [];
-            const {selmode} = this.bc;
+            const {selmode, collectionvalues} = this.bc;
 
             this.pageStore.updateGlobalValues({
                 [this.bc.setrecordtoglobal]:
-                    selmode === "MULTI" || selmode === "SIMPLE"
+                    selmode === "MULTI" || selmode === "SIMPLE" || collectionvalues === "array"
                         ? selectedRecords
                         : this.recordsStore.selectedRecord || null,
             });

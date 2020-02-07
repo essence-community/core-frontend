@@ -183,6 +183,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
             readonly: "false",
             reqsel: undefined,
             setglobal: null,
+            setrecordtoglobal: undefined,
             topbtn: this.builderConfigs,
             type: bc.datatype === "tree" ? "TREEGRID" : "GRID",
         };
@@ -210,9 +211,21 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
         } else if (this.recordsStore.selectedRecord) {
             this.handleChangeRecord(this.recordsStore.selectedRecord);
         }
+        this.setRecordToGlobal();
     });
 
-    selectArrayAction = action("seletctArrayAction", () => {
+    setRecordToGlobal = () => {
+        if (this.bc.setrecordtoglobal) {
+            this.pageStore.updateGlobalValues({
+                [this.bc.setrecordtoglobal]:
+                    this.bc.collectionvalues === "array"
+                        ? this.selectedEntries.map((val) => val[1])
+                        : this.recordsStore.selectedRecord || null,
+            });
+        }
+    };
+
+    selectArrayAction = action("selectArrayAction", () => {
         const gridStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (gridStore) {
@@ -224,6 +237,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
             gridStore.selectedRecords.forEach((value, key) => {
                 this.selectedEntries.push([key, value]);
             });
+            this.setRecordToGlobal();
         }
 
         this.openField = !this.openField;
@@ -236,6 +250,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
             this.handleChangeRecord(record, true);
         }
 
+        this.setRecordToGlobal();
         this.openField = !this.openField;
     });
 
@@ -243,6 +258,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
         this.openField = !this.openField;
     });
 
+    // eslint-disable-next-line max-statements
     clearAction = action("clearAction", () => {
         const gridStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
@@ -257,6 +273,8 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
         if (this.bc.collectionvalues === "array") {
             this.selectedEntries = [];
         }
+
+        this.setRecordToGlobal();
 
         clearChildStores({bc: this.bc, pageStore: this.pageStore});
         // CORE-186 handleChangeRecord({}) не нужно вызывать, очистка полей происходит с помощью BuilderField

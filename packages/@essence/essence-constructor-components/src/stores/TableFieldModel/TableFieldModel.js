@@ -208,11 +208,10 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
                 record[this.recordsStore.recordId],
                 record,
             ]);
-            this.setRecordToGlobal();
         } else if (this.recordsStore.selectedRecord) {
             this.handleChangeRecord(this.recordsStore.selectedRecord);
-            this.setRecordToGlobal();
         }
+        this.setRecordToGlobal();
     });
 
     setRecordToGlobal = () => {

@@ -20,6 +20,7 @@ export interface FieldRadioGroupModelInterface {
     +suggestions: RadioSuggestionsType;
     constructor(props: RadioConstructorType): void;
     +getSuggestion: (record: Object) => RadioSuggestionType;
+    +setSelectRecord: (value: string) => void;
 }
 
 export type FieldRadioGroupModelType = FieldRadioGroupModelInterface;

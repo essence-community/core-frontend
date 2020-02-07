@@ -3,7 +3,8 @@ import axios from "axios";
 import {stringify} from "qs";
 import isString from "lodash/isString";
 import isArray from "lodash/isArray";
-import {snakeCaseKeys, camelCaseKeysAsync, i18next} from "@essence/essence-constructor-share/utils";
+import {i18next} from "@essence-community/constructor-share/utils";
+import {META_OUT_RESULT, META_PAGE_OBJECT} from "@essence-community/constructor-share/constants";
 import {BASE_URL} from "../constants";
 import {type RequestType} from "./requestType";
 
@@ -25,7 +26,7 @@ const checkError = ({responseAllData, query, responseData, list}) => {
 
     if (isError) {
         // TODO: shoud be messages in build
-        const error = new Error(i18next.t("63538aa4bcd748349defdf7510fc9c10", "Ошибка в разпознавании данных"));
+        const error = new Error(i18next.t("static:63538aa4bcd748349defdf7510fc9c10", "Ошибка в разпознавании данных"));
 
         // $FlowFixMe
         error.query = query;
@@ -50,11 +51,12 @@ const parseResponse = ({responseData, list}) => {
     return responseSingleData;
 };
 
+// eslint-disable-next-line max-lines-per-function
 const baseAxiosRequest = async ({
     json,
     query = "",
     action = "dml",
-    pageObject = "",
+    [META_PAGE_OBJECT]: pageObjectName = "",
     session,
     body,
     list,
@@ -72,18 +74,20 @@ const baseAxiosRequest = async ({
         query,
     };
     const data = {
-        // eslint-disable-next-line camelcase
-        out_result: "",
-        // eslint-disable-next-line camelcase
-        page_object: pageObject.replace(/^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[)}]?.*?$/gi, "$1"),
+        [META_OUT_RESULT]: "",
+        [META_PAGE_OBJECT]: pageObjectName.replace(
+            // eslint-disable-next-line prefer-named-capture-group
+            /^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[)}]?.*?$/giu,
+            "$1",
+        ),
         session,
-        ...snakeCaseKeys(body),
+        ...body,
     };
 
     if (formData && json) {
-        formData.append("json", JSON.stringify(snakeCaseKeys(json)));
+        formData.append("json", JSON.stringify(json));
     } else if (json) {
-        data.json = JSON.stringify(snakeCaseKeys(json));
+        data.json = JSON.stringify(json);
     }
 
     const response = await axios({
@@ -98,7 +102,7 @@ const baseAxiosRequest = async ({
         url: `${gate}?${stringify(formData ? {...queryParams, ...data} : queryParams)}`,
     });
 
-    const responseAllData = await camelCaseKeysAsync(response.data);
+    const responseAllData = response.data;
     const responseData = responseAllData.data;
 
     checkError({list, query, responseAllData, responseData});

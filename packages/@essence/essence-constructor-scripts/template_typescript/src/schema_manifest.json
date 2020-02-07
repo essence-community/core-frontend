@@ -8,6 +8,15 @@
             "cv_type": "NEW_MODULE"
         },
         "class_attributes": [],
-        "attributes": []
+        "attributes": [],
+        "class_hierarchy": {
+            "class_parent": [
+                {
+                    "ck_id": "137",
+                    "cv_type": "PANEL",
+                    "ck_attr": "childs"
+                }
+            ]
+        }
     }
 ]

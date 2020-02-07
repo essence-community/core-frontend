@@ -2,7 +2,8 @@
 import * as React from "react";
 import {autorun} from "mobx";
 import isString from "lodash/isString";
-import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
+import {parseMemoize} from "@essence-community/constructor-share/utils/parser";
+import {VAR_RECORD_MASTER_ID} from "@essence-community/constructor-share/constants";
 import {type PageModelType} from "../stores/PageModel";
 import {isEmpty} from "../utils/base";
 
@@ -39,6 +40,7 @@ type InjectProps = {
 
 const HIDDEN_CLASS_TYPES = ["GRID", "TREEGRID", "PANEL", "FILEPANEL", "HISTORYPANEL", "TABPANEL"];
 
+// eslint-disable-next-line max-lines-per-function
 function commonDecorator<Props: CommonHOCProps>(
     WrappedComponent: React.ComponentType<Props>,
 ): React.ComponentType<$Diff<Props, InjectProps>> {
@@ -59,9 +61,9 @@ function commonDecorator<Props: CommonHOCProps>(
 
         componentDidMount() {
             const {bc} = this.props;
-            const {reqsel, disabledrules, hiddenrules, readonlyrules, disabledemptymaster, ckMaster} = bc;
+            const {reqsel, disabledrules, hiddenrules, readonlyrules, disabledemptymaster} = bc;
 
-            if ((reqsel === "true" && ckMaster) || disabledrules || disabledemptymaster === "true") {
+            if ((reqsel === "true" && bc[VAR_RECORD_MASTER_ID]) || disabledrules || disabledemptymaster === "true") {
                 this.disposers.push(autorun(this.handleDisabled, {fireImmediately: true}));
             }
 
@@ -76,16 +78,13 @@ function commonDecorator<Props: CommonHOCProps>(
 
         componentDidUpdate(prevProps) {
             if (prevProps.record !== this.props.record) {
-                const {
-                    reqsel,
-                    disabledrules,
-                    hiddenrules,
-                    readonlyrules,
-                    disabledemptymaster,
-                    ckMaster,
-                } = this.props.bc;
+                const {reqsel, disabledrules, hiddenrules, readonlyrules, disabledemptymaster} = this.props.bc;
 
-                if ((reqsel === "true" && ckMaster) || disabledrules || disabledemptymaster === "true") {
+                if (
+                    (reqsel === "true" && this.props.bc[VAR_RECORD_MASTER_ID]) ||
+                    disabledrules ||
+                    disabledemptymaster === "true"
+                ) {
                     this.handleDisabled();
                 }
 
@@ -154,41 +153,46 @@ function commonDecorator<Props: CommonHOCProps>(
             }
         };
 
-        // eslint-disable-next-line max-statements, complexity
+        // eslint-disable-next-line max-statements, complexity, max-lines-per-function
         isDisabled() {
             const {pageStore, disabled} = this.props;
-            const {reqsel, ckMaster, disabledrules, disabledemptymaster, type} = this.props.bc;
+            const {reqsel, disabledrules, disabledemptymaster, type} = this.props.bc;
+            const masterId = this.props.bc[VAR_RECORD_MASTER_ID];
 
             if (disabledrules) {
                 return parseMemoize(disabledrules).runer({get: this.getValue});
             }
 
-            if (reqsel === "true" && ckMaster) {
-                const masterStore = pageStore.stores.get(ckMaster);
+            if (reqsel === "true" && masterId) {
+                const masterStore = pageStore.stores.get(masterId);
 
-                if (masterStore && masterStore.bc && masterStore.bc.collectionvalues === "array" && type === "IFIELD") {
-                    return masterStore.selectedEntries && masterStore.selectedEntries.length === 0;
-                }
+                if (masterStore) {
+                    if (masterStore.bc && masterStore.bc.collectionvalues === "array" && type === "IFIELD") {
+                        return masterStore.selectedEntries && masterStore.selectedEntries.length === 0;
+                    }
 
-                if (masterStore && typeof masterStore.selectedRecord !== "undefined") {
-                    return (
-                        !masterStore.selectedRecord ||
-                        (isString(masterStore.selectedRecord.ckId) &&
-                            masterStore.selectedRecord.ckId.indexOf("auto-") === 0)
-                    );
-                }
+                    if (typeof masterStore.selectedRecord !== "undefined") {
+                        return (
+                            !masterStore.selectedRecord ||
+                            (isString(masterStore.selectedRecord[masterStore.recordId]) &&
+                                masterStore.selectedRecord[masterStore.recordId].indexOf("auto-") === 0)
+                        );
+                    }
 
-                if (masterStore && masterStore.recordsStore) {
-                    return (
-                        !masterStore.recordsStore.selectedRecord ||
-                        (isString(masterStore.recordsStore.selectedRecord.ckId) &&
-                            masterStore.recordsStore.selectedRecord.ckId.indexOf("auto-") === 0)
-                    );
+                    if (masterStore.recordsStore) {
+                        return (
+                            !masterStore.recordsStore.selectedRecord ||
+                            (isString(masterStore.recordsStore.selectedRecord[masterStore.recordsStore.recordId]) &&
+                                masterStore.recordsStore.selectedRecord[masterStore.recordsStore.recordId].indexOf(
+                                    "auto-",
+                                ) === 0)
+                        );
+                    }
                 }
             }
 
-            if (disabledemptymaster === "true" && ckMaster) {
-                const masterStore = pageStore.stores.get(ckMaster);
+            if (disabledemptymaster === "true" && masterId) {
+                const masterStore = pageStore.stores.get(masterId);
 
                 if (masterStore && masterStore.recordsStore) {
                     return masterStore.recordsStore.records.length === 0;

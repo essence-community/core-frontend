@@ -100,6 +100,8 @@ export interface IBuilderBaseConfig {
     getgloballist?: string;
     // Список глобальных переменных(через запятую), передаваемых в filter сервиса на объекте.  Пример: Если указать gck_mo, то положит в json.filter.gck_mo Если указать gck_mo=ck_mo, то положит в json.filter.ck_mo
     getglobaltostore?: string;
+    // Данные получаемые из мастера
+    getmastervalue?: string;
     // Обработчик в ExtJS onCreateChildWindowMaster - для вызова окна при создании onRowCreateChildWindowMaster - для вызова окна при редактировании onSimpleSaveWindow - сохранение данных по кнопке для модального окна onCloseWindow - закрытие модального окна onCloseWindowSilent - закрытие модального окна без сообщения onPrintHandleOnline - Онлайн печать onPrintHandleOffline - Отложенная печать
     handler?: string;
     // Статическая высота в пикселях (px)
@@ -202,6 +204,8 @@ export interface IBuilderBaseConfig {
     selmode?: string;
     // Наименование глобальной переменной. Должно начинаться с g
     setglobal?: string;
+    // Наименование глобальной переменной. Должно начинаться с g
+    setrecordtoglobal?: string;
     // Наименование парамента, по которому будет осуществлена сортировка вместо column
     sortcolumn?: string;
     // Признак отображения сплиттера (true/false)
@@ -251,17 +255,17 @@ export interface IBuilderBaseConfig {
 
 export interface IBuilderConfig extends IBuilderBaseConfig {
     // Идентификатор класса
-    ckId?: string;
+    ck_id?: string;
     // Ротельно класса
-    ckParent: string;
-    ckMaster?: string;
-    ckQuery?: string;
-    ckPageObject: string;
-    cvDisplayed?: string;
-    cvName?: string;
-    ckObject?: string;
+    ck_parent: string;
+    ck_master?: string;
+    ck_query?: string;
+    ck_page_object: string;
+    cv_displayed?: string;
+    cv_name?: string;
+    ck_object?: string;
     // Определяет класс в качестве мастера
-    clIsMaster?: boolean;
+    cl_is_master?: boolean;
     contentwidth?: string;
     // Служебный параметр для иерархии
     bottombtn?: IBuilderConfig[];

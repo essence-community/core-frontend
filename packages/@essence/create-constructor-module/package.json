@@ -1,14 +1,16 @@
 {
-  "name": "@essence/create-constructor-module",
-  "version": "2.0.1",
+  "name": "@essence-community/create-constructor-module",
+  "version": "2.1.0",
   "description": "Build module",
   "main": "index.js",
-  "repository": "https://github.com/essence-community/core",
-  "author": "Oleh Kucenko",
+  "repository": "https://github.com/essence-community/core-frontend",
+  "author": "Oleh Kutsenko",
   "license": "MIT",
   "private": false,
   "files": [
-    "index.js"
+    "index.js",
+    "eslintrc",
+    "prettierrc"
   ],
   "bin": {
     "create-constructor-module": "./index.js"

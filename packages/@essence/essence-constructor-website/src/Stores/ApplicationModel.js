@@ -16,25 +16,36 @@ import {
     preference,
     BASE_URL,
     sendRequest,
-} from "@essence/essence-constructor-components";
+} from "@essence-community/constructor-components";
+import {getFromStore, removeFromStore, saveToStore, setModule, loadFiles} from "@essence-community/constructor-share";
 import {
-    camelCaseKeys,
-    getFromStore,
-    removeFromStore,
-    saveToStore,
-    setModule,
-    loadFiles,
-} from "@essence/essence-constructor-share";
-import {VAR_LANG_ID, VAR_NAMESPACE_VALUE} from "@essence/essence-constructor-share/constants";
-import {i18next} from "@essence/essence-constructor-share/utils";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
+    VAR_LANG_ID,
+    VAR_NAMESPACE_VALUE,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+    VAR_RECORD_NAME,
+    VAR_RECORD_URL,
+    VAR_RECORD_CL_AVAILABLE,
+    VAR_RECORD_CV_VERSION_API,
+    VAR_RECORD_CV_VERSION,
+    VAR_RECORD_CC_CONFIG,
+    VAR_RECORD_CC_MANIFEST,
+    VAR_RECORD_CV_LOGIN,
+    VAR_RECORD_CA_ACTIONS,
+    VAR_SETTING_MODULE_AVAILABLE,
+    VAR_SETTING_MODULE_URL,
+    VAR_RECORD_CL_STATIC,
+} from "@essence-community/constructor-share/constants";
+import {i18next} from "@essence-community/constructor-share/utils";
+import {snackbarStore} from "@essence-community/constructor-share/models";
+
 import {history} from "../history";
 import {BRANCH_NAME, colors} from "../constants";
 
 export type SessionType = {
     session: string,
-    cvLogin: string,
-    caActions: Array<number>,
+    [VAR_RECORD_CV_LOGIN]: string,
+    [VAR_RECORD_CA_ACTIONS]: Array<number>,
     mode: "reports" | "page",
 };
 
@@ -42,8 +53,8 @@ export interface ApplicationModelType {
     +authData: Object;
     +session: string;
     +blockText: string;
-    +cvLogin: string;
-    +caActions: Array<number>;
+    +login: string;
+    +actions: Array<number>;
     +pagesStore: any;
     +isApplicationReady: boolean;
     +isBlock: boolean;
@@ -54,7 +65,7 @@ export interface ApplicationModelType {
     +configs: Object;
     +setSesssionAction: (session: SessionType) => void;
     +logoutAction: () => void;
-    +redirectToAction: (ckPage: string, params: Object) => void;
+    +redirectToAction: (pageId: string, params: Object) => void;
     +updateGlobalValuesAction: (values: Object) => void;
     +blockApplicationAction: (type: string, text: string) => void;
     +loadApplicationAction: () => void;
@@ -80,9 +91,9 @@ export class ApplicationModel implements ApplicationModelType {
 
     session: string;
 
-    cvLogin: string;
+    login: string;
 
-    caActions: Array<number>;
+    actions: Array<number>;
 
     routesStore: any;
 
@@ -109,11 +120,14 @@ export class ApplicationModel implements ApplicationModelType {
     // eslint-disable-next-line max-statements, max-lines-per-function
     constructor() {
         const authValues: SessionType = getFromStore("auth", {});
-        const globalPageStore = new PageModel({applicationStore: this, ckPage: "-1"});
+        const globalPageStore = new PageModel({applicationStore: this, pageId: "-1"});
 
         // TODO: Делать запрос без ckPageObject
         this.settingsStore = new SettingsModel({
-            bc: {ckPageObject: "7B516907E04A95DBE053809BA8C0143F", ckQuery: "MTGetSysSettings"},
+            bc: {
+                [VAR_RECORD_PAGE_OBJECT_ID]: "7B516907E04A95DBE053809BA8C0143F",
+                [VAR_RECORD_QUERY_ID]: "MTGetSysSettings",
+            },
             pageStore: globalPageStore,
         });
 
@@ -127,10 +141,10 @@ export class ApplicationModel implements ApplicationModelType {
             (activePage) => {
                 let url = "auth";
 
-                if (activePage && activePage.route.clStatic && activePage.route.cvUrl) {
-                    url = `/page/${activePage.route.cvUrl}`;
-                } else if (activePage && activePage.ckPage) {
-                    url = `/page/${activePage.ckPage}`;
+                if (activePage && activePage.route[VAR_RECORD_CL_STATIC] && activePage.route[VAR_RECORD_URL]) {
+                    url = `/page/${activePage.route[VAR_RECORD_URL]}`;
+                } else if (activePage && activePage.pageId) {
+                    url = `/page/${activePage.pageId}`;
                 } else if (this.session) {
                     url = "/home";
                 }
@@ -142,6 +156,7 @@ export class ApplicationModel implements ApplicationModelType {
         );
 
         extendObservable(this, {
+            actions: authValues[VAR_RECORD_CA_ACTIONS],
             authData: authValues,
             get authStore() {
                 return {
@@ -149,11 +164,10 @@ export class ApplicationModel implements ApplicationModelType {
                 };
             },
             blockText: "",
-            caActions: authValues.caActions,
-            cvLogin: authValues.cvLogin,
             globalValues: observable.map(),
             isApplicationReady: false,
             isBlock: false,
+            login: authValues[VAR_RECORD_CV_LOGIN],
             mode: "page",
             session: authValues.session,
         });
@@ -180,7 +194,7 @@ export class ApplicationModel implements ApplicationModelType {
                     hiddenTimeout: 0,
                     status: "debug",
                     text: renderGlobalValuelsInfo(globalValues),
-                    title: "d2c071c58aca4b73853c1fcc6e2f08a3",
+                    title: "static:d2c071c58aca4b73853c1fcc6e2f08a3",
                 }),
         );
     };
@@ -202,15 +216,15 @@ export class ApplicationModel implements ApplicationModelType {
             object[`g_sess_${key}`] = value;
         });
 
-        return this.updateGlobalValuesAction(camelCaseKeys(object));
+        return this.updateGlobalValuesAction(object);
     };
 
     setSesssionAction = action("setSesssionAction", (session: SessionType) => {
         this.authData = session;
         this.updateSessionGlobal(session);
         this.session = session.session;
-        this.cvLogin = session.cvLogin;
-        this.caActions = session.caActions;
+        this.login = session[VAR_RECORD_CV_LOGIN];
+        this.actions = session[VAR_RECORD_CA_ACTIONS];
         this.mode = session.mode || this.mode;
 
         return this.loadApplicationAction();
@@ -221,8 +235,8 @@ export class ApplicationModel implements ApplicationModelType {
         if (history.location.pathname.indexOf("auth") === -1) {
             this.authData = {};
             this.session = "";
-            this.cvLogin = "";
-            this.caActions = [];
+            this.login = "";
+            this.actions = [];
             this.isApplicationReady = false;
 
             removeFromStore("auth");
@@ -235,8 +249,8 @@ export class ApplicationModel implements ApplicationModelType {
         }
     });
 
-    redirectToAction = action("redirectToAction", async (ckPage: string, params: Object) => {
-        const page = await this.pagesStore.setPageAction(ckPage, true);
+    redirectToAction = action("redirectToAction", async (pageId: string, params: Object) => {
+        const page = await this.pagesStore.setPageAction(pageId, true);
 
         if (page) {
             await when(() => !page.isLoading);
@@ -245,53 +259,61 @@ export class ApplicationModel implements ApplicationModelType {
         }
     });
 
-    loadModules = (moduleUrl: string) =>
-        sendRequest({
+    loadModules = async (moduleUrl: string) => {
+        if (preference.modules) {
+            await loadFiles(preference.modules.split(","), true);
+        }
+
+        return sendRequest({
             json: {
                 filter: {
-                    clAvailable: 1,
-                    cvVersionApi: BRANCH_NAME,
+                    [VAR_RECORD_CL_AVAILABLE]: 1,
+                    [VAR_RECORD_CV_VERSION_API]: BRANCH_NAME,
                 },
             },
             list: true,
             query: "GetModuleList",
         })
             .then((modules) =>
-                modules.forEach(({cvName, cvVersion, ccConfig, ccManifest}) => {
-                    const files = JSON.parse(ccConfig).files.map(
-                        (fileName) => `${moduleUrl}/${cvName}/${cvVersion}${fileName}`,
-                    );
+                modules.forEach(
+                    ({
+                        [VAR_RECORD_NAME]: moduleName,
+                        [VAR_RECORD_CV_VERSION]: moduleVersion,
+                        [VAR_RECORD_CC_CONFIG]: moduleConfig,
+                        [VAR_RECORD_CC_MANIFEST]: moduleManifest,
+                    }) => {
+                        const files = JSON.parse(moduleConfig).files.map(
+                            (fileName) => `${moduleUrl}/${moduleName}/${moduleVersion}${fileName}`,
+                        );
 
-                    setModule(cvName, files, camelCaseKeys(JSON.parse(ccManifest)));
-                }),
+                        setModule(moduleName, files, JSON.parse(moduleManifest));
+                    },
+                ),
             )
             .catch((error) => {
                 snackbarStore.snackbarOpenAction({
                     status: "error",
-                    text: "b9c874da6b0e4694b93db69088a556da",
+                    text: "static:b9c874da6b0e4694b93db69088a556da",
                 });
                 snackbarStore.snackbarOpenAction(
                     {
                         status: "debug",
                         text: error.message,
                     },
-                    {cvName: "02f274362cf847cba8d806687d237698"},
+                    {[VAR_RECORD_NAME]: "static:02f274362cf847cba8d806687d237698"},
                 );
             });
+    };
 
     loadApplicationAction = action("loadApplicationAction", () => {
-        if (preference.modules) {
-            loadFiles(preference.modules.split(","), true);
-        }
-
         return Promise.all([
-            this.settingsStore.settings.moduleAvailable === "true"
-                ? this.loadModules(this.settingsStore.settings.gSysModuleUrl)
+            this.settingsStore.settings[VAR_SETTING_MODULE_AVAILABLE] === "true"
+                ? this.loadModules(this.settingsStore.settings[VAR_SETTING_MODULE_URL])
                 : undefined,
             snackbarStore.recordsStore.loadRecordsAction(),
             this.routesStore.recordsStore.loadRecordsAction(),
         ])
-            .then(() => this.pagesStore.restorePagesAction(this.cvLogin))
+            .then(() => this.pagesStore.restorePagesAction(this.login))
             .then(() => {
                 this.isApplicationReady = true;
             });
@@ -345,9 +367,9 @@ export class ApplicationModel implements ApplicationModelType {
                     delay(this.initWsClient, TIMEOUT_LONG_RECONNECT, this.session);
                     snackbarStore.snackbarOpenAction(
                         {
-                            pageName: "2ff612aa52314ddea65a5d303c867eb8",
+                            pageName: "static:2ff612aa52314ddea65a5d303c867eb8",
                             status: "error",
-                            text: "bcdc7e54547e405c9873b3ebea4f84c4",
+                            text: "static:bcdc7e54547e405c9873b3ebea4f84c4",
                         },
                         {},
                     );
@@ -360,9 +382,9 @@ export class ApplicationModel implements ApplicationModelType {
             .catch((err) => {
                 snackbarStore.snackbarOpenAction(
                     {
-                        pageName: "2ff612aa52314ddea65a5d303c867eb8",
+                        pageName: "static:2ff612aa52314ddea65a5d303c867eb8",
                         status: "error",
-                        text: err.message || "4b4ef9aed688462799f24efe8413da9f",
+                        text: err.message || "static:4b4ef9aed688462799f24efe8413da9f",
                     },
                     {},
                 );
@@ -377,9 +399,9 @@ export class ApplicationModel implements ApplicationModelType {
             switch (event.event) {
                 case "notification": {
                     snackbarStore.checkValidResponseAction(
-                        camelCaseKeys(event.data),
+                        event.data,
                         {
-                            cvName: "2ff612aa52314ddea65a5d303c867eb8",
+                            [VAR_RECORD_NAME]: "static:2ff612aa52314ddea65a5d303c867eb8",
                         },
                         undefined,
                         this,
@@ -391,7 +413,7 @@ export class ApplicationModel implements ApplicationModelType {
                     break;
                 }
                 case "reloaduser": {
-                    this.reloadUserInfoAction(camelCaseKeys(event.data));
+                    this.reloadUserInfoAction(event.data);
                     break;
                 }
                 case "reloadpageobject": {
@@ -403,7 +425,7 @@ export class ApplicationModel implements ApplicationModelType {
                     break;
                 }
                 default: {
-                    throw new Error(i18next.t("8fe6e023ee11462db952d62d6b8b265e", {message: msg.data}));
+                    throw new Error(i18next.t("static:8fe6e023ee11462db952d62d6b8b265e", {message: msg.data}));
                 }
             }
         });
@@ -412,13 +434,13 @@ export class ApplicationModel implements ApplicationModelType {
     reloadUserInfoAction = action("reloadUserInfo", (authValues: Object) => {
         this.updateSessionGlobal(authValues);
         this.authData = authValues;
-        this.caActions = authValues.caActions;
-        this.cvLogin = authValues.cvLogin;
+        this.actions = authValues[VAR_RECORD_CA_ACTIONS];
+        this.login = authValues[VAR_RECORD_CV_LOGIN];
         saveToStore("auth", authValues);
     });
 
-    reloadPageObjectAction = action("reloadPageObject", (ckPage: string, ckPageObject: string) => {
-        const findedPage = this.pagesStore.pages.find((page) => page.ckPage === ckPage);
+    reloadPageObjectAction = action("reloadPageObject", (pageId: string, ckPageObject: string) => {
+        const findedPage = this.pagesStore.pages.find((page) => page.pageId === pageId);
 
         if (findedPage) {
             const store = findedPage.stores.get(ckPageObject);

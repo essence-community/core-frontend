@@ -17,7 +17,6 @@ const program = commander
     .version(packageJson.version)
     .arguments("<project-directory>")
     .usage(`${chalk.green("<project-directory>")} [options]`)
-    .option("-t, --typescript", "Use typescript")
     .option("--example", "Make example application")
     .action((name) => {
         projectName = name;
@@ -30,7 +29,7 @@ if (projectName === "") {
     console.log(`  ${chalk.cyan(program.name())} ${chalk.green("<project-directory>")}`);
     console.log();
     console.log("For example:");
-    console.log(`  ${chalk.cyan(program.name())} ${chalk.green("mpdule-simple")}`);
+    console.log(`  ${chalk.cyan(program.name())} ${chalk.green("module-simple")}`);
     console.log();
     console.log(`Run ${chalk.cyan(`${program.name()} --help`)} to see all options.`);
 
@@ -51,27 +50,20 @@ const packageJsonNew = {
         initialize: "constructor-scripts init",
         postinstall: "yarn constructor-dll-build",
         build: "constructor-scripts build",
-        test: "constructor-scripts test",
         zip: "constructor-scripts zip",
         deploy: "constructor-scripts deploy",
     },
-    dependencies: {
-        "@material-ui/core": "3.5.1",
-        axios: "0.18.0",
-        "mdi-react": "3.4.0",
-        mobx: "5.9.0",
-        "mobx-react": "5.4.2",
-        "mobx-react-form": "1.35.1",
-        moment: "2.x",
-        react: "16.8.6",
-        "react-dom": "16.8.6",
+    eslint: {
+        extends: "@essence-community/eslint-config-react",
     },
 };
 
+const dependencies = ["@material-ui/core", "react", "react-dom", "mobx", "mobx-react"];
+
 const essencePackages = [
-    "@essence/essence-constructor-dll",
-    "@essence/essence-constructor-share",
-    "@essence/essence-constructor-scripts",
+    "@essence-community/constructor-dll",
+    "@essence-community/constructor-share",
+    "@essence-community/constructor-scripts",
 ];
 
 if (program.example) {
@@ -79,24 +71,22 @@ if (program.example) {
 }
 
 fs.writeFileSync(path.join(root, "package.json"), JSON.stringify(packageJsonNew, null, 2) + os.EOL);
+fs.copyFileSync(path.join(__dirname, "eslintrc"), path.join(root, ".eslintrc"));
+fs.copyFileSync(path.join(__dirname, "prettierrc"), path.join(root, ".prettierrc"));
 
-spawn.sync("yarnpkg", ["--cwd", root], {stdio: "inherit"});
-spawn.sync("yarnpkg", ["add", ...essencePackages], {cwd: root, stdio: "inherit"});
+// Spawn.sync("yarnpkg", ["--cwd", root], {stdio: "inherit"});
+spawn.sync("yarnpkg", ["add", ...dependencies, ...essencePackages], {cwd: root, stdio: "inherit"});
 
-if (program.typescript || packageJsonNew.example) {
-    const packages = [
-        "@types/node",
-        "@types/react",
-        "@types/react-dom",
-        "@types/jest",
-        "typescript",
-        "tslint",
-        "tslint-config-prettier",
-        "tslint-eslint-rules",
-        "@babel/preset-typescript",
-    ];
+const packages = [
+    "@types/node",
+    "@types/react",
+    "typescript",
+    "@essence-community/eslint-config-react",
+    "eslint",
+    "tslint-config-prettier",
+    "tslint-eslint-rules",
+];
 
-    spawn.sync("yarnpkg", ["add", "-D", ...packages], {cwd: root, stdio: "inherit"});
-}
+spawn.sync("yarnpkg", ["add", "-D", ...packages], {cwd: root, stdio: "inherit"});
 
 spawn.sync("yarnpkg", ["initialize"], {cwd: root, stdio: "inherit"});

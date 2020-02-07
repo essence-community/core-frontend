@@ -4,8 +4,16 @@ import forOwn from "lodash/forOwn";
 import isArray from "lodash/isArray";
 import noop from "lodash/noop";
 import {toJS, type ObservableMap} from "mobx";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
-import {i18next} from "@essence/essence-constructor-share/utils";
+import {snackbarStore} from "@essence-community/constructor-share/models";
+import {i18next, getMasterObject} from "@essence-community/constructor-share/utils";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    VAR_RECORD_CK_MAIN,
+    VAR_RECORD_CL_WARNING,
+} from "@essence-community/constructor-share/constants";
 import {findGetGlobalKey} from "../../utils/findKey";
 import {loggerRoot} from "../../constants";
 import {isEmpty} from "../../utils/base";
@@ -18,9 +26,10 @@ import ProgressModel from "../ProgressModel/ProgressModel";
 
 export type ConfigType = {|
     actionBc: BuilderBaseType,
+    recordId: string,
     action?: "dml" | "upload",
     query?: string,
-    clWarning?: number,
+    cl_warning?: number,
     bc: Object,
     pageStore: PageModelType,
     formData?: FormData,
@@ -50,7 +59,7 @@ export const filter = (values: Object) => {
 
 const findReloadAction = (recordsStore, bc: GridBuilderType) => {
     if (bc.reloadmaster === "true") {
-        const masterStore = recordsStore.pageStore.stores.get(bc.ckMaster);
+        const masterStore = recordsStore.pageStore.stores.get(bc[VAR_RECORD_MASTER_ID]);
 
         if (masterStore && masterStore.reloadStoreAction) {
             return masterStore.reloadStoreAction;
@@ -77,19 +86,37 @@ export const attachGlobalValues = ({globalValues, getglobaltostore, values}: Att
     return values;
 };
 
-// eslint-disable-next-line max-statements
+// eslint-disable-next-line max-statements, max-lines-per-function
 export function saveAction(values: Object | Array<Object> | FormData, mode: BuilderModeType, config: ConfigType) {
-    const {actionBc, action, clWarning = 0, query, bc, pageStore, formData, noReload, filesNames} = config;
-    const {extraplugingate, getglobaltostore, timeout} = actionBc;
-    const {noglobalmask, ckMaster, ckPageObject} = bc;
+    const {
+        actionBc,
+        recordId = VAR_RECORD_ID,
+        action,
+        [VAR_RECORD_CL_WARNING]: warningStatus = 0,
+        query,
+        bc,
+        pageStore,
+        formData,
+        noReload,
+        filesNames,
+    } = config;
+    const {extraplugingate, getglobaltostore, getmastervalue, timeout} = actionBc;
     let modeCheck = mode;
     let onUploadProgress = noop;
     let filteredValues = null;
-    let ckMain = null;
+    let main = null;
     let snackbarId = null;
+    const getMasterValue = getmastervalue || bc.getmastervalue;
+    // eslint-disable-next-line init-declarations
+    let master;
 
-    if (ckMaster) {
-        ckMain = get(pageStore.stores.get(ckMaster), "selectedRecord.ckId") || pageStore.fieldValueMaster.get(ckMaster);
+    if (bc[VAR_RECORD_MASTER_ID]) {
+        const masterStore = pageStore.stores.get(bc[VAR_RECORD_MASTER_ID]);
+
+        main = masterStore
+            ? get(masterStore, `selectedRecord.${masterStore.recordId}`)
+            : pageStore.fieldValueMaster.get(bc[VAR_RECORD_MASTER_ID]);
+        master = getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, getMasterValue);
     }
 
     if (formData) {
@@ -108,18 +135,19 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
             globalValues: pageStore.globalValues,
             values: filter(values),
         });
-        modeCheck = isEmpty(filteredValues.ckId) && /^\d+$/.test(mode) ? "1" : mode;
+        modeCheck = isEmpty(filteredValues[recordId]) && /^\d+$/u.test(mode) ? "1" : mode;
     }
 
-    setMask(noglobalmask, pageStore, true);
+    setMask(bc.noglobalmask, pageStore, true);
 
     return apiSaveAction(filteredValues, {
+        [VAR_RECORD_CK_MAIN]: main,
+        [VAR_RECORD_CL_WARNING]: warningStatus,
+        [VAR_RECORD_PAGE_OBJECT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_ROUTE_PAGE_ID]: pageStore.pageId,
         action,
-        ckMain,
-        ckPage: pageStore.ckPage,
-        ckPageObject,
-        clWarning,
         formData,
+        master,
         mode: modeCheck,
         onUploadProgress,
         plugin: extraplugingate || bc.extraplugingate,
@@ -128,28 +156,30 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
         timeout,
     })
         .then(
+            // eslint-disable-next-line max-lines-per-function
             (response) =>
-                // eslint-disable-next-line max-statements
+                // eslint-disable-next-line max-statements, max-lines-per-function
                 new Promise((resolve) => {
                     const check = snackbarStore.checkValidResponseAction(
                         response,
                         pageStore.route,
                         (warningText) => {
-                            setMask(noglobalmask, pageStore, false);
+                            setMask(bc.noglobalmask, pageStore, false);
 
-                            pageStore.openQuestionWindow(warningText, (clWarningNew) => {
-                                if (clWarningNew === 0) {
+                            pageStore.openQuestionWindow(warningText, (warningStatusNew) => {
+                                if (warningStatusNew === 0) {
                                     resolve(false);
                                 } else {
                                     saveAction
                                         .call(this, values, mode, {
+                                            [VAR_RECORD_CL_WARNING]: warningStatusNew,
                                             action,
                                             actionBc,
                                             bc: config.bc,
-                                            clWarning: clWarningNew,
                                             formData: config.formData,
                                             pageStore: config.pageStore,
                                             query: config.query,
+                                            recordId,
                                         })
                                         .then(resolve);
                                 }
@@ -172,11 +202,11 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
                         const isAttach =
                             bc.refreshallrecords === "false" &&
                             (mode === "1" || mode === "2" || mode === "4") &&
-                            !isEmpty(response.ckId);
+                            !isEmpty(response[recordId]);
 
                         loadRecordsAction
                             ? loadRecordsAction({
-                                  selectedRecordId: response.ckId,
+                                  selectedRecordId: response[recordId],
                                   status: isAttach ? "attach" : "save-any",
                               }).then(() => {
                                   pageStore.nextStepAction(mode, bc);
@@ -194,7 +224,7 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
                 }),
         )
         .catch((error) => {
-            logger(i18next.t("27a9d844da20453195f59f75185d7c99"), error);
+            logger(i18next.t("static:27a9d844da20453195f59f75185d7c99"), error);
 
             if (formData) {
                 snackbarStore.snackbarChangeStatusAction(snackbarId, "errorUpload");
@@ -206,7 +236,7 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
             return false;
         })
         .then((res) => {
-            setMask(noglobalmask, pageStore, false);
+            setMask(bc.noglobalmask, pageStore, false);
 
             return res;
         });

@@ -3,8 +3,9 @@ import * as React from "react";
 import {compose} from "recompose";
 import {observer} from "mobx-react";
 import {Grid} from "@material-ui/core";
-import {setComponent, mapComponents} from "@essence/essence-constructor-share";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {setComponent, mapComponents} from "@essence-community/constructor-share/components";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
 import {loggerRoot} from "../constants";
 import withModelDecorator from "../decorators/withModelDecorator";
 import {type PageModelType} from "../stores/PageModel";
@@ -40,20 +41,24 @@ export class BaseBuilderPanelDynamic extends React.Component<PropsType> {
         }
 
         const content = (
-            <Grid container spacing={0} direction="column" data-page-object={bc.ckPageObject}>
+            <Grid container spacing={0} direction="column" data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}>
                 {mapComponents(store.recordsStore.records, (ChildComp, child, index) => {
                     let childBc = child;
 
-                    if (!child.ckPageObject) {
+                    if (!child[VAR_RECORD_PAGE_OBJECT_ID]) {
                         childBc = {
                             ...child,
-                            ckPageObject: `${bc.ckPageObject}_child_${index}`,
+                            [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_child_${index}`,
                         };
-                        logger(this.props.t("c3513e8150484b31a4ad4227f9664e7f", {name: childBc.ckPageObject}));
+                        logger(
+                            this.props.t("static:c3513e8150484b31a4ad4227f9664e7f", {
+                                name: childBc[VAR_RECORD_PAGE_OBJECT_ID],
+                            }),
+                        );
                     }
 
                     return (
-                        <Grid item key={childBc.ckPageObject}>
+                        <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
                             <ChildComp
                                 bc={childBc}
                                 editing={editing}

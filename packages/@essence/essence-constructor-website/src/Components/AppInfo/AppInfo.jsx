@@ -4,7 +4,12 @@ import {compose} from "recompose";
 import {inject, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
 import {Dialog, DialogTitle, DialogContent, Typography, ButtonBase} from "@material-ui/core";
-import {sanitizeHtml, WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {sanitizeHtml, WithT, withTranslation} from "@essence-community/constructor-share/utils";
+import {
+    VAR_SETTING_PROJECT_ABOUT_BOX_TITLE,
+    VAR_SETTING_PROJECT_ABOUT_BOX_DESCRIPTION,
+    VAR_SETTING_PROJECT_ABOUT_BOX_FOOTER,
+} from "@essence-community/constructor-share/constants";
 import {styleTheme, COMMIT_ID, BRANCH_DATE_TIME, BRANCH_NAME} from "../../constants";
 import * as lightLogo from "../../images/light_logo.png";
 import * as darkLogo from "../../images/dark_logo.png";
@@ -42,6 +47,7 @@ class AppInfo extends React.Component<PropsType, StateType> {
         this.setState({open: false});
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {applicationStore, classes = {}} = this.props;
         const {open} = this.state;
@@ -58,34 +64,40 @@ class AppInfo extends React.Component<PropsType, StateType> {
                     onClose={this.handleClose}
                     style={{position: "absolute"}}
                 >
-                    <DialogTitle disableTypography>{this.props.t("6cf398ee03df42529323bd4ff9f584d5")}</DialogTitle>
+                    <DialogTitle disableTypography>
+                        {this.props.t("static:6cf398ee03df42529323bd4ff9f584d5")}
+                    </DialogTitle>
                     <DialogContent>
                         <Typography variant="title" paragraph className={classes.title}>
-                            {applicationStore.settingsStore.settings.projectAboutBoxTitle}
+                            {applicationStore.settingsStore.settings[VAR_SETTING_PROJECT_ABOUT_BOX_TITLE]}
                         </Typography>
 
                         <Typography variant="body2" paragraph>
-                            {this.props.t("26686005b3584a12aeb9ca9e96e54753", {
+                            {this.props.t("static:26686005b3584a12aeb9ca9e96e54753", {
                                 BRANCH_DATE_TIME,
                                 BRANCH_NAME,
                                 COMMIT_ID,
                             })}
                         </Typography>
-                        {applicationStore.settingsStore.settings.projectAboutBoxDescription ? (
+                        {applicationStore.settingsStore.settings[VAR_SETTING_PROJECT_ABOUT_BOX_DESCRIPTION] ? (
                             <div
                                 dangerouslySetInnerHTML={{
                                     __html: sanitizeHtml(
-                                        applicationStore.settingsStore.settings.projectAboutBoxDescription,
+                                        applicationStore.settingsStore.settings[
+                                            VAR_SETTING_PROJECT_ABOUT_BOX_DESCRIPTION
+                                        ],
                                     ),
                                 }}
                             />
                         ) : null}
-                        {applicationStore.settingsStore.settings.projectAboutBoxFooter ? (
+                        {applicationStore.settingsStore.settings[VAR_SETTING_PROJECT_ABOUT_BOX_FOOTER] ? (
                             <div
                                 dangerouslySetInnerHTML={{
                                     __html: sanitizeHtml(
-                                        applicationStore.settingsStore.settings.projectAboutBoxFooter.replace(
-                                            /\{REACT_APP_PUBLIC_URL\}/gi,
+                                        applicationStore.settingsStore.settings[
+                                            VAR_SETTING_PROJECT_ABOUT_BOX_FOOTER
+                                        ].replace(
+                                            /\{REACT_APP_PUBLIC_URL\}/giu,
                                             process.env.REACT_APP_PUBLIC_URL || "",
                                         ),
                                     ),
@@ -99,9 +111,4 @@ class AppInfo extends React.Component<PropsType, StateType> {
     }
 }
 
-export default compose(
-    inject(mapStoresToProps),
-    withStyles(styles),
-    withTranslation("meta"),
-    observer,
-)(AppInfo);
+export default compose(inject(mapStoresToProps), withStyles(styles), withTranslation("meta"), observer)(AppInfo);

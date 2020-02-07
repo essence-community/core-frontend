@@ -4,8 +4,9 @@ import {observer, disposeOnUnmount} from "mobx-react";
 import {reaction} from "mobx";
 import {compose} from "recompose";
 import {Grid} from "@material-ui/core";
-import {setComponent, mapComponents} from "@essence/essence-constructor-share";
-import {toColumnStyleWidth, camelCaseMemoized} from "@essence/essence-constructor-share/utils";
+import {setComponent, mapComponents} from "@essence-community/constructor-share";
+import {toColumnStyleWidth} from "@essence-community/constructor-share/utils";
+import {VAR_RECORD_MASTER_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import forOwn from "lodash/forOwn";
 import {findSetKey} from "../utils/findKey";
 import BuilderForm from "./BuilderForm";
@@ -65,9 +66,7 @@ class FormPanelComponent extends React.Component<PropsType, StateType> {
         const {bc, pageStore} = this.props;
 
         if (bc.getglobal) {
-            disposeOnUnmount(this, [
-                reaction(() => pageStore.globalValues.get(camelCaseMemoized(bc.getglobal)), this.handleGetGlobal),
-            ]);
+            disposeOnUnmount(this, [reaction(() => pageStore.globalValues.get(bc.getglobal), this.handleGetGlobal)]);
         }
     }
 
@@ -115,20 +114,29 @@ class FormPanelComponent extends React.Component<PropsType, StateType> {
                 onSetValues={this.handleSetValues}
                 injectType="filter"
                 submitOnChange
-                dataPageObject={`${bc.ckPageObject}-form`}
+                dataPageObject={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-form`}
                 mode="1"
                 initialValues={initialValues}
                 pageStore={pageStore}
-                hasMaster={parentBc && Boolean(parentBc.ckMaster) && parentBc.ckMaster !== bc.ckPageObject}
+                hasMaster={
+                    parentBc &&
+                    Boolean(parentBc[VAR_RECORD_MASTER_ID]) &&
+                    parentBc[VAR_RECORD_MASTER_ID] !== bc[VAR_RECORD_PAGE_OBJECT_ID]
+                }
             >
                 <Grid
                     container
-                    spacing={2}
+                    spacing={1}
                     {...GRID_CONFIGS[contentview]}
                     {...GRID_ALIGN_CONFIGS[`${align}-${contentview}`]}
                 >
                     {mapComponents(bc.childs, (ChildComp, child) => (
-                        <Grid item key={child.ckPageObject} xs={12} style={toColumnStyleWidth(child.width)}>
+                        <Grid
+                            item
+                            key={child[VAR_RECORD_PAGE_OBJECT_ID]}
+                            xs={12}
+                            style={toColumnStyleWidth(child.width)}
+                        >
                             <ChildComp
                                 bc={child}
                                 editing

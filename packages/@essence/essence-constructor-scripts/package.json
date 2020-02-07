@@ -1,10 +1,11 @@
 {
-  "name": "@essence/essence-constructor-scripts",
-  "version": "2.0.1",
+  "name": "@essence-community/constructor-scripts",
+  "version": "2.1.0",
+  "apiversion": "2.1.0",
   "description": "Scripts for constructor",
   "main": "index.js",
-  "repository": "https://github.com/essence-community/core",
-  "author": "Oleh Kucenko",
+  "repository": "https://github.com/essence-community/core-frontend",
+  "author": "Oleh Kutsenko",
   "license": "MIT",
   "private": false,
   "bin": {

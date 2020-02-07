@@ -1,6 +1,5 @@
 // @flow
 import * as React from "react";
-import camelCase from "lodash/camelCase";
 import uniqueId from "lodash/uniqueId";
 import {observer} from "mobx-react";
 import {isEmpty} from "../../../utils/base";
@@ -25,7 +24,7 @@ class GCFilterFieldBase extends React.Component<PropsType> {
 
         const {form, bc} = this.props;
 
-        this.column = camelCase(bc.column) || uniqueId("GCFilterFieldBase");
+        this.column = bc.column || uniqueId("GCFilterFieldBase");
 
         form.add({
             key: this.column,

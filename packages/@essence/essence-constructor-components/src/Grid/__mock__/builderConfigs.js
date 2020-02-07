@@ -1,8 +1,14 @@
 // @flow
+import {
+    VAR_RECORD_OBJECT_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_NAME,
+} from "@essence-community/constructor-share/constants";
+
 const getBaseColumnBc = (name) => ({
-    ckObject: name,
-    ckPageObject: name,
-    cvName: name,
+    [VAR_RECORD_NAME]: name,
+    [VAR_RECORD_OBJECT_ID]: name,
+    [VAR_RECORD_PAGE_OBJECT_ID]: name,
     datatype: name,
 });
 
@@ -42,11 +48,11 @@ export const treeBc = {
 };
 
 export const gridBc = {
+    [VAR_RECORD_NAME]: "boolean",
+    [VAR_RECORD_OBJECT_ID]: "boolean",
+    [VAR_RECORD_PAGE_OBJECT_ID]: "boolean",
     childwindow: [],
-    ckObject: "boolean",
-    ckPageObject: "boolean",
     columns: [],
-    cvName: "boolean",
     orderdirection: "ASC",
     orderproperty: "cv_value",
     type: "GRID",

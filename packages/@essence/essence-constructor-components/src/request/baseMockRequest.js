@@ -1,7 +1,11 @@
 /* eslint-disable global-require */
 // @flow
-import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
 import isFunction from "lodash/isFunction";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    META_PAGE_OBJECT,
+} from "@essence-community/constructor-share/constants";
 import comboRecords from "../../mocks/data/comboRecords.json";
 import {sleep} from "../utils/base";
 import {MIN_REQUEST_TIME, MAX_REQUEST_TIME} from "../utils/test";
@@ -14,9 +18,9 @@ const pageObjectsCkId = {
 };
 const logger = loggerRoot.extend("baseMockRequest");
 
-function getModifyMock({pageObject}: RequestType) {
+function getModifyMock({[META_PAGE_OBJECT]: pageObjectName}: RequestType) {
     return {
-        ckId: pageObject && pageObjectsCkId[pageObject],
+        [VAR_RECORD_ID]: pageObjectName && pageObjectsCkId[pageObjectName],
     };
 }
 
@@ -25,7 +29,7 @@ const mocks = {
     "GetMetamodelPage2.0": (requestConfig: RequestType) => {
         try {
             // $FlowFixMe
-            const bc = require(`../../mocks/page/${requestConfig.json.filter.ckPage}.json`);
+            const bc = require(`../../mocks/page/${requestConfig.json.filter[VAR_RECORD_ROUTE_PAGE_ID]}.json`);
 
             return {children: bc};
         } catch (exeption) {
@@ -72,7 +76,7 @@ const baseMockRequest = async (requestConfig: RequestType): Promise<any> => {
 
     await sleep(Math.random() * (MAX_REQUEST_TIME - MIN_REQUEST_TIME) + MIN_REQUEST_TIME);
 
-    return camelCaseKeys(data);
+    return data;
 };
 
 export default baseMockRequest;

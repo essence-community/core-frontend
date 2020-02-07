@@ -1,4 +1,4 @@
-import {IEssenceTheme} from "@essence/essence-constructor-share";
+import {IEssenceTheme} from "@essence-community/constructor-share";
 /* eslint-disable sort-keys */
 export default (theme: IEssenceTheme) => ({
     text: {
@@ -21,6 +21,7 @@ export default (theme: IEssenceTheme) => ({
         },
         border: `1px solid ${theme.essence.palette.grey.main}`,
         height: theme.essence.sizing.appBarHeight,
+        opacity: 1,
         minHeight: theme.essence.sizing.appBarHeight,
         padding: 0,
     },

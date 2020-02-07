@@ -5,8 +5,9 @@ import cn from "classnames";
 import {withStyles} from "@material-ui/core/styles";
 import {ListItem, List} from "@material-ui/core";
 import noop from "lodash/noop";
-import {setComponent} from "@essence/essence-constructor-share";
-import {Popover} from "@essence/essence-constructor-share/uicomponents";
+import {setComponent} from "@essence-community/constructor-share";
+import {VAR_RECORD_PARENT_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {Popover} from "@essence-community/constructor-share/uicomponents";
 import {styleTheme} from "../../constants";
 import commonDecorator, {type CommonDecoratorInjectType} from "../../decorators/commonDecorator";
 import Scrollbars from "../../Components/Scrollbars/Scrollbars";
@@ -69,31 +70,13 @@ class BaseBuilderButtonCollector extends React.Component<PropsType> {
     constructor(props: PropsType) {
         super(props);
 
-        const {topbtn = [], ckParent} = props.bc;
+        const {topbtn = []} = props.bc;
 
         this.btns = topbtn.map((btn) => ({
             ...btn,
-            ckParent,
+            [VAR_RECORD_PARENT_ID]: props.bc[VAR_RECORD_PARENT_ID],
         }));
     }
-
-    renderIcon = ({open, onOpen, onClose}) => {
-        const {classes, tranformName, ...btnProps} = this.props;
-
-        const className =
-            tranformName === "window"
-                ? cn(classes.iconButtonWindowRoot, {[classes.iconButtonWindowOpenRoot]: open})
-                : cn(classes.iconButtonRoot, {[classes.iconButtonOpenRoot]: open});
-
-        return (
-            <BuilderMobxButton
-                {...btnProps}
-                readOnly={false}
-                className={className}
-                handleClick={open ? onClose : onOpen}
-            />
-        );
-    };
 
     renderPopoverContnet = ({onClose}) => {
         const {
@@ -116,7 +99,7 @@ class BaseBuilderButtonCollector extends React.Component<PropsType> {
                 <List disablePadding dense>
                     {this.btns.map((btn) => (
                         <BuilderMobxButton
-                            key={btn.ckPageObject}
+                            key={btn[VAR_RECORD_PAGE_OBJECT_ID]}
                             component={ListItem}
                             bc={btn}
                             componentProps={listItemProps}
@@ -136,7 +119,7 @@ class BaseBuilderButtonCollector extends React.Component<PropsType> {
     };
 
     render() {
-        const {hidden, pageStore, tranformName, classes} = this.props;
+        const {hidden, pageStore, tranformName, classes, ...btnProps} = this.props;
 
         if (hidden) {
             return null;
@@ -156,16 +139,28 @@ class BaseBuilderButtonCollector extends React.Component<PropsType> {
                 restoreFocusedElement
                 tabFocusable={false}
             >
-                {this.renderIcon}
+                {({open, onOpen, onClose}) => {
+                    const className =
+                        tranformName === "window"
+                            ? cn(classes.iconButtonWindowRoot, {[classes.iconButtonWindowOpenRoot]: open})
+                            : cn(classes.iconButtonRoot, {[classes.iconButtonOpenRoot]: open});
+
+                    return (
+                        <BuilderMobxButton
+                            {...btnProps}
+                            readOnly={false}
+                            className={className}
+                            handleClick={open ? onClose : onOpen}
+                            pageStore={pageStore}
+                        />
+                    );
+                }}
             </Popover>
         );
     }
 }
 
-const BuilderButtonCollector = compose(
-    commonDecorator,
-    withStyles(styles),
-)(BaseBuilderButtonCollector);
+const BuilderButtonCollector = compose(commonDecorator, withStyles(styles))(BaseBuilderButtonCollector);
 
 setComponent("BTNCOLLECTOR", BuilderButtonCollector);
 

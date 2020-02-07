@@ -2,7 +2,7 @@
 import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
 import {Popover, ListItem, List} from "@material-ui/core";
-import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {WithT, withTranslation} from "@essence-community/constructor-share/utils";
 import styles from "./TabMenuContextStyles";
 
 export type PopoverPositionType = {
@@ -90,19 +90,19 @@ class TabMenuContext extends React.Component<PropsType> {
                         {...menuListProps}
                         className={`${classes.listItem} ${classes.listItemDivider}`}
                     >
-                        {this.props.t("33c9b02a9140428d9747299b9a767abb")}
+                        {this.props.t("static:33c9b02a9140428d9747299b9a767abb")}
                     </ListItem>
                     <ListItem onClick={this.handleClose} {...menuListProps}>
-                        {this.props.t("74776ef247274a55a2a76f7df34ffe41")}
+                        {this.props.t("static:74776ef247274a55a2a76f7df34ffe41")}
                     </ListItem>
                     <ListItem onClick={this.handleCloseOther} {...menuListProps}>
-                        {this.props.t("63b54227225e4ea5a2ba644eced838ec")}
+                        {this.props.t("static:63b54227225e4ea5a2ba644eced838ec")}
                     </ListItem>
                     <ListItem onClick={this.handleCloseAllRight} {...menuListProps}>
-                        {this.props.t("bceed776538747b9a0c88d4f73b70711")}
+                        {this.props.t("static:bceed776538747b9a0c88d4f73b70711")}
                     </ListItem>
                     <ListItem onClick={this.handleCloseAll} {...menuListProps}>
-                        {this.props.t("a0cb66a96d8740a19397ece02d537f86")}
+                        {this.props.t("static:a0cb66a96d8740a19397ece02d537f86")}
                     </ListItem>
                 </List>
             </Popover>

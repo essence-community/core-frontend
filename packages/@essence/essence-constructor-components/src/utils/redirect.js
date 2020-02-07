@@ -1,7 +1,16 @@
 // @flow
 import {type ObservableMap} from "mobx";
-import {camelCaseMemoized, parseMemoize} from "@essence/essence-constructor-share/utils";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
+import {parseMemoize, getMasterObject} from "@essence-community/constructor-share/utils";
+import {snackbarStore} from "@essence-community/constructor-share/models";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_RES_ERROR,
+    VAR_RECORD_URL,
+    VAR_RECORD_MASTER_ID,
+    META_PAGE_OBJECT,
+    VAR_RECORD_CK_D_ENDPOINT,
+} from "@essence-community/constructor-share/constants";
 import forOwn from "lodash/forOwn";
 import qs from "qs";
 import {type PageModelType} from "../stores/PageModel";
@@ -37,7 +46,6 @@ export function choiceUrl(pathname: string, globalValues: ObservableMap<string, 
 /**
  * Получаем query params из записи.
  *
- * @param {string} ckPage - Номер страницы.
  * @param {string} [columnsName] - Названия колонок, через запятую, которые можно получить с record.
  * @param {Ext.data.Model} [record] - Модель с данными.
  *
@@ -78,6 +86,7 @@ export function getQueryParams({
  *
  * @returns {Object} url
  */
+// eslint-disable-next-line max-lines-per-function
 export function makeRedirectUrl(props: {
     authData: Object,
     bc: Object,
@@ -100,16 +109,16 @@ export function makeRedirectUrl(props: {
         return url;
     }
 
+    // eslint-disable-next-line require-unicode-regexp,  prefer-named-capture-group
     url.pathname = url.pathname.replace(/{([^}]+)}/g, (match, pattern) => {
         if (pattern.indexOf(SESSION_PREFIX) > -1) {
-            return authData[camelCaseMemoized(pattern.substring(SESSION_PREFIX.length))];
+            return authData[pattern.substring(SESSION_PREFIX.length)];
         }
 
-        const key = camelCaseMemoized(pattern);
-        const globalValue = globalValues.get(key);
+        const globalValue = globalValues.get(pattern);
 
-        if (key in record) {
-            return record[key];
+        if (pattern in record) {
+            return record[pattern];
         }
 
         if (typeof globalValue === "string") {
@@ -131,6 +140,7 @@ export function makeRedirectUrl(props: {
     return url;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export const redirectUseQuery = ({
     bc,
     query,
@@ -143,12 +153,13 @@ export const redirectUseQuery = ({
     values: Object,
 }) =>
     sendRequest({
+        [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
         action: "dml",
-        gate: bc.ckDEndpoint,
+        gate: bc[VAR_RECORD_CK_D_ENDPOINT],
         json: {
             filter: values,
+            master: getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, bc.getmastervalue),
         },
-        pageObject: bc.ckPageObject,
         plugin: bc.extraplugingate,
         query,
         session: pageStore.applicationStore.session,
@@ -163,7 +174,7 @@ export const redirectUseQuery = ({
             );
 
             if (isValid) {
-                window.open(res.cvUrl);
+                window.open(res[VAR_RECORD_URL]);
             }
 
             return isValid;
@@ -171,8 +182,8 @@ export const redirectUseQuery = ({
         .catch(() => {
             snackbarStore.checkValidResponseAction(
                 {
-                    ckId: null,
-                    cvError: {
+                    [VAR_RECORD_ID]: null,
+                    [VAR_RECORD_RES_ERROR]: {
                         // $FlowFixMe
                         1000: [],
                     },

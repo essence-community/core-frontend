@@ -4,9 +4,15 @@ import {inject, observer} from "mobx-react";
 import {Grid, TextField, Paper, Button, Typography, InputAdornment, IconButton} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {compose} from "recompose";
-import {PageLoader} from "@essence/essence-constructor-share";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {getFromStore, WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {PageLoader} from "@essence-community/constructor-share";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {getFromStore, WithT, withTranslation} from "@essence-community/constructor-share/utils";
+import {
+    VAR_RECORD_CV_LOGIN,
+    VAR_RECORD_CV_PASSWORD,
+    VAR_SETTING_PROJECT_LOADER,
+    VAR_SETTING_PROJECT_AUTH_TITLE,
+} from "@essence-community/constructor-share/constants";
 import {MobxForm} from "../../Components/MobxForm";
 import {AuthModelType} from "../../Stores/AuthModel";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
@@ -89,22 +95,22 @@ class AuthPage extends React.Component<PropsType, StateType> {
         {
             autoFocus: false,
             disabled: false,
-            id: "cvLogin",
+            id: VAR_RECORD_CV_LOGIN,
             margin: "normal",
-            name: "cvLogin",
-            placeholder: this.props.t("d016a5a3d0964cd69fd15c6e283db77e"),
+            name: VAR_RECORD_CV_LOGIN,
+            placeholder: this.props.t("static:d016a5a3d0964cd69fd15c6e283db77e"),
             rules: "required",
-            title: this.props.t("d016a5a3d0964cd69fd15c6e283db77e"),
+            title: this.props.t("static:d016a5a3d0964cd69fd15c6e283db77e"),
         },
         {
             autoFocus: false,
             disabled: false,
-            id: "cvPassword",
+            id: VAR_RECORD_CV_PASSWORD,
             margin: "normal",
-            name: "cvPassword",
-            placeholder: this.props.t("8d380b7c5e6d4fcfb9d608d69464fe2a"),
+            name: VAR_RECORD_CV_PASSWORD,
+            placeholder: this.props.t("static:8d380b7c5e6d4fcfb9d608d69464fe2a"),
             rules: "required",
-            title: this.props.t("8d380b7c5e6d4fcfb9d608d69464fe2a"),
+            title: this.props.t("static:8d380b7c5e6d4fcfb9d608d69464fe2a"),
         },
     ];
 
@@ -206,6 +212,7 @@ class AuthPage extends React.Component<PropsType, StateType> {
         );
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {classes, applicationStore} = this.props;
         const {form} = this.state;
@@ -222,18 +229,20 @@ class AuthPage extends React.Component<PropsType, StateType> {
                         <Paper classes={{root: classes.paper}} elevation={12}>
                             <Typography variant="body2" classes={{root: classes.typography}}>
                                 <img src={logo} alt="logo" height="50" width="50" />
-                                {applicationStore.settingsStore.settings.projectAuthTitle}
+                                {applicationStore.settingsStore.settings[VAR_SETTING_PROJECT_AUTH_TITLE]}
                             </Typography>
                             <form>
                                 <PageLoader
                                     isLoading={form.submitting}
-                                    loaderType={applicationStore.settingsStore.settings.projectLoader}
+                                    loaderType={applicationStore.settingsStore.settings[VAR_SETTING_PROJECT_LOADER]}
                                 />
                                 <Grid container direction="column" justyfy="space-between" spacing={3}>
-                                    <Grid item>{this.renderLoginField({input: form.$("cvLogin").bind()})}</Grid>
+                                    <Grid item>
+                                        {this.renderLoginField({input: form.$(VAR_RECORD_CV_LOGIN).bind()})}
+                                    </Grid>
                                     <Grid item>
                                         {this.renderPasswordField({
-                                            input: form.$("cvPassword").bind(),
+                                            input: form.$(VAR_RECORD_CV_PASSWORD).bind(),
                                         })}
                                     </Grid>
                                     <Grid item>
@@ -244,7 +253,7 @@ class AuthPage extends React.Component<PropsType, StateType> {
                                             disabled={form.submitting || !form.isValid}
                                             disableRipple
                                         >
-                                            {this.props.t("664bdebac78e47079bb685732899c5f6")}
+                                            {this.props.t("static:664bdebac78e47079bb685732899c5f6")}
                                         </Button>
                                     </Grid>
                                 </Grid>

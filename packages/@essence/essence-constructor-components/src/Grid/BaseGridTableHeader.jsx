@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 // @flow
 import * as React from "react";
 import cn from "classnames";
@@ -6,7 +7,8 @@ import {observer} from "mobx-react";
 import values from "lodash/values";
 import {compose} from "recompose";
 import {TableHead, TableRow, TableCell, TableSortLabel} from "@material-ui/core";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {type GridModelType} from "../stores/GridModel";
 import {type PageModelType} from "../stores/PageModel";
 import BuilderForm from "../Form/BuilderForm";
@@ -103,9 +105,18 @@ class BaseGridTableHeader extends React.Component<PropsType, StateType> {
             <TableHead className={classes.tableHead}>
                 <TableRow className={cn(classes.tableRow)}>
                     {store.gridColumns.map((bcColumn) => {
-                        const {ckPageObject, cvDisplayed, column, type, datatype, width, sortcolumn, align} = bcColumn;
+                        const {
+                            [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
+                            [VAR_RECORD_DISPLAYED]: displayed,
+                            column,
+                            type,
+                            datatype,
+                            width,
+                            sortcolumn,
+                            align,
+                        } = bcColumn;
 
-                        const transCvDisplayed = t(cvDisplayed);
+                        const transCvDisplayed = t(displayed);
 
                         if (datatype === "detail") {
                             return <TableCell key={ckPageObject} padding="none" className={classes.tableHeadButton} />;
@@ -119,7 +130,14 @@ class BaseGridTableHeader extends React.Component<PropsType, StateType> {
                                 data-page-object={ckPageObject}
                             >
                                 {React.createElement(columnsHeaderMap[datatype], {
-                                    bc: {ckPageObject, column, cvDisplayed: transCvDisplayed, datatype, type, width},
+                                    bc: {
+                                        [VAR_RECORD_DISPLAYED]: transCvDisplayed,
+                                        [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
+                                        column,
+                                        datatype,
+                                        type,
+                                        width,
+                                    },
                                     classes,
                                     disabled,
                                     readOnly,
@@ -194,7 +212,4 @@ class BaseGridTableHeader extends React.Component<PropsType, StateType> {
     }
 }
 
-export default compose(
-    withTranslation("meta"),
-    observer,
-)(BaseGridTableHeader);
+export default compose(withTranslation("meta"), observer)(BaseGridTableHeader);

@@ -46,7 +46,7 @@ class GridRow extends React.Component<PropsType, StateType> {
     handleCheckExpanded = (): boolean => {
         const {store, record} = this.props;
 
-        return Boolean(store.expansionRecords.get(record.ckId));
+        return Boolean(store.expansionRecords.get(record[store.recordsStore.recordId]));
     };
 
     render() {

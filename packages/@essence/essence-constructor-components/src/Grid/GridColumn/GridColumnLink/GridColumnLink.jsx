@@ -7,7 +7,8 @@ import {compose} from "recompose";
 import {withStyles} from "@material-ui/core/styles";
 import {IconButton, List, Paper} from "@material-ui/core";
 import Trigger from "rc-trigger";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import FocusableArrow from "../../../Components/Focusable/FocusableArrow";
 import {type PageModelType} from "../../../stores/StoreTypes";
 import {type BuilderGridType} from "../../BuilderGridType";
@@ -113,7 +114,7 @@ class GridColumnLink extends React.Component<PropsType, StateType> {
                 tabIndex="-1"
                 disabled={disabled}
                 data-qtip={bc.tipmsg && this.props.t(bc.tipmsg)}
-                data-page-object={`${gridBc.ckPageObject}-redirect-icon`}
+                data-page-object={`${gridBc[VAR_RECORD_PAGE_OBJECT_ID]}-redirect-icon`}
                 data-tabindex-grid="0"
             >
                 {iconComponent}
@@ -144,7 +145,7 @@ class GridColumnLink extends React.Component<PropsType, StateType> {
                     <List className={classes.listRoot} disablePadding dense>
                         {contextmenus.map((bcMenu) => (
                             <GridColumnLinkItem
-                                key={bcMenu.ckPageObject}
+                                key={bcMenu[VAR_RECORD_PAGE_OBJECT_ID]}
                                 bc={bcMenu}
                                 onClosePopover={this.handleClose}
                                 record={record}

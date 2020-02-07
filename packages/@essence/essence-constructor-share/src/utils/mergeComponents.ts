@@ -1,6 +1,7 @@
 /* eslint default-param-last: ["warn"] */
 import {forOwn} from "lodash";
 import {IBuilderConfig} from "../types";
+import {VAR_RECORD_NAME} from "../constants";
 import {isEmpty} from "./base";
 
 const DEFAULT_OVERRIDE_FIELD = [
@@ -40,11 +41,17 @@ export function mergeComponents<T extends Record<string, Record<string, string>>
     },
 ): {components: IBuilderConfig[]; overrides: T} {
     const {exclude = [], include = []} = options;
-    const components = bcComponents.filter((component) => component.cvName && !(component.cvName in overrides));
+    const components = bcComponents.filter((component) => {
+        const name = component[VAR_RECORD_NAME];
+
+        return name && !(name in overrides);
+    });
 
     bcComponents.forEach((component) => {
-        if (component.cvName && component.cvName in overrides) {
-            const overrideComponent = overrides[component.cvName];
+        const name = component[VAR_RECORD_NAME];
+
+        if (name && name in overrides) {
+            const overrideComponent = overrides[name];
 
             /*
              * Определяем что нужно наследовать, не все параметры правильно ложатся

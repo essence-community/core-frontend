@@ -1,6 +1,10 @@
 // @flow
 import {action} from "mobx";
-import camelCase from "lodash/camelCase";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_OBJECT_ID,
+    VAR_RECORD_NAME,
+} from "@essence-community/constructor-share/constants";
 import {type BuilderModeType} from "../../BuilderType";
 import {saveAction} from "../actions/saveAction";
 import {type GridModelType} from "../GridModel";
@@ -19,24 +23,25 @@ export class FieldItemSelectorModel extends StoreBaseModel implements FieldItemS
     name = "itemselector";
 
     getStores = ({fieldFrom, fieldTo}: Object): [?GridModelType, ?GridModelType] => [
-        this.pageStore.stores.get(fieldFrom.ckPageObject),
-        this.pageStore.stores.get(fieldTo.ckPageObject),
+        this.pageStore.stores.get(fieldFrom[VAR_RECORD_PAGE_OBJECT_ID]),
+        this.pageStore.stores.get(fieldTo[VAR_RECORD_PAGE_OBJECT_ID]),
     ];
 
     saveAction = action("saveAction", (values: Object, mode: BuilderModeType) =>
         saveAction.call(this, values, mode, {
             actionBc: {
-                ckObject: `${this.bc.ckObject}_button`,
-                ckPageObject: `${this.bc.ckPageObject}_button`,
-                cvName: `${this.bc.cvName}_button`,
+                [VAR_RECORD_NAME]: `${this.bc[VAR_RECORD_NAME]}_button`,
+                [VAR_RECORD_OBJECT_ID]: `${this.bc[VAR_RECORD_OBJECT_ID]}_button`,
+                [VAR_RECORD_PAGE_OBJECT_ID]: `${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_button`,
             },
             bc: this.bc,
             pageStore: this.pageStore,
+            recordId: this.recordId,
         }),
     );
 
     applySaveAction = (fromStore: GridModelType, toStore: GridModelType, recs: Object[]) => {
-        fromStore.recordsStore.removeRecordsAction(recs, camelCase(this.bc.column));
+        fromStore.recordsStore.removeRecordsAction(recs, this.bc.column);
         toStore.recordsStore.addRecordsAction(recs);
 
         toStore.recordsStore.sortRecordsAction();

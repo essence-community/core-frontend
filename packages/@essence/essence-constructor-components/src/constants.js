@@ -1,5 +1,5 @@
 // @flow
-import {getFromStore} from "@essence/essence-constructor-share/utils";
+import {getFromStore} from "@essence-community/constructor-share/utils";
 import debug from "debug/dist/debug";
 
 if (process.env.NODE_ENV === "developent") {
@@ -65,4 +65,4 @@ export const GRID_ROWS_COUNT = 5;
 // eslint-disable-next-line no-magic-numbers
 export const ANIMATION_TIMEOUT = process.env.NODE_ENV === "test" ? 10 : 500;
 
-export const CARRY_LINES_REGEXP = /\r\n|\r|\n|<br\/?>/i;
+export const CARRY_LINES_REGEXP = /\r\n|\r|\n|<br\/?>/iu;

@@ -3,8 +3,9 @@ import * as React from "react";
 import {Grid} from "@material-ui/core";
 import isEmpty from "lodash/isEmpty";
 import {Form} from "mobx-react-form";
-import {toColumnStyleWidth, camelCaseMemoized} from "@essence/essence-constructor-share/utils";
-import {setComponent, mapComponents, EditorContex, ModeContext} from "@essence/essence-constructor-share";
+import {toColumnStyleWidth} from "@essence-community/constructor-share/utils";
+import {setComponent, mapComponents, EditorContex, ModeContext} from "@essence-community/constructor-share";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type BuilderModeType} from "../BuilderType";
 import {type PageModelType} from "../stores/PageModel";
 import commonDecorator from "../decorators/commonDecorator";
@@ -48,7 +49,7 @@ class PrivateBuilderFieldSet extends React.Component<PropsType, StateType> {
         const {bc} = this.props;
         const form = this.getForm();
 
-        this.fieldSetName = camelCaseMemoized(bc.column);
+        this.fieldSetName = bc.column;
 
         // В componentDidMount нельзя, т.к. нужно гарантировать последовательность добавления сверхну в низ
         if (bc.column && form) {
@@ -90,7 +91,7 @@ class PrivateBuilderFieldSet extends React.Component<PropsType, StateType> {
                 form.fields.delete(this.fieldSetName);
             } else if (!isEmpty(parentKey)) {
                 // TODO mobx-react-form@^1.34.0 вызываю silent ($() - метод вызывает exception)
-                const field = form.select(parentKey.replace(/fieldSetObj_/gi, ""), null, false);
+                const field = form.select(parentKey.replace(/fieldSetObj_/giu, ""), null, false);
 
                 if (field) {
                     field.fields.delete(this.fieldSetName);
@@ -110,7 +111,7 @@ class PrivateBuilderFieldSet extends React.Component<PropsType, StateType> {
 
             if (!isEmpty(parentKey)) {
                 // TODO mobx-react-form@^1.34.0 вызываю silent ($() - метод вызывает exception)
-                field = form.select(parentKey.replace(/fieldSetObj_/gi, ""), null, false);
+                field = form.select(parentKey.replace(/fieldSetObj_/giu, ""), null, false);
             } else if (isEmpty(parentKey) && !form.has(this.fieldSetName)) {
                 form.add({
                     key: this.fieldSetName,
@@ -127,6 +128,7 @@ class PrivateBuilderFieldSet extends React.Component<PropsType, StateType> {
         }
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const form = this.getForm();
         const {bc, parentKey, disabled, hidden, editing, readOnly, pageStore, visible} = this.props;
@@ -154,7 +156,11 @@ class PrivateBuilderFieldSet extends React.Component<PropsType, StateType> {
                             return (
                                 <Grid
                                     item
-                                    key={child.ckPageObject ? child.ckPageObject : `child_${index}`}
+                                    key={
+                                        child[VAR_RECORD_PAGE_OBJECT_ID]
+                                            ? child[VAR_RECORD_PAGE_OBJECT_ID]
+                                            : `child_${index}`
+                                    }
                                     xs={isRow ? true : MAX_PANEL_WIDTH}
                                     style={contentview === "column" ? toColumnStyleWidth(child.width) : undefined}
                                 >

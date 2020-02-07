@@ -1,6 +1,6 @@
 import {Typography} from "@material-ui/core";
 import * as React from "react";
-import {useTranslation} from "@essence/essence-constructor-share/utils";
+import {useTranslation} from "@essence-community/constructor-share/utils";
 
 interface ISnackbarContentTextProps {
     text?: string | JSX.Element;
@@ -26,12 +26,12 @@ export const SnackbarContentText: React.FC<ISnackbarContentTextProps> = ({text, 
             ) : null}
             {description ? (
                 <Typography variant="body2" color="inherit">
-                    {trans("900d174d0a994374a01b0005756521bc")}: {trans(description)}
+                    {trans("static:900d174d0a994374a01b0005756521bc")}: {trans(description)}
                 </Typography>
             ) : null}
             {code ? (
                 <Typography variant="body2" color="inherit">
-                    {trans("67aefce5785a4326920bef69acb5a403")}: {trans(code)}
+                    {trans("static:67aefce5785a4326920bef69acb5a403")}: {trans(code)}
                 </Typography>
             ) : null}
         </React.Fragment>

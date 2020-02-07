@@ -2,6 +2,19 @@
 import {extendObservable, action} from "mobx";
 import compact from "lodash/compact";
 import noop from "lodash/noop";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_CV_REGION,
+    VAR_RECORD_CK_REGION,
+    VAR_RECORD_CV_AREA,
+    VAR_RECORD_CK_AREA,
+    VAR_RECORD_CV_STREET,
+    VAR_RECORD_CV_HOUSE,
+    VAR_RECORD_CK_STREET,
+    VAR_RECORD_CK_NSI_ADR_OBJECTS,
+    VAR_RECORD_CK_HOUSE,
+    VAR_RECORD_QUERY_ID,
+} from "@essence-community/constructor-share/constants";
 import {loggerRoot} from "../../constants";
 import {type StoreBaseModelPropsType} from "../StoreBaseModel";
 import {BaseMultiFieldModel} from "../BaseMultiFieldModel";
@@ -16,7 +29,7 @@ export class AddrMultiField extends BaseMultiFieldModel implements AddrMultiFiel
     builderConfigs: Array<any>;
 
     constructor({bc, pageStore}: StoreBaseModelPropsType) {
-        super({bc, ckQuery: "jNSIGetAddrByID", pageStore});
+        super({[VAR_RECORD_QUERY_ID]: "jNSIGetAddrByID", bc, pageStore});
 
         this.builderConfigs = getAddrMultiFieldConfig(bc);
 
@@ -24,10 +37,10 @@ export class AddrMultiField extends BaseMultiFieldModel implements AddrMultiFiel
             get displayText() {
                 return this.selectedRecord
                     ? compact([
-                          this.selectedRecord.cvRegion,
-                          this.selectedRecord.cvArea,
-                          this.selectedRecord.cvStreet,
-                          this.selectedRecord.cvHouse,
+                          this.selectedRecord[VAR_RECORD_CV_REGION],
+                          this.selectedRecord[VAR_RECORD_CV_AREA],
+                          this.selectedRecord[VAR_RECORD_CV_STREET],
+                          this.selectedRecord[VAR_RECORD_CV_HOUSE],
                       ]).join(", ")
                     : "";
             },
@@ -43,27 +56,27 @@ export class AddrMultiField extends BaseMultiFieldModel implements AddrMultiFiel
     });
 
     searchRecordAction = action("searchRecordAction", (value: string | number) =>
-        this.recordsStore.searchAction({ckNsiAdrObjects: value}),
+        this.recordsStore.searchAction({[VAR_RECORD_CK_NSI_ADR_OBJECTS]: value}),
     );
 
-    // eslint-disable-next-line max-statements
+    // eslint-disable-next-line max-lines-per-function, max-statements
     fillActiveRecordAction = action("fillActiveRecordAction", async (form) => {
         try {
             const [bcRegion, bcArea, bcStreet, bcHouse] = this.builderConfigs;
-            const {cvRegion, cvArea, cvStreet, ckRegion, ckArea, cvHouse, ckStreet, ckNsiAdrObjects} =
-                this.selectedRecord || {};
+            const selectedRecord = this.selectedRecord || {};
+
             // $FlowFixMe
-            const recordsStoreRegion = this.pageStore.stores.get(bcRegion.ckPageObject).recordsStore;
+            const recordsStoreRegion = this.pageStore.stores.get(bcRegion[VAR_RECORD_PAGE_OBJECT_ID]).recordsStore;
             // $FlowFixMe
-            const recordsStoreArea = this.pageStore.stores.get(bcArea.ckPageObject).recordsStore;
+            const recordsStoreArea = this.pageStore.stores.get(bcArea[VAR_RECORD_PAGE_OBJECT_ID]).recordsStore;
             // $FlowFixMe
-            const recordsStoreStreet = this.pageStore.stores.get(bcStreet.ckPageObject).recordsStore;
+            const recordsStoreStreet = this.pageStore.stores.get(bcStreet[VAR_RECORD_PAGE_OBJECT_ID]).recordsStore;
             // $FlowFixMe
-            const recordsStoreHouse = this.pageStore.stores.get(bcHouse.ckPageObject).recordsStore;
+            const recordsStoreHouse = this.pageStore.stores.get(bcHouse[VAR_RECORD_PAGE_OBJECT_ID]).recordsStore;
 
             this._isLoading = true;
 
-            await recordsStoreRegion.searchAction({[bcRegion.queryparam]: cvRegion});
+            await recordsStoreRegion.searchAction({[bcRegion.queryparam]: selectedRecord[VAR_RECORD_CV_REGION]});
 
             if (!recordsStoreRegion.records.length) {
                 this._isLoading = false;
@@ -71,9 +84,9 @@ export class AddrMultiField extends BaseMultiFieldModel implements AddrMultiFiel
                 return false;
             }
 
-            form.$("ckRegion").set(ckRegion);
+            form.$(VAR_RECORD_CK_REGION).set(selectedRecord[VAR_RECORD_CK_REGION]);
 
-            await recordsStoreArea.searchAction({[bcArea.queryparam]: cvArea});
+            await recordsStoreArea.searchAction({[bcArea.queryparam]: selectedRecord[VAR_RECORD_CV_AREA]});
 
             if (!recordsStoreArea.records.length) {
                 this._isLoading = false;
@@ -81,15 +94,22 @@ export class AddrMultiField extends BaseMultiFieldModel implements AddrMultiFiel
                 return false;
             }
 
-            form.$("ckArea").set(ckArea);
+            form.$(VAR_RECORD_CK_AREA).set(selectedRecord[VAR_RECORD_CK_AREA]);
 
-            await recordsStoreStreet.searchAction({[bcStreet.queryparam]: cvStreet, ckArea});
+            await recordsStoreStreet.searchAction({
+                [bcStreet.queryparam]: selectedRecord[VAR_RECORD_CV_STREET],
+                [VAR_RECORD_CK_AREA]: selectedRecord[VAR_RECORD_CK_AREA],
+            });
 
             if (recordsStoreArea.records.length) {
-                form.$("ckStreet").set(ckStreet);
+                form.$(VAR_RECORD_CK_STREET).set(selectedRecord[VAR_RECORD_CK_STREET]);
             }
 
-            await recordsStoreHouse.searchAction({[bcHouse.queryparam]: cvHouse, ckArea, ckStreet});
+            await recordsStoreHouse.searchAction({
+                [bcHouse.queryparam]: selectedRecord[VAR_RECORD_CV_HOUSE],
+                [VAR_RECORD_CK_AREA]: selectedRecord[VAR_RECORD_CK_AREA],
+                [VAR_RECORD_CK_STREET]: selectedRecord[VAR_RECORD_CK_STREET],
+            });
 
             this._isLoading = false;
 
@@ -97,7 +117,7 @@ export class AddrMultiField extends BaseMultiFieldModel implements AddrMultiFiel
                 return false;
             }
 
-            form.$("ckHouse").set(ckNsiAdrObjects);
+            form.$(VAR_RECORD_CK_HOUSE).set(selectedRecord[VAR_RECORD_CK_NSI_ADR_OBJECTS]);
 
             return true;
         } catch (error) {

@@ -47,7 +47,7 @@ input::-ms-clear {
 }
 
 .paper-overflow-hidden {
-  overflow: hidden;
+  /* overflow: hidden; */
   /* TODO: check this */
   /* height: 100%; */
 }

@@ -2,7 +2,7 @@ import {List, ListItem, Popover} from "@material-ui/core";
 import cn from "classnames";
 import {useObserver} from "mobx-react-lite";
 import * as React from "react";
-import {useTranslation} from "@essence/essence-constructor-share/utils";
+import {useTranslation} from "@essence-community/constructor-share/utils";
 import {useStyles} from "./OpenPageMenuContext.styles";
 import {IOpenPageMenuContextProps} from "./OpenPageMenuContext.types";
 
@@ -79,19 +79,19 @@ export const OpenPageMenuContext: React.FC<IOpenPageMenuContextProps> = (props) 
                     {...menuListProps}
                     className={cn([classes.listItem, classes.listItemDivider])}
                 >
-                    {trans("33c9b02a9140428d9747299b9a767abb")}
+                    {trans("static:33c9b02a9140428d9747299b9a767abb")}
                 </ListItem>
                 <ListItem onClick={handleClose} button {...menuListProps}>
-                    {trans("74776ef247274a55a2a76f7df34ffe41")}
+                    {trans("static:74776ef247274a55a2a76f7df34ffe41")}
                 </ListItem>
                 <ListItem onClick={handleCloseOther} button {...menuListProps}>
-                    {trans("63b54227225e4ea5a2ba644eced838ec")}
+                    {trans("static:63b54227225e4ea5a2ba644eced838ec")}
                 </ListItem>
                 <ListItem onClick={handleCloseAllRight} button {...menuListProps}>
-                    {trans("bceed776538747b9a0c88d4f73b70711")}
+                    {trans("static:bceed776538747b9a0c88d4f73b70711")}
                 </ListItem>
                 <ListItem onClick={handleCloseAll} button {...menuListProps}>
-                    {trans("a0cb66a96d8740a19397ece02d537f86")}
+                    {trans("static:a0cb66a96d8740a19397ece02d537f86")}
                 </ListItem>
             </List>
         </Popover>

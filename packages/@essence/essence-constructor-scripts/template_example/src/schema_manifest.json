@@ -37,6 +37,15 @@
                 "ck_attr_type": "basic"
             }
         ],
-        "attributes": []
+        "attributes": [],
+        "class_hierarchy": {
+            "class_parent": [
+                {
+                    "ck_id": "137",
+                    "cv_type": "PANEL",
+                    "ck_attr": "childs"
+                }
+            ]
+        }
     }
 ]

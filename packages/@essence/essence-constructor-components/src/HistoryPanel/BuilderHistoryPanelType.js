@@ -3,7 +3,7 @@ import {type BuilderPanelType} from "../Panel/BuilderPanelType";
 
 export type BuilderHistoryPanelType = BuilderPanelType & {
     type: "HISTORYPANEL",
-    ckQuery: string,
+    ck_query: string,
     btnaudit?: "true" | "false",
     btnrefresh?: "true" | "false",
     btndelete?: "true" | "false",

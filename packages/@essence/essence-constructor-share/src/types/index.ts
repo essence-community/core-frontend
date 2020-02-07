@@ -16,3 +16,4 @@ export * from "./Theme";
 export * from "./WindowModel";
 export * from "./SnackbarModel";
 export * from "./ProgressModel";
+export * from "./ProjectModel";

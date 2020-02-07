@@ -2,7 +2,8 @@
 import * as React from "react";
 import {compose} from "recompose";
 import {Paper} from "@material-ui/core";
-import {setComponent} from "@essence/essence-constructor-share";
+import {setComponent} from "@essence-community/constructor-share/components";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type PageModelType} from "../stores/PageModel";
 import {GridModel, type GridModelType} from "../stores/GridModel";
 import withModelDecorator from "../decorators/withModelDecorator";
@@ -37,7 +38,7 @@ export class BaseBuilderGrid extends React.Component<BuilderGridPropsType & Prop
 
         return (
             <GridRow
-                key={record.ckId}
+                key={record[store.recordsStore.recordId]}
                 index={index}
                 pageStore={this.props.pageStore}
                 record={record}
@@ -77,7 +78,11 @@ export class BaseBuilderGrid extends React.Component<BuilderGridPropsType & Prop
         const {elevation, bc} = this.props;
 
         return (
-            <Paper elevation={elevation} className="paper-overflow-hidden" data-page-object={bc.ckPageObject}>
+            <Paper
+                elevation={elevation}
+                className="paper-overflow-hidden"
+                data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
+            >
                 {this.renderBody()}
             </Paper>
         );

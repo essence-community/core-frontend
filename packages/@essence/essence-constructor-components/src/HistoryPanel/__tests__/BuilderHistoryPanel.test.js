@@ -1,6 +1,7 @@
+/* eslint-disable max-lines */
 // @flow
 import * as React from "react";
-import camelCase from "lodash/camelCase";
+import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {createEmptyPageStore} from "../../stores/index";
 import {mountWithTheme} from "../../utils/test";
 import BuilderHistoryPanel, {BaseBuilderHistoryPanel} from "../BuilderHistoryPanel";
@@ -22,12 +23,15 @@ const mountPanel = (props) => {
     return {pageStore, store, wrapper};
 };
 
-// eslint-disable-next-line max-statements
+// eslint-disable-next-line max-statements, max-lines-per-function
 describe("BuilderHistoryPanel", () => {
     const indexPrevButton = 5;
     const indexNextButton = 6;
-    const columnFirst = camelCase(testHistoryBc.childs[0].column);
-    const records = [{ckId: 1, [columnFirst]: "test1"}, {ckId: 2, [columnFirst]: "test2"}];
+    const columnFirst = testHistoryBc.childs[0].column;
+    const records = [
+        {[VAR_RECORD_ID]: 1, [columnFirst]: "test1"},
+        {[VAR_RECORD_ID]: 2, [columnFirst]: "test2"},
+    ];
     const buttonVisibilityNonSelected = [false, true, true, true, false, true, true, true];
     const buttonVisibilityFirstSelected = [false, false, false, false, false, false, true, false];
     const buttonVisibilitySecondSelected = [false, true, false, true, false, true, false, false];
@@ -37,7 +41,7 @@ describe("BuilderHistoryPanel", () => {
         const wrapper = mountWithTheme(
             <BuilderHistoryPanel bc={testHistoryBc} readOnly={false} visible pageStore={pageStore} elevation={1} />,
         );
-        const store = pageStore.stores.get(testHistoryBc.ckPageObject);
+        const store = pageStore.stores.get(testHistoryBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (store) {
             ["saveAction", "loadRecordsAction"].forEach((actionName) => {
@@ -70,7 +74,7 @@ describe("BuilderHistoryPanel", () => {
         const wrapper = mountWithTheme(
             <BuilderHistoryPanel bc={testHistoryBc} readOnly={false} visible pageStore={pageStore} elevation={1} />,
         );
-        const store = pageStore.stores.get(testHistoryBc.ckPageObject);
+        const store = pageStore.stores.get(testHistoryBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
         wrapper.update();
 
@@ -78,14 +82,15 @@ describe("BuilderHistoryPanel", () => {
 
         store && store.recordsStore.setRecordsAction(records);
 
-        [[1, buttonVisibilityFirstSelected], [2, buttonVisibilitySecondSelected]].forEach(
-            ([ckId, buttonVisibility]) => {
-                store && store.recordsStore.setSelectionAction(ckId);
-                wrapper.update();
+        [
+            [1, buttonVisibilityFirstSelected],
+            [2, buttonVisibilitySecondSelected],
+        ].forEach(([ckId, buttonVisibility]) => {
+            store && store.recordsStore.setSelectionAction(ckId);
+            wrapper.update();
 
-                expect(wrapper.find("button").map((button) => button.prop("disabled"))).toEqual(buttonVisibility);
-            },
-        );
+            expect(wrapper.find("button").map((button) => button.prop("disabled"))).toEqual(buttonVisibility);
+        });
     });
 
     it("При добавлении форма сбрасывается", async () => {
@@ -93,7 +98,7 @@ describe("BuilderHistoryPanel", () => {
         const wrapper = mountWithTheme(
             <BuilderHistoryPanel bc={testHistoryBc} readOnly={false} visible pageStore={pageStore} elevation={1} />,
         );
-        const store = pageStore.stores.get(testHistoryBc.ckPageObject);
+        const store = pageStore.stores.get(testHistoryBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
         store && store.recordsStore.setRecordsAction(records);
         store && store.recordsStore.setFirstRecord();
@@ -129,7 +134,7 @@ describe("BuilderHistoryPanel", () => {
             .prop("onClick")(new Event("click"));
 
         expect(store && store.recordsStore.saveAction).toHaveBeenLastCalledWith(
-            {ckId: 1, [columnFirst]: "update"},
+            {[VAR_RECORD_ID]: 1, [columnFirst]: "update"},
             "2",
             {
                 actionBc: store && store.btnsConfig.overrides["Override Save Button"],
@@ -187,10 +192,14 @@ describe("BuilderHistoryPanel", () => {
             .at(0)
             .prop("onClick")(new Event("click"));
 
-        expect(store.recordsStore.saveAction).toHaveBeenLastCalledWith({ckId: "", [columnFirst]: "test"}, "1", {
-            actionBc: store && store.btnsConfig.overrides["Override Save Button"],
-            query: undefined,
-        });
+        expect(store.recordsStore.saveAction).toHaveBeenLastCalledWith(
+            {[VAR_RECORD_ID]: "", [columnFirst]: "test"},
+            "1",
+            {
+                actionBc: store && store.btnsConfig.overrides["Override Save Button"],
+                query: undefined,
+            },
+        );
         expect(wrapper.find(BuilderHistoryPanel).length).toBe(1);
 
         wrapper.unmount();
@@ -214,7 +223,7 @@ describe("BuilderHistoryPanel", () => {
             .prop("onClick")(new Event("click"));
 
         expect(store && store.recordsStore.saveAction).toHaveBeenLastCalledWith(
-            {ckId: 1, [columnFirst]: "update"},
+            {[VAR_RECORD_ID]: 1, [columnFirst]: "update"},
             "6",
             {
                 actionBc: store && store.btnsConfig.overrides["Override Save Button"],
@@ -240,7 +249,7 @@ describe("BuilderHistoryPanel", () => {
             .prop("onClick")(new Event("click"));
 
         expect(store && store.recordsStore.saveAction).toHaveBeenLastCalledWith(
-            {ckId: 1, [columnFirst]: "test1"},
+            {[VAR_RECORD_ID]: 1, [columnFirst]: "test1"},
             "3",
             {
                 actionBc: store && store.btnsConfig.overrides["Override Delete Button"],

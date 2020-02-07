@@ -2,7 +2,7 @@
 import * as React from "react";
 import {Tabs} from "@material-ui/core";
 import keycode from "keycode";
-import {setComponent} from "@essence/essence-constructor-share";
+import {setComponent} from "@essence-community/constructor-share";
 import {mountWithTheme, getBaseBc} from "../../utils/test";
 import {createEmptyPageStore} from "../../stores";
 import BuilderTabPanel from "../BuilderTabPanel";
@@ -12,6 +12,7 @@ const TabPanelChild = () => null;
 
 setComponent("TABPANELCHILD", TabPanelChild);
 
+// eslint-disable-next-line max-lines-per-function
 describe("BuilderTabPanel", () => {
     const bc = getBaseBc("tab", {
         childs: [

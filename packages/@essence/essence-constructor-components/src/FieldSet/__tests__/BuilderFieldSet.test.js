@@ -1,5 +1,14 @@
 // @flow
 import * as React from "react";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_NAME,
+    VAR_RECORD_CV_DESCRIPTION,
+    VAR_RECORD_CK_MODIFY,
+    VAR_RECORD_CL_DATASET,
+} from "@essence-community/constructor-share/constants";
 import {mountWithTheme} from "../../utils/test";
 import BuilderMobxForm from "../../Components/MobxForm/BuilderMobxForm";
 import BuilderFieldSet from "../BuilderFieldSet";
@@ -7,36 +16,36 @@ import {createEmptyPageStore} from "../../stores";
 import BuilderField from "../../TextField/BuilderField";
 
 const firstField = {
-    ckObject: "cn_value",
-    ckPageObject: "cn_value",
-    clDataset: "0",
+    [VAR_RECORD_CL_DATASET]: "0",
+    [VAR_RECORD_DISPLAYED]: "Показание/Расход Э/Э 3-тарифн ночь",
+    [VAR_RECORD_NAME]: "cn_value",
+    [VAR_RECORD_OBJECT_ID]: "cn_value",
+    [VAR_RECORD_PAGE_OBJECT_ID]: "cn_value",
     column: "cn_value",
-    cvDisplayed: "Показание/Расход Э/Э 3-тарифн ночь",
-    cvName: "cn_value",
     datatype: "string",
     type: "IFIELD",
 };
 const secondField = {
+    [VAR_RECORD_CL_DATASET]: "0",
+    [VAR_RECORD_CV_DESCRIPTION]: "Переход через ноль",
+    [VAR_RECORD_DISPLAYED]: "Переход через ноль",
+    [VAR_RECORD_NAME]: "cl_overstep",
+    [VAR_RECORD_OBJECT_ID]: "cl_overstep",
+    [VAR_RECORD_PAGE_OBJECT_ID]: "cl_overstep",
     checked: "true",
-    ckObject: "cl_overstep",
-    ckPageObject: "cl_overstep",
-    clDataset: "0",
     column: "cl_overstep",
-    cvDescription: "Переход через ноль",
-    cvDisplayed: "Переход через ноль",
-    cvName: "cl_overstep",
     datatype: "string",
     type: "IFIELD",
 };
 
 const getBc = (fields) => ({
+    [VAR_RECORD_CK_MODIFY]: "modify",
+    [VAR_RECORD_CL_DATASET]: "1",
+    [VAR_RECORD_NAME]: "Dynamic Panel",
+    [VAR_RECORD_OBJECT_ID]: "59",
+    [VAR_RECORD_PAGE_OBJECT_ID]: "59",
     childs: fields,
-    ckModify: "modify",
-    ckObject: "59",
-    ckPageObject: "59",
-    clDataset: "1",
     column: "59",
-    cvName: "Dynamic Panel",
     datatype: "array",
     reqsel: "true",
     type: "FIELDSET",
@@ -52,6 +61,7 @@ const getAllFields = (form) => {
     return fields;
 };
 
+// eslint-disable-next-line max-lines-per-function
 describe("BuilderFieldSet", () => {
     const bc = getBc([firstField, secondField]);
 

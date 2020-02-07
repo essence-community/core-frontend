@@ -1,12 +1,11 @@
-// @flow
 import * as React from "react";
 import {Grid, Dialog, Button, DialogContent} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
-import {Icon, Scrollbars, IPageModel, CARRY_LINES_REGEXP} from "@essence/essence-constructor-share";
-import {useTranslation} from "@essence/essence-constructor-share/utils";
+import {Icon, Scrollbars, IPageModel, CARRY_LINES_REGEXP} from "@essence-community/constructor-share";
+import {useTranslation} from "@essence-community/constructor-share/utils";
 import {useStyles} from "./PagerWindowMessage.styles";
 
-export const prepareTip = (tip: string): Array<string> => tip.split(CARRY_LINES_REGEXP);
+export const prepareTip = (tip: string) => tip.split(CARRY_LINES_REGEXP);
 
 interface IPagerWindowMessageProps {
     pageStore: IPageModel;
@@ -36,8 +35,13 @@ export const PagerWindowMessage: React.FC<IPagerWindowMessageProps> = (props) =>
                     </Grid>
                     <Grid item className={classes.content} xs zeroMinWidth>
                         <Scrollbars autoHeight autoHeightMax={180} pageStore={pageStore}>
-                            <div>{pageStore.questionWindow ? prepareTip(pageStore.questionWindow) : ""}</div>
-                            <div>{trans("5a33b10058114ae7876067447fde8242")}</div>
+                            {pageStore.questionWindow ? (
+                                // eslint-disable-next-line react/jsx-key
+                                prepareTip(pageStore.questionWindow).map((str) => <div>{str}</div>)
+                            ) : (
+                                <div></div>
+                            )}
+                            <div>{trans("static:5a33b10058114ae7876067447fde8242")}</div>
                         </Scrollbars>
                     </Grid>
                 </Grid>
@@ -54,7 +58,7 @@ export const PagerWindowMessage: React.FC<IPagerWindowMessageProps> = (props) =>
                             data-page-object="pager-qustion-window-accept"
                             autoFocus
                         >
-                            {trans("dacf7ab025c344cb81b700cfcc50e403")}
+                            {trans("static:dacf7ab025c344cb81b700cfcc50e403")}
                         </Button>
                     </Grid>
                     <Grid item>
@@ -66,7 +70,7 @@ export const PagerWindowMessage: React.FC<IPagerWindowMessageProps> = (props) =>
                             disableFocusRipple
                             data-page-object="pager-qustion-window-decline"
                         >
-                            {trans("f0e9877df106481eb257c2c04f8eb039")}
+                            {trans("static:f0e9877df106481eb257c2c04f8eb039")}
                         </Button>
                     </Grid>
                 </Grid>

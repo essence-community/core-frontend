@@ -1,14 +1,24 @@
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    VAR_RECORD_CK_MAIN,
+    VAR_RECORD_CL_WARNING,
+    VAR_RECORD_CV_ACTION,
+    META_PAGE_OBJECT,
+} from "../constants";
 import {baseRequest} from "../request/baseRequest";
 import {IBuilderMode} from "../types";
+import {FieldValue} from "../types/Field";
 
 interface IConfig {
+    [VAR_RECORD_ROUTE_PAGE_ID]: string;
+    [VAR_RECORD_PAGE_OBJECT_ID]: string;
+    [VAR_RECORD_CK_MAIN]: FieldValue;
+    [VAR_RECORD_CL_WARNING]: number | undefined;
     action?: string;
     mode: IBuilderMode;
-    ckPage: string;
-    ckPageObject: string;
-    ckMain?: null | string;
-    clWarning?: number;
     session: string;
+    master?: Record<string, FieldValue>;
     query?: string;
     onUploadProgress?: (progressEvent: ProgressEvent) => void;
     plugin?: string;
@@ -28,12 +38,13 @@ const actionModeMap = {
 export function apiSaveAction(
     values: any,
     {
+        master,
         mode,
-        ckPage,
-        ckPageObject,
-        clWarning = 0,
+        [VAR_RECORD_ROUTE_PAGE_ID]: pageId,
+        [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
+        [VAR_RECORD_CL_WARNING]: warningStatus = 0,
         session,
-        ckMain,
+        [VAR_RECORD_CK_MAIN]: main,
         query = "Modify",
         onUploadProgress,
         plugin,
@@ -43,20 +54,21 @@ export function apiSaveAction(
     }: IConfig,
 ) {
     return baseRequest({
+        [META_PAGE_OBJECT]: ckPageObject,
         action,
         formData,
         json: {
             data: values,
+            master,
             service: {
-                ckMain,
-                ckPage,
-                ckPageObject,
-                clWarning,
-                cvAction: actionModeMap[mode] || mode,
+                [VAR_RECORD_CK_MAIN]: main,
+                [VAR_RECORD_CL_WARNING]: warningStatus,
+                [VAR_RECORD_CV_ACTION]: actionModeMap[mode] || mode,
+                [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
+                [VAR_RECORD_ROUTE_PAGE_ID]: pageId,
             },
         },
         onUploadProgress,
-        pageObject: ckPageObject,
         plugin,
         query,
         session,

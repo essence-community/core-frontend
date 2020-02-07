@@ -1,15 +1,19 @@
 // @flow
 import get from "lodash/get";
-import {snakeCaseKeys, i18next} from "@essence/essence-constructor-share/utils";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
-import {type RecordsModelType} from "../RecordsModel";
+import {i18next, getMasterObject} from "@essence-community/constructor-share/utils";
+import {snackbarStore} from "@essence-community/constructor-share/models";
 import {
-    getFilterData,
-    getMasterObject,
-    getMasterData,
-    setMask,
-    attachGlobalStore,
-} from "../RecordsModel/loadRecordsAction";
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_CV_DESCRIPTION,
+    META_PAGE_OBJECT,
+    VAR_RECORD_CK_D_ENDPOINT,
+    VAR_RECORD_CV_URL_RESPONSE,
+} from "@essence-community/constructor-share/constants";
+import {type RecordsModelType} from "../RecordsModel";
+import {getFilterData, setMask, attachGlobalStore} from "../RecordsModel/loadRecordsAction";
 import {sendRequest} from "../../request/baseRequest";
 import {type GridModelType} from "./GridModelType";
 
@@ -20,9 +24,10 @@ type PrintExcelType = {
     values: Object,
 };
 
+// eslint-disable-next-line max-lines-per-function
 export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelType): Promise<boolean> {
     const {bc, pageStore} = gridStore;
-    const {idproperty = "ck_id", ckMaster, columns} = bc;
+    const {getmastervalue, columns} = bc;
     const globalValues = get(pageStore, "globalValues");
     const json = {
         filter: getFilterData({
@@ -32,12 +37,14 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
             pageSize: 50000,
             searchValues: recordsStore.searchValues,
         }),
-        master: getMasterData(getMasterObject(ckMaster, pageStore), idproperty, globalValues),
+        master: getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, getmastervalue),
     };
 
     attachGlobalStore({bc, globalValues, json});
 
     const jsonbc = {
+        [VAR_RECORD_CV_DESCRIPTION]: i18next.t(bc[VAR_RECORD_CV_DESCRIPTION]) || "",
+        [VAR_RECORD_DISPLAYED]: i18next.t(bc[VAR_RECORD_DISPLAYED]) || "",
         columns: (columns || [])
             .filter(
                 (obj) =>
@@ -47,36 +54,34 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
                     obj.hiddenrules !== "true",
             )
             .map((val) => ({
+                [VAR_RECORD_CV_DESCRIPTION]: val[VAR_RECORD_CV_DESCRIPTION] || "",
+                [VAR_RECORD_DISPLAYED]: i18next.t(val[VAR_RECORD_DISPLAYED]) || "",
                 column: val.column || "",
                 currencysign: val.currencysign || "",
-                cvDescription: val.cvDescription || "",
-                cvDisplayed: i18next.t(val.cvDisplayed) || "",
                 datatype: val.datatype || "",
                 decimalprecision: val.decimalprecision ? parseInt(val.decimalprecision, 10) : 2,
                 decimalseparator: val.decimalseparator ? val.decimalseparator : ",",
                 format: val.format || "",
                 thousandseparator: val.thousandseparator ? val.thousandseparator : " ",
             })),
-        cvDescription: i18next.t(bc.cvDescription) || "",
-        cvDisplayed: i18next.t(bc.cvDisplayed) || "",
         excelname: values.excelname,
         type: bc.type || "",
     };
     const body = {
         exportexcel: "true",
-        jsonbc: JSON.stringify(snakeCaseKeys(jsonbc)),
+        jsonbc: JSON.stringify(jsonbc),
     };
 
     setMask("false", pageStore, true);
 
     return sendRequest({
+        [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
         action: "sql",
         body,
-        gate: bc.ckDEndpoint,
+        gate: bc[VAR_RECORD_CK_D_ENDPOINT],
         json,
-        pageObject: bc.ckPageObject,
         plugin: bcBtn.extraplugingate || bc.extraplugingate,
-        query: bc.ckQuery || "",
+        query: bc[VAR_RECORD_QUERY_ID] || "",
         session: pageStore.applicationStore.session,
         timeout: bcBtn.timeout || "660",
     })
@@ -90,7 +95,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
             );
 
             if (isValid) {
-                window.open(res.cvUrlResponse);
+                window.open(res[VAR_RECORD_CV_URL_RESPONSE]);
             }
 
             return isValid > 0;

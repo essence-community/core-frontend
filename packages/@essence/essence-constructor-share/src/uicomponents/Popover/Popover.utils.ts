@@ -39,16 +39,16 @@ export function getOffsetLeft(rect: RectType, horizontal: "left" | "center" | "r
     return offset;
 }
 
-export function getDiffWindowLeft(left: number, popoverRect: RectType, rectContainer: RectType): number {
-    const diffLeft = left + rectContainer.left + popoverRect.width + marginThreshold;
+function getDiffContainerLeft(left: number, popoverRect: RectType, rectContainer: RectType): number {
+    const diffLeft = left + popoverRect.width + marginThreshold;
 
-    return diffLeft > window.innerWidth ? diffLeft - window.innerWidth : 0;
+    return diffLeft > rectContainer.width ? diffLeft - rectContainer.width : 0;
 }
 
-export function getDiffWindowTop(top: number, popoverRect: RectType, containerRect: RectType): number {
-    const diffTop = top + containerRect.top + popoverRect.height + marginThreshold;
+function getDiffContainerTop(top: number, popoverRect: RectType, containerRect: RectType): number {
+    const diffTop = top + popoverRect.height + marginThreshold;
 
-    return diffTop > window.innerHeight ? diffTop - window.innerHeight : 0;
+    return diffTop > containerRect.height ? diffTop - containerRect.height : 0;
 }
 
 export function getOffsetContainer({
@@ -63,25 +63,32 @@ export function getOffsetContainer({
     const anchorRect = rootEl ? rootEl.getBoundingClientRect() : EMPTY_RECT;
     const popoverRect = popupEl ? popupEl.getBoundingClientRect() : EMPTY_RECT;
     const containerRect = container ? container.getBoundingClientRect() : EMPTY_RECT;
+    const topNumber = top === "auto" ? 0 : top;
     const leftPopover =
         left +
         getOffsetLeft(anchorRect, anchorOrigin.horizontal) -
         getOffsetLeft(popoverRect, transformOrigin.horizontal);
     const topPopoverAbsoulte =
-        top + getOffsetTop(anchorRect, anchorOrigin.vertical) - getOffsetTop(popoverRect, transformOrigin.vertical);
+        topNumber +
+        getOffsetTop(anchorRect, anchorOrigin.vertical) -
+        getOffsetTop(popoverRect, transformOrigin.vertical);
     const topPopoverRelative = topPopoverAbsoulte < marginThreshold ? marginThreshold : topPopoverAbsoulte;
-    const diffWindowTop = getDiffWindowTop(topPopoverRelative, popoverRect, containerRect);
+    const diffWindowTop = getDiffContainerTop(topPopoverRelative, popoverRect, containerRect);
 
     if (diffWindowTop > 0) {
+        const bottom = containerRect.height - topPopoverRelative + anchorRect.height;
+        const isAutoHeight = anchorRect.top - containerRect.top - popoverRect.height - marginThreshold - 1 > 0;
+
         return {
-            bottom: containerRect.height - topPopoverRelative + anchorRect.height,
-            left: leftPopover - getDiffWindowLeft(leftPopover, popoverRect, containerRect),
-            top: "auto",
+            bottom,
+            height: isAutoHeight ? undefined : containerRect.height - marginThreshold - bottom,
+            left: leftPopover - getDiffContainerLeft(leftPopover, popoverRect, containerRect),
+            top: isAutoHeight ? "auto" : marginThreshold,
         };
     }
 
     return {
-        left: leftPopover - getDiffWindowLeft(leftPopover, popoverRect, containerRect),
+        left: leftPopover - getDiffContainerLeft(leftPopover, popoverRect, containerRect),
         top: topPopoverRelative - diffWindowTop,
     };
 }

@@ -1,9 +1,9 @@
 // @flow
 import * as React from "react";
-import camelCase from "lodash/camelCase";
 import {Grid, Divider, Checkbox} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import uniqueId from "lodash/uniqueId";
+import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import BuilderField from "../../../TextField/BuilderField";
 import styles from "./GridColumnFilterFieldsStyles";
 import {type GCFilterFieldBaseType} from "./GCFilterFieldTypes";
@@ -41,7 +41,7 @@ class GCFilterFieldDate extends React.Component<PropsType, StateType> {
         const {bc, form} = this.props;
         const {column, datatype, format} = bc;
 
-        this.column = camelCase(column) || uniqueId("builderField");
+        this.column = column || uniqueId("builderField");
 
         form.add({
             key: `${this.column}St`,
@@ -86,20 +86,20 @@ class GCFilterFieldDate extends React.Component<PropsType, StateType> {
 
         this.bcSt = {
             ...bc,
+            [VAR_RECORD_DISPLAYED]: "static:6aa4a0027b7e41309787b086de051536",
             column: `${this.column}St`,
-            cvDisplayed: "6aa4a0027b7e41309787b086de051536",
         };
 
         this.bcEn = {
             ...bc,
+            [VAR_RECORD_DISPLAYED]: "static:f806e79ffa3342ff81b150ce2279099f",
             column: `${this.column}En`,
-            cvDisplayed: "f806e79ffa3342ff81b150ce2279099f",
         };
 
         this.bcEq = {
             ...bc,
+            [VAR_RECORD_DISPLAYED]: "static:e001f50e66034472a486099ea5f96218",
             column: this.column,
-            cvDisplayed: "e001f50e66034472a486099ea5f96218",
         };
     };
 
@@ -133,6 +133,7 @@ class GCFilterFieldDate extends React.Component<PropsType, StateType> {
         return this.props.form.submit();
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {classes, renderPopover, ...fieldProps} = this.props;
         const isFilled = this.isFilled();

@@ -1,5 +1,5 @@
 import {Grow} from "@material-ui/core";
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {Icon} from "@essence-community/constructor-share/Icon";
 import * as React from "react";
 import {createEmptyPageStore} from "../../stores/index";
 import {mountWithTheme} from "../../utils/test";
@@ -7,6 +7,7 @@ import Snackbar from "../Snackbar";
 import SnackbarContent from "../SnackbarContent";
 import {sleep} from "../../utils/base";
 
+// eslint-disable-next-line max-lines-per-function
 describe("Snackbar", () => {
     const timer = 15;
     const snackbarDefault = {

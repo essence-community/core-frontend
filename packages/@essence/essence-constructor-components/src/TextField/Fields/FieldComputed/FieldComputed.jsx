@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import {Grid, TextField, Typography} from "@material-ui/core";
-import {camelCaseMemoized, withTranslation, WithT, i18next} from "@essence/essence-constructor-share/utils";
-import {parse} from "@essence/essence-constructor-share/utils/parser";
+import {withTranslation, WithT, i18next} from "@essence-community/constructor-share/utils";
+import {parse} from "@essence-community/constructor-share/utils/parser";
 import {type TextFieldChildProps} from "../../BuilderFieldType";
 
 type StateType = {
@@ -17,7 +17,8 @@ type StateType = {
 class FieldComputed extends React.Component<TextFieldChildProps & WithT, StateType> {
     state = {
         parser: {
-            runer: (values?: Object) => `${i18next.t("e077e7f97f954e85905a8e754511e441")} ${JSON.stringify(values)} `,
+            runer: (values?: Object) =>
+                `${i18next.t("static:e077e7f97f954e85905a8e754511e441")} ${JSON.stringify(values)} `,
             variables: [],
         },
         source: "",
@@ -54,7 +55,7 @@ class FieldComputed extends React.Component<TextFieldChildProps & WithT, StateTy
         let parsedValue = null;
 
         switch (true) {
-            case /^g?_?[c][nk]_/.test(name) && /^[\d.]+$/.test(value):
+            case /^g?_?[c][nk]_/u.test(name) && /^[\d.]+$/u.test(value):
                 parsedValue = parseFloat(value);
                 break;
             case value === "null":
@@ -70,11 +71,12 @@ class FieldComputed extends React.Component<TextFieldChildProps & WithT, StateTy
         this.setState((prevState) => ({
             values: {
                 ...prevState.values,
-                [camelCaseMemoized(name)]: parsedValue,
+                [name]: parsedValue,
             },
         }));
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         // eslint-disable-next-line id-length
         const {t} = this.props;
@@ -88,12 +90,14 @@ class FieldComputed extends React.Component<TextFieldChildProps & WithT, StateTy
                         <Grid item xs={6}>
                             <Grid container spacing={1} direction="column">
                                 <Grid item>
-                                    <Typography variant="body2">{t("9207ff3b431a4dc58f16a28d2aae0ea8")}</Typography>
+                                    <Typography variant="body2">
+                                        {t("static:9207ff3b431a4dc58f16a28d2aae0ea8")}
+                                    </Typography>
                                 </Grid>
                                 <Grid item>
                                     <TextField
                                         style={{height: "100%"}}
-                                        label={t("6029c25920ff4f79b9b52d664322b3d9")}
+                                        label={t("static:6029c25920ff4f79b9b52d664322b3d9")}
                                         value={source}
                                         onChange={this.handleChangeSource}
                                         multiline
@@ -106,14 +110,16 @@ class FieldComputed extends React.Component<TextFieldChildProps & WithT, StateTy
                         <Grid item xs={6}>
                             <Grid container spacing={1} direction="column">
                                 <Grid item>
-                                    <Typography variant="body2">{t("a363461339754846881b1f84b6706851")}</Typography>
+                                    <Typography variant="body2">
+                                        {t("static:a363461339754846881b1f84b6706851")}
+                                    </Typography>
                                 </Grid>
                                 {this.state.parser.variables.map((variable) => (
                                     <Grid item key={variable}>
                                         <TextField
                                             name={variable}
                                             value={this.state.values[variable]}
-                                            label={`${t("a326c00cf6b54d7ebdc358e283383ccb")} ${variable}`}
+                                            label={`${t("static:a326c00cf6b54d7ebdc358e283383ccb")} ${variable}`}
                                             onChange={this.handleChangeField}
                                             autoComplete="off"
                                         />
@@ -126,14 +132,14 @@ class FieldComputed extends React.Component<TextFieldChildProps & WithT, StateTy
                 <Grid item>
                     <TextField
                         value={result === undefined ? "" : JSON.stringify(result)}
-                        label={t("b4458be782404651a4cfcad47d2ae17a")}
+                        label={t("static:b4458be782404651a4cfcad47d2ae17a")}
                         disabled
                         autoComplete="off"
                     />
                 </Grid>
                 <Grid item>
                     <Typography variant="body2">
-                        {t("c816bc224d6e4ae5b60d9c7dd2e6b612")}: {typeof result}
+                        {t("static:c816bc224d6e4ae5b60d9c7dd2e6b612")}: {typeof result}
                     </Typography>
                 </Grid>
             </Grid>

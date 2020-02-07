@@ -1,4 +1,4 @@
-import {getThemeStyles} from "@essence/essence-constructor-components";
+import {getThemeStyles} from "@essence-community/constructor-components";
 import TabMenuContextStyleDark from "./TabMenuContextStyleDark";
 import TabMenuContextStyleLight from "./TabMenuContextStyleLight";
 

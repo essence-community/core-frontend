@@ -2,8 +2,9 @@
 import * as React from "react";
 import cn from "classnames";
 import {withStyles} from "@material-ui/core/styles";
-import {Translation} from "@essence/essence-constructor-share/utils";
-import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
+import {Translation} from "@essence-community/constructor-share/utils";
+import {parseMemoize} from "@essence-community/constructor-share/utils/parser";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type GridBuilderType, type GridModelType} from "../../stores/GridModel";
 import {type PageModelType} from "../../stores/PageModel";
 import {WIDTH_MAP, PADDING_MAP} from "../BaseGridTableHeader";
@@ -38,12 +39,12 @@ class GridCell extends React.PureComponent<PropsType> {
         });
     };
 
-    // eslint-disable-next-line max-statements
+    // eslint-disable-next-line max-statements, max-lines-per-function
     render() {
         const {bc, column, classes, disabled, readOnly, record, pageStore, store, visible, nesting} = this.props;
         const {datatype, format} = column;
         const Cmp = columnsMap[datatype] || BaseGridColumn;
-        const value = record[column.columnCamelCase];
+        const value = record[column.column];
         const qtip = renderTip(datatype, value, format);
         let style = {width: WIDTH_MAP[datatype]};
 
@@ -59,7 +60,7 @@ class GridCell extends React.PureComponent<PropsType> {
                             style={style}
                             className={this.getClassName()}
                             data-qtip={trans(qtip, qtip)}
-                            data-page-object={`${bc.ckPageObject}-column-datatype-${datatype}`}
+                            data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-column-datatype-${datatype}`}
                         >
                             <Cmp
                                 bc={column}
@@ -87,7 +88,7 @@ class GridCell extends React.PureComponent<PropsType> {
                 style={style}
                 className={this.getClassName()}
                 data-qtip={qtip}
-                data-page-object={`${bc.ckPageObject}-column-datatype-${datatype}`}
+                data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-column-datatype-${datatype}`}
             >
                 <Cmp
                     bc={column}

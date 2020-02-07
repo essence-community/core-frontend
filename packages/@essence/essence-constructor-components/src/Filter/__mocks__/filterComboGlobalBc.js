@@ -1,14 +1,23 @@
 // @flow
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+    VAR_RECORD_NAME,
+} from "@essence-community/constructor-share/constants";
 
 const filterComboGlobalBc = {
+    [VAR_RECORD_NAME]: "filter",
+    [VAR_RECORD_OBJECT_ID]: "filter",
+    [VAR_RECORD_PAGE_OBJECT_ID]: "filter",
     childs: [
         {
+            [VAR_RECORD_NAME]: "filter_combo",
+            [VAR_RECORD_OBJECT_ID]: "filter_combo",
+            [VAR_RECORD_PAGE_OBJECT_ID]: "filter_combo",
+            [VAR_RECORD_QUERY_ID]: "jNSIRclOKOPF",
             autoload: "true",
-            ckObject: "filter_combo",
-            ckPageObject: "filter_combo",
-            ckQuery: "jNSIRclOKOPF",
             column: "combo_1",
-            cvName: "filter_combo",
             datatype: "combo",
             defaultvalue: "first",
             setglobal: "kd_okopf=g_kd_okopf,nm_okopf_abbr=g_nm_okopf_abbr",
@@ -16,27 +25,24 @@ const filterComboGlobalBc = {
             valuefield: "kd_okopf",
         },
         {
-            ckObject: "filter_text",
-            ckPageObject: "filter_text",
+            [VAR_RECORD_NAME]: "filter_text",
+            [VAR_RECORD_OBJECT_ID]: "filter_text",
+            [VAR_RECORD_PAGE_OBJECT_ID]: "filter_text",
             column: "value_1",
-            cvName: "filter_text",
             datatype: "text",
             getglobal: "g_kd_okopf",
             type: "IFIELD",
         },
         {
-            ckObject: "filter_text2",
-            ckPageObject: "filter_text2",
+            [VAR_RECORD_NAME]: "filter_text2",
+            [VAR_RECORD_OBJECT_ID]: "filter_text2",
+            [VAR_RECORD_PAGE_OBJECT_ID]: "filter_text2",
             column: "value_2",
-            cvName: "filter_text2",
             datatype: "text",
             getglobal: "g_nm_okopf_abbr",
             type: "IFIELD",
         },
     ],
-    ckObject: "filter",
-    ckPageObject: "filter",
-    cvName: "filter",
     filtervaluessave: "true",
 };
 

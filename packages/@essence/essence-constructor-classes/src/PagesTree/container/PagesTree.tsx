@@ -1,6 +1,6 @@
-import {IClassProps, Scrollbars} from "@essence/essence-constructor-share";
-import {ApplicationContext} from "@essence/essence-constructor-share/context";
-import {useModel} from "@essence/essence-constructor-share/hooks/useModel";
+import {IClassProps, Scrollbars} from "@essence-community/constructor-share";
+import {ApplicationContext} from "@essence-community/constructor-share/context";
+import {useModel} from "@essence-community/constructor-share/hooks/useModel";
 import * as React from "react";
 import {TreeRows} from "../components/TreeRows/TreeRows";
 import {PagesTreeModel} from "../stores/PagesTreeModel";

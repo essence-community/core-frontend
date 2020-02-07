@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-lines-per-function
 const FieldMultiStyles = (theme) => ({
     clear: {
         backgroundColor: theme.palette.grey.backgroundInput,

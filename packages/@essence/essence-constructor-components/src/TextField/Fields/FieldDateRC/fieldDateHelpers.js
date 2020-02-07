@@ -3,7 +3,7 @@
 
 import ruRU from "rc-calendar/lib/locale/ru_RU";
 import moment from "moment";
-import {i18next} from "@essence/essence-constructor-share/utils";
+import {i18next} from "@essence-community/constructor-share/utils";
 import FieldDateMonth from "./FieldDateMonth";
 import FieldDateMain from "./FieldDateMain";
 import FieldDateBase from "./FieldDateBase";
@@ -30,10 +30,10 @@ export const dateMap = {
         component: FieldDateBase,
         dateType: "1",
         format: "YYYY",
-        formatText: i18next.t("773ed9a089214ab9b0bd149be5685ba0"),
+        formatText: i18next.t("static:773ed9a089214ab9b0bd149be5685ba0"),
         inputMask: "9999",
-        invalidText: (value: string) => `${value} ${i18next.t("271b81793a72461192644b7f4578ac51")}`,
-        invalidTextValidation: i18next.t("3c205218305a4a25bada37004775789c"),
+        invalidText: (value: string) => `${value} ${i18next.t("static:271b81793a72461192644b7f4578ac51")}`,
+        invalidTextValidation: i18next.t("static:3c205218305a4a25bada37004775789c"),
         mode: "year",
         serverFormat: "YYYY-01-01T00:00:00",
         serverFormatEnd: (value: string) =>
@@ -45,9 +45,9 @@ export const dateMap = {
         component: FieldDateMonth,
         dateType: "2",
         format: "MMM YYYY",
-        formatText: i18next.t("02983497059143b9b97cc0e7d0c4691d"),
-        invalidText: (value: string) => `${value} ${i18next.t("a40a4372823f44ffa7a69e699b0b15db")}`,
-        invalidTextValidation: i18next.t("6b6305d16db148d986e782a66c4318da"),
+        formatText: i18next.t("static:02983497059143b9b97cc0e7d0c4691d"),
+        invalidText: (value: string) => `${value} ${i18next.t("static:a40a4372823f44ffa7a69e699b0b15db")}`,
+        invalidTextValidation: i18next.t("static:6b6305d16db148d986e782a66c4318da"),
         serverFormat: "YYYY-MM-01T00:00:00",
         serverFormatEnd: (value: string) =>
             moment(value, "YYYY-MM-DDTHH:mm:ss")
@@ -58,10 +58,10 @@ export const dateMap = {
         component: FieldDateMain,
         dateType: "3",
         format: "DD.MM.YYYY",
-        formatText: i18next.t("acfdddfef80c4e5c90a3052e286d7919"),
+        formatText: i18next.t("static:acfdddfef80c4e5c90a3052e286d7919"),
         inputMask: "99.99.9999",
-        invalidText: (value: string) => `${value} ${i18next.t("f0f42f35a2d241f3b51cd16747c37186")}`,
-        invalidTextValidation: i18next.t("77050515e7b2462e95429b9df33a7958"),
+        invalidText: (value: string) => `${value} ${i18next.t("static:f0f42f35a2d241f3b51cd16747c37186")}`,
+        invalidTextValidation: i18next.t("static:77050515e7b2462e95429b9df33a7958"),
         serverFormat: "YYYY-MM-DDT00:00:00",
         serverFormatEnd: (value: string) =>
             moment(value, "YYYY-MM-DDTHH:mm:ss")
@@ -72,10 +72,10 @@ export const dateMap = {
         component: FieldDateMain,
         dateType: "4",
         format: "DD.MM.YYYY HH:00",
-        formatText: i18next.t("149c3a8684224bc2939e613271f5c704"),
+        formatText: i18next.t("static:149c3a8684224bc2939e613271f5c704"),
         inputMask: "99.99.9999 99:00",
-        invalidText: (value: string) => `${value} ${i18next.t("ce35e3e6067d4343af8b30ea38d01f96")}`,
-        invalidTextValidation: i18next.t("1583ea7e4b054c759818771219303c3c"),
+        invalidText: (value: string) => `${value} ${i18next.t("static:ce35e3e6067d4343af8b30ea38d01f96")}`,
+        invalidTextValidation: i18next.t("static:1583ea7e4b054c759818771219303c3c"),
         serverFormat: "YYYY-MM-DDTHH:00:00",
         serverFormatEnd: (value: string) =>
             moment(value, "YYYY-MM-DDTHH:mm:ss")
@@ -87,10 +87,10 @@ export const dateMap = {
         component: FieldDateMain,
         dateType: "5",
         format: "DD.MM.YYYY HH:mm",
-        formatText: i18next.t("6b5f29158ba142c3963649e1219a8f1e"),
+        formatText: i18next.t("static:6b5f29158ba142c3963649e1219a8f1e"),
         inputMask: "99.99.9999 99:99",
-        invalidText: (value: string) => `${value} ${i18next.t("c43175882dda4f7abce9bb7325cd8847")}`,
-        invalidTextValidation: i18next.t("a1fadf8d7e73453b8a1ed526f3d1103e"),
+        invalidText: (value: string) => `${value} ${i18next.t("static:c43175882dda4f7abce9bb7325cd8847")}`,
+        invalidTextValidation: i18next.t("static:a1fadf8d7e73453b8a1ed526f3d1103e"),
         serverFormat: "YYYY-MM-DDTHH:mm:00",
         serverFormatEnd: (value: string) =>
             moment(value, "YYYY-MM-DDTHH:mm:ss")
@@ -102,10 +102,10 @@ export const dateMap = {
         component: FieldDateMain,
         dateType: "6",
         format: "DD.MM.YYYY HH:mm:ss",
-        formatText: i18next.t("52f802c6dab84eacbb4e6068aedcaa77"),
+        formatText: i18next.t("static:52f802c6dab84eacbb4e6068aedcaa77"),
         inputMask: "99.99.9999 99:99:99",
-        invalidText: (value: string) => `${value} ${i18next.t("6b95585ef5f442e6922459c81db7c1f3")}`,
-        invalidTextValidation: i18next.t("5f09f8f54f174ecfb6befd64ca4c3423"),
+        invalidText: (value: string) => `${value} ${i18next.t("static:6b95585ef5f442e6922459c81db7c1f3")}`,
+        invalidTextValidation: i18next.t("static:5f09f8f54f174ecfb6befd64ca4c3423"),
         serverFormat: "YYYY-MM-DDTHH:mm:ss",
         serverFormatEnd: (value: string) =>
             moment(value, "YYYY-MM-DDTHH:mm:ss")
@@ -117,10 +117,10 @@ export const dateMap = {
         component: FieldDateMain,
         dateType: "default",
         format: "DD.MM.YYYY",
-        formatText: i18next.t("acfdddfef80c4e5c90a3052e286d7919"),
+        formatText: i18next.t("static:acfdddfef80c4e5c90a3052e286d7919"),
         inputMask: "99.99.9999",
-        invalidText: (value: string) => `${value} ${i18next.t("f0f42f35a2d241f3b51cd16747c37186")}`,
-        invalidTextValidation: i18next.t("77050515e7b2462e95429b9df33a7958"),
+        invalidText: (value: string) => `${value} ${i18next.t("static:f0f42f35a2d241f3b51cd16747c37186")}`,
+        invalidTextValidation: i18next.t("static:77050515e7b2462e95429b9df33a7958"),
         serverFormat: "YYYY-MM-DDTHH:mm:ss",
         serverFormatEnd: (value: string) =>
             moment(value, "YYYY-MM-DDTHH:mm:ss")
@@ -131,4 +131,4 @@ export const dateMap = {
 
 export const getFieldDate = (item?: string): Object => (item && dateMap[getFieldType(item)]) || dateMap.default;
 
-export const ru = {...ruRU, ok: i18next.t("8004527cce454f8f83c7d739460f5822")};
+export const ru = {...ruRU, ok: i18next.t("static:8004527cce454f8f83c7d739460f5822")};

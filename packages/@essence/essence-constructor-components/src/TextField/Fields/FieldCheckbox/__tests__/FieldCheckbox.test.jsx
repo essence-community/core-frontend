@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {Icon} from "@essence-community/constructor-share/Icon";
 import {mountWithTheme} from "../../../../utils/test";
 import {createEmptyPageStore} from "../../../../stores/index";
 import BuilderMobxForm from "../../../../Components/MobxForm/BuilderMobxForm";
@@ -8,6 +8,7 @@ import checkboxJson from "../../../../../mocks/fields/checkbox.json";
 import TextFieldLabel from "../../../TextFieldComponents/TextFieldLabel/TextFieldLabel";
 import FieldCheckbox from "../FieldCheckbox";
 
+// eslint-disable-next-line max-lines-per-function
 describe("FieldCheckbox", () => {
     let fieldConfig = {};
 

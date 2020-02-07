@@ -2,7 +2,15 @@
 // @flow
 import {extendObservable, action} from "mobx";
 import snakeCase from "lodash/snakeCase";
-import {toSize, declension, camelCaseMemoized, i18next} from "@essence/essence-constructor-share/utils";
+import {toSize, declension, i18next} from "@essence-community/constructor-share/utils";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_JN_TOTAL_CNT,
+} from "@essence-community/constructor-share/constants";
 import {Field} from "mobx-react-form";
 import {loggerRootInfo} from "../../constants";
 import {isEmpty} from "../../utils/base";
@@ -19,7 +27,7 @@ export type {TableFieldModelType};
 
 const clearChildStores = ({pageStore, bc}: {pageStore: PageModelType, bc: Object}) => {
     pageStore.stores.forEach((store) => {
-        if (store.bc && store.bc.ckMaster === bc.ckPageObject) {
+        if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === bc[VAR_RECORD_PAGE_OBJECT_ID]) {
             store.clearAction && store.clearAction();
         }
     });
@@ -60,14 +68,14 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
     constructor({bc, pageStore, form, field, fieldHandlers}: ConstructorType) {
         super({bc, pageStore});
 
-        this.column = camelCaseMemoized(bc.column);
-        this.valueField = camelCaseMemoized(bc.valuefield) || "ckId";
+        this.column = bc.column;
+        this.valueField = bc.valuefield || bc.idproperty || VAR_RECORD_ID;
 
         if (bc.valuefield) {
             this.valueFields = bc.valuefield.split(",").map((key) => {
                 const keys = key.split("=");
-                const fieldKeyName = camelCaseMemoized(keys[1] || keys[0]);
-                const valueField = camelCaseMemoized(keys[0]);
+                const fieldKeyName = keys[1] || keys[0];
+                const [valueField] = keys;
 
                 if (fieldKeyName === this.column) {
                     this.valueField = valueField;
@@ -80,7 +88,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
         this.recordsStore = new RecordsModel(this.bc, this.pageStore, {valueField: this.valueField});
         this.form = form;
         this.field = field;
-        this.displayField = camelCaseMemoized(bc.displayfield);
+        this.displayField = bc.displayfield;
         this.fieldHandlers = fieldHandlers;
 
         extendObservable(
@@ -92,13 +100,13 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
 
                         return selCount
                             ? `${declension(selCount, [
-                                  i18next.t("e28e56d7b12e4ea2b7663b3e66473b9e"),
-                                  i18next.t("783922ac8cf84a5eac8d1b17c77de544"),
-                                  i18next.t("783922ac8cf84a5eac8d1b17c77de544"),
+                                  i18next.t("static:e28e56d7b12e4ea2b7663b3e66473b9e"),
+                                  i18next.t("static:783922ac8cf84a5eac8d1b17c77de544"),
+                                  i18next.t("static:783922ac8cf84a5eac8d1b17c77de544"),
                               ])}  ${selCount} ${declension(selCount, [
-                                  i18next.t("0cd9a67ed46d4d70959182cc6260b221"),
-                                  i18next.t("87acd17f8ae243798e97549a5761cfaf"),
-                                  i18next.t("2485088fda3d4d9cb5de9c25534cdf23"),
+                                  i18next.t("static:0cd9a67ed46d4d70959182cc6260b221"),
+                                  i18next.t("static:87acd17f8ae243798e97549a5761cfaf"),
+                                  i18next.t("static:2485088fda3d4d9cb5de9c25534cdf23"),
                               ])}`
                             : "";
                     }
@@ -111,7 +119,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
                 },
                 openField: false,
                 get recordsGridStore() {
-                    const gridStore = this.pageStore.stores.get(this.gridBc.ckPageObject);
+                    const gridStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
                     return gridStore && gridStore.recordsStore;
                 },
@@ -131,10 +139,10 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
 
         this.builderConfigs = [
             {
-                ckMaster: `grid_${this.bc.ckPageObject}`,
-                ckPageObject: `btnok_${this.bc.ckPageObject}`,
-                ckParent: this.bc.ckPageObject,
-                cvDisplayed: "147bb56012624451971b35b1a4ef55e6",
+                [VAR_RECORD_DISPLAYED]: "static:147bb56012624451971b35b1a4ef55e6",
+                [VAR_RECORD_MASTER_ID]: `grid_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+                [VAR_RECORD_PAGE_OBJECT_ID]: `btnok_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+                [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
                 handlerFn: bc.collectionvalues === "array" ? this.selectArrayAction : this.selectAction,
                 iconfont: "fa-check",
                 iconfontname: "fa",
@@ -145,9 +153,9 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
                 uitype: "1",
             },
             {
-                ckPageObject: `btnban_${this.bc.ckPageObject}`,
-                ckParent: this.bc.ckPageObject,
-                cvDisplayed: "64aacc431c4c4640b5f2c45def57cae9",
+                [VAR_RECORD_DISPLAYED]: "static:64aacc431c4c4640b5f2c45def57cae9",
+                [VAR_RECORD_PAGE_OBJECT_ID]: `btnban_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+                [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
                 handlerFn: this.closeAction,
                 iconfont: "fa-ban",
                 iconfontname: "fa",
@@ -161,7 +169,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
         // Блокировка происходит на уровне поля
         this.gridBc = {
             ...bc,
-            ckPageObject: `grid_${bc.ckPageObject}`,
+            [VAR_RECORD_PAGE_OBJECT_ID]: `grid_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
             clearonsearch: "false",
             datatype: undefined,
             disabled: undefined,
@@ -175,6 +183,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
             readonly: "false",
             reqsel: undefined,
             setglobal: null,
+            setrecordtoglobal: undefined,
             topbtn: this.builderConfigs,
             type: bc.datatype === "tree" ? "TREEGRID" : "GRID",
         };
@@ -192,24 +201,43 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
         await this.recordsStore.searchAction({}, {filter, selectedRecordId: value});
 
         if (this.bc.collectionvalues === "array") {
-            const records = prepareArrayValues(this, this.recordsStore.records);
+            const records = prepareArrayValues(this, this.recordsStore.records, this.recordsStore.recordId);
 
             this.fieldHandlers.onChange(null, records);
-            this.selectedEntries = this.recordsStore.records.map((record: Object) => [record.ckId, record]);
+            this.selectedEntries = this.recordsStore.records.map((record: Object) => [
+                record[this.recordsStore.recordId],
+                record,
+            ]);
         } else if (this.recordsStore.selectedRecord) {
             this.handleChangeRecord(this.recordsStore.selectedRecord);
         }
+        this.setRecordToGlobal();
     });
 
-    selectArrayAction = action("seletctArrayAction", () => {
-        const gridStore = this.pageStore.stores.get(this.gridBc.ckPageObject);
+    setRecordToGlobal = () => {
+        if (this.bc.setrecordtoglobal) {
+            this.pageStore.updateGlobalValues({
+                [this.bc.setrecordtoglobal]:
+                    this.bc.collectionvalues === "array"
+                        ? this.selectedEntries.map((val) => val[1])
+                        : this.recordsStore.selectedRecord || null,
+            });
+        }
+    };
+
+    selectArrayAction = action("selectArrayAction", () => {
+        const gridStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (gridStore) {
-            this.fieldHandlers.onChange(null, prepareArrayValues(this, gridStore.selectedRecords));
+            this.fieldHandlers.onChange(
+                null,
+                prepareArrayValues(this, gridStore.selectedRecords, this.recordsStore.recordId),
+            );
             this.selectedEntries = [];
             gridStore.selectedRecords.forEach((value, key) => {
                 this.selectedEntries.push([key, value]);
             });
+            this.setRecordToGlobal();
         }
 
         this.openField = !this.openField;
@@ -222,6 +250,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
             this.handleChangeRecord(record, true);
         }
 
+        this.setRecordToGlobal();
         this.openField = !this.openField;
     });
 
@@ -229,8 +258,9 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
         this.openField = !this.openField;
     });
 
+    // eslint-disable-next-line max-statements
     clearAction = action("clearAction", () => {
-        const gridStore = this.pageStore.stores.get(this.gridBc.ckPageObject);
+        const gridStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (gridStore) {
             gridStore.recordsStore.clearRecordsAction();
@@ -244,6 +274,8 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
             this.selectedEntries = [];
         }
 
+        this.setRecordToGlobal();
+
         clearChildStores({bc: this.bc, pageStore: this.pageStore});
         // CORE-186 handleChangeRecord({}) не нужно вызывать, очистка полей происходит с помощью BuilderField
 
@@ -251,7 +283,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
     });
 
     closeAction = action("closeAction", () => {
-        const gridStore = this.pageStore.stores.get(`grid_${this.bc.ckPageObject}`);
+        const gridStore = this.pageStore.stores.get(`grid_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`);
 
         if (gridStore && this.bc.collectionvalues === "array") {
             gridStore.selectedRecords.clear();
@@ -283,7 +315,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
         } else if (this.valueFields && this.valueFields.length) {
             column = this.valueField;
         } else {
-            column = "ckId";
+            column = this.recordsStore.recordId || VAR_RECORD_ID;
         }
 
         const value: mixed = record[column];
@@ -298,7 +330,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
     };
 
     reloadStoreAction = action("reloadStoreAction", () => {
-        loggerInfo(i18next.t("58715205c88c4d60aac6bfe2c3bfa516"));
+        loggerInfo(i18next.t("static:58715205c88c4d60aac6bfe2c3bfa516"));
 
         this.selectedEntries = [];
     });
@@ -315,7 +347,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
     });
 
     restoreSelectedAction = action("restoreSelectedAction", () => {
-        const gridStore = this.pageStore.stores.get(this.gridBc.ckPageObject);
+        const gridStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (gridStore) {
             this.selectedEntries.forEach(([key, value]) => {
@@ -324,7 +356,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
 
             if (this.bc.collectionvalues === "array") {
                 gridStore.recordsStore.setRecordsAction(
-                    this.selectedEntries.map((args) => ({...args[1], jnTotalCnt: 1})),
+                    this.selectedEntries.map((args) => ({...args[1], [VAR_RECORD_JN_TOTAL_CNT]: 1})),
                 );
             }
         }

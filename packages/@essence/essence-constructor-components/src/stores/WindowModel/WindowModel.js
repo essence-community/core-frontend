@@ -5,7 +5,8 @@ import noop from "lodash/noop";
 import pick from "lodash/pick";
 import omit from "lodash/omit";
 import flattenDepth from "lodash/flattenDepth";
-import {parse} from "@essence/essence-constructor-share/utils/parser";
+import {parse} from "@essence-community/constructor-share/utils/parser";
+import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {type PageModelType} from "../PageModel";
 import {type BuilderBaseType, type BuilderModeType} from "../../BuilderType";
 import {type GridModelType} from "../GridModel/GridModelType";
@@ -68,7 +69,7 @@ const getChilds = ({bc, gridStore, pageStore, values}) => {
             editmode: field.editmode,
             ...(bc.autobuild === "true" ? omit(fieldProps, FIELD_OMIT_ATTRIBUTES_AUTOBUILD) : fieldProps),
             // eslint-disable-next-line sort-keys
-            cvDisplayed: field.cvDisplayed,
+            [VAR_RECORD_DISPLAYED]: field[VAR_RECORD_DISPLAYED],
             edittype: bc.edittype,
             visibleinwindow: field.visibleinwindow,
             ...pick(field, fieldHoistAttributes),

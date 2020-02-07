@@ -3,9 +3,8 @@ import * as React from "react";
 import get from "lodash/get";
 import {ButtonBase} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {animate} from "@essence/essence-constructor-share/utils";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {useDrop} from "react-dnd";
+import {animate} from "@essence-community/constructor-share/utils";
+import {Icon} from "@essence-community/constructor-share/Icon";
 import {styleTheme} from "../constants";
 
 const styles = (theme: any) => ({
@@ -46,10 +45,8 @@ function calcLeftSctoll(toolbars: HTMLElement, scrollLeft: number): number {
     return maxWidth - toolbars.offsetWidth - scrollRight;
 }
 
+// eslint-disable-next-line max-lines-per-function
 const ToolBarScrollButton = ({direction, visible, classes}: PropsType) => {
-    // $FlowFixMe
-    const ref = React.useRef(null);
-    // $FlowFixMe
     const handleCickScroll = React.useCallback(
         (event: SyntheticEvent<HTMLButtonElement>) => {
             const {currentTarget} = event;
@@ -68,18 +65,6 @@ const ToolBarScrollButton = ({direction, visible, classes}: PropsType) => {
         },
         [direction],
     );
-    const [, drop] = useDrop({
-        accept: "page",
-        hover() {
-            if (!ref.current) {
-                return;
-            }
-
-            ref.current.click();
-        },
-    });
-
-    drop(ref);
 
     return (
         <ButtonBase
@@ -87,7 +72,6 @@ const ToolBarScrollButton = ({direction, visible, classes}: PropsType) => {
             className={styleTheme === "light" ? classes.lightButton : classes.button}
             disableRipple
             tabIndex="-1"
-            buttonRef={ref}
         >
             <Icon
                 iconfont={direction === "left" ? "arrow-left" : "arrow-right"}

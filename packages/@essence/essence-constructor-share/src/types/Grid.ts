@@ -8,9 +8,9 @@ export type IGridBuilder = IBuilderBaseConfig & {
     btnexcel?: "false" | "true";
     columns: IBuilderConfig[];
     childwindow: any[];
-    ckQuery?: string;
-    ckPageObject: string;
-    ckMaster?: string;
+    ck_query?: string;
+    ck_page_object: string;
+    ck_master?: string;
     excelname?: string;
     pagesize?: number;
     topbtn?: any[];

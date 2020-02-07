@@ -1,9 +1,18 @@
-import {forOwn, get, isArray, noop} from "lodash";
+import {forOwn, isArray, noop} from "lodash";
 import {ObservableMap, toJS} from "mobx";
-import {loggerRoot} from "../constants";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    loggerRoot,
+    VAR_RECORD_CK_MAIN,
+    VAR_RECORD_CL_WARNING,
+} from "../constants";
 import {ProgressModel, snackbarStore} from "../models";
 import {IBuilderConfig, IBuilderMode, IGridBuilder, IPageModel, IRecordsModel, ILoadRecordsProps} from "../types";
 import {findGetGlobalKey, isEmpty, i18next} from "../utils";
+import {getMasterObject} from "../utils/getMasterObject";
 import {apiSaveAction} from "./apiSaveAction";
 import {setMask} from "./recordsActions";
 
@@ -11,9 +20,10 @@ export interface IConfig {
     actionBc: IBuilderConfig;
     action?: "dml" | "upload";
     query?: string;
-    clWarning?: number;
+    [VAR_RECORD_CL_WARNING]?: number;
     bc: any;
     pageStore: IPageModel;
+    recordId: string;
     formData?: FormData;
     noReload?: boolean;
 }
@@ -39,8 +49,10 @@ export const filter = (values: any) => {
 };
 
 const findReloadAction = (recordsStore: IRecordsModel, bc: IGridBuilder) => {
-    if (bc.reloadmaster === "true" && recordsStore.pageStore && bc.ckMaster) {
-        const masterStore = recordsStore.pageStore.stores.get(bc.ckMaster);
+    const masterId = bc[VAR_RECORD_MASTER_ID];
+
+    if (bc.reloadmaster === "true" && recordsStore.pageStore && masterId) {
+        const masterStore = recordsStore.pageStore.stores.get(masterId);
 
         if (masterStore && masterStore.reloadStoreAction) {
             return () => masterStore.reloadStoreAction(true);
@@ -66,18 +78,34 @@ export const attachGlobalValues = ({globalValues, getglobaltostore, values}: IAt
     return values;
 };
 
-// eslint-disable-next-line max-params
+// eslint-disable-next-line max-params, max-statements
 export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: IBuilderMode, config: IConfig) {
-    const {actionBc, action, clWarning = 0, query, bc, pageStore, formData, noReload} = config;
-    const {extraplugingate, getglobaltostore, timeout} = actionBc;
-    const {noglobalmask, ckMaster, ckPageObject} = bc;
+    const {
+        actionBc,
+        action,
+        [VAR_RECORD_CL_WARNING]: warningStatus = 0,
+        query,
+        bc,
+        pageStore,
+        recordId = VAR_RECORD_ID,
+        formData,
+        noReload,
+    } = config;
+    const {extraplugingate, getglobaltostore, getmastervalue, timeout} = actionBc;
+    let master = undefined;
     let modeCheck = mode;
     let onUploadProgress = noop;
     let filteredValues = null;
-    let ckMain = null;
+    const getMasterValue = getmastervalue || bc.getmastervalue;
+    let main = null;
 
-    if (ckMaster) {
-        ckMain = get(pageStore.stores.get(ckMaster), "selectedRecord.ckId") || pageStore.fieldValueMaster.get(ckMaster);
+    if (bc[VAR_RECORD_MASTER_ID]) {
+        const masterStore = pageStore.stores.get(bc[VAR_RECORD_MASTER_ID]);
+
+        main = masterStore
+            ? masterStore.selectedRecord?.[masterStore.recordId]
+            : pageStore.fieldValueMaster.get(bc[VAR_RECORD_MASTER_ID]);
+        master = getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, getMasterValue);
     }
 
     if (formData) {
@@ -95,18 +123,19 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
             globalValues: pageStore.globalValues,
             values: filter(values),
         });
-        modeCheck = isEmpty(filteredValues.ckId) && /^\d+$/u.test(mode) ? "1" : mode;
+        modeCheck = isEmpty(filteredValues[recordId]) && /^\d+$/u.test(mode) ? "1" : mode;
     }
 
-    setMask(noglobalmask, pageStore, true);
+    setMask(bc.noglobalmask, pageStore, true);
 
     return apiSaveAction(filteredValues, {
+        [VAR_RECORD_CK_MAIN]: main,
+        [VAR_RECORD_CL_WARNING]: warningStatus,
+        [VAR_RECORD_PAGE_OBJECT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_ROUTE_PAGE_ID]: pageStore.pageId,
         action,
-        ckMain,
-        ckPage: pageStore.ckPage,
-        ckPageObject,
-        clWarning,
         formData,
+        master,
         mode: modeCheck,
         onUploadProgress,
         plugin: extraplugingate || bc.extraplugingate,
@@ -121,21 +150,22 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
                         response,
                         pageStore.route,
                         (warningText: string) => {
-                            setMask(noglobalmask, pageStore, false);
+                            setMask(bc.noglobalmask, pageStore, false);
 
-                            pageStore.openQuestionWindow(warningText, (clWarningNew: number) => {
-                                if (clWarningNew === 0) {
+                            pageStore.openQuestionWindow(warningText, (warningStatusNew: number) => {
+                                if (warningStatusNew === 0) {
                                     resolve(false);
                                 } else {
                                     saveAction
                                         .call(this, values, mode, {
+                                            [VAR_RECORD_CL_WARNING]: warningStatusNew,
                                             action,
                                             actionBc,
                                             bc: config.bc,
-                                            clWarning: clWarningNew,
                                             formData: config.formData,
                                             pageStore: config.pageStore,
                                             query: config.query,
+                                            recordId,
                                         })
                                         .then(resolve);
                                 }
@@ -151,11 +181,11 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
                         const isAttach =
                             bc.refreshallrecords === "false" &&
                             (mode === "1" || mode === "2" || mode === "4") &&
-                            !isEmpty(response.ckId);
+                            !isEmpty(response[recordId]);
 
                         loadRecordsAction
                             ? loadRecordsAction({
-                                  selectedRecordId: response.ckId,
+                                  selectedRecordId: response[recordId],
                                   status: isAttach ? "attach" : "save-any",
                               }).then(() => {
                                   pageStore.nextStepAction(mode, bc);
@@ -172,16 +202,16 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
                     }
                 }),
         )
-        .catch((error) => {
-            logger(i18next.t("27a9d844da20453195f59f75185d7c99"), error);
+        .catch((error: Error) => {
+            logger(i18next.t("static:27a9d844da20453195f59f75185d7c99"), error);
 
             snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
             pageStore.resetStepAction();
 
             return false;
         })
-        .then((res) => {
-            setMask(noglobalmask, pageStore, false);
+        .then((res: boolean) => {
+            setMask(bc.noglobalmask, pageStore, false);
 
             return res;
         });

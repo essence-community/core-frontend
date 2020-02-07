@@ -1,4 +1,4 @@
-import {IPageModel} from "@essence/essence-constructor-share/types";
+import {IPageModel} from "@essence-community/constructor-share/types";
 
 const movePageRight = (pages: Array<IPageModel>, dragIndex: number, hoverIndex: number) => {
     const dragPage = pages[dragIndex];

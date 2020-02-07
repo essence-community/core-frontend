@@ -2,7 +2,7 @@
 import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
 import {Grid} from "@material-ui/core";
-import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {WithT, withTranslation} from "@essence-community/constructor-share/utils";
 import homeLogo from "../../images/home_logo.png";
 import styles from "./HomePageStyles";
 
@@ -14,7 +14,7 @@ type PropsType = WithT & {
 const HomePage = ({classes = {}, t}: PropsType) => (
     <Grid container justify="center" alignItems="center" className={classes.root}>
         <Grid item>
-            <img className={classes.homeLogo} src={homeLogo} alt={t("a54bed8bf1574dc185aaf1f74aa85148")} />
+            <img className={classes.homeLogo} src={homeLogo} alt={t("static:a54bed8bf1574dc185aaf1f74aa85148")} />
         </Grid>
     </Grid>
 );

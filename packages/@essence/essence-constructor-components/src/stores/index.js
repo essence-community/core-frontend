@@ -6,15 +6,15 @@ export type StoresType = {
 };
 
 export const createEmptyApplication = () => ({
+    actions: [],
     authData: {},
     blockApplicationAction: () => undefined,
     blockText: "",
-    caActions: [],
-    cvLogin: "",
     // $FlowFixMe
     globalValues: {},
     isApplicationReady: false,
     isBlock: false,
+    login: "",
     logoutAction: () => undefined,
     pagesStore: {
         removePageAction: () => undefined,
@@ -34,9 +34,9 @@ export const createEmptyApplication = () => ({
 export const createEmptyPageStore = (options: ?Object) =>
     new PageModel({
         applicationStore: createEmptyApplication(),
-        ckPage: "1",
         isActiveRedirect: false,
         isReadOnly: false,
+        pageId: "1",
         styleTheme: "light",
         ...options,
     });
@@ -44,7 +44,7 @@ export const createEmptyPageStore = (options: ?Object) =>
 export const stores = {
     pageStore: new PageModel({
         applicationStore: createEmptyApplication(),
-        ckPage: "1",
         isActiveRedirect: false,
+        pageId: "1",
     }),
 };

@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import MonthCalendar from "rc-calendar/lib/MonthCalendar";
-import DatePicker from "rc-calendar/lib/Picker";
 import ruRU from "rc-calendar/lib/locale/ru_RU";
+import DatePicker from "./PickerOverride";
 
 class FieldDateMonth extends React.Component<any> {
     handleChange = (value: Object) => {

@@ -9,6 +9,11 @@ const BuilderFilterStylesDark = (theme: any) => ({
         flexDirection: "column",
         width: theme.sizing.controlPanelWidth,
     },
+    filterButtonsAbsolute: {
+        backgroundColor: "none",
+        left: 0,
+        position: "absolute",
+    },
     filterButtonsContainer: {
         alignItems: "center",
         display: "flex",

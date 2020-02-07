@@ -4,6 +4,7 @@ import NumberFormat from "react-number-format";
 import omit from "lodash/omit";
 import isString from "lodash/isString";
 import {type TextFieldChildProps} from "../../BuilderFieldType";
+import {getBigNumberInstance} from "../../../utils/bignumber";
 
 type PropsType = TextFieldChildProps & {
     inputRef: Function,
@@ -13,28 +14,31 @@ type NumberFormatParamsType = {
     value: string,
 };
 
-const BIG_PRECISION = 20;
-const getDecimalScale = (decimalprecision) => {
-    if (decimalprecision === "-1") {
-        return BIG_PRECISION;
-    }
-
-    if (typeof decimalprecision === "string") {
-        return parseInt(decimalprecision, 10);
-    }
-
-    return 2;
-};
+const MIN_VALUE = 10;
+const MAX_VALUE = -10;
 
 class NumberFormatCustom extends React.Component<PropsType> {
-    maxsize: ?number;
+    maxSize: ?number;
+
+    minValue: number = 0;
+
+    maxValue: ?number;
+
+    decimalPrecision: Number;
+
+    BigNumber: BigNumberBase;
 
     constructor(...args: Array<*>) {
         super(...args);
 
         const {bc} = this.props;
+        const {BigNumber, decimalPrecision} = getBigNumberInstance(bc);
 
         this.maxsize = bc.maxsize ? parseInt(bc.maxsize, 10) : undefined;
+        this.minValue = bc.minvalue ? parseInt(bc.minvalue, 10) : 0;
+        this.maxValue = bc.maxvalue ? parseInt(bc.maxvalue, 10) : undefined;
+        this.decimalPrecision = decimalPrecision;
+        this.BigNumber = BigNumber;
     }
 
     handleChange = ({value}: NumberFormatParamsType) => {
@@ -42,29 +46,39 @@ class NumberFormatCustom extends React.Component<PropsType> {
     };
 
     handleIsAllowed = ({value}: NumberFormatParamsType) => {
-        const {maxsize} = this;
+        const {maxSize} = this;
 
-        if (maxsize && value.replace(/[,. ]/g, "").length > maxsize) {
+        if (maxSize && value.replace(/[,. ]/gu, "").length > maxSize) {
+            return false;
+        }
+        const [, decimal] = value.split(".");
+
+        if (decimal && decimal.length > this.decimalPrecision) {
+            return false;
+        }
+        const num = new this.BigNumber(value);
+
+        if (this.maxValue && this.maxValue > MAX_VALUE && num.isGreaterThan(this.maxValue)) {
             return false;
         }
 
-        return true;
+        return this.minValue > MIN_VALUE || !num.isLessThan(this.minValue);
     };
 
     render() {
         const {inputRef, bc, ...otherProps} = this.props;
-        const {thousandseparator, decimalseparator, decimalprecision} = bc;
+        const {thousandseparator, decimalseparator} = bc;
 
         return (
             <NumberFormat
                 {...omit(otherProps, ["onChange"])}
                 getInputRef={inputRef}
                 onValueChange={this.handleChange}
-                isNumericString={true}
+                isNumericString
+                allowNegative={this.minValue < 0}
                 isAllowed={this.handleIsAllowed}
                 thousandSeparator={isString(thousandseparator) ? thousandseparator : ""}
                 decimalSeparator={decimalseparator ? decimalseparator : ","}
-                decimalScale={getDecimalScale(decimalprecision)}
             />
         );
     }

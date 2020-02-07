@@ -7,6 +7,7 @@ import {createEmptyPageStore} from "../../../../stores/index";
 import {mountWithTheme} from "../../../../utils/test";
 import FieldMask from "../FieldMask";
 
+// eslint-disable-next-line max-lines-per-function
 describe("FieldMask", () => {
     let fieldConfig = {};
 

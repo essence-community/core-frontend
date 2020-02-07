@@ -19,7 +19,7 @@
  */
 import forOwn from "lodash/forOwn";
 import {observe, reaction} from "mobx";
-import {i18next} from "@essence/essence-constructor-share/utils";
+import {i18next} from "@essence-community/constructor-share/utils";
 import {findGetGlobalKey} from "../../utils/findKey";
 import {type PageModelType} from "../PageModel";
 import {type RecordsModelType} from "./RecordsModelType";
@@ -27,7 +27,7 @@ import {type RecordsModelType} from "./RecordsModelType";
 type CheckLoadingType = {|
     pageStore: PageModelType,
     bc: $PropertyType<RecordsModelType, "bc">,
-    ckMaster: string,
+    masterId: string,
 |};
 
 // 15sec * 1000ms - cycle delay, if global set incoreclty
@@ -48,12 +48,13 @@ export class CheckLoading {
 
     timeoutId: TimeoutID;
 
-    constructor({pageStore, bc, ckMaster}: CheckLoadingType): Promise<any> {
-        const master = pageStore.stores.get(ckMaster);
+    constructor({pageStore, bc, masterId}: CheckLoadingType): Promise<any> {
+        const master = pageStore.stores.get(masterId);
 
         this.pageStore = pageStore;
         this.timeoutId = setTimeout(this.handleTimeoutError, CYCLE_TIMEOUT);
 
+        // eslint-disable-next-line no-constructor-return
         return new Promise((resolve, reject) => {
             this.resolve = resolve;
             this.reject = reject;
@@ -135,7 +136,7 @@ export class CheckLoading {
     handleTimeoutError = () => {
         this.clear();
         forOwn(this.checkers, (dispose) => dispose());
-        this.reject(new Error(i18next.t("06dfd0c3b97b45e5abc146a14c0fab37")));
+        this.reject(new Error(i18next.t("static:06dfd0c3b97b45e5abc146a14c0fab37")));
     };
 
     handleFinishedLoading = (name: string, store: {recordsStore: RecordsModelType}) => (): void => {

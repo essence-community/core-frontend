@@ -5,7 +5,12 @@ import {observer} from "mobx-react";
 import {compose} from "recompose";
 import moment from "moment";
 import {Typography, CardContent} from "@material-ui/core";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_CT_CHANGE,
+    VAR_RECORD_CV_USERNAME,
+} from "@essence-community/constructor-share/constants";
 import {styleTheme} from "../../constants";
 import Popover from "../../Popover/Popover";
 import {type PopoverRenderChildren} from "../../Popover/PopoverTypes";
@@ -63,10 +68,11 @@ class GridAudit extends React.Component<PropsType & PropsStoreType & WithT> {
         const popoverContent = (
             <CardContent>
                 <Typography variant="body2">
-                    {t("a51733f718974db891606a516a906d4a")}: {moment(auditInfo.ctChange).format("DD.MM.YYYY HH:mm:ss")}
+                    {t("static:a51733f718974db891606a516a906d4a")}:{" "}
+                    {moment(auditInfo[VAR_RECORD_CT_CHANGE]).format("DD.MM.YYYY HH:mm:ss")}
                 </Typography>
                 <Typography variant="body2">
-                    {t("359b72856d284d1baf5ff9e14e8293c9")}: {auditInfo.cvUsername}
+                    {t("static:359b72856d284d1baf5ff9e14e8293c9")}: {auditInfo[VAR_RECORD_CV_USERNAME]}
                 </Typography>
             </CardContent>
         );
@@ -76,7 +82,7 @@ class GridAudit extends React.Component<PropsType & PropsStoreType & WithT> {
                 popoverContent={popoverContent}
                 container={pageStore.pageEl}
                 onChangeOpen={this.handleChangeOpen}
-                dataPageObjectPopover={`${bc.ckPageObject}-window`}
+                dataPageObjectPopover={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-window`}
                 width="auto"
                 pageStore={pageStore}
                 hideOnScroll

@@ -1,12 +1,13 @@
 // @flow
 import * as React from "react";
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {Icon} from "@essence-community/constructor-share/Icon";
 import {mountWithTheme} from "../../utils/test";
 import BasePanelCollapsible, {BasePanelCollapsibleBase} from "../BasePanelCollapsible";
 import Panel from "../Panel/Panel";
 import panelMock from "../../../mocks/panel/panel";
 import {createEmptyPageStore} from "../../stores/index";
 
+// eslint-disable-next-line max-lines-per-function
 describe("BasePanelCollapsible", () => {
     const panelProps = {
         bc: panelMock,

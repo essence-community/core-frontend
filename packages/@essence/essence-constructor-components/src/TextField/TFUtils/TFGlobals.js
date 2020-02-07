@@ -2,9 +2,8 @@
 import {reaction} from "mobx";
 import forOwn from "lodash/forOwn";
 import {Form, Field} from "mobx-react-form";
-import {camelCaseMemoized} from "@essence/essence-constructor-share/utils";
-import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
-import {VALUE_SELF_FIRST} from "@essence/essence-constructor-share/constants";
+import {parseMemoize} from "@essence-community/constructor-share/utils/parser";
+import {VALUE_SELF_FIRST} from "@essence-community/constructor-share/constants";
 import {type PageModelType} from "../../stores/PageModel";
 import {findSetKey} from "../../utils/findKey";
 import {toStringGlobal} from "../../utils/globalStringify";
@@ -89,15 +88,13 @@ export const initSetGlobal = ({form, field, pageStore, bc, store, disposers}: In
             if (store && collectionvalues === "array" && valuefield) {
                 forOwn(keys, (fieldName, globaleKey) => {
                     if (valuefield.indexOf(",") === -1) {
-                        values[globaleKey] = store.selectedEntries.map(
-                            (value) => value[1][camelCaseMemoized(valuefield)],
-                        );
+                        values[globaleKey] = store.selectedEntries.map((value) => value[1][valuefield]);
                     } else {
                         values[globaleKey] = store.selectedEntries.map((value) => {
                             const obj = {};
 
                             valuefield.split(",").forEach((fieldKey) => {
-                                obj[fieldKey] = value[1][camelCaseMemoized(fieldKey)];
+                                obj[fieldKey] = value[1][fieldKey];
                             });
 
                             return obj;

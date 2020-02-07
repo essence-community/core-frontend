@@ -4,7 +4,8 @@ import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
 import {Collapse, Grid, Typography} from "@material-ui/core";
 import keycode from "keycode";
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import Content from "../Components/Content/Content";
 import {styleTheme} from "../constants";
 import {type PanelAdditionalPropsType} from "./BuilderPanelType";
@@ -63,7 +64,7 @@ export class BasePanelCollapsibleBase extends React.Component<PropsType, StateTy
                 in={this.state.in}
                 collapsedHeight="35px"
                 classes={{container: editing ? classes.editCollapseContainer : classes.collapseContainer}}
-                data-page-object={`${bc.ckPageObject}-collapsible`}
+                data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-collapsible`}
             >
                 <Grid container direction="column" spacing={styleTheme === "light" ? 0 : 1}>
                     <Grid

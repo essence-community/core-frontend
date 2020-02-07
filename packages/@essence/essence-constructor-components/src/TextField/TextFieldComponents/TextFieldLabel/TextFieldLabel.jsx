@@ -3,14 +3,15 @@ import * as React from "react";
 import cn from "classnames";
 import {compose} from "recompose";
 import {withStyles} from "@material-ui/core/styles";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import styles from "./TextFieldLabelStyles";
 
 type PropsType = {
     bc: {
         required?: "true" | "false",
-        cvDisplayed?: string,
+        cv_displayed?: string,
     },
     error?: boolean,
     classes: {
@@ -25,10 +26,10 @@ class TextFieldLabel extends React.PureComponent<PropsType & WithT> {
     render() {
         // eslint-disable-next-line id-length
         const {bc, classes, error, info, isRequired, paddingRight, t} = this.props;
-        const transLabel = t(bc.cvDisplayed);
+        const transLabel = t(bc[VAR_RECORD_DISPLAYED]);
         const label =
             transLabel && transLabel.indexOf("елеф") > 0
-                ? (transLabel.match(/.{1,6}/g) || []).reduce((sum, str) => {
+                ? (transLabel.match(/.{1,6}/gu) || []).reduce((sum, str) => {
                       sum.push(str);
                       sum.push(
                           <span key={str} style={{display: "none"}}>
@@ -71,7 +72,4 @@ class TextFieldLabel extends React.PureComponent<PropsType & WithT> {
     }
 }
 
-export default compose(
-    withTranslation("meta"),
-    withStyles(styles),
-)(TextFieldLabel);
+export default compose(withTranslation("meta"), withStyles(styles))(TextFieldLabel);

@@ -5,8 +5,8 @@ import omit from "lodash/omit";
 import noop from "lodash/noop";
 import {Tab as MaterialTab, Typography} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {WithT, withTranslation} from "@essence-community/constructor-share/utils";
 import {styleTheme} from "../constants";
 import {StyleToolBarLight} from "./StyleToolBarLight";
 import {StyleToolBarDark} from "./StyleToolBarDark";
@@ -86,4 +86,4 @@ class ToolBarTab extends React.Component<PropsType<string | number>> {
     }
 }
 
-export default withStyles(styles)(withTranslation("meta")(ToolBarTab));
+export default withStyles(styles, {name: "ToolBarTab"})(withTranslation("meta")(ToolBarTab));

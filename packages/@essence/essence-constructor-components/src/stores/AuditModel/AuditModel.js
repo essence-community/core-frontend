@@ -1,6 +1,14 @@
 // @flow
 import {extendObservable, action} from "mobx";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
+import {snackbarStore} from "@essence-community/constructor-share/models";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    META_PAGE_OBJECT,
+    VAR_RECORD_CT_CHANGE,
+    VAR_RECORD_CV_USERNAME,
+    VAR_RECORD_CN_USER,
+    VAR_RECORD_CK_USER,
+} from "@essence-community/constructor-share/constants";
 import {sendRequest} from "../../request/baseRequest";
 import {StoreBaseModel, type StoreBaseModelPropsType} from "../StoreBaseModel";
 import {type AuditModelInterface} from "./AuditModelType";
@@ -13,23 +21,23 @@ export class AuditModel extends StoreBaseModel implements AuditModelInterface {
 
         extendObservable(this, {
             auditInfo: {
-                ctChange: "",
-                cvUsername: "",
+                [VAR_RECORD_CT_CHANGE]: "",
+                [VAR_RECORD_CV_USERNAME]: "",
             },
         });
     }
 
     loadAuditInfoAction = action("loadAuditInfoAction", (selectedRecord?: Object = {}) => {
-        this.auditInfo.ctChange = selectedRecord.ctChange;
-        this.auditInfo.cvUsername = "";
+        this.auditInfo[VAR_RECORD_CT_CHANGE] = selectedRecord[VAR_RECORD_CT_CHANGE];
+        this.auditInfo[VAR_RECORD_CV_USERNAME] = "";
 
         return sendRequest({
+            [META_PAGE_OBJECT]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
             json: {
                 filter: {
-                    cnUser: selectedRecord.cnUser || selectedRecord.ckUser,
+                    [VAR_RECORD_CN_USER]: selectedRecord[VAR_RECORD_CN_USER] || selectedRecord[VAR_RECORD_CK_USER],
                 },
             },
-            pageObject: this.bc.ckPageObject,
             plugin: this.bc.extraplugingate,
             query: "GetUserInfo",
             session: this.pageStore.applicationStore.session,
@@ -43,7 +51,7 @@ export class AuditModel extends StoreBaseModel implements AuditModelInterface {
                         this.pageStore.applicationStore,
                     )
                 ) {
-                    this.auditInfo.cvUsername = response.cvUsername;
+                    this.auditInfo[VAR_RECORD_CV_USERNAME] = response[VAR_RECORD_CV_USERNAME];
                 }
             })
             .catch((response) => {
@@ -52,7 +60,7 @@ export class AuditModel extends StoreBaseModel implements AuditModelInterface {
     });
 
     clearStoreAction = action("clearStoreAction", () => {
-        this.auditInfo.ctChange = "";
-        this.auditInfo.cvUsername = "";
+        this.auditInfo[VAR_RECORD_CT_CHANGE] = "";
+        this.auditInfo[VAR_RECORD_CV_USERNAME] = "";
     });
 }

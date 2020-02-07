@@ -68,11 +68,12 @@ export interface IRecordsSearchOptions {
 
 export interface IRecordsModel {
     recordsAll: IRecord[];
+    recordId: string;
     records: IRecord[];
     recordsState: IRecordsState<IRecord>;
     selectedRecordId?: FieldValue;
     selectedRecord?: IRecord;
-    selectedRecrodValues: IRecord;
+    selectedRecordValues: IRecord;
     hasSelected: boolean;
     selectedRecordIndex: -1 | number;
     pageNumber: number;
@@ -102,6 +103,7 @@ export interface IRecordsModel {
     setNextRecord: () => void;
     setLastRecord: () => void;
     setOrderAction: (property: string) => void;
+    setRecordToGlobal: () => void;
     searchAction: (values: IRecord, options?: IRecordsSearchOptions) => Promise<void | object>;
     setSearchValuesAction: (values: IRecord) => void;
     clearChildsStoresAction: () => void;

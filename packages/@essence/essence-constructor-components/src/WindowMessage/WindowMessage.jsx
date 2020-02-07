@@ -3,8 +3,8 @@ import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
 import {Grid, Dialog, Button, DialogContent} from "@material-ui/core";
 import {compose} from "recompose";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {Icon} from "@essence-community/constructor-share/Icon";
 import Scrollbars from "../Components/Scrollbars/Scrollbars";
 import {type PageModelType} from "../stores/PageModel";
 import Popover from "../Popover/Popover";
@@ -51,6 +51,7 @@ const transformOrigin = {
     vertical: "center",
 };
 
+// eslint-disable-next-line max-lines-per-function
 const WindowMessage = ({
     children,
     textAccept,
@@ -158,15 +159,12 @@ const WindowMessage = ({
 };
 
 WindowMessage.defaultProps = {
-    children: "9b475e25ae8a40b0b158543b84ba8c08",
+    children: "static:9b475e25ae8a40b0b158543b84ba8c08",
     hideBackdrop: true,
     status: "info",
-    textAccept: "dacf7ab025c344cb81b700cfcc50e403",
-    textDecline: "f0e9877df106481eb257c2c04f8eb039",
-    title: "ec238e2ccc1842d780b140a4bbedfdaf",
+    textAccept: "static:dacf7ab025c344cb81b700cfcc50e403",
+    textDecline: "static:f0e9877df106481eb257c2c04f8eb039",
+    title: "static:ec238e2ccc1842d780b140a4bbedfdaf",
 };
 
-export default compose(
-    withTranslation("meta"),
-    withStyles(styles),
-)(WindowMessage);
+export default compose(withTranslation("meta"), withStyles(styles))(WindowMessage);

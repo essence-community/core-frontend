@@ -25,7 +25,6 @@ class I18nBackend implements BackendModule {
 
     read(languages: string, namespaces: string, callback: ReadCallback) {
         request({
-            isCamelCase: false,
             json: {
                 filter: {
                     [VAR_LANG_ID]: languages,
@@ -65,7 +64,7 @@ export function initI18n() {
                 escapeValue: false,
             },
             lng: lang,
-            ns: ["meta", "message"],
+            ns: ["meta", "message", "static"],
             react: {
                 bindI18n: "languageChanged loaded",
             },

@@ -2,6 +2,7 @@ import {isString} from "lodash";
 // eslint-disable-next-line import/named
 import {autorun, IReactionDisposer} from "mobx";
 import * as React from "react";
+import {VAR_RECORD_MASTER_ID} from "../constants";
 import {IClassProps} from "../types/Class";
 import {RowRecord} from "../types/StoreBaseModel";
 import {isEmpty} from "../utils/base";
@@ -36,9 +37,9 @@ export function commonDecorator<Props extends ICommonHOCProps>(
 
         public componentDidMount() {
             const {bc} = this.props;
-            const {reqsel, disabledrules, hiddenrules, readonlyrules, disabledemptymaster, ckMaster} = bc;
+            const {reqsel, disabledrules, hiddenrules, readonlyrules, disabledemptymaster} = bc;
 
-            if ((reqsel === "true" && ckMaster) || disabledrules || disabledemptymaster === "true") {
+            if ((reqsel === "true" && bc[VAR_RECORD_MASTER_ID]) || disabledrules || disabledemptymaster === "true") {
                 this.disposers.push(autorun(this.handleDisabled));
             }
 
@@ -53,16 +54,13 @@ export function commonDecorator<Props extends ICommonHOCProps>(
 
         public componentDidUpdate(prevProps: ICommonHOCProps) {
             if (prevProps.record !== this.props.record) {
-                const {
-                    reqsel,
-                    disabledrules,
-                    hiddenrules,
-                    readonlyrules,
-                    disabledemptymaster,
-                    ckMaster,
-                } = this.props.bc;
+                const {reqsel, disabledrules, hiddenrules, readonlyrules, disabledemptymaster} = this.props.bc;
 
-                if ((reqsel === "true" && ckMaster) || disabledrules || disabledemptymaster === "true") {
+                if (
+                    (reqsel === "true" && this.props.bc[VAR_RECORD_MASTER_ID]) ||
+                    disabledrules ||
+                    disabledemptymaster === "true"
+                ) {
                     this.handleDisabled();
                 }
 
@@ -152,39 +150,46 @@ export function commonDecorator<Props extends ICommonHOCProps>(
 
         // eslint-disable-next-line max-statements, complexity
         private isDisabled() {
-            const {pageStore, disabled} = this.props;
-            const {reqsel, ckMaster, disabledrules, disabledemptymaster, type} = this.props.bc;
+            const {pageStore, disabled, bc} = this.props;
+            const {reqsel, disabledrules, disabledemptymaster, type} = bc;
+            const masterId = bc[VAR_RECORD_MASTER_ID];
 
             if (disabledrules) {
                 return Boolean(parseMemoize(disabledrules).runer({get: this.getValue}));
             }
 
-            if (reqsel === "true" && ckMaster) {
-                const masterStore = pageStore.stores.get(ckMaster);
+            if (reqsel === "true" && masterId) {
+                const masterStore = pageStore.stores.get(masterId);
 
-                if (masterStore && masterStore.bc && masterStore.bc.collectionvalues === "array" && type === "IFIELD") {
-                    return masterStore.selectedEntries && masterStore.selectedEntries.length === 0;
-                }
+                if (masterStore) {
+                    if (masterStore.bc && masterStore.bc.collectionvalues === "array" && type === "IFIELD") {
+                        return masterStore.selectedEntries && masterStore.selectedEntries.length === 0;
+                    }
 
-                if (masterStore && typeof masterStore.selectedRecord !== "undefined") {
-                    return (
-                        !masterStore.selectedRecord ||
-                        (isString(masterStore.selectedRecord.ckId) &&
-                            masterStore.selectedRecord.ckId.indexOf("auto-") === 0)
-                    );
-                }
+                    if (typeof masterStore.selectedRecord !== "undefined") {
+                        return (
+                            !masterStore.selectedRecord ||
+                            (isString(masterStore.selectedRecord[masterStore.recordId]) &&
+                                // @ts-ignore
+                                masterStore.selectedRecord[masterStore.recordId].indexOf("auto-") === 0)
+                        );
+                    }
 
-                if (masterStore && masterStore.recordsStore) {
-                    return (
-                        !masterStore.recordsStore.selectedRecord ||
-                        (isString(masterStore.recordsStore.selectedRecord.ckId) &&
-                            masterStore.recordsStore.selectedRecord.ckId.indexOf("auto-") === 0)
-                    );
+                    if (masterStore.recordsStore) {
+                        return (
+                            !masterStore.recordsStore.selectedRecord ||
+                            (isString(masterStore.recordsStore.selectedRecord[masterStore.recordsStore.recordId]) &&
+                                // @ts-ignore
+                                masterStore.recordsStore.selectedRecord[masterStore.recordsStore.recordId].indexOf(
+                                    "auto-",
+                                ) === 0)
+                        );
+                    }
                 }
             }
 
-            if (disabledemptymaster === "true" && ckMaster) {
-                const masterStore = pageStore.stores.get(ckMaster);
+            if (disabledemptymaster === "true" && masterId) {
+                const masterStore = pageStore.stores.get(masterId);
 
                 if (masterStore && masterStore.recordsStore) {
                     return masterStore.recordsStore.records.length === 0;

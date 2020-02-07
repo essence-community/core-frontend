@@ -5,7 +5,7 @@ import debounce from "lodash/debounce";
 import cn from "classnames";
 import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {HorizontalSizerIcon} from "@essence/essence-constructor-share/icons";
+import {HorizontalSizerIcon} from "@essence-community/constructor-share/icons";
 import {getCoords} from "../utils/html";
 import type {ItemType} from "../stores/PanelModel";
 import {getWidth} from "./HorizontalResizerUtils/getWidth";
@@ -36,6 +36,7 @@ type StateType = {
 
 const DEBOUNCE_DELAY = 0;
 const MIN_WIDTH = 10;
+const MAX_PERCENT = 100;
 
 class HorizontalResizer extends React.Component<PropsType, StateType> {
     rootRef = React.createRef();
@@ -85,8 +86,12 @@ class HorizontalResizer extends React.Component<PropsType, StateType> {
         this.setState(
             {
                 down: true,
-                initialWidthPercent: this.props.item.width,
-                initialWidthPx: clientWidth,
+                // For collapsed panel calcuate offset width relative to resizer and full panel
+                initialWidthPercent:
+                    this.props.item.collapsed && current
+                        ? (currentTarget.offsetWidth / current.parentElement.parentElement.offsetWidth) * MAX_PERCENT
+                        : this.props.item.width,
+                initialWidthPx: this.props.item.collapsed ? currentTarget.offsetWidth : clientWidth,
                 initialX: left,
             },
             () => {
@@ -177,7 +182,6 @@ class HorizontalResizer extends React.Component<PropsType, StateType> {
         const {classes, className, style, xs, item, nextItem} = this.props;
         const {over, down} = this.state;
         const isShowResizer = document.body && (over || down);
-        const isExpanded = item.collapsed || (nextItem && nextItem.collapsed);
         const nextCollapsed = nextItem && nextItem.collapsed;
 
         return (
@@ -191,8 +195,7 @@ class HorizontalResizer extends React.Component<PropsType, StateType> {
                             className={cn(classes.resizer, {
                                 [classes.show]: this.state.initialX && !down,
                             })}
-                            onClick={isExpanded ? this.handleExpand : undefined}
-                            onMouseDown={item.collapsed || nextCollapsed ? undefined : this.handleMouseDown}
+                            onMouseDown={this.handleMouseDown}
                             onMouseEnter={this.handleMouseEnter}
                             onMouseLeave={this.handleMouseLeave}
                         />

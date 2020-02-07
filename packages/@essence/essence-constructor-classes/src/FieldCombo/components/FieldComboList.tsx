@@ -1,8 +1,9 @@
 import * as React from "react";
 import {useObserver, useDisposable} from "mobx-react-lite";
 import {Paper, MenuItem, CircularProgress} from "@material-ui/core";
-import {IBuilderConfig, Scrollbars, Pagination, FieldValue, toString} from "@essence/essence-constructor-share";
-import {IPopoverChildrenProps} from "@essence/essence-constructor-share/uicomponents/Popover/Popover.types";
+import {IBuilderConfig, Scrollbars, Pagination, FieldValue, toString} from "@essence-community/constructor-share";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {IPopoverChildrenProps} from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";
 import {reaction} from "mobx";
 import {ISuggestion} from "../store/FieldComboModel.types";
 import {FieldComboModel} from "../store/FieldComboModel";
@@ -27,7 +28,7 @@ interface IProps extends IPopoverChildrenProps {
 }
 
 export const FieldComboList: React.FC<IProps> = (props) => {
-    const {store, bc, onChange, onClose, listRef} = props;
+    const {store, bc, onChange, onClose, listRef, onCalculateOffset, height} = props;
     const scrollbarRef: React.MutableRefObject<Scrollbars | undefined> = React.useRef();
     const stringValue = toString(props.value);
     const classes = useStyles(props);
@@ -72,13 +73,22 @@ export const FieldComboList: React.FC<IProps> = (props) => {
         [],
     );
 
+    React.useEffect(() => {
+        onCalculateOffset();
+    });
+
     return useObserver(() => (
-        <Paper className={classes.paper} square data-page-object={`${bc.ckPageObject}-window`} ref={listRef}>
+        <Paper
+            className={classes.paper}
+            square
+            data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-window`}
+            ref={listRef}
+        >
             <Scrollbars
                 autoHeight
                 hideTracksWhenNotNeeded
                 autoHeightMin={autoHeightMin}
-                autoHeightMax={AUTO_HEIGHT_MAX}
+                autoHeightMax={height || AUTO_HEIGHT_MAX}
                 onWheel={handleContentWheel}
                 // @ts-ignore
                 scrollbarsRef={scrollbarRef}
@@ -86,7 +96,7 @@ export const FieldComboList: React.FC<IProps> = (props) => {
                 {store.recordsStore.isLoading ? (
                     <CircularProgress
                         classes={{root: classes.loader}}
-                        data-page-object={`${bc.ckPageObject}-progress`}
+                        data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-progress`}
                     />
                 ) : (
                     store.suggestions.map((suggestion) => {
@@ -100,7 +110,7 @@ export const FieldComboList: React.FC<IProps> = (props) => {
                                 onSelect={handleSelect}
                                 isSelectedValue={isSelectedValue}
                                 isHighlightedValue={isHighlightedValue}
-                                ckPageObject={bc.ckPageObject}
+                                ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                             />
                         );
                     })
@@ -116,7 +126,7 @@ export const FieldComboList: React.FC<IProps> = (props) => {
                         rowsPerPage={store.recordsStore.pageSize}
                         page={store.recordsStore.pageNumber}
                         onChangePage={store.recordsStore.setPageNumberAction}
-                        ckPageObject={bc.ckPageObject}
+                        ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                     />
                 </MenuItem>
             ) : null}

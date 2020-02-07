@@ -6,8 +6,14 @@ import {reaction} from "mobx";
 import {Grid, Radio, RadioGroup, FormLabel} from "@material-ui/core";
 import cn from "classnames";
 import {withStyles} from "@material-ui/core/styles";
-import {camelCaseMemoized, toColumnStyleWidth, withTranslation, WithT} from "@essence/essence-constructor-share/utils";
-import {VALUE_SELF_FIRST} from "@essence/essence-constructor-share/constants";
+import {toColumnStyleWidth, withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {
+    VALUE_SELF_FIRST,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+    GRID_CONFIGS,
+    GRID_ALIGN_CONFIGS,
+} from "@essence-community/constructor-share/constants";
 import TextFieldLabel from "../../TextFieldComponents/TextFieldLabel/TextFieldLabel";
 import withModelDecorator from "../../../decorators/withModelDecorator";
 import {FieldRadioGroupModel} from "../../../stores/FieldRadioGroupModel";
@@ -47,7 +53,7 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
         if (bc.getgloballist) {
             disposeOnUnmount(this, [
                 reaction(
-                    () => pageStore.globalValues.get(camelCaseMemoized(bc.getgloballist)),
+                    () => pageStore.globalValues.get(bc.getgloballist),
                     (records) => {
                         if (Array.isArray(records)) {
                             // $FlowFixMe
@@ -61,10 +67,13 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
     }
 
     handleReactValue = (value: any) => {
-        const {store} = this.props;
+        const {store, onChange} = this.props;
 
         if (!store.recordsStore.isLoading && value === VALUE_SELF_FIRST) {
-            this.props.onChange(null, getFirstValues(store.recordsStore));
+            const val = getFirstValues(store.recordsStore);
+
+            onChange(null, val);
+            store.setSelectRecord(val);
         }
     };
 
@@ -73,14 +82,19 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
         const {recordsState} = store.recordsStore;
 
         if (recordsState.defaultValueSet && value === VALUE_SELF_FIRST) {
-            onChange(null, getFirstValues(store.recordsStore));
+            const val = getFirstValues(store.recordsStore);
+
+            onChange(null, val);
+            store.setSelectRecord(val);
         }
     };
 
     handleChange = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
         const {value} = event.currentTarget;
+        const {store, onChange} = this.props;
 
-        this.props.onChange(null, value);
+        onChange(null, value);
+        store.setSelectRecord(value);
     };
 
     handleFocus = () => {
@@ -105,12 +119,17 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
                     [classes.disabled]: disabled,
                     [classes.focused]: focused,
                 })}
-                data-page-object={bc.ckPageObject}
+                data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                 key={value}
                 data-qtip={t(label)}
             >
                 <FormLabel {...InputLabelProps} classes={{root: classes.formLabel}} error={error}>
-                    <TextFieldLabel bc={{...bc, cvDisplayed: label}} info={bc.info} error={error} isRequired={false} />
+                    <TextFieldLabel
+                        bc={{...bc, [VAR_RECORD_DISPLAYED]: label}}
+                        info={bc.info}
+                        error={error}
+                        isRequired={false}
+                    />
                 </FormLabel>
                 <Radio
                     checked={String(value) === String(this.props.value)}
@@ -128,10 +147,11 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
         );
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         // eslint-disable-next-line id-length
         const {store, bc, classes, error, field, t} = this.props;
-        const isRow = bc.contentview === "hbox";
+        const {contentview = "", align} = bc;
 
         const content = (
             <Scrollbars autoHeight autoHeightMax={371} autoHeightMin={30} hideTracksWhenNotNeeded preventAltScroll>
@@ -140,8 +160,8 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
                         <Grid
                             container
                             spacing={1}
-                            direction={isRow ? "row" : "column"}
-                            wrap={isRow ? "nowrap" : "wrap"}
+                            {...GRID_CONFIGS[contentview]}
+                            {...GRID_ALIGN_CONFIGS[`${align}-${contentview}`]}
                             style={{overflow: "hidden", width: "100%"}}
                         >
                             {store.suggestions.map((record) => (
@@ -155,7 +175,7 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
             </Scrollbars>
         );
 
-        if (bc.cvDisplayed) {
+        if (bc[VAR_RECORD_DISPLAYED]) {
             return (
                 <Grid
                     container
@@ -169,8 +189,8 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
                             &nbsp;
                         </Grid>
                         <Grid item className={classes.labelTextWrapper}>
-                            <span data-qtip={t(bc.cvDisplayed)} className={classes.labelText}>
-                                {t(bc.cvDisplayed)}
+                            <span data-qtip={t(bc[VAR_RECORD_DISPLAYED])} className={classes.labelText}>
+                                {t(bc[VAR_RECORD_DISPLAYED])}
                             </span>
                         </Grid>
                         {field && field.rules && field.rules.indexOf("required") >= 0 ? (

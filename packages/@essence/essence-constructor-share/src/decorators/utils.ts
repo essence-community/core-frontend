@@ -4,6 +4,7 @@
  * import {getMasterData, getMasterObject} from "../models/RecordsModel/RecordsModelUtils";
  */
 import {IBuilderConfig, IPageModel, IRecordsModel} from "../types";
+import {VAR_RECORD_MASTER_ID} from "../constants";
 
 interface ICheckAutoloadPropsType {
     bc: IBuilderConfig;
@@ -16,14 +17,18 @@ export function checkAutoload({bc, recordsStore}: ICheckAutoloadPropsType) {
         return false;
     }
 
-    if (bc.autoload === "true" && (!bc.ckMaster || bc.reqsel !== "true")) {
+    if (bc.autoload === "true" && (!bc[VAR_RECORD_MASTER_ID] || bc.reqsel !== "true")) {
         return true;
     }
 
     /*
-     * If (!isEmpty(bc.ckMaster) && pageStore) {
+     * If (!isEmpty(bc[VAR_RECORD_MASTER_ID]) && pageStore) {
      *     return !isEmptyLodash(
-     *         getMasterData(getMasterObject(bc.ckMaster, pageStore), bc.idproperty || "ck_id", pageStore.globalValues),
+     *         getMasterData(
+     *              getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore),
+     *              bc.idproperty || "ck_id",
+     *              pageStore.globalValues
+     *       ),
      *     );
      * }
      */

@@ -2,7 +2,7 @@
 import * as React from "react";
 import {withStyles} from "@material-ui/core/styles";
 import {Grid} from "@material-ui/core";
-import {ToolBar, ToolBarDrawerButton} from "@essence/essence-constructor-components";
+import {ToolBar, ToolBarDrawerButton} from "@essence-community/constructor-components";
 import {styleTheme} from "../constants";
 import MenuGrid from "./MenuGrid/MenuGrid";
 import AppBarTabs from "./AppBarTabs/AppBarTabs";

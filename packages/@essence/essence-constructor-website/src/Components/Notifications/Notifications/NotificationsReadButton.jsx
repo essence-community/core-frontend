@@ -2,8 +2,8 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {Badge, ButtonBase} from "@material-ui/core";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {WithT, withTranslation} from "@essence-community/constructor-share/utils";
 
 type PropsType = WithT & {
     classes: {
@@ -29,7 +29,7 @@ const NotificationsReadButton = ({snackbarStore, classes, t}: PropsType) => {
             disabled={disabled}
             disableRipple
             disableFocusRipple
-            data-qtip={t("f42e28fe1287412fa6ec91b421377139")}
+            data-qtip={t("static:f42e28fe1287412fa6ec91b421377139")}
             data-page-object="snackbar-read-all"
         >
             <Icon iconfont="bell" iconfontname="fa" size="2x" />

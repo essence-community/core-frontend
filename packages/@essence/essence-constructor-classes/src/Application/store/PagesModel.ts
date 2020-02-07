@@ -10,8 +10,8 @@ import {
     IPageModel,
     IPagesModel,
     IApplicationModel,
-} from "@essence/essence-constructor-share";
-import {PageModel} from "@essence/essence-constructor-share/models";
+} from "@essence-community/constructor-share";
+import {PageModel} from "@essence-community/constructor-share/models";
 import {changePagePosition} from "../../Application/utils/changePagePosition";
 
 export class PagesModel implements IPagesModel {
@@ -24,12 +24,12 @@ export class PagesModel implements IPagesModel {
     // eslint-disable-next-line no-useless-constructor
     constructor(public applicationStore: IApplicationModel) {}
 
-    loadActivePage = (ckPage: string, autoset = true, isActiveRedirect = false): Promise<IPageModel> => {
+    loadActivePage = (pageId: string, autoset = true, isActiveRedirect = false): Promise<IPageModel> => {
         const activePage = new PageModel({
             applicationStore: this.applicationStore,
-            ckPage,
             isActiveRedirect,
             isReadOnly: false,
+            pageId,
         });
 
         this.pages.push(activePage);
@@ -38,11 +38,11 @@ export class PagesModel implements IPagesModel {
             this.activePage = activePage;
         }
 
-        return activePage.loadConfigAction(ckPage).then(() => activePage);
+        return activePage.loadConfigAction(pageId).then(() => activePage);
     };
 
-    reloadPageAction = (ckPage: string) => {
-        const activePage = this.pages.find((page) => page.ckPage === ckPage);
+    reloadPageAction = (pageId: string) => {
+        const activePage = this.pages.find((page) => page.pageId === pageId);
 
         if (activePage) {
             activePage.reloadPageAction();
@@ -51,30 +51,30 @@ export class PagesModel implements IPagesModel {
 
     setPageAction = action(
         "setPageAction",
-        async (ckPage: string, isActiveRedirect = false): Promise<false | IPageModel> => {
-            if (ckPage === "-1") {
+        async (pageId: string, isActiveRedirect = false): Promise<false | IPageModel> => {
+            if (pageId === "-1") {
                 return false;
             }
 
-            let activePage = this.pages.find((page) => page.ckPage === ckPage);
+            let activePage = this.pages.find((page) => page.pageId === pageId);
 
             if (activePage) {
                 this.activePage = activePage;
             } else {
-                activePage = await this.loadActivePage(ckPage, true, isActiveRedirect);
+                activePage = await this.loadActivePage(pageId, true, isActiveRedirect);
             }
 
             saveToStore(
                 STORE_PAGES_IDS_KEY,
-                this.pages.map((page) => page.ckPage),
+                this.pages.map((page) => page.pageId),
             );
 
             return activePage;
         },
     );
 
-    removePageAction = action("removePageAction", (ckPage: string) => {
-        const selectedPage = this.pages.find((page) => page.ckPage === ckPage);
+    removePageAction = action("removePageAction", (pageId: string) => {
+        const selectedPage = this.pages.find((page) => page.pageId === pageId);
 
         if (selectedPage) {
             selectedPage.clearAction();
@@ -87,13 +87,13 @@ export class PagesModel implements IPagesModel {
 
         saveToStore(
             STORE_PAGES_IDS_KEY,
-            this.pages.map((page) => page.ckPage),
+            this.pages.map((page) => page.pageId),
         );
     });
 
-    removePageOtherAction = action("removePageOtherAction", (ckPageLost: string) => {
+    removePageOtherAction = action("removePageOtherAction", (pageIdLost: string) => {
         this.pages.slice().forEach((page) => {
-            if (page.ckPage !== ckPageLost) {
+            if (page.pageId !== pageIdLost) {
                 this.pages.remove(page);
             }
         });
@@ -101,7 +101,7 @@ export class PagesModel implements IPagesModel {
         this.activePage = this.pages[0] || null;
         saveToStore(
             STORE_PAGES_IDS_KEY,
-            this.pages.map((page) => page.ckPage),
+            this.pages.map((page) => page.pageId),
         );
     });
 
@@ -111,8 +111,8 @@ export class PagesModel implements IPagesModel {
         removeFromStore(STORE_PAGES_IDS_KEY);
     });
 
-    removeAllPagesRightAction = action("removeAllPagesRightAction", (ckPage: string) => {
-        const pageIndex = this.pages.findIndex((page) => page.ckPage === ckPage);
+    removeAllPagesRightAction = action("removeAllPagesRightAction", (pageId: string) => {
+        const pageIndex = this.pages.findIndex((page) => page.pageId === pageId);
 
         this.pages.slice(pageIndex + 1).forEach((page) => {
             this.pages.remove(page);
@@ -126,7 +126,7 @@ export class PagesModel implements IPagesModel {
 
         saveToStore(
             STORE_PAGES_IDS_KEY,
-            this.pages.map((page) => page.ckPage),
+            this.pages.map((page) => page.pageId),
         );
     });
 
@@ -134,25 +134,25 @@ export class PagesModel implements IPagesModel {
         this.expansionRecords.set(ckId, !this.expansionRecords.get(ckId));
     });
 
-    restorePagesAction = action("restorePagesAction", (cvLogin: string) => {
+    restorePagesAction = action("restorePagesAction", (login: string) => {
         const pagesIds = getFromStore(STORE_PAGES_IDS_KEY, []);
         const lastCvLogin = getFromStore(STORE_LAST_CV_LOGIN_KEY);
         const promise = Promise.resolve();
 
-        if (cvLogin === lastCvLogin && pagesIds) {
-            pagesIds.forEach((ckPage) => {
-                const activePage = this.pages.find((page) => page.ckPage === ckPage);
+        if (login === lastCvLogin && pagesIds) {
+            pagesIds.forEach((pageId) => {
+                const activePage = this.pages.find((page) => page.pageId === pageId);
 
                 if (!activePage) {
                     const page = new PageModel({
                         applicationStore: this.applicationStore,
-                        ckPage,
                         isActiveRedirect: false,
+                        pageId,
                     });
 
                     this.pages.push(page);
 
-                    promise.then(() => page.loadConfigAction(ckPage));
+                    promise.then(() => page.loadConfigAction(pageId));
                 }
             });
         } else {
@@ -161,7 +161,7 @@ export class PagesModel implements IPagesModel {
 
         // This.globalRecordsStore.loadAllStoresAction(this.applicationStore);
 
-        saveToStore(STORE_LAST_CV_LOGIN_KEY, cvLogin);
+        saveToStore(STORE_LAST_CV_LOGIN_KEY, login);
     });
 
     movePages = (dragIndex: number, hoverIndex: number) => {
@@ -169,7 +169,7 @@ export class PagesModel implements IPagesModel {
 
         saveToStore(
             STORE_PAGES_IDS_KEY,
-            this.pages.map((page) => page.ckPage),
+            this.pages.map((page) => page.pageId),
         );
     };
 }

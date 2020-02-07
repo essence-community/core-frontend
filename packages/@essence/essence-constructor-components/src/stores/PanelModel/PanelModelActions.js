@@ -1,6 +1,7 @@
 // @flow
 import reduce from "lodash/reduce";
 import forEach from "lodash/forEach";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type ItemType, type ChildsType} from "./PanelModel";
 
 const FULL_WIDTH = 100;
@@ -12,15 +13,15 @@ export const getInitChilds = (childs: Array<Object>) => {
     const initChilds: ChildsType = {};
 
     childs.forEach((item: Object, index: number) => {
-        const width = item.width ? Number(item.width.replace(/%|px/, "")) : defaultWidth;
+        const width = item.width ? Number(item.width.replace(/%|px/u, "")) : defaultWidth;
 
         if (index === childs.length - 1) {
-            lastChildId = item.ckPageObject;
+            lastChildId = item[VAR_RECORD_PAGE_OBJECT_ID];
         }
 
-        initChilds[item.ckPageObject] = {
+        initChilds[item[VAR_RECORD_PAGE_OBJECT_ID]] = {
             collapsed: width < MIN_WIDTH,
-            id: item.ckPageObject,
+            id: item[VAR_RECORD_PAGE_OBJECT_ID],
             index,
             width: width < MIN_WIDTH ? 2 : width,
         };

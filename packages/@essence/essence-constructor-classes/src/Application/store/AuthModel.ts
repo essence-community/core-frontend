@@ -8,8 +8,8 @@ import {
     IAuthModel,
     IApplicationModel,
     loggerRoot,
-} from "@essence/essence-constructor-share";
-import {request} from "@essence/essence-constructor-share/request";
+} from "@essence-community/constructor-share";
+import {request} from "@essence-community/constructor-share/request";
 import {IAuthSession} from "./AuthModel.types";
 
 const logger = loggerRoot.extend("AuthModel");
@@ -20,10 +20,11 @@ export class AuthModel implements IAuthModel {
     // eslint-disable-next-line no-useless-constructor
     constructor(public applicationStore: IApplicationModel) {}
 
-    checkAuthAction = action("checkAuthAction", (history: History) =>
+    checkAuthAction = action("checkAuthAction", (history: History, session?: string) =>
         request({
             action: "sql",
             query: "GetSessionData",
+            session,
         })
             // @ts-ignore
             .then((response: IAuthSession) => {

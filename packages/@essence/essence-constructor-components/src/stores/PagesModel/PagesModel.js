@@ -5,7 +5,7 @@ import {
     saveToStore,
     removeFromStore,
     removeFromStoreByRegex,
-} from "@essence/essence-constructor-share/utils";
+} from "@essence-community/constructor-share/utils";
 import {STORE_PAGES_IDS_KEY, STORE_LAST_CV_LOGIN_KEY} from "../../constants";
 import {type CkIdType} from "../../BuilderType";
 import {changePagePosition} from "../../utils/changePagePosition";
@@ -33,7 +33,7 @@ export class PagesModel implements PagesModelInterface {
     globalRecordsStore: GlobalRecordsModelType;
 
     constructor({applicationStore, routesStore, history}: PagesModelPropsType) {
-        this.globalPageStore = new PageModel({applicationStore, ckPage: "-1", isActiveRedirect: false, routesStore});
+        this.globalPageStore = new PageModel({applicationStore, isActiveRedirect: false, pageId: "-1", routesStore});
         this.applicationStore = applicationStore;
         this.routesStore = routesStore;
         this.history = history;
@@ -46,11 +46,11 @@ export class PagesModel implements PagesModelInterface {
         });
     }
 
-    loadActivePage = (ckPage: string, autoset: boolean = true, isActiveRedirect: boolean = false) => {
+    loadActivePage = (pageId: string, autoset: boolean = true, isActiveRedirect: boolean = false) => {
         const activePage = new PageModel({
             applicationStore: this.applicationStore,
-            ckPage,
             isActiveRedirect,
+            pageId,
             routesStore: this.routesStore,
         });
 
@@ -60,37 +60,40 @@ export class PagesModel implements PagesModelInterface {
             this.activePage = activePage;
         }
 
-        return activePage.loadConfigAction(ckPage, this.applicationStore.session).then(() => activePage);
+        return activePage.loadConfigAction(pageId, this.applicationStore.session).then(() => activePage);
     };
 
-    reloadPageAction = (ckPage: string) => {
-        const activePage = this.pages.find((page) => page.ckPage === ckPage);
+    reloadPageAction = (pageId: string) => {
+        const activePage = this.pages.find((page) => page.pageId === pageId);
 
         if (activePage) {
             activePage.reloadPageAction();
         }
     };
 
-    setPageAction = action("addPage", async (ckPage: string, isActiveRedirect: boolean = false) => {
-        if (ckPage === "-1") {
+    setPageAction = action("addPage", async (pageId: string, isActiveRedirect: boolean = false) => {
+        if (pageId === "-1") {
             return false;
         }
 
-        let activePage = this.pages.find((page) => page.ckPage === ckPage);
+        let activePage = this.pages.find((page) => page.pageId === pageId);
 
         if (activePage) {
             this.activePage = activePage;
         } else {
-            activePage = await this.loadActivePage(ckPage, true, isActiveRedirect);
+            activePage = await this.loadActivePage(pageId, true, isActiveRedirect);
         }
 
-        saveToStore(STORE_PAGES_IDS_KEY, this.pages.map((page) => page.ckPage));
+        saveToStore(
+            STORE_PAGES_IDS_KEY,
+            this.pages.map((page) => page.pageId),
+        );
 
         return activePage;
     });
 
-    removePageAction = action("addPage", (ckPage: string) => {
-        const selectedPage = this.pages.find((page) => page.ckPage === ckPage);
+    removePageAction = action("addPage", (pageId: string) => {
+        const selectedPage = this.pages.find((page) => page.pageId === pageId);
 
         if (selectedPage) {
             selectedPage.clearAction();
@@ -104,12 +107,15 @@ export class PagesModel implements PagesModelInterface {
             this.activePage = this.pages.length ? this.pages[0] : null;
         }
 
-        saveToStore(STORE_PAGES_IDS_KEY, this.pages.map((page) => page.ckPage));
+        saveToStore(
+            STORE_PAGES_IDS_KEY,
+            this.pages.map((page) => page.pageId),
+        );
     });
 
     removePageOtherAction = action("removePageOtherAction", (ckPageLost: CkIdType) => {
         this.pages.slice().forEach((page) => {
-            if (page.ckPage !== ckPageLost) {
+            if (page.pageId !== ckPageLost) {
                 page.removePageAction();
                 // $FlowFixMe
                 this.pages.remove(page);
@@ -117,7 +123,10 @@ export class PagesModel implements PagesModelInterface {
         });
 
         this.activePage = this.pages[0] || null;
-        saveToStore(STORE_PAGES_IDS_KEY, this.pages.map((page) => page.ckPage));
+        saveToStore(
+            STORE_PAGES_IDS_KEY,
+            this.pages.map((page) => page.pageId),
+        );
     });
 
     removeAllPagesAction = action("removeAllPagesAction", () => {
@@ -129,8 +138,8 @@ export class PagesModel implements PagesModelInterface {
         removeFromStore(STORE_PAGES_IDS_KEY);
     });
 
-    removeAllPagesRightAction = action("removeAllPagesRightAction", (ckPage: string) => {
-        const pageIndex = this.pages.findIndex((page) => page.ckPage === ckPage);
+    removeAllPagesRightAction = action("removeAllPagesRightAction", (pageId: string) => {
+        const pageIndex = this.pages.findIndex((page) => page.pageId === pageId);
 
         this.pages.slice(pageIndex + 1).forEach((page) => {
             page.removePageAction();
@@ -144,48 +153,54 @@ export class PagesModel implements PagesModelInterface {
             this.activePage = this.pages[0] || null;
         }
 
-        saveToStore(STORE_PAGES_IDS_KEY, this.pages.map((page) => page.ckPage));
+        saveToStore(
+            STORE_PAGES_IDS_KEY,
+            this.pages.map((page) => page.pageId),
+        );
     });
 
     openCloseExpansionAction = action("openCloseExpansionAction", (ckId: CkIdType) => {
         this.expansionRecords.set(ckId, !this.expansionRecords.get(ckId));
     });
 
-    restorePagesAction = action("restorePagesAction", (cvLogin: string) => {
+    restorePagesAction = action("restorePagesAction", (login: string) => {
         // TODO: удалить преобразование в строку в 1.25.0, убедится что все обновлены на 1.24.0
         const pagesIds = getFromStore(STORE_PAGES_IDS_KEY, []).map(String);
         const lastCvLogin = getFromStore(STORE_LAST_CV_LOGIN_KEY);
         const promise = Promise.resolve();
 
-        if (cvLogin === lastCvLogin) {
-            pagesIds.forEach((ckPage) => {
-                const activePage = this.pages.find((page) => page.ckPage === ckPage);
+        if (login === lastCvLogin) {
+            pagesIds.forEach((pageId) => {
+                const activePage = this.pages.find((page) => page.pageId === pageId);
 
                 if (!activePage) {
                     const page = new PageModel({
                         applicationStore: this.applicationStore,
-                        ckPage,
                         isActiveRedirect: false,
+                        pageId,
                         routesStore: this.routesStore,
                     });
 
                     this.pages.push(page);
 
-                    promise.then(() => page.loadConfigAction(ckPage, this.applicationStore.session));
+                    promise.then(() => page.loadConfigAction(pageId, this.applicationStore.session));
                 }
             });
         } else {
-            removeFromStoreByRegex(/_filter_/);
+            removeFromStoreByRegex(/_filter_/u);
         }
 
         this.globalRecordsStore.loadAllStoresAction(this.applicationStore);
 
-        saveToStore(STORE_LAST_CV_LOGIN_KEY, cvLogin);
+        saveToStore(STORE_LAST_CV_LOGIN_KEY, login);
     });
 
     movePages = (dragIndex: number, hoverIndex: number) => {
         this.pages = changePagePosition(this.pages, dragIndex, hoverIndex);
 
-        saveToStore(STORE_PAGES_IDS_KEY, this.pages.map((page) => page.ckPage));
+        saveToStore(
+            STORE_PAGES_IDS_KEY,
+            this.pages.map((page) => page.pageId),
+        );
     };
 }

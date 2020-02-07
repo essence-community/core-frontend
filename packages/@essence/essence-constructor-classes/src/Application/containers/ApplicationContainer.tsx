@@ -6,16 +6,21 @@ import {
     ApplicationContext,
     VAR_RECORD_ID,
     PageLoader,
-    VAR_SELF_CV_URL,
+    VAR_RECORD_URL,
     FieldValue,
     loggerRoot,
     EditorContex,
     IEditorContext,
     IPageModel,
     IRecord,
-} from "@essence/essence-constructor-share";
-import {settingsStore, snackbarStore} from "@essence/essence-constructor-share/models";
-import {useTranslation} from "@essence/essence-constructor-share/utils";
+} from "@essence-community/constructor-share";
+import {settingsStore, snackbarStore} from "@essence-community/constructor-share/models";
+import {useTranslation} from "@essence-community/constructor-share/utils";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_SETTING_PROJECT_LOADER,
+    VAR_RECORD_CL_STATIC,
+} from "@essence-community/constructor-share/constants";
 import {useDisposable, useObserver} from "mobx-react-lite";
 import {reaction, observe} from "mobx";
 import {useParams, useHistory} from "react-router-dom";
@@ -33,7 +38,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
     const [trans] = useTranslation("meta");
     const onFormChange = React.useCallback(
         (form: typeof MobxReactForm) => {
-            logger(trans("f9c3bf3691864f4d87a46a9ba367a855"), form.values());
+            logger(trans("static:f9c3bf3691864f4d87a46a9ba367a855"), form.values());
         },
         [trans],
     );
@@ -52,7 +57,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
             const {routesStore, pagesStore, authStore} = applicationStore;
             const routes = routesStore ? routesStore.recordsStore.records : [];
             const pageConfig = routes.find(
-                (route: IRecord) => route[VAR_RECORD_ID] === ckId || route[VAR_SELF_CV_URL] === ckId,
+                (route: IRecord) => route[VAR_RECORD_ID] === ckId || route[VAR_RECORD_URL] === ckId,
             );
             const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
@@ -61,7 +66,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
             } else if (ckId !== undefined) {
                 pagesStore.setPageAction(ckId, true);
             } else if (pagesStore.pages.length) {
-                pagesStore.setPageAction(pagesStore.pages[0].ckPage, true);
+                pagesStore.setPageAction(pagesStore.pages[0].pageId, true);
             }
 
             if (authStore.userInfo.session && process.env.REACT_APP_REQUEST !== "MOCK") {
@@ -87,11 +92,11 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
     useDisposable(() => {
         return observe(applicationStore, "bc", (change) => {
             if (change.oldValue) {
-                applicationStore.pageStore.removeStore(change.oldValue.ckPageObject, applicationStore);
+                applicationStore.pageStore.removeStore(change.oldValue[VAR_RECORD_PAGE_OBJECT_ID], applicationStore);
             }
 
             if (change.newValue) {
-                applicationStore.pageStore.addStore(applicationStore, change.newValue.ckPageObject);
+                applicationStore.pageStore.addStore(applicationStore, change.newValue[VAR_RECORD_PAGE_OBJECT_ID]);
             }
         });
     });
@@ -106,7 +111,10 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
 
                 if (route && route[VAR_RECORD_ID]) {
                     pageId = route[VAR_RECORD_ID];
-                    routeUrl = route.clStatic && route[VAR_SELF_CV_URL] ? route[VAR_SELF_CV_URL] : route[VAR_RECORD_ID];
+                    routeUrl =
+                        route[VAR_RECORD_CL_STATIC] && route[VAR_RECORD_URL]
+                            ? route[VAR_RECORD_URL]
+                            : route[VAR_RECORD_ID];
                 } else if (applicationStore.authStore.userInfo.session) {
                     pageId = applicationStore.bc.defaultvalue;
                     routeUrl = applicationStore.bc.defaultvalue;
@@ -118,7 +126,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                     history.push(url);
                 }
 
-                if (pageId && (!activePage || activePage.ckPage !== pageId)) {
+                if (pageId && (!activePage || activePage.pageId !== pageId)) {
                     applicationStore.pagesStore.setPageAction(String(pageId), false);
                 }
             },
@@ -145,7 +153,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                     hiddenTimeout: 0,
                     status: "debug",
                     text: renderGlobalValuelsInfo(globalValues),
-                    title: trans("d2c071c58aca4b73853c1fcc6e2f08a3"),
+                    title: trans("static:d2c071c58aca4b73853c1fcc6e2f08a3"),
                 }),
         );
     });
@@ -169,7 +177,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                         {mapComponents(applicationStore.bc.childs, (ChildComponent, childBc) => (
                             <ChildComponent
                                 pageStore={applicationStore.pageStore}
-                                key={childBc.ckPageObject}
+                                key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
                                 bc={childBc}
                                 visible
                             />
@@ -178,7 +186,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                     </>
                 ) : (
                     // @ts-ignore
-                    <PageLoader isLoading loaderType={settingsStore.settings.projectLoader} />
+                    <PageLoader isLoading loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER]} />
                 )}
             </EditorContex.Provider>
         </ApplicationContext.Provider>

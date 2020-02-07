@@ -1,8 +1,7 @@
-/* eslint max-lines: ["error", 410]*/
+/* eslint-disable max-lines */
 // @flow
 import {extendObservable, action} from "mobx";
 import findIndex from "lodash/findIndex";
-import camelCase from "lodash/camelCase";
 import isUndefined from "lodash/isUndefined";
 import toString from "lodash/toString";
 import isEqual from "lodash/isEqual";
@@ -10,7 +9,14 @@ import get from "lodash/get";
 import noop from "lodash/noop";
 import omit from "lodash/omit";
 import pLimit from "p-limit";
-import {i18next} from "@essence/essence-constructor-share/utils";
+import {i18next} from "@essence-community/constructor-share/utils";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+    VAR_RECORD_JN_TOTAL_CNT,
+} from "@essence-community/constructor-share/constants";
 import {loggerRoot} from "../../constants";
 import {isEmpty} from "../../utils/base";
 import {type BuilderModeType} from "../../BuilderType";
@@ -36,7 +42,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
 
     selectedRecord: ?Object;
 
-    selectedRecrodValues: Object;
+    selectedRecordValues: Object;
 
     records: Array<any>;
 
@@ -74,11 +80,14 @@ export class RecordsModel implements RecordsModelInterface<Object> {
 
     loadCounter: number;
 
+    recordId: string;
+
     constructor(bc: Object, pageStore: PageModelType, options: OptionsType = {}) {
         this.bc = bc;
+        this.recordId = bc.idproperty || VAR_RECORD_ID;
         this.pageStore = pageStore;
         this.pageSize = bc.pagesize ? parseInt(bc.pagesize, 10) : undefined;
-        this.valueField = options.valueField || "ckId";
+        this.valueField = options.valueField || this.recordId;
         this.parentStore = options.parentStore;
         this.noLoadChilds = options.noLoadChilds || false;
         const {records = []} = bc;
@@ -102,7 +111,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
                 },
                 recordsAll: records,
                 get recordsCount() {
-                    return (this.records[0] || {}).jnTotalCnt || 0;
+                    return (this.records[0] || {})[VAR_RECORD_JN_TOTAL_CNT] || 0;
                 },
                 recordsState: {
                     isUserReload: false,
@@ -113,7 +122,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
                 selectedRecord: undefined,
                 selectedRecordId: undefined,
                 selectedRecordIndex: -1,
-                selectedRecrodValues: {},
+                selectedRecordValues: {},
             },
             undefined,
             {deep: false},
@@ -121,8 +130,8 @@ export class RecordsModel implements RecordsModelInterface<Object> {
     }
 
     loadRecordsAction = action("loadRecordsAction", ({selectedRecordId, status = "load"} = {}) => {
-        if (isEmpty(this.bc.ckQuery)) {
-            logger(i18next.t("0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
+        if (isEmpty(this.bc[VAR_RECORD_QUERY_ID])) {
+            logger(i18next.t("static:0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
 
             return Promise.resolve();
         }
@@ -132,6 +141,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
         return loadRecordsAction.call(this, {
             applicationStore: this.pageStore.applicationStore,
             bc: this.bc,
+            recordId: this.recordId,
             selectedRecordId,
             status,
         });
@@ -139,14 +149,14 @@ export class RecordsModel implements RecordsModelInterface<Object> {
 
     setSelectionAction = action(
         "setSelectionAction",
-        async (ckId: ?SelectedRecordIdType, key: string = "ckId"): Promise<number> => {
+        async (ckId: ?SelectedRecordIdType, key: string = this.recordId): Promise<number> => {
             const oldSelectedRecord = this.selectedRecord;
             const stringCkId = isUndefined(ckId) ? "" : toString(ckId);
 
             this.selectedRecordIndex = findIndex(this.records, (record) => toString(record[key]) === stringCkId);
             this.selectedRecord = this.records[this.selectedRecordIndex];
 
-            this.selectedRecrodValues = this.selectedRecord || {};
+            this.selectedRecordValues = this.selectedRecord || {};
             this.selectedRecordId = this.selectedRecord ? this.selectedRecord[this.valueField] : undefined;
 
             await get(this.parentStore, "afterSelected", noop)();
@@ -156,6 +166,8 @@ export class RecordsModel implements RecordsModelInterface<Object> {
                     this.reloadChildStoresAction(oldSelectedRecord);
                 }
             });
+
+            this.setRecordToGlobal();
 
             return this.selectedRecordIndex;
         },
@@ -170,7 +182,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
             const promises = [];
 
             this.pageStore.stores.forEach((store) => {
-                if (store.bc && store.bc.ckMaster === this.bc.ckPageObject) {
+                if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
                     const promise = store.reloadStoreAction();
 
                     if (promise) {
@@ -202,11 +214,12 @@ export class RecordsModel implements RecordsModelInterface<Object> {
     clearChildsStoresAction = action("clearChildsStoresAction", () => {
         this.selectedRecordIndex = -1;
         this.selectedRecord = undefined;
-        this.selectedRecrodValues = {};
+        this.selectedRecordValues = {};
         this.selectedRecordId = undefined;
+        this.setRecordToGlobal();
 
         this.pageStore.stores.forEach((store) => {
-            if (store.bc && store.bc.ckMaster === this.bc.ckPageObject) {
+            if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
                 store.clearStoreAction();
 
                 if (store.recordsStore) {
@@ -242,6 +255,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
                             filesNames: [file.name],
                             formData,
                             pageStore: this.pageStore,
+                            recordId: this.recordId,
                             ...options,
                         }),
                     );
@@ -255,6 +269,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
             return saveAction.call(this, values, mode, {
                 bc: this.bc,
                 pageStore: this.pageStore,
+                recordId: this.recordId,
                 ...options,
             });
         },
@@ -266,6 +281,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
             downloadAction.call(this, values, mode, {
                 bc: this.bc,
                 pageStore: this.pageStore,
+                recordId: this.recordId,
                 ...omit(options, ["formData"]),
             }),
     );
@@ -288,25 +304,25 @@ export class RecordsModel implements RecordsModelInterface<Object> {
     setFirstRecord = action("setFirstRecord", () => {
         const newRecord = this.records[0] || {};
 
-        this.setSelectionAction(newRecord.ckId);
+        this.setSelectionAction(newRecord[this.recordId]);
     });
 
     setPrevRecord = action("setPrevRecord", () => {
         const newRecord = this.records[this.selectedRecordIndex - 1] || {};
 
-        this.setSelectionAction(newRecord.ckId);
+        this.setSelectionAction(newRecord[this.recordId]);
     });
 
     setNextRecord = action("setNextRecord", () => {
         const newRecord = this.records[this.selectedRecordIndex + 1] || {};
 
-        this.setSelectionAction(newRecord.ckId);
+        this.setSelectionAction(newRecord[this.recordId]);
     });
 
     setLastRecord = action("setLastRecord", () => {
         const newRecord = this.records[this.records.length - 1] || {};
 
-        this.setSelectionAction(newRecord.ckId);
+        this.setSelectionAction(newRecord[this.recordId]);
     });
 
     setOrderAction = action("setOrderAction", (property) => {
@@ -344,9 +360,17 @@ export class RecordsModel implements RecordsModelInterface<Object> {
         this.searchValues = values;
     });
 
+    setRecordToGlobal = () => {
+        if (this.bc.setrecordtoglobal) {
+            this.pageStore.updateGlobalValues({
+                [this.bc.setrecordtoglobal]: this.selectedRecord || null,
+            });
+        }
+    };
+
     sortRecordsAction = action("sortRecordsAction", () => {
         const {direction} = this.order;
-        const property = camelCase(this.order.property);
+        const {property} = this.order;
         const records = [...this.records];
 
         records.sort((rec1, rec2) =>

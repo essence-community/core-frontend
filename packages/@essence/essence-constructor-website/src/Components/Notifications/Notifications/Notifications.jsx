@@ -3,10 +3,10 @@ import * as React from "react";
 import {ButtonBase, Grid} from "@material-ui/core";
 import {compose} from "recompose";
 import {inject, observer} from "mobx-react";
-import {Scrollbars} from "@essence/essence-constructor-components";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
-import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {Scrollbars} from "@essence-community/constructor-components";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {snackbarStore} from "@essence-community/constructor-share/models";
+import {WithT, withTranslation} from "@essence-community/constructor-share/utils";
 import {withStyles} from "@material-ui/core/styles";
 import NotificationsTabs from "../NotificationsTabs/NotificationsTabs";
 import {type ApplicationModelType} from "../../../Stores/ApplicationModel";
@@ -31,6 +31,7 @@ const SCROLLBARS_STYLE = {
 };
 
 class Notifications extends React.Component<PropsType> {
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {classes, applicationStore} = this.props;
 
@@ -69,7 +70,7 @@ class Notifications extends React.Component<PropsType> {
                             }}
                             disabled={!snackbarStore.snackbarsInStatus.length}
                             disableRipple
-                            data-qtip={this.props.t("b0c16afd6507416196e01223630f9d62")}
+                            data-qtip={this.props.t("static:b0c16afd6507416196e01223630f9d62")}
                             data-page-object={"snackbar-remove-all"}
                         >
                             <Icon iconfont="trash-o" iconfontname="fa" size="2x" />
@@ -92,9 +93,4 @@ class Notifications extends React.Component<PropsType> {
     }
 }
 
-export default compose(
-    inject(mapStoresToProps),
-    withStyles(styles),
-    withTranslation("meta"),
-    observer,
-)(Notifications);
+export default compose(inject(mapStoresToProps), withStyles(styles), withTranslation("meta"), observer)(Notifications);

@@ -7,9 +7,29 @@ export const useStyles = makeStyles((theme: IEssenceTheme) => ({
         position: "absolute",
         top: "50%",
     },
+    resizerIcon: {
+        position: "absolute",
+    },
+    resizerRootIcon: {
+        "&$resizerRootCollapsed": {
+            // 35 / 2
+            width: 17.5,
+        },
+        height: 35,
+        overflow: "hidden",
+        pointerEvents: "none",
+        position: "fixed",
+        transform: "translate(-50%, -50%)",
+        transition: "transform 0.2s ease",
+        width: 35,
+        zIndex: 2100,
+    },
+    resizerRootIconDown: {
+        transform: "translate(-50%, -50%) scaleX(0.5)",
+    },
     sideResizer: {
         backgroundColor: theme.palette.common.white,
-        cursor: "col-resize",
+        cursor: "none",
         height: "100%",
         position: "relative",
         width: 10,

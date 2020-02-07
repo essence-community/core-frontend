@@ -4,9 +4,10 @@ import {inject, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
 import {Grid, Button} from "@material-ui/core";
 import {compose} from "recompose";
-import {camelCaseKeys, WithT, withTranslation} from "@essence/essence-constructor-share/utils";
-import {PageLoader} from "@essence/essence-constructor-share";
-import {loggerRoot, preference} from "@essence/essence-constructor-components";
+import {WithT, withTranslation} from "@essence-community/constructor-share/utils";
+import {PageLoader} from "@essence-community/constructor-share";
+import {loggerRoot, preference} from "@essence-community/constructor-components";
+import {VAR_SETTING_PROJECT_LOADER} from "@essence-community/constructor-share/constants";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import {type AuthModelType} from "../../Stores/AuthModel";
 import AppBarAuth from "../../Components/AppBarAuth";
@@ -78,10 +79,10 @@ class RedirectPage extends React.Component<PropsType, StateType> {
             const params = JSON.parse(data);
 
             if (!params.page) {
-                logger(this.props.t("1764da1153734ec8b4fc4cf48cc78c88"));
+                logger(this.props.t("static:1764da1153734ec8b4fc4cf48cc78c88"));
                 // eslint-disable-next-line no-negated-condition
             } else if (!params.filter) {
-                logger(this.props.t("e7f66e6d5b5340909ea4ded06f5a034f"));
+                logger(this.props.t("static:e7f66e6d5b5340909ea4ded06f5a034f"));
             } else {
                 return params;
             }
@@ -97,7 +98,7 @@ class RedirectPage extends React.Component<PropsType, StateType> {
         const {params} = this.state;
 
         if (params && applicationStore.session) {
-            applicationStore.redirectToAction(`${params.page}`, camelCaseKeys(params.filter));
+            applicationStore.redirectToAction(`${params.page}`, params.filter);
         } else if (params) {
             history.push("/auth", {backUrl: `/redirect/${this.props.match.params.b64}`});
         } else {
@@ -116,22 +117,24 @@ class RedirectPage extends React.Component<PropsType, StateType> {
             <Grid container justify="center" alignItems="center" className={classes.root}>
                 <Grid item>
                     <Grid container className={classes.panel} spacing={1} direction="column" justify="center">
-                        <Grid item>{t("b35d5fa33cb14a1db46c4f684dc14037")}</Grid>
+                        <Grid item>{t("static:b35d5fa33cb14a1db46c4f684dc14037")}</Grid>
                         {params ? (
                             <React.Fragment>
-                                <Grid item>{t("6f93ca102d5f488aa3082e0344486e9e", {page: params.page})}</Grid>
+                                <Grid item>{t("static:6f93ca102d5f488aa3082e0344486e9e", {page: params.page})}</Grid>
                                 <Grid item>
-                                    {t("dda349a2de0049408168eb5d148442df", {filter: JSON.stringify(params.filter)})}
+                                    {t("static:dda349a2de0049408168eb5d148442df", {
+                                        filter: JSON.stringify(params.filter),
+                                    })}
                                 </Grid>
                             </React.Fragment>
                         ) : (
-                            <Grid item>{t("86d945313cbd41beb5f5068c2696bcec")}</Grid>
+                            <Grid item>{t("static:86d945313cbd41beb5f5068c2696bcec")}</Grid>
                         )}
                         <Grid item>
-                            {t("6512d68884cd4848ba6129655dec51d4", {
+                            {t("static:6512d68884cd4848ba6129655dec51d4", {
                                 status: isAuthorized
-                                    ? t("0d9c5a0b816947a781f02baad2c2ce22")
-                                    : t("e8281a11d60542c684f76ffab31216aa"),
+                                    ? t("static:0d9c5a0b816947a781f02baad2c2ce22")
+                                    : t("static:e8281a11d60542c684f76ffab31216aa"),
                             })}
                         </Grid>
                         <Grid item className={classes.btnContainer}>
@@ -143,8 +146,8 @@ class RedirectPage extends React.Component<PropsType, StateType> {
                                 disabled={!params}
                             >
                                 {isAuthorized
-                                    ? t("fad9bcdb1bf54640ab58d1781546c72c")
-                                    : t("82eafeb106eb41aaa205152471b1b7b6")}
+                                    ? t("static:fad9bcdb1bf54640ab58d1781546c72c")
+                                    : t("static:664bdebac78e47079bb685732899c5f6")}
                             </Button>
                         </Grid>
                     </Grid>
@@ -158,7 +161,10 @@ class RedirectPage extends React.Component<PropsType, StateType> {
                     {applicationStore.isApplicationReady ? (
                         content
                     ) : (
-                        <PageLoader isLoading loaderType={applicationStore.settingsStore.settings.projectLoader} />
+                        <PageLoader
+                            isLoading
+                            loaderType={applicationStore.settingsStore.settings[VAR_SETTING_PROJECT_LOADER]}
+                        />
                     )}
                 </AppBar>
             );

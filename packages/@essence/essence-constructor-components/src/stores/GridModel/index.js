@@ -1,6 +1,6 @@
 // @flow
 export {GridModel} from "./GridModel";
-export {updateGridWidth, updateTopGrid, updateMarginTopGrid} from "./gridModelResize";
+export {updateGridWidth} from "./gridModelResize";
 export {handleFocusAfterKeyDown} from "./gridFocus";
 
 // Type

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Form} from "mobx-react-form";
-import {IApplicationModel, IBuilderMode, IPageModel, IRoutesModel, IPagesModel} from "./types";
+import {IApplicationModel, IBuilderMode, IPageModel, IRoutesModel, IPagesModel, IProjectModel} from "./types";
 
 export interface IEditorContext {
     form: Form;
@@ -16,3 +16,4 @@ export const RoutesContext = React.createContext<IRoutesModel | undefined>(undef
 export const PagesContext = React.createContext<IPagesModel | undefined>(undefined);
 export const PanelWidthContext = React.createContext<number | undefined>(undefined);
 export const BuilderTypeContext = React.createContext("builder-type");
+export const ProjectContext = React.createContext<IProjectModel | undefined>(undefined);

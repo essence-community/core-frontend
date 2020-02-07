@@ -4,8 +4,8 @@
  */
 import {action, extendObservable} from "mobx";
 import mime from "mime";
-import {fileTypeValidate, fileSizeValidate, i18next} from "@essence/essence-constructor-share/utils";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
+import {fileTypeValidate, fileSizeValidate, i18next} from "@essence-community/constructor-share/utils";
+import {snackbarStore} from "@essence-community/constructor-share/models";
 import {type ButtonConfigType} from "../ButtonModel";
 import {StoreBaseModel} from "../StoreBaseModel";
 import {
@@ -22,19 +22,19 @@ const KILOBYTE = 1024;
 
 const fileSizeText = (size: number) => {
     if (size > TERABYTE) {
-        return `${(size / TERABYTE).toFixed(0)} ${i18next.t("05eab6e983464c5f8708045bd5131ebe")}`;
+        return `${(size / TERABYTE).toFixed(0)} ${i18next.t("static:05eab6e983464c5f8708045bd5131ebe")}`;
     }
     if (size > GIGABYTE) {
-        return `${(size / GIGABYTE).toFixed(0)} ${i18next.t("8d7f133d5ef04c4485748e38635fe9eb")}`;
+        return `${(size / GIGABYTE).toFixed(0)} ${i18next.t("static:8d7f133d5ef04c4485748e38635fe9eb")}`;
     }
     if (size > MEGABYTE) {
-        return `${(size / MEGABYTE).toFixed(0)} ${i18next.t("58f3245889924db1b023691819f34607")}`;
+        return `${(size / MEGABYTE).toFixed(0)} ${i18next.t("static:58f3245889924db1b023691819f34607")}`;
     }
     if (size > KILOBYTE) {
-        return `${(size / KILOBYTE).toFixed(0)} ${i18next.t("82c9683d5aa7483aadc6b0b21f3dd174")}`;
+        return `${(size / KILOBYTE).toFixed(0)} ${i18next.t("static:82c9683d5aa7483aadc6b0b21f3dd174")}`;
     }
 
-    return `${size} ${i18next.t("bc377ecb59164cc4915c669130e298ef")}`;
+    return `${size} ${i18next.t("static:bc377ecb59164cc4915c669130e298ef")}`;
 };
 
 export class FileInputModel extends StoreBaseModel implements FileInputModelType {
@@ -57,17 +57,22 @@ export class FileInputModel extends StoreBaseModel implements FileInputModelType
         );
 
         this.fileTypes = this.bc.filetypes
-            ? this.bc.filetypes
-                  .split(",")
-                  .map((ext) => mime.getType(ext.trim()))
-                  .reduce((obj, value) => {
-                      obj.push(value);
-                      if (value === "application/zip") {
-                          obj.push("application/x-zip-compressed");
-                      }
+            ? this.bc.filetypes.split(",").reduce((obj, ext) => {
+                  const value = mime.getType(ext.trim());
 
-                      return obj;
-                  }, [])
+                  obj.push(`.${ext}`);
+                  if (value) {
+                      obj.push(value);
+                  }
+                  if (value === "application/zip") {
+                      obj.push("application/x-zip-compressed");
+                  }
+                  if (ext === "csv") {
+                      obj.push("text/csv");
+                  }
+
+                  return obj;
+              }, [])
             : [
                   "application/pdf",
                   "application/zip",
@@ -77,6 +82,14 @@ export class FileInputModel extends StoreBaseModel implements FileInputModelType
                   "application/msword",
                   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                   "application/vnd.oasis.opendocument.text",
+                  ".doc",
+                  ".docx",
+                  ".odt",
+                  ".ods",
+                  ".zip",
+                  ".csv",
+                  ".xls",
+                  ".xlsx",
                   "application/vnd.oasis.opendocument.spreadsheet",
                   "text/plain",
               ];
@@ -106,7 +119,7 @@ export class FileInputModel extends StoreBaseModel implements FileInputModelType
             snackbarStore.snackbarOpenAction(
                 {
                     status: "error",
-                    text: `${i18next.t("7d9d6e64612643cfa6bb568cd3bde543")} ${fileSizeText(
+                    text: `${i18next.t("static:7d9d6e64612643cfa6bb568cd3bde543")} ${fileSizeText(
                         parseInt(this.bc.maxfile || "5242880", 10),
                     )}`,
                 },
@@ -118,7 +131,7 @@ export class FileInputModel extends StoreBaseModel implements FileInputModelType
             snackbarStore.snackbarOpenAction(
                 {
                     status: "error",
-                    text: `${i18next.t("5d4e96bd15bb429195f2bbef3e0ff126")} ${
+                    text: `${i18next.t("static:5d4e96bd15bb429195f2bbef3e0ff126")} ${
                         this.bc.filetypes ? this.bc.filetypes : "doc, docx, pdf, zip, txt, ods, odt, xls, xlsx"
                     }`,
                 },

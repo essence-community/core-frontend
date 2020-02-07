@@ -1,4 +1,5 @@
 // @flow
+// eslint-disable-next-line max-lines-per-function
 export const HorizontalResizerStyles = (theme: any) => ({
     childrenContainer: {
         "&$containerHide": {

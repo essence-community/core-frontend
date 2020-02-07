@@ -1,4 +1,5 @@
 // @flow
+// eslint-disable-next-line max-lines-per-function
 const BuilderFilterStylesLight = (theme: any) => ({
     dynamicTitle: {
         "&:before": {

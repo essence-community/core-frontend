@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {Icon} from "@essence-community/constructor-share/Icon";
 import {mountWithTheme} from "../../../utils/test";
 import {createEmptyPageStore} from "../../../stores";
 import {GridModel} from "../../../stores/GridModel";
@@ -8,6 +8,7 @@ import {gridBc, treeBc} from "../../__mock__/builderConfigs";
 import {records} from "../../__mock__/records";
 import GridColumnDetailSchevron from "../GridColumnDetailSchevron/GridColumnDetailSchevron";
 
+// eslint-disable-next-line max-lines-per-function
 describe("GridColumnDetailSchevron", () => {
     const pageStore = createEmptyPageStore();
     const store = new GridModel({bc: gridBc, pageStore});

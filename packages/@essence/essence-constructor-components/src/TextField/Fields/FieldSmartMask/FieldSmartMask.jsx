@@ -2,7 +2,7 @@
 import * as React from "react";
 import {reaction} from "mobx";
 import {observer} from "mobx-react";
-import camelCase from "lodash/camelCase";
+import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {isEqualStr} from "../../../utils/base";
 import TextFieldLabel from "../../TextFieldComponents/TextFieldLabel/TextFieldLabel";
 import {type TextFieldChildProps} from "../../BuilderFieldType";
@@ -56,8 +56,8 @@ class FieldSmartMask extends React.Component<PropsType, StateType> {
         const {imask} = props;
         const [valueColumnName, maskColumnName] = imask ? imask.substring(1).split(".") : ["", ""];
 
-        this.valueColumnName = camelCase(valueColumnName);
-        this.maskColumnName = camelCase(maskColumnName);
+        this.valueColumnName = valueColumnName;
+        this.maskColumnName = maskColumnName;
     }
 
     componentDidMount() {
@@ -76,8 +76,8 @@ class FieldSmartMask extends React.Component<PropsType, StateType> {
                     }
 
                     const recordId = form.$(this.valueColumnName).get("value");
-                    const indentityDoctTypeRecord = indentityDocTypeRecordsStore.records.find((recod) =>
-                        isEqualStr(recod.ckId, recordId),
+                    const indentityDoctTypeRecord = indentityDocTypeRecordsStore.records.find((record) =>
+                        isEqualStr(record[indentityDoctTypeRecord.recordId || VAR_RECORD_ID], recordId),
                     );
 
                     return indentityDoctTypeRecord;
@@ -108,7 +108,7 @@ class FieldSmartMask extends React.Component<PropsType, StateType> {
         const {field} = this.props;
         const imask = indentityDoctTypeRecord[this.maskColumnName];
         const imaskDesc = indentityDoctTypeRecord[`${this.maskColumnName}Desc`];
-        const identityId = indentityDoctTypeRecord.ckId;
+        const identityId = indentityDoctTypeRecord[indentityDoctTypeRecord.recordId || VAR_RECORD_ID];
         const regex = getRegexFromImask(imask || "");
 
         this.setState({
@@ -199,11 +199,11 @@ class FieldSmartMask extends React.Component<PropsType, StateType> {
         userInput,
     }: GetNewValueAndSelectionType) => {
         if (userInput && userInput !== userInput.toUpperCase()) {
-            if (new RegExp(`^${formatChars.R}$`).test(userInput.toUpperCase())) {
+            if (new RegExp(`^${formatChars.R}$`, "u").test(userInput.toUpperCase())) {
                 return this.handleProcessRFormat({selection, userInput, value});
             }
 
-            if (new RegExp(`^${formatChars.Б}$`).test(userInput.toUpperCase())) {
+            if (new RegExp(`^${formatChars.Б}$`, "u").test(userInput.toUpperCase())) {
                 return this.handleProcessBFormat({selection, userInput, value});
             }
         }
@@ -211,7 +211,7 @@ class FieldSmartMask extends React.Component<PropsType, StateType> {
         return {
             newSelection: selection,
             newValue:
-                userInput && new RegExp(`^${formatChars.R}$`).test(userInput) && value === oldValue
+                userInput && new RegExp(`^${formatChars.R}$`, "u").test(userInput) && value === oldValue
                     ? `${value.slice(0, selection.start - 1)}${userInput}${value.slice(selection.start - 1)}`
                     : value,
         };

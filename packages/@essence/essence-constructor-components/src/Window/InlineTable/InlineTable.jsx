@@ -2,7 +2,8 @@
 import * as React from "react";
 import {Table, TableBody} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {EditorContex} from "@essence/essence-constructor-share";
+import {EditorContex} from "@essence-community/constructor-share/context";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type WindowModelType} from "../../stores/WindowModel";
 import {type PageModelType} from "../../stores/PageModel";
 import {GridModel} from "../../stores/GridModel";
@@ -32,6 +33,20 @@ export const WIDTH_MAP = {
 class InlineTable extends React.PureComponent<PropsType> {
     static contextType = EditorContex;
 
+    // Duplicate data-qtip from visible column
+    getQtip = (idx) => {
+        const {gridStore} = this.props;
+
+        try {
+            return gridStore.refs
+                .get("body")
+                .children[gridStore.recordsStore.selectedRecordIndex].children[idx].getAttribute("data-qtip");
+        } catch {
+            return "";
+        }
+    };
+
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {pageStore, store, classes, theme = {}, gridStore} = this.props;
         const {form} = this.context;
@@ -42,7 +57,10 @@ class InlineTable extends React.PureComponent<PropsType> {
             <form style={{top}} className={isNew ? undefined : classes.inlineRoot} onSubmit={form.onSubmit}>
                 <button type="submit" name="save" className={classes.hidden} />
                 <Focusable>
-                    <Table className={classes.inlineTable} data-page-object={`${store.windowBc.ckPageObject}-table`}>
+                    <Table
+                        className={classes.inlineTable}
+                        data-page-object={`${store.windowBc[VAR_RECORD_PAGE_OBJECT_ID]}-table`}
+                    >
                         <GridColgroup store={gridStore} />
                         <TableBody>
                             <GridRow
@@ -51,26 +69,33 @@ class InlineTable extends React.PureComponent<PropsType> {
                                 indexStripe={false}
                                 store={gridStore}
                                 pageStore={pageStore}
-                                record={gridStore.recordsStore.selectedRecrodValues}
+                                record={gridStore.recordsStore.selectedRecordValues}
                                 disableSelect
                             >
-                                {store.childs.map((field) => (
-                                    <td
-                                        key={field.ckPageObject}
-                                        className={classes.tableCell}
-                                        style={{width: WIDTH_MAP[field.datatype]}}
-                                        data-page-object={`${field.ckPageObject}-cell`}
-                                    >
-                                        {Boolean(checkEditable(store.config.mode, field.editmode)) && (
-                                            <BuilderField
-                                                bc={field}
-                                                noLabel={field.datatype === "boolean" || field.datatype === "checkbox"}
-                                                pageStore={pageStore}
-                                                visible
-                                            />
-                                        )}
-                                    </td>
-                                ))}
+                                {store.childs.map((field, idx) => {
+                                    const isEditable = Boolean(checkEditable(store.config.mode, field.editmode));
+
+                                    return (
+                                        <td
+                                            key={field[VAR_RECORD_PAGE_OBJECT_ID]}
+                                            className={classes.tableCell}
+                                            style={{width: WIDTH_MAP[field.datatype]}}
+                                            data-page-object={`${field[VAR_RECORD_PAGE_OBJECT_ID]}-cell`}
+                                            data-qtip={isEditable || isNew ? undefined : this.getQtip(idx)}
+                                        >
+                                            {isEditable && (
+                                                <BuilderField
+                                                    bc={field}
+                                                    noLabel={
+                                                        field.datatype === "boolean" || field.datatype === "checkbox"
+                                                    }
+                                                    pageStore={pageStore}
+                                                    visible
+                                                />
+                                            )}
+                                        </td>
+                                    );
+                                })}
                             </GridRow>
                         </TableBody>
                     </Table>

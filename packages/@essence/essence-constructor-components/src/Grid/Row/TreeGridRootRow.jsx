@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
 import {observer} from "mobx-react";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type GridModelType} from "../../stores/GridModel";
 import {type PageModelType} from "../../stores/PageModel";
 import {type BuilderGridType} from "../BuilderGridType";
@@ -23,7 +24,7 @@ class TreeGridRootRow extends React.Component<PropsType> {
 
         return (
             <BaseGridRow
-                data-page-object={`${bc.ckPageObject}-root-row`}
+                data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-root-row`}
                 tabIndex="-1"
                 visible
                 store={store}
@@ -33,7 +34,7 @@ class TreeGridRootRow extends React.Component<PropsType> {
                 {store.gridColumns.map((column) =>
                     column.istree === "true" ? (
                         <GridCell
-                            key={column.ckPageObject}
+                            key={column[VAR_RECORD_PAGE_OBJECT_ID]}
                             column={column}
                             bc={bc}
                             record={DEFAULT_ROOT_RECORD}
@@ -42,7 +43,7 @@ class TreeGridRootRow extends React.Component<PropsType> {
                             visible
                         />
                     ) : (
-                        <td key={column.ckPageObject} />
+                        <td key={column[VAR_RECORD_PAGE_OBJECT_ID]} />
                     ),
                 )}
             </BaseGridRow>

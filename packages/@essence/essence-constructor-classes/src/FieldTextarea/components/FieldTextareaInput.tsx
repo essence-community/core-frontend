@@ -1,6 +1,6 @@
 import * as React from "react";
 import {TextareaAutosize} from "@material-ui/core";
-import {Scrollbars, VerticalResizer} from "@essence/essence-constructor-share/uicomponents";
+import {Scrollbars, VerticalResizer} from "@essence-community/constructor-share/uicomponents";
 import {useStyles} from "./FieldTextareaInput.styles";
 import {IFieldTextareaInputProps} from "./FieldTextareaInput.types";
 

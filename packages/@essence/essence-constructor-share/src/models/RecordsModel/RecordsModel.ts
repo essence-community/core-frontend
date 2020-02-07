@@ -19,8 +19,15 @@ import {
     IRecordsSearchOptions,
     IRouteRecord,
 } from "../../types";
-import {camelCaseMemoized, i18next} from "../../utils";
-import {loggerRoot, VAR_RECORD_ID} from "../../constants";
+import {i18next} from "../../utils";
+import {
+    loggerRoot,
+    VAR_RECORD_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+    VAR_RECORD_JN_TOTAL_CNT,
+} from "../../constants";
 import {loadRecordsAction} from "./loadRecordsAction";
 
 interface ILoadRecordsProps {
@@ -36,7 +43,7 @@ export class RecordsModel implements IRecordsModel {
 
     selectedRecord: IRecord | undefined;
 
-    selectedRecrodValues: IRecord;
+    selectedRecordValues: IRecord;
 
     recordsState: IRecordsState<IRecord>;
 
@@ -70,7 +77,7 @@ export class RecordsModel implements IRecordsModel {
 
     filter?: Record<string, FieldValue>[];
 
-    valueField: string = VAR_RECORD_ID;
+    valueField: string;
 
     parentStore: IStoreBaseModel | undefined;
 
@@ -80,12 +87,16 @@ export class RecordsModel implements IRecordsModel {
 
     route: IRouteRecord;
 
+    recordId: string;
+
     constructor(bc: IBuilderConfig, options?: IOptions) {
         this.bc = bc;
         this.pageSize = bc.pagesize ? parseInt(bc.pagesize, 10) : undefined;
+        this.recordId = bc.idproperty || VAR_RECORD_ID;
+        this.valueField = this.recordId;
 
         if (options) {
-            this.valueField = options.valueField || VAR_RECORD_ID;
+            this.valueField = options.valueField || this.recordId;
             this.parentStore = options.parentStore;
             this.noLoadChilds = options.noLoadChilds || false;
             this.pageStore = options.pageStore;
@@ -113,7 +124,7 @@ export class RecordsModel implements IRecordsModel {
                 },
                 recordsAll: records,
                 get recordsCount() {
-                    return (this.records[0] || {}).jnTotalCnt || 0;
+                    return (this.records[0] || {})[VAR_RECORD_JN_TOTAL_CNT] || 0;
                 },
                 recordsState: {
                     isUserReload: false,
@@ -126,7 +137,7 @@ export class RecordsModel implements IRecordsModel {
                     return this.selectedRecord ? this.selectedRecord[this.valueField] : undefined;
                 },
                 selectedRecordIndex: -1,
-                get selectedRecrodValues() {
+                get selectedRecordValues() {
                     return this.selectedRecord || {};
                 },
             },
@@ -138,8 +149,8 @@ export class RecordsModel implements IRecordsModel {
     loadRecordsAction = action(
         "loadRecordsAction",
         ({selectedRecordId, status = "load", isUserReload}: ILoadRecordsProps = {}) => {
-            if (!this.bc.ckQuery) {
-                logger(i18next.t("0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
+            if (!this.bc[VAR_RECORD_QUERY_ID]) {
+                logger(i18next.t("static:0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
 
                 return Promise.resolve();
             }
@@ -150,6 +161,7 @@ export class RecordsModel implements IRecordsModel {
                 applicationStore: this.applicationStore,
                 bc: this.bc,
                 isUserReload,
+                recordId: this.recordId,
                 selectedRecordId,
                 status,
             });
@@ -158,7 +170,7 @@ export class RecordsModel implements IRecordsModel {
 
     setSelectionAction = action(
         "setSelectionAction",
-        async (ckId?: FieldValue, key = VAR_RECORD_ID): Promise<number> => {
+        async (ckId?: FieldValue, key = this.recordId): Promise<number> => {
             const oldSelectedRecord = this.selectedRecord;
             const stringCkId = ckId === undefined ? "" : String(ckId);
 
@@ -171,6 +183,7 @@ export class RecordsModel implements IRecordsModel {
                 await this.parentStore.afterSelected();
             }
 
+            this.setRecordToGlobal();
             setTimeout(() => {
                 if (this.selectedRecord !== oldSelectedRecord && !this.noLoadChilds) {
                     this.reloadChildStoresAction(oldSelectedRecord);
@@ -190,7 +203,7 @@ export class RecordsModel implements IRecordsModel {
             const promises: Array<Promise<any>> = [];
 
             this.pageStore.stores.forEach((store: IStoreBaseModel) => {
-                if (store.bc && store.bc.ckMaster === this.bc.ckPageObject) {
+                if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
                     const promise = store.reloadStoreAction();
 
                     if (promise) {
@@ -222,10 +235,11 @@ export class RecordsModel implements IRecordsModel {
     clearChildsStoresAction = action("clearChildsStoresAction", () => {
         this.selectedRecordIndex = -1;
         this.selectedRecord = undefined;
+        this.setRecordToGlobal();
 
         if (this.pageStore) {
             this.pageStore.stores.forEach((store) => {
-                if (store.bc && store.bc.ckMaster === this.bc.ckPageObject) {
+                if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
                     store.clearStoreAction();
 
                     if (store.recordsStore) {
@@ -249,25 +263,25 @@ export class RecordsModel implements IRecordsModel {
     setFirstRecord = action("setFirstRecord", () => {
         const newRecord = this.recordsState.records[0] || {};
 
-        this.setSelectionAction(newRecord.ckId);
+        this.setSelectionAction(newRecord[this.recordId]);
     });
 
     setPrevRecord = action("setPrevRecord", () => {
         const newRecord = this.recordsState.records[this.selectedRecordIndex - 1] || {};
 
-        this.setSelectionAction(newRecord.ckId);
+        this.setSelectionAction(newRecord[this.recordId]);
     });
 
     setNextRecord = action("setNextRecord", () => {
         const newRecord = this.recordsState.records[this.selectedRecordIndex + 1] || {};
 
-        this.setSelectionAction(newRecord.ckId);
+        this.setSelectionAction(newRecord[this.recordId]);
     });
 
     setLastRecord = action("setLastRecord", () => {
         const newRecord = this.recordsState.records[this.recordsState.records.length - 1] || {};
 
-        this.setSelectionAction(newRecord.ckId);
+        this.setSelectionAction(newRecord[this.recordId]);
     });
 
     setOrderAction = action("setOrderAction", (property: string) => {
@@ -313,7 +327,7 @@ export class RecordsModel implements IRecordsModel {
 
     sortRecordsAction = action("sortRecordsAction", () => {
         const {direction} = this.order;
-        const property = camelCaseMemoized(this.order.property || "");
+        const {property = ""} = this.order;
         const records = [...this.recordsState.records];
 
         records.sort((rec1, rec2) => {
@@ -369,6 +383,14 @@ export class RecordsModel implements IRecordsModel {
         };
     });
 
+    setRecordToGlobal = () => {
+        if (this.bc.setrecordtoglobal && this.pageStore) {
+            this.pageStore.updateGlobalValues({
+                [this.bc.setrecordtoglobal]: this.selectedRecord || null,
+            });
+        }
+    };
+
     setLoadingAction = action("setLoadingAction", (isLoading: boolean) => {
         this.isLoading = isLoading;
     });
@@ -379,6 +401,7 @@ export class RecordsModel implements IRecordsModel {
             saveAction.call(this, values, mode, {
                 bc: this.bc,
                 pageStore: this.pageStore,
+                recordId: this.recordId,
                 ...options,
             }),
     );

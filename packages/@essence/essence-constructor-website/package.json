@@ -1,7 +1,8 @@
 {
-  "name": "@essence/essence-constructor-website",
-  "version": "2.0.1",
+  "name": "@essence-community/constructor-website",
+  "version": "2.1.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
     "start": "node scripts/start.js",
@@ -12,9 +13,9 @@
   },
   "dependencies": {
     "@babel/core": "7.7.5",
-    "@essence/essence-constructor-classes": "2.0.1",
-    "@essence/essence-constructor-components": "2.0.1",
-    "@essence/essence-constructor-share": "file:../essence-constructor-share/lib",
+    "@essence-community/constructor-classes": "2.1.0",
+    "@essence-community/constructor-components": "2.1.0",
+    "@essence-community/constructor-share": "file:../essence-constructor-share/lib",
     "@material-ui/core": "^4.7.2",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "^4.2.4",
@@ -63,8 +64,6 @@
     "react": "16.12.0",
     "react-app-polyfill": "^1.0.5",
     "react-dev-utils": "^10.0.0",
-    "react-dnd": "^10.0.2",
-    "react-dnd-html5-backend": "^10.0.2",
     "react-dom": "16.12.0",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",

@@ -2,14 +2,15 @@ import * as React from "react";
 import {useObserver} from "mobx-react-lite";
 import keycode from "keycode";
 import {IconButton, InputAdornment} from "@material-ui/core";
-import {StandardTextFieldProps} from "@material-ui/core/TextField";
-import {IBuilderConfig, Icon, IFieldProps} from "@essence/essence-constructor-share";
+import {IBuilderConfig, Icon, IFieldProps} from "@essence-community/constructor-share";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {IEssenceTextFieldProps} from "@essence-community/constructor-share/types";
 import {FieldComboModel} from "../store/FieldComboModel";
 import {ISuggestion} from "../store/FieldComboModel.types";
 import {useStyles} from "./FieldComboInput.styles";
 
 interface IProps extends IFieldProps {
-    textField: React.ComponentType<StandardTextFieldProps>;
+    textField: React.ComponentType<IEssenceTextFieldProps>;
     open: boolean;
     store: FieldComboModel;
     bc: IBuilderConfig;
@@ -100,12 +101,12 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
 
     const chevron = open ? (
         <IconButton
-            key={`${props.bc.ckPageObject}-open`}
+            key={`${props.bc[VAR_RECORD_PAGE_OBJECT_ID]}-open`}
             color="secondary"
             disableRipple
             tabIndex={-1}
             className={classes.iconRoot}
-            data-page-object={`${props.bc.ckPageObject}-chevron-up`}
+            data-page-object={`${props.bc[VAR_RECORD_PAGE_OBJECT_ID]}-chevron-up`}
             onFocus={handlFocusInput}
             onClick={handleButtonUp}
             disabled={props.disabled}
@@ -114,18 +115,19 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
         </IconButton>
     ) : (
         <IconButton
-            key={`${props.bc.ckPageObject}-close`}
+            key={`${props.bc[VAR_RECORD_PAGE_OBJECT_ID]}-close`}
             color="secondary"
             disableRipple
             tabIndex={-1}
             className={classes.iconRoot}
-            data-page-object={`${props.bc.ckPageObject}-chevron-down`}
+            data-page-object={`${props.bc[VAR_RECORD_PAGE_OBJECT_ID]}-chevron-down`}
             onFocus={handlFocusInput}
             disabled={props.disabled}
         >
             <Icon iconfont="chevron-down" />
         </IconButton>
     );
+    const tips = [...props.tips, chevron];
 
     return useObserver(() => (
         <TextField
@@ -133,8 +135,9 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             ref={textFieldRef}
             InputProps={{
                 ...otherProps.InputProps,
-                endAdornment: <InputAdornment position="end">{[...props.tips, chevron]}</InputAdornment>,
+                endAdornment: <InputAdornment position="end">{tips}</InputAdornment>,
             }}
+            tips={tips}
             value={props.store.inputValue}
             onClick={props.disabled ? undefined : handleInputClick}
             onChange={props.disabled ? undefined : handleChange}

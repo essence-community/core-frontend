@@ -1,5 +1,6 @@
 // @flow
 import * as React from "react";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type PageModelType} from "../stores/PageModel";
 import {type RecordsModelType} from "../stores/RecordsModel";
 import {type BuilderBaseType} from "../BuilderType";
@@ -18,12 +19,14 @@ type ModelType = {
     +recordsStore?: RecordsModelType,
 };
 
+// eslint-disable-next-line max-lines-per-function
 function withModelDecorator<BCType: BuilderBaseType, Props: ModelHOCProps<BCType>, Model: ModelType>(
     createModel: (bc: BCType, props: Props) => Model,
     name: string = "store",
 ): (
     React.ComponentType<Props>,
 ) => React.ComponentType<$Diff<Props, {store: Model | void, isAutoLoad: boolean | void}>> {
+    // eslint-disable-next-line max-lines-per-function
     return (WrappedComponent) => {
         class ModelHOC extends React.Component<Props, {store: ?Model, isAutoLoad: boolean, ckPageObject: string}> {
             static defaultProps = {
@@ -45,7 +48,7 @@ function withModelDecorator<BCType: BuilderBaseType, Props: ModelHOCProps<BCType
                  * TODO: fix CORE-1155
                  * $FlowFixMe
                  */
-                const ckPageObject = store.bc ? store.bc.ckPageObject : bc.ckPageObject;
+                const ckPageObject = store.bc ? store.bc[VAR_RECORD_PAGE_OBJECT_ID] : bc[VAR_RECORD_PAGE_OBJECT_ID];
 
                 if (ckPageObject) {
                     // $FlowFixMe

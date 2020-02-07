@@ -27,7 +27,7 @@ type DisposerType = () => void;
 interface ICheckLoading {
     pageStore: IPageModel | null;
     bc: IBuilderConfig;
-    ckMaster?: string;
+    masterId?: string;
 }
 
 // 15sec * 1000ms - cycle delay, if global set incoreclty
@@ -38,7 +38,7 @@ export class CheckLoading {
 
     private bc: IBuilderConfig;
 
-    private ckMaster?: string;
+    private masterId?: string;
 
     private resolve: () => void;
 
@@ -52,15 +52,15 @@ export class CheckLoading {
 
     private timeoutId: any;
 
-    constructor({pageStore, bc, ckMaster}: ICheckLoading) {
+    constructor({pageStore, bc, masterId}: ICheckLoading) {
         this.bc = bc;
-        this.ckMaster = ckMaster;
+        this.masterId = masterId;
         this.pageStore = pageStore;
         this.timeoutId = setTimeout(this.handleTimeoutError, CYCLE_TIMEOUT);
     }
 
     public wait(): Promise<boolean> {
-        const master = this.pageStore && this.ckMaster ? this.pageStore.stores.get(this.ckMaster) : undefined;
+        const master = this.pageStore && this.masterId ? this.pageStore.stores.get(this.masterId) : undefined;
 
         return new Promise((resolve, reject) => {
             this.resolve = resolve;
@@ -148,7 +148,7 @@ export class CheckLoading {
         for (const dispose of this.checkers as any) {
             dispose();
         }
-        this.reject(new Error(i18next.t("06dfd0c3b97b45e5abc146a14c0fab37")));
+        this.reject(new Error(i18next.t("static:06dfd0c3b97b45e5abc146a14c0fab37")));
     };
 
     private handleFinishedLoading = (name: string, store: {recordsStore: IRecordsModel}) => (): void => {

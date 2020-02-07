@@ -1,11 +1,11 @@
-import {Icon} from "@essence/essence-constructor-share";
+import {Icon} from "@essence-community/constructor-share";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_ROUTE_NAME,
     VAR_RECORD_ICON_NAME,
     VAR_RECORD_LEAF,
-} from "@essence/essence-constructor-share/constants/variables";
-import {useTranslation} from "@essence/essence-constructor-share/utils";
+} from "@essence-community/constructor-share/constants/variables";
+import {useTranslation} from "@essence-community/constructor-share/utils";
 import {Grid, Typography} from "@material-ui/core";
 import clsx from "clsx";
 import {useObserver} from "mobx-react-lite";

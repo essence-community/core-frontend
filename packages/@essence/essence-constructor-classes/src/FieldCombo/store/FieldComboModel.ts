@@ -4,14 +4,13 @@ import {
     IStoreBaseModelProps,
     IRecordsModel,
     toString,
-    camelCaseMemoized,
     debounce,
     FieldValue,
-    VAR_RECORD_ID,
     IRecord,
-} from "@essence/essence-constructor-share";
-import {i18next} from "@essence/essence-constructor-share/utils";
-import {StoreBaseModel, RecordsModel} from "@essence/essence-constructor-share/models";
+} from "@essence-community/constructor-share";
+import {VAR_RECORD_CL_IS_MASTER} from "@essence-community/constructor-share/constants";
+import {i18next, isEmpty} from "@essence-community/constructor-share/utils";
+import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {ISuggestion} from "./FieldComboModel.types";
 
 export class FieldComboModel extends StoreBaseModel {
@@ -60,7 +59,13 @@ export class FieldComboModel extends StoreBaseModel {
             ) === -1
         ) {
             suggestions = [
-                {isNew: true, label: this.inputValue, labelLower: inputValueLower, value: this.inputValue},
+                {
+                    id: -1,
+                    isNew: true,
+                    label: this.inputValue,
+                    labelLower: inputValueLower,
+                    value: this.inputValue,
+                },
                 ...suggestions,
             ];
         }
@@ -78,13 +83,13 @@ export class FieldComboModel extends StoreBaseModel {
         const {bc, pageStore, applicationStore} = props;
         const {column = "", displayfield = "", valuefield = "", minchars = "", querydelay = ""} = bc;
 
-        this.displayfield = camelCaseMemoized(displayfield);
-        this.valuefield = camelCaseMemoized(valuefield || column);
+        this.displayfield = displayfield;
+        this.valuefield = valuefield || column;
         this.valueLength = parseInt(minchars, 10);
 
         this.recordsStore = new RecordsModel(bc, {
             applicationStore,
-            noLoadChilds: Boolean(bc.clIsMaster),
+            noLoadChilds: Boolean(bc[VAR_RECORD_CL_IS_MASTER]),
             pageStore,
             valueField: this.valuefield,
         });
@@ -98,7 +103,7 @@ export class FieldComboModel extends StoreBaseModel {
 
     reloadStoreAction = (): Promise<object | undefined> => {
         if (!this.recordsStore.isLoading) {
-            const selectedRecordId = this.recordsStore.selectedRecrodValues[VAR_RECORD_ID];
+            const selectedRecordId = this.recordsStore.selectedRecordValues[this.recordsStore.recordId];
 
             return this.recordsStore.loadRecordsAction({
                 selectedRecordId:
@@ -163,7 +168,7 @@ export class FieldComboModel extends StoreBaseModel {
 
     handleSetValueList = (value: FieldValue, loaded: boolean, isUserSearch: boolean) => {
         const stringValue = toString(value);
-        const suggestionIndex = this.suggestions.findIndex((sug) => sug.value === stringValue);
+        const suggestion = this.suggestions.find((sug) => sug.value === stringValue);
 
         // Cancel loadDebounce when value select from list or press enter from list
         if (!isUserSearch) {
@@ -171,8 +176,8 @@ export class FieldComboModel extends StoreBaseModel {
             this.loadDebounce.cancel();
         }
 
-        if (suggestionIndex >= 0) {
-            return this.handleSetSuggestionValue(suggestionIndex, isUserSearch);
+        if (suggestion) {
+            return this.handleSetSuggestionValue(suggestion, isUserSearch);
         } else if (loaded) {
             if (!isUserSearch) {
                 this.inputValue = "";
@@ -194,16 +199,12 @@ export class FieldComboModel extends StoreBaseModel {
         const isNewValue = stringValue.indexOf(allownew) === 0;
         const stringNewValue = isNewValue ? stringValue.replace(allownew, "") : stringValue;
 
-        const suggestionIndex = this.suggestions.findIndex((sug) => sug.value === stringValue);
+        const suggestion = this.suggestions.find((sug) => sug.value === stringValue);
 
-        if (suggestionIndex >= 0) {
-            this.inputValue = stringNewValue;
-
-            return this.handleSetSuggestionValue(suggestionIndex, isUserSearch);
+        if (suggestion) {
+            return this.handleSetSuggestionValue(suggestion, isUserSearch);
         } else if (loaded && !isUserSearch) {
-            if (!isNewValue) {
-                this.inputValue = "";
-            }
+            this.inputValue = "";
 
             return false;
         } else if (!this.recordsStore.isLoading && !isNewValue) {
@@ -211,6 +212,12 @@ export class FieldComboModel extends StoreBaseModel {
             if (this.valueLength) {
                 if (toString(stringNewValue).length >= this.valueLength) {
                     this.recordsStore.searchAction({[this.valuefield]: value}, {isUserReload: false});
+                } else if (isEmpty(value)) {
+                    /*
+                     * Check click "Clear" button
+                     * This come when use click by "Clear" button and not in isUserSearch mode
+                     */
+                    this.inputValue = "";
                 }
             } else {
                 this.loadDebounce(stringNewValue, false);
@@ -224,12 +231,11 @@ export class FieldComboModel extends StoreBaseModel {
         return !value && value !== 0;
     };
 
-    handleSetSuggestionValue = (suggestionIndex: number, isUserSearch: boolean): boolean => {
-        const suggestion = this.suggestions[suggestionIndex];
-        const record = this.recordsStore.records[suggestionIndex];
+    handleSetSuggestionValue = (suggestion: ISuggestion, isUserSearch: boolean): boolean => {
+        if (this.recordsStore.selectedRecordValues[this.recordsStore.recordId] !== suggestion.id) {
+            const rec: any = suggestion.id;
 
-        if (record && this.recordsStore.selectedRecrodValues[VAR_RECORD_ID] !== record[VAR_RECORD_ID]) {
-            this.recordsStore.setSelectionAction(record[VAR_RECORD_ID]);
+            this.recordsStore.setSelectionAction(rec, this.recordsStore.recordId);
         }
 
         if (!isUserSearch) {
@@ -288,6 +294,7 @@ export class FieldComboModel extends StoreBaseModel {
         const label = toString(record[this.displayfield]);
 
         return {
+            id: record[this.recordsStore.recordId],
             label,
             labelLower: label.toLowerCase(),
             value: toString(record[this.valuefield]),
@@ -298,6 +305,7 @@ export class FieldComboModel extends StoreBaseModel {
         const label = i18next.t(toString(record[this.displayfield]), {ns: this.bc.localization});
 
         return {
+            id: record[this.recordsStore.recordId],
             label,
             labelLower: label.toLowerCase(),
             value: toString(record[this.valuefield]),

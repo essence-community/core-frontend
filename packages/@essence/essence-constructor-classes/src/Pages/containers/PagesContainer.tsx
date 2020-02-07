@@ -1,6 +1,6 @@
 import * as React from "react";
 import {useObserver} from "mobx-react-lite";
-import {getComponent, ApplicationContext, IPageModel} from "@essence/essence-constructor-share";
+import {getComponent, ApplicationContext, IPageModel} from "@essence-community/constructor-share";
 
 export const PagesContainer: React.FC = () => {
     const applicationStore = React.useContext(ApplicationContext);
@@ -11,7 +11,7 @@ export const PagesContainer: React.FC = () => {
             {applicationStore &&
                 BuilderPage &&
                 applicationStore.pagesStore.pages.map((page: IPageModel) => (
-                    <BuilderPage key={page.ckPage} pageStore={page} visible bc={page.pagerBc} />
+                    <BuilderPage key={page.pageId} pageStore={page} visible bc={page.pagerBc} />
                 ))}
         </>
     ));

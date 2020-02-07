@@ -1,5 +1,5 @@
 // @flow
-import {getThemeStyles} from "@essence/essence-constructor-components";
+import {getThemeStyles} from "@essence-community/constructor-components";
 import AuthPageStyles from "./AuthPageStyles";
 import AuthPageStylesDark from "./AuthPageStylesDark";
 import AuthPageStylesLight from "./AuthPageStylesLight";

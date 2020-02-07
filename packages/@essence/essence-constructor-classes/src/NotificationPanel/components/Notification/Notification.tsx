@@ -1,5 +1,5 @@
-import {Icon, ISnackbar, ISnackbarModel} from "@essence/essence-constructor-share";
-import {useTranslation} from "@essence/essence-constructor-share/utils";
+import {Icon, ISnackbar, ISnackbarModel} from "@essence-community/constructor-share";
+import {useTranslation} from "@essence-community/constructor-share/utils";
 import {ButtonBase, Grid} from "@material-ui/core";
 import cn from "classnames";
 import {useObserver} from "mobx-react-lite";
@@ -19,9 +19,9 @@ interface IFileStatus {
 }
 const statusesRead = (trans: any): IFileStatus => {
     return {
-        errorUpload: trans("73de7f460cc04bc8a068429d66e684ce"),
-        progress: trans("ad39828554114893872302a0aaa031af"),
-        uploaded: trans("5454b0c6f64b41daab8deb88f948a4f1"),
+        errorUpload: trans("static:73de7f460cc04bc8a068429d66e684ce"),
+        progress: trans("static:ad39828554114893872302a0aaa031af"),
+        uploaded: trans("static:5454b0c6f64b41daab8deb88f948a4f1"),
     };
 };
 
@@ -58,7 +58,7 @@ export const Notification: React.FC<INotificationProps> = (props) => {
                         onClick={handleDelete}
                         className={classes.clearButton}
                         disableRipple
-                        data-qtip={trans("f7e324760ede4c88b4f11f0af26c9e97")}
+                        data-qtip={trans("static:f7e324760ede4c88b4f11f0af26c9e97")}
                         data-page-object={`snackbar-remove-${snackbar.id}`}
                     >
                         <Icon iconfont="times" iconfontname="fa" size="1x" />

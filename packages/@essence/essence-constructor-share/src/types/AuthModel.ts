@@ -1,10 +1,11 @@
 import {History} from "history";
+import {VAR_RECORD_CV_LOGIN, VAR_RECORD_CA_ACTIONS} from "../constants";
 import {IApplicationModel} from "./Application";
 
 export interface IAuthSession {
     session: string;
-    cvLogin: string;
-    caActions: number[];
+    [VAR_RECORD_CV_LOGIN]: string;
+    [VAR_RECORD_CA_ACTIONS]: number[];
 }
 
 export interface IAuthModel {

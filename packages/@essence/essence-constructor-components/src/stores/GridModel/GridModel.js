@@ -2,10 +2,16 @@
 // @flow
 import {action, extendObservable, observable} from "mobx";
 import get from "lodash/get";
-import camelCase from "lodash/camelCase";
 import findIndex from "lodash/findIndex";
 import groupBy from "lodash/groupBy";
-import {i18next} from "@essence/essence-constructor-share/utils";
+import {i18next} from "@essence-community/constructor-share/utils";
+import {
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+    VAR_RECORD_LEAF,
+} from "@essence-community/constructor-share/constants";
 import {isEmpty} from "../../utils/base";
 import {gridScrollToRecordAction, gridSetGlobalValues, getGridHeight} from "../../utils/grid";
 import {type BuilderModeType, type CkIdType, type BuilderBaseType, type FormOptionsType} from "../../BuilderType";
@@ -37,24 +43,22 @@ function getGridColumns({columns = [], detail}: GridBuilderType) {
             column.istree === "true"
                 ? {
                       ...column,
-                      columnCamelCase: camelCase(column.column),
                       datatype: "tree",
                       datatypeBase: column.datatype,
-                      iconfontColumn: column.iconfont ? camelCase(column.iconfont) : column.iconfont,
-                      iconfontNameColumn: column.iconfontname ? camelCase(column.iconfontname) : column.iconfontname,
+                      iconfontColumn: column.iconfont ? column.iconfont : column.iconfont,
+                      iconfontNameColumn: column.iconfontname ? column.iconfontname : column.iconfontname,
                   }
                 : {
                       ...column,
-                      columnCamelCase: camelCase(column.column),
-                      iconfontColumn: column.iconfont ? camelCase(column.iconfont) : column.iconfont,
-                      iconfontNameColumn: column.iconfontname ? camelCase(column.iconfontname) : column.iconfontname,
+                      iconfontColumn: column.iconfont ? column.iconfont : column.iconfont,
+                      iconfontNameColumn: column.iconfontname ? column.iconfontname : column.iconfontname,
                   },
         );
 
     if (detail && findIndex(gridColumns, ["datatype", "detail"]) === -1) {
         return [
             {
-                ckPageObject: "detail",
+                [VAR_RECORD_PAGE_OBJECT_ID]: "detail",
                 datatype: "detail",
             },
             ...gridColumns,
@@ -64,17 +68,17 @@ function getGridColumns({columns = [], detail}: GridBuilderType) {
     return gridColumns;
 }
 
-function setGridSelections(gridStore: GridModelType, isSelected: boolean, ckParent: CkIdType) {
+function setGridSelections(gridStore: GridModelType, isSelected: boolean, parentId: CkIdType) {
     gridStore.recordsStore.records.forEach((record) => {
-        if (record.ckParent === ckParent) {
-            if (record.leaf === "false") {
-                setGridSelections(gridStore, isSelected, record.ckId);
+        if (record[VAR_RECORD_PARENT_ID] === parentId) {
+            if (record[VAR_RECORD_LEAF] === "false") {
+                setGridSelections(gridStore, isSelected, record[gridStore.recordsStore.recordId]);
             }
 
             if (isSelected) {
-                gridStore.selectedRecords.delete(record.ckId);
+                gridStore.selectedRecords.delete(record[gridStore.recordsStore.recordId]);
             } else {
-                gridStore.selectedRecords.set(record.ckId, record);
+                gridStore.selectedRecords.set(record[gridStore.recordsStore.recordId], record);
             }
         }
     });
@@ -82,15 +86,15 @@ function setGridSelections(gridStore: GridModelType, isSelected: boolean, ckPare
 
 function setGridSelectionsTop(gridStore: GridModelType, isSelected: boolean, ckChild: CkIdType) {
     gridStore.recordsStore.records.forEach((record) => {
-        if (record.ckId === ckChild) {
-            if (!isEmpty(record.ckParent)) {
-                setGridSelectionsTop(gridStore, isSelected, record.ckParent);
+        if (record[gridStore.recordsStore.recordId] === ckChild) {
+            if (!isEmpty(record[VAR_RECORD_PARENT_ID])) {
+                setGridSelectionsTop(gridStore, isSelected, record[VAR_RECORD_PARENT_ID]);
             }
 
             if (isSelected) {
-                gridStore.selectedRecords.delete(record.ckId);
+                gridStore.selectedRecords.delete(record[gridStore.recordsStore.recordId]);
             } else {
-                gridStore.selectedRecords.set(record.ckId, record);
+                gridStore.selectedRecords.set(record[gridStore.recordsStore.recordId], record);
             }
         }
     });
@@ -152,14 +156,13 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
     constructor({bc, pageStore}: StoreBaseModelPropsType) {
         super({bc, pageStore});
 
-        const recordsStore = new RecordsModel(bc, pageStore, {parentStore: this});
+        const recordsStore = new RecordsModel({...bc, setrecordtoglobal: undefined}, pageStore, {parentStore: this});
         const gridHeight = getGridHeight(bc);
 
         this.bc = bc;
         this.pageStore = pageStore;
         this.recordsStore = recordsStore;
-        this.valueFields = [["ckId", "ckId"]];
-
+        this.valueFields = [[this.recordsStore.recordId, this.recordsStore.recordId]];
         this.gridColumnsInitial = getGridColumns(bc);
         this.gridBtnsConfig = getGridBtnsConfig(bc, this);
 
@@ -188,11 +191,15 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
             get isPageSelectedRecords() {
                 if (bc.type === "TREEGRID") {
                     return this.recordsStore.records.every(
-                        (record) => record.leaf === "false" || Boolean(this.selectedRecords.get(record.ckId)),
+                        (record) =>
+                            record[VAR_RECORD_LEAF] === "false" ||
+                            Boolean(this.selectedRecords.get(record[this.recordsStore.recordId])),
                     );
                 }
 
-                return this.recordsStore.records.every((record) => Boolean(this.selectedRecords.get(record.ckId)));
+                return this.recordsStore.records.every((record) =>
+                    Boolean(this.selectedRecords.get(record[this.recordsStore.recordId])),
+                );
             },
             minHeight: GRID_ROW_HEIGHT * GRID_ROWS_COUNT,
             rootNode: true,
@@ -208,7 +215,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
             {
                 gridColumns: this.gridColumnsInitial,
                 get recordsTree() {
-                    return groupBy(this.recordsStore.records, "ckParent");
+                    return groupBy(this.recordsStore.records, VAR_RECORD_PARENT_ID);
                 },
             },
             undefined,
@@ -217,7 +224,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
 
         const columnsWithZeroWidth = [];
 
-        this.gridColumns.forEach(({ckPageObject, datatype, width}) => {
+        this.gridColumns.forEach(({[VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject, datatype, width}) => {
             const colWidth = WIDTH_MAP[datatype] || width;
 
             if (colWidth) {
@@ -236,8 +243,8 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
         if (bc.valuefield) {
             this.valueFields = bc.valuefield.split(",").map((key) => {
                 const keys = key.split("=");
-                const fieldKeyName = camelCase(keys[1] || keys[0]);
-                const valueField = camelCase(keys[0]);
+                const fieldKeyName = keys[1] || keys[0];
+                const [valueField] = keys;
 
                 return [fieldKeyName, valueField];
             });
@@ -268,8 +275,8 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
         },
     );
 
-    updateBtnAction = action("updateBtnAction", (mode: BuilderModeType, bc: BuilderBaseType, {files}) =>
-        this.recordsStore[mode === "7" ? "downloadAction" : "saveAction"](
+    updateBtnAction = action("updateBtnAction", async (mode: BuilderModeType, bc: BuilderBaseType, {files}) => {
+        const result = await this.recordsStore[mode === "7" ? "downloadAction" : "saveAction"](
             this.recordsStore.selectedRecord || {},
             bc.modeaction || mode,
             {
@@ -277,29 +284,37 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
                 files,
                 query: bc.updatequery || "Modify",
             },
-        ),
-    );
+        );
+
+        await this.scrollToRecordAction({});
+
+        return result;
+    });
 
     /**
      * Форма сохранения:
      * 1. values - все значения
      * 2. config - конфиг сохранения, берется из кнопки и передаваемых параметров
      */
-    saveAction = action("saveAction", (values: Object, config: GridSaveConfigType) => {
+    saveAction = action("saveAction", async (values: Object, config: GridSaveConfigType) => {
         const {actionBc, files, mode, windowStore} = config;
         const isDownload = mode === "7" || actionBc.mode === "7";
         const gridValues = getGridValues({gridStore: this, mode, pageStore: this.pageStore, values, windowStore});
 
-        return this.recordsStore[isDownload ? "downloadAction" : "saveAction"](gridValues, mode, {
+        const result = await this.recordsStore[isDownload ? "downloadAction" : "saveAction"](gridValues, mode, {
             actionBc,
             files,
             query: actionBc.updatequery,
         });
+
+        await this.scrollToRecordAction({});
+
+        return result;
     });
 
     reloadStoreAction = action("reloadStoreAction", (checkParent) => {
-        if (checkParent && this.bc.ckMaster && this.bc.reloadmaster === "true") {
-            const masterStore = this.pageStore.stores.get(this.bc.ckMaster);
+        if (checkParent && this.bc[VAR_RECORD_MASTER_ID] && this.bc.reloadmaster === "true") {
+            const masterStore = this.pageStore.stores.get(this.bc[VAR_RECORD_MASTER_ID]);
 
             if (masterStore && masterStore.reloadStoreAction) {
                 return masterStore.reloadStoreAction(checkParent);
@@ -336,14 +351,14 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
                 this.selectedRecords.set(ckId, record);
             }
 
-            if (!isEmpty(record.leaf)) {
+            if (!isEmpty(record[VAR_RECORD_LEAF])) {
                 setGridSelections(this, isSelected, ckId);
                 setGridSelectionsTop(
                     this,
                     !this.recordsStore.records
-                        .filter((rec) => rec.ckParent === record.ckParent)
-                        .some((rec) => this.selectedRecords.has(rec.ckId)),
-                    record.ckParent,
+                        .filter((rec) => rec[VAR_RECORD_PARENT_ID] === record[VAR_RECORD_PARENT_ID])
+                        .some((rec) => this.selectedRecords.has(rec[this.recordsStore.recordId])),
+                    record[VAR_RECORD_PARENT_ID],
                 );
             }
 
@@ -367,11 +382,13 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
             while (record) {
                 const childRecord = record;
 
-                // eslint-disable-next-line eqeqeq
-                record = this.recordsStore.records.find((rec) => rec.ckId == childRecord.ckParent);
+                record = this.recordsStore.records.find(
+                    // eslint-disable-next-line eqeqeq
+                    (rec) => rec[this.recordsStore.recordId] == childRecord[VAR_RECORD_PARENT_ID],
+                );
 
                 if (record) {
-                    this.expansionRecords.set(record.ckId, true);
+                    this.expansionRecords.set(record[this.recordsStore.recordId], true);
                 }
             }
         }
@@ -387,7 +404,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
         Promise.all(
             // eslint-disable-next-line max-statements
             (this.bc.filters || []).map(async (filter: BuilderFilterType) => {
-                const filterStore = this.pageStore.stores.get(filter.ckPageObject);
+                const filterStore = this.pageStore.stores.get(filter[VAR_RECORD_PAGE_OBJECT_ID]);
 
                 if (filterStore && filterStore.form) {
                     await awaitFormFilter(filterStore.form, false);
@@ -423,9 +440,11 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
      * @returns {undefined}
      */
     // eslint-disable-next-line no-unused-vars, default-param-last
-    onCreateChildWindowMaster = (mode: BuilderModeType = "1", bc: BuilderBaseType) => {
+    onCreateChildWindowMaster = (mode: BuilderModeType, bc: BuilderBaseType) => {
         const ckwindow =
-            bc.ckwindow || get(this.bc, "childwindow.0.ckwindow") || get(this.bc, "childwindow.0.ckPageObject");
+            bc.ckwindow ||
+            get(this.bc, "childwindow.0.ckwindow") ||
+            get(this.bc, `childwindow.0.${VAR_RECORD_PAGE_OBJECT_ID}`);
 
         return this.defaultHandlerBtnAction("1", bc, {ckwindow});
     };
@@ -438,9 +457,11 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
      * @returns {undefined}
      */
     // eslint-disable-next-line no-unused-vars, default-param-last
-    onRowCreateChildWindowMaster = (mode: BuilderModeType = "2", bc: BuilderBaseType) => {
+    onRowCreateChildWindowMaster = (mode: BuilderModeType, bc: BuilderBaseType) => {
         const ckwindow =
-            bc.ckwindow || get(this.bc, "childwindow.0.ckwindow") || get(this.bc, "childwindow.0.ckPageObject");
+            bc.ckwindow ||
+            get(this.bc, "childwindow.0.ckwindow") ||
+            get(this.bc, `childwindow.0.${VAR_RECORD_PAGE_OBJECT_ID}`);
 
         return this.defaultHandlerBtnAction("2", bc, {ckwindow});
     };
@@ -455,8 +476,8 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
     loadRecordsAction = (...args) => this.recordsStore.loadRecordsAction(...args);
 
     onPrintExcel = (values: Object, bcBtn: BuilderBaseType): Promise<boolean> => {
-        if (isEmpty(this.bc.ckQuery)) {
-            logger(i18next.t("0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
+        if (isEmpty(this.bc[VAR_RECORD_QUERY_ID])) {
+            logger(i18next.t("static:0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
 
             return Promise.resolve(true);
         }
@@ -479,8 +500,8 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
                 this.recordsStore.setPageNumberAction(0);
             }
 
-            if (record && Boolean(this.selectedRecords.get(record.ckId))) {
-                this.toggleSelectedRecordAction(record.ckId, record);
+            if (record && Boolean(this.selectedRecords.get(record[this.recordsStore.recordId]))) {
+                this.toggleSelectedRecordAction(record[this.recordsStore.recordId], record);
             }
 
             return res;
@@ -490,7 +511,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
     setAllSelectedRecords = action("setAllSelectedRecords", (all: boolean) => {
         if (all) {
             this.recordsStore.records.forEach((record) => {
-                this.selectedRecords.set(record.ckId, record);
+                this.selectedRecords.set(record[this.recordsStore.recordId], record);
             });
         } else {
             this.selectedRecords.clear();
@@ -520,6 +541,8 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
             return gridSetGlobalValues(this);
         }
 
+        this.setRecordToGlobal();
+
         return undefined;
     };
 
@@ -548,6 +571,20 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
     setGridColumns = action("setGridColumns", (gridColumns: Array<Object>) => {
         this.gridColumns = gridColumns;
     });
+
+    setRecordToGlobal = () => {
+        if (this.bc.setrecordtoglobal) {
+            const selectedRecords = this.selectedRecords ? [...this.selectedRecords.values()] : [];
+            const {selmode, collectionvalues} = this.bc;
+
+            this.pageStore.updateGlobalValues({
+                [this.bc.setrecordtoglobal]:
+                    selmode === "MULTI" || selmode === "SIMPLE" || collectionvalues === "array"
+                        ? selectedRecords
+                        : this.recordsStore.selectedRecord || null,
+            });
+        }
+    };
 
     handlers = {
         onPrintExcel: (mode: BuilderModeType, btnBc: BuilderBaseType, {values}: any) => {

@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import memoise from "lodash/memoize";
-import {Slider, preference} from "@essence/essence-constructor-components";
-import {saveToStore, WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {Slider, preference} from "@essence-community/constructor-components";
+import {saveToStore, WithT, withTranslation} from "@essence-community/constructor-share/utils";
 import {withStyles} from "@material-ui/core/styles";
 import {Typography, Button, TextField, Paper, Grid, Switch} from "@material-ui/core";
 import styles from "./PreferencePageStyles";
@@ -63,6 +63,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
         </Grid>
     );
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         // eslint-disable-next-line id-length
         const {classes, t} = this.props;
@@ -73,11 +74,11 @@ class PreferencePage extends React.Component<PropsType, StateType> {
                 <Grid container direction="column" spacing={2}>
                     <Grid item>
                         <Typography variant="h3" component="h3" align="center">
-                            {t("9c97fa4879f144a7b571c4905fa020cc")}
+                            {t("static:9c97fa4879f144a7b571c4905fa020cc")}
                         </Typography>
                     </Grid>
                     {this.renderPreference(
-                        t("d39cbeb8128e4f68b201b25291889dd2"),
+                        t("static:d39cbeb8128e4f68b201b25291889dd2"),
                         <Slider
                             value={form.delayTooltipShow}
                             min={100}
@@ -88,7 +89,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
                         />,
                     )}
                     {this.renderPreference(
-                        t("a43c94932e3a48c9867ac7b39bb22e60"),
+                        t("static:a43c94932e3a48c9867ac7b39bb22e60"),
                         <Slider
                             value={form.offsetTooltip}
                             min={0}
@@ -99,7 +100,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
                         />,
                     )}
                     {this.renderPreference(
-                        t("a376942ff8af4ec58eeb18ea5a05e772"),
+                        t("static:a376942ff8af4ec58eeb18ea5a05e772"),
                         <Slider
                             value={form.debounceTooltipTime}
                             min={8}
@@ -110,7 +111,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
                         />,
                     )}
                     {this.renderPreference(
-                        t("9a381df0ef4948ebaacb05852324d036"),
+                        t("static:9a381df0ef4948ebaacb05852324d036"),
                         <Switch
                             checked={form.wysiwygCombineFields}
                             onChange={this.handleChange("wysiwygCombineFields")}
@@ -118,7 +119,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
                         />,
                     )}
                     {this.renderPreference(
-                        t("c038518f0652435ba9914848f8693454"),
+                        t("static:c038518f0652435ba9914848f8693454"),
                         <Switch
                             checked={form.redirectDebugWindow}
                             onChange={this.handleChange("redirectDebugWindow")}
@@ -126,7 +127,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
                         />,
                     )}
                     {this.renderPreference(
-                        t("0852f8c548c741d39521833cd739a9f4"),
+                        t("static:0852f8c548c741d39521833cd739a9f4"),
                         <Switch
                             checked={form.experimentalUI}
                             onChange={this.handleChange("experimentalUI")}
@@ -134,7 +135,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
                         />,
                     )}
                     <TextField
-                        label={t("ad56476c04ff4d6091d5e87f5d823a9b")}
+                        label={t("static:ad56476c04ff4d6091d5e87f5d823a9b")}
                         value={form.modules}
                         name="modules"
                         onChange={this.handleChangeEvent}
@@ -143,7 +144,7 @@ class PreferencePage extends React.Component<PropsType, StateType> {
                         <Grid container justify="center">
                             <Grid item>
                                 <Button variant="contained" onClick={this.handleSave}>
-                                    {t("ef1415ca80804e149ceb5356efb2df97")}
+                                    {t("static:8a930c6b5dd440429c0f0e867ce98316")}
                                 </Button>
                             </Grid>
                         </Grid>

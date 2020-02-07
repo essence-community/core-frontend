@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import {DialogActions} from "@material-ui/core";
-import {EditorContex} from "@essence/essence-constructor-share";
+import {EditorContex} from "@essence-community/constructor-share";
 import {type WindowModelType} from "../../stores/WindowModel";
 import {type PageModelType} from "../../stores/PageModel";
 import BuilderMobxButton from "../../Button/BuilderMobxButton";

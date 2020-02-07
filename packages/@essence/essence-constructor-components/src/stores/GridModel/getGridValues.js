@@ -1,7 +1,7 @@
 // @flow
-import camelCase from "lodash/camelCase";
 import get from "lodash/get";
 import isString from "lodash/isString";
+import {VAR_RECORD_PARENT_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type PageModelType} from "../PageModel";
 import {type WindowModelType} from "../WindowModel/WindowModelTypes";
 import {type BuilderModeType} from "../../BuilderType";
@@ -22,21 +22,26 @@ function getFirstSubGridValues(
 ): Array<Object> {
     for (const child of windowStore.childs) {
         if (child.type === "GRID" || child.type === "TREEGRID") {
-            const store = pageStore.stores.get(child.ckPageObject);
+            const store = pageStore.stores.get(child[VAR_RECORD_PAGE_OBJECT_ID]);
 
             if (store && store.name === "grid") {
                 const gridStore: GridModelType = store;
                 const values: Array<Object> = [];
-                const valuefield = camelCase(gridStore.bc.valuefield);
+                const {valuefield} = gridStore.bc;
 
                 gridStore.selectedRecords.forEach((value, key) => {
                     if (value) {
-                        const checkedRecord = gridStore.recordsStore.records.find(({ckId}) => ckId === key) || value;
+                        const checkedRecord =
+                            gridStore.recordsStore.records.find(
+                                (record) => record[gridStore.recordsStore.recordId] === key,
+                            ) || value;
 
                         values.push({
                             ...gridValues,
                             [gridStore.bc.column]: checkedRecord[valuefield],
-                            ...(child.type === "TREEGRID" ? {ckParent: checkedRecord.ckParent} : {}),
+                            ...(child.type === "TREEGRID"
+                                ? {[VAR_RECORD_PARENT_ID]: checkedRecord[VAR_RECORD_PARENT_ID]}
+                                : {}),
                         });
                     }
                 });
@@ -69,10 +74,11 @@ export function getGridValues({
 
     if (gridStore.bc.type === "TREEGRID" && mode === "1") {
         gridValues = {
-            ckParent:
-                isString(selectedRecord.ckId) && selectedRecord.ckId.indexOf("auto-") === 0
+            [VAR_RECORD_PARENT_ID]:
+                isString(selectedRecord[gridStore.recordsStore.recordId]) &&
+                selectedRecord[gridStore.recordsStore.recordId].indexOf("auto-") === 0
                     ? null
-                    : selectedRecord.ckId,
+                    : selectedRecord[gridStore.recordsStore.recordId],
             ...gridValues,
         };
     }

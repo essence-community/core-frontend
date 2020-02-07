@@ -1,7 +1,13 @@
 // @flow
 import * as React from "react";
 import noop from "lodash/noop";
-import {saveToStore} from "@essence/essence-constructor-share/utils";
+import {saveToStore} from "@essence-community/constructor-share/utils";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_OBJECT_ID,
+    VAR_RECORD_NAME,
+} from "@essence-community/constructor-share/constants";
 import {mountWithTheme} from "../../utils/test";
 import {createEmptyPageStore} from "../../stores";
 import {type PageModelType, awaitFormFilter} from "../../stores/PageModel";
@@ -18,6 +24,7 @@ type PropsWrapperType = {
     pageStore: PageModelType,
 };
 
+// eslint-disable-next-line max-lines-per-function
 describe("BuilderFilter", () => {
     const getWrapper = ({handleSearch, bc, pageStore}: PropsWrapperType) =>
         mountWithTheme(
@@ -28,7 +35,11 @@ describe("BuilderFilter", () => {
                 onChangeCollapse={noop}
                 onSearch={handleSearch}
                 pageStore={pageStore}
-                parentBc={{ckObject: "testfilter", ckPageObject: "testfilter", cvName: "testfilter"}}
+                parentBc={{
+                    [VAR_RECORD_NAME]: "testfilter",
+                    [VAR_RECORD_OBJECT_ID]: "testfilter",
+                    [VAR_RECORD_PAGE_OBJECT_ID]: "testfilter",
+                }}
                 editing
                 visible
                 open
@@ -46,7 +57,7 @@ describe("BuilderFilter", () => {
         const pageStore = createEmptyPageStore();
         const values = {combo1: 50201, testArray: []};
 
-        saveToStore(`${pageStore.ckPage}_filter_${filterComboGlobalBc.ckPageObject}`, values);
+        saveToStore(`${pageStore.pageId}_filter_${filterComboGlobalBc[VAR_RECORD_PAGE_OBJECT_ID]}`, values);
 
         const wrapper = getWrapper({bc: filterComboGlobalBc, handleSearch: noop, pageStore});
         const {store} = wrapper.find(BuilderFilterBase).props();
@@ -65,7 +76,7 @@ describe("BuilderFilter", () => {
         await sleep(4);
 
         expect(handleSearch.mock.calls).toHaveLength(1);
-        expect(form.values()).toEqual({ckId: "", combo1: "71400", value1: "71400", value2: "АНО"});
+        expect(form.values()).toEqual({[VAR_RECORD_ID]: "", combo1: "71400", value1: "71400", value2: "АНО"});
         expect(handleSearch.mock.calls[0][1].reset).toBe(true);
     });
 
@@ -82,7 +93,12 @@ describe("BuilderFilter", () => {
         await sleep(4);
 
         expect(handleSearch.mock.calls).toHaveLength(1);
-        expect(handleSearch.mock.calls[0][0]).toEqual({ckId: "", combo1: "71400", value1: "71400", value2: "АНО"});
+        expect(handleSearch.mock.calls[0][0]).toEqual({
+            [VAR_RECORD_ID]: "",
+            combo1: "71400",
+            value1: "71400",
+            value2: "АНО",
+        });
     });
 
     it("Измнение значения", async () => {
@@ -100,8 +116,13 @@ describe("BuilderFilter", () => {
         // eslint-disable-next-line no-magic-numbers
         await sleep(110);
 
-        expect(handleSearch.mock.calls[0][0]).toEqual({ckId: ""});
+        expect(handleSearch.mock.calls[0][0]).toEqual({[VAR_RECORD_ID]: ""});
         expect(handleSearch.mock.calls[0][1].noLoad).toBeTruthy();
-        expect(handleSearch.mock.calls[2][0]).toEqual({ckId: "", combo1: "71400", value1: "test", value2: "АНО"});
+        expect(handleSearch.mock.calls[2][0]).toEqual({
+            [VAR_RECORD_ID]: "",
+            combo1: "71400",
+            value1: "test",
+            value2: "АНО",
+        });
     });
 });

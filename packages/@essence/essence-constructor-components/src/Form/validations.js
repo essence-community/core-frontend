@@ -2,7 +2,7 @@
 import forOwn from "lodash/forOwn";
 import toString from "lodash/toString";
 import toNumber from "lodash/toNumber";
-import {i18next} from "@essence/essence-constructor-share/utils";
+import {i18next} from "@essence-community/constructor-share/utils";
 import moment from "moment";
 import {BigNumber} from "bignumber.js";
 import validatorjs from "validatorjs";
@@ -33,7 +33,7 @@ validatorjs.register(
 
         return valueSize <= toNumber(req);
     },
-    i18next.t("e668fef0db6d4eeb9eb72c62a8d31052"),
+    i18next.t("static:e668fef0db6d4eeb9eb72c62a8d31052"),
 );
 
 validatorjs.register(
@@ -43,7 +43,7 @@ validatorjs.register(
 
         return valueSize >= toNumber(req);
     },
-    i18next.t("a240c31303c74c5490623d7781964c11"),
+    i18next.t("static:a240c31303c74c5490623d7781964c11"),
 );
 
 validatorjs.register(
@@ -55,7 +55,7 @@ validatorjs.register(
 
         return toNumber(value) <= toNumber(req);
     },
-    i18next.t("58b71773e7664e70874020a45705bc4c"),
+    i18next.t("static:58b71773e7664e70874020a45705bc4c"),
 );
 
 validatorjs.register(
@@ -67,7 +67,7 @@ validatorjs.register(
 
         return toNumber(value) >= toNumber(req);
     },
-    i18next.t("31d96e87a5514f509c75bc701b772504"),
+    i18next.t("static:31d96e87a5514f509c75bc701b772504"),
 );
 
 validatorjs.register(
@@ -83,7 +83,7 @@ validatorjs.register(
         return true;
     },
     // TODO: Добавить текст валидации
-    i18next.t("31d96e87a5514f509c75bc701b772504"),
+    i18next.t("static:31d96e87a5514f509c75bc701b772504"),
 );
 
 validatorjs.register(
@@ -99,13 +99,13 @@ validatorjs.register(
         return true;
     },
     // TODO: Добавить текст валидации
-    i18next.t("58b71773e7664e70874020a45705bc4c"),
+    i18next.t("static:58b71773e7664e70874020a45705bc4c"),
 );
 
 validatorjs.register(
     "required-checkbox",
     (value) => value === 1 || value === "1" || value === true,
-    i18next.t("58c125b1b34f445c9ae5640ff3122e03"),
+    i18next.t("static:58c125b1b34f445c9ae5640ff3122e03"),
 );
 
 /*
@@ -123,7 +123,7 @@ validatorjs.register(
 
         return Boolean(reqExp.test(toString(val)));
     },
-    i18next.t("f488a90cb69e4567a092325fecffb1ed"),
+    i18next.t("static:f488a90cb69e4567a092325fecffb1ed"),
 );
 
 validatorjs.register(
@@ -139,7 +139,7 @@ validatorjs.register(
         return true;
     },
     // eslint-disable-next-line quotes
-    i18next.t("4f5060a1dc7c4f5ca76a606b4977f868"),
+    i18next.t("static:4f5060a1dc7c4f5ca76a606b4977f868"),
 );
 
 validatorjs.register(
@@ -155,7 +155,7 @@ validatorjs.register(
         return true;
     },
     // eslint-disable-next-line quotes
-    i18next.t("93e0035fa0684768839021399baed028"),
+    i18next.t("static:93e0035fa0684768839021399baed028"),
 );
 
 validatorjs.register(
@@ -173,5 +173,5 @@ validatorjs.register(
 
         return parseInt(reqcount, 10) <= columnsCount - numberFields;
     },
-    i18next.t("a5a5d7213d1f4f77861ed40549ee9c57"),
+    i18next.t("static:a5a5d7213d1f4f77861ed40549ee9c57"),
 );

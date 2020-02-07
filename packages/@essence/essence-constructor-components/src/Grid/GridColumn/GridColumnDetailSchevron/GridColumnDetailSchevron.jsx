@@ -4,7 +4,8 @@ import {compose} from "recompose";
 import {observer} from "mobx-react";
 import {IconButton} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import commonDecorator from "../../../decorators/commonDecorator";
 import {type GridColumnPropsType} from "../GridColumnTypes";
 import styles from "./GridColumnDetailSchevronStyles";
@@ -25,7 +26,7 @@ class GridColumnDetailSchevron extends React.Component<PropsType> {
             if (record.type === "root") {
                 store.openRoot();
             } else {
-                store.openCloseExpansionAction(record.ckId);
+                store.openCloseExpansionAction(record[store.recordsStore.recordId]);
             }
         }
     };
@@ -37,7 +38,8 @@ class GridColumnDetailSchevron extends React.Component<PropsType> {
             return null;
         }
 
-        const isExpanded = record.type === "root" ? store.rootNode : store.expansionRecords.get(record.ckId);
+        const isExpanded =
+            record.type === "root" ? store.rootNode : store.expansionRecords.get(record[store.recordsStore.recordId]);
 
         return (
             <IconButton
@@ -47,7 +49,7 @@ class GridColumnDetailSchevron extends React.Component<PropsType> {
                 className={classes.root}
                 disableRipple
                 disabled={disabled}
-                data-page-object={`${gridBc.ckPageObject}-row-schevron`}
+                data-page-object={`${gridBc[VAR_RECORD_PAGE_OBJECT_ID]}-row-schevron`}
                 data-tabindex-grid="0"
             >
                 <Icon iconfont={isExpanded ? "caret-down" : "caret-right"} size="xs" />
@@ -56,8 +58,4 @@ class GridColumnDetailSchevron extends React.Component<PropsType> {
     }
 }
 
-export default compose(
-    commonDecorator,
-    withStyles(styles),
-    observer,
-)(GridColumnDetailSchevron);
+export default compose(commonDecorator, withStyles(styles), observer)(GridColumnDetailSchevron);

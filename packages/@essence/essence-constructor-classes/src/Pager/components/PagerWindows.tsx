@@ -1,6 +1,7 @@
 import * as React from "react";
 import {useObserver} from "mobx-react-lite";
-import {IPageModel, noop, getComponent, IClassProps} from "@essence/essence-constructor-share";
+import {IPageModel, noop, getComponent, IClassProps} from "@essence-community/constructor-share";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 
 interface IPagerWindowsProps {
     pageStore: IPageModel;
@@ -25,7 +26,7 @@ export const PagerWindows: React.FC<IPagerWindowsProps> = (props) => {
                         // @ts-ignore
                         onSubmit={noop}
                         bc={windowBc}
-                        key={windowBc.ckPageObject}
+                        key={windowBc[VAR_RECORD_PAGE_OBJECT_ID]}
                         store={windowStore}
                         // @ts-ignore
                         gridStore={windowStore.gridStore}

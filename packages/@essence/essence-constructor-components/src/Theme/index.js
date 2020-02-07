@@ -1,4 +1,4 @@
-import {isIE} from "@essence/essence-constructor-share/utils";
+import {isIE} from "@essence-community/constructor-share/utils";
 import merge from "lodash/merge";
 import {styleTheme} from "../constants";
 import themeDarkAll from "./themeDark/themeDark";

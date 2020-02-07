@@ -6,7 +6,8 @@ import cn from "classnames";
 import get from "lodash/get";
 import {withStyles} from "@material-ui/core/styles";
 import {FormLabel} from "@material-ui/core";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import ColorPicker from "../../../ColorPicker/ColorPicker";
 import TextFieldLabel from "../../TextFieldComponents/TextFieldLabel/TextFieldLabel";
 import FieldColorPickerStyles from "./FieldColorPickerStyles";
@@ -25,6 +26,7 @@ class FieldColorPicker extends React.Component<FieldColorPickerPropsType & WithT
         this.setState({focused: false});
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {
             value,
@@ -53,10 +55,10 @@ class FieldColorPicker extends React.Component<FieldColorPickerPropsType & WithT
                     [classes.noLabelRender]: noLabel,
                     [classes.focused]: focused,
                 })}
-                data-qtip={t(bc.cvDisplayed)}
-                data-page-object={bc.ckPageObject}
+                data-qtip={t(bc[VAR_RECORD_DISPLAYED])}
+                data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
             >
-                {bc.cvDisplayed ? (
+                {bc[VAR_RECORD_DISPLAYED] ? (
                     <FormLabel {...InputLabelProps} classes={{root: classes.formLabel}} error={error}>
                         {noLabel ? (
                             ""

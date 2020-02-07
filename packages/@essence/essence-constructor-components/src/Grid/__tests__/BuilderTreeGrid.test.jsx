@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {Icon} from "@essence-community/constructor-share/Icon";
 import {createEmptyPageStore} from "../../stores";
 import {mountWithTheme, getBaseBc} from "../../utils/test";
 import {type GridModelType} from "../../stores/GridModel";

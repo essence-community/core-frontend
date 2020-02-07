@@ -1,6 +1,10 @@
 // @flow
 import {extendObservable} from "mobx";
-import {VALUE_SELF_ALWAYSFIRST} from "@essence/essence-constructor-share/constants";
+import {
+    VALUE_SELF_ALWAYSFIRST,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+} from "@essence-community/constructor-share/constants";
 import {type PageModelType} from "../PageModel";
 import {type RecordsModelType, RecordsModel} from "../RecordsModel";
 import {StoreBaseModel} from "../StoreBaseModel";
@@ -19,12 +23,12 @@ export class BaseMultiFieldModel extends StoreBaseModel implements ModelInterfac
 
     _isLoading: boolean;
 
-    constructor({bc, pageStore, ckQuery}: PropsType) {
+    constructor({bc, pageStore, [VAR_RECORD_QUERY_ID]: query}: PropsType) {
         super({bc, pageStore});
 
         const config = {
-            ckPageObject: bc.ckPageObject,
-            ckQuery,
+            [VAR_RECORD_PAGE_OBJECT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+            [VAR_RECORD_QUERY_ID]: query,
             defaultvalue: VALUE_SELF_ALWAYSFIRST,
             orderdirection: "",
             orderproperty: "",

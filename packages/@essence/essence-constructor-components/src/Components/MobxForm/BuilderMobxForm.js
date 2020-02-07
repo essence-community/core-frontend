@@ -48,10 +48,11 @@ class BuilderMobxForm extends Form {
      * оригинал:
      * https://github.com/foxhound87/mobx-react-form/blob/v1.35.1/src/shared/Actions.js#L135
      */
-    /* eslint max-statements: ["error", 18]*/
+    // eslint-disable-next-line max-lines-per-function
     deepGet(prop, fields) {
         return transform(
             utils.getObservableMapValues(fields),
+            // eslint-disable-next-line max-statements
             (obj, field) => {
                 const $nested = ($fields) => ($fields.size === 0 ? undefined : this.deepGet(prop, $fields));
 

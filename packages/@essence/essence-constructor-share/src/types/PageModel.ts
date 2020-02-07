@@ -19,7 +19,7 @@ export interface ICreateWindow {
 }
 
 export interface IPageModelProps {
-    ckPage: string;
+    pageId: string;
     isActiveRedirect: boolean;
     isReadOnly?: boolean;
     applicationStore: IApplicationModel;
@@ -53,7 +53,7 @@ export interface IPageModel {
     // @deprecated
     windowsOne: PageModelWindows;
     globalValues: ObservableMap<string, FieldValue>;
-    ckPage: string;
+    pageId: string;
     showQuestionWindow: boolean;
     questionWindow?: string;
     saveCallBack: PageModelSaveCallback | null;
@@ -84,7 +84,7 @@ export interface IPageModel {
     removeGlobalStoresAction(name: string, store: IStoreBaseModel): void;
     addWindowAction(window: IWindowModel): void;
     removeWindowAction(window: IWindowModel): void;
-    loadConfigAction(ckPage: string): Promise<void | object>;
+    loadConfigAction(pageId: string): Promise<void | object>;
     setPageElAction(pageEl: HTMLDivElement | null): void;
     setPageInnerElAction(pageInnerEl: HTMLDivElement | null): void;
     resetStepAction(): void;
@@ -96,8 +96,8 @@ export interface IPageModel {
     reloadPageAction(): void;
     handleScrollAction(): void;
     freezeScrollAction(): void;
-    addToMastersAction(ckMaster: string, field: Field): void;
-    removeFromMastersAction(ckMaster?: string, field?: Field): void;
+    addToMastersAction(masterId: string, field: Field): void;
+    removeFromMastersAction(masterId?: string, field?: Field): void;
     addScrollEvent(scrollEvent: Function): void;
     removeScrollEvent(scrollEvent: Function): void;
     fireScrollEvent(): void;

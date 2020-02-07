@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-lines-per-function
 export const MenuGridRowStyles = (theme) => ({
     chevronRoot: {
         boxSizing: "content-box",

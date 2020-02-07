@@ -1,4 +1,4 @@
-import {setComponent} from "@essence/essence-constructor-share";
+import {setComponent} from "@essence-community/constructor-share";
 import {ApplicationContainer} from "./containers/ApplicationContainer";
 
 setComponent("APPLICATION", ApplicationContainer);

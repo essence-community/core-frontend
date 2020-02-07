@@ -1,5 +1,8 @@
-import {IBuilderConfig, IClassProps, mapComponents} from "@essence/essence-constructor-share";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_PARENT_ID} from "@essence/essence-constructor-share/constants/variables";
+import {IBuilderConfig, IClassProps, mapComponents} from "@essence-community/constructor-share";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_PARENT_ID,
+} from "@essence-community/constructor-share/constants/variables";
 import {Grid} from "@material-ui/core";
 import * as React from "react";
 

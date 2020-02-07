@@ -3,9 +3,9 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import {ButtonBase, Grid} from "@material-ui/core";
 import cn from "classnames";
-import {SnackbarContentText} from "@essence/essence-constructor-components";
-import {Icon} from "@essence/essence-constructor-share/Icon";
-import {WithT, withTranslation} from "@essence/essence-constructor-share/utils";
+import {SnackbarContentText} from "@essence-community/constructor-components";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {WithT, withTranslation} from "@essence-community/constructor-share/utils";
 
 type PropsType = WithT & {|
     classes: {
@@ -29,9 +29,9 @@ type FileStatus = {
 };
 
 const statuses: FileStatus = {
-    errorUpload: "73de7f460cc04bc8a068429d66e684ce",
-    progress: "ad39828554114893872302a0aaa031af",
-    uploaded: "5454b0c6f64b41daab8deb88f948a4f1",
+    errorUpload: "static:73de7f460cc04bc8a068429d66e684ce",
+    progress: "static:ad39828554114893872302a0aaa031af",
+    uploaded: "static:5454b0c6f64b41daab8deb88f948a4f1",
 };
 
 class Notification extends React.Component<PropsType> {
@@ -74,7 +74,7 @@ class Notification extends React.Component<PropsType> {
                             onClick={this.handleDelete}
                             className={classes.clearButton}
                             disableRipple
-                            data-qtip={t("f7e324760ede4c88b4f11f0af26c9e97")}
+                            data-qtip={t("static:f7e324760ede4c88b4f11f0af26c9e97")}
                             data-page-object={`snackbar-remove-${snackbar.id}`}
                         >
                             <Icon iconfont="times" iconfontname="fa" size="1x" />

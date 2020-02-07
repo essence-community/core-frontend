@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
-import {camelCaseKeys} from "@essence/essence-constructor-share/utils";
 import {Button, IconButton} from "@material-ui/core";
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import BuilderMobxButton, {BuilderMobxButtonBase} from "../BuilderMobxButton";
 import {mountWithTheme} from "../../utils/test";
 import {createEmptyPageStore} from "../../stores";
@@ -11,9 +11,9 @@ import {sleep} from "../../utils/base";
 
 const DEFAULT_SLEEP_TIME = 100;
 
-// eslint-disable-next-line max-statements
+// eslint-disable-next-line max-statements, max-lines-per-function
 describe("BuilderMobxButton", () => {
-    const bc = camelCaseKeys(topButtonJson);
+    const bc = topButtonJson;
     const event = new Event("click");
     let pageStore = createEmptyPageStore();
     let parentStore = {};
@@ -25,7 +25,7 @@ describe("BuilderMobxButton", () => {
         };
 
         pageStore = createEmptyPageStore();
-        pageStore.stores.set(bc.ckParent, parentStore);
+        pageStore.stores.set(bc[VAR_RECORD_PARENT_ID], parentStore);
         // $FlowFixMe
         pageStore.applicationStore.redirectToAction = jest.fn();
     });

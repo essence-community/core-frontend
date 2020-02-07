@@ -23,7 +23,7 @@ module.exports = {
         vendor: [
             "react",
             "react-dom",
-            "@essence/essence-constructor-share",
+            "@essence-community/constructor-share",
             "mobx",
             "mobx-react",
             "mobx-react-form",

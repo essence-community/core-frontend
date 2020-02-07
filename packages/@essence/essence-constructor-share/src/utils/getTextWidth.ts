@@ -9,7 +9,7 @@ const context = canvas.getContext("2d");
  *
  * @example
  *      window.getComputedStyle(element)
- *      getTextWidth(bc.cvDisplayed, font)
+ *      getTextWidth(bc.cv_displayed, font)
  *
  * @param {String} text The text to be rendered.
  * @param {String} font The css font descriptor that text is to be rendered with (e.g. "bold 14px verdana").

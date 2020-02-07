@@ -1,15 +1,20 @@
 /* eslint-disable max-lines */
 // @flow
 import * as React from "react";
-import camelCase from "lodash/camelCase";
 import startsWith from "lodash/startsWith";
 import uniqueId from "lodash/uniqueId";
 import {reaction} from "mobx";
 import {disposeOnUnmount} from "mobx-react";
 import {Field, Form} from "mobx-react-form";
-import {EditorContex} from "@essence/essence-constructor-share";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
-import {parseMemoize} from "@essence/essence-constructor-share/utils/parser";
+import {EditorContex} from "@essence-community/constructor-share";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {parseMemoize} from "@essence-community/constructor-share/utils/parser";
+import {
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+    VAR_RECORD_DISPLAYED,
+} from "@essence-community/constructor-share/constants";
 import {loggerRoot} from "../constants";
 import {isEmpty} from "../utils/base";
 import {checkEditable} from "../utils/access";
@@ -46,18 +51,18 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
 
                 const {bc} = this.props;
 
-                this.key = camelCase(bc.column || uniqueId("builderField"));
+                this.key = bc.column || uniqueId("builderField");
 
                 if (!bc.column) {
-                    logger(this.props.t("d4055d1153af44a4ba5eb73ac9bc437e", {key: this.key}));
+                    logger(this.props.t("static:d4055d1153af44a4ba5eb73ac9bc437e", {key: this.key}));
                 }
 
                 if (bc.defaultvaluequery) {
                     this.bcDefaultValueQuery = {
                         ...bc,
-                        autoload: isEmpty(bc.ckMaster) ? "true" : "false",
-                        ckPageObject: `${bc.ckPageObject}_defaultstore`,
-                        ckQuery: bc.defaultvaluequery,
+                        [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_defaultstore`,
+                        [VAR_RECORD_QUERY_ID]: bc.defaultvaluequery,
+                        autoload: isEmpty(bc[VAR_RECORD_MASTER_ID]) ? "true" : "false",
                     };
                 }
             }
@@ -118,11 +123,11 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
             }
 
             componentDidCatch(error: any, info: any) {
-                logger(this.props.t("d56944511bd243b1a0914ccdea58ce0d", {key: this.key}));
+                logger(this.props.t("static:d56944511bd243b1a0914ccdea58ce0d", {key: this.key}));
                 logger(
-                    this.props.t("47b7b12c1d9c413da54a08331191aded"),
+                    this.props.t("static:47b7b12c1d9c413da54a08331191aded"),
                     error,
-                    this.props.t("cfac299d53f8466d9745ddfa53e09958"),
+                    this.props.t("static:cfac299d53f8466d9745ddfa53e09958"),
                     info,
                 );
             }
@@ -181,8 +186,8 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                     hidden: bc.datatype === "hidden" || this.props.hidden,
                 });
 
-                if (bc.cvDisplayed) {
-                    field.set("label", trans(bc.cvDisplayed));
+                if (bc[VAR_RECORD_DISPLAYED]) {
+                    field.set("label", trans(bc[VAR_RECORD_DISPLAYED]));
                 }
 
                 if (!isEmpty(bc.defaultvalue)) {
@@ -196,8 +201,8 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                     field.resetValidation();
                 }
 
-                if (bc.ckMaster) {
-                    this.props.pageStore.addToMastersAction(bc.ckMaster, field);
+                if (bc[VAR_RECORD_MASTER_ID]) {
+                    this.props.pageStore.addToMastersAction(bc[VAR_RECORD_MASTER_ID], field);
                 }
 
                 return field;
@@ -256,7 +261,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                 const form = this.getForm();
 
                 if (isEmpty(parentKey)) {
-                    pageStore.removeFromMastersAction(bc.ckMaster, form.fields.get(this.key));
+                    pageStore.removeFromMastersAction(bc[VAR_RECORD_MASTER_ID], form.fields.get(this.key));
                     form.fields.delete(this.key);
                 } else if (!isEmpty(parentKey)) {
                     /*
@@ -268,7 +273,7 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                         field.fields.delete(this.key);
                     }
 
-                    pageStore.removeFromMastersAction(bc.ckMaster, field);
+                    pageStore.removeFromMastersAction(bc[VAR_RECORD_MASTER_ID], field);
                 }
             };
 

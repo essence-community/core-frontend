@@ -3,7 +3,7 @@ import * as React from "react";
 import {compose} from "recompose";
 import {inject, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
-import {Scrollbars} from "@essence/essence-constructor-components";
+import {Scrollbars} from "@essence-community/constructor-components";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
 import MenuGridRows from "./MenuGridRows";
 import styles from "./MenuGridStyles";
@@ -24,7 +24,7 @@ const MenuGrid = ({applicationStore: {routesStore, pagesStore}, classes = {}}: P
     <Scrollbars withRequestAnimationFrame>
         <MenuGridRows
             className={classes.menuGridRows}
-            ckParent={null}
+            parentId={null}
             routesStore={routesStore}
             pagesStore={pagesStore}
             level={0}
@@ -32,8 +32,4 @@ const MenuGrid = ({applicationStore: {routesStore, pagesStore}, classes = {}}: P
     </Scrollbars>
 );
 
-export default compose(
-    inject(mapStoresToProps),
-    withStyles(styles),
-    observer,
-)(MenuGrid);
+export default compose(inject(mapStoresToProps), withStyles(styles), observer)(MenuGrid);

@@ -1,4 +1,5 @@
 import {ReactChild} from "react";
+import {VAR_RECORD_CV_VALUE, VAR_RECORD_CV_CV_TYPE, VAR_RECORD_CLASS_ATTRIBUTES, VAR_RECORD_CK_ATTR} from "./constants";
 import {IClassProps, IBuilderConfig} from "./types";
 import {loadFiles} from "./utils/browser";
 
@@ -32,13 +33,15 @@ window.components = components;
 window.modules = modules;
 
 function findClassName(config: any): string {
-    const datatypeAttribute = config.classAttributes.find((attribute: any) => attribute.ckAttr === "datatype");
+    const datatypeAttribute = config[VAR_RECORD_CLASS_ATTRIBUTES].find(
+        (attribute: any) => attribute[VAR_RECORD_CK_ATTR] === "datatype",
+    );
 
-    if (datatypeAttribute && datatypeAttribute.cvValue) {
-        return `${config.class.cvType}.${datatypeAttribute.cvValue.toUpperCase()}`;
+    if (datatypeAttribute && datatypeAttribute[VAR_RECORD_CV_VALUE]) {
+        return `${config.class[VAR_RECORD_CV_CV_TYPE]}.${datatypeAttribute[VAR_RECORD_CV_VALUE].toUpperCase()}`;
     }
 
-    return config.class.cvType;
+    return config.class[VAR_RECORD_CV_CV_TYPE];
 }
 
 export function setComponent(componentName: string, componentInstance: React.ComponentType<IClassProps>) {

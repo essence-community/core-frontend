@@ -15,6 +15,7 @@ type FilePanelPropsType = {
 
 const BuilderPage = () => null;
 
+// eslint-disable-next-line max-lines-per-function
 describe("BuilderFilePanel", () => {
     const getWrapper = ({pageStore}: FilePanelPropsType) =>
         mountShallowWithTheme(<BuilderPage pageStore={pageStore} visible />);

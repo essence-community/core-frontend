@@ -1,5 +1,6 @@
 // @flow
 import {extendObservable, action} from "mobx";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import type {BuilderPanelType} from "../../Panel/BuilderPanelType";
 import {type StoreBaseModelInterface, type StoreBaseModelPropsType, StoreBaseModel} from "../StoreBaseModel";
 import {type RecordsModelType} from "../RecordsModel";
@@ -51,7 +52,7 @@ export class PanelModel extends StoreBaseModel implements PanelModelType {
         const record = this.childsWidths[id];
         const offsetChild = side === "right" ? 1 : -1;
         const nextChild = this.bc.childs ? this.bc.childs[record.index + offsetChild] : null;
-        const nextRecord = nextChild && this.childsWidths[nextChild.ckPageObject];
+        const nextRecord = nextChild && this.childsWidths[nextChild[VAR_RECORD_PAGE_OBJECT_ID]];
         const oldWidth = record && record.width;
         const newWidth = userNewWidth < MIN_WIDTH ? 2 : userNewWidth;
 

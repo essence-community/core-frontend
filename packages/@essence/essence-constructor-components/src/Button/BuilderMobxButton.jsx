@@ -5,8 +5,15 @@ import noop from "lodash/noop";
 import {withStyles} from "@material-ui/core/styles";
 import {Button, IconButton} from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
-import {setComponent, Icon} from "@essence/essence-constructor-share";
-import {withTranslation, WithT} from "@essence/essence-constructor-share/utils";
+import {setComponent, Icon} from "@essence-community/constructor-share";
+import {ApplicationContext} from "@essence-community/constructor-share/context";
+import {
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+} from "@essence-community/constructor-share/constants";
+import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
 import commonDecorator, {type CommonDecoratorInjectType} from "../decorators/commonDecorator";
 import {styleTheme} from "../constants";
 import {isEmpty} from "../utils/base";
@@ -16,6 +23,7 @@ import FileInput from "../FileInput/FileInput";
 import WindowMessageButton from "../WindowMessage/WindowMessageButton";
 import {type ButtonPropsType, type ButtonConfigType} from "./ButtonTypes";
 import styles from "./BuilderMobxButtonStyles/BuilderMobxButtonStyles";
+import {handers} from "./handlers/index.ts";
 
 const DEFAULT_HANDLER = "defaultHandlerBtnAction";
 
@@ -81,6 +89,8 @@ const getHandlerBtn = (bc: ButtonConfigType) => {
 };
 
 export class BuilderMobxButtonBase extends React.Component<PropsType, StateType> {
+    static contextType = ApplicationContext;
+
     static defaultProps = {
         color: "primary",
         onClick: noop,
@@ -97,7 +107,7 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
         super(...args);
 
         const {bc, color, component} = this.props;
-        const {tipmsg, cvDisplayed, confirmquestion, mode, uitype, handlerFn} = bc;
+        const {tipmsg, confirmquestion, mode, uitype, handlerFn} = bc;
 
         const onlyicon: boolean = isEmpty(this.props.onlyicon) ? bc.onlyicon === "true" : Boolean(this.props.onlyicon);
 
@@ -115,8 +125,8 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
                       })
                     : null,
             onlyicon,
-            qtip: tipmsg || cvDisplayed,
-            windowTitle: confirmquestion || "5a33b10058114ae7876067447fde8242",
+            qtip: tipmsg || bc[VAR_RECORD_DISPLAYED],
+            windowTitle: confirmquestion || "static:5a33b10058114ae7876067447fde8242",
         };
     }
 
@@ -162,24 +172,29 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
     // eslint-disable-next-line max-statements
     handleMode = (data: any = {}) => {
         const {pageStore, bc, performData} = this.props;
-        const {ckMaster, ckParent, mode} = bc;
         let promise = null;
         const handlerBtn = getHandlerBtn(bc);
 
-        for (const ckPageObjectMain of [ckMaster, ckParent]) {
-            if (ckPageObjectMain) {
-                const builderStore = pageStore.stores.get(ckPageObjectMain);
+        if (handers[handlerBtn]) {
+            promise = handers[handlerBtn]({applicationStore: this.context, bc, files: data.files, pageStore});
+        } else {
+            for (const ckPageObjectMain of [bc[VAR_RECORD_MASTER_ID], bc[VAR_RECORD_PARENT_ID]]) {
+                if (ckPageObjectMain) {
+                    const builderStore = pageStore.stores.get(ckPageObjectMain);
 
-                if (builderStore) {
-                    if (builderStore.handlers && typeof builderStore.handlers[handlerBtn] === "function") {
-                        promise = builderStore.handlers[handlerBtn](mode, bc, {...data, ...performData(bc)});
-                        break;
-                    }
+                    if (builderStore) {
+                        // eslint-disable-next-line max-depth
+                        if (builderStore.handlers && typeof builderStore.handlers[handlerBtn] === "function") {
+                            promise = builderStore.handlers[handlerBtn](bc.mode, bc, {...data, ...performData(bc)});
+                            break;
+                        }
 
-                    // @deprecated
-                    if (typeof builderStore[handlerBtn] === "function") {
-                        promise = builderStore[handlerBtn](mode, bc, {...data, ...performData(bc)});
-                        break;
+                        // @deprecated
+                        // eslint-disable-next-line max-depth
+                        if (typeof builderStore[handlerBtn] === "function") {
+                            promise = builderStore[handlerBtn](bc.mode, bc, {...data, ...performData(bc)});
+                            break;
+                        }
                     }
                 }
             }
@@ -223,16 +238,16 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
 
     renderIconOnlyLight = () => {
         // eslint-disable-next-line id-length
-        const {disabled, readOnly, className, componentProps, tabIndex, t} = this.props;
+        const {disabled, readOnly, className, componentProps, tabIndex, t, bc} = this.props;
         const {color, disabledState, qtip} = this.state;
-        const {ckPageObject, iconfont, iconfontname, iconsize} = this.props.bc;
+        const {iconfont, iconfontname, iconsize} = bc;
         const button = (
             <IconButton
                 onClick={this.handlerButtonClick}
                 disableRipple
                 disabled={readOnly || disabledState || disabled}
                 color={color}
-                data-page-object={ckPageObject}
+                data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                 data-qtip={t(qtip)}
                 className={className}
                 onMouseDown={this.handleMouseDown}
@@ -250,13 +265,13 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
 
     renderIconOnlyDark = () => {
         // eslint-disable-next-line id-length
-        const {variant, disabled, readOnly, className, componentProps, tabIndex, t} = this.props;
-        const {ckPageObject, iconfont, iconfontname, iconsize} = this.props.bc;
+        const {variant, disabled, readOnly, className, componentProps, tabIndex, t, bc} = this.props;
+        const {iconfont, iconfontname, iconsize} = bc;
         const {disabledState, qtip} = this.state;
         const buttonProps = {
             className,
             color: this.state.color,
-            "data-page-object": ckPageObject,
+            "data-page-object": bc[VAR_RECORD_PAGE_OBJECT_ID],
             "data-qtip": t(qtip),
             disableRipple: true,
             disabled: readOnly || disabledState || disabled,
@@ -282,10 +297,11 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
 
     renderButton = () => {
         // eslint-disable-next-line id-length
-        const {disabled, classNameIcon, readOnly, className, componentProps, classes = {}, t, tabIndex} = this.props;
+        const {disabled, classNameIcon, readOnly, className, componentProps, classes, t, tabIndex, bc} = this.props;
         const {Component, disabledState} = this.state;
-        const {iconfont, iconfontname, cvDisplayed, ckPageObject, tipmsg, iconsize} = this.props.bc;
-        const qtip = tipmsg || cvDisplayed;
+        const {iconfont, iconfontname, tipmsg, iconsize} = bc;
+        const displayed = bc[VAR_RECORD_DISPLAYED];
+        const qtip = tipmsg || displayed;
         const button = (
             <Component
                 color={this.state.color}
@@ -294,7 +310,7 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
                 disabled={readOnly || disabledState || disabled}
                 disableRipple
                 variant="contained"
-                data-page-object={ckPageObject}
+                data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                 className={className}
                 onMouseDown={this.handleMouseDown}
                 tabIndex={tabIndex}
@@ -310,7 +326,7 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
                     />
                 ) : null}
                 {iconfont ? "\u00A0" : null}
-                <span className={classes.textOverflow}>{t(cvDisplayed)}</span>
+                <span className={classes.textOverflow}>{t(displayed)}</span>
             </Component>
         );
 
@@ -331,7 +347,7 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
                     popover
                     popoverProps={popoverProps[confirmquestionposition]}
                     pageStore={pageStore}
-                    ckPageObject={`${bc.ckPageObject}-button`}
+                    ckPageObject={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-button`}
                     visible
                     isEscOpen={this.props.isEscOpen}
                 >

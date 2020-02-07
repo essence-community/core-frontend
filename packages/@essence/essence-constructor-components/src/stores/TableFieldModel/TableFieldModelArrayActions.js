@@ -1,4 +1,5 @@
 // @flow
+import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {type CkIdType} from "../../BuilderType";
 import {type TableFieldModelType} from "./TableFieldModelType";
 
@@ -15,6 +16,7 @@ function getValuesFromFields(valueFields: Array<[string, string]>, record: Objec
 export function prepareArrayValues(
     tableStore: TableFieldModelType,
     selectedRecords: Map<CkIdType, Object> | Array<Object>,
+    recordId: string = VAR_RECORD_ID,
 ) {
     const records = [];
     const {valueFields, valueField} = tableStore;
@@ -30,7 +32,7 @@ export function prepareArrayValues(
                 records.push(record[valueField]);
                 break;
             default:
-                records.push(record.ckId);
+                records.push(record[recordId]);
                 break;
         }
     }

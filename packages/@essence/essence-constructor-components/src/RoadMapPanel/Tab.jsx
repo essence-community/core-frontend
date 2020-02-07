@@ -2,7 +2,8 @@
 import * as React from "react";
 import MaterialTab from "@material-ui/core/Tab";
 import omit from "lodash/omit";
-import {toColumnStyleWidth} from "@essence/essence-constructor-share/utils";
+import {toColumnStyleWidth} from "@essence-community/constructor-share/utils";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import commonDecorator from "../decorators/commonDecorator";
 import {type PageModelType} from "../stores/PageModel";
 import {type RoadMapModelType} from "../stores/RoadMapModel";
@@ -42,7 +43,7 @@ class Tab extends React.Component<PropsType> {
     handleChangeHidden = () => {
         const {isActive, hidden, store, bc} = this.props;
 
-        store.setTabStatus(bc.ckPageObject, {
+        store.setTabStatus(bc[VAR_RECORD_PAGE_OBJECT_ID], {
             hidden,
         });
 

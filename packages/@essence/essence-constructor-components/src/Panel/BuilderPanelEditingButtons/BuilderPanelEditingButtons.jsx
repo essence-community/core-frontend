@@ -2,7 +2,8 @@
 import * as React from "react";
 import {Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {EditorContex} from "@essence/essence-constructor-share";
+import {EditorContex} from "@essence-community/constructor-share/context";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {styleTheme, buttonDirection} from "../../constants";
 import {getModeTitle} from "../../utils/string";
 import BuilderMobxButton from "../../Button/BuilderMobxButton";
@@ -64,7 +65,11 @@ class BuilderPanelEditingButtons extends React.Component<PropsType> {
                     />
                 </Grid>
 
-                <Grid item className={classes.editModeLabel} data-page-object={`${bc.ckPageObject}-mode-title`}>
+                <Grid
+                    item
+                    className={classes.editModeLabel}
+                    data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-mode-title`}
+                >
                     {getModeTitle(store.mode)}
                 </Grid>
             </Grid>

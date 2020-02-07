@@ -1,5 +1,5 @@
 import {makeStyles} from "@material-ui/core";
-import {IEssenceTheme} from "@essence/essence-constructor-share";
+import {IEssenceTheme} from "@essence-community/constructor-share";
 
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
@@ -23,6 +23,7 @@ export const useStyles = makeStyles(
             },
             display: "flex",
             flexGrow: 1,
+            height: "inherit",
             position: "relative",
         },
         rootDialogContent: {},

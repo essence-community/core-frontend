@@ -6,10 +6,17 @@ import {Field} from "mobx-react-form";
 import forEach from "lodash/forEach";
 import noop from "lodash/noop";
 import uuid from "uuid";
-import {parseMemoize, loadComponentsFromModules} from "@essence/essence-constructor-share";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
-import {findClassNames, i18next} from "@essence/essence-constructor-share/utils";
-import {VAR_RECORD_GLOBAL_VALUE} from "@essence/essence-constructor-share/constants";
+import {parseMemoize, loadComponentsFromModules} from "@essence-community/constructor-share";
+import {snackbarStore} from "@essence-community/constructor-share/models";
+import {findClassNames, i18next} from "@essence-community/constructor-share/utils";
+import {
+    VAR_RECORD_GLOBAL_VALUE,
+    VAR_RECORD_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    VAR_RECORD_URL,
+    VAR_RECORD_CN_ACTION_EDIT,
+} from "@essence-community/constructor-share/constants";
 import {loggerRoot, styleTheme as styleThemeConst} from "../../constants";
 import {sendRequestList} from "../../request/baseRequest";
 import {isEmpty} from "../../utils/base";
@@ -43,7 +50,7 @@ export class PageModel implements PageModelInterface {
 
     applicationStore: ApplicationModelType;
 
-    ckPage: string;
+    pageId: string;
 
     showQuestionWindow: boolean;
 
@@ -92,13 +99,13 @@ export class PageModel implements PageModelInterface {
         initialBc,
         applicationStore,
         routesStore,
-        ckPage,
+        pageId,
         isActiveRedirect,
         isReadOnly,
         styleTheme = styleThemeConst,
     }: PageModelParamsType) {
         this.applicationStore = applicationStore;
-        this.ckPage = ckPage;
+        this.pageId = pageId;
         this.isActiveRedirect = isActiveRedirect;
 
         extendObservable(this, {
@@ -120,10 +127,10 @@ export class PageModel implements PageModelInterface {
                 return (
                     (routesStore &&
                         routesStore.recordsStore.records.find(
-                            (record) => record.ckId === this.ckPage || record.cvUrl === this.ckPage,
+                            (record) => record[VAR_RECORD_ID] === this.pageId || record[VAR_RECORD_URL] === this.pageId,
                         )) || {
-                        ckId: this.ckPage,
-                        cvUrl: this.ckPage,
+                        [VAR_RECORD_ID]: this.pageId,
+                        [VAR_RECORD_URL]: this.pageId,
                     }
                 );
             },
@@ -149,7 +156,9 @@ export class PageModel implements PageModelInterface {
                             hiddenTimeout: 0,
                             status: "debug",
                             text: renderGlobalValuelsInfo(globalValues),
-                            title: `${i18next.t("dcfb61366b054c6e95ae83593cfb9cd9")}: ${i18next.t(ckPage || "")}`,
+                            title: `${i18next.t("static:dcfb61366b054c6e95ae83593cfb9cd9")}: ${i18next.t(
+                                pageId || "",
+                            )}`,
                         },
                         this.route,
                     ),
@@ -161,7 +170,7 @@ export class PageModel implements PageModelInterface {
             {
                 get isReadOnly() {
                     return isEmpty(isReadOnly)
-                        ? (applicationStore.caActions || []).indexOf(this.route.cnActionEdit) < 0
+                        ? (applicationStore.actions || []).indexOf(this.route[VAR_RECORD_CN_ACTION_EDIT]) < 0
                         : isReadOnly;
                 },
                 pageBc: initialBc || [],
@@ -217,7 +226,7 @@ export class PageModel implements PageModelInterface {
         let newName = name;
 
         if (this.stores.has(name)) {
-            logger(i18next.t("7ef1547ac7084e178bf1447361e3ccc3"));
+            logger(i18next.t("static:7ef1547ac7084e178bf1447361e3ccc3"));
 
             if (allowNewName) {
                 newName = name + uuid();
@@ -267,19 +276,19 @@ export class PageModel implements PageModelInterface {
         this.windows.delete(name);
     });
 
-    loadConfigAction = action("loadConfigAction", (ckPage: string, session: string) => {
+    loadConfigAction = action("loadConfigAction", (pageId: string, session: string) => {
         const fetchResult = sendRequestList({
             action: "sql",
             json: {
                 filter: {
-                    ckPage,
+                    [VAR_RECORD_ROUTE_PAGE_ID]: pageId,
                 },
             },
             query: "GetMetamodelPage2.0",
             session,
         });
 
-        this.ckPage = ckPage;
+        this.pageId = pageId;
 
         this.setLoadingAction(true);
 
@@ -289,7 +298,7 @@ export class PageModel implements PageModelInterface {
                     const pageBc = (response.length && response[0].children) || [];
                     const classNames = findClassNames(pageBc);
 
-                    loadComponentsFromModules(classNames).then(() => {
+                    return loadComponentsFromModules(classNames).then(() => {
                         this.pageBc = pageBc;
 
                         if (response.length && response[0]) {
@@ -297,16 +306,16 @@ export class PageModel implements PageModelInterface {
                         }
                     });
                 }
+
+                return undefined;
             })
 
             .catch((error) => {
                 snackbarStore.checkExceptResponse(error, this.route, this.applicationStore);
                 this.pageBc = [];
             })
-            .then((res) => {
+            .then(() => {
                 this.setLoadingAction(false);
-
-                return res;
             });
     });
 
@@ -345,7 +354,7 @@ export class PageModel implements PageModelInterface {
             return false;
         }
 
-        const nextComponentStore = this.stores.get(nextStepComponent.ckPageObject);
+        const nextComponentStore = this.stores.get(nextStepComponent[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (!nextComponentStore) {
             return false;
@@ -368,10 +377,10 @@ export class PageModel implements PageModelInterface {
             this.currentStep = stepnamenext;
             getNextComponent(stepnamenext, this.pageBc, (childBc, parentBc) => {
                 if (parentBc.type === "TABPANEL") {
-                    const tabStore = this.stores.get(parentBc.ckPageObject);
+                    const tabStore = this.stores.get(parentBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
                     if (tabStore) {
-                        tabStore.setActiveTab(childBc.ckPageObject);
+                        tabStore.setActiveTab(childBc[VAR_RECORD_PAGE_OBJECT_ID]);
                     }
                 }
             });
@@ -417,7 +426,7 @@ export class PageModel implements PageModelInterface {
             this.handleQuestionDecline();
         }
         this.globalValues.merge(this.applicationStore.globalValues);
-        this.loadConfigAction(this.ckPage, this.applicationStore.session);
+        this.loadConfigAction(this.pageId, this.applicationStore.session);
     });
 
     handleScrollAction = () => {
@@ -449,17 +458,17 @@ export class PageModel implements PageModelInterface {
         }
     };
 
-    addToMastersAction = (ckMaster: string, field: Field) => {
-        if (!this.masters[ckMaster]) {
-            this.masters[ckMaster] = [];
+    addToMastersAction = (masterId: string, field: Field) => {
+        if (!this.masters[masterId]) {
+            this.masters[masterId] = [];
         }
 
-        this.masters[ckMaster].push(field);
+        this.masters[masterId].push(field);
     };
 
-    removeFromMastersAction = (ckMaster?: string, field: ?Field) => {
-        if (ckMaster && field && this.masters[ckMaster]) {
-            this.masters[ckMaster] = this.masters[ckMaster].filter((masterBc) => masterBc !== field);
+    removeFromMastersAction = (masterId?: string, field: ?Field) => {
+        if (masterId && field && this.masters[masterId]) {
+            this.masters[masterId] = this.masters[masterId].filter((masterBc) => masterBc !== field);
         }
     };
 
@@ -503,7 +512,7 @@ export class PageModel implements PageModelInterface {
     });
 
     closeWindowAction = action("closeWindowAction", (ckPageObject) => {
-        const window = this.windowsOne.find((win) => win.bc.ckPageObject === ckPageObject);
+        const window = this.windowsOne.find((win) => win.bc[VAR_RECORD_PAGE_OBJECT_ID] === ckPageObject);
 
         if (window) {
             this.windowsOne.remove(window);

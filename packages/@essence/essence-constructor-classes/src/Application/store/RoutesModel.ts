@@ -6,8 +6,8 @@ import {
     STORE_FAVORITS_KEY,
     IRoutesModel,
     IApplicationModel,
-} from "@essence/essence-constructor-share";
-import {RecordsModel} from "@essence/essence-constructor-share/models";
+} from "@essence-community/constructor-share";
+import {RecordsModel} from "@essence-community/constructor-share/models";
 
 export class RoutesModel implements IRoutesModel {
     recordsStore: RecordsModel;

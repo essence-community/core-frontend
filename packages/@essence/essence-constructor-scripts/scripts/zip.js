@@ -38,7 +38,7 @@ function patchFiles() {
         manifest: "/schema_manifest.json",
         name: packageJson.name,
         version: packageJson.version,
-        versionapi: packageJsonScripts.version,
+        versionapi: packageJsonScripts.apiversion,
     };
 
     zip.addFile("config.json", JSON.stringify(config, null, 2));

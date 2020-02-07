@@ -2,10 +2,10 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
-import {Icon} from "@essence/essence-constructor-share/Icon";
+import {Icon} from "@essence-community/constructor-share/Icon";
 import {compose} from "recompose";
-import {toSize, parseMemoize, withTranslation, WithT} from "@essence/essence-constructor-share/utils";
-import {downloadImage} from "@essence/essence-constructor-share/utils/download";
+import {toSize, parseMemoize, withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {downloadImage} from "@essence-community/constructor-share/utils/download";
 import {type PropsType} from "./FieldImageTypes";
 import {styles} from "./FieldImageStyle";
 
@@ -17,7 +17,7 @@ class FieldImage extends React.Component<PropsType & WithT> {
 
         downloadImage(
             typeof field.value === "string" ? this.getSrc(field.value) : "",
-            t((fieldWithName && fieldWithName.value) || "157badbc579e439d8cae1d60ceff9aa9"),
+            t((fieldWithName && fieldWithName.value) || "static:157badbc579e439d8cae1d60ceff9aa9"),
         );
     };
 
@@ -63,12 +63,16 @@ class FieldImage extends React.Component<PropsType & WithT> {
                             alt=""
                             src={src}
                             className={height ? classes.zoomImg : classes.img}
-                            data-qtip={t(fieldWithName ? fieldWithName.value : "157badbc579e439d8cae1d60ceff9aa9")}
+                            data-qtip={t(
+                                fieldWithName ? fieldWithName.value : "static:157badbc579e439d8cae1d60ceff9aa9",
+                            )}
                         />
                         {src.indexOf(origin) === 0 && (
                             <div className={classes.downloadBtn} onClick={this.handleDownload}>
                                 <Icon size="lg" iconfont="download" />
-                                <span className={classes.downloadBtnText}>{t("4a401209683245609626506a762717af")}</span>
+                                <span className={classes.downloadBtnText}>
+                                    {t("static:02260da507494f2f9956ba9e0f37b1f1")}
+                                </span>
                             </div>
                         )}
                     </React.Fragment>
@@ -78,8 +82,4 @@ class FieldImage extends React.Component<PropsType & WithT> {
     }
 }
 
-export default compose(
-    withTranslation("meta"),
-    withStyles(styles),
-    observer,
-)(FieldImage);
+export default compose(withTranslation("meta"), withStyles(styles), observer)(FieldImage);

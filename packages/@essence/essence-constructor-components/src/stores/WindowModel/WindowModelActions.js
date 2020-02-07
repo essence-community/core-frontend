@@ -1,25 +1,35 @@
 // @flow
 import cloneDeep from "lodash/cloneDeep";
+import {
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_NAME,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    VAR_RECORD_CV_DESCRIPTION,
+} from "@essence-community/constructor-share/constants";
 import {choiceWindow} from "../../utils/choiceWindow";
 import configBtnExcelWindow from "../../configs/configBtnExcelWindow";
 import {type AddWinowToPagePropsType} from "./WindowModelTypes";
 import {WindowModel} from "./WindowModel";
 
 const getDefaultWindowBc = (bc) => ({
+    [VAR_RECORD_CV_DESCRIPTION]: bc[VAR_RECORD_CV_DESCRIPTION],
+    [VAR_RECORD_DISPLAYED]: "",
+    [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+    [VAR_RECORD_NAME]: `${bc[VAR_RECORD_NAME]}_gridwindow`,
+    [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow`,
+    [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow`,
+    [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+    [VAR_RECORD_ROUTE_PAGE_ID]: bc[VAR_RECORD_ROUTE_PAGE_ID],
     autobuild: "true",
     bottombtn: [],
     checkaddmore: bc.checkaddmore,
     childs: [],
-    ckMaster: bc.ckPageObject,
-    ckObject: `${bc.ckPageObject}_gridwindow`,
-    ckPage: bc.ckPage,
-    ckPageObject: `${bc.ckPageObject}_gridwindow`,
-    ckParent: bc.ckPageObject,
     ckwindow: "gridwindow",
     columns: bc.columns,
-    cvDescription: bc.cvDescription,
-    cvDisplayed: "",
-    cvName: `${bc.cvName}_gridwindow`,
     detail: bc.detail,
     edittype: bc.edittype,
     stepnamenext: bc.stepnamenext,
@@ -37,10 +47,10 @@ const getWindowBc = ({btnBc, ckWindowDefault, pageStore, gridStore}: AddWinowToP
     }
 
     if (ckwindow === "btnexcel") {
-        return configBtnExcelWindow({ckPageObject: gridStore.bc.ckPageObject, gridStore});
+        return configBtnExcelWindow({ckPageObject: gridStore.bc[VAR_RECORD_PAGE_OBJECT_ID], gridStore});
     } else if (bc.childwindow) {
         windowBc = bc.childwindow.find(
-            (childwindow) => (childwindow.ckwindow || childwindow.ckPageObject) === ckwindow,
+            (childwindow) => (childwindow.ckwindow || childwindow[VAR_RECORD_PAGE_OBJECT_ID]) === ckwindow,
         );
     }
 

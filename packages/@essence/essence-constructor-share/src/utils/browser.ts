@@ -35,6 +35,7 @@ export const loadJS = (url: string, implementationCode: () => void, location: HT
     scriptTag.src = url;
 
     scriptTag.onload = implementationCode;
+    scriptTag.onerror = implementationCode;
     // @ts-ignore
     scriptTag.onreadystatechange = implementationCode;
 
@@ -55,6 +56,7 @@ export const loadCSS = (url: string, implementationCode: () => void, location: H
     linkTag.type = "text/css";
 
     linkTag.onload = implementationCode;
+    linkTag.onerror = implementationCode;
     // @ts-ignore
     linkTag.onreadystatechange = implementationCode;
 
@@ -82,7 +84,7 @@ export function loadFiles(files: string[], isLocal = false) {
                 });
             }
 
-            return null;
+            return Promise.resolve();
         }),
     );
 }

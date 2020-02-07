@@ -1,21 +1,33 @@
 /* eslint max-lines: ["error", 500]*/
 // @flow
 import get from "lodash/get";
-import isString from "lodash/isString";
 import uuidv4 from "uuid/v4";
 import pickBy from "lodash/pickBy";
 import forEach from "lodash/forEach";
 import isUndefined from "lodash/isUndefined";
 import isEqual from "lodash/isEqual";
-import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "@essence/essence-constructor-share/constants";
-import {i18next} from "@essence/essence-constructor-share/utils";
-import {snackbarStore} from "@essence/essence-constructor-share/models";
+import {
+    VALUE_SELF_FIRST,
+    VALUE_SELF_ALWAYSFIRST,
+    VAR_RECORD_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_QUERY_ID,
+    META_PAGE_OBJECT,
+    VAR_META_JN_FETCH,
+    VAR_META_JN_OFFSET,
+    VAR_META_JL_FILTER,
+    VAR_META_JL_SORT,
+    VAR_RECORD_JN_TOTAL_CNT,
+} from "@essence-community/constructor-share/constants";
+import {i18next, getMasterObject} from "@essence-community/constructor-share/utils";
+import {snackbarStore} from "@essence-community/constructor-share/models";
 import {loggerRoot} from "../../constants";
 import {type CkIdType} from "../../BuilderType";
 import {isEmpty, sleep} from "../../utils/base";
 import {type PageModelType} from "../PageModel";
 import {sendRequestList} from "../../request/baseRequest";
-import {findSetKey, findGetGlobalKey} from "../../utils/findKey";
+import {findGetGlobalKey} from "../../utils/findKey";
 import {type RecordsModelType, type RecordsModelInstanceType, type RecordsStateStatusType} from "./RecordsModelType";
 import {CheckLoading, CYCLE_TIMEOUT} from "./checkLoading";
 
@@ -36,7 +48,7 @@ type AttachGlobalStore = {
 type LoadRecordsActionType = {
     bc: $PropertyType<RecordsModelType, "bc">,
     applicationStore: Object,
-    recordId?: any,
+    recordId: string,
     selectedRecordId?: CkIdType,
     isUserReload?: boolean,
     status: RecordsStateStatusType,
@@ -46,57 +58,22 @@ const logger = loggerRoot.extend("recordsActions");
 // 2 frames (16ms)
 const WAIT_TIME = 32;
 
-export const getMasterData = (masterObject?: Object, idproperty?: string, globalValues?: Object) => {
-    const master = {};
-
-    if (isEmpty(idproperty)) {
-        return master;
-    }
-
-    forEach(findSetKey(idproperty || ""), (fieldName: string, globaleKey: string) => {
-        if (masterObject && masterObject[globaleKey]) {
-            const value = masterObject[globaleKey];
-
-            master[fieldName] = isString(value) && value.indexOf("auto-") === 0 ? undefined : value;
-        } else if (globalValues && globalValues.has(globaleKey)) {
-            const value = globalValues.get(globaleKey);
-
-            master[fieldName] = isString(value) && value.indexOf("auto-") === 0 ? undefined : value;
-        }
-
-        if (isEmpty(master[fieldName])) {
-            master[fieldName] = undefined;
-        }
-    });
-
-    return master;
-};
-
-export function getMasterObject(ckMaster?: string, pageStore?: PageModelType): typeof undefined | Object {
-    return ckMaster && pageStore
-        ? {
-              ...get(pageStore.stores.get(ckMaster), "selectedRecord", {}),
-              ...(pageStore.fieldValueMaster.has(ckMaster) ? {ckId: pageStore.fieldValueMaster.get(ckMaster)} : {}),
-          }
-        : undefined;
-}
-
 export function getPageFilter(pageSize: ?number, pageNumber: number) {
     return pageSize
         ? {
-              jnFetch: pageSize,
-              jnOffset: pageSize * pageNumber,
+              [VAR_META_JN_FETCH]: pageSize,
+              [VAR_META_JN_OFFSET]: pageSize * pageNumber,
           }
         : {
-              jnFetch: 1000,
-              jnOffset: 0,
+              [VAR_META_JN_FETCH]: 1000,
+              [VAR_META_JN_OFFSET]: 0,
           };
 }
 
 export function getFilterData({filter, order, searchValues, pageSize, pageNumber}: GetFilterDataType): Object {
     return {
-        jlFilter: filter,
-        jlSort: [order],
+        [VAR_META_JL_FILTER]: filter,
+        [VAR_META_JL_SORT]: [order],
         ...pickBy(searchValues, (value) => value !== ""),
         ...getPageFilter(pageSize, pageNumber),
     };
@@ -125,12 +102,11 @@ export function checkPageNumber(recordsStore: RecordsModelInstanceType, master: 
     }
 }
 
-export const getAttachedRecords = (records: Array<Object>, newRecord?: Object) => {
+export const getAttachedRecords = (records: Array<Object>, newRecord?: Object, recordId: string = VAR_RECORD_ID) => {
     if (newRecord) {
-        const {ckId} = newRecord;
         const firstRecord = records[0] || {};
-        const recordIndex = records.findIndex((rec) => rec.ckId === ckId);
-        const record = {...newRecord, jnTotalCnt: firstRecord.jnTotalCnt};
+        const recordIndex = records.findIndex((rec) => rec[recordId] === newRecord[recordId]);
+        const record = {...newRecord, [VAR_RECORD_JN_TOTAL_CNT]: firstRecord[VAR_RECORD_JN_TOTAL_CNT]};
 
         if (recordIndex === -1) {
             return [record, ...records];
@@ -144,11 +120,11 @@ export const getAttachedRecords = (records: Array<Object>, newRecord?: Object) =
 
 export function prepareRequst(
     recordsStore: RecordsModelInstanceType,
-    {bc, status, selectedRecordId}: LoadRecordsActionType,
+    {bc, status, selectedRecordId, recordId = VAR_RECORD_ID}: LoadRecordsActionType,
 ) {
-    const {idproperty = "ck_id", ckMaster, noglobalmask} = bc;
+    const {getmastervalue, noglobalmask} = bc;
     const globalValues = get(recordsStore.pageStore, "globalValues");
-    const master = getMasterData(getMasterObject(ckMaster, recordsStore.pageStore), idproperty, globalValues);
+    const master = getMasterObject(bc[VAR_RECORD_MASTER_ID], recordsStore.pageStore, getmastervalue);
     const filterData =
         status === "attach"
             ? {
@@ -156,7 +132,7 @@ export function prepareRequst(
                   order: recordsStore.order,
                   pageNumber: 0,
                   pageSize: 1,
-                  searchValues: {ckId: selectedRecordId},
+                  searchValues: {[recordId]: selectedRecordId},
               }
             : {
                   filter: recordsStore.filter,
@@ -187,15 +163,17 @@ function loadRecordsResolve(noglobalmask: string) {
     return this.selectedRecord;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export function loadRecordsAction({
     bc,
+    recordId = VAR_RECORD_ID,
     applicationStore,
     selectedRecordId,
     status,
     isUserReload = false,
 }: LoadRecordsActionType): Promise<*> {
-    const {ckMaster, noglobalmask, defaultvalue, reloadservice} = bc;
-    const isWaiting = ckMaster || bc.getglobaltostore;
+    const {noglobalmask, defaultvalue, reloadservice} = bc;
+    const isWaiting = bc[VAR_RECORD_MASTER_ID] || bc.getglobaltostore;
     const resolve = loadRecordsResolve.bind(this);
 
     this.isLoading = true;
@@ -206,13 +184,20 @@ export function loadRecordsAction({
                 return true;
             }
 
-            return sleep(WAIT_TIME).then(() => new CheckLoading({bc, ckMaster, pageStore: this.pageStore}));
+            return sleep(WAIT_TIME).then(
+                () => new CheckLoading({bc, masterId: bc[VAR_RECORD_MASTER_ID], pageStore: this.pageStore}),
+            );
         })
         .catch(() => {
-            logger(i18next.t("344bbb5fb4a84d89b93c448a5c29e1d7", {query: bc.ckQuery, timeout: CYCLE_TIMEOUT}));
+            logger(
+                i18next.t("static:344bbb5fb4a84d89b93c448a5c29e1d7", {
+                    query: bc[VAR_RECORD_QUERY_ID],
+                    timeout: CYCLE_TIMEOUT,
+                }),
+            );
         })
         .then(() => {
-            const {json} = prepareRequst(this, {applicationStore, bc, selectedRecordId, status});
+            const {json} = prepareRequst(this, {applicationStore, bc, recordId, selectedRecordId, status});
 
             if (reloadservice === "true" && this.prevFetchJson && isEqual(this.prevFetchJson, json)) {
                 return resolve(noglobalmask);
@@ -220,11 +205,11 @@ export function loadRecordsAction({
             this.prevFetchJson = json;
 
             return sendRequestList({
+                [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
                 action: "sql",
                 json,
-                pageObject: bc.ckPageObject,
                 plugin: bc.extraplugingate,
-                query: bc.ckQuery,
+                query: bc[VAR_RECORD_QUERY_ID],
                 session: applicationStore.session,
                 timeout: bc.timeout,
             });
@@ -239,18 +224,18 @@ export function loadRecordsAction({
                 )
             ) {
                 const records = (response || []).map((record) => {
-                    if (!record.ckId && isEmpty(record.ckId)) {
-                        record.ckId = `auto-${uuidv4()}`;
+                    if (!record[recordId] && isEmpty(record[recordId])) {
+                        record[recordId] = `auto-${uuidv4()}`;
                     }
 
                     return record;
                 });
 
-                if (bc.pagesize && records[0] && !records[0].jnTotalCnt) {
+                if (bc.pagesize && records[0] && !records[0][VAR_RECORD_JN_TOTAL_CNT]) {
                     snackbarStore.snackbarOpenAction(
                         {
                             status: "error",
-                            text: i18next.t("44e3485c6b0c47dc8a0792c90af62962"),
+                            text: i18next.t("static:44e3485c6b0c47dc8a0792c90af62962"),
                         },
                         this.pageStore && this.pageStore.route,
                     );
@@ -267,38 +252,41 @@ export function loadRecordsAction({
             return [];
         })
         .then((records) => {
-            const valueField = status === "attach" ? "ckId" : this.valueField;
+            const valueField = status === "attach" ? recordId : this.valueField;
             let isDefault = false;
-            let recordId = null;
+            let recordIdValue = null;
 
             switch (true) {
                 case defaultvalue === VALUE_SELF_ALWAYSFIRST:
                     isDefault = true;
-                    recordId = records[0] ? records[0][valueField] : null;
+                    recordIdValue = records[0] ? records[0][valueField] : null;
                     break;
                 case !isUndefined(selectedRecordId):
-                    recordId = selectedRecordId;
+                    recordIdValue = selectedRecordId;
                     break;
                 case !isUndefined(this.selectedRecordId):
-                    recordId = this.selectedRecordId;
+                    recordIdValue = this.selectedRecordId;
                     break;
                 case defaultvalue === VALUE_SELF_FIRST:
                     isDefault = true;
-                    recordId = records[0] ? records[0][valueField] : null;
+                    recordIdValue = records[0] ? records[0][valueField] : null;
                     break;
                 default:
-                    recordId = null;
+                    recordIdValue = null;
             }
 
             this.recordsState = {
-                defaultValueSet: isDefault && !isEmpty(recordId) ? defaultvalue : undefined,
+                defaultValueSet: isDefault && !isEmpty(recordIdValue) ? defaultvalue : undefined,
                 isUserReload,
-                records: status === "attach" ? getAttachedRecords(this.recordsState.records, records[0]) : records,
+                records:
+                    status === "attach"
+                        ? getAttachedRecords(this.recordsState.records, records[0], valueField)
+                        : records,
                 status,
             };
             this.recordsAll = this.recordsState.records;
 
-            return this.setSelectionAction(recordId, valueField);
+            return this.setSelectionAction(recordIdValue, valueField);
         })
         .then(() => resolve(noglobalmask));
 }

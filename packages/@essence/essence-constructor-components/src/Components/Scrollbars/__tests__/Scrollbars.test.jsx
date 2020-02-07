@@ -8,6 +8,7 @@ import Scrollbars, {SCROLL_DEBOUNCE} from "../Scrollbars";
 
 const Content = () => <div style={{height: 500, width: 100}} />;
 
+// eslint-disable-next-line max-lines-per-function
 describe("Scrollbars", () => {
     const pageStore = createEmptyPageStore();
     const spyOnFireScrollEvent = jest.spyOn(pageStore, "fireScrollEvent");

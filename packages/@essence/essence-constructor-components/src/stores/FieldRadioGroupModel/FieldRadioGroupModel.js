@@ -52,4 +52,8 @@ export class FieldRadioGroupModel extends StoreBaseModel implements FieldRadioGr
             await this.recordsStore.loadRecordsAction();
         }
     });
+
+    setSelectRecord = action("reloadStoreAction", (value: string): Promise<void> => {
+        this.recordsStore.setSelectionAction(value, this.valuefield);
+    });
 }

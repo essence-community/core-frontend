@@ -83,6 +83,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
                         addRefAction={store.addRefAction}
                         onExited={this.handleUpdateTop}
                         onEntered={this.handleUpdateTop}
+                        absolute={true}
                     />
                 ))}
             </Grid>

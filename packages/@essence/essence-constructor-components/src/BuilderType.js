@@ -24,6 +24,7 @@ export type BuilderBaseType = {
     hiddenrules?: string,
     autoload?: "true" | "false",
     setglobal?: string,
+    setrecordtoglobal?: string,
     getglobal?: string,
     reqsel?: "false" | "true",
     disabledrules?: string,

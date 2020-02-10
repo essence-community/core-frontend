@@ -27,8 +27,10 @@ export const FavoritePage: React.FC<IFavoritePageProps> = (props) => {
         pagesStore.setPageAction(ckId, true);
     };
 
+    const name = trans(routerName);
+
     return (
-        <Grid item className={classes.menuRoot} data-qtip={trans(routerName)} onClick={handleClickMenu}>
+        <Grid item className={classes.menuRoot} data-qtip={name} onClick={handleClickMenu}>
             <Grid container spacing={1} wrap="nowrap" alignItems="center" className={classes.menuContainer}>
                 <Grid item className={classes.iconRoot}>
                     {routeIconName ? <Icon iconfont={routeIconName} size="lg" /> : null}
@@ -38,7 +40,7 @@ export const FavoritePage: React.FC<IFavoritePageProps> = (props) => {
                 </Grid>
                 <Grid item>
                     <Typography variant="body2" color="inherit" noWrap className={classes.nameTypography}>
-                        {trans(routerName)}
+                        {name}
                     </Typography>
                 </Grid>
             </Grid>

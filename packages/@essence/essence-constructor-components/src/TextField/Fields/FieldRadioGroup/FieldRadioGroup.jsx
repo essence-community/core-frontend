@@ -67,10 +67,13 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
     }
 
     handleReactValue = (value: any) => {
-        const {store} = this.props;
+        const {store, onChange} = this.props;
 
         if (!store.recordsStore.isLoading && value === VALUE_SELF_FIRST) {
-            this.props.onChange(null, getFirstValues(store.recordsStore));
+            const val = getFirstValues(store.recordsStore);
+
+            onChange(null, val);
+            store.setSelectRecord(val);
         }
     };
 
@@ -79,14 +82,19 @@ class FieldRadioGroup extends React.Component<FieldRadioGroupPropsType & WithT, 
         const {recordsState} = store.recordsStore;
 
         if (recordsState.defaultValueSet && value === VALUE_SELF_FIRST) {
-            onChange(null, getFirstValues(store.recordsStore));
+            const val = getFirstValues(store.recordsStore);
+
+            onChange(null, val);
+            store.setSelectRecord(val);
         }
     };
 
     handleChange = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
         const {value} = event.currentTarget;
+        const {store, onChange} = this.props;
 
-        this.props.onChange(null, value);
+        onChange(null, value);
+        store.setSelectRecord(value);
     };
 
     handleFocus = () => {

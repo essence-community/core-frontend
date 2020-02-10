@@ -103,6 +103,7 @@ export interface IRecordsModel {
     setNextRecord: () => void;
     setLastRecord: () => void;
     setOrderAction: (property: string) => void;
+    setRecordToGlobal: () => void;
     searchAction: (values: IRecord, options?: IRecordsSearchOptions) => Promise<void | object>;
     setSearchValuesAction: (values: IRecord) => void;
     clearChildsStoresAction: () => void;

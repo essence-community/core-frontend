@@ -156,14 +156,13 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
     constructor({bc, pageStore}: StoreBaseModelPropsType) {
         super({bc, pageStore});
 
-        const recordsStore = new RecordsModel(bc, pageStore, {parentStore: this});
+        const recordsStore = new RecordsModel({...bc, setrecordtoglobal: undefined}, pageStore, {parentStore: this});
         const gridHeight = getGridHeight(bc);
 
         this.bc = bc;
         this.pageStore = pageStore;
         this.recordsStore = recordsStore;
         this.valueFields = [[this.recordsStore.recordId, this.recordsStore.recordId]];
-
         this.gridColumnsInitial = getGridColumns(bc);
         this.gridBtnsConfig = getGridBtnsConfig(bc, this);
 
@@ -542,6 +541,8 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
             return gridSetGlobalValues(this);
         }
 
+        this.setRecordToGlobal();
+
         return undefined;
     };
 
@@ -570,6 +571,20 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
     setGridColumns = action("setGridColumns", (gridColumns: Array<Object>) => {
         this.gridColumns = gridColumns;
     });
+
+    setRecordToGlobal = () => {
+        if (this.bc.setrecordtoglobal) {
+            const selectedRecords = this.selectedRecords ? [...this.selectedRecords.values()] : [];
+            const {selmode, collectionvalues} = this.bc;
+
+            this.pageStore.updateGlobalValues({
+                [this.bc.setrecordtoglobal]:
+                    selmode === "MULTI" || selmode === "SIMPLE" || collectionvalues === "array"
+                        ? selectedRecords
+                        : this.recordsStore.selectedRecord || null,
+            });
+        }
+    };
 
     handlers = {
         onPrintExcel: (mode: BuilderModeType, btnBc: BuilderBaseType, {values}: any) => {

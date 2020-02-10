@@ -134,7 +134,7 @@ export class FilterModel extends StoreBaseModel implements FilterModelType {
                 pageStore: this.pageStore,
                 reloadPageObject: {
                     [VAR_RECORD_PAGE_OBJECT_ID]: this.bc[VAR_RECORD_MASTER_ID] || this.bc[VAR_RECORD_PARENT_ID],
-                    [VAR_RECORD_ROUTE_PAGE_ID]: this.pageStore[VAR_RECORD_ROUTE_PAGE_ID],
+                    [VAR_RECORD_ROUTE_PAGE_ID]: this.pageStore.pageId,
                 },
                 snackbarStore,
                 timeout: bcBtn.timeout || this.bc.timeout,

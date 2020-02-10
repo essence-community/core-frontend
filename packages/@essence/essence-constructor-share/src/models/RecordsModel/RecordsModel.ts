@@ -183,6 +183,7 @@ export class RecordsModel implements IRecordsModel {
                 await this.parentStore.afterSelected();
             }
 
+            this.setRecordToGlobal();
             setTimeout(() => {
                 if (this.selectedRecord !== oldSelectedRecord && !this.noLoadChilds) {
                     this.reloadChildStoresAction(oldSelectedRecord);
@@ -234,6 +235,7 @@ export class RecordsModel implements IRecordsModel {
     clearChildsStoresAction = action("clearChildsStoresAction", () => {
         this.selectedRecordIndex = -1;
         this.selectedRecord = undefined;
+        this.setRecordToGlobal();
 
         if (this.pageStore) {
             this.pageStore.stores.forEach((store) => {
@@ -380,6 +382,14 @@ export class RecordsModel implements IRecordsModel {
             status: "remove",
         };
     });
+
+    setRecordToGlobal = () => {
+        if (this.bc.setrecordtoglobal && this.pageStore) {
+            this.pageStore.updateGlobalValues({
+                [this.bc.setrecordtoglobal]: this.selectedRecord || null,
+            });
+        }
+    };
 
     setLoadingAction = action("setLoadingAction", (isLoading: boolean) => {
         this.isLoading = isLoading;

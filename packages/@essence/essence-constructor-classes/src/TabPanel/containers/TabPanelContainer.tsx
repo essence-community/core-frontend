@@ -9,6 +9,7 @@ import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/co
 import {Paper} from "@material-ui/core";
 import {TabPanelModel} from "../store/TabPanelModel";
 import {Tabs} from "../components/Tabs";
+import {TabPanelPosition} from "../TabPanel.types";
 import {useStyles} from "./TabPanelContainer.styles";
 
 export const TabPanelContainer: React.FC<IClassProps> = (props) => {
@@ -17,11 +18,10 @@ export const TabPanelContainer: React.FC<IClassProps> = (props) => {
     const applicationStore = React.useContext(ApplicationContext);
     const classes = useStyles();
     const [store] = useModel((options) => new TabPanelModel({...options, applicationStore}), props);
-    // @ts-ignore
-    const positionClassName = classes[`root-${align}-${contentview}`];
+    const positonName = `${align}-${contentview}` as TabPanelPosition;
 
     return useObserver(() => (
-        <div className={cn(classes.root, positionClassName)}>
+        <div className={cn(classes.rootDefault, classes.root, classes[positonName])}>
             <Tabs {...props} store={store} />
             {mapComponents(store.childs, (Child, childBc) => {
                 const isVisible = childBc[VAR_RECORD_PAGE_OBJECT_ID] === store.tabValue;

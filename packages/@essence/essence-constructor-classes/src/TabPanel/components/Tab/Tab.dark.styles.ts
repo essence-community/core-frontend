@@ -12,6 +12,7 @@ export function tabDarkStyles(theme: IEssenceTheme): StyleRules<"rootTheme" | Ta
             height: 32,
             margin: theme.spacing(0.5, 0.5, 0),
             minHeight: 32,
+            minWidth: 70,
         },
         "center-vbox": {
             "&$rootTheme": {
@@ -21,24 +22,29 @@ export function tabDarkStyles(theme: IEssenceTheme): StyleRules<"rootTheme" | Ta
             height: 32,
             margin: theme.spacing(0.5, 0.25, 0),
             minHeight: 32,
+            minWidth: 70,
         },
         "left-hbox": {
             "&$rootTheme": {
                 borderRight: "none",
             },
             borderRadius: theme.spacing(0.5, 0, 0, 0.5),
+            height: 32,
             justifyContent: "flex-end",
             margin: theme.spacing(0.25, 0),
             paddingRight: theme.spacing(0.5),
         },
         "left-vbox": {
             "& $label": {
+                padding: theme.spacing(1, 0),
+                transform: "rotate(180deg)",
                 writingMode: "vertical-rl",
             },
             "&$rootTheme": {
                 borderRight: "none",
             },
             borderRadius: theme.spacing(0.5, 0, 0, 0.5),
+            justifyContent: "center",
             margin: theme.spacing(0.25, 0),
         },
         "right-hbox": {
@@ -46,17 +52,20 @@ export function tabDarkStyles(theme: IEssenceTheme): StyleRules<"rootTheme" | Ta
                 borderLeft: "none",
             },
             borderRadius: theme.spacing(0, 0.5, 0.5, 0),
+            height: 32,
             margin: theme.spacing(0.25, 0),
             paddingLeft: theme.spacing(0.5),
         },
         "right-vbox": {
             "& $label": {
+                padding: theme.spacing(1, 0),
                 writingMode: "vertical-rl",
             },
             "&$rootTheme": {
                 borderLeft: "none",
             },
             borderRadius: theme.spacing(0, 0.5, 0.5, 0),
+            justifyContent: "center",
             margin: theme.spacing(0.25, 0),
         },
         rootTheme: {

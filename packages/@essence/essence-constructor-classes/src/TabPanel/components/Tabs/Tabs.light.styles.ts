@@ -5,22 +5,18 @@ import {ClassNames} from "./Tabs.types";
 export function tabsLightTheme(theme: IEssenceTheme): StyleRules<ClassNames> {
     return {
         "center-hbox": {
-            borderBottom: `1px solid ${theme.palette.secondary.main}`,
             marginTop: 4,
         },
         "center-vbox": {
-            borderBottom: `1px solid ${theme.palette.secondary.main}`,
             marginTop: 4,
         },
         "left-hbox": {
             flexDirection: "column",
-            // Overflow: "hidden",
             width: 264,
         },
         "left-vbox": {
             flexDirection: "column",
-            // Overflow: "hidden",
-            width: 264,
+            width: 36,
         },
         popoverButton: {
             "&$popoverButtonActive": {
@@ -80,9 +76,11 @@ export function tabsLightTheme(theme: IEssenceTheme): StyleRules<ClassNames> {
         popoverButtonIcon: {},
         "right-hbox": {
             flexDirection: "column",
+            width: 264,
         },
         "right-vbox": {
             flexDirection: "column",
+            width: 36,
         },
         root: {},
     };

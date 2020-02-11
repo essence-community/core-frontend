@@ -38,7 +38,7 @@ const transformOrigins: Record<"dark" | "light", IPopoverTransfromOrigin> = {
     },
     light: {
         horizontal: "right",
-        vertical: 2,
+        vertical: 1,
     },
 };
 const TAB_PLUS_WIDTH = {
@@ -203,7 +203,9 @@ export const Tabs: React.FC<ITabsProps> = React.memo((props) => {
                     width="auto"
                     anchorOrigin={anchorOrigin}
                     transformOrigin={transformOrigins[theme.palette.type]}
-                    popoverContent={() => <TabPopoverContent {...props} store={store} />}
+                    hideOnResize
+                    hideOnScroll
+                    popoverContent={({onClose}) => <TabPopoverContent {...props} onClose={onClose} store={store} />}
                 >
                     {({onOpen, open, onClose}) => (
                         <IconButton

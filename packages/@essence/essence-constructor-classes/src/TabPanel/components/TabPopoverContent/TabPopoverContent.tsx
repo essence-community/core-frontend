@@ -11,6 +11,7 @@ import {useStyles} from "./TabPopoverContent.styles";
 
 interface ITabPopoverContentProps extends IClassProps {
     store: TabPanelModel;
+    onClose: (event: React.SyntheticEvent) => void;
 }
 
 export const TabPopoverContent: React.FC<ITabPopoverContentProps> = (props) => {
@@ -19,7 +20,7 @@ export const TabPopoverContent: React.FC<ITabPopoverContentProps> = (props) => {
     const [trans] = useTranslation();
 
     return (
-        <div className={classes.listTabs}>
+        <div className={`${classes.rootDefault} ${classes.root}`}>
             {store.hiddenTabsIndex
                 ? store.tabs.slice(-store.hiddenTabsIndex).map((tabBc) => {
                       const labelKey = tabBc[VAR_RECORD_DISPLAYED];

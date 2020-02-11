@@ -6,9 +6,13 @@ export function tabsDarkTheme(theme: IEssenceTheme): StyleRules<ClassNames> {
     return {
         "center-hbox": {
             "&$root::before": {
+                backgroundColor: "#42455c",
                 bottom: 0,
+                // eslint-disable-next-line prettier/prettier
+                content: "\"\"",
                 height: 2,
                 left: 4,
+                position: "absolute",
                 right: 4,
             },
             marginLeft: 58,
@@ -16,39 +20,38 @@ export function tabsDarkTheme(theme: IEssenceTheme): StyleRules<ClassNames> {
         },
         "center-vbox": {
             "&$root::before": {
+                backgroundColor: "#42455c",
                 bottom: 0,
+                // eslint-disable-next-line prettier/prettier
+                content: "\"\"",
                 height: 2,
                 left: 4,
+                position: "absolute",
                 right: 4,
             },
             marginLeft: 58,
             marginTop: 4,
         },
         "left-hbox": {
-            "&$root::before": {
-                bottom: 4,
-                right: 0,
-                top: 4,
-                width: 2,
-            },
             flexDirection: "column",
             width: 264,
         },
         "left-vbox": {
-            "&$root::before": {
-                bottom: 4,
-                right: 0,
-                top: 4,
-                width: 2,
-            },
             flexDirection: "column",
             width: 36,
         },
         popoverButton: {
+            "&$popoverButtonActive": {
+                background: theme.palette.primary.main,
+                borderColor: "#42455c",
+                fill: theme.essence.palette.text.light,
+            },
             "&:hover": {
                 backgroundColor: theme.palette.primary.light,
             },
             backgroundColor: "#42455c",
+            border: "2px solid transparent",
+            borderBottom: "none",
             borderRadius: theme.spacing(1, 1, 0, 0),
             fill: theme.palette.primary.main,
             height: 32,
@@ -62,33 +65,13 @@ export function tabsDarkTheme(theme: IEssenceTheme): StyleRules<ClassNames> {
             color: theme.palette.common.white,
         },
         "right-hbox": {
-            "&$root::before": {
-                bottom: 4,
-                left: 0,
-                top: 4,
-                width: 2,
-            },
             flexDirection: "column",
             width: 264,
         },
         "right-vbox": {
-            "&$root::before": {
-                bottom: 4,
-                left: 0,
-                top: 4,
-                width: 2,
-            },
             flexDirection: "column",
             width: 36,
         },
-        root: {
-            "&::before": {
-                backgroundColor: "#42455c",
-                bottom: 0,
-                // eslint-disable-next-line prettier/prettier
-                content: "\"\"",
-                position: "absolute",
-            },
-        },
+        root: {},
     };
 }

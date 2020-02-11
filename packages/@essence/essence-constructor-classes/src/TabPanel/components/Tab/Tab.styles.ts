@@ -7,7 +7,7 @@ export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         active: {},
         label: {
-            color: theme.palette.text.secondary,
+            color: theme.palette.text.primary,
             fontSize: 13,
             fontWeight: "bold",
             overflow: "hidden",
@@ -16,12 +16,14 @@ export const useStyles = makeStyles(
             whiteSpace: "nowrap",
         },
         root: {
+            "&$active": {
+                opacity: 1,
+            },
             alignItems: "center",
             cursor: "pointer",
             display: "flex",
-            height: 36,
-            minHeight: 36,
-            minWidth: 70,
+            opacity: 0.7,
+            position: "relative",
         },
         ...(theme.palette.type === "light" ? tabLightStyles(theme) : tabDarkStyles(theme)),
     }),

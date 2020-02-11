@@ -42,7 +42,7 @@ const Content = ({
 }: PropsType) => (
     <div
         {...otherProps}
-        className={cn(className, {
+        className={cn(className, classes.root, {
             [classes[`vertical${verticalSize}`]]: verticalSize,
             [classes[`horizontal${horizontalSize}`]]: horizontalSize,
             [classes[`contentType-${contentType}`]]: contentType,

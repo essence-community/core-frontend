@@ -39,6 +39,9 @@ export const SnackbarContentDarkStyle = (theme) => ({
         backgroundColor: theme.palette.common.warning,
         padding: "10px 5px",
     },
+    description: {
+        wordBreak: "break-word",
+    },
     header: {
         padding: 5,
     },

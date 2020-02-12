@@ -11,7 +11,7 @@ interface IGetValue {
     get: (key: string) => FieldValue;
 }
 
-interface IParseReturnType {
+export interface IParseReturnType {
     runer: (values?: Record<string, FieldValue> | IGetValue) => undefined | string | boolean | number;
     variables: string[];
 }

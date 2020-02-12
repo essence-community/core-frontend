@@ -11,6 +11,8 @@ module.exports = {
         "prettier/@typescript-eslint",
         // Enables eslint-plugin-prettier and displays prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
         "plugin:prettier/recommended",
+        // Lint the browser compatibility of your code
+        "plugin:compat/recommended",
     ],
     plugins: ["react-hooks", "import", "flowtype", "filenames"],
     parserOptions: {
@@ -155,5 +157,10 @@ module.exports = {
             // Tells eslint-plugin-react to automatically detect the version of React to use
             version: "detect",
         },
+        // "fetch", "Set", "Map", "URL", "Promise", "Object.entries", "Array.from" for all browser
+        polyfills: [],
+    },
+    env: {
+        browser: true,
     },
 };

@@ -71,8 +71,8 @@ export const request = async <R = IRecord | IRecord[]>({
         ...(body ? body : {}),
     };
     const url = `${gate}?${stringify(formData ? {...queryParams, ...data} : queryParams)}`;
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), parseInt(timeout, 10) * MILLISECOND);
+    const controller = window.AbortController ? new window.AbortController() : undefined;
+    const timeoutId = window.setTimeout(() => controller?.abort(), parseInt(timeout, 10) * MILLISECOND);
 
     const response = await fetch(url, {
         body: formData ? formData : stringify(data),
@@ -80,7 +80,7 @@ export const request = async <R = IRecord | IRecord[]>({
             "Content-type": "application/x-www-form-urlencoded",
         },
         method,
-        signal: controller.signal,
+        signal: controller?.signal,
     });
 
     /*

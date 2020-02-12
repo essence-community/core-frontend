@@ -13,7 +13,8 @@ import {
     VAR_RECORD_CL_DATASET,
 } from "@essence-community/constructor-share/constants";
 import {when} from "mobx";
-import BuilderFormPanel, {BuilderFormPanelBase} from "../BuilderFormPanel";
+import BuilderFormPanel from "../BuilderFormPanel";
+import {BuilderFormPanelBase} from "../BuilderFormPanel/BuilderFormPanel";
 import BuilderMobxButton from "../../Button/BuilderMobxButton";
 import BuilderPanelEditingButtons from "../BuilderPanelEditingButtons/BuilderPanelEditingButtons";
 import type {PanelFormModelType} from "../../stores/PanelFormModel";

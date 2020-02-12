@@ -35,6 +35,7 @@ import {
     VAR_SETTING_MODULE_AVAILABLE,
     VAR_SETTING_MODULE_URL,
     VAR_RECORD_CL_STATIC,
+    loggerRoot,
 } from "@essence-community/constructor-share/constants";
 import {i18next} from "@essence-community/constructor-share/utils";
 import {snackbarStore} from "@essence-community/constructor-share/models";
@@ -85,6 +86,8 @@ const getConfig = () => ({
     baseUrl: BASE_URL,
     colors,
 });
+
+const logger = loggerRoot.extend("ApplicationModel");
 
 export class ApplicationModel implements ApplicationModelType {
     authData: Object;
@@ -425,7 +428,7 @@ export class ApplicationModel implements ApplicationModelType {
                     break;
                 }
                 default: {
-                    throw new Error(i18next.t("static:8fe6e023ee11462db952d62d6b8b265e", {message: msg.data}));
+                    logger(new Error(i18next.t("static:8fe6e023ee11462db952d62d6b8b265e", {message: msg.data})));
                 }
             }
         });

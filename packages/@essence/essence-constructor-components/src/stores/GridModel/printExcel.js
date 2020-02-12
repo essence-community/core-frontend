@@ -1,6 +1,6 @@
 // @flow
 import get from "lodash/get";
-import {i18next, getMasterObject} from "@essence-community/constructor-share/utils";
+import {i18next, getMasterObject, prepareUrl} from "@essence-community/constructor-share/utils";
 import {snackbarStore} from "@essence-community/constructor-share/models";
 import {
     VAR_RECORD_MASTER_ID,
@@ -11,6 +11,7 @@ import {
     META_PAGE_OBJECT,
     VAR_RECORD_CK_D_ENDPOINT,
     VAR_RECORD_CV_URL_RESPONSE,
+    VAR_RECORD_URL,
 } from "@essence-community/constructor-share/constants";
 import {type RecordsModelType} from "../RecordsModel";
 import {getFilterData, setMask, attachGlobalStore} from "../RecordsModel/loadRecordsAction";
@@ -94,8 +95,10 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
                 pageStore.applicationStore,
             );
 
-            if (isValid) {
-                window.open(res[VAR_RECORD_CV_URL_RESPONSE]);
+            const url = res[VAR_RECORD_CV_URL_RESPONSE] || res[VAR_RECORD_URL];
+
+            if (isValid && url) {
+                window.open(prepareUrl(url, pageStore));
             }
 
             return isValid > 0;

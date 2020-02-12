@@ -28,6 +28,7 @@ import {
     VAR_RECORD_ROUTE_PAGE_ID,
     VAR_RECORD_CV_LOGIN,
     VAR_SETTING_MODULE_URL,
+    loggerRoot,
 } from "@essence-community/constructor-share/constants";
 import {i18next} from "@essence-community/constructor-share/utils";
 import {parseMemoize} from "@essence-community/constructor-share/utils/parser";
@@ -67,6 +68,7 @@ const NONE_BC = {
     [VAR_RECORD_PAGE_OBJECT_ID]: "none",
     [VAR_RECORD_PARENT_ID]: "none",
 };
+const logger = loggerRoot.extend("ApplicationModel");
 
 /**
  * @exports ApplicationModel
@@ -228,7 +230,7 @@ export class ApplicationModel implements IApplicationModel {
             snackbarStore.recordsStore.recordsState.status === "init" && snackbarStore.recordsStore.loadRecordsAction(),
         ]);
 
-        if (this.bc[VAR_RECORD_PAGE_OBJECT_ID] !== "none") {
+        if (this.bc && this.bc[VAR_RECORD_PAGE_OBJECT_ID] !== "none") {
             this.routesStore = new RoutesModel(
                 {
                     [VAR_RECORD_PAGE_OBJECT_ID]: "routes",
@@ -240,6 +242,8 @@ export class ApplicationModel implements IApplicationModel {
 
             await this.routesStore?.recordsStore.loadRecordsAction();
             this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
+        } else {
+            this.history.push("/auth");
         }
 
         this.isApplicationReady = true;
@@ -351,7 +355,7 @@ export class ApplicationModel implements IApplicationModel {
                     break;
                 }
                 default: {
-                    throw new Error(i18next.t("static:8fe6e023ee11462db952d62d6b8b265e", {message: msg.data}));
+                    logger(new Error(i18next.t("static:8fe6e023ee11462db952d62d6b8b265e", {message: msg.data})));
                 }
             }
         });

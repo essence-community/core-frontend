@@ -132,3 +132,6 @@ export const VAR_MOCK_CV_KPP = "cv_kpp";
 export const VAR_ERROR_ID = "err_id";
 export const VAR_ERROR_TEXT = "err_text";
 export const VAR_ERROR_CODE = "err_code";
+
+// Session
+export const SESSION_PREFIX = "sess_";

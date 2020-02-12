@@ -43,16 +43,7 @@ const mapStoresToProps = (stores: Object): StoresPropsType => ({
 
 const getConfig = memoize(() => ({
     [VAR_RECORD_PAGE_OBJECT_ID]: "UserInfo",
-    childs: [
-        {
-            [VAR_RECORD_PAGE_OBJECT_ID]: "theme",
-            type: "THEME_COMBO",
-        },
-        {
-            [VAR_RECORD_PAGE_OBJECT_ID]: "lang",
-            type: "LANG_COMBO",
-        },
-    ],
+    childs: [],
     readonly: "false",
     type: "PANEL",
 }));

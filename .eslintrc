@@ -1,6 +1,7 @@
 {
     "env": {
-        "jest": true
+        "jest": true,
+        "browser": true
     },
 
     "extends": [
@@ -11,6 +12,7 @@
         "plugin:react/recommended",
         "plugin:flowtype/recommended",
         "prettier",
+        "plugin:compat/recommended",
     ],
 
     "plugins": ["import", "prettier", "flowtype", "filenames"],
@@ -126,5 +128,13 @@
                 "extensions": [".js", ".jsx"],
             },
         },
+        "polyfills": [
+            // "Promise",
+            // "URL",
+            // "Object.values",
+            // "Object.assign",
+            // "Map",
+            // "Array.from",
+        ]
     },
 }

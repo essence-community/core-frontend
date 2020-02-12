@@ -81,5 +81,22 @@
       "packages/@essence/essence-constructor-classes"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "eslint-plugin-compat": "^3.5.1"
+  },
+  "browserslist": {
+    "production": [
+      "chrome >= 64",
+      "firefox >= 58",
+      "safari >= 11",
+      "edge >= 16",
+      "opera >= 50"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version",
+      "last 1 edge version"
+    ]
+  }
 }

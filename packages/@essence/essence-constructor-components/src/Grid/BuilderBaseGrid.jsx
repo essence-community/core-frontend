@@ -101,7 +101,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
             store.recordsStore.setLoadingAction(true);
             // Дожидаемся рендеринга BuilderFilter
             this.setState({}, () => {
-                window.requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
                     store.applyFiltersAction().then((res) => {
                         if (res) {
                             store.loadRecordsAction();

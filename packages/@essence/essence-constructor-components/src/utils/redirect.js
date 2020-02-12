@@ -232,7 +232,7 @@ export const makeRedirect = (bc: BcType, pageStore: PageModelType, record: Objec
 
     if (redirecturl) {
         if (redirecturl.indexOf("/") >= 0) {
-            redirectToUrl(redirecturl, values, pageStore, record);
+            redirectToUrl({pageStore, record, redirecturl, values});
         } else {
             pageStore.applicationStore.redirectToAction(redirecturl, values);
         }

@@ -5,7 +5,6 @@ import {preference} from "@essence-community/constructor-components";
 // Intialize components
 import "@essence-community/constructor-components/src/HistoryPanel/BuilderHistoryPanel";
 import "@essence-community/constructor-components/src/Panel/BuilderBasePanel";
-import "@essence-community/constructor-components/src/TabPanel/BuilderTabPanel";
 import "@essence-community/constructor-components/src/Grid/BuilderGrid";
 import "@essence-community/constructor-components/src/FieldSet/BuilderFieldSet";
 import "@essence-community/constructor-components/src/PanelDynamic/BuilderPanelDynamic";
@@ -40,6 +39,7 @@ import "@essence-community/constructor-classes/src/WindowDrawer";
 import "@essence-community/constructor-classes/src/FieldTextarea";
 import "@essence-community/constructor-classes/src/Iframe";
 import "@essence-community/constructor-classes/src/FieldRepeater";
+import "@essence-community/constructor-classes/src/TabPanel";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

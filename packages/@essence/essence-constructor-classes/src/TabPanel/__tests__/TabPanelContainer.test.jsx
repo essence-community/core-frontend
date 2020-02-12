@@ -1,19 +1,21 @@
-// @flow
 import * as React from "react";
 import {Tabs} from "@material-ui/core";
 import keycode from "keycode";
 import {setComponent} from "@essence-community/constructor-share";
-import {mountWithTheme, getBaseBc} from "../../utils/test";
-import {createEmptyPageStore} from "../../stores";
-import BuilderTabPanel from "../BuilderTabPanel";
-import Tab from "../Tab";
+import {TabPanelContainer} from "../containers/TabPanelContainer";
+import {Tab} from "../components/Tab";
+
+// TODO: import from utils
+const mountWithTheme = () => null;
+const getBaseBc = () => null;
+const createEmptyPageStore = () => null;
 
 const TabPanelChild = () => null;
 
 setComponent("TABPANELCHILD", TabPanelChild);
 
 // eslint-disable-next-line max-lines-per-function
-describe("BuilderTabPanel", () => {
+describe("TabPanelContainer", () => {
     const bc = getBaseBc("tab", {
         childs: [
             {...getBaseBc("first-tab"), hiddenrules: "g_hide === true", type: "TABPANELCHILD"},
@@ -32,7 +34,7 @@ describe("BuilderTabPanel", () => {
     const pageStore = createEmptyPageStore();
 
     it("render", () => {
-        const wrapper = mountWithTheme(<BuilderTabPanel bc={bc} pageStore={pageStore} visible />);
+        const wrapper = mountWithTheme(<TabPanelContainer bc={bc} pageStore={pageStore} visible />);
 
         expect(wrapper.find(TabPanelChild).length).toBe(1);
         expect(wrapper.find(Tab).length).toBe(3);
@@ -41,7 +43,7 @@ describe("BuilderTabPanel", () => {
     });
 
     it("first should be visible", () => {
-        const wrapper = mountWithTheme(<BuilderTabPanel bc={bc} pageStore={pageStore} visible />);
+        const wrapper = mountWithTheme(<TabPanelContainer bc={bc} pageStore={pageStore} visible />);
         const childs = wrapper.find(TabPanelChild);
 
         expect(childs.at(0).prop("visible")).toBeTruthy();
@@ -51,7 +53,7 @@ describe("BuilderTabPanel", () => {
     });
 
     it("open second tab", () => {
-        const wrapper = mountWithTheme(<BuilderTabPanel bc={bc} pageStore={pageStore} visible />);
+        const wrapper = mountWithTheme(<TabPanelContainer bc={bc} pageStore={pageStore} visible />);
 
         wrapper
             .find(Tab)
@@ -71,7 +73,7 @@ describe("BuilderTabPanel", () => {
     it("hide tab after change global. Tab automaticaly change to second", (done) => {
         expect.assertions(2);
 
-        const wrapper = mountWithTheme(<BuilderTabPanel bc={bc} pageStore={pageStore} visible />);
+        const wrapper = mountWithTheme(<TabPanelContainer bc={bc} pageStore={pageStore} visible />);
 
         pageStore.globalValues.set("gHide", true);
 
@@ -95,7 +97,7 @@ describe("BuilderTabPanel", () => {
     it("hide tab after change global", (done) => {
         expect.assertions(2);
 
-        const wrapper = mountWithTheme(<BuilderTabPanel bc={firstHiddenBc} pageStore={pageStore} visible />);
+        const wrapper = mountWithTheme(<TabPanelContainer bc={firstHiddenBc} pageStore={pageStore} visible />);
         const checkVisible = () => {
             const childs = wrapper.find(TabPanelChild);
 
@@ -125,7 +127,7 @@ describe("BuilderTabPanel", () => {
     });
 
     it("focus and blur", () => {
-        const wrapper = mountWithTheme(<BuilderTabPanel bc={bc} pageStore={pageStore} visible />);
+        const wrapper = mountWithTheme(<TabPanelContainer bc={bc} pageStore={pageStore} visible />);
 
         wrapper.find(Tabs).simulate("focus");
 
@@ -147,7 +149,7 @@ describe("BuilderTabPanel", () => {
     });
 
     it("select other tab", () => {
-        const wrapper = mountWithTheme(<BuilderTabPanel bc={bc} pageStore={pageStore} visible />);
+        const wrapper = mountWithTheme(<TabPanelContainer bc={bc} pageStore={pageStore} visible />);
 
         wrapper.find(Tabs).simulate("focus");
         wrapper.find(Tabs).simulate("keydown", {keyCode: keycode("right")});

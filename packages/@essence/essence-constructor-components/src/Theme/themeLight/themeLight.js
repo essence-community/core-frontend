@@ -92,6 +92,10 @@ export const themeLight = {
             },
         },
         palette: {
+            tab: {
+                active: "#fff0e1",
+                hover: "#e9ecf4",
+            },
             common: {
                 black: "#000",
                 link: "#0000EE",

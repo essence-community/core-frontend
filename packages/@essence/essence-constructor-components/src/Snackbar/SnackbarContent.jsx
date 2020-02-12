@@ -115,7 +115,7 @@ class SnackbarContent extends React.Component<PropsType> {
                             <Icon iconfont="times" className={classes.closeIcon} onClick={this.handleClickClose} />
                         </Grid>
                     </Grid>
-                    <div className={cn(classes[`content${capitalizeStatus}`])}>
+                    <div className={cn(classes.description, classes[`content${capitalizeStatus}`])}>
                         {snackbar.type === "msg" ? (
                             <SnackbarContentText text={text} title={title} description={description} code={code} />
                         ) : (

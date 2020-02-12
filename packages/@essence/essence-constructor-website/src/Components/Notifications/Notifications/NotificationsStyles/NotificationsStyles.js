@@ -33,6 +33,7 @@ export const NotificationsStyles = (theme: Object) => ({
     notificationContent: {
         borderRadius: 4,
         padding: 8,
+        wordBreak: "break-word",
     },
     "notificationContent-block": {
         backgroundColor: theme.palette.grey.light,

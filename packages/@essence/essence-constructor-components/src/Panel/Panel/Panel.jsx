@@ -113,6 +113,7 @@ export class Panel extends React.Component<PropsType> {
                                 xs={isRow ? true : MAX_PANEL_WIDTH}
                                 className={isRow ? classes.panelItemFlexBasis : undefined}
                                 style={style}
+                                zeroMinWidth
                             >
                                 {childComponnt}
                             </Grid>

@@ -79,6 +79,7 @@ export const VAR_RECORD_CLASS_ATTRIBUTES = "class_attributes";
 export const VAR_RECORD_JN_TOTAL_CNT = "jn_total_cnt";
 export const VAR_RECORD_CK_ATTR = "ck_attr";
 export const VAR_RECORD_CL_STATIC = "cl_static";
+export const VAR_RECORD_JV_ROWCOLOR = "jv_rowcolor";
 
 // SETTING
 export const VAR_SETTING_VALUE = "cv_value";

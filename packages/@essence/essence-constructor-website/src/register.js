@@ -40,6 +40,7 @@ import "@essence-community/constructor-classes/src/FieldTextarea";
 import "@essence-community/constructor-classes/src/Iframe";
 import "@essence-community/constructor-classes/src/FieldRepeater";
 import "@essence-community/constructor-classes/src/TabPanel";
+import "@essence-community/constructor-classes/src/FieldComputed";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

@@ -7,7 +7,6 @@ import FieldCurrency from "./FieldCurrency/FieldCurrency";
 import FieldTable from "./FieldTable/FieldTable";
 import FieldMulti from "./FieldMulti/FieldMulti";
 import FieldSmartMask from "./FieldSmartMask/FieldSmartMask";
-import FieldComputed from "./FieldComputed/FieldComputed";
 import FieldGroup from "./FieldGroup/FieldGroup";
 import FieldInteger from "./FieldInteger";
 import FieldPassword from "./FieldPassword/FieldPassword";
@@ -20,7 +19,6 @@ export const fieldMap = {
     boolean: FieldCheckbox,
     checkbox: FieldCheckbox,
     color: FieldColorPicker,
-    computed: FieldComputed,
     date: FieldDateRC,
     grid: FieldTable,
     group: FieldGroup,

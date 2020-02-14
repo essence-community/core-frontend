@@ -36,6 +36,8 @@ export class StoreBaseModel implements IStoreBaseModel {
 
     public recordId: string;
 
+    public editing?: boolean;
+
     constructor({bc, pageStore, applicationStore, disabled, hidden}: IStoreBaseModelProps) {
         this.bc = bc;
         this.pageStore = pageStore;

@@ -71,6 +71,8 @@ export class PageModelAbstract implements IPageModel {
 
     public recordsStore: IRecordsModel;
 
+    public titleRoutePath = "";
+
     public fireScrollEvent = () => {};
 
     public updateGlobalValues = (_values: object) => {};

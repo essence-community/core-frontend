@@ -65,7 +65,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
         }
 
         const filterComponent = (
-            <Grid item>
+            <Grid item xs>
                 {filters.map((filter: Object) => (
                     <BuilderFilter
                         key={filter[VAR_RECORD_PAGE_OBJECT_ID]}
@@ -114,7 +114,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
         );
 
         const formComponent = (
-            <Grid item className={classes.formRoot}>
+            <Grid item className={classes.formRoot} xs zeroMinWidth>
                 <BuilderForm
                     initialValues={store.recordsStore.records[0] || EMPTY_RECORD}
                     pageStore={pageStore}
@@ -140,10 +140,10 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
 
         const themeContent =
             pageStore.styleTheme === "dark" ? (
-                <Grid container direction="row" className={classNameRoot} wrap="nowrap">
+                <Grid container direction="row">
                     {isHideActions ? null : actionsComponent}
                     <Grid item container direction="column" className={classes.contentRoot}>
-                        <Grid item>
+                        <Grid item xs>
                             {hideTitle ? null : <EmptyTitle hideactions title={transCvDisplayed} filters={filters} />}
                         </Grid>
                         {filterComponent}

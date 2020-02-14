@@ -412,7 +412,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
             </Grid>
         );
         const filterComponent = (
-            <Grid item>
+            <Grid item xs>
                 {filters.map((filter) => (
                     <BuilderFilter
                         disabled={disabled}
@@ -464,7 +464,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
                 <Grid container direction="row" className={classNameRoot} wrap="nowrap">
                     {actionsComponent}
                     <Grid item container direction="column" className={classes.contentRoot}>
-                        <Grid item>
+                        <Grid item xs>
                             {hideTitle ? null : <EmptyTitle title={transCvDisplayed} filters={filters} hideactions />}
                         </Grid>
                         {filterComponent}
@@ -477,7 +477,9 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
         return (
             <Grid container direction="column" className={classNameRoot} wrap="nowrap">
                 {filterComponent}
-                <Grid item>{hideTitle ? null : <EmptyTitle title={transCvDisplayed} filters={filters} />}</Grid>
+                <Grid item xs>
+                    {hideTitle ? null : <EmptyTitle title={transCvDisplayed} filters={filters} />}
+                </Grid>
                 {tableComponent}
             </Grid>
         );

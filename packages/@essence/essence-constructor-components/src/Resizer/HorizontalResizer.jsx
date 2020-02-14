@@ -185,7 +185,7 @@ class HorizontalResizer extends React.Component<PropsType, StateType> {
         const nextCollapsed = nextItem && nextItem.collapsed;
 
         return (
-            <Grid item xs={xs} className={className} style={style}>
+            <Grid item xs={xs} className={className} style={style} zeroMinWidth>
                 <div className={cn(classes.resizeContainer)} ref={this.rootRef}>
                     <div className={cn(classes.childrenContainer, {[classes.containerHide]: item.collapsed})}>
                         {this.props.children}
@@ -236,6 +236,7 @@ class HorizontalResizer extends React.Component<PropsType, StateType> {
                 xs={xs}
                 className={item.collapsed ? cn(className, classes.containerHide) : className}
                 style={style}
+                zeroMinWidth
             >
                 {this.props.children}
             </Grid>

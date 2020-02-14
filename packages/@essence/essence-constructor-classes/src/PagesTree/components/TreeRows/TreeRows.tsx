@@ -17,7 +17,13 @@ export const TreeRows: React.FC<ITreeRowsProps> = (props) => {
         const records = routesStore.recordsStore.records.filter((record) => record[VAR_RECORD_PARENT_ID] === parent);
 
         return (
-            <Collapse in={!isClose} className={classes.menuGridRows} mountOnEnter unmountOnExit>
+            <Collapse
+                in={!isClose}
+                className={classes.menuGridRows}
+                mountOnEnter
+                unmountOnExit
+                classes={{wrapper: classes.menuGridRowsWrapper}}
+            >
                 {records.map((record: IRoute) => {
                     const id = record[VAR_RECORD_ID];
 

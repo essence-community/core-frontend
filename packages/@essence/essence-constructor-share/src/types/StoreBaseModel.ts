@@ -57,6 +57,7 @@ export interface IStoreBaseModel {
     applicationStore: IApplicationModel | null;
     selectedRecord?: RowRecord;
     selectedEntries?: IObservableArray<RowRecord>;
+    editing?: boolean;
     afterSelected?: () => void;
     reloadStoreAction: (checkParent?: boolean) => Promise<object | undefined>;
     clearStoreAction: () => void;

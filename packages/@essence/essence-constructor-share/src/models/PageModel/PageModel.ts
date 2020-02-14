@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import {extendObservable, action, observable, ObservableMap} from "mobx";
+import {action, observable, ObservableMap, computed} from "mobx";
 import {Field} from "mobx-react-form";
 import uuid from "uuid";
 import {
@@ -12,6 +12,7 @@ import {
     VAR_RECORD_ROUTE_PAGE_ID,
     VAR_RECORD_CA_ACTIONS,
     VAR_RECORD_CN_ACTION_EDIT,
+    VAR_RECORD_ROUTE_NAME,
 } from "../../constants";
 import {styleTheme} from "../../constants/deprecated";
 import {
@@ -40,68 +41,143 @@ import {getNextComponent} from "./PageModel.utils";
 const logger = loggerRoot.extend("PageModel");
 
 export class PageModel implements IPageModel {
-    pageBc: IBuilderConfig[];
+    public pageId: string;
 
-    pagerBc: IBuilderConfig;
+    public saveCallBack: PageModelSaveCallback | null;
 
-    fieldValueMaster: PageModelFieldValues;
+    public pageEl: HTMLDivElement | null;
 
-    stores: PageModelStores;
+    public pageInnerEl: HTMLDivElement | null;
 
-    windows: PageModelWindows;
+    public isEdit: boolean;
 
-    // @deprecated
-    windowsOne: PageModelWindows;
+    public currentStep = "";
 
-    globalValues: ObservableMap<string, FieldValue>;
+    public loadingCount = 0;
 
-    pageId: string;
+    public isActiveRedirect = false;
 
-    showQuestionWindow: boolean;
+    public globalStores: Map<string, IStoreBaseModel[]> = new Map();
 
-    questionWindow?: string;
+    public masters: Record<string, Field[]> = {};
 
-    saveCallBack: PageModelSaveCallback | null;
+    public scrollEvents: Array<Function> = [];
 
-    route?: IRouteRecord;
-
-    pageEl: HTMLDivElement | null;
-
-    pageInnerEl: HTMLDivElement | null;
-
-    isEdit: boolean;
-
-    isReadOnly: boolean;
-
-    currentStep = "";
-
-    isLoading: boolean;
-
-    loadingCount = 0;
-
-    hiddenPage: boolean;
-
-    isActiveRedirect = false;
-
-    globalStores: Map<string, IStoreBaseModel[]> = new Map();
-
-    masters: Record<string, Field[]> = {};
-
-    scrollEvents: Array<Function> = [];
-
-    visible: boolean;
-
-    recordsStore: RecordsModel;
+    public recordsStore: RecordsModel;
 
     // @deprecated
-    applicationStore: IApplicationModel;
+    public applicationStore: IApplicationModel;
 
     // @deprecated
-    styleTheme = styleTheme;
+    public styleTheme = styleTheme;
+
+    private defaultVisible: boolean;
+
+    private defaultIsReadOnly: boolean | undefined;
+
+    @observable public pageBc: IBuilderConfig[] = observable.array([], {deep: false});
+
+    @observable public fieldValueMaster: PageModelFieldValues = observable.map();
+
+    @observable public stores: PageModelStores = observable.map();
+
+    @observable public windows: PageModelWindows = observable.array();
+
+    @observable public globalValues: ObservableMap<string, FieldValue>;
+
+    @observable showQuestionWindow = false;
+
+    @observable questionWindow?: string = undefined;
+
+    @observable public isLoading = false;
+
+    @computed public get pagerBc(): IBuilderConfig {
+        return {
+            [VAR_RECORD_PAGE_OBJECT_ID]: this.pageId,
+            [VAR_RECORD_PARENT_ID]: this.applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID],
+            defaultvalue: this.applicationStore.bc.defaultvalue,
+        };
+    }
+
+    // @deprecated
+    @computed public get windowsOne(): PageModelWindows {
+        return this.windows;
+    }
+
+    @computed public get route(): IRouteRecord | undefined {
+        const {routesStore} = this.applicationStore;
+
+        return (
+            (routesStore &&
+                routesStore.recordsStore.recordsState.records.find(
+                    (record: Record<string, FieldValue>) => record[VAR_RECORD_ID] === this.pageId,
+                )) || {
+                [VAR_RECORD_ID]: this.pageId,
+            }
+        );
+    }
+
+    @computed public get isReadOnly(): boolean {
+        if (typeof this.defaultIsReadOnly === "undefined") {
+            const actionEdit = this.route?.[VAR_RECORD_CN_ACTION_EDIT];
+
+            if (typeof actionEdit !== "number") {
+                return false;
+            }
+
+            return (this.applicationStore.authStore.userInfo[VAR_RECORD_CA_ACTIONS] || []).indexOf(actionEdit) < 0;
+        }
+
+        return this.defaultIsReadOnly;
+    }
+
+    @computed public get hiddenPage(): boolean {
+        return this.applicationStore.pagesStore.activePage !== this && !this.defaultVisible;
+    }
+
+    @computed public get visible(): boolean {
+        return this.applicationStore.pagesStore.activePage === this || this.defaultVisible;
+    }
+
+    @computed public get titleRoutePath(): string {
+        // Const recordsStore = this.applicationStore.routesStore?.recordsStore;
+        const {routesStore} = this.applicationStore;
+
+        if (!routesStore || !this.route) {
+            return "";
+        }
+
+        const {recordsStore} = routesStore;
+        const {recordId} = recordsStore;
+
+        let name = `$t(${this.route[VAR_RECORD_ROUTE_NAME]})`;
+        let parentRoute: IRouteRecord | undefined = this.route;
+
+        while (parentRoute) {
+            parentRoute = recordsStore.records.find(
+                // eslint-disable-next-line no-loop-func
+                (record) => record[recordId] === parentRoute?.[VAR_RECORD_PARENT_ID],
+            );
+
+            if (parentRoute) {
+                name = `$t(${parentRoute[VAR_RECORD_ROUTE_NAME]}) - ${name}`;
+            }
+        }
+
+        return name;
+    }
+
+    @computed public get isInlineEdit(): boolean {
+        const inlineWindows = this.windowsOne.filter((window: IWindowModel) => window.bc.edittype === "inline");
+
+        if (inlineWindows.length > 0) {
+            return true;
+        }
+
+        return Array.from(this.stores.values()).filter((store) => store.editing === true).length > 0;
+    }
 
     constructor({pageId, isActiveRedirect, isReadOnly, applicationStore, defaultVisible = false}: IPageModelProps) {
-        const {routesStore} = applicationStore;
-
         this.pageId = pageId;
         this.isActiveRedirect = isActiveRedirect;
         this.applicationStore = applicationStore;
@@ -116,64 +192,9 @@ export class PageModel implements IPageModel {
             {applicationStore, pageStore: this},
         );
 
-        extendObservable(this, {
-            fieldValueMaster: observable.map(),
-            globalValues: observable.map(applicationStore.globalValues),
-            get hiddenPage() {
-                return applicationStore.pagesStore.activePage !== this && !defaultVisible;
-            },
-            get isInlineEdit(): boolean {
-                return (
-                    this.windowsOne.filter((window: IWindowModel) => window.bc.edittype === "inline").length > 0 ||
-                    [...this.stores.entries()].filter((entry) => entry[1].editing === true).length > 0
-                );
-            },
-            isLoading: false,
-            get pagerBc(): IBuilderConfig {
-                return {
-                    [VAR_RECORD_PAGE_OBJECT_ID]: pageId,
-                    [VAR_RECORD_PARENT_ID]: applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID],
-                    defaultvalue: applicationStore.bc.defaultvalue,
-                };
-            },
-            questionWindow: null,
-            get route() {
-                return (
-                    (routesStore &&
-                        routesStore.recordsStore.recordsState.records.find(
-                            (record: Record<string, FieldValue>) => record[VAR_RECORD_ID] === this.pageId,
-                        )) || {
-                        [VAR_RECORD_ID]: this.pageId,
-                    }
-                );
-            },
-            showQuestionWindow: false,
-            stores: observable.map(),
-            get visible() {
-                return applicationStore.pagesStore.activePage === this || defaultVisible;
-            },
-            windows: observable.array(),
-            // @deprecated
-            get windowsOne(this: IPageModel) {
-                return this.windows;
-            },
-        });
-
-        extendObservable(
-            this,
-            {
-                get isReadOnly() {
-                    return typeof isReadOnly === "undefined"
-                        ? (applicationStore.authStore.userInfo[VAR_RECORD_CA_ACTIONS] || []).indexOf(
-                              this.route[VAR_RECORD_CN_ACTION_EDIT],
-                          ) < 0
-                        : isReadOnly;
-                },
-                pageBc: [],
-            },
-            undefined,
-            {deep: false},
-        );
+        this.globalValues = observable.map(applicationStore.globalValues);
+        this.defaultVisible = defaultVisible;
+        this.defaultIsReadOnly = isReadOnly;
     }
 
     updateGlobalValues = (values: Record<string, FieldValue>) => {

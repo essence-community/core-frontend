@@ -166,9 +166,9 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo((props) => {
                 {pagesStore.pages
                     .filter(({route}) => route && route[VAR_RECORD_ROUTE_VISIBLE_MENU])
                     .map((page, index) => {
-                        const {route, pageId} = page;
-                        const name: any = route && route[VAR_RECORD_ROUTE_NAME];
-                        const iconName: any = route && route[VAR_RECORD_ICON_NAME];
+                        const {route, pageId, titleRoutePath} = page;
+                        const name: string = route ? String(route[VAR_RECORD_ROUTE_NAME]) : "";
+                        const iconName: string = route ? String(route[VAR_RECORD_ICON_NAME]) : "";
 
                         return (
                             <OpenPageTab
@@ -177,6 +177,7 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo((props) => {
                                 label={trans(name)}
                                 iconfont={iconName}
                                 value={pageId}
+                                titleRoutePath={trans<string>(titleRoutePath)}
                                 onClose={pagesStore.removePageAction}
                                 onContextMenuCustom={handleContextMenu}
                                 orientation={orientation}

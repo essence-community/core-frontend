@@ -72,6 +72,7 @@ export interface IPageModel {
     scrollEvents: Function[];
     visible: boolean;
     recordsStore: IRecordsModel;
+    titleRoutePath: string;
     updateGlobalValues(values: Record<string, FieldValue>): void;
     openQuestionWindow(questionWindow: string, saveCallBack: PageModelSaveCallback): void;
     handleQuestionAccept(): void;

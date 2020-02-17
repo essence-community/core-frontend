@@ -1,12 +1,12 @@
 import {makeStyles} from "@material-ui/core/styles";
+import {IEssenceTheme} from "@essence-community/constructor-share";
 
 export const useStyles = makeStyles(
-    (theme) => ({
+    (theme: IEssenceTheme) => ({
         menuItem: {
-            // @ts-ignore
-            borderBottom: `1px solid ${theme.palette.grey.main}`,
-            height: 34,
-            minHeight: 34,
+            borderBottom: `1px solid ${theme.essence.palette.grey.main}`,
+            height: 35,
+            minHeight: 35,
             paddingBottom: 0,
             paddingTop: 0,
         },

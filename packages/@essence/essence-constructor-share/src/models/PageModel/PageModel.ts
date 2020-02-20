@@ -71,6 +71,9 @@ export class PageModel implements IPageModel {
     // @deprecated
     public styleTheme = styleTheme;
 
+    // @deprecated
+    public formFilters: Array<any> = [];
+
     private defaultVisible: boolean;
 
     private defaultIsReadOnly: boolean | undefined;
@@ -521,14 +524,22 @@ export class PageModel implements IPageModel {
     /**
      * @deprecated
      */
-    removeFormAction = () => {
-        // Lagacy
+    addFormAction = (formType: string, form: any) => {
+        if (formType === "filter") {
+            this.formFilters.push(form);
+        }
     };
 
     /**
      * @deprecated
      */
-    addFormAction = () => {
-        // Lagacy
+    removeFormAction = (formType: string, form: any) => {
+        if (formType === "filter") {
+            const index = this.formFilters.indexOf(form);
+
+            if (index > -1) {
+                this.formFilters.splice(index, 1);
+            }
+        }
     };
 }

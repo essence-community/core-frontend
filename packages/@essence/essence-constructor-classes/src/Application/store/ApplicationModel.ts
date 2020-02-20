@@ -38,6 +38,7 @@ import {
     settingsStore,
     PageModel,
     modulesStore,
+    redirectToPage,
 } from "@essence-community/constructor-share/models";
 import {History} from "history";
 import pageSafeJson from "../mocks/page-safe.json";
@@ -195,14 +196,14 @@ export class ApplicationModel implements IApplicationModel {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-    redirectToAction = action("redirectToAction", async (pageId: string, _params: Record<string, any>) => {
+    redirectToAction = action("redirectToAction", async (pageId: string, params: Record<string, any>) => {
         const page = await this.pagesStore.setPageAction(pageId, true);
 
         // Log
         if (page) {
             await when(() => !page.isLoading);
 
-            // TODO: should be redirect to page await redirectToPage(page, params);
+            await redirectToPage(page, params);
         }
     });
 

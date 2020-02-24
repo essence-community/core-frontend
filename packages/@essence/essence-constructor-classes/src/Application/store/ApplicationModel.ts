@@ -124,6 +124,11 @@ export class ApplicationModel implements IApplicationModel {
         return this.authStore.userInfo.session;
     }
 
+    // @deprecated
+    @computed get authData(): Record<string, FieldValue> {
+        return this.authStore.userInfo;
+    }
+
     constructor(history: History, url: string) {
         this.routesStore = null;
         this.url = url;

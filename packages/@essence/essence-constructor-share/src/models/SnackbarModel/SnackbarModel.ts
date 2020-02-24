@@ -15,7 +15,7 @@ import {
     IErrorData,
 } from "../../types";
 import {RecordsModel} from "../RecordsModel";
-import {isEmpty, i18next} from "../../utils";
+import {isEmpty, i18next, TFunction} from "../../utils";
 import {
     VAR_RECORD_ROUTE_NAME,
     VAR_RECORD_RES_ERROR,
@@ -225,17 +225,16 @@ export class SnackbarModel implements ISnackbarModel {
                     if (rec) {
                         const {[VAR_RECORD_CV_TEXT]: message = ""} = rec;
                         const messageType = rec[VAR_RECORD_CR_TYPE];
-                        const text =
+                        const text = (trans: TFunction) =>
                             typeof message === "string"
-                                ? i18next
-                                      .t(message, {
-                                          defaultValue: message,
-                                          ns: "message",
-                                      })
+                                ? trans(message, {
+                                      defaultValue: message,
+                                      ns: "message",
+                                  })
                                       // eslint-disable-next-line require-unicode-regexp, prefer-named-capture-group
                                       .replace(/{(\d+)}/g, (match, pattern) =>
                                           values.length
-                                              ? i18next.t(values[pattern], {
+                                              ? trans(values[pattern], {
                                                     defaultValue: values[pattern],
                                                     ns: "message",
                                                 })
@@ -330,7 +329,7 @@ export class SnackbarModel implements ISnackbarModel {
             {
                 status: "error",
                 text: errorData && errorData[VAR_ERROR_TEXT] ? errorData[VAR_ERROR_TEXT] : "",
-                title: i18next.t("static:515a199e09914e3287afd9c95938f3a7", errorData.query),
+                title: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7", errorData.query),
             },
             route,
         );
@@ -342,7 +341,7 @@ export class SnackbarModel implements ISnackbarModel {
                 code: errorData[VAR_ERROR_CODE] || errorData[VAR_ERROR_ID],
                 description: errorData[VAR_ERROR_TEXT],
                 status: "error",
-                title: i18next.t("static:4fdb3577f24440ceb8c717adf68bac48", errorData),
+                title: (trans) => trans("static:4fdb3577f24440ceb8c717adf68bac48", errorData),
             },
             route,
         );
@@ -353,7 +352,7 @@ export class SnackbarModel implements ISnackbarModel {
             {
                 description: errorData[VAR_ERROR_ID],
                 status: "error",
-                title: i18next.t("static:515a199e09914e3287afd9c95938f3a7", errorData),
+                title: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7", errorData),
             },
             route,
         );
@@ -363,7 +362,7 @@ export class SnackbarModel implements ISnackbarModel {
         this.snackbarOpenAction(
             {
                 status: "error",
-                text: i18next.t("static:2d209550310a4fae90389134a5b12353"),
+                text: (trans) => trans("static:2d209550310a4fae90389134a5b12353"),
             },
             route,
         );
@@ -373,7 +372,7 @@ export class SnackbarModel implements ISnackbarModel {
         this.snackbarOpenAction(
             {
                 status: "error",
-                text: i18next.t("static:23cd49d589b74476acaa0b347b207d00"),
+                text: (trans) => trans("static:23cd49d589b74476acaa0b347b207d00"),
             },
             route,
         );
@@ -383,7 +382,7 @@ export class SnackbarModel implements ISnackbarModel {
         "accessDeniedAction",
         (_error: Error, route?: Record<string, FieldValue>, applicationStore?: IApplicationModel) => {
             this.snackbarOpenAction(
-                {status: "error", title: i18next.t("static:1d5ca35298f346cab823812e2b57e15a")},
+                {status: "error", title: (trans) => trans("static:1d5ca35298f346cab823812e2b57e15a")},
                 route,
             );
             const recordId = route ? route[VAR_RECORD_ID] : undefined;
@@ -398,7 +397,7 @@ export class SnackbarModel implements ISnackbarModel {
         "invalidSessionAction",
         (_error: Error, route?: IRouteRecord, applicationStore?: IApplicationModel) => {
             this.snackbarOpenAction(
-                {status: "error", title: i18next.t("static:5bf781f61f9c44b8b23c76aec75e5d10")},
+                {status: "error", title: (trans) => trans("static:5bf781f61f9c44b8b23c76aec75e5d10")},
                 route,
             );
 
@@ -409,6 +408,9 @@ export class SnackbarModel implements ISnackbarModel {
     );
 
     loginFailedAction = action("loginFailedAction", (_error: Error, route?: IRouteRecord) => {
-        this.snackbarOpenAction({status: "error", title: i18next.t("static:b5a60b8ff5cd419ebe487a68215f4490")}, route);
+        this.snackbarOpenAction(
+            {status: "error", title: (trans) => trans("static:b5a60b8ff5cd419ebe487a68215f4490")},
+            route,
+        );
     });
 }

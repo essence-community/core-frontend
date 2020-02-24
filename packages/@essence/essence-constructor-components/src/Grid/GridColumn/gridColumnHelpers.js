@@ -1,6 +1,5 @@
 // @flow
 import moment from "moment";
-import {i18next} from "@essence-community/constructor-share/utils";
 import {getFieldDate} from "../../TextField/Fields/FieldDateRC/fieldDateHelpers";
 
 type ForamtedColumnType = {
@@ -9,7 +8,7 @@ type ForamtedColumnType = {
 };
 
 const formatedColumnBoolean = ({value}: ForamtedColumnType) =>
-    value ? i18next.t("static:dacf7ab025c344cb81b700cfcc50e403") : i18next.t("static:f0e9877df106481eb257c2c04f8eb039");
+    value ? "static:dacf7ab025c344cb81b700cfcc50e403" : "static:f0e9877df106481eb257c2c04f8eb039";
 
 const formatedColumnDate = (props: ForamtedColumnType) => {
     const dateConfig: Object = getFieldDate(props.format);

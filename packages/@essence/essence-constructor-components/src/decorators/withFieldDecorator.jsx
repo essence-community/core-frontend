@@ -97,7 +97,8 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
             // eslint-disable-next-line max-statements
             componentDidUpdate(prevProps: Props) {
                 const field = this.getField();
-                const {hidden, disabled, bc} = this.props;
+                // eslint-disable-next-line id-length
+                const {hidden, disabled, bc, t: trans} = this.props;
 
                 if (field) {
                     if (prevProps.hidden !== hidden || prevProps.disabled !== disabled) {
@@ -118,6 +119,16 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                             disabled,
                         });
                         field.set("disabled", disabled);
+                    }
+
+                    if (trans !== prevProps.t) {
+                        if (bc[VAR_RECORD_DISPLAYED]) {
+                            field.set("label", trans(bc[VAR_RECORD_DISPLAYED]));
+                        }
+
+                        if (field.error) {
+                            field.validate({showErrors: true});
+                        }
                     }
                 }
             }

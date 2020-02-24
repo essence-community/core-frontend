@@ -10,17 +10,29 @@ type PropsType = WithT & {
     code?: string,
 };
 
+const redrenText = (text, trans) => {
+    if (typeof text === "function") {
+        return text(trans);
+    }
+
+    if (typeof text === "string") {
+        return trans(text, text);
+    }
+
+    return text;
+};
+
 // eslint-disable-next-line id-length
 const SnackbarContentText = ({text, title, description, code, t}: PropsType) => (
     <React.Fragment>
         {title ? (
             <Typography variant="body2" color="inherit">
-                {t(title, title)}
+                {redrenText(title, t)}
             </Typography>
         ) : null}
         {text ? (
             <Typography variant="body2" color="inherit" component="div">
-                {typeof text === "string" ? t(text, text) : text}
+                {redrenText(text, t)}
             </Typography>
         ) : null}
         {description ? (

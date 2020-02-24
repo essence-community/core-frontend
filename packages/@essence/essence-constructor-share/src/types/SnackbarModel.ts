@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/named
 import {IObservableArray} from "mobx";
+import {TFunction} from "i18next";
 import {VAR_ERROR_TEXT, VAR_ERROR_ID, VAR_ERROR_CODE} from "../constants/variables";
 import {IResponse, FieldValue, IRecordsModel, IProgressModel, IApplicationModel, IRouteRecord} from ".";
 
@@ -18,7 +19,7 @@ export type SnackbarStatus =
 
 export interface ISnackbar {
     autoHidden: boolean;
-    text: string | JSX.Element;
+    text: string | JSX.Element | ((trans: TFunction) => string | JSX.Element);
     status: SnackbarStatus;
     id: string;
     createdAt: string;
@@ -28,7 +29,7 @@ export interface ISnackbar {
     read: boolean;
     progressStore?: IProgressModel;
     type: "msg" | "progress";
-    title?: string;
+    title?: string | ((trans: TFunction) => string);
     description?: string;
     code?: string;
 }

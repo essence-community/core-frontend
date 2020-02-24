@@ -89,12 +89,23 @@ class SnackbarContent extends React.Component<PropsType> {
         this.props.onClose(this.props.snackbar.id);
     };
 
+    getSnackbarTitle = (trans) => {
+        const {title, status} = this.props.snackbar;
+
+        if (title) {
+            const transTitle = typeof title === "function" ? title(trans) : trans(title);
+
+            return `${trans(statusTitle[status])} ${transTitle}`;
+        }
+
+        return trans(statusTitle[status]);
+    };
+
     render() {
-        // eslint-disable-next-line id-length
-        const {snackbar, classes = {}, t} = this.props;
+        const {snackbar, classes = {}} = this.props;
         const {code, status, text, description} = snackbar;
         const capitalizeStatus = capitalize(status);
-        const title = snackbar.title ? `${t(statusTitle[status])} ${t(snackbar.title)}` : t(statusTitle[status]);
+        const title = this.getSnackbarTitle(this.props.t);
 
         return (
             <Grow in={snackbar.open} onExited={this.handleClose}>

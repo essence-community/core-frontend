@@ -98,7 +98,7 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
         <Tab
             value={value}
             icon={iconNode}
-            data-qtip={`${label}<br/>${titleRoutePath}`}
+            data-qtip={titleRoutePath}
             data-page-object={`tab-${value}`}
             component="div"
             ref={tabRef}

@@ -28,6 +28,7 @@ const BuilderBaseGridStyles = (theme: Object) => ({
     inlineButton: {},
     mainButton: {},
     maxWidth: {
+        flexGrow: 1,
         maxWidth: "100%",
     },
     root: {

@@ -63,6 +63,7 @@ const BuilderFilterStylesLight = (theme: any) => ({
         display: "none",
     },
     maxWidth: {
+        flexGrow: 1,
         maxWidth: "100%",
     },
     titleContainer: {

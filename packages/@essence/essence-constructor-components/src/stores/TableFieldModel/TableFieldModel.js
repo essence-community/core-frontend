@@ -112,7 +112,13 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
                     }
 
                     if (this.selectedRecord) {
-                        return this.selectedRecord[this.displayField];
+                        const label = this.selectedRecord[this.displayField];
+
+                        if (bc.localization && label) {
+                            return i18next.t(`${bc.localization}:${label}`, label);
+                        }
+
+                        return label;
                     }
 
                     return "";

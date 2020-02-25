@@ -1,7 +1,6 @@
 import {stringify} from "qs";
 import {IRequest, IRequestCheckError} from "../types";
 import {settingsStore} from "../models";
-import {i18next} from "../utils";
 import {IRecord} from "../types/Base";
 import {VAR_SETTING_GATE_URL, META_OUT_RESULT, META_PAGE_OBJECT} from "../constants";
 import {ResponseError} from "./error";
@@ -20,7 +19,7 @@ const checkError = ({responseJSON, query, list}: IRequestCheckError) => {
     }
 
     if (isError) {
-        throw new ResponseError(i18next.t("static:63538aa4bcd748349defdf7510fc9c10"), responseJSON, query);
+        throw new ResponseError("static:63538aa4bcd748349defdf7510fc9c10", responseJSON, query);
     }
 };
 

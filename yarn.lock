@@ -1142,6 +1142,8 @@
     esprima "^4.0.1"
     history "^4.10.1"
     i18next "^19.0.1"
+    i18next-chained-backend "^2.0.1"
+    i18next-localstorage-backend "^3.1.1"
     keycode "^2.2.0"
     lodash "^4.17.15"
     mdi-react "3.4.0"
@@ -6396,6 +6398,20 @@ hyphenate-style-name@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.0.3.tgz#097bb7fa0b8f1a9cf0bd5c734cf95899981a9b48"
   integrity sha512-EcuixamT82oplpoJ2XU4pDtKGWQ7b00CD9f1ug9IaQ3p1bkHMiKCZ9ut9QDI6qsa6cpUuB+A/I+zLtdNK4n2DQ==
+
+i18next-chained-backend@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/i18next-chained-backend/-/i18next-chained-backend-2.0.1.tgz#762f78b30aafc5cab9f85f520f8281172380d1a1"
+  integrity sha512-IKLRCJ767tPWd3nKQMbcqbjd/tHcv+DjFIkaNd1yJSdnS6PME4lvCRYx+gl3gMMMbCL0r+l1bvRVBkTkRRXGVQ==
+  dependencies:
+    "@babel/runtime" "^7.4.5"
+
+i18next-localstorage-backend@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/i18next-localstorage-backend/-/i18next-localstorage-backend-3.1.1.tgz#c60e86c696cebccf2ff4d8a90637cf0b67c59b21"
+  integrity sha512-/IRvORQni6sutcjnDT2ZBDns4/zXK1b4SIg0aF2sSjAqwTfoyt7PEg8HmRf0zS7fqPC1mDy6g4uNFWmvqRGbvQ==
+  dependencies:
+    "@babel/runtime" "^7.4.5"
 
 i18next@^19.0.1:
   version "19.0.1"

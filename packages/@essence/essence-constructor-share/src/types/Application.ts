@@ -1,6 +1,7 @@
 import {ObservableMap} from "mobx";
 import {History} from "history";
 import {VAR_RECORD_CV_LOGIN, VAR_RECORD_CA_ACTIONS} from "../constants";
+import {TFunction} from "../utils/I18n";
 import {IRoutesModel} from "./RoutesModel";
 import {IStoreBaseModel} from "./StoreBaseModel";
 import {IBuilderConfig, FieldValue, IAuthModel, IPagesModel, IAuthSession} from ".";
@@ -33,7 +34,7 @@ export interface IApplicationModel extends IStoreBaseModel {
     logoutAction(): void;
     redirectToAction(pageId: string, params: Record<string, FieldValue>): Promise<void>;
     loadApplicationAction(): Promise<void>;
-    blockApplicationAction(type: string, text: string): void;
+    blockApplicationAction(type: string, text: string | ((trans: TFunction) => string)): void;
     initWsClient(session: string): void;
     handleWsMessage(msg: MessageEvent): void;
     reloadUserInfoAction(authValues: IAuthSession): void;

@@ -145,7 +145,7 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType & W
                                 classNameRoot={classNameRoot}
                                 childRef={this.props.childRef}
                             >
-                                <Content verticalSize="16" horizontalSize="16">
+                                <Content verticalSize="16" horizontalSize="16" fullHeight>
                                     {content}
                                 </Content>
                             </ThemePanelWrapper>
@@ -160,7 +160,7 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType & W
                         topPanel={topPanel}
                         childRef={this.props.childRef}
                     >
-                        <Content verticalSize="16" horizontalSize="16">
+                        <Content verticalSize="16" horizontalSize="16" fullHeight>
                             {content}
                         </Content>
                     </ThemePanelWrapper>

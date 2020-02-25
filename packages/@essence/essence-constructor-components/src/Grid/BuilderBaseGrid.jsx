@@ -464,7 +464,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
                 <Grid container direction="row" className={classNameRoot} wrap="nowrap">
                     {actionsComponent}
                     <Grid item container direction="column" className={classes.contentRoot}>
-                        <Grid item xs>
+                        <Grid item className={classes.maxWidth}>
                             {hideTitle ? null : <EmptyTitle title={transCvDisplayed} filters={filters} hideactions />}
                         </Grid>
                         {filterComponent}
@@ -477,7 +477,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
         return (
             <Grid container direction="column" className={classNameRoot} wrap="nowrap">
                 {filterComponent}
-                <Grid item xs>
+                <Grid item className={classes.maxWidth}>
                     {hideTitle ? null : <EmptyTitle title={transCvDisplayed} filters={filters} />}
                 </Grid>
                 {tableComponent}

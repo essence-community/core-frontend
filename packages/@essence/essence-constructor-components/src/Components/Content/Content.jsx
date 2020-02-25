@@ -25,6 +25,7 @@ type PropsType = {
     buttonHeight?: boolean,
     children: React.Node,
     visible?: boolean,
+    fullHeight?: boolean,
     setRef?: (node: ?HTMLDivElement) => void,
 };
 
@@ -38,6 +39,7 @@ const Content = ({
     buttonHeight,
     setRef,
     visible,
+    fullHeight = false,
     ...otherProps
 }: PropsType) => (
     <div
@@ -48,6 +50,7 @@ const Content = ({
             [classes[`contentType-${contentType}`]]: contentType,
             [classes.buttonHeight]: buttonHeight,
             [classes.hidden]: visible === false,
+            [classes.fullHeight]: fullHeight,
         })}
         ref={setRef}
     >

@@ -62,6 +62,9 @@ const BuilderFilterStylesLight = (theme: any) => ({
     hidden: {
         display: "none",
     },
+    maxWidth: {
+        maxWidth: "100%",
+    },
     titleContainer: {
         display: "inline-flex",
         marginLeft: theme.spacing(3),

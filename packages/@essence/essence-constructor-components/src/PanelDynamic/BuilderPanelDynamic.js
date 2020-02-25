@@ -41,7 +41,7 @@ export class BaseBuilderPanelDynamic extends React.Component<PropsType> {
         }
 
         const content = (
-            <Grid container spacing={0} direction="column" data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}>
+            <Grid container spacing={1} direction="column" data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}>
                 {mapComponents(store.recordsStore.records, (ChildComp, child, index) => {
                     let childBc = child;
 

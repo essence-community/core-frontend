@@ -22,6 +22,9 @@ const BuilderFilterStylesDark = (theme: any) => ({
     hidden: {
         display: "none",
     },
+    maxWidth: {
+        maxWidth: "100%",
+    },
     titleTypography: {
         fontSize: 30,
         overflow: "hidden",

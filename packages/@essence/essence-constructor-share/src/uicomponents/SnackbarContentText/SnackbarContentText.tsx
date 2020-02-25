@@ -1,6 +1,6 @@
-import {Typography} from "@material-ui/core";
 import * as React from "react";
-import {useTranslation, TFunction} from "@essence-community/constructor-share/utils";
+import {Typography} from "@material-ui/core";
+import {useTranslation, TFunction} from "../../utils";
 
 type TText = string | JSX.Element | ((trans: TFunction) => string | JSX.Element);
 
@@ -11,7 +11,7 @@ interface ISnackbarContentTextProps {
     code?: string;
 }
 
-const redrenText = (text: TText, trans: TFunction) => {
+const renderText = (text: TText, trans: TFunction) => {
     if (typeof text === "function") {
         return text(trans);
     }
@@ -30,12 +30,12 @@ export const SnackbarContentText: React.FC<ISnackbarContentTextProps> = ({text, 
         <React.Fragment>
             {title ? (
                 <Typography variant="body2" color="inherit">
-                    {redrenText(title, trans)}
+                    {renderText(title, trans)}
                 </Typography>
             ) : null}
             {text ? (
                 <Typography variant="body2" color="inherit" component="div">
-                    {text}
+                    {renderText(text, trans)}
                 </Typography>
             ) : null}
             {description ? (

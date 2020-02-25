@@ -8,10 +8,10 @@ import {withStyles} from "@material-ui/core/styles";
 import capitalize from "lodash/capitalize";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
+import {SnackbarContentText} from "@essence-community/constructor-share/uicomponents";
 import ProgressBar from "../Components/ProgressBar/ProgressBar";
 import type {ProgressModelType} from "../stores/ProgressModel/ProgressModel";
 import {SnackbarContentDarkStyle} from "./Styles/SnackbarContentDarkStyle";
-import SnackbarContentText from "./SnackbarContentText";
 
 const styles = SnackbarContentDarkStyle;
 

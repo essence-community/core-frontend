@@ -21,10 +21,10 @@ const statusTitle = {
     error: "static:c80abfb5b59c400ca1f8f9e868e4c761",
     errorUpload: "static:cecc548fc7444813a3d00eb7bb067a3f",
     info: "static:627518f4034947aa9989507c5688cfff",
-    notification: "",
+    notification: "static:ea8035aada054aa1838afbda9d0c39ae",
     progress: "static:ad39828554114893872302a0aaa031af",
     unblock: "static:d22b1f7a48b9402e9c0c17b508c5a906",
-    uploaded: "static:179cc83540e94b87a8d8aff919552f22",
+    uploaded: "",
     warning: "static:e6f8166771e04b849855254c5d926ff6",
 };
 
@@ -130,10 +130,7 @@ class SnackbarContent extends React.Component<PropsType> {
                         {snackbar.type === "msg" ? (
                             <SnackbarContentText text={text} title={title} description={description} code={code} />
                         ) : (
-                            <ProgressBar
-                                status={snackbar.status}
-                                progressCount={snackbar.progressStore.progressCount}
-                            />
+                            <ProgressBar snackbar={snackbar} progressCount={snackbar.progressStore.progressCount} />
                         )}
                     </div>
                 </Paper>

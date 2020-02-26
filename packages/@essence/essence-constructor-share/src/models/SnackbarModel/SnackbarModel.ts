@@ -283,16 +283,21 @@ export class SnackbarModel implements ISnackbarModel {
         },
     );
 
-    snackbarChangeStatusAction = action("snackbarChangeStatusAction", (snackbarId: string, status: SnackbarStatus) => {
-        const changedSnakebar = this.snackbars.find((snakebar) => snakebar.id === snackbarId);
-        const changedSnakebarAll = this.snackbarsAll.find((snakebar) => snakebar.id === snackbarId);
+    snackbarChangeAction = action("snackbarChangeAction", (snackbarId: string, snackbar: Record<string, any>) => {
+        const changedSnakebar = this.snackbars.findIndex((snakebar) => snakebar.id === snackbarId);
+        const changedSnakebarAll = this.snackbarsAll.findIndex((snakebar) => snakebar.id === snackbarId);
 
-        if (changedSnakebar) {
-            changedSnakebar.status = status;
+        if (changedSnakebar > -1) {
+            this.snackbars[changedSnakebar] = {
+                ...this.snackbars[changedSnakebar],
+                ...snackbar,
+            };
         }
-
-        if (changedSnakebarAll) {
-            changedSnakebarAll.status = status;
+        if (changedSnakebarAll > -1) {
+            this.snackbarsAll[changedSnakebarAll] = {
+                ...this.snackbarsAll[changedSnakebarAll],
+                ...snackbar,
+            };
         }
     });
 
@@ -327,9 +332,11 @@ export class SnackbarModel implements ISnackbarModel {
     errorResponseAction = action("errorResponseAction", (errorData: IErrorData, route?: IRouteRecord) => {
         this.snackbarOpenAction(
             {
+                description: errorData
+                    ? errorData[VAR_ERROR_TEXT] || errorData[VAR_ERROR_CODE] || errorData[VAR_ERROR_ID]
+                    : undefined,
                 status: "error",
-                text: errorData && errorData[VAR_ERROR_TEXT] ? errorData[VAR_ERROR_TEXT] : "",
-                title: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7", errorData.query),
+                text: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7", errorData.query),
             },
             route,
         );
@@ -339,9 +346,9 @@ export class SnackbarModel implements ISnackbarModel {
         this.snackbarOpenAction(
             {
                 code: errorData[VAR_ERROR_CODE] || errorData[VAR_ERROR_ID],
-                description: errorData[VAR_ERROR_TEXT],
+                description: errorData && errorData[VAR_ERROR_TEXT] ? errorData[VAR_ERROR_TEXT] : "",
                 status: "error",
-                title: (trans) => trans("static:4fdb3577f24440ceb8c717adf68bac48", errorData),
+                text: (trans) => trans("static:4fdb3577f24440ceb8c717adf68bac48", errorData),
             },
             route,
         );
@@ -350,9 +357,9 @@ export class SnackbarModel implements ISnackbarModel {
     errorMaskAction = action("errorMaskAction", (errorData: IErrorData, route?: IRouteRecord) => {
         this.snackbarOpenAction(
             {
-                description: errorData[VAR_ERROR_ID],
+                description: errorData[VAR_ERROR_CODE] || errorData[VAR_ERROR_ID],
                 status: "error",
-                title: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7", errorData),
+                text: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7", errorData),
             },
             route,
         );
@@ -382,7 +389,7 @@ export class SnackbarModel implements ISnackbarModel {
         "accessDeniedAction",
         (_error: Error, route?: Record<string, FieldValue>, applicationStore?: IApplicationModel) => {
             this.snackbarOpenAction(
-                {status: "error", title: (trans) => trans("static:1d5ca35298f346cab823812e2b57e15a")},
+                {status: "error", text: (trans) => trans("static:1d5ca35298f346cab823812e2b57e15a")},
                 route,
             );
             const recordId = route ? route[VAR_RECORD_ID] : undefined;
@@ -397,7 +404,7 @@ export class SnackbarModel implements ISnackbarModel {
         "invalidSessionAction",
         (_error: Error, route?: IRouteRecord, applicationStore?: IApplicationModel) => {
             this.snackbarOpenAction(
-                {status: "error", title: (trans) => trans("static:5bf781f61f9c44b8b23c76aec75e5d10")},
+                {status: "error", text: (trans) => trans("static:5bf781f61f9c44b8b23c76aec75e5d10")},
                 route,
             );
 
@@ -409,7 +416,7 @@ export class SnackbarModel implements ISnackbarModel {
 
     loginFailedAction = action("loginFailedAction", (_error: Error, route?: IRouteRecord) => {
         this.snackbarOpenAction(
-            {status: "error", title: (trans) => trans("static:b5a60b8ff5cd419ebe487a68215f4490")},
+            {status: "error", text: (trans) => trans("static:b5a60b8ff5cd419ebe487a68215f4490")},
             route,
         );
     });

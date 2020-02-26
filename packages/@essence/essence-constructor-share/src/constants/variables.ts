@@ -62,6 +62,7 @@ export const VAR_RECORD_CV_FILENAME = "cv_file_name";
 export const VAR_RECORD_CV_DD_NAME = "cv_dd_name";
 export const VAR_RECORD_CV_NUMBER = "cv_number";
 export const VAR_RECORD_CV_VALUE = "cv_value";
+export const VAR_RECORD_CT_DATE = "ct_date";
 export const VAR_RECORD_CV_URL_RESPONSE = "cv_url_response";
 export const VAR_RECORD_CV_CV_TYPE = "cv_type";
 export const VAR_RECORD_CV_TEXT = "cv_text";

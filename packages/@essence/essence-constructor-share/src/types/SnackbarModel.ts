@@ -57,6 +57,7 @@ export interface ISnackbarModel {
     snackbarOpenAction: (snakebar: ISnackbar) => void;
     setClosebleAction: (snackbarId: string) => void;
     snackbarCloseAction: (snackbarId: string) => void;
+    snackbarChangeAction: (snackbarId: string, snackbar: Record<string, any>) => void;
     checkValidResponseAction: (
         response: IResponse,
         route?: Record<string, FieldValue>,

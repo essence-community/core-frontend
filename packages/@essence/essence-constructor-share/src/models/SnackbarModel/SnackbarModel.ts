@@ -332,9 +332,7 @@ export class SnackbarModel implements ISnackbarModel {
     errorResponseAction = action("errorResponseAction", (errorData: IErrorData, route?: IRouteRecord) => {
         this.snackbarOpenAction(
             {
-                description: errorData
-                    ? errorData[VAR_ERROR_TEXT] || errorData[VAR_ERROR_CODE] || errorData[VAR_ERROR_ID]
-                    : undefined,
+                description: errorData?.[VAR_ERROR_TEXT] || errorData?.[VAR_ERROR_CODE] || errorData?.[VAR_ERROR_ID],
                 status: "error",
                 text: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7", errorData.query),
             },
@@ -345,8 +343,8 @@ export class SnackbarModel implements ISnackbarModel {
     errorDetailsAction = action("errorDetailsAction", (errorData: IErrorData, route?: IRouteRecord) => {
         this.snackbarOpenAction(
             {
-                code: errorData[VAR_ERROR_CODE] || errorData[VAR_ERROR_ID],
-                description: errorData && errorData[VAR_ERROR_TEXT] ? errorData[VAR_ERROR_TEXT] : "",
+                code: errorData?.[VAR_ERROR_CODE] || errorData?.[VAR_ERROR_ID] || "",
+                description: errorData?.[VAR_ERROR_TEXT] || "",
                 status: "error",
                 text: (trans) => trans("static:4fdb3577f24440ceb8c717adf68bac48", errorData),
             },
@@ -357,7 +355,7 @@ export class SnackbarModel implements ISnackbarModel {
     errorMaskAction = action("errorMaskAction", (errorData: IErrorData, route?: IRouteRecord) => {
         this.snackbarOpenAction(
             {
-                description: errorData[VAR_ERROR_CODE] || errorData[VAR_ERROR_ID],
+                description: errorData?.[VAR_ERROR_CODE] || errorData?.[VAR_ERROR_ID],
                 status: "error",
                 text: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7", errorData),
             },

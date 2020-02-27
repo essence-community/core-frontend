@@ -105,7 +105,7 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
     let onUploadProgress = noop;
     let filteredValues = null;
     let main = null;
-    let snackbarId = null;
+    let progressModel = null;
     const getMasterValue = getmastervalue || bc.getmastervalue;
     // eslint-disable-next-line init-declarations
     let master;
@@ -121,10 +121,9 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
 
     if (formData) {
         filteredValues = values;
-        const {changeProgress, snackbarIdentifier} = new ProgressModel({filesNames, pageStore});
+        progressModel = new ProgressModel({filesNames, pageStore});
 
-        snackbarId = snackbarIdentifier;
-        onUploadProgress = changeProgress;
+        onUploadProgress = progressModel.changeProgress;
     } else if (isArray(values)) {
         filteredValues = values.map((item: Object) =>
             attachGlobalValues({getglobaltostore, globalValues: pageStore.globalValues, values: filter(item)}),
@@ -188,11 +187,8 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
                         pageStore.applicationStore,
                     );
 
-                    if (formData) {
-                        snackbarStore.snackbarChangeStatusAction(
-                            snackbarId,
-                            check === 1 || check === 2 ? "uploaded" : "errorUpload",
-                        );
+                    if (progressModel) {
+                        progressModel.changeStatusProgress(check === 1 || check === 2 ? "uploaded" : "errorUpload");
                     }
 
                     if (check === 1 && noReload) {
@@ -226,8 +222,8 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
         .catch((error) => {
             logger(i18next.t("static:27a9d844da20453195f59f75185d7c99"), error);
 
-            if (formData) {
-                snackbarStore.snackbarChangeStatusAction(snackbarId, "errorUpload");
+            if (progressModel) {
+                progressModel.changeStatusProgress("errorUpload");
             }
 
             snackbarStore.checkExceptResponse(error, undefined, pageStore.applicationStore);

@@ -23,8 +23,8 @@ const BuilderFilterStylesDark = (theme: any) => ({
         display: "none",
     },
     maxWidth: {
-        flexGrow: 1,
         maxWidth: "100%",
+        width: "100%",
     },
     titleTypography: {
         fontSize: 30,

@@ -14,7 +14,7 @@ export const BuilderFormPanelStylesDark = (theme) => ({
     root: {},
     rootActions: {
         "& $contentRoot": {
-            maxWidth: `calc(100% -${theme.sizing.controlPanelWidth}px)`,
+            maxWidth: `calc(100% - ${theme.sizing.controlPanelWidth}px)`,
         },
         "&:before": {
             backgroundColor: theme.palette.primary.main,

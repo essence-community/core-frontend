@@ -140,7 +140,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
 
         const themeContent =
             pageStore.styleTheme === "dark" ? (
-                <Grid container direction="row">
+                <Grid container direction="row" className={classNameRoot}>
                     {isHideActions ? null : actionsComponent}
                     <Grid item container direction="column" className={classes.contentRoot}>
                         <Grid item xs>

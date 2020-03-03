@@ -128,7 +128,7 @@ class SnackbarContent extends React.Component<PropsType> {
                     </Grid>
                     <div className={cn(classes.description, classes[`content${capitalizeStatus}`])}>
                         {snackbar.type === "msg" ? (
-                            <SnackbarContentText text={text} title={title} description={description} code={code} />
+                            <SnackbarContentText text={text} description={description} code={code} />
                         ) : (
                             <ProgressBar snackbar={snackbar} progressCount={snackbar.progressStore.progressCount} />
                         )}

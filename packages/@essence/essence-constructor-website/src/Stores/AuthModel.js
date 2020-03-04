@@ -4,7 +4,7 @@ import {sendRequest} from "@essence-community/constructor-components";
 import {getFromStore, saveToStore} from "@essence-community/constructor-share/utils";
 import {snackbarStore} from "@essence-community/constructor-share/models";
 import noop from "lodash/noop";
-import {applicationStore} from "./ApplicationModel";
+import {type ApplicationModelType} from "./ApplicationModel";
 
 export interface AuthModelType {
     +userInfo: Object;
@@ -17,7 +17,10 @@ export interface AuthModelType {
 export class AuthModel implements AuthModelType {
     userInfo: Object;
 
-    constructor() {
+    applicationStore: ApplicationModelType;
+
+    constructor(applicationStore: ApplicationModelType) {
+        this.applicationStore = applicationStore;
         extendObservable(this, {
             userInfo: getFromStore("auth", {}),
         });
@@ -55,8 +58,8 @@ export class AuthModel implements AuthModelType {
                 }
             })
             .catch((error) => {
-                snackbarStore.checkExceptResponse(error, undefined, applicationStore);
-                applicationStore.logoutAction();
+                snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
+                this.applicationStore.logoutAction();
                 this.userInfo = {};
             }),
     );
@@ -65,7 +68,7 @@ export class AuthModel implements AuthModelType {
         const {state: {backUrl = "/home"} = {}} = history.location;
 
         this.userInfo = response;
-        applicationStore.setSesssionAction(response);
+        this.applicationStore.setSesssionAction(response);
         if (response.mode !== "reports") {
             saveToStore("auth", response);
         }

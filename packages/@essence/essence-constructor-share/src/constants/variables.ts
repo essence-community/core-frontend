@@ -103,6 +103,7 @@ export const VAR_SETTING_FRONT_APP_VERSION = "g_sys_front_app_version";
 export const VAR_SETTING_FRONT_BRANCH_DATE_TIME = "g_sys_front_branch_date_time";
 export const VAR_SETTING_FRONT_BRANCH_NAME = "g_sys_front_branch_name";
 export const VAR_SETTING_FRONT_COMMIT_ID = "g_sys_front_commit_id";
+export const VAR_SETTING_ENABLE_QUEST_LOGIN = "g_sys_enable_guest_login";
 
 // META
 export const META_OUT_RESULT = "out_result";

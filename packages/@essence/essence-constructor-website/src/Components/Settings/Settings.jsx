@@ -14,6 +14,7 @@ import {
 import {observer} from "mobx-react";
 import {COMMIT_ID, BRANCH_DATE_TIME, BRANCH_NAME} from "../../constants";
 import {type ApplicationModelType} from "../../Stores/ApplicationModel";
+import {history} from "../../history";
 
 type PropsType = WithT & {
     children: React.Node,
@@ -21,6 +22,7 @@ type PropsType = WithT & {
 };
 
 class Settings extends React.Component<PropsType> {
+    // eslint-disable-next-line max-lines-per-function,max-statements
     componentDidMount() {
         const {applicationStore} = this.props;
 
@@ -69,6 +71,7 @@ class Settings extends React.Component<PropsType> {
         if (applicationStore.settingsStore.settings[VAR_SETTING_PROJECT_NAME]) {
             document.title = applicationStore.settingsStore.settings[VAR_SETTING_PROJECT_NAME];
         }
+        applicationStore.authStore.checkAuthAction(history);
     }
 
     render() {

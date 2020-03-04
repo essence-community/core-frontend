@@ -14,6 +14,15 @@ const AuthPageStylesDark = (theme: any) => ({
         height: 36,
         width: 94,
     },
+    buttonGuest: {
+        "&:hover": {
+            color: theme.palette.common.selectedMenu,
+        },
+        color: theme.palette.grey.light,
+        float: "right",
+        height: 36,
+        width: 94,
+    },
     disabled: {
         backgroundColor: theme.palette.grey.authDisableBtn,
     },

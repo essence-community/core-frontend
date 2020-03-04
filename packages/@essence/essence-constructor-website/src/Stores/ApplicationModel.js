@@ -39,9 +39,9 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {i18next} from "@essence-community/constructor-share/utils";
 import {snackbarStore} from "@essence-community/constructor-share/models";
-
 import {history} from "../history";
 import {BRANCH_NAME, colors} from "../constants";
+import {AuthModel} from "./AuthModel";
 
 export type SessionType = {
     session: string,
@@ -134,6 +134,7 @@ export class ApplicationModel implements ApplicationModelType {
             pageStore: globalPageStore,
         });
 
+        this.authStore = new AuthModel(this);
         this.routesStore = new RoutesModel({pageStore: globalPageStore});
         this.pagesStore = new PagesModel({applicationStore: this, routesStore: this.routesStore});
         this.countConnect = 0;
@@ -161,11 +162,6 @@ export class ApplicationModel implements ApplicationModelType {
         extendObservable(this, {
             actions: authValues[VAR_RECORD_CA_ACTIONS],
             authData: authValues,
-            get authStore() {
-                return {
-                    userInfo: this.authData,
-                };
-            },
             blockText: "",
             globalValues: observable.map(),
             isApplicationReady: false,
@@ -456,3 +452,4 @@ export class ApplicationModel implements ApplicationModelType {
 }
 
 export const applicationStore = new ApplicationModel();
+export const {authStore} = applicationStore;

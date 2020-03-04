@@ -1,6 +1,6 @@
 {
   "name": "@essence-community/constructor-scripts",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "apiversion": "2.1.0",
   "description": "Scripts for constructor",
   "main": "index.js",
@@ -16,6 +16,7 @@
     "adm-zip": "^0.4.13",
     "aws-sdk": "^2.588.0",
     "babel-loader": "^8.0.6",
+    "babel-plugin-named-asset-import": "^0.3.6",
     "babel-preset-react-app": "^9.1.0",
     "chalk": "^3.0.0",
     "copy-webpack-plugin": "^5.1.0",

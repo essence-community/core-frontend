@@ -69,7 +69,6 @@ export const addWinowToPage = (props: AddWinowToPagePropsType) => {
     const bc = getWindowBc(props);
     const windowStore = new WindowModel({
         bc,
-        gridStore,
         mode,
         pageStore,
         values:

@@ -1,9 +1,13 @@
 // @flow
 import {extendObservable, action} from "mobx";
 import {request} from "@essence-community/constructor-share/request";
-import {getFromStore, saveToStore, loggerRoot} from "@essence-community/constructor-share/utils";
+import {getFromStore, saveToStore} from "@essence-community/constructor-share/utils";
 import {snackbarStore, settingsStore} from "@essence-community/constructor-share/models";
-import {VAR_SETTING_AUTO_CONNECT_GUEST, VAR_CONNECT_GUEST} from "@essence-community/constructor-share/constants";
+import {
+    VAR_SETTING_AUTO_CONNECT_GUEST,
+    VAR_CONNECT_GUEST,
+    loggerRoot,
+} from "@essence-community/constructor-share/constants";
 import {type ApplicationModelType} from "./ApplicationModel";
 
 export interface AuthModelType {

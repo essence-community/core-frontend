@@ -1,7 +1,5 @@
-const BuilderWindowStyles = (theme) => ({
-    content: {
-        padding: theme.spacing(2),
-    },
+const BuilderWindowStyles = () => ({
+    content: {},
     contentScrollableParent: {
         display: "flex",
     },
@@ -26,6 +24,11 @@ const BuilderWindowStyles = (theme) => ({
     },
     "winsize-default": {
         maxWidth: 800,
+    },
+    "winsize-fullscreen": {
+        "& $contentScrollableParent": {
+            flexGrow: 1,
+        },
     },
     "winsize-narrow": {
         maxWidth: 500,

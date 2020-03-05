@@ -66,7 +66,7 @@ export const themeOverridesDefault = (theme) => ({
     MuiDialogActions: {
         root: {
             margin: 0,
-            padding: "8px 4px",
+            padding: "4px",
         },
     },
     MuiDialogContent: {
@@ -79,7 +79,7 @@ export const themeOverridesDefault = (theme) => ({
             borderBottom: "1px solid #5879a9",
             fontSize: 16,
             fontWeight: "bold",
-            padding: "10px 15px",
+            padding: "4px 10px",
         },
     },
     MuiDrawer: {

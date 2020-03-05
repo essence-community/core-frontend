@@ -93,11 +93,12 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType & WithT> {
             title,
             [VAR_RECORD_DISPLAYED]: displayed,
         } = store.windowBc;
+        const isFulllScreen = wintype === "fullscreen";
         const windowTitle =
             t(title) || t(displayed) || `${getModeTitle(store.config.mode)} ${t(description, description) || ""}`;
-        const autoHeightMax = `calc(90vh - ${theme.sizing.appbarHeight +
-            WINDOW_HEADER_HEIGHT +
-            WINDOW_BOTTOM_HEIGHT}px)`;
+        const autoHeightMax = isFulllScreen
+            ? "100%"
+            : `calc(90vh - ${theme.sizing.appbarHeight + WINDOW_HEADER_HEIGHT + WINDOW_BOTTOM_HEIGHT}px)`;
         const checkboxAddMode =
             store.config.mode === "1" && checkaddmore === "true" && !stepnamenext ? (
                 <FormControlLabel
@@ -135,6 +136,7 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType & WithT> {
                     focusableComponent: "form",
                     onSubmit: this.handleFormSubmit,
                 }}
+                fullScreen={isFulllScreen}
             >
                 <BuilderForm noForm initialValues={store.initialValues} mode={store.config.mode} pageStore={pageStore}>
                     <DialogTitle disableTypography>{windowTitle}</DialogTitle>
@@ -214,4 +216,8 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType & WithT> {
     }
 }
 
-export default compose(withStyles(styles, {withTheme: true}), withTranslation("meta"), observer)(BuilderWindow);
+export default compose(
+    withStyles(styles, {name: "BuilderWindow", withTheme: true}),
+    withTranslation("meta"),
+    observer,
+)(BuilderWindow);

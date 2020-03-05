@@ -1,8 +1,9 @@
 // @flow
 import {extendObservable, action} from "mobx";
-import {sendRequest} from "@essence-community/constructor-components";
+import {request} from "@essence-community/constructor-share/request";
 import {getFromStore, saveToStore} from "@essence-community/constructor-share/utils";
-import {snackbarStore} from "@essence-community/constructor-share/models";
+import {snackbarStore, settingsStore} from "@essence-community/constructor-share/models";
+import {VAR_SETTING_AUTO_CONNECT_GUEST, VAR_CONNECT_GUEST} from "@essence-community/constructor-share/constants";
 import noop from "lodash/noop";
 import {type ApplicationModelType} from "./ApplicationModel";
 
@@ -26,22 +27,33 @@ export class AuthModel implements AuthModelType {
         });
     }
 
-    checkAuthAction = action("checkAuthAction", (history?: History, session?: string) =>
-        sendRequest({
-            action: "sql",
-            query: "GetSessionData",
-            session,
-        })
-            .then((response) => {
-                if (response && snackbarStore.checkValidLoginResponse(response)) {
-                    this.successLoginAction(response, history);
-                }
+    checkAuthAction = action(
+        "checkAuthAction",
+        (
+            history?: History,
+            session?: string,
+            connectGuest: string = settingsStore.settings[VAR_SETTING_AUTO_CONNECT_GUEST],
+        ) =>
+            request({
+                action: "sql",
+                body: {
+                    [VAR_CONNECT_GUEST]: connectGuest,
+                },
+                query: "GetSessionData",
+                session,
             })
-            .catch(noop),
+                // @ts-ignore
+                .then((response) => {
+                    // @ts-ignore
+                    if (response && snackbarStore.checkValidLoginResponse(response)) {
+                        this.successLoginAction(response, history);
+                    }
+                })
+                .catch(noop),
     );
 
     loginAction = action("loginAction", (authValues: Object, history: any, responseOptions: Object = {}) =>
-        sendRequest({
+        request({
             action: "auth",
             body: authValues,
             query: "Login",

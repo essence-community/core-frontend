@@ -104,6 +104,7 @@ export const VAR_SETTING_FRONT_BRANCH_DATE_TIME = "g_sys_front_branch_date_time"
 export const VAR_SETTING_FRONT_BRANCH_NAME = "g_sys_front_branch_name";
 export const VAR_SETTING_FRONT_COMMIT_ID = "g_sys_front_commit_id";
 export const VAR_SETTING_ENABLE_QUEST_LOGIN = "g_sys_enable_guest_login";
+export const VAR_SETTING_AUTO_CONNECT_GUEST = "auto_connect_guest";
 
 // META
 export const META_OUT_RESULT = "out_result";
@@ -112,6 +113,7 @@ export const VAR_META_JN_FETCH = "jn_fetch";
 export const VAR_META_JN_OFFSET = "jn_offset";
 export const VAR_META_JL_FILTER = "jl_filter";
 export const VAR_META_JL_SORT = "jl_sort";
+export const VAR_CONNECT_GUEST = "connect_guest";
 
 // SELF
 export const VALUE_SELF_FIRST = "##first##";

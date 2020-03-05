@@ -3,7 +3,6 @@ import {History} from "history";
 import {
     getFromStore,
     saveToStore,
-    noop,
     IAuthModel,
     IApplicationModel,
     loggerRoot,
@@ -43,7 +42,9 @@ export class AuthModel implements IAuthModel {
                         this.successLoginAction(response, history);
                     }
                 })
-                .catch(noop),
+                .catch((err: any) => {
+                    logger(err);
+                }),
     );
 
     loginAction = action(

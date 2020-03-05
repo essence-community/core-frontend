@@ -230,7 +230,8 @@ export class ApplicationModel implements ApplicationModelType {
     });
 
     // eslint-disable-next-line max-statements
-    logoutAction = action("logoutAction", () => {
+    logoutAction = action("logoutAction", async () => {
+        await this.authStore.logoutAction();
         if (history.location.pathname.indexOf("auth") === -1) {
             this.authData = {};
             this.session = "";

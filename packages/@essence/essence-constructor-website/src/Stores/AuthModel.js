@@ -1,10 +1,9 @@
 // @flow
 import {extendObservable, action} from "mobx";
 import {request} from "@essence-community/constructor-share/request";
-import {getFromStore, saveToStore} from "@essence-community/constructor-share/utils";
+import {getFromStore, saveToStore, loggerRoot} from "@essence-community/constructor-share/utils";
 import {snackbarStore, settingsStore} from "@essence-community/constructor-share/models";
 import {VAR_SETTING_AUTO_CONNECT_GUEST, VAR_CONNECT_GUEST} from "@essence-community/constructor-share/constants";
-import noop from "lodash/noop";
 import {type ApplicationModelType} from "./ApplicationModel";
 
 export interface AuthModelType {
@@ -13,7 +12,10 @@ export interface AuthModelType {
     +loginAction: (authValues: Object, history: any, responseOptions?: Object) => void;
     +changeUserInfo: (userInfo: Object) => void;
     +successLoginAction: (response: Object, history: any) => void;
+    +logoutAction: () => Promise<void>;
 }
+
+const logger = loggerRoot.extend("AuthModel");
 
 export class AuthModel implements AuthModelType {
     userInfo: Object;
@@ -49,7 +51,9 @@ export class AuthModel implements AuthModelType {
                         this.successLoginAction(response, history);
                     }
                 })
-                .catch(noop),
+                .catch((err) => {
+                    logger(err);
+                }),
     );
 
     loginAction = action("loginAction", (authValues: Object, history: any, responseOptions: Object = {}) =>
@@ -93,5 +97,20 @@ export class AuthModel implements AuthModelType {
             ...userInfo,
         };
         saveToStore("auth", this.userInfo);
+    });
+
+    logoutAction = action("logoutAction", () => {
+        return request({
+            action: "auth",
+            query: "Logout",
+            session: this.userInfo.session,
+        })
+            .then(() => {
+                this.userInfo = {};
+            })
+            .catch((err) => {
+                logger(err);
+                this.userInfo = {};
+            });
     });
 }

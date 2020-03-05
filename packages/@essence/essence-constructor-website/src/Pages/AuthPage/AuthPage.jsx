@@ -5,6 +5,7 @@ import {Grid, TextField, Paper, Button, Typography, InputAdornment, IconButton} 
 import {withStyles} from "@material-ui/core/styles";
 import {compose} from "recompose";
 import {PageLoader} from "@essence-community/constructor-share";
+import {settingsStore} from "@essence-community/constructor-share/models/SettingsModel";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {getFromStore, WithT, withTranslation} from "@essence-community/constructor-share/utils";
 import {
@@ -12,6 +13,7 @@ import {
     VAR_RECORD_CV_PASSWORD,
     VAR_SETTING_PROJECT_LOADER,
     VAR_SETTING_PROJECT_AUTH_TITLE,
+    VAR_SETTING_ENABLE_QUEST_LOGIN,
 } from "@essence-community/constructor-share/constants";
 import {MobxForm} from "../../Components/MobxForm";
 import {AuthModelType} from "../../Stores/AuthModel";
@@ -73,12 +75,16 @@ class AuthPage extends React.Component<PropsType, StateType> {
         if (userInfo.session) {
             authStore.successLoginAction(userInfo, history);
         }
-
-        authStore.checkAuthAction(history);
     }
 
     handleToggleShowPassword = () => {
         this.setState((prevState: StateType) => ({showPassword: !prevState.showPassword}));
+    };
+
+    handleGuestLogin = () => {
+        const {authStore, history} = this.props;
+
+        authStore.checkAuthAction(history);
     };
 
     handleLogin = async (form) => {
@@ -255,6 +261,17 @@ class AuthPage extends React.Component<PropsType, StateType> {
                                         >
                                             {this.props.t("static:664bdebac78e47079bb685732899c5f6")}
                                         </Button>
+                                        {settingsStore.globals[VAR_SETTING_ENABLE_QUEST_LOGIN] === "true" ? (
+                                            <Button
+                                                onClick={this.handleGuestLogin}
+                                                classes={{root: classes.buttonGuest}}
+                                                color="primary"
+                                                size="small"
+                                                disableRipple
+                                            >
+                                                {this.props.t("static:02776da507494f2f9956ba9e0f37b1f1")}
+                                            </Button>
+                                        ) : null}
                                     </Grid>
                                 </Grid>
                             </form>

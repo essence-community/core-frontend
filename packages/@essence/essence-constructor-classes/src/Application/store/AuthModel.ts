@@ -10,6 +10,7 @@ import {
 import {snackbarStore, settingsStore} from "@essence-community/constructor-share/models";
 import {request} from "@essence-community/constructor-share/request";
 import {VAR_SETTING_AUTO_CONNECT_GUEST, VAR_CONNECT_GUEST} from "@essence-community/constructor-share/constants";
+import {IRecord} from "@essence-community/constructor-share/types";
 import {IAuthSession} from "./AuthModel.types";
 
 const logger = loggerRoot.extend("AuthModel");
@@ -32,6 +33,7 @@ export class AuthModel implements IAuthModel {
                 body: {
                     [VAR_CONNECT_GUEST]: connectGuest,
                 },
+                list: false,
                 query: "GetSessionData",
                 session,
             })
@@ -53,16 +55,15 @@ export class AuthModel implements IAuthModel {
             request({
                 action: "auth",
                 body: authValues,
+                list: false,
                 query: "Login",
             })
                 .then((response) => {
-                    const resp = Array.isArray(response) ? response : [response];
-
-                    if (resp && snackbarStore.checkValidLoginResponse(resp)) {
+                    if (response && snackbarStore.checkValidLoginResponse(response as IRecord)) {
                         this.successLoginAction(
                             {
                                 // @ts-ignore
-                                ...(resp as IAuthSession),
+                                ...(response as IAuthSession),
                                 ...responseOptions,
                             },
                             history,

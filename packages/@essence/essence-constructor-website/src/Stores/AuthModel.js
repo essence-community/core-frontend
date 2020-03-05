@@ -45,6 +45,7 @@ export class AuthModel implements AuthModelType {
                 body: {
                     [VAR_CONNECT_GUEST]: connectGuest,
                 },
+                list: false,
                 query: "GetSessionData",
                 session,
             })
@@ -62,15 +63,14 @@ export class AuthModel implements AuthModelType {
         request({
             action: "auth",
             body: authValues,
+            list: false,
             query: "Login",
         })
             .then((response) => {
-                const resp = Array.isArray(response) ? response : [response];
-
-                if (resp && snackbarStore.checkValidLoginResponse(resp)) {
+                if (response && snackbarStore.checkValidLoginResponse(response)) {
                     this.successLoginAction(
                         {
-                            ...resp,
+                            ...response,
                             ...responseOptions,
                         },
                         history,

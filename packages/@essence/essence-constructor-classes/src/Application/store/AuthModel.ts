@@ -56,11 +56,13 @@ export class AuthModel implements IAuthModel {
                 query: "Login",
             })
                 .then((response) => {
-                    if (snackbarStore.checkValidLoginResponse(Array.isArray(response) ? response[0] : response)) {
+                    const resp = Array.isArray(response) ? response : [response];
+
+                    if (resp && snackbarStore.checkValidLoginResponse(resp)) {
                         this.successLoginAction(
                             {
                                 // @ts-ignore
-                                ...(response as IAuthSession),
+                                ...(resp as IAuthSession),
                                 ...responseOptions,
                             },
                             history,

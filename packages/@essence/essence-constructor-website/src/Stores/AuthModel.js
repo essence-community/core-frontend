@@ -48,9 +48,7 @@ export class AuthModel implements AuthModelType {
                 query: "GetSessionData",
                 session,
             })
-                // @ts-ignore
                 .then((response) => {
-                    // @ts-ignore
                     if (response && snackbarStore.checkValidLoginResponse(response)) {
                         this.successLoginAction(response, history);
                     }
@@ -67,10 +65,12 @@ export class AuthModel implements AuthModelType {
             query: "Login",
         })
             .then((response) => {
-                if (snackbarStore.checkValidLoginResponse(response)) {
+                const resp = Array.isArray(response) ? response : [response];
+
+                if (resp && snackbarStore.checkValidLoginResponse(resp)) {
                     this.successLoginAction(
                         {
-                            ...response,
+                            ...resp,
                             ...responseOptions,
                         },
                         history,
@@ -78,6 +78,7 @@ export class AuthModel implements AuthModelType {
                 }
             })
             .catch((error) => {
+                logger(error);
                 snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
                 this.applicationStore.logoutAction();
                 this.userInfo = {};

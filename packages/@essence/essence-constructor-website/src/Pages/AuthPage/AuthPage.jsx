@@ -84,7 +84,7 @@ class AuthPage extends React.Component<PropsType, StateType> {
     handleGuestLogin = () => {
         const {authStore, history} = this.props;
 
-        authStore.checkAuthAction(history);
+        authStore.checkAuthAction(history, authStore.userInfo.session, "true");
     };
 
     handleLogin = async (form) => {

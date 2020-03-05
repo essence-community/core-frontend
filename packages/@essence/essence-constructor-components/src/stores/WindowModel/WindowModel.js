@@ -6,10 +6,13 @@ import pick from "lodash/pick";
 import omit from "lodash/omit";
 import flattenDepth from "lodash/flattenDepth";
 import {parse} from "@essence-community/constructor-share/utils/parser";
-import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
+import {
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PARENT_ID,
+} from "@essence-community/constructor-share/constants";
 import {type PageModelType} from "../PageModel";
 import {type BuilderBaseType, type BuilderModeType} from "../../BuilderType";
-import {type GridModelType} from "../GridModel/GridModelType";
 import {StoreBaseModel} from "../StoreBaseModel";
 import {
     type WindowModelInterface,
@@ -52,9 +55,9 @@ const getValidChild = (
     return findEditor || editors[0];
 };
 
-const getChilds = ({bc, gridStore, pageStore, values}) => {
+const getChilds = ({bc, mainStore, pageStore, values}) => {
     const columns =
-        bc.edittype === "inline" && gridStore ? gridStore.gridColumns : [...(bc.columns || []), ...(bc.childs || [])];
+        bc.edittype === "inline" && mainStore ? mainStore.gridColumns : [...(bc.columns || []), ...(bc.childs || [])];
     const fieldHoistAttributes = FIELD_HOIST_ATTRIBUTES;
 
     const childs = columns.map((field: Object) => {
@@ -97,24 +100,21 @@ export class WindowModel extends StoreBaseModel implements WindowModelInterface 
 
     childs: Array<BuilderBaseType>;
 
-    gridStore: ?GridModelType;
-
     btns: Array<BuilderBaseType>;
 
     config: $ReadOnly<WindowModelConfigType>;
 
-    constructor({bc, gridStore, pageStore, mode, values}: WindowModelConstructorType) {
+    constructor({bc, pageStore, mode, values}: WindowModelConstructorType) {
         super({bc, pageStore});
         // TODO: Проверить что this.bc нечего не ломает
 
         this.windowBc = bc;
-        this.gridStore = gridStore;
         this.btns = bc.bottombtn || [];
         this.config = {
             mode,
         };
 
-        this.childs = getChilds({bc, gridStore, pageStore, values});
+        this.childs = getChilds({bc, mainStore: this.getMainStore(), pageStore, values});
 
         extendObservable(
             this,
@@ -128,9 +128,21 @@ export class WindowModel extends StoreBaseModel implements WindowModelInterface 
         );
     }
 
+    getMainStore = () => {
+        for (const ckPageObjectMain of [this.bc[VAR_RECORD_MASTER_ID], this.bc[VAR_RECORD_PARENT_ID]]) {
+            const store = ckPageObjectMain && this.pageStore.stores.get(ckPageObjectMain);
+
+            if (store) {
+                return store;
+            }
+        }
+
+        return undefined;
+    };
+
     closeAction = action("closeAction", () => {
         this.pageStore.windowsOne.remove(this);
-        get(this.gridStore, "winReloadStores", noop)();
+        get(this.getMainStore(), "winReloadStores", noop)();
     });
 
     resetCancelAction = action("resetCancelAction", () => {
@@ -153,11 +165,14 @@ export class WindowModel extends StoreBaseModel implements WindowModelInterface 
 
     saveAction = action(
         "saveAction",
+        // eslint-disable-next-line max-statements
         async (mode: BuilderModeType, btnBc: BuilderBaseType, {form, files}: WindowSaveConfigType) => {
             await form.validate({showErrors: true});
 
-            if (form.isValid && this.gridStore) {
-                const success = await this.gridStore.saveAction(form.values(), {
+            const store = this.getMainStore();
+
+            if (form.isValid && store && store.saveAction) {
+                const success = await store.saveAction(form.values(), {
                     actionBc: btnBc,
                     files,
                     mode: btnBc.modeaction || btnBc.mode || this.config.mode,
@@ -198,8 +213,10 @@ export class WindowModel extends StoreBaseModel implements WindowModelInterface 
     onPrintExcel = async (mode: BuilderModeType, btnBc: BuilderBaseType, {form}: WindowSaveConfigType) => {
         await form.validate({showErrors: true});
 
-        if (form.isValid && this.gridStore) {
-            const success = await this.gridStore.onPrintExcel(form.values(), btnBc);
+        const store = this.getMainStore();
+
+        if (form.isValid && store && store.onPrintExcel) {
+            const success = await store.onPrintExcel(form.values(), btnBc);
 
             if (success) {
                 this.closeAction();

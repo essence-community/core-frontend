@@ -101,7 +101,11 @@ function withFieldDecorator<Props: WithFieldPropsType>(): (
                 const {hidden, disabled, bc, t: trans} = this.props;
 
                 if (field) {
-                    if (prevProps.hidden !== hidden || prevProps.disabled !== disabled) {
+                    if (
+                        prevProps.hidden !== hidden ||
+                        prevProps.disabled !== disabled ||
+                        prevProps.bc.required !== bc.required
+                    ) {
                         field.set("rules", this.handleGetRules(field));
                         field.resetValidation();
                     }

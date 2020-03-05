@@ -104,6 +104,8 @@ export class WindowModel extends StoreBaseModel implements WindowModelInterface 
 
     config: $ReadOnly<WindowModelConfigType>;
 
+    gridStore: ?GridModelType;
+
     constructor({bc, pageStore, mode, values}: WindowModelConstructorType) {
         super({bc, pageStore});
         // TODO: Проверить что this.bc нечего не ломает
@@ -121,6 +123,9 @@ export class WindowModel extends StoreBaseModel implements WindowModelInterface 
             {
                 addMore: false,
                 cancel: false,
+                get gridStore() {
+                    return this.getMainStore();
+                },
                 initialValues: values || {},
             },
             undefined,

@@ -14,6 +14,7 @@ type PropsType = {
     pageStore: PageModelType,
     visible: boolean,
     gridStore: GridModelType,
+    className?: string,
 };
 
 const SAVE_COMPONENT_PROPS = {
@@ -30,11 +31,11 @@ class BuilderWindowButtonDefault extends React.PureComponent<PropsType> {
     };
 
     render() {
-        const {checkboxAddMode, pageStore, visible, gridStore} = this.props;
+        const {checkboxAddMode, pageStore, visible, gridStore, className} = this.props;
         const {overrides} = gridStore.gridBtnsConfig;
 
         return (
-            <DialogActions>
+            <DialogActions className={className}>
                 {checkboxAddMode}
                 <BuilderMobxButton
                     bc={overrides["Override Save Button"]}

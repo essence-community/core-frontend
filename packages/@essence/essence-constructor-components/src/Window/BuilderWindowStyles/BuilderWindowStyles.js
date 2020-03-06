@@ -9,6 +9,7 @@ const BuilderWindowStyles = () => ({
     "dialod-align-right": {
         justifyContent: "flex-end",
     },
+    dialogButtonActions: {},
     "paper-align-left": {
         // Height: "100%",
         margin: 0,
@@ -28,6 +29,10 @@ const BuilderWindowStyles = () => ({
     "winsize-fullscreen": {
         "& $contentScrollableParent": {
             flexGrow: 1,
+        },
+
+        "& $dialogButtonActions": {
+            justifyContent: "center",
         },
     },
     "winsize-narrow": {

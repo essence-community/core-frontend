@@ -11,6 +11,7 @@ type PropsType = {
     checkboxAddMode?: React.Node,
     pageStore: PageModelType,
     visible: boolean,
+    className?: string,
 };
 
 const SAVE_COMPONENT_PROPS = {
@@ -41,11 +42,11 @@ class BuilderWindowButtonCustom extends React.Component<PropsType> {
     };
 
     render() {
-        const {checkboxAddMode, pageStore, visible} = this.props;
+        const {checkboxAddMode, pageStore, visible, className} = this.props;
         const {form = {}} = this.context;
 
         return (
-            <DialogActions>
+            <DialogActions className={className}>
                 {checkboxAddMode}
                 {mapComponents(this.buttons, (BtnComponent, btn) => (
                     <BtnComponent

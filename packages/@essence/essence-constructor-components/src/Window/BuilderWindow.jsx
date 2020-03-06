@@ -194,6 +194,7 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType & WithT> {
                             pageStore={pageStore}
                             visible={visible}
                             gridStore={store.gridStore}
+                            className={classes.dialogButtonActions}
                         />
                     ) : (
                         <BuilderWindowButtonCustom
@@ -201,6 +202,7 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType & WithT> {
                             checkboxAddMode={checkboxAddMode}
                             pageStore={pageStore}
                             visible={visible}
+                            className={classes.dialogButtonActions}
                         />
                     )}
                     <WindowMessageCancel

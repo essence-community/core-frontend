@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/named
 import {ObservableMap, IObservableArray} from "mobx";
 import {Field} from "./Base";
+import {TText} from "./SnackbarModel";
 import {
     FieldValue,
     IBuilderConfig,
@@ -55,7 +56,7 @@ export interface IPageModel {
     globalValues: ObservableMap<string, FieldValue>;
     pageId: string;
     showQuestionWindow: boolean;
-    questionWindow?: string;
+    questionWindow?: TText[];
     saveCallBack: PageModelSaveCallback | null;
     route?: IRouteRecord;
     pageEl: HTMLDivElement | null;
@@ -74,7 +75,7 @@ export interface IPageModel {
     recordsStore: IRecordsModel;
     titleRoutePath: string;
     updateGlobalValues(values: Record<string, FieldValue>): void;
-    openQuestionWindow(questionWindow: string, saveCallBack: PageModelSaveCallback): void;
+    openQuestionWindow(questionWindow: TText[], saveCallBack: PageModelSaveCallback): void;
     handleQuestionAccept(): void;
     handleQuestionDecline(): void;
     addFieldValueMaster(name: string, value: FieldValue): void;

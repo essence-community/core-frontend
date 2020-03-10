@@ -6,7 +6,7 @@ import {Field} from "mobx-react-form";
 import forEach from "lodash/forEach";
 import noop from "lodash/noop";
 import uuid from "uuid";
-import {parseMemoize, loadComponentsFromModules} from "@essence-community/constructor-share";
+import {parseMemoize, loadComponentsFromModules, TText} from "@essence-community/constructor-share";
 import {snackbarStore} from "@essence-community/constructor-share/models";
 import {findClassNames, i18next} from "@essence-community/constructor-share/utils";
 import {
@@ -54,7 +54,7 @@ export class PageModel implements PageModelInterface {
 
     showQuestionWindow: boolean;
 
-    questionWindow: ?string;
+    questionWindow: ?Array<TText>;
 
     saveCallBack: any;
 
@@ -190,7 +190,7 @@ export class PageModel implements PageModelInterface {
         });
     };
 
-    openQuestionWindow = action("openQuestionWindow", (questionWindow: string, saveCallBack: Function) => {
+    openQuestionWindow = action("openQuestionWindow", (questionWindow: Array<TText>, saveCallBack: Function) => {
         this.showQuestionWindow = true;
         this.questionWindow = questionWindow;
         this.saveCallBack = saveCallBack;

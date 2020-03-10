@@ -30,6 +30,7 @@ import {
 } from "../../constants";
 import {IRouteRecord} from "../../types/RoutesModel";
 import {VAR_ERROR_CODE, VAR_ERROR_ID, VAR_ERROR_TEXT} from "../../constants/variables";
+import {TText} from "../../types/SnackbarModel";
 import {MAX_OPENED_SNACKBARS, CODE_ACCESS_DENIEND, GROUP_ACTION_MAP, CODE_GROUP_MAP} from "./SnackbarModel.contants";
 
 /**
@@ -194,7 +195,7 @@ export class SnackbarModel implements ISnackbarModel {
             let isError = false;
             let isWarn = false;
             let rec: boolean | IRecord | undefined = false;
-            let warningText = "";
+            const warningText: TText[] = [];
 
             if (isEmpty(error)) {
                 return 1;
@@ -247,7 +248,7 @@ export class SnackbarModel implements ISnackbarModel {
                         }
                         if (warnCallBack && rec[VAR_RECORD_CR_TYPE] === "warning") {
                             isWarn = true;
-                            warningText = `${warningText}${text}\r\n`;
+                            warningText.push(text);
                         }
 
                         if ((messageType === "block" || messageType === "unblock") && applicationStore) {
@@ -274,7 +275,7 @@ export class SnackbarModel implements ISnackbarModel {
                 }
             }
             if (!isError && isWarn && warnCallBack) {
-                warnCallBack(`${warningText.trim()}`);
+                warnCallBack(warningText);
 
                 return 2;
             }

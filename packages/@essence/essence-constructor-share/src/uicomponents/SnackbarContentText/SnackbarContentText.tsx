@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Typography} from "@material-ui/core";
-import {useTranslation, renderTText} from "../../utils";
+import {useTranslation, toTranslateText} from "../../utils";
 import {TText} from "../../types/SnackbarModel";
 
 interface ISnackbarContentTextProps {
@@ -17,12 +17,12 @@ export const SnackbarContentText: React.FC<ISnackbarContentTextProps> = ({text, 
         <React.Fragment>
             {title ? (
                 <Typography variant="body2" color="inherit">
-                    {renderTText(title, trans)}
+                    {toTranslateText(title, trans)}
                 </Typography>
             ) : null}
             {text ? (
                 <Typography variant="body2" color="inherit" component="div">
-                    {renderTText(text, trans)}
+                    {toTranslateText(text, trans)}
                 </Typography>
             ) : null}
             {description ? (

@@ -47,7 +47,7 @@ export const sanitizeHtml = (html: string, config?: any): string => {
 
 export const isBool = (value: string): boolean => value === "true";
 
-export const renderTText = (text: TText, trans: TFunction) => {
+export const toTranslateText = (text: TText, trans: TFunction) => {
     if (typeof text === "function") {
         return text(trans);
     }

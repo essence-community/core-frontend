@@ -2,7 +2,7 @@ import * as React from "react";
 import {Grid, Dialog, Button, DialogContent} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
 import {Icon, Scrollbars, IPageModel} from "@essence-community/constructor-share";
-import {useTranslation, renderTText} from "@essence-community/constructor-share/utils";
+import {useTranslation, toTranslateText} from "@essence-community/constructor-share/utils";
 import {useStyles} from "./PagerWindowMessage.styles";
 
 interface IPagerWindowMessageProps {
@@ -35,7 +35,7 @@ export const PagerWindowMessage: React.FC<IPagerWindowMessageProps> = (props) =>
                         <Scrollbars autoHeight autoHeightMax={180} pageStore={pageStore}>
                             {pageStore.questionWindow ? (
                                 // eslint-disable-next-line react/jsx-key
-                                pageStore.questionWindow.map((text) => <div>{renderTText(text, trans)}</div>)
+                                pageStore.questionWindow.map((text) => <div>{toTranslateText(text, trans)}</div>)
                             ) : (
                                 <div></div>
                             )}

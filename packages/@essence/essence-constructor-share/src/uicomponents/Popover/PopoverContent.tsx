@@ -24,7 +24,7 @@ export const PopoverContent: React.FC<IPopoverContentProps> = React.forwardRef<H
                           onClose: props.onClose,
                           onOpen: props.onOpen,
                           open: props.open,
-                          position: style.bottom ? "top" : "bottom",
+                          position: props.styleOffset.bottom ? "top" : "bottom",
                       })
                     : props.popoverContent}
             </Paper>

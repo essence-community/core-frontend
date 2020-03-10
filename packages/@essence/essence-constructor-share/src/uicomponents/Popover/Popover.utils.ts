@@ -7,9 +7,10 @@ type RectType = {
     width: number;
     left: number;
     top: number;
+    bottom: number;
 };
 
-const EMPTY_RECT: RectType = {height: 0, left: 0, top: 0, width: 0};
+const EMPTY_RECT: RectType = {bottom: 0, height: 0, left: 0, top: 0, width: 0};
 
 export function getOffsetTop(rect: RectType, vertical: "top" | "center" | "bottom" | number): number {
     let offset = 0;
@@ -74,21 +75,37 @@ export function getOffsetContainer({
         getOffsetTop(popoverRect, transformOrigin.vertical);
     const topPopoverRelative = topPopoverAbsoulte < marginThreshold ? marginThreshold : topPopoverAbsoulte;
     const diffWindowTop = getDiffContainerTop(topPopoverRelative, popoverRect, containerRect);
+    const newLeft = leftPopover - getDiffContainerLeft(leftPopover, popoverRect, containerRect);
 
     if (diffWindowTop > 0) {
+        // Check where the height more - on the bottom or top
+        const isBottom =
+            anchorRect.top + marginThreshold - containerRect.top < containerRect.bottom - anchorRect.bottom;
+
+        if (isBottom) {
+            const newTop = anchorRect.top + anchorRect.height - containerRect.top;
+
+            return {
+                bottom: marginThreshold,
+                height: containerRect.height - newTop - marginThreshold,
+                left: newLeft,
+                top: newTop,
+            };
+        }
+
         const bottom = containerRect.height - topPopoverRelative + anchorRect.height;
         const isAutoHeight = anchorRect.top - containerRect.top - popoverRect.height - marginThreshold - 1 > 0;
 
         return {
             bottom,
             height: isAutoHeight ? undefined : containerRect.height - marginThreshold - bottom,
-            left: leftPopover - getDiffContainerLeft(leftPopover, popoverRect, containerRect),
+            left: newLeft,
             top: isAutoHeight ? "auto" : marginThreshold,
         };
     }
 
     return {
-        left: leftPopover - getDiffContainerLeft(leftPopover, popoverRect, containerRect),
+        left: newLeft,
         top: topPopoverRelative - diffWindowTop,
     };
 }

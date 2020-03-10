@@ -9,6 +9,7 @@ import {ISuggestion} from "../store/FieldComboModel.types";
 import {FieldComboModel} from "../store/FieldComboModel";
 import {useStyles} from "./FieldComboList.styles";
 import {FieldComboListItem} from "./FieldComboListItem";
+import {FieldComboListSugListener} from "./FieldComboListSugListener";
 
 const ITEM_HEIGHT = 35;
 // 10 lines
@@ -73,10 +74,6 @@ export const FieldComboList: React.FC<IProps> = (props) => {
         [],
     );
 
-    React.useEffect(() => {
-        onCalculateOffset();
-    });
-
     return useObserver(() => (
         <Paper
             className={classes.paper}
@@ -130,6 +127,10 @@ export const FieldComboList: React.FC<IProps> = (props) => {
                     />
                 </MenuItem>
             ) : null}
+            <FieldComboListSugListener
+                suggestionsSize={store.suggestions.length}
+                onCalculateOffset={onCalculateOffset}
+            />
         </Paper>
     ));
 };

@@ -16,7 +16,7 @@ const TRANSFORM_ORIGIN: IPopoverTransfromOrigin = {
     vertical: "top",
 };
 
-// eslint-disable-next-line max-lines-per-function
+// eslint-disable-next-line max-lines-per-function, max-statements
 export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
     const {
         anchorOrigin = ANCHOR_ORIGIN,
@@ -177,6 +177,17 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
             setWidth(current.offsetWidth);
         }
     }, [isOpen, width]);
+
+    // Check height of popover to awoid content out of screen
+    React.useEffect(() => {
+        if (popupRef.current) {
+            const popoverRec = popupRef.current.getBoundingClientRect();
+
+            if (!style.bottom && popoverRec.top + popoverRec.height > window.innerHeight) {
+                handleCalculateOffset();
+            }
+        }
+    });
 
     return (
         <div ref={rootRef} onMouseDown={handleMouseDownPopover} onBlur={props.onBlur}>

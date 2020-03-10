@@ -17,9 +17,10 @@ export type SnackbarStatus =
     | "uploaded"
     | "errorUpload";
 
+export type TText = string | JSX.Element | ((trans: TFunction) => string | JSX.Element);
 export interface ISnackbar {
     autoHidden: boolean;
-    text: string | JSX.Element | ((trans: TFunction) => string | JSX.Element);
+    text: TText;
     status: SnackbarStatus;
     id: string;
     createdAt: string;
@@ -29,7 +30,7 @@ export interface ISnackbar {
     read: boolean;
     progressStore?: IProgressModel;
     type: "msg" | "progress";
-    title?: string | ((trans: TFunction) => string);
+    title?: TText;
     description?: string;
     code?: string;
 }

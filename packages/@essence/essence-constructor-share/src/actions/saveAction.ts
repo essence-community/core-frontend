@@ -13,6 +13,7 @@ import {ProgressModel, snackbarStore} from "../models";
 import {IBuilderConfig, IBuilderMode, IGridBuilder, IPageModel, IRecordsModel, ILoadRecordsProps} from "../types";
 import {findGetGlobalKey, isEmpty, i18next} from "../utils";
 import {getMasterObject} from "../utils/getMasterObject";
+import {TText} from "../types/SnackbarModel";
 import {apiSaveAction} from "./apiSaveAction";
 import {setMask} from "./recordsActions";
 
@@ -149,7 +150,7 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
                     const check = snackbarStore.checkValidResponseAction(
                         response,
                         pageStore.route,
-                        (warningText: string) => {
+                        (warningText: TText[]) => {
                             setMask(bc.noglobalmask, pageStore, false);
 
                             pageStore.openQuestionWindow(warningText, (warningStatusNew: number) => {

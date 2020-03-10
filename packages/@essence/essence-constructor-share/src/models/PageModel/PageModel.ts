@@ -36,6 +36,7 @@ import {RecordsModel} from "../RecordsModel";
 import {WindowModel} from "../WindowModel";
 import {snackbarStore} from "../SnackbarModel";
 import {loadComponentsFromModules} from "../../components";
+import {TText} from "../../types/SnackbarModel";
 import {getNextComponent} from "./PageModel.utils";
 
 const logger = loggerRoot.extend("PageModel");
@@ -90,7 +91,7 @@ export class PageModel implements IPageModel {
 
     @observable showQuestionWindow = false;
 
-    @observable questionWindow?: string = undefined;
+    @observable questionWindow?: TText[] = undefined;
 
     @observable public isLoading = false;
 
@@ -210,11 +211,14 @@ export class PageModel implements IPageModel {
         });
     };
 
-    openQuestionWindow = action("openQuestionWindow", (questionWindow: string, saveCallBack: PageModelSaveCallback) => {
-        this.showQuestionWindow = true;
-        this.questionWindow = questionWindow;
-        this.saveCallBack = saveCallBack;
-    });
+    openQuestionWindow = action(
+        "openQuestionWindow",
+        (questionWindow: TText[], saveCallBack: PageModelSaveCallback) => {
+            this.showQuestionWindow = true;
+            this.questionWindow = questionWindow;
+            this.saveCallBack = saveCallBack;
+        },
+    );
 
     handleQuestionAccept = action("handleQuestionAccept", () => {
         this.showQuestionWindow = false;

@@ -104,7 +104,10 @@ export const print = async ({
     const res: IResult = result;
 
     setMask(false, bcBtn.noglobalmask, pageStore);
-    const isValid = snackbarStore.checkValidResponseAction(res, pageStore.route, undefined, applicationStore);
+    const isValid = snackbarStore.checkValidResponseAction(res, {
+        applicationStore,
+        route: pageStore.route,
+    });
 
     const url = res[VAR_RECORD_URL];
 

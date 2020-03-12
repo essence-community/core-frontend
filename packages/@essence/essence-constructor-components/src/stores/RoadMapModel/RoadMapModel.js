@@ -201,6 +201,7 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
             return this.recordStore.saveAction(form.values(), btnBc.modeaction || btnBc.mode || mode, {
                 actionBc: btnBc,
                 files,
+                form,
                 query: btnBc.updatequery,
             });
         }
@@ -208,7 +209,7 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
         return false;
     };
 
-    onSimpleSave = async (mode: BuilderModeType, btnBc: BuilderBaseType, {files}: any) => {
+    onSimpleSave = async (mode: BuilderModeType, btnBc: BuilderBaseType, {form, files}: any) => {
         const tabs = this.tabs
             .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
             .filter((ckPageObject) => !this.tabStatus.get(ckPageObject).hidden);
@@ -217,12 +218,12 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
                 (val, ckPageObject) =>
                     val.then(async () => {
                         const tab = this.tabStatus.get(ckPageObject);
-                        const {form, btns} = tab;
+                        const {form: formTab, btns} = tab;
                         const [bcBtn] = btns.filter((btn) => btn[VAR_RECORD_NAME] === "Override Next Button");
 
                         const result = bcBtn.updatequery
-                            ? await this.checkForm(bcBtn.mode || "1", bcBtn, {form})
-                            : form && form.isValid;
+                            ? await this.checkForm(bcBtn.mode || "1", bcBtn, {form: formTab})
+                            : formTab && formTab.isValid;
 
                         if (!result) {
                             this.changeTabAction(ckPageObject);
@@ -237,19 +238,20 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
 
         if (isSuccess) {
             const values = this.tabs.map((bc) => {
-                const {disabled, hidden, num, form} = this.tabStatus.get(bc[VAR_RECORD_PAGE_OBJECT_ID]);
+                const {disabled, hidden, num, form: formTab} = this.tabStatus.get(bc[VAR_RECORD_PAGE_OBJECT_ID]);
 
                 return {
                     isPageDisabled: disabled,
                     isPageHidden: hidden,
                     numPage: num,
-                    ...(form && form.values()),
+                    ...(formTab && formTab.values()),
                 };
             });
 
             this.recordStore.saveAction(values, btnBc.modeaction || btnBc.mode || mode, {
                 actionBc: btnBc,
                 files,
+                form,
                 query: btnBc.updatequery,
             });
         }

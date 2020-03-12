@@ -58,3 +58,11 @@ export const toTranslateText = (text: TText, trans: TFunction) => {
 
     return text;
 };
+
+export const toTranslateTextArray = (textArr: TText | TText[], trans: TFunction) => {
+    if (Array.isArray(textArr)) {
+        return textArr.map((text: TText) => toTranslateText(text, trans)).join("\r\n");
+    }
+
+    return toTranslateText(textArr, trans);
+};

@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/named
 import {IObservableArray} from "mobx";
 import {TFunction} from "i18next";
+import {Form} from "mobx-react-form";
 import {VAR_ERROR_TEXT, VAR_ERROR_ID, VAR_ERROR_CODE} from "../constants/variables";
 import {IResponse, FieldValue, IRecordsModel, IProgressModel, IApplicationModel, IRouteRecord} from ".";
 
@@ -42,6 +43,13 @@ export interface IErrorData {
     query: string;
 }
 
+export interface IOptionCheck {
+    applicationStore?: IApplicationModel | null;
+    form?: Form;
+    route?: Record<string, FieldValue>;
+    warnCallBack?: Function;
+}
+
 export interface ISnackbarModel {
     snackbars: IObservableArray<ISnackbar>;
     snackbarsAll: ISnackbar[];
@@ -59,12 +67,7 @@ export interface ISnackbarModel {
     setClosebleAction: (snackbarId: string) => void;
     snackbarCloseAction: (snackbarId: string) => void;
     snackbarChangeAction: (snackbarId: string, snackbar: Record<string, any>) => void;
-    checkValidResponseAction: (
-        response: IResponse,
-        route?: Record<string, FieldValue>,
-        warnCallBack?: Function,
-        applicationStore?: IApplicationModel | null,
-    ) => number;
+    checkValidResponseAction: (response: IResponse, options: IOptionCheck) => number;
     checkValidLoginResponse: (response: Record<string, FieldValue>) => boolean;
     checkExceptResponse: (
         error: Record<string, any>,

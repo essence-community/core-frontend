@@ -5,7 +5,7 @@ import {observer} from "mobx-react";
 import {Field} from "mobx-react-form";
 import {TextField as TextFieldMaterial} from "@material-ui/core";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {useTranslation} from "@essence-community/constructor-share/utils";
+import {useTranslation, toTranslateTextArray} from "@essence-community/constructor-share/utils";
 import {isEmpty} from "../utils/base";
 import TextFieldLabel from "./TextFieldComponents/TextFieldLabel/TextFieldLabel";
 import {type BuilderFieldType} from "./BuilderFieldType";
@@ -56,7 +56,7 @@ const TextField = React.forwardRef(
             noQtip,
             maskInputProps = {},
             field,
-            errorText = disabled || !field.get("error") ? "" : String(field.get("error")),
+            errorText = disabled || field.get("error") || "",
             inputProps = {},
             tips,
             ...otherProps
@@ -73,7 +73,10 @@ const TextField = React.forwardRef(
             }
 
             const tip =
-                errorText || (bc.datatype === "password" ? "" : fieldFullValue) || bc.info || field.get("label");
+                toTranslateTextArray(errorText, trans) ||
+                (bc.datatype === "password" ? "" : fieldFullValue) ||
+                bc.info ||
+                field.get("label");
 
             return tip && trans(tip, tip);
         };

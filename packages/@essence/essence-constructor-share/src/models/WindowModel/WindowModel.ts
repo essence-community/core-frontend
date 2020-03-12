@@ -113,6 +113,7 @@ export class WindowModel extends StoreBaseModel implements IWindowModel {
                     actionBc: btnBc,
                     // TODO: check new api of records store
                     files: options.files,
+                    form: options.form,
                 });
 
                 if (success) {

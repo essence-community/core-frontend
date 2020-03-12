@@ -42,7 +42,7 @@ export class PanelFormModel extends HistoryModel implements PanelFormModelInterf
     defaultHandlerBtnAction = action(
         "defaultHandlerBtnAction",
         // eslint-disable-next-line default-param-last
-        (mode: BuilderModeType = "1", bc: BuilderBaseType, {files} = {}) => {
+        (mode: BuilderModeType = "1", bc: BuilderBaseType, {files, form} = {}) => {
             switch (mode) {
                 case "1":
                     return this.addAction();
@@ -52,6 +52,7 @@ export class PanelFormModel extends HistoryModel implements PanelFormModelInterf
                 case "4":
                     return this.recordsStore.saveAction(this.recordsStore.records[0], bc.modeaction || mode, {
                         actionBc: bc,
+                        form,
                         query: bc.updatequery,
                     });
                 case "6":
@@ -59,12 +60,14 @@ export class PanelFormModel extends HistoryModel implements PanelFormModelInterf
                 case "7":
                     return this.recordsStore.downloadAction(this.recordsStore.records[0], bc.modeaction || mode, {
                         actionBc: bc,
+                        form,
                         query: bc.updatequery,
                     });
                 case "8":
                     return this.recordsStore.saveAction(this.recordsStore.records[0], bc.modeaction || mode, {
                         actionBc: bc,
                         files,
+                        form,
                         query: bc.updatequery,
                     });
                 default:

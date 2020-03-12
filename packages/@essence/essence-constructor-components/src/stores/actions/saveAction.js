@@ -14,6 +14,7 @@ import {
     VAR_RECORD_CK_MAIN,
     VAR_RECORD_CL_WARNING,
 } from "@essence-community/constructor-share/constants";
+import {Form} from "mobx-react-form";
 import {findGetGlobalKey} from "../../utils/findKey";
 import {loggerRoot} from "../../constants";
 import {isEmpty} from "../../utils/base";
@@ -35,6 +36,7 @@ export type ConfigType = {|
     formData?: FormData,
     noReload?: boolean,
     filesNames?: Array<string>,
+    form?: Form,
 |};
 
 type AttachGlobalValuesType = {|
@@ -99,6 +101,7 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
         formData,
         noReload,
         filesNames,
+        form,
     } = config;
     const {extraplugingate, getglobaltostore, getmastervalue, timeout} = actionBc;
     let modeCheck = mode;
@@ -159,10 +162,11 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
             (response) =>
                 // eslint-disable-next-line max-statements, max-lines-per-function
                 new Promise((resolve) => {
-                    const check = snackbarStore.checkValidResponseAction(
-                        response,
-                        pageStore.route,
-                        (warningText) => {
+                    const check = snackbarStore.checkValidResponseAction(response, {
+                        applicationStore: pageStore.applicationStore,
+                        form,
+                        route: pageStore.route,
+                        warnCallBack: (warningText) => {
                             setMask(bc.noglobalmask, pageStore, false);
 
                             pageStore.openQuestionWindow(warningText, (warningStatusNew) => {
@@ -175,6 +179,7 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
                                             action,
                                             actionBc,
                                             bc: config.bc,
+                                            form,
                                             formData: config.formData,
                                             pageStore: config.pageStore,
                                             query: config.query,
@@ -184,8 +189,7 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
                                 }
                             });
                         },
-                        pageStore.applicationStore,
-                    );
+                    });
 
                     if (progressModel) {
                         progressModel.changeStatusProgress(check === 1 || check === 2 ? "uploaded" : "errorUpload");

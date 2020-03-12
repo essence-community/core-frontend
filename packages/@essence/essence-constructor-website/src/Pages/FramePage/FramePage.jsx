@@ -8,10 +8,10 @@ const mapStoresToProps = (stores) => ({
 
 export const FramePage = (props) => {
     const {authStore, history} = props;
-    const {session, token, app, pageId} = props.match.params;
+    const {session, token, app, pageId, filter} = props.match.params;
 
     React.useEffect(() => {
-        history.replace(history.location.pathname, {backUrl: `/${app}/${pageId}`});
+        history.replace(history.location.pathname, {backUrl: `/${app}/${pageId}${filter ? `/${filter}` : ""}`});
         const loginByToken = async () => {
             await authStore.loginAction(
                 {
@@ -22,14 +22,14 @@ export const FramePage = (props) => {
 
             // If not logger change bach url to page instead of return to back frame page
             if (!authStore.userInfo.session) {
-                history.replace(history.location.pathname, {backUrl: `/${app}/${pageId}`});
+                history.replace(history.location.pathname, {backUrl: `/${app}/${pageId}${filter ? `/${filter}` : ""}`});
             }
         };
         const loginBySesstion = async () => {
             await authStore.checkAuthAction(history, session);
             // If not session go to auth page
             if (!authStore.userInfo.session) {
-                history.replace("/auth", {backUrl: `/${app}/${pageId}`});
+                history.replace("/auth", {backUrl: `/${app}/${pageId}${filter ? `/${filter}` : ""}`});
             }
         };
 

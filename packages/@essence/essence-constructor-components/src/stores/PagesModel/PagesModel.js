@@ -97,7 +97,6 @@ export class PagesModel implements PagesModelInterface {
 
         if (selectedPage) {
             selectedPage.clearAction();
-            selectedPage.removePageAction();
 
             // $FlowFixMe
             this.pages.remove(selectedPage);
@@ -116,7 +115,7 @@ export class PagesModel implements PagesModelInterface {
     removePageOtherAction = action("removePageOtherAction", (ckPageLost: CkIdType) => {
         this.pages.slice().forEach((page) => {
             if (page.pageId !== ckPageLost) {
-                page.removePageAction();
+                page.clearAction();
                 // $FlowFixMe
                 this.pages.remove(page);
             }
@@ -132,7 +131,7 @@ export class PagesModel implements PagesModelInterface {
     removeAllPagesAction = action("removeAllPagesAction", () => {
         this.activePage = null;
         this.pages.forEach((page) => {
-            page.removePageAction();
+            page.clearAction();
         });
         this.pages = [];
         removeFromStore(STORE_PAGES_IDS_KEY);
@@ -142,7 +141,7 @@ export class PagesModel implements PagesModelInterface {
         const pageIndex = this.pages.findIndex((page) => page.pageId === pageId);
 
         this.pages.slice(pageIndex + 1).forEach((page) => {
-            page.removePageAction();
+            page.clearAction();
             // $FlowFixMe
             this.pages.remove(page);
         });

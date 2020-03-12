@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 // @flow
-import {extendObservable, action, observable, reaction, type ObservableMap} from "mobx";
+import {extendObservable, action, observable, type ObservableMap} from "mobx";
 import {type IObservableArray} from "mobx/lib/mobx.js.flow";
 import {Field} from "mobx-react-form";
 import forEach from "lodash/forEach";
@@ -33,7 +33,7 @@ import {
     type FormType,
     type CreateWindowType,
 } from "./PageModelType";
-import {renderGlobalValuelsInfo, getNextComponent} from "./PageModelUtil";
+import {getNextComponent} from "./PageModelUtil";
 
 const logger = loggerRoot.extend("PageModel");
 
@@ -87,8 +87,6 @@ export class PageModel implements PageModelInterface {
     scrollEvents: Array<Function> = [];
 
     visible: boolean;
-
-    disposes: Array<Function> = [];
 
     styleTheme: "dark" | "light";
 
@@ -144,26 +142,6 @@ export class PageModel implements PageModelInterface {
             windows: observable.map(),
             windowsOne: observable.array(),
         });
-
-        this.disposes.push(
-            reaction(
-                // $FlowFixMe
-                () => this.globalValues.toJS(),
-                (globalValues) =>
-                    snackbarStore.snackbarOpenAction(
-                        {
-                            autoHidden: true,
-                            hiddenTimeout: 0,
-                            status: "debug",
-                            text: renderGlobalValuelsInfo(globalValues),
-                            title: `${i18next.t("static:dcfb61366b054c6e95ae83593cfb9cd9")}: ${i18next.t(
-                                pageId || "",
-                            )}`,
-                        },
-                        this.route,
-                    ),
-            ),
-        );
 
         extendObservable(
             this,
@@ -499,11 +477,6 @@ export class PageModel implements PageModelInterface {
         this.windowsOne.clear();
         this.fieldValueMaster.clear();
     });
-
-    removePageAction = () => {
-        this.disposes.forEach((dispose) => dispose());
-        this.disposes = [];
-    };
 
     createWindowAction = action("createWindowAction", (params: CreateWindowType) => {
         const window = new WindowModel({

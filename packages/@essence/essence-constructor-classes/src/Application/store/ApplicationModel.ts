@@ -87,11 +87,7 @@ export class ApplicationModel implements IApplicationModel {
 
     pagesStore: IPagesModel;
 
-    history: History;
-
     recordsStore: IRecordsModel;
-
-    url: string;
 
     pageStore: IPageModel;
 
@@ -129,7 +125,7 @@ export class ApplicationModel implements IApplicationModel {
         return this.authStore.userInfo;
     }
 
-    constructor(history: History, url: string) {
+    constructor(public history: History, public url: string) {
         this.routesStore = null;
         this.url = url;
         this.mode = url;

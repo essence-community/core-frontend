@@ -125,8 +125,6 @@ export class PageModelAbstract implements IPageModel {
 
     public clearAction = () => {};
 
-    public removePageAction = () => {};
-
     public openQuestionWindow = () => {};
 
     public createWindowAction = () => {};

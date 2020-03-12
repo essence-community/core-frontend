@@ -1,34 +1,32 @@
 import * as React from "react";
 import cn from "classnames";
-import {useObserver} from "mobx-react-lite";
+import {useObserver, useDisposable} from "mobx-react-lite";
 import MobxReactForm from "mobx-react-form";
+import {mapComponents} from "@essence-community/constructor-share/components";
+import {toColumnStyleWidth, i18next} from "@essence-community/constructor-share/utils";
+import {IBuilderConfig, IClassProps, IPageModel} from "@essence-community/constructor-share/types";
+import {Scrollbars, PageLoader} from "@essence-community/constructor-share/uicomponents";
 import {
-    Scrollbars,
-    mapComponents,
-    IClassProps,
-    IBuilderConfig,
-    PageLoader,
     ApplicationContext,
     FormContext,
     ModeContext,
     EditorContex,
-    loggerRoot,
     IEditorContext,
-    IPageModel,
-    toColumnStyleWidth,
-} from "@essence-community/constructor-share";
-import {i18next} from "@essence-community/constructor-share/utils";
+} from "@essence-community/constructor-share/context";
 import {Grid, useTheme} from "@material-ui/core";
-import {settingsStore, PageModel} from "@essence-community/constructor-share/models";
+import {settingsStore, PageModel, snackbarStore} from "@essence-community/constructor-share/models";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_ROUTE_VISIBLE_MENU,
     VAR_SETTING_PROJECT_LOADER,
     VAR_RECORD_PARENT_ID,
+    loggerRoot,
 } from "@essence-community/constructor-share/constants";
+import {reaction} from "mobx";
 import {PagerWindows} from "../components/PagerWindows";
 import {focusPageElement} from "../utils/focusPageElement";
 import {PagerWindowMessage} from "../components/PagerWindowMessage";
+import {renderGlobalValuelsInfo} from "../../Application/utils/renderGlobalValuelsInfo";
 import {useStyles} from "./PagerContainer.styles";
 
 const DARK_PAPER_ELEVATION = 8;
@@ -41,6 +39,7 @@ const onFormChange = (form: typeof MobxReactForm) => {
 
 interface IPagerProps extends IClassProps {}
 
+// eslint-disable-next-line max-lines-per-function
 export const PagerContainer: React.FC<IPagerProps> = (props) => {
     const {bc} = props;
     const applicationStore = React.useContext(ApplicationContext);
@@ -98,6 +97,24 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
             pageStore.setPageInnerElAction(null);
         };
     }, [pageStore]);
+
+    useDisposable(() => {
+        return reaction(
+            () => pageStore.globalValues.toJS(),
+            (globalValues) => {
+                snackbarStore.snackbarOpenAction({
+                    autoHidden: true,
+                    hiddenTimeout: 0,
+                    status: "debug",
+                    text: renderGlobalValuelsInfo(globalValues),
+                    title: `${i18next.t("static:dcfb61366b054c6e95ae83593cfb9cd9")}: ${i18next.t(
+                        pageStore.pageId || "",
+                    )}`,
+                });
+            },
+            {fireImmediately: true},
+        );
+    });
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
         focusPageElement(event, pageStore);

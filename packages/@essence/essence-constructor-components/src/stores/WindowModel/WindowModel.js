@@ -180,6 +180,7 @@ export class WindowModel extends StoreBaseModel implements WindowModelInterface 
                 const success = await store.saveAction(form.values(), {
                     actionBc: btnBc,
                     files,
+                    form,
                     mode: btnBc.modeaction || btnBc.mode || this.config.mode,
                     windowStore: this,
                 });

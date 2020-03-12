@@ -294,7 +294,12 @@ export class PageModel implements PageModelInterface {
 
         return fetchResult
             .then((response) => {
-                if (snackbarStore.checkValidResponseAction(response[0], this.route, undefined, this.applicationStore)) {
+                if (
+                    snackbarStore.checkValidResponseAction(response[0], {
+                        applicationStore: this.applicationStore,
+                        route: this.route,
+                    })
+                ) {
                     const pageBc = (response.length && response[0].children) || [];
                     const classNames = findClassNames(pageBc);
 

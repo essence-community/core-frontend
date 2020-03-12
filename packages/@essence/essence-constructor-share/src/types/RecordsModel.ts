@@ -1,3 +1,4 @@
+import {Form} from "mobx-react-form";
 import {IBuilderMode, ICkId, IRecord} from "./Base";
 import {IBuilderConfig} from "./Builder";
 import {IPageModel} from "./PageModel";
@@ -54,6 +55,7 @@ export interface ISaveActionOptions {
     query?: string;
     noReload?: boolean;
     files?: File[];
+    form?: Form;
 }
 
 export interface IRecordsSearchOptions {

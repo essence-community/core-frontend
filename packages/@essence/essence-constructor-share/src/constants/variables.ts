@@ -16,6 +16,7 @@ export const VAR_RECORD_ROUTE_VISIBLE_MENU = "cl_menu";
 export const VAR_RECORD_ICON_NAME = "cv_icon_name";
 export const VAR_RECORD_LEAF = "leaf";
 export const VAR_RECORD_RES_ERROR = "cv_error";
+export const VAR_RECORD_RES_FORM_ERROR = "jt_form_message";
 export const VAR_RECORD_RES_STACK_TRACE = "cv_stack_trace";
 export const VAR_RECORD_URL = "cv_url";
 export const VAR_RECORD_GLOBAL_VALUE = "global_value";

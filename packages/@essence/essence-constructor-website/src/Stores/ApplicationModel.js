@@ -398,14 +398,12 @@ export class ApplicationModel implements ApplicationModelType {
         json.forEach((event) => {
             switch (event.event) {
                 case "notification": {
-                    snackbarStore.checkValidResponseAction(
-                        event.data,
-                        {
+                    snackbarStore.checkValidResponseAction(event.data, {
+                        applicationStore: this,
+                        route: {
                             [VAR_RECORD_NAME]: "static:2ff612aa52314ddea65a5d303c867eb8",
                         },
-                        undefined,
-                        this,
-                    );
+                    });
                     break;
                 }
                 case "mask": {

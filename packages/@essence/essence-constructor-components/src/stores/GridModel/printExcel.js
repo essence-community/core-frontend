@@ -88,12 +88,10 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
     })
         .then((res) => {
             setMask("false", pageStore, false);
-            const isValid: number = snackbarStore.checkValidResponseAction(
-                res,
-                pageStore.route,
-                undefined,
-                pageStore.applicationStore,
-            );
+            const isValid: number = snackbarStore.checkValidResponseAction(res, {
+                applicationStore: pageStore.applicationStore,
+                route: pageStore.route,
+            });
 
             const url = res[VAR_RECORD_CV_URL_RESPONSE] || res[VAR_RECORD_URL];
 

@@ -167,12 +167,10 @@ export const redirectUseQuery = ({
         timeout: bc.timeout,
     })
         .then((res) => {
-            const isValid = snackbarStore.checkValidResponseAction(
-                res,
-                pageStore.route,
-                undefined,
-                pageStore.applicationStore,
-            );
+            const isValid = snackbarStore.checkValidResponseAction(res, {
+                applicationStore: pageStore.applicationStore,
+                route: pageStore.route,
+            });
 
             const url = res[VAR_RECORD_URL];
 
@@ -191,9 +189,10 @@ export const redirectUseQuery = ({
                         1000: [],
                     },
                 },
-                pageStore.route,
-                undefined,
-                pageStore.applicationStore,
+                {
+                    applicationStore: pageStore.applicationStore,
+                    route: pageStore.route,
+                },
             );
 
             return false;

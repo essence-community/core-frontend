@@ -311,8 +311,13 @@ export class PageModel implements IPageModel {
         try {
             response = await this.recordsStore.searchAction({[VAR_RECORD_ROUTE_PAGE_ID]: pageId});
 
-            // @ts-ignore
-            if (snackbarStore.checkValidResponseAction(response[0], this.route, undefined, this.applicationStore)) {
+            if (
+                // @ts-ignore
+                snackbarStore.checkValidResponseAction(response[0], {
+                    applicationStore: this.applicationStore,
+                    route: this.route,
+                })
+            ) {
                 const {children} = this.recordsStore.selectedRecordValues;
                 const pageBc = Array.isArray(children) ? children : [];
 

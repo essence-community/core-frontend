@@ -44,12 +44,10 @@ export class AuditModel extends StoreBaseModel implements AuditModelInterface {
         })
             .then((response) => {
                 if (
-                    snackbarStore.checkValidResponseAction(
-                        response,
-                        this.pageStore.route,
-                        undefined,
-                        this.pageStore.applicationStore,
-                    )
+                    snackbarStore.checkValidResponseAction(response, {
+                        applicationStore: this.pageStore.applicationStore,
+                        route: this.pageStore.route,
+                    })
                 ) {
                     this.auditInfo[VAR_RECORD_CV_USERNAME] = response[VAR_RECORD_CV_USERNAME];
                 }

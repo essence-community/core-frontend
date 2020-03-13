@@ -143,7 +143,7 @@ export class ApplicationModel implements ApplicationModelType {
         reaction(
             () => this.pagesStore.activePage,
             (activePage) => {
-                let url = "auth";
+                let url = "/auth";
 
                 if (activePage && activePage.route[VAR_RECORD_CL_STATIC] && activePage.route[VAR_RECORD_URL]) {
                     url = `/page/${activePage.route[VAR_RECORD_URL]}`;

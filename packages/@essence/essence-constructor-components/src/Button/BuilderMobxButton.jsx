@@ -74,6 +74,8 @@ const getColor = (uitype, defaultColor) => {
             return "primary";
         case "2":
             return "secondary";
+        case "3":
+            return "inherit";
         default:
             return defaultColor;
     }

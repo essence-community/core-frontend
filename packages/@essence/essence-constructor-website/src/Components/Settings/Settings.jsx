@@ -21,13 +21,19 @@ type PropsType = WithT & {
     applicationStore: ApplicationModelType,
 };
 
+const RELOAD_APP = 5000;
+
 class Settings extends React.Component<PropsType> {
     // eslint-disable-next-line max-lines-per-function,max-statements
     componentDidMount() {
         const {applicationStore} = this.props;
 
+        if (!window.SETTINGS) {
+            setTimeout(() => document.location.reload(), RELOAD_APP);
+        }
+
         const setting = [
-            ...window.SETTINGS,
+            ...(window.SETTINGS || []),
             {
                 [VAR_RECORD_CV_VALUE]: this.props.t("static:26686005b3584a12aeb9ca9e96e54753", {
                     BRANCH_DATE_TIME,
@@ -75,8 +81,8 @@ class Settings extends React.Component<PropsType> {
     }
 
     render() {
-        if (this.props.applicationStore.settingsStore.recordsStore.records.length === 0) {
-            return this.props.t("static:8aebd9c71dda43fc8583d96f1d4d0d01");
+        if (!window.SETTINGS || this.props.applicationStore.settingsStore.recordsStore.records.length === 0) {
+            return this.props.t("static:8aebd9c71dda43fc8583d96f1d4d0d01", "Loading...");
         }
 
         return this.props.children;

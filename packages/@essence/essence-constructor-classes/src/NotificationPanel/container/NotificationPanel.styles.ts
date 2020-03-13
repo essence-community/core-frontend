@@ -15,7 +15,7 @@ export const useStyles = makeStyles((theme: IEssenceTheme) => ({
     },
     root: {
         backgroundColor: theme.essence.palette.common.white,
-        height: "calc(100% - 5px)",
+        height: "calc(100% - 24px)",
     },
     tabsRoot: {
         backgroundColor: theme.palette.primary.main,

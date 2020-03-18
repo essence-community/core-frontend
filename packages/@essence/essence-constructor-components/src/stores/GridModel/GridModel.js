@@ -202,7 +202,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
                 );
             },
             minHeight: GRID_ROW_HEIGHT * GRID_ROWS_COUNT,
-            rootNode: true,
+            rootNode: bc.type === "TREEGRID",
             scrollTop: 0,
             get selectedRecord() {
                 return recordsStore.selectedRecord;

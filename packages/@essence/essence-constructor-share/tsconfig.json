@@ -10,6 +10,7 @@
         "esModuleInterop": true,
         "strictNullChecks": true,
         "experimentalDecorators": true,
+        "downlevelIteration": true,
         "typeRoots": ["src/typings"]
     },
     "include": ["src/**/*.ts", "src/**/*.tsx"],

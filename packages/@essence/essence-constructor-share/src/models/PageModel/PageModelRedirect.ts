@@ -4,7 +4,7 @@ import {runInAction, when} from "mobx";
 import {i18next} from "../../utils";
 import {loggerRoot, VALUE_SELF_FIRST, VAR_RECORD_MASTER_ID} from "../../constants";
 import {isEmpty} from "../../utils/base";
-import {FieldValue} from "../../types";
+import {FieldValue, IPageModel} from "../../types";
 
 const logger = loggerRoot.extend("PageModelRedirect");
 const AWAIT_DELAY = 5000;
@@ -79,6 +79,32 @@ async function filterAllForms(forms: any[], params: Record<string, FieldValue>):
     return notFieldParams;
 }
 
+function waitForStores(page: IPageModel) {
+    const awaitStores: Promise<any>[] = [];
+
+    for (const store of page.stores.values()) {
+        if (store.recordsStore?.isLoading) {
+            awaitStores.push(when(() => !store.recordsStore?.isLoading));
+        }
+    }
+
+    if (awaitStores.length === 0) {
+        return Promise.resolve(true);
+    }
+
+    return new Promise((resolve) => {
+        const timerID = setTimeout(() => {
+            logger(i18next.t("static:5327513a9d344e2184cca94cde783a52"));
+            resolve(false);
+        }, AWAIT_DELAY);
+
+        Promise.all(awaitStores).then(() => {
+            clearTimeout(timerID);
+            resolve(true);
+        });
+    });
+}
+
 export async function redirectToPage(page: any, params: Record<string, FieldValue>) {
     page.isActiveRedirect = true;
 
@@ -112,6 +138,8 @@ export async function redirectToPage(page: any, params: Record<string, FieldValu
 
     // eslint-disable-next-line require-atomic-updates
     page.isActiveRedirect = false;
+
+    await waitForStores(page);
 
     // Дожидаемся загрузки данных, потом делаем скрол к записи
     return Promise.all(forms.map((form: any) => form.execHook("onFilterRedirect"))).then(() => {

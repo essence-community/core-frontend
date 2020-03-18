@@ -101,7 +101,7 @@ export class FieldComboModel extends StoreBaseModel {
         }, parseInt(querydelay, 10) * 1000);
     }
 
-    reloadStoreAction = (): Promise<object | undefined> => {
+    reloadStoreAction = (): Promise<IRecord | undefined> => {
         if (!this.recordsStore.isLoading) {
             const selectedRecordId = this.recordsStore.selectedRecordValues[this.recordsStore.recordId];
 

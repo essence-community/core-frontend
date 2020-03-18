@@ -19,7 +19,7 @@
 // eslint-disable-next-line import/named
 import {Lambda, observe, reaction} from "mobx";
 import {i18next} from "../../utils";
-import {IBuilderConfig, IPageModel, IRecordsModel} from "../../types";
+import {IBuilderConfig, IPageModel, IStoreBaseModel, IRecord} from "../../types";
 import {findGetGlobalKey} from "../../utils/findKey";
 
 type DisposerType = () => void;
@@ -42,21 +42,21 @@ export class CheckLoading {
 
     private resolve: () => void;
 
-    private reject: (error: any) => void;
+    private reject: (error: Error) => void;
 
-    private checkers: {[$key: string]: Lambda} = {};
+    private checkers: Record<string, Lambda> = {};
 
-    private records: {[$key: string]: any} = {};
+    private records: IRecord = {};
 
     private disposers: DisposerType[] = [];
 
-    private timeoutId: any;
+    private timeoutId: number;
 
     constructor({pageStore, bc, masterId}: ICheckLoading) {
         this.bc = bc;
         this.masterId = masterId;
         this.pageStore = pageStore;
-        this.timeoutId = setTimeout(this.handleTimeoutError, CYCLE_TIMEOUT);
+        this.timeoutId = window.setTimeout(this.handleTimeoutError, CYCLE_TIMEOUT);
     }
 
     public wait(): Promise<boolean> {
@@ -82,29 +82,29 @@ export class CheckLoading {
         });
     }
 
-    private initMaster(master: {recordsStore: IRecordsModel}) {
-        this.records.master = master.recordsStore.selectedRecord;
+    private initMaster(master: IStoreBaseModel) {
+        this.records.master = master.recordsStore?.selectedRecord;
         this.checkers.master = () => "master";
 
         this.disposers.push(
-            reaction(() => master.recordsStore.isLoading, this.handleFinishedLoading("master", master)),
+            reaction(() => master.recordsStore?.isLoading, this.handleFinishedLoading("master", master)),
         );
     }
 
     private initGetGlobalToStore(getglobaltostore: string) {
-        for (const globaleKey of findGetGlobalKey(getglobaltostore) as any) {
+        Object.values(findGetGlobalKey(getglobaltostore)).forEach((globaleKey) => {
             if (typeof globaleKey === "string") {
                 const stores = this.pageStore ? this.pageStore.globalStores.get(globaleKey) : undefined;
                 let isLoadingOne = false;
 
                 if (stores) {
-                    stores.forEach((store: any) => {
-                        if (store.recordsStore.isLoading) {
+                    stores.forEach((store) => {
+                        if (store.recordsStore?.isLoading) {
                             isLoadingOne = true;
                             this.records[globaleKey] = store.recordsStore.selectedRecord;
                             this.disposers.push(
                                 reaction(
-                                    () => store.recordsStore.isLoading,
+                                    () => store.recordsStore?.isLoading,
                                     this.handleFinishedLoading(globaleKey, store),
                                 ),
                             );
@@ -120,7 +120,7 @@ export class CheckLoading {
                     );
                 }
             }
-        }
+        });
     }
 
     private handleResolve = (name: string) => {
@@ -145,14 +145,14 @@ export class CheckLoading {
 
     private handleTimeoutError = () => {
         this.clear();
-        for (const dispose of this.checkers as any) {
+        Object.values(this.checkers).forEach((dispose) => {
             dispose();
-        }
+        });
         this.reject(new Error(i18next.t("static:06dfd0c3b97b45e5abc146a14c0fab37")));
     };
 
-    private handleFinishedLoading = (name: string, store: {recordsStore: IRecordsModel}) => (): void => {
-        if (this.records[name] === store.recordsStore.selectedRecord || name === "master") {
+    private handleFinishedLoading = (name: string, store: IStoreBaseModel) => (): void => {
+        if (this.records[name] === store.recordsStore?.selectedRecord || name === "master") {
             this.handleResolve(name);
         }
     };

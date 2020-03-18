@@ -6,6 +6,7 @@ import {IBuilderConfig, IBuilderMode} from "./Builder";
 import {FieldValue} from "./Field";
 import {IPageModel} from "./PageModel";
 import {IRecordsModel} from "./RecordsModel";
+import {IRecord} from "./Base";
 
 export interface IStoreBaseModelProps {
     bc: IBuilderConfig;
@@ -59,6 +60,6 @@ export interface IStoreBaseModel {
     selectedEntries?: IObservableArray<RowRecord>;
     editing?: boolean;
     afterSelected?: () => void;
-    reloadStoreAction: (checkParent?: boolean) => Promise<object | undefined>;
+    reloadStoreAction: (checkParent?: boolean) => Promise<IRecord | undefined>;
     clearStoreAction: () => void;
 }

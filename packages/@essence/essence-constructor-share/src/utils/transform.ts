@@ -66,3 +66,20 @@ export const toTranslateTextArray = (textArr: TText | TText[], trans: TFunction)
 
     return toTranslateText(textArr, trans);
 };
+
+export function setglobalToParse(str: string): string {
+    const objectStr = str
+        .split(",")
+        // Trim all spaces in the part
+        .map((part: string) => part.trim())
+        // Convert to part of object
+        .map((part: string) => {
+            // If no right side, value and key are equal
+            const [left, right = left] = part.split("=");
+
+            return `"${left}":${right}`;
+        })
+        .join(",");
+
+    return `{${objectStr}}`;
+}

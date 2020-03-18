@@ -10,7 +10,7 @@ const BuilderFilterStylesDark = (theme: any) => ({
         width: theme.sizing.controlPanelWidth,
     },
     filterButtonsAbsolute: {
-        backgroundColor: "none",
+        background: "none",
         left: 0,
         position: "absolute",
     },

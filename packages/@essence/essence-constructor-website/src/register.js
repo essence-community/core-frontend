@@ -41,6 +41,7 @@ import "@essence-community/constructor-classes/src/Iframe";
 import "@essence-community/constructor-classes/src/FieldRepeater";
 import "@essence-community/constructor-classes/src/TabPanel";
 import "@essence-community/constructor-classes/src/FieldComputed";
+import "@essence-community/constructor-classes/src/ServiceHidden";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

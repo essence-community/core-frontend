@@ -86,17 +86,15 @@ export class AuthModel implements AuthModelType {
     );
 
     successLoginAction = action("successLoginAction", (response: Object, history: any) => {
-        let {state: {backUrl = "/home"} = {}} = history.location;
+        const {state: {backUrl = "/home"} = {}} = history.location;
 
-        if (backUrl.indexOf("/frame") === 0 || backUrl.indexOf("/reports") === 0) {
-            backUrl = "/home";
-        }
         this.userInfo = response;
         this.applicationStore.setSesssionAction(response);
         if (response.mode !== "reports") {
             saveToStore("auth", response);
         }
-        history.push(backUrl);
+
+        history.push(backUrl, {backUrl: undefined});
     });
 
     changeUserInfo = action("changeUserInfo", (userInfo: Object = {}) => {

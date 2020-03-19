@@ -78,16 +78,13 @@ export class AuthModel implements IAuthModel {
     );
 
     successLoginAction = action("successLoginAction", (response: IAuthSession, history: History) => {
-        let {state: {backUrl = "/"} = {}} = history.location;
+        const {state: {backUrl = "/"} = {}} = history.location;
 
-        if (backUrl.indexOf("/frame") === 0 || backUrl.indexOf("/reports") === 0) {
-            backUrl = "/";
-        }
         this.userInfo = response;
         this.applicationStore.setSesssionAction(response);
         // TODO: сделать проверку на bc, что бы не сохранять пользователя при репортах
         saveToStore("auth", response);
-        history.push(backUrl);
+        history.push(backUrl, {backUrl: undefined});
     });
 
     changeUserInfo = action("changeUserInfo", (userInfo: Partial<IAuthSession>) => {

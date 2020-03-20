@@ -84,7 +84,7 @@ export class AuthModel implements IAuthModel {
         this.applicationStore.setSesssionAction(response);
         // TODO: сделать проверку на bc, что бы не сохранять пользователя при репортах
         saveToStore("auth", response);
-        history.push(backUrl);
+        history.push(backUrl, {backUrl: undefined});
     });
 
     changeUserInfo = action("changeUserInfo", (userInfo: Partial<IAuthSession>) => {

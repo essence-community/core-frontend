@@ -240,7 +240,9 @@ export class ApplicationModel implements ApplicationModelType {
             this.isApplicationReady = false;
 
             removeFromStore("auth");
-            history.push("/auth", {backUrl: history.location.pathname});
+            const {state: {backUrl = history.location.pathname} = {}} = history.location;
+
+            history.push("/auth", {backUrl});
         }
         if (this.wsClient && this.wsClient.readyState === this.wsClient.OPEN) {
             this.wsClient.onclose = noop;

@@ -184,7 +184,9 @@ export class ApplicationModel implements IApplicationModel {
         await this.authStore.logoutAction();
         removeFromStore("auth");
         if (this.history.location.pathname.indexOf("auth") === -1) {
-            this.history.push("/auth", {backUrl: this.history.location.pathname});
+            const {state: {backUrl = this.history.location.pathname} = {}} = this.history.location;
+
+            this.history.push("/auth", {backUrl});
         }
 
         if (this.wsClient && this.wsClient.readyState === this.wsClient.OPEN) {

@@ -93,7 +93,8 @@ export class AuthModel implements AuthModelType {
         if (response.mode !== "reports") {
             saveToStore("auth", response);
         }
-        history.push(backUrl);
+
+        history.push(backUrl, {backUrl: undefined});
     });
 
     changeUserInfo = action("changeUserInfo", (userInfo: Object = {}) => {

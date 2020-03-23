@@ -1,6 +1,6 @@
 {
   "name": "@essence-community/constructor-package-builder",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Builder lib for package",
   "main": "index.js",
   "repository": "https://github.com/essence-community/core-frontend",

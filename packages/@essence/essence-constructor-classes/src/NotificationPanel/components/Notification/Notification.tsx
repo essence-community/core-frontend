@@ -1,10 +1,10 @@
 import {Icon, ISnackbar, ISnackbarModel} from "@essence-community/constructor-share";
 import {useTranslation} from "@essence-community/constructor-share/utils";
+import {SnackbarContentText} from "@essence-community/constructor-share/uicomponents";
 import {ButtonBase, Grid} from "@material-ui/core";
 import cn from "classnames";
 import {useObserver} from "mobx-react-lite";
 import * as React from "react";
-import {SnackbarContentText} from "../SnackbarContentText/SnackbarContentText";
 import {useStyles} from "./Notification.styles";
 
 interface INotificationProps {

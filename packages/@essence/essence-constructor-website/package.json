@@ -1,6 +1,6 @@
 {
   "name": "@essence-community/constructor-website",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "@babel/core": "7.7.5",
-    "@essence-community/constructor-classes": "2.1.0",
-    "@essence-community/constructor-components": "2.1.0",
+    "@essence-community/constructor-classes": "2.2.0",
+    "@essence-community/constructor-components": "2.2.0",
     "@essence-community/constructor-share": "file:../essence-constructor-share/lib",
     "@material-ui/core": "^4.7.2",
     "@svgr/webpack": "4.3.3",
@@ -28,7 +28,7 @@
     "babel-jest": "^24.9.0",
     "babel-loader": "8.0.6",
     "babel-plugin-named-asset-import": "^0.3.5",
-    "babel-preset-react-app": "^9.1.0",
+    "babel-preset-react-app": "9.1.0",
     "camelcase": "^5.3.1",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
     "classnames": "^2.2.6",
@@ -86,18 +86,5 @@
   "devDependencies": {
     "http-proxy-middleware": "0.20.0",
     "source-map-explorer": "2.1.2"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version",
-      "last 1 edge version"
-    ]
   }
 }

@@ -1,10 +1,14 @@
 // @flow
 import {extendObservable, action} from "mobx";
-import {sendRequest} from "@essence-community/constructor-components";
+import {request} from "@essence-community/constructor-share/request";
 import {getFromStore, saveToStore} from "@essence-community/constructor-share/utils";
-import {snackbarStore} from "@essence-community/constructor-share/models";
-import noop from "lodash/noop";
-import {applicationStore} from "./ApplicationModel";
+import {snackbarStore, settingsStore} from "@essence-community/constructor-share/models";
+import {
+    VAR_SETTING_AUTO_CONNECT_GUEST,
+    VAR_CONNECT_GUEST,
+    loggerRoot,
+} from "@essence-community/constructor-share/constants";
+import {type ApplicationModelType} from "./ApplicationModel";
 
 export interface AuthModelType {
     +userInfo: Object;
@@ -12,39 +16,58 @@ export interface AuthModelType {
     +loginAction: (authValues: Object, history: any, responseOptions?: Object) => void;
     +changeUserInfo: (userInfo: Object) => void;
     +successLoginAction: (response: Object, history: any) => void;
+    +logoutAction: () => Promise<void>;
 }
+
+const logger = loggerRoot.extend("AuthModel");
 
 export class AuthModel implements AuthModelType {
     userInfo: Object;
 
-    constructor() {
+    applicationStore: ApplicationModelType;
+
+    constructor(applicationStore: ApplicationModelType) {
+        this.applicationStore = applicationStore;
         extendObservable(this, {
             userInfo: getFromStore("auth", {}),
         });
     }
 
-    checkAuthAction = action("checkAuthAction", (history?: History, session?: string) =>
-        sendRequest({
-            action: "sql",
-            query: "GetSessionData",
-            session,
-        })
-            .then((response) => {
-                if (response && snackbarStore.checkValidLoginResponse(response)) {
-                    this.successLoginAction(response, history);
-                }
+    checkAuthAction = action(
+        "checkAuthAction",
+        (
+            history?: History,
+            session?: string,
+            connectGuest: string = settingsStore.settings[VAR_SETTING_AUTO_CONNECT_GUEST],
+        ) =>
+            request({
+                action: "sql",
+                body: {
+                    [VAR_CONNECT_GUEST]: connectGuest,
+                },
+                list: false,
+                query: "GetSessionData",
+                session,
             })
-            .catch(noop),
+                .then((response) => {
+                    if (response && snackbarStore.checkValidLoginResponse(response)) {
+                        this.successLoginAction(response, history);
+                    }
+                })
+                .catch((err) => {
+                    logger(err);
+                }),
     );
 
     loginAction = action("loginAction", (authValues: Object, history: any, responseOptions: Object = {}) =>
-        sendRequest({
+        request({
             action: "auth",
             body: authValues,
+            list: false,
             query: "Login",
         })
             .then((response) => {
-                if (snackbarStore.checkValidLoginResponse(response)) {
+                if (response && snackbarStore.checkValidLoginResponse(response)) {
                     this.successLoginAction(
                         {
                             ...response,
@@ -55,8 +78,9 @@ export class AuthModel implements AuthModelType {
                 }
             })
             .catch((error) => {
-                snackbarStore.checkExceptResponse(error, undefined, applicationStore);
-                applicationStore.logoutAction();
+                logger(error);
+                snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
+                this.applicationStore.logoutAction();
                 this.userInfo = {};
             }),
     );
@@ -65,11 +89,12 @@ export class AuthModel implements AuthModelType {
         const {state: {backUrl = "/home"} = {}} = history.location;
 
         this.userInfo = response;
-        applicationStore.setSesssionAction(response);
+        this.applicationStore.setSesssionAction(response);
         if (response.mode !== "reports") {
             saveToStore("auth", response);
         }
-        history.push(backUrl);
+
+        history.push(backUrl, {backUrl: undefined});
     });
 
     changeUserInfo = action("changeUserInfo", (userInfo: Object = {}) => {
@@ -78,5 +103,20 @@ export class AuthModel implements AuthModelType {
             ...userInfo,
         };
         saveToStore("auth", this.userInfo);
+    });
+
+    logoutAction = action("logoutAction", () => {
+        return request({
+            action: "auth",
+            query: "Logout",
+            session: this.userInfo.session,
+        })
+            .then(() => {
+                this.userInfo = {};
+            })
+            .catch((err) => {
+                logger(err);
+                this.userInfo = {};
+            });
     });
 }

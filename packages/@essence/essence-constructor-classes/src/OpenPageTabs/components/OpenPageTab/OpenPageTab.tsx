@@ -24,6 +24,7 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
         onDragStartIndex,
         onDragEnterIndex,
         tabDragClassName,
+        titleRoutePath,
         ...materialTabProps
     } = props;
     const [isDrag, setIsDrag] = React.useState(false);
@@ -97,7 +98,7 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
         <Tab
             value={value}
             icon={iconNode}
-            data-qtip={label}
+            data-qtip={titleRoutePath}
             data-page-object={`tab-${value}`}
             component="div"
             ref={tabRef}

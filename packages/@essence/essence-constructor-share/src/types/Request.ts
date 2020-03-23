@@ -1,4 +1,9 @@
-import {META_PAGE_OBJECT} from "../constants";
+import {
+    META_PAGE_OBJECT,
+    VAR_RECORD_RES_ERROR,
+    VAR_RECORD_RES_FORM_ERROR,
+    VAR_RECORD_RES_STACK_TRACE,
+} from "../constants";
 import {FieldValue} from "./Field";
 
 export interface IRequest {
@@ -38,6 +43,7 @@ export interface IResponseError extends Error {
 }
 
 export interface IResponse {
-    cv_error?: Record<string, string[]>;
-    cv_stack_trace?: string;
+    [VAR_RECORD_RES_ERROR]?: Record<string, string[]>;
+    [VAR_RECORD_RES_FORM_ERROR]?: Record<string, Record<string, string[]>>;
+    [VAR_RECORD_RES_STACK_TRACE]?: string;
 }

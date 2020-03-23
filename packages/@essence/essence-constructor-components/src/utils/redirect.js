@@ -1,6 +1,6 @@
 // @flow
 import {type ObservableMap} from "mobx";
-import {parseMemoize, getMasterObject} from "@essence-community/constructor-share/utils";
+import {parseMemoize, getMasterObject, prepareUrl} from "@essence-community/constructor-share/utils";
 import {snackbarStore} from "@essence-community/constructor-share/models";
 import {
     VAR_RECORD_ID,
@@ -10,6 +10,7 @@ import {
     VAR_RECORD_MASTER_ID,
     META_PAGE_OBJECT,
     VAR_RECORD_CK_D_ENDPOINT,
+    SESSION_PREFIX,
 } from "@essence-community/constructor-share/constants";
 import forOwn from "lodash/forOwn";
 import qs from "qs";
@@ -22,8 +23,6 @@ type BcType = {
     redirecturl?: string,
     redirectusequery?: string,
 };
-
-const SESSION_PREFIX = "sess_";
 
 /**
  * Преобразование пути
@@ -111,15 +110,15 @@ export function makeRedirectUrl(props: {
 
     // eslint-disable-next-line require-unicode-regexp,  prefer-named-capture-group
     url.pathname = url.pathname.replace(/{([^}]+)}/g, (match, pattern) => {
-        if (pattern.indexOf(SESSION_PREFIX) > -1) {
+        if (pattern.indexOf(SESSION_PREFIX) === 0) {
             return authData[pattern.substring(SESSION_PREFIX.length)];
         }
-
-        const globalValue = globalValues.get(pattern);
 
         if (pattern in record) {
             return record[pattern];
         }
+
+        const globalValue = globalValues.get(pattern);
 
         if (typeof globalValue === "string") {
             return globalValue;
@@ -146,11 +145,13 @@ export const redirectUseQuery = ({
     query,
     pageStore,
     values,
+    record,
 }: {
     bc: Object,
     query: string,
     pageStore: PageModelType,
     values: Object,
+    record: Object,
 }) =>
     sendRequest({
         [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
@@ -166,15 +167,15 @@ export const redirectUseQuery = ({
         timeout: bc.timeout,
     })
         .then((res) => {
-            const isValid = snackbarStore.checkValidResponseAction(
-                res,
-                pageStore.route,
-                undefined,
-                pageStore.applicationStore,
-            );
+            const isValid = snackbarStore.checkValidResponseAction(res, {
+                applicationStore: pageStore.applicationStore,
+                route: pageStore.route,
+            });
 
-            if (isValid) {
-                window.open(res[VAR_RECORD_URL]);
+            const url = res[VAR_RECORD_URL];
+
+            if (isValid && url) {
+                window.open(prepareUrl(url, pageStore, record));
             }
 
             return isValid;
@@ -188,18 +189,29 @@ export const redirectUseQuery = ({
                         1000: [],
                     },
                 },
-                pageStore.route,
-                undefined,
-                pageStore.applicationStore,
+                {
+                    applicationStore: pageStore.applicationStore,
+                    route: pageStore.route,
+                },
             );
 
             return false;
         });
 
-function redirectToUrl(redirecturl: string, values: Object) {
+function redirectToUrl({
+    redirecturl,
+    values,
+    pageStore,
+    record,
+}: {
+    redirecturl: string,
+    values: Object,
+    pageStore: PageModelType,
+    record: Object,
+}) {
     const url = parseMemoize(redirecturl).runer(values);
 
-    window.open(url);
+    window.open(prepareUrl(url, pageStore, record));
 }
 
 export const makeRedirect = (bc: BcType, pageStore: PageModelType, record: Object = {}): void => {
@@ -219,7 +231,7 @@ export const makeRedirect = (bc: BcType, pageStore: PageModelType, record: Objec
 
     if (redirecturl) {
         if (redirecturl.indexOf("/") >= 0) {
-            redirectToUrl(redirecturl, values);
+            redirectToUrl({pageStore, record, redirecturl, values});
         } else {
             pageStore.applicationStore.redirectToAction(redirecturl, values);
         }
@@ -230,6 +242,7 @@ export const makeRedirect = (bc: BcType, pageStore: PageModelType, record: Objec
             bc,
             pageStore,
             query: redirectusequery,
+            record,
             values,
         });
 };

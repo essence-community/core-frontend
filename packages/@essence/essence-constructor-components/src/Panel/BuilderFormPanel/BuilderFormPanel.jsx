@@ -65,7 +65,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
         }
 
         const filterComponent = (
-            <Grid item>
+            <Grid item xs>
                 {filters.map((filter: Object) => (
                     <BuilderFilter
                         key={filter[VAR_RECORD_PAGE_OBJECT_ID]}
@@ -114,49 +114,52 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
         );
 
         const formComponent = (
-            <Grid item className={classes.formRoot}>
-                <BuilderForm
-                    initialValues={store.recordsStore.records[0] || EMPTY_RECORD}
-                    pageStore={pageStore}
-                    isEditing={isEditing}
-                    mode={store.mode}
-                >
-                    <Content verticalSize="16" horizontalSize="16" className={classes.content}>
-                        <Panel
-                            bc={bc}
-                            disabled={disabled}
-                            hidden={this.props.hidden}
-                            visible={this.props.visible}
-                            editing={isEditing}
-                            readOnly={readOnly}
-                            pageStore={pageStore}
-                            tabIndex={this.props.tabIndex}
-                            record={this.props.record}
-                        />
-                    </Content>
-                </BuilderForm>
+            <Grid item className={classes.formRoot} xs zeroMinWidth>
+                <Content verticalSize="16" horizontalSize="16" className={classes.content}>
+                    <Panel
+                        bc={bc}
+                        disabled={disabled}
+                        hidden={this.props.hidden}
+                        visible={this.props.visible}
+                        editing={isEditing}
+                        readOnly={readOnly}
+                        pageStore={pageStore}
+                        tabIndex={this.props.tabIndex}
+                        record={this.props.record}
+                    />
+                </Content>
             </Grid>
         );
 
-        const themeContent =
-            pageStore.styleTheme === "dark" ? (
-                <Grid container direction="row" className={classNameRoot} wrap="nowrap">
-                    {isHideActions ? null : actionsComponent}
-                    <Grid item container direction="column" className={classes.contentRoot}>
-                        <Grid item>
-                            {hideTitle ? null : <EmptyTitle hideactions title={transCvDisplayed} filters={filters} />}
+        const themeContent = (
+            <BuilderForm
+                initialValues={store.recordsStore.records[0] || EMPTY_RECORD}
+                pageStore={pageStore}
+                isEditing={isEditing}
+                mode={store.mode}
+            >
+                {pageStore.styleTheme === "dark" ? (
+                    <Grid container direction="row" className={classNameRoot}>
+                        {isHideActions ? null : actionsComponent}
+                        <Grid item container direction="column" className={classes.contentRoot}>
+                            <Grid item xs>
+                                {hideTitle ? null : (
+                                    <EmptyTitle hideactions title={transCvDisplayed} filters={filters} />
+                                )}
+                            </Grid>
+                            {filterComponent}
+                            {formComponent}
                         </Grid>
+                    </Grid>
+                ) : (
+                    <Grid container direction="column" className={classNameRoot} wrap="nowrap">
                         {filterComponent}
+                        {isHideActions ? null : actionsComponent}
                         {formComponent}
                     </Grid>
-                </Grid>
-            ) : (
-                <Grid container direction="column" className={classNameRoot} wrap="nowrap">
-                    {filterComponent}
-                    {isHideActions ? null : actionsComponent}
-                    {formComponent}
-                </Grid>
-            );
+                )}
+            </BuilderForm>
+        );
 
         if (elevation) {
             return <Paper elevation={elevation}>{themeContent}</Paper>;

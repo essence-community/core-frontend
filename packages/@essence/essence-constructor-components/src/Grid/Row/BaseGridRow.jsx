@@ -5,7 +5,7 @@ import compose from "recompose/compose";
 import {reaction} from "mobx";
 import {disposeOnUnmount, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_JV_ROWCOLOR} from "@essence-community/constructor-share/constants";
 import {type GridModelType} from "../../stores/GridModel";
 import {type PageModelType} from "../../stores/PageModel";
 import {type BuilderGridType} from "../BuilderGridType";
@@ -168,7 +168,11 @@ class BaseGridRow extends React.Component<PropsType, StateType> {
 
         return (
             <tr
-                style={record.jvRowcolor && !selected ? {backgroundColor: record.jvRowcolor} : undefined}
+                style={
+                    record[VAR_RECORD_JV_ROWCOLOR] && !selected
+                        ? {backgroundColor: record[VAR_RECORD_JV_ROWCOLOR]}
+                        : undefined
+                }
                 className={className}
                 onClick={this.handleClick}
                 data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-row-${record[store.recordsStore.recordId]}`}

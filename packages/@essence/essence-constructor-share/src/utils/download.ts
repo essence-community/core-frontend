@@ -50,6 +50,23 @@ interface IResult extends IResponse, IRecord {
     [VAR_RECORD_URL]: string | undefined;
 }
 
+export const prepareUrl = (url: string, pageStore: IPageModel, record: Record<string, FieldValue> = {}) => {
+    // eslint-disable-next-line require-unicode-regexp,  prefer-named-capture-group
+    return url.replace(/{([^}]+)}/g, (_match, pattern): string => {
+        if (pattern in record) {
+            return record[pattern] as string;
+        }
+
+        const globalValue = pageStore.globalValues.get(pattern);
+
+        if (typeof globalValue === "string") {
+            return globalValue;
+        }
+
+        return "";
+    });
+};
+
 export const print = async ({
     applicationStore,
     values: {...values},
@@ -87,10 +104,15 @@ export const print = async ({
     const res: IResult = result;
 
     setMask(false, bcBtn.noglobalmask, pageStore);
-    const isValid = snackbarStore.checkValidResponseAction(res, pageStore.route, undefined, applicationStore);
+    const isValid = snackbarStore.checkValidResponseAction(res, {
+        applicationStore,
+        route: pageStore.route,
+    });
 
-    if (isValid && isOnline && res[VAR_RECORD_URL]) {
-        window.open(res[VAR_RECORD_URL]);
+    const url = res[VAR_RECORD_URL];
+
+    if (isValid && isOnline && url) {
+        window.open(prepareUrl(url, pageStore, values));
     }
 
     return isValid;

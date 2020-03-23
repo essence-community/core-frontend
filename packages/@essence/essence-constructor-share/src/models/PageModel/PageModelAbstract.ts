@@ -71,6 +71,8 @@ export class PageModelAbstract implements IPageModel {
 
     public recordsStore: IRecordsModel;
 
+    public titleRoutePath = "";
+
     public fireScrollEvent = () => {};
 
     public updateGlobalValues = (_values: object) => {};
@@ -122,8 +124,6 @@ export class PageModelAbstract implements IPageModel {
     public removeFromMastersAction = (_ckMaster?: string, _field?: any) => {};
 
     public clearAction = () => {};
-
-    public removePageAction = () => {};
 
     public openQuestionWindow = () => {};
 

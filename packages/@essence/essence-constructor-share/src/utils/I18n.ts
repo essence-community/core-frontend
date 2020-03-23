@@ -1,9 +1,13 @@
 import i18next, {BackendModule, ReadCallback, Services, InitOptions, TFunction, WithT} from "i18next";
 import {initReactI18next, withTranslation, useTranslation, Translation} from "react-i18next";
+import Backend from "i18next-chained-backend";
+import LocalStorageBackend from "i18next-localstorage-backend";
 import {request} from "../request/request";
 import {VAR_LANG_ID, VAR_NAMESPACE_VALUE, VAR_SETTING_LANG} from "../constants/variables";
 import {snackbarStore, settingsStore} from "../models";
 import {getFromStore} from "./storage";
+
+const ENABLE_CACHE = false;
 
 class I18nBackend implements BackendModule {
     type: "backend" = "backend";
@@ -54,9 +58,13 @@ export function initI18n() {
     const lang = getFromStore<string>("lang", defaultLng);
 
     i18next
-        .use(new I18nBackend())
+        .use(Backend)
         .use(initReactI18next)
         .init({
+            backend: {
+                backendOptions: ENABLE_CACHE ? [{}, {}] : [{}],
+                backends: ENABLE_CACHE ? [LocalStorageBackend, I18nBackend] : [I18nBackend],
+            },
             defaultNS: "meta",
             fallbackLng: defaultLng,
             initImmediate: true,

@@ -1,12 +1,22 @@
-import {Typography} from "@material-ui/core";
 import * as React from "react";
-import {useTranslation} from "@essence-community/constructor-share/utils";
+import {Typography} from "@material-ui/core";
+import Linkify from "react-linkify";
+import {useTranslation, toTranslateText} from "../../utils";
+import {TText} from "../../types/SnackbarModel";
 
 interface ISnackbarContentTextProps {
-    text?: string | JSX.Element;
-    title?: string;
+    text?: TText;
+    title?: TText;
     description?: string;
     code?: string;
+}
+
+function componentDecorator(decoratedHref: string, decoratedText: string, key: number): React.ReactNode {
+    return (
+        <a href={decoratedHref} key={key} rel="noopener noreferrer" target="_blank" style={{color: "inherit"}}>
+            {decoratedText}
+        </a>
+    );
 }
 
 export const SnackbarContentText: React.FC<ISnackbarContentTextProps> = ({text, title, description, code}) => {
@@ -16,17 +26,19 @@ export const SnackbarContentText: React.FC<ISnackbarContentTextProps> = ({text, 
         <React.Fragment>
             {title ? (
                 <Typography variant="body2" color="inherit">
-                    {trans(title)}
+                    {toTranslateText(title, trans)}
                 </Typography>
             ) : null}
             {text ? (
                 <Typography variant="body2" color="inherit" component="div">
-                    {typeof text === "string" ? trans(text) : text}
+                    <Linkify componentDecorator={componentDecorator}>{toTranslateText(text, trans)}</Linkify>
                 </Typography>
             ) : null}
             {description ? (
                 <Typography variant="body2" color="inherit">
-                    {trans("static:900d174d0a994374a01b0005756521bc")}: {trans(description)}
+                    <Linkify componentDecorator={componentDecorator}>
+                        {trans("static:900d174d0a994374a01b0005756521bc")}: {trans(description)}
+                    </Linkify>
                 </Typography>
             ) : null}
             {code ? (

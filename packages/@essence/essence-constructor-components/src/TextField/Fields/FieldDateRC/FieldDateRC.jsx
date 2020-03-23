@@ -260,7 +260,7 @@ export class FieldDateRCBase extends React.Component<PropsType, StateType> {
         return (
             <FieldMask
                 field={field}
-                errorText={errorText && errorText.replace(":inputValue", formattedValue)}
+                errorText={typeof errorText === "string" ? errorText.replace(":inputValue", formattedValue) : errorText}
                 bc={bc}
                 InputProps={{
                     ...InputProps,

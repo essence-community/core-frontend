@@ -1,7 +1,6 @@
 import {stringify} from "qs";
 import {IRequest, IRequestCheckError} from "../types";
 import {settingsStore} from "../models";
-import {i18next} from "../utils";
 import {IRecord} from "../types/Base";
 import {VAR_SETTING_GATE_URL, META_OUT_RESULT, META_PAGE_OBJECT} from "../constants";
 import {ResponseError} from "./error";
@@ -20,7 +19,7 @@ const checkError = ({responseJSON, query, list}: IRequestCheckError) => {
     }
 
     if (isError) {
-        throw new ResponseError(i18next.t("static:63538aa4bcd748349defdf7510fc9c10"), responseJSON, query);
+        throw new ResponseError("static:63538aa4bcd748349defdf7510fc9c10", responseJSON, query);
     }
 };
 
@@ -62,8 +61,8 @@ export const request = async <R = IRecord | IRecord[]>({
     const data = {
         [META_OUT_RESULT]: "",
         [META_PAGE_OBJECT]: pageObjectName.replace(
-            // eslint-disable-next-line prefer-named-capture-group
-            /^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[)}]?.*?$/giu,
+            // eslint-disable-next-line prefer-named-capture-group, no-useless-escape
+            /^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[\)\}]?.*?$/giu,
             "$1",
         ),
         json: json ? JSON.stringify(json) : undefined,
@@ -71,8 +70,8 @@ export const request = async <R = IRecord | IRecord[]>({
         ...(body ? body : {}),
     };
     const url = `${gate}?${stringify(formData ? {...queryParams, ...data} : queryParams)}`;
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), parseInt(timeout, 10) * MILLISECOND);
+    const controller = window.AbortController ? new window.AbortController() : undefined;
+    const timeoutId = window.setTimeout(() => controller?.abort(), parseInt(timeout, 10) * MILLISECOND);
 
     const response = await fetch(url, {
         body: formData ? formData : stringify(data),
@@ -80,7 +79,7 @@ export const request = async <R = IRecord | IRecord[]>({
             "Content-type": "application/x-www-form-urlencoded",
         },
         method,
-        signal: controller.signal,
+        signal: controller?.signal,
     });
 
     /*

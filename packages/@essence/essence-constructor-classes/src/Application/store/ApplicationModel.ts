@@ -28,6 +28,7 @@ import {
     VAR_RECORD_ROUTE_PAGE_ID,
     VAR_RECORD_CV_LOGIN,
     VAR_SETTING_MODULE_URL,
+    loggerRoot,
 } from "@essence-community/constructor-share/constants";
 import {i18next} from "@essence-community/constructor-share/utils";
 import {parseMemoize} from "@essence-community/constructor-share/utils/parser";
@@ -37,6 +38,7 @@ import {
     settingsStore,
     PageModel,
     modulesStore,
+    redirectToPage,
 } from "@essence-community/constructor-share/models";
 import {History} from "history";
 import pageSafeJson from "../mocks/page-safe.json";
@@ -67,6 +69,7 @@ const NONE_BC = {
     [VAR_RECORD_PAGE_OBJECT_ID]: "none",
     [VAR_RECORD_PARENT_ID]: "none",
 };
+const logger = loggerRoot.extend("ApplicationModel");
 
 /**
  * @exports ApplicationModel
@@ -84,11 +87,7 @@ export class ApplicationModel implements IApplicationModel {
 
     pagesStore: IPagesModel;
 
-    history: History;
-
     recordsStore: IRecordsModel;
-
-    url: string;
 
     pageStore: IPageModel;
 
@@ -121,7 +120,12 @@ export class ApplicationModel implements IApplicationModel {
         return this.authStore.userInfo.session;
     }
 
-    constructor(history: History, url: string) {
+    // @deprecated
+    @computed get authData(): Record<string, FieldValue> {
+        return this.authStore.userInfo;
+    }
+
+    constructor(public history: History, public url: string) {
         this.routesStore = null;
         this.url = url;
         this.mode = url;
@@ -180,7 +184,9 @@ export class ApplicationModel implements IApplicationModel {
         await this.authStore.logoutAction();
         removeFromStore("auth");
         if (this.history.location.pathname.indexOf("auth") === -1) {
-            this.history.push("/auth", {backUrl: this.history.location.pathname});
+            const {state: {backUrl = this.history.location.pathname} = {}} = this.history.location;
+
+            this.history.push("/auth", {backUrl});
         }
 
         if (this.wsClient && this.wsClient.readyState === this.wsClient.OPEN) {
@@ -193,14 +199,14 @@ export class ApplicationModel implements IApplicationModel {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-    redirectToAction = action("redirectToAction", async (pageId: string, _params: Record<string, any>) => {
+    redirectToAction = action("redirectToAction", async (pageId: string, params: Record<string, any>) => {
         const page = await this.pagesStore.setPageAction(pageId, true);
 
         // Log
         if (page) {
             await when(() => !page.isLoading);
 
-            // TODO: should be redirect to page await redirectToPage(page, params);
+            await redirectToPage(page, params);
         }
     });
 
@@ -228,7 +234,7 @@ export class ApplicationModel implements IApplicationModel {
             snackbarStore.recordsStore.recordsState.status === "init" && snackbarStore.recordsStore.loadRecordsAction(),
         ]);
 
-        if (this.bc[VAR_RECORD_PAGE_OBJECT_ID] !== "none") {
+        if (this.bc && this.bc[VAR_RECORD_PAGE_OBJECT_ID] !== "none") {
             this.routesStore = new RoutesModel(
                 {
                     [VAR_RECORD_PAGE_OBJECT_ID]: "routes",
@@ -240,6 +246,8 @@ export class ApplicationModel implements IApplicationModel {
 
             await this.routesStore?.recordsStore.loadRecordsAction();
             this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
+        } else {
+            this.history.push("/auth");
         }
 
         this.isApplicationReady = true;
@@ -324,14 +332,12 @@ export class ApplicationModel implements IApplicationModel {
         json.forEach((event: any) => {
             switch (event.event) {
                 case "notification": {
-                    snackbarStore.checkValidResponseAction(
-                        event.data,
-                        {
+                    snackbarStore.checkValidResponseAction(event.data, {
+                        applicationStore: this,
+                        route: {
                             [VAR_RECORD_ROUTE_NAME]: "static:2ff612aa52314ddea65a5d303c867eb8",
                         },
-                        undefined,
-                        this,
-                    );
+                    });
                     break;
                 }
                 case "mask": {
@@ -351,7 +357,7 @@ export class ApplicationModel implements IApplicationModel {
                     break;
                 }
                 default: {
-                    throw new Error(i18next.t("static:8fe6e023ee11462db952d62d6b8b265e", {message: msg.data}));
+                    logger(new Error(i18next.t("static:8fe6e023ee11462db952d62d6b8b265e", {message: msg.data})));
                 }
             }
         });

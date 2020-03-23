@@ -22,8 +22,11 @@ export const AppRoutes = () => (
             <Route path="/redirect/:b64" render={(props: any) => <RedirectPage {...props} />} />
             <Route path="/reports/session/:session" render={(props: any) => <ReportsPage {...props} />} />
             <Route path="/reports/token/:token" render={(props: any) => <ReportsPage {...props} />} />
-            <Route path="/frame/session/:session/:app/:pageId" render={(props: any) => <FramePage {...props} />} />
-            <Route path="/frame/token/:token/:app/:pageId" render={(props: any) => <FramePage {...props} />} />
+            <Route
+                path="/frame/session/:session/:app/:pageId/:filter?"
+                render={(props: any) => <FramePage {...props} />}
+            />
+            <Route path="/frame/token/:token/:app/:pageId/:filter?" render={(props: any) => <FramePage {...props} />} />
             <Route
                 path={["/page/:ckId", "/home", "/preference", "/"]}
                 exact
@@ -38,7 +41,7 @@ export const AppRoutes = () => (
                     </AuthorizationPage>
                 )}
             />
-            <Route path="/:appName/:ckId?" render={(props: any) => <ApplicationRouter {...props} />} />
+            <Route path="/:appName/:ckId?/:filter?" render={(props: any) => <ApplicationRouter {...props} />} />
         </Switch>
     </Router>
 );

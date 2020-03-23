@@ -40,6 +40,10 @@ export interface IEssenceTheme extends Theme {
                 main: string;
                 shadow: string;
             };
+            tab: {
+                active: string;
+                hover: string;
+            };
             text: {
                 dark: string;
                 disabled: string;

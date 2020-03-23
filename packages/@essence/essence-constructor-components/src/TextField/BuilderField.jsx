@@ -25,35 +25,12 @@ import {disabledSelfGlobal, inputTypes} from "./TFUtils/TFConstants";
 import {initGetGlobal, initSetGlobal} from "./TFUtils/TFGlobals";
 import styles from "./BuilderFieldStyle";
 
-type StateType = {
-    BuilderFieldComponent?: string,
-    endAdornment?: React.Node,
-    isDisabled: boolean,
-};
-
 export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, StateType> {
     disposers: Array<Function> = [];
 
     static defaultProps = {
         editing: true,
     };
-
-    static getDerivedStateFromProps({disabled, editing}: BuilderFieldPropsType) {
-        const isDisabled = disabled || !editing;
-
-        return {isDisabled};
-    }
-
-    constructor(...args: any[]) {
-        super(...args);
-
-        const {bc} = this.props;
-
-        this.state = {
-            BuilderFieldComponent: getFieldInstance(bc),
-            isDisabled: false,
-        };
-    }
 
     componentDidMount() {
         const {bc, field, form} = this.props;
@@ -251,12 +228,12 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
     // eslint-disable-next-line max-lines-per-function
     render() {
         const {bc, editing, readOnly, hidden, classes, form, field, visible, disabled, tabIndex} = this.props;
-        const {BuilderFieldComponent} = this.state;
         const isDisabled = disabled || !editing;
         const {datatype = "text", imask} = bc;
         const inputType = inputTypes[datatype];
         const {value} = field;
         const endAdornments = this.renderTips(bc, field);
+        const BuilderFieldComponent = getFieldInstance(bc);
 
         if ((!(datatype in disabledSelfGlobal) && hidden) || !BuilderFieldComponent) {
             return null;

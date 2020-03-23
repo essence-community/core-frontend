@@ -88,6 +88,5 @@ export interface PageModelInterface {
     addToMastersAction: (masterId: string, field: Field) => void;
     removeFromMastersAction: (masterId?: string, field: ?Field) => void;
     clearAction: () => void;
-    removePageAction: () => void;
 }
 export type PageModelType = $ReadOnly<PageModelInterface>;

@@ -6,7 +6,6 @@ import ToolBarTab from "./ToolBar/ToolBarTab";
 import BuilderForm from "./Form/BuilderForm";
 import withModelDecorator from "./decorators/withModelDecorator";
 import Scrollbars from "./Components/Scrollbars/Scrollbars";
-import SnackbarContentText from "./Snackbar/SnackbarContentText";
 import Slider from "./Components/Slider/Slider";
 import BuilderPanel from "./Panel/BuilderBasePanel";
 import Popover from "./Popover/Popover";
@@ -36,7 +35,6 @@ export {
     BuilderForm,
     withModelDecorator,
     Scrollbars,
-    SnackbarContentText,
     Slider,
     Popover,
 };

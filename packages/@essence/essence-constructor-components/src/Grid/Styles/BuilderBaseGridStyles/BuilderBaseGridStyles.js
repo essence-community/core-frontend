@@ -27,6 +27,10 @@ const BuilderBaseGridStyles = (theme: Object) => ({
     },
     inlineButton: {},
     mainButton: {},
+    maxWidth: {
+        maxWidth: "100%",
+        width: "100%",
+    },
     root: {
         height: "100%",
         position: "relative",

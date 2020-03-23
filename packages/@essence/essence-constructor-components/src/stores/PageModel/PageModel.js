@@ -1,12 +1,12 @@
 /* eslint-disable max-lines */
 // @flow
-import {extendObservable, action, observable, reaction, type ObservableMap} from "mobx";
+import {extendObservable, action, observable, type ObservableMap} from "mobx";
 import {type IObservableArray} from "mobx/lib/mobx.js.flow";
 import {Field} from "mobx-react-form";
 import forEach from "lodash/forEach";
 import noop from "lodash/noop";
 import uuid from "uuid";
-import {parseMemoize, loadComponentsFromModules} from "@essence-community/constructor-share";
+import {parseMemoize, loadComponentsFromModules, TText} from "@essence-community/constructor-share";
 import {snackbarStore} from "@essence-community/constructor-share/models";
 import {findClassNames, i18next} from "@essence-community/constructor-share/utils";
 import {
@@ -33,7 +33,7 @@ import {
     type FormType,
     type CreateWindowType,
 } from "./PageModelType";
-import {renderGlobalValuelsInfo, getNextComponent} from "./PageModelUtil";
+import {getNextComponent} from "./PageModelUtil";
 
 const logger = loggerRoot.extend("PageModel");
 
@@ -54,7 +54,7 @@ export class PageModel implements PageModelInterface {
 
     showQuestionWindow: boolean;
 
-    questionWindow: ?string;
+    questionWindow: ?Array<TText>;
 
     saveCallBack: any;
 
@@ -87,8 +87,6 @@ export class PageModel implements PageModelInterface {
     scrollEvents: Array<Function> = [];
 
     visible: boolean;
-
-    disposes: Array<Function> = [];
 
     styleTheme: "dark" | "light";
 
@@ -145,26 +143,6 @@ export class PageModel implements PageModelInterface {
             windowsOne: observable.array(),
         });
 
-        this.disposes.push(
-            reaction(
-                // $FlowFixMe
-                () => this.globalValues.toJS(),
-                (globalValues) =>
-                    snackbarStore.snackbarOpenAction(
-                        {
-                            autoHidden: true,
-                            hiddenTimeout: 0,
-                            status: "debug",
-                            text: renderGlobalValuelsInfo(globalValues),
-                            title: `${i18next.t("static:dcfb61366b054c6e95ae83593cfb9cd9")}: ${i18next.t(
-                                pageId || "",
-                            )}`,
-                        },
-                        this.route,
-                    ),
-            ),
-        );
-
         extendObservable(
             this,
             {
@@ -190,7 +168,7 @@ export class PageModel implements PageModelInterface {
         });
     };
 
-    openQuestionWindow = action("openQuestionWindow", (questionWindow: string, saveCallBack: Function) => {
+    openQuestionWindow = action("openQuestionWindow", (questionWindow: Array<TText>, saveCallBack: Function) => {
         this.showQuestionWindow = true;
         this.questionWindow = questionWindow;
         this.saveCallBack = saveCallBack;
@@ -294,7 +272,12 @@ export class PageModel implements PageModelInterface {
 
         return fetchResult
             .then((response) => {
-                if (snackbarStore.checkValidResponseAction(response[0], this.route, undefined, this.applicationStore)) {
+                if (
+                    snackbarStore.checkValidResponseAction(response[0], {
+                        applicationStore: this.applicationStore,
+                        route: this.route,
+                    })
+                ) {
                     const pageBc = (response.length && response[0].children) || [];
                     const classNames = findClassNames(pageBc);
 
@@ -494,11 +477,6 @@ export class PageModel implements PageModelInterface {
         this.windowsOne.clear();
         this.fieldValueMaster.clear();
     });
-
-    removePageAction = () => {
-        this.disposes.forEach((dispose) => dispose());
-        this.disposes = [];
-    };
 
     createWindowAction = action("createWindowAction", (params: CreateWindowType) => {
         const window = new WindowModel({

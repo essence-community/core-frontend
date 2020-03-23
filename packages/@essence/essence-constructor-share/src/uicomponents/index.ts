@@ -7,4 +7,5 @@ export {Pagination} from "./Pagination";
 export {Popover} from "./Popover";
 export {Scrollbars} from "./Scrollbars";
 export {SideResizer} from "./SideResizer";
+export {SnackbarContentText} from "./SnackbarContentText";
 export {VerticalResizer} from "./VerticalResizer";

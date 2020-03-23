@@ -33,7 +33,7 @@ const logger = loggerRoot.extend("PagerContainer");
 // eslint-disable-next-line max-lines-per-function
 export const ApplicationContainer: React.FC<IClassProps> = () => {
     const history = useHistory();
-    const {ckId, appName = ""} = useParams();
+    const {ckId, appName = "", filter = ""} = useParams();
     const [applicationStore] = React.useState(() => new ApplicationModel(history, appName));
     const [trans] = useTranslation("meta");
     const onFormChange = React.useCallback(
@@ -62,7 +62,19 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
             const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
             if (typeof pageId === "string") {
-                pagesStore.setPageAction(pageId, false);
+                if (filter) {
+                    try {
+                        // Convert to string: encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({})))))
+                        const data = decodeURIComponent(escape(window.atob(decodeURIComponent(filter))));
+
+                        applicationStore.redirectToAction(pageId, JSON.parse(data));
+                    } catch (err) {
+                        logger(err);
+                        pagesStore.setPageAction(pageId, false);
+                    }
+                } else {
+                    pagesStore.setPageAction(pageId, false);
+                }
             } else if (ckId !== undefined) {
                 pagesStore.setPageAction(ckId, true);
             } else if (pagesStore.pages.length) {

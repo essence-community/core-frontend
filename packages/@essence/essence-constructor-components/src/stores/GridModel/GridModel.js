@@ -202,7 +202,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
                 );
             },
             minHeight: GRID_ROW_HEIGHT * GRID_ROWS_COUNT,
-            rootNode: true,
+            rootNode: bc.type === "TREEGRID",
             scrollTop: 0,
             get selectedRecord() {
                 return recordsStore.selectedRecord;
@@ -275,13 +275,14 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
         },
     );
 
-    updateBtnAction = action("updateBtnAction", async (mode: BuilderModeType, bc: BuilderBaseType, {files}) => {
+    updateBtnAction = action("updateBtnAction", async (mode: BuilderModeType, bc: BuilderBaseType, {files, form}) => {
         const result = await this.recordsStore[mode === "7" ? "downloadAction" : "saveAction"](
             this.recordsStore.selectedRecord || {},
             bc.modeaction || mode,
             {
                 actionBc: bc,
                 files,
+                form,
                 query: bc.updatequery || "Modify",
             },
         );
@@ -297,13 +298,14 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
      * 2. config - конфиг сохранения, берется из кнопки и передаваемых параметров
      */
     saveAction = action("saveAction", async (values: Object, config: GridSaveConfigType) => {
-        const {actionBc, files, mode, windowStore} = config;
+        const {actionBc, files, mode, windowStore, form} = config;
         const isDownload = mode === "7" || actionBc.mode === "7";
         const gridValues = getGridValues({gridStore: this, mode, pageStore: this.pageStore, values, windowStore});
 
         const result = await this.recordsStore[isDownload ? "downloadAction" : "saveAction"](gridValues, mode, {
             actionBc,
             files,
+            form,
             query: actionBc.updatequery,
         });
 

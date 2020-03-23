@@ -10,7 +10,7 @@ const BuilderFilterStylesDark = (theme: any) => ({
         width: theme.sizing.controlPanelWidth,
     },
     filterButtonsAbsolute: {
-        backgroundColor: "none",
+        background: "none",
         left: 0,
         position: "absolute",
     },
@@ -21,6 +21,10 @@ const BuilderFilterStylesDark = (theme: any) => ({
     },
     hidden: {
         display: "none",
+    },
+    maxWidth: {
+        maxWidth: "100%",
+        width: "100%",
     },
     titleTypography: {
         fontSize: 30,

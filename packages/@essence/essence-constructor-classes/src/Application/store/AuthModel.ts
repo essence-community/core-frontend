@@ -3,13 +3,14 @@ import {History} from "history";
 import {
     getFromStore,
     saveToStore,
-    noop,
-    snackbarStore,
     IAuthModel,
     IApplicationModel,
     loggerRoot,
 } from "@essence-community/constructor-share";
+import {snackbarStore, settingsStore} from "@essence-community/constructor-share/models";
 import {request} from "@essence-community/constructor-share/request";
+import {VAR_SETTING_AUTO_CONNECT_GUEST, VAR_CONNECT_GUEST} from "@essence-community/constructor-share/constants";
+import {IRecord} from "@essence-community/constructor-share/types";
 import {IAuthSession} from "./AuthModel.types";
 
 const logger = loggerRoot.extend("AuthModel");
@@ -20,20 +21,32 @@ export class AuthModel implements IAuthModel {
     // eslint-disable-next-line no-useless-constructor
     constructor(public applicationStore: IApplicationModel) {}
 
-    checkAuthAction = action("checkAuthAction", (history: History, session?: string) =>
-        request({
-            action: "sql",
-            query: "GetSessionData",
-            session,
-        })
-            // @ts-ignore
-            .then((response: IAuthSession) => {
-                // @ts-ignore
-                if (response && snackbarStore.checkValidLoginResponse(response)) {
-                    this.successLoginAction(response, history);
-                }
+    checkAuthAction = action(
+        "checkAuthAction",
+        (
+            history: History,
+            session?: string,
+            connectGuest: string = settingsStore.settings[VAR_SETTING_AUTO_CONNECT_GUEST],
+        ) =>
+            request({
+                action: "sql",
+                body: {
+                    [VAR_CONNECT_GUEST]: connectGuest,
+                },
+                list: false,
+                query: "GetSessionData",
+                session,
             })
-            .catch(noop),
+                // @ts-ignore
+                .then((response: IAuthSession) => {
+                    // @ts-ignore
+                    if (response && snackbarStore.checkValidLoginResponse(response)) {
+                        this.successLoginAction(response, history);
+                    }
+                })
+                .catch((err: any) => {
+                    logger(err);
+                }),
     );
 
     loginAction = action(
@@ -42,10 +55,11 @@ export class AuthModel implements IAuthModel {
             request({
                 action: "auth",
                 body: authValues,
+                list: false,
                 query: "Login",
             })
                 .then((response) => {
-                    if (snackbarStore.checkValidLoginResponse(Array.isArray(response) ? response[0] : response)) {
+                    if (response && snackbarStore.checkValidLoginResponse(response as IRecord)) {
                         this.successLoginAction(
                             {
                                 // @ts-ignore
@@ -70,7 +84,7 @@ export class AuthModel implements IAuthModel {
         this.applicationStore.setSesssionAction(response);
         // TODO: сделать проверку на bc, что бы не сохранять пользователя при репортах
         saveToStore("auth", response);
-        history.push(backUrl);
+        history.push(backUrl, {backUrl: undefined});
     });
 
     changeUserInfo = action("changeUserInfo", (userInfo: Partial<IAuthSession>) => {

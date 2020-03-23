@@ -1,5 +1,6 @@
 import {forOwn, isArray, noop} from "lodash";
 import {ObservableMap, toJS} from "mobx";
+import {Form} from "mobx-react-form";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_MASTER_ID,
@@ -13,6 +14,7 @@ import {ProgressModel, snackbarStore} from "../models";
 import {IBuilderConfig, IBuilderMode, IGridBuilder, IPageModel, IRecordsModel, ILoadRecordsProps} from "../types";
 import {findGetGlobalKey, isEmpty, i18next} from "../utils";
 import {getMasterObject} from "../utils/getMasterObject";
+import {TText} from "../types/SnackbarModel";
 import {apiSaveAction} from "./apiSaveAction";
 import {setMask} from "./recordsActions";
 
@@ -26,6 +28,7 @@ export interface IConfig {
     recordId: string;
     formData?: FormData;
     noReload?: boolean;
+    form?: Form;
 }
 
 interface IAttachGlobalValues {
@@ -88,6 +91,7 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
         bc,
         pageStore,
         recordId = VAR_RECORD_ID,
+        form,
         formData,
         noReload,
     } = config;
@@ -146,13 +150,14 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
         .then(
             (response: any) =>
                 new Promise((resolve) => {
-                    const check = snackbarStore.checkValidResponseAction(
-                        response,
-                        pageStore.route,
-                        (warningText: string) => {
+                    const check = snackbarStore.checkValidResponseAction(response, {
+                        applicationStore: this.applicationStore,
+                        form,
+                        route: pageStore.route,
+                        warnCallBack: (warningText: TText[]) => {
                             setMask(bc.noglobalmask, pageStore, false);
 
-                            pageStore.openQuestionWindow(warningText, (warningStatusNew: number) => {
+                            pageStore.openQuestionWindow(warningText, (warningStatusNew) => {
                                 if (warningStatusNew === 0) {
                                     resolve(false);
                                 } else {
@@ -162,6 +167,7 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
                                             action,
                                             actionBc,
                                             bc: config.bc,
+                                            form,
                                             formData: config.formData,
                                             pageStore: config.pageStore,
                                             query: config.query,
@@ -171,8 +177,7 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
                                 }
                             });
                         },
-                        this.applicationStore,
-                    );
+                    });
 
                     if (check === 1 && noReload) {
                         resolve(response);

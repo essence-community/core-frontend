@@ -216,12 +216,10 @@ export function loadRecordsAction({
         })
         .then((response) => {
             if (
-                snackbarStore.checkValidResponseAction(
-                    response[0],
-                    this.pageStore && this.pageStore.route,
-                    undefined,
+                snackbarStore.checkValidResponseAction(response[0], {
                     applicationStore,
-                )
+                    route: this.pageStore && this.pageStore.route,
+                })
             ) {
                 const records = (response || []).map((record) => {
                     if (!record[recordId] && isEmpty(record[recordId])) {

@@ -29,7 +29,6 @@ const DEFAULT_HANDLER = "defaultHandlerBtnAction";
 
 type StateType = {|
     Component: React.ComponentType<*>,
-    color: string,
     disabledState: boolean,
     fileInputStore: ?FileInputModel,
     windowTitle: string,
@@ -75,6 +74,8 @@ const getColor = (uitype, defaultColor) => {
             return "primary";
         case "2":
             return "secondary";
+        case "3":
+            return "inherit";
         default:
             return defaultColor;
     }
@@ -106,8 +107,8 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
     constructor(...args: Array<*>) {
         super(...args);
 
-        const {bc, color, component} = this.props;
-        const {tipmsg, confirmquestion, mode, uitype, handlerFn} = bc;
+        const {bc, component} = this.props;
+        const {tipmsg, confirmquestion, mode, handlerFn} = bc;
 
         const onlyicon: boolean = isEmpty(this.props.onlyicon) ? bc.onlyicon === "true" : Boolean(this.props.onlyicon);
 
@@ -115,7 +116,6 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
 
         this.state = {
             Component: component || Button,
-            color: onlyicon ? color : getColor(uitype, color),
             disabledState: false,
             fileInputStore:
                 mode === "8"
@@ -239,14 +239,14 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
     renderIconOnlyLight = () => {
         // eslint-disable-next-line id-length
         const {disabled, readOnly, className, componentProps, tabIndex, t, bc} = this.props;
-        const {color, disabledState, qtip} = this.state;
+        const {disabledState, qtip} = this.state;
         const {iconfont, iconfontname, iconsize} = bc;
         const button = (
             <IconButton
                 onClick={this.handlerButtonClick}
                 disableRipple
                 disabled={readOnly || disabledState || disabled}
-                color={color}
+                color={getColor(bc.uitype, this.props.color)}
                 data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                 data-qtip={t(qtip)}
                 className={className}
@@ -270,7 +270,7 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
         const {disabledState, qtip} = this.state;
         const buttonProps = {
             className,
-            color: this.state.color,
+            color: getColor(bc.uitype, this.props.color),
             "data-page-object": bc[VAR_RECORD_PAGE_OBJECT_ID],
             "data-qtip": t(qtip),
             disableRipple: true,
@@ -304,7 +304,7 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
         const qtip = tipmsg || displayed;
         const button = (
             <Component
-                color={this.state.color}
+                color={getColor(bc.uitype, this.props.color)}
                 data-qtip={t(qtip)}
                 onClick={this.handlerButtonClick}
                 disabled={readOnly || disabledState || disabled}

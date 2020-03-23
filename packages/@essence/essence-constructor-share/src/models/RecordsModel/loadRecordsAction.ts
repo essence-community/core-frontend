@@ -215,12 +215,10 @@ export function loadRecordsAction(
         })
         .then((response: IResponse[]) => {
             if (
-                snackbarStore.checkValidResponseAction(
-                    response[0],
-                    this.pageStore ? this.pageStore.route : undefined,
-                    undefined,
+                snackbarStore.checkValidResponseAction(response[0], {
                     applicationStore,
-                )
+                    route: this.pageStore?.route,
+                })
             ) {
                 const records = (response || []).map((record: Record<string, FieldValue>) => {
                     if (record[recordId] === undefined) {

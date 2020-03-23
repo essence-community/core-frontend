@@ -134,10 +134,10 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType & W
             if (bc[VAR_RECORD_DISPLAYED] && !hideTitle && bc.type !== "BOX") {
                 content = (
                     <Grid container spacing={0} direction="column">
-                        <Grid item>
+                        <Grid item xs>
                             <EmptyTitle title={t(bc[VAR_RECORD_DISPLAYED])} filters={bc.filters} slim={false} />
                         </Grid>
-                        <Grid item>
+                        <Grid item xs zeroMinWidth>
                             <ThemePanelWrapper
                                 actionsBar={actions}
                                 editing={editing}
@@ -145,7 +145,7 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType & W
                                 classNameRoot={classNameRoot}
                                 childRef={this.props.childRef}
                             >
-                                <Content verticalSize="16" horizontalSize="16">
+                                <Content verticalSize="16" horizontalSize="16" fullHeight>
                                     {content}
                                 </Content>
                             </ThemePanelWrapper>
@@ -160,7 +160,7 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType & W
                         topPanel={topPanel}
                         childRef={this.props.childRef}
                     >
-                        <Content verticalSize="16" horizontalSize="16">
+                        <Content verticalSize="16" horizontalSize="16" fullHeight>
                             {content}
                         </Content>
                     </ThemePanelWrapper>

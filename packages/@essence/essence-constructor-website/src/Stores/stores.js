@@ -1,6 +1,6 @@
 // @flow
-import {applicationStore, ApplicationModelType} from "./ApplicationModel";
-import {AuthModel, type AuthModelType} from "./AuthModel";
+import {authStore, applicationStore, ApplicationModelType} from "./ApplicationModel";
+import {type AuthModelType} from "./AuthModel";
 
 export type StoresType = {|
     applicationStore: ApplicationModelType,
@@ -9,5 +9,5 @@ export type StoresType = {|
 
 export const stores: StoresType = {
     applicationStore,
-    authStore: new AuthModel(),
+    authStore,
 };

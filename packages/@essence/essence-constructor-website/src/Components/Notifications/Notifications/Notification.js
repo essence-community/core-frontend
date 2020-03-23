@@ -3,7 +3,7 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import {ButtonBase, Grid} from "@material-ui/core";
 import cn from "classnames";
-import {SnackbarContentText} from "@essence-community/constructor-components";
+import {SnackbarContentText} from "@essence-community/constructor-share/uicomponents";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {WithT, withTranslation} from "@essence-community/constructor-share/utils";
 

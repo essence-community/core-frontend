@@ -2,7 +2,11 @@
 import * as React from "react";
 import moment from "moment";
 import {reaction} from "mobx";
-import {VAR_RECORD_MASTER_ID, VAR_RECORD_CV_VALUE} from "@essence-community/constructor-share/constants";
+import {
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_CV_VALUE,
+    VAR_RECORD_CT_DATE,
+} from "@essence-community/constructor-share/constants";
 import {isEmpty} from "../utils/base";
 import {type BuilderModeType} from "../BuilderType";
 import {type PageModelType} from "../stores/PageModel";
@@ -34,7 +38,7 @@ type GetDateValueType = {|
 
 const getDateValue = ({bc, rec}: GetDateValueType) => {
     const dateConfig = getFieldDate(bc.format);
-    const value = rec.ctDate;
+    const value = rec[VAR_RECORD_CT_DATE];
 
     if (isEmpty(value)) {
         return "";

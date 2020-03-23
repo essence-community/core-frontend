@@ -13,6 +13,7 @@ export type IOpenTabProps = TabProps & {
     orientation: "horizontal" | "vertical";
     selected?: boolean;
     tabDragClassName: string;
+    titleRoutePath: string;
     onDragStartIndex: (index: number, dragPos: IDragPos, element: HTMLDivElement | null) => void;
     onDragEnterIndex: (index: number) => void;
     onClose?: (value: string) => void;

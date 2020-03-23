@@ -35,12 +35,13 @@ import {
     VAR_SETTING_MODULE_AVAILABLE,
     VAR_SETTING_MODULE_URL,
     VAR_RECORD_CL_STATIC,
+    loggerRoot,
 } from "@essence-community/constructor-share/constants";
 import {i18next} from "@essence-community/constructor-share/utils";
 import {snackbarStore} from "@essence-community/constructor-share/models";
-
 import {history} from "../history";
 import {BRANCH_NAME, colors} from "../constants";
+import {AuthModel} from "./AuthModel";
 
 export type SessionType = {
     session: string,
@@ -85,6 +86,8 @@ const getConfig = () => ({
     baseUrl: BASE_URL,
     colors,
 });
+
+const logger = loggerRoot.extend("ApplicationModel");
 
 export class ApplicationModel implements ApplicationModelType {
     authData: Object;
@@ -131,6 +134,7 @@ export class ApplicationModel implements ApplicationModelType {
             pageStore: globalPageStore,
         });
 
+        this.authStore = new AuthModel(this);
         this.routesStore = new RoutesModel({pageStore: globalPageStore});
         this.pagesStore = new PagesModel({applicationStore: this, routesStore: this.routesStore});
         this.countConnect = 0;
@@ -139,7 +143,7 @@ export class ApplicationModel implements ApplicationModelType {
         reaction(
             () => this.pagesStore.activePage,
             (activePage) => {
-                let url = "auth";
+                let url = "/auth";
 
                 if (activePage && activePage.route[VAR_RECORD_CL_STATIC] && activePage.route[VAR_RECORD_URL]) {
                     url = `/page/${activePage.route[VAR_RECORD_URL]}`;
@@ -158,11 +162,6 @@ export class ApplicationModel implements ApplicationModelType {
         extendObservable(this, {
             actions: authValues[VAR_RECORD_CA_ACTIONS],
             authData: authValues,
-            get authStore() {
-                return {
-                    userInfo: this.authData,
-                };
-            },
             blockText: "",
             globalValues: observable.map(),
             isApplicationReady: false,
@@ -231,7 +230,8 @@ export class ApplicationModel implements ApplicationModelType {
     });
 
     // eslint-disable-next-line max-statements
-    logoutAction = action("logoutAction", () => {
+    logoutAction = action("logoutAction", async () => {
+        await this.authStore.logoutAction();
         if (history.location.pathname.indexOf("auth") === -1) {
             this.authData = {};
             this.session = "";
@@ -240,7 +240,9 @@ export class ApplicationModel implements ApplicationModelType {
             this.isApplicationReady = false;
 
             removeFromStore("auth");
-            history.push("/auth", {backUrl: history.location.pathname});
+            const {state: {backUrl = history.location.pathname} = {}} = history.location;
+
+            history.push("/auth", {backUrl});
         }
         if (this.wsClient && this.wsClient.readyState === this.wsClient.OPEN) {
             this.wsClient.onclose = noop;
@@ -398,14 +400,12 @@ export class ApplicationModel implements ApplicationModelType {
         json.forEach((event) => {
             switch (event.event) {
                 case "notification": {
-                    snackbarStore.checkValidResponseAction(
-                        event.data,
-                        {
+                    snackbarStore.checkValidResponseAction(event.data, {
+                        applicationStore: this,
+                        route: {
                             [VAR_RECORD_NAME]: "static:2ff612aa52314ddea65a5d303c867eb8",
                         },
-                        undefined,
-                        this,
-                    );
+                    });
                     break;
                 }
                 case "mask": {
@@ -425,7 +425,7 @@ export class ApplicationModel implements ApplicationModelType {
                     break;
                 }
                 default: {
-                    throw new Error(i18next.t("static:8fe6e023ee11462db952d62d6b8b265e", {message: msg.data}));
+                    logger(new Error(i18next.t("static:8fe6e023ee11462db952d62d6b8b265e", {message: msg.data})));
                 }
             }
         });
@@ -453,3 +453,4 @@ export class ApplicationModel implements ApplicationModelType {
 }
 
 export const applicationStore = new ApplicationModel();
+export const {authStore} = applicationStore;

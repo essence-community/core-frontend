@@ -52,7 +52,7 @@ class GridCell extends React.PureComponent<PropsType> {
             style = {...style, ...parseMemoize(column.stylerules).runer(record)};
         }
 
-        if (column.localization) {
+        if (column.localization || datatype === "boolean") {
             return (
                 <Translation ns={column.localization} useSuspense={false}>
                     {(trans) => (

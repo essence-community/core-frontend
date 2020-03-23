@@ -16,6 +16,7 @@ export const VAR_RECORD_ROUTE_VISIBLE_MENU = "cl_menu";
 export const VAR_RECORD_ICON_NAME = "cv_icon_name";
 export const VAR_RECORD_LEAF = "leaf";
 export const VAR_RECORD_RES_ERROR = "cv_error";
+export const VAR_RECORD_RES_FORM_ERROR = "jt_form_message";
 export const VAR_RECORD_RES_STACK_TRACE = "cv_stack_trace";
 export const VAR_RECORD_URL = "cv_url";
 export const VAR_RECORD_GLOBAL_VALUE = "global_value";
@@ -62,6 +63,7 @@ export const VAR_RECORD_CV_FILENAME = "cv_file_name";
 export const VAR_RECORD_CV_DD_NAME = "cv_dd_name";
 export const VAR_RECORD_CV_NUMBER = "cv_number";
 export const VAR_RECORD_CV_VALUE = "cv_value";
+export const VAR_RECORD_CT_DATE = "ct_date";
 export const VAR_RECORD_CV_URL_RESPONSE = "cv_url_response";
 export const VAR_RECORD_CV_CV_TYPE = "cv_type";
 export const VAR_RECORD_CV_TEXT = "cv_text";
@@ -79,6 +81,7 @@ export const VAR_RECORD_CLASS_ATTRIBUTES = "class_attributes";
 export const VAR_RECORD_JN_TOTAL_CNT = "jn_total_cnt";
 export const VAR_RECORD_CK_ATTR = "ck_attr";
 export const VAR_RECORD_CL_STATIC = "cl_static";
+export const VAR_RECORD_JV_ROWCOLOR = "jv_rowcolor";
 
 // SETTING
 export const VAR_SETTING_VALUE = "cv_value";
@@ -101,6 +104,8 @@ export const VAR_SETTING_FRONT_APP_VERSION = "g_sys_front_app_version";
 export const VAR_SETTING_FRONT_BRANCH_DATE_TIME = "g_sys_front_branch_date_time";
 export const VAR_SETTING_FRONT_BRANCH_NAME = "g_sys_front_branch_name";
 export const VAR_SETTING_FRONT_COMMIT_ID = "g_sys_front_commit_id";
+export const VAR_SETTING_ENABLE_QUEST_LOGIN = "g_sys_enable_guest_login";
+export const VAR_SETTING_AUTO_CONNECT_GUEST = "auto_connect_guest";
 
 // META
 export const META_OUT_RESULT = "out_result";
@@ -109,6 +114,7 @@ export const VAR_META_JN_FETCH = "jn_fetch";
 export const VAR_META_JN_OFFSET = "jn_offset";
 export const VAR_META_JL_FILTER = "jl_filter";
 export const VAR_META_JL_SORT = "jl_sort";
+export const VAR_CONNECT_GUEST = "connect_guest";
 
 // SELF
 export const VALUE_SELF_FIRST = "##first##";
@@ -132,3 +138,6 @@ export const VAR_MOCK_CV_KPP = "cv_kpp";
 export const VAR_ERROR_ID = "err_id";
 export const VAR_ERROR_TEXT = "err_text";
 export const VAR_ERROR_CODE = "err_code";
+
+// Session
+export const SESSION_PREFIX = "sess_";

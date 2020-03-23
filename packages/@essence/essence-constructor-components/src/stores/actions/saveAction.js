@@ -14,6 +14,7 @@ import {
     VAR_RECORD_CK_MAIN,
     VAR_RECORD_CL_WARNING,
 } from "@essence-community/constructor-share/constants";
+import {Form} from "mobx-react-form";
 import {findGetGlobalKey} from "../../utils/findKey";
 import {loggerRoot} from "../../constants";
 import {isEmpty} from "../../utils/base";
@@ -35,6 +36,7 @@ export type ConfigType = {|
     formData?: FormData,
     noReload?: boolean,
     filesNames?: Array<string>,
+    form?: Form,
 |};
 
 type AttachGlobalValuesType = {|
@@ -99,13 +101,14 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
         formData,
         noReload,
         filesNames,
+        form,
     } = config;
     const {extraplugingate, getglobaltostore, getmastervalue, timeout} = actionBc;
     let modeCheck = mode;
     let onUploadProgress = noop;
     let filteredValues = null;
     let main = null;
-    let snackbarId = null;
+    let progressModel = null;
     const getMasterValue = getmastervalue || bc.getmastervalue;
     // eslint-disable-next-line init-declarations
     let master;
@@ -121,10 +124,9 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
 
     if (formData) {
         filteredValues = values;
-        const {changeProgress, snackbarIdentifier} = new ProgressModel({filesNames, pageStore});
+        progressModel = new ProgressModel({filesNames, pageStore});
 
-        snackbarId = snackbarIdentifier;
-        onUploadProgress = changeProgress;
+        onUploadProgress = progressModel.changeProgress;
     } else if (isArray(values)) {
         filteredValues = values.map((item: Object) =>
             attachGlobalValues({getglobaltostore, globalValues: pageStore.globalValues, values: filter(item)}),
@@ -160,10 +162,11 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
             (response) =>
                 // eslint-disable-next-line max-statements, max-lines-per-function
                 new Promise((resolve) => {
-                    const check = snackbarStore.checkValidResponseAction(
-                        response,
-                        pageStore.route,
-                        (warningText) => {
+                    const check = snackbarStore.checkValidResponseAction(response, {
+                        applicationStore: pageStore.applicationStore,
+                        form,
+                        route: pageStore.route,
+                        warnCallBack: (warningText) => {
                             setMask(bc.noglobalmask, pageStore, false);
 
                             pageStore.openQuestionWindow(warningText, (warningStatusNew) => {
@@ -176,6 +179,7 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
                                             action,
                                             actionBc,
                                             bc: config.bc,
+                                            form,
                                             formData: config.formData,
                                             pageStore: config.pageStore,
                                             query: config.query,
@@ -185,14 +189,10 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
                                 }
                             });
                         },
-                        pageStore.applicationStore,
-                    );
+                    });
 
-                    if (formData) {
-                        snackbarStore.snackbarChangeStatusAction(
-                            snackbarId,
-                            check === 1 || check === 2 ? "uploaded" : "errorUpload",
-                        );
+                    if (progressModel) {
+                        progressModel.changeStatusProgress(check === 1 || check === 2 ? "uploaded" : "errorUpload");
                     }
 
                     if (check === 1 && noReload) {
@@ -226,8 +226,8 @@ export function saveAction(values: Object | Array<Object> | FormData, mode: Buil
         .catch((error) => {
             logger(i18next.t("static:27a9d844da20453195f59f75185d7c99"), error);
 
-            if (formData) {
-                snackbarStore.snackbarChangeStatusAction(snackbarId, "errorUpload");
+            if (progressModel) {
+                progressModel.changeStatusProgress("errorUpload");
             }
 
             snackbarStore.checkExceptResponse(error, undefined, pageStore.applicationStore);

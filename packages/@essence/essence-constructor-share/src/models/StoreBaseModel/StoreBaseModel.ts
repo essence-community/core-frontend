@@ -6,6 +6,7 @@ import {
     StoreBaseModelNameType,
     IHandlers,
     IApplicationModel,
+    IRecord,
 } from "../../types";
 import {VAR_RECORD_ID, loggerRoot} from "../../constants";
 import {i18next} from "../../utils";
@@ -36,6 +37,8 @@ export class StoreBaseModel implements IStoreBaseModel {
 
     public recordId: string;
 
+    public editing?: boolean;
+
     constructor({bc, pageStore, applicationStore, disabled, hidden}: IStoreBaseModelProps) {
         this.bc = bc;
         this.pageStore = pageStore;
@@ -45,7 +48,7 @@ export class StoreBaseModel implements IStoreBaseModel {
         this.recordId = bc.idproperty || VAR_RECORD_ID;
     }
 
-    public reloadStoreAction = (): Promise<undefined | object> => {
+    public reloadStoreAction = (): Promise<undefined | IRecord> => {
         logger(i18next.t("static:83490c56debb4a399f05518608e3bace", {name: this.constructor.name}));
 
         return Promise.resolve(undefined);

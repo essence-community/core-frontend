@@ -46,7 +46,11 @@ class ProfileModel extends PageModel implements ProfileModelType {
             session: this.applicationStore.session,
         })
             .then((response = {}) => {
-                if (snackbarStore.checkValidResponseAction(response, undefined, undefined, this.applicationStore)) {
+                if (
+                    snackbarStore.checkValidResponseAction(response, {
+                        applicationStore: this.applicationStore,
+                    })
+                ) {
                     if (response[VAR_RECORD_CD_PERIOD]) {
                         this.applicationStore.updateGlobalValuesAction({gCdPeriod: response[VAR_RECORD_CD_PERIOD]});
                         this.updateGlobalValues({gCdPeriod: response[VAR_RECORD_CD_PERIOD]});
@@ -74,7 +78,11 @@ class ProfileModel extends PageModel implements ProfileModelType {
             session: this.applicationStore.session,
         })
             .then((response = {}) => {
-                if (snackbarStore.checkValidResponseAction(response, undefined, undefined, this.applicationStore)) {
+                if (
+                    snackbarStore.checkValidResponseAction(response, {
+                        applicationStore: this.applicationStore,
+                    })
+                ) {
                     this.authStore.changeUserInfo({
                         [VAR_RECORD_CK_DEPT]: deptValue,
                     });

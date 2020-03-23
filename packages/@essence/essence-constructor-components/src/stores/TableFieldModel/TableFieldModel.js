@@ -12,7 +12,7 @@ import {
     VAR_RECORD_JN_TOTAL_CNT,
 } from "@essence-community/constructor-share/constants";
 import {Field} from "mobx-react-form";
-import {loggerRootInfo} from "../../constants";
+import {loggerRootInfo, styleTheme} from "../../constants";
 import {isEmpty} from "../../utils/base";
 import {RecordsModel, type RecordsModelType} from "../RecordsModel";
 import {type PageModelType} from "../PageModel";
@@ -112,7 +112,13 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
                     }
 
                     if (this.selectedRecord) {
-                        return this.selectedRecord[this.displayField];
+                        const label = this.selectedRecord[this.displayField];
+
+                        if (bc.localization && label) {
+                            return i18next.t(`${bc.localization}:${label}`, label);
+                        }
+
+                        return label;
                     }
 
                     return "";
@@ -150,7 +156,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
                 readonly: "false",
                 reqsel: bc.collectionvalues === "array" ? undefined : "true",
                 type: "BTN",
-                uitype: "1",
+                uitype: styleTheme === "dark" ? "3" : "1",
             },
             {
                 [VAR_RECORD_DISPLAYED]: "static:64aacc431c4c4640b5f2c45def57cae9",
@@ -162,7 +168,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
                 onlyicon: "true",
                 readonly: "false",
                 type: "BTN",
-                uitype: "1",
+                uitype: styleTheme === "dark" ? "3" : "1",
             },
         ];
 

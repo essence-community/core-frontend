@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "license": "MIT",
   "private": true,
   "engines": {
@@ -11,7 +11,7 @@
     "start": "yarn workspace @essence-community/constructor-website run start",
     "start-localhost": "yarn workspace @essence-community/constructor-website run start-localhost",
     "start-mock": "yarn workspace @essence-community/constructor-website run start-mock",
-    "build": "yarn workspace @essence-community/constructor-website run build && cp -r ./packages/@essence/essence-constructor-website/build ./build",
+    "build": "yarn workspace @essence-community/constructor-website run build && node utils/cp.js ./packages/@essence/essence-constructor-website/build ./build",
     "rebuild-share:dev": "cd packages/@essence/essence-constructor-share && yarn run build && cd ../essence-constructor-dll && yarn install --force && yarn build:dev && cd ../../.. && yarn install --force --ignore-scripts",
     "tscheck:classes": "yarn workspace @essence-community/constructor-classes run tsc",
     "tscheck:share": "cd packages/@essence/essence-constructor-share && yarn tsc",
@@ -46,8 +46,9 @@
     "@babel/code-frame": "^7.5.5",
     "@babel/preset-typescript": "^7.7.4",
     "babel-jest": "^24.9.0",
-    "babel-preset-react-app": "^9.1.0",
+    "babel-preset-react-app": "9.1.0",
     "concurrently": "^5.0.1",
+    "copy-dir": "^1.2.0",
     "cross-spawn": "^7.0.1",
     "documentation": "^12.1.4",
     "enzyme": "^3.10.0",
@@ -81,5 +82,22 @@
       "packages/@essence/essence-constructor-classes"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "eslint-plugin-compat": "^3.5.1"
+  },
+  "browserslist": {
+    "production": [
+      "chrome >= 64",
+      "firefox >= 58",
+      "safari >= 11",
+      "edge >= 16",
+      "opera >= 50"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version",
+      "last 1 edge version"
+    ]
+  }
 }

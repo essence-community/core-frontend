@@ -1,7 +1,5 @@
-const BuilderWindowStyles = (theme) => ({
-    content: {
-        padding: theme.spacing(2),
-    },
+const BuilderWindowStyles = () => ({
+    content: {},
     contentScrollableParent: {
         display: "flex",
     },
@@ -11,6 +9,7 @@ const BuilderWindowStyles = (theme) => ({
     "dialod-align-right": {
         justifyContent: "flex-end",
     },
+    dialogButtonActions: {},
     "paper-align-left": {
         // Height: "100%",
         margin: 0,
@@ -26,6 +25,15 @@ const BuilderWindowStyles = (theme) => ({
     },
     "winsize-default": {
         maxWidth: 800,
+    },
+    "winsize-fullscreen": {
+        "& $contentScrollableParent": {
+            flexGrow: 1,
+        },
+
+        "& $dialogButtonActions": {
+            justifyContent: "center",
+        },
     },
     "winsize-narrow": {
         maxWidth: 500,

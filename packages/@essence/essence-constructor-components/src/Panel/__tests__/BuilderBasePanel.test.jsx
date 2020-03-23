@@ -5,7 +5,7 @@ import {createEmptyPageStore} from "../../stores/index";
 import BuilderBasePanel from "../BuilderBasePanel";
 import BuilderForm from "../../Form/BuilderForm";
 import BasePanelCollapsible from "../BasePanelCollapsible";
-import {BuilderFormPanelBase} from "../BuilderFormPanel";
+import {BuilderFormPanelBase} from "../BuilderFormPanel/BuilderFormPanel";
 import panelMock from "../../../mocks/panel/panel";
 
 describe("BuilderFormPanel", () => {

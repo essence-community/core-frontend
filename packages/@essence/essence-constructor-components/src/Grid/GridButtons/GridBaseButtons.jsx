@@ -155,6 +155,10 @@ class GridBaseButtons extends React.Component<PropsType> {
                 const isAddButton =
                     btn.mode === "1" || btn.handler === "onCreateChildWindowMaster" || btn.handler === "onSimpleAddRow";
 
+                if (!isAddButton && styleTheme === "dark" && btn.uitype === "1") {
+                    btn.uitype = "3";
+                }
+
                 return {
                     component: (
                         <BuilderMobxButton

@@ -61,8 +61,8 @@ export const request = async <R = IRecord | IRecord[]>({
     const data = {
         [META_OUT_RESULT]: "",
         [META_PAGE_OBJECT]: pageObjectName.replace(
-            // eslint-disable-next-line prefer-named-capture-group
-            /^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[)}]?.*?$/giu,
+            // eslint-disable-next-line prefer-named-capture-group, no-useless-escape
+            /^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[\)\}]?.*?$/giu,
             "$1",
         ),
         json: json ? JSON.stringify(json) : undefined,

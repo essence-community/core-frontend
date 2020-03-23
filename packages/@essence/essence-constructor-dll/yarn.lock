@@ -880,7 +880,7 @@
   integrity sha512-14ZVlsB9akwvydAdaEnVnvqu6J2P6ySv39hYyl/aoB6w/V+bXX0tay8cF6paqbgZsN2n5Xh15uF4pE+GvE+itw==
 
 "@essence-community/constructor-share@file:../essence-constructor-share/lib":
-  version "2.1.0"
+  version "2.2.0"
   dependencies:
     "@material-ui/core" "4.7.2"
     "@types/react-custom-scrollbars" "^4.0.6"

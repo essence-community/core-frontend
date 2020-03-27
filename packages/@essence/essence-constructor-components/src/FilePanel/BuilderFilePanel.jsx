@@ -8,6 +8,7 @@ import {setComponent} from "@essence-community/constructor-share/components";
 import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import ThemePanelWrapper from "../Components/ThemePanelWrapper/ThemePanelWrapper";
 import BuilderMobxButton from "../Button/BuilderMobxButton";
+import Scrollbars from "../Components/Scrollbars/Scrollbars";
 import {FilePanelModel, type FilePanelModelType, type FilePanelBcType} from "../stores/FilePanelModel";
 import {type PageModelType} from "../stores/PageModel";
 import {styleTheme, buttonDirection} from "../constants";
@@ -47,6 +48,7 @@ export class BaseBuilderFilePanel extends React.Component<PropsType> {
         };
     }
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {store, bc, elevation, disabled, readOnly, pageStore, visible} = this.props;
 
@@ -74,22 +76,24 @@ export class BaseBuilderFilePanel extends React.Component<PropsType> {
                 data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
             >
                 <ThemePanelWrapper actionsBar={actionsBar}>
-                    <Content verticalSize="16" horizontalSize="16" style={this.contentStyle}>
-                        <Grid container direction="row" spacing={1}>
-                            {store.recordsStore.records.map((record) => (
-                                <Grid item xs={6} key={record[VAR_RECORD_ID]}>
-                                    <FileRecord
-                                        pageStore={pageStore}
-                                        bc={bc}
-                                        record={record}
-                                        store={store}
-                                        disabled={disabled}
-                                        readOnly={readOnly}
-                                    />
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Content>
+                    <Scrollbars autoHeight hideTracksWhenNotNeeded withRequestAnimationFrame pageStore={pageStore}>
+                        <Content verticalSize="16" horizontalSize="16" style={this.contentStyle}>
+                            <Grid container direction="row" spacing={1}>
+                                {store.recordsStore.records.map((record) => (
+                                    <Grid item xs={6} key={record[VAR_RECORD_ID]}>
+                                        <FileRecord
+                                            pageStore={pageStore}
+                                            bc={bc}
+                                            record={record}
+                                            store={store}
+                                            disabled={disabled}
+                                            readOnly={readOnly}
+                                        />
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Content>
+                    </Scrollbars>
                 </ThemePanelWrapper>
             </Paper>
         );

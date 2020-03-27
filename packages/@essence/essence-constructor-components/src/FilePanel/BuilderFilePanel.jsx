@@ -76,13 +76,8 @@ export class BaseBuilderFilePanel extends React.Component<PropsType> {
                 data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
             >
                 <ThemePanelWrapper actionsBar={actionsBar}>
-                    <Scrollbars
-                        autoHeight
-                        autoHeightMax={this.contentStyle.height}
-                        hideTracksWhenNotNeeded
-                        pageStore={pageStore}
-                    >
-                        <Content verticalSize="16" horizontalSize="16" style={this.contentStyle}>
+                    <Content verticalSize="16" horizontalSize="16" style={this.contentStyle}>
+                        <Scrollbars autoHeight autoHeightMax="100%" hideTracksWhenNotNeeded pageStore={pageStore}>
                             <Grid container direction="row" spacing={1}>
                                 {store.recordsStore.records.map((record) => (
                                     <Grid item xs={6} key={record[VAR_RECORD_ID]}>
@@ -97,8 +92,8 @@ export class BaseBuilderFilePanel extends React.Component<PropsType> {
                                     </Grid>
                                 ))}
                             </Grid>
-                        </Content>
-                    </Scrollbars>
+                        </Scrollbars>
+                    </Content>
                 </ThemePanelWrapper>
             </Paper>
         );

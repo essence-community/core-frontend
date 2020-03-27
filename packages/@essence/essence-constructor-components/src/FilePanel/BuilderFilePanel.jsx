@@ -24,9 +24,9 @@ type PropsType = CommonDecoratorInjectType & {
     pageStore: PageModelType,
 };
 type ContentStyleType = {
-    height?: number,
-    maxHeight?: number,
-    minHeight?: number,
+    height: number | string,
+    maxHeight: number | string,
+    minHeight: number | string,
 };
 
 export class BaseBuilderFilePanel extends React.Component<PropsType> {
@@ -42,9 +42,9 @@ export class BaseBuilderFilePanel extends React.Component<PropsType> {
         const {bc} = props;
 
         this.contentStyle = {
-            height: toSize(bc.height),
-            maxHeight: toSize(bc.maxheight),
-            minHeight: toSize(bc.minheight),
+            height: toSize(bc.height, "100%"),
+            maxHeight: toSize(bc.maxheight, "100%"),
+            minHeight: toSize(bc.minheight, "100%"),
         };
     }
 
@@ -76,8 +76,13 @@ export class BaseBuilderFilePanel extends React.Component<PropsType> {
                 data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
             >
                 <ThemePanelWrapper actionsBar={actionsBar}>
-                    <Content verticalSize="16" horizontalSize="16" style={this.contentStyle}>
-                        <Scrollbars autoHeight autoHeightMax="100%" hideTracksWhenNotNeeded pageStore={pageStore}>
+                    <Scrollbars
+                        autoHeightMax={this.contentStyle.height}
+                        hideTracksWhenNotNeeded
+                        style={this.contentStyle}
+                        pageStore={pageStore}
+                    >
+                        <Content verticalSize="16" horizontalSize="16">
                             <Grid container direction="row" spacing={1}>
                                 {store.recordsStore.records.map((record) => (
                                     <Grid item xs={6} key={record[VAR_RECORD_ID]}>
@@ -92,8 +97,8 @@ export class BaseBuilderFilePanel extends React.Component<PropsType> {
                                     </Grid>
                                 ))}
                             </Grid>
-                        </Scrollbars>
-                    </Content>
+                        </Content>
+                    </Scrollbars>
                 </ThemePanelWrapper>
             </Paper>
         );

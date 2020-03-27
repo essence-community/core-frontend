@@ -76,7 +76,12 @@ export class BaseBuilderFilePanel extends React.Component<PropsType> {
                 data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
             >
                 <ThemePanelWrapper actionsBar={actionsBar}>
-                    <Scrollbars autoHeight hideTracksWhenNotNeeded withRequestAnimationFrame pageStore={pageStore}>
+                    <Scrollbars
+                        autoHeight
+                        autoHeightMax={this.contentStyle.height}
+                        hideTracksWhenNotNeeded
+                        pageStore={pageStore}
+                    >
                         <Content verticalSize="16" horizontalSize="16" style={this.contentStyle}>
                             <Grid container direction="row" spacing={1}>
                                 {store.recordsStore.records.map((record) => (

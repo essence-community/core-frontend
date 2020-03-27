@@ -8,6 +8,7 @@ import {setComponent} from "@essence-community/constructor-share/components";
 import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import ThemePanelWrapper from "../Components/ThemePanelWrapper/ThemePanelWrapper";
 import BuilderMobxButton from "../Button/BuilderMobxButton";
+import Scrollbars from "../Components/Scrollbars/Scrollbars";
 import {FilePanelModel, type FilePanelModelType, type FilePanelBcType} from "../stores/FilePanelModel";
 import {type PageModelType} from "../stores/PageModel";
 import {styleTheme, buttonDirection} from "../constants";
@@ -23,9 +24,9 @@ type PropsType = CommonDecoratorInjectType & {
     pageStore: PageModelType,
 };
 type ContentStyleType = {
-    height?: number,
-    maxHeight?: number,
-    minHeight?: number,
+    height: number | string,
+    maxHeight: number | string,
+    minHeight: number | string,
 };
 
 export class BaseBuilderFilePanel extends React.Component<PropsType> {
@@ -41,12 +42,13 @@ export class BaseBuilderFilePanel extends React.Component<PropsType> {
         const {bc} = props;
 
         this.contentStyle = {
-            height: toSize(bc.height),
-            maxHeight: toSize(bc.maxheight),
-            minHeight: toSize(bc.minheight),
+            height: toSize(bc.height, "100%"),
+            maxHeight: toSize(bc.maxheight, "100%"),
+            minHeight: toSize(bc.minheight, "100%"),
         };
     }
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         const {store, bc, elevation, disabled, readOnly, pageStore, visible} = this.props;
 
@@ -74,22 +76,29 @@ export class BaseBuilderFilePanel extends React.Component<PropsType> {
                 data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
             >
                 <ThemePanelWrapper actionsBar={actionsBar}>
-                    <Content verticalSize="16" horizontalSize="16" style={this.contentStyle}>
-                        <Grid container direction="row" spacing={1}>
-                            {store.recordsStore.records.map((record) => (
-                                <Grid item xs={6} key={record[VAR_RECORD_ID]}>
-                                    <FileRecord
-                                        pageStore={pageStore}
-                                        bc={bc}
-                                        record={record}
-                                        store={store}
-                                        disabled={disabled}
-                                        readOnly={readOnly}
-                                    />
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Content>
+                    <Scrollbars
+                        autoHeightMax={this.contentStyle.height}
+                        hideTracksWhenNotNeeded
+                        style={this.contentStyle}
+                        pageStore={pageStore}
+                    >
+                        <Content verticalSize="16" horizontalSize="16">
+                            <Grid container direction="row" spacing={1}>
+                                {store.recordsStore.records.map((record) => (
+                                    <Grid item xs={6} key={record[VAR_RECORD_ID]}>
+                                        <FileRecord
+                                            pageStore={pageStore}
+                                            bc={bc}
+                                            record={record}
+                                            store={store}
+                                            disabled={disabled}
+                                            readOnly={readOnly}
+                                        />
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Content>
+                    </Scrollbars>
                 </ThemePanelWrapper>
             </Paper>
         );

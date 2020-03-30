@@ -64,9 +64,14 @@ export const gridScrollToRecordAction = async (params: Object, gridStore: GridMo
         if (recordIndex !== -1) {
             const tableContent = gridStore.refs.get("table-content");
 
+            // Check visible row. If selected row is not visible then scroll to them
             if (tableContent instanceof HTMLDivElement) {
-                tableContent.parentNode.scrollTop =
-                    recordIndex * GRID_ROW_HEIGHT + (gridStore.rootNode ? GRID_ROW_HEIGHT : 0);
+                const scrollTop = recordIndex * GRID_ROW_HEIGHT + (gridStore.rootNode ? GRID_ROW_HEIGHT : 0);
+                const maxScroll = scrollTop - tableContent.parentNode.offsetHeight;
+
+                if (scrollTop < tableContent.parentNode.scrollTop || maxScroll > tableContent.parentNode.scrollTop) {
+                    tableContent.parentNode.scrollTop = scrollTop;
+                }
             }
         }
     }

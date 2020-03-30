@@ -172,7 +172,7 @@ export function loadRecordsAction({
     status,
     isUserReload = false,
 }: LoadRecordsActionType): Promise<*> {
-    const {noglobalmask, defaultvalue, reloadservice} = bc;
+    const {noglobalmask, defaultvalue} = bc;
     const isWaiting = bc[VAR_RECORD_MASTER_ID] || bc.getglobaltostore;
     const resolve = loadRecordsResolve.bind(this);
 
@@ -198,11 +198,6 @@ export function loadRecordsAction({
         })
         .then(() => {
             const {json} = prepareRequst(this, {applicationStore, bc, recordId, selectedRecordId, status});
-
-            if (reloadservice === "true" && this.prevFetchJson && isEqual(this.prevFetchJson, json)) {
-                return resolve(noglobalmask);
-            }
-            this.prevFetchJson = json;
 
             return sendRequestList({
                 [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],

@@ -30,6 +30,7 @@ import {
     ICreateWindow,
     IWindowModel,
     IApplicationModel,
+    IRecord,
 } from "../../types";
 import {noop, isEmpty, parseMemoize, i18next, findClassNames} from "../../utils";
 import {RecordsModel} from "../RecordsModel";
@@ -302,30 +303,19 @@ export class PageModel implements IPageModel {
     });
 
     loadConfigAction = action("loadConfigAction", async (pageId: string) => {
-        let response = undefined;
-
         this.pageId = pageId;
 
         this.setLoadingAction(true);
 
         try {
-            response = await this.recordsStore.searchAction({[VAR_RECORD_ROUTE_PAGE_ID]: pageId});
+            await this.recordsStore.searchAction({[VAR_RECORD_ROUTE_PAGE_ID]: pageId});
 
-            if (
-                // @ts-ignore
-                snackbarStore.checkValidResponseAction(response[0], {
-                    applicationStore: this.applicationStore,
-                    route: this.route,
-                })
-            ) {
+            if (this.recordsStore.selectedRecord) {
                 const {children} = this.recordsStore.selectedRecordValues;
                 const pageBc = Array.isArray(children) ? children : [];
 
                 const classNames = findClassNames(pageBc);
-                const globalValue = this.recordsStore.selectedRecordValues[VAR_RECORD_GLOBAL_VALUE] as Record<
-                    string,
-                    FieldValue
-                >;
+                const globalValue = this.recordsStore.selectedRecordValues[VAR_RECORD_GLOBAL_VALUE] as IRecord;
 
                 await loadComponentsFromModules(classNames);
 
@@ -334,6 +324,8 @@ export class PageModel implements IPageModel {
                 if (globalValue) {
                     this.updateGlobalValues(globalValue);
                 }
+            } else {
+                this.pageBc = [];
             }
         } catch (error) {
             this.pageBc = [];
@@ -342,7 +334,7 @@ export class PageModel implements IPageModel {
 
         this.setLoadingAction(false);
 
-        return response;
+        return this.recordsStore.selectedRecord;
     });
 
     setPageElAction = action("setPageElAction", (pageEl: HTMLDivElement | null) => {

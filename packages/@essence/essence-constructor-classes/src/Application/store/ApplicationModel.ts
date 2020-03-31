@@ -247,7 +247,10 @@ export class ApplicationModel implements IApplicationModel {
             await this.routesStore?.recordsStore.loadRecordsAction();
             this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
         } else {
-            this.history.push("/auth");
+            /*
+             * Find first valid application or redirect to error page
+             * this.history.push("/auth");
+             */
         }
 
         this.isApplicationReady = true;

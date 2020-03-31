@@ -178,6 +178,9 @@ export class FieldComboModel extends StoreBaseModel {
 
         if (suggestion) {
             return this.handleSetSuggestionValue(suggestion, isUserSearch);
+        } else if (isEmpty(value) && !isUserSearch) {
+            // Clear value when user close the combo without value
+            this.inputValue = "";
         } else if (loaded) {
             if (!isUserSearch) {
                 this.inputValue = "";
@@ -219,11 +222,13 @@ export class FieldComboModel extends StoreBaseModel {
                      */
                     this.inputValue = "";
                 }
-            } else {
-                this.loadDebounce(stringNewValue, false);
-            }
 
-            return true;
+                return true;
+            } else if (this.bc.queryparam) {
+                this.loadDebounce(stringNewValue, false);
+
+                return true;
+            }
         }
 
         this.inputValue = stringNewValue;

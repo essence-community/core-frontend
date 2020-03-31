@@ -43,7 +43,7 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
 
     const handleChangeOpen = React.useCallback(
         (open: boolean) => {
-            if (open === false && !props.bc.allownew && store.lastValue !== props.value) {
+            if (open === false && !props.bc.allownew) {
                 store.handleSetValue(props.value, false, false);
             }
         },

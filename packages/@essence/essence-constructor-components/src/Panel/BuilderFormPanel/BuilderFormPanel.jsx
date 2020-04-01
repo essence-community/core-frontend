@@ -95,19 +95,28 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
                     <BuilderPanelEditingButtons store={store} bc={bc} pageStore={pageStore} visible={visible} />
                 ) : (
                     <Grid container alignItems="center" direction={buttonDirection} spacing={1}>
-                        {mapComponents(bc.topbtn, (ChildComp, child) => (
-                            <Grid item key={child[VAR_RECORD_PAGE_OBJECT_ID]}>
-                                <ChildComp
-                                    bc={child}
-                                    disabled={disabled}
-                                    onlyicon={pageStore.styleTheme === "dark" ? true : undefined}
-                                    color="inherit"
-                                    pageStore={pageStore}
-                                    readOnly={readOnly}
-                                    visible={visible}
-                                />
-                            </Grid>
-                        ))}
+                        {mapComponents(bc.topbtn, (ChildComp, child) => {
+                            const isAddButton = child.mode === "1";
+
+                            if (!isAddButton && pageStore.styleTheme === "dark" && child.uitype === "1") {
+                                child.uitype = "3";
+                            }
+
+                            return (
+                                <Grid item key={child[VAR_RECORD_PAGE_OBJECT_ID]}>
+                                    <ChildComp
+                                        bc={child}
+                                        disabled={disabled}
+                                        variant={isAddButton ? "fab" : undefined}
+                                        onlyicon={pageStore.styleTheme === "dark" ? true : undefined}
+                                        color={isAddButton ? undefined : "inherit"}
+                                        pageStore={pageStore}
+                                        readOnly={readOnly}
+                                        visible={visible}
+                                    />
+                                </Grid>
+                            );
+                        })}
                     </Grid>
                 )}
             </Grid>

@@ -1,11 +1,11 @@
 // @flow
 import * as React from "react";
 import InputMask from "react-input-mask";
+import {GlobalRecordsModel} from "@essence-community/constructor-share/models";
 import DIdentityDocTypeJson from "../../../../../mocks/data/DIdentityDocType.json";
 import baseJson from "../../../../../mocks/fields/base.json";
 import BuilderMobxForm from "../../../../Components/MobxForm/BuilderMobxForm";
 import {createEmptyPageStore} from "../../../../stores/index";
-import {GlobalRecordsModel} from "../../../../stores/GlobalRecordsModel";
 import {mountWithTheme} from "../../../../utils/test";
 import FieldSmartMask from "../FieldSmartMask";
 
@@ -30,7 +30,10 @@ describe("FieldSmartMask", () => {
         form = new BuilderMobxForm();
         pageStore = createEmptyPageStore();
 
-        pageStore.applicationStore.pagesStore.globalRecordsStore = new GlobalRecordsModel({pageStore});
+        pageStore.applicationStore.pagesStore.globalRecordsStore = new GlobalRecordsModel({
+            applicationStore: pageStore.applicationStore,
+            pageStore,
+        });
         pageStore.applicationStore.pagesStore.globalRecordsStore.indentityDocTypeRecordsStore.setRecordsAction(
             DIdentityDocTypeJson,
         );

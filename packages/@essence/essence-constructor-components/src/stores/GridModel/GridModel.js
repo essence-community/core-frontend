@@ -1,4 +1,4 @@
-/* eslint max-lines: ["error", 600]*/
+/* eslint max-lines: ["error", 800]*/
 // @flow
 import {action, extendObservable, observable} from "mobx";
 import get from "lodash/get";
@@ -175,9 +175,17 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
                     gridHeight ||
                     (this.recordsStore.pageSize
                         ? this.recordsStore.pageSize * GRID_ROW_HEIGHT
-                        : this.recordsStore.records.length * GRID_ROW_HEIGHT) ||
+                        : this.gridRecordsHeight) ||
                     GRID_ROW_HEIGHT
                 );
+            },
+            get gridRecordsHeight() {
+                const records =
+                    this.bc.type === "TREEGRID"
+                        ? this.recordsStore.records.filter((record) => record[VAR_RECORD_PARENT_ID] === null)
+                        : this.recordsStore.records;
+
+                return records.length * GRID_ROW_HEIGHT;
             },
             height: 0,
             isAuditOpen: false,

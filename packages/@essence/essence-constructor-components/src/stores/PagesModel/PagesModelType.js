@@ -2,7 +2,6 @@
 import {type ApplicationModelType} from "../StoreTypes";
 import {type RoutesModelType} from "../RoutesModel";
 import {type PageModelType} from "../PageModel";
-import {type GlobalRecordsModelType} from "../GlobalRecordsModel";
 import {type CkIdType} from "../../BuilderType";
 
 export type PagesModelPropsType = {
@@ -17,7 +16,7 @@ export interface PagesModelInterface {
     +activePage: ?PageModelType;
     +globalPageStore: PageModelType;
     +expansionRecords: Map<CkIdType, boolean>;
-    +globalRecordsStore: GlobalRecordsModelType;
+    +globalRecordsStore: any;
     +setPageAction: (pageId: string) => void;
     +removePageAction: (pageId: string) => void;
     +removeAllPagesAction: () => void;

@@ -1,3 +1,4 @@
+export * from "./GlobalRecordsModel";
 export * from "./ModulesModel";
 export * from "./PageModel";
 export * from "./ProgressModel";

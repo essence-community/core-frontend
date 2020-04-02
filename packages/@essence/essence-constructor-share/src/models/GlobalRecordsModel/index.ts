@@ -1,0 +1,1 @@
+export {GlobalRecordsModel} from "./GlobalRecordsModel";

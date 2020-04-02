@@ -10,8 +10,9 @@ import {
     IPageModel,
     IPagesModel,
     IApplicationModel,
+    IGlobalRecordsModel,
 } from "@essence-community/constructor-share";
-import {PageModel} from "@essence-community/constructor-share/models";
+import {PageModel, GlobalRecordsModel} from "@essence-community/constructor-share/models";
 import {changePagePosition} from "../../Application/utils/changePagePosition";
 
 export class PagesModel implements IPagesModel {
@@ -21,8 +22,14 @@ export class PagesModel implements IPagesModel {
 
     @observable pages: IObservableArray<IPageModel> = observable.array();
 
-    // eslint-disable-next-line no-useless-constructor
-    constructor(public applicationStore: IApplicationModel) {}
+    globalRecordsStore: IGlobalRecordsModel;
+
+    constructor(public applicationStore: IApplicationModel) {
+        this.globalRecordsStore = new GlobalRecordsModel({
+            applicationStore: this.applicationStore,
+            pageStore: null,
+        });
+    }
 
     loadActivePage = (pageId: string, autoset = true, isActiveRedirect = false): Promise<IPageModel> => {
         const activePage = new PageModel({
@@ -159,7 +166,7 @@ export class PagesModel implements IPagesModel {
             removeFromStoreByRegex(/_filter_/u);
         }
 
-        // This.globalRecordsStore.loadAllStoresAction(this.applicationStore);
+        this.globalRecordsStore.loadAllStoresAction();
 
         saveToStore(STORE_LAST_CV_LOGIN_KEY, login);
     });

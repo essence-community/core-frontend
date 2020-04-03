@@ -81,21 +81,24 @@ export class PagesModel implements IPagesModel {
     );
 
     removePageAction = action("removePageAction", (pageId: string) => {
-        const selectedPage = this.pages.find((page) => page.pageId === pageId);
+        // Don't close default page. This is hidden page and need to display start screen
+        if (pageId !== this.applicationStore.bc.defaultvalue) {
+            const selectedPage = this.pages.find((page) => page.pageId === pageId);
 
-        if (selectedPage) {
-            selectedPage.clearAction();
-            this.pages.remove(selectedPage);
+            if (selectedPage) {
+                selectedPage.clearAction();
+                this.pages.remove(selectedPage);
+            }
+
+            if (selectedPage === this.activePage) {
+                this.activePage = this.pages.length ? this.pages[0] : null;
+            }
+
+            saveToStore(
+                STORE_PAGES_IDS_KEY,
+                this.pages.map((page) => page.pageId),
+            );
         }
-
-        if (selectedPage === this.activePage) {
-            this.activePage = this.pages.length ? this.pages[0] : null;
-        }
-
-        saveToStore(
-            STORE_PAGES_IDS_KEY,
-            this.pages.map((page) => page.pageId),
-        );
     });
 
     removePageOtherAction = action("removePageOtherAction", (pageIdLost: string) => {

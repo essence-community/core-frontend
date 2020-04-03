@@ -1,18 +1,21 @@
 // eslint-disable-next-line import/named
 import {action, observable, IObservableArray, ObservableMap} from "mobx";
+import {STORE_PAGES_IDS_KEY, STORE_LAST_CV_LOGIN_KEY} from "@essence-community/constructor-share/constants";
+import {PageModel} from "@essence-community/constructor-share/models";
+import {GlobalRecordsModel} from "@essence-community/constructor-share/models/GlobalRecordsModel";
+
 import {
     getFromStore,
     saveToStore,
     removeFromStore,
     removeFromStoreByRegex,
-    STORE_PAGES_IDS_KEY,
-    STORE_LAST_CV_LOGIN_KEY,
+} from "@essence-community/constructor-share/utils";
+import {
     IPageModel,
     IPagesModel,
     IApplicationModel,
     IGlobalRecordsModel,
-} from "@essence-community/constructor-share";
-import {PageModel, GlobalRecordsModel} from "@essence-community/constructor-share/models";
+} from "@essence-community/constructor-share/types";
 import {changePagePosition} from "../../Application/utils/changePagePosition";
 
 export class PagesModel implements IPagesModel {
@@ -81,21 +84,24 @@ export class PagesModel implements IPagesModel {
     );
 
     removePageAction = action("removePageAction", (pageId: string) => {
-        const selectedPage = this.pages.find((page) => page.pageId === pageId);
+        // Don't close default page. This is hidden page and need to display start screen
+        if (pageId !== this.applicationStore.bc.defaultvalue) {
+            const selectedPage = this.pages.find((page) => page.pageId === pageId);
 
-        if (selectedPage) {
-            selectedPage.clearAction();
-            this.pages.remove(selectedPage);
+            if (selectedPage) {
+                selectedPage.clearAction();
+                this.pages.remove(selectedPage);
+            }
+
+            if (selectedPage === this.activePage) {
+                this.activePage = this.pages.length ? this.pages[0] : null;
+            }
+
+            saveToStore(
+                STORE_PAGES_IDS_KEY,
+                this.pages.map((page) => page.pageId),
+            );
         }
-
-        if (selectedPage === this.activePage) {
-            this.activePage = this.pages.length ? this.pages[0] : null;
-        }
-
-        saveToStore(
-            STORE_PAGES_IDS_KEY,
-            this.pages.map((page) => page.pageId),
-        );
     });
 
     removePageOtherAction = action("removePageOtherAction", (pageIdLost: string) => {

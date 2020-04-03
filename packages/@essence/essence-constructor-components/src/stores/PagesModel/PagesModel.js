@@ -6,7 +6,7 @@ import {
     removeFromStore,
     removeFromStoreByRegex,
 } from "@essence-community/constructor-share/utils";
-import {GlobalRecordsModel} from "@essence-community/constructor-share/models";
+import {GlobalRecordsModel} from "@essence-community/constructor-share/models/GlobalRecordsModel";
 import {STORE_PAGES_IDS_KEY, STORE_LAST_CV_LOGIN_KEY} from "../../constants";
 import {type CkIdType} from "../../BuilderType";
 import {changePagePosition} from "../../utils/changePagePosition";

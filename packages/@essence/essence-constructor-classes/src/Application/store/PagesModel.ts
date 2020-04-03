@@ -1,18 +1,21 @@
 // eslint-disable-next-line import/named
 import {action, observable, IObservableArray, ObservableMap} from "mobx";
+import {STORE_PAGES_IDS_KEY, STORE_LAST_CV_LOGIN_KEY} from "@essence-community/constructor-share/constants";
+import {PageModel} from "@essence-community/constructor-share/models";
+import {GlobalRecordsModel} from "@essence-community/constructor-share/models/GlobalRecordsModel";
+
 import {
     getFromStore,
     saveToStore,
     removeFromStore,
     removeFromStoreByRegex,
-    STORE_PAGES_IDS_KEY,
-    STORE_LAST_CV_LOGIN_KEY,
+} from "@essence-community/constructor-share/utils";
+import {
     IPageModel,
     IPagesModel,
     IApplicationModel,
     IGlobalRecordsModel,
-} from "@essence-community/constructor-share";
-import {PageModel, GlobalRecordsModel} from "@essence-community/constructor-share/models";
+} from "@essence-community/constructor-share/types";
 import {changePagePosition} from "../../Application/utils/changePagePosition";
 
 export class PagesModel implements IPagesModel {

@@ -15,7 +15,7 @@ interface ITabComponentProps extends ICommonHOCProps {
 }
 
 export const TabComponent: React.FC<ITabComponentProps> = React.memo((props) => {
-    const {isActive, label, positonName} = props;
+    const {isActive, label, positonName, hidden} = props;
     const classes = useStyles();
     const {onChangeTab} = useTab(props);
     const positionClassName = classes[positonName];
@@ -24,6 +24,7 @@ export const TabComponent: React.FC<ITabComponentProps> = React.memo((props) => 
         <div
             className={cn(classes.root, classes.rootTheme, positionClassName, {
                 [classes.active]: isActive,
+                [classes.hidden]: hidden,
             })}
             onClick={onChangeTab}
             data-qtip={label}

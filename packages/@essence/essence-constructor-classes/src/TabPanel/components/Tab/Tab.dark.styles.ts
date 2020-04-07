@@ -77,7 +77,7 @@ export function tabDarkStyles(theme: IEssenceTheme): StyleRules<"rootTheme" | Ta
                 borderColor: "#42455c",
                 zIndex: 1,
             },
-            "&:hover": {
+            "&:not($disabled):hover": {
                 backgroundColor: theme.palette.primary.light,
             },
             backgroundColor: "#42455c",

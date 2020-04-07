@@ -43,8 +43,8 @@ const transformOrigins: Record<"dark" | "light", IPopoverTransfromOrigin> = {
 };
 const TAB_PLUS_WIDTH = {
     // Label padding + tab margin
-    dark: 8,
-    light: 53,
+    dark: 28,
+    light: 35,
 };
 const TAB_EMPTY_SPACE = {
     // Left panel (58) + left indent (4) + empty space (20) + menu (32)

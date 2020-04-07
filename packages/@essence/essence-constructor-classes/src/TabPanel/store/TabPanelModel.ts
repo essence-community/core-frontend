@@ -28,7 +28,7 @@ export class TabPanelModel extends StoreBaseModel {
         return this.tabs.filter((tab): boolean => {
             const status = this.tabStatus[tab[VAR_RECORD_PAGE_OBJECT_ID]];
 
-            return status ? !status.disabled && !status.hidden : true;
+            return status ? !status.hidden : true;
         });
     }
 

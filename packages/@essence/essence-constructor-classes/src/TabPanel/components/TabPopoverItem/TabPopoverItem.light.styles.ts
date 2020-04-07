@@ -7,7 +7,7 @@ export function lightStyles(theme: IEssenceTheme): StyleRules<"root" | "active">
             backgroundColor: theme.palette.action.selected,
         },
         root: {
-            "&:hover": {
+            "&:not($disabled):hover": {
                 backgroundColor: theme.palette.action.selected,
             },
             color: theme.palette.text.primary,

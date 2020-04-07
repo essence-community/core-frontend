@@ -6,6 +6,7 @@ import {tabLightStyles} from "./Tab.light.styles";
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         active: {},
+        disabled: {},
         hidden: {},
         label: {
             color: theme.palette.text.primary,
@@ -19,6 +20,10 @@ export const useStyles = makeStyles(
         root: {
             "&$active": {
                 opacity: 1,
+            },
+            "&$disabled": {
+                cursor: "default",
+                opacity: 0.5,
             },
             "&$hidden": {
                 display: "none",

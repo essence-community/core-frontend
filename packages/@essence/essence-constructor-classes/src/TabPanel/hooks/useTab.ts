@@ -17,6 +17,7 @@ export function useTab(props: IUseTabProps) {
     const handleChangeHidden = useCallback(
         (objectId: string) => {
             store.setTabStatus(objectId, {
+                disabled,
                 hidden,
             });
 
@@ -24,11 +25,14 @@ export function useTab(props: IUseTabProps) {
                 requestAnimationFrame(store.setFirstActiveTab);
             }
         },
-        [hidden, isActive, store],
+        [disabled, hidden, isActive, store],
     );
     const handleChangeTab = (event: React.SyntheticEvent) => {
         event.preventDefault();
-        store.setActiveTab(value);
+
+        if (!disabled) {
+            store.setActiveTab(value);
+        }
     };
 
     useEffect(() => {

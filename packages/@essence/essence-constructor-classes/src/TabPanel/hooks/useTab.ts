@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {useEffect, useCallback} from "react";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {TabPanelModel} from "../store/TabPanelModel";
@@ -14,18 +14,25 @@ interface IUseTabProps {
 
 export function useTab(props: IUseTabProps) {
     const {store, hidden, isActive, value, bc, disabled} = props;
-    const handleChangeHidden = (objectId: string) => {
-        store.setTabStatus(objectId, {
-            hidden,
-        });
+    const handleChangeHidden = useCallback(
+        (objectId: string) => {
+            store.setTabStatus(objectId, {
+                disabled,
+                hidden,
+            });
 
-        if (isActive && hidden) {
-            requestAnimationFrame(store.setFirstActiveTab);
-        }
-    };
+            if (isActive && hidden) {
+                requestAnimationFrame(store.setFirstActiveTab);
+            }
+        },
+        [disabled, hidden, isActive, store],
+    );
     const handleChangeTab = (event: React.SyntheticEvent) => {
         event.preventDefault();
-        store.setActiveTab(value);
+
+        if (!disabled) {
+            store.setActiveTab(value);
+        }
     };
 
     useEffect(() => {
@@ -35,7 +42,7 @@ export function useTab(props: IUseTabProps) {
             store.setOpenedTab(objectId, !(disabled || hidden));
             handleChangeHidden(objectId);
         }
-    });
+    }, [bc, disabled, handleChangeHidden, hidden, store]);
 
     return {onChangeTab: handleChangeTab};
 }

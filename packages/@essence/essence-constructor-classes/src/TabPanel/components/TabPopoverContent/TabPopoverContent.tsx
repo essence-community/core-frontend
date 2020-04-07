@@ -5,6 +5,7 @@ import {
     VAR_RECORD_DISPLAYED,
     IClassProps,
 } from "@essence-community/constructor-share";
+import {useObserver} from "mobx-react-lite";
 import {TabPopoverItem} from "../TabPopoverItem";
 import {TabPanelModel} from "../../store/TabPanelModel";
 import {useStyles} from "./TabPopoverContent.styles";
@@ -19,10 +20,10 @@ export const TabPopoverContent: React.FC<ITabPopoverContentProps> = (props) => {
     const classes = useStyles(props);
     const [trans] = useTranslation();
 
-    return (
+    return useObserver(() => (
         <div className={`${classes.rootDefault} ${classes.root}`}>
             {store.hiddenTabsIndex
-                ? store.tabs.slice(-store.hiddenTabsIndex).map((tabBc) => {
+                ? store.activeTabs.slice(-store.hiddenTabsIndex).map((tabBc) => {
                       const labelKey = tabBc[VAR_RECORD_DISPLAYED];
 
                       return (
@@ -38,5 +39,5 @@ export const TabPopoverContent: React.FC<ITabPopoverContentProps> = (props) => {
                   })
                 : null}
         </div>
-    );
+    ));
 };

@@ -43,8 +43,8 @@ const transformOrigins: Record<"dark" | "light", IPopoverTransfromOrigin> = {
 };
 const TAB_PLUS_WIDTH = {
     // Label padding + tab margin
-    dark: 8,
-    light: 53,
+    dark: 28,
+    light: 35,
 };
 const TAB_EMPTY_SPACE = {
     // Left panel (58) + left indent (4) + empty space (20) + menu (32)
@@ -123,7 +123,7 @@ export const Tabs: React.FC<ITabsProps> = React.memo((props) => {
                     // Empty space
                     let currentWidth = TAB_EMPTY_SPACE[themeType];
 
-                    const currentInex = store.tabs.reduce((lastIndex, tab) => {
+                    const currentInex = store.activeTabs.reduce((lastIndex, tab) => {
                         const labelKey = tab[VAR_RECORD_DISPLAYED];
                         const labelWidth = labelKey ? getTextWidth(trans(labelKey), font) : MIN_WIIDTH;
 
@@ -131,7 +131,7 @@ export const Tabs: React.FC<ITabsProps> = React.memo((props) => {
 
                         return current.offsetWidth > currentWidth ? lastIndex + 1 : lastIndex;
                     }, 0);
-                    const hiddenTabsIndex = store.tabs.length - currentInex;
+                    const hiddenTabsIndex = store.activeTabs.length - currentInex;
 
                     store.setHiddenTabsIndex(hiddenTabsIndex);
                 }

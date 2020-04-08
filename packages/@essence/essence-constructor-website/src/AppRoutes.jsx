@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react";
 import {Router, Route, Switch, Redirect} from "react-router-dom";
-import AuthPage from "./Pages/AuthPage/AuthPage";
 import ProjectPage from "./Pages/ProjectPage";
 
 import HomePage from "./Pages/HomePage/HomePage";
@@ -18,7 +17,6 @@ import {history} from "./history";
 export const AppRoutes = () => (
     <Router history={history}>
         <Switch>
-            <Route path="/auth-old" render={(props: any) => <AuthPage {...props} />} />
             <Route path="/redirect/:b64" render={(props: any) => <RedirectPage {...props} />} />
             <Route path="/reports/session/:session" render={(props: any) => <ReportsPage {...props} />} />
             <Route path="/reports/token/:token" render={(props: any) => <ReportsPage {...props} />} />

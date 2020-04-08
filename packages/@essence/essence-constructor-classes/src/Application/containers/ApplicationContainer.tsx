@@ -101,6 +101,11 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [applicationStore]);
 
+    // Change url for application
+    React.useEffect(() => {
+        applicationStore.handleChangeUrl(appName);
+    }, [appName, applicationStore]);
+
     useDisposable(() => {
         return observe(applicationStore, "bc", (change) => {
             if (change.oldValue) {
@@ -120,6 +125,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                 const route = activePage && activePage.route;
                 let pageId: FieldValue = "";
                 let routeUrl: FieldValue = "";
+                let url = "";
 
                 if (route && route[VAR_RECORD_ID]) {
                     pageId = route[VAR_RECORD_ID];
@@ -132,7 +138,11 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                     routeUrl = applicationStore.bc.defaultvalue;
                 }
 
-                const url = routeUrl ? `/${appName}/${routeUrl}` : `/${applicationStore.bc.redirecturl}`;
+                if (routeUrl) {
+                    url = `/${appName}/${routeUrl}`;
+                } else if (applicationStore.bc.redirecturl) {
+                    url = `/${applicationStore.bc.redirecturl}`;
+                }
 
                 if (url && history.location.pathname !== url) {
                     history.push(url);
@@ -143,7 +153,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                 }
             },
         );
-    });
+    }, [appName, applicationStore]);
 
     useDisposable(() => {
         return reaction(
@@ -167,6 +177,16 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                     text: renderGlobalValuelsInfo(globalValues),
                     title: trans("static:d2c071c58aca4b73853c1fcc6e2f08a3"),
                 }),
+        );
+    });
+
+    // Close all windows after change application
+    useDisposable(() => {
+        return reaction(
+            () => applicationStore.bc,
+            () => {
+                applicationStore.pageStore.windows.clear();
+            },
         );
     });
 

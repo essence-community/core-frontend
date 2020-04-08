@@ -18,7 +18,7 @@ import {history} from "./history";
 export const AppRoutes = () => (
     <Router history={history}>
         <Switch>
-            <Route path="/auth" render={(props: any) => <AuthPage {...props} />} />
+            <Route path="/auth-old" render={(props: any) => <AuthPage {...props} />} />
             <Route path="/redirect/:b64" render={(props: any) => <RedirectPage {...props} />} />
             <Route path="/reports/session/:session" render={(props: any) => <ReportsPage {...props} />} />
             <Route path="/reports/token/:token" render={(props: any) => <ReportsPage {...props} />} />
@@ -28,7 +28,7 @@ export const AppRoutes = () => (
             />
             <Route path="/frame/token/:token/:app/:pageId/:filter?" render={(props: any) => <FramePage {...props} />} />
             <Route
-                path={["/page/:ckId", "/home", "/preference", "/"]}
+                path={["/page/:ckId", "/home", "/preference"]}
                 exact
                 render={() => (
                     <AuthorizationPage>
@@ -36,12 +36,13 @@ export const AppRoutes = () => (
                             <Route path="/page/:ckId" render={(props: any) => <ProjectPage {...props} />} />
                             <Route path="/home" render={(props: any) => <HomePage {...props} />} />
                             <Route path="/preference" render={(props: any) => <PreferencePage {...props} />} />
-                            <Redirect to="/auth" />
+                            {/* <Redirect to="/auth" /> */}
                         </Switch>
                     </AuthorizationPage>
                 )}
             />
             <Route path="/:appName/:ckId?/:filter?" render={(props: any) => <ApplicationRouter {...props} />} />
+            <Redirect to="/auth" />
         </Switch>
     </Router>
 );

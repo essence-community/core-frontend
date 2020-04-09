@@ -11,7 +11,7 @@ export interface IAuthSession {
 export interface IAuthModel {
     userInfo: Partial<IAuthSession>;
     applicationStore: IApplicationModel;
-    checkAuthAction(history: History): Promise<void>;
+    checkAuthAction(history: History, session?: string, connectGuest?: string): Promise<void>;
     loginAction(
         authValues: Record<string, string>,
         history: History,

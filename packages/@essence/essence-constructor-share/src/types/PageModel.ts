@@ -48,6 +48,7 @@ export interface ICreateWindowType {
 export interface IPageModel {
     pageBc: IBuilderConfig[];
     pagerBc: IBuilderConfig;
+    applicationStore: IApplicationModel;
     fieldValueMaster: PageModelFieldValues;
     stores: PageModelStores;
     windows: PageModelWindows;

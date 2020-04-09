@@ -67,7 +67,6 @@ export class PageModel implements IPageModel {
 
     public recordsStore: RecordsModel;
 
-    // @deprecated
     public applicationStore: IApplicationModel;
 
     // @deprecated

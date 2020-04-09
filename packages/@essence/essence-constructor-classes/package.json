@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@essence-community/constructor-share": "file:../essence-constructor-share/lib/",
+    "@essence-community/constructor-components": "2.2.0",
     "@material-ui/core": "^4.7.2",
     "classnames": "^2.2.6",
     "clsx": "^1.0.4",

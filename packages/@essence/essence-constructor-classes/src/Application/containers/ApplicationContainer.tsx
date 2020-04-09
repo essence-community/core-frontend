@@ -50,6 +50,26 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
         }),
         [onFormChange],
     );
+    const handleSetPage = React.useCallback(
+        (pageId: string, _filter: string) => {
+            const {pagesStore} = applicationStore;
+
+            if (_filter) {
+                try {
+                    // Convert to string: encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({})))))
+                    const data = decodeURIComponent(escape(window.atob(decodeURIComponent(_filter))));
+
+                    applicationStore.redirectToAction(pageId, JSON.parse(data));
+                } catch (err) {
+                    logger(err);
+                    pagesStore.setPageAction(pageId, false);
+                }
+            } else {
+                pagesStore.setPageAction(pageId, false);
+            }
+        },
+        [applicationStore],
+    );
 
     React.useEffect(() => {
         const loadApplication = async () => {
@@ -62,19 +82,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
             const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
             if (typeof pageId === "string") {
-                if (filter) {
-                    try {
-                        // Convert to string: encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({})))))
-                        const data = decodeURIComponent(escape(window.atob(decodeURIComponent(filter))));
-
-                        applicationStore.redirectToAction(pageId, JSON.parse(data));
-                    } catch (err) {
-                        logger(err);
-                        pagesStore.setPageAction(pageId, false);
-                    }
-                } else {
-                    pagesStore.setPageAction(pageId, false);
-                }
+                handleSetPage(pageId, filter);
             } else if (ckId !== undefined) {
                 pagesStore.setPageAction(ckId, true);
             } else if (pagesStore.pages.length) {
@@ -101,6 +109,32 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [applicationStore]);
 
+    // Change url for application
+    React.useEffect(() => {
+        if (applicationStore.url !== appName) {
+            const loadApplication = async () => {
+                await applicationStore.handleChangeUrl(appName);
+
+                const {routesStore} = applicationStore;
+                const routes = routesStore ? routesStore.recordsStore.records : [];
+                const pageConfig = routes.find(
+                    (route: IRecord) => route[VAR_RECORD_ID] === ckId || route[VAR_RECORD_URL] === ckId,
+                );
+                const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
+
+                if (typeof pageId === "string") {
+                    handleSetPage(pageId, filter);
+                } else {
+                    // Can remove active page
+                }
+            };
+
+            loadApplication();
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [appName, applicationStore]);
+
     useDisposable(() => {
         return observe(applicationStore, "bc", (change) => {
             if (change.oldValue) {
@@ -120,6 +154,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                 const route = activePage && activePage.route;
                 let pageId: FieldValue = "";
                 let routeUrl: FieldValue = "";
+                let url = "";
 
                 if (route && route[VAR_RECORD_ID]) {
                     pageId = route[VAR_RECORD_ID];
@@ -132,7 +167,9 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                     routeUrl = applicationStore.bc.defaultvalue;
                 }
 
-                const url = routeUrl ? `/${appName}/${routeUrl}` : `/${applicationStore.bc.redirecturl}`;
+                if (routeUrl) {
+                    url = `/${appName}/${routeUrl}`;
+                }
 
                 if (url && history.location.pathname !== url) {
                     history.push(url);
@@ -143,7 +180,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                 }
             },
         );
-    });
+    }, [appName, applicationStore]);
 
     useDisposable(() => {
         return reaction(
@@ -167,6 +204,16 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                     text: renderGlobalValuelsInfo(globalValues),
                     title: trans("static:d2c071c58aca4b73853c1fcc6e2f08a3"),
                 }),
+        );
+    });
+
+    // Close all windows after change application
+    useDisposable(() => {
+        return reaction(
+            () => applicationStore.bc,
+            () => {
+                applicationStore.pageStore.windows.clear();
+            },
         );
     });
 

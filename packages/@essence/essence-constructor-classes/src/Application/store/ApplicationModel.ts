@@ -115,6 +115,8 @@ export class ApplicationModel implements IApplicationModel {
 
     @observable isBlock = false;
 
+    @observable public url = "";
+
     // @deprecated
     @computed get session(): string | undefined {
         return this.authStore.userInfo.session;
@@ -122,10 +124,10 @@ export class ApplicationModel implements IApplicationModel {
 
     // @deprecated
     @computed get authData(): Record<string, FieldValue> {
-        return this.authStore.userInfo;
+        return this.authStore.userInfo as any;
     }
 
-    constructor(public history: History, public url: string) {
+    constructor(public history: History, url: string) {
         this.routesStore = null;
         this.url = url;
         this.mode = url;
@@ -175,14 +177,14 @@ export class ApplicationModel implements IApplicationModel {
     setSesssionAction = action("setSesssionAction", (userInfo: IAuthSession) => {
         this.globalValues.merge(prepareUserGlobals(userInfo));
 
-        return this.loadApplicationAction();
+        return Promise.resolve();
     });
 
     logoutAction = action("logoutAction", async () => {
-        this.isApplicationReady = false;
-
         await this.authStore.logoutAction();
+
         removeFromStore("auth");
+
         if (this.history.location.pathname.indexOf("auth") === -1) {
             const {state: {backUrl = this.history.location.pathname} = {}} = this.history.location;
 
@@ -400,6 +402,21 @@ export class ApplicationModel implements IApplicationModel {
         }
 
         return Promise.resolve(false);
+    };
+
+    handleChangeUrl = async (url: string) => {
+        if (this.url !== url) {
+            this.isApplicationReady = false;
+            this.url = url;
+
+            await this.routesStore?.recordsStore.loadRecordsAction();
+
+            this.pagesStore.pages.clear();
+            this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
+            this.pagesStore.activePage = null;
+
+            this.isApplicationReady = true;
+        }
     };
 
     /**

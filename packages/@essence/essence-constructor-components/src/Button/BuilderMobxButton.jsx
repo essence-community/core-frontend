@@ -6,7 +6,7 @@ import {withStyles} from "@material-ui/core/styles";
 import {Button, IconButton} from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
 import {setComponent, Icon} from "@essence-community/constructor-share";
-import {ApplicationContext} from "@essence-community/constructor-share/context";
+import {EditorContex} from "@essence-community/constructor-share/context";
 import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PARENT_ID,
@@ -90,7 +90,7 @@ const getHandlerBtn = (bc: ButtonConfigType) => {
 };
 
 export class BuilderMobxButtonBase extends React.Component<PropsType, StateType> {
-    static contextType = ApplicationContext;
+    static contextType = EditorContex;
 
     static defaultProps = {
         color: "primary",
@@ -169,14 +169,19 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
         return this.handleMode();
     };
 
-    // eslint-disable-next-line max-statements
+    // eslint-disable-next-line max-statements, max-lines-per-function
     handleMode = (data: any = {}) => {
         const {pageStore, bc, performData} = this.props;
         let promise = null;
         const handlerBtn = getHandlerBtn(bc);
 
         if (handers[handlerBtn]) {
-            promise = handers[handlerBtn]({applicationStore: this.context, bc, files: data.files, pageStore});
+            promise = handers[handlerBtn]({
+                applicationStore: pageStore.applicationStore,
+                bc,
+                files: data.files,
+                pageStore,
+            });
         } else {
             for (const ckPageObjectMain of [bc[VAR_RECORD_MASTER_ID], bc[VAR_RECORD_PARENT_ID]]) {
                 if (ckPageObjectMain) {
@@ -185,14 +190,22 @@ export class BuilderMobxButtonBase extends React.Component<PropsType, StateType>
                     if (builderStore) {
                         // eslint-disable-next-line max-depth
                         if (builderStore.handlers && typeof builderStore.handlers[handlerBtn] === "function") {
-                            promise = builderStore.handlers[handlerBtn](bc.mode, bc, {...data, ...performData(bc)});
+                            promise = builderStore.handlers[handlerBtn](bc.mode, bc, {
+                                form: this.context?.form,
+                                ...data,
+                                ...performData(bc),
+                            });
                             break;
                         }
 
                         // @deprecated
                         // eslint-disable-next-line max-depth
                         if (typeof builderStore[handlerBtn] === "function") {
-                            promise = builderStore[handlerBtn](bc.mode, bc, {...data, ...performData(bc)});
+                            promise = builderStore[handlerBtn](bc.mode, bc, {
+                                form: this.context?.form,
+                                ...data,
+                                ...performData(bc),
+                            });
                             break;
                         }
                     }

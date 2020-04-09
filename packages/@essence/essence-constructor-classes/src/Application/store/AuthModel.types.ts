@@ -4,4 +4,5 @@ export interface IAuthSession {
     session: string;
     [VAR_RECORD_CV_LOGIN]: string;
     [VAR_RECORD_CA_ACTIONS]: number[];
+    [key: string]: string | number[] | undefined;
 }

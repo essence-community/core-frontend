@@ -50,6 +50,26 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
         }),
         [onFormChange],
     );
+    const handleSetPage = React.useCallback(
+        (pageId: string, _filter: string) => {
+            const {pagesStore} = applicationStore;
+
+            if (_filter) {
+                try {
+                    // Convert to string: encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({})))))
+                    const data = decodeURIComponent(escape(window.atob(decodeURIComponent(_filter))));
+
+                    applicationStore.redirectToAction(pageId, JSON.parse(data));
+                } catch (err) {
+                    logger(err);
+                    pagesStore.setPageAction(pageId, false);
+                }
+            } else {
+                pagesStore.setPageAction(pageId, false);
+            }
+        },
+        [applicationStore],
+    );
 
     React.useEffect(() => {
         const loadApplication = async () => {
@@ -62,19 +82,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
             const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
             if (typeof pageId === "string") {
-                if (filter) {
-                    try {
-                        // Convert to string: encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({})))))
-                        const data = decodeURIComponent(escape(window.atob(decodeURIComponent(filter))));
-
-                        applicationStore.redirectToAction(pageId, JSON.parse(data));
-                    } catch (err) {
-                        logger(err);
-                        pagesStore.setPageAction(pageId, false);
-                    }
-                } else {
-                    pagesStore.setPageAction(pageId, false);
-                }
+                handleSetPage(pageId, filter);
             } else if (ckId !== undefined) {
                 pagesStore.setPageAction(ckId, true);
             } else if (pagesStore.pages.length) {
@@ -103,7 +111,28 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
 
     // Change url for application
     React.useEffect(() => {
-        applicationStore.handleChangeUrl(appName);
+        if (applicationStore.url !== appName) {
+            const loadApplication = async () => {
+                await applicationStore.handleChangeUrl(appName);
+
+                const {routesStore} = applicationStore;
+                const routes = routesStore ? routesStore.recordsStore.records : [];
+                const pageConfig = routes.find(
+                    (route: IRecord) => route[VAR_RECORD_ID] === ckId || route[VAR_RECORD_URL] === ckId,
+                );
+                const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
+
+                if (typeof pageId === "string") {
+                    handleSetPage(pageId, filter);
+                } else {
+                    // Can remove active page
+                }
+            };
+
+            loadApplication();
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [appName, applicationStore]);
 
     useDisposable(() => {
@@ -140,8 +169,6 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
 
                 if (routeUrl) {
                     url = `/${appName}/${routeUrl}`;
-                } else if (applicationStore.bc.redirecturl) {
-                    url = `/${applicationStore.bc.redirecturl}`;
                 }
 
                 if (url && history.location.pathname !== url) {

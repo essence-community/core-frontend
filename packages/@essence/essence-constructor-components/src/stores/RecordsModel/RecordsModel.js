@@ -90,6 +90,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
         this.valueField = options.valueField || this.recordId;
         this.parentStore = options.parentStore;
         this.noLoadChilds = options.noLoadChilds || false;
+        this.applicationStore = pageStore.applicationStore;
         const {records = []} = bc;
 
         extendObservable(

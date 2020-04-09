@@ -404,10 +404,19 @@ export class ApplicationModel implements IApplicationModel {
         return Promise.resolve(false);
     };
 
-    handleChangeUrl = (url: string) => {
-        this.isApplicationReady = false;
-        this.url = url;
-        this.loadApplicationAction();
+    handleChangeUrl = async (url: string) => {
+        if (this.url !== url) {
+            this.isApplicationReady = false;
+            this.url = url;
+
+            await this.routesStore?.recordsStore.loadRecordsAction();
+
+            this.pagesStore.pages.clear();
+            this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
+            this.pagesStore.activePage = null;
+
+            this.isApplicationReady = true;
+        }
     };
 
     /**

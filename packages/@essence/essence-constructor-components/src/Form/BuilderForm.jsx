@@ -263,7 +263,9 @@ export class BuilderFormBase extends React.Component<PropsTypes, StateTypes> {
         const rootElement: ?(Element | Text) = findDOMNode(this);
 
         if (rootElement instanceof HTMLElement) {
-            const firstInvaliField = rootElement.querySelector("input[aria-invalid='true']:not([tabindex='-1'])");
+            const firstInvaliField = rootElement.querySelector(
+                "input[aria-invalid='true']:not([tabindex='-1']),textarea[aria-invalid='true']:not([tabindex='-1'])",
+            );
 
             if (firstInvaliField) {
                 firstInvaliField.focus();

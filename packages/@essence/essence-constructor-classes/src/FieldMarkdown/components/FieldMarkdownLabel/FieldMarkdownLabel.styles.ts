@@ -1,5 +1,5 @@
 import {makeStyles} from "@material-ui/core";
-import {IEssenceTheme} from "@essence-community/constructor-share";
+import {IEssenceTheme} from "@essence-community/constructor-share/types";
 
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
@@ -11,21 +11,14 @@ export const useStyles = makeStyles(
             cursor: "pointer",
             padding: theme.spacing(0.5, 2),
         },
-        editor: {
-            margin: theme.spacing(1),
-        },
         header: {
             backgroundColor: theme.essence.palette.grey.light,
             padding: theme.spacing(0.5, 2, 0, 2),
         },
-        preview: {
-            margin: theme.spacing(1),
-        },
-        root: {
-            border: `1px solid ${theme.essence.palette.grey.main}`,
-            borderRadius: 3,
+        labelAsterisk: {
+            color: theme.palette.error.main,
         },
         selected: {},
     }),
-    {name: "FieldMarkdownContainer"},
+    {name: "FieldMarkdownLabel"},
 );

@@ -58,10 +58,14 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
             [classes.panelEditing]: isEditing,
         });
         // eslint-disable-next-line init-declarations
-        let paddingTop;
+        let marginTop;
 
         if (isFilterActionsPresent && pageStore.styleTheme === "dark") {
-            paddingTop = store.isFilterOpen ? FILTER_THREE_BUTTON : FITER_ONE_BUTTON;
+            if (filters[0].topbtn?.length > 0) {
+                marginTop = filters[0].topbtn.length * FITER_ONE_BUTTON;
+            } else {
+                marginTop = store.isFilterOpen ? FILTER_THREE_BUTTON : FITER_ONE_BUTTON;
+            }
         }
 
         const filterComponent = (
@@ -90,7 +94,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
         );
 
         const actionsComponent = (
-            <Grid item style={{paddingTop}} className={classes.formActions}>
+            <Grid item style={{marginTop}} className={classes.formActions}>
                 {isEditing ? (
                     <BuilderPanelEditingButtons store={store} bc={bc} pageStore={pageStore} visible={visible} />
                 ) : (

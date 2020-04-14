@@ -24,7 +24,7 @@ export function useModel<IModel extends IModelRequired, P extends IUseModelProps
     const {bc, pageStore, hidden, disabled} = props;
     const [store, setStore] = React.useState<IModel>(() => createModel(props));
     const [isAutoLoad, setIsAutoload] = React.useState(false);
-    const [storeName, setStoreName] = React.useState<string>(function getStrename() {
+    const [storeName, setStoreName] = React.useState<string>(function getStoreName() {
         return bc[VAR_RECORD_PAGE_OBJECT_ID] || uuid();
     });
 

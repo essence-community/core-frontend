@@ -24,7 +24,9 @@ export function useModel<IModel extends IModelRequired, P extends IUseModelProps
     const {bc, pageStore, hidden, disabled} = props;
     const [store, setStore] = React.useState<IModel>(() => createModel(props));
     const [isAutoLoad, setIsAutoload] = React.useState(false);
-    const [storeName, setStoreName] = React.useState<string>(bc[VAR_RECORD_PAGE_OBJECT_ID] || uuid());
+    const [storeName, setStoreName] = React.useState<string>(function getStrename() {
+        return bc[VAR_RECORD_PAGE_OBJECT_ID] || uuid();
+    });
 
     React.useEffect(() => {
         // Const storeNext: IModel = createModel(props);
@@ -40,8 +42,7 @@ export function useModel<IModel extends IModelRequired, P extends IUseModelProps
         return () => {
             pageStore.removeStore(name, storeNext);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [bc, createModel, pageStore, store]);
+    }, [bc, pageStore, store, storeName]);
 
     React.useEffect(() => {
         if (store) {

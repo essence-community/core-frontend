@@ -32,6 +32,7 @@ const actionModeMap = {
     3: "D",
     4: "U",
     6: "I",
+    7: "I",
     8: "I",
 };
 

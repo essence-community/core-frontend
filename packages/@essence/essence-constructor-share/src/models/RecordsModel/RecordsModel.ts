@@ -28,6 +28,7 @@ import {
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_JN_TOTAL_CNT,
 } from "../../constants";
+import {download} from "../../actions/download";
 import {loadRecordsAction} from "./loadRecordsAction";
 
 interface ILoadRecordsProps {
@@ -406,18 +407,22 @@ export class RecordsModel implements IRecordsModel {
             }),
     );
 
-    downloadAction = () => {
-        // eslint-disable-next-line no-console
-        console.error("not implemented");
-
-        return Promise.resolve("");
+    downloadAction = (values: Record<string, FieldValue>, mode: IBuilderMode, options: ISaveActionOptions) => {
+        return download(values, mode, {
+            actionBc: options.actionBc,
+            bc: this.bc,
+            pageStore: this.pageStore,
+            query: options.query,
+            recordId: this.recordId,
+        });
     };
 
-    removeSelectedRecordAction = () => {
-        // eslint-disable-next-line no-console
-        console.error("not implemented");
+    removeSelectedRecordAction = (options: ISaveActionOptions) => {
+        if (this.selectedRecord) {
+            return this.saveAction(this.selectedRecord, "3", {...options, query: options.actionBc.updatequery});
+        }
 
-        return true;
+        return Promise.resolve("");
     };
 
     setRecordsAction = (records: IRecord[]) => {

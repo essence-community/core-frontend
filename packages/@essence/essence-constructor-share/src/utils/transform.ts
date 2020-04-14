@@ -77,7 +77,7 @@ export function setglobalToParse(str: string): string {
             // If no right side, value and key are equal
             const [left, right = left] = part.split("=");
 
-            return `"${left}":${right}`;
+            return `"${right}":${left}`;
         })
         .join(",");
 

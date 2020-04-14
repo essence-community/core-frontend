@@ -16,9 +16,8 @@ export const ServiceHiddenContainer: React.FC<IClassProps> = (props) => {
     useDisposable(
         () =>
             autorun(() => {
-                const [record = {}] = store.recordsStore.records;
-
                 if (bc.setglobal) {
+                    const [record = {}] = store.recordsStore.records;
                     const values = parseMemoize(setglobalToParse(bc.setglobal)).runer({
                         get: (name: string) => record[name],
                     });

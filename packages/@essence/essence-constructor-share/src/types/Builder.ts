@@ -283,7 +283,7 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     records?: Record<string, FieldValue>[];
 }
 
-export type IBuilderMode = "1" | "2" | "3" | "4" | "6" | string;
+export type IBuilderMode = "1" | "2" | "3" | "4" | "6" | "7" | "8";
 
 export interface IBuilderFilter extends IBuilderBaseConfig {
     dynamicfilter?: string;

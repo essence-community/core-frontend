@@ -95,10 +95,10 @@ export interface IRecordsModel {
     loadRecordsAction: (props: ILoadRecordsProps) => Promise<undefined | IRecord>;
     clearRecordsAction: () => void;
     saveAction: (values: IRecord | IRecord[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<string>;
-    downloadAction: (values: IRecord | IRecord[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<string>;
+    removeSelectedRecordAction: (options: ISaveActionOptions) => Promise<string>;
+    downloadAction: (values: IRecord | IRecord[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<boolean>;
     setSelectionAction: (ckId: FieldValue, key?: string) => Promise<number>;
     setRecordsAction: (records: IRecord[]) => void;
-    removeSelectedRecordAction: (options: ISaveActionOptions) => boolean;
     setPageNumberAction: (pageNumber: number) => void;
     setFirstRecord: () => void;
     setPrevRecord: () => void;

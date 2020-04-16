@@ -27,6 +27,7 @@ import {useParams, useHistory, useRouteMatch} from "react-router-dom";
 import {ApplicationModel, CLOSE_CODE} from "../store/ApplicationModel";
 import {renderGlobalValuelsInfo} from "../utils/renderGlobalValuelsInfo";
 import {ApplicationWindows} from "../components/ApplicationWindows";
+import {Block} from "../components/Block";
 
 const logger = loggerRoot.extend("PagerContainer");
 
@@ -74,6 +75,8 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
             if (authStore.userInfo.session && process.env.REACT_APP_REQUEST !== "MOCK") {
                 applicationStore.initWsClient(authStore.userInfo.session);
             }
+
+            applicationStore.authStore.checkAuthAction(history);
         };
 
         loadApplication();
@@ -207,10 +210,14 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                             />
                         ))}
                         <ApplicationWindows pageStore={applicationStore.pageStore} />
+                        <Block applicationStore={applicationStore} />
                     </>
                 ) : (
-                    // @ts-ignore
-                    <PageLoader isLoading loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER]} />
+                    <PageLoader
+                        container={null}
+                        isLoading
+                        loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"}
+                    />
                 )}
             </EditorContex.Provider>
         </ApplicationContext.Provider>

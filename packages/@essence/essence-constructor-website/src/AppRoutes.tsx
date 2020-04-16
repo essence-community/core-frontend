@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Router, Route, Switch, Redirect} from "react-router-dom";
-import {ApplicationRouter} from "./containers/ApplicationRouter";
+import {ApplicationRouter} from "./Components/ApplicationRouter";
 import {history} from "./history";
 
 export const AppRoutes = () => (

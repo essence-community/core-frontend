@@ -1,6 +1,10 @@
 // eslint-disable-next-line import/named
-import {action, observable, IObservableArray, ObservableMap} from "mobx";
-import {STORE_PAGES_IDS_KEY, STORE_LAST_CV_LOGIN_KEY} from "@essence-community/constructor-share/constants";
+import {action, observable, IObservableArray, ObservableMap, computed} from "mobx";
+import {
+    STORE_PAGES_IDS_KEY,
+    STORE_LAST_CV_LOGIN_KEY,
+    VAR_RECORD_ROUTE_VISIBLE_MENU,
+} from "@essence-community/constructor-share/constants";
 import {PageModel} from "@essence-community/constructor-share/models";
 import {GlobalRecordsModel} from "@essence-community/constructor-share/models/GlobalRecordsModel";
 
@@ -24,6 +28,10 @@ export class PagesModel implements IPagesModel {
     @observable expansionRecords: ObservableMap<string, boolean> = observable.map();
 
     @observable pages: IObservableArray<IPageModel> = observable.array();
+
+    @computed get visiblePages() {
+        return this.pages.filter(({route}) => route && route[VAR_RECORD_ROUTE_VISIBLE_MENU]);
+    }
 
     globalRecordsStore: IGlobalRecordsModel;
 
@@ -179,7 +187,10 @@ export class PagesModel implements IPagesModel {
         }
     });
 
-    movePages = (dragIndex: number, hoverIndex: number) => {
+    movePages = (dragVisibleIndex: number, hoverVisibleIndex: number) => {
+        const dragIndex = this.pages.findIndex((page) => page === this.visiblePages[dragVisibleIndex]);
+        const hoverIndex = this.pages.findIndex((page) => page === this.visiblePages[hoverVisibleIndex]);
+
         this.pages.replace(changePagePosition(this.pages, dragIndex, hoverIndex));
 
         saveToStore(

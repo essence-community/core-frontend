@@ -127,8 +127,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                 <PageLoader
                     pageStore={pageStore}
                     container={pageStore.pageEl}
-                    // @ts-ignore
-                    loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER]}
+                    loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"}
                 />
                 <FormContext.Provider value={editor.form}>
                     <ModeContext.Provider value={editor.mode}>

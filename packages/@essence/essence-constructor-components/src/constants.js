@@ -2,6 +2,8 @@
 import {getFromStore} from "@essence-community/constructor-share/utils";
 import debug from "debug/dist/debug";
 
+export {preference} from "@essence-community/constructor-share/constants";
+
 if (process.env.NODE_ENV === "developent") {
     debug.enable("essence:constructor:*");
 }
@@ -9,21 +11,6 @@ if (process.env.NODE_ENV === "developent") {
 if (process.env.NODE_ENV === "production") {
     debug.enable("essence:constructor:*");
 }
-
-const defaultPreference = {
-    // Задержка скрытия Tooltip
-    debounceTooltipTime: 12,
-    // Время появления Tooltip после наведения
-    delayTooltipShow: 300,
-    // Список модулей через запятую
-    modules: "",
-    // Смещение Tooltip по даигонали от курсора мышки
-    offsetTooltip: 15,
-    // Включение отладочного окна при передае параметров извне
-    redirectDebugWindow: false,
-    // Включение режима объединения полей в wysiwyg
-    wysiwygCombineFields: false,
-};
 
 export const BASE_URL = process.env.REACT_APP_BASE_URL || "gate_ub_dev";
 export const styleTheme = getFromStore("theme", "light");
@@ -51,11 +38,6 @@ export const SCROLL_WEIGHT = 10;
 export const loggerRoot = debug("essence:constructor");
 export const loggerRootInfo = loggerRoot.extend("info");
 export const loggerRootError = loggerRoot.extend("error");
-export const preference: typeof defaultPreference = {
-    ...defaultPreference,
-    ...getFromStore("preference"),
-};
-window.preference = preference;
 export const GRID_ROW_HEIGHT = 30;
 export const BUTTON_HEIGHT = 42;
 export const GRID_ROWS_COUNT = 5;

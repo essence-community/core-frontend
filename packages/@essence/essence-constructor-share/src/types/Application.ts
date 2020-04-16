@@ -39,4 +39,7 @@ export interface IApplicationModel extends IStoreBaseModel {
     handleWsMessage(msg: MessageEvent): void;
     reloadUserInfoAction(authValues: IAuthSession): void;
     reloadPageObjectAction(pageId: string, ckPageObject: string): void;
+    reloadApplication(appName: string, routerPageId?: string, filter?: string): Promise<void>;
+    handleChangeUrl(url: string): Promise<void>;
+    handleSetPage(pageId: string, filter?: string): Promise<void>;
 }

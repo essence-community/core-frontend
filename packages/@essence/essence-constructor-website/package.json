@@ -84,6 +84,7 @@
     "workbox-webpack-plugin": "4.3.1"
   },
   "devDependencies": {
+    "@essence-community/eslint-config-react": "file:../essence-constructor-eslint",
     "http-proxy-middleware": "0.20.0",
     "source-map-explorer": "2.1.2"
   }

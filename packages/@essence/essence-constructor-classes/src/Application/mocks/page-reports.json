@@ -1,0 +1,11 @@
+{
+    "type": "APPLICATION",
+    "childs": [
+        {
+            "type": "STATIC.REPORTS",
+            "ck_page_object": "reports"
+        }
+    ],
+    "ck_page_object": "main",
+    "activerules": "cv_url === \"reports\""
+}

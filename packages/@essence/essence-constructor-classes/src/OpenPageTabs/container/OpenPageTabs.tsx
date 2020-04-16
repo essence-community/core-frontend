@@ -4,7 +4,6 @@ import {
     VAR_RECORD_ID,
     VAR_RECORD_ROUTE_NAME,
     VAR_RECORD_ICON_NAME,
-    VAR_RECORD_ROUTE_VISIBLE_MENU,
 } from "@essence-community/constructor-share/constants/variables";
 import {Tabs} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
@@ -135,9 +134,9 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo((props) => {
     );
     const handleTabsDragEnter = React.useCallback(() => {
         if (dragHtml) {
-            handleDragEnterIndex(pagesStore.pages.length - 1);
+            handleDragEnterIndex(pagesStore.visiblePages.length - 1);
         }
-    }, [dragHtml, handleDragEnterIndex, pagesStore.pages.length]);
+    }, [dragHtml, handleDragEnterIndex, pagesStore.visiblePages.length]);
     const [trans] = useTranslation("meta");
 
     React.useEffect(() => {
@@ -163,31 +162,29 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo((props) => {
                 style={contentStyle}
                 onChange={handleChangePage}
             >
-                {pagesStore.pages
-                    .filter(({route}) => route && route[VAR_RECORD_ROUTE_VISIBLE_MENU])
-                    .map((page, index) => {
-                        const {route, pageId, titleRoutePath} = page;
-                        const name: string = route ? String(route[VAR_RECORD_ROUTE_NAME]) : "";
-                        const iconName: string = route ? String(route[VAR_RECORD_ICON_NAME]) : "";
+                {pagesStore.visiblePages.map((page, index) => {
+                    const {route, pageId, titleRoutePath} = page;
+                    const name: string = route ? String(route[VAR_RECORD_ROUTE_NAME]) : "";
+                    const iconName: string = route ? String(route[VAR_RECORD_ICON_NAME]) : "";
 
-                        return (
-                            <OpenPageTab
-                                key={pageId}
-                                pageIndex={index}
-                                label={trans(name)}
-                                iconfont={iconName}
-                                value={pageId}
-                                titleRoutePath={trans<string>(titleRoutePath)}
-                                onClose={pagesStore.removePageAction}
-                                onContextMenuCustom={handleContextMenu}
-                                orientation={orientation}
-                                style={contentStyle}
-                                onDragStartIndex={handeDragStartIndex}
-                                onDragEnterIndex={handleDragEnterIndex}
-                                tabDragClassName={classes.tabDrag}
-                            />
-                        );
-                    })}
+                    return (
+                        <OpenPageTab
+                            key={pageId}
+                            pageIndex={index}
+                            label={trans(name)}
+                            iconfont={iconName}
+                            value={pageId}
+                            titleRoutePath={trans<string>(titleRoutePath)}
+                            onClose={pagesStore.removePageAction}
+                            onContextMenuCustom={handleContextMenu}
+                            orientation={orientation}
+                            style={contentStyle}
+                            onDragStartIndex={handeDragStartIndex}
+                            onDragEnterIndex={handleDragEnterIndex}
+                            tabDragClassName={classes.tabDrag}
+                        />
+                    );
+                })}
                 <div className={classes.emtySpace} onMouseOver={handleTabsDragEnter} />
             </Tabs>
             <OpenPageMenuContext

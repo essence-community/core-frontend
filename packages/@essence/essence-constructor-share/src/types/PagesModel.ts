@@ -5,6 +5,7 @@ import {IPageModel, IApplicationModel} from ".";
 
 export interface IPagesModel {
     pages: IObservableArray<IPageModel>;
+    visiblePages: IPageModel[];
     activePage: IPageModel | null;
     expansionRecords: ObservableMap<string, boolean>;
     applicationStore: IApplicationModel;

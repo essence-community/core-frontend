@@ -23,7 +23,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {useDisposable, useObserver} from "mobx-react-lite";
 import {reaction, observe} from "mobx";
-import {useParams, useHistory} from "react-router-dom";
+import {useParams, useHistory, useRouteMatch} from "react-router-dom";
 import {ApplicationModel, CLOSE_CODE} from "../store/ApplicationModel";
 import {renderGlobalValuelsInfo} from "../utils/renderGlobalValuelsInfo";
 import {ApplicationWindows} from "../components/ApplicationWindows";
@@ -33,7 +33,9 @@ const logger = loggerRoot.extend("PagerContainer");
 // eslint-disable-next-line max-lines-per-function
 export const ApplicationContainer: React.FC<IClassProps> = () => {
     const history = useHistory();
-    const {ckId, appName = "", filter = ""} = useParams();
+    const match = useRouteMatch<any>("/:appNameDefault");
+    const appNameDefault = match?.params.appNameDefault ?? "";
+    const {ckId, appName = appNameDefault, filter = ""} = useParams();
     const [applicationStore] = React.useState(() => new ApplicationModel(history, appName));
     const [trans] = useTranslation("meta");
     const onFormChange = React.useCallback(
@@ -50,26 +52,6 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
         }),
         [onFormChange],
     );
-    const handleSetPage = React.useCallback(
-        (pageId: string, _filter: string) => {
-            const {pagesStore} = applicationStore;
-
-            if (_filter) {
-                try {
-                    // Convert to string: encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({})))))
-                    const data = decodeURIComponent(escape(window.atob(decodeURIComponent(_filter))));
-
-                    applicationStore.redirectToAction(pageId, JSON.parse(data));
-                } catch (err) {
-                    logger(err);
-                    pagesStore.setPageAction(pageId, false);
-                }
-            } else {
-                pagesStore.setPageAction(pageId, false);
-            }
-        },
-        [applicationStore],
-    );
 
     React.useEffect(() => {
         const loadApplication = async () => {
@@ -82,7 +64,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
             const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
             if (typeof pageId === "string") {
-                handleSetPage(pageId, filter);
+                applicationStore.handleSetPage(pageId, filter);
             } else if (ckId !== undefined) {
                 pagesStore.setPageAction(ckId, true);
             } else if (pagesStore.pages.length) {
@@ -112,24 +94,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
     // Change url for application
     React.useEffect(() => {
         if (applicationStore.url !== appName) {
-            const loadApplication = async () => {
-                await applicationStore.handleChangeUrl(appName);
-
-                const {routesStore} = applicationStore;
-                const routes = routesStore ? routesStore.recordsStore.records : [];
-                const pageConfig = routes.find(
-                    (route: IRecord) => route[VAR_RECORD_ID] === ckId || route[VAR_RECORD_URL] === ckId,
-                );
-                const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
-
-                if (typeof pageId === "string") {
-                    handleSetPage(pageId, filter);
-                } else {
-                    // Can remove active page
-                }
-            };
-
-            loadApplication();
+            applicationStore.reloadApplication(appName, ckId, filter);
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps

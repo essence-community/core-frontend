@@ -44,6 +44,10 @@ import "@essence-community/constructor-classes/src/FieldComputed";
 import "@essence-community/constructor-classes/src/ServiceHidden";
 import "@essence-community/constructor-classes/src/AuthForm";
 import "@essence-community/constructor-classes/src/FieldMarkdown";
+import "@essence-community/constructor-classes/src/StaticFrame";
+import "@essence-community/constructor-classes/src/StaticRedirect";
+import "@essence-community/constructor-classes/src/StaticReports";
+import "@essence-community/constructor-classes/src/StaticPreference";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

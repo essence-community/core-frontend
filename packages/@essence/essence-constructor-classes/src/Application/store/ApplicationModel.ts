@@ -41,7 +41,7 @@ import {
     redirectToPage,
 } from "@essence-community/constructor-share/models";
 import {History} from "history";
-import pageSafeJson from "../mocks/page-safe.json";
+import {pages} from "../mocks";
 import {RoutesModel} from "./RoutesModel";
 import {IAuthSession} from "./AuthModel.types";
 import {PagesModel} from "./PagesModel";
@@ -225,7 +225,7 @@ export class ApplicationModel implements IApplicationModel {
                         this.recordsStore.setRecordsAction([
                             {
                                 ...this.recordsStore.selectedRecordValues,
-                                children: [pageSafeJson, ...(Array.isArray(children) ? children : [])],
+                                children: [...pages, ...(Array.isArray(children) ? children : [])],
                             },
                         ]);
                         this.recordsStore.setSelectionAction(this.recordsStore.selectedRecordId);
@@ -391,6 +391,21 @@ export class ApplicationModel implements IApplicationModel {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     clearStoreAction = () => {};
 
+    reloadApplication = async (appName: string, routerPageId?: string, filter?: string) => {
+        await this.handleChangeUrl(appName);
+        const routes = this.routesStore ? this.routesStore.recordsStore.records : [];
+        const pageConfig = routes.find(
+            (route: IRecord) => route[VAR_RECORD_ID] === routerPageId || route[VAR_RECORD_URL] === routerPageId,
+        );
+        const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
+
+        if (typeof pageId === "string") {
+            await this.handleSetPage(pageId, filter);
+        } else {
+            // Can remove active page
+        }
+    };
+
     handleWindowOpen = (_mode: IBuilderMode, btnBc: IBuilderConfig) => {
         const window =
             this.bc.childwindow && this.bc.childwindow.find((win: IBuilderConfig) => win.ckwindow === btnBc.ckwindow);
@@ -405,17 +420,31 @@ export class ApplicationModel implements IApplicationModel {
     };
 
     handleChangeUrl = async (url: string) => {
-        if (this.url !== url) {
-            this.isApplicationReady = false;
-            this.url = url;
+        this.isApplicationReady = false;
+        this.url = url;
 
-            await this.routesStore?.recordsStore.loadRecordsAction();
+        await this.routesStore?.recordsStore.loadRecordsAction();
 
-            this.pagesStore.pages.clear();
-            this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
-            this.pagesStore.activePage = null;
+        this.pagesStore.pages.clear();
+        this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
+        this.pagesStore.activePage = null;
 
-            this.isApplicationReady = true;
+        this.isApplicationReady = true;
+    };
+
+    handleSetPage = async (pageId: string, filter?: string) => {
+        if (filter) {
+            try {
+                // Convert to string: encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({})))))
+                const data = decodeURIComponent(escape(window.atob(decodeURIComponent(filter))));
+
+                await this.redirectToAction(pageId, JSON.parse(data));
+            } catch (err) {
+                logger(err);
+                await this.pagesStore.setPageAction(pageId, false);
+            }
+        } else {
+            await this.pagesStore.setPageAction(pageId, false);
         }
     };
 

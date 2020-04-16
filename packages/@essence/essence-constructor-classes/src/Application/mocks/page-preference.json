@@ -1,0 +1,11 @@
+{
+    "type": "APPLICATION",
+    "childs": [
+        {
+            "type": "STATIC.PREFERENCE",
+            "ck_page_object": "preference"
+        }
+    ],
+    "ck_page_object": "main",
+    "activerules": "cv_url === \"preference\""
+}

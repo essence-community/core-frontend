@@ -35,8 +35,8 @@ class NumberFormatCustom extends React.Component<PropsType> {
         const {BigNumber, decimalPrecision} = getBigNumberInstance(bc);
 
         this.maxsize = bc.maxsize ? parseInt(bc.maxsize, 10) : undefined;
-        this.minValue = bc.minvalue ? parseInt(bc.minvalue, 10) : 0;
-        this.maxValue = bc.maxvalue ? parseInt(bc.maxvalue, 10) : undefined;
+        this.minValue = bc.minvalue ? parseFloat(bc.minvalue.replace(",", ".")) : 0;
+        this.maxValue = bc.maxvalue ? parseFloat(bc.maxvalue.replace(",", ".")) : undefined;
         this.decimalPrecision = decimalPrecision;
         this.BigNumber = BigNumber;
     }

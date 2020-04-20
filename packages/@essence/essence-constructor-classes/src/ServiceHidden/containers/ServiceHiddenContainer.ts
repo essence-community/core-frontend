@@ -1,13 +1,12 @@
 import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
-import {commonDecorator} from "@essence-community/constructor-share/decorators";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {autorun, reaction} from "mobx";
 import {parseMemoize, setglobalToParse, findGetGlobalKey} from "@essence-community/constructor-share/utils";
 import {ServiceHiddenModel} from "../stores/ServiceHiddenModel";
 
-const BuilderServiceHiddenContainer: React.FC<IClassProps> = (props) => {
+export const ServiceHiddenContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
     const applicationStore = React.useContext(ApplicationContext);
     const [store] = useModel((options) => new ServiceHiddenModel({...options, applicationStore}), props);
@@ -66,5 +65,3 @@ const BuilderServiceHiddenContainer: React.FC<IClassProps> = (props) => {
 
     return null;
 };
-
-export const ServiceHiddenContainer = commonDecorator(BuilderServiceHiddenContainer);

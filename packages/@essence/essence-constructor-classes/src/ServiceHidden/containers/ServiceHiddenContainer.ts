@@ -3,7 +3,6 @@ import {IClassProps} from "@essence-community/constructor-share/types";
 import {commonDecorator} from "@essence-community/constructor-share/decorators";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {useModel} from "@essence-community/constructor-share/hooks";
-import {useDisposable} from "mobx-react-lite";
 import {autorun, reaction} from "mobx";
 import {parseMemoize, setglobalToParse, findGetGlobalKey} from "@essence-community/constructor-share/utils";
 import {ServiceHiddenModel} from "../stores/ServiceHiddenModel";
@@ -14,29 +13,28 @@ const BuilderServiceHiddenContainer: React.FC<IClassProps> = (props) => {
     const [store] = useModel((options) => new ServiceHiddenModel({...options, applicationStore}), props);
 
     // Set record to global
-    useDisposable(() => {
-        const calcRecord = (record: any = {}) => {
-            const values = parseMemoize(setglobalToParse(bc.setglobal!)).runer({
-                get: (name: string) => record[name],
-            });
+    // eslint-disable-next-line consistent-return
+    React.useEffect(() => {
+        if (bc.setglobal) {
+            const calcRecord = (record: any = {}) => {
+                const values = parseMemoize(setglobalToParse(bc.setglobal!)).runer({
+                    get: (name: string) => record[name],
+                });
 
-            pageStore.updateGlobalValues(values);
-        };
-        const disponse = autorun(() => {
-            if (bc.setglobal) {
+                pageStore.updateGlobalValues(values);
+            };
+            const disponse = autorun(() => {
                 const [record = {}] = store.recordsStore.records;
 
                 calcRecord(record);
-            }
-        });
+            });
 
-        return () => {
-            disponse();
-            if (bc.setglobal) {
+            return () => {
+                disponse();
                 calcRecord();
-            }
-        };
-    }, []);
+            };
+        }
+    }, [bc.setglobal, pageStore, store]);
 
     /*
      * Listen to new values in the getglobaltostore

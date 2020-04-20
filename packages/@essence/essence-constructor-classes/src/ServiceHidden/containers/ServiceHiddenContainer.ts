@@ -8,7 +8,7 @@ import {autorun, reaction} from "mobx";
 import {parseMemoize, setglobalToParse, findGetGlobalKey} from "@essence-community/constructor-share/utils";
 import {ServiceHiddenModel} from "../stores/ServiceHiddenModel";
 
-export const BuilderServiceHiddenContainer: React.FC<IClassProps> = (props) => {
+const BuilderServiceHiddenContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
     const applicationStore = React.useContext(ApplicationContext);
     const [store] = useModel((options) => new ServiceHiddenModel({...options, applicationStore}), props);

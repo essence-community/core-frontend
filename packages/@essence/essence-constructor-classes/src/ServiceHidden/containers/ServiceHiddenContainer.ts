@@ -12,7 +12,6 @@ export const ServiceHiddenContainer: React.FC<IClassProps> = (props) => {
     const [store] = useModel((options) => new ServiceHiddenModel({...options, applicationStore}), props);
 
     // Set record to global
-    // eslint-disable-next-line consistent-return
     React.useEffect(() => {
         if (bc.setglobal) {
             const calcRecord = (record: any = {}) => {
@@ -33,6 +32,8 @@ export const ServiceHiddenContainer: React.FC<IClassProps> = (props) => {
                 calcRecord();
             };
         }
+
+        return undefined;
     }, [bc.setglobal, pageStore, store]);
 
     /*

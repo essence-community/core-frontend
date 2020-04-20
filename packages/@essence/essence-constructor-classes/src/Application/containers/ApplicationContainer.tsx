@@ -56,6 +56,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
 
     React.useEffect(() => {
         const loadApplication = async () => {
+            await applicationStore.authStore.checkAuthAction(history);
             await applicationStore.loadApplicationAction();
             const {routesStore, pagesStore, authStore} = applicationStore;
             const routes = routesStore ? routesStore.recordsStore.records : [];
@@ -75,8 +76,6 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
             if (authStore.userInfo.session && process.env.REACT_APP_REQUEST !== "MOCK") {
                 applicationStore.initWsClient(authStore.userInfo.session);
             }
-
-            applicationStore.authStore.checkAuthAction(history);
         };
 
         loadApplication();

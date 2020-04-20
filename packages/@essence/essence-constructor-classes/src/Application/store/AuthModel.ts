@@ -36,7 +36,7 @@ export class AuthModel implements IAuthModel {
         "checkAuthAction",
         (
             history: History,
-            session?: string,
+            session: string = this.userInfo.session,
             connectGuest: string = settingsStore.settings[VAR_SETTING_AUTO_CONNECT_GUEST],
         ) =>
             request({
@@ -48,9 +48,16 @@ export class AuthModel implements IAuthModel {
                 query: "GetSessionData",
                 session,
             })
+                // eslint-disable-next-line consistent-return
                 .then((response: IAuthSession) => {
                     if (response && snackbarStore.checkValidLoginResponse(response)) {
-                        this.successLoginAction(response, history);
+                        if (response.session === this.userInfo.session) {
+                            this.changeUserInfo(response);
+                        } else {
+                            this.successLoginAction(response, history);
+                        }
+                    } else if (!response && session === this.userInfo.session) {
+                        return this.logoutAction();
                     }
                 })
                 .catch((err: Error) => {
@@ -106,6 +113,9 @@ export class AuthModel implements IAuthModel {
     logoutAction = action("logoutAction", async () => {
         const cleanedValues: IAuthSession = {...this.userInfo};
 
+        this.userInfo = DEAULT_USER_INFO;
+        this.applicationStore.setSesssionAction(cleanedValues);
+
         for (const key in cleanedValues) {
             if (Object.prototype.hasOwnProperty.call(cleanedValues, key)) {
                 if (Array.isArray(cleanedValues[key])) {
@@ -125,8 +135,5 @@ export class AuthModel implements IAuthModel {
         } catch (err) {
             logger(err);
         }
-
-        this.userInfo = DEAULT_USER_INFO;
-        this.applicationStore.setSesssionAction(cleanedValues);
     });
 }

@@ -95,6 +95,8 @@ export class ApplicationModel implements IApplicationModel {
 
     recordId: string = VAR_RECORD_ID;
 
+    isLogoutProcess = false;
+
     @computed get bc(): IBuilderConfig {
         const {children} = this.recordsStore.selectedRecordValues;
 
@@ -181,6 +183,11 @@ export class ApplicationModel implements IApplicationModel {
     });
 
     logoutAction = action("logoutAction", async () => {
+        if (this.isLogoutProcess) {
+            return true;
+        }
+        this.isLogoutProcess = true;
+
         await this.authStore.logoutAction();
 
         removeFromStore("auth");
@@ -196,6 +203,7 @@ export class ApplicationModel implements IApplicationModel {
             this.wsClient.close(LOGOUT_CODE, "logoutAction");
             this.wsClient = null;
         }
+        this.isLogoutProcess = false;
 
         return true;
     });

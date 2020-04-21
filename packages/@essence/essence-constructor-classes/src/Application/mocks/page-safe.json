@@ -201,7 +201,7 @@
     "ck_modify": "modify",
     "ck_object": "94E486331F324BBC9495ACEDD9002A1B",
     "cl_dataset": 1,
-    "activerules": "cv_url === \"safe\"",
+    "activerules": "cv_url === \"safe\" && !(g_sys_anonymous_action in g_sess_ca_actions)",
     "childwindow": [
         {
             "top": "45",

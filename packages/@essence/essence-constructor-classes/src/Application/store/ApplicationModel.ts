@@ -28,6 +28,7 @@ import {
     VAR_RECORD_ROUTE_PAGE_ID,
     VAR_RECORD_CV_LOGIN,
     VAR_SETTING_MODULE_URL,
+    VAR_SETTING_ANONYMOUS_ACTION,
     loggerRoot,
 } from "@essence-community/constructor-share/constants";
 import {i18next} from "@essence-community/constructor-share/utils";
@@ -161,6 +162,12 @@ export class ApplicationModel implements IApplicationModel {
             return this.url;
         }
 
+        if (name === VAR_SETTING_ANONYMOUS_ACTION) {
+            const value = this.globalValues.get(name);
+
+            return typeof value === "string" ? parseInt(value, 10) : value;
+        }
+
         return this.globalValues.get(name);
     };
 
@@ -220,6 +227,36 @@ export class ApplicationModel implements IApplicationModel {
         }
     });
 
+    redirectToFirstValidApplication = async () => {
+        const {children} = this.recordsStore.selectedRecordValues;
+
+        if (Array.isArray(children)) {
+            const firstValisApplication = children.find((rec: IBuilderConfig) => {
+                if (!rec.activerules) {
+                    return false;
+                }
+
+                return parseMemoize(rec.activerules.replace(/cv_url\s?={2,3}\s?["']\w+["']/u, "true")).runer({
+                    get: this.handleGetValue,
+                });
+            });
+
+            if (firstValisApplication) {
+                const match = /cv_url\s?={2,3}\s?["'](?<app>\w+)["']/u.exec(firstValisApplication.activerules);
+
+                if (match && match.groups && match.groups.app) {
+                    return this.history.push(`/${match.groups.app}`);
+                }
+            }
+        }
+
+        if (this.authStore.userInfo.session) {
+            await this.logoutAction();
+        }
+
+        return this.history.push("/auth");
+    };
+
     loadApplicationAction = action("loadApplicationAction", async () => {
         await Promise.all([
             this.recordsStore.recordsState.status === "init" &&
@@ -233,7 +270,7 @@ export class ApplicationModel implements IApplicationModel {
                         this.recordsStore.setRecordsAction([
                             {
                                 ...this.recordsStore.selectedRecordValues,
-                                children: [...pages, ...(Array.isArray(children) ? children : [])],
+                                children: [...(Array.isArray(children) ? children : []), ...pages],
                             },
                         ]);
                         this.recordsStore.setSelectionAction(this.recordsStore.selectedRecordId);
@@ -257,10 +294,7 @@ export class ApplicationModel implements IApplicationModel {
             await this.routesStore?.recordsStore.loadRecordsAction();
             this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
         } else {
-            /*
-             * Find first valid application or redirect to error page
-             * this.history.push("/auth");
-             */
+            this.redirectToFirstValidApplication();
         }
 
         this.isApplicationReady = true;
@@ -431,13 +465,29 @@ export class ApplicationModel implements IApplicationModel {
         this.isApplicationReady = false;
         this.url = url;
 
-        await this.routesStore?.recordsStore.loadRecordsAction();
+        if (this.bc) {
+            const queryId = this.bc[VAR_RECORD_QUERY_ID] || "MTRoute";
 
-        this.pagesStore.pages.clear();
-        this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
-        this.pagesStore.activePage = null;
+            if (!this.routesStore || this.routesStore.recordsStore.bc[VAR_RECORD_QUERY_ID] !== queryId) {
+                this.routesStore = new RoutesModel(
+                    {
+                        [VAR_RECORD_PAGE_OBJECT_ID]: "routes",
+                        [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+                        [VAR_RECORD_QUERY_ID]: queryId,
+                    },
+                    this,
+                );
+            }
 
-        this.isApplicationReady = true;
+            await this.routesStore?.recordsStore.loadRecordsAction();
+
+            this.pagesStore.pages.clear();
+            this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
+            this.pagesStore.activePage = null;
+            this.isApplicationReady = true;
+        } else {
+            this.redirectToFirstValidApplication();
+        }
     };
 
     handleSetPage = async (pageId: string, filter?: string) => {

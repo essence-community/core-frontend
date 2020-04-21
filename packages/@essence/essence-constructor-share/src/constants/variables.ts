@@ -106,6 +106,7 @@ export const VAR_SETTING_FRONT_BRANCH_NAME = "g_sys_front_branch_name";
 export const VAR_SETTING_FRONT_COMMIT_ID = "g_sys_front_commit_id";
 export const VAR_SETTING_ENABLE_QUEST_LOGIN = "g_sys_enable_guest_login";
 export const VAR_SETTING_AUTO_CONNECT_GUEST = "auto_connect_guest";
+export const VAR_SETTING_ANONYMOUS_ACTION = "g_sys_anonymous_action";
 
 // META
 export const META_OUT_RESULT = "out_result";

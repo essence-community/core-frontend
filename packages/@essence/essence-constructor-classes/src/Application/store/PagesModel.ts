@@ -4,6 +4,7 @@ import {
     STORE_PAGES_IDS_KEY,
     STORE_LAST_CV_LOGIN_KEY,
     VAR_RECORD_ROUTE_VISIBLE_MENU,
+    VAR_RECORD_CV_LOGIN,
 } from "@essence-community/constructor-share/constants";
 import {PageModel} from "@essence-community/constructor-share/models";
 import {GlobalRecordsModel} from "@essence-community/constructor-share/models/GlobalRecordsModel";
@@ -31,6 +32,12 @@ export class PagesModel implements IPagesModel {
 
     @computed get visiblePages() {
         return this.pages.filter(({route}) => route && route[VAR_RECORD_ROUTE_VISIBLE_MENU]);
+    }
+
+    @computed get storeKey() {
+        const login = this.applicationStore.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "anonymous";
+
+        return `${this.applicationStore.url}_${login}_${STORE_PAGES_IDS_KEY}`;
     }
 
     globalRecordsStore: IGlobalRecordsModel;
@@ -83,7 +90,7 @@ export class PagesModel implements IPagesModel {
             }
 
             saveToStore(
-                `${this.applicationStore.url}_${STORE_PAGES_IDS_KEY}`,
+                this.storeKey,
                 this.pages.map((page) => page.pageId),
             );
 
@@ -106,7 +113,7 @@ export class PagesModel implements IPagesModel {
             }
 
             saveToStore(
-                `${this.applicationStore.url}_${STORE_PAGES_IDS_KEY}`,
+                this.storeKey,
                 this.pages.map((page) => page.pageId),
             );
         }
@@ -121,7 +128,7 @@ export class PagesModel implements IPagesModel {
 
         this.activePage = this.pages[0] || null;
         saveToStore(
-            `${this.applicationStore.url}_${STORE_PAGES_IDS_KEY}`,
+            this.storeKey,
             this.pages.map((page) => page.pageId),
         );
     });
@@ -129,7 +136,7 @@ export class PagesModel implements IPagesModel {
     removeAllPagesAction = action("removeAllPagesAction", () => {
         this.activePage = null;
         this.pages.clear();
-        removeFromStore(`${this.applicationStore.url}_${STORE_PAGES_IDS_KEY}`);
+        removeFromStore(this.storeKey);
     });
 
     removeAllPagesRightAction = action("removeAllPagesRightAction", (pageId: string) => {
@@ -146,7 +153,7 @@ export class PagesModel implements IPagesModel {
         }
 
         saveToStore(
-            `${this.applicationStore.url}_${STORE_PAGES_IDS_KEY}`,
+            this.storeKey,
             this.pages.map((page) => page.pageId),
         );
     });
@@ -156,7 +163,7 @@ export class PagesModel implements IPagesModel {
     });
 
     restorePagesAction = action("restorePagesAction", (login: string) => {
-        const pagesIds = getFromStore(`${this.applicationStore.url}_${STORE_PAGES_IDS_KEY}`, []);
+        const pagesIds = getFromStore(this.storeKey, []);
         const lastCvLogin = getFromStore(STORE_LAST_CV_LOGIN_KEY);
         const promise = Promise.resolve();
 
@@ -194,7 +201,7 @@ export class PagesModel implements IPagesModel {
         this.pages.replace(changePagePosition(this.pages, dragIndex, hoverIndex));
 
         saveToStore(
-            `${this.applicationStore.url}_${STORE_PAGES_IDS_KEY}`,
+            this.storeKey,
             this.pages.map((page) => page.pageId),
         );
     };

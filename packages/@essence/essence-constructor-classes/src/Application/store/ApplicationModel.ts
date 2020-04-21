@@ -245,7 +245,7 @@ export class ApplicationModel implements IApplicationModel {
                 const match = /cv_url\s?={2,3}\s?["'](?<app>\w+)["']/u.exec(firstValisApplication.activerules);
 
                 if (match && match.groups && match.groups.app) {
-                    return this.history.push(`/${match.groups.app}`);
+                    return this.history.push(`/${match.groups.app}`, {backUrl: this.history.location.pathname});
                 }
             }
         }
@@ -254,7 +254,7 @@ export class ApplicationModel implements IApplicationModel {
             await this.logoutAction();
         }
 
-        return this.history.push("/auth");
+        return this.history.push("/auth", {backUrl: this.history.location.pathname});
     };
 
     loadApplicationAction = action("loadApplicationAction", async () => {
@@ -295,9 +295,13 @@ export class ApplicationModel implements IApplicationModel {
             this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
         } else {
             this.redirectToFirstValidApplication();
+
+            return false;
         }
 
         this.isApplicationReady = true;
+
+        return true;
     });
 
     blockApplicationAction = action("blockApplicationAction", (type: string, text = "") => {

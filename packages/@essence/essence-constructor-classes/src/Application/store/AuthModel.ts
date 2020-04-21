@@ -113,9 +113,6 @@ export class AuthModel implements IAuthModel {
     logoutAction = action("logoutAction", async () => {
         const cleanedValues: IAuthSession = {...this.userInfo};
 
-        this.userInfo = DEAULT_USER_INFO;
-        this.applicationStore.setSesssionAction(cleanedValues);
-
         for (const key in cleanedValues) {
             if (Object.prototype.hasOwnProperty.call(cleanedValues, key)) {
                 if (Array.isArray(cleanedValues[key])) {
@@ -125,6 +122,9 @@ export class AuthModel implements IAuthModel {
                 }
             }
         }
+
+        this.userInfo = DEAULT_USER_INFO;
+        this.applicationStore.setSesssionAction(cleanedValues);
 
         try {
             await request({

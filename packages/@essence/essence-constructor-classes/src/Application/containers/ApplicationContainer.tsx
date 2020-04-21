@@ -37,7 +37,8 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
     const match = useRouteMatch<any>("/:appNameDefault");
     const appNameDefault = match?.params.appNameDefault ?? "";
     const {ckId, appName = appNameDefault, filter = ""} = useParams();
-    const [applicationStore] = React.useState(() => new ApplicationModel(history, appName));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const applicationStore = React.useMemo(() => new ApplicationModel(history, appName), []);
     const [trans] = useTranslation("meta");
     const onFormChange = React.useCallback(
         (form: typeof MobxReactForm) => {

@@ -187,7 +187,10 @@ export class PagesModel implements IPagesModel {
             removeFromStoreByRegex(/_filter_/u);
         }
 
-        this.globalRecordsStore.loadAllStoresAction();
+        // Load only for session
+        if (this.applicationStore.authStore.userInfo.session) {
+            this.globalRecordsStore.loadAllStoresAction();
+        }
 
         if (login) {
             saveToStore(STORE_LAST_CV_LOGIN_KEY, login);

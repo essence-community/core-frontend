@@ -1,6 +1,6 @@
 {
   "name": "@essence-community/constructor-classes",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Classes implementation for constructor",
   "main": "src/index.js",
   "repository": "https://github.com/essence-community/core-frontend",
@@ -11,7 +11,7 @@
     "tscheck": "tsc"
   },
   "dependencies": {
-    "@essence-community/constructor-components": "2.2.0",
+    "@essence-community/constructor-components": "2.3.0",
     "@essence-community/constructor-share": "file:../essence-constructor-share/lib/",
     "@material-ui/core": "^4.7.2",
     "classnames": "^2.2.6",

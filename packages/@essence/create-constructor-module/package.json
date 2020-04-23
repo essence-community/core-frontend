@@ -1,6 +1,6 @@
 {
   "name": "@essence-community/create-constructor-module",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Build module",
   "main": "index.js",
   "repository": "https://github.com/essence-community/core-frontend",

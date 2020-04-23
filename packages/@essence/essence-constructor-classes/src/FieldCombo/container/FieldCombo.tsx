@@ -43,7 +43,7 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
 
     const handleChangeOpen = React.useCallback(
         (open: boolean) => {
-            if (open === false && !props.bc.allownew && store.lastValue !== props.value) {
+            if (open === false && !props.bc.allownew) {
                 store.handleSetValue(props.value, false, false);
             }
         },
@@ -84,6 +84,13 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
             store.handleSetValue(props.value, false, false);
         }
     }, [props.value, store]);
+
+    React.useEffect(() => {
+        if (props.bc.allownew && props.value === props.bc.allownew) {
+            props.onChange(null, "");
+        }
+    }, [props.bc.allownew, props.value, props.onChange, props]);
+
     React.useEffect(() => {
         if (props.bc.localization && i18n.language) {
             store.handleChangeLanguage(props.value, i18n.language);

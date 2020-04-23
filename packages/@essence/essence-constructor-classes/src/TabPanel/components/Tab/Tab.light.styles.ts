@@ -14,7 +14,7 @@ export function tabLightStyles(theme: IEssenceTheme): StyleRules<"rootTheme" | T
                 borderRight: `2px solid ${theme.palette.secondary.main}`,
                 borderTop: `2px solid ${theme.palette.secondary.main}`,
             },
-            "&:hover": {
+            "&:not($disabled):hover": {
                 background: theme.essence.palette.tab.hover,
             },
             borderRight: `1px solid ${theme.palette.secondary.main}`,
@@ -35,7 +35,7 @@ export function tabLightStyles(theme: IEssenceTheme): StyleRules<"rootTheme" | T
                 borderRight: `2px solid ${theme.palette.secondary.main}`,
                 borderTop: `2px solid ${theme.palette.secondary.main}`,
             },
-            "&:hover": {
+            "&:not($disabled):hover": {
                 background: theme.essence.palette.tab.hover,
             },
             borderRight: `1px solid ${theme.palette.secondary.main}`,
@@ -83,7 +83,7 @@ export function tabLightStyles(theme: IEssenceTheme): StyleRules<"rootTheme" | T
                     borderTop: `1px solid ${theme.palette.secondary.main}`,
                 },
             },
-            "&:hover": {
+            "&:not($disabled):hover": {
                 "& $label": {
                     backgroundColor: theme.essence.palette.tab.hover,
                 },
@@ -108,7 +108,7 @@ export function tabLightStyles(theme: IEssenceTheme): StyleRules<"rootTheme" | T
                 backgroundColor: theme.essence.palette.tab.active,
                 borderWidth: 2,
             },
-            "&:hover": {
+            "&:not($disabled):hover": {
                 backgroundColor: theme.essence.palette.tab.hover,
             },
             borderLeft: `1px solid ${theme.palette.secondary.main}`,
@@ -152,7 +152,7 @@ export function tabLightStyles(theme: IEssenceTheme): StyleRules<"rootTheme" | T
                     borderTop: `1px solid ${theme.palette.secondary.main}`,
                 },
             },
-            "&:hover": {
+            "&:not($disabled):hover": {
                 "& $label": {
                     backgroundColor: theme.essence.palette.tab.hover,
                 },
@@ -176,7 +176,7 @@ export function tabLightStyles(theme: IEssenceTheme): StyleRules<"rootTheme" | T
                 backgroundColor: theme.essence.palette.tab.active,
                 borderWidth: 2,
             },
-            "&:hover": {
+            "&:not($disabled):hover": {
                 backgroundColor: theme.essence.palette.tab.hover,
             },
             borderRight: `1px solid ${theme.palette.secondary.main}`,

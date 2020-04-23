@@ -28,6 +28,7 @@ import {
     VAR_RECORD_ROUTE_PAGE_ID,
     VAR_RECORD_CV_LOGIN,
     VAR_SETTING_MODULE_URL,
+    VAR_SETTING_ANONYMOUS_ACTION,
     loggerRoot,
 } from "@essence-community/constructor-share/constants";
 import {i18next} from "@essence-community/constructor-share/utils";
@@ -41,7 +42,7 @@ import {
     redirectToPage,
 } from "@essence-community/constructor-share/models";
 import {History} from "history";
-import pageSafeJson from "../mocks/page-safe.json";
+import {pages} from "../mocks";
 import {RoutesModel} from "./RoutesModel";
 import {IAuthSession} from "./AuthModel.types";
 import {PagesModel} from "./PagesModel";
@@ -95,6 +96,8 @@ export class ApplicationModel implements IApplicationModel {
 
     recordId: string = VAR_RECORD_ID;
 
+    isLogoutProcess = false;
+
     @computed get bc(): IBuilderConfig {
         const {children} = this.recordsStore.selectedRecordValues;
 
@@ -115,6 +118,8 @@ export class ApplicationModel implements IApplicationModel {
 
     @observable isBlock = false;
 
+    @observable public url = "";
+
     // @deprecated
     @computed get session(): string | undefined {
         return this.authStore.userInfo.session;
@@ -122,10 +127,10 @@ export class ApplicationModel implements IApplicationModel {
 
     // @deprecated
     @computed get authData(): Record<string, FieldValue> {
-        return this.authStore.userInfo;
+        return this.authStore.userInfo as any;
     }
 
-    constructor(public history: History, public url: string) {
+    constructor(public history: History, url: string) {
         this.routesStore = null;
         this.url = url;
         this.mode = url;
@@ -157,6 +162,12 @@ export class ApplicationModel implements IApplicationModel {
             return this.url;
         }
 
+        if (name === VAR_SETTING_ANONYMOUS_ACTION) {
+            const value = this.globalValues.get(name);
+
+            return typeof value === "string" ? parseInt(value, 10) : value;
+        }
+
         return this.globalValues.get(name);
     };
 
@@ -175,14 +186,19 @@ export class ApplicationModel implements IApplicationModel {
     setSesssionAction = action("setSesssionAction", (userInfo: IAuthSession) => {
         this.globalValues.merge(prepareUserGlobals(userInfo));
 
-        return this.loadApplicationAction();
+        return Promise.resolve();
     });
 
     logoutAction = action("logoutAction", async () => {
-        this.isApplicationReady = false;
+        if (this.isLogoutProcess) {
+            return true;
+        }
+        this.isLogoutProcess = true;
 
         await this.authStore.logoutAction();
+
         removeFromStore("auth");
+
         if (this.history.location.pathname.indexOf("auth") === -1) {
             const {state: {backUrl = this.history.location.pathname} = {}} = this.history.location;
 
@@ -194,6 +210,7 @@ export class ApplicationModel implements IApplicationModel {
             this.wsClient.close(LOGOUT_CODE, "logoutAction");
             this.wsClient = null;
         }
+        this.isLogoutProcess = false;
 
         return true;
     });
@@ -210,6 +227,36 @@ export class ApplicationModel implements IApplicationModel {
         }
     });
 
+    redirectToFirstValidApplication = async () => {
+        const {children} = this.recordsStore.selectedRecordValues;
+
+        if (Array.isArray(children)) {
+            const firstValisApplication = children.find((rec: IBuilderConfig) => {
+                if (!rec.activerules) {
+                    return false;
+                }
+
+                return parseMemoize(rec.activerules.replace(/cv_url\s?={2,3}\s?["']\w+["']/u, "true")).runer({
+                    get: this.handleGetValue,
+                });
+            });
+
+            if (firstValisApplication) {
+                const match = /cv_url\s?={2,3}\s?["'](?<app>\w+)["']/u.exec(firstValisApplication.activerules);
+
+                if (match && match.groups && match.groups.app) {
+                    return this.history.push(`/${match.groups.app}`, {backUrl: this.history.location.pathname});
+                }
+            }
+        }
+
+        if (this.authStore.userInfo.session) {
+            await this.logoutAction();
+        }
+
+        return this.history.push("/auth", {backUrl: this.history.location.pathname});
+    };
+
     loadApplicationAction = action("loadApplicationAction", async () => {
         await Promise.all([
             this.recordsStore.recordsState.status === "init" &&
@@ -223,7 +270,7 @@ export class ApplicationModel implements IApplicationModel {
                         this.recordsStore.setRecordsAction([
                             {
                                 ...this.recordsStore.selectedRecordValues,
-                                children: [pageSafeJson, ...(Array.isArray(children) ? children : [])],
+                                children: [...(Array.isArray(children) ? children : []), ...pages],
                             },
                         ]);
                         this.recordsStore.setSelectionAction(this.recordsStore.selectedRecordId);
@@ -247,10 +294,14 @@ export class ApplicationModel implements IApplicationModel {
             await this.routesStore?.recordsStore.loadRecordsAction();
             this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
         } else {
-            this.history.push("/auth");
+            this.redirectToFirstValidApplication();
+
+            return false;
         }
 
         this.isApplicationReady = true;
+
+        return true;
     });
 
     blockApplicationAction = action("blockApplicationAction", (type: string, text = "") => {
@@ -386,6 +437,21 @@ export class ApplicationModel implements IApplicationModel {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     clearStoreAction = () => {};
 
+    reloadApplication = async (appName: string, routerPageId?: string, filter?: string) => {
+        await this.handleChangeUrl(appName);
+        const routes = this.routesStore ? this.routesStore.recordsStore.records : [];
+        const pageConfig = routes.find(
+            (route: IRecord) => route[VAR_RECORD_ID] === routerPageId || route[VAR_RECORD_URL] === routerPageId,
+        );
+        const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
+
+        if (typeof pageId === "string") {
+            await this.handleSetPage(pageId, filter);
+        } else {
+            // Can remove active page
+        }
+    };
+
     handleWindowOpen = (_mode: IBuilderMode, btnBc: IBuilderConfig) => {
         const window =
             this.bc.childwindow && this.bc.childwindow.find((win: IBuilderConfig) => win.ckwindow === btnBc.ckwindow);
@@ -397,6 +463,51 @@ export class ApplicationModel implements IApplicationModel {
         }
 
         return Promise.resolve(false);
+    };
+
+    handleChangeUrl = async (url: string) => {
+        this.isApplicationReady = false;
+        this.url = url;
+
+        if (this.bc) {
+            const queryId = this.bc[VAR_RECORD_QUERY_ID] || "MTRoute";
+
+            if (!this.routesStore || this.routesStore.recordsStore.bc[VAR_RECORD_QUERY_ID] !== queryId) {
+                this.routesStore = new RoutesModel(
+                    {
+                        [VAR_RECORD_PAGE_OBJECT_ID]: "routes",
+                        [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+                        [VAR_RECORD_QUERY_ID]: queryId,
+                    },
+                    this,
+                );
+            }
+
+            await this.routesStore?.recordsStore.loadRecordsAction();
+
+            this.pagesStore.pages.clear();
+            this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
+            this.pagesStore.activePage = null;
+            this.isApplicationReady = true;
+        } else {
+            this.redirectToFirstValidApplication();
+        }
+    };
+
+    handleSetPage = async (pageId: string, filter?: string) => {
+        if (filter) {
+            try {
+                // Convert to string: encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({})))))
+                const data = decodeURIComponent(escape(window.atob(decodeURIComponent(filter))));
+
+                await this.redirectToAction(pageId, JSON.parse(data));
+            } catch (err) {
+                logger(err);
+                await this.pagesStore.setPageAction(pageId, false);
+            }
+        } else {
+            await this.pagesStore.setPageAction(pageId, false);
+        }
     };
 
     /**

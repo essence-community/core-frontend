@@ -8,8 +8,10 @@ export type ICkId = number | string;
  * 3 - Удаление
  * 4 - Действие настраивается пользователем
  * 6 - Клонирование
+ * 7 - Скачивание
+ * 8 - ?
  */
-export type IBuilderMode = "1" | "2" | "3" | "4" | "6";
+export type IBuilderMode = "1" | "2" | "3" | "4" | "6" | "7" | "8";
 
 export interface IFormOptions {
     filter?: object[];

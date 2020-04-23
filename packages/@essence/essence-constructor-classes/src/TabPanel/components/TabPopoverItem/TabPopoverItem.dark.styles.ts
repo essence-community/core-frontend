@@ -6,12 +6,12 @@ export function darkStyles(theme: IEssenceTheme): StyleRules<"root" | "active"> 
         active: {},
         root: {
             "&$active": {
-                "&:hover": {
+                "&:not($disabled):hover": {
                     backgroundColor: theme.palette.primary.main,
                 },
                 color: theme.essence.palette.common.selectedMenu,
             },
-            "&:hover": {
+            "&:not($disabled):hover": {
                 backgroundColor: theme.palette.primary.light,
             },
             backgroundColor: theme.palette.primary.main,

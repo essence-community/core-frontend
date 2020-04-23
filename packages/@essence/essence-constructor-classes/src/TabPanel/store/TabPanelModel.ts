@@ -14,25 +14,25 @@ export type TabsStatusType = {
 export class TabPanelModel extends StoreBaseModel {
     tabBc: IBuilderConfig;
 
-    tabStatus: TabsStatusType = {};
-
     tabs: IBuilderConfig[];
 
     childs: IBuilderConfig[];
 
     @computed get activeInHidden(): boolean {
-        const activeTabIndex = this.childs.findIndex((tabBc) => this.tabValue === tabBc[VAR_RECORD_PAGE_OBJECT_ID]);
+        const activeTabIndex = this.activeTabs.findIndex((tabBc) => this.tabValue === tabBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
-        return activeTabIndex >= this.childs.length - this.hiddenTabsIndex;
+        return activeTabIndex >= this.activeTabs.length - this.hiddenTabsIndex;
     }
 
     @computed get activeTabs(): IBuilderConfig[] {
         return this.tabs.filter((tab): boolean => {
             const status = this.tabStatus[tab[VAR_RECORD_PAGE_OBJECT_ID]];
 
-            return status ? !status.disabled && !status.hidden : true;
+            return status ? !status.hidden : true;
         });
     }
+
+    @observable tabStatus: TabsStatusType = {};
 
     @observable hiddenTabsIndex = 0;
 
@@ -91,10 +91,14 @@ export class TabPanelModel extends StoreBaseModel {
     });
 
     setTabStatus = (tabValue: string, status: TabStatusType) => {
-        this.tabStatus[tabValue] = {
-            ...this.tabStatus[tabValue],
-            ...status,
-        };
+        const oldStatus = this.tabStatus[tabValue];
+
+        if (oldStatus.hidden !== status.hidden || oldStatus.disabled !== status.disabled) {
+            this.tabStatus[tabValue] = {
+                ...this.tabStatus[tabValue],
+                ...status,
+            };
+        }
     };
 
     setHiddenTabsIndex = (hiddenTabsIndex: number) => {

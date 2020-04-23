@@ -58,10 +58,14 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
             [classes.panelEditing]: isEditing,
         });
         // eslint-disable-next-line init-declarations
-        let paddingTop;
+        let marginTop;
 
         if (isFilterActionsPresent && pageStore.styleTheme === "dark") {
-            paddingTop = store.isFilterOpen ? FILTER_THREE_BUTTON : FITER_ONE_BUTTON;
+            if (filters[0].topbtn?.length > 0) {
+                marginTop = filters[0].topbtn.length * FITER_ONE_BUTTON;
+            } else {
+                marginTop = store.isFilterOpen ? FILTER_THREE_BUTTON : FITER_ONE_BUTTON;
+            }
         }
 
         const filterComponent = (
@@ -90,24 +94,33 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
         );
 
         const actionsComponent = (
-            <Grid item style={{paddingTop}} className={classes.formActions}>
+            <Grid item style={{marginTop}} className={classes.formActions}>
                 {isEditing ? (
                     <BuilderPanelEditingButtons store={store} bc={bc} pageStore={pageStore} visible={visible} />
                 ) : (
                     <Grid container alignItems="center" direction={buttonDirection} spacing={1}>
-                        {mapComponents(bc.topbtn, (ChildComp, child) => (
-                            <Grid item key={child[VAR_RECORD_PAGE_OBJECT_ID]}>
-                                <ChildComp
-                                    bc={child}
-                                    disabled={disabled}
-                                    onlyicon={pageStore.styleTheme === "dark" ? true : undefined}
-                                    color="inherit"
-                                    pageStore={pageStore}
-                                    readOnly={readOnly}
-                                    visible={visible}
-                                />
-                            </Grid>
-                        ))}
+                        {mapComponents(store.panelBc.topbtn, (ChildComp, child) => {
+                            const isAddButton = child.mode === "1";
+
+                            if (!isAddButton && pageStore.styleTheme === "dark" && child.uitype === "1") {
+                                child.uitype = "3";
+                            }
+
+                            return (
+                                <Grid item key={child[VAR_RECORD_PAGE_OBJECT_ID]}>
+                                    <ChildComp
+                                        bc={child}
+                                        disabled={disabled}
+                                        variant={isAddButton ? "fab" : undefined}
+                                        onlyicon={pageStore.styleTheme === "dark" ? true : undefined}
+                                        color={isAddButton ? undefined : "inherit"}
+                                        pageStore={pageStore}
+                                        readOnly={readOnly}
+                                        visible={visible}
+                                    />
+                                </Grid>
+                            );
+                        })}
                     </Grid>
                 )}
             </Grid>

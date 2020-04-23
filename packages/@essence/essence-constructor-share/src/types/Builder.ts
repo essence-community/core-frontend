@@ -184,8 +184,6 @@ export interface IBuilderBaseConfig {
     regexp?: string;
     // Признак обновления родителя по мастеру
     reloadmaster?: string;
-    // Признак повторного вызова сервиса комбобокса во время раскрытия в случае, если изменился мастер
-    reloadservice?: string;
     // Количество обязательно заполненных полей в группе, требуемое для корректной валидации
     reqcount?: string;
     // Правила для изменения количества обязательно заполненных полей в группе. Имеет приоритет над reqcount
@@ -285,7 +283,7 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     records?: Record<string, FieldValue>[];
 }
 
-export type IBuilderMode = "1" | "2" | "3" | "4" | "6" | string;
+export type IBuilderMode = "1" | "2" | "3" | "4" | "6" | "7" | "8";
 
 export interface IBuilderFilter extends IBuilderBaseConfig {
     dynamicfilter?: string;

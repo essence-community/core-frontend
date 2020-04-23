@@ -6,11 +6,11 @@ import {
     removeFromStore,
     removeFromStoreByRegex,
 } from "@essence-community/constructor-share/utils";
+import {GlobalRecordsModel} from "@essence-community/constructor-share/models/GlobalRecordsModel";
 import {STORE_PAGES_IDS_KEY, STORE_LAST_CV_LOGIN_KEY} from "../../constants";
 import {type CkIdType} from "../../BuilderType";
 import {changePagePosition} from "../../utils/changePagePosition";
 import {PageModel, type PageModelType} from "../PageModel";
-import {GlobalRecordsModel, type GlobalRecordsModelType} from "../GlobalRecordsModel";
 import {type ApplicationModelType} from "../StoreTypes";
 import {type RoutesModelType} from "../RoutesModel";
 import {type PagesModelInterface, type PagesModelPropsType} from "./PagesModelType";
@@ -37,7 +37,6 @@ export class PagesModel implements PagesModelInterface {
         this.applicationStore = applicationStore;
         this.routesStore = routesStore;
         this.history = history;
-        this.globalRecordsStore = new GlobalRecordsModel({pageStore: this.globalPageStore});
 
         extendObservable(this, {
             activePage: null,
@@ -189,7 +188,16 @@ export class PagesModel implements PagesModelInterface {
             removeFromStoreByRegex(/_filter_/u);
         }
 
-        this.globalRecordsStore.loadAllStoresAction(this.applicationStore);
+        /*
+         * Pages на page формируется синхронного, settings не успевает отработать
+         * на новом application такой проблемы не будет
+         */
+        this.globalRecordsStore = new GlobalRecordsModel({
+            applicationStore: this.applicationStore,
+            pageStore: null,
+        });
+
+        this.globalRecordsStore.loadAllStoresAction();
 
         saveToStore(STORE_LAST_CV_LOGIN_KEY, login);
     });

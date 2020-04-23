@@ -81,11 +81,13 @@ validatorjs.register(
 validatorjs.register(
     "maxvalue",
     (value, req) => {
-        if (req.length > MAX_NUMBER_SIZE) {
-            return new BigNumber(value).lte(new BigNumber(req));
+        const reqValue = req.replace(",", ".");
+
+        if (reqValue.length > MAX_NUMBER_SIZE) {
+            return new BigNumber(value).lte(new BigNumber(reqValue));
         }
 
-        return toNumber(value) <= toNumber(req);
+        return toNumber(value) <= toNumber(reqValue);
     },
     i18next.t("static:58b71773e7664e70874020a45705bc4c"),
 );
@@ -93,11 +95,13 @@ validatorjs.register(
 validatorjs.register(
     "minvalue",
     (value, req) => {
-        if (req.length > MAX_NUMBER_SIZE) {
-            return new BigNumber(value).gte(new BigNumber(req));
+        const reqValue = req.replace(",", ".");
+
+        if (reqValue.length > MAX_NUMBER_SIZE) {
+            return new BigNumber(value).gte(new BigNumber(reqValue));
         }
 
-        return toNumber(value) >= toNumber(req);
+        return toNumber(value) >= toNumber(reqValue);
     },
     i18next.t("static:31d96e87a5514f509c75bc701b772504"),
 );

@@ -6,7 +6,19 @@ import themeLightAll from "./themeLight/themeLight";
 import {themeIEOverrides} from "./themeIEOverrides";
 import {themeOverridesDefault} from "./themeOverridesDefault";
 
-const Theme = styleTheme === "light" ? themeLightAll : themeDarkAll;
+const Theme = {
+    ...(styleTheme === "light" ? themeLightAll : themeDarkAll),
+    props: {
+        // Name of the component ⚛️
+        MuiButtonBase: {
+            /*
+             * The properties to apply
+             * No more ripple, on the whole application 💣!
+             */
+            disableRipple: true,
+        },
+    },
+};
 const overrides = themeOverridesDefault(Theme);
 
 merge(Theme.overrides, overrides);

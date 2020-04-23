@@ -23,18 +23,22 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {useDisposable, useObserver} from "mobx-react-lite";
 import {reaction, observe} from "mobx";
-import {useParams, useHistory} from "react-router-dom";
+import {useParams, useHistory, useRouteMatch} from "react-router-dom";
 import {ApplicationModel, CLOSE_CODE} from "../store/ApplicationModel";
 import {renderGlobalValuelsInfo} from "../utils/renderGlobalValuelsInfo";
 import {ApplicationWindows} from "../components/ApplicationWindows";
+import {Block} from "../components/Block";
 
 const logger = loggerRoot.extend("PagerContainer");
 
 // eslint-disable-next-line max-lines-per-function
 export const ApplicationContainer: React.FC<IClassProps> = () => {
     const history = useHistory();
-    const {ckId, appName = "", filter = ""} = useParams();
-    const [applicationStore] = React.useState(() => new ApplicationModel(history, appName));
+    const match = useRouteMatch<any>("/:appNameDefault");
+    const appNameDefault = match?.params.appNameDefault ?? "";
+    const {ckId, appName = appNameDefault, filter = ""} = useParams();
+    const appNameRef = React.useRef(appName);
+    const applicationStore = React.useMemo(() => new ApplicationModel(history, appNameRef.current), [history]);
     const [trans] = useTranslation("meta");
     const onFormChange = React.useCallback(
         (form: typeof MobxReactForm) => {
@@ -53,36 +57,25 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
 
     React.useEffect(() => {
         const loadApplication = async () => {
-            await applicationStore.loadApplicationAction();
-            const {routesStore, pagesStore, authStore} = applicationStore;
-            const routes = routesStore ? routesStore.recordsStore.records : [];
-            const pageConfig = routes.find(
-                (route: IRecord) => route[VAR_RECORD_ID] === ckId || route[VAR_RECORD_URL] === ckId,
-            );
-            const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
+            await applicationStore.authStore.checkAuthAction(history);
+            const isSuccess = await applicationStore.loadApplicationAction();
 
-            if (typeof pageId === "string") {
-                if (filter) {
-                    try {
-                        // Convert to string: encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({})))))
-                        const data = decodeURIComponent(escape(window.atob(decodeURIComponent(filter))));
+            // Contrinue for found application, else redirect to other application in loadApplicationAction
+            if (isSuccess) {
+                const {routesStore, pagesStore} = applicationStore;
+                const routes = routesStore ? routesStore.recordsStore.records : [];
+                const pageConfig = routes.find(
+                    (route: IRecord) => route[VAR_RECORD_ID] === ckId || route[VAR_RECORD_URL] === ckId,
+                );
+                const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
-                        applicationStore.redirectToAction(pageId, JSON.parse(data));
-                    } catch (err) {
-                        logger(err);
-                        pagesStore.setPageAction(pageId, false);
-                    }
-                } else {
-                    pagesStore.setPageAction(pageId, false);
+                if (typeof pageId === "string") {
+                    applicationStore.handleSetPage(pageId, filter);
+                } else if (ckId !== undefined) {
+                    pagesStore.setPageAction(ckId, true);
+                } else if (pagesStore.pages.length) {
+                    pagesStore.setPageAction(pagesStore.pages[0].pageId, true);
                 }
-            } else if (ckId !== undefined) {
-                pagesStore.setPageAction(ckId, true);
-            } else if (pagesStore.pages.length) {
-                pagesStore.setPageAction(pagesStore.pages[0].pageId, true);
-            }
-
-            if (authStore.userInfo.session && process.env.REACT_APP_REQUEST !== "MOCK") {
-                applicationStore.initWsClient(authStore.userInfo.session);
             }
         };
 
@@ -99,6 +92,37 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
         };
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [applicationStore]);
+
+    // Change url for application
+    React.useEffect(() => {
+        appNameRef.current = appName;
+
+        if (applicationStore.url !== appName) {
+            applicationStore.reloadApplication(appName, ckId, filter);
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [appName, applicationStore]);
+
+    // Init ws client only for session
+    React.useEffect(() => {
+        const dispose = reaction(
+            () => process.env.REACT_APP_REQUEST !== "MOCK" && applicationStore.authStore.userInfo.session,
+            (session) => {
+                // Reinit ws for new session
+                if (session && !applicationStore.wsClient) {
+                    applicationStore.initWsClient(session);
+                }
+            },
+            {
+                fireImmediately: true,
+            },
+        );
+
+        return () => {
+            dispose();
+        };
     }, [applicationStore]);
 
     useDisposable(() => {
@@ -120,6 +144,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                 const route = activePage && activePage.route;
                 let pageId: FieldValue = "";
                 let routeUrl: FieldValue = "";
+                let url = "";
 
                 if (route && route[VAR_RECORD_ID]) {
                     pageId = route[VAR_RECORD_ID];
@@ -132,7 +157,9 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                     routeUrl = applicationStore.bc.defaultvalue;
                 }
 
-                const url = routeUrl ? `/${appName}/${routeUrl}` : `/${applicationStore.bc.redirecturl}`;
+                if (routeUrl) {
+                    url = `/${appNameRef.current}/${routeUrl}`;
+                }
 
                 if (url && history.location.pathname !== url) {
                     history.push(url);
@@ -143,7 +170,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                 }
             },
         );
-    });
+    }, [applicationStore]);
 
     useDisposable(() => {
         return reaction(
@@ -167,6 +194,16 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                     text: renderGlobalValuelsInfo(globalValues),
                     title: trans("static:d2c071c58aca4b73853c1fcc6e2f08a3"),
                 }),
+        );
+    });
+
+    // Close all windows after change application
+    useDisposable(() => {
+        return reaction(
+            () => applicationStore.bc,
+            () => {
+                applicationStore.pageStore.windows.clear();
+            },
         );
     });
 
@@ -195,10 +232,14 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                             />
                         ))}
                         <ApplicationWindows pageStore={applicationStore.pageStore} />
+                        <Block applicationStore={applicationStore} />
                     </>
                 ) : (
-                    // @ts-ignore
-                    <PageLoader isLoading loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER]} />
+                    <PageLoader
+                        container={null}
+                        isLoading
+                        loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"}
+                    />
                 )}
             </EditorContex.Provider>
         </ApplicationContext.Provider>

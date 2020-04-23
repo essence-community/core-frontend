@@ -386,15 +386,19 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
         const isFilterActionsPresent = filters.length > 0 && filters[0].dynamicfilter !== "true";
         const classNameRoot = cn(classes.root, isHideActions ? classes.rootActionsHide : classes.rootActions);
         // eslint-disable-next-line init-declarations
-        let paddingTop;
+        let marginTop;
 
         if (isFilterActionsPresent && pageStore.styleTheme === "dark") {
-            paddingTop = store.isFilterOpen ? FILTER_THREE_BUTTON : FITER_ONE_BUTTON;
+            if (filters[0].topbtn?.length > 0) {
+                marginTop = filters[0].topbtn.length * FITER_ONE_BUTTON;
+            } else {
+                marginTop = store.isFilterOpen ? FILTER_THREE_BUTTON : FITER_ONE_BUTTON;
+            }
         }
 
         const actionsComponent = isHideActions ? null : (
             <Grid
-                style={{paddingTop}}
+                style={{marginTop}}
                 item
                 className={store.isInlineEditing ? classes.editActionsGrid : classes.tableActions}
             >

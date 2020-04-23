@@ -1,8 +1,13 @@
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {IRecordsModel, IStoreBaseModelProps} from "@essence-community/constructor-share/types";
+import {computed} from "mobx";
 
 export class ServiceHiddenModel extends StoreBaseModel {
     recordsStore: IRecordsModel;
+
+    @computed get selectedRecord() {
+        return this.recordsStore.selectedRecord;
+    }
 
     constructor(props: IStoreBaseModelProps) {
         super(props);

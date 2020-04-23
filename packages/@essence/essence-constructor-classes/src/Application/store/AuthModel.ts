@@ -9,14 +9,25 @@ import {
 } from "@essence-community/constructor-share";
 import {snackbarStore, settingsStore} from "@essence-community/constructor-share/models";
 import {request} from "@essence-community/constructor-share/request";
-import {VAR_SETTING_AUTO_CONNECT_GUEST, VAR_CONNECT_GUEST} from "@essence-community/constructor-share/constants";
+import {
+    VAR_SETTING_AUTO_CONNECT_GUEST,
+    VAR_CONNECT_GUEST,
+    VAR_RECORD_CV_LOGIN,
+    VAR_RECORD_CA_ACTIONS,
+} from "@essence-community/constructor-share/constants";
 import {IRecord} from "@essence-community/constructor-share/types";
 import {IAuthSession} from "./AuthModel.types";
 
 const logger = loggerRoot.extend("AuthModel");
 
+const DEAULT_USER_INFO: IAuthSession = {
+    [VAR_RECORD_CA_ACTIONS]: [],
+    [VAR_RECORD_CV_LOGIN]: "",
+    session: "",
+};
+
 export class AuthModel implements IAuthModel {
-    @observable userInfo = getFromStore<Partial<IAuthSession>>("auth", {}) || {};
+    @observable userInfo = getFromStore<IAuthSession>("auth") || DEAULT_USER_INFO;
 
     // eslint-disable-next-line no-useless-constructor
     constructor(public applicationStore: IApplicationModel) {}
@@ -25,7 +36,7 @@ export class AuthModel implements IAuthModel {
         "checkAuthAction",
         (
             history: History,
-            session?: string,
+            session: string = this.userInfo.session,
             connectGuest: string = settingsStore.settings[VAR_SETTING_AUTO_CONNECT_GUEST],
         ) =>
             request({
@@ -37,14 +48,19 @@ export class AuthModel implements IAuthModel {
                 query: "GetSessionData",
                 session,
             })
-                // @ts-ignore
+                // eslint-disable-next-line consistent-return
                 .then((response: IAuthSession) => {
-                    // @ts-ignore
                     if (response && snackbarStore.checkValidLoginResponse(response)) {
-                        this.successLoginAction(response, history);
+                        if (response.session === this.userInfo.session) {
+                            this.changeUserInfo(response);
+                        } else {
+                            this.successLoginAction(response, history);
+                        }
+                    } else if (!response && session === this.userInfo.session) {
+                        return this.logoutAction();
                     }
                 })
-                .catch((err: any) => {
+                .catch((err: Error) => {
                     logger(err);
                 }),
     );
@@ -62,7 +78,6 @@ export class AuthModel implements IAuthModel {
                     if (response && snackbarStore.checkValidLoginResponse(response as IRecord)) {
                         this.successLoginAction(
                             {
-                                // @ts-ignore
                                 ...(response as IAuthSession),
                                 ...responseOptions,
                             },
@@ -70,10 +85,10 @@ export class AuthModel implements IAuthModel {
                         );
                     }
                 })
-                .catch((error: any) => {
+                .catch((error: Error) => {
                     snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
                     this.applicationStore.logoutAction();
-                    this.userInfo = {};
+                    this.userInfo = DEAULT_USER_INFO;
                 }),
     );
 
@@ -95,18 +110,30 @@ export class AuthModel implements IAuthModel {
         saveToStore("auth", this.userInfo);
     });
 
-    logoutAction = action("logoutAction", () => {
-        return request({
-            action: "auth",
-            query: "Logout",
-            session: this.userInfo.session,
-        })
-            .then(() => {
-                this.userInfo = {};
-            })
-            .catch((err) => {
-                logger(err);
-                this.userInfo = {};
+    logoutAction = action("logoutAction", async () => {
+        const cleanedValues: IAuthSession = {...this.userInfo};
+
+        for (const key in cleanedValues) {
+            if (Object.prototype.hasOwnProperty.call(cleanedValues, key)) {
+                if (Array.isArray(cleanedValues[key])) {
+                    cleanedValues[key] = [];
+                } else {
+                    cleanedValues[key] = "";
+                }
+            }
+        }
+
+        this.userInfo = DEAULT_USER_INFO;
+        this.applicationStore.setSesssionAction(cleanedValues);
+
+        try {
+            await request({
+                action: "auth",
+                query: "Logout",
+                session: this.userInfo.session,
             });
+        } catch (err) {
+            logger(err);
+        }
     });
 }

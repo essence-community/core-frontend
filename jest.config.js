@@ -3,6 +3,7 @@ module.exports = {
         "<rootDir>/packages/@essence/essence-constructor-components/src/**/*.{js,jsx,mjs}",
         "<rootDir>/packages/@essence/essence-constructor-website/src/**/*.{js,jsx,mjs}",
         "<rootDir>/packages/@essence/essence-constructor-share/src/**/*.{js,mjs,ts,tsx}",
+        "<rootDir>/packages/@essence/essence-constructor-classes/src/**/*.{ts,tsx}",
     ],
     coveragePathIgnorePatterns: ["/node_modules/", "Story", "Styles", "Types", "Type.js"],
     coverageReporters: ["text", "cobertura", "lcov"],
@@ -16,6 +17,7 @@ module.exports = {
         "<rootDir>/packages/@essence/essence-constructor-components/src/**/__tests__/**/*.{js,jsx,mjs}",
         "<rootDir>/packages/@essence/essence-constructor-website/src/**/__tests__/**/*.{js,jsx,mjs}",
         "<rootDir>/packages/@essence/essence-constructor-share/src/**/__tests__/**/*.{js,mjs,ts,tsx}",
+        "<rootDir>/packages/@essence/essence-constructor-classes/src/**/__tests__/**/*.{ts,tsx}",
     ],
     testURL: "http://localhost",
     transform: {

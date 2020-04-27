@@ -73,8 +73,8 @@ export class FilePanelModel extends StoreBaseModel implements FilePanelModelType
         this.gridStore.defaultHandlerBtnAction(mode, bc, {ckwindow: "add_document"}),
     );
 
-    deleteAction = action("deleteAction", (mode: BuilderModeType, btnBc: BuilderBaseType, {values, form}) =>
-        this.gridStore.recordsStore.saveAction(values, btnBc.modeaction || "3", {
+    deleteAction = action("deleteAction", (mode: BuilderModeType, btnBc: BuilderBaseType, {record, form}) =>
+        this.gridStore.recordsStore.saveAction(record, btnBc.modeaction || "3", {
             actionBc: btnBc,
             form,
             query: btnBc.updatequery,

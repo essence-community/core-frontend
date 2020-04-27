@@ -33,6 +33,10 @@ input[type=number]::-webkit-outer-spin-button {
   font-weight: normal;
 }
 
+.fa {
+  min-width: 20px;
+}
+
 .fa-xs {
   font-size: 0.75em;
 }

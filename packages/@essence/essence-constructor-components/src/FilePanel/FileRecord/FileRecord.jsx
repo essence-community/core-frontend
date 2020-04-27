@@ -15,7 +15,8 @@ import {
 import moment from "moment";
 import {downloadFile} from "@essence-community/constructor-share/utils/download";
 import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
-import BuilderMobxButton from "../../Button/BuilderMobxButton";
+import {mapComponents} from "@essence-community/constructor-share/components";
+import {RecordContext} from "@essence-community/constructor-share/context";
 import {type PageModelType} from "../../stores/PageModel";
 import {type FilePanelBcType, type FilePanelModelType} from "../../stores/FilePanelModel";
 import styles from "./FileRecordStyles";
@@ -44,10 +45,6 @@ export class FileRecordBase extends React.PureComponent<PropsType & WithT> {
         downloadFile(record[VAR_RECORD_CV_FILENAME], queryParams);
     };
 
-    handlePerformData = () => ({
-        values: this.props.record,
-    });
-
     handleClickClearButton = (event: SyntheticEvent<>) => {
         event.stopPropagation();
     };
@@ -72,6 +69,7 @@ export class FileRecordBase extends React.PureComponent<PropsType & WithT> {
         return <span className={classes.lableRoot}>{t(labelString)}</span>;
     };
 
+    // eslint-disable-next-line max-lines-per-function
     render() {
         // eslint-disable-next-line id-length
         const {record, classes = {}, store, bc, readOnly, disabled, pageStore, t} = this.props;
@@ -80,6 +78,13 @@ export class FileRecordBase extends React.PureComponent<PropsType & WithT> {
                 <Icon iconfont="file" iconfontname="fa" size="lg" />
             </ButtonBase>
         );
+        const initalDelBc = store.btnsConfig.overrides["Override Delete Button"];
+        const delBc = {
+            confirmquestion: `${t("static:b711be91555b46bab25971b7da959653")} "${record[VAR_RECORD_CV_FILENAME]}"?`,
+            ...initalDelBc,
+            // eslint-disable-next-line sort-keys
+            [VAR_RECORD_PAGE_OBJECT_ID]: `${initalDelBc[VAR_RECORD_PAGE_OBJECT_ID]}-remove-${record[VAR_RECORD_ID]}`,
+        };
 
         return (
             <TextField
@@ -92,22 +97,19 @@ export class FileRecordBase extends React.PureComponent<PropsType & WithT> {
                 className={classes.inputRoot}
                 InputProps={{
                     endAdornment: (
-                        <div onClick={this.handleClickClearButton}>
-                            <BuilderMobxButton
-                                className={classes.clearButton}
-                                pageStore={pageStore}
-                                bc={{
-                                    confirmquestion: `${t("static:b711be91555b46bab25971b7da959653")} "${
-                                        record[VAR_RECORD_CV_FILENAME]
-                                    }"?`,
-                                    ...store.btnsConfig.overrides["Override Delete Button"],
-                                }}
-                                disabled={readOnly || disabled}
-                                data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-remove-${record[VAR_RECORD_ID]}`}
-                                visible
-                                performData={this.handlePerformData}
-                            />
-                        </div>
+                        <RecordContext.Provider value={record}>
+                            <div onClick={this.handleClickClearButton} className={classes.clearButton}>
+                                {mapComponents([delBc], (ChildCmp, childBc) => (
+                                    <ChildCmp
+                                        key="del"
+                                        bc={childBc}
+                                        pageStore={pageStore}
+                                        disabled={readOnly || disabled}
+                                        visible
+                                    />
+                                ))}
+                            </div>
+                        </RecordContext.Provider>
                     ),
                     startAdornment,
                 }}

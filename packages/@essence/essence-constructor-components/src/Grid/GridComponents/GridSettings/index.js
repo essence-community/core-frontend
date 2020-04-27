@@ -1,4 +1,4 @@
-// @flow
+import {setComponent} from "@essence-community/constructor-share/components";
 import GridSettings from "./GridSettings";
 
-export default GridSettings;
+setComponent("GRID_SETTINGS", GridSettings);

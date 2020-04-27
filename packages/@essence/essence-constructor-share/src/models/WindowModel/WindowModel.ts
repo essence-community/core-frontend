@@ -142,7 +142,7 @@ export class WindowModel extends StoreBaseModel implements IWindowModel {
         await options.form.validate({showErrors: true});
 
         if (options.form.isValid && parentStore && parentStore.handlers.onPrintExcel) {
-            const success = await parentStore.handlers.onPrintExcel(mode, btnBc, {values: options.form.values()});
+            const success = await parentStore.handlers.onPrintExcel(mode, btnBc, {record: options.form.values()});
 
             if (success) {
                 this.closeAction(mode, btnBc, options);

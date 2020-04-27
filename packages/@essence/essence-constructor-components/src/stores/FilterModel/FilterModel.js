@@ -173,4 +173,29 @@ export class FilterModel extends StoreBaseModel implements FilterModelType {
     handleFormStatus = (value: boolean) => {
         this.isFormDirty = value;
     };
+
+    handlers = {
+        onReset: (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
+            const {form} = options;
+            const parentBc = this.pageStore.stores.get(this.bc[VAR_RECORD_PARENT_ID])?.bc;
+
+            if (form) {
+                form.onReset();
+            }
+
+            this.resetValues();
+            this.setSearchedAction(false, parentBc);
+
+            return Promise.resolve();
+        },
+        onSearch: (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
+            const {form} = options;
+
+            if (form && !form.submitting) {
+                form.submit();
+            }
+
+            return Promise.resolve();
+        },
+    };
 }

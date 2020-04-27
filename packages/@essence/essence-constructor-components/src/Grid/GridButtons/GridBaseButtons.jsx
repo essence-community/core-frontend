@@ -4,15 +4,16 @@ import {observer} from "mobx-react";
 import noop from "lodash/noop";
 import orderBy from "lodash/orderBy";
 import {Grid} from "@material-ui/core";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_CN_ORDER} from "@essence-community/constructor-share/constants";
-import BuilderButtonCollector from "../../Button/BuilderButtonCollector/BuilderButtonCollector";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_CN_ORDER,
+    VAR_RECORD_PARENT_ID,
+} from "@essence-community/constructor-share/constants";
+import {mapComponents} from "@essence-community/constructor-share/components";
 import Pagination from "../../Pagination/Pagination";
-import BuilderMobxButton from "../../Button/BuilderMobxButton";
 import {type GridModelType} from "../../stores/GridModel";
 import {type PageModelType} from "../../stores/PageModel";
 import {styleTheme} from "../../constants";
-import GridAudit from "../GridComponents/GridAudit";
-import GridSettings from "../GridComponents/GridSettings";
 import {type BuilderGridType} from "../BuilderGridType";
 
 type PropsType = {|
@@ -51,78 +52,33 @@ class GridBaseButtons extends React.Component<PropsType> {
         }
     };
 
-    renderGridAuditButton = (buttonProps: Object) => ({onOpen}) => {
-        const {disabled, store, pageStore} = this.props;
+    getGridButtons = () => {
+        const {bc, store} = this.props;
         const {overrides} = store.gridBtnsConfig;
-
-        return (
-            <BuilderMobxButton
-                bc={overrides["Override Audit Button"]}
-                disabled={disabled}
-                color="inherit"
-                pageStore={pageStore}
-                handleClick={onOpen}
-                {...buttonProps}
-            />
-        );
-    };
-
-    // eslint-disable-next-line max-statements, max-lines-per-function
-    getGridButtons = ({buttonProps, handleClose, isCollect = true}: Object) => {
-        const {bc, store, pageStore, isInlineEditing} = this.props;
-        const disabled = this.props.disabled || isInlineEditing;
-        const {overrides} = store.gridBtnsConfig;
-        const {btnaudit, btnexcel, btnsettings} = bc;
         const btns = [];
 
-        if (btnsettings === "true") {
+        if (bc.btnsettings === "true") {
             btns.push({
-                component: (
-                    <GridSettings
-                        pageStore={pageStore}
-                        buttonProps={buttonProps}
-                        gridStore={store}
-                        onClose={handleClose}
-                        disabled={disabled}
-                    />
-                ),
-                key: "grid-setting",
+                bc: {
+                    [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_setting`,
+                    [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+                    type: "GRID_SETTINGS",
+                    uitype: "1",
+                },
                 order: 10100,
             });
         }
 
-        if (btnaudit === "true") {
+        if (bc.btnaudit === "true") {
             btns.push({
-                component: (
-                    <GridAudit
-                        parentStore={store}
-                        bc={overrides["Override Audit Button"]}
-                        pageStore={pageStore}
-                        onClose={handleClose}
-                        isCollect={isCollect}
-                        disabled={disabled}
-                    >
-                        {this.renderGridAuditButton(buttonProps)}
-                    </GridAudit>
-                ),
-                key: "grid-audit",
+                bc: overrides["Override Audit Button"],
                 order: overrides["Override Audit Button"][VAR_RECORD_CN_ORDER],
             });
         }
 
-        if (btnexcel === "true") {
+        if (bc.btnexcel === "true") {
             btns.push({
-                component: (
-                    <BuilderMobxButton
-                        bc={overrides["Override Excel Button"]}
-                        disabled={disabled}
-                        color="inherit"
-                        pageStore={pageStore}
-                        onClick={handleClose}
-                        {...buttonProps}
-                    />
-                ),
-                key: "grid-excel",
+                bc: overrides["Override Excel Button"],
                 order: overrides["Override Excel Button"][VAR_RECORD_CN_ORDER],
             });
         }
@@ -130,50 +86,22 @@ class GridBaseButtons extends React.Component<PropsType> {
         return btns;
     };
 
-    renderGridButtons = (props: Object): Array<React.Node> => {
-        const btns = this.getGridButtons(props);
-
-        return orderBy(btns, "order").map((options) => (
-            <Grid item key={options.key}>
-                {options.component}
-            </Grid>
-        ));
-    };
-
     // eslint-disable-next-line  max-lines-per-function, max-statements
     render() {
-        const {bc, store, classes, readOnly, pageStore, visible, isInlineEditing} = this.props;
+        const {bc, store, classes, visible, isInlineEditing, readOnly, pageStore} = this.props;
         const disabled = this.props.disabled || isInlineEditing;
         const {overrides, btns, btnsCollector} = store.gridBtnsConfig;
         const {btndelete, btnrefresh} = bc;
         const {recordsStore} = store;
-        const {selectedRecord, pageSize} = recordsStore;
-        const onlyIcon = styleTheme === "dark" ? true : undefined;
+        const {pageSize} = recordsStore;
         const showStaticBtns = !btnsCollector || btnsCollector.every((btn) => btn.btncollectorall !== "true");
         const btnsAll = [
             ...btns.map((btn) => {
                 const isAddButton =
                     btn.mode === "1" || btn.handler === "onCreateChildWindowMaster" || btn.handler === "onSimpleAddRow";
 
-                if (!isAddButton && styleTheme === "dark" && btn.uitype === "1") {
-                    btn.uitype = "3";
-                }
-
                 return {
-                    component: (
-                        <BuilderMobxButton
-                            onlyicon={onlyIcon}
-                            bc={btn}
-                            disabled={disabled}
-                            variant={isAddButton ? "fab" : undefined}
-                            readOnly={readOnly}
-                            color={isAddButton ? undefined : "inherit"}
-                            pageStore={pageStore}
-                            visible={visible}
-                            preventFocus={false}
-                        />
-                    ),
-                    key: btn[VAR_RECORD_PAGE_OBJECT_ID],
+                    bc: isAddButton ? {...btn, uitype: "4"} : {...btn, uitype: btn.uitype === "1" ? "11" : btn.uitype},
                     order: btn[VAR_RECORD_CN_ORDER],
                 };
             }),
@@ -181,58 +109,29 @@ class GridBaseButtons extends React.Component<PropsType> {
 
         if (btndelete === "true") {
             btnsAll.push({
-                component: (
-                    <BuilderMobxButton
-                        bc={overrides["Override Delete Button"]}
-                        color="inherit"
-                        disabled={disabled}
-                        readOnly={readOnly}
-                        record={selectedRecord}
-                        pageStore={pageStore}
-                        visible={visible}
-                    />
-                ),
-                key: overrides["Override Delete Button"][VAR_RECORD_PAGE_OBJECT_ID],
+                bc: overrides["Override Delete Button"],
                 order: overrides["Override Delete Button"][VAR_RECORD_CN_ORDER],
             });
         }
 
         if (btnrefresh === "true") {
             btnsAll.push({
-                component: (
-                    <BuilderMobxButton
-                        bc={overrides["Override Refresh Button"]}
-                        disabled={disabled}
-                        color="inherit"
-                        pageStore={pageStore}
-                        visible={visible}
-                    />
-                ),
-                key: overrides["Override Refresh Button"][VAR_RECORD_PAGE_OBJECT_ID],
+                bc: overrides["Override Refresh Button"],
                 order: overrides["Override Refresh Button"][VAR_RECORD_CN_ORDER],
             });
         }
 
         if (showStaticBtns) {
             btnsAll.push(...this.getGridButtons({isCollect: false}));
-        }
+        } else if (btnsCollector) {
+            const childBtns = orderBy(this.getGridButtons({isCollect: false}), "order").map((config) => ({
+                ...config.bc,
+                onlyicon: "false",
+            }));
 
-        if (btnsCollector) {
             btnsCollector.forEach((btn) => {
                 btnsAll.push({
-                    component: (
-                        <BuilderButtonCollector
-                            onlyicon={onlyIcon}
-                            bc={btn}
-                            disabled={disabled}
-                            readOnly={readOnly}
-                            color="inherit"
-                            renderGridButtons={this.renderGridButtons}
-                            pageStore={pageStore}
-                            visible={visible}
-                        />
-                    ),
-                    key: btn[VAR_RECORD_PAGE_OBJECT_ID],
+                    bc: {...btn, topbtn: btn.topbtn ? [...btn.topbtn, ...childBtns] : childBtns},
                     order: btn[VAR_RECORD_CN_ORDER],
                 });
             });
@@ -246,11 +145,20 @@ class GridBaseButtons extends React.Component<PropsType> {
                 direction={styleTheme === "light" ? "row" : "column"}
                 className={isInlineEditing ? "hidden" : undefined}
             >
-                {orderBy(btnsAll, "order").map((options) => (
-                    <Grid item key={options.key}>
-                        {options.component}
-                    </Grid>
-                ))}
+                {mapComponents(
+                    orderBy(btnsAll, "order").map((config) => config.bc),
+                    (ChildCmp, childBc) => (
+                        <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                            <ChildCmp
+                                bc={childBc}
+                                disabled={disabled}
+                                readOnly={readOnly}
+                                pageStore={pageStore}
+                                visible={visible}
+                            />
+                        </Grid>
+                    ),
+                )}
 
                 {pageSize && styleTheme === "light" ? (
                     <Grid item xs>

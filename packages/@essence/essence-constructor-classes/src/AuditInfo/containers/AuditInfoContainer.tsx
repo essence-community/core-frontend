@@ -33,7 +33,7 @@ export const AuditInfoContainer: React.FC<IClassProps> = (props) => {
     const [store] = useModel((options) => new AuditInfoModel({...options, applicationStore: null}), props);
     const classes = useStyles();
     const theme = useTheme();
-    const [trans] = useTranslation();
+    const [trans] = useTranslation("meta");
     const isDark = theme.palette.type === "dark";
     const btnBc = React.useMemo(() => ({...bc, handler: "onPopoverOpen", type: "BTN"}), [bc]);
 

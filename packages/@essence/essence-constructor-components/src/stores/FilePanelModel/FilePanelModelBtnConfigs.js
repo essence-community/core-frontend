@@ -26,9 +26,10 @@ const getAddBtnConfig = (bc: FilePanelBcType) => ({
     iconfont: "fa-plus",
     iconfontname: "fa",
     mode: "1",
+    onlyicon: styleTheme === "light" ? undefined : "true",
     reqsel: "false",
     type: "BTN",
-    uitype: "1",
+    uitype: "4",
 });
 
 export const getSaveBtnConfig = (bc: FilePanelBcType) => ({

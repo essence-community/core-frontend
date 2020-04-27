@@ -164,7 +164,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
         this.recordsStore = recordsStore;
         this.valueFields = [[this.recordsStore.recordId, this.recordsStore.recordId]];
         this.gridColumnsInitial = getGridColumns(bc);
-        this.gridBtnsConfig = getGridBtnsConfig(bc, this);
+        this.gridBtnsConfig = getGridBtnsConfig(bc);
 
         extendObservable(this, {
             columnsWidth: observable.map(),
@@ -196,6 +196,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
                     bc.edittype === "inline" && Boolean(pageStore.windowsOne.find((store) => store.gridStore === this))
                 );
             },
+            isOpenSettings: false,
             get isPageSelectedRecords() {
                 if (bc.type === "TREEGRID") {
                     return this.recordsStore.records.every(
@@ -597,8 +598,28 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
     };
 
     handlers = {
-        onPrintExcel: (mode: BuilderModeType, btnBc: BuilderBaseType, {values}: any) => {
-            return this.onPrintExcel(values, btnBc);
+        onCloseSettings: () => {
+            this.isOpenSettings = false;
+
+            return Promise.resolve();
+        },
+        onFilterToggle: () => {
+            this.toggleIsFilterOpen();
+
+            return Promise.resolve();
+        },
+        onOpenSettings: () => {
+            this.isOpenSettings = true;
+
+            return Promise.resolve();
+        },
+        onPrintExcel: (mode: BuilderModeType, btnBc: BuilderBaseType, {record}: any) => {
+            return this.onPrintExcel(record, btnBc);
+        },
+        onRefresh: async () => {
+            if (this.recordsStore.loadCounter > 0 || (await this.applyFiltersAction())) {
+                await this.loadRecordsAction();
+            }
         },
         onUpdate: this.updateBtnAction,
     };

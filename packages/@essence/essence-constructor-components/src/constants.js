@@ -33,7 +33,7 @@ export const QUERY_ELEMENT = [
     "textarea:not(:disabled)",
     "[tabindex='0']:not([disabled])",
 ].join(", ");
-export const QUERY_GRID_ELEMENT = "[data-tabindex-grid='0']";
+export const QUERY_GRID_ELEMENT = "button";
 export const SCROLL_WEIGHT = 10;
 export const loggerRoot = debug("essence:constructor");
 export const loggerRootInfo = loggerRoot.extend("info");

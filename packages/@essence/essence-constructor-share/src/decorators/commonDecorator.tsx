@@ -18,7 +18,18 @@ export interface ICommonHOCState {
     readOnly?: boolean;
 }
 
-const HIDDEN_CLASS_TYPES = ["GRID", "TREEGRID", "PANEL", "FILEPANEL", "HISTORYPANEL", "TABPANEL", "SERVICE_HIDDEN"];
+const HIDDEN_CLASS_TYPES = [
+    "GRID",
+    "TREEGRID",
+    "PANEL",
+    "FILEPANEL",
+    "HISTORYPANEL",
+    "TABPANEL",
+    "SERVICE_HIDDEN",
+    "BTN",
+    "BTNCOLLECTOR",
+    "AUDIT_INFO",
+];
 
 // eslint-disable-next-line max-lines-per-function
 export function commonDecorator<Props extends ICommonHOCProps>(

@@ -37,7 +37,6 @@ type PropsType = {
     isHideActions?: boolean,
     absolute?: Boolean,
     addRefAction?: (name: string, node: ?React.ElementRef<*>) => void,
-    onChangeCollapse?: () => void,
     handleGlobals?: (values: Object) => void,
 };
 
@@ -125,14 +124,13 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
     }
 
     renderButton = () => {
-        const {classes, bc, title, disabled, store, onChangeCollapse, open, parentBc, pageStore, visible} = this.props;
+        const {classes, bc, title, disabled, store, open, parentBc, pageStore, visible} = this.props;
         const buttons = (
             <BuilderFilterButtons
                 disabled={disabled}
                 bc={bc}
                 parentBc={parentBc}
                 store={store}
-                onChangeCollapse={onChangeCollapse}
                 open={open}
                 pageStore={pageStore}
                 visible={visible}

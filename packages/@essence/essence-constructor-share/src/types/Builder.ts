@@ -281,6 +281,10 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     topbtn?: IBuilderConfig[];
     // Служебный параметр для передачи статических значений
     records?: Record<string, FieldValue>[];
+    // Interanal
+    confirmquestionposition?: "right" | "top";
+    // Internal
+    iconsize?: "xs";
 }
 
 export type IBuilderMode = "1" | "2" | "3" | "4" | "6" | "7" | "8";

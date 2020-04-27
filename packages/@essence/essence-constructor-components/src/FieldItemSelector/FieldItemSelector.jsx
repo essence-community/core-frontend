@@ -4,11 +4,12 @@ import {compose} from "recompose";
 import {reaction} from "mobx";
 import {observer} from "mobx-react";
 import {Grid} from "@material-ui/core";
-import {setComponent, getComponent} from "@essence-community/constructor-share";
+import {setComponent, getComponent, mapComponents} from "@essence-community/constructor-share/components";
 import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
+    VAR_RECORD_PARENT_ID,
 } from "@essence-community/constructor-share/constants";
 import {loggerRoot} from "../constants";
 import {type PageModelType} from "../stores/PageModel";
@@ -16,7 +17,6 @@ import {type GridModelType} from "../stores/GridModel";
 import withModelDecorator from "../decorators/withModelDecorator";
 import commonDecorator, {type CommonDecoratorInjectType} from "../decorators/commonDecorator";
 import {FieldItemSelectorModel, type FieldItemSelectorModelType} from "../stores/FieldItemSelectorModel";
-import BuilderMobxButton from "../Button/BuilderMobxButton";
 import {type BuilderGridType} from "../Grid/BuilderGridType";
 
 type OwnPropsType = CommonDecoratorInjectType & {
@@ -34,8 +34,6 @@ type PropsType = PropsStoreType & OwnPropsType;
 type StateType = {|
     ComponentFieldFrom: ?React.ComponentType<*>,
     ComponentFieldTo: ?React.ComponentType<*>,
-    fieldFrom: Object,
-    fieldTo: Object,
     hasError: boolean,
 |};
 
@@ -48,10 +46,9 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
     constructor(props: PropsType) {
         super(props);
 
-        const {bc} = this.props;
-        const [fieldFrom, fieldTo] = bc.childs;
-        const ComponentFieldFrom = getComponent(fieldFrom.type, fieldFrom.customid);
-        const ComponentFieldTo = getComponent(fieldTo.type, fieldTo.customid);
+        const {bc, store} = this.props;
+        const ComponentFieldFrom = getComponent(store.fieldFrom.type, store.fieldFrom.customid);
+        const ComponentFieldTo = getComponent(store.fieldTo.type, store.fieldTo.customid);
         const hasError = !ComponentFieldFrom || !ComponentFieldTo;
 
         if (hasError) {
@@ -61,14 +58,6 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
         this.state = {
             ComponentFieldFrom,
             ComponentFieldTo,
-            fieldFrom: {
-                height: bc.height,
-                ...fieldFrom,
-            },
-            fieldTo: {
-                height: bc.height,
-                ...fieldTo,
-            },
             hasError,
         };
 
@@ -76,16 +65,19 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
             {
                 [VAR_RECORD_DISPLAYED]: "static:d78431bbcb484da4b516bc00626965ba",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-add-all`,
-                handlerFn: this.addAll,
+                [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+                handler: "addAll",
                 iconfont: "fa-angle-double-right",
                 iconfontname: "fa",
                 onlyicon: "true",
+                type: "BTN",
             },
             {
                 [VAR_RECORD_DISPLAYED]: "static:833289fd818f4340b584beb9068f670b",
-                [VAR_RECORD_MASTER_ID]: fieldFrom[VAR_RECORD_PAGE_OBJECT_ID],
+                [VAR_RECORD_MASTER_ID]: store.fieldFrom[VAR_RECORD_PAGE_OBJECT_ID],
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-add-selected`,
-                handlerFn: this.addSelected,
+                [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+                handler: "addSelected",
                 iconfont: "fa-angle-right",
                 iconfontname: "fa",
                 onlyicon: "true",
@@ -94,9 +86,10 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
             },
             {
                 [VAR_RECORD_DISPLAYED]: "static:67677d8e457c409daaef5fe5b90ec491",
-                [VAR_RECORD_MASTER_ID]: fieldTo[VAR_RECORD_PAGE_OBJECT_ID],
+                [VAR_RECORD_MASTER_ID]: store.fieldTo[VAR_RECORD_PAGE_OBJECT_ID],
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-remove-selected`,
-                handlerFn: this.removeSelected,
+                [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+                handler: "removeSelected",
                 iconfont: "fa-angle-left",
                 iconfontname: "fa",
                 onlyicon: "true",
@@ -106,7 +99,8 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
             {
                 [VAR_RECORD_DISPLAYED]: "static:c4684efb2ea444f4b9192db3c4b4b843",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-remove-all`,
-                handlerFn: this.removeAll,
+                [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+                handler: "removeAll",
                 iconfont: "fa-angle-double-left",
                 iconfontname: "fa",
                 onlyicon: "true",
@@ -121,9 +115,8 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
     prevRecords = [];
 
     componentDidMount() {
-        const {fieldFrom, fieldTo} = this.state;
-        const {bc} = this.props;
-        const [fromStore, toStore] = this.props.store.getStores({fieldFrom, fieldTo});
+        const {bc, store} = this.props;
+        const [fromStore, toStore] = this.props.store.getStores({fieldFrom: store.fieldFrom, fieldTo: store.fieldTo});
 
         if (fromStore && toStore) {
             this.disposers.push(
@@ -154,30 +147,6 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
         this.prevRecords = [];
     }
 
-    addAll = () => {
-        const {fieldFrom, fieldTo} = this.state;
-
-        return this.props.store.moveRecSaveAction("1", {fieldFrom, fieldTo}, true);
-    };
-
-    addSelected = () => {
-        const {fieldFrom, fieldTo} = this.state;
-
-        return this.props.store.moveRecSaveAction("1", {fieldFrom, fieldTo}, false);
-    };
-
-    removeSelected = () => {
-        const {fieldFrom, fieldTo} = this.state;
-
-        return this.props.store.moveRecSaveAction("3", {fieldFrom: fieldTo, fieldTo: fieldFrom}, false);
-    };
-
-    removeAll = () => {
-        const {fieldFrom, fieldTo} = this.state;
-
-        return this.props.store.moveRecSaveAction("3", {fieldFrom: fieldTo, fieldTo: fieldFrom}, true);
-    };
-
     checkDisabled = (gridBc: BuilderGridType) => {
         const {pageStore} = this.props;
         const gridStore: ?GridModelType = pageStore.stores.get(gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
@@ -193,8 +162,8 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
 
     // eslint-disable-next-line max-lines-per-function
     render() {
-        const {ComponentFieldFrom, ComponentFieldTo, hasError, fieldFrom, fieldTo} = this.state;
-        const {bc, editing, disabled, pageStore, visible} = this.props;
+        const {ComponentFieldFrom, ComponentFieldTo, hasError} = this.state;
+        const {bc, editing, disabled, pageStore, visible, store} = this.props;
         const [btnAddAll, btnAddSelected, btnRemoveSelected, btnRemoveAll] = this.buttonsConfig;
 
         if (hasError) {
@@ -212,7 +181,7 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
                 <Grid item xs zeroMinWidth>
                     {ComponentFieldFrom ? (
                         <ComponentFieldFrom
-                            bc={fieldFrom}
+                            bc={store.fieldFrom}
                             editing={editing}
                             disabled={disabled}
                             pageStore={pageStore}
@@ -223,43 +192,55 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
                 <Grid item>
                     <Grid style={{height: "100%"}} container spacing={0} direction="column" justify="center">
                         <Grid item>
-                            <BuilderMobxButton
-                                disabled={disabled}
-                                bc={btnAddAll}
-                                pageStore={pageStore}
-                                visible={visible}
-                            />
+                            {mapComponents([btnAddAll], (ChildCmp, childBc) => (
+                                <ChildCmp
+                                    key="add-all"
+                                    disabled={disabled}
+                                    bc={childBc}
+                                    pageStore={pageStore}
+                                    visible={visible}
+                                />
+                            ))}
                         </Grid>
                         <Grid item>
-                            <BuilderMobxButton
-                                disabled={disabled || this.checkDisabled(fieldFrom)}
-                                bc={btnAddSelected}
-                                pageStore={pageStore}
-                                visible={visible}
-                            />
+                            {mapComponents([btnAddSelected], (ChildCmp, childBc) => (
+                                <ChildCmp
+                                    key="add-selected"
+                                    disabled={disabled || this.checkDisabled(store.fieldFrom)}
+                                    bc={childBc}
+                                    pageStore={pageStore}
+                                    visible={visible}
+                                />
+                            ))}
                         </Grid>
                         <Grid item>
-                            <BuilderMobxButton
-                                disabled={disabled || this.checkDisabled(fieldTo)}
-                                bc={btnRemoveSelected}
-                                pageStore={pageStore}
-                                visible={visible}
-                            />
+                            {mapComponents([btnRemoveSelected], (ChildCmp, childBc) => (
+                                <ChildCmp
+                                    key="remove-selected"
+                                    disabled={disabled || this.checkDisabled(store.fieldTo)}
+                                    bc={childBc}
+                                    pageStore={pageStore}
+                                    visible={visible}
+                                />
+                            ))}
                         </Grid>
                         <Grid item>
-                            <BuilderMobxButton
-                                disabled={disabled}
-                                bc={btnRemoveAll}
-                                pageStore={pageStore}
-                                visible={visible}
-                            />
+                            {mapComponents([btnRemoveAll], (ChildCmp, childBc) => (
+                                <ChildCmp
+                                    key="remove-all"
+                                    disabled={disabled}
+                                    bc={childBc}
+                                    pageStore={pageStore}
+                                    visible={visible}
+                                />
+                            ))}
                         </Grid>
                     </Grid>
                 </Grid>
                 <Grid item xs zeroMinWidth>
                     {ComponentFieldTo ? (
                         <ComponentFieldTo
-                            bc={fieldTo}
+                            bc={store.fieldTo}
                             editing={editing}
                             disabled={disabled}
                             pageStore={pageStore}

@@ -33,7 +33,7 @@ const INITIAL_DRAG = {
 };
 
 // eslint-disable-next-line max-statements, max-lines-per-function
-export const OpenPageTabs: React.FC<IClassProps> = React.memo((props) => {
+export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageTabs(props) {
     const classes = useStyles(props);
     const applicationStore = React.useContext(ApplicationContext);
 

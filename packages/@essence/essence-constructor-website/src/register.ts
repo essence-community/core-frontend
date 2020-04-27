@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-unresolved */
-import {preference} from "@essence-community/constructor-components";
+import {preference} from "@essence-community/constructor-share/constants";
 
 // Intialize components
 import "@essence-community/constructor-components/src/HistoryPanel/BuilderHistoryPanel";
@@ -9,8 +9,6 @@ import "@essence-community/constructor-components/src/Grid/BuilderGrid";
 import "@essence-community/constructor-components/src/FieldSet/BuilderFieldSet";
 import "@essence-community/constructor-components/src/PanelDynamic/BuilderPanelDynamic";
 import "@essence-community/constructor-components/src/TextField/BuilderField";
-import "@essence-community/constructor-components/src/Button/BuilderMobxButton";
-import "@essence-community/constructor-components/src/Button/BuilderButtonCollector/BuilderButtonCollector";
 import "@essence-community/constructor-components/src/FilePanel/BuilderFilePanel";
 import "@essence-community/constructor-components/src/Filter/BuilderFilter";
 import "@essence-community/constructor-components/src/FieldItemSelector/FieldItemSelector";
@@ -18,6 +16,7 @@ import "@essence-community/constructor-components/src/FieldPeriod/BuilderFieldPe
 import "@essence-community/constructor-components/src/EmptySpace/EmptySpace";
 import "@essence-community/constructor-components/src/Form/FormPanel";
 import "@essence-community/constructor-components/src/Window";
+import "@essence-community/constructor-components/src/Grid/GridComponents/GridSettings";
 
 import "@essence-community/constructor-classes/src/FilterExtended";
 import "@essence-community/constructor-classes/src/ButtonGroup";
@@ -48,6 +47,9 @@ import "@essence-community/constructor-classes/src/StaticFrame";
 import "@essence-community/constructor-classes/src/StaticRedirect";
 import "@essence-community/constructor-classes/src/StaticReports";
 import "@essence-community/constructor-classes/src/StaticPreference";
+import "@essence-community/constructor-classes/src/Button";
+import "@essence-community/constructor-classes/src/ButtonCollector";
+import "@essence-community/constructor-classes/src/AuditInfo";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

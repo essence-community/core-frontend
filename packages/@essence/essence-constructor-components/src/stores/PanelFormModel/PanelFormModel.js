@@ -91,4 +91,12 @@ export class PanelFormModel extends HistoryModel implements PanelFormModelInterf
     addRefAction = (ckId: CkIdType, node: HTMLDivElement | React.ElementRef<*>) => {
         this.refs.set(ckId, node);
     };
+
+    handlers = {
+        onFilterToggle: () => {
+            this.toggleIsFilterOpen();
+
+            return Promise.resolve();
+        },
+    };
 }

@@ -17,5 +17,6 @@ export {findColumns} from "./findColumns";
 export {findClassNames} from "./findClassNames";
 export * from "./getTextWidth";
 export {getMasterObject} from "./getMasterObject";
+export * from "./redirect";
 
 export {animate};

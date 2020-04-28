@@ -1163,7 +1163,7 @@
     uuid "^3.3.3"
 
 "@essence-community/eslint-config-react@file:packages/@essence/essence-constructor-eslint":
-  version "2.3.0"
+  version "2.2.0"
   dependencies:
     "@typescript-eslint/eslint-plugin" "^2.11.0"
     "@typescript-eslint/parser" "^2.11.0"

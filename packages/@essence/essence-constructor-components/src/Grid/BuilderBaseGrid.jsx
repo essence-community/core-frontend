@@ -176,12 +176,6 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
         }
     };
 
-    handleChangeCollapse = () => {
-        const {store} = this.props;
-
-        store.toggleIsFilterOpen();
-    };
-
     handleSelectRow = (
         selectedRow: HTMLTableRowElement,
         row: HTMLTableRowElement,
@@ -427,7 +421,6 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
                         iconColor="inherit"
                         title={hideTitle ? undefined : transCvDisplayed}
                         open={store.isFilterOpen}
-                        onChangeCollapse={this.handleChangeCollapse}
                         pageStore={pageStore}
                         handleGlobals={noop}
                         visible={visible}

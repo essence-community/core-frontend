@@ -70,11 +70,12 @@ export interface IPopoverProps {
     hideOnScroll?: boolean;
     hideOnResize?: boolean;
     disableOutsideClose?: boolean;
-    children: PopoverRenderChildren;
+    children: React.ReactNode | PopoverRenderChildren;
     disableEscapeKeyDown?: boolean;
     tabFocusable?: boolean;
     width?: number | "auto";
     disableFocusableArrow?: boolean;
+    className?: string;
     onBackdropClick?: () => void;
     onClickOutside?: () => void;
     onChangeOpen?: (isOpen: boolean) => void;

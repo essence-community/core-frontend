@@ -2,7 +2,7 @@
 import * as React from "react";
 import isString from "lodash/isString";
 import isEqual from "lodash/isEqual";
-import {makeRedirectUrl, getQueryParams} from "../../utils/redirect";
+import {makeRedirectUrl, getQueryParams} from "@essence-community/constructor-share/utils";
 import {getBigNumberInstance} from "../../utils/bignumber";
 import {isEmpty} from "../../utils/base";
 import {type GridColumnPropsType} from "./GridColumnTypes";

@@ -40,21 +40,17 @@ class BaseBuilderBasePanel extends React.PureComponent<BuilderPanelPropsType & W
         if (topbtn.length > 0 || (isForm && pageStore.styleTheme === "dark")) {
             return (
                 <Grid container alignItems="center" direction={buttonDirection} spacing={1}>
-                    {mapComponents(topbtn, (ChildComp, child) => {
-                        const isAddButton = child.mode === "1";
-
-                        if (!isAddButton && pageStore.styleTheme === "dark" && child.uitype === "1") {
-                            child.uitype = "3";
-                        }
+                    {mapComponents(topbtn, (ChildComp, childBc) => {
+                        const isAddButton = childBc.mode === "1";
+                        const newChildBc = isAddButton
+                            ? {...childBc, uitype: "4"}
+                            : {...childBc, uitype: childBc.uitype === "1" ? "11" : childBc.uitype};
 
                         return (
-                            <Grid item key={child[VAR_RECORD_PAGE_OBJECT_ID]}>
+                            <Grid item key={newChildBc[VAR_RECORD_PAGE_OBJECT_ID]}>
                                 <ChildComp
-                                    bc={child}
+                                    bc={newChildBc}
                                     disabled={disabled}
-                                    variant={isAddButton ? "fab" : undefined}
-                                    onlyicon={pageStore.styleTheme === "dark" ? true : undefined}
-                                    color={isAddButton ? undefined : "inherit"}
                                     pageStore={pageStore}
                                     readOnly={readOnly}
                                     visible={visible}

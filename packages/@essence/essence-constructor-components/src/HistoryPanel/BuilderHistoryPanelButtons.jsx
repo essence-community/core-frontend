@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 // @flow
 import * as React from "react";
 import {observer} from "mobx-react";
@@ -8,9 +7,6 @@ import {mapComponents} from "@essence-community/constructor-share/components";
 import {EditorContex} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_CN_ORDER} from "@essence-community/constructor-share/constants";
 import {buttonDirection, styleTheme} from "../constants";
-import GridAudit from "../Grid/GridComponents/GridAudit";
-import BuilderMobxButton from "../Button/BuilderMobxButton";
-import BuilderButtonCollector from "../Button/BuilderButtonCollector/BuilderButtonCollector";
 import {type HistoryModelType} from "../stores/HistoryModel";
 import {type PageModelType} from "../stores/PageModel";
 import {type BuilderHistoryPanelType} from "./BuilderHistoryPanelType";
@@ -55,66 +51,17 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
         }
     };
 
-    renderGridAuditButton = (buttonProps: Object) => ({onOpen}) => {
-        const {disabled, pageStore, store} = this.props;
-        const {overrides} = store.btnsConfig;
-
-        return (
-            <BuilderMobxButton
-                bc={overrides["Override Audit Button"]}
-                disabled={disabled}
-                color="inherit"
-                pageStore={pageStore}
-                handleClick={onOpen}
-                {...buttonProps}
-            />
-        );
-    };
-
-    getStaticButtons = ({buttonProps, handleClose}: Object) => {
-        const {bc, store, pageStore} = this.props;
+    getStaticButtons = () => {
+        const {bc, store} = this.props;
         const {overrides} = store.btnsConfig;
         const {btnaudit} = bc;
         const btns = [];
 
         if (btnaudit === "true") {
             btns.push({
-                component: (
-                    <GridAudit
-                        parentStore={store}
-                        bc={overrides["Override Audit Button"]}
-                        pageStore={pageStore}
-                        onClose={handleClose}
-                    >
-                        {this.renderGridAuditButton(buttonProps)}
-                    </GridAudit>
-                ),
-                key: "grid-audit",
-                order: overrides["Override Audit Button"],
+                bc: overrides["Override Audit Button"],
+                order: overrides["Override Audit Button"][VAR_RECORD_CN_ORDER],
             });
-        }
-
-        return btns;
-    };
-
-    renderStaticButtons = ({buttonProps, handleClose}: Object): Array<React.Node> => {
-        const {bc, store, pageStore} = this.props;
-        const {overrides} = store.btnsConfig;
-        const {btnaudit} = bc;
-        const btns = [];
-
-        if (btnaudit === "true") {
-            btns.push(
-                <GridAudit
-                    parentStore={store}
-                    bc={overrides["Override Audit Button"]}
-                    key="grid-audit"
-                    pageStore={pageStore}
-                    onClose={handleClose}
-                >
-                    {this.renderGridAuditButton(buttonProps)}
-                </GridAudit>,
-            );
         }
 
         return btns;
@@ -126,7 +73,7 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
         return {form};
     };
 
-    // eslint-disable-next-line max-statements, max-lines-per-function
+    // eslint-disable-next-line max-statements, max-lines-per-function, complexity
     render() {
         const {disabled, store, readOnly, pageStore, editing, visible, bc} = this.props;
         const {btnrefresh, btndelete} = bc;
@@ -134,161 +81,83 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
         const {records, selectedRecordIndex} = store.recordsStore;
         const onlyIcon = styleTheme === "dark" ? true : undefined;
         const showStaticBtns = !btnsCollector || btnsCollector.every((btn) => btn.btncollectorall !== "true");
+        const staticAll = this.getStaticButtons();
 
         const btnsAll = [
             {
-                component: (
-                    <BuilderMobxButton
-                        bc={overrides["Override Add Button"]}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                        variant="fab"
-                        pageStore={pageStore}
-                        visible={visible}
-                    />
-                ),
-                key: "Add Button",
+                bc: overrides["Override Add Button"],
+                disabled,
                 order: overrides["Override Add Button"][VAR_RECORD_CN_ORDER],
             },
             {
-                component: (
-                    <BuilderMobxButton
-                        bc={overrides["Override Edit Button"]}
-                        disabled={disabled || selectedRecordIndex === -1 || selectedRecordIndex !== 0}
-                        readOnly={readOnly}
-                        color="inherit"
-                        pageStore={pageStore}
-                        visible={visible}
-                    />
-                ),
-                key: "Edit Button",
+                bc: overrides["Override Edit Button"],
+                disabled: disabled || selectedRecordIndex === -1 || selectedRecordIndex !== 0,
                 order: overrides["Override Edit Button"][VAR_RECORD_CN_ORDER],
             },
             {
-                component: (
-                    <BuilderMobxButton
-                        bc={overrides["Override Clone Button"]}
-                        disabled={disabled || selectedRecordIndex === -1}
-                        readOnly={readOnly}
-                        color="inherit"
-                        pageStore={pageStore}
-                        visible={visible}
-                    />
-                ),
-                key: "Clone Button",
+                bc: overrides["Override Clone Button"],
+                disabled: disabled || selectedRecordIndex === -1,
                 order: overrides["Override Clone Button"][VAR_RECORD_CN_ORDER],
             },
         ];
 
         if (btndelete === "true") {
             btnsAll.push({
-                component: (
-                    <BuilderMobxButton
-                        bc={overrides["Override Delete Button"]}
-                        disabled={disabled || selectedRecordIndex === -1 || selectedRecordIndex !== 0}
-                        readOnly={readOnly}
-                        color="inherit"
-                        pageStore={pageStore}
-                        visible={visible}
-                    />
-                ),
-                key: "Delete Button",
+                bc: overrides["Override Delete Button"],
+                disabled: disabled || selectedRecordIndex === -1 || selectedRecordIndex !== 0,
                 order: overrides["Override Delete Button"][VAR_RECORD_CN_ORDER],
             });
         }
 
         if (btnrefresh === "true") {
             btnsAll.push({
-                component: (
-                    <BuilderMobxButton
-                        bc={overrides["Override Refresh Button"]}
-                        disabled={disabled}
-                        color="inherit"
-                        pageStore={pageStore}
-                        visible={visible}
-                    />
-                ),
-                key: "Refresh Button",
+                bc: overrides["Override Refresh Button"],
+                disabled,
                 order: overrides["Override Refresh Button"][VAR_RECORD_CN_ORDER],
             });
         }
 
         btnsAll.push(
             {
-                component: (
-                    <BuilderMobxButton
-                        bc={overrides["Override Left Button"]}
-                        disabled={disabled || records.length === 0 || selectedRecordIndex === records.length - 1}
-                        color="inherit"
-                        pageStore={pageStore}
-                        visible={visible}
-                    />
-                ),
-                key: "Left Button",
+                bc: overrides["Override Left Button"],
+                disabled: disabled || records.length === 0 || selectedRecordIndex === records.length - 1,
                 order: overrides["Override Left Button"][VAR_RECORD_CN_ORDER],
             },
             {
-                component: (
-                    <BuilderMobxButton
-                        bc={overrides["Override Right Button"]}
-                        disabled={disabled || selectedRecordIndex <= 0}
-                        color="inherit"
-                        pageStore={pageStore}
-                        visible={visible}
-                    />
-                ),
-                key: "Right Button",
+                bc: overrides["Override Right Button"],
+                disabled: disabled || selectedRecordIndex <= 0,
                 order: overrides["Override Right Button"][VAR_RECORD_CN_ORDER],
             },
         );
 
-        mapComponents(btns, (ChildComponent, childBc) => {
+        btns.forEach((btn) => {
             btnsAll.push({
-                component: (
-                    <ChildComponent
-                        bc={childBc}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                        color="inherit"
-                        pageStore={pageStore}
-                        visible={visible}
-                        onlyicon={onlyIcon}
-                        performData={this.handlePerformData}
-                    />
-                ),
-                key: childBc[VAR_RECORD_PAGE_OBJECT_ID],
-                order: childBc[VAR_RECORD_CN_ORDER],
+                bc: onlyIcon ? {...btn, onlyicon: "true"} : btn,
+                disabled,
+                order: btn[VAR_RECORD_CN_ORDER],
             });
         });
 
         if (showStaticBtns) {
-            this.renderStaticButtons({}).map((btn, index) => (
-                <Grid item key={index}>
-                    {btn}
-                </Grid>
-            ));
+            btnsAll.push(...staticAll);
         }
 
         if (btnsCollector) {
             btnsCollector.forEach((btn) => {
                 btnsAll.push({
-                    component: (
-                        <BuilderButtonCollector
-                            onlyicon={onlyIcon}
-                            bc={btn}
-                            disabled={disabled}
-                            readOnly={readOnly}
-                            color="inherit"
-                            renderGridButtons={this.renderStaticButtons}
-                            pageStore={pageStore}
-                            visible={visible}
-                        />
-                    ),
+                    bc: {
+                        ...btn,
+                        onlyicon: onlyIcon ? "true" : btn.onlyicon,
+                        topbtn: btn.topbtn ? [...btn.topbtn, ...staticAll] : staticAll,
+                    },
+                    disabled,
                     key: btn[VAR_RECORD_PAGE_OBJECT_ID],
                     order: btn[VAR_RECORD_CN_ORDER],
                 });
             });
         }
+
+        const orderedBtns = orderBy(btnsAll, "order");
 
         return (
             <Grid
@@ -298,11 +167,20 @@ class BuilderHistoryPanelButtons extends React.Component<PropsType> {
                 direction={buttonDirection}
                 className={editing ? "hidden" : undefined}
             >
-                {orderBy(btnsAll, "order").map((btn) => (
-                    <Grid item key={btn.key}>
-                        {btn.component}
-                    </Grid>
-                ))}
+                {mapComponents(
+                    orderedBtns.map((config) => config.bc),
+                    (ChildCmp, childBc, index) => (
+                        <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                            <ChildCmp
+                                bc={childBc}
+                                disabled={orderedBtns[index].disabled}
+                                readOnly={readOnly}
+                                pageStore={pageStore}
+                                visible={visible}
+                            />
+                        </Grid>
+                    ),
+                )}
             </Grid>
         );
     }

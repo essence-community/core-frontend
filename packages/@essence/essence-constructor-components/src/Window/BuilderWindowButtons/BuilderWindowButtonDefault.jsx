@@ -1,10 +1,10 @@
 // @flow
 import * as React from "react";
 import {DialogActions} from "@material-ui/core";
-import {EditorContex} from "@essence-community/constructor-share";
+import {mapComponents} from "@essence-community/constructor-share/components";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type WindowModelType} from "../../stores/WindowModel";
 import {type PageModelType} from "../../stores/PageModel";
-import BuilderMobxButton from "../../Button/BuilderMobxButton";
 import {type GridModelType} from "../../stores/GridModel";
 
 type PropsType = {
@@ -17,19 +17,7 @@ type PropsType = {
     className?: string,
 };
 
-const SAVE_COMPONENT_PROPS = {
-    type: "submit",
-};
-
 class BuilderWindowButtonDefault extends React.PureComponent<PropsType> {
-    static contextType = EditorContex;
-
-    handlePerformData = () => {
-        const {form} = this.context;
-
-        return {form};
-    };
-
     render() {
         const {checkboxAddMode, pageStore, visible, gridStore, className} = this.props;
         const {overrides} = gridStore.gridBtnsConfig;
@@ -37,20 +25,17 @@ class BuilderWindowButtonDefault extends React.PureComponent<PropsType> {
         return (
             <DialogActions className={className}>
                 {checkboxAddMode}
-                <BuilderMobxButton
-                    bc={overrides["Override Save Button"]}
-                    color="primary"
-                    pageStore={pageStore}
-                    visible={visible}
-                    componentProps={SAVE_COMPONENT_PROPS}
-                    performData={this.handlePerformData}
-                />
-                <BuilderMobxButton
-                    bc={overrides["Override Cancel Button"]}
-                    pageStore={pageStore}
-                    visible={visible}
-                    performData={this.handlePerformData}
-                />
+                {mapComponents(
+                    [overrides["Override Save Button"], overrides["Override Cancel Button"]],
+                    (ChildCmp, childBc) => (
+                        <ChildCmp
+                            key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                            bc={childBc}
+                            pageStore={pageStore}
+                            visible={visible}
+                        />
+                    ),
+                )}
             </DialogActions>
         );
     }

@@ -124,3 +124,24 @@ export function mapComponents(childs?: IBuilderConfig[], resolve?: TResolve) {
         return resolve ? resolve(ChildComp, child, index) : null;
     });
 }
+
+/**
+ * Render components by one child config.
+ */
+export function mapComponentOne(child: IBuilderConfig, resolve?: TResolve) {
+    if (!child || !child.type) {
+        return null;
+    }
+
+    let ChildComp = child.datatype ? getComponent(`${child.type}.${child.datatype}`) : getComponent(child.type);
+
+    if (!ChildComp && child.datatype) {
+        ChildComp = getComponent(child.type);
+    }
+
+    if (!ChildComp) {
+        return null;
+    }
+
+    return resolve ? resolve(ChildComp, child, 0) : null;
+}

@@ -4,14 +4,13 @@ import {observer} from "mobx-react";
 import {compose} from "recompose";
 import {Paper, Grid} from "@material-ui/core";
 import {toSize} from "@essence-community/constructor-share/utils";
-import {setComponent} from "@essence-community/constructor-share/components";
+import {setComponent, mapComponents} from "@essence-community/constructor-share/components";
 import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import ThemePanelWrapper from "../Components/ThemePanelWrapper/ThemePanelWrapper";
-import BuilderMobxButton from "../Button/BuilderMobxButton";
 import Scrollbars from "../Components/Scrollbars/Scrollbars";
 import {FilePanelModel, type FilePanelModelType, type FilePanelBcType} from "../stores/FilePanelModel";
 import {type PageModelType} from "../stores/PageModel";
-import {styleTheme, buttonDirection} from "../constants";
+import {buttonDirection} from "../constants";
 import Content from "../Components/Content/Content";
 import commonDecorator, {type CommonDecoratorInjectType} from "../decorators/commonDecorator";
 import withModelDecorator from "../decorators/withModelDecorator";
@@ -55,16 +54,15 @@ export class BaseBuilderFilePanel extends React.Component<PropsType> {
         const actionsBar = (
             <Grid container alignItems="center" direction={buttonDirection}>
                 <Grid item>
-                    <BuilderMobxButton
-                        onlyicon={styleTheme !== "light"}
-                        bc={store.btnsConfig.overrides["Override Add Button"]}
-                        disabled={readOnly || disabled}
-                        variant={"fab"}
-                        color={undefined}
-                        pageStore={pageStore}
-                        visible={visible}
-                        className={bc.className ? bc.className : undefined}
-                    />
+                    {mapComponents([store.btnsConfig.overrides["Override Add Button"]], (ChildCmp, childBc) => (
+                        <ChildCmp
+                            key="add"
+                            bc={childBc}
+                            disabled={readOnly || disabled}
+                            pageStore={pageStore}
+                            visible={visible}
+                        />
+                    ))}
                 </Grid>
             </Grid>
         );

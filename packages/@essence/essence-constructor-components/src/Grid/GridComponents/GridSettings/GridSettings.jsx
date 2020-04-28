@@ -2,60 +2,71 @@
 import * as React from "react";
 import {Dialog, DialogTitle, Grid, DialogContent, Switch, DialogActions, Button} from "@material-ui/core";
 import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
-import noop from "lodash/noop";
-import BuilderMobxButton from "../../../Button/BuilderMobxButton";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_MASTER_ID,
+} from "@essence-community/constructor-share/constants";
+import {mapComponentOne} from "@essence-community/constructor-share/components";
+import {disposeOnUnmount, observer} from "mobx-react";
+import {reaction} from "mobx";
 import {type PageModelType} from "../../../stores/PageModel";
-import {type GridModelType} from "../../../stores/GridModel";
 import Scrollbars from "../../../Components/Scrollbars/Scrollbars";
 
 type PropsType = WithT & {
     pageStore: PageModelType,
-    gridStore: GridModelType,
     buttonProps: Object,
     disabled?: boolean,
-    onClose: () => void,
 };
 
 type StateType = {
-    open: boolean,
     visibility: {
         [$Keys: string]: boolean,
     },
 };
 
 class GridSettings extends React.Component<PropsType, StateType> {
-    static defaultProps = {
-        onClose: noop,
-    };
-
     state = {
-        open: false,
         visibility: {},
     };
 
     bc = {
+        ...this.props.bc,
         [VAR_RECORD_DISPLAYED]: "static:102972d8258947b7b3cf2b70b258278a",
+        [VAR_RECORD_MASTER_ID]: this.props.bc[VAR_RECORD_PARENT_ID],
         [VAR_RECORD_PAGE_OBJECT_ID]: "gridsettings",
+        handler: "onOpenSettings",
         iconfont: "fa-sliders",
-        onlyicon: "true",
         type: "BTN",
+        uitype: "11",
     };
 
-    handleOpen = () => {
-        const {gridStore} = this.props;
-        const visibility = {};
+    componentDidMount() {
+        const gridStore = this.getGridStore();
 
-        gridStore.gridColumns.forEach((column) => {
-            visibility[column[VAR_RECORD_PAGE_OBJECT_ID]] = true;
-        });
+        disposeOnUnmount(this, [
+            reaction(
+                () => gridStore.isOpenSettings,
+                (isOpenSettings) => {
+                    if (isOpenSettings) {
+                        const visibility = {};
 
-        this.setState({open: true, visibility});
-    };
+                        gridStore.gridColumns.forEach((column) => {
+                            visibility[column[VAR_RECORD_PAGE_OBJECT_ID]] = true;
+                        });
+
+                        this.setState({visibility});
+                    }
+                },
+            ),
+        ]);
+    }
 
     handleClose = () => {
-        this.setState({open: false});
-        this.props.onClose();
+        const gridStore = this.getGridStore();
+
+        gridStore.handlers.onCloseSettings();
     };
 
     handleChangeVisibility = (event: SyntheticEvent<HTMLInputElement>) => {
@@ -70,35 +81,34 @@ class GridSettings extends React.Component<PropsType, StateType> {
     };
 
     handleSave = () => {
-        const {gridStore} = this.props;
+        const gridStore = this.getGridStore();
         const {visibility} = this.state;
 
         gridStore.setGridColumns(
             gridStore.gridColumnsInitial.filter((column) => visibility[column[VAR_RECORD_PAGE_OBJECT_ID]]),
         );
+
         this.handleClose();
+    };
+
+    getGridStore = () => {
+        return this.props.pageStore.stores.get(this.props.bc[VAR_RECORD_PARENT_ID]);
     };
 
     // eslint-disable-next-line max-lines-per-function
     render() {
         // eslint-disable-next-line id-length
-        const {pageStore, buttonProps, gridStore, t, disabled} = this.props;
+        const {pageStore, t, disabled} = this.props;
+        const gridStore = this.getGridStore();
         const {visibility} = this.state;
 
         return (
             <React.Fragment>
-                <BuilderMobxButton
-                    bc={this.bc}
-                    handleClick={this.handleOpen}
-                    pageStore={pageStore}
-                    color="inherit"
-                    visible
-                    disabled={disabled}
-                    {...buttonProps}
-                    readOnly={false}
-                />
+                {mapComponentOne(this.bc, (ChildCmp, childBc) => (
+                    <ChildCmp bc={childBc} visible pageStore={pageStore} disabled={disabled} readOnly={false} />
+                ))}
                 <Dialog
-                    open={this.state.open}
+                    open={gridStore.isOpenSettings}
                     maxWidth="sm"
                     fullWidth
                     container={pageStore.pageEl}
@@ -154,4 +164,4 @@ class GridSettings extends React.Component<PropsType, StateType> {
     }
 }
 
-export default withTranslation("meta")(GridSettings);
+export default withTranslation("meta")(observer(GridSettings));

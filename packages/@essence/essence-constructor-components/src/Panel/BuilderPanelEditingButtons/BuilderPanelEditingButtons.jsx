@@ -1,80 +1,62 @@
 // @flow
 import * as React from "react";
 import {Grid} from "@material-ui/core";
-import {withStyles} from "@material-ui/core/styles";
-import {EditorContex} from "@essence-community/constructor-share/context";
+import {useTheme} from "@material-ui/core/styles";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {styleTheme, buttonDirection} from "../../constants";
+import {mapComponents} from "@essence-community/constructor-share/components";
+import {buttonDirection} from "../../constants";
 import {getModeTitle} from "../../utils/string";
-import BuilderMobxButton from "../../Button/BuilderMobxButton";
 import {type HistoryModelType} from "../../stores/HistoryModel";
 import {type PanelFormModel} from "../../stores/PanelFormModel";
 import {type PageModelType} from "../../stores/PageModel";
-import styles from "./BuilderPanelEditingButtonsStyles";
+import {useStyles} from "./BuilderPanelEditingButtons.styles";
 
 type PropsType = {
     store: HistoryModelType | PanelFormModel,
-    classes: Object,
     bc: Object,
     pageStore: PageModelType,
 };
-const SAVE_COMPONENT_PROPS = {
-    type: "submit",
+
+const BuilderPanelEditingButtons = (props: PropsType) => {
+    const {store, bc, pageStore} = props;
+    const {overrides} = store.btnsConfig;
+    const classes = useStyles();
+    const theme = useTheme();
+    const isDarkTheme = theme.palette.type === "dark";
+
+    const saveBtnBc = React.useMemo(
+        () => ({
+            onlyicon: isDarkTheme ? "true" : "false",
+            ...overrides["Override Save Button"],
+        }),
+        [isDarkTheme, overrides],
+    );
+
+    const cancelBtnBc = React.useMemo(
+        () => ({
+            onlyicon: isDarkTheme ? "true" : "false",
+            ...overrides["Override Cancel Button"],
+        }),
+        [isDarkTheme, overrides],
+    );
+
+    return (
+        <Grid container spacing={1} alignItems="center" direction={buttonDirection}>
+            {mapComponents([saveBtnBc, cancelBtnBc], (ChildCmp, childBc) => (
+                <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                    <ChildCmp bc={childBc} pageStore={pageStore} visible />
+                </Grid>
+            ))}
+
+            <Grid
+                item
+                className={classes.editModeLabel}
+                data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-mode-title`}
+            >
+                {getModeTitle(store.mode)}
+            </Grid>
+        </Grid>
+    );
 };
 
-class BuilderPanelEditingButtons extends React.Component<PropsType> {
-    static contextType = EditorContex;
-
-    handlePerformData = () => {
-        const {form} = this.context;
-
-        return {form};
-    };
-
-    render() {
-        const {classes, store, bc, pageStore} = this.props;
-        const {overrides} = store.btnsConfig;
-        const isDarkTheme = styleTheme === "dark";
-
-        return (
-            <Grid container spacing={1} alignItems="center" direction={buttonDirection}>
-                <Grid item>
-                    <BuilderMobxButton
-                        bc={overrides["Override Save Button"]}
-                        color="primary"
-                        pageStore={pageStore}
-                        visible
-                        componentProps={SAVE_COMPONENT_PROPS}
-                        performData={this.handlePerformData}
-                        variant={isDarkTheme ? "fab" : undefined}
-                        mini={isDarkTheme}
-                        onlyicon={isDarkTheme}
-                    />
-                </Grid>
-                <Grid item>
-                    <BuilderMobxButton
-                        bc={overrides["Override Cancel Button"]}
-                        className={classes.cancelButton}
-                        pageStore={pageStore}
-                        visible
-                        onlyicon={isDarkTheme}
-                        color="secondary"
-                        isEscOpen
-                        hideBackdrop={false}
-                        hideOnResize={false}
-                    />
-                </Grid>
-
-                <Grid
-                    item
-                    className={classes.editModeLabel}
-                    data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-mode-title`}
-                >
-                    {getModeTitle(store.mode)}
-                </Grid>
-            </Grid>
-        );
-    }
-}
-
-export default withStyles(styles)(BuilderPanelEditingButtons);
+export default BuilderPanelEditingButtons;

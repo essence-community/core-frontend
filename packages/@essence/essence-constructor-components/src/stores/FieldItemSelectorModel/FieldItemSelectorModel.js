@@ -22,6 +22,22 @@ function getSelectionRecords(gridStore: GridModelType) {
 export class FieldItemSelectorModel extends StoreBaseModel implements FieldItemSelectorModelType {
     name = "itemselector";
 
+    constructor(props) {
+        super(props);
+
+        const [fieldFrom, fieldTo] = this.bc.childs;
+
+        this.fieldFrom = {
+            height: this.bc.height,
+            ...fieldFrom,
+        };
+
+        this.fieldTo = {
+            height: this.bc.height,
+            ...fieldTo,
+        };
+    }
+
     getStores = ({fieldFrom, fieldTo}: Object): [?GridModelType, ?GridModelType] => [
         this.pageStore.stores.get(fieldFrom[VAR_RECORD_PAGE_OBJECT_ID]),
         this.pageStore.stores.get(fieldTo[VAR_RECORD_PAGE_OBJECT_ID]),
@@ -67,4 +83,12 @@ export class FieldItemSelectorModel extends StoreBaseModel implements FieldItemS
             return saveStatus;
         },
     );
+
+    handlers = {
+        addAll: () => this.moveRecSaveAction("1", {fieldFrom: this.fieldFrom, fieldTo: this.fieldTo}, true),
+        addSelected: () => this.moveRecSaveAction("1", {fieldFrom: this.fieldFrom, fieldTo: this.fieldTo}, false),
+        removeSelected: () => this.moveRecSaveAction("3", {fieldFrom: this.fieldTo, fieldTo: this.fieldFrom}, false),
+        // eslint-disable-next-line sort-keys
+        removeAll: () => this.moveRecSaveAction("3", {fieldFrom: this.fieldTo, fieldTo: this.fieldFrom}, true),
+    };
 }

@@ -28,7 +28,7 @@ export function getHistoryAddButtonConfig(bc: BuilderBaseType) {
         onlyicon: "true",
         reqsel: "false",
         type: "BTN",
-        uitype: "1",
+        uitype: "4",
     };
 }
 
@@ -46,6 +46,7 @@ export function getHistoryCloneButtonConfig(bc: BuilderBaseType) {
         iconfontname: "fa",
         onlyicon: "true",
         type: "BTN",
+        uitype: "11",
     };
 }
 
@@ -64,6 +65,7 @@ export function getHistoryRemoveButtonConfig(bc: BuilderBaseType) {
         iconfontname: "fa",
         onlyicon: "true",
         type: "BTN",
+        uitype: "11",
     };
 }
 
@@ -81,6 +83,7 @@ export function getHistoryRefreshButtonConfig(bc: BuilderBaseType) {
         onlyicon: "true",
         readonly: "false",
         type: "BTN",
+        uitype: "11",
     };
 }
 
@@ -97,6 +100,7 @@ export function getHistoryEditButtonConfig(bc: BuilderBaseType) {
         iconfontname: "fa",
         onlyicon: "true",
         type: "BTN",
+        uitype: "11",
     };
 }
 
@@ -114,6 +118,7 @@ export function getHistoryLeftButtonConfig(bc: BuilderBaseType) {
         onlyicon: "true",
         readonly: "false",
         type: "BTN",
+        uitype: "11",
     };
 }
 
@@ -131,6 +136,7 @@ export function getHistoryRightButtonConfig(bc: BuilderBaseType) {
         onlyicon: "true",
         readonly: "false",
         type: "BTN",
+        uitype: "11",
     };
 }
 
@@ -147,7 +153,8 @@ export function getBtnAuditConfig(bc: BuilderBaseType) {
         onlyicon: "true",
         readonly: "false",
         reqsel: "true",
-        type: "BTN",
+        type: "AUDIT_INFO",
+        uitype: "11",
     };
 }
 
@@ -162,6 +169,7 @@ export const getSaveBtnConfig = (bc: BuilderBaseType) => ({
     iconfont: styleTheme === "dark" ? "save" : undefined,
     iconsize: "xs",
     type: "BTN",
+    uitype: "5",
 });
 
 export const getCancelBtnConfig = (bc: BuilderBaseType) => ({
@@ -176,5 +184,5 @@ export const getCancelBtnConfig = (bc: BuilderBaseType) => ({
     iconfont: styleTheme === "dark" ? "times" : undefined,
     iconsize: "xs",
     type: "BTN",
-    uitype: "2",
+    uitype: "6",
 });

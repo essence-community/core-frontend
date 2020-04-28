@@ -29,7 +29,7 @@ export type StoreBaseModelNameType =
 export interface IHandlerOptions {
     form?: Form;
     files?: File[];
-    values?: Record<string, FieldValue>;
+    record?: IRecord;
 }
 
 export type HandlerType = (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => Promise<boolean>;

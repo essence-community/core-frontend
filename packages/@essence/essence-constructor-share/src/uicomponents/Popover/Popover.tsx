@@ -2,6 +2,7 @@ import * as React from "react";
 import {createPortal} from "react-dom";
 import {noop, isFunction} from "../../utils/functions";
 import {getAbsoluteOffsetFromGivenElement} from "../../utils/browser";
+import {PopoverContext} from "../../context";
 import {IPopoverProps, IOffset, IPopoverAnchorOrigin, IPopoverTransfromOrigin} from "./Popover.types";
 import {getOffsetContainer} from "./Popover.utils";
 import {PopoverContent} from "./PopoverContent";
@@ -45,6 +46,12 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
         setIsOpen(true);
         onChangeOpen(true);
     }, [onChangeOpen]);
+
+    const popoverCtx = React.useMemo(() => ({onClose: handleClose, onOpen: handleOpen, open: isOpen}), [
+        handleClose,
+        handleOpen,
+        isOpen,
+    ]);
 
     const handleCalculateOffset = React.useCallback(() => {
         const {current: rootElement} = rootRef;
@@ -190,44 +197,46 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
     });
 
     return (
-        <div ref={rootRef} onMouseDown={handleMouseDownPopover} onBlur={props.onBlur}>
-            {isFunction(props.children)
-                ? props.children({
-                      height: style.height,
-                      onCalculateOffset: handleCalculateOffset,
-                      onClose: handleClose,
-                      onOpen: handleOpen,
-                      open: isOpen,
-                      position: style.bottom ? "top" : "bottom",
-                  })
-                : props.children}
-            {isOpen && container
-                ? createPortal(
-                      <PopoverContent
-                          ref={popupRef}
-                          styleOffset={style}
-                          open={isOpen}
-                          hideBackdrop={hideBackdrop}
-                          dataPageObjectPopover={props.dataPageObjectPopover}
-                          container={container}
-                          disableEscapeKeyDown={props.disableEscapeKeyDown}
-                          tabFocusable={tabFocusable}
-                          focusableMount={props.focusableMount}
-                          restoreFocusedElement={props.restoreFocusedElement}
-                          width={props.width || width}
-                          onOpen={handleOpen}
-                          onEntering={handleEntering}
-                          onClose={handleClose}
-                          onCalculateOffset={handleCalculateOffset}
-                          onEscapeKeyDown={handleEscapeKeyDown}
-                          paperClassName={props.paperClassName}
-                          popoverContent={props.popoverContent}
-                          disableFocusableArrow={props.disableFocusableArrow}
-                      />,
-                      container,
-                  )
-                : null}
-        </div>
+        <PopoverContext.Provider value={popoverCtx}>
+            <div ref={rootRef} onMouseDown={handleMouseDownPopover} onBlur={props.onBlur} className={props.className}>
+                {isFunction(props.children)
+                    ? props.children({
+                          height: style.height,
+                          onCalculateOffset: handleCalculateOffset,
+                          onClose: handleClose,
+                          onOpen: handleOpen,
+                          open: isOpen,
+                          position: style.bottom ? "top" : "bottom",
+                      })
+                    : props.children}
+                {isOpen && container
+                    ? createPortal(
+                          <PopoverContent
+                              ref={popupRef}
+                              styleOffset={style}
+                              open={isOpen}
+                              hideBackdrop={hideBackdrop}
+                              dataPageObjectPopover={props.dataPageObjectPopover}
+                              container={container}
+                              disableEscapeKeyDown={props.disableEscapeKeyDown}
+                              tabFocusable={tabFocusable}
+                              focusableMount={props.focusableMount}
+                              restoreFocusedElement={props.restoreFocusedElement}
+                              width={props.width || width}
+                              onOpen={handleOpen}
+                              onEntering={handleEntering}
+                              onClose={handleClose}
+                              onCalculateOffset={handleCalculateOffset}
+                              onEscapeKeyDown={handleEscapeKeyDown}
+                              paperClassName={props.paperClassName}
+                              popoverContent={props.popoverContent}
+                              disableFocusableArrow={props.disableFocusableArrow}
+                          />,
+                          container,
+                      )
+                    : null}
+            </div>
+        </PopoverContext.Provider>
     );
 });
 

@@ -4,7 +4,7 @@ import {request} from "../request";
 import {IPageModel} from "../types/PageModel";
 import {ISnackbarModel} from "../types/SnackbarModel";
 import {FieldValue, IRecord, IResponse, IApplicationModel} from "../types";
-import {VAR_RECORD_MASTER_ID} from "../constants/variables";
+import {VAR_RECORD_MASTER_ID, VAR_SETTING_GATE_URL} from "../constants/variables";
 import {
     VAR_RECORD_URL,
     VAR_RECORD_ID,
@@ -16,6 +16,7 @@ import {
     META_PAGE_OBJECT,
     VAR_RECORD_CK_D_ENDPOINT,
 } from "../constants";
+import {settingsStore} from "../models/SettingsModel";
 import {getMasterObject} from "./getMasterObject";
 
 interface IPrintBC {
@@ -118,7 +119,11 @@ export const print = async ({
     return isValid;
 };
 
-export const downloadFile = (name: string, queryParams: string, gate: string) => {
+export const downloadFile = (
+    name: string,
+    queryParams: string,
+    gate: string = settingsStore.settings[VAR_SETTING_GATE_URL],
+) => {
     const form = document.createElement("form");
 
     form.setAttribute("method", "post");

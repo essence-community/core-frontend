@@ -10,3 +10,4 @@ export {SideResizer} from "./SideResizer";
 export {SnackbarContentText} from "./SnackbarContentText";
 export {VerticalResizer} from "./VerticalResizer";
 export {Confirm} from "./Confirm";
+export {TextFieldLabel} from "./TextFieldLabel";

@@ -8,8 +8,8 @@ import {withStyles} from "@material-ui/core/styles";
 import {FormLabel} from "@material-ui/core";
 import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
+import {TextFieldLabel} from "@essence-community/constructor-share/uicomponents/TextFieldLabel";
 import ColorPicker from "../../../ColorPicker/ColorPicker";
-import TextFieldLabel from "../../TextFieldComponents/TextFieldLabel/TextFieldLabel";
 import FieldColorPickerStyles from "./FieldColorPickerStyles";
 import {type FieldColorPickerPropsType, type FieldColorPickerStateType} from "./FieldColorPickerType";
 

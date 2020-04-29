@@ -14,7 +14,7 @@ import {
     GRID_CONFIGS,
     GRID_ALIGN_CONFIGS,
 } from "@essence-community/constructor-share/constants";
-import TextFieldLabel from "../../TextFieldComponents/TextFieldLabel/TextFieldLabel";
+import {TextFieldLabel} from "@essence-community/constructor-share/uicomponents/TextFieldLabel";
 import withModelDecorator from "../../../decorators/withModelDecorator";
 import {FieldRadioGroupModel} from "../../../stores/FieldRadioGroupModel";
 import {type BuilderFieldType} from "../../../TextField/BuilderFieldType";

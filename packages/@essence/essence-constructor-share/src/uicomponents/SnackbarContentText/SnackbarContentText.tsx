@@ -26,12 +26,12 @@ export const SnackbarContentText: React.FC<ISnackbarContentTextProps> = ({text, 
         <React.Fragment>
             {title ? (
                 <Typography variant="body2" color="inherit">
-                    {toTranslateText(title, trans)}
+                    {toTranslateText(trans, title)}
                 </Typography>
             ) : null}
             {text ? (
                 <Typography variant="body2" color="inherit" component="div">
-                    <Linkify componentDecorator={componentDecorator}>{toTranslateText(text, trans)}</Linkify>
+                    <Linkify componentDecorator={componentDecorator}>{toTranslateText(trans, text)}</Linkify>
                 </Typography>
             ) : null}
             {description ? (

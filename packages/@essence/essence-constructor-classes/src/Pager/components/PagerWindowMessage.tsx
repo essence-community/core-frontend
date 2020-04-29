@@ -35,7 +35,7 @@ export const PagerWindowMessage: React.FC<IPagerWindowMessageProps> = (props) =>
                         <Scrollbars autoHeight autoHeightMax={180} pageStore={pageStore}>
                             {pageStore.questionWindow ? (
                                 // eslint-disable-next-line react/jsx-key
-                                pageStore.questionWindow.map((text) => <div>{toTranslateText(text, trans)}</div>)
+                                pageStore.questionWindow.map((text) => <div>{toTranslateText(trans, text)}</div>)
                             ) : (
                                 <div></div>
                             )}

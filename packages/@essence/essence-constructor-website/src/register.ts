@@ -38,6 +38,7 @@ import "@essence-community/constructor-classes/src/WindowDrawer";
 import "@essence-community/constructor-classes/src/FieldTextarea";
 import "@essence-community/constructor-classes/src/Iframe";
 import "@essence-community/constructor-classes/src/FieldRepeater";
+import "@essence-community/constructor-classes/src/FieldCheckbox";
 import "@essence-community/constructor-classes/src/TabPanel";
 import "@essence-community/constructor-classes/src/FieldComputed";
 import "@essence-community/constructor-classes/src/ServiceHidden";

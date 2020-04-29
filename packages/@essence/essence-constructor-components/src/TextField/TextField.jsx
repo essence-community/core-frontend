@@ -6,8 +6,8 @@ import {Field} from "mobx-react-form";
 import {TextField as TextFieldMaterial} from "@material-ui/core";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {useTranslation, toTranslateTextArray} from "@essence-community/constructor-share/utils";
+import {TextFieldLabel} from "@essence-community/constructor-share/uicomponents/TextFieldLabel";
 import {isEmpty} from "../utils/base";
-import TextFieldLabel from "./TextFieldComponents/TextFieldLabel/TextFieldLabel";
 import {type BuilderFieldType} from "./BuilderFieldType";
 
 const OMIT_PROPS = [
@@ -73,7 +73,7 @@ const TextField = React.forwardRef(
             }
 
             const tip =
-                toTranslateTextArray(errorText, trans) ||
+                toTranslateTextArray(trans, errorText) ||
                 (bc.datatype === "password" ? "" : fieldFullValue) ||
                 bc.info ||
                 field.get("label");

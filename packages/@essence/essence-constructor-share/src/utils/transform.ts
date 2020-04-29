@@ -47,7 +47,7 @@ export const sanitizeHtml = (html: string, config?: any): string => {
 
 export const isBool = (value: string): boolean => value === "true";
 
-export const toTranslateText = (text: TText, trans: TFunction) => {
+export const toTranslateText = (trans: TFunction, text?: string | TText): undefined | string | JSX.Element => {
     if (typeof text === "function") {
         return text(trans);
     }
@@ -59,12 +59,15 @@ export const toTranslateText = (text: TText, trans: TFunction) => {
     return text;
 };
 
-export const toTranslateTextArray = (textArr: TText | TText[], trans: TFunction) => {
+export const toTranslateTextArray = (
+    trans: TFunction,
+    textArr?: string | TText | TText[],
+): undefined | string | JSX.Element | JSX.Element[] => {
     if (Array.isArray(textArr)) {
-        return textArr.map((text: TText) => toTranslateText(text, trans)).join("\r\n");
+        return textArr.map((text: TText) => toTranslateText(trans, text)).join("\r\n");
     }
 
-    return toTranslateText(textArr, trans);
+    return toTranslateText(trans, textArr);
 };
 
 export function setglobalToParse(str: string): string {

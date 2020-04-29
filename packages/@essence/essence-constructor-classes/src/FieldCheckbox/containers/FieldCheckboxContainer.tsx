@@ -1,52 +1,35 @@
-// @flow
 import * as React from "react";
-import {compose} from "recompose";
-import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {observer} from "mobx-react";
-import cn from "classnames";
-import {withStyles} from "@material-ui/core/styles";
+import {useTranslation, toTranslateText} from "@essence-community/constructor-share/utils";
+import cn from "clsx";
 import {Checkbox, FormLabel} from "@material-ui/core";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import TextFieldLabel from "../../TextFieldComponents/TextFieldLabel/TextFieldLabel";
-import FieldCheckboxStyles from "./FieldCheckboxStyles";
-import {type FieldCheckboxPropsType} from "./FieldCheckboxType";
+import {useObserver} from "mobx-react-lite";
+import {TextFieldLabel} from "@essence-community/constructor-share/uicomponents/TextFieldLabel";
+import {IFieldCheckboxContainerProps} from "./FieldCheckboxContainer.types";
+import {useStyles} from "./FieldCheckboxContainer.styles";
 
-type StateType = {
-    focused: boolean,
-};
+export const FieldCheckboxContainer: React.FC<IFieldCheckboxContainerProps> = (props) => {
+    const [focused, setFocus] = React.useState<boolean>(false);
 
-class FieldCheckbox extends React.Component<FieldCheckboxPropsType & WithT, StateType> {
-    state = {
-        focused: false,
-    };
+    const [trans] = useTranslation("meta");
+    const classes = useStyles(props);
 
-    handleFocus = () => {
-        this.setState({focused: true});
-    };
+    const handleFocus = React.useCallback(() => {
+        setFocus(true);
+    }, []);
+    const handleBlur = React.useCallback(() => {
+        setFocus(false);
+    }, []);
+    const onChange = React.useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
+            props.onChange(event, Number(checked));
+        },
+        [props],
+    );
 
-    handleBlur = () => {
-        this.setState({focused: false});
-    };
-
-    // eslint-disable-next-line max-lines-per-function
-    render() {
-        const {
-            value,
-            InputLabelProps,
-            label,
-            disabled,
-            classes,
-            error,
-            noLabel,
-            onChange,
-            bc,
-            tabIndex,
-            field,
-            // eslint-disable-next-line id-length
-            t,
-        } = this.props;
-        const {focused} = this.state;
+    return useObserver(() => {
+        const {value, InputLabelProps, label, disabled, error, noLabel, bc, tabIndex, field} = props;
         const isInline = bc.edittype && bc.edittype === "inline";
 
         return (
@@ -58,7 +41,9 @@ class FieldCheckbox extends React.Component<FieldCheckboxPropsType & WithT, Stat
                     [classes.focused]: focused,
                 })}
                 data-qtip={
-                    value ? t("static:dacf7ab025c344cb81b700cfcc50e403") : t("static:f0e9877df106481eb257c2c04f8eb039")
+                    value
+                        ? trans("static:dacf7ab025c344cb81b700cfcc50e403")
+                        : trans("static:f0e9877df106481eb257c2c04f8eb039")
                 }
                 data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
             >
@@ -72,7 +57,7 @@ class FieldCheckbox extends React.Component<FieldCheckboxPropsType & WithT, Stat
                     ) : (
                         <TextFieldLabel
                             bc={bc}
-                            info={t(bc.info)}
+                            info={toTranslateText(trans, bc.info)}
                             error={error}
                             isRequired={field.rules && field.rules.indexOf("required") >= 0}
                         />
@@ -88,16 +73,10 @@ class FieldCheckbox extends React.Component<FieldCheckboxPropsType & WithT, Stat
                     icon={disabled ? <Icon iconfont="square" /> : <Icon iconfont="square-o" />}
                     disableRipple
                     tabIndex={tabIndex}
-                    onFocus={this.handleFocus}
-                    onBlur={this.handleBlur}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
                 />
             </label>
         );
-    }
-}
-
-export default compose(
-    withStyles(FieldCheckboxStyles, {name: "EssenceFieldCheckbox"}),
-    withTranslation("meta"),
-    observer,
-)(FieldCheckbox);
+    });
+};

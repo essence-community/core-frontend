@@ -4,6 +4,7 @@ import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/co
 import {Popover, Confirm} from "@essence-community/constructor-share/uicomponents";
 import {IPopoverProps} from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";
 import {useTheme} from "@material-ui/core";
+import {IPopoverContext} from "@essence-community/constructor-share/context";
 import {ButtonConfirmEsc} from "../ButtonConfirmEsc";
 import {getButtonComponent} from "../../utils/getButtonComponent";
 
@@ -40,22 +41,17 @@ interface IButtonConfirmProps {
     bc: IBuilderConfig;
     disabled?: boolean;
     pageStore: IPageModel;
-    onClick: () => void;
+    popoverCtx: IPopoverContext;
+    onClick: () => Promise<void | boolean>;
 }
 
 export const ButtonConfirm: React.FC<IButtonConfirmProps> = React.memo(function ButtonConfirmMemo(props) {
-    const {pageStore, bc, disabled, onClick} = props;
+    const {pageStore, bc, disabled, onClick, popoverCtx} = props;
     const {mode, confirmquestion, confirmquestionposition = "right"} = bc;
     const theme = useTheme<IEssenceTheme>();
     const Component = getButtonComponent(bc, theme);
 
     if (mode === "4" || mode === "7" || confirmquestion) {
-        const onAccept = (event: React.SyntheticEvent) => {
-            event.stopPropagation();
-
-            onClick();
-        };
-
         return (
             <Popover
                 width={250}
@@ -63,7 +59,15 @@ export const ButtonConfirm: React.FC<IButtonConfirmProps> = React.memo(function 
                     <Confirm
                         pageStore={pageStore}
                         ckPageObject={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-confirm`}
-                        onAccept={onAccept}
+                        onAccept={async (event: React.SyntheticEvent) => {
+                            event.stopPropagation();
+
+                            const result = await onClick();
+
+                            if (result) {
+                                onClose(event);
+                            }
+                        }}
                         onDecline={onClose}
                     >
                         {bc.confirmquestion || "static:5a33b10058114ae7876067447fde8242"}
@@ -79,7 +83,7 @@ export const ButtonConfirm: React.FC<IButtonConfirmProps> = React.memo(function 
             >
                 {({onOpen, open}) => (
                     <>
-                        <Component bc={bc} onClick={onOpen} disabled={disabled} />
+                        <Component bc={bc} onClick={onOpen} disabled={disabled} open={open} />
                         {bc.uitype === "6" ? (
                             <ButtonConfirmEsc open={open} onOpen={onOpen} pageStore={pageStore} />
                         ) : null}
@@ -89,5 +93,5 @@ export const ButtonConfirm: React.FC<IButtonConfirmProps> = React.memo(function 
         );
     }
 
-    return <Component bc={bc} onClick={onClick} disabled={disabled} />;
+    return <Component bc={bc} onClick={onClick} disabled={disabled} open={popoverCtx.open} />;
 });

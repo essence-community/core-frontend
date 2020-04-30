@@ -10,7 +10,7 @@ export const ButtonContainer: React.FC<IClassProps> = (props) => {
     const fileInputStore = React.useMemo(() => {
         return bc.mode === "8" ? new FileInputModel({applicationStore: null, bc, pageStore}) : undefined;
     }, [bc, pageStore]);
-    const [onClick, isDisabled] = useButtonClick({
+    const [onClick, isDisabled, popoverCtx] = useButtonClick({
         bc,
         disabled,
         fileInputStore,
@@ -24,6 +24,7 @@ export const ButtonContainer: React.FC<IClassProps> = (props) => {
                 disabled={readOnly || isDisabled || disabled}
                 bc={bc}
                 onClick={onClick}
+                popoverCtx={popoverCtx}
             />
             {fileInputStore ? <FileInput store={fileInputStore} mode={props.bc.filemode} /> : null}
         </>

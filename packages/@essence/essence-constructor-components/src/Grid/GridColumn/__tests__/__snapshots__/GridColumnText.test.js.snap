@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`GridColumnText redirect to page 1`] = `"<a href=\\"core-1\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">test</a>"`;

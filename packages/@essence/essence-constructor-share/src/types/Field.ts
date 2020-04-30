@@ -32,4 +32,4 @@ export interface IFieldProps extends IClassProps {
     onInitSetGlobal: (store: IStoreBaseModel) => void;
 }
 
-export type FieldValue = number | string | object | undefined | null;
+export type FieldValue = number | string | object | undefined | null | boolean;

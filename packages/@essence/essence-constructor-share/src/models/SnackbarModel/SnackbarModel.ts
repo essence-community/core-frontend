@@ -13,8 +13,8 @@ import {
     ISnackbar,
     SnackbarStatus,
     IErrorData,
+    IRecordsModel,
 } from "../../types";
-import {RecordsModel} from "../RecordsModel";
 import {isEmpty, i18next, TFunction} from "../../utils";
 import {
     VAR_RECORD_ROUTE_NAME,
@@ -48,7 +48,7 @@ export class SnackbarModel implements ISnackbarModel {
 
     snackbarsAll: Array<ISnackbar>;
 
-    recordsStore: RecordsModel;
+    recordsStore: IRecordsModel;
 
     activeStatus: SnackbarStatus;
 
@@ -60,14 +60,14 @@ export class SnackbarModel implements ISnackbarModel {
 
     constructor() {
         // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-        const mod = require("../RecordsModel/RecordsModel");
+        const {RecordsModel} = require("../RecordsModel");
         const bc: IBuilderConfig = {
             [VAR_RECORD_PAGE_OBJECT_ID]: "Snackbar",
             [VAR_RECORD_PARENT_ID]: "root",
             [VAR_RECORD_QUERY_ID]: "GetMsgList",
         };
 
-        this.recordsStore = new mod.RecordsModel(bc);
+        this.recordsStore = new RecordsModel(bc);
 
         extendObservable(this, {
             activeStatus: "all",

@@ -38,14 +38,14 @@
   integrity sha512-14ZVlsB9akwvydAdaEnVnvqu6J2P6ySv39hYyl/aoB6w/V+bXX0tay8cF6paqbgZsN2n5Xh15uF4pE+GvE+itw==
 
 "@essence-community/constructor-package-builder@file:../essence-constructor-package-builder":
-  version "2.2.0"
+  version "2.3.0"
   dependencies:
     cross-spawn "^7.0.1"
     fs-extra "^8.1.0"
     typescript "^3.7.3"
 
 "@essence-community/eslint-config-react@file:../essence-constructor-eslint":
-  version "2.2.0"
+  version "2.3.0"
   dependencies:
     "@typescript-eslint/eslint-plugin" "^2.11.0"
     "@typescript-eslint/parser" "^2.11.0"
@@ -419,6 +419,11 @@ bcrypt-pbkdf@^1.0.0:
   integrity sha1-pDAdOJtqQ/m2f/PKEaP2Y342Dp4=
   dependencies:
     tweetnacl "^0.14.3"
+
+bignumber.js@9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-9.0.0.tgz#805880f84a329b5eac6e7cb6f8274b6d82bdf075"
+  integrity sha512-t/OYhhJ2SD+YGBQcjY8GzzDHEk9f3nerxjtfa6tlMXfe7frs/WozhvCNoGvpM0P3bNf3Gq5ZRMlGr5f3r4/N8A==
 
 brace-expansion@^1.1.7:
   version "1.1.11"

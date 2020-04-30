@@ -50,8 +50,6 @@ export interface IBuilderBaseConfig {
     contentview?: string;
     // Ширина вложенных полей. Целое число от 1% до 100%. Обязательно добавлять %.
     contentwidth?: string;
-    // Вложенные элементы для построения контекстного меню
-    contextmenus?: string;
     // Подпись для отображения Пример: к деньгам добавляем " руб."
     currencysign?: string;
     // Тип данных колонки
@@ -122,8 +120,6 @@ export interface IBuilderBaseConfig {
     imask?: string;
     // Дополнительная информация для полей ввода
     info?: string;
-    // Признак колонки типа "Дерево" (true/false)
-    istree?: string;
     // Установка значение из локализационного пакета. Возможные значения: meta, message
     localization?: string;
     // Максимальный размер файла в байтах
@@ -265,6 +261,8 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     // Определяет класс в качестве мастера
     cl_is_master?: boolean;
     contentwidth?: string;
+    // Вложенные элементы для построения контекстного меню
+    contextmenus?: IBuilderConfig[];
     // Служебный параметр для иерархии
     bottombtn?: IBuilderConfig[];
     // Служебный параметр для иерархии

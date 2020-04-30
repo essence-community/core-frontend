@@ -24,7 +24,7 @@ interface IGetQueryParams {
 }
 
 interface IMakeRedirectUrlProps {
-    authData: IAuthSession;
+    authData: Partial<IAuthSession>;
     bc: IBuilderConfig;
     redirecturl: string;
     columnsName?: string;

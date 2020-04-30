@@ -21,7 +21,7 @@ export const IconButton: React.FC<IButtonInternalProps> = (props) => {
     ) : null;
 
     const buttonProps = {
-        className: cn(classes[`uitype-${bc.uitype}` as keyof typeof classes]),
+        className: cn(classes[`uitype-${bc.uitype}` as keyof typeof classes], {[classes.open]: props.open}),
         "data-page-object": bc[VAR_RECORD_PAGE_OBJECT_ID],
         "data-qtip": qtip ? trans(qtip) : "",
         disabled: props.disabled,

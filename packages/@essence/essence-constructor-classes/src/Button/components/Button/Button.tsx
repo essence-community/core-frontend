@@ -30,7 +30,7 @@ export const Button: React.FC<IButtonInternalProps> = (props) => {
                 <Icon iconfont={iconfont} iconfontname={iconfontname as "fa" | "mdi"} size={iconsize} color="inherit" />
             ) : null}
             {iconfont ? "\u00A0" : null}
-            <Typography variant="button" noWrap display="inline">
+            <Typography variant="button" className={classes.displayed} noWrap display="inline">
                 {displayed ? trans(displayed) : displayed}
             </Typography>
         </MuiButton>

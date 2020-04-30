@@ -50,6 +50,15 @@ import "@essence-community/constructor-classes/src/StaticPreference";
 import "@essence-community/constructor-classes/src/Button";
 import "@essence-community/constructor-classes/src/ButtonCollector";
 import "@essence-community/constructor-classes/src/AuditInfo";
+import "@essence-community/constructor-classes/src/Column";
+import "@essence-community/constructor-classes/src/ColumnBoolean";
+import "@essence-community/constructor-classes/src/ColumnIcon";
+import "@essence-community/constructor-classes/src/ColumnNumber";
+import "@essence-community/constructor-classes/src/ColumnText";
+import "@essence-community/constructor-classes/src/ColumnTree";
+import "@essence-community/constructor-classes/src/ColumnCheckbox";
+import "@essence-community/constructor-classes/src/ColumnDate";
+import "@essence-community/constructor-classes/src/ColumnDetail";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

@@ -13,7 +13,6 @@ import "@essence-community/constructor-components/src/FilePanel/BuilderFilePanel
 import "@essence-community/constructor-components/src/Filter/BuilderFilter";
 import "@essence-community/constructor-components/src/FieldItemSelector/FieldItemSelector";
 import "@essence-community/constructor-components/src/FieldPeriod/BuilderFieldPeriod";
-import "@essence-community/constructor-components/src/EmptySpace/EmptySpace";
 import "@essence-community/constructor-components/src/Form/FormPanel";
 import "@essence-community/constructor-components/src/Window";
 import "@essence-community/constructor-components/src/Grid/GridComponents/GridSettings";
@@ -39,6 +38,7 @@ import "@essence-community/constructor-classes/src/FieldTextarea";
 import "@essence-community/constructor-classes/src/Iframe";
 import "@essence-community/constructor-classes/src/FieldRepeater";
 import "@essence-community/constructor-classes/src/FieldCheckbox";
+import "@essence-community/constructor-classes/src/EmptySpace";
 import "@essence-community/constructor-classes/src/TabPanel";
 import "@essence-community/constructor-classes/src/FieldComputed";
 import "@essence-community/constructor-classes/src/ServiceHidden";

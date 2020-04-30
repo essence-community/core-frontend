@@ -29,6 +29,7 @@ const HIDDEN_CLASS_TYPES = [
     "BTN",
     "BTNCOLLECTOR",
     "AUDIT_INFO",
+    "EMPTY_SPACE",
 ];
 
 // eslint-disable-next-line max-lines-per-function

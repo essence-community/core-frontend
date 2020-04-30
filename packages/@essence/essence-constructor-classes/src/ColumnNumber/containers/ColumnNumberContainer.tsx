@@ -8,7 +8,7 @@ export const ColumnNumberContainer: React.FC<IClassProps> = (props) => {
     const {bc} = props;
     const classes = useStyles();
     const record = React.useContext(RecordContext);
-    const value = record && bc.column ? record[bc.column] : undefined || 4353520.3354;
+    const value = record && bc.column ? record[bc.column] : undefined;
     const {BigNumber, decimalPrecision} = React.useMemo(() => getBigNumberInstance(bc), [bc]);
 
     if (typeof value === "string" || typeof value === "number") {

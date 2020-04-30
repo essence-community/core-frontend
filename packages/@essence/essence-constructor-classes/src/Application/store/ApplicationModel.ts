@@ -258,7 +258,7 @@ export class ApplicationModel implements IApplicationModel {
     };
 
     loadApplicationAction = action("loadApplicationAction", async () => {
-        await Promise.all([
+        await Promise.all<Promise<any> | false>([
             this.recordsStore.recordsState.status === "init" &&
                 this.recordsStore
                     .searchAction({
@@ -278,7 +278,8 @@ export class ApplicationModel implements IApplicationModel {
             settingsStore.settings.module_available === "true" &&
                 !modulesStore.isLoaded &&
                 modulesStore.loadModules(settingsStore.settings[VAR_SETTING_MODULE_URL]),
-            snackbarStore.recordsStore.recordsState.status === "init" && snackbarStore.recordsStore.loadRecordsAction(),
+            snackbarStore.recordsStore.recordsState.status === "init" &&
+                snackbarStore.recordsStore.loadRecordsAction({}),
         ]);
 
         if (this.bc && this.bc[VAR_RECORD_PAGE_OBJECT_ID] !== "none") {

@@ -107,7 +107,9 @@ export class FieldComboModel extends StoreBaseModel {
 
             return this.recordsStore.loadRecordsAction({
                 selectedRecordId:
-                    selectedRecordId === null || typeof selectedRecordId === "object" ? undefined : selectedRecordId,
+                    selectedRecordId === null || typeof selectedRecordId === "object"
+                        ? undefined
+                        : (selectedRecordId as "string" | "number"),
             });
         }
 

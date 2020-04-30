@@ -1,6 +1,10 @@
 import {IBuilderConfig} from "../types";
 
 function findClassNamesRecursive(bc: IBuilderConfig, acc: string[]): string[] {
+    if (bc.topbtn) {
+        bc.topbtn.forEach((childBc) => findClassNamesRecursive(childBc, acc));
+    }
+
     if (bc.bottombtn) {
         bc.bottombtn.forEach((childBc) => findClassNamesRecursive(childBc, acc));
     }

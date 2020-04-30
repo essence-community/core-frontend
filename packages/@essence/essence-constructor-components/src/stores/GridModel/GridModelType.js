@@ -104,7 +104,6 @@ export interface GridModelInterface extends StoreBaseModelInterface {
     +removeSelectedRecordAction: () => boolean;
     +toggleSelectedRecordAction: (ckId: CkIdType, record: Object, isChecked?: boolean) => boolean;
     +setAllSelectedRecords: (all: boolean) => void;
-    +openRoot: () => void;
     +scrollToRecordAction: (params: Object) => Promise<void>;
     +winReloadStores: () => void;
     +setColumnsWidth: (ckId: CkIdType, width: number) => void;

@@ -1,4 +1,5 @@
 import {Form} from "mobx-react-form";
+import {ObservableMap} from "mobx";
 import {IBuilderMode, ICkId, IRecord} from "./Base";
 import {IBuilderConfig} from "./Builder";
 import {IPageModel} from "./PageModel";
@@ -92,6 +93,9 @@ export interface IRecordsModel {
     loadCounter: number;
     valueField: string;
     route: IRouteRecord;
+    expansionRecords: ObservableMap<ICkId, boolean>;
+    selectedRecords: ObservableMap<ICkId, IRecord>;
+    recordsTree: Record<string, IRecord[]>;
     loadRecordsAction: (props: ILoadRecordsProps) => Promise<undefined | IRecord>;
     clearRecordsAction: () => void;
     saveAction: (values: IRecord | IRecord[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<string>;

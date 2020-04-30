@@ -3,7 +3,6 @@
 import {action, extendObservable, observable} from "mobx";
 import get from "lodash/get";
 import findIndex from "lodash/findIndex";
-import groupBy from "lodash/groupBy";
 import {i18next} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PARENT_ID,
@@ -37,23 +36,7 @@ import {getGridBtnsConfig} from "./gridBtnsConfig";
 export type {GridBuilderType, GridModelType, GridModelInterface};
 
 function getGridColumns({columns = [], detail}: GridBuilderType) {
-    const gridColumns = columns
-        .filter((column) => column.visible !== "false")
-        .map((column) =>
-            column.istree === "true"
-                ? {
-                      ...column,
-                      datatype: "tree",
-                      datatypeBase: column.datatype,
-                      iconfontColumn: column.iconfont ? column.iconfont : column.iconfont,
-                      iconfontNameColumn: column.iconfontname ? column.iconfontname : column.iconfontname,
-                  }
-                : {
-                      ...column,
-                      iconfontColumn: column.iconfont ? column.iconfont : column.iconfont,
-                      iconfontNameColumn: column.iconfontname ? column.iconfontname : column.iconfontname,
-                  },
-        );
+    const gridColumns = columns.filter((column) => column.visible !== "false");
 
     if (detail && findIndex(gridColumns, ["datatype", "detail"]) === -1) {
         return [
@@ -109,8 +92,6 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
     recordsStore: RecordsModelType;
 
     editMode: string;
-
-    expansionRecords: Map<CkIdType, boolean>;
 
     selectedRecords: Map<CkIdType, Object>;
 
@@ -168,7 +149,9 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
 
         extendObservable(this, {
             columnsWidth: observable.map(),
-            expansionRecords: observable.map(),
+            get expansionRecords() {
+                return this.recordsStore.expansionRecords;
+            },
             get gridHeight() {
                 return (
                     this.height ||
@@ -211,12 +194,13 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
                 );
             },
             minHeight: GRID_ROW_HEIGHT * GRID_ROWS_COUNT,
-            rootNode: bc.type === "TREEGRID",
             scrollTop: 0,
             get selectedRecord() {
                 return recordsStore.selectedRecord;
             },
-            selectedRecords: observable.map(),
+            get selectedRecords() {
+                return this.recordsStore.selectedRecords;
+            },
         });
 
         extendObservable(
@@ -224,7 +208,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
             {
                 gridColumns: this.gridColumnsInitial,
                 get recordsTree() {
-                    return groupBy(this.recordsStore.records, VAR_RECORD_PARENT_ID);
+                    return this.recordsStore.recordsTree;
                 },
             },
             undefined,
@@ -260,10 +244,6 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
         }
         this.afterSelected();
     }
-
-    openRoot = action("openRoot", () => {
-        this.rootNode = !this.rootNode;
-    });
 
     // eslint-disable-next-line max-statements
     defaultHandlerBtnAction = action(
@@ -619,6 +599,16 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
         onRefresh: async () => {
             if (this.recordsStore.loadCounter > 0 || (await this.applyFiltersAction())) {
                 await this.loadRecordsAction();
+            }
+        },
+        onToggleExpansion: (mode, bc, {record}) => {
+            if (record) {
+                this.openCloseExpansionAction(record[this.recordsStore.recordId]);
+            }
+        },
+        onToggleSelectedRecord: (mode, bc, {record}) => {
+            if (record) {
+                this.toggleSelectedRecordAction(record[this.recordsStore.recordId], record, record.checked);
             }
         },
         onUpdate: this.updateBtnAction,

@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import {action, extendObservable} from "mobx";
+import {action, extendObservable, ObservableMap, observable} from "mobx";
 import {saveAction} from "../../actions/saveAction";
 import {
     IBuilderConfig,
@@ -27,6 +27,8 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_JN_TOTAL_CNT,
+    VAR_RECORD_PARENT_ID,
+    VALUE_SELF_ROOT,
 } from "../../constants";
 import {download} from "../../actions/download";
 import {loadRecordsAction} from "./loadRecordsAction";
@@ -90,6 +92,12 @@ export class RecordsModel implements IRecordsModel {
 
     recordId: string;
 
+    expansionRecords: ObservableMap<string, boolean>;
+
+    selectedRecords: ObservableMap<string, IRecord>;
+
+    recordsTree: Record<string, IRecord[]>;
+
     constructor(bc: IBuilderConfig, options?: IOptions) {
         this.bc = bc;
         this.pageSize = bc.pagesize ? parseInt(bc.pagesize, 10) : undefined;
@@ -103,8 +111,14 @@ export class RecordsModel implements IRecordsModel {
             this.pageStore = options.pageStore;
             this.applicationStore = options.applicationStore;
         }
-        // @ts-ignore
         const {records = []} = bc;
+
+        extendObservable(this, {
+            expansionRecords: observable.map({
+                [VALUE_SELF_ROOT]: this.bc.type === "TREEGRID",
+            }),
+            selectedRecords: observable.map({}),
+        });
 
         extendObservable(
             this,
@@ -131,6 +145,19 @@ export class RecordsModel implements IRecordsModel {
                     isUserReload: false,
                     records,
                     status: "init",
+                },
+                get recordsTree() {
+                    return this.records.reduce((acc: Record<string, IRecord[]>, record: IRecord) => {
+                        const parentId = record[VAR_RECORD_PARENT_ID] as ICkId;
+
+                        if (acc[parentId] === undefined) {
+                            acc[parentId] = [];
+                        }
+
+                        acc[parentId].push(record);
+
+                        return acc;
+                    }, {});
                 },
                 searchValues: {},
                 selectedRecord: undefined,

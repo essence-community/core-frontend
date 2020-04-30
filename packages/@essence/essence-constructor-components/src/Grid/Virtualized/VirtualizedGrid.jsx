@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
 import {observe, reaction} from "mobx";
+import {VALUE_SELF_ROOT} from "@essence-community/constructor-share/constants";
 import {observer, disposeOnUnmount} from "mobx-react";
 import {type GridModelType} from "../../stores/GridModel";
 import {GRID_ROW_HEIGHT} from "../../constants";
@@ -66,7 +67,7 @@ class VirtualizedGrid extends React.Component<PropsType, StateType> {
     render() {
         const {store, renderRecord} = this.props;
 
-        if (store.bc.type === "TREEGRID" && !store.rootNode) {
+        if (store.bc.type === "TREEGRID" && !store.recordsStore.expansionRecords.get(VALUE_SELF_ROOT)) {
             return null;
         }
 

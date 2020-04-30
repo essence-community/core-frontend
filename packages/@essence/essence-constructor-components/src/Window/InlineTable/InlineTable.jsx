@@ -40,7 +40,9 @@ class InlineTable extends React.PureComponent<PropsType> {
         try {
             return gridStore.refs
                 .get("body")
-                .children[gridStore.recordsStore.selectedRecordIndex].children[idx].getAttribute("data-qtip");
+                .children[gridStore.recordsStore.selectedRecordIndex].children[idx]?.children[0]?.getAttribute?.(
+                    "data-qtip",
+                );
         } catch {
             return "";
         }
@@ -83,7 +85,7 @@ class InlineTable extends React.PureComponent<PropsType> {
                                             data-page-object={`${field[VAR_RECORD_PAGE_OBJECT_ID]}-cell`}
                                             data-qtip={isEditable || isNew ? undefined : this.getQtip(idx)}
                                         >
-                                            {isEditable && (
+                                            {isEditable && field.type !== "COLUMN" && (
                                                 <BuilderField
                                                     bc={field}
                                                     noLabel={

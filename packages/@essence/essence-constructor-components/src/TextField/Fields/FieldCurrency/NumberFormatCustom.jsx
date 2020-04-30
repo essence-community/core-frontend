@@ -3,8 +3,8 @@ import * as React from "react";
 import NumberFormat from "react-number-format";
 import omit from "lodash/omit";
 import isString from "lodash/isString";
+import {getBigNumberInstance} from "@essence-community/constructor-share/utils";
 import {type TextFieldChildProps} from "../../BuilderFieldType";
-import {getBigNumberInstance} from "../../../utils/bignumber";
 
 type PropsType = TextFieldChildProps & {
     inputRef: Function,

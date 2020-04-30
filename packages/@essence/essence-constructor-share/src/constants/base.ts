@@ -1,5 +1,5 @@
 import debug from "debug/dist/debug";
-import {getFromStore} from "../utils";
+import {getFromStore} from "../utils/storage";
 
 const defaultPreference = {
     // Задержка скрытия Tooltip

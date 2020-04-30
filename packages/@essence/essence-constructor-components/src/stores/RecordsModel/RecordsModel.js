@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 // @flow
-import {extendObservable, action} from "mobx";
+import {extendObservable, action, observable} from "mobx";
 import findIndex from "lodash/findIndex";
 import isUndefined from "lodash/isUndefined";
 import toString from "lodash/toString";
@@ -16,6 +16,8 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_JN_TOTAL_CNT,
+    VAR_RECORD_PARENT_ID,
+    VALUE_SELF_ROOT,
 } from "@essence-community/constructor-share/constants";
 import {loggerRoot} from "../../constants";
 import {isEmpty} from "../../utils/base";
@@ -82,6 +84,7 @@ export class RecordsModel implements RecordsModelInterface<Object> {
 
     recordId: string;
 
+    // eslint-disable-next-line max-lines-per-function, max-statements
     constructor(bc: Object, pageStore: PageModelType, options: OptionsType = {}) {
         this.bc = bc;
         this.recordId = bc.idproperty || VAR_RECORD_ID;
@@ -92,6 +95,13 @@ export class RecordsModel implements RecordsModelInterface<Object> {
         this.noLoadChilds = options.noLoadChilds || false;
         this.applicationStore = pageStore.applicationStore;
         const {records = []} = bc;
+
+        extendObservable(this, {
+            expansionRecords: observable.map({
+                [VALUE_SELF_ROOT]: this.bc.type === "TREEGRID",
+            }),
+            selectedRecords: observable.map({}),
+        });
 
         extendObservable(
             this,
@@ -118,6 +128,19 @@ export class RecordsModel implements RecordsModelInterface<Object> {
                     isUserReload: false,
                     records,
                     status: "init",
+                },
+                get recordsTree() {
+                    return this.records.reduce((acc, record) => {
+                        const parentId = record[VAR_RECORD_PARENT_ID];
+
+                        if (acc[parentId] === undefined) {
+                            acc[parentId] = [];
+                        }
+
+                        acc[parentId].push(record);
+
+                        return acc;
+                    }, {});
                 },
                 searchValues: {},
                 selectedRecord: undefined,

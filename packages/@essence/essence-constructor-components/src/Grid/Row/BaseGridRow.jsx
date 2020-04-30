@@ -6,10 +6,11 @@ import {reaction} from "mobx";
 import {disposeOnUnmount, observer} from "mobx-react";
 import {withStyles} from "@material-ui/core/styles";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_JV_ROWCOLOR} from "@essence-community/constructor-share/constants";
+import {mapComponents} from "@essence-community/constructor-share/components";
+import {RecordContext} from "@essence-community/constructor-share";
 import {type GridModelType} from "../../stores/GridModel";
 import {type PageModelType} from "../../stores/PageModel";
 import {type BuilderGridType} from "../BuilderGridType";
-import GridCell from "../Cell/GridCell";
 import styles from "./BaseGridRowStyles";
 
 export type BaseGridRowPropsType = {
@@ -118,21 +119,10 @@ class BaseGridRow extends React.Component<PropsType, StateType> {
     };
 
     renderChildren = () => {
-        const {store, disabled, readOnly, pageStore, visible, bc, record, nesting} = this.props;
+        const {store} = this.props;
 
-        return store.gridColumns.map((column) => (
-            <GridCell
-                key={column[VAR_RECORD_PAGE_OBJECT_ID]}
-                column={column}
-                bc={bc}
-                disabled={disabled}
-                readOnly={readOnly}
-                record={record}
-                pageStore={pageStore}
-                store={store}
-                visible={visible}
-                nesting={nesting}
-            />
+        return mapComponents(store.gridColumns, (ChildCmp, childBc) => (
+            <ChildCmp key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} {...this.props} bc={childBc} />
         ));
     };
 
@@ -179,7 +169,9 @@ class BaseGridRow extends React.Component<PropsType, StateType> {
                 onDoubleClick={onDoubleClick}
                 tabIndex="-1"
             >
-                {children ? children : this.renderChildren()}
+                <RecordContext.Provider value={record}>
+                    {children ? children : this.renderChildren()}
+                </RecordContext.Provider>
             </tr>
         );
     }

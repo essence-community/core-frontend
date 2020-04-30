@@ -128,7 +128,7 @@ export function mapComponents(childs?: IBuilderConfig[], resolve?: TResolve) {
 /**
  * Render components by one child config.
  */
-export function mapComponentOne(child: IBuilderConfig, resolve?: TResolve) {
+export function mapComponentOne(child: IBuilderConfig, resolve?: TResolve): null | React.ReactChild {
     if (!child || !child.type) {
         return null;
     }

@@ -1,11 +1,12 @@
 // @flow
 import * as React from "react";
 import {observer} from "mobx-react";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID, VALUE_SELF_ROOT} from "@essence-community/constructor-share/constants";
+import {mapComponentOne} from "@essence-community/constructor-share/components";
+import {RecordContext} from "@essence-community/constructor-share/context";
 import {type GridModelType} from "../../stores/GridModel";
 import {type PageModelType} from "../../stores/PageModel";
 import {type BuilderGridType} from "../BuilderGridType";
-import GridCell from "../Cell/GridCell";
 import BaseGridRow from "./BaseGridRow";
 
 type PropsType = {
@@ -19,8 +20,13 @@ const DEFAULT_ROOT_RECORD = {
 };
 
 class TreeGridRootRow extends React.Component<PropsType> {
+    record = {
+        [this.props.store.recordsStore.recordId]: VALUE_SELF_ROOT,
+        type: "root",
+    };
+
     render() {
-        const {store, bc, pageStore} = this.props;
+        const {store, bc} = this.props;
 
         return (
             <BaseGridRow
@@ -31,21 +37,17 @@ class TreeGridRootRow extends React.Component<PropsType> {
                 bc={bc}
                 record={DEFAULT_ROOT_RECORD}
             >
-                {store.gridColumns.map((column) =>
-                    column.istree === "true" ? (
-                        <GridCell
-                            key={column[VAR_RECORD_PAGE_OBJECT_ID]}
-                            column={column}
-                            bc={bc}
-                            record={DEFAULT_ROOT_RECORD}
-                            pageStore={pageStore}
-                            store={store}
-                            visible
-                        />
-                    ) : (
-                        <td key={column[VAR_RECORD_PAGE_OBJECT_ID]} />
-                    ),
-                )}
+                <RecordContext.Provider value={this.record}>
+                    {store.gridColumns.map((column) =>
+                        column.datatype === "tree" ? (
+                            mapComponentOne(column, (ChildCmp) => (
+                                <ChildCmp key={column[VAR_RECORD_PAGE_OBJECT_ID]} {...this.props} bc={column} />
+                            ))
+                        ) : (
+                            <td key={column[VAR_RECORD_PAGE_OBJECT_ID]} />
+                        ),
+                    )}
+                </RecordContext.Provider>
             </BaseGridRow>
         );
     }

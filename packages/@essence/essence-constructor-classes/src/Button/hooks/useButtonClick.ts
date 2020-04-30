@@ -1,7 +1,12 @@
 import * as React from "react";
 import {IBuilderConfig, IPageModel, IBuilderMode} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_MASTER_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
-import {EditorContex, RecordContext, PopoverContext} from "@essence-community/constructor-share/context";
+import {
+    EditorContex,
+    RecordContext,
+    PopoverContext,
+    IPopoverContext,
+} from "@essence-community/constructor-share/context";
 import {makeRedirect} from "@essence-community/constructor-share/utils";
 import {handers} from "../handlers";
 import {FileInputModel} from "../store/FileInputModel";
@@ -27,7 +32,9 @@ interface IData {
     files?: File[];
 }
 
-export function useButtonClick(props: IUserButtonClickProps): [() => Promise<void>, boolean] {
+export function useButtonClick(
+    props: IUserButtonClickProps,
+): [() => Promise<void | boolean>, boolean, IPopoverContext] {
     const {pageStore, bc, disabled, fileInputStore} = props;
     const [isDisabled, setIsDisabled] = React.useState(false);
     const isMountedRef = React.useRef(false);
@@ -90,6 +97,10 @@ export function useButtonClick(props: IUserButtonClickProps): [() => Promise<voi
                     setIsDisabled(false);
                 }
 
+                if (res) {
+                    popoverCtx.onClose();
+                }
+
                 return res;
             });
         }
@@ -125,5 +136,5 @@ export function useButtonClick(props: IUserButtonClickProps): [() => Promise<voi
         };
     }, []);
 
-    return [handleClick, isDisabled];
+    return [handleClick, isDisabled, popoverCtx];
 }

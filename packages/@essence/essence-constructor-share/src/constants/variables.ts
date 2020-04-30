@@ -120,6 +120,7 @@ export const VAR_CONNECT_GUEST = "connect_guest";
 // SELF
 export const VALUE_SELF_FIRST = "##first##";
 export const VALUE_SELF_ALWAYSFIRST = "##alwaysfirst##";
+export const VALUE_SELF_ROOT = "##root##";
 
 // Localization
 export const VAR_LANG_ID = "ck_d_lang";

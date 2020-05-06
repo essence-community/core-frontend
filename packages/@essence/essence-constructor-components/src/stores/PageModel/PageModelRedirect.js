@@ -113,7 +113,7 @@ export async function redirectToPage(page: PageModelInterface, params: Object) {
     page.isActiveRedirect = false;
 
     // Дожидаемся загрузки данных, потом делаем скрол к записи
-    return Promise.all(forms.map((form: Form) => form.onFilterRedirect)).then(() => {
+    return Promise.all(forms.map((form: Form) => form.onFilterRedirect())).then(() => {
         page.scrollToRecordAction(params);
     });
 }

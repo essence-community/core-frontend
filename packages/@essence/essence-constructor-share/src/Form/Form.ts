@@ -120,9 +120,9 @@ export class Form implements IForm {
         return this.fields.has(key);
     };
 
-    onFilterRedirect = () => {
+    onFilterRedirect = async () => {
         if (this.hooks.onFilterRedirect) {
-            this.hooks.onFilterRedirect(this);
+            await this.hooks.onFilterRedirect(this);
         }
     };
 }

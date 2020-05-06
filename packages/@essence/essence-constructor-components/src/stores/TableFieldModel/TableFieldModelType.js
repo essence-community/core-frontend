@@ -1,5 +1,4 @@
 // @flow
-import {Field, Form} from "mobx-react-form";
 import {type BuilderFieldType, type BuilderFieldHanlers} from "../../TextField/BuilderFieldType";
 import {type RecordsModelType} from "../RecordsModel";
 import {type PageModelType} from "../PageModel";

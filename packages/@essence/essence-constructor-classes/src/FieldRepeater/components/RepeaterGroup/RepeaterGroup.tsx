@@ -1,7 +1,6 @@
 import * as React from "react";
 import {Grid} from "@material-ui/core";
 import {mapComponents, IBuilderConfig, toColumnStyleWidth} from "@essence-community/constructor-share";
-import {EditorContex, IEditorContext} from "@essence-community/constructor-share/context";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_MASTER_ID,
@@ -33,13 +32,6 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
         }),
         [bc, deleteLabel, field.key, storeName],
     );
-    const editorValue: IEditorContext = React.useMemo(
-        () => ({
-            form: field,
-            mode: mode || "1",
-        }),
-        [field, mode],
-    );
 
     return (
         <Grid container spacing={1}>
@@ -51,18 +43,11 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
                 {...GRID_ALIGN_CONFIGS[`${align}-${contentview}`]}
                 spacing={1}
             >
-                <EditorContex.Provider value={editorValue}>
-                    {mapComponents(bc.childs, (ChildCmp, bcChild) => (
-                        <Grid
-                            item
-                            key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]}
-                            xs
-                            style={toColumnStyleWidth(bcChild.width)}
-                        >
-                            <ChildCmp {...fieldProps} bc={bcChild} />
-                        </Grid>
-                    ))}
-                </EditorContex.Provider>
+                {mapComponents(bc.childs, (ChildCmp, bcChild) => (
+                    <Grid item key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]} xs style={toColumnStyleWidth(bcChild.width)}>
+                        <ChildCmp {...fieldProps} bc={bcChild} />
+                    </Grid>
+                ))}
             </Grid>
             <Grid item>
                 {mapComponents([deleteBtnConfig], (ChildCmp, bcChild) => (

@@ -40,7 +40,7 @@ export const ColumnTextContainer: React.FC<IClassProps> = (props) => {
         return null;
     }
 
-    const getRenderValue = (localizedValue: string) => {
+    const getRenderValue = (localizedValue: string, qtip: string = localizedValue) => {
         if (redirectUrl) {
             return (
                 <a
@@ -57,7 +57,7 @@ export const ColumnTextContainer: React.FC<IClassProps> = (props) => {
         }
 
         return (
-            <div className={classes.root} data-qtip={localizedValue}>
+            <div className={classes.root} data-qtip={qtip}>
                 {localizedValue}
             </div>
         );
@@ -70,5 +70,5 @@ export const ColumnTextContainer: React.FC<IClassProps> = (props) => {
         return <Translation ns={bc.localization}>{(trans) => getRenderValue(trans(stringValue))}</Translation>;
     }
 
-    return getRenderValue(stringValue);
+    return getRenderValue(stringValue, value);
 };

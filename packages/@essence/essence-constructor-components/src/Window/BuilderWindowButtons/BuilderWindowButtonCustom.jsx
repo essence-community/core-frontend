@@ -2,7 +2,7 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {DialogActions} from "@material-ui/core";
-import {mapComponents, EditorContex} from "@essence-community/constructor-share";
+import {mapComponents, FormContext} from "@essence-community/constructor-share";
 import VAR_RECORD_PAGE_OBJECT_ID from "@essence-community/constructor-share/constants";
 import {type PageModelType} from "../../stores/PageModel";
 
@@ -19,7 +19,7 @@ const SAVE_COMPONENT_PROPS = {
 };
 
 class BuilderWindowButtonCustom extends React.Component<PropsType> {
-    static contextType = EditorContex;
+    static contextType = FormContext;
 
     buttons: Array<Object> = [];
 
@@ -35,15 +35,8 @@ class BuilderWindowButtonCustom extends React.Component<PropsType> {
         }
     }
 
-    handlePerformData = () => {
-        const {form} = this.context;
-
-        return {form};
-    };
-
     render() {
         const {checkboxAddMode, pageStore, visible, className} = this.props;
-        const {form = {}} = this.context;
 
         return (
             <DialogActions className={className}>
@@ -52,11 +45,12 @@ class BuilderWindowButtonCustom extends React.Component<PropsType> {
                     <BtnComponent
                         key={btn[VAR_RECORD_PAGE_OBJECT_ID]}
                         bc={btn}
-                        disabled={btn.handler === "onCloseWindow" ? false : !form.isValid || form.submitting}
+                        disabled={
+                            btn.handler === "onCloseWindow" ? false : !this.context.isValid || this.context.submitting
+                        }
                         tranformName="window"
                         pageStore={pageStore}
                         visible={visible}
-                        performData={this.handlePerformData}
                         componentProps={
                             btn.datatype === "save" || btn.handler === "onSimpleSaveWindow"
                                 ? SAVE_COMPONENT_PROPS

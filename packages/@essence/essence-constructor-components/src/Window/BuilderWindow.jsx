@@ -6,7 +6,9 @@ import {withStyles} from "@material-ui/core/styles";
 import cn from "classnames";
 import {Grid, Dialog, DialogTitle, Checkbox, FormControlLabel} from "@material-ui/core";
 import {toSize, toColumnStyleWidth, withTranslation, WithT} from "@essence-community/constructor-share/utils";
-import {getComponent, Icon} from "@essence-community/constructor-share";
+import {getComponent} from "@essence-community/constructor-share/components";
+import {Icon} from "@essence-community/constructor-share/Icon";
+import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
@@ -14,7 +16,6 @@ import {
 } from "@essence-community/constructor-share/constants";
 import Scrollbars from "../Components/Scrollbars/Scrollbars";
 import BuilderField from "../TextField/BuilderField";
-import BuilderForm from "../Form/BuilderForm";
 import {getModeTitle} from "../utils/string";
 import {checkEditable} from "../utils/access";
 import WindowMessageCancel from "../WindowMessage/WindowMessageCancel";
@@ -138,7 +139,7 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType & WithT> {
                 }}
                 fullScreen={isFulllScreen}
             >
-                <BuilderForm noForm initialValues={store.initialValues} mode={store.config.mode} pageStore={pageStore}>
+                <UIForm noForm initialValues={store.initialValues} mode={store.config.mode} pageStore={pageStore}>
                     <DialogTitle disableTypography>{windowTitle}</DialogTitle>
                     <Scrollbars
                         autoHeight
@@ -212,7 +213,7 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType & WithT> {
                         disableEscapeKeyDown
                         disableOutsideClose
                     />
-                </BuilderForm>
+                </UIForm>
             </Dialog>
         );
     }

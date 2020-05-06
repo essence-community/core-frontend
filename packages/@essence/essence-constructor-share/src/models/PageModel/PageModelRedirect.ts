@@ -57,7 +57,7 @@ function applyFieldFilter(field: any, params: Record<string, FieldValue>) {
     if (Object.prototype.hasOwnProperty.call(params, field.key)) {
         const value = params[field.key];
 
-        isEmpty(value) ? field.clear() : field.set(value);
+        isEmpty(value) ? field.clear() : field.onChange(value);
 
         delete params[field.key];
     }
@@ -142,7 +142,7 @@ export async function redirectToPage(page: any, params: Record<string, FieldValu
     await waitForStores(page);
 
     // Дожидаемся загрузки данных, потом делаем скрол к записи
-    return Promise.all(forms.map((form: any) => form.execHook("onFilterRedirect"))).then(() => {
+    return Promise.all(forms.map((form: any) => form.onFilterRedirect)).then(() => {
         page.scrollToRecordAction(params);
     });
 }

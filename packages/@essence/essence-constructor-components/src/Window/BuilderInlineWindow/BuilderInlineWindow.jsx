@@ -4,7 +4,7 @@ import {createPortal} from "react-dom";
 import {compose} from "recompose";
 import {observer} from "mobx-react";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import BuilderForm from "../../Form/BuilderForm";
+import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {type WindowModelType} from "../../stores/WindowModel";
 import {type PageModelType} from "../../stores/PageModel";
 import {GridModel} from "../../stores/GridModel";
@@ -48,7 +48,7 @@ class BuilderInlineWindow extends React.Component<PropsType> {
         const gridInlineContainer = gridStore.refs.get("grid-inline");
 
         return (
-            <BuilderForm
+            <UIForm
                 noForm
                 onSubmit={this.handleSubmit}
                 initialValues={store.initialValues}
@@ -68,7 +68,7 @@ class BuilderInlineWindow extends React.Component<PropsType> {
                           gridInlineContainer,
                       )
                     : null}
-            </BuilderForm>
+            </UIForm>
         );
     }
 }

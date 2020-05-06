@@ -1,6 +1,5 @@
 // @flow
 import {extendObservable, action} from "mobx";
-import {Form} from "mobx-react-form";
 import isUndefined from "lodash/isUndefined";
 import groupBy from "lodash/groupBy";
 import {VALUE_SELF_FIRST} from "@essence-community/constructor-share/constants";
@@ -148,7 +147,7 @@ export class HistoryModel extends StoreBaseModel implements HistoryModelInterfac
             return false;
         }
 
-        const result = await this.recordsStore.saveAction(form.values(), btnBc.modeaction || this.mode, {
+        const result = await this.recordsStore.saveAction(form.values, btnBc.modeaction || this.mode, {
             actionBc: btnBc,
             form,
             query: btnBc.updatequery,

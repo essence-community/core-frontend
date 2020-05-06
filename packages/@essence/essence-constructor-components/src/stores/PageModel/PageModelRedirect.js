@@ -1,7 +1,6 @@
 // @flow
 import forOwn from "lodash/forOwn";
 import {runInAction, when} from "mobx";
-import {Field, Form} from "mobx-react-form";
 import {VALUE_SELF_FIRST, VAR_RECORD_MASTER_ID} from "@essence-community/constructor-share/constants";
 import {i18next} from "@essence-community/constructor-share/utils";
 import {loggerRoot} from "../../constants";
@@ -59,7 +58,7 @@ function applyFieldFilter(field: Field, params: Object) {
     if (Object.prototype.hasOwnProperty.call(params, field.key)) {
         const value = params[field.key];
 
-        isEmpty(value) ? field.clear() : field.set(value);
+        isEmpty(value) ? field.clear() : field.onChange(value);
 
         delete params[field.key];
     }
@@ -114,7 +113,7 @@ export async function redirectToPage(page: PageModelInterface, params: Object) {
     page.isActiveRedirect = false;
 
     // Дожидаемся загрузки данных, потом делаем скрол к записи
-    return Promise.all(forms.map((form: Form) => form.execHook("onFilterRedirect"))).then(() => {
+    return Promise.all(forms.map((form: Form) => form.onFilterRedirect)).then(() => {
         page.scrollToRecordAction(params);
     });
 }

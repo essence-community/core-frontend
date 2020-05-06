@@ -1,4 +1,3 @@
-import Form from "mobx-react-form";
 import {RecordsModel} from "@essence-community/constructor-share/models";
 import {
     IPageModel,
@@ -8,13 +7,14 @@ import {
     IRecordsModel,
 } from "@essence-community/constructor-share/types";
 import {VAR_RECORD_MASTER_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
+import {IForm} from "@essence-community/constructor-share/Form";
 
 interface IFreeHanderOptions {
     applicationStore: IApplicationModel;
     pageStore: IPageModel;
     bc: IBuilderConfig;
     files?: File[];
-    form?: typeof Form;
+    form?: IForm;
 }
 
 export function freeHandler(options: IFreeHanderOptions) {

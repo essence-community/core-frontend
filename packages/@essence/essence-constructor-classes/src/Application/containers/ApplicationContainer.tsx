@@ -1,29 +1,22 @@
 import * as React from "react";
-import MobxReactForm from "mobx-react-form";
-import {
-    IClassProps,
-    mapComponents,
-    ApplicationContext,
-    VAR_RECORD_ID,
-    PageLoader,
-    VAR_RECORD_URL,
-    FieldValue,
-    loggerRoot,
-    EditorContex,
-    IEditorContext,
-    IPageModel,
-    IRecord,
-} from "@essence-community/constructor-share";
+import {IClassProps, FieldValue, IPageModel, IRecord} from "@essence-community/constructor-share/types";
 import {settingsStore, snackbarStore} from "@essence-community/constructor-share/models";
+import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
+import {mapComponents} from "@essence-community/constructor-share/components";
+import {PageLoader} from "@essence-community/constructor-share/uicomponents";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_SETTING_PROJECT_LOADER,
     VAR_RECORD_CL_STATIC,
+    VAR_RECORD_URL,
+    VAR_RECORD_ID,
+    loggerRoot,
 } from "@essence-community/constructor-share/constants";
 import {useDisposable, useObserver} from "mobx-react-lite";
 import {reaction, observe} from "mobx";
 import {useParams, useHistory, useRouteMatch} from "react-router-dom";
+import {IForm, Form} from "@essence-community/constructor-share/Form";
 import {ApplicationModel, CLOSE_CODE} from "../store/ApplicationModel";
 import {renderGlobalValuelsInfo} from "../utils/renderGlobalValuelsInfo";
 import {ApplicationWindows} from "../components/ApplicationWindows";
@@ -41,19 +34,15 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
     const applicationStore = React.useMemo(() => new ApplicationModel(history, appNameRef.current), [history]);
     const [trans] = useTranslation("meta");
     const onFormChange = React.useCallback(
-        (form: typeof MobxReactForm) => {
-            logger(trans("static:f9c3bf3691864f4d87a46a9ba367a855"), form.values());
+        (form: IForm) => {
+            logger(trans("static:f9c3bf3691864f4d87a46a9ba367a855"), form.values);
         },
         [trans],
     );
 
-    const editor: IEditorContext = React.useMemo(
-        () => ({
-            form: new MobxReactForm(undefined, {hooks: {onFieldChange: onFormChange}}),
-            mode: "1",
-        }),
-        [onFormChange],
-    );
+    const form: IForm = React.useMemo(() => new Form({hooks: {onChange: onFormChange}, mode: "1", values: {}}), [
+        onFormChange,
+    ]);
 
     React.useEffect(() => {
         const loadApplication = async () => {
@@ -220,7 +209,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
 
     return useObserver(() => (
         <ApplicationContext.Provider value={applicationStore}>
-            <EditorContex.Provider value={editor}>
+            <FormContext.Provider value={form}>
                 {applicationStore.isApplicationReady && applicationStore.bc ? (
                     <>
                         {mapComponents(applicationStore.bc.childs, (ChildComponent, childBc) => (
@@ -241,7 +230,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                         loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"}
                     />
                 )}
-            </EditorContex.Provider>
+            </FormContext.Provider>
         </ApplicationContext.Provider>
     ));
 };

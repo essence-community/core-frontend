@@ -1,5 +1,5 @@
-import {Form} from "mobx-react-form";
 import {ObservableMap} from "mobx";
+import {IForm} from "../Form";
 import {IBuilderMode, ICkId, IRecord} from "./Base";
 import {IBuilderConfig} from "./Builder";
 import {IPageModel} from "./PageModel";
@@ -56,7 +56,7 @@ export interface ISaveActionOptions {
     query?: string;
     noReload?: boolean;
     files?: File[];
-    form?: Form;
+    form?: IForm;
 }
 
 export interface IRecordsSearchOptions {

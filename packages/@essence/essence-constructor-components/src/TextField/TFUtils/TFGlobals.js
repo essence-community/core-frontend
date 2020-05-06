@@ -1,7 +1,6 @@
 // @flow
 import {reaction} from "mobx";
 import forOwn from "lodash/forOwn";
-import {Form, Field} from "mobx-react-form";
 import {parseMemoize} from "@essence-community/constructor-share/utils/parser";
 import {VALUE_SELF_FIRST} from "@essence-community/constructor-share/constants";
 import {type PageModelType} from "../../stores/PageModel";
@@ -50,9 +49,9 @@ export const initGetGlobal = ({form, field, pageStore, bc, store}: InitGetGlobal
         },
         ({hasEmptyValue, value}) => {
             if (hasEmptyValue) {
-                field.set("");
+                field.onChange("");
             } else {
-                field.set("value", isEmpty(value) ? "" : value);
+                field.onChange(isEmpty(value) ? "" : value);
             }
         },
         {

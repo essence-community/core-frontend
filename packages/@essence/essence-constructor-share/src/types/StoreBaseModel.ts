@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/named
 import {IObservableArray} from "mobx";
-import {Form} from "mobx-react-form";
+import {IForm} from "../Form";
 import {IApplicationModel} from "./Application";
 import {IBuilderConfig, IBuilderMode} from "./Builder";
 import {FieldValue} from "./Field";
@@ -27,7 +27,7 @@ export type StoreBaseModelNameType =
     | "filter";
 
 export interface IHandlerOptions {
-    form?: Form;
+    form?: IForm;
     files?: File[];
     record?: IRecord;
 }

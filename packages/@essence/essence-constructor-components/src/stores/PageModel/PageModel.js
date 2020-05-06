@@ -2,7 +2,6 @@
 // @flow
 import {extendObservable, action, observable, type ObservableMap} from "mobx";
 import {type IObservableArray} from "mobx/lib/mobx.js.flow";
-import {Field} from "mobx-react-form";
 import forEach from "lodash/forEach";
 import noop from "lodash/noop";
 import uuid from "uuid";

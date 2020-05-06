@@ -1,5 +1,4 @@
 // @flow
-import {type Form} from "mobx-react-form";
 
 /**
  * 1 - Создание

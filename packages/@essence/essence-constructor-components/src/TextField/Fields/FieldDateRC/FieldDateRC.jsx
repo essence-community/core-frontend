@@ -253,7 +253,7 @@ export class FieldDateRCBase extends React.Component<PropsType, StateType> {
             onInitGlobal,
             tabIndex,
         } = this.props;
-        const errorText = field.get("error");
+        const errorText = field.error;
         const {formattedValue} = this.state;
         const endAdornments = disabled ? tips : [...tips, this.renderCalendarIcon()];
 

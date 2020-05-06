@@ -7,12 +7,12 @@ import {Paper, Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
 import {mapComponents} from "@essence-community/constructor-share/components";
+import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import cn from "classnames";
 import {buttonDirection} from "../../constants";
 import commonDecorator from "../../decorators/commonDecorator";
 import {PanelFormModel, type PanelFormModelType} from "../../stores/PanelFormModel";
-import BuilderForm from "../../Form/BuilderForm";
 import withModelDecorator from "../../decorators/withModelDecorator";
 import BuilderFilter from "../../Filter/BuilderFilter";
 import EmptyTitle from "../../Components/EmptyTitle/EmptyTitle";
@@ -134,7 +134,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
         );
 
         const themeContent = (
-            <BuilderForm
+            <UIForm
                 initialValues={store.recordsStore.records[0] || EMPTY_RECORD}
                 pageStore={pageStore}
                 isEditing={isEditing}
@@ -160,7 +160,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
                         {formComponent}
                     </Grid>
                 )}
-            </BuilderForm>
+            </UIForm>
         );
 
         if (elevation) {

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {IClassProps, mapComponents, IBuilderConfig, useModel, FieldValue} from "@essence-community/constructor-share";
-import {ApplicationContext, EditorContex} from "@essence-community/constructor-share/context";
+import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_MASTER_ID,
@@ -24,7 +24,7 @@ interface IProps extends IClassProps {
 export const FieldRepeaterContainer: React.FC<IProps> = (props) => {
     const {field, bc, pageStore, disabled, hidden, value} = props;
     const applicationStore = React.useContext(ApplicationContext);
-    const editorValue = React.useContext(EditorContex);
+    const formCtx = React.useContext(FormContext);
     const [trans] = useTranslation("meta");
     const modelOptions = useModel((options) => new FieldRepeaterModel(options), {
         applicationStore,
@@ -76,7 +76,7 @@ export const FieldRepeaterContainer: React.FC<IProps> = (props) => {
                         <RepeaterGroup
                             key={childField.id}
                             {...props}
-                            mode={editorValue?.mode}
+                            mode={formCtx.mode}
                             field={childField}
                             isDisabledDel={isDisabledDel}
                             storeName={storeName}

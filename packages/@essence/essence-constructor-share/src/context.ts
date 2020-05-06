@@ -1,12 +1,7 @@
 import * as React from "react";
-import {Form} from "mobx-react-form";
 import {IApplicationModel, IBuilderMode, IPageModel, IRoutesModel, IPagesModel, IProjectModel, IRecord} from "./types";
 import {noop} from "./utils";
-
-export interface IEditorContext {
-    form: Form;
-    mode: IBuilderMode;
-}
+import {IForm, Form} from "./Form";
 
 export interface IPopoverContext {
     open: boolean;
@@ -14,8 +9,7 @@ export interface IPopoverContext {
     onClose: () => void;
 }
 
-export const EditorContex = React.createContext<IEditorContext | undefined>(undefined);
-export const FormContext = React.createContext<Form | undefined>(undefined);
+export const FormContext = React.createContext<IForm>(new Form({hooks: {}, values: {}}));
 export const ModeContext = React.createContext<IBuilderMode>("1");
 export const ApplicationContext = React.createContext<IApplicationModel | null>(null);
 export const PageContext = React.createContext<IPageModel | undefined>(undefined);

@@ -1,6 +1,5 @@
 /* eslint-disable max-lines */
 import {action, observable, ObservableMap, computed} from "mobx";
-import {Field} from "mobx-react-form";
 import uuid from "uuid";
 import {
     loggerRoot,
@@ -38,6 +37,7 @@ import {WindowModel} from "../WindowModel";
 import {snackbarStore} from "../SnackbarModel";
 import {loadComponentsFromModules} from "../../components";
 import {TText} from "../../types/SnackbarModel";
+import {IField} from "../../Form";
 import {getNextComponent} from "./PageModel.utils";
 
 const logger = loggerRoot.extend("PageModel");
@@ -61,7 +61,7 @@ export class PageModel implements IPageModel {
 
     public globalStores: Map<string, IStoreBaseModel[]> = new Map();
 
-    public masters: Record<string, Field[]> = {};
+    public masters: Record<string, IField[]> = {};
 
     public scrollEvents: Array<Function> = [];
 
@@ -464,7 +464,7 @@ export class PageModel implements IPageModel {
         }
     };
 
-    addToMastersAction = (masterId: string, field: Field) => {
+    addToMastersAction = (masterId: string, field: IField) => {
         if (!this.masters[masterId]) {
             this.masters[masterId] = [];
         }
@@ -472,7 +472,7 @@ export class PageModel implements IPageModel {
         this.masters[masterId].push(field);
     };
 
-    removeFromMastersAction = (masterId?: string, field?: Field) => {
+    removeFromMastersAction = (masterId?: string, field?: IField) => {
         if (masterId && field && this.masters[masterId]) {
             this.masters[masterId] = this.masters[masterId].filter((masterBc) => masterBc !== field);
         }

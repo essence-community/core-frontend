@@ -58,7 +58,7 @@ export class MoMultiField extends BaseMultiFieldModel implements MoMultiFieldTyp
                 },
                 (selectedRecord) => {
                     if (!selectedRecord && form.has(VAR_RECORD_ID)) {
-                        form.$(VAR_RECORD_ID).set(null);
+                        form.$(VAR_RECORD_ID).onChange(null);
                     }
                 },
             ),
@@ -104,7 +104,7 @@ export class MoMultiField extends BaseMultiFieldModel implements MoMultiFieldTyp
                 return false;
             }
 
-            form.$(VAR_RECORD_CK_REGION).set(selectedRecord[VAR_RECORD_CK_REGION]);
+            form.$(VAR_RECORD_CK_REGION).onChange(selectedRecord[VAR_RECORD_CK_REGION]);
 
             await recordsStoreArea.searchAction({[bcArea.queryparam]: selectedRecord[VAR_RECORD_CV_AREA]});
 
@@ -114,7 +114,7 @@ export class MoMultiField extends BaseMultiFieldModel implements MoMultiFieldTyp
                 return false;
             }
 
-            form.$(VAR_RECORD_CK_AREA).set(selectedRecord[VAR_RECORD_CK_AREA]);
+            form.$(VAR_RECORD_CK_AREA).onChange(selectedRecord[VAR_RECORD_CK_AREA]);
 
             await recordsStoreStreet.searchAction({
                 [bcStreet.queryparam]: selectedRecord[VAR_RECORD_CV_STREET],
@@ -122,7 +122,7 @@ export class MoMultiField extends BaseMultiFieldModel implements MoMultiFieldTyp
             });
 
             if (recordsStoreArea.records.length) {
-                form.$(VAR_RECORD_CK_STREET).set(selectedRecord[VAR_RECORD_CK_STREET]);
+                form.$(VAR_RECORD_CK_STREET).onChange(selectedRecord[VAR_RECORD_CK_STREET]);
 
                 await recordsStoreHouse.searchAction({
                     [bcHouse.queryparam]: selectedRecord[VAR_RECORD_CV_HOUSE],
@@ -131,7 +131,7 @@ export class MoMultiField extends BaseMultiFieldModel implements MoMultiFieldTyp
                 });
 
                 if (recordsStoreArea.records.length) {
-                    form.$(VAR_RECORD_CK_HOUSE).set(selectedRecord[VAR_RECORD_CK_NSI_ADR_OBJECTS]);
+                    form.$(VAR_RECORD_CK_HOUSE).onChange(selectedRecord[VAR_RECORD_CK_NSI_ADR_OBJECTS]);
                 }
             }
 
@@ -143,7 +143,7 @@ export class MoMultiField extends BaseMultiFieldModel implements MoMultiFieldTyp
                 return false;
             }
 
-            form.$(VAR_RECORD_ID).set(selectedRecord[VAR_RECORD_ID]);
+            form.$(VAR_RECORD_ID).onChange(selectedRecord[VAR_RECORD_ID]);
 
             return true;
         } catch (error) {

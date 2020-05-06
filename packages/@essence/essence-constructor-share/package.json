@@ -37,7 +37,6 @@
     "mdi-react": "3.4.0",
     "memoizee": "^0.4.14",
     "mobx": "^5.15.0",
-    "mobx-react-form": "2.0.8",
     "mobx-react-lite": "^1.5.1",
     "qs": "^6.9.1",
     "react": "16.12.0",

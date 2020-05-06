@@ -51,7 +51,7 @@ export class FieldTableBase extends React.Component<PropsType, StateType> {
             if (isEmpty(value)) {
                 store.clearAction();
             } else if (value === VALUE_SELF_FIRST) {
-                field.set(getFirstValues(store.recordsStore));
+                field.onChange(getFirstValues(store.recordsStore));
             } else if (!isArray(value)) {
                 store.setDefaultRecordAction(value);
             }

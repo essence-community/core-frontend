@@ -2,9 +2,8 @@
 import * as React from "react";
 import {Grid} from "@material-ui/core";
 import isEmpty from "lodash/isEmpty";
-import {Form} from "mobx-react-form";
 import {toColumnStyleWidth} from "@essence-community/constructor-share/utils";
-import {setComponent, mapComponents, EditorContex, ModeContext} from "@essence-community/constructor-share";
+import {setComponent, mapComponents, FormContext} from "@essence-community/constructor-share";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type BuilderModeType} from "../BuilderType";
 import {type PageModelType} from "../stores/PageModel";
@@ -20,12 +19,12 @@ type PropsType = {|
     hidden?: boolean,
     visible: boolean,
     readOnly?: boolean,
-    form?: Form,
+    form?: IForm,
     record?: Object,
 |};
 
 type StateEditorTypes = {
-    form?: Form,
+    form?: IForm,
     mode: BuilderModeType,
 };
 
@@ -39,7 +38,7 @@ type StateType = {
 const MAX_PANEL_WIDTH = 12;
 
 class PrivateBuilderFieldSet extends React.Component<PropsType, StateType> {
-    static contextType = EditorContex;
+    static contextType = FormContext;
 
     fieldSetName: string;
 
@@ -55,23 +54,12 @@ class PrivateBuilderFieldSet extends React.Component<PropsType, StateType> {
         if (bc.column && form) {
             this.addField(this.props);
         }
-
-        this.state = {
-            editor: {
-                form,
-                mode: "1",
-            },
-        };
     }
 
     // TODO: Не используется, нужно проверить, т.к. функционал может быть поломан
     componentDidUpdate() {
         const {parentKey, hidden} = this.props;
         const form = this.getForm();
-
-        if (form !== this.state.editor.form) {
-            this.setState({editor: {form, mode: "1"}});
-        }
 
         if (!isEmpty(this.fieldSetName) && !isEmpty(form)) {
             if (hidden && isEmpty(parentKey)) {
@@ -90,7 +78,6 @@ class PrivateBuilderFieldSet extends React.Component<PropsType, StateType> {
             if (isEmpty(parentKey)) {
                 form.fields.delete(this.fieldSetName);
             } else if (!isEmpty(parentKey)) {
-                // TODO mobx-react-form@^1.34.0 вызываю silent ($() - метод вызывает exception)
                 const field = form.select(parentKey.replace(/fieldSetObj_/giu, ""), null, false);
 
                 if (field) {
@@ -100,7 +87,7 @@ class PrivateBuilderFieldSet extends React.Component<PropsType, StateType> {
         }
     }
 
-    getForm = () => this.props.form || this.context.form;
+    getForm = () => this.props.form || this.context;
 
     addField = (props: PropsType) => {
         const form = this.getForm();
@@ -110,7 +97,6 @@ class PrivateBuilderFieldSet extends React.Component<PropsType, StateType> {
             let field = null;
 
             if (!isEmpty(parentKey)) {
-                // TODO mobx-react-form@^1.34.0 вызываю silent ($() - метод вызывает exception)
                 field = form.select(parentKey.replace(/fieldSetObj_/giu, ""), null, false);
             } else if (isEmpty(parentKey) && !form.has(this.fieldSetName)) {
                 form.add({
@@ -145,41 +131,39 @@ class PrivateBuilderFieldSet extends React.Component<PropsType, StateType> {
         }
 
         return (
-            <EditorContex.Provider value={this.state}>
-                <ModeContext.Provider value="1">
-                    <Grid container spacing={2} direction={isRow ? "row" : "column"} wrap={isRow ? "nowrap" : "wrap"}>
-                        {mapComponents(bc.childs || [], (ChildComp, child, index) => {
-                            const key = isEmpty(parentKey)
-                                ? `fieldSetObj_${this.fieldSetName}`
-                                : `${parentKey}.${this.fieldSetName}`;
+            <FormContext.Provider value={form}>
+                <Grid container spacing={2} direction={isRow ? "row" : "column"} wrap={isRow ? "nowrap" : "wrap"}>
+                    {mapComponents(bc.childs || [], (ChildComp, child, index) => {
+                        const key = isEmpty(parentKey)
+                            ? `fieldSetObj_${this.fieldSetName}`
+                            : `${parentKey}.${this.fieldSetName}`;
 
-                            return (
-                                <Grid
-                                    item
-                                    key={
-                                        child[VAR_RECORD_PAGE_OBJECT_ID]
-                                            ? child[VAR_RECORD_PAGE_OBJECT_ID]
-                                            : `child_${index}`
-                                    }
-                                    xs={isRow ? true : MAX_PANEL_WIDTH}
-                                    style={contentview === "column" ? toColumnStyleWidth(child.width) : undefined}
-                                >
-                                    <ChildComp
-                                        bc={child}
-                                        form={form}
-                                        parentKey={key}
-                                        editing={editing}
-                                        disabled={disabled}
-                                        readOnly={readOnly}
-                                        pageStore={pageStore}
-                                        visible={visible}
-                                    />
-                                </Grid>
-                            );
-                        })}
-                    </Grid>
-                </ModeContext.Provider>
-            </EditorContex.Provider>
+                        return (
+                            <Grid
+                                item
+                                key={
+                                    child[VAR_RECORD_PAGE_OBJECT_ID]
+                                        ? child[VAR_RECORD_PAGE_OBJECT_ID]
+                                        : `child_${index}`
+                                }
+                                xs={isRow ? true : MAX_PANEL_WIDTH}
+                                style={contentview === "column" ? toColumnStyleWidth(child.width) : undefined}
+                            >
+                                <ChildComp
+                                    bc={child}
+                                    form={form}
+                                    parentKey={key}
+                                    editing={editing}
+                                    disabled={disabled}
+                                    readOnly={readOnly}
+                                    pageStore={pageStore}
+                                    visible={visible}
+                                />
+                            </Grid>
+                        );
+                    })}
+                </Grid>
+            </FormContext.Provider>
         );
     }
 }

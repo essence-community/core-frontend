@@ -41,8 +41,8 @@ export const FieldMarkdownContainer: React.FC<IFieldMarkdownContainerProps> = (p
     };
 
     return useObserver(() => {
-        const error = Boolean(!disabled && !field.get("isValid"));
-        const errorText = disabled ? undefined : field.get("error");
+        const error = Boolean(!disabled && !field.isValid);
+        const errorText = disabled ? undefined : field.error;
 
         return (
             <div

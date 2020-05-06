@@ -177,7 +177,7 @@ export class WindowModel extends StoreBaseModel implements WindowModelInterface 
             const store = this.getMainStore();
 
             if (form.isValid && store && store.saveAction) {
-                const success = await store.saveAction(form.values(), {
+                const success = await store.saveAction(form.values, {
                     actionBc: btnBc,
                     files,
                     form,
@@ -222,7 +222,7 @@ export class WindowModel extends StoreBaseModel implements WindowModelInterface 
         const store = this.getMainStore();
 
         if (form.isValid && store && store.onPrintExcel) {
-            const success = await store.onPrintExcel(form.values(), btnBc);
+            const success = await store.onPrintExcel(form.values, btnBc);
 
             if (success) {
                 this.closeAction();

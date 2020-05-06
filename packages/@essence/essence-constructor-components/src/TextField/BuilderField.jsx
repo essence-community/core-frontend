@@ -1,13 +1,8 @@
-/* eslint-disable max-lines */
 // @flow
 import * as React from "react";
-import get from "lodash/get";
 import cn from "classnames";
-import {compose} from "recompose";
-import {observer} from "mobx-react";
-import {type ObserverCallPropsType, Field} from "mobx-react-form";
-import {withStyles} from "@material-ui/core/styles";
-import {IconButton, InputAdornment} from "@material-ui/core";
+import {useObserver} from "mobx-react";
+import {IconButton, InputAdornment, makeStyles} from "@material-ui/core";
 import {setComponent} from "@essence-community/constructor-share/components";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {
@@ -16,98 +11,94 @@ import {
     VAR_RECORD_CL_IS_MASTER,
 } from "@essence-community/constructor-share/constants";
 import {makeRedirect} from "@essence-community/constructor-share/utils";
+import {FormContext} from "@essence-community/constructor-share";
+import {useField} from "@essence-community/constructor-share/Form";
 import commonDecorator from "../decorators/commonDecorator";
 import {isEmpty} from "../utils/base";
-import withFieldDecorator from "../decorators/withFieldDecorator";
 import {getFieldInstance} from "./Fields";
 import TextField from "./TextField";
-import {type BuilderFieldType, type BuilderFieldPropsType} from "./BuilderFieldType";
+import {type BuilderFieldType} from "./BuilderFieldType";
 import {disabledSelfGlobal, inputTypes} from "./TFUtils/TFConstants";
 import {initGetGlobal, initSetGlobal} from "./TFUtils/TFGlobals";
 import styles from "./BuilderFieldStyle";
 
-export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, StateType> {
-    disposers: Array<Function> = [];
+const useStyles = makeStyles(styles, {name: "BuilderField"});
 
-    static defaultProps = {
-        editing: true,
+// eslint-disable-next-line max-statements, max-lines-per-function
+export const BuilderFieldBase = (props) => {
+    const form = React.useContext(FormContext);
+    const {bc, pageStore, disabled, editing = true, onChange, tabIndex, hidden, readOnly, noLabel, visible} = props;
+    const classes = useStyles();
+    const field = useField({bc, disabled, pageStore});
+    const disposers = React.useMemo(() => [], []);
+    const isDisabled = disabled || !editing;
+
+    const handleInitGlobal = (store: any) => {
+        if (bc.getglobal) {
+            disposers.push(initGetGlobal({bc, disposers, field, form, pageStore, store}));
+        }
+
+        if (bc.setglobal) {
+            disposers.push(initSetGlobal({bc, disposers, field, form, pageStore, store}));
+        }
     };
 
-    componentDidMount() {
-        const {bc, field, form} = this.props;
-        const {value} = field;
+    const handleChangeField = React.useCallback(
+        async ({change}: ObserverCallPropsType) => {
+            if (change.type === "update") {
+                const ckPageObject = bc[VAR_RECORD_PAGE_OBJECT_ID];
 
+                await pageStore.addFieldValueMaster(ckPageObject, change.newValue);
+
+                pageStore.stores.forEach((store) => {
+                    if (store && store.bc && store.bc[VAR_RECORD_MASTER_ID] === ckPageObject) {
+                        store.reloadStoreAction();
+                        store.clearAction && store.clearAction();
+                    }
+                });
+            }
+        },
+        [bc, pageStore],
+    );
+
+    React.useEffect(() => {
         if (bc.datatype && !(bc.datatype in disabledSelfGlobal)) {
-            setTimeout(this.handleInitGlobal, 0);
+            setTimeout(handleInitGlobal, 0);
         }
 
         if (bc[VAR_RECORD_CL_IS_MASTER]) {
-            if (!isEmpty(value)) {
-                this.handleChangeField({
+            if (!isEmpty(field.value)) {
+                handleChangeField({
                     change: {
-                        newValue: value,
+                        newValue: field.value,
                         type: "update",
                     },
                     field,
                     form,
                 });
             }
-            field.observe(this.handleChangeField);
-        }
-    }
-
-    handleInitGlobal = (store: any) => {
-        const {bc, form, pageStore, field} = this.props;
-
-        if (bc.getglobal) {
-            this.disposers.push(initGetGlobal({bc, disposers: this.disposers, field, form, pageStore, store}));
+            field.observe(handleChangeField);
         }
 
-        if (bc.setglobal) {
-            this.disposers.push(initSetGlobal({bc, disposers: this.disposers, field, form, pageStore, store}));
-        }
+        return () => {
+            if (bc[VAR_RECORD_CL_IS_MASTER]) {
+                pageStore.removeFieldValueMaster(bc[VAR_RECORD_PAGE_OBJECT_ID]);
+            }
+
+            disposers.forEach((disposer) => disposer());
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const handleInitGetGlobal = (store: any) => {
+        disposers.push(initGetGlobal({bc, disposers, field, form, pageStore, store}));
     };
 
-    componentWillUnmount() {
-        const {form} = this.props;
-
-        if (form && this.props.bc[VAR_RECORD_CL_IS_MASTER] && this.props.pageStore) {
-            this.props.pageStore.removeFieldValueMaster(this.props.bc[VAR_RECORD_PAGE_OBJECT_ID]);
-        }
-
-        this.disposers.forEach((disposer) => disposer());
-        this.disposers = [];
-    }
-
-    handleInitGetGlobal = (store: any) => {
-        const {bc, form, pageStore, field} = this.props;
-
-        this.disposers.push(initGetGlobal({bc, disposers: this.disposers, field, form, pageStore, store}));
+    const handleInitSetGlobal = (store: any) => {
+        disposers.push(initSetGlobal({bc, disposers, field, form, pageStore, store}));
     };
 
-    handleInitSetGlobal = (store: any) => {
-        const {bc, form, pageStore, field} = this.props;
-
-        this.disposers.push(initSetGlobal({bc, disposers: this.disposers, field, form, pageStore, store}));
-    };
-
-    handleChangeField = async ({change}: ObserverCallPropsType) => {
-        if (this.props.pageStore && change.type === "update") {
-            const ckPageObject = this.props.bc[VAR_RECORD_PAGE_OBJECT_ID];
-
-            await this.props.pageStore.addFieldValueMaster(ckPageObject, change.newValue);
-
-            this.props.pageStore.stores.forEach((store) => {
-                if (store && store.bc && store.bc[VAR_RECORD_MASTER_ID] === ckPageObject) {
-                    store.reloadStoreAction();
-                    store.clearAction && store.clearAction();
-                }
-            });
-        }
-    };
-
-    handleClick = () => {
-        const {bc, pageStore, form} = this.props;
+    const handleClick = () => {
         const {
             [VAR_RECORD_MASTER_ID]: ckMaster,
             [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
@@ -130,91 +121,79 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
                     redirectusequery,
                 },
                 pageStore,
-                form.values(),
+                form.values,
             );
         }
     };
 
-    handleChange = (event: SyntheticEvent<>, value: mixed) => {
-        const {field, onChange, bc, form} = this.props;
+    const handleResetChilds = (ckPageObject: string) => {
+        const childs: Array<Field> = pageStore.masters[ckPageObject];
 
-        this.handleResetChilds(bc[VAR_RECORD_PAGE_OBJECT_ID]);
+        if (childs) {
+            childs.forEach((childField: Field) => {
+                const ckPageObjectChild: ?string = childField?.bc?.[VAR_RECORD_PAGE_OBJECT_ID];
+
+                childField.clear();
+                childField.resetValidation();
+
+                if (ckPageObjectChild) {
+                    handleResetChilds(ckPageObjectChild);
+                }
+            });
+        }
+    };
+
+    const handleChange = (event: SyntheticEvent, value: mixed) => {
+        handleResetChilds(bc[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (onChange) {
             onChange(event, value);
         }
 
         if (typeof value === "undefined") {
-            field.onChange(event);
+            field.onChange(event.target.value);
         } else {
-            field.set(value);
+            field.onChange(value);
         }
 
         if (field.hasError) {
             field.resetValidation();
         }
-
-        form.execHook("onFieldChange");
     };
 
-    handleClear = (event: ?SyntheticEvent<>) => {
-        const {field, bc, form} = this.props;
-
+    const handleClear = (event: SyntheticEvent) => {
         if (event) {
             event.stopPropagation();
         }
 
-        this.handleResetChilds(bc[VAR_RECORD_PAGE_OBJECT_ID]);
+        handleResetChilds(bc[VAR_RECORD_PAGE_OBJECT_ID]);
         field.clear();
 
         if (field.hasError) {
             field.resetValidation();
         }
-
-        form.execHook("onFieldClear");
     };
 
-    handleResetChilds = (ckPageObject: string) => {
-        const {pageStore} = this.props;
-        const childs: Array<Field> = pageStore.masters[ckPageObject];
-
-        if (childs) {
-            childs.forEach((childField: Field) => {
-                const ckPageObjectChild: ?string = get(childField, `options.bc.${VAR_RECORD_PAGE_OBJECT_ID}`);
-
-                childField.clear();
-                childField.resetValidation();
-
-                if (ckPageObjectChild) {
-                    this.handleResetChilds(ckPageObjectChild);
-                }
-            });
-        }
-    };
-
-    handleStop = (event: SyntheticEvent<>) => {
+    const handleStop = (event: SyntheticEvent<>) => {
         event.stopPropagation();
         event.preventDefault();
     };
 
-    renderTips = ({datatype, currencysign}: BuilderFieldType, field: Field): Array<React.Node> => {
-        const {classes = {}} = this.props;
+    const renderTips = ({datatype, currencysign}: BuilderFieldType): Array<React.Node> => {
         const tips = [];
-        const {value} = field;
-        const disabled = this.props.disabled || !this.props.editing;
 
         if (datatype === "numeric" && currencysign) {
             tips.push(<div key="currencysign">{currencysign}</div>);
         }
 
-        if (!isEmpty(value) && !disabled) {
+        if (!isEmpty(field.value) && !isDisabled) {
             tips.push(
                 <IconButton
                     color="secondary"
                     key="clear-value"
                     className={classes.clearButton}
-                    onClick={this.handleClear}
-                    onFocus={this.handleStop}
+                    onClick={handleClear}
+                    onFocus={handleStop}
                     tabIndex={-1}
                     disableRipple
                 >
@@ -226,40 +205,35 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
         return tips;
     };
 
-    // eslint-disable-next-line max-lines-per-function
-    render() {
-        const {bc, editing, readOnly, hidden, classes, form, field, visible, disabled, tabIndex} = this.props;
-        const isDisabled = disabled || !editing;
-        const {datatype = "text", imask} = bc;
-        const inputType = inputTypes[datatype];
-        const {value} = field;
-        const endAdornments = this.renderTips(bc, field);
-        const BuilderFieldComponent = getFieldInstance(bc);
+    const endAdornments = renderTips(bc, field);
+    const BuilderFieldComponent = getFieldInstance(bc);
 
-        if ((!(datatype in disabledSelfGlobal) && hidden) || !BuilderFieldComponent) {
+    // eslint-disable-next-line max-lines-per-function
+    return useObserver(() => {
+        if ((!(bc.datatype in disabledSelfGlobal) && hidden) || !BuilderFieldComponent) {
             return null;
         }
 
         return (
             <BuilderFieldComponent
-                onChange={this.handleChange}
-                onClear={this.handleClear}
+                onChange={handleChange}
+                onClear={handleClear}
                 hidden={hidden}
                 disabled={isDisabled}
                 field={field}
                 form={form}
                 bc={bc}
-                value={value}
+                value={field.value}
                 bfClasses={classes}
                 className={cn(classes.inputRoot, {
-                    [classes.linkInputRoot]: (bc.redirecturl || bc.redirectusequery) && Boolean(value),
+                    [classes.linkInputRoot]: (bc.redirecturl || bc.redirectusequery) && Boolean(field.value),
                 })}
                 InputProps={{
                     className: classes.inputDisable,
                     endAdornment: endAdornments.length ? (
                         <InputAdornment position="end">{endAdornments}</InputAdornment>
                     ) : null,
-                    type: inputType,
+                    type: inputTypes[bc.datatype || "text"],
                 }}
                 // eslint-disable-next-line
                 inputProps={{
@@ -270,25 +244,25 @@ export class BuilderFieldBase extends React.Component<BuilderFieldPropsType, Sta
                 InputLabelProps={{
                     className: classes.formLabelRoot,
                 }}
-                pageStore={this.props.pageStore}
-                noLabel={this.props.noLabel}
+                pageStore={pageStore}
+                noLabel={noLabel}
                 tips={endAdornments}
                 editing={readOnly ? false : editing}
-                onClick={this.handleClick}
-                onInitGlobal={this.handleInitGlobal}
-                onInitGetGlobal={this.handleInitGetGlobal}
-                onInitSetGlobal={this.handleInitSetGlobal}
-                imask={imask}
+                onClick={handleClick}
+                onInitGlobal={handleInitGlobal}
+                onInitGetGlobal={handleInitGetGlobal}
+                onInitSetGlobal={handleInitSetGlobal}
+                imask={bc.imask}
                 visible={visible}
-                error={Boolean(!disabled && !field.get("isValid"))}
+                error={Boolean(!disabled && !field.isValid)}
                 tabIndex={tabIndex}
                 textField={TextField}
             />
         );
-    }
-}
+    });
+};
 
-const BuilderField = compose(commonDecorator, withFieldDecorator(), withStyles(styles), observer)(BuilderFieldBase);
+const BuilderField = commonDecorator(BuilderFieldBase);
 
 setComponent("IFIELD", BuilderField);
 setComponent("CUSTOM", BuilderField);

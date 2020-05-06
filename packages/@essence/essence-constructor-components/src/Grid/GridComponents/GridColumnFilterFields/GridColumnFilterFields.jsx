@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import {EditorContex} from "@essence-community/constructor-share";
+import {FormContext} from "@essence-community/constructor-share";
 import GCFilterFieldBase from "./GCFilterFieldBase";
 import GCFilterFieldDate from "./GCFilterFieldDate";
 import {type GCFilterFieldBaseType} from "./GCFilterFieldTypes";
@@ -8,15 +8,14 @@ import {type GCFilterFieldBaseType} from "./GCFilterFieldTypes";
 type PropsType = GCFilterFieldBaseType;
 
 const GridColumnFilterFields = (props: $Diff<PropsType, {form?: Object}>) => {
-    // $FlowFixMe
-    const editor = React.useContext(EditorContex);
+    const formCtx = React.useContext(FormContext);
     const {bc} = props;
 
     if (bc.datatype === "date") {
-        return <GCFilterFieldDate {...props} form={editor.form} />;
+        return <GCFilterFieldDate {...props} form={formCtx} />;
     }
 
-    return <GCFilterFieldBase {...props} form={editor.form} />;
+    return <GCFilterFieldBase {...props} form={formCtx} />;
 };
 
 export default GridColumnFilterFields;

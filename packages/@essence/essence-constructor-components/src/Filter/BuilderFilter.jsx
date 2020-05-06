@@ -6,14 +6,13 @@ import forOwn from "lodash/forOwn";
 import isArray from "lodash/isArray";
 import {toColumnStyleWidth, getFromStore} from "@essence-community/constructor-share/utils";
 import {setComponent, mapComponents} from "@essence-community/constructor-share/components";
+import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {BuilderTypeContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_MASTER_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {Grid, Collapse, Typography} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {Field} from "mobx-react-form";
 import withModelDecorator from "../decorators/withModelDecorator";
 import {styleTheme, wrapperPanelDirection} from "../constants";
-import BuilderForm from "../Form/BuilderForm";
 import {FilterModel, type FilterModelType} from "../stores/FilterModel";
 import {type PageModelType} from "../stores/PageModel";
 import Content from "../Components/Content/Content";
@@ -86,10 +85,10 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
         const {form, noClean, reset} = options;
 
         if (!noClean && form) {
-            form.each(this.handleField);
+            // Form.each(this.handleField);
         }
 
-        const values = form ? form.values() : {};
+        const values = form ? form.values : {};
 
         this.props.store.handleGlobals(values);
 
@@ -114,7 +113,7 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
         await this.props.store.setSearchedAction(true, this.props.parentBc, false);
     };
 
-    handleField(field: Field) {
+    handleField(field: IField) {
         const {hidden} = field.get("options") || {};
 
         if (hidden !== false) {
@@ -173,7 +172,7 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
         return (
             <BuilderTypeContext.Provider value="filter">
                 <Collapse in={open} collapsedHeight={title || pageStore.styleTheme === "light" ? "42px" : "1px"}>
-                    <BuilderForm
+                    <UIForm
                         onSubmit={this.handleSearch}
                         onSetValues={this.handleSetValues}
                         injectType="filter"
@@ -250,7 +249,7 @@ export class BuilderFilterBase extends React.PureComponent<PropsType, {hidden: b
                                 </Content>
                             </Grid>
                         </Grid>
-                    </BuilderForm>
+                    </UIForm>
                 </Collapse>
             </BuilderTypeContext.Provider>
         );

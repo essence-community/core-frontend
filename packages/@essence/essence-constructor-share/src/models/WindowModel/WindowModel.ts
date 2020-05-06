@@ -106,10 +106,10 @@ export class WindowModel extends StoreBaseModel implements IWindowModel {
                 return false;
             }
 
-            await options.form.validate({showErrors: true});
+            await options.form.validate();
 
             if (options.form.isValid) {
-                const success = await this.recordsStore.saveAction(options.form.values(), mode, {
+                const success = await this.recordsStore.saveAction(options.form.values, mode, {
                     actionBc: btnBc,
                     // TODO: check new api of records store
                     files: options.files,
@@ -139,10 +139,10 @@ export class WindowModel extends StoreBaseModel implements IWindowModel {
             return false;
         }
 
-        await options.form.validate({showErrors: true});
+        await options.form.validate();
 
         if (options.form.isValid && parentStore && parentStore.handlers.onPrintExcel) {
-            const success = await parentStore.handlers.onPrintExcel(mode, btnBc, {record: options.form.values()});
+            const success = await parentStore.handlers.onPrintExcel(mode, btnBc, {record: options.form.values});
 
             if (success) {
                 this.closeAction(mode, btnBc, options);

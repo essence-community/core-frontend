@@ -1,8 +1,8 @@
 // eslint-disable-next-line import/named
 import {IObservableArray} from "mobx";
 import {TFunction} from "i18next";
-import {Form} from "mobx-react-form";
 import {VAR_ERROR_TEXT, VAR_ERROR_ID, VAR_ERROR_CODE} from "../constants/variables";
+import {IForm} from "../Form";
 import {IResponse, FieldValue, IRecordsModel, IProgressModel, IApplicationModel, IRouteRecord} from ".";
 
 export type SnackbarStatus =
@@ -45,7 +45,7 @@ export interface IErrorData {
 
 export interface IOptionCheck {
     applicationStore?: IApplicationModel | null;
-    form?: Form;
+    form?: IForm;
     route?: Record<string, FieldValue>;
     warnCallBack?: Function;
 }

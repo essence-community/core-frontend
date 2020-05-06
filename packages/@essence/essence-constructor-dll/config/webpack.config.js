@@ -26,7 +26,6 @@ module.exports = {
             "@essence-community/constructor-share",
             "mobx",
             "mobx-react",
-            "mobx-react-form",
             "@material-ui/core",
             "@material-ui/styles",
         ].filter(Boolean),

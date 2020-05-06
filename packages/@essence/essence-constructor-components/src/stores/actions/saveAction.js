@@ -14,7 +14,6 @@ import {
     VAR_RECORD_CK_MAIN,
     VAR_RECORD_CL_WARNING,
 } from "@essence-community/constructor-share/constants";
-import {Form} from "mobx-react-form";
 import {findGetGlobalKey} from "../../utils/findKey";
 import {loggerRoot} from "../../constants";
 import {isEmpty} from "../../utils/base";
@@ -36,7 +35,7 @@ export type ConfigType = {|
     formData?: FormData,
     noReload?: boolean,
     filesNames?: Array<string>,
-    form?: Form,
+    form?: IForm,
 |};
 
 type AttachGlobalValuesType = {|

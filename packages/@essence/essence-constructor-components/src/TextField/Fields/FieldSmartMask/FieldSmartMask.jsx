@@ -127,7 +127,7 @@ class FieldSmartMask extends React.Component<PropsType, StateType> {
 
         field.set("options", {
             ...field.get("options"),
-            imask: imask ? `regex:${getStrRegexFromImask(imask)}` : undefined,
+            imask: imask ? `regex:^${getStrRegexFromImask(imask)}$` : undefined,
         });
     };
 

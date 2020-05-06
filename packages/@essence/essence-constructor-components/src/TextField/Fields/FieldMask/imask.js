@@ -30,7 +30,7 @@ export const checkValidImask = (newImask: string, regex: RegExp) => {
 export function getStrRegexFromImask(imask: string): string {
     return imask
         .split("")
-        .map((pattern) => validationCharacters[pattern] || `\\${pattern}`)
+        .map((pattern) => validationCharacters[pattern] || pattern)
         .join("");
 }
 

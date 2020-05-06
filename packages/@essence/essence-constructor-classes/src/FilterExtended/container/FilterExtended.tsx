@@ -21,7 +21,11 @@ export const FilterExtended = (props: IClassProps) => {
 
         if (form) {
             columns.forEach((column: string) => {
-                form.has(column) && form.$(column).reset();
+                const field = form.select(column);
+
+                if (field) {
+                    field.reset();
+                }
             });
         }
     };

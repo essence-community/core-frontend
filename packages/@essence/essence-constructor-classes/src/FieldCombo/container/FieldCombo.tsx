@@ -71,12 +71,7 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
     );
 
     React.useEffect(() => {
-        field.store = store;
         onInitGlobal(store);
-
-        return () => {
-            field.store = undefined;
-        };
     }, [field, onInitGlobal, store]);
 
     React.useEffect(() => {

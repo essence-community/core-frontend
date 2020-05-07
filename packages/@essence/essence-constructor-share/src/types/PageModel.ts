@@ -70,7 +70,7 @@ export interface IPageModel {
     hiddenPage: boolean;
     isActiveRedirect: boolean;
     globalStores: Map<string, IStoreBaseModel[]>;
-    masters: Record<string, Field[]>;
+    masters: Record<string, IField[]>;
     scrollEvents: Function[];
     visible: boolean;
     recordsStore: IRecordsModel;

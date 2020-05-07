@@ -23,7 +23,7 @@ export const TabPopoverContent: React.FC<ITabPopoverContentProps> = (props) => {
     return useObserver(() => (
         <div className={`${classes.rootDefault} ${classes.root}`}>
             {store.hiddenTabsIndex
-                ? store.activeTabs.slice(-store.hiddenTabsIndex).map((tabBc) => {
+                ? store.tabs.slice(-store.hiddenTabsIndex).map((tabBc) => {
                       const labelKey = tabBc[VAR_RECORD_DISPLAYED];
 
                       return (

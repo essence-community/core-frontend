@@ -6,6 +6,7 @@ import {lightStyles} from "./TabPopoverItem.light.styles";
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         disabled: {},
+        hidden: {},
         label: {
             fontSize: 13,
             overflow: "hidden",
@@ -16,6 +17,9 @@ export const useStyles = makeStyles(
         rootDefault: {
             "&$disabled": {
                 opacity: 0.5,
+            },
+            "&$hidden": {
+                display: "none",
             },
             alignItems: "center",
             cursor: "pointer",

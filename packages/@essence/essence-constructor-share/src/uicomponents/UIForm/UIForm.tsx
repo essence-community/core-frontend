@@ -13,7 +13,6 @@ const CHANGE_DELAY = 1000;
 export const UIForm: React.FC<IUIFormProps> = (props) => {
     const {initialValues, mode, children, noForm, submitOnChange, dataPageObject, onSubmit} = props;
     const classes = useStyles();
-    const rootDivRef = React.useRef<HTMLDivElement>(null);
     const rootFormRef = React.useRef<HTMLFormElement>(null);
 
     const handleValueChange = React.useCallback(
@@ -24,7 +23,7 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
     );
 
     const handleError = React.useCallback(() => {
-        const rootElement = rootDivRef.current || rootFormRef.current;
+        const rootElement = rootFormRef.current;
 
         if (rootElement instanceof HTMLElement) {
             const firstInvaliField = rootElement.querySelector(
@@ -95,7 +94,7 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
     return (
         <FormContext.Provider value={form}>
             {noForm ? (
-                <div ref={rootDivRef}>{children}</div>
+                children
             ) : (
                 <form
                     action=""

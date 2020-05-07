@@ -84,7 +84,7 @@ class InlineTable extends React.PureComponent<PropsType> {
                                             data-page-object={`${field[VAR_RECORD_PAGE_OBJECT_ID]}-cell`}
                                             data-qtip={isEditable || isNew ? undefined : this.getQtip(idx)}
                                         >
-                                            {isEditable && field.type !== "COLUMN" && (
+                                            {isEditable && (
                                                 <BuilderField
                                                     bc={field}
                                                     noLabel={

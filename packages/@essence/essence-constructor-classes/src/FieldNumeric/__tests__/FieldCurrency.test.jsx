@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
 import * as React from "react";
 import NumberFormat from "react-number-format";
 import {mountWithTheme} from "../../../../utils/test";

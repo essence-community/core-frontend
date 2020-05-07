@@ -13,6 +13,7 @@ export interface IField {
     key: string;
     value: FieldValue;
     defaultValue: FieldValue;
+    label?: string;
     isRequired: boolean;
     rules: string[];
     isValid: boolean;
@@ -28,6 +29,7 @@ export interface IField {
     resetValidation(): void;
     add(): void;
     del(idx?: number | string): void;
+    redirect(): void;
 
     // Events
     onChange(value: FieldValue): void;

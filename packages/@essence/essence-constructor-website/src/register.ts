@@ -60,6 +60,7 @@ import "@essence-community/constructor-classes/src/ColumnTree";
 import "@essence-community/constructor-classes/src/ColumnCheckbox";
 import "@essence-community/constructor-classes/src/ColumnDate";
 import "@essence-community/constructor-classes/src/ColumnDetail";
+import "@essence-community/constructor-classes/src/FieldNumeric";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

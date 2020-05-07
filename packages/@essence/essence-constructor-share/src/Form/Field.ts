@@ -1,6 +1,6 @@
 import {observable, computed, action} from "mobx";
 import {FieldValue, IBuilderConfig, IPageModel} from "../types";
-import {parseMemoize} from "../utils";
+import {parseMemoize, makeRedirect} from "../utils";
 import {parse} from "../utils/parser";
 import {VAR_RECORD_DISPLAYED} from "../constants";
 import {IField, IForm, IRegisterFieldOptions, TError} from "./types";
@@ -271,5 +271,10 @@ export class Field implements IField {
 
             this.onChange(newValues);
         }
+    };
+
+    @action
+    redirect = () => {
+        makeRedirect(this.bc, this.pageStore, this.form.values);
     };
 }

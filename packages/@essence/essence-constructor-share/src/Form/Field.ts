@@ -3,7 +3,8 @@ import {FieldValue, IBuilderConfig, IPageModel} from "../types";
 import {parseMemoize} from "../utils";
 import {parse} from "../utils/parser";
 import {VAR_RECORD_DISPLAYED} from "../constants";
-import {IField, IForm, IRegisterFieldOptions} from "./types";
+import {IField, IForm, IRegisterFieldOptions, TError} from "./types";
+import {validations} from "./validations";
 
 interface IFieldOptions {
     bc: IBuilderConfig;
@@ -11,6 +12,7 @@ interface IFieldOptions {
     form: IForm;
     key: string;
     output?: IRegisterFieldOptions["output"];
+    isArray?: boolean;
 }
 
 export const disabledSize = {
@@ -29,18 +31,19 @@ export class Field implements IField {
 
     public bc: IBuilderConfig;
 
-    private key: string;
+    public key: string;
 
     public defaultvalue: FieldValue;
 
+    private isArray: boolean;
+
     @computed get label() {
-        // TODO: convert with localization
         return this.bc[VAR_RECORD_DISPLAYED];
     }
 
     @observable value: FieldValue;
 
-    @observable errors: string[] = [];
+    @observable errors: TError[] = [];
 
     @observable private extraRules: string[] = [];
 
@@ -75,7 +78,7 @@ export class Field implements IField {
     }
 
     @computed private get valueSizeRules(): string[] {
-        const validations: string[] = [];
+        const rules: string[] = [];
 
         if (!this.bc.datatype || !(this.bc.datatype in disabledSize)) {
             if (this.bc.datatype === "date") {
@@ -86,7 +89,7 @@ export class Field implements IField {
                         const value = parse(bcRule).runer(this.pageStore.globalValues);
 
                         if (value) {
-                            validations.push(`${this.bc.datatype === "date" ? `${rule}date` : rule}:${value}`);
+                            rules.push(`${this.bc.datatype === "date" ? `${rule}date` : rule}:${value}`);
                         }
                     }
                 });
@@ -98,14 +101,14 @@ export class Field implements IField {
                             bcRule && /[g_]/u.test(bcRule) ? this.pageStore.globalValues.get(bcRule) : bcRule;
 
                         if (ruleValue) {
-                            validations.push(`${rule}:${ruleValue}`);
+                            rules.push(`${rule}:${ruleValue}`);
                         }
                     },
                 );
             }
         }
 
-        return validations;
+        return rules;
     }
 
     @computed private get dateRule(): string | undefined {
@@ -117,7 +120,7 @@ export class Field implements IField {
     }
 
     @computed get rules(): string[] {
-        const validations: (string | undefined)[] = [
+        const rules: (string | undefined)[] = [
             this.requiredRule,
             this.regexRule,
             ...this.valueSizeRules,
@@ -125,10 +128,10 @@ export class Field implements IField {
             ...this.extraRules,
         ];
 
-        return validations.filter((rule?: string): boolean => Boolean(rule)) as string[];
+        return rules.filter((rule?: string): boolean => Boolean(rule)) as string[];
     }
 
-    @computed get error(): string | undefined {
+    @computed get error(): TError | undefined {
         return this.errors[0];
     }
 
@@ -156,6 +159,7 @@ export class Field implements IField {
         this.bc = options.bc;
         this.output = options.output;
         this.key = options.key;
+        this.isArray = options.isArray ?? false;
 
         if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
             this.defaultValue = this.bc.defaultvalue === "true" || this.bc.defaultvalue === "1";
@@ -164,12 +168,13 @@ export class Field implements IField {
         }
 
         this.value = this.form.initialValues[this.key];
+
+        if (this.value === undefined && this.isArray) {
+            this.value = [];
+        }
     }
 
-    @action
-    onChange = (value: FieldValue) => {
-        this.value = value;
-
+    private execChangeHooks = () => {
         if (this.form.hooks.onChange) {
             this.form.hooks.onChange(this.form);
         }
@@ -180,12 +185,44 @@ export class Field implements IField {
     };
 
     @action
+    onChange = (value: FieldValue) => {
+        this.value = value;
+
+        if (!this.isValid) {
+            this.validate();
+        }
+
+        this.execChangeHooks();
+    };
+
+    @action
     validate = () => {
+        const errors = this.rules.reduce<TError[]>((acc, ruleConfig) => {
+            const [rule, req] = ruleConfig.split(":");
+
+            if (validations[rule]) {
+                const err: TError | undefined = validations[rule](this, this.form, req);
+
+                if (err) {
+                    acc.push(err);
+                }
+            }
+
+            return acc;
+        }, []);
+
+        this.errors = errors;
+
         return undefined;
     };
 
     @action
-    invalidate = (errors: string[] | string) => {
+    resetValidation = () => {
+        this.errors = [];
+    };
+
+    @action
+    invalidate = (errors: TError[] | TError) => {
         this.errors = Array.isArray(errors) ? errors : [errors];
     };
 
@@ -218,5 +255,21 @@ export class Field implements IField {
     @action
     clear = () => {
         this.onChange(this.clearValue);
+    };
+
+    @action
+    add = () => {
+        this.onChange([...this.value, {}]);
+    };
+
+    @action
+    del = (index?: string | number) => {
+        if (index) {
+            const newValues = [...this.value];
+
+            newValues.splice(Number(index), 1);
+
+            this.onChange(newValues);
+        }
     };
 }

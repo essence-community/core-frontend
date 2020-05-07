@@ -66,7 +66,7 @@ class FieldSmartMask extends React.Component<PropsType, StateType> {
 
         this.disposers.push(
             reaction(
-                () => (form.has(this.valueColumnName) ? form.$(this.valueColumnName).get("value") : ""),
+                () => (form.has(this.valueColumnName) ? form.$(this.valueColumnName).value : ""),
                 this.handleResetField,
             ),
             reaction(
@@ -75,7 +75,7 @@ class FieldSmartMask extends React.Component<PropsType, StateType> {
                         return {};
                     }
 
-                    const recordId = form.$(this.valueColumnName).get("value");
+                    const recordId = form.$(this.valueColumnName).value;
                     const indentityDoctTypeRecord = indentityDocTypeRecordsStore.records.find((record) =>
                         isEqualStr(record[indentityDocTypeRecordsStore.recordId || VAR_RECORD_ID], recordId),
                     );

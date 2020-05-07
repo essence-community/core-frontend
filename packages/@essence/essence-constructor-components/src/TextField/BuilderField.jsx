@@ -10,9 +10,10 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_CL_IS_MASTER,
 } from "@essence-community/constructor-share/constants";
-import {makeRedirect} from "@essence-community/constructor-share/utils";
+import {makeRedirect, noop} from "@essence-community/constructor-share/utils";
 import {FormContext} from "@essence-community/constructor-share";
 import {useField} from "@essence-community/constructor-share/Form";
+import {reaction} from "mobx";
 import commonDecorator from "../decorators/commonDecorator";
 import {isEmpty} from "../utils/base";
 import {getFieldInstance} from "./Fields";
@@ -44,40 +45,34 @@ export const BuilderFieldBase = (props) => {
     };
 
     const handleChangeField = React.useCallback(
-        async ({change}: ObserverCallPropsType) => {
-            if (change.type === "update") {
-                const ckPageObject = bc[VAR_RECORD_PAGE_OBJECT_ID];
+        async (newValue) => {
+            const ckPageObject = bc[VAR_RECORD_PAGE_OBJECT_ID];
 
-                await pageStore.addFieldValueMaster(ckPageObject, change.newValue);
+            await pageStore.addFieldValueMaster(ckPageObject, newValue);
 
-                pageStore.stores.forEach((store) => {
-                    if (store && store.bc && store.bc[VAR_RECORD_MASTER_ID] === ckPageObject) {
-                        store.reloadStoreAction();
-                        store.clearAction && store.clearAction();
-                    }
-                });
-            }
+            pageStore.stores.forEach((store) => {
+                if (store && store.bc && store.bc[VAR_RECORD_MASTER_ID] === ckPageObject) {
+                    store.reloadStoreAction();
+                    store.clearAction && store.clearAction();
+                }
+            });
         },
         [bc, pageStore],
     );
 
     React.useEffect(() => {
+        let disposeMaster = noop;
+
         if (bc.datatype && !(bc.datatype in disabledSelfGlobal)) {
             setTimeout(handleInitGlobal, 0);
         }
 
         if (bc[VAR_RECORD_CL_IS_MASTER]) {
             if (!isEmpty(field.value)) {
-                handleChangeField({
-                    change: {
-                        newValue: field.value,
-                        type: "update",
-                    },
-                    field,
-                    form,
-                });
+                handleChangeField(field.value);
             }
-            field.observe(handleChangeField);
+
+            disposeMaster = reaction(() => field.value, handleChangeField);
         }
 
         return () => {
@@ -85,6 +80,7 @@ export const BuilderFieldBase = (props) => {
                 pageStore.removeFieldValueMaster(bc[VAR_RECORD_PAGE_OBJECT_ID]);
             }
 
+            disposeMaster();
             disposers.forEach((disposer) => disposer());
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps

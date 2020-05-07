@@ -1,3 +1,4 @@
+import {IForm} from "../Form";
 import {FieldValue} from "./Field";
 
 export type ICkId = number | string;
@@ -16,14 +17,11 @@ export type IBuilderMode = "1" | "2" | "3" | "4" | "6" | "7" | "8";
 export interface IFormOptions {
     filter?: object[];
     reset?: boolean;
-    form?: any;
+    form?: IForm;
     noClean?: boolean;
     noLoad?: boolean;
     selectedRecordId?: ICkId;
 }
-
-export type Field = any;
-export type FormType = any;
 
 export type WindowModelType = any;
 export type StoreModelTypes = any;

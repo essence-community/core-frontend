@@ -53,6 +53,7 @@ export class Form implements IForm {
             field = new Field({
                 bc: options.bc,
                 form: this,
+                isArray: options.isArray,
                 key,
                 output: options.output,
                 pageStore: options.pageStore,
@@ -74,15 +75,19 @@ export class Form implements IForm {
     };
 
     @action
-    validate = async () => {
-        await Promise.all(Object.values(this.fields).map((field) => field.validate));
+    validate = () => {
+        for (const field of this.fields.values()) {
+            field.validate();
+        }
 
         return undefined;
     };
 
     @action
-    onSubmit = async () => {
-        await this.validate();
+    onSubmit = async (event: React.SyntheticEvent) => {
+        event.preventDefault();
+
+        this.validate();
         await this.submit();
     };
 
@@ -96,6 +101,13 @@ export class Form implements IForm {
             } else {
                 field.clear();
             }
+        }
+    };
+
+    @action
+    resetValidation = () => {
+        for (const field of this.fields.values()) {
+            field.resetValidation();
         }
     };
 

@@ -9,6 +9,7 @@ export interface IPopoverContext {
     onClose: () => void;
 }
 
+export const ParentKeyContext = React.createContext<string>("");
 export const FormContext = React.createContext<IForm>(new Form({hooks: {}, values: {}}));
 export const ModeContext = React.createContext<IBuilderMode>("1");
 export const ApplicationContext = React.createContext<IApplicationModel | null>(null);

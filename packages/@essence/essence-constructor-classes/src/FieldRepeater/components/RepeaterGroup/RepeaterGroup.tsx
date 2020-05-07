@@ -12,8 +12,7 @@ import {
 import {IRepeaterGroupProps} from "./RepeaterGroup.types";
 
 export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
-    // eslint-disable-next-line no-unused-vars
-    const {bc, field, form, mode, isDisabledDel, storeName, deleteLabel, ...fieldProps} = props;
+    const {bc, idx, isDisabledDel, storeName, deleteLabel, ...fieldProps} = props;
     const {contentview = "", align} = bc;
 
     const deleteBtnConfig: IBuilderConfig = React.useMemo<IBuilderConfig>(
@@ -22,7 +21,7 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
             [VAR_RECORD_MASTER_ID]: storeName,
             [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_delete`,
             [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-            defaultvalue: field.key,
+            defaultvalue: String(idx),
             disabled: bc.maxvalue,
             handler: "onDel",
             hiddenrules: bc.minvalue,
@@ -30,7 +29,7 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
             onlyicon: "true",
             type: "BTN",
         }),
-        [bc, deleteLabel, field.key, storeName],
+        [bc, deleteLabel, idx, storeName],
     );
 
     return (

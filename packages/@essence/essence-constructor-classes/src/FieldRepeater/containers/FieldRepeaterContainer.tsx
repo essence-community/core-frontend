@@ -1,6 +1,13 @@
 import * as React from "react";
-import {IClassProps, mapComponents, IBuilderConfig, useModel, FieldValue} from "@essence-community/constructor-share";
-import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
+import {
+    IClassProps,
+    mapComponents,
+    IBuilderConfig,
+    useModel,
+    FieldValue,
+    IRecord,
+} from "@essence-community/constructor-share";
+import {ApplicationContext, ParentKeyContext} from "@essence-community/constructor-share/context";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_MASTER_ID,
@@ -9,22 +16,16 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {Grid} from "@material-ui/core";
-import {Field, FormType} from "@essence-community/constructor-share/types/Base";
 import {useObserver} from "mobx-react-lite";
+import {useField} from "@essence-community/constructor-share/Form";
 import {Group} from "../components/Group";
 import {FieldRepeaterModel} from "../Store/FieldRepeaterModel";
 import {RepeaterGroup} from "../components/RepeaterGroup";
 
-interface IProps extends IClassProps {
-    field: Field;
-    form: FormType;
-    value: FieldValue;
-}
-
-export const FieldRepeaterContainer: React.FC<IProps> = (props) => {
-    const {field, bc, pageStore, disabled, hidden, value} = props;
+export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
+    const {bc, pageStore, disabled, hidden} = props;
+    const field = useField({bc, isArray: true, pageStore});
     const applicationStore = React.useContext(ApplicationContext);
-    const formCtx = React.useContext(FormContext);
     const [trans] = useTranslation("meta");
     const modelOptions = useModel((options) => new FieldRepeaterModel(options), {
         applicationStore,
@@ -54,34 +55,31 @@ export const FieldRepeaterContainer: React.FC<IProps> = (props) => {
 
     // CORE-1538 - minzise - guaranteed minimum fields for the repeater
     React.useEffect(() => {
-        if (bc.minsize && !value) {
-            Array.from({length: parseInt(bc.minsize, 10)}, () => {
-                field.add();
-
-                return undefined;
-            });
+        if (bc.minsize && !field.value) {
+            field.onChange(Array.from({length: parseInt(bc.minsize, 10)}, () => ({})));
         }
-    }, [bc.minsize, field, value]);
+    }, [bc.minsize, field]);
 
     return useObserver(() => {
+        const value = field.value as FieldValue[];
         const maxSize = bc.maxsize && /[g_]/u.test(bc.maxsize) ? pageStore.globalValues.get(bc.maxsize) : bc.maxsize;
         const minSize = bc.minsize && /[g_]/u.test(bc.minsize) ? pageStore.globalValues.get(bc.minsize) : bc.minsize;
-        const isHiddenAdd = (maxSize && maxSize <= field.fields.size) || hidden;
-        const isDisabledDel = (minSize && minSize >= field.fields.size) || disabled;
+        const isHiddenAdd = (maxSize && maxSize <= value.length) || hidden;
+        const isDisabledDel = (minSize && minSize >= value.length) || disabled;
 
         return (
             <Group error={Boolean(!disabled && !field.isValid)} isRow={false} bc={props.bc}>
                 <Grid item xs={12}>
-                    {[...field.fields.values()].map((childField: Field) => (
-                        <RepeaterGroup
-                            key={childField.id}
-                            {...props}
-                            mode={formCtx.mode}
-                            field={childField}
-                            isDisabledDel={isDisabledDel}
-                            storeName={storeName}
-                            deleteLabel={trans("static:f7e324760ede4c88b4f11f0af26c9e97")}
-                        />
+                    {value.map((childField: IRecord, idx: number) => (
+                        <ParentKeyContext.Provider key={idx} value={`${field.key}.${idx}`}>
+                            <RepeaterGroup
+                                {...props}
+                                idx={idx}
+                                isDisabledDel={isDisabledDel}
+                                storeName={storeName}
+                                deleteLabel={trans("static:f7e324760ede4c88b4f11f0af26c9e97")}
+                            />
+                        </ParentKeyContext.Provider>
                     ))}
                 </Grid>
                 <Grid item xs={12} container justify="flex-end">

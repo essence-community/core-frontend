@@ -5,7 +5,7 @@ import {Scrollbars, VerticalResizer} from "@essence-community/constructor-share/
 import ReactMarkdown from "react-markdown";
 import {Grid, TextField} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
-import {useTranslation} from "@essence-community/constructor-share/utils";
+import {useTranslation, toTranslateTextArray} from "@essence-community/constructor-share/utils";
 import {FieldMarkdownLabel} from "../components/FieldMarkdownLabel";
 import {useStyles} from "./FieldMarkdownContainer.styles";
 import {IFieldMarkdownContainerProps} from "./FieldMarkdownContainer.types";
@@ -47,7 +47,7 @@ export const FieldMarkdownContainer: React.FC<IFieldMarkdownContainerProps> = (p
         return (
             <div
                 className={cn(classes.root, {[classes.error]: error})}
-                data-qtip={errorText ? trans(errorText, errorText) : undefined}
+                data-qtip={toTranslateTextArray(trans, errorText)}
             >
                 <div className={classes.label}>
                     <FieldMarkdownLabel

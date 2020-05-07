@@ -1,27 +1,33 @@
+import {TFunction} from "../utils";
 import {FieldValue, IRecord, IBuilderConfig, IPageModel} from "../types";
 import {IBuilderMode} from "../types/Builder";
 
 export interface IRegisterFieldOptions {
     bc: IBuilderConfig;
     pageStore: IPageModel;
+    isArray?: boolean;
     output?: (field: IField) => IRecord | FieldValue;
 }
 
 export interface IField {
+    key: string;
     value: FieldValue;
     defaultValue: FieldValue;
     isRequired: boolean;
     rules: string[];
     isValid: boolean;
-    errors: string[];
-    error?: string;
+    errors: TError[];
+    error?: TError;
     output?: IRegisterFieldOptions["output"];
     reset(): void;
     clear(): void;
-    invalidate(error: string[] | string): void;
+    invalidate(error: TError[] | TError): void;
     validate(): Promise<void> | void;
     setExtraRules(extraRules: string[]): void;
     setDefaultValue(defaultValue: FieldValue): void;
+    resetValidation(): void;
+    add(): void;
+    del(idx?: number | string): void;
 
     // Events
     onChange(value: FieldValue): void;
@@ -39,6 +45,7 @@ export interface IForm {
     registerField(key: string, options: IRegisterFieldOptions): IField;
     unregisterField(key: string): void;
     validate(): Promise<void> | void;
+    resetValidation(): void;
 
     // Event
     onSubmit(event: React.SyntheticEvent): void;
@@ -58,3 +65,7 @@ export interface IFormProps {
     hooks: IFormHooks;
     mode?: IBuilderMode;
 }
+
+export type TError = (trans: TFunction) => string;
+
+export type TValidation = (field: IField, form: IForm, req?: string) => TError | undefined;

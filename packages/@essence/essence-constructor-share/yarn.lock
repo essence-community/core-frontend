@@ -1584,7 +1584,7 @@ lodash.upperfirst@4.3.1:
   resolved "https://registry.yarnpkg.com/lodash.upperfirst/-/lodash.upperfirst-4.3.1.tgz#1365edf431480481ef0d1c68957a5ed99d49f7ce"
   integrity sha1-E2Xt9DFIBIHvDRxolXpe2Z1J984=
 
-lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15:
+lodash@^4.17.14, lodash@^4.17.15:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
@@ -1664,13 +1664,6 @@ mkdirp@^0.5.1:
   integrity sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
   dependencies:
     minimist "0.0.8"
-
-mobx-react-form@2.0.8:
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/mobx-react-form/-/mobx-react-form-2.0.8.tgz#ea98dd6c7d65625a25732a8a9c16ea7c71b21e3e"
-  integrity sha512-Z/JsXkN7B5xjG1tolHKytJiKmtLSdqkFKMco5AVagL8cQ0yJmE+iRZ212JKGHfkEKZrRWn7EDnX2STawIQFqxg==
-  dependencies:
-    lodash "^4.17.11"
 
 mobx-react-lite@^1.5.1:
   version "1.5.1"

@@ -3,7 +3,6 @@ import ToolBar from "./ToolBar/ToolBar";
 import ToolBarDrawerButton from "./ToolBar/ToolBarDrawerButton";
 import ToolBarTabs from "./ToolBar/ToolBarTabs";
 import ToolBarTab from "./ToolBar/ToolBarTab";
-import BuilderForm from "./Form/BuilderForm";
 import withModelDecorator from "./decorators/withModelDecorator";
 import Scrollbars from "./Components/Scrollbars/Scrollbars";
 import Slider from "./Components/Slider/Slider";
@@ -32,7 +31,6 @@ export {
     ToolBarDrawerButton,
     ToolBarTabs,
     ToolBarTab,
-    BuilderForm,
     withModelDecorator,
     Scrollbars,
     Slider,

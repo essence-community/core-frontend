@@ -29,7 +29,7 @@ const getDefaultWindowBc = (bc) => ({
     checkaddmore: bc.checkaddmore,
     childs: [],
     ckwindow: "gridwindow",
-    columns: bc.columns,
+    columns: bc.columns && bc.columns.map((column) => ({...column, type: "IFIELD"})),
     detail: bc.detail,
     edittype: bc.edittype,
     stepnamenext: bc.stepnamenext,

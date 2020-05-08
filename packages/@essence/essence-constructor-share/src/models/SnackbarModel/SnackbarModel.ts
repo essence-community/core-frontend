@@ -34,6 +34,7 @@ import {
 } from "../../constants";
 import {IRouteRecord} from "../../types/RoutesModel";
 import {TText, IOptionCheck} from "../../types/SnackbarModel";
+import {IForm} from "../../Form";
 import {MAX_OPENED_SNACKBARS, CODE_ACCESS_DENIEND, GROUP_ACTION_MAP, CODE_GROUP_MAP} from "./SnackbarModel.contants";
 
 /**
@@ -294,17 +295,14 @@ export class SnackbarModel implements ISnackbarModel {
      */
     formError = (
         formError: Record<string, Record<string, string[]>>,
-        form?: any,
+        form?: IForm,
         route?: Record<string, FieldValue>,
     ): boolean => {
         let isError = false;
 
         // eslint-disable-next-line default-param-last
         forEach(formError, (errors: Record<string, string[]> = {}, fieldName: string) => {
-            /*
-             * TODO mobx-react-form@^1.34.0 вызываю silent ($() - метод вызывает exception)
-             */
-            const field = form?.select(fieldName, null, false);
+            const field = form?.select(fieldName);
             const fieldError: any[] = [];
 
             // eslint-disable-next-line default-param-last

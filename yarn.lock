@@ -1151,7 +1151,6 @@
     mdi-react "3.4.0"
     memoizee "^0.4.14"
     mobx "^5.15.0"
-    mobx-react-form "2.0.8"
     mobx-react-lite "^1.5.1"
     qs "^6.9.1"
     react "16.12.0"
@@ -4092,11 +4091,6 @@ data-urls@^1.0.0, data-urls@^1.1.0:
     abab "^2.0.0"
     whatwg-mimetype "^2.2.0"
     whatwg-url "^7.0.0"
-
-date-fns@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.1.0.tgz#0d7e806c3cefe14a943532dbf968995ccfd46bd9"
-  integrity sha512-eKeLk3sLCnxB/0PN4t1+zqDtSs4jb4mXRSTZ2okmx/myfWyDqeO4r5nnmA5LClJiCwpuTMeK2v5UQPuE4uMaxA==
 
 date-fns@^1.27.2:
   version "1.30.1"
@@ -8675,13 +8669,6 @@ mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.1:
   dependencies:
     minimist "0.0.8"
 
-mobx-react-form@2.0.8, mobx-react-form@^2.0.8:
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/mobx-react-form/-/mobx-react-form-2.0.8.tgz#ea98dd6c7d65625a25732a8a9c16ea7c71b21e3e"
-  integrity sha512-Z/JsXkN7B5xjG1tolHKytJiKmtLSdqkFKMco5AVagL8cQ0yJmE+iRZ212JKGHfkEKZrRWn7EDnX2STawIQFqxg==
-  dependencies:
-    lodash "^4.17.11"
-
 mobx-react-lite@^1.4.2, mobx-react-lite@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-1.5.1.tgz#8eac90985b4d2bee475dd90a0d4d903be578f154"
@@ -10971,6 +10958,13 @@ react-number-format@4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/react-number-format/-/react-number-format-4.3.1.tgz#eccfc851d88d74c894ba463620ccb467defbdefb"
   integrity sha512-ze6Lp7SGM71Jr0uZhUaN6grthv08NKTfJezS26zAWZq63ubmJ++FOX7ueGSK27EvpT7/e3ce9L3jlqr1YMFS7Q==
+  dependencies:
+    prop-types "^15.7.2"
+
+react-number-format@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/react-number-format/-/react-number-format-4.4.1.tgz#d5614dd25edfc21ed48b97356213440081437a94"
+  integrity sha512-ZGFMXZ0U7DcmQ3bSZY3FULOA1mfqreT9NIMYZNoa/ouiSgiTQiYA95Uj2KN8ge6BRr+ghA5vraozqWqsHZQw3Q==
   dependencies:
     prop-types "^15.7.2"
 
@@ -13334,13 +13328,6 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
-
-validatorjs@3.18.1:
-  version "3.18.1"
-  resolved "https://registry.yarnpkg.com/validatorjs/-/validatorjs-3.18.1.tgz#5ded9858d2bf9032b517c2e6f9dfc286525cd17a"
-  integrity sha512-ZyHd0lJKNft3nUe+tYtTui2B5GwdKexWB55qNljccJouW/eo06YhYpCYjPlN/F5n/o0eS1uvb1Janh6eRl+TBQ==
-  dependencies:
-    date-fns "2.1.0"
 
 value-equal@^1.0.1:
   version "1.0.1"

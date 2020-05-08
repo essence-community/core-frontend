@@ -5,7 +5,6 @@ import {compose} from "recompose";
 import last from "lodash/last";
 import {withStyles} from "@material-ui/core/styles";
 import {Grid, Button} from "@material-ui/core";
-import validatorjs from "validatorjs";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_CK_AREA,
@@ -13,7 +12,7 @@ import {
     VAR_RECORD_CK_HOUSE,
 } from "@essence-community/constructor-share/constants";
 import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
-import BuilderMobxForm from "../../../Components/MobxForm/BuilderMobxForm";
+import {Form} from "@essence-community/constructor-share/Form";
 import withModelDecorator from "../../../decorators/withModelDecorator";
 import {AddrMultiField} from "../../../stores/AddrMultiField";
 import {MoMultiField} from "../../../stores/MoMultiField";
@@ -46,20 +45,14 @@ const datatypeClass = {
 export class FieldMultiBase extends React.Component<PropsType> {
     popoverRef = React.createRef();
 
-    form = new BuilderMobxForm(
-        {
-            values: {
-                [VAR_RECORD_CK_AREA]: null,
-                [VAR_RECORD_CK_HOUSE]: null,
-                [VAR_RECORD_CK_STREET]: null,
-            },
+    form = new Form({
+        hooks: {},
+        values: {
+            [VAR_RECORD_CK_AREA]: null,
+            [VAR_RECORD_CK_HOUSE]: null,
+            [VAR_RECORD_CK_STREET]: null,
         },
-        {
-            plugins: {
-                dvr: validatorjs,
-            },
-        },
-    );
+    });
 
     componentDidMount() {
         const {store, value, onInitGlobal} = this.props;
@@ -113,7 +106,7 @@ export class FieldMultiBase extends React.Component<PropsType> {
 
         this.props.store.builderConfigs.forEach((bc) => {
             if (this.form.has(bc.column)) {
-                this.form.$(bc.column).clear();
+                this.form.select(bc.column).clear();
             }
         });
     };

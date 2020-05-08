@@ -116,7 +116,8 @@ export const getGridBtnsConfig = (bc: GridBuilderType): GridBtnsConfigType => {
         "Override Save Button": getSaveBtnConfig(bc),
     });
 
-    const {BTN = [], BTNCOLLECTOR} = groupBy(components, "type");
+    const {BTNCOLLECTOR, ...otherBtns} = groupBy(components, "type");
+    const btns = Object.values(otherBtns).flat();
 
-    return {btns: BTN, btnsCollector: BTNCOLLECTOR, overrides};
+    return {btns, btnsCollector: BTNCOLLECTOR, overrides};
 };

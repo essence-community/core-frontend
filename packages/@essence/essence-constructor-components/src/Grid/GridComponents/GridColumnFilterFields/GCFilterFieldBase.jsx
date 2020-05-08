@@ -1,13 +1,11 @@
 // @flow
 import * as React from "react";
-import uniqueId from "lodash/uniqueId";
-import {observer} from "mobx-react";
+import {observer, useObserver} from "mobx-react";
+import {useField} from "@essence-community/constructor-share/Form";
 import {isEmpty} from "../../../utils/base";
 import BuilderField from "../../../TextField/BuilderField";
 import {parseValue} from "../../../TextField/TFUtils/TFParseValue";
 import {type GCFilterFieldBaseType} from "./GCFilterFieldTypes";
-
-type PropsType = GCFilterFieldBaseType;
 
 const datatypeOperator = {
     boolean: "eq",
@@ -16,34 +14,16 @@ const datatypeOperator = {
     numeric: "eq",
 };
 
-class GCFilterFieldBase extends React.Component<PropsType> {
-    column: string;
+const GCFilterFieldBase: React.FC<GCFilterFieldBaseType> = (props) => {
+    const {bc, pageStore, renderPopover} = props;
+    const prepareValue = React.useCallback((field) => {
+        const {column, datatype, format} = field.bc;
 
-    constructor(...args: Array<*>) {
-        super(...args);
-
-        const {form, bc} = this.props;
-
-        this.column = bc.column || uniqueId("GCFilterFieldBase");
-
-        form.add({
-            key: this.column,
-            options: {
-                bc,
-                output: this.prepareValue,
-            },
-        });
-    }
-
-    prepareValue = (value: any) => {
-        const {bc} = this.props;
-        const {column, datatype, format} = bc;
-
-        if (isEmpty(value)) {
+        if (isEmpty(field.value)) {
             return undefined;
         }
 
-        const cleanValue = parseValue(value, bc);
+        const cleanValue = parseValue(field.value, field.bc);
 
         return {
             datatype,
@@ -52,15 +32,18 @@ class GCFilterFieldBase extends React.Component<PropsType> {
             property: column,
             value: cleanValue,
         };
-    };
+    }, []);
+    const field = useField({
+        bc,
+        output: prepareValue,
+        pageStore,
+    });
 
-    render() {
-        const {renderPopover, form} = this.props;
-        const fieldContent = <BuilderField {...this.props} autoremove={false} />;
-        const isFilled = form.has(this.column) && !isEmpty(form.$(this.column).get("value"));
+    return useObserver(() => {
+        const fieldContent = <BuilderField {...props} autoremove={false} />;
 
-        return renderPopover({fieldContent, isFilled});
-    }
-}
+        return renderPopover({fieldContent, isFilled: !isEmpty(field.value)});
+    });
+};
 
 export default observer(GCFilterFieldBase);

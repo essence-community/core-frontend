@@ -8,7 +8,8 @@ import {compose} from "recompose";
 import keycode from "keycode";
 import {Grid, Tabs} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {setComponent, mapComponents} from "@essence-community/constructor-share";
+import {setComponent, mapComponents} from "@essence-community/constructor-share/components";
+import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_MASTER_ID,
@@ -18,7 +19,6 @@ import {
 import commonDecorator from "../decorators/commonDecorator";
 import withModelDecorator from "../decorators/withModelDecorator";
 import {RoadMapModel, type RoadMapModelType} from "../stores/RoadMapModel";
-import BuilderForm from "../Form/BuilderForm";
 import Tab from "./Tab";
 import {type BuilderRoadMapPanelPropsType, type BuilderRoadMapPanelType} from "./BuilderRoadMapPanelType";
 import styles from "./Styles";
@@ -171,7 +171,7 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
 
         return (
             <Grid xs={12} item key={child[VAR_RECORD_PAGE_OBJECT_ID]} style={{display: isVisible ? "block" : "none"}}>
-                <BuilderForm
+                <UIForm
                     onSetForm={(form) => setTabStatus(child[VAR_RECORD_PAGE_OBJECT_ID], {form})}
                     injectType="filter"
                     dataPageObject={`${child[VAR_RECORD_PAGE_OBJECT_ID]}-form`}
@@ -191,7 +191,7 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
                         editing
                         pageStore={pageStore}
                     />
-                </BuilderForm>
+                </UIForm>
             </Grid>
         );
     };

@@ -1,18 +1,11 @@
 import * as React from "react";
 import cn from "classnames";
 import {useObserver, useDisposable} from "mobx-react-lite";
-import MobxReactForm from "mobx-react-form";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {toColumnStyleWidth, i18next} from "@essence-community/constructor-share/utils";
 import {IBuilderConfig, IClassProps, IPageModel} from "@essence-community/constructor-share/types";
 import {Scrollbars, PageLoader} from "@essence-community/constructor-share/uicomponents";
-import {
-    ApplicationContext,
-    FormContext,
-    ModeContext,
-    EditorContex,
-    IEditorContext,
-} from "@essence-community/constructor-share/context";
+import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
 import {Grid, useTheme} from "@material-ui/core";
 import {settingsStore, PageModel, snackbarStore} from "@essence-community/constructor-share/models";
 import {
@@ -23,6 +16,7 @@ import {
     loggerRoot,
 } from "@essence-community/constructor-share/constants";
 import {reaction} from "mobx";
+import {IForm, Form} from "@essence-community/constructor-share/Form";
 import {PagerWindows} from "../components/PagerWindows";
 import {focusPageElement} from "../utils/focusPageElement";
 import {PagerWindowMessage} from "../components/PagerWindowMessage";
@@ -33,8 +27,8 @@ const DARK_PAPER_ELEVATION = 8;
 const VERTICAL_STYLE = {zIndex: 3};
 const SCROLLABRS_STYLE = {height: "100%", paddingRight: 10, width: "100%"};
 const logger = loggerRoot.extend("PagerContainer");
-const onFormChange = (form: typeof MobxReactForm) => {
-    logger(i18next.t("static:f9c3bf3691864f4d87a46a9ba367a855"), form.values());
+const onFormChange = (form: IForm) => {
+    logger(i18next.t("static:f9c3bf3691864f4d87a46a9ba367a855"), form.values);
 };
 
 interface IPagerProps extends IClassProps {}
@@ -72,13 +66,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
     const classes = useStyles(props);
     const theme = useTheme();
     const {route} = pageStore;
-    const editor: IEditorContext = React.useMemo(
-        () => ({
-            form: new MobxReactForm(undefined, {hooks: {onFieldChange: onFormChange}}),
-            mode: "1",
-        }),
-        [],
-    );
+    const form: IForm = React.useMemo(() => new Form({hooks: {onChange: onFormChange}, mode: "1", values: {}}), []);
 
     // TODO: need to ferify it
     React.useEffect(() => {
@@ -129,34 +117,28 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                     container={pageStore.pageEl}
                     loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"}
                 />
-                <FormContext.Provider value={editor.form}>
-                    <ModeContext.Provider value={editor.mode}>
-                        <EditorContex.Provider value={editor}>
-                            <Grid container spacing={2}>
-                                {mapComponents(
-                                    pageStore.pageBc,
-                                    (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                                        <Grid
-                                            key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                            item
-                                            xs={12}
-                                            style={toColumnStyleWidth(childBc.width)}
-                                        >
-                                            <ChildComponent
-                                                readOnly={pageStore.isReadOnly}
-                                                pageStore={pageStore}
-                                                bc={childBc}
-                                                visible={pageStore.visible}
-                                                elevation={
-                                                    theme.palette.type === "light" ? undefined : DARK_PAPER_ELEVATION
-                                                }
-                                            />
-                                        </Grid>
-                                    ),
-                                )}
-                            </Grid>
-                        </EditorContex.Provider>
-                    </ModeContext.Provider>
+                <FormContext.Provider value={form}>
+                    <Grid container spacing={2}>
+                        {mapComponents(
+                            pageStore.pageBc,
+                            (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
+                                <Grid
+                                    key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                    item
+                                    xs={12}
+                                    style={toColumnStyleWidth(childBc.width)}
+                                >
+                                    <ChildComponent
+                                        readOnly={pageStore.isReadOnly}
+                                        pageStore={pageStore}
+                                        bc={childBc}
+                                        visible={pageStore.visible}
+                                        elevation={theme.palette.type === "light" ? undefined : DARK_PAPER_ELEVATION}
+                                    />
+                                </Grid>
+                            ),
+                        )}
+                    </Grid>
                 </FormContext.Provider>
             </div>
         );

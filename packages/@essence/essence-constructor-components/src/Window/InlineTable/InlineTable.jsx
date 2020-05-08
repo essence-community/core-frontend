@@ -2,7 +2,7 @@
 import * as React from "react";
 import {Table, TableBody} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import {EditorContex} from "@essence-community/constructor-share/context";
+import {FormContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {type WindowModelType} from "../../stores/WindowModel";
 import {type PageModelType} from "../../stores/PageModel";
@@ -31,7 +31,7 @@ export const WIDTH_MAP = {
 };
 
 class InlineTable extends React.PureComponent<PropsType> {
-    static contextType = EditorContex;
+    static contextType = FormContext;
 
     // Duplicate data-qtip from visible column
     getQtip = (idx) => {
@@ -51,12 +51,11 @@ class InlineTable extends React.PureComponent<PropsType> {
     // eslint-disable-next-line max-lines-per-function
     render() {
         const {pageStore, store, classes, theme = {}, gridStore} = this.props;
-        const {form} = this.context;
         const isNew = store.config.mode === "1" || store.config.mode === "6";
         const top = isNew ? 0 : gridStore.recordsStore.selectedRecordIndex * theme.sizing.gridRowHeight;
 
         return (
-            <form style={{top}} className={isNew ? undefined : classes.inlineRoot} onSubmit={form.onSubmit}>
+            <form style={{top}} className={isNew ? undefined : classes.inlineRoot} onSubmit={this.context.onSubmit}>
                 <button type="submit" name="save" className={classes.hidden} />
                 <Focusable>
                     <Table
@@ -85,7 +84,7 @@ class InlineTable extends React.PureComponent<PropsType> {
                                             data-page-object={`${field[VAR_RECORD_PAGE_OBJECT_ID]}-cell`}
                                             data-qtip={isEditable || isNew ? undefined : this.getQtip(idx)}
                                         >
-                                            {isEditable && field.type !== "COLUMN" && (
+                                            {isEditable && (
                                                 <BuilderField
                                                     bc={field}
                                                     noLabel={

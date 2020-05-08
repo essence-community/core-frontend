@@ -1,6 +1,5 @@
-import {forOwn, isArray, noop} from "lodash";
+import {forOwn, noop} from "lodash";
 import {ObservableMap, toJS} from "mobx";
-import {Form} from "mobx-react-form";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_MASTER_ID,
@@ -11,10 +10,19 @@ import {
     VAR_RECORD_CL_WARNING,
 } from "../constants";
 import {ProgressModel, snackbarStore} from "../models";
-import {IBuilderConfig, IBuilderMode, IGridBuilder, IPageModel, IRecordsModel, ILoadRecordsProps} from "../types";
+import {
+    IBuilderConfig,
+    IBuilderMode,
+    IGridBuilder,
+    IPageModel,
+    IRecordsModel,
+    ILoadRecordsProps,
+    IRecord,
+} from "../types";
 import {findGetGlobalKey, isEmpty, i18next} from "../utils";
 import {getMasterObject} from "../utils/getMasterObject";
 import {TText} from "../types/SnackbarModel";
+import {IForm} from "../Form";
 import {apiSaveAction} from "./apiSaveAction";
 import {setMask} from "./recordsActions";
 
@@ -23,24 +31,24 @@ export interface IConfig {
     action?: "dml" | "upload";
     query?: string;
     [VAR_RECORD_CL_WARNING]?: number;
-    bc: any;
+    bc: IBuilderConfig;
     pageStore: IPageModel;
     recordId: string;
     formData?: FormData;
     noReload?: boolean;
-    form?: Form;
+    form?: IForm;
 }
 
 interface IAttachGlobalValues {
     globalValues: ObservableMap;
     getglobaltostore?: string;
-    values: any;
+    values: IRecord;
 }
 
 const logger = loggerRoot.extend("saveAction");
 
-export const filter = (values: any) => {
-    const filteredValues: any = {};
+export const filter = (values: IRecord) => {
+    const filteredValues: IRecord = {};
 
     forOwn(values, (value, key) => {
         if (key.indexOf("builderField") === -1 && (typeof value !== "string" || value.indexOf("auto-") === -1)) {
@@ -82,7 +90,7 @@ export const attachGlobalValues = ({globalValues, getglobaltostore, values}: IAt
 };
 
 // eslint-disable-next-line max-params, max-statements
-export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: IBuilderMode, config: IConfig) {
+export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mode: IBuilderMode, config: IConfig) {
     const {
         actionBc,
         action,
@@ -96,29 +104,30 @@ export function saveAction(this: IRecordsModel, values: any[] | FormData, mode: 
         noReload,
     } = config;
     const {extraplugingate, getglobaltostore, getmastervalue, timeout} = actionBc;
+    const getMasterValue = getmastervalue || bc.getmastervalue;
+    const masterId = bc[VAR_RECORD_MASTER_ID];
     let master = undefined;
     let modeCheck = mode;
     let onUploadProgress = noop;
     let filteredValues = null;
-    const getMasterValue = getmastervalue || bc.getmastervalue;
     let main = null;
 
-    if (bc[VAR_RECORD_MASTER_ID]) {
-        const masterStore = pageStore.stores.get(bc[VAR_RECORD_MASTER_ID]);
+    if (masterId) {
+        const masterStore = pageStore.stores.get(masterId);
 
         main = masterStore
             ? masterStore.selectedRecord?.[masterStore.recordId]
-            : pageStore.fieldValueMaster.get(bc[VAR_RECORD_MASTER_ID]);
-        master = getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, getMasterValue);
+            : pageStore.fieldValueMaster.get(masterId);
+        master = getMasterObject(masterId, pageStore, getMasterValue);
     }
 
-    if (formData) {
+    if (formData || values instanceof FormData) {
         filteredValues = values;
         const {changeProgress} = new ProgressModel({pageStore});
 
         onUploadProgress = changeProgress;
-    } else if (isArray(values)) {
-        filteredValues = values.map((item: any) =>
+    } else if (Array.isArray(values)) {
+        filteredValues = values.map((item: IRecord) =>
             attachGlobalValues({getglobaltostore, globalValues: pageStore.globalValues, values: filter(item)}),
         );
     } else {

@@ -9,9 +9,9 @@ import {compose} from "recompose";
 import {TableHead, TableRow, TableCell, TableSortLabel} from "@material-ui/core";
 import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
+import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {type GridModelType} from "../stores/GridModel";
 import {type PageModelType} from "../stores/PageModel";
-import BuilderForm from "../Form/BuilderForm";
 import {isEmpty} from "../utils/base";
 import {type BuilderGridType} from "./BuilderGridType";
 import {columnsHeaderMap} from "./GridColumnHeader";
@@ -198,7 +198,7 @@ class BaseGridTableHeader extends React.Component<PropsType, StateType> {
         }
 
         return (
-            <BuilderForm
+            <UIForm
                 noForm
                 submitOnChange
                 onSubmit={this.handleSubmit}
@@ -207,7 +207,7 @@ class BaseGridTableHeader extends React.Component<PropsType, StateType> {
             >
                 <GridColgroup store={store} />
                 {tableHead}
-            </BuilderForm>
+            </UIForm>
         );
     }
 }

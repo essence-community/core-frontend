@@ -66,7 +66,7 @@ class FieldSmartMask extends React.Component<PropsType, StateType> {
 
         this.disposers.push(
             reaction(
-                () => (form.has(this.valueColumnName) ? form.$(this.valueColumnName).get("value") : ""),
+                () => (form.has(this.valueColumnName) ? form.$(this.valueColumnName).value : ""),
                 this.handleResetField,
             ),
             reaction(
@@ -75,7 +75,7 @@ class FieldSmartMask extends React.Component<PropsType, StateType> {
                         return {};
                     }
 
-                    const recordId = form.$(this.valueColumnName).get("value");
+                    const recordId = form.$(this.valueColumnName).value;
                     const indentityDoctTypeRecord = indentityDocTypeRecordsStore.records.find((record) =>
                         isEqualStr(record[indentityDocTypeRecordsStore.recordId || VAR_RECORD_ID], recordId),
                     );
@@ -118,17 +118,14 @@ class FieldSmartMask extends React.Component<PropsType, StateType> {
                       imask,
                       oldImask: imask,
                       regex,
-                      value: String(field.get("value")),
+                      value: String(field.value),
                   }).newImask
                 : undefined,
             info: imaskDesc,
             sourceImask: imask,
         });
 
-        field.set("options", {
-            ...field.get("options"),
-            imask: imask ? `regex:${getStrRegexFromImask(imask)}` : undefined,
-        });
+        field.setExtraRules(imask ? [`regex:${getStrRegexFromImask(imask)}`] : []);
     };
 
     handleCkeckNewMask = ({value, oldValue, selection, formatChars, userInput, mask}: CkeckNewMaskType) => {

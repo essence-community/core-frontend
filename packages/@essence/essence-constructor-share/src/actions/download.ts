@@ -84,7 +84,10 @@ export function download(values: IRecord | Array<IRecord>, mode: IBuilderMode, c
         }
     }
 
-    const modeCheck = isEmpty(filteredValues[recordId]) && /^\d+$/.test(mode) ? "1" : mode;
+    const modeCheck =
+        !Array.isArray(filteredValues) && filteredValues && isEmpty(filteredValues[recordId]) && /^\d+$/.test(mode)
+            ? "1"
+            : mode;
 
     const form = document.createElement("form");
 

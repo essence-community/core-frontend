@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/named
 import {ObservableMap, IObservableArray} from "mobx";
-import {Field} from "./Base";
+import {IField} from "../Form";
 import {TText} from "./SnackbarModel";
 import {
     FieldValue,
@@ -70,7 +70,7 @@ export interface IPageModel {
     hiddenPage: boolean;
     isActiveRedirect: boolean;
     globalStores: Map<string, IStoreBaseModel[]>;
-    masters: Record<string, Field[]>;
+    masters: Record<string, IField[]>;
     scrollEvents: Function[];
     visible: boolean;
     recordsStore: IRecordsModel;
@@ -99,8 +99,8 @@ export interface IPageModel {
     reloadPageAction(): void;
     handleScrollAction(): void;
     freezeScrollAction(): void;
-    addToMastersAction(masterId: string, field: Field): void;
-    removeFromMastersAction(masterId?: string, field?: Field): void;
+    addToMastersAction(masterId: string, field: IField): void;
+    removeFromMastersAction(masterId?: string, field?: IField): void;
     addScrollEvent(scrollEvent: Function): void;
     removeScrollEvent(scrollEvent: Function): void;
     fireScrollEvent(): void;

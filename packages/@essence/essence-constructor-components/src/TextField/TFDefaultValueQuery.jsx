@@ -57,7 +57,7 @@ class TFDefaultValueQuery extends React.Component<PropsType> {
             this.loadDefaultValueQuery();
         }
 
-        field.set("default", "defaultvaluequery");
+        field.setDefaultValue("defaultvaluequery");
 
         this.disposers.push(
             reaction(() => this.props.field.value, this.handleChangeFieldValue),
@@ -77,7 +77,7 @@ class TFDefaultValueQuery extends React.Component<PropsType> {
             if (editing) {
                 this.loadDefaultValueQuery();
             } else {
-                field.set("");
+                field.onChange("");
             }
         }
     };
@@ -96,9 +96,9 @@ class TFDefaultValueQuery extends React.Component<PropsType> {
 
         if (rec) {
             if (bc.datatype === "date") {
-                field.set(getDateValue({bc, rec}));
+                field.onChange(getDateValue({bc, rec}));
             } else {
-                field.set(rec[VAR_RECORD_CV_VALUE]);
+                field.onChange(rec[VAR_RECORD_CV_VALUE]);
             }
         }
     };

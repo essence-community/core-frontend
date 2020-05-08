@@ -4,12 +4,12 @@ import {observer, disposeOnUnmount} from "mobx-react";
 import {reaction} from "mobx";
 import {compose} from "recompose";
 import {Grid} from "@material-ui/core";
-import {setComponent, mapComponents} from "@essence-community/constructor-share";
+import {setComponent, mapComponents} from "@essence-community/constructor-share/components";
+import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {toColumnStyleWidth} from "@essence-community/constructor-share/utils";
 import {VAR_RECORD_MASTER_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import forOwn from "lodash/forOwn";
 import {findSetKey} from "../utils/findKey";
-import BuilderForm from "./BuilderForm";
 import {type PropsType, type StateType} from "./FormPanelTypes";
 
 const GRID_CONFIGS = {
@@ -109,7 +109,7 @@ class FormPanelComponent extends React.Component<PropsType, StateType> {
         const {initialValues} = this.state;
 
         return (
-            <BuilderForm
+            <UIForm
                 onSubmit={this.handleSearch}
                 onSetValues={this.handleSetValues}
                 injectType="filter"
@@ -148,7 +148,7 @@ class FormPanelComponent extends React.Component<PropsType, StateType> {
                         </Grid>
                     ))}
                 </Grid>
-            </BuilderForm>
+            </UIForm>
         );
     }
 }

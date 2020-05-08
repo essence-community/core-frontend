@@ -26,10 +26,10 @@ export class AuthFormModel extends StoreBaseModel {
             const authStore = this.applicationStore && this.applicationStore.authStore;
 
             if (form) {
-                await form.validate({showErrors: true});
+                await form.validate();
 
                 if (form.isValid && authStore) {
-                    authStore.loginAction(form.values(), this.history);
+                    authStore.loginAction(form.values as Record<string, string>, this.history);
 
                     return true;
                 }

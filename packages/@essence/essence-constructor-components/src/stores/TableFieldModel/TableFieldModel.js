@@ -11,7 +11,6 @@ import {
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_JN_TOTAL_CNT,
 } from "@essence-community/constructor-share/constants";
-import {Field} from "mobx-react-form";
 import {loggerRootInfo, styleTheme} from "../../constants";
 import {isEmpty} from "../../utils/base";
 import {RecordsModel, type RecordsModelType} from "../RecordsModel";
@@ -312,7 +311,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
                     this.form.add({key: fieldName});
                 }
 
-                this.form.$(fieldName).set(value);
+                this.form.$(fieldName).onChange(value);
 
                 if (fieldName === this.column) {
                     column = valueFeild;
@@ -331,7 +330,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
         } else if (isEmpty(value)) {
             this.field.clear();
         } else {
-            this.field.set(value);
+            this.field.onChange(value);
         }
     };
 

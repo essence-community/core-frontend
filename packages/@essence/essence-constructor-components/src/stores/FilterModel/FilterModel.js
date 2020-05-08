@@ -1,6 +1,5 @@
 // @flow
 import {extendObservable, action} from "mobx";
-import {type Form, type Field} from "mobx-react-form";
 import forOwn from "lodash/forOwn";
 import {saveToStore, removeFromStore} from "@essence-community/constructor-share/utils";
 import {snackbarStore} from "@essence-community/constructor-share/models";
@@ -18,14 +17,12 @@ import {type BuilderModeType} from "../../BuilderType";
 import {StoreBaseModel} from "../StoreBaseModel";
 import {type FilterModelType, type ConstructorConfigType, type FilterValues} from "./FilterModelType";
 
-type MobxFormType = Form & Field;
-
 export class FilterModel extends StoreBaseModel implements FilterModelType {
     name = "filter";
 
     values: null | Object;
 
-    form: ?MobxFormType;
+    form: ?IForm;
 
     valuesStorageKey: ?string;
 
@@ -123,7 +120,7 @@ export class FilterModel extends StoreBaseModel implements FilterModelType {
 
     handlePrint = async (isOnline: boolean, bcBtn: Object) => {
         this.form && (await this.form.validate({showErrors: true}));
-        const values = this.form && this.form.isValid && this.form.values();
+        const values = this.form && this.form.isValid && this.form.values;
 
         if (values) {
             const isValidPrint = await print({

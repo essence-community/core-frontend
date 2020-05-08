@@ -10,9 +10,9 @@ import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/t
 import {useHistory} from "react-router-dom";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
-// @ts-ignore
-import BuilderForm from "@essence-community/constructor-components/src/Form/BuilderForm";
+import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {useModel} from "@essence-community/constructor-share/hooks";
+import {noop} from "@essence-community/constructor-share/utils";
 import darkLogo from "../images/dark_logo.png";
 import lightLogo from "../images/light_logo.png";
 import {AuthFormModel} from "../store/AuthFormModel";
@@ -49,7 +49,7 @@ export const AuthFormContainer: React.FC<IClassProps> = (props) => {
                             <img src={logo} alt="logo" height="50" width="50" />
                             {settingsStore.settings[VAR_SETTING_PROJECT_AUTH_TITLE]}
                         </Typography>
-                        <BuilderForm pageStore={pageStore} className={classes.form} onSubmit={() => undefined}>
+                        <UIForm pageStore={pageStore} className={classes.form} onSubmit={noop}>
                             <Grid container direction="column" spacing={3}>
                                 {mapComponents(bc.childs, (ChidCmp, childBc) => (
                                     <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} item>
@@ -66,7 +66,7 @@ export const AuthFormContainer: React.FC<IClassProps> = (props) => {
                                     </Grid>
                                 </Grid>
                             </Grid>
-                        </BuilderForm>
+                        </UIForm>
                     </Paper>
                 </Grid>
             </Grid>

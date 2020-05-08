@@ -1,13 +1,13 @@
 import {IHandlers, HandlerType} from "@essence-community/constructor-share/types";
-import {Field} from "@essence-community/constructor-share/types/Base";
 import {StoreBaseModel} from "@essence-community/constructor-share/models";
+import {IField} from "@essence-community/constructor-share/Form";
 import {IFieldRepeaterModelProps} from "./FieldRepeaterModel.types";
 
 /**
  * @exports FieldRepeaterModel
  */
 export class FieldRepeaterModel extends StoreBaseModel {
-    field: Field;
+    field: IField;
 
     constructor({field, ...otherProps}: IFieldRepeaterModelProps) {
         super(otherProps);

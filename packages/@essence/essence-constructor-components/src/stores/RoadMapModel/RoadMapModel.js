@@ -198,7 +198,7 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
         await form.validate({showErrors: true});
 
         if (form.isValid) {
-            return this.recordStore.saveAction(form.values(), btnBc.modeaction || btnBc.mode || mode, {
+            return this.recordStore.saveAction(form.values, btnBc.modeaction || btnBc.mode || mode, {
                 actionBc: btnBc,
                 files,
                 form,

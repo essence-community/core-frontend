@@ -402,7 +402,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
                     await filterStore.form.validate({showErrors: true});
                     const isFilterValid = filterStore.form.isValid;
 
-                    const values = filterStore.form.values();
+                    const {values} = filterStore.form;
 
                     if (isFilterValid) {
                         this.searchAction(values, {noLoad: true});

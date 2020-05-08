@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-extraneous-dependencies */
 // @flow
 import forOwn from "lodash/forOwn";
 import toString from "lodash/toString";
@@ -191,7 +195,7 @@ validatorjs.register(
 
 validatorjs.register(
     "reqcount",
-    function(numberFields: number = 0) {
+    function(numberFields = 0) {
         const [reqcount, columnsCount] = this.getParameters();
 
         if (numberFields === 0) {

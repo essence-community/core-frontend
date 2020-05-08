@@ -1,6 +1,5 @@
 // @flow
 import * as React from "react";
-import {Form, Field} from "mobx-react-form";
 import {type PageModelType} from "../stores/PageModel";
 import {type CommonDecoratorInjectType} from "../decorators/commonDecorator";
 import {type BuilderBaseType} from "../BuilderType";

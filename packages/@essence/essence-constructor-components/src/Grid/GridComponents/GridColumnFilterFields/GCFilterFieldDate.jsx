@@ -38,34 +38,36 @@ class GCFilterFieldDate extends React.Component<PropsType, StateType> {
     constructor(...args: Array<*>) {
         super(...args);
 
-        const {bc, form} = this.props;
+        const {bc, form, pageStore} = this.props;
         const {column, datatype, format} = bc;
 
         this.column = column || uniqueId("builderField");
 
-        form.add({
-            key: `${this.column}St`,
-            options: {
-                bc,
-                output: (value) =>
-                    this.state.checkSt && value ? {datatype, format, operator: "ge", property: column, value} : "",
-            },
+        form.registerField(`${this.column}St`, {
+            bc,
+            output: (field) =>
+                this.state.checkSt && field.value
+                    ? {datatype, format, operator: "ge", property: column, value: field.value}
+                    : "",
+            pageStore,
         });
-        form.add({
-            key: `${this.column}En`,
-            options: {
-                bc,
-                output: (value) =>
-                    this.state.checkEn && value ? {datatype, format, operator: "le", property: column, value} : "",
-            },
+
+        form.registerField(`${this.column}En`, {
+            bc,
+            output: (field) =>
+                this.state.checkEn && field.value
+                    ? {datatype, format, operator: "le", property: column, value: field.value}
+                    : "",
+            pageStore,
         });
-        form.add({
-            key: `${this.column}`,
-            options: {
-                bc,
-                output: (value) =>
-                    this.state.checkEq && value ? {datatype, format, operator: "eq", property: column, value} : "",
-            },
+
+        form.registerField(`${this.column}`, {
+            bc,
+            output: (field) =>
+                this.state.checkEq && field.value
+                    ? {datatype, format, operator: "eq", property: column, value: field.value}
+                    : "",
+            pageStore,
         });
 
         this.prepareConfigs();
@@ -77,7 +79,7 @@ class GCFilterFieldDate extends React.Component<PropsType, StateType> {
         return ["St", "En", ""].some((fieldType: string) => {
             const key = `${this.column}${fieldType}`;
 
-            return this.state[`check${fieldType || "Eq"}`] && Boolean(form.has(key) && form.$(key).get("value"));
+            return this.state[`check${fieldType || "Eq"}`] && Boolean(form.has(key) && form.$(key).value);
         });
     };
 

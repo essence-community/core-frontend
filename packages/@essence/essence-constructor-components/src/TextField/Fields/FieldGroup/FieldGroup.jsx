@@ -48,8 +48,8 @@ class FieldGroup extends React.Component<PropsType, StateType> {
 
         this.columns = getColumns(childs);
 
-        field.set("value", this.handleGetValues());
-        field.set("default", this.handleGetValues());
+        field.onChange(this.handleGetValues());
+        field.setDefaultValue(this.handleGetValues());
 
         this.handleChangeReqCount(reqcount || "0");
 
@@ -100,8 +100,8 @@ class FieldGroup extends React.Component<PropsType, StateType> {
     handleChangeValue = (status: number) => {
         const {field} = this.props;
 
-        field.set("value", status);
-        field.set("default", status);
+        field.onChange(status);
+        field.setDefaultValue(status);
         field.validate({showErrors: true});
     };
 
@@ -114,7 +114,7 @@ class FieldGroup extends React.Component<PropsType, StateType> {
     handleChangeReqCount = (reqcount: string) => {
         const reqCount = parseInt(reqcount, 10) || 0;
 
-        this.props.field.set("rules", [`reqcount:${reqCount},${this.columns.length}`]);
+        this.props.field.setExtraRules([`reqcount:${reqCount},${this.columns.length}`]);
 
         if (this._isMounted) {
             this.props.field.validate({showErrors: true});

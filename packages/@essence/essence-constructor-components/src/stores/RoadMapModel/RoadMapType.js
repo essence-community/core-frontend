@@ -1,6 +1,5 @@
 // @flow
 import {type ObservableMap} from "mobx";
-import {type Form} from "mobx-react-form";
 import {type BuilderBaseType} from "../../BuilderType";
 import {type StoreBaseModelInterface, type StoreBaseModelPropsType} from "../StoreBaseModel";
 import {type RecordsModelType} from "../RecordsModel";

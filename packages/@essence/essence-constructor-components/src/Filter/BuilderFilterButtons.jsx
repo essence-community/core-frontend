@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react";
 import {observer} from "mobx-react";
-import {EditorContex} from "@essence-community/constructor-share/context";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
@@ -26,8 +25,6 @@ type PropsType = {|
 |};
 
 class BuilderFilterButtons extends React.Component<PropsType> {
-    static contextType = EditorContex;
-
     btnsFilter: Object;
 
     // eslint-disable-next-line max-lines-per-function

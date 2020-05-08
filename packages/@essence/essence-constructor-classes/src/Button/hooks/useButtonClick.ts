@@ -2,7 +2,7 @@ import * as React from "react";
 import {IBuilderConfig, IPageModel, IBuilderMode} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_MASTER_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import {
-    EditorContex,
+    FormContext,
     RecordContext,
     PopoverContext,
     IPopoverContext,
@@ -38,7 +38,7 @@ export function useButtonClick(
     const {pageStore, bc, disabled, fileInputStore} = props;
     const [isDisabled, setIsDisabled] = React.useState(false);
     const isMountedRef = React.useRef(false);
-    const editorCtx = React.useContext(EditorContex);
+    const formCtx = React.useContext(FormContext);
     const recordCtx = React.useContext(RecordContext);
     const popoverCtx = React.useContext(PopoverContext);
 
@@ -66,7 +66,7 @@ export function useButtonClick(
                         typeof builderStore.handlers[handlerBtn] === "function"
                     ) {
                         promise = builderStore.handlers[handlerBtn](bc.mode as IBuilderMode, bc, {
-                            form: editorCtx?.form,
+                            form: formCtx,
                             record: recordCtx,
                             ...data,
                         });
@@ -79,7 +79,7 @@ export function useButtonClick(
                     if (builderStore && typeof builderStore[handlerBtn] === "function") {
                         // @ts-ignore
                         promise = builderStore[handlerBtn](bc.mode, bc, {
-                            form: editorCtx?.form,
+                            form: formCtx,
                             record: recordCtx,
                             ...data,
                         });

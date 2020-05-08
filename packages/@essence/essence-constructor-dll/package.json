@@ -22,7 +22,6 @@
     "babel-preset-react-app": "9.1.0",
     "mobx": "^5.15.0",
     "mobx-react": "6.1.4",
-    "mobx-react-form": "2.0.8",
     "react": "16.12.0",
     "react-dom": "16.12.0"
   },

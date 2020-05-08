@@ -37,6 +37,10 @@ export class Field implements IField {
 
     private isArray: boolean;
 
+    private disabled: boolean;
+
+    private hidden: boolean;
+
     @computed get label() {
         return this.bc[VAR_RECORD_DISPLAYED];
     }
@@ -197,23 +201,25 @@ export class Field implements IField {
 
     @action
     validate = () => {
-        const errors = this.rules.reduce<TError[]>((acc, ruleConfig) => {
-            const [rule, req] = ruleConfig.split(":");
+        if (this.disabled || this.hidden) {
+            this.errors = [];
+        } else {
+            const errors = this.rules.reduce<TError[]>((acc, ruleConfig) => {
+                const [rule, req] = ruleConfig.split(":");
 
-            if (validations[rule]) {
-                const err: TError | undefined = validations[rule](this, this.form, req);
+                if (validations[rule]) {
+                    const err: TError | undefined = validations[rule](this, this.form, req);
 
-                if (err) {
-                    acc.push(err);
+                    if (err) {
+                        acc.push(err);
+                    }
                 }
-            }
 
-            return acc;
-        }, []);
+                return acc;
+            }, []);
 
-        this.errors = errors;
-
-        return undefined;
+            this.errors = errors;
+        }
     };
 
     @action
@@ -276,5 +282,15 @@ export class Field implements IField {
     @action
     redirect = () => {
         makeRedirect(this.bc, this.pageStore, this.form.values);
+    };
+
+    @action
+    setDisabled = (disabled = false) => {
+        this.disabled = disabled;
+    };
+
+    @action
+    setHidden = (hidden = false) => {
+        this.hidden = hidden;
     };
 }

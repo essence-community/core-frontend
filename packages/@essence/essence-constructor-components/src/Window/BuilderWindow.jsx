@@ -6,7 +6,7 @@ import {withStyles} from "@material-ui/core/styles";
 import cn from "classnames";
 import {Grid, Dialog, DialogTitle, Checkbox, FormControlLabel} from "@material-ui/core";
 import {toSize, toColumnStyleWidth, withTranslation, WithT} from "@essence-community/constructor-share/utils";
-import {getComponent} from "@essence-community/constructor-share/components";
+import {mapComponents} from "@essence-community/constructor-share/components";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {
@@ -15,7 +15,6 @@ import {
     VAR_RECORD_CV_DESCRIPTION,
 } from "@essence-community/constructor-share/constants";
 import Scrollbars from "../Components/Scrollbars/Scrollbars";
-import BuilderField from "../TextField/BuilderField";
 import {getModeTitle} from "../utils/string";
 import {checkEditable} from "../utils/access";
 import WindowMessageCancel from "../WindowMessage/WindowMessageCancel";
@@ -158,11 +157,11 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType & WithT> {
                             wrap="nowrap"
                             style={this.contentStyle}
                         >
-                            {store.childs.map((field) => {
-                                let fieldBc = field;
+                            {mapComponents(store.childs, (ChildCmp, childBc) => {
+                                let fieldBc = childBc;
                                 const isDisabled = !checkEditable(store.config.mode, fieldBc.editmode);
 
-                                if (isDisabled && field.visibleinwindow === "false") {
+                                if (isDisabled && fieldBc.visibleinwindow === "false") {
                                     return null;
                                 }
 
@@ -173,15 +172,13 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType & WithT> {
                                     };
                                 }
 
-                                const Component = getComponent(fieldBc.type, fieldBc.customid) || BuilderField;
-
                                 return (
                                     <Grid
-                                        key={field[VAR_RECORD_PAGE_OBJECT_ID]}
+                                        key={fieldBc[VAR_RECORD_PAGE_OBJECT_ID]}
                                         item
-                                        style={toColumnStyleWidth(field.width)}
+                                        style={toColumnStyleWidth(fieldBc.width)}
                                     >
-                                        <Component bc={fieldBc} editing pageStore={pageStore} visible={visible} />
+                                        <ChildCmp bc={fieldBc} editing pageStore={pageStore} visible={visible} />
                                     </Grid>
                                 );
                             })}

@@ -8,12 +8,13 @@ import {IField} from "./types";
 interface IUseFieldProps {
     bc: IBuilderConfig;
     pageStore: IPageModel;
-    disabled?: boolean;
     isArray?: boolean;
     output?: (field: IField) => IRecord | FieldValue;
+    disabled?: boolean;
+    hidden?: boolean;
 }
 
-export const useField = ({bc, pageStore, output, isArray}: IUseFieldProps): IField => {
+export const useField = ({bc, pageStore, output, isArray, disabled, hidden}: IUseFieldProps): IField => {
     const form = useContext(FormContext);
     const parentKey = useContext(ParentKeyContext);
     const key = useMemo(() => {
@@ -40,6 +41,11 @@ export const useField = ({bc, pageStore, output, isArray}: IUseFieldProps): IFie
 
         return undefined;
     }, [bc, field, pageStore]);
+
+    useEffect(() => {
+        field.setDisabled(disabled);
+        field.setHidden(hidden);
+    }, [field, disabled, hidden]);
 
     useEffect(() => {
         return () => {

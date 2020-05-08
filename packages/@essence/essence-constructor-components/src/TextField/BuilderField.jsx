@@ -30,7 +30,7 @@ export const BuilderFieldBase = (props) => {
     const form = React.useContext(FormContext);
     const {bc, pageStore, disabled, editing = true, onChange, tabIndex, hidden, readOnly, noLabel, visible} = props;
     const classes = useStyles();
-    const field = useField({bc, disabled, pageStore});
+    const field = useField({bc, disabled, hidden, pageStore});
     const disposers = React.useMemo(() => [], []);
     const isDisabled = disabled || !editing;
 

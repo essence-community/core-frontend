@@ -22,7 +22,9 @@ export class Form implements IForm {
     @observable public submitting = false;
 
     @computed get values(): IRecord {
-        const values: IRecord = {};
+        const values: IRecord = {
+            ...this.initialValues,
+        };
 
         for (const [key, field] of this.fields.entries()) {
             if (field.output) {

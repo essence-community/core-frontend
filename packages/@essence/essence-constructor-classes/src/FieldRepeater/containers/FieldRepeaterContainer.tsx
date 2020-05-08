@@ -24,7 +24,7 @@ import {RepeaterGroup} from "../components/RepeaterGroup";
 
 export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden} = props;
-    const field = useField({bc, isArray: true, pageStore});
+    const field = useField({bc, disabled, hidden, isArray: true, pageStore});
     const applicationStore = React.useContext(ApplicationContext);
     const [trans] = useTranslation("meta");
     const modelOptions = useModel((options) => new FieldRepeaterModel(options), {

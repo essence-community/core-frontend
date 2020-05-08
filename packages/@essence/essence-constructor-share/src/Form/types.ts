@@ -24,12 +24,14 @@ export interface IField {
     clear(): void;
     invalidate(error: TError[] | TError): void;
     validate(): Promise<void> | void;
-    setExtraRules(extraRules: string[]): void;
-    setDefaultValue(defaultValue: FieldValue): void;
     resetValidation(): void;
     add(): void;
     del(idx?: number | string): void;
     redirect(): void;
+    setExtraRules(extraRules: string[]): void;
+    setDefaultValue(defaultValue: FieldValue): void;
+    setDisabled(disabled?: boolean): void;
+    setHidden(hidden?: boolean): void;
 
     // Events
     onChange(value: FieldValue): void;

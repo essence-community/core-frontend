@@ -148,7 +148,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
                 [VAR_RECORD_MASTER_ID]: `grid_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
                 [VAR_RECORD_PAGE_OBJECT_ID]: `btnok_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
                 [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
-                handlerFn: bc.collectionvalues === "array" ? this.selectArrayAction : this.selectAction,
+                handler: bc.collectionvalues === "array" ? "selectArrayAction" : "selectAction",
                 iconfont: "fa-check",
                 iconfontname: "fa",
                 onlyicon: "true",
@@ -161,7 +161,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
                 [VAR_RECORD_DISPLAYED]: "static:64aacc431c4c4640b5f2c45def57cae9",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `btnban_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
                 [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
-                handlerFn: this.closeAction,
+                handler: "closeAction",
                 iconfont: "fa-ban",
                 iconfontname: "fa",
                 onlyicon: "true",
@@ -366,4 +366,10 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
             }
         }
     });
+
+    handlers = {
+        closeAction: this.closeAction,
+        selectAction: this.selectAction,
+        selectArrayAction: this.selectArrayAction,
+    };
 }

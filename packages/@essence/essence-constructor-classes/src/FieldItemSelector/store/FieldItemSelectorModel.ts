@@ -4,23 +4,18 @@ import {
     VAR_RECORD_OBJECT_ID,
     VAR_RECORD_NAME,
 } from "@essence-community/constructor-share/constants";
+import {mapValueToArray} from "@essence-community/constructor-share/utils";
 import {StoreBaseModel} from "@essence-community/constructor-share/models/StoreBaseModel";
 import {saveAction} from "@essence-community/constructor-share/actions/saveAction";
-import {
-    IStoreBaseModelProps,
-    IBuilderConfig,
-    IBuilderMode,
-    FieldValue,
-    IRecord,
-} from "@essence-community/constructor-share/types";
+import {IStoreBaseModelProps, IBuilderConfig, IBuilderMode, IRecord} from "@essence-community/constructor-share/types";
 import {IFieldItemSelectorModel, IChildGridBuildConfig, IGridModel} from "./FieldItemSelectorModel.types";
 
-function getSelectionRecords(gridStore: IGridModel) {
+function getSelectionRecords(gridStore: IGridModel): IRecord[] {
     if (gridStore.bc.selmode === "MULTI" || gridStore.bc.selmode === "SIMPLE") {
-        return [...gridStore.selectedRecords.values()];
+        return mapValueToArray<string, IRecord>(gridStore.selectedRecords) as IRecord[];
     }
 
-    return [gridStore.recordsStore.selectedRecord];
+    return gridStore.recordsStore.selectedRecord ? [gridStore.recordsStore.selectedRecord] : [];
 }
 
 export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItemSelectorModel {
@@ -64,7 +59,7 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
         });
 
     @action
-    private applySaveAction = (fromStore: IGridModel, toStore: IGridModel, recs: Record<string, FieldValue>[]) => {
+    private applySaveAction = (fromStore: IGridModel, toStore: IGridModel, recs: IRecord[]) => {
         fromStore.recordsStore.removeRecordsAction(recs, this.bc.column!);
         toStore.recordsStore.addRecordsAction(recs);
 

@@ -13,6 +13,10 @@ export const GRID_CONFIGS: Record<string, GridProps> = {
         direction: "column",
         wrap: "nowrap",
     },
+    "vbox-wrap": {
+        direction: "column",
+        wrap: "wrap",
+    },
 };
 export const GRID_ALIGN_CONFIGS: Record<string, GridProps> = {
     "center-hbox": {

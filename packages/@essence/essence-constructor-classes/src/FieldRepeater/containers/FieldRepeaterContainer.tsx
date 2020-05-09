@@ -7,7 +7,7 @@ import {
     FieldValue,
     IRecord,
 } from "@essence-community/constructor-share";
-import {ApplicationContext, ParentKeyContext} from "@essence-community/constructor-share/context";
+import {ApplicationContext, ParentFieldContext} from "@essence-community/constructor-share/context";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_MASTER_ID,
@@ -71,7 +71,12 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
             <Group error={Boolean(!disabled && !field.isValid)} isRow={false} bc={props.bc}>
                 <Grid item xs={12}>
                     {value.map((childField: IRecord, idx: number) => (
-                        <ParentKeyContext.Provider key={idx} value={`${field.key}.${idx}`}>
+                        <ParentFieldContext.Provider
+                            key={idx}
+                            value={{
+                                key: `${field.key}.${idx}`,
+                            }}
+                        >
                             <RepeaterGroup
                                 {...props}
                                 idx={idx}
@@ -79,7 +84,7 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
                                 storeName={storeName}
                                 deleteLabel={trans("static:f7e324760ede4c88b4f11f0af26c9e97")}
                             />
-                        </ParentKeyContext.Provider>
+                        </ParentFieldContext.Provider>
                     ))}
                 </Grid>
                 <Grid item xs={12} container justify="flex-end">

@@ -7,15 +7,21 @@ import {
 import {mapValueToArray} from "@essence-community/constructor-share/utils";
 import {StoreBaseModel} from "@essence-community/constructor-share/models/StoreBaseModel";
 import {saveAction} from "@essence-community/constructor-share/actions/saveAction";
-import {IStoreBaseModelProps, IBuilderConfig, IBuilderMode, IRecord} from "@essence-community/constructor-share/types";
-import {IFieldItemSelectorModel, IChildGridBuildConfig, IGridModel} from "./FieldItemSelectorModel.types";
+import {
+    IStoreBaseModelProps,
+    IBuilderConfig,
+    IBuilderMode,
+    IStoreBaseModel,
+    IRecord,
+} from "@essence-community/constructor-share/types";
+import {IFieldItemSelectorModel, IChildGridBuildConfig} from "./FieldItemSelectorModel.types";
 
-function getSelectionRecords(gridStore: IGridModel): IRecord[] {
+function getSelectionRecords(gridStore: IStoreBaseModel): IRecord[] {
     if (gridStore.bc.selmode === "MULTI" || gridStore.bc.selmode === "SIMPLE") {
-        return mapValueToArray<string, IRecord>(gridStore.selectedRecords) as IRecord[];
+        return mapValueToArray(gridStore.recordsStore?.selectedRecords);
     }
 
-    return gridStore.recordsStore.selectedRecord ? [gridStore.recordsStore.selectedRecord] : [];
+    return gridStore.recordsStore?.selectedRecord ? [gridStore.recordsStore?.selectedRecord] : [];
 }
 
 export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItemSelectorModel {
@@ -39,9 +45,9 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
         };
     }
 
-    public getStores = ({fieldFrom, fieldTo}: IChildGridBuildConfig): [IGridModel?, IGridModel?] => [
-        this.pageStore.stores.get(fieldFrom[VAR_RECORD_PAGE_OBJECT_ID]) as any,
-        this.pageStore.stores.get(fieldTo[VAR_RECORD_PAGE_OBJECT_ID]) as any,
+    public getStores = ({fieldFrom, fieldTo}: IChildGridBuildConfig): [IStoreBaseModel?, IStoreBaseModel?] => [
+        this.pageStore.stores.get(fieldFrom[VAR_RECORD_PAGE_OBJECT_ID]),
+        this.pageStore.stores.get(fieldTo[VAR_RECORD_PAGE_OBJECT_ID]),
     ];
 
     @action
@@ -59,11 +65,11 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
         });
 
     @action
-    private applySaveAction = (fromStore: IGridModel, toStore: IGridModel, recs: IRecord[]) => {
-        fromStore.recordsStore.removeRecordsAction(recs, this.bc.column!);
-        toStore.recordsStore.addRecordsAction(recs);
+    private applySaveAction = (fromStore: IStoreBaseModel, toStore: IStoreBaseModel, recs: IRecord[]) => {
+        fromStore.recordsStore!.removeRecordsAction(recs, this.bc.column!);
+        toStore.recordsStore!.addRecordsAction(recs);
 
-        toStore.recordsStore.sortRecordsAction();
+        toStore.recordsStore!.sortRecordsAction();
         fromStore.clearStoreAction();
     };
 
@@ -79,7 +85,7 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
             return false;
         }
 
-        const recs = isAll ? fromStore.recordsStore.records : getSelectionRecords(fromStore);
+        const recs = isAll ? fromStore.recordsStore?.records || [] : getSelectionRecords(fromStore);
         const saveStatus = await this.saveAction(recs, mode);
 
         if (saveStatus) {

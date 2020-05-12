@@ -7,12 +7,12 @@ import {
 import * as React from "react";
 import {Grid} from "@material-ui/core";
 import {useModel} from "@essence-community/constructor-share/hooks";
-import {IRecord} from "@essence-community/constructor-share/types";
+import {IRecord, IStoreBaseModel} from "@essence-community/constructor-share/types";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
-import {useObserver, useDisposable} from "mobx-react-lite";
+import {useObserver} from "mobx-react-lite";
 import {mapComponents, getComponent} from "@essence-community/constructor-share/components";
 import {reaction} from "mobx";
-import {IGridModel, IClassWithEditingProps} from "../store/FieldItemSelectorModel.types";
+import {IClassWithEditingProps} from "../store/FieldItemSelectorModel.types";
 import {FieldItemSelectorModel} from "../store/FieldItemSelectorModel";
 
 // eslint-disable-next-line max-lines-per-function
@@ -94,8 +94,8 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
         [bc, store],
     );
     const [prevRecords, setPrevRecords] = React.useState<IRecord[]>([]);
-    const [fromStore, setFromStore] = React.useState<IGridModel | undefined>(undefined);
-    const [toStore, setToStore] = React.useState<IGridModel | undefined>(undefined);
+    const [fromStore, setFromStore] = React.useState<IStoreBaseModel | undefined>(undefined);
+    const [toStore, setToStore] = React.useState<IStoreBaseModel | undefined>(undefined);
     const checkDisabled = React.useCallback((gridStore) => {
         if (!gridStore) {
             return false;
@@ -106,12 +106,12 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
             : !gridStore.recordsStore.selectedRecord;
     }, []);
 
-    useDisposable(() => {
-        const disposers: any[] = [];
+    React.useEffect(() => {
+        const disposers: ReturnType<typeof reaction>[] = [];
 
         disposers.push(
             reaction(
-                () => props.pageStore.stores.get(store.fieldFrom[VAR_RECORD_PAGE_OBJECT_ID]) as IGridModel,
+                () => props.pageStore.stores.get(store.fieldFrom[VAR_RECORD_PAGE_OBJECT_ID]),
                 (gridStore) => {
                     setFromStore(gridStore);
                 },
@@ -119,45 +119,49 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
         );
         disposers.push(
             reaction(
-                () => props.pageStore.stores.get(store.fieldTo[VAR_RECORD_PAGE_OBJECT_ID]) as IGridModel,
+                () => props.pageStore.stores.get(store.fieldTo[VAR_RECORD_PAGE_OBJECT_ID]),
                 (gridStore) => {
                     setToStore(gridStore);
                 },
             ),
         );
 
-        return () => disposers.forEach((disposer: any) => disposer());
-    }, [hasError]);
+        return () => disposers.forEach((disposer) => disposer());
+    }, [hasError, props.pageStore.stores, store.fieldFrom, store.fieldTo]);
 
-    useDisposable(() => {
-        const disposers: any[] = [];
+    React.useEffect(() => {
+        const disposers: ReturnType<typeof reaction>[] = [];
 
         if (toStore && fromStore) {
             disposers.push(
                 reaction(
-                    () => fromStore.recordsStore.recordsAll,
+                    () => fromStore.recordsStore!.recordsAll,
                     () => {
-                        if (toStore.recordsStore.isLoading) {
-                            fromStore.recordsStore.setRecordsAction(prevRecords);
-                            setPrevRecords(fromStore.recordsStore.records);
+                        if (toStore.recordsStore!.isLoading) {
+                            fromStore.recordsStore!.setRecordsAction(prevRecords);
+                            setPrevRecords(fromStore.recordsStore!.records);
                         } else {
-                            fromStore.recordsStore.removeRecordsAction(toStore.recordsStore.records, bc.column!, true);
+                            fromStore.recordsStore!.removeRecordsAction(
+                                toStore.recordsStore!.records,
+                                bc.column!,
+                                true,
+                            );
                         }
                     },
                 ),
             );
             disposers.push(
                 reaction(
-                    () => toStore.recordsStore.recordsAll,
+                    () => toStore.recordsStore!.recordsAll,
                     () => {
-                        fromStore.recordsStore.removeRecordsAction(toStore.recordsStore.records, bc.column!, true);
+                        fromStore.recordsStore!.removeRecordsAction(toStore.recordsStore!.records, bc.column!, true);
                     },
                 ),
             );
         }
 
-        return () => disposers.forEach((disposer: any) => disposer());
-    }, [hasError, fromStore, toStore]);
+        return () => disposers.forEach((disposer) => disposer());
+    }, [hasError, fromStore, toStore, prevRecords, bc.column]);
 
     return useObserver(() => {
         const {disabled, pageStore, visible} = props;

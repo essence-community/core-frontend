@@ -1,6 +1,5 @@
 import * as DOMPurify from "dompurify";
 import {isEmpty, isString} from "lodash";
-import {values} from "mobx";
 import {TText} from "../types/SnackbarModel";
 import {TFunction} from "./I18n";
 
@@ -88,15 +87,15 @@ export function setglobalToParse(str: string): string {
     return `{${objectStr}}`;
 }
 
-export function mapValueToArray<K, L>(map?: Map<K, L>) {
-    const arr = [];
-
+export function mapValueToArray<K, L>(map?: Map<K, L>): L[] {
     if (!map) {
         return [];
     }
+    const arr: L[] = [];
+
     for (const value of map.values()) {
         arr.push(value);
     }
 
-    return values;
+    return arr;
 }

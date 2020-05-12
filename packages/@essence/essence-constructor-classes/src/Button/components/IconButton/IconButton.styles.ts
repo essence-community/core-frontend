@@ -10,16 +10,26 @@ export const useStyles = makeStyles(
             right: 0,
             top: -5,
         },
+        highlightFab: {
+            ...theme.typography.body1,
+            color: "red",
+            position: "absolute",
+            right: 8,
+            top: 0,
+        },
         open: {},
         // Save
-        "uitype-5": {
-            "&:hover": {
-                backgroundColor: theme.palette.primary.light,
-            },
-            backgroundColor: theme.palette.primary.light,
-            color: theme.palette.common.white,
-            minWidth: 42,
-        },
+        "uitype-5":
+            theme.palette.type === "dark"
+                ? {
+                      "&:hover": {
+                          backgroundColor: theme.palette.primary.light,
+                      },
+                      backgroundColor: theme.palette.primary.light,
+                      color: theme.palette.common.white,
+                      minWidth: 42,
+                  }
+                : {},
         // Cancel
         "uitype-6": {
             "&:hover": {

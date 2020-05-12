@@ -38,6 +38,7 @@ class GridSettings extends React.Component<PropsType, StateType> {
         [VAR_RECORD_PAGE_OBJECT_ID]: "gridsettings",
         handler: "onOpenSettings",
         iconfont: "fa-sliders",
+        onlyicon: "true",
         type: "BTN",
         uitype: "11",
     };

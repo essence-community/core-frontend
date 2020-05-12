@@ -66,7 +66,17 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
     const classes = useStyles(props);
     const theme = useTheme();
     const {route} = pageStore;
-    const form: IForm = React.useMemo(() => new Form({hooks: {onChange: onFormChange}, mode: "1", values: {}}), []);
+    const form: IForm = React.useMemo(
+        () =>
+            new Form({
+                editing: true,
+                hooks: {onChange: onFormChange},
+                mode: "1",
+                placement: "pager",
+                values: {},
+            }),
+        [],
+    );
 
     // TODO: need to ferify it
     React.useEffect(() => {

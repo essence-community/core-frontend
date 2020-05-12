@@ -7,7 +7,7 @@ import {Grid} from "@material-ui/core";
 import {setComponent, mapComponents} from "@essence-community/constructor-share/components";
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {toColumnStyleWidth} from "@essence-community/constructor-share/utils";
-import {VAR_RECORD_MASTER_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import forOwn from "lodash/forOwn";
 import {findSetKey} from "../utils/findKey";
 import {type PropsType, type StateType} from "./FormPanelTypes";
@@ -104,7 +104,7 @@ class FormPanelComponent extends React.Component<PropsType, StateType> {
     };
 
     render() {
-        const {bc, disabled, pageStore, visible, parentBc} = this.props;
+        const {bc, disabled, pageStore, visible} = this.props;
         const {align = "stretch", contentview = "vbox"} = bc;
         const {initialValues} = this.state;
 
@@ -112,17 +112,11 @@ class FormPanelComponent extends React.Component<PropsType, StateType> {
             <UIForm
                 onSubmit={this.handleSearch}
                 onSetValues={this.handleSetValues}
-                injectType="filter"
                 submitOnChange
-                dataPageObject={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-form`}
+                bc={bc}
                 mode="1"
                 initialValues={initialValues}
                 pageStore={pageStore}
-                hasMaster={
-                    parentBc &&
-                    Boolean(parentBc[VAR_RECORD_MASTER_ID]) &&
-                    parentBc[VAR_RECORD_MASTER_ID] !== bc[VAR_RECORD_PAGE_OBJECT_ID]
-                }
             >
                 <Grid
                     container

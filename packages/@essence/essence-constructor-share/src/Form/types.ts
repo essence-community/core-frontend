@@ -1,3 +1,4 @@
+import {ObservableMap} from "mobx";
 import {TFunction} from "../utils";
 import {FieldValue, IRecord, IBuilderConfig, IPageModel} from "../types";
 import {IBuilderMode} from "../types/Builder";
@@ -11,6 +12,7 @@ export interface IRegisterFieldOptions {
 
 export interface IField {
     key: string;
+    bc: IBuilderConfig;
     value: FieldValue;
     defaultValue: FieldValue;
     label?: string;
@@ -43,13 +45,22 @@ export interface IForm {
     hooks: IFormHooks;
     mode: IBuilderMode;
     isValid: boolean;
+    placement: string;
+    isDirty: boolean;
+    submitting: boolean;
+    fields: ObservableMap<string, IField>;
+    bc?: IBuilderConfig;
     submit(): void;
+    reset(): void;
+    clear(): void;
     update(initialValues?: IRecord, isReset?: boolean): void;
     select(key: string): IField | undefined;
     registerField(key: string, options: IRegisterFieldOptions): IField;
     unregisterField(key: string): void;
     validate(): Promise<void> | void;
     resetValidation(): void;
+    setEditing(editing: boolean): void;
+    setIsDirty(boolean: true): void;
 
     // Event
     onSubmit(event: React.SyntheticEvent): void;
@@ -68,6 +79,9 @@ export interface IFormProps {
     values: IRecord;
     hooks: IFormHooks;
     mode?: IBuilderMode;
+    placement: string;
+    editing: boolean;
+    bc?: IBuilderConfig;
 }
 
 export type TError = (trans: TFunction) => string;

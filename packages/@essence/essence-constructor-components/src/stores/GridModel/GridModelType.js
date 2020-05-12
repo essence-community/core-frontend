@@ -2,7 +2,6 @@
 
 import {type CkIdType, type BuilderBaseType, type BuilderModeType, type FormOptionsType} from "../../BuilderType";
 import {type WindowModelType} from "../WindowModel/WindowModelTypes";
-import {type BuilderFilterType} from "../../Filter/BuilderFilterType";
 import {type RecordsModelType} from "../RecordsModel";
 import {type StoreBaseModelInterface} from "../StoreBaseModel/StoreBaseModelTypes";
 
@@ -50,7 +49,7 @@ export type GridBuilderType = BuilderBaseType & {
     topbtn?: Array<Object>,
     orderdirection: string,
     orderproperty: string,
-    filters?: Array<BuilderFilterType>,
+    filters?: Array<any>,
     height?: string,
     contextmenus?: Array<Object>,
     hideactions?: "false" | "true",
@@ -75,7 +74,6 @@ export interface GridModelInterface extends StoreBaseModelInterface {
     +isEdit: boolean;
     +rootNode: boolean;
     +editMode: string;
-    +isFilterOpen: boolean;
     +selectedRecord: Object | null;
     +selectedRecords: Map<CkIdType, Object>;
     +isPageSelectedRecords: boolean;
@@ -99,7 +97,6 @@ export interface GridModelInterface extends StoreBaseModelInterface {
     +removeRefAction: (ckId: CkIdType) => void;
     +expandSelectedAction: () => void;
     +handleNextStepAction: () => void;
-    +toggleIsFilterOpen: () => void;
     +loadRecordsAction: () => Promise<*>;
     +removeSelectedRecordAction: () => boolean;
     +toggleSelectedRecordAction: (ckId: CkIdType, record: Object, isChecked?: boolean) => boolean;
@@ -107,7 +104,6 @@ export interface GridModelInterface extends StoreBaseModelInterface {
     +scrollToRecordAction: (params: Object) => Promise<void>;
     +winReloadStores: () => void;
     +setColumnsWidth: (ckId: CkIdType, width: number) => void;
-    +applyFiltersAction: () => Promise<boolean>;
     +onPrintExcel: (values: Object, bcBtn: BuilderBaseType) => Promise<boolean>;
     +searchAction: (values: Object, options?: FormOptionsType) => Promise<void | Object>;
     +setHeightAction: (height: number) => void;

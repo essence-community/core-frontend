@@ -14,6 +14,7 @@ import {
     IRecordsModel,
 } from "../../types";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_PARENT_ID} from "../../constants";
+import {IForm} from "../../Form";
 
 export class PageModelAbstract implements IPageModel {
     public fieldValueMaster: ObservableMap<string, FieldValue> = observable.map();
@@ -28,6 +29,8 @@ export class PageModelAbstract implements IPageModel {
     public stores: ObservableMap<string, IStoreBaseModel> = observable.map();
 
     public globalValues: ObservableMap<string, FieldValue> = observable.map();
+
+    public forms: ObservableMap<string, IForm> = observable.map();
 
     public pageId = "1";
 
@@ -95,10 +98,6 @@ export class PageModelAbstract implements IPageModel {
 
     public setPageInnerElAction = (_pageInnerEl: HTMLDivElement | null) => {};
 
-    public addFormAction = (_formType: any, _form: any) => {};
-
-    public removeFormAction = (_formType: any, _form: any) => {};
-
     public setLoadingAction = (_isLoading: boolean) => {};
 
     public resetStepAction = () => {};
@@ -140,4 +139,8 @@ export class PageModelAbstract implements IPageModel {
     public getNextStepName = (stepnamenext?: string) => undefined;
 
     public handleScrollAction = () => {};
+
+    public addForm = () => {};
+
+    public removeForm = () => {};
 }

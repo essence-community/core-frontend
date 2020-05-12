@@ -16,6 +16,7 @@ export const IconButton: React.FC<IButtonInternalProps> = (props) => {
     const {iconfont, iconfontname, iconsize} = bc;
     const displayed = bc[VAR_RECORD_DISPLAYED];
     const qtip = bc.tipmsg || displayed;
+    const isActionButton = bc.uitype === "4" || bc.uitype === "5";
     const icon = iconfont ? (
         <Icon iconfont={iconfont} iconfontname={iconfontname as "fa" | "mdi"} size={iconsize} color="inherit" />
     ) : null;
@@ -29,10 +30,11 @@ export const IconButton: React.FC<IButtonInternalProps> = (props) => {
     };
 
     // Fab for add or save
-    if (theme.palette.type === "dark" && (bc.uitype === "4" || bc.uitype === "5")) {
+    if (theme.palette.type === "dark" && isActionButton) {
         return (
-            <Fab {...buttonProps} color={getColor(bc.uitype)} size="small">
+            <Fab {...buttonProps} color={getColor(bc.uitype)} size="small" type="submit">
                 {icon}
+                {bc.required === "true" ? <span className={classes.highlightFab}>*</span> : null}
             </Fab>
         );
     }
@@ -41,7 +43,7 @@ export const IconButton: React.FC<IButtonInternalProps> = (props) => {
         <MuiIconButton
             {...buttonProps}
             tabIndex={bc.uitype === "7" ? -1 : undefined}
-            type={bc.uitype === "5" ? "submit" : undefined}
+            type={isActionButton ? "submit" : undefined}
             color={bc.uitype === "11" || bc.uitype === "12" ? "inherit" : getColor(bc.uitype)}
         >
             {icon}

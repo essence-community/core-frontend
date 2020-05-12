@@ -1,4 +1,3 @@
-// @flow
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_OBJECT_ID,
@@ -6,7 +5,7 @@ import {
     VAR_RECORD_NAME,
 } from "@essence-community/constructor-share/constants";
 
-const filterComboGlobalBc = {
+export const filterComboGlobalBc = {
     [VAR_RECORD_NAME]: "filter",
     [VAR_RECORD_OBJECT_ID]: "filter",
     [VAR_RECORD_PAGE_OBJECT_ID]: "filter",
@@ -45,5 +44,3 @@ const filterComboGlobalBc = {
     ],
     filtervaluessave: "true",
 };
-
-export default filterComboGlobalBc;

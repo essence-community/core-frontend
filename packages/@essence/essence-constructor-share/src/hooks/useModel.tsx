@@ -31,7 +31,7 @@ export function useModel<IModel extends IModelRequired, P extends IUseModelProps
     React.useEffect(() => {
         // Const storeNext: IModel = createModel(props);
         const storeNext = store;
-        const isAutoLoadNext = checkAutoload({bc, pageStore, recordsStore: storeNext.recordsStore});
+        const isAutoLoadNext = checkAutoload({bc, pageStore});
 
         const name = pageStore.addStore(storeNext, storeName, true);
 

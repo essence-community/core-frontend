@@ -49,7 +49,7 @@ export const AuthFormContainer: React.FC<IClassProps> = (props) => {
                             <img src={logo} alt="logo" height="50" width="50" />
                             {settingsStore.settings[VAR_SETTING_PROJECT_AUTH_TITLE]}
                         </Typography>
-                        <UIForm pageStore={pageStore} className={classes.form} onSubmit={noop}>
+                        <UIForm bc={bc} pageStore={pageStore} className={classes.form} onSubmit={noop} placement="auth">
                             <Grid container direction="column" spacing={3}>
                                 {mapComponents(bc.childs, (ChidCmp, childBc) => (
                                     <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} item>

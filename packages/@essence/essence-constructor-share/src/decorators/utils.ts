@@ -1,15 +1,14 @@
-import {IBuilderConfig, IPageModel, IRecordsModel} from "../types";
+import {IBuilderConfig, IPageModel} from "../types";
 import {VAR_RECORD_MASTER_ID} from "../constants";
 import {getMasterObject} from "../utils";
 
 interface ICheckAutoloadPropsType {
     bc: IBuilderConfig;
     pageStore: IPageModel;
-    recordsStore?: IRecordsModel;
 }
 
-export function checkAutoload({bc, recordsStore, pageStore}: ICheckAutoloadPropsType) {
-    if (!recordsStore || bc.datatype === "tree" || bc.datatype === "grid") {
+export function checkAutoload({bc, pageStore}: ICheckAutoloadPropsType) {
+    if (bc.datatype === "tree" || bc.datatype === "grid") {
         return false;
     }
 

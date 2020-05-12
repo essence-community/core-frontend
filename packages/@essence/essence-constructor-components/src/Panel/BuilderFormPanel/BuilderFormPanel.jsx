@@ -2,7 +2,6 @@
 import * as React from "react";
 import {compose} from "recompose";
 import {observer} from "mobx-react";
-import noop from "lodash/noop";
 import {Paper, Grid} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
@@ -14,7 +13,6 @@ import {buttonDirection} from "../../constants";
 import commonDecorator from "../../decorators/commonDecorator";
 import {PanelFormModel, type PanelFormModelType} from "../../stores/PanelFormModel";
 import withModelDecorator from "../../decorators/withModelDecorator";
-import BuilderFilter from "../../Filter/BuilderFilter";
 import EmptyTitle from "../../Components/EmptyTitle/EmptyTitle";
 import Content from "../../Components/Content/Content";
 import {type BuilderPanelPropsType} from "../BuilderPanelType";
@@ -47,6 +45,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
         const isHideActions = hideactions === "true";
         const isEditing = readOnly ? false : store.editing;
         const isFilterActionsPresent = filters.length > 0 && filters[0].dynamicfilter !== "true";
+        const filterStore = filters[0] && pageStore.stores.get(filters[0][VAR_RECORD_PAGE_OBJECT_ID]);
         const transCvDisplayed = t(bc[VAR_RECORD_DISPLAYED]);
         const classNameRoot = cn(classes.root, isHideActions ? classes.rootActionsHide : classes.rootActions, {
             [classes.panelEditing]: isEditing,
@@ -58,29 +57,23 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
             if (filters[0].topbtn?.length > 0) {
                 marginTop = filters[0].topbtn.length * FITER_ONE_BUTTON;
             } else {
-                marginTop = store.isFilterOpen ? FILTER_THREE_BUTTON : FITER_ONE_BUTTON;
+                marginTop = filterStore && filterStore.isOpen ? FILTER_THREE_BUTTON : FITER_ONE_BUTTON;
             }
         }
 
         const filterComponent = (
             <Grid item xs>
-                {filters.map((filter: Object) => (
-                    <BuilderFilter
-                        key={filter[VAR_RECORD_PAGE_OBJECT_ID]}
-                        open={store.isFilterOpen}
-                        disabled={false}
-                        bc={filter}
-                        parentBc={bc}
-                        onSearch={store.searchAction}
+                {mapComponents(filters, (ChildCmp, childBc) => (
+                    <ChildCmp
+                        key={bc[VAR_RECORD_PAGE_OBJECT_ID]}
+                        // {...props}
                         pageStore={pageStore}
-                        handleGlobals={noop}
+                        hidden={this.props.hidden}
+                        disabled={disabled}
+                        readOnly={readOnly}
                         visible={visible}
-                        title={hideTitle ? undefined : transCvDisplayed}
-                        isHideActions={isHideActions}
-                        addRefAction={store.addRefAction}
-                        onExited={this.handleUpdateTop}
-                        onEntered={this.handleUpdateTop}
-                        absolute={true}
+                        elevation={elevation}
+                        bc={childBc}
                     />
                 ))}
             </Grid>
@@ -135,6 +128,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
 
         const themeContent = (
             <UIForm
+                bc={bc}
                 initialValues={store.recordsStore.records[0] || EMPTY_RECORD}
                 pageStore={pageStore}
                 isEditing={isEditing}

@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import {action, extendObservable} from "mobx";
+import {action} from "mobx";
 import noop from "lodash/noop";
 import {VALUE_SELF_ALWAYSFIRST} from "@essence-community/constructor-share/constants";
 import {type BuilderModeType, type CkIdType, type BuilderBaseType} from "../../BuilderType";
@@ -22,8 +22,6 @@ export class PanelFormModel extends HistoryModel implements PanelFormModelInterf
 
     panelBc: any;
 
-    isFilterOpen: boolean;
-
     refs: Map<CkIdType, HTMLDivElement | React.ElementRef<*>> = new Map();
 
     constructor({pageStore, bc}: StoreBaseModelPropsType) {
@@ -33,10 +31,6 @@ export class PanelFormModel extends HistoryModel implements PanelFormModelInterf
             ...bc,
             topbtn: this.btnsConfig.btns,
         };
-
-        extendObservable(this, {
-            isFilterOpen: true,
-        });
     }
 
     defaultHandlerBtnAction = action(
@@ -84,19 +78,7 @@ export class PanelFormModel extends HistoryModel implements PanelFormModelInterf
 
     clearStoreAction = noop;
 
-    toggleIsFilterOpen = action("toggleIsFilterOpen", () => {
-        this.isFilterOpen = !this.isFilterOpen;
-    });
-
     addRefAction = (ckId: CkIdType, node: HTMLDivElement | React.ElementRef<*>) => {
         this.refs.set(ckId, node);
-    };
-
-    handlers = {
-        onFilterToggle: () => {
-            this.toggleIsFilterOpen();
-
-            return Promise.resolve();
-        },
     };
 }

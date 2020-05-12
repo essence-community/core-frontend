@@ -5,7 +5,6 @@ import {observer} from "mobx-react";
 import {Paper} from "@material-ui/core";
 import {setComponent} from "@essence-community/constructor-share/components";
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import commonDecorator, {type CommonDecoratorInjectType} from "../decorators/commonDecorator";
 import {HistoryModel, type HistoryModelType} from "../stores/HistoryModel";
 import {type PageModelType} from "../stores/PageModel";
@@ -68,8 +67,8 @@ export class BaseBuilderHistoryPanel extends React.Component<PropsType & PropsSt
 
         return (
             <UIForm
+                bc={bc}
                 initialValues={selectedRecordValues}
-                dataPageObject={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-form`}
                 isEditing={store.editing}
                 mode={store.mode}
                 pageStore={pageStore}

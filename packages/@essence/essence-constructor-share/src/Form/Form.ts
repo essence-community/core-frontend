@@ -1,6 +1,6 @@
 import {action, computed, observable, ObservableMap} from "mobx";
 import {IRecord} from "../types";
-import {IBuilderMode} from "../types/Builder";
+import {IBuilderMode, IBuilderConfig} from "../types/Builder";
 import {Field} from "./Field";
 import {IField, IFormProps, IForm, IFormHooks, IRegisterFieldOptions} from "./types";
 
@@ -11,15 +11,35 @@ export class Form implements IForm {
 
     public mode: IBuilderMode;
 
+    /**
+     * Detect where the form use
+     * Can be: filter, panel, window, etc
+     */
+    public placement: string;
+
+    /**
+     * Status of the editing form
+     * Filter, Window - always editing
+     * Panel, History - when click on edit or add or ... button
+     */
+    public editing: boolean;
+
+    public bc?: IBuilderConfig;
+
     constructor(props: IFormProps) {
         this.hooks = props.hooks;
         this.initialValues = props.values;
         this.mode = props.mode || "1";
+        this.placement = props.placement;
+        this.editing = props.editing;
+        this.bc = props.bc;
     }
 
     @observable public fields: ObservableMap<string, IField> = observable.map();
 
     @observable public submitting = false;
+
+    @observable public isDirty = false;
 
     @computed get values(): IRecord {
         const values: IRecord = {
@@ -104,6 +124,26 @@ export class Form implements IForm {
                 field.clear();
             }
         }
+
+        this.setIsDirty(false);
+    };
+
+    @action
+    clear = () => {
+        for (const field of this.fields.values()) {
+            field.clear();
+        }
+
+        this.setIsDirty(false);
+    };
+
+    @action
+    reset = () => {
+        for (const field of this.fields.values()) {
+            field.reset();
+        }
+
+        this.setIsDirty(false);
     };
 
     @action
@@ -113,12 +153,24 @@ export class Form implements IForm {
         }
     };
 
+    @action
+    setEditing = (editing: boolean) => {
+        this.editing = editing;
+    };
+
+    @action
+    setIsDirty = (isDirty: boolean) => {
+        this.isDirty = isDirty;
+    };
+
     submit = async () => {
         this.submitting = true;
 
         if (this.hooks.onSuccess) {
             await this.hooks.onSuccess(this);
         }
+
+        this.setIsDirty(false);
 
         this.submitting = false;
     };

@@ -213,9 +213,9 @@ export function makeRedirect(bc: IBuilderConfig, pageStore: IPageModel, record: 
     const keys = findGetGlobalKey(columnsfilter);
     const values: IRecord = {};
 
-    for (const fieldName in keys) {
-        if (Object.prototype.hasOwnProperty.call(keys, fieldName)) {
-            const globaleKey = keys[fieldName];
+    for (const globaleKey in keys) {
+        if (Object.prototype.hasOwnProperty.call(keys, globaleKey)) {
+            const fieldName = keys[globaleKey];
             const value: FieldValue = record[fieldName] || globalValues.get(fieldName);
 
             if (value !== undefined) {

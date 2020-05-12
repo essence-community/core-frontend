@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import {observable, computed, action} from "mobx";
-import {FieldValue, IBuilderConfig, IPageModel, IRecord} from "../types";
+import {FieldValue, IBuilderConfig, IPageModel} from "../types";
 import {parseMemoize, makeRedirect} from "../utils";
 import {parse} from "../utils/parser";
 import {VAR_RECORD_DISPLAYED} from "../constants";
@@ -197,7 +197,7 @@ export class Field implements IField {
             const keyChild = new RegExp(`^${this.key}\\.(\\d+)\\.([^\\.]+)$`, "u");
 
             return (field, form) => {
-                const obj: Record<string, IRecord> = {};
+                const obj: Record<string, Record<string, FieldValue>> = {};
 
                 for (const [key, fieldChild] of form.fields) {
                     if (keyChild.test(key)) {
@@ -216,7 +216,7 @@ export class Field implements IField {
             const keyChild = new RegExp(`^${this.key}\\.([^\\.]+)$`, "u");
 
             return (field, form) => {
-                const obj: IRecord = typeof field.value === "object" ? {...field.value} : {};
+                const obj: Record<string, FieldValue> = typeof field.value === "object" ? {...field.value} : {};
 
                 for (const [key, fieldChild] of form.fields) {
                     if (keyChild.test(key)) {

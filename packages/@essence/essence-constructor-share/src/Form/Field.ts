@@ -216,7 +216,7 @@ export class Field implements IField {
             const keyChild = new RegExp(`^${this.key}\\.([^\\.]+)$`, "u");
 
             return (field, form) => {
-                const obj: Record<string, FieldValue> = {...(typeof field.value === "object" ? field.value : {})};
+                const obj: any = typeof field.value === "object" ? field.value : {};
 
                 for (const [key, fieldChild] of form.fields) {
                     if (keyChild.test(key)) {

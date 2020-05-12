@@ -1,3 +1,4 @@
+import {ObservableMap} from "mobx";
 import {TFunction} from "../utils";
 import {FieldValue, IRecord, IBuilderConfig, IPageModel} from "../types";
 import {IBuilderMode} from "../types/Builder";
@@ -6,11 +7,14 @@ export interface IRegisterFieldOptions {
     bc: IBuilderConfig;
     pageStore: IPageModel;
     isArray?: boolean;
-    output?: (field: IField) => IRecord | FieldValue;
+    isObject?: boolean;
+    output?: (field: IField, form: IForm, value?: IRecord | FieldValue) => IRecord | FieldValue;
+    input?: (initialValues: IRecord, field: IField, form: IForm) => [boolean, IRecord | FieldValue];
 }
 
 export interface IField {
     key: string;
+    bc: IBuilderConfig;
     value: FieldValue;
     defaultValue: FieldValue;
     label?: string;
@@ -19,7 +23,8 @@ export interface IField {
     isValid: boolean;
     errors: TError[];
     error?: TError;
-    output?: IRegisterFieldOptions["output"];
+    input: (initialValues: IRecord, field: IField, form: IForm) => [boolean, IRecord | FieldValue];
+    output: (field: IField, form: IForm, value?: IRecord | FieldValue) => IRecord | FieldValue;
     reset(): void;
     clear(): void;
     invalidate(error: TError[] | TError): void;
@@ -43,6 +48,7 @@ export interface IForm {
     hooks: IFormHooks;
     mode: IBuilderMode;
     isValid: boolean;
+    fields: ObservableMap<string, IField>;
     submit(): void;
     update(initialValues?: IRecord, isReset?: boolean): void;
     select(key: string): IField | undefined;
@@ -73,3 +79,9 @@ export interface IFormProps {
 export type TError = (trans: TFunction) => string;
 
 export type TValidation = (field: IField, form: IForm, req?: string) => TError | undefined;
+
+export interface IParentFieldContext {
+    key: string;
+    output?: IRegisterFieldOptions["output"];
+    input?: IRegisterFieldOptions["input"];
+}

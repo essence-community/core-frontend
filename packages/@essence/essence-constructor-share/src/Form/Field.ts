@@ -1,8 +1,10 @@
+/* eslint-disable max-lines */
 import {observable, computed, action} from "mobx";
 import {FieldValue, IBuilderConfig, IPageModel} from "../types";
 import {parseMemoize, makeRedirect} from "../utils";
 import {parse} from "../utils/parser";
 import {VAR_RECORD_DISPLAYED} from "../constants";
+import {deepFind, deepDelete} from "../utils/transform";
 import {IField, IForm, IRegisterFieldOptions, TError} from "./types";
 import {validations} from "./validations";
 
@@ -12,7 +14,9 @@ interface IFieldOptions {
     form: IForm;
     key: string;
     output?: IRegisterFieldOptions["output"];
+    input?: IRegisterFieldOptions["input"];
     isArray?: boolean;
+    isObject?: boolean;
 }
 
 export const disabledSize = {
@@ -23,7 +27,9 @@ export const disabledSize = {
 };
 
 export class Field implements IField {
-    public output: IRegisterFieldOptions["output"];
+    public output: IField["output"];
+
+    public input: IField["input"];
 
     private form: IForm;
 
@@ -36,6 +42,8 @@ export class Field implements IField {
     public defaultvalue: FieldValue;
 
     private isArray: boolean;
+
+    private isObject: boolean;
 
     private disabled: boolean;
 
@@ -161,22 +169,83 @@ export class Field implements IField {
         this.pageStore = options.pageStore;
         this.form = options.form;
         this.bc = options.bc;
-        this.output = options.output;
         this.key = options.key;
         this.isArray = options.isArray ?? false;
+        this.isObject = options.isObject ?? false;
+        this.input = this.getInput(options.input);
+        this.output = this.getOutput(options.output);
 
         if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
-            this.defaultValue = this.bc.defaultvalue === "true" || this.bc.defaultvalue === "1";
+            this.defaultValue = Number(this.bc.defaultvalue === "true" || this.bc.defaultvalue === "1");
         } else if (this.bc.defaultvalue) {
             this.defaultValue = this.bc.defaultvalue;
         }
 
-        this.value = this.form.initialValues[this.key];
+        const [, val] = this.input(this.form.initialValues, this, this.form);
+
+        this.value = val;
 
         if (this.value === undefined && this.isArray) {
             this.value = [];
         }
     }
+
+    private getOutput = (output: IFieldOptions["output"]): IField["output"] => {
+        if (output) {
+            return output;
+        } else if (this.isArray) {
+            const keyChild = new RegExp(`^${this.key}\\.(\\d+)\\.([^\\.]+)$`, "u");
+
+            return (field, form) => {
+                const obj: Record<string, Record<string, FieldValue>> = {};
+
+                for (const [key, fieldChild] of form.fields) {
+                    if (keyChild.test(key)) {
+                        const [keyParent, keyReal] = key.replace(keyChild, "$1:$2").split(":");
+
+                        obj[keyParent] = {
+                            ...(obj[keyParent] || {}),
+                            [keyReal]: fieldChild.output(fieldChild, form),
+                        };
+                    }
+                }
+
+                return Object.values(obj);
+            };
+        } else if (this.isObject) {
+            const keyChild = new RegExp(`^${this.key}\\.([^\\.]+)$`, "u");
+
+            return (field, form) => {
+                const obj: any = typeof field.value === "object" ? {...field.value} : {};
+
+                for (const [key, fieldChild] of form.fields) {
+                    if (keyChild.test(key)) {
+                        obj[key.replace(keyChild, "$1")] = fieldChild.output(fieldChild, form);
+                    }
+                }
+
+                return obj;
+            };
+        }
+
+        return (field, form, value) => value || field.value;
+    };
+
+    private getInput = (input: IFieldOptions["input"]): IField["input"] => {
+        if (input) {
+            return input;
+        } else if (this.key.indexOf(".") > 0) {
+            return (initialValues) => deepFind(initialValues, this.key);
+        }
+
+        return (initialValues) => {
+            if (Object.prototype.hasOwnProperty.call(initialValues, this.key)) {
+                return [true, initialValues[this.key]];
+            }
+
+            return [false, undefined];
+        };
+    };
 
     private execChangeHooks = () => {
         if (this.form.hooks.onChange) {
@@ -265,17 +334,17 @@ export class Field implements IField {
 
     @action
     add = () => {
-        this.onChange([...this.value, {}]);
+        if (this.isArray) {
+            this.onChange([...this.value, {}]);
+        }
     };
 
     @action
     del = (index?: string | number) => {
-        if (index) {
-            const newValues = [...this.value];
+        if (this.isArray && index) {
+            const newValues = this.form.values;
 
-            newValues.splice(Number(index), 1);
-
-            this.onChange(newValues);
+            this.form.update(deepDelete(newValues, `${this.key}.${index}`), false);
         }
     };
 

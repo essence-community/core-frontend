@@ -18,20 +18,6 @@ export interface ICommonHOCState {
     readOnly?: boolean;
 }
 
-const HIDDEN_CLASS_TYPES = [
-    "GRID",
-    "TREEGRID",
-    "PANEL",
-    "FILEPANEL",
-    "HISTORYPANEL",
-    "TABPANEL",
-    "SERVICE_HIDDEN",
-    "BTN",
-    "BTNCOLLECTOR",
-    "AUDIT_INFO",
-    "EMPTY_SPACE",
-];
-
 // eslint-disable-next-line max-lines-per-function
 export function commonDecorator<Props extends ICommonHOCProps>(
     WrappedComponent: React.ComponentType<Props>,
@@ -94,10 +80,10 @@ export function commonDecorator<Props extends ICommonHOCProps>(
         }
 
         public render() {
-            const {disabled, visible, bc} = this.props;
+            const {disabled, visible} = this.props;
             const hidden = this.props.hidden || this.state.hidden;
 
-            if (hidden && bc.type && HIDDEN_CLASS_TYPES.indexOf(bc.type) !== -1) {
+            if (hidden) {
                 return null;
             }
 

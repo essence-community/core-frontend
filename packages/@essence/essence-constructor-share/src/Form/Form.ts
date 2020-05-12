@@ -1,6 +1,7 @@
 import {action, computed, observable, ObservableMap} from "mobx";
 import {IRecord} from "../types";
 import {IBuilderMode} from "../types/Builder";
+import {entriesMapSort, deepDelete} from "../utils/transform";
 import {Field} from "./Field";
 import {IField, IFormProps, IForm, IFormHooks, IRegisterFieldOptions} from "./types";
 
@@ -27,10 +28,8 @@ export class Form implements IForm {
         };
 
         for (const [key, field] of this.fields.entries()) {
-            if (field.output) {
-                values[key] = field.output(field);
-            } else {
-                values[key] = field.value;
+            if (key.indexOf(".") === -1) {
+                values[key] = field.output(field, this);
             }
         }
 
@@ -55,13 +54,18 @@ export class Form implements IForm {
             field = new Field({
                 bc: options.bc,
                 form: this,
+                input: options.input,
                 isArray: options.isArray,
+                isObject: options.isObject,
                 key,
                 output: options.output,
                 pageStore: options.pageStore,
             });
 
             this.fields.set(key, field);
+            this.fields = new ObservableMap(
+                entriesMapSort(this.fields, ([keyOld], [keyNew]) => keyOld.length - keyNew.length),
+            );
         }
 
         return field;
@@ -71,8 +75,7 @@ export class Form implements IForm {
     unregisterField = (key: string) => {
         if (this.fields.has(key)) {
             this.fields.delete(key);
-
-            delete this.values[key];
+            this.initialValues = deepDelete(this.initialValues, key);
         }
     };
 
@@ -95,9 +98,11 @@ export class Form implements IForm {
 
     @action
     update = (initialValues: IRecord = {}, isReset = false) => {
-        for (const [key, field] of this.fields.entries()) {
-            if (Object.prototype.hasOwnProperty.call(initialValues, key)) {
-                field.value = initialValues[key];
+        for (const [, field] of this.fields) {
+            const [isExists, value] = field.input(initialValues, field, this);
+
+            if (isExists) {
+                field.value = value;
             } else if (isReset) {
                 field.reset();
             } else {

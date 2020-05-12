@@ -1,6 +1,8 @@
 import * as DOMPurify from "dompurify";
 import {isEmpty, isString} from "lodash";
 import {TText} from "../types/SnackbarModel";
+import {IRecord} from "../types/Base";
+import {FieldValue} from "../types/Field";
 import {TFunction} from "./I18n";
 
 export const toSize = (value?: string, defaultValue?: string) => {
@@ -70,6 +72,55 @@ export const toTranslateTextArray = (
     return toTranslateText(trans, textArr);
 };
 
+export const deepFind = (obj: IRecord, path: string): [boolean, IRecord | FieldValue] => {
+    const paths: any[] = path.split(".");
+    let current: any = obj;
+
+    for (const val of paths) {
+        if (current[val] === undefined) {
+            return [false, undefined];
+        }
+        current = current[val];
+    }
+
+    return [true, current];
+};
+
+export const deepDelete = (obj: IRecord, path: string): IRecord => {
+    const res = {...obj};
+    const paths: any[] = path.split(".");
+    const end = paths.pop();
+    let current: any = res;
+
+    for (const val of paths) {
+        if (current[val] === undefined) {
+            return res;
+        }
+        current = current[val];
+    }
+
+    if (Array.isArray(current)) {
+        current.splice(end, 1);
+    } else {
+        delete current[end];
+    }
+
+    return res;
+};
+
+export function entriesMapSort<K, V>(map: Map<K, V>, sortFn?: (a: [K, V], b: [K, V]) => number): Array<[K, V]> {
+    const arr = [];
+
+    for (const val of map.entries()) {
+        arr.push(val);
+    }
+    if (sortFn) {
+        arr.sort(sortFn);
+    }
+
+    return arr;
+}
+
 export function setglobalToParse(str: string): string {
     const objectStr = str
         .split(",")
@@ -85,4 +136,17 @@ export function setglobalToParse(str: string): string {
         .join(",");
 
     return `{${objectStr}}`;
+}
+
+export function mapValueToArray<K, L>(map?: Map<K, L>): L[] {
+    if (!map) {
+        return [];
+    }
+    const arr: L[] = [];
+
+    for (const value of map.values()) {
+        arr.push(value);
+    }
+
+    return arr;
 }

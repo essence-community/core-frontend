@@ -1,7 +1,7 @@
 import * as React from "react";
 import {IApplicationModel, IBuilderMode, IPageModel, IRoutesModel, IPagesModel, IProjectModel, IRecord} from "./types";
 import {noop} from "./utils";
-import {IForm, Form} from "./Form";
+import {IForm, Form, IParentFieldContext} from "./Form";
 
 export interface IPopoverContext {
     open: boolean;
@@ -9,7 +9,7 @@ export interface IPopoverContext {
     onClose: () => void;
 }
 
-export const ParentKeyContext = React.createContext<string>("");
+export const ParentFieldContext = React.createContext<IParentFieldContext | undefined>(undefined);
 export const FormContext = React.createContext<IForm>(
     new Form({editing: true, hooks: {}, placement: "default", values: {}}),
 );

@@ -1,34 +1,43 @@
+/* eslint-disable max-len */
 import {useMemo, useContext, useEffect} from "react";
 import uniqueId from "lodash/uniqueId";
-import {IBuilderConfig, IPageModel, IRecord, FieldValue} from "../types";
-import {FormContext, ParentKeyContext} from "../context";
+import {IBuilderConfig, IPageModel} from "../types";
+import {FormContext, ParentFieldContext} from "../context";
 import {VAR_RECORD_MASTER_ID} from "../constants";
-import {IField} from "./types";
+import {IField, IRegisterFieldOptions} from "./types";
 
 interface IUseFieldProps {
     bc: IBuilderConfig;
     pageStore: IPageModel;
     isArray?: boolean;
-    output?: (field: IField) => IRecord | FieldValue;
+    isObject?: boolean;
+    output?: IRegisterFieldOptions["output"];
+    input?: IRegisterFieldOptions["input"];
     disabled?: boolean;
     hidden?: boolean;
 }
 
-export const useField = ({bc, pageStore, output, isArray, disabled, hidden}: IUseFieldProps): IField => {
+export const useField = ({bc, pageStore, output, input, isArray, disabled, hidden}: IUseFieldProps): IField => {
     const form = useContext(FormContext);
-    const parentKey = useContext(ParentKeyContext);
+    const parentField = useContext(ParentFieldContext);
     const key = useMemo(() => {
         const columnKey = bc.column || uniqueId("builderField");
 
-        if (parentKey) {
-            return `${parentKey}.${columnKey}`;
+        if (parentField) {
+            return `${parentField.key}.${columnKey}`;
         }
 
         return columnKey;
-    }, [bc.column, parentKey]);
+    }, [bc.column, parentField]);
     const field = useMemo(() => {
-        return form.registerField(key, {bc, isArray, output, pageStore});
-    }, [bc, form, isArray, key, output, pageStore]);
+        return form.registerField(key, {
+            bc,
+            input: input || parentField?.input,
+            isArray,
+            output: output || parentField?.output,
+            pageStore,
+        });
+    }, [bc, form, input, isArray, key, output, pageStore, parentField]);
 
     useEffect(() => {
         const masterId = bc[VAR_RECORD_MASTER_ID];

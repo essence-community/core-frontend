@@ -109,6 +109,8 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
     React.useEffect(() => {
         const disposers: ReturnType<typeof reaction>[] = [];
 
+        setFromStore(props.pageStore.stores.get(store.fieldFrom[VAR_RECORD_PAGE_OBJECT_ID]));
+        setToStore(props.pageStore.stores.get(store.fieldTo[VAR_RECORD_PAGE_OBJECT_ID]));
         disposers.push(
             reaction(
                 () => props.pageStore.stores.get(store.fieldFrom[VAR_RECORD_PAGE_OBJECT_ID]),
@@ -127,7 +129,7 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
         );
 
         return () => disposers.forEach((disposer) => disposer());
-    }, [hasError, props.pageStore.stores, store.fieldFrom, store.fieldTo]);
+    }, [hasError, props.pageStore, store]);
 
     React.useEffect(() => {
         const disposers: ReturnType<typeof reaction>[] = [];

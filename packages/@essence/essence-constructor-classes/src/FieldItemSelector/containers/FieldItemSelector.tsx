@@ -1,71 +1,52 @@
-// @flow
-import * as React from "react";
-import {compose} from "recompose";
-import {reaction} from "mobx";
-import {observer} from "mobx-react";
-import {Grid} from "@material-ui/core";
-import {setComponent, getComponent, mapComponents} from "@essence-community/constructor-share/components";
 import {
-    VAR_RECORD_MASTER_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_PARENT_ID,
-} from "@essence-community/constructor-share/constants";
-import {loggerRoot} from "../constants";
-import {type PageModelType} from "../stores/PageModel";
-import {type GridModelType} from "../stores/GridModel";
-import withModelDecorator from "../decorators/withModelDecorator";
-import commonDecorator, {type CommonDecoratorInjectType} from "../decorators/commonDecorator";
-import {FieldItemSelectorModel, type FieldItemSelectorModelType} from "../stores/FieldItemSelectorModel";
-import {type BuilderGridType} from "../Grid/BuilderGridType";
+    VAR_RECORD_MASTER_ID,
+} from "@essence-community/constructor-share/constants/variables";
+import * as React from "react";
+import {Grid} from "@material-ui/core";
+import {useModel} from "@essence-community/constructor-share/hooks";
+import {IRecord, IStoreBaseModel} from "@essence-community/constructor-share/types";
+import {ApplicationContext} from "@essence-community/constructor-share/context";
+import {useObserver} from "mobx-react-lite";
+import {mapComponents, getComponent} from "@essence-community/constructor-share/components";
+import {reaction} from "mobx";
+import {IClassWithEditingProps} from "../store/FieldItemSelectorModel.types";
+import {FieldItemSelectorModel} from "../store/FieldItemSelectorModel";
 
-type OwnPropsType = CommonDecoratorInjectType & {
-    editing?: boolean,
-    bc: Object,
-    pageStore: PageModelType,
-};
+// eslint-disable-next-line max-lines-per-function
+export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
+    const applicationStore = React.useContext(ApplicationContext);
+    const {editing, bc} = props;
+    const [store] = useModel((modelProps) => new FieldItemSelectorModel(modelProps), {
+        applicationStore,
+        bc,
+        disabled: props.disabled,
+        hidden: props.hidden,
+        pageStore: props.pageStore,
+    });
 
-type PropsStoreType = {|
-    store: FieldItemSelectorModelType,
-|};
+    const [ComponentFieldFrom, ComponentFieldTo] = React.useMemo(
+        () => [
+            getComponent(store.fieldFrom.type!) as React.ComponentClass<IClassWithEditingProps>,
+            getComponent(store.fieldTo.type!) as React.ComponentClass<IClassWithEditingProps>,
+        ],
+        [store],
+    );
+    const hasError = React.useMemo(() => !ComponentFieldFrom || !ComponentFieldTo, [
+        ComponentFieldFrom,
+        ComponentFieldTo,
+    ]);
 
-type PropsType = PropsStoreType & OwnPropsType;
-
-type StateType = {|
-    ComponentFieldFrom: ?React.ComponentType<*>,
-    ComponentFieldTo: ?React.ComponentType<*>,
-    hasError: boolean,
-|};
-
-const logger = loggerRoot.extend("FieldItemSelector");
-
-export class FieldItemSelectorBase extends React.Component<PropsType, StateType> {
-    buttonsConfig: Array<Object>;
-
-    // eslint-disable-next-line max-lines-per-function
-    constructor(props: PropsType) {
-        super(props);
-
-        const {bc, store} = this.props;
-        const ComponentFieldFrom = getComponent(store.fieldFrom.type, store.fieldFrom.customid);
-        const ComponentFieldTo = getComponent(store.fieldTo.type, store.fieldTo.customid);
-        const hasError = !ComponentFieldFrom || !ComponentFieldTo;
-
-        if (hasError) {
-            logger("fieldFrom or fieldTo not found!");
-        }
-
-        this.state = {
-            ComponentFieldFrom,
-            ComponentFieldTo,
-            hasError,
-        };
-
-        this.buttonsConfig = [
+    const [btnAddAll, btnAddSelected, btnRemoveSelected, btnRemoveAll] = React.useMemo(
+        () => [
             {
                 [VAR_RECORD_DISPLAYED]: "static:d78431bbcb484da4b516bc00626965ba",
+                [VAR_RECORD_MASTER_ID]: store.fieldFrom[VAR_RECORD_PAGE_OBJECT_ID],
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-add-all`,
                 [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+                disabledemptymaster: "true",
                 handler: "addAll",
                 iconfont: "fa-angle-double-right",
                 iconfontname: "fa",
@@ -98,8 +79,10 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
             },
             {
                 [VAR_RECORD_DISPLAYED]: "static:c4684efb2ea444f4b9192db3c4b4b843",
+                [VAR_RECORD_MASTER_ID]: store.fieldTo[VAR_RECORD_PAGE_OBJECT_ID],
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-remove-all`,
                 [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+                disabledemptymaster: "true",
                 handler: "removeAll",
                 iconfont: "fa-angle-double-left",
                 iconfontname: "fa",
@@ -107,64 +90,83 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
                 type: "BTN",
                 uitype: "1",
             },
-        ];
-    }
-
-    disposers = [];
-
-    prevRecords = [];
-
-    componentDidMount() {
-        const {bc, store} = this.props;
-        const [fromStore, toStore] = this.props.store.getStores({fieldFrom: store.fieldFrom, fieldTo: store.fieldTo});
-
-        if (fromStore && toStore) {
-            this.disposers.push(
-                reaction(
-                    () => fromStore.recordsStore.recordsAll,
-                    () => {
-                        if (toStore.recordsStore.isLoading) {
-                            fromStore.recordsStore.setRecordsAction(this.prevRecords);
-                            this.prevRecords = fromStore.recordsStore.records;
-                        } else {
-                            fromStore.recordsStore.removeRecordsAction(toStore.recordsStore.records, bc.column, true);
-                        }
-                    },
-                ),
-                reaction(
-                    () => toStore.recordsStore.recordsAll,
-                    () => {
-                        fromStore.recordsStore.removeRecordsAction(toStore.recordsStore.records, bc.column, true);
-                    },
-                ),
-            );
-        }
-    }
-
-    componentWillUnmount() {
-        this.disposers.forEach((disposer) => disposer());
-        this.disposers = [];
-        this.prevRecords = [];
-    }
-
-    checkDisabled = (gridBc: BuilderGridType) => {
-        const {pageStore} = this.props;
-        const gridStore: ?GridModelType = pageStore.stores.get(gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
-
+        ],
+        [bc, store],
+    );
+    const [prevRecords, setPrevRecords] = React.useState<IRecord[]>([]);
+    const [fromStore, setFromStore] = React.useState<IStoreBaseModel | undefined>(undefined);
+    const [toStore, setToStore] = React.useState<IStoreBaseModel | undefined>(undefined);
+    const checkDisabled = React.useCallback((gridStore) => {
         if (!gridStore) {
             return false;
         }
 
-        return gridBc.selmode === "MULTI" || gridBc.selmode === "SIMPLE"
+        return gridStore.bc.selmode === "MULTI" || gridStore.bc.selmode === "SIMPLE"
             ? gridStore.selectedRecords.size === 0
             : !gridStore.recordsStore.selectedRecord;
-    };
+    }, []);
 
-    // eslint-disable-next-line max-lines-per-function
-    render() {
-        const {ComponentFieldFrom, ComponentFieldTo, hasError} = this.state;
-        const {bc, editing, disabled, pageStore, visible, store} = this.props;
-        const [btnAddAll, btnAddSelected, btnRemoveSelected, btnRemoveAll] = this.buttonsConfig;
+    React.useEffect(() => {
+        const disposers: ReturnType<typeof reaction>[] = [];
+
+        setFromStore(props.pageStore.stores.get(store.fieldFrom[VAR_RECORD_PAGE_OBJECT_ID]));
+        setToStore(props.pageStore.stores.get(store.fieldTo[VAR_RECORD_PAGE_OBJECT_ID]));
+        disposers.push(
+            reaction(
+                () => props.pageStore.stores.get(store.fieldFrom[VAR_RECORD_PAGE_OBJECT_ID]),
+                (gridStore) => {
+                    setFromStore(gridStore);
+                },
+            ),
+        );
+        disposers.push(
+            reaction(
+                () => props.pageStore.stores.get(store.fieldTo[VAR_RECORD_PAGE_OBJECT_ID]),
+                (gridStore) => {
+                    setToStore(gridStore);
+                },
+            ),
+        );
+
+        return () => disposers.forEach((disposer) => disposer());
+    }, [hasError, props.pageStore, store]);
+
+    React.useEffect(() => {
+        const disposers: ReturnType<typeof reaction>[] = [];
+
+        if (toStore && fromStore) {
+            disposers.push(
+                reaction(
+                    () => fromStore.recordsStore!.recordsAll,
+                    () => {
+                        if (toStore.recordsStore!.isLoading) {
+                            fromStore.recordsStore!.setRecordsAction(prevRecords);
+                            setPrevRecords(fromStore.recordsStore!.records);
+                        } else {
+                            fromStore.recordsStore!.removeRecordsAction(
+                                toStore.recordsStore!.records,
+                                bc.column!,
+                                true,
+                            );
+                        }
+                    },
+                ),
+            );
+            disposers.push(
+                reaction(
+                    () => toStore.recordsStore!.recordsAll,
+                    () => {
+                        fromStore.recordsStore!.removeRecordsAction(toStore.recordsStore!.records, bc.column!, true);
+                    },
+                ),
+            );
+        }
+
+        return () => disposers.forEach((disposer) => disposer());
+    }, [hasError, fromStore, toStore, prevRecords, bc.column]);
+
+    return useObserver(() => {
+        const {disabled, pageStore, visible} = props;
 
         if (hasError) {
             return null;
@@ -206,7 +208,7 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
                             {mapComponents([btnAddSelected], (ChildCmp, childBc) => (
                                 <ChildCmp
                                     key="add-selected"
-                                    disabled={disabled || this.checkDisabled(store.fieldFrom)}
+                                    disabled={disabled || checkDisabled(fromStore)}
                                     bc={childBc}
                                     pageStore={pageStore}
                                     visible={visible}
@@ -217,7 +219,7 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
                             {mapComponents([btnRemoveSelected], (ChildCmp, childBc) => (
                                 <ChildCmp
                                     key="remove-selected"
-                                    disabled={disabled || this.checkDisabled(store.fieldTo)}
+                                    disabled={disabled || checkDisabled(toStore)}
                                     bc={childBc}
                                     pageStore={pageStore}
                                     visible={visible}
@@ -250,18 +252,5 @@ export class FieldItemSelectorBase extends React.Component<PropsType, StateType>
                 </Grid>
             </Grid>
         );
-    }
-}
-
-const FieldItemSelector = compose(
-    withModelDecorator(
-        (bc: Object, {pageStore}: OwnPropsType): FieldItemSelectorModelType =>
-            new FieldItemSelectorModel({bc, pageStore}),
-    ),
-    commonDecorator,
-    observer,
-)(FieldItemSelectorBase);
-
-setComponent("ITEMSELECTOR", FieldItemSelector);
-
-export default FieldItemSelector;
+    });
+};

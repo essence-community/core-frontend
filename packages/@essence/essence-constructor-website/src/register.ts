@@ -11,7 +11,6 @@ import "@essence-community/constructor-components/src/PanelDynamic/BuilderPanelD
 import "@essence-community/constructor-components/src/TextField/BuilderField";
 import "@essence-community/constructor-components/src/FilePanel/BuilderFilePanel";
 import "@essence-community/constructor-components/src/Filter/BuilderFilter";
-import "@essence-community/constructor-components/src/FieldItemSelector/FieldItemSelector";
 import "@essence-community/constructor-components/src/FieldPeriod/BuilderFieldPeriod";
 import "@essence-community/constructor-components/src/Form/FormPanel";
 import "@essence-community/constructor-components/src/Window";
@@ -61,6 +60,7 @@ import "@essence-community/constructor-classes/src/ColumnCheckbox";
 import "@essence-community/constructor-classes/src/ColumnDate";
 import "@essence-community/constructor-classes/src/ColumnDetail";
 import "@essence-community/constructor-classes/src/FieldNumeric";
+import "@essence-community/constructor-classes/src/FieldItemSelector";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

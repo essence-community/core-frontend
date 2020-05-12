@@ -9,27 +9,21 @@ import {IClassProps, IRecord} from "@essence-community/constructor-share/types";
 
 const MAX_PANEL_WIDTH = 12;
 
-interface IWithEditing extends IClassProps {
-    editing?: boolean;
-}
-
-export const FieldSetContainer: React.FC<IWithEditing> = (props) => {
-    const {editing, readOnly, visible, bc, pageStore, disabled, hidden} = props;
+export const FieldSetContainer: React.FC<IClassProps> = (props) => {
+    const {bc, pageStore, disabled, hidden} = props;
     const parentField = React.useContext(ParentFieldContext);
     const output = React.useMemo(() => {
         return (field: IField, form: IForm) => {
-            const obj: any = {};
+            const obj: IRecord = {};
             const keyChild = new RegExp(`^${field.key}\\.(\\d+)\\.([^\\.]+)$`, "u");
 
-            entriesMapSort(form.fields, ([keyOld], [keyNew]) => keyOld.length - keyNew.length).forEach(
-                ([key, fieldChild]) => {
-                    if (keyChild.test(key)) {
-                        const keyParent = key.replace(keyChild, "$1");
+            entriesMapSort(form.fields).forEach(([key, fieldChild]) => {
+                if (keyChild.test(key)) {
+                    const keyParent = key.replace(keyChild, "$1");
 
-                        obj[keyParent] = fieldChild.output(fieldChild, form);
-                    }
-                },
-            );
+                    obj[keyParent] = fieldChild.output(fieldChild, form);
+                }
+            });
 
             return parentField && parentField.output
                 ? parentField.output(field, form, Object.values(obj))
@@ -64,32 +58,29 @@ export const FieldSetContainer: React.FC<IWithEditing> = (props) => {
     const field = useField({bc, disabled, hidden, isArray: true, output, pageStore});
     const {contentview} = bc;
     const isRow = contentview === "hbox" || contentview === "column";
+    const parentContext = React.useMemo(
+        () =>
+            (bc.childs || []).map((val, index) => ({
+                input: inputChild,
+                key: `${field.key}.${index}`,
+                output: outputChild,
+            })),
+        [bc, inputChild, field, outputChild],
+    );
 
     return (
-        <Grid container spacing={2} direction={isRow ? "row" : "column"} wrap={isRow ? "nowrap" : "wrap"}>
-            {mapComponents(bc.childs || [], (ChildComp: any, child, index) => (
+        <Grid container spacing={1} direction={isRow ? "row" : "column"} wrap={isRow ? "nowrap" : "wrap"}>
+            {mapComponents(bc.childs, (ChildComp, child, index) => (
                 <ParentFieldContext.Provider
                     key={child[VAR_RECORD_PAGE_OBJECT_ID] ? child[VAR_RECORD_PAGE_OBJECT_ID] : `child_${index}`}
-                    value={{
-                        input: inputChild,
-                        key: `${field.key}.${index}`,
-                        output: outputChild,
-                    }}
+                    value={parentContext[index]}
                 >
                     <Grid
                         item
                         xs={isRow ? true : MAX_PANEL_WIDTH}
                         style={contentview === "column" ? toColumnStyleWidth(child.width) : undefined}
                     >
-                        <ChildComp
-                            bc={child}
-                            editing={editing}
-                            hidden={hidden}
-                            disabled={disabled}
-                            pageStore={pageStore}
-                            visible={visible}
-                            readOnly={readOnly}
-                        />
+                        <ChildComp {...props} bc={child} />
                     </Grid>
                 </ParentFieldContext.Provider>
             ))}

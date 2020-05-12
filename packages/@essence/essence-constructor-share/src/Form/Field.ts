@@ -1,10 +1,10 @@
 /* eslint-disable max-lines */
 import {observable, computed, action} from "mobx";
-import {FieldValue, IBuilderConfig, IPageModel} from "../types";
+import {FieldValue, IBuilderConfig, IPageModel, IRecord} from "../types";
 import {parseMemoize, makeRedirect} from "../utils";
 import {parse} from "../utils/parser";
 import {VAR_RECORD_DISPLAYED} from "../constants";
-import {deepFind, entriesMapSort, deepDelete} from "../utils/transform";
+import {deepFind, deepDelete} from "../utils/transform";
 import {IField, IForm, IRegisterFieldOptions, TError} from "./types";
 import {validations} from "./validations";
 
@@ -197,20 +197,18 @@ export class Field implements IField {
             const keyChild = new RegExp(`^${this.key}\\.(\\d+)\\.([^\\.]+)$`, "u");
 
             return (field, form) => {
-                const obj: any = {};
+                const obj: Record<string, IRecord> = {};
 
-                entriesMapSort(form.fields, ([keyOld], [keyNew]) => keyOld.length - keyNew.length).forEach(
-                    ([key, fieldChild]) => {
-                        if (keyChild.test(key)) {
-                            const [keyParent, keyReal] = key.replace(keyChild, "$1:$2").split(":");
+                for (const [key, fieldChild] of form.fields) {
+                    if (keyChild.test(key)) {
+                        const [keyParent, keyReal] = key.replace(keyChild, "$1:$2").split(":");
 
-                            obj[keyParent] = {
-                                ...(obj[keyParent] || {}),
-                                [keyReal]: fieldChild.output(fieldChild, form),
-                            };
-                        }
-                    },
-                );
+                        obj[keyParent] = {
+                            ...(obj[keyParent] || {}),
+                            [keyReal]: fieldChild.output(fieldChild, form),
+                        };
+                    }
+                }
 
                 return Object.values(obj);
             };
@@ -218,15 +216,13 @@ export class Field implements IField {
             const keyChild = new RegExp(`^${this.key}\\.([^\\.]+)$`, "u");
 
             return (field, form) => {
-                const obj: any = {...(typeof field.value === "object" ? field.value : {})};
+                const obj: IRecord = typeof field.value === "object" ? {...field.value} : {};
 
-                entriesMapSort(form.fields, ([keyOld], [keyNew]) => keyOld.length - keyNew.length).forEach(
-                    ([key, fieldChild]) => {
-                        if (keyChild.test(key)) {
-                            obj[key.replace(keyChild, "$1")] = fieldChild.output(fieldChild, form);
-                        }
-                    },
-                );
+                for (const [key, fieldChild] of form.fields) {
+                    if (keyChild.test(key)) {
+                        obj[key.replace(keyChild, "$1")] = fieldChild.output(fieldChild, form);
+                    }
+                }
 
                 return obj;
             };

@@ -7,7 +7,7 @@ import {IClassProps} from "@essence-community/constructor-share/types";
 import {useObserver} from "mobx-react-lite";
 import {GRID_CONFIGS, GRID_ALIGN_CONFIGS} from "@essence-community/constructor-share/constants/ui";
 import {useModel} from "@essence-community/constructor-share/hooks";
-import PanelDynamicModel from "../store/PanelDynamicModel";
+import {PanelDynamicModel} from "../store/PanelDynamicModel";
 
 interface IWithEditing extends IClassProps {
     editing?: boolean;

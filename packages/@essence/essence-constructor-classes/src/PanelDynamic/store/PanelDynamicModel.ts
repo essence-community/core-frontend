@@ -47,5 +47,3 @@ export class PanelDynamicModel extends StoreBaseModel {
     setSearchValuesAction = (values: IRecord) =>
         this.recordsStore.setSearchValuesAction(getSearchValues(values, this.bc, this.pageStore));
 }
-
-export default PanelDynamicModel;

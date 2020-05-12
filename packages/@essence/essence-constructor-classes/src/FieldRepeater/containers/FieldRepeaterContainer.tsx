@@ -18,6 +18,8 @@ import {useTranslation} from "@essence-community/constructor-share/utils";
 import {Grid} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
 import {useField} from "@essence-community/constructor-share/Form";
+import {reaction} from "mobx";
+import {IParentFieldContext} from "@essence-community/constructor-share/Form/types";
 import {Group} from "../components/Group";
 import {FieldRepeaterModel} from "../Store/FieldRepeaterModel";
 import {RepeaterGroup} from "../components/RepeaterGroup";
@@ -60,6 +62,24 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
         }
     }, [bc.minsize, field]);
 
+    const [parentContext, setParentContext] = React.useState<IParentFieldContext[]>([]);
+
+    React.useEffect(() => {
+        if (field) {
+            setParentContext(
+                Array.isArray(field.value) ? field.value.map((value, idx) => ({key: `${field.key}.${idx}`})) : [],
+            );
+
+            return reaction(
+                () => field.value,
+                (val) =>
+                    setParentContext(Array.isArray(val) ? val.map((value, idx) => ({key: `${field.key}.${idx}`})) : []),
+            );
+        }
+
+        return undefined;
+    }, [field]);
+
     return useObserver(() => {
         const value = field.value as FieldValue[];
         const maxSize = bc.maxsize && /[g_]/u.test(bc.maxsize) ? pageStore.globalValues.get(bc.maxsize) : bc.maxsize;
@@ -71,12 +91,7 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
             <Group error={Boolean(!disabled && !field.isValid)} isRow={false} bc={props.bc}>
                 <Grid item xs={12}>
                     {value.map((childField: IRecord, idx: number) => (
-                        <ParentFieldContext.Provider
-                            key={idx}
-                            value={{
-                                key: `${field.key}.${idx}`,
-                            }}
-                        >
+                        <ParentFieldContext.Provider key={idx} value={parentContext[idx]}>
                             <RepeaterGroup
                                 {...props}
                                 idx={idx}

@@ -63,6 +63,9 @@ export class Form implements IForm {
             });
 
             this.fields.set(key, field);
+            this.fields = new ObservableMap(
+                entriesMapSort(this.fields, ([keyOld], [keyNew]) => keyOld.length - keyNew.length),
+            );
         }
 
         return field;
@@ -95,7 +98,7 @@ export class Form implements IForm {
 
     @action
     update = (initialValues: IRecord = {}, isReset = false) => {
-        entriesMapSort(this.fields, ([keyOld], [keyNew]) => keyOld.length - keyNew.length).forEach(([, field]) => {
+        for (const [, field] of this.fields) {
             const [isExists, value] = field.input(initialValues, field, this);
 
             if (isExists) {
@@ -105,7 +108,7 @@ export class Form implements IForm {
             } else {
                 field.clear();
             }
-        });
+        }
     };
 
     @action

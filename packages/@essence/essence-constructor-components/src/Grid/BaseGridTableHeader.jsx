@@ -197,7 +197,7 @@ class BaseGridTableHeader extends React.Component<PropsType, StateType> {
                 noForm
                 submitOnChange
                 onSubmit={this.handleSubmit}
-                initialValues={this.state.initialValues}
+                // InitialValues={this.state.initialValues}
                 pageStore={pageStore}
                 bc={bc}
             >

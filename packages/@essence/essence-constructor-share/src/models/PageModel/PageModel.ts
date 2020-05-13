@@ -493,7 +493,7 @@ export class PageModel implements IPageModel {
 
     clearAction = action("clearAction", () => {
         this.recordsStore.clearRecordsAction();
-        this.globalValues.clear();
+        this.globalValues = observable.map(this.applicationStore.globalValues);
         this.stores.clear();
         this.windows.clear();
         this.fieldValueMaster.clear();

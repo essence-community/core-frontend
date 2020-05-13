@@ -18,13 +18,6 @@ export class Form implements IForm {
      */
     public placement: string;
 
-    /**
-     * Status of the editing form
-     * Filter, Window - always editing
-     * Panel, History - when click on edit or add or ... button
-     */
-    public editing: boolean;
-
     public bc?: IBuilderConfig;
 
     constructor(props: IFormProps) {
@@ -41,6 +34,13 @@ export class Form implements IForm {
     @observable public submitting = false;
 
     @observable public isDirty = false;
+
+    /**
+     * Status of the editing form
+     * Filter, Window - always editing
+     * Panel, History - when click on edit or add or ... button
+     */
+    @observable public editing: boolean;
 
     @computed get values(): IRecord {
         const values: IRecord = {

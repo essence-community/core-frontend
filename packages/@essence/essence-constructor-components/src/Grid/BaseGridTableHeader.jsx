@@ -67,24 +67,19 @@ class BaseGridTableHeader extends React.Component<PropsType, StateType> {
         this.disposers = [];
     }
 
-    handleSubmit = async (data: Object) => {
+    handleSubmit = (data: Object) => {
         const {store} = this.props;
         const {recordsStore} = store;
-        const storeFilters = recordsStore.filter || [];
         const filter = values(data).filter((value) => Boolean(value));
 
-        if ((filter.length !== 0 || storeFilters.length !== 0) && (await store.applyFiltersAction())) {
-            recordsStore.searchAction(recordsStore.searchValues, {filter});
-        }
+        return recordsStore.searchAction(recordsStore.searchValues, {filter});
     };
 
-    handleSort = (column: string) => async () => {
+    handleSort = (column: string) => () => {
         const {store} = this.props;
         const {recordsStore} = store;
 
-        if (await store.applyFiltersAction()) {
-            recordsStore.setOrderAction(column);
-        }
+        return recordsStore.setOrderAction(column);
     };
 
     handleChangeFilter = (filter?: Array<Object>) => {
@@ -202,8 +197,9 @@ class BaseGridTableHeader extends React.Component<PropsType, StateType> {
                 noForm
                 submitOnChange
                 onSubmit={this.handleSubmit}
-                initialValues={this.state.initialValues}
+                // InitialValues={this.state.initialValues}
                 pageStore={pageStore}
+                bc={bc}
             >
                 <GridColgroup store={store} />
                 {tableHead}

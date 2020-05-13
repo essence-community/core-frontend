@@ -89,6 +89,10 @@ export class BaseBuilderGrid extends React.Component<BuilderGridPropsType & Prop
     }
 }
 
+/**
+ * TODO:
+ * при перезде на hooks нужно autoload перенести в autoload в fiters если такой имеется
+ */
 const BuilderGrid = compose(
     commonDecorator,
     withModelDecorator((bc: BuilderGridType, {pageStore}: PropsType): GridModelType => new GridModel({bc, pageStore})),

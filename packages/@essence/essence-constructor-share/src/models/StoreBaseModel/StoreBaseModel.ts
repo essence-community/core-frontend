@@ -33,7 +33,7 @@ export class StoreBaseModel implements IStoreBaseModel {
 
     public pageStore: IPageModel;
 
-    public applicationStore: IApplicationModel | null;
+    public applicationStore?: IApplicationModel | null;
 
     public recordId: string;
 

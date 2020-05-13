@@ -10,7 +10,9 @@ export interface IPopoverContext {
 }
 
 export const ParentFieldContext = React.createContext<IParentFieldContext | undefined>(undefined);
-export const FormContext = React.createContext<IForm>(new Form({hooks: {}, values: {}}));
+export const FormContext = React.createContext<IForm>(
+    new Form({editing: true, hooks: {}, placement: "default", values: {}}),
+);
 export const ModeContext = React.createContext<IBuilderMode>("1");
 export const ApplicationContext = React.createContext<IApplicationModel | null>(null);
 export const PageContext = React.createContext<IPageModel | undefined>(undefined);

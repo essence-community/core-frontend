@@ -56,6 +56,7 @@ export interface IEssenceTheme extends Theme {
         };
         sizing: {
             appBarHeight: number;
+            controlPanelWidth: number;
             gridRowHeight: number;
         };
     };

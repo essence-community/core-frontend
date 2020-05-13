@@ -3,7 +3,7 @@ import {setMask} from "../models/RecordsModel/loadRecordsAction";
 import {request} from "../request";
 import {IPageModel} from "../types/PageModel";
 import {ISnackbarModel} from "../types/SnackbarModel";
-import {FieldValue, IRecord, IResponse, IApplicationModel} from "../types";
+import {FieldValue, IRecord, IResponse, IApplicationModel, IBuilderConfig} from "../types";
 import {VAR_RECORD_MASTER_ID, VAR_SETTING_GATE_URL} from "../constants/variables";
 import {
     VAR_RECORD_URL,
@@ -14,21 +14,9 @@ import {
     VAR_RECORD_CL_ONLINE,
     VAR_RECORD_CV_ACTION,
     META_PAGE_OBJECT,
-    VAR_RECORD_CK_D_ENDPOINT,
 } from "../constants";
 import {settingsStore} from "../models/SettingsModel";
 import {getMasterObject} from "./getMasterObject";
-
-interface IPrintBC {
-    ck_parent: string;
-    updatequery?: string;
-    ck_d_endpoint?: string;
-    update_query?: string;
-    extraplugingate?: string;
-    noglobalmask?: string;
-    getmastervalue?: string;
-    [VAR_RECORD_MASTER_ID]: string | undefined;
-}
 
 interface IReloadPageObject {
     [VAR_RECORD_ROUTE_PAGE_ID]: string;
@@ -38,8 +26,8 @@ interface IReloadPageObject {
 interface IPrint {
     applicationStore: IApplicationModel;
     values: Record<string, FieldValue>;
-    bcBtn: IPrintBC;
-    bc: IPrintBC;
+    bcBtn: IBuilderConfig;
+    bc: IBuilderConfig;
     isOnline: boolean;
     snackbarStore: ISnackbarModel;
     pageStore: IPageModel;
@@ -87,7 +75,6 @@ export const print = async ({
     const result: any = await request({
         [META_PAGE_OBJECT]: bc[VAR_RECORD_PARENT_ID],
         action: "dml",
-        gate: bc[VAR_RECORD_CK_D_ENDPOINT],
         json: {
             data: values,
             master: getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, getMasterValue),

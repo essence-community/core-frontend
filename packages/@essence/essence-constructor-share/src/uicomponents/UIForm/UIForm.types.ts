@@ -1,5 +1,5 @@
 import {IForm} from "../../Form";
-import {IPageModel, IRecord, IBuilderMode} from "../../types";
+import {IPageModel, IRecord, IBuilderMode, IBuilderConfig} from "../../types";
 
 interface IFormOptionsType {
     reset?: boolean;
@@ -11,8 +11,10 @@ interface IFormOptionsType {
 
 export interface IUIFormProps {
     pageStore: IPageModel;
-    dataPageObject?: string;
+    editing?: boolean;
+    bc?: IBuilderConfig;
     initialValues?: IRecord;
+    placement?: string;
     noForm?: boolean;
     mode?: IBuilderMode;
     submitOnChange?: boolean;

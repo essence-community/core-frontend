@@ -56,6 +56,7 @@ const themeVars: IEssenceTheme["essence"] = {
     },
     sizing: {
         appBarHeight: 45,
+        controlPanelWidth: 58,
         gridRowHeight: 30,
     },
     ui: {

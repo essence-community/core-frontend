@@ -11,7 +11,7 @@ import {IRecord} from "./Base";
 export interface IStoreBaseModelProps {
     bc: IBuilderConfig;
     pageStore: IPageModel;
-    applicationStore: IApplicationModel | null;
+    applicationStore?: IApplicationModel | null;
     disabled?: boolean;
     hidden?: boolean;
 }
@@ -55,7 +55,7 @@ export interface IStoreBaseModel {
     bc: IBuilderConfig;
     handlers: IHandlers;
     recordsStore?: IRecordsModel;
-    applicationStore: IApplicationModel | null;
+    applicationStore?: IApplicationModel | null;
     selectedRecord?: RowRecord;
     selectedEntries?: IObservableArray<RowRecord>;
     editing?: boolean;

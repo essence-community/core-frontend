@@ -40,9 +40,17 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
         [trans],
     );
 
-    const form: IForm = React.useMemo(() => new Form({hooks: {onChange: onFormChange}, mode: "1", values: {}}), [
-        onFormChange,
-    ]);
+    const form: IForm = React.useMemo(
+        () =>
+            new Form({
+                editing: true,
+                hooks: {onChange: onFormChange},
+                mode: "1",
+                placement: "application",
+                values: {},
+            }),
+        [onFormChange],
+    );
 
     React.useEffect(() => {
         const loadApplication = async () => {

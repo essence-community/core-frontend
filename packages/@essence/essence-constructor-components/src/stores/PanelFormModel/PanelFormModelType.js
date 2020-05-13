@@ -4,13 +4,11 @@ import {type BuilderModeType, type CkIdType} from "../../BuilderType";
 import {type HistoryModelInterface} from "../HistoryModel";
 
 export interface PanelFormModelInterface extends HistoryModelInterface {
-    +isFilterOpen: boolean;
     +mode: BuilderModeType;
     +selectedRecord: Object | null;
     +refs: Map<CkIdType, HTMLDivElement | React.ElementRef<*>>;
     +panelBc: any;
     +searchAction: (values: Object) => void;
-    +toggleIsFilterOpen: () => void;
     +addAction: () => void;
     +editAction: () => void;
     +cloneAction: () => void;

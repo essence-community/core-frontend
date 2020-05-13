@@ -74,7 +74,7 @@ export class RecordsModel implements IRecordsModel {
 
     pageStore: IPageModel | null;
 
-    applicationStore: IApplicationModel | null;
+    applicationStore?: IApplicationModel | null;
 
     isLoading: boolean;
 

@@ -144,7 +144,7 @@ export class Field implements IField {
     }
 
     @computed get error(): TError | undefined {
-        return this.errors[0];
+        return this.errors.length > 0 ? this.errors[0] : undefined;
     }
 
     @computed get isValid(): boolean {
@@ -248,6 +248,8 @@ export class Field implements IField {
     };
 
     private execChangeHooks = () => {
+        this.form.setIsDirty(true);
+
         if (this.form.hooks.onChange) {
             this.form.hooks.onChange(this.form);
         }

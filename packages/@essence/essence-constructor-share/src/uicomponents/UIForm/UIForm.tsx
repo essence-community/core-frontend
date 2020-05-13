@@ -3,7 +3,7 @@ import debounce from "lodash/debounce";
 import cn from "clsx";
 import {Form} from "../../Form/Form";
 import {FormContext} from "../../context";
-import {VAR_RECORD_ID} from "../../constants";
+import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID} from "../../constants";
 import {IForm} from "../../Form";
 import {IUIFormProps} from "./UIForm.types";
 import {useStyles} from "./UIForm.styles";
@@ -11,7 +11,18 @@ import {useStyles} from "./UIForm.styles";
 const CHANGE_DELAY = 1000;
 
 export const UIForm: React.FC<IUIFormProps> = (props) => {
-    const {initialValues, mode, children, noForm, submitOnChange, dataPageObject, onSubmit} = props;
+    const {
+        initialValues,
+        mode,
+        children,
+        noForm,
+        submitOnChange,
+        bc,
+        onSubmit,
+        pageStore,
+        placement = "panel",
+        editing = true,
+    } = props;
     const classes = useStyles();
     const rootFormRef = React.useRef<HTMLFormElement>(null);
 
@@ -70,6 +81,8 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
     const form = React.useMemo<IForm>(
         () =>
             new Form({
+                bc,
+                editing,
                 hooks: {
                     onError: handleError,
                     onFilterRedirect: handleFilterRedirect,
@@ -78,6 +91,7 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
                     onValueChange: submitOnChange ? handleValueChange : undefined,
                 },
                 mode,
+                placement,
                 values: {
                     [VAR_RECORD_ID]: null,
                     ...initialValues,
@@ -91,6 +105,25 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
         form.update(initialValues, mode === "1" || mode === "6");
     }, [form, initialValues, mode]);
 
+    React.useEffect(() => {
+        form.setEditing(editing);
+    }, [editing, form]);
+
+    React.useEffect(
+        function() {
+            if (bc) {
+                pageStore.addForm(bc[VAR_RECORD_PAGE_OBJECT_ID], form);
+
+                return function() {
+                    pageStore.removeForm(bc[VAR_RECORD_PAGE_OBJECT_ID]);
+                };
+            }
+
+            return undefined;
+        },
+        [bc, form, pageStore],
+    );
+
     return (
         <FormContext.Provider value={form}>
             {noForm ? (
@@ -101,7 +134,7 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
                     onSubmit={form.onSubmit}
                     className={cn(classes.form, props.className)}
                     autoComplete="off"
-                    data-page-object={dataPageObject}
+                    data-page-object={bc && `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-form`}
                     style={props.style}
                     ref={rootFormRef}
                 >

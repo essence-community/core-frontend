@@ -1,3 +1,6 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-extraneous-dependencies */
 // @flow
 import * as React from "react";
 import noop from "lodash/noop";

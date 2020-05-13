@@ -38,7 +38,6 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
     const {disabled, field, bc} = props;
     const classes = useStyles();
     const tips: React.ReactNode[] = [];
-    const isError = Boolean(!disabled && !field.isValid);
 
     const handleClick = () => {
         if (bc.redirecturl || bc.redirectusequery) {
@@ -50,7 +49,7 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
         tips.push(<div key="currencysign">{bc.currencysign}</div>);
     }
 
-    function getTipText() {
+    function getTipText(isError: boolean) {
         if (isError && field.error) {
             return field.error;
         }
@@ -67,6 +66,8 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
     }
 
     return useObserver(() => {
+        const isError = Boolean(!disabled && !field.isValid);
+
         if (!isEmpty(field.value) && !disabled) {
             tips.push(
                 <IconButton
@@ -96,7 +97,7 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
             // @ts-ignore
             "data-page-object": bc[VAR_RECORD_PAGE_OBJECT_ID],
             // @ts-ignore
-            "data-qtip": toTranslateTextArray(trans, getTipText()),
+            "data-qtip": toTranslateTextArray(trans, getTipText(isError)),
             error: isError,
             fullWidth: true,
             inputProps: {
@@ -109,7 +110,7 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
                     bc={bc}
                     error={isError}
                     info={bc.info}
-                    isRequired={field.rules && field.rules.indexOf("required") >= 0}
+                    isRequired={field.isRequired}
                     paddingRight={tips && tips.length * FIELD_ICON_SIZE - FIELD_LABEL_RIGHT}
                 />
             ),

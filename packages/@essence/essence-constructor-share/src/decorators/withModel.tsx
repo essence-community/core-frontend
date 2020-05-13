@@ -39,7 +39,7 @@ export const withModel = <Model extends IModelType, P extends IWithModelProps>(
             const {bc, pageStore} = this.props;
             const store: Model = createModel({bc, pageStore});
             const {recordsStore} = store;
-            const isAutoLoad = checkAutoload({bc, pageStore, recordsStore: store.recordsStore});
+            const isAutoLoad = checkAutoload({bc, pageStore});
 
             if (bc[VAR_RECORD_PAGE_OBJECT_ID]) {
                 // @ts-ignore

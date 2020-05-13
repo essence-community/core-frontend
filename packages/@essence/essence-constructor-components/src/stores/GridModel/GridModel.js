@@ -16,10 +16,8 @@ import {gridScrollToRecordAction, gridSetGlobalValues, getGridHeight} from "../.
 import {type BuilderModeType, type CkIdType, type BuilderBaseType, type FormOptionsType} from "../../BuilderType";
 import {WIDTH_MAP} from "../../Grid/BaseGridTableHeader";
 import {TABLE_CELL_MIN_WIDTH, loggerRoot, GRID_ROW_HEIGHT, GRID_ROWS_COUNT} from "../../constants";
-import {type BuilderFilterType} from "../../Filter/BuilderFilterType";
 import {addWinowToPage} from "../WindowModel/WindowModelActions";
 import {RecordsModel, type RecordsModelType} from "../RecordsModel";
-import {awaitFormFilter} from "../PageModel/PageModelRedirect";
 import {StoreBaseModel, type StoreBaseModelPropsType} from "../StoreBaseModel";
 import {
     type GridBuilderType,
@@ -99,8 +97,6 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
 
     isEdit: boolean;
 
-    isFilterOpen: boolean;
-
     isAuditOpen: boolean;
 
     selectedRecord: Object | null;
@@ -173,7 +169,6 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
             height: 0,
             isAuditOpen: false,
             isEdit: false,
-            isFilterOpen: get(bc, "filters.0.collapsed", "false") !== "true",
             get isInlineEditing() {
                 return (
                     bc.edittype === "inline" && Boolean(pageStore.windowsOne.find((store) => store.gridStore === this))
@@ -318,7 +313,7 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
             return Promise.resolve();
         }
 
-        return this.applyFiltersAction().then((success) => (success ? this.recordsStore.loadRecordsAction() : null));
+        return this.recordsStore.loadRecordsAction();
     });
 
     clearStoreAction = action("clearStoreAction", () => {
@@ -389,38 +384,6 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
         if (!this.hidden && !this.disabled) {
             this.defaultHandlerBtnAction("1", this.bc);
         }
-    });
-
-    applyFiltersAction = action("applyFiltersAction", () =>
-        Promise.all(
-            // eslint-disable-next-line max-statements
-            (this.bc.filters || []).map(async (filter: BuilderFilterType) => {
-                const filterStore = this.pageStore.stores.get(filter[VAR_RECORD_PAGE_OBJECT_ID]);
-
-                if (filterStore && filterStore.form) {
-                    await awaitFormFilter(filterStore.form, false);
-                    await filterStore.form.validate({showErrors: true});
-                    const isFilterValid = filterStore.form.isValid;
-
-                    const {values} = filterStore.form;
-
-                    if (isFilterValid) {
-                        this.searchAction(values, {noLoad: true});
-                        filterStore.handleGlobals(values);
-                        filterStore.setSearchedAction(true, this.bc);
-                        filterStore.setValues(values);
-                    }
-
-                    return isFilterValid;
-                }
-
-                return true;
-            }),
-        ).then((results) => results.every((result) => result === true)),
-    );
-
-    toggleIsFilterOpen = action("toggleIsFilterOpen", () => {
-        this.isFilterOpen = !this.isFilterOpen;
     });
 
     /**
@@ -583,11 +546,6 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
 
             return Promise.resolve();
         },
-        onFilterToggle: () => {
-            this.toggleIsFilterOpen();
-
-            return Promise.resolve();
-        },
         onOpenSettings: () => {
             this.isOpenSettings = true;
 
@@ -596,10 +554,8 @@ export class GridModel extends StoreBaseModel implements GridModelInterface {
         onPrintExcel: (mode: BuilderModeType, btnBc: BuilderBaseType, {record}: any) => {
             return this.onPrintExcel(record, btnBc);
         },
-        onRefresh: async () => {
-            if (this.recordsStore.loadCounter > 0 || (await this.applyFiltersAction())) {
-                await this.loadRecordsAction();
-            }
+        onRefresh: () => {
+            this.loadRecordsAction();
         },
         onToggleExpansion: (mode, bc, {record}) => {
             if (record) {

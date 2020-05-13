@@ -17,7 +17,6 @@ export {preference, BASE_URL, loggerRoot} from "./constants";
 export {isEmpty} from "./utils/base";
 export {sendRequest} from "./request/baseRequest";
 
-export {PageModel, redirectToPage, renderGlobalValuelsInfo} from "./stores/PageModel";
 export {RoutesModel} from "./stores/RoutesModel";
 export {PagesModel} from "./stores/PagesModel";
 export {SettingsModel} from "./stores/SettingsModel";

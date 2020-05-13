@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/named
 import {ObservableMap, IObservableArray} from "mobx";
-import {IField} from "../Form";
+import {IField, IForm} from "../Form";
 import {TText} from "./SnackbarModel";
 import {
     FieldValue,
@@ -52,6 +52,7 @@ export interface IPageModel {
     fieldValueMaster: PageModelFieldValues;
     stores: PageModelStores;
     windows: PageModelWindows;
+    forms: ObservableMap<string, IForm>;
     // @deprecated
     windowsOne: PageModelWindows;
     globalValues: ObservableMap<string, FieldValue>;
@@ -107,6 +108,8 @@ export interface IPageModel {
     clearAction(): void;
     createWindowAction(params: ICreateWindow): void;
     closeWindowAction(ckPageObject: string): void;
+    addForm(name: string, form: IForm): void;
+    removeForm(name: string): void;
 }
 
 export type IPageModelConstructor = new (props: PageModelParamsType) => IPageModel;

@@ -62,11 +62,16 @@ function withModelDecorator<BCType: BuilderBaseType, Props: ModelHOCProps<BCType
                         store,
                     },
                     () => {
+                        /**
+                         * Нужно учесть при переезде на hooks
+                         */
+                        const skip = ["GRID", "TREEGRID"].indexOf(bc.type) !== -1 && bc.filters;
+
                         /*
                          * Дожидаемся did mount на внутренних компонентах.
                          * Поля могут сами инициировать начальную загрузку.
                          */
-                        if (isAutoLoad && recordsStore && !recordsStore.isLoading) {
+                        if (isAutoLoad && recordsStore && !recordsStore.isLoading && !skip) {
                             recordsStore.loadRecordsAction({status: "autoload"});
                         }
                     },

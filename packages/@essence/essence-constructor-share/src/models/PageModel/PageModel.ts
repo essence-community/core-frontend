@@ -37,7 +37,7 @@ import {WindowModel} from "../WindowModel";
 import {snackbarStore} from "../SnackbarModel";
 import {loadComponentsFromModules} from "../../components";
 import {TText} from "../../types/SnackbarModel";
-import {IField} from "../../Form";
+import {IField, IForm} from "../../Form";
 import {getNextComponent} from "./PageModel.utils";
 
 const logger = loggerRoot.extend("PageModel");
@@ -72,9 +72,6 @@ export class PageModel implements IPageModel {
     // @deprecated
     public styleTheme = styleTheme;
 
-    // @deprecated
-    public formFilters: Array<any> = [];
-
     private defaultVisible: boolean;
 
     private defaultIsReadOnly: boolean | undefined;
@@ -84,6 +81,8 @@ export class PageModel implements IPageModel {
     @observable public fieldValueMaster: PageModelFieldValues = observable.map();
 
     @observable public stores: PageModelStores = observable.map();
+
+    @observable public forms: ObservableMap<string, IForm> = observable.map();
 
     @observable public windows: PageModelWindows = observable.array();
 
@@ -521,25 +520,13 @@ export class PageModel implements IPageModel {
         }
     });
 
-    /**
-     * @deprecated
-     */
-    addFormAction = (formType: string, form: any) => {
-        if (formType === "filter") {
-            this.formFilters.push(form);
-        }
+    @action
+    addForm = (name: string, form: IForm) => {
+        this.forms.set(name, form);
     };
 
-    /**
-     * @deprecated
-     */
-    removeFormAction = (formType: string, form: any) => {
-        if (formType === "filter") {
-            const index = this.formFilters.indexOf(form);
-
-            if (index > -1) {
-                this.formFilters.splice(index, 1);
-            }
-        }
+    @action
+    removeForm = (name: string) => {
+        this.forms.delete(name);
     };
 }

@@ -11,12 +11,12 @@ import {Grid, Table, TableBody} from "@material-ui/core";
 import {parse} from "@essence-community/constructor-share/utils/parser";
 import {withTranslation, WithT} from "@essence-community/constructor-share/utils";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
+import {mapComponents} from "@essence-community/constructor-share";
 import Scrollbars, {type ReactCustomScrollbarsType} from "../Components/Scrollbars/Scrollbars";
 import {isEmpty} from "../utils/base";
 import EmptyTitle from "../Components/EmptyTitle/EmptyTitle";
 import VerticalResizer from "../Resizer/VerticalResizer";
 import Pagination from "../Pagination/Pagination";
-import BuilderFilter from "../Filter/BuilderFilter";
 import {type GridModelType, updateGridWidth, handleFocusAfterKeyDown} from "../stores/GridModel";
 import {type PageModelType} from "../stores/PageModel";
 import {
@@ -73,13 +73,20 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
     constructor(props: PropsType) {
         super(props);
 
-        const {autoselectidentity} = props.bc;
+        const {autoselectidentity, filters, autoload} = props.bc;
+
+        this.filters =
+            filters &&
+            filters.map((filter) => ({
+                ...filter,
+                autoload,
+            }));
 
         this.autoSelectIdentity = isEmpty(autoselectidentity) ? null : autoselectidentity;
     }
 
     componentDidMount() {
-        const {store, pageStore, isAutoLoad} = this.props;
+        const {store, pageStore} = this.props;
 
         this.handleUpdateWidth();
 
@@ -95,23 +102,6 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
             reaction(() => store.gridColumns, this.handleUpdateGridWidth),
             reaction(this.handleChangeVisibleColumns, store.setGridColumns, {fireImmediately: true}),
         ]);
-
-        if (isAutoLoad) {
-            // Устанавливаем флаг зугрузки, что бы не сработал общий механизм в withModel
-            store.recordsStore.setLoadingAction(true);
-            // Дожидаемся рендеринга BuilderFilter
-            this.setState({}, () => {
-                requestAnimationFrame(() => {
-                    store.applyFiltersAction().then((res) => {
-                        if (res) {
-                            store.loadRecordsAction();
-                        } else {
-                            store.recordsStore.setLoadingAction(false);
-                        }
-                    });
-                });
-            });
-        }
     }
 
     componentWillUnmount() {
@@ -369,7 +359,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
         <div className={this.props.classes.warning}>{this.props.t("static:40dd53ff1c214bfab79ecd40612de8f5")}</div>
     );
 
-    // eslint-disable-next-line max-lines-per-function,  max-statements
+    // eslint-disable-next-line max-lines-per-function,  max-statements, complexity
     render() {
         // eslint-disable-next-line id-length
         const {bc, store, classes, disabled, hideTitle, readOnly, pageStore, visible, t} = this.props;
@@ -378,6 +368,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
         const isInlineEditing = store.isEdit && bc.edittype === "inline" && childwindow.length === 0;
         const transCvDisplayed = t(bc[VAR_RECORD_DISPLAYED]);
         const isFilterActionsPresent = filters.length > 0 && filters[0].dynamicfilter !== "true";
+        const filterStore = filters[0] && pageStore.stores.get(filters[0][VAR_RECORD_PAGE_OBJECT_ID]);
         const classNameRoot = cn(classes.root, isHideActions ? classes.rootActionsHide : classes.rootActions);
         // eslint-disable-next-line init-declarations
         let marginTop;
@@ -386,7 +377,7 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
             if (filters[0].topbtn?.length > 0) {
                 marginTop = filters[0].topbtn.length * FITER_ONE_BUTTON;
             } else {
-                marginTop = store.isFilterOpen ? FILTER_THREE_BUTTON : FITER_ONE_BUTTON;
+                marginTop = filterStore && filterStore.isOpen ? FILTER_THREE_BUTTON : FITER_ONE_BUTTON;
             }
         }
 
@@ -411,22 +402,17 @@ export class BuilderBaseGridBase extends React.Component<PropsType, {focused: bo
         );
         const filterComponent = (
             <Grid item xs>
-                {filters.map((filter) => (
-                    <BuilderFilter
-                        disabled={disabled}
-                        key={filter[VAR_RECORD_PAGE_OBJECT_ID]}
-                        onSearch={store.searchAction}
-                        bc={filter}
-                        parentBc={bc}
-                        iconColor="inherit"
-                        title={hideTitle ? undefined : transCvDisplayed}
-                        open={store.isFilterOpen}
+                {mapComponents(this.filters, (ChildCmp, childBc) => (
+                    <ChildCmp
+                        key={bc[VAR_RECORD_PAGE_OBJECT_ID]}
+                        // {...props}
                         pageStore={pageStore}
-                        handleGlobals={noop}
+                        hidden={this.props.hidden}
+                        disabled={disabled}
+                        readOnly={readOnly}
                         visible={visible}
-                        addRefAction={store.addRefAction}
-                        isHideActions={isHideActions}
-                        absolute={true}
+                        elevation={this.props.elevation}
+                        bc={childBc}
                     />
                 ))}
             </Grid>

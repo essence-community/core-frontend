@@ -173,8 +173,8 @@ class BaseBuilderRoadMapPanel extends React.Component<BuilderRoadMapPanelPropsTy
             <Grid xs={12} item key={child[VAR_RECORD_PAGE_OBJECT_ID]} style={{display: isVisible ? "block" : "none"}}>
                 <UIForm
                     onSetForm={(form) => setTabStatus(child[VAR_RECORD_PAGE_OBJECT_ID], {form})}
-                    injectType="filter"
-                    dataPageObject={`${child[VAR_RECORD_PAGE_OBJECT_ID]}-form`}
+                    bc={child}
+                    placement="road-map"
                     mode="1"
                     pageStore={pageStore}
                     initialValues={tabStatus.get(child[VAR_RECORD_PAGE_OBJECT_ID]).recordStore.selectedRecordValues}

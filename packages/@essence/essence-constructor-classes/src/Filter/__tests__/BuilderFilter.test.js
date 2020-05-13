@@ -1,3 +1,6 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-extraneous-dependencies */
 // @flow
 import * as React from "react";
 import noop from "lodash/noop";
@@ -10,7 +13,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {mountWithTheme} from "../../utils/test";
 import {createEmptyPageStore} from "../../stores";
-import {type PageModelType, awaitFormFilter} from "../../stores/PageModel";
+import {awaitFormFilter} from "../../stores/PageModel";
 import BuilderFilter, {BuilderFilterBase} from "../BuilderFilter";
 import {BuilderFormBase} from "../../Form/BuilderForm";
 import filterComboGlobalBc from "../__mocks__/filterComboGlobalBc";
@@ -20,7 +23,7 @@ import "../../TextField/BuilderField";
 
 type PropsWrapperType = {
     handleSearch: Function,
-    bc: Object,
+    bc: Record<string, any>,
     pageStore: PageModelType,
 };
 

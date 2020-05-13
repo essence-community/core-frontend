@@ -8,7 +8,6 @@ import "@essence-community/constructor-components/src/Panel/BuilderBasePanel";
 import "@essence-community/constructor-components/src/Grid/BuilderGrid";
 import "@essence-community/constructor-components/src/TextField/BuilderField";
 import "@essence-community/constructor-components/src/FilePanel/BuilderFilePanel";
-import "@essence-community/constructor-components/src/FieldPeriod/BuilderFieldPeriod";
 import "@essence-community/constructor-components/src/Form/FormPanel";
 import "@essence-community/constructor-components/src/Window";
 import "@essence-community/constructor-components/src/Grid/GridComponents/GridSettings";
@@ -61,6 +60,7 @@ import "@essence-community/constructor-classes/src/FieldSet";
 import "@essence-community/constructor-classes/src/PanelDynamic";
 import "@essence-community/constructor-classes/src/FieldItemSelector";
 import "@essence-community/constructor-classes/src/Filter";
+import "@essence-community/constructor-classes/src/FieldPeriod";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

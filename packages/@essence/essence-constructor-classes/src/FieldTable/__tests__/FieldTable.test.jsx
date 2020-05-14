@@ -1,3 +1,5 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
 // @flow
 import * as React from "react";
 import {when} from "mobx";

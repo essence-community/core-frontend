@@ -5,7 +5,7 @@ import {IRecord} from "../types/Base";
 import {FieldValue} from "../types/Field";
 import {TFunction} from "./I18n";
 
-export const toSize = (value?: string, defaultValue?: string) => {
+export const toSize = (value?: string, defaultValue?: string | number) => {
     if (isEmpty(value) || !isString(value)) {
         return value || defaultValue;
     }
@@ -16,6 +16,8 @@ export const toSize = (value?: string, defaultValue?: string) => {
 
     return value || defaultValue;
 };
+
+export const toStringGlobal = (getglobal: string) => getglobal.split("||").join(" + ");
 
 /**
  * Преобразование bc.width в width для material-grid

@@ -14,6 +14,7 @@ interface IUseTextFieldProps {
     disabled?: boolean;
     field: IField;
     bc: IBuilderConfig;
+    tips?: React.ReactNode[];
 }
 
 interface ITextFieldExtendProps {
@@ -80,6 +81,10 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
                     <Icon iconfont="times" size="xs" />
                 </IconButton>,
             );
+        }
+
+        if (props.tips) {
+            tips.push(...props.tips);
         }
 
         return {

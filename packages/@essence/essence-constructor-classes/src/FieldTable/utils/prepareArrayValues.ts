@@ -1,10 +1,11 @@
-// @flow
+import {IRecord, ICkId, FieldValue} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
-import {type CkIdType} from "../../BuilderType";
-import {type TableFieldModelType} from "./TableFieldModelType";
+// eslint-disable-next-line import/named
+import {IObservableArray, ObservableMap} from "mobx";
+import {IFieldTableModel} from "../stores/FieldTableModel/FieldTableModel.types";
 
-function getValuesFromFields(valueFields: Array<[string, string]>, record: Object) {
-    const values = {};
+function getValuesFromFields(valueFields: Array<[string, string]>, record: IRecord) {
+    const values: IRecord = {};
 
     valueFields.forEach(([fieldName, valueFeild]) => {
         values[fieldName] = record[valueFeild];
@@ -14,16 +15,16 @@ function getValuesFromFields(valueFields: Array<[string, string]>, record: Objec
 }
 
 export function prepareArrayValues(
-    tableStore: TableFieldModelType,
-    selectedRecords: Map<CkIdType, Object> | Array<Object>,
+    tableStore: IFieldTableModel,
+    selectedRecords: IObservableArray | IRecord[] | ObservableMap<ICkId, IRecord>,
     recordId: string = VAR_RECORD_ID,
 ) {
-    const records = [];
+    const records: FieldValue[] = [];
     const {valueFields, valueField} = tableStore;
     const isValuesFiledsMore = valueFields && valueFields.length > 1;
     const isValuesFiledsOne = valueFields && valueFields.length > 0;
 
-    for (const record of selectedRecords.values()) {
+    selectedRecords.forEach((record: IRecord) => {
         switch (true) {
             case isValuesFiledsMore:
                 records.push(getValuesFromFields(valueFields || [], record));
@@ -35,7 +36,7 @@ export function prepareArrayValues(
                 records.push(record[recordId]);
                 break;
         }
-    }
+    });
 
     return records;
 }

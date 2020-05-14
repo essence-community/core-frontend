@@ -2,8 +2,11 @@ import {action, computed, observable, ObservableMap} from "mobx";
 import {IRecord} from "../types";
 import {IBuilderMode, IBuilderConfig} from "../types/Builder";
 import {entriesMapSort, deepDelete} from "../utils/transform";
+import {loggerRoot} from "../constants";
 import {Field} from "./Field";
 import {IField, IFormProps, IForm, IFormHooks, IRegisterFieldOptions} from "./types";
+
+const loggerForm = loggerRoot.extend("share.form");
 
 export class Form implements IForm {
     public initialValues: IRecord = {};
@@ -129,6 +132,27 @@ export class Form implements IForm {
                 field.clear();
             }
         }
+
+        this.setIsDirty(false);
+    };
+
+    @action
+    patch = (values: IRecord) => {
+        Object.keys(values).forEach((key) => {
+            const field = this.fields.get(key);
+
+            if (field) {
+                const [isExists, value] = field.input(values, field, this);
+
+                if (isExists) {
+                    field.value = value;
+                } else {
+                    field.clear();
+                }
+            } else {
+                loggerForm(`Can not update field ${key}. Field should be added from class`);
+            }
+        });
 
         this.setIsDirty(false);
     };

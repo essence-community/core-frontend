@@ -8,10 +8,12 @@ import {isEmpty, useTranslation, toTranslateTextArray} from "../../utils";
 import {Icon} from "../../Icon";
 import {TextFieldLabel} from "../../uicomponents";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "../../constants";
+import {FormContext} from "../../context";
 import {useStyles} from "./useTextFieldProps.styles";
 
 interface IUseTextFieldProps {
     disabled?: boolean;
+    readOnly?: boolean;
     field: IField;
     bc: IBuilderConfig;
 }
@@ -34,8 +36,9 @@ const FIELD_ICON_SIZE = 30;
 const FIELD_LABEL_RIGHT = 5;
 
 export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & ITextFieldExtendProps {
+    const form = React.useContext(FormContext);
     const [trans] = useTranslation("meta");
-    const {disabled, field, bc} = props;
+    const {disabled, readOnly, field, bc} = props;
     const classes = useStyles();
     const tips: React.ReactNode[] = [];
 
@@ -67,8 +70,9 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
 
     return useObserver(() => {
         const isError = Boolean(!disabled && !field.isValid);
+        const isDisabled = readOnly || disabled || !form.editing;
 
-        if (!isEmpty(field.value) && !disabled) {
+        if (!isEmpty(field.value) && !isDisabled) {
             tips.push(
                 <IconButton
                     color="secondary"
@@ -98,6 +102,7 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
             "data-page-object": bc[VAR_RECORD_PAGE_OBJECT_ID],
             // @ts-ignore
             "data-qtip": toTranslateTextArray(trans, getTipText(isError)),
+            disabled: isDisabled,
             error: isError,
             fullWidth: true,
             inputProps: {

@@ -69,7 +69,7 @@ export class BaseBuilderHistoryPanel extends React.Component<PropsType & PropsSt
             <UIForm
                 bc={bc}
                 initialValues={selectedRecordValues}
-                isEditing={store.editing}
+                editing={store.editing}
                 mode={store.mode}
                 pageStore={pageStore}
             >

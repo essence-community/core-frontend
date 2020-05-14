@@ -57,7 +57,7 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
 
     // CORE-1538 - minzise - guaranteed minimum fields for the repeater
     React.useEffect(() => {
-        const val = (field.value || []) as FieldValue[];
+        const val = (Array.isArray(field.value) ? [...field.value] : []) as FieldValue[];
         const minSize = bc.minsize ? parseInt(bc.minsize, 10) : undefined;
 
         if (minSize && val.length < minSize) {

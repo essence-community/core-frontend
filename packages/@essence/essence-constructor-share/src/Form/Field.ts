@@ -39,7 +39,7 @@ export class Field implements IField {
 
     public key: string;
 
-    public defaultvalue: FieldValue;
+    public defaultValue: FieldValue;
 
     private isArray: boolean;
 
@@ -58,8 +58,6 @@ export class Field implements IField {
     @observable errors: TError[] = [];
 
     @observable private extraRules: string[] = [];
-
-    @observable defaultValue: FieldValue;
 
     @computed get isRequired(): boolean {
         if (this.bc.required === "true") {
@@ -308,7 +306,6 @@ export class Field implements IField {
         this.extraRules = extraRules;
     };
 
-    @action
     setDefaultValue = (defaultValue: FieldValue) => {
         this.defaultValue = defaultValue;
     };
@@ -319,7 +316,7 @@ export class Field implements IField {
      */
     @action
     reset = () => {
-        if (this.defaultvalue === undefined) {
+        if (this.defaultValue === undefined) {
             this.clear();
         } else {
             this.onChange(this.defaultValue);

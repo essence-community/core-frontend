@@ -61,6 +61,7 @@ import "@essence-community/constructor-classes/src/PanelDynamic";
 import "@essence-community/constructor-classes/src/FieldItemSelector";
 import "@essence-community/constructor-classes/src/Filter";
 import "@essence-community/constructor-classes/src/FieldPeriod";
+import "@essence-community/constructor-classes/src/FieldText";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

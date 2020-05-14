@@ -82,7 +82,6 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType & WithT> {
         // eslint-disable-next-line id-length
         const {store, pageStore, classes, theme = {}, visible, t} = this.props;
         const {
-            autobuild,
             [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
             checkaddmore,
             stepnamenext,
@@ -184,7 +183,7 @@ class BuilderWindow extends React.Component<BuilderWindowPropsType & WithT> {
                             })}
                         </Grid>
                     </Scrollbars>
-                    {autobuild === "true" && store.gridStore ? (
+                    {!bottombtn && store.gridStore ? (
                         <BuilderWindowButtonDefault
                             store={store}
                             ckPageObject={ckPageObject}

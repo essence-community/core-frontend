@@ -5,13 +5,11 @@ import {preference} from "@essence-community/constructor-share/constants";
 // Intialize components
 import "@essence-community/constructor-components/src/HistoryPanel/BuilderHistoryPanel";
 import "@essence-community/constructor-components/src/Panel/BuilderBasePanel";
-import "@essence-community/constructor-components/src/Grid/BuilderGrid";
 import "@essence-community/constructor-components/src/TextField/BuilderField";
 import "@essence-community/constructor-components/src/FilePanel/BuilderFilePanel";
 import "@essence-community/constructor-components/src/FieldPeriod/BuilderFieldPeriod";
 import "@essence-community/constructor-components/src/Form/FormPanel";
 import "@essence-community/constructor-components/src/Window";
-import "@essence-community/constructor-components/src/Grid/GridComponents/GridSettings";
 
 import "@essence-community/constructor-classes/src/FilterExtended";
 import "@essence-community/constructor-classes/src/ButtonGroup";
@@ -61,6 +59,14 @@ import "@essence-community/constructor-classes/src/FieldSet";
 import "@essence-community/constructor-classes/src/PanelDynamic";
 import "@essence-community/constructor-classes/src/FieldItemSelector";
 import "@essence-community/constructor-classes/src/Filter";
+import "@essence-community/constructor-classes/src/Grid";
+import "@essence-community/constructor-classes/src/GridHeaderAction";
+import "@essence-community/constructor-classes/src/GridHeaderCheckbox";
+import "@essence-community/constructor-classes/src/GridHeaderDefault";
+import "@essence-community/constructor-classes/src/GridHeaderDetail";
+import "@essence-community/constructor-classes/src/GridHeaderIcon";
+import "@essence-community/constructor-classes/src/GridHFDate";
+import "@essence-community/constructor-classes/src/GridHFDefault";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

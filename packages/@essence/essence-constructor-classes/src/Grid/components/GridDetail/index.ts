@@ -1,0 +1,1 @@
+export {GridDetail} from "./GridDetail";

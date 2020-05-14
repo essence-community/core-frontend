@@ -1,11 +1,9 @@
 // @flow
 import {type PageModelType} from "../PageModel/PageModelType";
-import {type GridModelType} from "../GridModel/GridModelType";
 import {type BuilderBaseType, type BuilderModeType} from "../../BuilderType";
 import {type StoreBaseModelInterface} from "../StoreBaseModel";
 
 export type WindowBcType = BuilderBaseType & {
-    autobuild?: "true" | "false",
     columns?: Array<BuilderBaseType>,
     childs?: Array<BuilderBaseType>,
     detail?: Array<BuilderBaseType>,
@@ -16,7 +14,6 @@ export type WindowModelConfigType = {
 };
 export type WindowModelConstructorType = WindowModelConfigType & {
     bc: WindowBcType,
-    gridStore?: GridModelType,
     pageStore: PageModelType,
     values?: Object,
 };
@@ -34,7 +31,6 @@ export interface WindowModelInterface extends StoreBaseModelInterface {
     +addMore: boolean;
     +childs: Array<Object>;
     +windowBc: Object;
-    +gridStore: ?GridModelType;
     +config: $ReadOnly<WindowModelConfigType>;
     constructor(props: WindowModelConstructorType): void;
     +closeAction: () => void;

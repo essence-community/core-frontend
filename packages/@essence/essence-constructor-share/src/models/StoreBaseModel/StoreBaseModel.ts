@@ -48,8 +48,8 @@ export class StoreBaseModel implements IStoreBaseModel {
         this.recordId = bc.idproperty || VAR_RECORD_ID;
     }
 
-    public reloadStoreAction = (): Promise<undefined | IRecord> => {
-        logger(i18next.t("static:83490c56debb4a399f05518608e3bace", {name: this.constructor.name}));
+    public reloadStoreAction = (reloadStoreAction?: boolean): Promise<undefined | IRecord> => {
+        logger(i18next.t("static:83490c56debb4a399f05518608e3bace", {name: this.constructor.name, reloadStoreAction}));
 
         return Promise.resolve(undefined);
     };

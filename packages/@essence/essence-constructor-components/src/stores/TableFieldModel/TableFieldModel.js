@@ -369,6 +369,7 @@ export class TableFieldModel extends StoreBaseModel implements TableFieldModelIn
 
     handlers = {
         closeAction: this.closeAction,
+        onDoubleClick: this.dbSelectAction,
         selectAction: this.selectAction,
         selectArrayAction: this.selectArrayAction,
     };

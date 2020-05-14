@@ -7,7 +7,6 @@ import {toSize} from "@essence-community/constructor-share/utils";
 import {VALUE_SELF_FIRST, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {isEmpty} from "../../../utils/base";
 import Popover from "../../../Popover/Popover";
-import BuilderGrid from "../../../Grid/BuilderGrid";
 import {TableFieldModel, type TableFieldModelType} from "../../../stores/TableFieldModel";
 import withModelDecorator from "../../../decorators/withModelDecorator";
 import {type BuilderFieldType, type TextFieldChildProps} from "../../BuilderFieldType";
@@ -99,27 +98,28 @@ export class FieldTableBase extends React.Component<PropsType, StateType> {
     };
 
     render() {
-        const {store, bc, pageStore, hidden, visible, readOnly} = this.props;
+        const {store, bc, pageStore, hidden} = this.props;
 
         if (hidden) {
             return null;
         }
 
-        const popoverContent = (
-            <BuilderGrid
-                bc={store.gridBc}
-                onDoubleClick={store.dbSelectAction}
-                pageStore={pageStore}
-                readOnly={readOnly}
-                elevation={0}
-                visible={visible}
-                fireScrollEvent={false}
-            />
-        );
+        /*
+         * Const popoverContent = (
+         *     <BuilderGrid
+         *         bc={store.gridBc}
+         *         pageStore={pageStore}
+         *         readOnly={readOnly}
+         *         elevation={0}
+         *         visible={visible}
+         *         fireScrollEvent={false}
+         *     />
+         * );
+         */
 
         return (
             <Popover
-                popoverContent={popoverContent}
+                popoverContent={null}
                 open={store.openField}
                 onChangeOpen={this.handleChangeOpen}
                 onClose={store.closeAction}

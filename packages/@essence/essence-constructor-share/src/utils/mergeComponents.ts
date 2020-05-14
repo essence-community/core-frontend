@@ -32,7 +32,7 @@ export interface IMergeOptions {
 
 type KeyBuilderConfig = keyof IBuilderConfig;
 
-export function mergeComponents<T extends Record<string, Record<string, string>>>(
+export function mergeComponents<T extends Record<string, IBuilderConfig>>(
     bcComponents: IBuilderConfig[] = [],
     overrides: T,
     options: IMergeOptions = {

@@ -124,6 +124,9 @@ export const themeLight = {
                 disabled: "#2c3345",
                 light: "#dbdfef",
             },
+            primary: {
+                field: "#a1a1a1",
+            },
         },
         zIndex: {
             backdrop: 3,

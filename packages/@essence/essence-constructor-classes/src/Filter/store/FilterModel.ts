@@ -39,6 +39,7 @@ export class FilterModel extends StoreBaseModel {
         this.isOpen = this.bc.collapsed !== "true";
     }
 
+    @action
     setValues = (values: IRecord): void => {
         const filterValues = {...values};
 

@@ -62,8 +62,6 @@ export interface IBuilderBaseConfig {
     defaultvalue?: string;
     // Сервис для запроса значения по умолчанию
     defaultvaluequery?: string;
-    // Отображение панели с детализацией - Служебная информация
-    detail?: string;
     // Признак блокировки объекта при инициализации true-блокирован
     disabled?: string;
     // Признак блокировки, если мастер вернул пустое значение
@@ -258,6 +256,7 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     cv_displayed?: string;
     cv_name?: string;
     ck_object?: string;
+    cn_order?: number;
     // Определяет класс в качестве мастера
     cl_is_master?: boolean;
     contentwidth?: string;
@@ -272,11 +271,13 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     // Служебный параметр для иерархии
     columns?: IBuilderConfig[];
     // Служебный параметр для иерархии
-    editors?: IBuilderConfig[];
+    editors?: IBuilderConfig[] | "false";
     // Служебный параметр для иерархии
     filters?: IBuilderConfig[];
     // Служебный параметр для иерархии
     topbtn?: IBuilderConfig[];
+    // Отображение панели с детализацией - Служебная информация
+    detail?: IBuilderConfig[];
     // Служебный параметр для передачи статических значений
     records?: Record<string, FieldValue>[];
     // Interanal

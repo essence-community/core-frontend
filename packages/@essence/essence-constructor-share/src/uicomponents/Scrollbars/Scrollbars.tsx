@@ -45,7 +45,7 @@ const KEY_S = 83;
  * values.scrollLeft: (Number) Native scrollLeft
  * values.scrollTop: (Number) Native scrollTop
  */
-type ValuesType = {
+export type ScrollbalrsValuesType = {
     top: number;
     left: number;
     clientWidth: number;
@@ -68,7 +68,7 @@ interface IProps extends ScrollbarProps {
     fireScrollEvent: boolean;
     hideVerticalScrollbar?: boolean;
     hideHorizontalScrollbar?: boolean;
-    onScrollFrame?: (values: ValuesType) => void;
+    onScrollFrame?: (values: ScrollbalrsValuesType) => void;
     scrollbarsRef?: (scrollbars?: Record<string, any>) => void;
 }
 
@@ -95,7 +95,7 @@ export class Scrollbars extends React.Component<IProps, IState> {
 
     lastWheelAlt = false;
 
-    scrollValues: ValuesType | null = null;
+    scrollValues: ScrollbalrsValuesType | null = null;
 
     componentDidMount() {
         if (this.props.withRequestAnimationFrame) {
@@ -147,7 +147,7 @@ export class Scrollbars extends React.Component<IProps, IState> {
         }
     }, SCROLL_DEBOUNCE);
 
-    handleScrollFrame = (values: ValuesType) => {
+    handleScrollFrame = (values: ScrollbalrsValuesType) => {
         if (this.props.fireScrollEvent && !isEqual(values, this.scrollValues)) {
             this.handleScrollFrameDebounce();
         }

@@ -20,7 +20,6 @@ export const FieldTextContainer: React.FC<IClassProps> = (props) => {
     return (
         <TextField
             {...inputProps}
-            InputProps={{...inputProps.InputProps}}
             // eslint-disable-next-line react/jsx-no-duplicate-props
             inputProps={{...inputProps.inputProps, onChange}}
         />

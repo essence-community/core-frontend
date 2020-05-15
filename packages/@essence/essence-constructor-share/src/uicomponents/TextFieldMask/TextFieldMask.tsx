@@ -4,7 +4,7 @@ import {TextField, TextFieldProps} from "@material-ui/core";
 import {ITextFieldExtendProps} from "../../hooks/useTextFieldProps";
 import {formatChars} from "./maskConfig";
 
-interface ITextFieldMaskProps {
+export interface ITextFieldMaskProps {
     maskChar?: string;
     imask: string;
     textFieldProps: ITextFieldExtendProps & TextFieldProps;

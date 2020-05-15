@@ -4,6 +4,7 @@ import {useField} from "@essence-community/constructor-share/Form";
 import {useTextFieldProps} from "@essence-community/constructor-share/hooks";
 import {TextFieldMask} from "@essence-community/constructor-share/uicomponents";
 import {TextField} from "@material-ui/core";
+import {FieldTextSmartMask} from "../components/FieldTextSmartMask";
 
 export const FieldTextContainer: React.FC<IClassProps> = (props) => {
     const {bc} = props;
@@ -21,7 +22,18 @@ export const FieldTextContainer: React.FC<IClassProps> = (props) => {
     );
 
     if (bc.imask) {
-        return <TextFieldMask textFieldProps={inputProps} imask={bc.imask} onChange={handleChange} />;
+        return bc.imask.indexOf("!") === 0 ? (
+            <FieldTextSmartMask
+                textFieldProps={inputProps}
+                imask={bc.imask}
+                onChange={handleChange}
+                disabled={props.disabled}
+                field={field}
+                pageStore={props.pageStore}
+            />
+        ) : (
+            <TextFieldMask textFieldProps={inputProps} imask={bc.imask} onChange={handleChange} />
+        );
     }
 
     return <TextField {...inputProps} onChange={handleChange} />;

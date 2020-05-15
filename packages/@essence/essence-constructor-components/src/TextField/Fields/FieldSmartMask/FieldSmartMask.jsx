@@ -4,10 +4,13 @@ import {reaction} from "mobx";
 import {observer} from "mobx-react";
 import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {TextFieldLabel} from "@essence-community/constructor-share/uicomponents/TextFieldLabel";
+import {
+    extendValidMask,
+    getRegexFromImask,
+    getStrRegexFromImask,
+} from "@essence-community/constructor-share/uicomponents/TextFieldMask";
 import {isEqualStr} from "../../../utils/base";
 import {type TextFieldChildProps} from "../../BuilderFieldType";
-import {extendValidMask, getRegexFromImask, getStrRegexFromImask} from "../FieldMask/imask";
-import FieldMask from "../FieldMask/FieldMask";
 
 type PropsType = TextFieldChildProps;
 type StateType = {
@@ -36,6 +39,8 @@ type ProcessFormat = {
     userInput: string,
     value: string,
 };
+
+const FieldMask = () => null;
 
 class FieldSmartMask extends React.Component<PropsType, StateType> {
     state = {

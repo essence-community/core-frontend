@@ -7,7 +7,6 @@ import {IconButton, InputAdornment} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {parse} from "@essence-community/constructor-share/utils/parser";
 import {type TextFieldChildProps} from "../../BuilderFieldType";
-import FieldMask from "../FieldMask/FieldMask";
 import {getFieldDate} from "./fieldDateHelpers";
 import styles from "./FieldDateRCSStyles";
 
@@ -28,6 +27,8 @@ type StateType = {
     momentValue?: Object,
     open: boolean,
 };
+
+const FieldMask = () => null;
 
 export class FieldDateRCBase extends React.Component<PropsType, StateType> {
     inputElement: ?HTMLElement = null;

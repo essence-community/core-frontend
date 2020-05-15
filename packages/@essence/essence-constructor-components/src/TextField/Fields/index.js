@@ -1,5 +1,4 @@
 import {getComponent} from "@essence-community/constructor-share";
-import FieldMask from "./FieldMask/FieldMask";
 import FieldDateRC from "./FieldDateRC/FieldDateRC";
 import FieldMulti from "./FieldMulti/FieldMulti";
 import FieldSmartMask from "./FieldSmartMask/FieldSmartMask";
@@ -22,7 +21,7 @@ export const fieldMap = {
 
 export const getFieldInstance = (config) => {
     if (config.imask) {
-        return config.imask.indexOf("!") === 0 ? FieldSmartMask : FieldMask;
+        return config.imask.indexOf("!") === 0 ? FieldSmartMask : null;
     }
 
     const component = getComponent(`${config.type}.${config.datatype.toUpperCase()}`);

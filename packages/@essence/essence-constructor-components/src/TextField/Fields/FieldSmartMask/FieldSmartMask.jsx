@@ -125,7 +125,7 @@ class FieldSmartMask extends React.Component<PropsType, StateType> {
             sourceImask: imask,
         });
 
-        field.setExtraRules(imask ? [`regex:${getStrRegexFromImask(imask)}`] : []);
+        field.setExtraRules(imask ? [`regex:^${getStrRegexFromImask(imask)}$`] : []);
     };
 
     handleCkeckNewMask = ({value, oldValue, selection, formatChars, userInput, mask}: CkeckNewMaskType) => {

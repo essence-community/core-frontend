@@ -18,10 +18,10 @@ export class TabPanelModel extends StoreBaseModel {
 
     childs: IBuilderConfig[];
 
-    @computed get activeInHidden(): boolean {
-        const activeTabIndex = this.activeTabs.findIndex((tabBc) => this.tabValue === tabBc[VAR_RECORD_PAGE_OBJECT_ID]);
+    @computed get tabsInHidden(): boolean {
+        const activeTabIndex = this.tabs.findIndex((tabBc) => this.tabValue === tabBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
-        return activeTabIndex >= this.activeTabs.length - this.hiddenTabsIndex;
+        return activeTabIndex >= this.tabs.length - this.hiddenTabsIndex;
     }
 
     @computed get activeTabs(): IBuilderConfig[] {
@@ -102,7 +102,21 @@ export class TabPanelModel extends StoreBaseModel {
     };
 
     setHiddenTabsIndex = (hiddenTabsIndex: number) => {
-        this.hiddenTabsIndex = hiddenTabsIndex;
+        const hiddenTabFirst = this.activeTabs[hiddenTabsIndex];
+
+        if (hiddenTabsIndex === 0) {
+            this.hiddenTabsIndex = 0;
+        } else if (hiddenTabFirst) {
+            // Convert hidden tabs from active to all tabs
+            const hiddenTabsId = hiddenTabFirst[VAR_RECORD_PAGE_OBJECT_ID];
+
+            this.hiddenTabsIndex = this.tabs.findIndex(
+                (bc: IBuilderConfig) => bc[VAR_RECORD_PAGE_OBJECT_ID] === hiddenTabsId,
+            );
+        } else {
+            // All tabs should be hidden
+            this.hiddenTabsIndex = this.tabs.length;
+        }
     };
 
     resetOpenedTabs = () => {

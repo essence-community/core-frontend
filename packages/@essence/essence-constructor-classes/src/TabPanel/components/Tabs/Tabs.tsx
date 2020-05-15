@@ -123,7 +123,7 @@ export const Tabs: React.FC<ITabsProps> = React.memo((props) => {
                     // Empty space
                     let currentWidth = TAB_EMPTY_SPACE[themeType];
 
-                    const currentInex = store.activeTabs.reduce((lastIndex, tab) => {
+                    const currentIndex = store.activeTabs.reduce((lastIndex, tab) => {
                         const labelKey = tab[VAR_RECORD_DISPLAYED];
                         const labelWidth = labelKey ? getTextWidth(trans(labelKey), font) : MIN_WIIDTH;
 
@@ -131,7 +131,7 @@ export const Tabs: React.FC<ITabsProps> = React.memo((props) => {
 
                         return current.offsetWidth > currentWidth ? lastIndex + 1 : lastIndex;
                     }, 0);
-                    const hiddenTabsIndex = store.activeTabs.length - currentInex;
+                    const hiddenTabsIndex = store.activeTabs.length - currentIndex;
 
                     store.setHiddenTabsIndex(hiddenTabsIndex);
                 }
@@ -177,24 +177,22 @@ export const Tabs: React.FC<ITabsProps> = React.memo((props) => {
             ref={tabsComponentRef}
             className={cn(classes.rootDefault, classes.root, positionClassName)}
         >
-            {(store.hiddenTabsIndex ? store.activeTabs.slice(0, -store.hiddenTabsIndex) : store.activeTabs).map(
-                (tabBc) => {
-                    const labelKey = tabBc[VAR_RECORD_DISPLAYED];
+            {(store.hiddenTabsIndex ? store.tabs.slice(0, -store.hiddenTabsIndex) : store.tabs).map((tabBc) => {
+                const labelKey = tabBc[VAR_RECORD_DISPLAYED];
 
-                    return (
-                        <Tab
-                            key={tabBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                            {...props}
-                            bc={tabBc}
-                            store={store}
-                            label={labelKey ? trans(labelKey) : ""}
-                            isActive={store.tabValue === tabBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                            value={tabBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                            positonName={positonName}
-                        />
-                    );
-                },
-            )}
+                return (
+                    <Tab
+                        key={tabBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                        {...props}
+                        bc={tabBc}
+                        store={store}
+                        label={labelKey ? trans(labelKey) : ""}
+                        isActive={store.tabValue === tabBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                        value={tabBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                        positonName={positonName}
+                    />
+                );
+            })}
             <div className={classes.grow} />
             {Boolean(store.hiddenTabsIndex) && (
                 <Popover
@@ -213,7 +211,7 @@ export const Tabs: React.FC<ITabsProps> = React.memo((props) => {
                             disableRipple
                             className={cn(classes.popoverButton, {
                                 [classes.popoverButtonOpen]: open,
-                                [classes.popoverButtonActive]: store.activeInHidden,
+                                [classes.popoverButtonActive]: store.tabsInHidden,
                             })}
                         >
                             <Icon

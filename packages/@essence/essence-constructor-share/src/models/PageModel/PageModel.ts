@@ -99,6 +99,7 @@ export class PageModel implements IPageModel {
             [VAR_RECORD_PAGE_OBJECT_ID]: this.pageId,
             [VAR_RECORD_PARENT_ID]: this.applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID],
             defaultvalue: this.applicationStore.bc.defaultvalue,
+            type: "NONE",
         };
     }
 
@@ -191,6 +192,7 @@ export class PageModel implements IPageModel {
                 [VAR_RECORD_PARENT_ID]: "root",
                 [VAR_RECORD_QUERY_ID]: "GetMetamodelPage2.0",
                 defaultvalue: "##alwaysfirst##",
+                type: "NONE",
             },
             {applicationStore, pageStore: this},
         );

@@ -22,6 +22,8 @@ export interface IBuilderBaseConfig {
     btndelete?: string;
     // Отображение кнопки "Экспорт в Excel" (true/false)
     btnexcel?: string;
+    // Признак доступности фильтрации по колонке True - фильтрация включена False - фильтрация выключена
+    btnfilter?: boolean;
     // Отображение кнопки "Обновить" (true/false)
     btnrefresh?: string;
     // Отображение кнопки "Настройки" (true/false)
@@ -221,7 +223,7 @@ export interface IBuilderBaseConfig {
     // Отступ от верха в пикселях
     top?: string;
     // Служебный параметр не править
-    type?: string;
+    type: string;
     // Формат возвращаемого значения с сервиса. Значения: "URL", "HTML". Допускаются условия с учетом глобальных переменных.
     typeiframe?: string;
     // Тип вида кнопки: 1-primary 2-secondary

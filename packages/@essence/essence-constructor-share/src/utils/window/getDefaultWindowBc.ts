@@ -22,6 +22,7 @@ export function getDefaultWindowBc(bc: IBuilderConfig): IBuilderConfig {
         detail: bc.detail,
         edittype: bc.edittype,
         stepnamenext: bc.stepnamenext,
+        type: "WIN",
         wintype: bc.wintype,
     };
 }

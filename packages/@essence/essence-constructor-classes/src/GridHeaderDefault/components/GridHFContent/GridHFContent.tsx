@@ -8,8 +8,8 @@ import {useStyles} from "./GridHFContent.styles";
 export const GridHFContent: React.FC<IClassProps> = (props) => {
     const classes = useStyles();
     const Component =
-        getComponent(`GRID_HEADER_FILTER.${props.bc.datatype?.toUpperCase()}`) ||
-        getComponent("GRID_HEADER_FILTER.DEFAULT");
+        getComponent(`${props.bc.type}.${props.bc.datatype?.toUpperCase()}`) ||
+        getComponent(`${props.bc.type}.DEFAULT`);
 
     if (Component) {
         return (

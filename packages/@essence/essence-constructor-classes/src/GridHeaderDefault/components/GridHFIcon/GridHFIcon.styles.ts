@@ -3,6 +3,9 @@ import {IEssenceTheme} from "@essence-community/constructor-share/types";
 
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
+        icon: {
+            minWidth: 0,
+        },
         popoverWrapper: {
             "&$popoverWrapperDisabled": {
                 pointerEvents: "none",

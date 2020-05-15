@@ -66,9 +66,10 @@ const prepareUserGlobals = (userInfo: Partial<IAuthSession>) => {
         return acc;
     }, {});
 };
-const NONE_BC = {
+const NONE_BC: IBuilderConfig = {
     [VAR_RECORD_PAGE_OBJECT_ID]: "none",
     [VAR_RECORD_PARENT_ID]: "none",
+    type: "NONE",
 };
 const logger = loggerRoot.extend("ApplicationModel");
 
@@ -150,6 +151,7 @@ export class ApplicationModel implements IApplicationModel {
                 [VAR_RECORD_PARENT_ID]: "application",
                 [VAR_RECORD_QUERY_ID]: "GetMetamodelPage2.0",
                 defaultvalue: "##alwaysfirst##",
+                type: "NONE",
             },
             {applicationStore: this, pageStore: null},
         );
@@ -288,6 +290,7 @@ export class ApplicationModel implements IApplicationModel {
                     [VAR_RECORD_PAGE_OBJECT_ID]: "routes",
                     [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
                     [VAR_RECORD_QUERY_ID]: this.bc[VAR_RECORD_QUERY_ID] || "MTRoute",
+                    type: "NONE",
                 },
                 this,
             );
@@ -479,6 +482,7 @@ export class ApplicationModel implements IApplicationModel {
                         [VAR_RECORD_PAGE_OBJECT_ID]: "routes",
                         [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
                         [VAR_RECORD_QUERY_ID]: queryId,
+                        type: "NONE",
                     },
                     this,
                 );

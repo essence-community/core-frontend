@@ -44,6 +44,9 @@ const themeVars: IEssenceTheme["essence"] = {
         icon: {
             secondary: "#80838d",
         },
+        primary: {
+            field: "",
+        },
         tab: {
             active: "",
             hover: "",

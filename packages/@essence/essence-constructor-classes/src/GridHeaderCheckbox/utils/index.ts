@@ -1,0 +1,1 @@
+export {checkPageSelectedRecords} from "./checkPageSelectedRecords";

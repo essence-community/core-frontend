@@ -49,6 +49,9 @@ export interface IEssenceTheme extends Theme {
                 disabled: string;
                 light: string;
             };
+            primary: {
+                field: string;
+            };
         };
         zIndex: {
             backdrop: number;

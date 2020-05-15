@@ -142,6 +142,9 @@ export const themeDark = {
                 disabled: "#2c3345",
                 light: "#dbdfef",
             },
+            primary: {
+                field: "#51a1b5",
+            },
         },
         zIndex: {
             backdrop: 3,

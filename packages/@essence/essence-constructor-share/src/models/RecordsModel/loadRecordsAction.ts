@@ -221,7 +221,7 @@ export function loadRecordsAction(
                 })
             ) {
                 const records = (response || []).map((record: Record<string, FieldValue>) => {
-                    if (record[recordId] === undefined) {
+                    if (record[recordId] === undefined || record[recordId] === null) {
                         record[recordId] = `auto-${v4()}`;
                     }
 

@@ -2,8 +2,8 @@ import * as React from "react";
 import {TextFieldProps, IconButton, InputAdornment} from "@material-ui/core";
 import cn from "clsx";
 import {useObserver} from "mobx-react-lite";
-import {IField} from "../../Form/types";
-import {IBuilderConfig} from "../../types";
+import {IField, TError} from "../../Form/types";
+import {IBuilderConfig, TText} from "../../types";
 import {isEmpty, useTranslation, toTranslateTextArray} from "../../utils";
 import {Icon} from "../../Icon";
 import {TextFieldLabel} from "../../uicomponents";
@@ -16,10 +16,13 @@ interface IUseTextFieldProps {
     readOnly?: boolean;
     field: IField;
     bc: IBuilderConfig;
+    tips?: React.ReactNode[];
 }
 
 interface ITextFieldExtendProps {
     variant: TextFieldProps["variant"];
+    "data-page-object"?: string;
+    "data-qtip"?: string | TError | TText | TText[];
 }
 
 export const inputTypes: Record<string, string> = {
@@ -86,6 +89,10 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
             );
         }
 
+        if (props.tips) {
+            tips.push(...props.tips);
+        }
+
         return {
             InputLabelProps: {
                 className: classes.formLabelRoot,
@@ -98,9 +105,7 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
             className: cn(classes.inputRoot, {
                 [classes.linkInputRoot]: (bc.redirecturl || bc.redirectusequery) && Boolean(field.value),
             }),
-            // @ts-ignore
             "data-page-object": bc[VAR_RECORD_PAGE_OBJECT_ID],
-            // @ts-ignore
             "data-qtip": toTranslateTextArray(trans, getTipText(isError)),
             disabled: isDisabled,
             error: isError,

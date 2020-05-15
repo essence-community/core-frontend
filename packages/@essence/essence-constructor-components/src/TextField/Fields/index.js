@@ -1,7 +1,6 @@
 import {getComponent} from "@essence-community/constructor-share";
 import FieldMask from "./FieldMask/FieldMask";
 import FieldDateRC from "./FieldDateRC/FieldDateRC";
-import FieldTable from "./FieldTable/FieldTable";
 import FieldMulti from "./FieldMulti/FieldMulti";
 import FieldSmartMask from "./FieldSmartMask/FieldSmartMask";
 import FieldGroup from "./FieldGroup/FieldGroup";
@@ -14,13 +13,11 @@ export const fieldMap = {
     addr: FieldMulti,
     color: FieldColorPicker,
     date: FieldDateRC,
-    grid: FieldTable,
     group: FieldGroup,
     image: FieldImage,
     mo: FieldMulti,
     password: FieldPassword,
     radio: FieldRadioGroup,
-    tree: FieldTable,
 };
 
 export const getFieldInstance = (config) => {

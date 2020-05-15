@@ -4,12 +4,12 @@ import {autorun, IReactionDisposer} from "mobx";
 import * as React from "react";
 import {VAR_RECORD_MASTER_ID} from "../constants";
 import {IClassProps} from "../types/Class";
-import {RowRecord} from "../types/StoreBaseModel";
 import {isEmpty} from "../utils/base";
 import {parseMemoize} from "../utils/parser";
+import {IRecord} from "../types";
 
 export interface ICommonHOCProps extends IClassProps {
-    record?: RowRecord;
+    record?: IRecord;
 }
 
 export interface ICommonHOCState {

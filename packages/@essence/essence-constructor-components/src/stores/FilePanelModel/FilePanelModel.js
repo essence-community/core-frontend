@@ -14,9 +14,8 @@ import {
     VAR_RECORD_ROUTE_PAGE_ID,
     META_PAGE_OBJECT,
 } from "@essence-community/constructor-share/constants";
+import {RecordsModel} from "@essence-community/constructor-share/models";
 import {type BuilderBaseType, type BuilderModeType} from "../../BuilderType";
-import {type RecordsModelType} from "../RecordsModel";
-import {GridModel} from "../GridModel";
 import {StoreBaseModel} from "../StoreBaseModel";
 import {getFilePanelBtnsConfig} from "./FilePanelModelBtnConfigs";
 import {
@@ -35,42 +34,40 @@ export class FilePanelModel extends StoreBaseModel implements FilePanelModelType
 
     btnsConfig: FilePanelBtnsConfigType;
 
-    gridStore: GridModel;
+    childwindow: FilePanelBcType;
 
     constructor({pageStore, bc}: FilePanelConstructorType) {
         super({bc, pageStore});
 
         this.btnsConfig = getFilePanelBtnsConfig(bc);
-        this.gridStore = new GridModel({
-            bc: {
-                ...this.bc,
-                childwindow: [
-                    {
-                        [VAR_RECORD_DISPLAYED]: "static:6a4c7f4488164e7e8fabd46e0cc01ccc",
-                        [VAR_RECORD_NAME]: "",
-                        [VAR_RECORD_PAGE_OBJECT_ID]: `${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow`,
-                        [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
-                        [VAR_RECORD_ROUTE_PAGE_ID]: this.bc[VAR_RECORD_ROUTE_PAGE_ID],
-                        bottombtn: [
-                            this.btnsConfig.overrides["Override Save Button"],
-                            this.btnsConfig.overrides["Override Cancel Button"],
-                        ],
-                        childs: this.bc.childs,
-                        ckwindow: "add_document",
-                        columns: this.bc.columns,
-                    },
-                ],
-                orderdirection: "asc",
-                orderproperty: VAR_RECORD_ID,
-                type: "GRID",
+        this.childwindow = {
+            [VAR_RECORD_DISPLAYED]: "static:6a4c7f4488164e7e8fabd46e0cc01ccc",
+            [VAR_RECORD_NAME]: "",
+            [VAR_RECORD_PAGE_OBJECT_ID]: `${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow`,
+            [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+            [VAR_RECORD_ROUTE_PAGE_ID]: this.bc[VAR_RECORD_ROUTE_PAGE_ID],
+            bottombtn: [
+                this.btnsConfig.overrides["Override Save Button"],
+                this.btnsConfig.overrides["Override Cancel Button"],
+            ],
+            childs: this.bc.childs,
+            ckwindow: "add_document",
+            columns: this.bc.columns,
+        };
+        this.recordsStore = new RecordsModel(
+            {...this.bc, setrecordtoglobal: undefined},
+            {
+                pageStore: this.pageStore,
+                parentStore: this,
             },
-            pageStore: this.pageStore,
-        });
-        this.recordsStore = this.gridStore.recordsStore;
+        );
     }
 
     addFileAction = action("defaultHandlerBtnAction", (mode: BuilderModeType, bc: BuilderBaseType) =>
-        this.gridStore.defaultHandlerBtnAction(mode, bc, {ckwindow: "add_document"}),
+        this.pageStore.createWindowAction({
+            mode: bc.mode,
+            windowBc: this.childwindow,
+        }),
     );
 
     saveAction = action("saveAction", (values, config) => {
@@ -85,7 +82,7 @@ export class FilePanelModel extends StoreBaseModel implements FilePanelModelType
     });
 
     deleteAction = action("deleteAction", (mode: BuilderModeType, btnBc: BuilderBaseType, {values, form}) =>
-        this.gridStore.recordsStore.saveAction(values, btnBc.modeaction || "3", {
+        this.recordsStore.saveAction(values, btnBc.modeaction || "3", {
             actionBc: btnBc,
             form,
             query: btnBc.updatequery,

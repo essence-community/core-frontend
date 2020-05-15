@@ -12,3 +12,4 @@ export {VerticalResizer} from "./VerticalResizer";
 export {Confirm} from "./Confirm";
 export {TextFieldLabel} from "./TextFieldLabel";
 export {UIForm} from "./UIForm";
+export {EmptyTitle} from "./EmptyTitle";

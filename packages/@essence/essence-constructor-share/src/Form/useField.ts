@@ -29,14 +29,23 @@ export const useField = ({bc, pageStore, output, input, isArray, disabled, hidde
 
         return columnKey;
     }, [bc.column, parentField]);
-    const field = useMemo(() => {
-        return form.registerField(key, {
-            bc,
-            input: input || parentField?.input,
-            isArray,
-            output: output || parentField?.output,
-            pageStore,
-        });
+    const [field, isRegisted] = useMemo(() => {
+        const existedField = form.select(key);
+
+        if (existedField) {
+            return [existedField, false];
+        }
+
+        return [
+            form.registerField(key, {
+                bc,
+                input: input || parentField?.input,
+                isArray,
+                output: output || parentField?.output,
+                pageStore,
+            }),
+            true,
+        ];
     }, [bc, form, input, isArray, key, output, pageStore, parentField]);
 
     useEffect(() => {
@@ -57,10 +66,14 @@ export const useField = ({bc, pageStore, output, input, isArray, disabled, hidde
     }, [field, disabled, hidden]);
 
     useEffect(() => {
-        return () => {
-            form.unregisterField(key);
-        };
-    }, [form, key]);
+        if (isRegisted) {
+            return () => {
+                form.unregisterField(key);
+            };
+        }
+
+        return undefined;
+    }, [form, isRegisted, key]);
 
     return field;
 };

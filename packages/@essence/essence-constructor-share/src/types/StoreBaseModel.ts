@@ -3,10 +3,9 @@ import {IObservableArray} from "mobx";
 import {IForm} from "../Form";
 import {IApplicationModel} from "./Application";
 import {IBuilderConfig, IBuilderMode} from "./Builder";
-import {FieldValue} from "./Field";
 import {IPageModel} from "./PageModel";
 import {IRecordsModel} from "./RecordsModel";
-import {IRecord} from "./Base";
+import {IRecord, ICkId} from "./Base";
 
 export interface IStoreBaseModelProps {
     bc: IBuilderConfig;
@@ -38,7 +37,6 @@ export interface IHandlers {
     [name: string]: HandlerType;
 }
 
-export type RowRecord = Record<string, FieldValue>;
 /**
  * Базовая модель для построения сторов
  *
@@ -56,9 +54,10 @@ export interface IStoreBaseModel {
     handlers: IHandlers;
     recordsStore?: IRecordsModel;
     applicationStore?: IApplicationModel | null;
-    selectedRecord?: RowRecord;
-    selectedEntries?: IObservableArray<RowRecord>;
+    selectedRecord?: IRecord;
+    selectedEntries?: IObservableArray<[ICkId, IRecord]>;
     editing?: boolean;
+    clearAction?: () => void;
     afterSelected?: () => void;
     reloadStoreAction: (checkParent?: boolean) => Promise<IRecord | undefined>;
     clearStoreAction: () => void;

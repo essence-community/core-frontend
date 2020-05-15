@@ -11,7 +11,7 @@ import {
     IBuilderMode,
 } from "../../types";
 import {RecordsModel} from "../RecordsModel";
-import {VAR_RECORD_PARENT_ID} from "../../constants";
+import {VAR_RECORD_PARENT_ID, VAR_RECORD_MASTER_ID} from "../../constants";
 import {IWindowModelConstructor} from "./WindowModel.types";
 
 /**
@@ -56,6 +56,18 @@ export class WindowModel extends StoreBaseModel implements IWindowModel {
             {deep: false},
         );
     }
+
+    getMainStore = () => {
+        for (const ckPageObjectMain of [this.bc[VAR_RECORD_MASTER_ID], this.bc[VAR_RECORD_PARENT_ID]]) {
+            const store = ckPageObjectMain && this.pageStore.stores.get(ckPageObjectMain);
+
+            if (store) {
+                return store;
+            }
+        }
+
+        return undefined;
+    };
 
     closeAction = action(
         "WindowModel.closeAction",
@@ -109,7 +121,11 @@ export class WindowModel extends StoreBaseModel implements IWindowModel {
             await options.form.validate();
 
             if (options.form.isValid) {
-                const success = await this.recordsStore.saveAction(options.form.values, mode, {
+                const mainStore = this.getMainStore();
+                // TODO: update this to pass throw handlers
+                const saveAction = (mainStore && (mainStore as any).saveAction) || this.recordsStore.saveAction;
+
+                const success = await saveAction(options.form.values, mode || this.bc.mode, {
                     actionBc: btnBc,
                     // TODO: check new api of records store
                     files: options.files,
@@ -121,7 +137,7 @@ export class WindowModel extends StoreBaseModel implements IWindowModel {
                         this.pageStore.resetStepAction();
                         this.initialValues = {};
                     } else {
-                        this.closeAction(mode, btnBc, options);
+                        this.closeAction(mode || this.bc.mode, btnBc, options);
                     }
                 }
 

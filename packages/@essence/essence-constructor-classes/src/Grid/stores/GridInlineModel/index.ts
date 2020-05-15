@@ -1,0 +1,1 @@
+export {GridInlineModel} from "./GridInlineModel";

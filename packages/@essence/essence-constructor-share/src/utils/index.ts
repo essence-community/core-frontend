@@ -19,5 +19,6 @@ export * from "./getTextWidth";
 export {getMasterObject} from "./getMasterObject";
 export * from "./redirect";
 export * from "./bignumber";
+export * from "./window";
 
 export {animate};

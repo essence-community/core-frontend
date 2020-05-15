@@ -1,1 +1,1 @@
-export {Scrollbars} from "./Scrollbars";
+export {Scrollbars, ScrollbalrsValuesType} from "./Scrollbars";

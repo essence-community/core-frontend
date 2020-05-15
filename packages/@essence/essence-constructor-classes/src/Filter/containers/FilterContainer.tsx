@@ -8,7 +8,12 @@ import {
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {Collapse, useTheme, Grid, Typography} from "@material-ui/core";
-import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    GRID_CONFIGS,
+    GRID_ALIGN_CONFIGS,
+} from "@essence-community/constructor-share/constants";
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react-lite";
@@ -77,7 +82,15 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                             </div>
                         )}
                         <div className={classes.filterFields}>
-                            <Grid container spacing={1} alignItems="center">
+                            <Grid
+                                container
+                                spacing={1}
+                                {...((bc.contentview && GRID_CONFIGS[bc.contentview]) || GRID_CONFIGS["hbox-wrap"])}
+                                {...((bc.contentview &&
+                                    bc.align &&
+                                    GRID_ALIGN_CONFIGS[`${bc.align}-${bc.contentview}`]) ||
+                                    GRID_ALIGN_CONFIGS["left-hbox"])}
+                            >
                                 {mapComponents(bc.childs, (ChildComp, child) => (
                                     <Grid
                                         item

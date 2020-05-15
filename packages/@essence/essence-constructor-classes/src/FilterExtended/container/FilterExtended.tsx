@@ -3,9 +3,14 @@ import {Collapse, Grid, Typography} from "@material-ui/core";
 import clsx from "clsx";
 import {useObserver} from "mobx-react-lite";
 import {mapComponents, IBuilderConfig, IClassProps, Icon, FormContext} from "@essence-community/constructor-share";
-import {useTranslation} from "@essence-community/constructor-share/utils";
+import {useTranslation, toColumnStyleWidth} from "@essence-community/constructor-share/utils";
 import {findColumns} from "@essence-community/constructor-share/utils/findColumns";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+    GRID_CONFIGS,
+    GRID_ALIGN_CONFIGS,
+} from "@essence-community/constructor-share/constants";
 import {useStyles} from "./FilterExtended.style";
 
 export const FilterExtended = (props: IClassProps) => {
@@ -60,11 +65,23 @@ export const FilterExtended = (props: IClassProps) => {
                     </Grid>
                 </Grid>
                 <Grid item className={classes.content}>
-                    <Grid container direction="column" spacing={1}>
+                    <Grid
+                        container
+                        direction="column"
+                        spacing={1}
+                        {...((bc.contentview && GRID_CONFIGS[bc.contentview]) || GRID_CONFIGS["hbox-wrap"])}
+                        {...((bc.contentview && bc.align && GRID_ALIGN_CONFIGS[`${bc.align}-${bc.contentview}`]) ||
+                            GRID_ALIGN_CONFIGS["left-hbox"])}
+                    >
                         {mapComponents(
                             props.bc.childs,
                             (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                                <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                                <Grid
+                                    item
+                                    key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                    xs={12}
+                                    style={toColumnStyleWidth(childBc.width)}
+                                >
                                     <Child {...props} bc={childBc} />
                                 </Grid>
                             ),

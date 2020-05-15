@@ -19,6 +19,7 @@ export const TabPopoverItemComponent: React.FC<ITabPopoverItemComponentProps> = 
     const className = cn(classes.root, classes.rootDefault, {
         [classes.active]: props.isActive,
         [classes.disabled]: props.disabled,
+        [classes.hidden]: props.hidden,
     });
 
     const handleClick = (event: React.SyntheticEvent) => {

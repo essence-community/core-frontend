@@ -61,7 +61,7 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
             pageStore={pageStore}
             hideOnScroll
         >
-            <FieldTableInput bc={bc} disabled={disabled} field={field} />
+            <FieldTableInput bc={bc} disabled={disabled} field={field} store={store} />
         </Popover>
     );
 };

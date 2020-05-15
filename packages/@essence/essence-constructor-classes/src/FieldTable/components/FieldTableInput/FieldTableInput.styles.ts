@@ -18,7 +18,6 @@ export const useStyles = makeStyles(
             borderRadius: "0 4px 4px 0",
             bottom: 0,
             height: "100%",
-            position: "absolute",
             right: 0,
             top: 0,
             width: 50,

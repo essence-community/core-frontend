@@ -138,3 +138,12 @@ export function getOverrideExcelButton(bc: IBuilderConfig) {
 
     return overrides["Override Excel Button"];
 }
+
+export function getOverrideWindowBottomBtn(bc: IBuilderConfig) {
+    const {overrides} = mergeComponents(bc.topbtn, {
+        "Override Cancel Button": getCancelBtnConfig(bc),
+        "Override Save Button": getSaveBtnConfig(bc, "light"),
+    });
+
+    return [overrides["Override Save Button"], overrides["Override Cancel Button"]];
+}

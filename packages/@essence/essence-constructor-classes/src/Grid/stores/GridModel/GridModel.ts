@@ -42,7 +42,7 @@ import {
     printExcel,
 } from "../../utils";
 import {WIDTH_MAP, GRID_ROW_HEIGHT, GRID_ROWS_COUNT, TABLE_CELL_MIN_WIDTH} from "../../constants";
-import {getOverrideExcelButton} from "../../utils/getGridBtnsConfig";
+import {getOverrideExcelButton, getOverrideWindowBottomBtn} from "../../utils/getGridBtnsConfig";
 import {updatePercentColumnsWidth, setWidthForZeroWidthCol} from "./actions";
 import {GridSaveConfigType} from "./GridModel.types";
 
@@ -199,7 +199,10 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                                   ...getDefaultWindowBc(this.bc),
                                   columns: this.gridColumns,
                               }
-                            : getDefaultWindowBc(this.bc);
+                            : {
+                                  ...getDefaultWindowBc(this.bc),
+                                  bottombtn: getOverrideWindowBottomBtn(this.bc),
+                              };
                     },
                     mode,
                     pageStore: this.pageStore,
@@ -236,8 +239,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
      * 1. values - все значения
      * 2. config - конфиг сохранения, берется из кнопки и передаваемых параметров
      */
-    saveAction = action("saveAction", async (values: IRecord, config: GridSaveConfigType) => {
-        const {actionBc, files, mode, form} = config;
+    saveAction = action("saveAction", async (values: IRecord, mode: IBuilderMode, config: GridSaveConfigType) => {
+        const {actionBc, files, form} = config;
         const windowStore = this.pageStore.windows.find(
             (store) => store.bc[VAR_RECORD_PARENT_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID],
         );
@@ -444,6 +447,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         if (this.bc.winreloadstores === "true") {
             this.reloadStoreAction(false);
         }
+
+        return Promise.resolve(true);
     };
 
     setHeightAction = action("setHeightAction", (height: number) => {
@@ -503,6 +508,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
             return Promise.resolve(true);
         },
+        onReloadStores: this.winReloadStores,
         /**
          * Для вызова окна при редактировании
          */

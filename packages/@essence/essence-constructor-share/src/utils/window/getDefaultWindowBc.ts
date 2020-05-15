@@ -16,7 +16,6 @@ export function getDefaultWindowBc(bc: IBuilderConfig): IBuilderConfig {
         [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow`,
         [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow`,
         [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-        bottombtn: [],
         checkaddmore: bc.checkaddmore,
         ckwindow: "gridwindow",
         columns: bc.columns,

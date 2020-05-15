@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import {toSize, declension, i18next, isEmpty} from "@essence-community/constructor-share/utils";
+import {toSize, i18next, isEmpty} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_PARENT_ID,
@@ -50,8 +50,6 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     valueFields: Array<[string, string]>;
 
     valueField: string;
-
-    displayField: string;
 
     field: IField;
 
@@ -121,6 +119,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         this.gridBc = {
             ...this.bc,
             [VAR_RECORD_PAGE_OBJECT_ID]: `grid_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+            [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
             // Clearonsearch: "false",
             datatype: undefined,
             disabled: undefined,
@@ -142,36 +141,6 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     }
 
     @observable selectedEntries: IObservableArray<[ICkId, IRecord]> = observable.array([], {deep: false});
-
-    @computed get displayText() {
-        if (this.bc.collectionvalues === "array") {
-            const selCount = this.selectedEntries.length;
-
-            return selCount
-                ? `${declension(selCount, [
-                      i18next.t("static:e28e56d7b12e4ea2b7663b3e66473b9e"),
-                      i18next.t("static:783922ac8cf84a5eac8d1b17c77de544"),
-                      i18next.t("static:783922ac8cf84a5eac8d1b17c77de544"),
-                  ])}  ${selCount} ${declension(selCount, [
-                      i18next.t("static:0cd9a67ed46d4d70959182cc6260b221"),
-                      i18next.t("static:87acd17f8ae243798e97549a5761cfaf"),
-                      i18next.t("static:2485088fda3d4d9cb5de9c25534cdf23"),
-                  ])}`
-                : "";
-        }
-
-        if (this.selectedRecord) {
-            const label = this.selectedRecord[this.displayField];
-
-            if (this.bc.localization && label) {
-                return i18next.t(`${this.bc.localization}:${label}`, label as string);
-            }
-
-            return label;
-        }
-
-        return "";
-    }
 
     @computed get recordsGridStore(): IRecordsModel | undefined {
         const gridStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID]);

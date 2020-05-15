@@ -108,13 +108,16 @@ export class WindowModel extends StoreBaseModel implements WindowModelInterface 
             const store = this.getMainStore();
 
             if (form.isValid && store && store.saveAction) {
-                const success = await store.saveAction(form.values, {
-                    actionBc: btnBc,
-                    files,
-                    form,
-                    mode: btnBc.modeaction || btnBc.mode || this.config.mode,
-                    windowStore: this,
-                });
+                const success = await store.saveAction(
+                    form.values,
+                    btnBc.modeaction || btnBc.mode || this.config.mode || this.bc.mode,
+                    {
+                        actionBc: btnBc,
+                        files,
+                        form,
+                        windowStore: this,
+                    },
+                );
 
                 if (success) {
                     if (this.addMore) {

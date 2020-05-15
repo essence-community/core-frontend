@@ -1,4 +1,3 @@
-// @flow
 import {extendValidMask, getRegexFromImask} from "../imask";
 
 describe("imask", () => {

@@ -2,14 +2,15 @@ import * as React from "react";
 import {TextFieldProps, IconButton, InputAdornment} from "@material-ui/core";
 import cn from "clsx";
 import {useObserver} from "mobx-react-lite";
-import {IField, TError} from "../../Form/types";
-import {IBuilderConfig, TText} from "../../types";
+import {IField} from "../../Form/types";
+import {IBuilderConfig} from "../../types";
 import {isEmpty, useTranslation, toTranslateTextArray} from "../../utils";
 import {Icon} from "../../Icon";
 import {TextFieldLabel} from "../../uicomponents";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "../../constants";
 import {FormContext} from "../../context";
 import {useStyles} from "./useTextFieldProps.styles";
+import {ITextFieldExtendProps} from "./useTextFieldProps.types";
 
 interface IUseTextFieldProps {
     disabled?: boolean;
@@ -17,12 +18,6 @@ interface IUseTextFieldProps {
     field: IField;
     bc: IBuilderConfig;
     tips?: React.ReactNode[];
-}
-
-interface ITextFieldExtendProps {
-    variant: TextFieldProps["variant"];
-    "data-page-object"?: string;
-    "data-qtip"?: string | TError | TText | TText[];
 }
 
 export const inputTypes: Record<string, string> = {

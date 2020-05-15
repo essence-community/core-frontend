@@ -1,14 +1,16 @@
-// @flow
-import formatChars from "./formatChars.json";
-import validCharToVal from "./validCharToVal.json";
-import validationCharacters from "./validationCharacters.json";
+import {validCharToVal, validationCharacters, formatChars} from "./maskConfig";
 
-type ExtendValidMask = {
-    imask: string,
-    value: string,
-    regex: RegExp,
-    oldImask: string,
-};
+interface IExtendValidMask {
+    imask: string;
+    value: string;
+    regex: RegExp;
+    oldImask: string;
+}
+
+interface IExtendValidMaskResult {
+    newImask: string;
+    valid: boolean;
+}
 
 /**
  * Проверка маски на валидность
@@ -18,7 +20,7 @@ type ExtendValidMask = {
  *
  * @returns {boolean} Признак валидность маски
  */
-export const checkValidImask = (newImask: string, regex: RegExp) => {
+export const checkValidImask = (newImask: string, regex: RegExp): boolean => {
     const mockValue = newImask
         .split("")
         .map((char) => validCharToVal[char] || char)
@@ -49,7 +51,7 @@ function getCharRegex(imask: string, index: number) {
     return new RegExp(`^${formatChars[imask[index]] || imask[index]}$`, "u");
 }
 
-function prepareImask(imask: string, value: string) {
+function prepareImask(imask: string, value: string): string {
     let index = 0;
     let newImask = "";
 
@@ -79,7 +81,7 @@ function prepareImask(imask: string, value: string) {
  *
  * @returns {object} newImask - Новая маска; valid - Флаг валидности новой маски
  */
-export const extendValidMask = ({imask, value, regex, oldImask}: ExtendValidMask) => {
+export const extendValidMask = ({imask, value, regex, oldImask}: IExtendValidMask): IExtendValidMaskResult => {
     const newImask = prepareImask(imask, value);
 
     if (checkValidImask(newImask, regex)) {

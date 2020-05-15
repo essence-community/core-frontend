@@ -1,3 +1,6 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
 // @flow
 import * as React from "react";
 import InputMask from "react-input-mask";

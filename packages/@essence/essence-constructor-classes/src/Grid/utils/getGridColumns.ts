@@ -11,6 +11,7 @@ export function getGridColumns(gridBc: IBuilderConfig): IBuilderConfig[] {
                 [VAR_RECORD_PAGE_OBJECT_ID]: "detail",
                 [VAR_RECORD_PARENT_ID]: gridBc[VAR_RECORD_PAGE_OBJECT_ID],
                 datatype: "detail",
+                type: "COLUMN",
             },
             ...gridColumns,
         ];

@@ -17,9 +17,9 @@ export const NotificationsTab: React.FC<INotificationsTabProps> = (props) => {
 
     return useObserver(() => (
         <Tab
-            value={bc.value}
+            value={bc.defaultvalue}
             data-qtip={label}
-            data-page-object={`tab-${bc.value}`}
+            data-page-object={`tab-${bc.defaultvalue}`}
             tabIndex={-1}
             label={
                 <React.Fragment>

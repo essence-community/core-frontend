@@ -21,9 +21,9 @@ export const NotificationPanel: React.FC<IClassProps> = (props) => {
         return getTabsData(props.bc, props.bc.childs || []);
     }, [props.bc]);
     const handlerChangeTab = (event: React.ChangeEvent<{}>, tabValue: number) => {
-        const {value} = tabsBc[tabValue];
+        const {defaultvalue} = tabsBc[tabValue];
 
-        snackbarStore.setStatusAction(value as SnackbarStatus);
+        snackbarStore.setStatusAction(defaultvalue as SnackbarStatus);
     };
 
     return useObserver(() => (
@@ -39,8 +39,8 @@ export const NotificationPanel: React.FC<IClassProps> = (props) => {
                 {tabsBc.map((tabBc) => (
                     <NotificationsTab
                         {...props}
-                        key={tabBc.value}
-                        selected={snackbarStore.activeStatus === tabBc.value}
+                        key={tabBc.defaultvalue}
+                        selected={snackbarStore.activeStatus === tabBc.defaultvalue}
                         bc={tabBc}
                     />
                 ))}

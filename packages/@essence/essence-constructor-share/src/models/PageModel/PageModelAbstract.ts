@@ -24,6 +24,7 @@ export class PageModelAbstract implements IPageModel {
     public pagerBc: IBuilderConfig = {
         [VAR_RECORD_PAGE_OBJECT_ID]: "null",
         [VAR_RECORD_PARENT_ID]: "null",
+        type: "NONE",
     };
 
     public stores: ObservableMap<string, IStoreBaseModel> = observable.map();

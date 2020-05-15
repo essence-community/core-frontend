@@ -1,9 +1,9 @@
 import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {isEmpty} from "@essence-community/constructor-share/utils";
-import {IField, useField} from "@essence-community/constructor-share/Form";
+import {IField} from "@essence-community/constructor-share/Form";
 import {useObserver} from "mobx-react-lite";
-import {mapComponentOne} from "@essence-community/constructor-share";
+import {mapComponentOne, FormContext} from "@essence-community/constructor-share";
 
 const datatypeOperator = {
     boolean: "eq",
@@ -30,6 +30,7 @@ function prepareValue(field: IField) {
 
 export const GridHFDefaultContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
+    const form = React.useContext(FormContext);
     const fieldBc = React.useMemo(
         () => ({
             ...bc,
@@ -38,11 +39,16 @@ export const GridHFDefaultContainer: React.FC<IClassProps> = (props) => {
         [bc],
     );
 
-    useField({
-        bc,
-        output: prepareValue,
-        pageStore,
-    });
+    React.useMemo(() => {
+        // Skip remove value when unmounting in useField
+        if (fieldBc.column && !form.select(fieldBc.column)) {
+            form.registerField(fieldBc.column, {
+                bc: fieldBc,
+                output: prepareValue,
+                pageStore,
+            });
+        }
+    }, [fieldBc, form, pageStore]);
 
     return useObserver(() => (
         <>

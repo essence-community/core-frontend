@@ -1,10 +1,15 @@
 import * as React from "react";
 import {Popover} from "@essence-community/constructor-share/uicomponents";
-import {IClassProps} from "@essence-community/constructor-share/types";
+import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {
     IPopoverAnchorOrigin,
     IPopoverTransfromOrigin,
 } from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";
+import {
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_PARENT_ID,
+} from "@essence-community/constructor-share/constants";
 import {GridHFContent} from "../GridHFContent";
 import {GridHFIcon} from "../GridHFIcon";
 
@@ -18,28 +23,26 @@ const transformOrigin: IPopoverTransfromOrigin = {
     vertical: "top",
 };
 
-// Const filterAttrs = ["datatype", "column", "format", "displayfield", "valuefield", VAR_RECORD_DISPLAYED];
+interface IGridHeaderFilterProps extends IClassProps {
+    classNameIcon?: string;
+}
 
-export const GridHeaderFilter: React.FC<IClassProps> = (props) => {
-    const {disabled, pageStore, bc} = props;
-    const filterActionBc = React.useMemo(
+export const GridHeaderFilter: React.FC<IGridHeaderFilterProps> = ({classNameIcon, ...classProps}) => {
+    const {disabled, pageStore, bc} = classProps;
+    const filterActionBc = React.useMemo<IBuilderConfig>(
         () => ({
-            ...bc,
+            [VAR_RECORD_DISPLAYED]: bc[VAR_RECORD_DISPLAYED],
+            [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_filter`,
+            [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+            column: bc.column,
+            datatype: bc.datatype,
+            displayfield: bc.displayfield,
+            format: bc.format,
             type: "GRID_HEADER_FILTER",
+            valuefield: bc.valuefield,
         }),
         [bc],
     );
-
-    /*
-     * Constructor(props: PropsType) {
-     *     super(props);
-     *     this.column = props.bc.column;
-     *     this.bc = {
-     *         ...pick(props.bc, filterAttrs),
-     *         [VAR_RECORD_PAGE_OBJECT_ID]: `${props.bc[VAR_RECORD_PAGE_OBJECT_ID]}Filter`,
-     *     };
-     * }
-     */
 
     if (bc.datatype === "boolean" || bc.datatype === "checkbox") {
         return null;
@@ -48,7 +51,7 @@ export const GridHeaderFilter: React.FC<IClassProps> = (props) => {
     return (
         <Popover
             container={pageStore.pageEl}
-            popoverContent={<GridHFContent {...props} />}
+            popoverContent={<GridHFContent {...classProps} bc={filterActionBc} />}
             anchorOrigin={anchorOrigin}
             transformOrigin={transformOrigin}
             width={250}
@@ -56,7 +59,7 @@ export const GridHeaderFilter: React.FC<IClassProps> = (props) => {
             pageStore={pageStore}
             hideOnScroll
         >
-            <GridHFIcon disabled={disabled} bc={filterActionBc} />
+            <GridHFIcon className={classNameIcon} disabled={disabled} bc={filterActionBc} />
         </Popover>
     );
 };

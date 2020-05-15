@@ -10,14 +10,14 @@ export const useStyles = makeStyles(
         "align-right": {
             textAlign: "right",
         },
-        gridColumnFilter: {
+        filterIcon: {
             visibility: "hidden",
         },
         tableCell:
             theme.palette.type === "dark"
                 ? {
                       "&:hover": {
-                          "& $gridColumnFilter": {
+                          "& $filterIcon": {
                               visibility: "visible",
                           },
                       },
@@ -33,7 +33,7 @@ export const useStyles = makeStyles(
                   }
                 : {
                       "&:hover": {
-                          "& $gridColumnFilter": {
+                          "& $filterIcon": {
                               visibility: "visible",
                           },
                           backgroundColor: theme.essence.palette.grey.light,

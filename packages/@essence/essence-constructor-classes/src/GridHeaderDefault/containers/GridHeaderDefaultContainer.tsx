@@ -63,7 +63,9 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
                     >
                         <span className={classes.tableCellEllipsis}>{transCvDisplayed}</span>
                     </TableSortLabel>
-                    {isTreeGrid ? null : <GridHeaderFilter {...props} />}
+                    {isTreeGrid || !bc.btnfilter ? null : (
+                        <GridHeaderFilter {...props} classNameIcon={classes.filterIcon} />
+                    )}
                     <GridHeaderResizer store={store} ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]} />
                 </div>
             </TableCell>

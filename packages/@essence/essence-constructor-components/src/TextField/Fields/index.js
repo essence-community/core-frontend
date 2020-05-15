@@ -1,5 +1,4 @@
 import {getComponent} from "@essence-community/constructor-share";
-import TextField from "../TextField";
 import FieldMask from "./FieldMask/FieldMask";
 import FieldDateRC from "./FieldDateRC/FieldDateRC";
 import FieldMulti from "./FieldMulti/FieldMulti";
@@ -19,7 +18,6 @@ export const fieldMap = {
     mo: FieldMulti,
     password: FieldPassword,
     radio: FieldRadioGroup,
-    text: TextField,
 };
 
 export const getFieldInstance = (config) => {

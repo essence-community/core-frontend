@@ -53,6 +53,7 @@ export interface IForm {
     submitting: boolean;
     fields: ObservableMap<string, IField>;
     bc?: IBuilderConfig;
+    editing: boolean;
     submit(): void;
     reset(): void;
     clear(): void;

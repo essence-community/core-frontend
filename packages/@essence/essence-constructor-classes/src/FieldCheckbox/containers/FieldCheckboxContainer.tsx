@@ -59,7 +59,7 @@ export const FieldCheckboxContainer: React.FC<IFieldCheckboxContainerProps> = (p
                             bc={bc}
                             info={toTranslateText(trans, bc.info)}
                             error={error}
-                            isRequired={field.rules && field.rules.indexOf("required") >= 0}
+                            isRequired={field.isRequired}
                         />
                     )}
                 </FormLabel>

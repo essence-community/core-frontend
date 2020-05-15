@@ -130,7 +130,7 @@ export class BuilderFormPanelBase extends React.Component<PropsType> {
                 bc={bc}
                 initialValues={store.recordsStore.records[0] || EMPTY_RECORD}
                 pageStore={pageStore}
-                isEditing={isEditing}
+                editing={isEditing}
                 mode={store.mode}
             >
                 {pageStore.styleTheme === "dark" ? (

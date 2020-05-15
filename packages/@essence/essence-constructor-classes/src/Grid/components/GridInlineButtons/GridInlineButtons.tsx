@@ -2,7 +2,7 @@ import * as React from "react";
 import {useObserver} from "mobx-react-lite";
 import {Grid} from "@material-ui/core";
 import {useTheme} from "@material-ui/core/styles";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {IClassProps, IBuilderMode} from "@essence-community/constructor-share/types";
 import {useTranslation} from "@essence-community/constructor-share/utils";
@@ -21,7 +21,7 @@ export const GridInlineButtons: React.FC<IGridInlineButtonsProps> = React.memo(f
     const {bc} = classProps;
     const theme = useTheme();
     const classes = useStyles();
-    const [trans] = useTranslation();
+    const [trans] = useTranslation("meta");
     const isDarkTheme = theme.palette.type === "dark";
     const {overrides} = React.useMemo(() => getGridBtnsConfig(gridStore.bc, theme.palette.type), [
         gridStore.bc,

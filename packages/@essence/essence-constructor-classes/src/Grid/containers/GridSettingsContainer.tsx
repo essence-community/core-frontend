@@ -16,7 +16,7 @@ import {IGridModel} from "../stores/GridModel/GridModel.types";
 export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
     const parentStore = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]) as IGridModel | undefined;
-    const [trans] = useTranslation();
+    const [trans] = useTranslation("meta");
     const [visibility, setVisibility] = React.useState<Record<string, boolean>>({});
 
     const btnBc = React.useMemo(

@@ -21,7 +21,7 @@ interface IGridTableProps extends IClassProps {
 export const GridTable: React.FC<IGridTableProps> = ({store, children, ...classProps}) => {
     const {bc, pageStore} = classProps;
     const classes = useStyles();
-    const [focused, setFocused] = React.useState();
+    const [focused, setFocused] = React.useState<boolean>(false);
     const headerRef = React.useRef<HTMLDivElement>(null);
     const scrollElem = React.useRef<any | undefined>(undefined);
     const theme = useTheme();

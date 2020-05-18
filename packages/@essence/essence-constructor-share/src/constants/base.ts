@@ -36,3 +36,4 @@ export const preference = {
     ...defaultPreference,
     ...getFromStore<typeof defaultPreference>("preference"),
 };
+export const MAX_NUMBER_SIZE = 9;

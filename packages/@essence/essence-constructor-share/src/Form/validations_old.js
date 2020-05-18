@@ -6,14 +6,12 @@
 import forOwn from "lodash/forOwn";
 import toString from "lodash/toString";
 import toNumber from "lodash/toNumber";
-import {i18next, BigNumberBase as BigNumber} from "@essence-community/constructor-share/utils";
+import {i18next} from "@essence-community/constructor-share/utils";
 import moment from "moment";
 import validatorjs from "validatorjs";
 import {dateMap} from "../TextField/Fields/FieldDateRC/fieldDateHelpers";
 
 validatorjs.useLang("ru");
-
-const MAX_NUMBER_SIZE = 9;
 
 // TODO: verify it and migrate to custom language
 i18next.on("loaded", (loaded) => {
@@ -35,10 +33,8 @@ i18next.on("loaded", (loaded) => {
             "date-6": i18next.t("static:5f09f8f54f174ecfb6befd64ca4c3423"),
             "date-default": i18next.t("static:77050515e7b2462e95429b9df33a7958"),
             maxsize: i18next.t("static:e668fef0db6d4eeb9eb72c62a8d31052"),
-            maxvalue: i18next.t("static:58b71773e7664e70874020a45705bc4c"),
             maxvaluedate: i18next.t("static:58b71773e7664e70874020a45705bc4c"),
             minsize: i18next.t("static:a240c31303c74c5490623d7781964c11"),
-            minvalue: i18next.t("static:31d96e87a5514f509c75bc701b772504"),
             minvaluedate: i18next.t("static:31d96e87a5514f509c75bc701b772504"),
             regex: i18next.t("static:f488a90cb69e4567a092325fecffb1ed"),
             reqcount: i18next.t("static:a5a5d7213d1f4f77861ed40549ee9c57"),
@@ -79,34 +75,6 @@ validatorjs.register(
         return valueSize >= toNumber(req);
     },
     i18next.t("static:a240c31303c74c5490623d7781964c11"),
-);
-
-validatorjs.register(
-    "maxvalue",
-    (value, req) => {
-        const reqValue = req.replace(",", ".");
-
-        if (reqValue.length > MAX_NUMBER_SIZE) {
-            return new BigNumber(value).lte(new BigNumber(reqValue));
-        }
-
-        return toNumber(value) <= toNumber(reqValue);
-    },
-    i18next.t("static:58b71773e7664e70874020a45705bc4c"),
-);
-
-validatorjs.register(
-    "minvalue",
-    (value, req) => {
-        const reqValue = req.replace(",", ".");
-
-        if (reqValue.length > MAX_NUMBER_SIZE) {
-            return new BigNumber(value).gte(new BigNumber(reqValue));
-        }
-
-        return toNumber(value) >= toNumber(reqValue);
-    },
-    i18next.t("static:31d96e87a5514f509c75bc701b772504"),
 );
 
 validatorjs.register(

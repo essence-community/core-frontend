@@ -29,7 +29,9 @@ export const useStyles = makeStyles(
             display: "flex",
         },
         dialogButtonActions: {},
-        focusable: {},
+        focusable: {
+            width: "100%",
+        },
         form: {},
         iconColor:
             theme.palette.type === "dark"

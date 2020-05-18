@@ -100,14 +100,18 @@ export class WindowModel extends StoreBaseModel {
         await options.form.validate();
 
         if (options.form.isValid) {
-            const saveAction = (this.mainStore && this.mainStore.saveAction) || this.recordsStore.saveAction;
+            let success: string | boolean = false;
 
-            const success = await saveAction(options.form.values, mode || this.bc.mode, {
-                actionBc: btnBc,
-                // TODO: check new api of records store
-                files: options.files,
-                form: options.form,
-            });
+            if (this.mainStore?.handlers?.onSaveWindow) {
+                success = await this.mainStore.handlers.onSaveWindow(mode || this.bc.mode, btnBc, options);
+            } else {
+                success = await this.recordsStore.saveAction(options.form.values, mode || this.bc.mode, {
+                    actionBc: btnBc,
+                    // TODO: check new api of records store
+                    files: options.files,
+                    form: options.form,
+                });
+            }
 
             if (success) {
                 if (this.addMore) {

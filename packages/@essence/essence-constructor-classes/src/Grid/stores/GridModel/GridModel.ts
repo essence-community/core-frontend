@@ -43,6 +43,7 @@ import {
 } from "../../utils";
 import {WIDTH_MAP, GRID_ROW_HEIGHT, GRID_ROWS_COUNT, TABLE_CELL_MIN_WIDTH} from "../../constants";
 import {getOverrideExcelButton, getOverrideWindowBottomBtn} from "../../utils/getGridBtnsConfig";
+import {IHanderOptions} from "../../../Button/handlers/hander.types";
 import {updatePercentColumnsWidth, setWidthForZeroWidthCol} from "./actions";
 import {GridSaveConfigType} from "./GridModel.types";
 
@@ -515,6 +516,20 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
          */
         onRowCreateChildWindowMaster: (mode: IBuilderMode, bc: IBuilderConfig) => {
             return this.defaultHandlerBtnAction("2", getBtnBcWithCkWindow(this.bc, bc));
+        },
+        onSaveWindow: async (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHanderOptions) => {
+            if (!options.form) {
+                return Promise.resolve(false);
+            }
+
+            const res = await this.saveAction(options.form.values, mode, {
+                actionBc: btnBc,
+                // TODO: check new api of records store
+                files: options.files,
+                form: options.form,
+            });
+
+            return Boolean(res);
         },
         onSimpleAddRow: (mode: IBuilderMode, bc: IBuilderConfig) => this.handlers.onCreateChildWindowMaster(mode, bc),
         onToggleAllSelectedRecords: () => {

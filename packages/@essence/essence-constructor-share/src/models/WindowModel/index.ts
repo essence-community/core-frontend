@@ -1,1 +1,0 @@
-export {WindowModel} from "./WindowModel";

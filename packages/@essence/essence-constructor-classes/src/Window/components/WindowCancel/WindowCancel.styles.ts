@@ -1,12 +1,8 @@
-import merge from "lodash/merge";
-import {styleTheme} from "../../constants";
-import {WindowMessageStyleLight} from "./WindowMessageStyleLight";
-import {WindowMessageStyleDark} from "./WindowMessageStyleDark";
+import {makeStyles} from "@material-ui/core";
+import {IEssenceTheme} from "@essence-community/constructor-share/types";
 
-const styles = styleTheme === "light" ? WindowMessageStyleLight : WindowMessageStyleDark;
-
-const WindowMessageStyle = (theme) =>
-    merge(styles(theme), {
+export const useStyles = makeStyles(
+    (theme: IEssenceTheme) => ({
         content: {
             textAlign: "center",
         },
@@ -34,6 +30,6 @@ const WindowMessageStyle = (theme) =>
             maxWidth: 250,
             minWidth: 250,
         },
-    });
-
-export default WindowMessageStyle;
+    }),
+    {name: "EssenceWindowCancel"},
+);

@@ -43,6 +43,7 @@ import {
 } from "../../utils";
 import {WIDTH_MAP, GRID_ROW_HEIGHT, GRID_ROWS_COUNT, TABLE_CELL_MIN_WIDTH} from "../../constants";
 import {getOverrideExcelButton, getOverrideWindowBottomBtn} from "../../utils/getGridBtnsConfig";
+import {IHanderOptions} from "../../../Button/handlers/hander.types";
 import {updatePercentColumnsWidth, setWidthForZeroWidthCol} from "./actions";
 import {GridSaveConfigType} from "./GridModel.types";
 
@@ -151,7 +152,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             this.bc.edittype === "inline" &&
             Boolean(
                 this.pageStore.windows.find(
-                    (store) => store.bc[VAR_RECORD_PARENT_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+                    (windBc) => windBc[VAR_RECORD_PARENT_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID],
                 ),
             )
         );
@@ -194,10 +195,11 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                             });
                         }
 
-                        return this.bc.editmode === "inline"
+                        return this.bc.edittype === "inline"
                             ? {
                                   ...getDefaultWindowBc(this.bc),
                                   columns: this.gridColumns,
+                                  type: "INLINE_WINDOW",
                               }
                             : {
                                   ...getDefaultWindowBc(this.bc),
@@ -241,11 +243,11 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
      */
     saveAction = action("saveAction", async (values: IRecord, mode: IBuilderMode, config: GridSaveConfigType) => {
         const {actionBc, files, form} = config;
-        const windowStore = this.pageStore.windows.find(
-            (store) => store.bc[VAR_RECORD_PARENT_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+        const winBc = this.pageStore.windows.find(
+            (bc) => bc[VAR_RECORD_PARENT_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID],
         );
         const isDownload = mode === "7" || actionBc.mode === "7";
-        const gridValues = getGridValues({gridStore: this, mode, pageStore: this.pageStore, values, windowStore});
+        const gridValues = getGridValues({gridStore: this, mode, pageStore: this.pageStore, values, winBc});
 
         const result = await this.recordsStore[isDownload ? "downloadAction" : "saveAction"](gridValues, mode, {
             actionBc,
@@ -514,6 +516,20 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
          */
         onRowCreateChildWindowMaster: (mode: IBuilderMode, bc: IBuilderConfig) => {
             return this.defaultHandlerBtnAction("2", getBtnBcWithCkWindow(this.bc, bc));
+        },
+        onSaveWindow: async (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHanderOptions) => {
+            if (!options.form) {
+                return Promise.resolve(false);
+            }
+
+            const res = await this.saveAction(options.form.values, mode, {
+                actionBc: btnBc,
+                // TODO: check new api of records store
+                files: options.files,
+                form: options.form,
+            });
+
+            return Boolean(res);
         },
         onSimpleAddRow: (mode: IBuilderMode, bc: IBuilderConfig) => this.handlers.onCreateChildWindowMaster(mode, bc),
         onToggleAllSelectedRecords: () => {

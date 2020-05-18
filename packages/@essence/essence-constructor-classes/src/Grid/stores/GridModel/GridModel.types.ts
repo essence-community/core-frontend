@@ -1,10 +1,4 @@
-import {
-    IBuilderConfig,
-    IBuilderMode,
-    ICkId,
-    IStoreBaseModel,
-    IRecordsModel,
-} from "@essence-community/constructor-share/types";
+import {IBuilderConfig, ICkId, IStoreBaseModel, IRecordsModel} from "@essence-community/constructor-share/types";
 import {ObservableMap} from "mobx";
 import {IForm} from "@essence-community/constructor-share/Form";
 
@@ -26,7 +20,6 @@ export type GridBtnsConfigType = {
 export type GridSaveConfigType = {
     actionBc: IBuilderConfig;
     files?: File[];
-    mode: IBuilderMode;
     form?: IForm;
 };
 

@@ -461,7 +461,10 @@ export class ApplicationModel implements IApplicationModel {
             this.bc.childwindow && this.bc.childwindow.find((win: IBuilderConfig) => win.ckwindow === btnBc.ckwindow);
 
         if (window) {
-            this.pageStore.createWindowAction({mode: "1", windowBc: window});
+            this.pageStore.createWindowAction({
+                ...window,
+                mode: "1",
+            });
 
             return Promise.resolve(true);
         }

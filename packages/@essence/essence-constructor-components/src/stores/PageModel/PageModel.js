@@ -1,7 +1,6 @@
 /* eslint-disable max-lines */
 // @flow
 import {extendObservable, action, observable, type ObservableMap} from "mobx";
-import {type IObservableArray} from "mobx/lib/mobx.js.flow";
 import forEach from "lodash/forEach";
 import noop from "lodash/noop";
 import uuid from "uuid";
@@ -20,8 +19,6 @@ import {loggerRoot, styleTheme as styleThemeConst} from "../../constants";
 import {sendRequestList} from "../../request/baseRequest";
 import {isEmpty} from "../../utils/base";
 import {type BuilderModeType, type BuilderBaseType} from "../../BuilderType";
-import {type WindowModelType} from "../WindowModel/WindowModelTypes";
-import {WindowModel} from "../WindowModel";
 import {type ApplicationModelType} from "../StoreTypes";
 import {
     type PageModelInterface,
@@ -30,7 +27,6 @@ import {
     type PageModelParamsType,
     type StoreModelTypes,
     type FormType,
-    type CreateWindowType,
 } from "./PageModelType";
 import {getNextComponent} from "./PageModelUtil";
 
@@ -89,8 +85,6 @@ export class PageModel implements PageModelInterface {
 
     styleTheme: "dark" | "light";
 
-    windowsOne: IObservableArray<WindowModelType>;
-
     // eslint-disable-next-line max-lines-per-function
     constructor({
         initialBc,
@@ -113,10 +107,7 @@ export class PageModel implements PageModelInterface {
             },
             // TODO: rename to isInlineEdit
             get isEdit() {
-                return (
-                    this.windowsOne.filter((window) => window.windowBc.edittype === "inline").length > 0 ||
-                    [...this.stores.entries()].filter((entry) => entry[1].editing === true).length > 0
-                );
+                return false;
             },
             isLoading: false,
             questionWindow: null,
@@ -137,9 +128,7 @@ export class PageModel implements PageModelInterface {
             get visible() {
                 return applicationStore.pagesStore.activePage === this;
             },
-            // TODO: Удалить windows и перевести windowsOne на windows
             windows: observable.map(),
-            windowsOne: observable.array(),
         });
 
         extendObservable(
@@ -244,14 +233,6 @@ export class PageModel implements PageModelInterface {
             }
         }
     };
-
-    addWindowAction = action("addWindowAction", (window: WindowModelType, name: string) => {
-        this.windows.set(name, window);
-    });
-
-    removeWindowAction = action("removeWindowAction", (name: string) => {
-        this.windows.delete(name);
-    });
 
     loadConfigAction = action("loadConfigAction", (pageId: string, session: string) => {
         const fetchResult = sendRequestList({
@@ -473,26 +454,19 @@ export class PageModel implements PageModelInterface {
         this.globalValues.clear();
         this.stores.clear();
         this.windows.clear();
-        this.windowsOne.clear();
+        this.windows.clear();
         this.fieldValueMaster.clear();
     });
 
-    createWindowAction = action("createWindowAction", (params: CreateWindowType) => {
-        const window = new WindowModel({
-            bc: params.windowBc,
-            mode: params.mode,
-            pageStore: this,
-            values: params.values,
-        });
-
-        this.windowsOne.push(window);
+    createWindowAction = action("createWindowAction", () => {
+        return null;
     });
 
     closeWindowAction = action("closeWindowAction", (ckPageObject) => {
-        const window = this.windowsOne.find((win) => win.bc[VAR_RECORD_PAGE_OBJECT_ID] === ckPageObject);
+        const window = this.windows.find((win) => win.bc[VAR_RECORD_PAGE_OBJECT_ID] === ckPageObject);
 
         if (window) {
-            this.windowsOne.remove(window);
+            this.windows.remove(window);
         }
     });
 }

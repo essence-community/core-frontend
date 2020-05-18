@@ -153,7 +153,7 @@ export async function redirectToPage(pageStore: IPageModel, params: Record<strin
 
     // При переходе все окна нужно закрывать
     runInAction("PageModelRedirect.clear windows", () => {
-        pageStore.windowsOne.clear();
+        pageStore.windows.clear();
     });
 
     const forms = formFilters.filter((form: IForm) => !isHasMaster(pageStore, form));

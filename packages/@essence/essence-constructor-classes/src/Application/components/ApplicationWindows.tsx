@@ -1,6 +1,6 @@
 import * as React from "react";
 import {useObserver} from "mobx-react-lite";
-import {IPageModel, IWindowModel, mapComponents, IWindowClassProps} from "@essence-community/constructor-share";
+import {IPageModel, mapComponents} from "@essence-community/constructor-share";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 
 interface IApplicationWindowsProps {
@@ -12,18 +12,9 @@ export const ApplicationWindows: React.FC<IApplicationWindowsProps> = (props) =>
 
     return useObserver(() => (
         <>
-            {mapComponents(
-                pageStore.windows.map((win: IWindowModel) => win.bc),
-                (ChildCmp: React.ComponentType<IWindowClassProps>, childBc, index) => (
-                    <ChildCmp
-                        bc={childBc}
-                        key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                        store={pageStore.windows[index]}
-                        pageStore={pageStore}
-                        visible
-                    />
-                ),
-            )}
+            {mapComponents(pageStore.windows, (ChildCmp, childBc) => (
+                <ChildCmp bc={childBc} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} pageStore={pageStore} visible />
+            ))}
         </>
     ));
 };

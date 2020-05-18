@@ -24,11 +24,18 @@ export const GridHFIcon: React.FC<IGridHFIconProps> = (props) => {
         const isFilled =
             column &&
             Object.keys(form.values).some((key) => {
-                if (key.indexOf(column) === -1) {
-                    return false;
+                if (key === column) {
+                    return !isEmpty(form.values[key]);
                 }
 
-                return !isEmpty(form.values[key]);
+                if (
+                    bc.datatype === "date" &&
+                    (key === `${column}_st` || key === `${column}_en` || key === `${column}_eq`)
+                ) {
+                    return !isEmpty(form.values[key]);
+                }
+
+                return false;
             });
 
         const className = cn(classes.popoverWrapper, props.className, {

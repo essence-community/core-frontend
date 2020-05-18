@@ -68,7 +68,7 @@ export const FormPanelContainer: React.FC<IClassProps> = (props) => {
 
                         record = store.recordsStore.records.find(
                             // eslint-disable-next-line eqeqeq
-                            (rec) => nameFields.filter((key) => !(rec[key] == globalValues[key])).length === 0,
+                            (rec) => nameFields.filter((key) => rec[key] != globalValues[key]).length === 0,
                         );
                     }
 

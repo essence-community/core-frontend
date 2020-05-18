@@ -10,7 +10,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {mergeComponents} from "@essence-community/constructor-share/utils";
 
-export function getHistoryAddButtonConfig(bc: IBuilderConfig) {
+export function getHistoryAddButtonConfig(bc: IBuilderConfig): IBuilderConfig {
     return {
         [VAR_RECORD_CN_ORDER]: 1e6,
         [VAR_RECORD_DISPLAYED]: "static:3a5239ee97d9464c9c4143c18fda9815",
@@ -29,7 +29,7 @@ export function getHistoryAddButtonConfig(bc: IBuilderConfig) {
     } as IBuilderConfig;
 }
 
-export function getHistoryCloneButtonConfig(bc: IBuilderConfig) {
+export function getHistoryCloneButtonConfig(bc: IBuilderConfig): IBuilderConfig {
     return {
         [VAR_RECORD_CN_ORDER]: 1e6,
         [VAR_RECORD_DISPLAYED]: "static:54e15e2eec334f3c839a64cde73c2dcb",
@@ -46,7 +46,7 @@ export function getHistoryCloneButtonConfig(bc: IBuilderConfig) {
     } as IBuilderConfig;
 }
 
-export function getHistoryRemoveButtonConfig(bc: IBuilderConfig) {
+export function getHistoryRemoveButtonConfig(bc: IBuilderConfig): IBuilderConfig {
     return {
         [VAR_RECORD_CN_ORDER]: 1e6,
         [VAR_RECORD_DISPLAYED]: "static:f7e324760ede4c88b4f11f0af26c9e97",
@@ -64,7 +64,7 @@ export function getHistoryRemoveButtonConfig(bc: IBuilderConfig) {
     } as IBuilderConfig;
 }
 
-export function getHistoryRefreshButtonConfig(bc: IBuilderConfig) {
+export function getHistoryRefreshButtonConfig(bc: IBuilderConfig): IBuilderConfig {
     return {
         [VAR_RECORD_CN_ORDER]: 1e6,
         [VAR_RECORD_DISPLAYED]: "static:33c9b02a9140428d9747299b9a767abb",
@@ -82,7 +82,7 @@ export function getHistoryRefreshButtonConfig(bc: IBuilderConfig) {
     } as IBuilderConfig;
 }
 
-export function getHistoryEditButtonConfig(bc: IBuilderConfig) {
+export function getHistoryEditButtonConfig(bc: IBuilderConfig): IBuilderConfig {
     return {
         [VAR_RECORD_CN_ORDER]: 1e6,
         [VAR_RECORD_DISPLAYED]: "static:deb1b07ddddf43c386682b20504fea0d",
@@ -99,7 +99,7 @@ export function getHistoryEditButtonConfig(bc: IBuilderConfig) {
     } as IBuilderConfig;
 }
 
-export function getHistoryLeftButtonConfig(bc: IBuilderConfig) {
+export function getHistoryLeftButtonConfig(bc: IBuilderConfig): IBuilderConfig {
     return {
         [VAR_RECORD_CN_ORDER]: 1e6,
         [VAR_RECORD_DISPLAYED]: "static:d529fbf32aae4b85b9971fca87b4e409",
@@ -117,7 +117,7 @@ export function getHistoryLeftButtonConfig(bc: IBuilderConfig) {
     } as IBuilderConfig;
 }
 
-export function getHistoryRightButtonConfig(bc: IBuilderConfig) {
+export function getHistoryRightButtonConfig(bc: IBuilderConfig): IBuilderConfig {
     return {
         [VAR_RECORD_CN_ORDER]: 1e6,
         [VAR_RECORD_DISPLAYED]: "static:e00978fb845249fdbdf003cd0aa2898e",
@@ -135,7 +135,7 @@ export function getHistoryRightButtonConfig(bc: IBuilderConfig) {
     } as IBuilderConfig;
 }
 
-export function getBtnAuditConfig(bc: IBuilderConfig) {
+export function getBtnAuditConfig(bc: IBuilderConfig): IBuilderConfig {
     return {
         [VAR_RECORD_CN_ORDER]: 1e6,
         [VAR_RECORD_DISPLAYED]: "static:627518f4034947aa9989507c5688cfff",
@@ -153,7 +153,7 @@ export function getBtnAuditConfig(bc: IBuilderConfig) {
     } as IBuilderConfig;
 }
 
-export const getSaveBtnConfig = (bc: IBuilderConfig, styleTheme: "light" | "dark") =>
+export const getSaveBtnConfig = (bc: IBuilderConfig, styleTheme: "light" | "dark"): IBuilderConfig =>
     ({
         [VAR_RECORD_CN_ORDER]: 1e6,
         [VAR_RECORD_DISPLAYED]: "static:8a930c6b5dd440429c0f0e867ce98316",
@@ -168,7 +168,7 @@ export const getSaveBtnConfig = (bc: IBuilderConfig, styleTheme: "light" | "dark
         uitype: "5",
     } as IBuilderConfig);
 
-export const getCancelBtnConfig = (bc: IBuilderConfig, styleTheme: "light" | "dark") =>
+export const getCancelBtnConfig = (bc: IBuilderConfig, styleTheme: "light" | "dark"): IBuilderConfig =>
     ({
         [VAR_RECORD_CN_ORDER]: 1e6,
         [VAR_RECORD_DISPLAYED]: "static:64aacc431c4c4640b5f2c45def57cae9",

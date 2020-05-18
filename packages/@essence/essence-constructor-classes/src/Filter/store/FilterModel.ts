@@ -171,22 +171,5 @@ export class FilterModel extends StoreBaseModel {
 
             return Promise.resolve(true);
         },
-        onSearch: async (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
-            const {form} = options;
-
-            if (form && !form.submitting) {
-                form.submit();
-            }
-
-            if (form) {
-                await form.validate();
-
-                if (form.isValid) {
-                    await this.handleSubmit(form.values);
-                }
-            }
-
-            return Promise.resolve(true);
-        },
     };
 }

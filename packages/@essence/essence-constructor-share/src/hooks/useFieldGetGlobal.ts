@@ -15,46 +15,48 @@ interface IUseFieldGetGlobalProps {
 
 export function useFieldGetGlobal({form, field, pageStore, bc, store}: IUseFieldGetGlobalProps) {
     const {globalValues} = pageStore;
-    const {getglobal = ""} = bc;
-    const getglobalReturn = toStringGlobal(getglobal);
 
-    useEffect(
-        () =>
-            reaction(
-                () => {
-                    let hasEmptyValue = false;
-                    const getValue = (name: string) => {
-                        let value: FieldValue = "";
+    useEffect(() => {
+        if (!bc.getglobal) {
+            return undefined;
+        }
 
-                        if (name.charAt(0) === "g") {
-                            value = globalValues.has(name) ? globalValues.get(name) : "";
-                        } else if (store) {
-                            value = store.selectedRecord ? store.selectedRecord[name] : "";
-                        } else {
-                            // eslint-disable-next-line prefer-destructuring
-                            value = form.select(name)?.value;
-                        }
+        const getglobalReturn = toStringGlobal(bc.getglobal);
 
-                        if (!value) {
-                            hasEmptyValue = true;
-                        }
+        return reaction(
+            () => {
+                let hasEmptyValue = false;
+                const getValue = (name: string) => {
+                    let value: FieldValue = "";
 
-                        return value;
-                    };
-
-                    return {hasEmptyValue, value: parseMemoize(getglobalReturn).runer({get: getValue})};
-                },
-                ({hasEmptyValue, value}) => {
-                    if (hasEmptyValue) {
-                        field.onChange("");
+                    if (name.charAt(0) === "g") {
+                        value = globalValues.has(name) ? globalValues.get(name) : "";
+                    } else if (store) {
+                        value = store.selectedRecord ? store.selectedRecord[name] : "";
                     } else {
-                        field.onChange(isEmpty(value) ? "" : value);
+                        // eslint-disable-next-line prefer-destructuring
+                        value = form.select(name)?.value;
                     }
-                },
-                {
-                    fireImmediately: isEmpty(field.value) || field.value === VALUE_SELF_FIRST,
-                },
-            ),
-        [field, form, getglobalReturn, globalValues, store],
-    );
+
+                    if (!value) {
+                        hasEmptyValue = true;
+                    }
+
+                    return value;
+                };
+
+                return {hasEmptyValue, value: parseMemoize(getglobalReturn).runer({get: getValue})};
+            },
+            ({hasEmptyValue, value}) => {
+                if (hasEmptyValue) {
+                    field.onChange("");
+                } else {
+                    field.onChange(isEmpty(value) ? "" : value);
+                }
+            },
+            {
+                fireImmediately: isEmpty(field.value) || field.value === VALUE_SELF_FIRST,
+            },
+        );
+    }, [bc.getglobal, field, form, globalValues, store]);
 }

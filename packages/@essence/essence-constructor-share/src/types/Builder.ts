@@ -1,4 +1,5 @@
 import {FieldValue} from "./Field";
+import {IRecord} from "./Base";
 
 /* eslint-disable max-len */
 
@@ -22,6 +23,8 @@ export interface IBuilderBaseConfig {
     btndelete?: string;
     // Отображение кнопки "Экспорт в Excel" (true/false)
     btnexcel?: string;
+    // Признак доступности фильтрации по колонке True - фильтрация включена False - фильтрация выключена
+    btnfilter?: boolean;
     // Отображение кнопки "Обновить" (true/false)
     btnrefresh?: string;
     // Отображение кнопки "Настройки" (true/false)
@@ -221,7 +224,7 @@ export interface IBuilderBaseConfig {
     // Отступ от верха в пикселях
     top?: string;
     // Служебный параметр не править
-    type?: string;
+    type: string;
     // Формат возвращаемого значения с сервиса. Значения: "URL", "HTML". Допускаются условия с учетом глобальных переменных.
     typeiframe?: string;
     // Тип вида кнопки: 1-primary 2-secondary
@@ -284,6 +287,8 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     confirmquestionposition?: "right" | "top";
     // Internal
     iconsize?: "xs";
+    // Internal values for window store or etc.
+    values?: IRecord;
 }
 
 export type IBuilderMode = "1" | "2" | "3" | "4" | "6" | "7" | "8";

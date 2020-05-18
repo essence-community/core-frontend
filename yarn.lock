@@ -1135,6 +1135,7 @@
     "@material-ui/core" "4.7.2"
     "@types/react-custom-scrollbars" "^4.0.6"
     "@types/react-dom" "^16.9.4"
+    "@types/react-input-mask" "^2.0.5"
     "@types/react-linkify" "^1.0.0"
     axios "^0.19.0"
     bignumber.js "9.0.0"
@@ -1158,6 +1159,7 @@
     react-dom "16.12.0"
     react-fontawesome "^1.7.1"
     react-i18next "^11.2.5"
+    react-input-mask "^2.0.4"
     react-linkify "^1.0.0-alpha"
     request "^2.88.0"
     uuid "^3.3.3"
@@ -1788,6 +1790,13 @@
   version "16.9.5"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.9.5.tgz#5de610b04a35d07ffd8f44edad93a71032d9aaa7"
   integrity sha512-BX6RQ8s9D+2/gDhxrj8OW+YD4R+8hj7FEM/OJHGNR0KipE1h1mSsf39YeyC81qafkq+N3rU3h3RFbLSwE5VqUg==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-input-mask@^2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@types/react-input-mask/-/react-input-mask-2.0.5.tgz#1ea1bb81641fd5bfd13b2dec269bda94b6adc870"
+  integrity sha512-4wPehO42dCk2sMrAGGT/xIfUG5GVdmzyGalweW5EvJARNXgtoxQ9HnkgSkXlVKR3oLVIHlT/vXk/DUXV+WSPyw==
   dependencies:
     "@types/react" "*"
 
@@ -10914,7 +10923,7 @@ react-i18next@^11.2.5:
     "@babel/runtime" "^7.3.1"
     html-parse-stringify2 "2.0.1"
 
-react-input-mask@2.0.4:
+react-input-mask@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/react-input-mask/-/react-input-mask-2.0.4.tgz#9ade5cf8196f4a856dbf010820fe75a795f3eb14"
   integrity sha512-1hwzMr/aO9tXfiroiVCx5EtKohKwLk/NT8QlJXHQ4N+yJJFyUuMT+zfTpLBwX/lK3PkuMlievIffncpMZ3HGRQ==

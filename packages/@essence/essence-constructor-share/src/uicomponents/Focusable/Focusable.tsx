@@ -2,6 +2,7 @@ import * as React from "react";
 
 interface IProps {
     children: React.ReactNode;
+    className?: string;
     focusableComponent?: React.ComponentType;
 }
 

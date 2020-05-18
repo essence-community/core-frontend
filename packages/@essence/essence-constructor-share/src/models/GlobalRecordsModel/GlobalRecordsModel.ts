@@ -23,6 +23,7 @@ export class GlobalRecordsModel implements IGlobalRecordsModel {
                 [VAR_RECORD_PAGE_OBJECT_ID]: settingsStore.settings[VAR_SETTING_SMART_MASK_QUERY],
                 [VAR_RECORD_PARENT_ID]: "root",
                 [VAR_RECORD_QUERY_ID]: settingsStore.settings[VAR_SETTING_SMART_MASK_QUERY],
+                type: "NONE",
             },
             props,
         );

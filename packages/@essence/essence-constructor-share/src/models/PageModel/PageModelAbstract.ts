@@ -8,7 +8,6 @@ import {
     IBuilderConfig,
     FieldValue,
     IStoreBaseModel,
-    IWindowModel,
     PageModelWindows,
     PageModelSaveCallback,
     IRecordsModel,
@@ -24,6 +23,7 @@ export class PageModelAbstract implements IPageModel {
     public pagerBc: IBuilderConfig = {
         [VAR_RECORD_PAGE_OBJECT_ID]: "null",
         [VAR_RECORD_PARENT_ID]: "null",
+        type: "NONE",
     };
 
     public stores: ObservableMap<string, IStoreBaseModel> = observable.map();
@@ -62,8 +62,6 @@ export class PageModelAbstract implements IPageModel {
 
     public windows: PageModelWindows = observable.array();
 
-    public windowsOne: any = [];
-
     public styleTheme: "dark" | "light" = "light";
 
     public saveCallBack: PageModelSaveCallback | null = null;
@@ -83,10 +81,6 @@ export class PageModelAbstract implements IPageModel {
     public addStore = (_store: any, _name: string): string => "";
 
     public removeStore = (_name: string, _store: any) => {};
-
-    public addWindowAction = (_window: IWindowModel) => {};
-
-    public removeWindowAction = (_window: IWindowModel) => {};
 
     public addFieldValueMaster = (_name: string, _value: any) => {};
 

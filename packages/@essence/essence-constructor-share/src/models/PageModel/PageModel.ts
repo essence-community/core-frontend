@@ -26,14 +26,11 @@ import {
     PageModelWindows,
     PageModelSaveCallback,
     IPageModelProps,
-    ICreateWindow,
-    IWindowModel,
     IApplicationModel,
     IRecord,
 } from "../../types";
 import {noop, isEmpty, parseMemoize, i18next, findClassNames} from "../../utils";
 import {RecordsModel} from "../RecordsModel";
-import {WindowModel} from "../WindowModel";
 import {snackbarStore} from "../SnackbarModel";
 import {loadComponentsFromModules} from "../../components";
 import {TText} from "../../types/SnackbarModel";
@@ -99,12 +96,8 @@ export class PageModel implements IPageModel {
             [VAR_RECORD_PAGE_OBJECT_ID]: this.pageId,
             [VAR_RECORD_PARENT_ID]: this.applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID],
             defaultvalue: this.applicationStore.bc.defaultvalue,
+            type: "NONE",
         };
-    }
-
-    // @deprecated
-    @computed public get windowsOne(): PageModelWindows {
-        return this.windows;
     }
 
     @computed public get route(): IRouteRecord | undefined {
@@ -171,7 +164,7 @@ export class PageModel implements IPageModel {
     }
 
     @computed public get isInlineEdit(): boolean {
-        const inlineWindows = this.windowsOne.filter((window: IWindowModel) => window.bc.edittype === "inline");
+        const inlineWindows = this.windows.filter((winBc: IBuilderConfig) => winBc.edittype === "inline");
 
         if (inlineWindows.length > 0) {
             return true;
@@ -191,6 +184,7 @@ export class PageModel implements IPageModel {
                 [VAR_RECORD_PARENT_ID]: "root",
                 [VAR_RECORD_QUERY_ID]: "GetMetamodelPage2.0",
                 defaultvalue: "##alwaysfirst##",
+                type: "NONE",
             },
             {applicationStore, pageStore: this},
         );
@@ -291,14 +285,6 @@ export class PageModel implements IPageModel {
             }
         }
     };
-
-    addWindowAction = action("addWindowAction", (window: IWindowModel) => {
-        this.windows.push(window);
-    });
-
-    removeWindowAction = action("removeWindowAction", (window: IWindowModel) => {
-        this.windows.remove(window);
-    });
 
     loadConfigAction = action("loadConfigAction", async (pageId: string) => {
         this.pageId = pageId;
@@ -418,21 +404,21 @@ export class PageModel implements IPageModel {
 
     scrollToRecordAction = (params: Record<string, FieldValue>) => {
         this.stores.forEach((store) => {
-            if (store.name === "grid") {
-                // @ts-ignore
-                store.scrollToRecordAction(params);
+            if (store.handlers?.onScrollToRecordAction) {
+                store.handlers.onScrollToRecordAction("1", store.bc, {record: params});
             }
         });
     };
 
-    reloadPageAction = action("reloadPageAction", () => {
+    @action
+    reloadPageAction = () => {
         this.clearAction();
         if (this.showQuestionWindow) {
             this.handleQuestionDecline();
         }
 
         this.loadConfigAction(this.pageId);
-    });
+    };
 
     handleScrollAction = () => {
         const node = this.pageInnerEl ? this.pageInnerEl.parentElement : null;
@@ -491,34 +477,29 @@ export class PageModel implements IPageModel {
         });
     };
 
-    clearAction = action("clearAction", () => {
+    @action
+    clearAction = () => {
         this.recordsStore.clearRecordsAction();
         this.globalValues = observable.map(this.applicationStore.globalValues);
         this.stores.clear();
         this.windows.clear();
         this.fieldValueMaster.clear();
         this.pageBc = [];
-    });
+    };
 
-    createWindowAction = action("createWindowAction", (params: ICreateWindow) => {
-        const window = new WindowModel({
-            applicationStore: this.applicationStore,
-            bc: params.windowBc,
-            mode: params.mode,
-            pageStore: this,
-            values: params.values,
-        });
+    @action
+    createWindowAction = (bc: IBuilderConfig) => {
+        this.windows.push(bc);
+    };
 
-        this.windows.push(window);
-    });
-
-    closeWindowAction = action("closeWindowAction", (ckPageObject) => {
-        const window = this.windows.find((win) => win.bc[VAR_RECORD_PAGE_OBJECT_ID] === ckPageObject);
+    @action
+    closeWindowAction = (ckPageObject?: string) => {
+        const window = this.windows.find((bc) => bc[VAR_RECORD_PAGE_OBJECT_ID] === ckPageObject);
 
         if (window) {
             this.windows.remove(window);
         }
-    });
+    };
 
     @action
     addForm = (name: string, form: IForm) => {

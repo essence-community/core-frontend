@@ -1,17 +1,15 @@
 import * as React from "react";
 import {mapComponents, SideResizer} from "@essence-community/constructor-share";
-import {IWindowClassProps, IBuilderConfig, IClassProps} from "@essence-community/constructor-share/types";
+import {IClassProps} from "@essence-community/constructor-share/types";
 import {toSize, toColumnStyleWidth} from "@essence-community/constructor-share/utils";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {Grid, Drawer} from "@material-ui/core";
 import {useStyles} from "./WindowDrawerContainer.styles";
 
-export const WindowDrawerContainer: React.FC<IWindowClassProps> = (props) => {
+export const WindowDrawerContainer: React.FC<IClassProps> = (props) => {
     const classes = useStyles(props);
     const {bc} = props;
     const {align = "left", width = "5%", height} = bc;
-    // @ts-ignore
-    const anchor: "left" | "right" = align;
     const [isOpen, setIsOpen] = React.useState(false);
     const [drawerWidth, setDrawerWidth] = React.useState(width);
     const paperProps = React.useMemo(
@@ -30,12 +28,12 @@ export const WindowDrawerContainer: React.FC<IWindowClassProps> = (props) => {
         setIsOpen(false);
     };
     const handleRemoveWindow = () => {
-        props.pageStore.removeWindowAction(props.store);
+        props.pageStore.closeWindowAction(bc[VAR_RECORD_PAGE_OBJECT_ID]);
     };
     const sideResizer = (
         <Grid item>
             <SideResizer
-                anchor={anchor}
+                anchor={align as "left" | "right"}
                 minDrawerWidth={width}
                 maxDrawerWidth="50%"
                 onChangeWidth={handleResizeWidth}
@@ -50,7 +48,7 @@ export const WindowDrawerContainer: React.FC<IWindowClassProps> = (props) => {
 
     return (
         <Drawer
-            anchor={anchor}
+            anchor={align as "left" | "right"}
             open={isOpen}
             onClose={openCloseDrawer}
             variant="temporary"
@@ -69,24 +67,21 @@ export const WindowDrawerContainer: React.FC<IWindowClassProps> = (props) => {
             >
                 {bc.align === "right" ? sideResizer : null}
                 <Grid item xs={true} container spacing={1} direction="column" alignItems="stretch">
-                    {mapComponents(
-                        bc.childs,
-                        (ChildComp: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                            <Grid
-                                key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                item
-                                xs={childBc.type === "PAGER" || isOneChild ? true : undefined}
-                                style={{
-                                    // Pager has scrollbars, we should pass initial height for this page
-                                    height: childBc.type === "PAGER" ? "100%" : undefined,
-                                    ...toColumnStyleWidth(childBc.width),
-                                    flexBasis: undefined,
-                                }}
-                            >
-                                <ChildComp {...props} bc={childBc} />
-                            </Grid>
-                        ),
-                    )}
+                    {mapComponents(bc.childs, (ChildComp, childBc) => (
+                        <Grid
+                            key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                            item
+                            xs={childBc.type === "PAGER" || isOneChild ? true : undefined}
+                            style={{
+                                // Pager has scrollbars, we should pass initial height for this page
+                                height: childBc.type === "PAGER" ? "100%" : undefined,
+                                ...toColumnStyleWidth(childBc.width),
+                                flexBasis: undefined,
+                            }}
+                        >
+                            <ChildComp {...props} bc={childBc} />
+                        </Grid>
+                    ))}
                 </Grid>
                 {bc.align === "left" ? sideResizer : null}
             </Grid>

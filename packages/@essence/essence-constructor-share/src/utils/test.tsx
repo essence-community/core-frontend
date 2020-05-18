@@ -95,6 +95,7 @@ export const getBaseBc = (name: string, props?: Partial<IBuilderConfig>): IBuild
     [VAR_RECORD_PAGE_OBJECT_ID]: name,
     [VAR_RECORD_PARENT_ID]: "root",
     datatype: name,
+    type: "NONE",
     ...props,
 });
 

@@ -1,4 +1,4 @@
-import {ICreateWindow, IBuilderConfig, IPageModel, IStoreBaseModel, IBuilderMode} from "../../types";
+import {IBuilderConfig, IPageModel, IStoreBaseModel, IBuilderMode} from "../../types";
 import {getWindowBc} from "./getWindowBc";
 import {getDefaultWindowBc as getDefaultWindowBcDefault} from "./getDefaultWindowBc";
 import {getWindowChilds} from "./getWindowChilds";
@@ -14,7 +14,7 @@ interface ICreateWindowProps {
 /**
  * Create props for creating a new window
  */
-export function createWindowProps(props: ICreateWindowProps): ICreateWindow {
+export function createWindowProps(props: ICreateWindowProps): IBuilderConfig {
     const {btnBc, pageStore, parentStore, mode, getDefaultWindowBc = getDefaultWindowBcDefault} = props;
     let windowBc = getWindowBc(btnBc, pageStore, parentStore);
     const isDefaultWindowsBc = !windowBc;
@@ -38,11 +38,8 @@ export function createWindowProps(props: ICreateWindowProps): ICreateWindow {
     }
 
     return {
+        ...windowBc,
         mode,
         values,
-        windowBc: {
-            mode,
-            ...windowBc,
-        },
     };
 }

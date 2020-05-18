@@ -43,6 +43,7 @@ import {
 } from "../../utils";
 import {WIDTH_MAP, GRID_ROW_HEIGHT, GRID_ROWS_COUNT, TABLE_CELL_MIN_WIDTH} from "../../constants";
 import {getOverrideExcelButton, getOverrideWindowBottomBtn} from "../../utils/getGridBtnsConfig";
+import {IHanderOptions} from "../../../Button/handlers/hander.types";
 import {updatePercentColumnsWidth, setWidthForZeroWidthCol} from "./actions";
 import {GridSaveConfigType} from "./GridModel.types";
 
@@ -151,7 +152,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             this.bc.edittype === "inline" &&
             Boolean(
                 this.pageStore.windows.find(
-                    (store) => store.bc[VAR_RECORD_PARENT_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+                    (windBc) => windBc[VAR_RECORD_PARENT_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID],
                 ),
             )
         );
@@ -194,10 +195,11 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                             });
                         }
 
-                        return this.bc.editmode === "inline"
+                        return this.bc.edittype === "inline"
                             ? {
                                   ...getDefaultWindowBc(this.bc),
                                   columns: this.gridColumns,
+                                  type: "INLINE_WINDOW",
                               }
                             : {
                                   ...getDefaultWindowBc(this.bc),
@@ -241,11 +243,11 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
      */
     saveAction = action("saveAction", async (values: IRecord, mode: IBuilderMode, config: GridSaveConfigType) => {
         const {actionBc, files, form} = config;
-        const windowStore = this.pageStore.windows.find(
-            (store) => store.bc[VAR_RECORD_PARENT_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+        const winBc = this.pageStore.windows.find(
+            (bc) => bc[VAR_RECORD_PARENT_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID],
         );
         const isDownload = mode === "7" || actionBc.mode === "7";
-        const gridValues = getGridValues({gridStore: this, mode, pageStore: this.pageStore, values, windowStore});
+        const gridValues = getGridValues({gridStore: this, mode, pageStore: this.pageStore, values, winBc});
 
         const result = await this.recordsStore[isDownload ? "downloadAction" : "saveAction"](gridValues, mode, {
             actionBc,
@@ -292,7 +294,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
     @action
     toggleSelectedRecordAction = (ckId: ICkId, record: IRecord, isSelectedDefault?: boolean) => {
-        const parentId = record[VAR_RECORD_PARENT_ID];
+        const parentId = record[VAR_RECORD_PARENT_ID] as string | number;
         const isSelected =
             isSelectedDefault === undefined ? Boolean(this.recordsStore.selectedRecords.get(ckId)) : isSelectedDefault;
 
@@ -302,7 +304,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             this.recordsStore.selectedRecords.set(ckId, record);
         }
 
-        if (!isEmpty(record[VAR_RECORD_LEAF]) && (typeof parentId === "number" || typeof parentId === "string")) {
+        if (!isEmpty(record[VAR_RECORD_LEAF])) {
             setGridSelections(this, isSelected, ckId);
             setGridSelectionsTop(
                 this,
@@ -311,11 +313,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                     .some((rec) => {
                         const recordId = rec[this.recordsStore.recordId];
 
-                        if (typeof recordId == "string" || typeof recordId === "number") {
-                            return this.recordsStore.selectedRecords.has(recordId);
-                        }
-
-                        return false;
+                        return this.recordsStore.selectedRecords.has(recordId as string | number);
                     }),
                 parentId,
             );
@@ -345,9 +343,9 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                     // eslint-disable-next-line eqeqeq
                     (rec) => rec[this.recordsStore.recordId] == childRecord[VAR_RECORD_PARENT_ID],
                 );
-                const recordId = record && record[this.recordsStore.recordId];
+                const recordId = record && (record[this.recordsStore.recordId] as string | number);
 
-                if (typeof recordId === "string" || typeof recordId === "number") {
+                if (recordId !== undefined) {
                     this.recordsStore.expansionRecords.set(recordId, true);
                 }
             }
@@ -387,17 +385,13 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     removeSelectedRecordAction = async (_mode: IBuilderMode, bcBtn: IBuilderConfig) => {
         const record = this.recordsStore.selectedRecord;
         const res = await this.recordsStore.removeSelectedRecordAction({actionBc: bcBtn});
-        const recordId = record && record[this.recordsStore.recordId];
+        const recordId = record && (record[this.recordsStore.recordId] as string | number);
 
         if (res && this.recordsStore.pageNumber > 0 && this.recordsStore.recordsCount === 0) {
             this.recordsStore.setPageNumberAction(0);
         }
 
-        if (
-            record &&
-            (typeof recordId === "string" || typeof recordId === "number") &&
-            Boolean(this.recordsStore.selectedRecords.get(recordId))
-        ) {
+        if (record && recordId !== undefined && Boolean(this.recordsStore.selectedRecords.get(recordId))) {
             this.toggleSelectedRecordAction(recordId, record);
         }
 
@@ -514,6 +508,25 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
          */
         onRowCreateChildWindowMaster: (mode: IBuilderMode, bc: IBuilderConfig) => {
             return this.defaultHandlerBtnAction("2", getBtnBcWithCkWindow(this.bc, bc));
+        },
+        onSaveWindow: async (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHanderOptions) => {
+            if (!options.form) {
+                return Promise.resolve(false);
+            }
+
+            const res = await this.saveAction(options.form.values, mode, {
+                actionBc: btnBc,
+                // TODO: check new api of records store
+                files: options.files,
+                form: options.form,
+            });
+
+            return Boolean(res);
+        },
+        onScrollToRecordAction: (mode: IBuilderMode, bc: IBuilderConfig, {record = {}}: IHandlerOptions) => {
+            this.scrollToRecordAction(record);
+
+            return Promise.resolve(true);
         },
         onSimpleAddRow: (mode: IBuilderMode, bc: IBuilderConfig) => this.handlers.onCreateChildWindowMaster(mode, bc),
         onToggleAllSelectedRecords: () => {

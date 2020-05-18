@@ -65,8 +65,8 @@ export class FilePanelModel extends StoreBaseModel implements FilePanelModelType
 
     addFileAction = action("defaultHandlerBtnAction", (mode: BuilderModeType, bc: BuilderBaseType) =>
         this.pageStore.createWindowAction({
+            ...this.childwindow,
             mode: bc.mode,
-            windowBc: this.childwindow,
         }),
     );
 

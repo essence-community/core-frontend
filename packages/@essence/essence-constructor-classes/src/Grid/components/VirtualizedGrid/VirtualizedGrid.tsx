@@ -53,8 +53,8 @@ export const VirtualizedGrid: React.FC<IVirtualizedGridProps> = (props) => {
                 {renderRecords.map((record) => (
                     <GridRow
                         key={record[store.recordsStore.recordId] as ICkId}
-                        record={record}
                         {...props}
+                        record={record}
                         disabled={store.isInlineEditing || props.disabled}
                     />
                 ))}

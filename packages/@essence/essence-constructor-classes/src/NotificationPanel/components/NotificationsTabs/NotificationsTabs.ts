@@ -23,86 +23,85 @@ export const mapNotification = {
     warning: 3,
 };
 
-// @ts-ignore
-export interface ITabBc extends IBuilderConfig, Record<string, string> {
-    value: string;
-}
-/* eslint-disable sort-keys */
-
-export function getAllPanelConfig(bc: IBuilderConfig): ITabBc {
+export function getAllPanelConfig(bc: IBuilderConfig): IBuilderConfig {
     return {
-        [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-        [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-        [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_info`,
-        [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_info`,
         [VAR_RECORD_DISPLAYED]: "static:bfecce4e8b9844afab513efa5ea53353",
-        [VAR_RECORD_NAME]: "Override All Tab",
-        value: "all",
-    };
-}
-
-export function getInfoPanelConfig(bc: IBuilderConfig): ITabBc {
-    return {
         [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-        [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_NAME]: "Override All Tab",
         [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_info`,
         [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_info`,
-        [VAR_RECORD_DISPLAYED]: "static:627518f4034947aa9989507c5688cfff",
-        [VAR_RECORD_NAME]: "Override Info Tab",
-        value: "info",
+        [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        defaultvalue: "all",
+        type: "NONE",
     };
 }
 
-export function getErrorPanelConfig(bc: IBuilderConfig): ITabBc {
+export function getInfoPanelConfig(bc: IBuilderConfig): IBuilderConfig {
     return {
+        [VAR_RECORD_DISPLAYED]: "static:627518f4034947aa9989507c5688cfff",
         [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_NAME]: "Override Info Tab",
+        [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_info`,
+        [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_info`,
         [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        defaultvalue: "info",
+        type: "NONE",
+    };
+}
+
+export function getErrorPanelConfig(bc: IBuilderConfig): IBuilderConfig {
+    return {
+        [VAR_RECORD_DISPLAYED]: "static:7185a3b731b14e1ea8fb86056b571fe5",
+        [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_NAME]: "Override Error Tab",
         [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_error`,
         [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_error`,
-        [VAR_RECORD_DISPLAYED]: "static:7185a3b731b14e1ea8fb86056b571fe5",
-        [VAR_RECORD_NAME]: "Override Error Tab",
-        value: "error",
+        [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        defaultvalue: "error",
+        type: "NONE",
     };
 }
 
-export function getWarningPanelConfig(bc: IBuilderConfig): ITabBc {
+export function getWarningPanelConfig(bc: IBuilderConfig): IBuilderConfig {
     return {
+        [VAR_RECORD_DISPLAYED]: "static:10666aec26534e179b22f681700f22b7",
         [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-        [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_NAME]: "Override Warning Tab",
         [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_warning`,
         [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_warning`,
-        [VAR_RECORD_DISPLAYED]: "static:10666aec26534e179b22f681700f22b7",
-        [VAR_RECORD_NAME]: "Override Warning Tab",
-        value: "warning",
+        [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        defaultvalue: "warning",
+        type: "NONE",
     };
 }
 
-export function getNotificationPanelConfig(bc: IBuilderConfig): ITabBc {
+export function getNotificationPanelConfig(bc: IBuilderConfig): IBuilderConfig {
     return {
+        [VAR_RECORD_DISPLAYED]: "static:880a932500234fa2b2f22a4b36bd6cd8",
         [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-        [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_NAME]: "Override Notification Tab",
         [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_notification`,
         [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_notification`,
-        [VAR_RECORD_DISPLAYED]: "static:880a932500234fa2b2f22a4b36bd6cd8",
-        [VAR_RECORD_NAME]: "Override Notification Tab",
-        value: "notification",
+        [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        defaultvalue: "notification",
+        type: "NONE",
     };
 }
 
-export function getDebugPanelConfig(bc: IBuilderConfig): ITabBc {
+export function getDebugPanelConfig(bc: IBuilderConfig): IBuilderConfig {
     return {
+        [VAR_RECORD_DISPLAYED]: "static:1650aebec6b348f094680ba725441ef0",
         [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-        [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        [VAR_RECORD_NAME]: "Override Debug Tab",
         [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_debug`,
         [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_debug`,
-        [VAR_RECORD_DISPLAYED]: "static:1650aebec6b348f094680ba725441ef0",
-        [VAR_RECORD_NAME]: "Override Debug Tab",
+        [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        defaultvalue: "debug",
         hiddenrules: "!(499 in gSessCaActions)",
-        value: "debug",
+        type: "NONE",
     };
 }
-/* eslint-enable sort-keys */
-export const getTabsData = (bc: IBuilderConfig, childs: IBuilderConfig[]): ITabBc[] => {
+export const getTabsData = (bc: IBuilderConfig, childs: IBuilderConfig[]): IBuilderConfig[] => {
     const {overrides} = mergeComponents(childs, {
         "Override All Tab": getAllPanelConfig(bc),
         "Override Debug Tab": getDebugPanelConfig(bc),

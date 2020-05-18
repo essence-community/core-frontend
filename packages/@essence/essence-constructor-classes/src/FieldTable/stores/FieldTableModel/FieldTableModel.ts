@@ -18,6 +18,8 @@ import {
     IStoreBaseModelProps,
     FieldValue,
     ICkId,
+    IHandlerOptions,
+    IBuilderMode,
 } from "@essence-community/constructor-share/types";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 // eslint-disable-next-line import/named
@@ -60,6 +62,8 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     constructor(props: IFieldTableModelProps) {
         super(props);
 
+        const gridId = `grid_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
+
         this.field = props.field;
         this.form = props.form;
         this.valueField = this.bc.valuefield || this.bc.idproperty || VAR_RECORD_ID;
@@ -87,7 +91,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         this.builderConfigs = [
             {
                 [VAR_RECORD_DISPLAYED]: "static:147bb56012624451971b35b1a4ef55e6",
-                [VAR_RECORD_MASTER_ID]: `grid_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+                [VAR_RECORD_MASTER_ID]: gridId,
                 [VAR_RECORD_NAME]: "select",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `btnok_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
                 [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
@@ -118,8 +122,9 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         // Блокировка происходит на уровне поля
         this.gridBc = {
             ...this.bc,
-            [VAR_RECORD_PAGE_OBJECT_ID]: `grid_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+            [VAR_RECORD_PAGE_OBJECT_ID]: gridId,
             [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+            columns: this.bc.columns?.map((column) => ({...column, [VAR_RECORD_PARENT_ID]: gridId})),
             // Clearonsearch: "false",
             datatype: undefined,
             disabled: undefined,
@@ -271,24 +276,20 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     };
 
     @action
-    restoreSelectedAction = () => {
-        const recordsStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID])?.recordsStore;
+    restoreSelectedAction = (recordsStore: IRecordsModel) => {
+        this.selectedEntries.forEach(([key, value]) => {
+            recordsStore.selectedRecords.set(key, value);
+        });
 
-        if (recordsStore) {
-            this.selectedEntries.forEach(([key, value]) => {
-                recordsStore.selectedRecords.set(key, value);
-            });
-
-            if (this.bc.collectionvalues === "array") {
-                recordsStore.setRecordsAction(
-                    this.selectedEntries.map((args) => ({...args[1], [VAR_RECORD_JN_TOTAL_CNT]: 1})),
-                );
-            }
+        if (this.bc.collectionvalues === "array") {
+            recordsStore.setRecordsAction(
+                this.selectedEntries.map((args) => ({...args[1], [VAR_RECORD_JN_TOTAL_CNT]: 1})),
+            );
         }
     };
 
     @action
-    handleSelectArrayAction = () => {
+    handleSelectArrayAction = (mode: IBuilderMode, btnBc: IBuilderConfig, {popoverCtx}: IHandlerOptions) => {
         const gridStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (gridStore && gridStore.recordsStore) {
@@ -302,11 +303,15 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             this.setRecordToGlobal();
         }
 
+        if (popoverCtx) {
+            popoverCtx.onClose();
+        }
+
         return Promise.resolve(true);
     };
 
     @action
-    handleSelectAction = () => {
+    handleSelectAction = (mode: IBuilderMode, btnBc: IBuilderConfig, {popoverCtx}: IHandlerOptions) => {
         const record = this.recordsGridStore && this.recordsGridStore.selectedRecord;
 
         if (record) {
@@ -315,11 +320,15 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
         this.setRecordToGlobal();
 
+        if (popoverCtx) {
+            popoverCtx.onClose();
+        }
+
         return Promise.resolve(true);
     };
 
     @action
-    handleCloseAction = () => {
+    handleCloseAction = (mode: IBuilderMode, btnBc: IBuilderConfig, {popoverCtx}: IHandlerOptions) => {
         const recordsStore = this.pageStore.stores.get(`grid_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`)?.recordsStore;
 
         if (recordsStore && this.bc.collectionvalues === "array") {
@@ -329,14 +338,18 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             });
         }
 
+        if (popoverCtx) {
+            popoverCtx.onClose();
+        }
+
         return Promise.resolve(true);
     };
 
-    handleDbSelectAction = () => {
+    handleDbSelectAction = (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
         const selectAction =
             this.bc.collectionvalues === "array" ? this.handleSelectArrayAction : this.handleSelectAction;
 
-        return selectAction();
+        return selectAction(mode, btnBc, options);
     };
 
     handlers = {

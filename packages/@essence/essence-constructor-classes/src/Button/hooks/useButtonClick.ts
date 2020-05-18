@@ -67,6 +67,7 @@ export function useButtonClick(
                     ) {
                         promise = builderStore.handlers[handlerBtn](bc.mode as IBuilderMode, bc, {
                             form: formCtx,
+                            popoverCtx,
                             record: recordCtx,
                             ...data,
                         });
@@ -80,6 +81,7 @@ export function useButtonClick(
                         // @ts-ignore
                         promise = builderStore[handlerBtn](bc.mode, bc, {
                             form: formCtx,
+                            popoverCtx,
                             record: recordCtx,
                             ...data,
                         });
@@ -95,10 +97,6 @@ export function useButtonClick(
             return promise.then((res) => {
                 if (isMountedRef.current) {
                     setIsDisabled(false);
-                }
-
-                if (res) {
-                    popoverCtx.onClose();
                 }
 
                 return res;

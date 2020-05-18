@@ -64,7 +64,6 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
                 [VAR_RECORD_DISPLAYED]: "static:704af666dbd3465781149e4282df5dcf",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-search`,
                 [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-                handler: "onSearch",
                 iconfont: "search",
                 onlyicon: "true",
                 readonly: "false",

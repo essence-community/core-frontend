@@ -8,16 +8,9 @@ import {
     IStoreBaseModel,
     IApplicationModel,
     IBuilderMode,
-    IWindowModel,
     IRouteRecord,
     IRecordsModel,
 } from ".";
-
-export interface ICreateWindow {
-    windowBc: IBuilderConfig;
-    values?: Record<string, FieldValue>;
-    mode: IBuilderMode;
-}
 
 export interface IPageModelProps {
     pageId: string;
@@ -33,17 +26,11 @@ export interface INextComponentReturn {
 }
 
 export type PageModelStores = ObservableMap<string, IStoreBaseModel>;
-export type PageModelWindows = IObservableArray<IWindowModel>;
+export type PageModelWindows = IObservableArray<IBuilderConfig>;
 export type PageModelFieldValues = ObservableMap<string, FieldValue>;
 export type PageModelSaveCallback = (status: 0 | 1 | 2) => void;
 
 type PageModelParamsType = any;
-
-export interface ICreateWindowType {
-    windowBc: IBuilderConfig;
-    values?: Record<string, any>;
-    mode: IBuilderMode;
-}
 
 export interface IPageModel {
     pageBc: IBuilderConfig[];
@@ -53,8 +40,6 @@ export interface IPageModel {
     stores: PageModelStores;
     windows: PageModelWindows;
     forms: ObservableMap<string, IForm>;
-    // @deprecated
-    windowsOne: PageModelWindows;
     globalValues: ObservableMap<string, FieldValue>;
     pageId: string;
     showQuestionWindow: boolean;
@@ -86,8 +71,6 @@ export interface IPageModel {
     removeStore(name: string, store: IStoreBaseModel): void;
     addGlobalStoresAction(name: string, store: IStoreBaseModel): void;
     removeGlobalStoresAction(name: string, store: IStoreBaseModel): void;
-    addWindowAction(window: IWindowModel): void;
-    removeWindowAction(window: IWindowModel): void;
     loadConfigAction(pageId: string): Promise<void | object>;
     setPageElAction(pageEl: HTMLDivElement | null): void;
     setPageInnerElAction(pageInnerEl: HTMLDivElement | null): void;
@@ -106,7 +89,7 @@ export interface IPageModel {
     removeScrollEvent(scrollEvent: Function): void;
     fireScrollEvent(): void;
     clearAction(): void;
-    createWindowAction(params: ICreateWindow): void;
+    createWindowAction(winBc: IBuilderConfig): void;
     closeWindowAction(ckPageObject: string): void;
     addForm(name: string, form: IForm): void;
     removeForm(name: string): void;

@@ -5,7 +5,6 @@ import {preference} from "@essence-community/constructor-share/constants";
 // Intialize components
 import "@essence-community/constructor-components/src/TextField/BuilderField";
 import "@essence-community/constructor-components/src/FilePanel/BuilderFilePanel";
-import "@essence-community/constructor-components/src/Window";
 
 import "@essence-community/constructor-classes/src/FilterExtended";
 import "@essence-community/constructor-classes/src/ButtonGroup";
@@ -71,6 +70,7 @@ import "@essence-community/constructor-classes/src/FormPanel";
 import "@essence-community/constructor-classes/src/PanelCollapsible";
 import "@essence-community/constructor-classes/src/Box";
 import "@essence-community/constructor-classes/src/HistoryPanel";
+import "@essence-community/constructor-classes/src/Window";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

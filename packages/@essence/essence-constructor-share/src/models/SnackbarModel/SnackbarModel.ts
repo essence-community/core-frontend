@@ -66,6 +66,7 @@ export class SnackbarModel implements ISnackbarModel {
             [VAR_RECORD_PAGE_OBJECT_ID]: "Snackbar",
             [VAR_RECORD_PARENT_ID]: "root",
             [VAR_RECORD_QUERY_ID]: "GetMsgList",
+            type: "NONE",
         };
 
         this.recordsStore = new RecordsModel(bc);

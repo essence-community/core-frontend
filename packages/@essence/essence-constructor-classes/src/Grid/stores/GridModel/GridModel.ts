@@ -531,6 +531,11 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
             return Boolean(res);
         },
+        onScrollToRecordAction: (mode: IBuilderMode, bc: IBuilderConfig, {record = {}}: IHandlerOptions) => {
+            this.scrollToRecordAction(record);
+
+            return Promise.resolve(true);
+        },
         onSimpleAddRow: (mode: IBuilderMode, bc: IBuilderConfig) => this.handlers.onCreateChildWindowMaster(mode, bc),
         onToggleAllSelectedRecords: () => {
             if (this.recordsStore.records.length !== 0) {

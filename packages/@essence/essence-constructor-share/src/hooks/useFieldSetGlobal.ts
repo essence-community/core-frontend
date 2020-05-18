@@ -32,6 +32,10 @@ export function useFieldSetGlobal({form, field, pageStore, bc, store}: IUseField
     }, [bc.setglobal, field, pageStore, store]);
 
     React.useEffect(() => {
+        if (!bc.setglobal) {
+            return undefined;
+        }
+
         const {setglobal = "", collectionvalues, valuefield} = bc;
         const {globalValues} = pageStore;
         const isStoreRecord =

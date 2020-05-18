@@ -1,6 +1,6 @@
 import * as React from "react";
 import {toSize, isEmpty} from "@essence-community/constructor-share/utils";
-import {VALUE_SELF_FIRST} from "@essence-community/constructor-share/constants";
+import {VALUE_SELF_FIRST, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
 import {useModel, useFieldGetGlobal, useFieldSetGlobal} from "@essence-community/constructor-share/hooks";
@@ -27,6 +27,18 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
         }
     }, [field.value, store]);
 
+    // Check for grid store
+    React.useEffect(() => {
+        return reaction(
+            () => pageStore.stores.get(store.gridBc[VAR_RECORD_PAGE_OBJECT_ID])?.recordsStore,
+            (recordsStore) => {
+                if (recordsStore) {
+                    store.restoreSelectedAction(recordsStore);
+                }
+            },
+        );
+    }, [pageStore.stores, store]);
+
     React.useEffect(
         () =>
             reaction(
@@ -44,18 +56,11 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
         [field, store],
     );
 
-    const handleChangeOpen = (open: boolean) => {
-        if (open) {
-            store.restoreSelectedAction();
-        }
-    };
-
     return (
         <Popover
             popoverContent={mapComponentOne(store.gridBc, (ChildCmp, childBc) => (
                 <ChildCmp {...props} bc={childBc} />
             ))}
-            onChangeOpen={handleChangeOpen}
             container={pageStore.pageEl}
             width={toSize(bc.pickerwidth) as number}
             pageStore={pageStore}

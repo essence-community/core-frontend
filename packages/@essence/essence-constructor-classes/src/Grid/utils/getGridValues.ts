@@ -1,17 +1,17 @@
-import {IWindowModel, IBuilderMode, IPageModel, IRecord} from "@essence-community/constructor-share/types";
+import {IBuilderMode, IPageModel, IRecord, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import {IGridModel} from "../stores/GridModel/GridModel.types";
 
 type GetGridValuesType = {
     gridStore: IGridModel;
-    windowStore?: IWindowModel;
+    winBc?: IBuilderConfig;
     pageStore: IPageModel;
     mode: IBuilderMode;
     values: IRecord;
 };
 
-function getFirstSubGridValues(pageStore: IPageModel, windowStore: IWindowModel, gridValues: IRecord): IRecord[] {
-    for (const child of windowStore.childs) {
+function getFirstSubGridValues(pageStore: IPageModel, winBc: IBuilderConfig, gridValues: IRecord): IRecord[] {
+    for (const child of winBc.childs || []) {
         if (child.type === "GRID" || child.type === "TREEGRID") {
             const store = pageStore.stores.get(child[VAR_RECORD_PAGE_OBJECT_ID]);
             const recordsStore = store?.recordsStore;
@@ -55,14 +55,8 @@ function getFirstSubGridValues(pageStore: IPageModel, windowStore: IWindowModel,
  *
  * @returns {Array<Object> | Object} Данные
  */
-export function getGridValues({
-    gridStore,
-    windowStore,
-    pageStore,
-    mode,
-    values,
-}: GetGridValuesType): IRecord[] | IRecord {
-    const isArrayValue = windowStore?.windowBc?.collectionvalues === "array";
+export function getGridValues({gridStore, winBc, pageStore, mode, values}: GetGridValuesType): IRecord[] | IRecord {
+    const isArrayValue = winBc?.collectionvalues === "array";
     const selectedRecord = gridStore.recordsStore.selectedRecord || {};
     let gridValues = values;
 
@@ -76,7 +70,7 @@ export function getGridValues({
     }
 
     if (isArrayValue) {
-        return windowStore?.name === "window" ? getFirstSubGridValues(pageStore, windowStore, gridValues) : [];
+        return winBc?.type === "WIN" ? getFirstSubGridValues(pageStore, winBc, gridValues) : [];
     }
 
     return gridValues;

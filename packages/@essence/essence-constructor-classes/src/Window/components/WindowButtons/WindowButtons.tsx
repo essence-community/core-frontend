@@ -4,6 +4,7 @@ import {mapComponents} from "@essence-community/constructor-share/components";
 import {IBuilderConfig, IClassProps} from "@essence-community/constructor-share/types";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {useObserver} from "mobx-react-lite";
 
 interface IWindowButtonsProps extends IClassProps {
     className?: string;
@@ -27,7 +28,7 @@ export const WindowButtons: React.FC<IWindowButtonsProps> = ({checkboxAddMode, c
             }),
         );
 
-    return (
+    return useObserver(() => (
         <DialogActions className={className}>
             {checkboxAddMode}
             {mapComponents(btns, (BtnComponent, btn) => (
@@ -39,5 +40,5 @@ export const WindowButtons: React.FC<IWindowButtonsProps> = ({checkboxAddMode, c
                 />
             ))}
         </DialogActions>
-    );
+    ));
 };

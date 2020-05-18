@@ -11,6 +11,8 @@ export const FieldTextContainer: React.FC<IClassProps> = (props) => {
 
     const field = useField({
         bc,
+        disabled: props.disabled,
+        hidden: props.hidden,
         pageStore: props.pageStore,
     });
     const inputProps = useTextFieldProps({bc: props.bc, disabled: props.disabled, field});

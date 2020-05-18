@@ -22,19 +22,10 @@ export const useStyles = makeStyles(
         contentEditing: {
             backgroundColor: theme.palette.common.white,
         },
-        panelEditing:
-            theme.palette.type === "dark"
-                ? {
-                      position: "relative",
-                      zIndex: 3,
-                  }
-                : {
-                      "& $actionsBar": {
-                          backgroundColor: theme.palette.primary.light,
-                          borderBottom: `2px solid ${theme.palette.primary.main}`,
-                      },
-                      backgroundColor: theme.palette.common.white,
-                  },
+        panelEditing: {
+            position: "relative",
+            zIndex: 3,
+        },
         topPanel:
             theme.palette.type === "dark"
                 ? {

@@ -178,8 +178,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                 </Scrollbars>
                 {/* )} */}
                 <PagerWindowMessage pageStore={pageStore} />
-                {/* If defaultvalue not empty - pager comes from constructor. Skip duplicate windows */}
-                {bc.defaultvalue ? null : <PagerWindows {...props} />}}
+                {bc === pageStore.pagerBc ? <PagerWindows {...props} /> : null}}
             </div>
         );
     });

@@ -1,9 +1,7 @@
 // @flow
 import {type ObservableMap} from "mobx";
-import {type IObservableArray} from "mobx/lib/mobx.js.flow";
 import {type BuilderModeType, type BuilderBaseType} from "../../BuilderType";
 import {type RoutesModelType} from "../RoutesModel";
-import {type WindowModelType, type WindowBcType} from "../WindowModel/WindowModelTypes";
 import {type ApplicationModelType} from "../StoreTypes";
 
 export type StoreModelTypes = WindowModelType;
@@ -55,7 +53,6 @@ export interface PageModelInterface {
     };
     visible: boolean;
     formFilters: Array<Form>;
-    windowsOne: IObservableArray<WindowModelType>;
     styleTheme: "dark" | "light";
     constructor(props: PageModelParamsType): void;
     addScrollEvent: (Function) => void;
@@ -65,8 +62,6 @@ export interface PageModelInterface {
     updateGlobalValues: (values: Object) => void;
     addStore: (store: StoreModelTypes, name: string) => void;
     removeStore: (name: string, store: StoreModelTypes) => void;
-    addWindowAction: (window: WindowModelType, name: string) => void;
-    removeWindowAction: (name: string) => void;
     addFieldValueMaster: (name: string, value: any) => void;
     removeFieldValueMaster: (name: string) => void;
     loadConfigAction: (pageId: string, session: string) => Promise<void>;

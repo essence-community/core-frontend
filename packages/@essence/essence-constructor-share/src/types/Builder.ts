@@ -1,4 +1,5 @@
 import {FieldValue} from "./Field";
+import {IRecord} from "./Base";
 
 /* eslint-disable max-len */
 
@@ -286,6 +287,8 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     confirmquestionposition?: "right" | "top";
     // Internal
     iconsize?: "xs";
+    // Internal values for window store or etc.
+    values?: IRecord;
 }
 
 export type IBuilderMode = "1" | "2" | "3" | "4" | "6" | "7" | "8";

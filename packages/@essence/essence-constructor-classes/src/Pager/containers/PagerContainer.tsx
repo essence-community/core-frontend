@@ -178,7 +178,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                 </Scrollbars>
                 {/* )} */}
                 <PagerWindowMessage pageStore={pageStore} />
-                <PagerWindows pageStore={pageStore} />
+                <PagerWindows {...props} />
             </div>
         );
     });

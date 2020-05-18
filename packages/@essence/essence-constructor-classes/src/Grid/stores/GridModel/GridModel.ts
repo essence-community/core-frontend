@@ -151,7 +151,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             this.bc.edittype === "inline" &&
             Boolean(
                 this.pageStore.windows.find(
-                    (store) => store.bc[VAR_RECORD_PARENT_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+                    (windBc) => windBc[VAR_RECORD_PARENT_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID],
                 ),
             )
         );
@@ -194,10 +194,11 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                             });
                         }
 
-                        return this.bc.editmode === "inline"
+                        return this.bc.edittype === "inline"
                             ? {
                                   ...getDefaultWindowBc(this.bc),
                                   columns: this.gridColumns,
+                                  type: "INLINE_WINDOW",
                               }
                             : {
                                   ...getDefaultWindowBc(this.bc),
@@ -242,7 +243,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     saveAction = action("saveAction", async (values: IRecord, mode: IBuilderMode, config: GridSaveConfigType) => {
         const {actionBc, files, form} = config;
         const windowStore = this.pageStore.windows.find(
-            (store) => store.bc[VAR_RECORD_PARENT_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+            (winBc) => winBc[VAR_RECORD_PARENT_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID],
         );
         const isDownload = mode === "7" || actionBc.mode === "7";
         const gridValues = getGridValues({gridStore: this, mode, pageStore: this.pageStore, values, windowStore});

@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
 // @flow
 import * as React from "react";
 import {FormControl, Checkbox, DialogTitle} from "@material-ui/core";

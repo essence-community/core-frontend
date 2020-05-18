@@ -28,6 +28,7 @@ export interface IEssenceTheme extends Theme {
                 white: string;
             };
             icon: {
+                primary: string;
                 secondary: string;
             };
             grey: {

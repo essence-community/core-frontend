@@ -42,6 +42,7 @@ const themeVars: IEssenceTheme["essence"] = {
             shadow: "rgb(203, 202, 202, 0.4)",
         },
         icon: {
+            primary: "#91c9c4",
             secondary: "#80838d",
         },
         primary: {

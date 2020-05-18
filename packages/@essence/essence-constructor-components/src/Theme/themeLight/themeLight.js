@@ -107,6 +107,7 @@ export const themeLight = {
                 white: "#fff",
             },
             icon: {
+                primary: "#5879a9",
                 secondary: "#cbcaca",
             },
             grey: {

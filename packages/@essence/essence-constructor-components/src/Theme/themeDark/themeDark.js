@@ -124,6 +124,7 @@ export const themeDark = {
                 white: "#fff",
             },
             icon: {
+                primary: "#91c9c4",
                 secondary: "#80838d",
             },
             grey: {

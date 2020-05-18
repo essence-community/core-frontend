@@ -6,7 +6,6 @@ import ToolBarTab from "./ToolBar/ToolBarTab";
 import withModelDecorator from "./decorators/withModelDecorator";
 import Scrollbars from "./Components/Scrollbars/Scrollbars";
 import Slider from "./Components/Slider/Slider";
-import BuilderPanel from "./Panel/BuilderBasePanel";
 import Popover from "./Popover/Popover";
 import BuilderRoadMapPanel from "./RoadMapPanel/BuilderRoadMapPanel";
 
@@ -22,7 +21,6 @@ export {SettingsModel} from "./stores/SettingsModel";
 export {RecordsModel} from "./stores/RecordsModel";
 
 export {
-    BuilderPanel,
     BuilderRoadMapPanel,
     Tooltip,
     ToolBar,

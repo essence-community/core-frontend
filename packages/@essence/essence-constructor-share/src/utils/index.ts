@@ -20,5 +20,6 @@ export {getMasterObject} from "./getMasterObject";
 export * from "./redirect";
 export * from "./bignumber";
 export * from "./window";
+export {getModeTitle} from "./getModeTitle";
 
 export {animate};

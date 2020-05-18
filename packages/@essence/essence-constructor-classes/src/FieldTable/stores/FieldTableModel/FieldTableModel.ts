@@ -276,19 +276,15 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     };
 
     @action
-    restoreSelectedAction = () => {
-        const recordsStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID])?.recordsStore;
+    restoreSelectedAction = (recordsStore: IRecordsModel) => {
+        this.selectedEntries.forEach(([key, value]) => {
+            recordsStore.selectedRecords.set(key, value);
+        });
 
-        if (recordsStore) {
-            this.selectedEntries.forEach(([key, value]) => {
-                recordsStore.selectedRecords.set(key, value);
-            });
-
-            if (this.bc.collectionvalues === "array") {
-                recordsStore.setRecordsAction(
-                    this.selectedEntries.map((args) => ({...args[1], [VAR_RECORD_JN_TOTAL_CNT]: 1})),
-                );
-            }
+        if (this.bc.collectionvalues === "array") {
+            recordsStore.setRecordsAction(
+                this.selectedEntries.map((args) => ({...args[1], [VAR_RECORD_JN_TOTAL_CNT]: 1})),
+            );
         }
     };
 

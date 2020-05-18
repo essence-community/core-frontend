@@ -294,7 +294,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
     @action
     toggleSelectedRecordAction = (ckId: ICkId, record: IRecord, isSelectedDefault?: boolean) => {
-        const parentId = record[VAR_RECORD_PARENT_ID];
+        const parentId = record[VAR_RECORD_PARENT_ID] as string | number;
         const isSelected =
             isSelectedDefault === undefined ? Boolean(this.recordsStore.selectedRecords.get(ckId)) : isSelectedDefault;
 
@@ -304,7 +304,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             this.recordsStore.selectedRecords.set(ckId, record);
         }
 
-        if (!isEmpty(record[VAR_RECORD_LEAF]) && (typeof parentId === "number" || typeof parentId === "string")) {
+        if (!isEmpty(record[VAR_RECORD_LEAF])) {
             setGridSelections(this, isSelected, ckId);
             setGridSelectionsTop(
                 this,
@@ -313,11 +313,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                     .some((rec) => {
                         const recordId = rec[this.recordsStore.recordId];
 
-                        if (typeof recordId == "string" || typeof recordId === "number") {
-                            return this.recordsStore.selectedRecords.has(recordId);
-                        }
-
-                        return false;
+                        return this.recordsStore.selectedRecords.has(recordId as string | number);
                     }),
                 parentId,
             );
@@ -347,9 +343,9 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                     // eslint-disable-next-line eqeqeq
                     (rec) => rec[this.recordsStore.recordId] == childRecord[VAR_RECORD_PARENT_ID],
                 );
-                const recordId = record && record[this.recordsStore.recordId];
+                const recordId = record && (record[this.recordsStore.recordId] as string | number);
 
-                if (typeof recordId === "string" || typeof recordId === "number") {
+                if (recordId !== undefined) {
                     this.recordsStore.expansionRecords.set(recordId, true);
                 }
             }
@@ -389,17 +385,13 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     removeSelectedRecordAction = async (_mode: IBuilderMode, bcBtn: IBuilderConfig) => {
         const record = this.recordsStore.selectedRecord;
         const res = await this.recordsStore.removeSelectedRecordAction({actionBc: bcBtn});
-        const recordId = record && record[this.recordsStore.recordId];
+        const recordId = record && (record[this.recordsStore.recordId] as string | number);
 
         if (res && this.recordsStore.pageNumber > 0 && this.recordsStore.recordsCount === 0) {
             this.recordsStore.setPageNumberAction(0);
         }
 
-        if (
-            record &&
-            (typeof recordId === "string" || typeof recordId === "number") &&
-            Boolean(this.recordsStore.selectedRecords.get(recordId))
-        ) {
+        if (record && recordId !== undefined && Boolean(this.recordsStore.selectedRecords.get(recordId))) {
             this.toggleSelectedRecordAction(recordId, record);
         }
 

@@ -109,7 +109,10 @@ export class PagesModel implements IPagesModel {
             }
 
             if (selectedPage === this.activePage) {
-                this.activePage = this.pages.length ? this.pages[0] : null;
+                this.activePage =
+                    (this.pages.length &&
+                        this.pages.find((page) => page.pageId !== this.applicationStore.bc.defaultvalue)) ||
+                    null;
             }
 
             saveToStore(

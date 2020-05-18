@@ -3,11 +3,7 @@ import {IField, IForm} from "../types";
 import {MAX_NUMBER_SIZE} from "../../constants";
 import {TFunction} from "../../utils";
 
-function maxvalueMessage(trans: TFunction) {
-    return trans("static:58b71773e7664e70874020a45705bc4c");
-}
-
-function hasError(value: string | number, reqValue: string) {
+function isValid(value: string | number, reqValue: string) {
     if (reqValue.length > MAX_NUMBER_SIZE) {
         return new BigNumber(value).lte(new BigNumber(reqValue));
     }
@@ -27,9 +23,11 @@ export function maxvalue(field: IField, form: IForm, req = "") {
         return undefined;
     }
 
-    if (hasError(value, reqValue)) {
-        return maxvalueMessage;
+    if (isValid(value, reqValue)) {
+        return undefined;
     }
 
-    return undefined;
+    return function maxvalueMessage(trans: TFunction) {
+        return trans("static:58b71773e7664e70874020a45705bc4c").replace(":maxvalue", req);
+    };
 }

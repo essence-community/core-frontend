@@ -21,10 +21,11 @@ import {ApplicationModel, CLOSE_CODE} from "../store/ApplicationModel";
 import {renderGlobalValuelsInfo} from "../utils/renderGlobalValuelsInfo";
 import {ApplicationWindows} from "../components/ApplicationWindows";
 import {Block} from "../components/Block";
+import {useHistoryListen} from "../hooks";
 
 const logger = loggerRoot.extend("PagerContainer");
 
-// eslint-disable-next-line max-lines-per-function
+// eslint-disable-next-line max-lines-per-function, max-statements
 export const ApplicationContainer: React.FC<IClassProps> = () => {
     const history = useHistory();
     const match = useRouteMatch<any>("/:appNameDefault");
@@ -121,6 +122,8 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
             dispose();
         };
     }, [applicationStore]);
+
+    useHistoryListen({applicationStore, history});
 
     useDisposable(() => {
         return observe(applicationStore, "bc", (change) => {

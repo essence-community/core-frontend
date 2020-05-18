@@ -6,6 +6,7 @@ import {VerticalResizer, Pagination, Scrollbars} from "@essence-community/constr
 import {useObserver} from "mobx-react-lite";
 import {ScrollbalrsValuesType} from "@essence-community/constructor-share/uicomponents/Scrollbars";
 import {observe} from "mobx";
+import {PopoverContext} from "@essence-community/constructor-share/context";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {GridTableHeader} from "../GridTableHeader";
 import {GridColgroup} from "../GridColgroup";
@@ -19,6 +20,7 @@ interface IGridTableProps extends IClassProps {
 
 // eslint-disable-next-line max-lines-per-function
 export const GridTable: React.FC<IGridTableProps> = ({store, children, ...classProps}) => {
+    const {open: popoverOpen} = React.useContext(PopoverContext);
     const {bc, pageStore} = classProps;
     const classes = useStyles();
     const [focused, setFocused] = React.useState<boolean>(false);
@@ -125,6 +127,7 @@ export const GridTable: React.FC<IGridTableProps> = ({store, children, ...classP
                         scrollbarsRef={scrollElem}
                         hideTracksWhenNotNeeded
                         preventAltScroll
+                        fireScrollEvent={!popoverOpen}
                         pageStore={pageStore}
                     >
                         <div

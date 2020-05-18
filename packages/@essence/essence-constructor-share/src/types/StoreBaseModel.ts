@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/named
 import {IObservableArray} from "mobx";
 import {IForm} from "../Form";
+import {IPopoverContext} from "../context";
 import {IApplicationModel} from "./Application";
 import {IBuilderConfig, IBuilderMode} from "./Builder";
 import {IPageModel} from "./PageModel";
@@ -29,6 +30,7 @@ export interface IHandlerOptions {
     form?: IForm;
     files?: File[];
     record?: IRecord;
+    popoverCtx?: IPopoverContext;
 }
 
 export type HandlerType = (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => Promise<boolean>;

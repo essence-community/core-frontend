@@ -281,6 +281,8 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     records?: Record<string, FieldValue>[];
     // Служебный параметр не править
     type: string;
+    // Признак Только чтение
+    readonly?: string;
     // Interanal
     confirmquestionposition?: "right" | "top";
     // Internal

@@ -23,7 +23,7 @@ export interface IBuilderBaseConfig {
     btndelete?: string;
     // Отображение кнопки "Экспорт в Excel" (true/false)
     btnexcel?: string;
-    // Признак доступности фильтрации по колонке True - фильтрация включена False - фильтрация выключена
+    // Признак доступности фильтрации по колонке  True - фильтрация включена  False - фильтрация выключена
     btnfilter?: boolean;
     // Отображение кнопки "Обновить" (true/false)
     btnrefresh?: string;
@@ -99,9 +99,9 @@ export interface IBuilderBaseConfig {
     getgloballist?: string;
     // Список глобальных переменных(через запятую), передаваемых в filter сервиса на объекте.  Пример: Если указать gck_mo, то положит в json.filter.gck_mo Если указать gck_mo=ck_mo, то положит в json.filter.ck_mo
     getglobaltostore?: string;
-    // Данные получаемые из мастера
+    // Наименование параметра из мастера, который будет передан в json в виде "master": {"наименование_параметра":"значение"}
     getmastervalue?: string;
-    // Обработчик в ExtJS onCreateChildWindowMaster - для вызова окна при создании onRowCreateChildWindowMaster - для вызова окна при редактировании onSimpleSaveWindow - сохранение данных по кнопке для модального окна onCloseWindow - закрытие модального окна onCloseWindowSilent - закрытие модального окна без сообщения onPrintHandleOnline - Онлайн печать onPrintHandleOffline - Отложенная печать
+    // Обработчик в ExtJS onCreateChildWindowMaster - для вызова окна при создании onRowCreateChildWindowMaster - для вызова окна при редактировании onSimpleSaveWindow - сохранение данных по кнопке для модального окна onCloseWindow - закрытие модального окна onCloseWindowSilent - закрытие модального окна без сообщения onPrintHandleOnline - Онлайн печать onPrintHandleOffline - Отложенная печать free - общий обработчик для передачи данных в сервис
     handler?: string;
     // Статическая высота в пикселях (px)
     height?: string;
@@ -115,9 +115,9 @@ export interface IBuilderBaseConfig {
     iconfont?: string;
     // Наименование класса или наименование колонки при динамике
     iconfontname?: string;
-    // Наименование параметра из мастера, который будет передан в json в виде "master":{"наименование_параметра":"значение"}
+    // Наименование параметра, отвечающего за уникальность записей
     idproperty?: string;
-    // Маска ввода, например: (999) 999-99-99
+    // Маска ввода, например: (999) 999-99-99   Если значение для маски пустое или несуществует, то поле будет скрыто
     imask?: string;
     // Дополнительная информация для полей ввода
     info?: string;
@@ -127,6 +127,8 @@ export interface IBuilderBaseConfig {
     maxfile?: string;
     // Максимальная высота
     maxheight?: string;
+    // Максимальное возможное количество выбранных элементов
+    maxselected?: string;
     // Максимальное количество символов
     maxsize?: string;
     // Максимальное значение. Для значений с дробной частью использовать только точку
@@ -165,12 +167,8 @@ export interface IBuilderBaseConfig {
     querymode?: string;
     // Наименование параметра, по которому фильтруются значения при вводе
     queryparam?: string;
-    // Признак Только чтение
-    readonly?: string;
     // Правила отображения объекта. Если правило вернет true, то объект перейдет в режим "Только чтение".  Синтаксис: == - равно != - не равно '>' - больше '<' - меньше '&&' - и '||' - или Пример: gck_mo>1   // если глобальная переменная gck_mo больше 1, то объект перейдет в режим "только чтение"
     readonlyrules?: string;
-    // Список Ключ-Значения в Combo
-    records?: Record<string, FieldValue>[];
     // URL страницы, на которую будет произведен переход
     redirecturl?: string;
     // Наименование запроса, возвращающего cv_url для перехода
@@ -199,7 +197,7 @@ export interface IBuilderBaseConfig {
     selmode?: string;
     // Наименование глобальной переменной. Должно начинаться с g
     setglobal?: string;
-    // Наименование глобальной переменной. Должно начинаться с g
+    // Наименование глобалки в которую добавляется выбранная строка.
     setrecordtoglobal?: string;
     // Наименование парамента, по которому будет осуществлена сортировка вместо column
     sortcolumn?: string;
@@ -223,8 +221,6 @@ export interface IBuilderBaseConfig {
     title?: string;
     // Отступ от верха в пикселях
     top?: string;
-    // Служебный параметр не править
-    type: string;
     // Формат возвращаемого значения с сервиса. Значения: "URL", "HTML". Допускаются условия с учетом глобальных переменных.
     typeiframe?: string;
     // Тип вида кнопки: 1-primary 2-secondary
@@ -233,7 +229,7 @@ export interface IBuilderBaseConfig {
     updateglobal?: string;
     // Наименование сервиса для кастомных операций
     updatequery?: string;
-    // Наименование параметра, содержащего уникальный идентификатор записи
+    // Наименование параметра из внутреннего сервиса, значение которого будет передано для дальнейшей обработки
     valuefield?: string;
     // Признак отображения колонки
     visible?: string;
@@ -283,6 +279,8 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     detail?: IBuilderConfig[];
     // Служебный параметр для передачи статических значений
     records?: Record<string, FieldValue>[];
+    // Служебный параметр не править
+    type: string;
     // Interanal
     confirmquestionposition?: "right" | "top";
     // Internal

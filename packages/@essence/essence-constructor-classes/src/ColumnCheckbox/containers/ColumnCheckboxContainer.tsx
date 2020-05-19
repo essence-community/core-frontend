@@ -5,6 +5,7 @@ import {VAR_RECORD_PARENT_ID, VAR_RECORD_LEAF} from "@essence-community/construc
 import {Checkbox} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {useObserver} from "mobx-react-lite";
+import {parseMemoize} from "@essence-community/constructor-share/utils";
 import {isCheckedChilds} from "../utils/isCheckedChilds";
 import {isMinusChecked} from "../utils/isMinusChecked";
 
@@ -13,8 +14,9 @@ const EMPTY_RECORD: IRecord = {};
 export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
     const {pageStore, bc, readOnly, disabled} = props;
     const record = React.useContext(RecordContext) || EMPTY_RECORD;
-    const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
     const isChecked = (): boolean => {
+        const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
+
         if (store && store.recordsStore) {
             const leaf = record[VAR_RECORD_LEAF];
             const ckId = record[store.recordsStore.recordId] as ICkId;
@@ -29,6 +31,8 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
         return false;
     };
     const getIconFont = () => {
+        const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
+
         if (store?.bc.type !== "TREEGRID" || record[VAR_RECORD_LEAF] !== "false") {
             return "square-o";
         }
@@ -47,6 +51,8 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
         return "square-o";
     };
     const handleChange = () => {
+        const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
+
         if (store) {
             store.handlers.onToggleSelectedRecord("1", bc, {record: {...record, checked: isChecked()}});
         }
@@ -56,11 +62,18 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
     };
 
     return useObserver(() => {
+        const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
+        const checked = isChecked();
+        const isDisabledCheck =
+            !checked && bc.maxselected && store && store.recordsStore
+                ? store.recordsStore.selectedRecords.size >= parseMemoize(bc.maxselected).runer(pageStore.globalValues)
+                : false;
+
         return (
             <Checkbox
                 color="default"
-                checked={isChecked()}
-                disabled={readOnly || disabled}
+                checked={checked}
+                disabled={readOnly || disabled || isDisabledCheck}
                 onClick={handlePrevent}
                 onChange={handleChange}
                 icon={<Icon iconfont={getIconFont()} size="xs" />}

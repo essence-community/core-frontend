@@ -24,37 +24,31 @@ export const PanelContainer: React.FC<IPanelContainerProps> = (props) => {
         if (collapsible === "true") {
             const collapseBc = {
                 ...bc,
-                [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-collapsyble-panel`,
+                [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-collapsible-panel`,
                 type: "PANELCOLLAPSED.NOCOMMONDECORATOR",
             };
 
-            return (render: renderFn) => (
-                <>
-                    {mapComponentOne(collapseBc, (Child, childBc) => (
-                        <Child key={childBc.ck_page_object} {...props} bc={childBc}>
-                            {render()}
-                        </Child>
-                    ))}
-                </>
-            );
+            return (render: renderFn) =>
+                mapComponentOne(collapseBc, (Child, childBc) => (
+                    <Child key={childBc.ck_page_object} {...props} bc={childBc}>
+                        {render()}
+                    </Child>
+                ));
         }
 
-        return (render: renderFn) => <>{render()}</>;
+        return (render: renderFn) => render();
     }, [bc, collapsible, props]);
 
     const formPanel: renderFn = React.useMemo(() => {
         if (editmodepanel === "true") {
             const formBc = {...bc, type: "FORMPANEL.NOCOMMONDECORATOR"};
 
-            return (render: renderFn) => (
-                <>
-                    {mapComponentOne(formBc, (Child, childBc) => (
-                        <Child key={childBc.ck_page_object} {...props} bc={childBc}>
-                            <PanelForm {...props}>{render()}</PanelForm>
-                        </Child>
-                    ))}
-                </>
-            );
+            return (render: renderFn) =>
+                mapComponentOne(formBc, (Child, childBc) => (
+                    <Child key={childBc.ck_page_object} {...props} bc={childBc}>
+                        <PanelForm {...props}>{render()}</PanelForm>
+                    </Child>
+                ));
         }
         if (!hideTitle && bc[VAR_RECORD_DISPLAYED]) {
             return (render: renderFn) => (

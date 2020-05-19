@@ -15,7 +15,7 @@ export const FormPanelContainer: React.FC<IClassProps> = (props) => {
     const {children, bc, pageStore} = props;
     const {setglobal, getglobal} = bc;
     const classes = useStyles();
-    const boxBc = React.useMemo(() => ({...bc, type: "BOX.NOCOMMONDECORATOR"} as IBuilderConfig), [bc]);
+    const boxBc = React.useMemo<IBuilderConfig>(() => ({...bc, type: "BOX.NOCOMMONDECORATOR"}), [bc]);
     const [store] = useModel((options) => new FormPanelModel(options), props);
 
     const handleSetGlobal = React.useCallback(

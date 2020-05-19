@@ -1,7 +1,7 @@
 import {action, computed, observable, ObservableMap} from "mobx";
 import {IRecord} from "../types";
 import {IBuilderMode, IBuilderConfig} from "../types/Builder";
-import {entriesMapSort, deepDelete} from "../utils/transform";
+import {entriesMapSort} from "../utils/transform";
 import {loggerRoot} from "../constants";
 import {Field} from "./Field";
 import {IField, IFormProps, IForm, IFormHooks, IRegisterFieldOptions} from "./types";
@@ -98,7 +98,6 @@ export class Form implements IForm {
     unregisterField = (key: string) => {
         if (this.fields.has(key)) {
             this.fields.delete(key);
-            this.initialValues = deepDelete(this.initialValues, key);
         }
     };
 

@@ -2,7 +2,7 @@ import * as React from "react";
 import {Grid, Paper} from "@material-ui/core";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {toTranslateText} from "@essence-community/constructor-share/utils/transform";
-import {IClassProps} from "@essence-community/constructor-share/types";
+import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants/variables";
 import {EmptyTitle} from "@essence-community/constructor-share/uicomponents/EmptyTitle";
 import {useTranslation} from "@essence-community/constructor-share/utils";
@@ -36,7 +36,7 @@ export const HistoryPanelContainer: React.FC<IPanelContainerProps> = (props) => 
         return () => <HistoryPanelWrapper {...props} />;
     }, [bc, hideTitle, props, trans]);
 
-    const formBc = React.useMemo(() => ({...bc, type: "FORMPANEL.NOCOMMONDECORATOR"}), [bc]);
+    const formBc = React.useMemo<IBuilderConfig>(() => ({...bc, type: "FORMPANEL.NOCOMMONDECORATOR"}), [bc]);
 
     return (
         <>

@@ -10,11 +10,12 @@ import {useStyles} from "./PanelWrapper.styles";
 
 export const PanelWrapper: React.FC<IClassProps> = (props) => {
     const {children, bc} = props;
-    const {topbtn, hideactions} = bc;
+    const {topbtn = [], hideactions} = bc;
     const form = React.useContext(FormContext);
     const classes = useStyles();
     const theme = useTheme();
     const isDarkTheme = theme.palette.type === "dark";
+    const actions = React.useMemo(() => topbtn.reverse(), [topbtn]);
 
     const actionsBar = React.useMemo(() => {
         if (hideactions === "true") {
@@ -22,8 +23,14 @@ export const PanelWrapper: React.FC<IClassProps> = (props) => {
         }
 
         return (
-            <Grid container alignItems="center" direction={isDarkTheme ? "column" : "row"} spacing={1}>
-                {mapComponents(topbtn, (ChildComp, childBc) => {
+            <Grid
+                container
+                className={classes.actionsContent}
+                alignItems="center"
+                direction={isDarkTheme ? "column-reverse" : "row"}
+                spacing={1}
+            >
+                {mapComponents(actions, (ChildComp, childBc) => {
                     const isAddButton = childBc.mode === "1";
                     const newChildBc = isAddButton
                         ? {...childBc, uitype: "4"}
@@ -37,7 +44,7 @@ export const PanelWrapper: React.FC<IClassProps> = (props) => {
                 })}
             </Grid>
         );
-    }, [hideactions, isDarkTheme, props, topbtn]);
+    }, [actions, classes.actionsContent, hideactions, isDarkTheme, props]);
 
     return useObserver(() => (
         <Grid
@@ -48,9 +55,11 @@ export const PanelWrapper: React.FC<IClassProps> = (props) => {
             className={cn({[classes.panelEditing]: form.editing})}
             data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
         >
-            <Grid item className={classes.actionsBar}>
-                {actionsBar}
-            </Grid>
+            {hideactions === "true" || topbtn.length === 0 ? null : (
+                <Grid item className={classes.actionsBar}>
+                    {actionsBar}
+                </Grid>
+            )}
             <Grid item xs zeroMinWidth className={cn({[classes.contentEditing]: form.editing})}>
                 {children}
             </Grid>

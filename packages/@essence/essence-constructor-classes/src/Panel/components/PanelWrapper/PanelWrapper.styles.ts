@@ -19,6 +19,9 @@ export const useStyles = makeStyles(
                       height: 48,
                       padding: "0 16px",
                   },
+        actionsContent: {
+            height: "100%",
+        },
         contentEditing: {
             backgroundColor: theme.palette.common.white,
         },

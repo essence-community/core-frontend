@@ -48,6 +48,7 @@ export const useStyles = makeStyles(
                       "& $contentRoot": {
                           maxWidth: `calc(100% - ${theme.essence.sizing.controlPanelWidth}px)`,
                       },
+                      position: "relative",
                   }
                 : {},
         rootActionsHide: {},

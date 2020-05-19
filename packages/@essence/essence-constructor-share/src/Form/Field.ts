@@ -176,7 +176,13 @@ export class Field implements IField {
         if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
             this.defaultValue = Number(this.bc.defaultvalue === "true" || this.bc.defaultvalue === "1");
         } else if (this.bc.defaultvalue) {
-            this.defaultValue = this.bc.defaultvalue;
+            if (this.isArray && typeof this.bc.defaultvalue === "string") {
+                this.defaultValue = JSON.parse(this.bc.defaultvalue);
+            } else {
+                this.defaultValue = this.bc.defaultvalue;
+            }
+        } else if (!this.bc.defaultvalue && this.isArray) {
+            this.defaultValue = [];
         }
 
         const [, val] = this.input(this.form.initialValues, this, this.form);

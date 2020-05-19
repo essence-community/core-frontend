@@ -1,10 +1,8 @@
-import {settingsStore} from "../models/SettingsModel";
-import {VAR_SETTING_GATE_URL} from "../constants/variables";
-
 type ValueType = string | number | any[];
 
 function makeKey(key: string): string {
-    return `${settingsStore.settings[VAR_SETTING_GATE_URL]}_${key}`;
+    // TODO: redesign this to `${settingsStore.settings[VAR_SETTING_GATE_URL]}_${key}`
+    return `dev_${key}`;
 }
 
 export function saveToStore<T>(key: string, value: T) {

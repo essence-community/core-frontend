@@ -7,6 +7,7 @@ import {
     createWindowProps,
     getDefaultWindowBc,
     getExcelWindow,
+    parseMemoize,
 } from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PARENT_ID,
@@ -293,30 +294,33 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     };
 
     @action
-    toggleSelectedRecordAction = (ckId: ICkId, record: IRecord, isSelectedDefault?: boolean) => {
+    toggleSelectedRecordAction = (record: IRecord, bcBtn?: IBuilderConfig, isSelectedDefault?: boolean) => {
+        const ckId = record[this.recordsStore.recordId] as string | number;
         const parentId = record[VAR_RECORD_PARENT_ID] as string | number;
+        const maxSize = bcBtn?.maxselected && parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues);
         const isSelected =
             isSelectedDefault === undefined ? Boolean(this.recordsStore.selectedRecords.get(ckId)) : isSelectedDefault;
 
         if (isSelected) {
             this.recordsStore.selectedRecords.delete(ckId);
-        } else {
+        } else if (!maxSize || maxSize > this.recordsStore.selectedRecords.size) {
             this.recordsStore.selectedRecords.set(ckId, record);
         }
 
         if (!isEmpty(record[VAR_RECORD_LEAF])) {
-            setGridSelections(this, isSelected, ckId);
-            setGridSelectionsTop(
-                this,
-                !this.recordsStore.records
+            setGridSelections({gridStore: this, isSelected, maxSize, parentId: ckId});
+            setGridSelectionsTop({
+                ckChild: parentId,
+                gridStore: this,
+                isSelected: !this.recordsStore.records
                     .filter((rec) => rec[VAR_RECORD_PARENT_ID] === parentId)
                     .some((rec) => {
                         const recordId = rec[this.recordsStore.recordId];
 
                         return this.recordsStore.selectedRecords.has(recordId as string | number);
                     }),
-                parentId,
-            );
+                maxSize,
+            });
         }
 
         this.afterSelected();
@@ -392,17 +396,21 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         }
 
         if (record && recordId !== undefined && Boolean(this.recordsStore.selectedRecords.get(recordId))) {
-            this.toggleSelectedRecordAction(recordId, record);
+            this.toggleSelectedRecordAction(record);
         }
 
         return res;
     };
 
     @action
-    setAllSelectedRecords = (all: boolean) => {
+    setAllSelectedRecords = (all: boolean, bcBtn: IBuilderConfig) => {
+        const maxSize = bcBtn.maxselected && parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues);
+
         if (all) {
             this.recordsStore.records.forEach((record) => {
-                this.recordsStore.selectedRecords.set(record[this.recordsStore.recordId] as ICkId, record);
+                if (!maxSize || maxSize > this.recordsStore.selectedRecords.size) {
+                    this.recordsStore.selectedRecords.set(record[this.recordsStore.recordId] as ICkId, record);
+                }
             });
         } else {
             this.recordsStore.selectedRecords.clear();
@@ -529,9 +537,9 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             return Promise.resolve(true);
         },
         onSimpleAddRow: (mode: IBuilderMode, bc: IBuilderConfig) => this.handlers.onCreateChildWindowMaster(mode, bc),
-        onToggleAllSelectedRecords: () => {
+        onToggleAllSelectedRecords: (mode: IBuilderMode, bc: IBuilderConfig) => {
             if (this.recordsStore.records.length !== 0) {
-                this.setAllSelectedRecords(!this.isPageSelectedRecords);
+                this.setAllSelectedRecords(!this.isPageSelectedRecords, bc);
             }
 
             return Promise.resolve(true);
@@ -545,11 +553,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         },
         onToggleSelectedRecord: (mode: IBuilderMode, bc: IBuilderConfig, {record}: IHandlerOptions) => {
             if (record) {
-                this.toggleSelectedRecordAction(
-                    record[this.recordsStore.recordId] as string | number,
-                    record,
-                    record.checked as boolean | undefined,
-                );
+                this.toggleSelectedRecordAction(record, bc, record.checked as boolean | undefined);
             }
 
             return Promise.resolve(true);

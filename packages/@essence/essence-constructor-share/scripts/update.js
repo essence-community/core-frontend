@@ -7,7 +7,20 @@ const request = require("request");
 
 const tsTypeFile = path.join(__dirname, "..", "src", "types", "Builder.ts");
 const {GATE_URL} = process.env;
-const ATTR_SKIP = ["bottombtn", "childs", "childwindow", "columns", "editors", "filters", "topbtn"];
+const ATTR_SKIP = [
+    "bottombtn",
+    "childs",
+    "childwindow",
+    "columns",
+    "editors",
+    "filters",
+    "topbtn",
+    "contextmenus",
+    "detail",
+    "records",
+    "type",
+];
+const CARRY_LINES_REGEXP = /\r\n|\r|\n|<br\/?>/giu;
 
 if (!GATE_URL) {
     throw new Error("GATE_URL should be set in env");
@@ -42,7 +55,7 @@ function parseAttributes(session) {
                     },
                     master: {},
                 }),
-                page_object: "7C45F8C65E064F65E053809BA8C0A3B1",
+                page_object: "54B1DA0008CE4D5EB80FD9BADCFBA61F",
                 session,
             },
             json: true,
@@ -53,7 +66,7 @@ function parseAttributes(session) {
 
             body.data.forEach((attribute) => {
                 if (ATTR_SKIP.indexOf(attribute.ck_id) === -1) {
-                    types.push(`    // ${attribute.cv_description.replace(/<br\/?>/gu, " ")}`);
+                    types.push(`    // ${attribute.cv_description.replace(CARRY_LINES_REGEXP, " ")}`);
                     types.push(`    ${attribute.ck_id}?: ${attribute.cv_static_type || "string"};`);
                 }
             });

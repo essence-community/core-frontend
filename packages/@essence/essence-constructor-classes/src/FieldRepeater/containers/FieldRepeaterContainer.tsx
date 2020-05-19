@@ -87,7 +87,7 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
     }, [field]);
 
     return useObserver(() => {
-        const value = field.value as FieldValue[];
+        const value = (field.value || []) as FieldValue[];
         const maxSize = bc.maxsize && /[g_]/u.test(bc.maxsize) ? pageStore.globalValues.get(bc.maxsize) : bc.maxsize;
         const minSize = bc.minsize && /[g_]/u.test(bc.minsize) ? pageStore.globalValues.get(bc.minsize) : bc.minsize;
         const isHiddenAdd = (maxSize && maxSize <= value.length) || hidden;

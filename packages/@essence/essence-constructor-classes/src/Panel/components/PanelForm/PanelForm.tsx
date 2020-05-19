@@ -35,7 +35,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
 
     const actions = React.useMemo(() => topbtn.reverse(), [topbtn]);
 
-    const marginTop = React.useMemo(() => {
+    const paddingTop = React.useMemo(() => {
         const isFilterActionsPresent = filters.length > 0 && filters[0].dynamicfilter !== "true";
         const filterStore: any = filters[0] && pageStore.stores.get(filters[0][VAR_RECORD_PAGE_OBJECT_ID]);
 
@@ -75,7 +75,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
         );
 
         const actionsComponent = (
-            <Grid item style={{marginTop}} className={classes.formActions}>
+            <Grid item style={{paddingTop}} className={classes.formActions}>
                 {isEditing ? (
                     <PanelEditingButtons bc={bc} pageStore={pageStore} visible={visible} />
                 ) : (
@@ -129,7 +129,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
         );
 
         const themeContent = isDarkTheme ? (
-            <Grid container direction="row" className={classNameRoot}>
+            <Grid container direction="row" className={classNameRoot} wrap="nowrap">
                 {isHideActions ? null : actionsComponent}
                 <Grid item container direction="column" className={classes.contentRoot}>
                     <Grid item xs>

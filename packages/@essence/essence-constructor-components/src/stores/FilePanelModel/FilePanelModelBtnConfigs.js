@@ -9,9 +9,11 @@ import {
     VAR_RECORD_ROUTE_PAGE_ID,
     VAR_RECORD_CV_DESCRIPTION,
 } from "@essence-community/constructor-share/constants";
-import {styleTheme} from "../../constants";
+import {getFromStore} from "@essence-community/constructor-share/utils";
 import {mergeComponents} from "../../utils/builder";
 import {type FilePanelBcType} from "./FilePanelModelTypes";
+
+const styleTheme = getFromStore("theme", "light");
 
 const getAddBtnConfig = (bc: FilePanelBcType) => ({
     [VAR_RECORD_CV_DESCRIPTION]: "A1FF62833BA8490FB626BAA1DDF0F0F7",

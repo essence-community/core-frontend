@@ -106,7 +106,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
     // Init ws client only for session
     React.useEffect(() => {
         const dispose = reaction(
-            () => process.env.REACT_APP_REQUEST !== "MOCK" && applicationStore.authStore.userInfo.session,
+            () => applicationStore.authStore.userInfo.session,
             (session) => {
                 // Reinit ws for new session
                 if (session && !applicationStore.wsClient) {

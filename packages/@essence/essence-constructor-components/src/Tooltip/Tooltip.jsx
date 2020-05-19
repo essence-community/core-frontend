@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import debounce from "lodash/debounce";
+import {CARRY_LINES_REGEXP, preference} from "@essence-community/constructor-share/constants";
 import {withStyles} from "@material-ui/core/styles";
-import {preference, CARRY_LINES_REGEXP} from "../constants";
 import styles from "./TooltipStyles";
 
 type PropsType = {

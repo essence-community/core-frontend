@@ -6,7 +6,7 @@ import isFunction from "lodash/isFunction";
 import {Paper, Backdrop, Grow, Modal} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import {getAbsoluteOffsetFromGivenElement} from "@essence-community/constructor-share/utils";
-import {ANIMATION_TIMEOUT} from "../constants";
+import {ANIMATION_TIMEOUT} from "@essence-community/constructor-share/constants";
 import FocusableArrow from "../Components/Focusable/FocusableArrow";
 import {type PopoverPropsType} from "./PopoverTypes";
 import {getOffsetTop, getOffsetLeft, getDiffWindowLeft, getDiffWindowTop} from "./popoverUtils";

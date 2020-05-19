@@ -5,9 +5,7 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_QUERY_ID,
 } from "@essence-community/constructor-share/constants";
-import {type PageModelType} from "../PageModel";
-import {type RecordsModelType, RecordsModel} from "../RecordsModel";
-import {StoreBaseModel} from "../StoreBaseModel";
+import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {type ModelInterface, type PropsType} from "./BaseMultiFieldModelType";
 
 export class BaseMultiFieldModel extends StoreBaseModel implements ModelInterface {
@@ -34,9 +32,10 @@ export class BaseMultiFieldModel extends StoreBaseModel implements ModelInterfac
             orderproperty: "",
         };
 
-        this.recordsStore = new RecordsModel(config, pageStore);
-        this.pageStore = pageStore;
-        this.bc = bc;
+        this.recordsStore = new RecordsModel(config, {
+            applicationStore: this.pageStore.applicationStore,
+            pageStore: this.pageStore,
+        });
 
         extendObservable(this, {
             _isLoading: false,

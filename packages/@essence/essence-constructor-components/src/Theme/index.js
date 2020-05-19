@@ -1,10 +1,11 @@
-import {isIE} from "@essence-community/constructor-share/utils";
+import {isIE, getFromStore} from "@essence-community/constructor-share/utils";
 import merge from "lodash/merge";
-import {styleTheme} from "../constants";
 import themeDarkAll from "./themeDark/themeDark";
 import themeLightAll from "./themeLight/themeLight";
 import {themeIEOverrides} from "./themeIEOverrides";
 import {themeOverridesDefault} from "./themeOverridesDefault";
+
+const styleTheme = getFromStore("theme", "light");
 
 const Theme = {
     ...(styleTheme === "light" ? themeLightAll : themeDarkAll),

@@ -13,11 +13,9 @@ type PropsType = {|
     size: number,
 |};
 
-const REACT_APP_LOADER = process.env.REACT_APP_LOADER || "default";
-
 const LineLoader = ({classes, loaderType, size}: PropsType) => (
     <div className={classes.root} data-page-object="line-loader">
-        {(loaderType || REACT_APP_LOADER) === "bfl-loader" ? (
+        {loaderType === "bfl-loader" ? (
             <IconBflLine
                 className={classes.rootIcon}
                 firstPathClassName={classes.firstPath}

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 // @flow
 import {extendObservable, action, observable} from "mobx";
 import {
@@ -5,9 +6,8 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_NAME,
 } from "@essence-community/constructor-share/constants";
+import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import isBoolean from "lodash/isBoolean";
-import {RecordsModel, type RecordsModelType} from "../RecordsModel";
-import {StoreBaseModel, type StoreBaseModelPropsType} from "../StoreBaseModel";
 import {type BuilderBaseType, type BuilderModeType} from "../../BuilderType";
 import {checkAutoload} from "../../utils/builder";
 import {type BuilderTabType, type TabsStatusType, type RoadMapModelType, type TabStatusChangeType} from "./RoadMapType";
@@ -32,7 +32,13 @@ export class RoadMapModel extends StoreBaseModel implements RoadMapModelType {
 
         const childs = (this.bc.childs || []).map((tab) => ({...tab, type: "TABBUTTON"}));
 
-        this.recordStore = new RecordsModel({...this.bc, defaultvalue: VALUE_SELF_ALWAYSFIRST}, this.pageStore);
+        this.recordStore = new RecordsModel(
+            {...this.bc, defaultvalue: VALUE_SELF_ALWAYSFIRST},
+            {
+                applicationStore: this.pageStore.applicationStore,
+                pageStore: this.pageStore,
+            },
+        );
         this.childs = (this.bc.childs || []).map((tab) => ({...tab, editmodepanel: "false", topbtn: []}));
         this.tabBc = this.bc;
         this.tabs = [...childs];

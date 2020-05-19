@@ -14,10 +14,9 @@ import {
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_CK_HOUSE,
     VAR_RECORD_CK_MO,
+    loggerRoot,
 } from "@essence-community/constructor-share/constants";
-import {loggerRoot} from "../../constants";
 import {BaseMultiFieldModel} from "../BaseMultiFieldModel";
-import {type StoreBaseModelPropsType} from "../StoreBaseModel";
 import {type MoMultiFieldType} from "./MoMultiFieldType";
 import {getMoMultiFieldConfig} from "./MoMultiFieldConfigs";
 

@@ -24,7 +24,7 @@ interface IBaseGridProps extends IClassProps {
 }
 
 // eslint-disable-next-line max-statements, max-lines-per-function
-export const BaseGrid: React.FC<IBaseGridProps> = ({store, ...classProps}) => {
+export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classProps}) => {
     const {pageStore, visible, bc} = classProps;
     const classes = useStyles();
     const isHideActions = bc.hideactions === "true";
@@ -157,7 +157,13 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, ...classProps}) => {
                         zeroMinWidth
                         ref={setRefGridContent}
                     >
-                        {bc.orderproperty === undefined ? <GridWarning /> : <GridTable {...classProps} store={store} />}
+                        {bc.orderproperty === undefined ? (
+                            <GridWarning />
+                        ) : (
+                            <GridTable {...classProps} store={store}>
+                                {children}
+                            </GridTable>
+                        )}
                     </Grid>
                 </Grid>
             </Grid>

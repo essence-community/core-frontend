@@ -1,5 +1,5 @@
 import {extendObservable, action} from "mobx";
-import {VAR_SETTING_VALUE, VAR_RECORD_ID} from "../../constants";
+import {VAR_SETTING_VALUE, VAR_RECORD_ID} from "../../constants/variables";
 
 export class SettingsModel {
     settings: Record<string, string>;

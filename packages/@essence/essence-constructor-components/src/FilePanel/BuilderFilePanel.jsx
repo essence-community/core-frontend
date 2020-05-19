@@ -3,18 +3,19 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import {compose} from "recompose";
 import {Paper, Grid} from "@material-ui/core";
-import {toSize} from "@essence-community/constructor-share/utils";
+import {toSize, getFromStore} from "@essence-community/constructor-share/utils";
 import {setComponent, mapComponents} from "@essence-community/constructor-share/components";
 import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import ThemePanelWrapper from "../Components/ThemePanelWrapper/ThemePanelWrapper";
 import Scrollbars from "../Components/Scrollbars/Scrollbars";
 import {FilePanelModel, type FilePanelModelType, type FilePanelBcType} from "../stores/FilePanelModel";
-import {type PageModelType} from "../stores/PageModel";
-import {buttonDirection} from "../constants";
 import Content from "../Components/Content/Content";
 import commonDecorator, {type CommonDecoratorInjectType} from "../decorators/commonDecorator";
 import withModelDecorator from "../decorators/withModelDecorator";
 import FileRecord from "./FileRecord/FileRecord";
+
+const styleTheme = getFromStore("theme", "light");
+const buttonDirection = styleTheme === "dark" ? "column" : "row";
 
 type PropsType = CommonDecoratorInjectType & {
     bc: FilePanelBcType,

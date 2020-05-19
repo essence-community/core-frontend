@@ -2,8 +2,7 @@
 import {extendObservable, action} from "mobx";
 import toString from "lodash/toString";
 import {VAR_RECORD_CL_IS_MASTER} from "@essence-community/constructor-share/constants";
-import {RecordsModel, type RecordsModelType} from "../RecordsModel";
-import {StoreBaseModel} from "../StoreBaseModel/StoreBaseModel";
+import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {
     type RadioConstructorType,
     type RadioSuggestionsType,
@@ -30,8 +29,10 @@ export class FieldRadioGroupModel extends StoreBaseModel implements FieldRadioGr
         this.displayfield = bc.displayfield;
         this.valuefield = bc.valuefield;
 
-        this.recordsStore = new RecordsModel(bc, pageStore, {
+        this.recordsStore = new RecordsModel(bc, {
+            applicationStore: pageStore.applicationStore,
             noLoadChilds,
+            pageStore,
             valueField: this.valuefield,
         });
 

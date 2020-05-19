@@ -8,12 +8,12 @@ import {
     VAR_RECORD_CL_WARNING,
     VAR_RECORD_CV_ACTION,
     VAR_RECORD_ROUTE_PAGE_ID,
+    VAR_SETTING_GATE_URL,
 } from "../constants";
 import {IRecord, IBuilderMode, IPageModel, IBuilderConfig} from "../types";
 import {getMasterObject, isEmpty} from "../utils";
+import {settingsStore} from "../models/SettingsModel";
 import {filter, attachGlobalValues} from "./saveAction";
-
-const baseUrl = process.env.REACT_APP_BASE_URL || "gate_ub_dev";
 
 type InputFormType = {
     form: HTMLFormElement;
@@ -92,7 +92,7 @@ export function download(values: IRecord | Array<IRecord>, mode: IBuilderMode, c
     const form = document.createElement("form");
 
     form.setAttribute("method", "post");
-    form.setAttribute("action", `${baseUrl}?${stringify(queryStr)}`);
+    form.setAttribute("action", `${settingsStore.settings[VAR_SETTING_GATE_URL]}?${stringify(queryStr)}`);
     appendInputForm({
         form,
         name: "page_object",

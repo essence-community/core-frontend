@@ -14,9 +14,8 @@ import {
     VAR_RECORD_ROUTE_PAGE_ID,
     META_PAGE_OBJECT,
 } from "@essence-community/constructor-share/constants";
-import {RecordsModel} from "@essence-community/constructor-share/models";
+import {RecordsModel, StoreBaseModel} from "@essence-community/constructor-share/models";
 import {type BuilderBaseType, type BuilderModeType} from "../../BuilderType";
-import {StoreBaseModel} from "../StoreBaseModel";
 import {getFilePanelBtnsConfig} from "./FilePanelModelBtnConfigs";
 import {
     type FilePanelModelType,

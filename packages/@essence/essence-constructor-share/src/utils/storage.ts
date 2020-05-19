@@ -1,9 +1,10 @@
+import {settingsStore} from "../models/SettingsModel";
+import {VAR_SETTING_GATE_URL} from "../constants/variables";
+
 type ValueType = string | number | any[];
 
 function makeKey(key: string): string {
-    const prefixKey = process.env.REACT_APP_BASE_URL || "dev";
-
-    return `${prefixKey}_${key}`;
+    return `${settingsStore.settings[VAR_SETTING_GATE_URL]}_${key}`;
 }
 
 export function saveToStore<T>(key: string, value: T) {

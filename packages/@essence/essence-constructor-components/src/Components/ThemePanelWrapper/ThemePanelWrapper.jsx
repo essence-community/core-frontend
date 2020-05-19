@@ -3,7 +3,6 @@ import * as React from "react";
 import cn from "classnames";
 import {withStyles} from "@material-ui/core/styles";
 import {Grid} from "@material-ui/core";
-import {wrapperPanelDirection} from "../../constants";
 import styles from "./ThemePanelWrapperStyles";
 
 type PropsType = {
@@ -28,11 +27,12 @@ const ThemePanelWrapper = ({
     childRef,
     classNameRoot,
     dataPageObject,
+    theme,
 }: PropsType) => (
     <Grid
         container
         spacing={0}
-        direction={wrapperPanelDirection}
+        direction={theme.palette.type === "dark" ? "row" : "column"}
         wrap="nowrap"
         className={cn(classNameRoot, {[classes.panelEditing]: editing})}
         data-page-object={dataPageObject}
@@ -52,4 +52,4 @@ const ThemePanelWrapper = ({
     </Grid>
 );
 
-export default withStyles(styles)(ThemePanelWrapper);
+export default withStyles(styles, {withTheme: true})(ThemePanelWrapper);

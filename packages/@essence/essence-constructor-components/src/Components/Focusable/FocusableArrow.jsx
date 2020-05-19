@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import keycode from "keycode";
-import {QUERY_ELEMENT} from "../../constants";
+import {QUERY_ELEMENT} from "@essence-community/constructor-share/constants";
 
 /**
  * @property focusableMount - Устанавливает фокус на первый активный элемент

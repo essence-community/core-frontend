@@ -29,6 +29,7 @@ import {
     VAR_RECORD_CV_LOGIN,
     VAR_SETTING_MODULE_URL,
     VAR_SETTING_ANONYMOUS_ACTION,
+    VAR_SETTING_WS_GATE_URL,
     loggerRoot,
 } from "@essence-community/constructor-share/constants";
 import {i18next} from "@essence-community/constructor-share/utils";
@@ -47,8 +48,6 @@ import {RoutesModel} from "./RoutesModel";
 import {IAuthSession} from "./AuthModel.types";
 import {PagesModel} from "./PagesModel";
 import {AuthModel} from "./AuthModel";
-
-const wsUrl = process.env.REACT_APP_WS_BASE_URL || "";
 
 const TIMEOUT_RECONNECT = 15000;
 const TIMEOUT_LONG_RECONNECT = 300000;
@@ -320,8 +319,9 @@ export class ApplicationModel implements IApplicationModel {
         let wsClient: WebSocket | null = null;
 
         new Promise((resolve, reject) => {
-            let url = wsUrl;
+            const wsUrl = settingsStore.settings[VAR_SETTING_WS_GATE_URL];
             const currentSession = this.authStore.userInfo.session;
+            let url = wsUrl;
 
             if (this.wsClient && this.wsClient.readyState === this.wsClient.OPEN) {
                 resolve();

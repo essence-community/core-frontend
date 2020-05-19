@@ -88,6 +88,7 @@ export const VAR_SETTING_VALUE = "cv_value";
 export const VAR_SETTING_BRANCH_NAME = "branch_name";
 export const VAR_SETTING_PROJECT_NAME = "project_name";
 export const VAR_SETTING_GATE_URL = "g_sys_gate_url";
+export const VAR_SETTING_WS_GATE_URL = "g_sys_ws_gate_url";
 export const VAR_SETTING_PROJECT_APPLICATION_PAGE = "project_applications_page";
 export const VAR_SETTING_LANG = "g_sys_lang";
 export const VAR_SETTING_THEME = "g_sys_theme";

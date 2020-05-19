@@ -1,7 +1,9 @@
 // @flow
+import {getFromStore} from "@essence-community/constructor-share/utils";
 import isFunction from "lodash/isFunction";
 import merge from "lodash/merge";
-import {styleTheme} from "../constants";
+
+const styleTheme = getFromStore("theme", "light");
 
 type ThemeStylesType = {
     dark?: Object,

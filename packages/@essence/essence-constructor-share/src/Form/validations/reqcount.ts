@@ -7,7 +7,7 @@ function reqcountMessage(trans: TFunction) {
 
 export function reqcount(field: IField, form: IForm, req = "") {
     const {value} = field;
-    const [reqcountval, columnsCount] = req.split(".");
+    const [reqcountval, columnsCount] = req.split(",");
 
     if (value === undefined || value === null || typeof value === "object" || typeof value === "boolean") {
         return undefined;

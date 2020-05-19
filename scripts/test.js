@@ -5,7 +5,6 @@
 process.env.BABEL_ENV = 'test';
 process.env.NODE_ENV = 'test';
 process.env.PUBLIC_URL = '';
-process.env.REACT_APP_REQUEST = 'MOCK';
 process.env.DEBUG = 'none';
 
 // Makes the script crash on unhandled rejections instead of silently

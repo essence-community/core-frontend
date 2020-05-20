@@ -3,7 +3,7 @@ import {observable, computed, action} from "mobx";
 import {FieldValue, IBuilderConfig, IPageModel} from "../types";
 import {parseMemoize, makeRedirect} from "../utils";
 import {parse} from "../utils/parser";
-import {VAR_RECORD_DISPLAYED} from "../constants";
+import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
 import {deepFind, deepDelete} from "../utils/transform";
 import {IField, IForm, IRegisterFieldOptions, TError} from "./types";
 import {validations} from "./validations";
@@ -26,6 +26,11 @@ export const disabledSize = {
     tree: true,
 };
 
+/**
+ * Difference between onChange(reset/clear) and change:
+ *      For "onChange" also invoke reset childs and hooks
+ *      For "change" only invoke set the value without any other changes
+ */
 export class Field implements IField {
     public output: IField["output"];
 
@@ -265,13 +270,29 @@ export class Field implements IField {
 
     @action
     onChange = (value: FieldValue) => {
-        this.value = value;
+        this.setValue(value);
 
         if (!this.isValid) {
             this.validate();
         }
 
+        this.resetChilds();
+
         this.execChangeHooks();
+    };
+
+    @action
+    onReset = () => {
+        if (this.defaultValue === undefined) {
+            this.onClear();
+        } else {
+            this.onChange(this.defaultValue);
+        }
+    };
+
+    @action
+    onClear = () => {
+        this.onChange(this.clearValue);
     };
 
     @action
@@ -325,7 +346,7 @@ export class Field implements IField {
         if (this.defaultValue === undefined) {
             this.clear();
         } else {
-            this.onChange(this.defaultValue);
+            this.setValue(this.defaultValue);
         }
     };
 
@@ -334,7 +355,7 @@ export class Field implements IField {
      */
     @action
     clear = () => {
-        this.onChange(this.clearValue);
+        this.setValue(this.clearValue);
     };
 
     @action
@@ -366,5 +387,23 @@ export class Field implements IField {
     @action
     setHidden = (hidden = false) => {
         this.hidden = hidden;
+    };
+
+    @action
+    setValue = (value: FieldValue) => {
+        this.value = value;
+    };
+
+    @action
+    resetChilds = () => {
+        const ckPageObject = this.bc[VAR_RECORD_PAGE_OBJECT_ID];
+        const childs: Array<IField> = this.pageStore.masters[ckPageObject];
+
+        if (childs) {
+            childs.forEach((childField: IField) => {
+                childField.clear();
+                childField.resetChilds();
+            });
+        }
     };
 }

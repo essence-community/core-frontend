@@ -54,7 +54,9 @@ export const useField = ({bc, pageStore, output, input, isArray, disabled, hidde
         if (masterId) {
             pageStore.addToMastersAction(masterId, field);
 
-            return pageStore.removeFromMastersAction(masterId, field);
+            return () => {
+                pageStore.removeFromMastersAction(masterId, field);
+            };
         }
 
         return undefined;

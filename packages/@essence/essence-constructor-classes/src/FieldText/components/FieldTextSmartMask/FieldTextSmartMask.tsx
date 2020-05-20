@@ -128,7 +128,7 @@ export const FieldTextSmartMask: React.FC<IFieldTextSmartMaskProps> = (props) =>
                 () => form.select(valueColumnName)?.value,
                 () => {
                     if (form.editing) {
-                        props.field.clear();
+                        props.field.onClear();
                     }
                 },
             ),

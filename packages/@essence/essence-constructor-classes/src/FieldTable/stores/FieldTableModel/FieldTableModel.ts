@@ -254,7 +254,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         if (userChange) {
             this.field.onChange(value);
         } else if (isEmpty(value)) {
-            this.field.clear();
+            this.field.onClear();
         } else {
             this.field.onChange(value);
         }

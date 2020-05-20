@@ -9,6 +9,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react-lite";
+import {FormContext} from "@essence-community/constructor-share/context";
 import {useStyles} from "./FilterButtons.styles";
 
 interface IFilterButtonsProps extends IClassProps {
@@ -22,7 +23,7 @@ const GRID_FULL_WIDTH = 12;
 export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
     const {isOpen, styleTheme, bc, title, ...classProps} = props;
     const classes = useStyles();
-    const form = classProps.pageStore.forms.get(bc[VAR_RECORD_PAGE_OBJECT_ID]);
+    const form = React.useContext(FormContext);
 
     const btnsFilter = React.useMemo(
         () => ({

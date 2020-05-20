@@ -1,26 +1,31 @@
 import * as React from "react";
 import {reaction} from "mobx";
-import {Popover, ApplicationContext, useModel} from "@essence-community/constructor-share";
+import {IClassProps} from "@essence-community/constructor-share/types";
+import {Popover} from "@essence-community/constructor-share/uicomponents";
+import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
+import {useModel, useFieldGetGlobal, useFieldSetGlobal} from "@essence-community/constructor-share/hooks";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {IPopoverChildrenProps} from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";
-import {useDisposable} from "mobx-react-lite";
+import {useField} from "@essence-community/constructor-share/Form";
 import {FieldComboList} from "../components/FieldComboList";
 import {FieldComboInput} from "../components/FieldComboInput";
 import {FieldComboModel} from "../store/FieldComboModel";
-import {IFieldComboProps} from "./FieldCombo.types";
 
 /**
  * How it should work:
  * 1. Value can get from recordsStore
  * 2. can be changed from props.value
  */
-const FieldCombo: React.FC<IFieldComboProps> = (props) => {
-    const {field, onInitGlobal} = props;
+// eslint-disable-next-line max-statements
+export const FieldComboContainer: React.FC<IClassProps> = (props) => {
+    const {bc, pageStore, disabled, hidden} = props;
     const {i18n} = useTranslation();
+    const form = React.useContext(FormContext);
     const inputRef: React.MutableRefObject<HTMLInputElement | null> = React.useRef(null);
     const listRef: React.MutableRefObject<HTMLInputElement | null> = React.useRef(null);
     const textFieldRef: React.MutableRefObject<HTMLDivElement | null> = React.useRef(null);
     const applicationStore = React.useContext(ApplicationContext);
+    const field = useField({bc, disabled, hidden, pageStore});
     const [store] = useModel((modelProps) => new FieldComboModel(modelProps), {
         applicationStore,
         bc: props.bc,
@@ -34,8 +39,8 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
             store={store}
             bc={props.bc}
             inputRef={inputRef}
-            value={props.value}
-            onChange={props.onChange}
+            value={field.value}
+            onChange={field.onChange}
             listRef={listRef}
             {...popoverProps}
         />
@@ -44,13 +49,16 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
     const handleChangeOpen = React.useCallback(
         (open: boolean) => {
             if (open === false && !props.bc.allownew) {
-                store.handleSetValue(props.value, false, false);
+                store.handleSetValue(field.value, false, false);
             }
         },
-        [props.bc.allownew, store, props.value],
+        [props.bc.allownew, store, field],
     );
 
-    useDisposable(
+    useFieldGetGlobal({bc, field, form, pageStore, store});
+    useFieldSetGlobal({bc, field, form, pageStore, store});
+
+    React.useEffect(
         () =>
             reaction(
                 () => store.recordsStore.recordsState,
@@ -58,44 +66,39 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
                     const value =
                         recordsState.isDefault && recordsState.record
                             ? recordsState.record[store.valuefield]
-                            : props.value;
+                            : field.value;
 
                     if (recordsState.isDefault) {
-                        props.onChange(null, recordsState.record ? recordsState.record[store.valuefield] : "");
+                        field.onChange(recordsState.record ? recordsState.record[store.valuefield] : "");
                     }
 
                     store.handleSetValue(value, true, recordsState.status === "search" && recordsState.isUserReload);
                 },
             ),
-        [props.value],
+        [field, store],
+    );
+
+    React.useEffect(
+        () =>
+            reaction(
+                () => field.value,
+                (value) => {
+                    if (bc.allownew && value === bc.allownew) {
+                        field.onChange("");
+                    } else {
+                        store.handleSetValue(value, false, false);
+                    }
+                },
+            ),
+        [bc.allownew, field, store],
     );
 
     React.useEffect(() => {
-        onInitGlobal(store);
-    }, [field, onInitGlobal, store]);
-
-    React.useEffect(() => {
-        if (store.lastValue !== props.value) {
-            store.handleSetValue(props.value, false, false);
-        }
-    }, [props.value, store]);
-
-    React.useEffect(() => {
-        if (props.bc.allownew && props.value === props.bc.allownew) {
-            props.onChange(null, "");
-        }
-    }, [props.bc.allownew, props.value, props.onChange, props]);
-
-    React.useEffect(() => {
         if (props.bc.localization && i18n.language) {
-            store.handleChangeLanguage(props.value, i18n.language);
+            store.handleChangeLanguage(field.value, i18n.language);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [i18n.language, props.bc.localization]);
-
-    if (props.hidden) {
-        return null;
-    }
 
     const handleBlur = (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const {relatedTarget} = event;
@@ -106,7 +109,7 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
             });
 
             if (!isFocus && store.isInputChanged) {
-                store.handleSetValue(props.value, false, false);
+                store.handleSetValue(field.value, false, false);
             }
         }
     };
@@ -120,20 +123,14 @@ const FieldCombo: React.FC<IFieldComboProps> = (props) => {
             onChangeOpen={handleChangeOpen}
             disableFocusableArrow
         >
-            {({onClose, onOpen, open}) => (
-                <FieldComboInput
-                    {...props}
-                    store={store}
-                    inputRef={inputRef}
-                    textFieldRef={textFieldRef}
-                    onClose={onClose}
-                    onOpen={onOpen}
-                    open={open}
-                    onBlur={handleBlur}
-                />
-            )}
+            <FieldComboInput
+                {...props}
+                store={store}
+                inputRef={inputRef}
+                textFieldRef={textFieldRef}
+                field={field}
+                onBlur={handleBlur}
+            />
         </Popover>
     );
 };
-
-export const FieldComboEnchance = FieldCombo;

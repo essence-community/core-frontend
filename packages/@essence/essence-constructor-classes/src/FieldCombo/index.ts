@@ -1,5 +1,5 @@
-import {setComponent} from "@essence-community/constructor-share";
-import {FieldComboEnchance} from "./container/FieldCombo";
+import {setComponent} from "@essence-community/constructor-share/components";
+import {commonDecorator} from "@essence-community/constructor-share/decorators";
+import {FieldComboContainer} from "./containers/FieldComboContainer";
 
-// @ts-ignore
-setComponent("IFIELD.COMBO", FieldComboEnchance);
+setComponent("IFIELD.combo", commonDecorator(FieldComboContainer));

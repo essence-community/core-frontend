@@ -25,7 +25,7 @@ interface IProps extends IPopoverChildrenProps {
     value?: FieldValue;
     inputRef: React.RefObject<HTMLInputElement>;
     listRef: React.MutableRefObject<HTMLInputElement | null>;
-    onChange: (event: React.SyntheticEvent | null, value: string) => void;
+    onChange: (value: FieldValue) => void;
 }
 
 export const FieldComboList: React.FC<IProps> = (props) => {
@@ -38,7 +38,7 @@ export const FieldComboList: React.FC<IProps> = (props) => {
         : undefined;
     const handleSelect = React.useCallback(
         (event: React.SyntheticEvent, suggestion: ISuggestion) => {
-            onChange(null, suggestion.isNew ? `${bc.allownew}${suggestion.value}` : suggestion.value);
+            onChange(suggestion.isNew ? `${bc.allownew}${suggestion.value}` : suggestion.value);
             onClose(event);
 
             if (bc.allownew) {

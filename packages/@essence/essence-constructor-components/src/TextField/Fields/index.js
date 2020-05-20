@@ -1,10 +1,8 @@
 import {getComponent} from "@essence-community/constructor-share";
 import FieldPassword from "./FieldPassword/FieldPassword";
-import FieldRadioGroup from "./FieldRadioGroup/FieldRadioGroup";
 
 export const fieldMap = {
     password: FieldPassword,
-    radio: FieldRadioGroup,
 };
 
 export const getFieldInstance = (config) => {

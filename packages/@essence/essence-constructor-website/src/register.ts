@@ -76,6 +76,7 @@ import "@essence-community/constructor-classes/src/FieldMulti";
 import "@essence-community/constructor-classes/src/FieldColor";
 import "@essence-community/constructor-classes/src/FieldGroup";
 import "@essence-community/constructor-classes/src/FieldImage";
+import "@essence-community/constructor-classes/src/FieldRadio";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

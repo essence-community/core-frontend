@@ -26,6 +26,7 @@ export interface IField {
     input: (initialValues: IRecord, field: IField, form: IForm) => [boolean, IRecord | FieldValue];
     output: (field: IField, form: IForm, value?: IRecord | FieldValue) => IRecord | FieldValue;
     reset(): void;
+    resetChilds(): void;
     clear(): void;
     invalidate(error: TError[] | TError): void;
     validate(): Promise<void> | void;
@@ -37,9 +38,12 @@ export interface IField {
     setDefaultValue(defaultValue: FieldValue): void;
     setDisabled(disabled?: boolean): void;
     setHidden(hidden?: boolean): void;
+    setValue(value?: FieldValue): void;
 
     // Events
     onChange(value: FieldValue): void;
+    onReset(): void;
+    onClear(): void;
 }
 
 export interface IForm {

@@ -1,34 +1,34 @@
 import * as React from "react";
 import {useObserver} from "mobx-react-lite";
 import keycode from "keycode";
-import {IconButton, InputAdornment} from "@material-ui/core";
-import {IBuilderConfig, Icon, IFieldProps} from "@essence-community/constructor-share";
+import {IconButton, TextField} from "@material-ui/core";
+import {Icon} from "@essence-community/constructor-share/Icon";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {IEssenceTextFieldProps} from "@essence-community/constructor-share/types";
+import {IClassProps} from "@essence-community/constructor-share/types";
+import {PopoverContext} from "@essence-community/constructor-share/context";
+import {IField} from "@essence-community/constructor-share/Form";
+import {useTextFieldProps} from "@essence-community/constructor-share/hooks";
 import {FieldComboModel} from "../store/FieldComboModel";
 import {ISuggestion} from "../store/FieldComboModel.types";
 import {useStyles} from "./FieldComboInput.styles";
 
-interface IProps extends IFieldProps {
-    textField: React.ComponentType<IEssenceTextFieldProps>;
-    open: boolean;
+interface IProps extends IClassProps {
     store: FieldComboModel;
-    bc: IBuilderConfig;
     inputRef: React.RefObject<HTMLInputElement>;
     textFieldRef: React.RefObject<HTMLDivElement>;
-    onChange: (event: React.ChangeEvent<HTMLInputElement> | null, value: string) => void;
-    onClose: (event: React.SyntheticEvent) => void;
-    onOpen: (event: React.SyntheticEvent) => void;
+    field: IField;
     onBlur: (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
+    const {store, textFieldRef, bc, disabled, field, readOnly} = props;
     const classes = useStyles(props);
-    const {textField: TextField, onClose, onOpen, open, store, onChange, textFieldRef, ...otherProps} = props;
-    const handleInputClick = (event: React.SyntheticEvent) => {
-        if (!props.open) {
-            props.store.handleRestoreSelected(props.value, "down");
-            onOpen(event);
+    const popoverCtx = React.useContext(PopoverContext);
+
+    const handleInputClick = () => {
+        if (!popoverCtx.open) {
+            props.store.handleRestoreSelected(field.value, "down");
+            popoverCtx.onOpen();
         }
     };
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,14 +39,14 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             const newValue = sugValue ? sugValue.value : `${props.bc.allownew}${value}`;
 
             props.store.handleChangeValue(value, !sugValue);
-            props.onChange(event, newValue);
+            field.onChange(newValue);
         } else {
             props.store.handleChangeValue(value);
         }
 
-        if (!props.open) {
-            props.store.handleRestoreSelected(props.value, "down");
-            onOpen(event);
+        if (!popoverCtx.open) {
+            props.store.handleRestoreSelected(field.value, "down");
+            popoverCtx.onOpen();
         }
     };
     const handleKeyDown = React.useCallback(
@@ -58,39 +58,39 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
                 case "up":
                 case "down":
                     event.preventDefault();
-                    if (open) {
+                    if (popoverCtx.open) {
                         store.handleChangeSelected(code);
                     } else {
-                        onOpen(event);
-                        store.handleRestoreSelected(props.value, code);
+                        popoverCtx.onOpen();
+                        store.handleRestoreSelected(field.value, code);
                     }
                     break;
                 case "esc":
-                    onClose(event);
+                    popoverCtx.onClose();
                     break;
                 case "enter":
-                    if (store.highlightedValue && open) {
+                    if (store.highlightedValue && popoverCtx.open) {
                         event.preventDefault();
-                        onClose(event);
+                        popoverCtx.onClose();
                         const sugValue: ISuggestion | undefined = store.suggestions[store.highlightedIndex];
 
                         if (sugValue) {
-                            onChange(null, sugValue.isNew ? `${props.bc.allownew}${sugValue.value}` : sugValue.value);
+                            field.onChange(sugValue.isNew ? `${props.bc.allownew}${sugValue.value}` : sugValue.value);
                         }
                     }
                     break;
                 case "tab":
-                    onClose(event);
+                    popoverCtx.onClose();
                     break;
                 default:
                 // No need
             }
         },
-        [onChange, onClose, onOpen, open, props.bc.allownew, props.value, store],
+        [field, popoverCtx, props.bc.allownew, store],
     );
     const handleButtonUp = (event: React.SyntheticEvent) => {
         event.stopPropagation();
-        onClose(event);
+        popoverCtx.onClose();
     };
     const handlFocusInput = (event: React.FocusEvent) => {
         event.preventDefault();
@@ -99,7 +99,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
         }
     };
 
-    const chevron = open ? (
+    const chevron = popoverCtx.open ? (
         <IconButton
             key={`${props.bc[VAR_RECORD_PAGE_OBJECT_ID]}-open`}
             color="secondary"
@@ -127,18 +127,13 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             <Icon iconfont="chevron-down" />
         </IconButton>
     );
-    const tips = [...props.tips, chevron];
+    const textFieldProps = useTextFieldProps({bc, disabled, field, readOnly, tips: [chevron]});
 
     return useObserver(() => (
         <TextField
-            {...otherProps}
+            {...textFieldProps}
             ref={textFieldRef}
-            InputProps={{
-                ...otherProps.InputProps,
-                endAdornment: <InputAdornment position="end">{tips}</InputAdornment>,
-            }}
-            tips={tips}
-            value={props.store.inputValue}
+            value={store.inputValue}
             onClick={props.disabled ? undefined : handleInputClick}
             onChange={props.disabled ? undefined : handleChange}
             onKeyDown={props.disabled ? undefined : handleKeyDown}

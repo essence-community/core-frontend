@@ -76,7 +76,7 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
                     color="secondary"
                     key="clear-value"
                     className={classes.clearButton}
-                    onClick={field.clear}
+                    onClick={field.onClear}
                     tabIndex={-1}
                 >
                     <Icon iconfont="times" size="xs" />

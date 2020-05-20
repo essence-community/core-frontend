@@ -80,7 +80,7 @@ function applyFieldFilter(field: IField, params: Record<string, FieldValue>) {
     if (Object.prototype.hasOwnProperty.call(params, field.key)) {
         const value = params[field.key];
 
-        isEmpty(value) ? field.clear() : field.onChange(value);
+        isEmpty(value) ? field.clear() : field.setValue(value);
 
         delete params[field.key];
     }

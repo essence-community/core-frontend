@@ -122,26 +122,7 @@ export const BuilderFieldBase = (props) => {
         }
     };
 
-    const handleResetChilds = (ckPageObject: string) => {
-        const childs: Array<Field> = pageStore.masters[ckPageObject];
-
-        if (childs) {
-            childs.forEach((childField: Field) => {
-                const ckPageObjectChild: ?string = childField?.bc?.[VAR_RECORD_PAGE_OBJECT_ID];
-
-                childField.clear();
-                childField.resetValidation();
-
-                if (ckPageObjectChild) {
-                    handleResetChilds(ckPageObjectChild);
-                }
-            });
-        }
-    };
-
     const handleChange = (event: SyntheticEvent, value: mixed) => {
-        handleResetChilds(bc[VAR_RECORD_PAGE_OBJECT_ID]);
-
         if (onChange) {
             onChange(event, value);
         }
@@ -162,8 +143,7 @@ export const BuilderFieldBase = (props) => {
             event.stopPropagation();
         }
 
-        handleResetChilds(bc[VAR_RECORD_PAGE_OBJECT_ID]);
-        field.clear();
+        field.onClear();
 
         if (field.hasError) {
             field.resetValidation();
@@ -261,8 +241,5 @@ export const BuilderFieldBase = (props) => {
 const BuilderField = commonDecorator(BuilderFieldBase);
 
 setComponent("IFIELD", BuilderField);
-setComponent("CUSTOM", BuilderField);
-setComponent("CUSTOM.ADDRFIELD", BuilderField);
-setComponent("CUSTOM.MOFIELD", BuilderField);
 
 export default BuilderField;

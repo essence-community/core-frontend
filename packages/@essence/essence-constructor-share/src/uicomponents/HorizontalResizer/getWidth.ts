@@ -1,7 +1,6 @@
-// @flow
 const MAX_PERCENT = 100;
 
-export const getWidth = (initialWidthPx: number, initialWidthPercent: number, offset: number) => {
+export const getWidth = (initialWidthPx: number, initialWidthPercent: number, offset: number): number => {
     if (initialWidthPercent === 0 || initialWidthPx === 0) {
         return offset / MAX_PERCENT;
     }

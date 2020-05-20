@@ -1,17 +1,8 @@
+import {IEssenceTheme} from "@essence-community/constructor-share/types";
+import {Theme} from "@material-ui/core";
+
 // eslint-disable-next-line max-lines-per-function
-export const themeDarkOverrides = (theme) => ({
-    EssenceFieldCheckbox: {
-        focused: {
-            "& $checkboxRoot": {
-                color: theme.palette.primary.main,
-            },
-        },
-        root: {
-            "&:not($disabled):hover $checkboxRoot": {
-                color: theme.palette.primary.light,
-            },
-        },
-    },
+export const getThemeDarkOverrides = (theme: IEssenceTheme): Theme["overrides"] => ({
     MuiButton: {
         contained: {
             "&$disabled": {
@@ -21,15 +12,15 @@ export const themeDarkOverrides = (theme) => ({
         containedPrimary: {
             "&:focus": {
                 borderColor: theme.palette.primary.light,
-                color: theme.palette.common.selectedMenu,
-                fill: theme.palette.common.selectedMenu,
+                color: theme.essence.palette.common.selectedMenu,
+                fill: theme.essence.palette.common.selectedMenu,
             },
             "&:hover": {
-                backgroundColor: theme.palette.primary.icon,
+                backgroundColor: theme.essence.palette.primary.icon,
                 borderColor: theme.palette.primary.light,
                 boxShadow: `inset 0 0 2px 2px ${theme.palette.primary.light}`,
             },
-            backgroundColor: theme.palette.primary.icon,
+            backgroundColor: theme.essence.palette.primary.icon,
         },
         containedSecondary: {
             "&:focus": {
@@ -48,7 +39,7 @@ export const themeDarkOverrides = (theme) => ({
                 color: theme.palette.primary.main,
             },
             "&:hover$colorPrimary": {
-                color: theme.palette.primary.icon,
+                color: theme.essence.palette.primary.icon,
             },
             color: theme.palette.primary.main,
         },
@@ -56,9 +47,9 @@ export const themeDarkOverrides = (theme) => ({
             "&:hover$root": {
                 color: theme.palette.primary.light,
             },
-            color: theme.palette.primary.icon,
-            height: theme.sizing.gridRowHeight,
-            width: theme.sizing.gridRowHeight,
+            color: theme.essence.palette.primary.icon,
+            height: theme.essence.sizing.gridRowHeight,
+            width: theme.essence.sizing.gridRowHeight,
         },
     },
     MuiDialogActions: {
@@ -76,15 +67,15 @@ export const themeDarkOverrides = (theme) => ({
         primary: {
             "&:focus": {
                 borderColor: theme.palette.primary.light,
-                color: theme.palette.common.selectedMenu,
-                fill: theme.palette.common.selectedMenu,
+                color: theme.essence.palette.common.selectedMenu,
+                fill: theme.essence.palette.common.selectedMenu,
             },
             "&:hover": {
-                backgroundColor: theme.palette.primary.icon,
+                backgroundColor: theme.essence.palette.primary.icon,
                 borderColor: theme.palette.primary.light,
                 boxShadow: `inset 0 0 2px 2px ${theme.palette.primary.light}`,
             },
-            backgroundColor: theme.palette.primary.icon,
+            backgroundColor: theme.essence.palette.primary.icon,
         },
         root: {
             "&$disabled": {
@@ -113,8 +104,8 @@ export const themeDarkOverrides = (theme) => ({
                 backgroundColor: "transparent",
                 color: theme.palette.primary.main,
             },
-            color: theme.palette.icon.secondary,
-            fill: theme.palette.icon.secondary,
+            color: theme.essence.palette.icon.secondary,
+            fill: theme.essence.palette.icon.secondary,
         },
         root: {
             "&$disabled": {
@@ -122,8 +113,8 @@ export const themeDarkOverrides = (theme) => ({
                 fill: "#7f828d",
             },
             "&:focus": {
-                color: theme.palette.common.selectedMenu,
-                fill: theme.palette.common.selectedMenu,
+                color: theme.essence.palette.common.selectedMenu,
+                fill: theme.essence.palette.common.selectedMenu,
             },
             "&:hover": {
                 backgroundColor: "transparent",
@@ -137,11 +128,6 @@ export const themeDarkOverrides = (theme) => ({
             borderRadius: 4,
         },
     },
-    MuiPickersModal: {
-        dialogAction: {
-            color: theme.palette.primary.light,
-        },
-    },
     MuiRadio: {
         colorPrimary: {
             "&$checked": {
@@ -150,22 +136,19 @@ export const themeDarkOverrides = (theme) => ({
             color: theme.palette.primary.main,
         },
         root: {
-            color: theme.palette.primary.icon,
-            height: theme.sizing.gridRowHeight,
-            width: theme.sizing.gridRowHeight,
+            color: theme.essence.palette.primary.icon,
+            height: theme.essence.sizing.gridRowHeight,
+            width: theme.essence.sizing.gridRowHeight,
         },
     },
     MuiSwitch: {
         colorSecondary: {
             "&$checked": {
                 "& + $bar": {
-                    backgroundColor: theme.palette.primary.icon,
+                    backgroundColor: theme.essence.palette.primary.icon,
                 },
-                color: theme.palette.primary.icon,
+                color: theme.essence.palette.primary.icon,
             },
-        },
-        iconChecked: {
-            color: theme.palette.primary.icon,
         },
     },
     MuiTableCell: {
@@ -175,7 +158,7 @@ export const themeDarkOverrides = (theme) => ({
     },
     MuiTableRow: {
         head: {
-            height: theme.sizing.gridRowHeight,
+            height: theme.essence.sizing.gridRowHeight,
         },
     },
     MuiTableSortLabel: {

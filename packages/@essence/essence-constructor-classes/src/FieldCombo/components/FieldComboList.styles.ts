@@ -1,7 +1,8 @@
 import {makeStyles} from "@material-ui/core/styles";
+import {IEssenceTheme} from "@essence-community/constructor-share/types";
 
 export const useStyles = makeStyles(
-    (theme) => ({
+    (theme: IEssenceTheme) => ({
         loader: {
             left: "calc(50% - 20px)",
             position: "absolute",
@@ -17,12 +18,9 @@ export const useStyles = makeStyles(
             justifyContent: "center",
         },
         paper: {
-            // @ts-ignore
-            borderBottom: `1px solid ${theme.palette.grey.main}`,
-            // @ts-ignore
-            borderLeft: `1px solid ${theme.palette.grey.main}`,
-            // @ts-ignore
-            borderRight: `1px solid ${theme.palette.grey.main}`,
+            borderBottom: `1px solid ${theme.essence.palette.grey.main}`,
+            borderLeft: `1px solid ${theme.essence.palette.grey.main}`,
+            borderRight: `1px solid ${theme.essence.palette.grey.main}`,
         },
     }),
     {name: "EssenceFieldComboList"},

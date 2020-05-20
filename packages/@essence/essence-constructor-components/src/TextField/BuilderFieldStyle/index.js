@@ -1,20 +1,20 @@
 // eslint-disable-next-line max-lines-per-function
 const BuilderFieldStyle = (theme) => ({
     clearButton: {
-        height: theme.sizing.gridRowHeight,
+        height: theme.essence.sizing.gridRowHeight,
         visibility: "hidden",
-        width: theme.sizing.gridRowHeight,
+        width: theme.essence.sizing.gridRowHeight,
     },
     error: {},
     eyeButton: {
         "&:focus": {
-            color: theme.palette.icon.secondary,
+            color: theme.essence.palette.icon.secondary,
         },
         "&:hover": {
             color: theme.palette.primary.light,
         },
-        height: theme.sizing.gridRowHeight,
-        width: theme.sizing.gridRowHeight,
+        height: theme.essence.sizing.gridRowHeight,
+        width: theme.essence.sizing.gridRowHeight,
     },
     formLabelRoot: {
         display: "flex",

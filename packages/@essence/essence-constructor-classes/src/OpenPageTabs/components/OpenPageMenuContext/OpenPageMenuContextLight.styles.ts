@@ -3,8 +3,7 @@ import {IEssenceTheme} from "@essence-community/constructor-share";
 export default (theme: IEssenceTheme) => ({
     listItem: {
         "&:hover": {
-            // @ts-ignore
-            backgroundColor: theme.palette.grey.modal,
+            backgroundColor: theme.essence.palette.grey.modal,
         },
         "&:last-child": {
             borderBottom: "none",

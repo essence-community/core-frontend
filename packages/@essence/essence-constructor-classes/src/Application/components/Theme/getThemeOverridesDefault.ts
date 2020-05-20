@@ -1,7 +1,9 @@
 import transitions from "@material-ui/core/styles/transitions";
+import {IEssenceTheme} from "@essence-community/constructor-share/types";
+import {Theme} from "@material-ui/core";
 
 // eslint-disable-next-line max-lines-per-function
-export const themeOverridesDefault = (theme) => ({
+export const getThemeOverridesDefault = (theme: IEssenceTheme): Theme["overrides"] => ({
     MuiBackdrop: {
         root: {
             position: "absolute",
@@ -16,7 +18,7 @@ export const themeOverridesDefault = (theme) => ({
             pointerEvents: "none",
         },
         colorPrimary: {
-            backgroundColor: theme.palette.common.selectedMenu,
+            backgroundColor: theme.essence.palette.common.selectedMenu,
             border: `2px solid ${theme.palette.primary.main}`,
             borderRadius: 5,
             color: theme.palette.common.white,
@@ -49,7 +51,7 @@ export const themeOverridesDefault = (theme) => ({
     MuiCheckbox: {
         colorSecondary: {
             "&$checked": {
-                color: theme.palette.primary.field,
+                color: theme.essence.palette.primary.field,
             },
         },
     },
@@ -150,7 +152,7 @@ export const themeOverridesDefault = (theme) => ({
                 paddingTop: 0,
                 resize: "none",
             },
-            color: theme.palette.text.dark,
+            color: theme.essence.palette.text.dark,
             height: 16,
             padding: "11px 0 3px 0",
             width: "100%",
@@ -176,7 +178,7 @@ export const themeOverridesDefault = (theme) => ({
                 border: "1px solid #fc5d40",
             },
             backgroundColor: "#fafafa",
-            color: theme.palette.text.dark,
+            color: theme.essence.palette.text.dark,
             fontSize: 14,
         },
     },
@@ -224,11 +226,6 @@ export const themeOverridesDefault = (theme) => ({
             "&$disabled": {
                 pointerEvents: "none",
             },
-        },
-    },
-    MuiModal: {
-        root: {
-            position: "absolute",
         },
     },
     MuiSwitch: {

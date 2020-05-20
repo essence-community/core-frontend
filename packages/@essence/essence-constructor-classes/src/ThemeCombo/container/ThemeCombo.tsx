@@ -8,10 +8,11 @@ import {
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_DISPLAYED,
     VAR_SETTING_THEME,
+    VAR_RECORD_ID,
 } from "@essence-community/constructor-share/constants/variables";
 import * as React from "react";
 import {useDisposable} from "mobx-react-lite";
-import {getComponent} from "@essence-community/constructor-share/components";
+import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {reaction} from "mobx";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
@@ -24,7 +25,7 @@ const getComponentBc = (bc: IBuilderConfig, defaultTheme?: string) => ({
     [VAR_RECORD_QUERY_ID]: bc[VAR_RECORD_QUERY_ID],
     clearable: "false",
     column: bc.column || "theme",
-    datatype: "COMBO",
+    datatype: "combo",
     defaultvalue: defaultTheme,
     displayfield: bc.displayfield || "name",
     getglobal: VAR_SETTING_THEME,
@@ -32,8 +33,8 @@ const getComponentBc = (bc: IBuilderConfig, defaultTheme?: string) => ({
     noglobalmask: "true",
     querymode: "remote",
     records: [
-        {name: "static:66ef0068472a4a0394710177f828a9b1", value: "dark"},
-        {name: "static:fd7c7f3539954cc8a55876e3514906b5", value: "light"},
+        {[VAR_RECORD_ID]: "dark", name: "static:66ef0068472a4a0394710177f828a9b1", value: "dark"},
+        {[VAR_RECORD_ID]: "light", name: "static:fd7c7f3539954cc8a55876e3514906b5", value: "light"},
     ],
     setglobal: VAR_SETTING_THEME,
     type: "IFIELD",
@@ -41,10 +42,6 @@ const getComponentBc = (bc: IBuilderConfig, defaultTheme?: string) => ({
 });
 
 const getTheme = () => getFromStore("theme", settingsStore.settings[VAR_SETTING_THEME]);
-
-interface IComboClassProps extends IClassProps {
-    editing?: boolean;
-}
 
 export const ThemeCombo: React.FC<IClassProps> = (props) => {
     const applicationStore = React.useContext(ApplicationContext);
@@ -95,11 +92,12 @@ export const ThemeCombo: React.FC<IClassProps> = (props) => {
             },
         );
     });
-    const Comp: React.ComponentType<IComboClassProps> | null = getComponent(bc.type);
 
-    if (!Comp) {
-        return null;
-    }
-
-    return <Comp {...props} bc={bc} editing />;
+    return (
+        <>
+            {mapComponentOne(bc, (Comp) => (
+                <Comp {...props} bc={bc} />
+            ))}
+        </>
+    );
 };

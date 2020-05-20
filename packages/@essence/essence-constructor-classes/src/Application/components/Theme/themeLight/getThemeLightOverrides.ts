@@ -1,17 +1,8 @@
+import {IEssenceTheme} from "@essence-community/constructor-share/types";
+import {Theme} from "@material-ui/core";
+
 // eslint-disable-next-line max-lines-per-function
-export const themeLightOverrides = (theme) => ({
-    EssenceFieldCheckbox: {
-        focused: {
-            "& $checkboxRoot": {
-                color: theme.palette.primary.main,
-            },
-        },
-        root: {
-            "&:not($disabled):hover $checkboxRoot": {
-                color: theme.palette.primary.icon,
-            },
-        },
-    },
+export const getThemeLightOverrides = (theme: IEssenceTheme): Theme["overrides"] => ({
     MuiButton: {
         containedPrimary: {
             "&:focus": {
@@ -50,11 +41,11 @@ export const themeLightOverrides = (theme) => ({
     MuiCheckbox: {
         root: {
             "&:hover$root": {
-                color: theme.palette.primary.icon,
+                color: theme.essence.palette.primary.icon,
             },
-            color: theme.palette.primary.field,
-            height: theme.sizing.gridRowHeight,
-            width: theme.sizing.gridRowHeight,
+            color: theme.essence.palette.primary.field,
+            height: theme.essence.sizing.gridRowHeight,
+            width: theme.essence.sizing.gridRowHeight,
         },
     },
     MuiDialogActions: {
@@ -90,8 +81,8 @@ export const themeLightOverrides = (theme) => ({
                 backgroundColor: "transparent",
                 color: "#5879a9",
             },
-            color: theme.palette.icon.secondary,
-            fill: theme.palette.icon.secondary,
+            color: theme.essence.palette.icon.secondary,
+            fill: theme.essence.palette.icon.secondary,
         },
         root: {
             "&$disabled": {
@@ -111,9 +102,9 @@ export const themeLightOverrides = (theme) => ({
     },
     MuiRadio: {
         root: {
-            color: theme.palette.primary.icon,
-            height: theme.sizing.gridRowHeight,
-            width: theme.sizing.gridRowHeight,
+            color: theme.essence.palette.primary.icon,
+            height: theme.essence.sizing.gridRowHeight,
+            width: theme.essence.sizing.gridRowHeight,
         },
     },
 });

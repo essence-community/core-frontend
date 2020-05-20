@@ -1,14 +1,25 @@
-// @flow
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable capitalized-comments */
+/* eslint-disable import/order */
+/* eslint-disable max-len */
+/* eslint-disable import/namespace */
+/* eslint-disable import/named */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-extraneous-dependencies */
 import * as React from "react";
 import moment from "moment";
 import TodayButton from "rc-calendar/lib/calendar/TodayButton";
 import {IconButton} from "@material-ui/core";
-import dateJson from "../../../../../mocks/fields/date.json";
+import dateJson from "@essence-community/constructor-components/mocks/fields/date";
 import BuilderMobxForm from "../../../../Components/MobxForm/BuilderMobxForm";
-import {createEmptyPageStore} from "../../../../stores/index";
-import {mountWithTheme} from "../../../../utils/test";
+import {createEmptyPageStore} from "@essence-community/constructor-components/src/stores";
+import {mountWithTheme} from "@essence-community/constructor-components/src/utils/test";
 import FieldMask from "../../FieldMask/FieldMask";
-import FieldDateRC, {FieldDateRCBase} from "../FieldDateRC";
+import FieldDateRC, {FieldDateRCBase} from "@essence-community/constructor-components/src/TextField/Fields/FieldDateRC/FieldDateRC";
 
 // eslint-disable-next-line max-lines-per-function, max-statements
 describe("FieldDateRC", () => {

@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
 import {Grow} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import * as React from "react";

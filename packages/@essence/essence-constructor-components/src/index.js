@@ -6,7 +6,6 @@ import Popover from "./Popover/Popover";
 import BuilderRoadMapPanel from "./RoadMapPanel/BuilderRoadMapPanel";
 
 export {themeVars} from "./Theme";
-export {SnackbarMobx} from "./Snackbar/Snackbar";
 export {getThemeStyles} from "./Theme/utils";
 export {isEmpty} from "./utils/base";
 

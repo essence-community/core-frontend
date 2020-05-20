@@ -22,6 +22,7 @@ import {renderGlobalValuelsInfo} from "../utils/renderGlobalValuelsInfo";
 import {ApplicationWindows} from "../components/ApplicationWindows";
 import {Block} from "../components/Block";
 import {useHistoryListen} from "../hooks";
+import {Snackbar} from "../components/Snackbar";
 
 const logger = loggerRoot.extend("PagerContainer");
 
@@ -241,6 +242,11 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                         loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"}
                     />
                 )}
+                <Snackbar
+                    snackbars={snackbarStore.snackbars}
+                    onClose={snackbarStore.snackbarCloseAction}
+                    onSetCloseble={snackbarStore.setClosebleAction}
+                />
             </FormContext.Provider>
         </ApplicationContext.Provider>
     ));

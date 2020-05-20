@@ -6,5 +6,3 @@ export class PickerOverride extends RCPicker {
         // This.setOpen(false);
     };
 }
-
-export default PickerOverride;

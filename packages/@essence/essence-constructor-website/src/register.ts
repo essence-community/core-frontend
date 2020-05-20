@@ -65,6 +65,7 @@ import "@essence-community/constructor-classes/src/GridHFDefault";
 import "@essence-community/constructor-classes/src/FieldTable";
 import "@essence-community/constructor-classes/src/FieldPeriod";
 import "@essence-community/constructor-classes/src/FieldText";
+import "@essence-community/constructor-classes/src/FieldDate";
 import "@essence-community/constructor-classes/src/Panel";
 import "@essence-community/constructor-classes/src/FormPanel";
 import "@essence-community/constructor-classes/src/PanelCollapsible";

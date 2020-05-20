@@ -6,6 +6,7 @@ import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
 import {toColumnStyleWidth} from "@essence-community/constructor-share/utils";
+import {HorizontalResizer} from "@essence-community/constructor-share/uicomponents";
 import {useObserver} from "mobx-react-lite";
 import {Grid} from "@material-ui/core";
 import {PanelWidthContext} from "@essence-community/constructor-share/context";
@@ -74,41 +75,24 @@ export const Panel: React.FC<IClassProps> = (props) => {
                             }
 
                             return (
-                                <Grid
-                                    item
+                                <HorizontalResizer
                                     key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                                     xs={isRow ? true : MAX_PANEL_WIDTH}
                                     className={isRow ? classes.panelItemFlexBasis : undefined}
                                     style={style}
-                                    zeroMinWidth
+                                    isAddResizer={isAddResizer}
+                                    nextItem={childsWidths[(childs[index + 1] || {})[VAR_RECORD_PAGE_OBJECT_ID]]}
+                                    item={childWidthData}
+                                    itemsNumber={childs.length}
+                                    onChange={handleChangeChildWidth}
                                 >
-                                    {childComponnt}
-                                </Grid>
+                                    <PanelWidthContext.Provider
+                                        value={context ? context + childWidthData.width : childWidthData.width}
+                                    >
+                                        {childComponnt}
+                                    </PanelWidthContext.Provider>
+                                </HorizontalResizer>
                             );
-
-                            /*
-                             * Return (
-                             *  <HorizontalResizer
-                             *      key={child[VAR_RECORD_PAGE_OBJECT_ID]}
-                             *      xs={isRow ? true : MAX_PANEL_WIDTH}
-                             *      className={isRow ? classes.panelItemFlexBasis : undefined}
-                             *      style={style}
-                             *      isAddResizer={isAddResizer}
-                             *      nextItem={childsWidths[(childs[index + 1] || {})[VAR_RECORD_PAGE_OBJECT_ID]]}
-                             *      item={childWidthData}
-                             *      itemsNumber={childs.length}
-                             *      onChange={handleChangeChildWidth}
-                             *  >
-                             *      <PanelWidthContext.Provider
-                             *          value={
-                             *              context ? context + childWidthData.width : childWidthData.width
-                             *          }
-                             *      >
-                             *          {childComponnt}
-                             *      </PanelWidthContext.Provider>
-                             *  </HorizontalResizer>
-                             *);
-                             */
                         })}
                     </Child>
                 ))}

@@ -19,6 +19,7 @@ export interface IEssenceTheme extends Theme {
                 black: string;
                 disabled: string;
                 link: string;
+                main: string;
                 selectedMenu: string;
                 selectedRecord: string;
                 selectedRecordBorder: string;
@@ -39,6 +40,7 @@ export interface IEssenceTheme extends Theme {
                 info: string;
                 light: string;
                 main: string;
+                modal: string;
                 shadow: string;
             };
             tab: {
@@ -52,6 +54,7 @@ export interface IEssenceTheme extends Theme {
             };
             primary: {
                 field: string;
+                icon: string;
             };
         };
         zIndex: {

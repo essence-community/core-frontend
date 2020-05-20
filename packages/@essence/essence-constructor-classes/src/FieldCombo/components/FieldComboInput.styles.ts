@@ -1,12 +1,11 @@
 import {makeStyles} from "@material-ui/core/styles";
+import {IEssenceTheme} from "@essence-community/constructor-share/types";
 
 export const useStyles = makeStyles(
-    (theme) => ({
+    (theme: IEssenceTheme) => ({
         iconRoot: {
-            // @ts-ignore
-            height: theme.sizing.gridRowHeight,
-            // @ts-ignore
-            width: theme.sizing.gridRowHeight,
+            height: theme.essence.sizing.gridRowHeight,
+            width: theme.essence.sizing.gridRowHeight,
         },
     }),
     {name: "EssenceFieldComboInput"},

@@ -22,6 +22,8 @@ import {renderGlobalValuelsInfo} from "../utils/renderGlobalValuelsInfo";
 import {ApplicationWindows} from "../components/ApplicationWindows";
 import {Block} from "../components/Block";
 import {useHistoryListen} from "../hooks";
+import {Snackbar} from "../components/Snackbar";
+import {Theme} from "../components/Theme";
 
 const logger = loggerRoot.extend("PagerContainer");
 
@@ -221,26 +223,33 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
     return useObserver(() => (
         <ApplicationContext.Provider value={applicationStore}>
             <FormContext.Provider value={form}>
-                {applicationStore.isApplicationReady && applicationStore.bc ? (
-                    <>
-                        {mapComponents(applicationStore.bc.childs, (ChildComponent, childBc) => (
-                            <ChildComponent
-                                pageStore={applicationStore.pageStore}
-                                key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                bc={childBc}
-                                visible
-                            />
-                        ))}
-                        <ApplicationWindows pageStore={applicationStore.pageStore} />
-                        <Block applicationStore={applicationStore} />
-                    </>
-                ) : (
-                    <PageLoader
-                        container={null}
-                        isLoading
-                        loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"}
+                <Theme applicationStore={applicationStore}>
+                    {applicationStore.isApplicationReady && applicationStore.bc ? (
+                        <>
+                            {mapComponents(applicationStore.bc.childs, (ChildComponent, childBc) => (
+                                <ChildComponent
+                                    pageStore={applicationStore.pageStore}
+                                    key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                    bc={childBc}
+                                    visible
+                                />
+                            ))}
+                            <ApplicationWindows pageStore={applicationStore.pageStore} />
+                            <Block applicationStore={applicationStore} />
+                        </>
+                    ) : (
+                        <PageLoader
+                            container={null}
+                            isLoading
+                            loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"}
+                        />
+                    )}
+                    <Snackbar
+                        snackbars={snackbarStore.snackbars}
+                        onClose={snackbarStore.snackbarCloseAction}
+                        onSetCloseble={snackbarStore.setClosebleAction}
                     />
-                )}
+                </Theme>
             </FormContext.Provider>
         </ApplicationContext.Provider>
     ));

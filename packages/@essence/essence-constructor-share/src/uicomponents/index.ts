@@ -14,3 +14,4 @@ export {TextFieldLabel} from "./TextFieldLabel";
 export {UIForm} from "./UIForm";
 export {EmptyTitle} from "./EmptyTitle";
 export {TextFieldMask} from "./TextFieldMask";
+export {HorizontalResizer} from "./HorizontalResizer";

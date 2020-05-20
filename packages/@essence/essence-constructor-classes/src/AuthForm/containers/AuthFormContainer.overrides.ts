@@ -1,5 +1,5 @@
 import {IEssenceTheme} from "@essence-community/constructor-share/types";
-import {mergeOverridesDeep} from "../utils/mergeOverridesDeep";
+import {mergeOverridesDeep} from "@essence-community/constructor-share/utils";
 
 export const makeTheme = (theme: IEssenceTheme): IEssenceTheme => ({
     ...theme,

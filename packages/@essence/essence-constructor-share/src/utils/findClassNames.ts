@@ -24,8 +24,6 @@ function findClassNamesRecursive(bc: IBuilderConfig, acc: string[]): string[] {
     /*
      * TODO: editors should be array always
      */
-
-    // @ts-ignore
     if (bc.editors && bc.editors !== "false") {
         bc.editors.forEach((childBc) => findClassNamesRecursive(childBc, acc));
     }

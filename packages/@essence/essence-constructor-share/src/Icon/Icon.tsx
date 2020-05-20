@@ -8,6 +8,7 @@ interface IProps {
     iconfont: string;
     color?: string;
     size?: "xs" | "lg" | "1x" | "2x" | "3x" | "4x" | "5x";
+    onClick?(event: React.SyntheticEvent): void;
 }
 
 interface IChildIconProps {

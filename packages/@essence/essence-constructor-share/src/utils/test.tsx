@@ -23,6 +23,7 @@ const themeVars: IEssenceTheme["essence"] = {
             black: "#000",
             disabled: "#7f828d",
             link: "#0000EE",
+            main: "",
             selectedMenu: "#f98d00",
             selectedRecord: "#c8cfde",
             selectedRecordBorder: "#60dfff",
@@ -39,6 +40,7 @@ const themeVars: IEssenceTheme["essence"] = {
             info: "#dbdfef",
             light: "#dfdfdf",
             main: "#cbcaca",
+            modal: "",
             shadow: "rgb(203, 202, 202, 0.4)",
         },
         icon: {
@@ -47,6 +49,7 @@ const themeVars: IEssenceTheme["essence"] = {
         },
         primary: {
             field: "",
+            icon: "",
         },
         tab: {
             active: "",

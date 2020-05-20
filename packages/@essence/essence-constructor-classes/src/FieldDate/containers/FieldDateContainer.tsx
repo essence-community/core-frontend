@@ -46,9 +46,8 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
     };
 
     const handleSetFocus = () => {
-        if (inputElement) {
-            // eslint-disable-next-line no-unused-expressions
-            inputElement.current?.focus();
+        if (inputElement.current) {
+            inputElement.current.focus();
         }
     };
     const handleScrollClose = React.useCallback(() => {
@@ -93,7 +92,7 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
         [dateConfig.format, dateConfig.serverFormat, onChange],
     );
     const [getDisabledFunction] = useFieldDisabled(props);
-    const renderCalendarIcon = React.useCallback(
+    const calendarIcon = React.useMemo(
         () => (
             <IconButton
                 color="secondary"
@@ -110,7 +109,7 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
         ),
         [classes.rootIcon, disabled],
     );
-    const inputProps = useTextFieldProps({bc: props.bc, disabled: props.disabled, field, tips: [renderCalendarIcon()]});
+    const inputProps = useTextFieldProps({bc: props.bc, disabled: props.disabled, field, tips: [calendarIcon]});
 
     const textField = React.useMemo(() => {
         inputProps.inputRef = inputElement;
@@ -155,10 +154,9 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
     if (!dateConfig) {
         return null;
     }
-    const Component = dateConfig.component;
 
     return (
-        <Component
+        <dateConfig.component
             open={open}
             dateConfig={dateConfig}
             onChange={onChange}
@@ -168,6 +166,6 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
             className={className}
         >
             {textField}
-        </Component>
+        </dateConfig.component>
     );
 };

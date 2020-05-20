@@ -2,7 +2,7 @@ import * as React from "react";
 import MonthCalendar from "rc-calendar/lib/MonthCalendar";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import * as moment from "moment";
-import {DatePicker} from "../PickerOverride/PickerOverride";
+import {PickerOverride} from "../PickerOverride/PickerOverride";
 import {toLocale} from "../../util/locale";
 import {IFieldDateProps} from "../FieldDate.types";
 
@@ -21,7 +21,7 @@ export const FieldDateMonth: React.FC<IFieldDateProps> = (props) => {
     const calendar = <MonthCalendar locale={toLocale(trans)} />;
 
     return (
-        <DatePicker
+        <PickerOverride
             align={{
                 offset: [0, 0],
                 points: ["tr", "br"],
@@ -34,6 +34,6 @@ export const FieldDateMonth: React.FC<IFieldDateProps> = (props) => {
             open={open}
         >
             {children}
-        </DatePicker>
+        </PickerOverride>
     );
 };

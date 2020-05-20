@@ -3,7 +3,7 @@ import Calendar from "rc-calendar";
 import TimePickerPanel from "rc-time-picker/lib/Panel";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import * as moment from "moment";
-import {DatePicker} from "../PickerOverride/PickerOverride";
+import {PickerOverride} from "../PickerOverride/PickerOverride";
 import {toLocale} from "../../util/locale";
 import {IFieldDateProps} from "../FieldDate.types";
 
@@ -32,7 +32,7 @@ export const FieldDateMain: React.FC<IFieldDateProps> = (props) => {
     );
 
     return (
-        <DatePicker
+        <PickerOverride
             align={{
                 offset: [0, 0],
                 points: ["tr", "br"],
@@ -45,6 +45,6 @@ export const FieldDateMain: React.FC<IFieldDateProps> = (props) => {
             open={open}
         >
             {children}
-        </DatePicker>
+        </PickerOverride>
     );
 };

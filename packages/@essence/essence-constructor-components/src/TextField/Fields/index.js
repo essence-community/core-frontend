@@ -2,11 +2,9 @@ import {getComponent} from "@essence-community/constructor-share";
 import FieldDateRC from "./FieldDateRC/FieldDateRC";
 import FieldPassword from "./FieldPassword/FieldPassword";
 import FieldRadioGroup from "./FieldRadioGroup/FieldRadioGroup";
-import FieldImage from "./FieldImage/FieldImage";
 
 export const fieldMap = {
     date: FieldDateRC,
-    image: FieldImage,
     password: FieldPassword,
     radio: FieldRadioGroup,
 };

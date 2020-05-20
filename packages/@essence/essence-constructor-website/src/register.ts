@@ -73,6 +73,7 @@ import "@essence-community/constructor-classes/src/Box";
 import "@essence-community/constructor-classes/src/HistoryPanel";
 import "@essence-community/constructor-classes/src/Window";
 import "@essence-community/constructor-classes/src/FieldMulti";
+import "@essence-community/constructor-classes/src/FieldColor";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

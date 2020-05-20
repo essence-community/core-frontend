@@ -3,15 +3,15 @@ import cn from "clsx";
 import {Grid} from "@material-ui/core";
 import {useTranslation, toColumnStyleWidth} from "@essence-community/constructor-share/utils";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {BuilderTypeContext} from "@essence-community/constructor-share/context";
+import {FormContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {useStyles} from "./Group.styles";
 import {IGroupProps} from "./Group.types";
 
 export const Group: React.FC<IGroupProps> = (props) => {
     const {error, isRow, bc, status, renderComponent, children} = props;
-    const builderType = React.useContext(BuilderTypeContext);
-    const inFilter = builderType === "filter";
+    const form = React.useContext(FormContext);
+    const inFilter = form.placement === "filter";
     const classes = useStyles(undefined);
     const label = bc[VAR_RECORD_DISPLAYED];
     // eslint-disable-next-line id-length

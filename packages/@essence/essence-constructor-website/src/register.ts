@@ -70,6 +70,7 @@ import "@essence-community/constructor-classes/src/FormPanel";
 import "@essence-community/constructor-classes/src/PanelCollapsible";
 import "@essence-community/constructor-classes/src/Box";
 import "@essence-community/constructor-classes/src/HistoryPanel";
+import "@essence-community/constructor-classes/src/RoadMap";
 import "@essence-community/constructor-classes/src/Window";
 import "@essence-community/constructor-classes/src/FieldMulti";
 

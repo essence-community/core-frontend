@@ -1,6 +1,5 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
-// @flow
 import * as React from "react";
 import {TableCell, TableSortLabel} from "@material-ui/core";
 import {
@@ -21,21 +20,10 @@ import BuilderGrid, {BaseBuilderGrid} from "../BuilderGrid";
 import BaseGridTableHeader from "../BaseGridTableHeader";
 import {sleep} from "../../utils/base";
 
-type GridPropsType = {
-    bc: any,
-    visible?: boolean,
-};
-
-type MountGridRetunType = {
-    store: any,
-    pageStore: any,
-    wrapper: any,
-};
-
-const mountGrid = ({bc, visible = true}: GridPropsType): MountGridRetunType => {
+const mountGrid = ({bc, visible = true}) => {
     const pageStore = createEmptyPageStore({styleTheme: "dark"});
     const wrapper = mountWithTheme(<BuilderGrid pageStore={pageStore} visible={visible} bc={bc} />);
-    const store: any = wrapper.find(BaseBuilderGrid).prop("store");
+    const store = wrapper.find(BaseBuilderGrid).prop("store");
 
     return {pageStore, store, wrapper};
 };

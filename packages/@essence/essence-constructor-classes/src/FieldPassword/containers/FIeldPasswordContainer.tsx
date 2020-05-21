@@ -47,6 +47,9 @@ export const FieldPasswordContainer: React.FC<IClassProps> = (props) => {
     return (
         <TextField
             {...textFieldProps}
+            data-qtip={
+                field.value === textFieldProps["data-qtip"] && !showPassword ? "***" : textFieldProps["data-qtip"]
+            }
             inputProps={{
                 ...textFieldProps.inputProps,
                 type: showPassword ? "text" : "password",

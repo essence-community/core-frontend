@@ -55,8 +55,8 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
             return field.error;
         }
 
-        if (bc.datatype !== "password" && typeof field.value === "string") {
-            return field.value;
+        if ((typeof field.value === "string" && field.value !== "") || typeof field.value === "number") {
+            return String(field.value);
         }
 
         if (bc.info !== undefined) {

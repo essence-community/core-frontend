@@ -36,7 +36,7 @@ export class Field implements IField {
 
     public input: IField["input"];
 
-    private form: IForm;
+    public form: IForm;
 
     private pageStore: IPageModel;
 

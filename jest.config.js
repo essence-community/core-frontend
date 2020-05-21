@@ -1,6 +1,5 @@
 module.exports = {
     collectCoverageFrom: [
-        "<rootDir>/packages/@essence/essence-constructor-components/src/**/*.{js,jsx,mjs}",
         "<rootDir>/packages/@essence/essence-constructor-website/src/**/*.{js,jsx,mjs}",
         "<rootDir>/packages/@essence/essence-constructor-share/src/**/*.{js,mjs,ts,tsx}",
         "<rootDir>/packages/@essence/essence-constructor-classes/src/**/*.{ts,tsx}",
@@ -14,7 +13,6 @@ module.exports = {
     setupFiles: ["<rootDir>/config/polyfills.js", "<rootDir>/config/jest/setupTests.js"],
     testEnvironment: "jsdom",
     testMatch: [
-        "<rootDir>/packages/@essence/essence-constructor-components/src/**/__tests__/**/*.{js,jsx,mjs}",
         "<rootDir>/packages/@essence/essence-constructor-website/src/**/__tests__/**/*.{js,jsx,mjs}",
         "<rootDir>/packages/@essence/essence-constructor-share/src/**/__tests__/**/*.{js,mjs,ts,tsx}",
         "<rootDir>/packages/@essence/essence-constructor-classes/src/**/__tests__/**/*.{ts,tsx}",

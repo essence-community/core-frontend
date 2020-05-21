@@ -1,6 +1,6 @@
 import {IPageModel} from "../types/PageModel";
 import {VAR_RECORD_ID} from "../constants/variables";
-import {FieldValue} from "../types/Field";
+import {FieldValue} from "../types";
 import {findSetKey} from "./findKey";
 
 const getValue = (value: FieldValue) => (typeof value === "string" && value.indexOf("auto-") === 0 ? undefined : value);

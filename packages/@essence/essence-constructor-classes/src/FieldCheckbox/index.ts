@@ -1,5 +1,6 @@
-import {setComponent} from "@essence-community/constructor-share";
+import {setComponent} from "@essence-community/constructor-share/components";
+import {commonDecorator} from "@essence-community/constructor-share/decorators";
 import {FieldCheckboxContainer} from "./containers/FieldCheckboxContainer";
 
-setComponent("IFIELD.CHECKBOX", FieldCheckboxContainer);
-setComponent("IFIELD.BOOLEAN", FieldCheckboxContainer);
+setComponent("IFIELD.checkbox", commonDecorator(FieldCheckboxContainer));
+setComponent("IFIELD.boolean", commonDecorator(FieldCheckboxContainer));

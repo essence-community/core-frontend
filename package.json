@@ -13,13 +13,13 @@
     "start-mock": "yarn workspace @essence-community/constructor-website run start-mock",
     "build": "yarn workspace @essence-community/constructor-website run build && node utils/cp.js ./packages/@essence/essence-constructor-website/build ./build",
     "rebuild-share:dev": "cd packages/@essence/essence-constructor-share && yarn run build && cd ../essence-constructor-dll && yarn install --force && yarn build:dev && cd ../../.. && yarn install --force --ignore-scripts",
+    "tscheck:website": "yarn workspace @essence-community/constructor-website run tsc",
     "tscheck:classes": "yarn workspace @essence-community/constructor-classes run tsc",
     "tscheck:share": "cd packages/@essence/essence-constructor-share && yarn tsc",
-    "CI": "concurrently \"yarn tscheck:classes\" \"yarn tscheck:share\" \"yarn lint\" \"yarn lint-ts\"",
+    "CI": "concurrently \"yarn tscheck:classes\" \"yarn tscheck:share\" \"yarn lint\"",
     "preinstall": "cd packages/@essence/essence-constructor-share && yarn install && yarn build",
     "postinstall": "node scripts/postinstall.js",
-    "lint": "eslint packages/@essence/essence-constructor-components/src packages/@essence/essence-constructor-components/mocks packages/@essence/essence-constructor-website/src --ext js,jsx",
-    "lint-ts": "packages/@essence/essence-constructor-classes/node_modules/.bin/eslint --config .eslintrc-ts --ext ts,tsx packages/@essence/essence-constructor-classes/src packages/@essence/essence-constructor-share/src",
+    "lint": "eslint packages/@essence/essence-constructor-website/src packages/@essence/essence-constructor-classes/src packages/@essence/essence-constructor-share/src --ext ts,tsx",
     "test": "node scripts/test.js --env=jsdom",
     "chrome:mac": "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --remote-debugging-port=9222 --user-data-dir=chrome",
     "chrome:win": "<path to chrome>/chrome.exe --remote-debugging-port=9222 --user-data-dir=chrome",
@@ -27,12 +27,8 @@
     "generate-documentation": "node scripts/generateDocumentation.js"
   },
   "lint-staged": {
-    "*.{js,jsx}": [
+    "*.{js,jsx,ts,tsx}": [
       "eslint",
-      "git add"
-    ],
-    "*.{ts,tsx}": [
-      "packages/@essence/essence-constructor-classes/node_modules/.bin/eslint  --config .eslintrc-ts",
       "git add"
     ]
   },
@@ -43,6 +39,7 @@
     }
   },
   "devDependencies": {
+    "@essence-community/eslint-config-react": "file:./packages/@essence/essence-constructor-eslint",
     "@babel/code-frame": "^7.5.5",
     "@babel/preset-typescript": "^7.7.4",
     "babel-jest": "^24.9.0",
@@ -77,7 +74,6 @@
   },
   "workspaces": {
     "packages": [
-      "packages/@essence/essence-constructor-components",
       "packages/@essence/essence-constructor-website",
       "packages/@essence/essence-constructor-classes"
     ]

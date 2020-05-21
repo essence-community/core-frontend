@@ -1,6 +1,5 @@
 import {action, computed, observable, ObservableMap} from "mobx";
-import {IRecord} from "../types";
-import {IBuilderMode, IBuilderConfig} from "../types/Builder";
+import {IRecord, IBuilderMode, IBuilderConfig} from "../types";
 import {entriesMapSort} from "../utils/transform";
 import {loggerRoot} from "../constants";
 import {Field} from "./Field";

@@ -2,18 +2,17 @@ import {reaction} from "mobx";
 import {useEffect} from "react";
 import {parseMemoize, isEmpty, toStringGlobal} from "../utils";
 import {VALUE_SELF_FIRST} from "../constants";
-import {IForm, IField} from "../Form";
+import {IField} from "../Form";
 import {IPageModel, IBuilderConfig, IStoreBaseModel, FieldValue} from "../types";
 
 interface IUseFieldGetGlobalProps {
     bc: IBuilderConfig;
-    form: IForm;
     field: IField;
     pageStore: IPageModel;
     store?: IStoreBaseModel;
 }
 
-export function useFieldGetGlobal({form, field, pageStore, bc, store}: IUseFieldGetGlobalProps) {
+export function useFieldGetGlobal({field, pageStore, bc, store}: IUseFieldGetGlobalProps) {
     const {globalValues} = pageStore;
 
     useEffect(() => {
@@ -35,7 +34,7 @@ export function useFieldGetGlobal({form, field, pageStore, bc, store}: IUseField
                         value = store.selectedRecord ? store.selectedRecord[name] : "";
                     } else {
                         // eslint-disable-next-line prefer-destructuring
-                        value = form.select(name)?.value;
+                        value = field.form.select(name)?.value;
                     }
 
                     if (!value) {
@@ -58,5 +57,5 @@ export function useFieldGetGlobal({form, field, pageStore, bc, store}: IUseField
                 fireImmediately: isEmpty(field.value) || field.value === VALUE_SELF_FIRST,
             },
         );
-    }, [bc.getglobal, field, form, globalValues, store]);
+    }, [bc.getglobal, field, globalValues, store]);
 }

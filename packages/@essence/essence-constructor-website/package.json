@@ -14,7 +14,6 @@
   "dependencies": {
     "@babel/core": "7.7.5",
     "@essence-community/constructor-classes": "2.3.0",
-    "@essence-community/constructor-components": "2.3.0",
     "@essence-community/constructor-share": "file:../essence-constructor-share/lib",
     "@material-ui/core": "^4.7.2",
     "@svgr/webpack": "4.3.3",
@@ -77,7 +76,6 @@
     "workbox-webpack-plugin": "4.3.1"
   },
   "devDependencies": {
-    "@essence-community/eslint-config-react": "file:../essence-constructor-eslint",
     "http-proxy-middleware": "0.20.0",
     "source-map-explorer": "2.1.2"
   }

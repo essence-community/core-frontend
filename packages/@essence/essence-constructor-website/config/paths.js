@@ -76,7 +76,6 @@ module.exports = {
   appIndexJs: resolveModule(resolveApp, 'src/index'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
-  appComponentsSrc: resolveApp('../essence-constructor-components/src'),
   appClassesSrc: resolveApp('../essence-constructor-classes/src'),
   appTsConfig: resolveApp('tsconfig.json'),
   appJsConfig: resolveApp('jsconfig.json'),

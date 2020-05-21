@@ -1,18 +1,17 @@
 import React from "react";
 import {reaction} from "mobx";
 import {IBuilderConfig, IPageModel, IStoreBaseModel, IRecord} from "../types";
-import {IForm, IField} from "../Form";
+import {IField} from "../Form";
 import {findSetKey, isEmpty} from "../utils";
 
 interface IUseFieldSetGlobalProps {
     bc: IBuilderConfig;
-    form: IForm;
     field: IField;
     pageStore: IPageModel;
     store?: IStoreBaseModel;
 }
 
-export function useFieldSetGlobal({form, field, pageStore, bc, store}: IUseFieldSetGlobalProps) {
+export function useFieldSetGlobal({field, pageStore, bc, store}: IUseFieldSetGlobalProps) {
     React.useEffect(() => {
         if (store && bc.setglobal) {
             const keys = findSetKey(bc.setglobal, field.key);
@@ -84,8 +83,8 @@ export function useFieldSetGlobal({form, field, pageStore, bc, store}: IUseField
                         if (isEmpty(values[globaleKey])) {
                             values[globaleKey] = globalValues.has(globaleKey) ? null : undefined;
                         }
-                    } else if (form.select(fieldName)) {
-                        values[globaleKey] = form.select(fieldName)?.value;
+                    } else if (field.form.select(fieldName)) {
+                        values[globaleKey] = field.form.select(fieldName)?.value;
                     } else if (globalValues.has(globaleKey)) {
                         values[globaleKey] = null;
                     }
@@ -108,5 +107,5 @@ export function useFieldSetGlobal({form, field, pageStore, bc, store}: IUseField
                 fireImmediately: true,
             },
         );
-    }, [bc, field, form, pageStore, store]);
+    }, [bc, field, pageStore, store]);
 }

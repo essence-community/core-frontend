@@ -1,6 +1,5 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
-// @flow
 import * as React from "react";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {createEmptyPageStore} from "../../stores";
@@ -24,7 +23,7 @@ describe("BuilderTreeGrid", () => {
     };
     const pageStore = createEmptyPageStore({styleTheme: "dark"});
     const wrapper = mountWithTheme(<BuilderGrid pageStore={pageStore} visible bc={bc} />);
-    const store: any = wrapper.find(BaseBuilderGrid).prop("store");
+    const store = wrapper.find(BaseBuilderGrid).prop("store");
 
     beforeEach(() => {
         store.selectedRecords.clear();

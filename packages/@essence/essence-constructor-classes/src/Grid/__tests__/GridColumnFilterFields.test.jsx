@@ -1,6 +1,5 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
-// @flow
 import * as React from "react";
 import {Checkbox} from "@material-ui/core";
 import {
@@ -21,7 +20,7 @@ import GridColumnFilterFields from "../GridColumnFilterFields";
 describe("GridColumnFilterFields", () => {
     const pageStore = createEmptyPageStore();
     const renderPopover = ({fieldContent}) => fieldContent;
-    const mountDate = (onSubmit?: Function) => {
+    const mountDate = (onSubmit) => {
         const bc = {column: "date_column", datatype: "date", format: "d.m.Y"};
         const wrapper = mountWithTheme(
             <BuilderForm pageStore={pageStore} onSubmit={onSubmit}>

@@ -80,7 +80,7 @@ export class FieldComboModel extends StoreBaseModel {
     constructor(props: IStoreBaseModelProps) {
         super(props);
 
-        const {bc, pageStore, applicationStore} = props;
+        const {bc, pageStore} = props;
         const {column = "", displayfield = "", valuefield = "", minchars = "", querydelay = ""} = bc;
 
         this.displayfield = displayfield;
@@ -88,7 +88,7 @@ export class FieldComboModel extends StoreBaseModel {
         this.valueLength = parseInt(minchars, 10);
 
         this.recordsStore = new RecordsModel(bc, {
-            applicationStore,
+            applicationStore: pageStore.applicationStore,
             noLoadChilds: Boolean(bc[VAR_RECORD_CL_IS_MASTER]),
             pageStore,
             valueField: this.valuefield,

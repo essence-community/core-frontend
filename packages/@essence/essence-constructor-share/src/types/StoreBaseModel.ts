@@ -3,10 +3,10 @@ import {IObservableArray} from "mobx";
 import {IForm} from "../Form";
 import {IPopoverContext} from "../context";
 import {IApplicationModel} from "./Application";
-import {IBuilderConfig, IBuilderMode} from "./Builder";
+import {IBuilderConfig} from "./Builder";
 import {IPageModel} from "./PageModel";
 import {IRecordsModel} from "./RecordsModel";
-import {IRecord, ICkId} from "./Base";
+import {IRecord, ICkId, IBuilderMode} from "./Base";
 
 export interface IStoreBaseModelProps {
     bc: IBuilderConfig;

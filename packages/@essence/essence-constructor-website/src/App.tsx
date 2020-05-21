@@ -1,9 +1,8 @@
 import React, {Component, Suspense} from "react";
 import moment from "moment";
 import "moment/locale/ru";
-// TODO Без нее падает
-import "@essence-community/constructor-components";
-import {settingsStore, ProjectModel} from "@essence-community/constructor-share/models";
+import {settingsStore} from "@essence-community/constructor-share/models/SettingsModel";
+import {ProjectModel} from "@essence-community/constructor-share/models/ProjectModel";
 import {ProjectContext} from "@essence-community/constructor-share/context";
 import {PageLoader, Tooltip} from "@essence-community/constructor-share/uicomponents";
 import {VAR_SETTING_PROJECT_LOADER} from "@essence-community/constructor-share/constants";

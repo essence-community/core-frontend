@@ -2,7 +2,6 @@ import * as React from "react";
 import {reaction} from "mobx";
 import {IClassProps, FieldValue} from "@essence-community/constructor-share/types";
 import {Popover} from "@essence-community/constructor-share/uicomponents";
-import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
 import {useModel, useFieldGetGlobal, useFieldSetGlobal} from "@essence-community/constructor-share/hooks";
 import {useTranslation, isEmpty} from "@essence-community/constructor-share/utils";
 import {IPopoverChildrenProps} from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";
@@ -22,19 +21,11 @@ import {getFirstValues} from "../utils/getFirstValues";
 export const FieldComboContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden} = props;
     const {i18n} = useTranslation();
-    const form = React.useContext(FormContext);
     const inputRef: React.MutableRefObject<HTMLInputElement | null> = React.useRef(null);
     const listRef: React.MutableRefObject<HTMLInputElement | null> = React.useRef(null);
     const textFieldRef: React.MutableRefObject<HTMLDivElement | null> = React.useRef(null);
-    const applicationStore = React.useContext(ApplicationContext);
     const field = useField({bc, disabled, hidden, pageStore});
-    const [store] = useModel((modelProps) => new FieldComboModel(modelProps), {
-        applicationStore,
-        bc: props.bc,
-        disabled: props.disabled,
-        hidden: props.hidden,
-        pageStore: props.pageStore,
-    });
+    const [store] = useModel((modelProps) => new FieldComboModel(modelProps), props);
 
     const popoverContent = (popoverProps: IPopoverChildrenProps) => (
         <FieldComboList
@@ -59,20 +50,30 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
 
     const handleReactValue = React.useCallback(
         (value: FieldValue) => {
-            if (!store.recordsStore.isLoading && value === VALUE_SELF_FIRST) {
+            if (bc.allownew && value === bc.allownew) {
+                field.onChange("");
+            } else if (!store.recordsStore.isLoading && value === VALUE_SELF_FIRST) {
                 const val = getFirstValues(store.recordsStore);
 
                 field.onChange(val);
                 store.handleSetValue(val, false, false);
+            } else {
+                store.handleSetValue(value, false, false);
             }
         },
-        [field, store],
+        [bc.allownew, field, store],
     );
 
-    useFieldGetGlobal({bc, field, form, pageStore, store});
-    useFieldSetGlobal({bc, field, form, pageStore, store});
+    useFieldGetGlobal({bc, field, pageStore, store});
+    useFieldSetGlobal({bc, field, pageStore, store});
 
-    React.useEffect(() => reaction(() => field.value, handleReactValue), [field, handleReactValue]);
+    React.useEffect(() => {
+        if (!isEmpty(field.value) && !store.recordsStore.isLoading) {
+            handleReactValue(field.value);
+        }
+
+        return reaction(() => field.value, handleReactValue);
+    }, [field, handleReactValue, store]);
     React.useEffect(
         () =>
             reaction(
@@ -92,21 +93,6 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                 },
             ),
         [field, store],
-    );
-
-    React.useEffect(
-        () =>
-            reaction(
-                () => field.value,
-                (value) => {
-                    if (bc.allownew && value === bc.allownew) {
-                        field.onChange("");
-                    } else {
-                        store.handleSetValue(value, false, false);
-                    }
-                },
-            ),
-        [bc.allownew, field, store],
     );
 
     React.useEffect(() => {

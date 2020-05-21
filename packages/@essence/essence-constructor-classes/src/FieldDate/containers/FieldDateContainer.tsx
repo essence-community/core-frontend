@@ -10,7 +10,6 @@ import {useTranslation} from "@essence-community/constructor-share/utils";
 import moment from "moment";
 import {reaction} from "mobx";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {FormContext} from "@essence-community/constructor-share/context";
 import {getFieldDate} from "../util/Util";
 import {IFieldBuildClassProps} from "../components/FieldDate.types";
 import {useFieldDisabled} from "../hook/useFieldDisabled";
@@ -23,7 +22,6 @@ import "moment/locale/ru";
 export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
     const {bc, pageStore, disabled, readOnly} = props;
     const {disabledenddate} = bc;
-    const form = React.useContext(FormContext);
     const field = useField({
         bc,
         disabled: props.disabled,
@@ -31,8 +29,8 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
         pageStore: props.pageStore,
     });
 
-    useFieldGetGlobal({bc, field, form, pageStore});
-    useFieldSetGlobal({bc, field, form, pageStore});
+    useFieldGetGlobal({bc, field, pageStore});
+    useFieldSetGlobal({bc, field, pageStore});
     const [open, setOpen] = React.useState<boolean>(false);
     const [momentValue, setMomentValue] = React.useState<moment.Moment | undefined>(undefined);
     const [formatValue, setFormatValue] = React.useState<string | undefined>(undefined);

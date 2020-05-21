@@ -1,7 +1,6 @@
 import {ObservableMap} from "mobx";
 import {TFunction} from "../utils";
-import {FieldValue, IRecord, IBuilderConfig, IPageModel} from "../types";
-import {IBuilderMode} from "../types/Builder";
+import {FieldValue, IRecord, IBuilderConfig, IPageModel, IBuilderMode} from "../types";
 
 export interface IRegisterFieldOptions {
     bc: IBuilderConfig;
@@ -22,6 +21,7 @@ export interface IField {
     rules: string[];
     isValid: boolean;
     errors: TError[];
+    form: IForm;
     error?: TError;
     input: (initialValues: IRecord, field: IField, form: IForm) => [boolean, IRecord | FieldValue];
     output: (field: IField, form: IForm, value?: IRecord | FieldValue) => IRecord | FieldValue;

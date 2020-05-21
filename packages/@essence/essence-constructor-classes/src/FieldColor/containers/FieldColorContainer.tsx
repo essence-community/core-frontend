@@ -8,7 +8,6 @@ import {useField} from "@essence-community/constructor-share/Form";
 import {FormLabel} from "@material-ui/core";
 import {TextFieldLabel} from "@essence-community/constructor-share/uicomponents";
 import {useObserver} from "mobx-react-lite";
-import {FormContext} from "@essence-community/constructor-share/context";
 import {FieldColorPicker} from "../components/FieldColorPicker";
 import {useStyles} from "./FieldColorContainer.styles";
 
@@ -18,11 +17,10 @@ export const FieldColorContainer: React.FC<IClassProps> = (props) => {
     const classes = useStyles();
     const isInline = bc.edittype && bc.edittype === "inline";
     const displayed = bc[VAR_RECORD_DISPLAYED];
-    const form = React.useContext(FormContext);
     const field = useField({bc, disabled, hidden, pageStore});
     const textFieldProps = useTextFieldProps({bc, disabled, field, readOnly});
 
-    useFieldSetGlobal({bc, field, form, pageStore});
+    useFieldSetGlobal({bc, field, pageStore});
 
     return useObserver(() => (
         <label

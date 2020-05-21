@@ -2,15 +2,23 @@ import * as React from "react";
 import {useTranslation, toTranslateText} from "@essence-community/constructor-share/utils";
 import cn from "clsx";
 import {Checkbox, FormLabel} from "@material-ui/core";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+} from "@essence-community/constructor-share/constants/variables";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {useObserver} from "mobx-react-lite";
 import {TextFieldLabel} from "@essence-community/constructor-share/uicomponents/TextFieldLabel";
-import {IFieldCheckboxContainerProps} from "./FieldCheckboxContainer.types";
+import {IClassProps} from "@essence-community/constructor-share/types";
+import {useField} from "@essence-community/constructor-share/Form";
+import {useTextFieldProps, useFieldSetGlobal, useFieldGetGlobal} from "@essence-community/constructor-share/hooks";
 import {useStyles} from "./FieldCheckboxContainer.styles";
 
-export const FieldCheckboxContainer: React.FC<IFieldCheckboxContainerProps> = (props) => {
+export const FieldCheckboxContainer: React.FC<IClassProps> = (props) => {
+    const {bc, disabled, readOnly, pageStore} = props;
     const [focused, setFocus] = React.useState<boolean>(false);
+    const field = useField(props);
+    const textFieldProps = useTextFieldProps({bc, disabled, field, readOnly});
 
     const [trans] = useTranslation("meta");
     const classes = useStyles(props);
@@ -23,14 +31,17 @@ export const FieldCheckboxContainer: React.FC<IFieldCheckboxContainerProps> = (p
     }, []);
     const onChange = React.useCallback(
         (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-            props.onChange(event, Number(checked));
+            field.onChange(Number(checked));
         },
-        [props],
+        [field],
     );
 
+    useFieldSetGlobal({bc, field, pageStore});
+    useFieldGetGlobal({bc, field, pageStore});
+
     return useObserver(() => {
-        const {value, InputLabelProps, label, disabled, error, noLabel, bc, tabIndex, field} = props;
         const isInline = bc.edittype && bc.edittype === "inline";
+        const noLabel = !bc[VAR_RECORD_DISPLAYED];
 
         return (
             <label
@@ -41,16 +52,16 @@ export const FieldCheckboxContainer: React.FC<IFieldCheckboxContainerProps> = (p
                     [classes.focused]: focused,
                 })}
                 data-qtip={
-                    value
+                    field.value
                         ? trans("static:dacf7ab025c344cb81b700cfcc50e403")
                         : trans("static:f0e9877df106481eb257c2c04f8eb039")
                 }
                 data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
             >
                 <FormLabel
-                    {...InputLabelProps}
+                    {...textFieldProps.InputLabelProps}
                     classes={{root: `${classes.formLabel} ${bc.info ? classes.defaultPointerEvents : ""}`}}
-                    error={error}
+                    error={textFieldProps.error}
                 >
                     {noLabel ? (
                         ""
@@ -58,13 +69,13 @@ export const FieldCheckboxContainer: React.FC<IFieldCheckboxContainerProps> = (p
                         <TextFieldLabel
                             bc={bc}
                             info={toTranslateText(trans, bc.info)}
-                            error={error}
+                            error={textFieldProps.error}
                             isRequired={field.isRequired}
                         />
                     )}
                 </FormLabel>
                 <Checkbox
-                    checked={Boolean(value)}
+                    checked={Boolean(field.value)}
                     onChange={onChange}
                     className={classes.checkboxRoot}
                     disabled={disabled}
@@ -72,7 +83,7 @@ export const FieldCheckboxContainer: React.FC<IFieldCheckboxContainerProps> = (p
                     checkedIcon={<Icon iconfont="check-square" />}
                     icon={disabled ? <Icon iconfont="square" /> : <Icon iconfont="square-o" />}
                     disableRipple
-                    tabIndex={tabIndex}
+                    tabIndex={disabled || readOnly ? -1 : undefined}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                 />

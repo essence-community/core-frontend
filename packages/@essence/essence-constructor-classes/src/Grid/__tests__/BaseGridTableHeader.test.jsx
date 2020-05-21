@@ -1,6 +1,5 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
-// @flow
 import * as React from "react";
 import {gridBc} from "../../../mocks/grid/grid_test";
 import {mountWithTheme} from "../../utils/test";
@@ -9,17 +8,11 @@ import {GridModel} from "../../stores/GridModel";
 import BuilderForm from "../../Form/BuilderForm";
 import BaseGridTableHeader from "../BaseGridTableHeader";
 
-type MountHeaderReturn = {
-    store: any,
-    wrapper: any,
-    pageStore: any,
-};
-
-const mountHeader = (bc: any): MountHeaderReturn => {
+const mountHeader = (bc) => {
     const pageStore = createEmptyPageStore();
     const store = new GridModel({bc, pageStore});
 
-    const wrapper: any = mountWithTheme(
+    const wrapper = mountWithTheme(
         <table>
             <BaseGridTableHeader
                 classes={{}}

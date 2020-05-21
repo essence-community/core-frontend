@@ -12,7 +12,12 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {TextFieldLabel, Scrollbars} from "@essence-community/constructor-share/uicomponents";
 import {IClassProps, FieldValue} from "@essence-community/constructor-share/types";
-import {useModel, useTextFieldProps} from "@essence-community/constructor-share/hooks";
+import {
+    useModel,
+    useTextFieldProps,
+    useFieldGetGlobal,
+    useFieldSetGlobal,
+} from "@essence-community/constructor-share/hooks";
 import {useField} from "@essence-community/constructor-share/Form";
 import {useObserver} from "mobx-react-lite";
 import {FieldRadioModel} from "../stores/FieldRadioModel";
@@ -20,7 +25,7 @@ import {getFirstValues} from "../utils";
 import {ISuggestion} from "../FieldRadio.types";
 import {useStyles} from "./FieldRadioContainer.styles";
 
-// eslint-disable-next-line max-lines-per-function
+// eslint-disable-next-line max-lines-per-function, max-statements
 export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden, visible, readOnly} = props;
     const {getgloballist} = bc;
@@ -55,6 +60,9 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
             store.setSelectRecord(val);
         }
     }, [field, store]);
+
+    useFieldGetGlobal({bc, field, pageStore});
+    useFieldSetGlobal({bc, field, pageStore});
 
     React.useEffect(() => reaction(() => field.value, handleReactValue), [field, handleReactValue]);
     React.useEffect(() => reaction(() => store.suggestions, handleChangeSuggestions), [

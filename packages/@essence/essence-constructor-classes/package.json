@@ -11,7 +11,6 @@
     "tscheck": "tsc"
   },
   "dependencies": {
-    "@essence-community/constructor-components": "2.3.0",
     "@essence-community/constructor-share": "file:../essence-constructor-share/lib/",
     "@material-ui/core": "^4.7.2",
     "classnames": "^2.2.6",
@@ -33,7 +32,6 @@
     "react-router-dom": "^5.1.2"
   },
   "devDependencies": {
-    "@essence-community/eslint-config-react": "file:../essence-constructor-eslint",
     "@types/classnames": "^2.2.9",
     "@types/enzyme": "^3.10.5",
     "@types/history": "^4.7.3",

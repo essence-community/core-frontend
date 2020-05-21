@@ -1,7 +1,6 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-extraneous-dependencies */
-// @flow
 import * as React from "react";
 import noop from "lodash/noop";
 import {saveToStore} from "@essence-community/constructor-share/utils";
@@ -21,15 +20,9 @@ import {sleep} from "../../utils/base";
 
 import "../../TextField/BuilderField";
 
-type PropsWrapperType = {
-    handleSearch: Function,
-    bc: Record<string, any>,
-    pageStore: PageModelType,
-};
-
 // eslint-disable-next-line max-lines-per-function
 describe("BuilderFilter", () => {
-    const getWrapper = ({handleSearch, bc, pageStore}: PropsWrapperType) =>
+    const getWrapper = ({handleSearch, bc, pageStore}) =>
         mountWithTheme(
             <BuilderFilter
                 bc={bc}

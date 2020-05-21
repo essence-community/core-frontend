@@ -50,20 +50,30 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
 
     const handleReactValue = React.useCallback(
         (value: FieldValue) => {
-            if (!store.recordsStore.isLoading && value === VALUE_SELF_FIRST) {
+            if (bc.allownew && value === bc.allownew) {
+                field.onChange("");
+            } else if (!store.recordsStore.isLoading && value === VALUE_SELF_FIRST) {
                 const val = getFirstValues(store.recordsStore);
 
                 field.onChange(val);
                 store.handleSetValue(val, false, false);
+            } else {
+                store.handleSetValue(value, false, false);
             }
         },
-        [field, store],
+        [bc.allownew, field, store],
     );
 
     useFieldGetGlobal({bc, field, pageStore, store});
     useFieldSetGlobal({bc, field, pageStore, store});
 
-    React.useEffect(() => reaction(() => field.value, handleReactValue), [field, handleReactValue]);
+    React.useEffect(() => {
+        if (!isEmpty(field.value) && !store.recordsStore.isLoading) {
+            handleReactValue(field.value);
+        }
+
+        return reaction(() => field.value, handleReactValue);
+    }, [field, handleReactValue, store]);
     React.useEffect(
         () =>
             reaction(
@@ -83,21 +93,6 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                 },
             ),
         [field, store],
-    );
-
-    React.useEffect(
-        () =>
-            reaction(
-                () => field.value,
-                (value) => {
-                    if (bc.allownew && value === bc.allownew) {
-                        field.onChange("");
-                    } else {
-                        store.handleSetValue(value, false, false);
-                    }
-                },
-            ),
-        [bc.allownew, field, store],
     );
 
     React.useEffect(() => {

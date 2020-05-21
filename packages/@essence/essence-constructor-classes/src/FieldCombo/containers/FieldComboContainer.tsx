@@ -1,15 +1,17 @@
 import * as React from "react";
 import {reaction} from "mobx";
-import {IClassProps} from "@essence-community/constructor-share/types";
+import {IClassProps, FieldValue} from "@essence-community/constructor-share/types";
 import {Popover} from "@essence-community/constructor-share/uicomponents";
 import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
 import {useModel, useFieldGetGlobal, useFieldSetGlobal} from "@essence-community/constructor-share/hooks";
-import {useTranslation} from "@essence-community/constructor-share/utils";
+import {useTranslation, isEmpty} from "@essence-community/constructor-share/utils";
 import {IPopoverChildrenProps} from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";
 import {useField} from "@essence-community/constructor-share/Form";
+import {VALUE_SELF_FIRST} from "@essence-community/constructor-share/constants";
 import {FieldComboList} from "../components/FieldComboList";
 import {FieldComboInput} from "../components/FieldComboInput";
 import {FieldComboModel} from "../store/FieldComboModel";
+import {getFirstValues} from "../utils/getFirstValues";
 
 /**
  * How it should work:
@@ -55,20 +57,34 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
         [props.bc.allownew, store, field],
     );
 
+    const handleReactValue = React.useCallback(
+        (value: FieldValue) => {
+            if (!store.recordsStore.isLoading && value === VALUE_SELF_FIRST) {
+                const val = getFirstValues(store.recordsStore);
+
+                field.onChange(val);
+                store.handleSetValue(val, false, false);
+            }
+        },
+        [field, store],
+    );
+
     useFieldGetGlobal({bc, field, form, pageStore, store});
     useFieldSetGlobal({bc, field, form, pageStore, store});
 
+    React.useEffect(() => reaction(() => field.value, handleReactValue), [field, handleReactValue]);
     React.useEffect(
         () =>
             reaction(
                 () => store.recordsStore.recordsState,
                 (recordsState) => {
+                    const isDefault = Boolean(
+                        (isEmpty(field.value) || field.value === VALUE_SELF_FIRST) && recordsState.isDefault,
+                    );
                     const value =
-                        recordsState.isDefault && recordsState.record
-                            ? recordsState.record[store.valuefield]
-                            : field.value;
+                        isDefault && recordsState.record ? recordsState.record[store.valuefield] : field.value;
 
-                    if (recordsState.isDefault) {
+                    if (isDefault) {
                         field.onChange(recordsState.record ? recordsState.record[store.valuefield] : "");
                     }
 

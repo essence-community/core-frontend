@@ -17,6 +17,7 @@ import {
     IRecordsSearchOptions,
 } from "@essence-community/constructor-share/types";
 import {attachGlobalValues} from "@essence-community/constructor-share/actions/saveAction";
+import {awaitFormFilter} from "@essence-community/constructor-share/models/PageModel/PageModelRedirect";
 
 export class FilterModel extends StoreBaseModel {
     public valuesStorageKey = "";
@@ -131,15 +132,20 @@ export class FilterModel extends StoreBaseModel {
     };
 
     @action
-    handleAutoload = async () => {
+    handleAutoload = async (iaAutoload: boolean) => {
         const form = this.pageStore.forms.get(this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
         const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_PARENT_ID]);
 
         if (form && parentStore) {
+            await awaitFormFilter(this.pageStore, form, false);
             await form.validate();
 
             if (form.isValid) {
-                this.handleSubmit(form.values);
+                if (iaAutoload) {
+                    form.submit();
+                } else {
+                    this.handleSubmit(form.values, {noLoad: true});
+                }
             }
         }
     };

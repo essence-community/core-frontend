@@ -13,7 +13,12 @@ export const GridContainer: React.FC<IClassProps> = (props) => {
     const gridBc = React.useMemo(() => {
         const {filters} = bc;
 
-        if (bc[VAR_RECORD_MASTER_ID] === undefined && filters && filters.length > 0) {
+        if (
+            bc[VAR_RECORD_MASTER_ID] === undefined &&
+            filters &&
+            filters.length > 0 &&
+            filters[0][VAR_RECORD_MASTER_ID] === undefined
+        ) {
             return {
                 ...bc,
                 autoload: undefined,
@@ -26,7 +31,7 @@ export const GridContainer: React.FC<IClassProps> = (props) => {
 
         return bc;
     }, [bc]);
-    const [store] = useModel((options) => new GridModel(options), props);
+    const [store] = useModel((options) => new GridModel(options), {...props, bc: gridBc});
 
     return (
         <Paper

@@ -21,26 +21,34 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
     props: P,
 ): [IModel, boolean, string] {
     const {bc, pageStore, hidden, disabled} = props;
-    const [store, setStore] = React.useState<IModel>(() => createModel(props));
+    const pageObjectId = bc[VAR_RECORD_PAGE_OBJECT_ID];
+    const [store] = React.useState<IModel>(() => createModel(props));
     // const [isAutoLoad, setIsAutoload] = React.useState(false);
     const isAutoLoad = React.useMemo(() => checkAutoload({bc, pageStore}), [bc, pageStore]);
-    const [storeName, setStoreName] = React.useState<string>(function getStoreName() {
-        return bc[VAR_RECORD_PAGE_OBJECT_ID] || uuid();
-    });
+    /*
+     * const [storeName, setStoreName] = React.useState<string>(function getStoreName() {
+     *     return bc[VAR_RECORD_PAGE_OBJECT_ID] || uuid();
+     * });
+     */
+    const storeName = React.useMemo(() => {
+        const name = pageObjectId || uuid();
 
-    React.useEffect(() => {
-        // Const storeNext: IModel = createModel(props);
-        const storeNext = store;
-        // const isAutoLoadNext = checkAutoload({bc, pageStore});
+        return pageStore.addStore(store, name, true);
+    }, [pageObjectId, pageStore, store]);
 
-        const name = pageStore.addStore(storeNext, storeName, true);
-
-        setStore(storeNext);
-        setStoreName(name);
-        // setIsAutoload(isAutoLoadNext);
+    React.useLayoutEffect(() => {
+        /*
+         * const storeNext: IModel = createModel(props);
+         * const storeNext = store;
+         * const isAutoLoadNext = checkAutoload({bc, pageStore});
+         * const name = pageStore.addStore(storeNext, storeName, true);
+         * setStore(storeNext);
+         * setStoreName(name);
+         * setIsAutoload(isAutoLoadNext);
+         */
 
         return () => {
-            pageStore.removeStore(name, storeNext);
+            pageStore.removeStore(storeName, store);
         };
     }, [bc, pageStore, store, storeName]);
 

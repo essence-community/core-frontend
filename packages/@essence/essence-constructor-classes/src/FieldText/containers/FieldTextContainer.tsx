@@ -4,13 +4,10 @@ import {useField} from "@essence-community/constructor-share/Form";
 import {useTextFieldProps, useFieldSetGlobal, useFieldGetGlobal} from "@essence-community/constructor-share/hooks";
 import {TextFieldMask} from "@essence-community/constructor-share/uicomponents";
 import {TextField} from "@material-ui/core";
-import {FormContext} from "@essence-community/constructor-share/context";
 import {FieldTextSmartMask} from "../components/FieldTextSmartMask";
 
 export const FieldTextContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
-
-    const form = React.useContext(FormContext);
     const field = useField({
         bc,
         disabled: props.disabled,
@@ -25,8 +22,8 @@ export const FieldTextContainer: React.FC<IClassProps> = (props) => {
         [field],
     );
 
-    useFieldSetGlobal({bc, field, form, pageStore});
-    useFieldGetGlobal({bc, field, form, pageStore});
+    useFieldSetGlobal({bc, field, pageStore});
+    useFieldGetGlobal({bc, field, pageStore});
 
     if (bc.imask) {
         return bc.imask.indexOf("!") === 0 ? (

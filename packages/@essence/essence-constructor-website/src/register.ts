@@ -76,6 +76,7 @@ import "@essence-community/constructor-classes/src/FieldGroup";
 import "@essence-community/constructor-classes/src/FieldImage";
 import "@essence-community/constructor-classes/src/FieldRadio";
 import "@essence-community/constructor-classes/src/FieldPassword";
+import "@essence-community/constructor-classes/src/FieldHidden";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

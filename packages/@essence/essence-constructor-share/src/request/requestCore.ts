@@ -1,4 +1,3 @@
-import {IBuilderMode} from "../types";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_ROUTE_PAGE_ID,
@@ -7,7 +6,7 @@ import {
     VAR_RECORD_CV_ACTION,
     META_PAGE_OBJECT,
 } from "../constants";
-import {FieldValue} from "../types/Field";
+import {FieldValue, IBuilderMode} from "../types";
 import {request} from "./request";
 
 interface IRequestConfig {

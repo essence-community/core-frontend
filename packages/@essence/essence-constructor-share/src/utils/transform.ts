@@ -2,7 +2,7 @@ import * as DOMPurify from "dompurify";
 import {isEmpty, isString} from "lodash";
 import {TText} from "../types/SnackbarModel";
 import {IRecord} from "../types/Base";
-import {FieldValue} from "../types/Field";
+import {FieldValue} from "../types";
 import {TFunction} from "./I18n";
 
 export const toSize = (value?: string, defaultValue?: string | number) => {

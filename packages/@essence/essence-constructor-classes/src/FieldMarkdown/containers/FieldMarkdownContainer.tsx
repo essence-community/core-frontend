@@ -6,15 +6,18 @@ import ReactMarkdown from "react-markdown";
 import {Grid, TextField} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
 import {useTranslation, toTranslateTextArray} from "@essence-community/constructor-share/utils";
+import {IClassProps} from "@essence-community/constructor-share/types";
+import {useField} from "@essence-community/constructor-share/Form";
+import {useTextFieldProps, useFieldGetGlobal, useFieldSetGlobal} from "@essence-community/constructor-share/hooks";
 import {FieldMarkdownLabel} from "../components/FieldMarkdownLabel";
 import {useStyles} from "./FieldMarkdownContainer.styles";
-import {IFieldMarkdownContainerProps} from "./FieldMarkdownContainer.types";
 
 type TStatus = "code" | "view" | "all";
 
-export const FieldMarkdownContainer: React.FC<IFieldMarkdownContainerProps> = (props) => {
+export const FieldMarkdownContainer: React.FC<IClassProps> = (props) => {
     const classes = useStyles();
-    const {bc, disabled, field} = props;
+    const {bc, disabled, hidden, pageStore, readOnly} = props;
+    const field = useField({bc, disabled, hidden, pageStore});
     const [trans] = useTranslation("meta");
     const [status, setStatus] = React.useState<TStatus>("all");
     const minHeight = React.useMemo(() => (bc.minheight ? parseInt(bc.minheight, 10) : undefined), [bc.minheight]);
@@ -22,6 +25,7 @@ export const FieldMarkdownContainer: React.FC<IFieldMarkdownContainerProps> = (p
     const [height, setHeight] = React.useState<number>(0);
     const mardownRef = React.useRef<HTMLDivElement>(null);
     const inputRef = React.useRef<HTMLDivElement>(null);
+    const textFieldProps = useTextFieldProps({bc, disabled, field, readOnly});
 
     const handleChangeHeight = React.useCallback((newHeight: number) => {
         setHeight(newHeight);
@@ -37,8 +41,11 @@ export const FieldMarkdownContainer: React.FC<IFieldMarkdownContainerProps> = (p
         return 0;
     }, []);
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        props.onChange(event, event.target.value);
+        field.onChange(event.target.value);
     };
+
+    useFieldGetGlobal({bc, field, pageStore});
+    useFieldSetGlobal({bc, field, pageStore});
 
     return useObserver(() => {
         const error = Boolean(!disabled && !field.isValid);
@@ -69,23 +76,20 @@ export const FieldMarkdownContainer: React.FC<IFieldMarkdownContainerProps> = (p
                             {status !== "view" && !disabled ? (
                                 <Grid item xs className={classes.editor}>
                                     <TextField
-                                        className={props.className}
+                                        className={textFieldProps.className}
                                         InputProps={{
-                                            ...props.InputProps,
+                                            ...textFieldProps.InputProps,
                                             className: classes.inputWrapper,
                                             endAdornment: null,
                                         }}
-                                        // @ts-ignore
                                         inputProps={{
-                                            ...props.inputProps,
+                                            ...textFieldProps.inputProps,
                                             style: {minHeight: height ? height - 48 : 32},
                                         }}
-                                        error={error}
                                         onChange={handleChange}
-                                        value={props.value}
+                                        value={field.value}
                                         multiline
                                         fullWidth
-                                        autoComplete="off"
                                         inputRef={inputRef}
                                         style={{height: "auto"}}
                                     />
@@ -93,7 +97,7 @@ export const FieldMarkdownContainer: React.FC<IFieldMarkdownContainerProps> = (p
                             ) : null}
                             {status !== "code" || disabled ? (
                                 <Grid item xs className={classes.preview} ref={mardownRef}>
-                                    <ReactMarkdown source={typeof props.value === "string" ? props.value : ""} />
+                                    <ReactMarkdown source={typeof field.value === "string" ? field.value : ""} />
                                 </Grid>
                             ) : null}
                         </Grid>

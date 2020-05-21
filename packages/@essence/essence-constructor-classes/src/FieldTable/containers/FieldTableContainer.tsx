@@ -18,8 +18,8 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
     const field = useField({bc, disabled, hidden, pageStore});
     const [store] = useModel((options) => new FieldTableModel({...options, field, form}), props);
 
-    useFieldGetGlobal({bc, field, form, pageStore, store});
-    useFieldSetGlobal({bc, field, form, pageStore, store});
+    useFieldGetGlobal({bc, field, pageStore, store});
+    useFieldSetGlobal({bc, field, pageStore, store});
 
     React.useEffect(() => {
         if (!isEmpty(field.value) && !Array.isArray(field.value)) {

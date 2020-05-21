@@ -4,7 +4,7 @@ import {
     VAR_RECORD_RES_FORM_ERROR,
     VAR_RECORD_RES_STACK_TRACE,
 } from "../constants";
-import {FieldValue} from "./Field";
+import {FieldValue} from "./Base";
 
 export interface IRequest {
     query: string;

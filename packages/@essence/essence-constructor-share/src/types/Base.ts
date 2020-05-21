@@ -1,5 +1,4 @@
 import {IForm} from "../Form";
-import {FieldValue} from "./Field";
 
 export type ICkId = number | string;
 
@@ -14,6 +13,8 @@ export type ICkId = number | string;
  */
 export type IBuilderMode = "1" | "2" | "3" | "4" | "6" | "7" | "8";
 
+export type FieldValue = number | string | object | undefined | null | boolean;
+
 export interface IFormOptions {
     filter?: object[];
     reset?: boolean;
@@ -22,10 +23,6 @@ export interface IFormOptions {
     noLoad?: boolean;
     selectedRecordId?: ICkId;
 }
-
-export type WindowModelType = any;
-export type StoreModelTypes = any;
-
 export interface IRecord {
     [$key: string]: FieldValue;
 }

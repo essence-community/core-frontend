@@ -5,13 +5,11 @@ import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/co
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
 import {useTextFieldProps, useFieldSetGlobal, useFieldGetGlobal} from "@essence-community/constructor-share/hooks";
-import {FormContext} from "@essence-community/constructor-share/context";
 import {useStyles} from "./FIeldPasswordContainer.styles";
 
 export const FieldPasswordContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
     const classes = useStyles();
-    const form = React.useContext(FormContext);
     const [showPassword, setShowPassword] = React.useState(false);
     const field = useField({bc, disabled, hidden, pageStore});
 
@@ -23,8 +21,8 @@ export const FieldPasswordContainer: React.FC<IClassProps> = (props) => {
         field.onChange(event.currentTarget.value);
     };
 
-    useFieldSetGlobal({bc, field, form, pageStore});
-    useFieldGetGlobal({bc, field, form, pageStore});
+    useFieldSetGlobal({bc, field, pageStore});
+    useFieldGetGlobal({bc, field, pageStore});
 
     const textFieldProps = useTextFieldProps({
         bc,

@@ -1,5 +1,4 @@
-import {FieldValue} from "./Field";
-import {IRecord} from "./Base";
+import {IRecord, FieldValue} from "./Base";
 
 /* eslint-disable max-len */
 
@@ -289,10 +288,4 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     iconsize?: "xs";
     // Internal values for window store or etc.
     values?: IRecord;
-}
-
-export type IBuilderMode = "1" | "2" | "3" | "4" | "6" | "7" | "8";
-
-export interface IBuilderFilter extends IBuilderBaseConfig {
-    dynamicfilter?: string;
 }

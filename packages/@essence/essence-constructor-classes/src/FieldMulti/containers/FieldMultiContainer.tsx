@@ -1,6 +1,5 @@
 import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
-import {FormContext} from "@essence-community/constructor-share/context";
 import {useModel, useFieldGetGlobal, useFieldSetGlobal} from "@essence-community/constructor-share/hooks";
 import {isEmpty} from "@essence-community/constructor-share/utils";
 import {useField} from "@essence-community/constructor-share/Form";
@@ -21,13 +20,12 @@ const MODELS: Record<string, typeof FieldMultiModel> = {
 export const FieldMultiContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden} = props;
     const [store] = useModel((options) => new MODELS[options.bc.datatype || ""](options), props);
-    const form = React.useContext(FormContext);
     const field = useField({bc, disabled, hidden, pageStore});
     const classes = useStyles();
     const contentRef = React.useRef<HTMLDivElement>(null);
 
-    useFieldGetGlobal({bc, field, form, pageStore, store});
-    useFieldSetGlobal({bc, field, form, pageStore, store});
+    useFieldGetGlobal({bc, field, pageStore, store});
+    useFieldSetGlobal({bc, field, pageStore, store});
 
     React.useEffect(() => {
         return reaction(

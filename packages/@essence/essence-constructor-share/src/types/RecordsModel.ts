@@ -1,10 +1,9 @@
 import {ObservableMap} from "mobx";
 import {IForm} from "../Form";
-import {IBuilderMode, ICkId, IRecord} from "./Base";
+import {IBuilderMode, ICkId, IRecord, FieldValue} from "./Base";
 import {IBuilderConfig} from "./Builder";
 import {IPageModel} from "./PageModel";
 import {IStoreBaseModel} from "./StoreBaseModel";
-import {FieldValue} from "./Field";
 import {IApplicationModel} from "./Application";
 import {IRouteRecord} from "./RoutesModel";
 

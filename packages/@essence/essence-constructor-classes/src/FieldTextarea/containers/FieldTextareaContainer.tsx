@@ -1,48 +1,63 @@
 import * as React from "react";
+import {IClassProps} from "@essence-community/constructor-share/types";
+import {useField} from "@essence-community/constructor-share/Form";
+import {useTextFieldProps, useFieldGetGlobal, useFieldSetGlobal} from "@essence-community/constructor-share/hooks";
+import {reaction} from "mobx";
+import {FormContext} from "@essence-community/constructor-share/context";
+import {TextField} from "@material-ui/core";
 import {FieldTextareaInput} from "../components/FieldTextareaInput";
-import {IFieldTextareaContainerProps} from "./FieldTextareaContainer.types";
 
-export const FieldTextareaContainer: React.FC<IFieldTextareaContainerProps> = (props) => {
-    const {editing, bc, textField: TextField} = props;
+export const FieldTextareaContainer: React.FC<IClassProps> = (props) => {
+    const {bc, disabled, readOnly, pageStore} = props;
+    const field = useField(props);
+    const form = React.useContext(FormContext);
     const [height, setHeight] = React.useState<number | undefined>(undefined);
     const handleChangeHeight = React.useCallback((newHeight: number) => {
         setHeight(newHeight);
     }, []);
+    const textFieldProps = useTextFieldProps({bc, disabled, field, readOnly});
     const InputProps = React.useMemo(
         () => ({
-            ...props.InputProps,
+            ...textFieldProps.InputProps,
             inputComponent: FieldTextareaInput,
         }),
-        [props.InputProps],
+        [textFieldProps.InputProps],
     );
     const inputProps = React.useMemo(
         () => ({
-            ...props.inputProps,
+            ...textFieldProps.inputProps,
             bc,
-            editing,
             height,
             onChangeHeight: handleChangeHeight,
         }),
-        [bc, editing, handleChangeHeight, height, props.inputProps],
+        [bc, handleChangeHeight, height, textFieldProps.inputProps],
     );
+    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        field.onChange(event.currentTarget.value);
+    };
+
+    useFieldGetGlobal({bc, field, pageStore});
+    useFieldSetGlobal({bc, field, pageStore});
 
     React.useEffect(() => {
-        if (!editing) {
-            setHeight(undefined);
-        }
-    }, [editing]);
+        return reaction(
+            () => form.editing,
+            (editing) => {
+                if (!editing) {
+                    setHeight(undefined);
+                }
+            },
+            {fireImmediately: true},
+        );
+    }, [form.editing]);
 
     return (
-        // @ts-ignore
         <TextField
-            {...props}
-            // @ts-ignore
+            {...textFieldProps}
             style={{height: "auto"}}
             InputProps={InputProps}
-            // eslint-disable-next-line react/jsx-no-duplicate-props
-            // @ts-ignore
             inputProps={inputProps}
-            noQtip={Boolean(props.value)}
+            onChange={handleChange}
             multiline
         />
     );

@@ -1,5 +1,5 @@
 import {ObservableMap} from "mobx";
-import {FieldValue} from "./Field";
+import {FieldValue} from "./Base";
 import {IRecordsModel} from ".";
 
 /**

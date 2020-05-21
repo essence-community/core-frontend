@@ -2,7 +2,9 @@ import * as React from "react";
 import {Grid, TextField, Typography} from "@material-ui/core";
 import {i18next, useTranslation} from "@essence-community/constructor-share/utils";
 import {parse, IParseReturnType} from "@essence-community/constructor-share/utils/parser";
-import {IFieldProps, FieldValue} from "@essence-community/constructor-share/types";
+import {FieldValue, IClassProps} from "@essence-community/constructor-share/types";
+import {useField} from "@essence-community/constructor-share/Form";
+import {reaction} from "mobx";
 import {useStyles} from "./FieldComputedContainer.styles";
 
 function makeParser(): IParseReturnType {
@@ -13,21 +15,22 @@ function makeParser(): IParseReturnType {
     };
 }
 
-export const FieldComputedContainer: React.FC<IFieldProps> = (props) => {
-    const {value, onChange} = props;
+export const FieldComputedContainer: React.FC<IClassProps> = (props) => {
+    const {bc, pageStore, disabled, hidden} = props;
     const [trans] = useTranslation("meta");
     const classes = useStyles();
     const [parser, setParser] = React.useState(makeParser);
     const [values, setValues] = React.useState<Record<string, FieldValue>>({});
     const result = parser.runer(values);
+    const field = useField({bc, disabled, hidden, pageStore});
 
     const handleChangeSource = React.useCallback(
         (event: React.SyntheticEvent<HTMLTextAreaElement | HTMLInputElement>) => {
             const {value: newValue} = event.currentTarget;
 
-            onChange(event, newValue);
+            field.onChange(newValue);
         },
-        [onChange],
+        [field],
     );
 
     const handleChangeField = React.useCallback(
@@ -58,12 +61,18 @@ export const FieldComputedContainer: React.FC<IFieldProps> = (props) => {
     );
 
     React.useEffect(() => {
-        if (value) {
-            setParser(parse(String(value), true));
-        } else {
-            setParser(makeParser());
-        }
-    }, [value]);
+        return reaction(
+            () => field.value,
+            (value?: string) => {
+                if (value) {
+                    setParser(parse(String(value), true));
+                } else {
+                    setParser(makeParser());
+                }
+            },
+            {fireImmediately: true},
+        );
+    }, [field.value]);
 
     return (
         <Grid container spacing={1} direction="column">
@@ -86,7 +95,7 @@ export const FieldComputedContainer: React.FC<IFieldProps> = (props) => {
                                     }}
                                     style={{height: "100%"}}
                                     label={trans("static:6029c25920ff4f79b9b52d664322b3d9")}
-                                    value={String(value)}
+                                    value={String(field.value || "")}
                                     onChange={handleChangeSource}
                                     multiline
                                     autoComplete="off"

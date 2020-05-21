@@ -1,4 +1,4 @@
-import {IBuilderBaseConfig, IBuilderConfig, IBuilderFilter} from "./Builder";
+import {IBuilderBaseConfig, IBuilderConfig} from "./Builder";
 
 export type IGridBuilder = IBuilderBaseConfig & {
     autoload?: "false" | "true";
@@ -16,7 +16,7 @@ export type IGridBuilder = IBuilderBaseConfig & {
     topbtn?: any[];
     orderdirection: string;
     orderproperty: string;
-    filters?: IBuilderFilter[];
+    filters?: IBuilderConfig[];
     height?: string;
     contextmenus?: any[];
     hideactions?: "false" | "true";

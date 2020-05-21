@@ -1,6 +1,8 @@
 import * as React from "react";
 import {TextareaAutosize} from "@material-ui/core";
 import {Scrollbars, VerticalResizer} from "@essence-community/constructor-share/uicomponents";
+import {FormContext} from "@essence-community/constructor-share/context";
+import {useObserver} from "mobx-react-lite";
 import {useStyles} from "./FieldTextareaInput.styles";
 import {IFieldTextareaInputProps} from "./FieldTextareaInput.types";
 
@@ -8,7 +10,8 @@ const MIN_INPUT_HEIGHT = 17;
 
 export const FieldTextareaInput: React.FC<IFieldTextareaInputProps> = (props) => {
     const scrollbarsRef: React.MutableRefObject<any> = React.useRef(null);
-    const {height, onChangeHeight, bc, editing, inputRef, ...otherProps} = props;
+    const form = React.useContext(FormContext);
+    const {height, onChangeHeight, bc, inputRef, ...otherProps} = props;
     const minHeight = React.useMemo(() => (bc.minheight ? parseInt(bc.minheight, 10) : MIN_INPUT_HEIGHT), [
         bc.minheight,
     ]);
@@ -32,7 +35,7 @@ export const FieldTextareaInput: React.FC<IFieldTextareaInputProps> = (props) =>
         return 0;
     }, []);
 
-    return (
+    return useObserver(() => (
         <React.Fragment>
             <Scrollbars
                 autoHeight
@@ -46,7 +49,7 @@ export const FieldTextareaInput: React.FC<IFieldTextareaInputProps> = (props) =>
             >
                 <TextareaAutosize {...otherProps} ref={inputRef} />
             </Scrollbars>
-            {editing ? (
+            {form.editing ? (
                 <div className={classes.resizerWrapper}>
                     <VerticalResizer
                         height={height}
@@ -59,5 +62,5 @@ export const FieldTextareaInput: React.FC<IFieldTextareaInputProps> = (props) =>
                 </div>
             ) : null}
         </React.Fragment>
-    );
+    ));
 };

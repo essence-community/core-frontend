@@ -81,8 +81,6 @@ function applyFieldFilter(field: IField, params: Record<string, FieldValue>) {
         const value = params[field.key];
 
         isEmpty(value) ? field.clear() : field.setValue(value);
-
-        delete params[field.key];
     }
 }
 
@@ -94,14 +92,16 @@ async function runFormFilter(pageStore: IPageModel, form: IForm, params: IRecord
     }
 }
 
-async function filterAllForms(
-    pageStore: IPageModel,
-    forms: IForm[],
-    params: IRecord,
-): Promise<Record<string, FieldValue>> {
+function getNotFieldParams(forms: IForm[], params: IRecord) {
     const notFieldParams = {...params};
 
-    await Promise.all(forms.map((form: IForm) => runFormFilter(pageStore, form, notFieldParams)));
+    forms.forEach((form: IForm) => {
+        for (const field of form.fields.values()) {
+            if (Object.prototype.hasOwnProperty.call(params, field.key)) {
+                delete params[field.key];
+            }
+        }
+    });
 
     return notFieldParams;
 }
@@ -157,7 +157,8 @@ export async function redirectToPage(pageStore: IPageModel, params: Record<strin
     });
 
     const forms = formFilters.filter((form: IForm) => !isHasMaster(pageStore, form));
-    const notFieldParams = await filterAllForms(pageStore, forms, params);
+    // Get global values and set before awaiting for filters and forms
+    const notFieldParams = getNotFieldParams(forms, params);
     const emptyValues: IRecord = {};
 
     for (const fieldName in notFieldParams) {
@@ -171,6 +172,8 @@ export async function redirectToPage(pageStore: IPageModel, params: Record<strin
         pageStore.globalValues.merge(emptyValues);
         pageStore.globalValues.merge(notFieldParams);
     });
+
+    await Promise.all(forms.map((form: IForm) => runFormFilter(pageStore, form, params)));
 
     // eslint-disable-next-line require-atomic-updates
     pageStore.isActiveRedirect = false;

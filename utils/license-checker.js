@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-console */
 const fs = require("fs");
 const path = require("path");
@@ -5,7 +6,6 @@ const {spawn} = require("child_process");
 const checker = require("license-checker");
 
 const utilsPath = path.join(__dirname, "packages", "@essence", "essence-constructor-utils");
-const componentsPath = path.join(__dirname, "packages", "@essence", "essence-constructor-components");
 const websitePath = path.join(__dirname, "packages", "@essence", "essence-constructor-website");
 
 function getConfig(packagePath) {
@@ -75,7 +75,7 @@ function handleChecker(configPath) {
 
 function handleAnalyzePackages() {
     return Promise.all(
-        [utilsPath, componentsPath, websitePath].map(
+        [utilsPath, websitePath].map(
             (configPath) =>
                 new Promise((resolve) => {
                     console.log(`\x1b[0mУстановка пакетов в папке ${configPath}`);

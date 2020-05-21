@@ -25,7 +25,7 @@
 
 ### Монтирование компонентов
 
-1. Необходимо взять из `packages/@essence/essence-constructor-components/src/utils/test.js` фукнцию `mountWithTheme`, пример: `import {mountWithTheme} from "../utils/test.js"`
+1. TODO: написать
 
 ### Методы для запуска событий
 

@@ -306,7 +306,6 @@ module.exports = function(webpackEnv) {
         ...(modules.webpackAliases || {}),
         '@essence/essence-constructor-dll': '@essence-community/constructor-dll',
         '@essence/essence-constructor-classes': '@essence-community/constructor-classes',
-        '@essence/essence-constructor-components': '@essence-community/constructor-components',
         '@essence/essence-constructor-share': '@essence-community/constructor-share'
       },
       plugins: [
@@ -353,7 +352,7 @@ module.exports = function(webpackEnv) {
             // The preset includes JSX, Flow, TypeScript, and some ESnext features.
             {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
-              include: [paths.appSrc, paths.appComponentsSrc, paths.appClassesSrc],
+              include: [paths.appSrc, paths.appClassesSrc],
               loader: require.resolve('babel-loader'),
               options: {
                 customize: require.resolve(

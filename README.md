@@ -24,7 +24,6 @@ You can find the most recent version of this guide [here](https://github.com/fac
 
 Доступные пакеты:
 
-1. [essence-constructor-component](./packages/@essence/essence-constructor-components) - базовый пакет для сбора конструктора
 1. [essence-constructor-website](./packages/@essence/essence-constructor-website) - веб приложения для работы с конструктором и метамоделью`
 
 ## Запуск приложения для разработки

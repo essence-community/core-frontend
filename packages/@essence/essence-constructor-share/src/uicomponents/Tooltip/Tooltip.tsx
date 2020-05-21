@@ -22,7 +22,7 @@ export const Tooltip: React.FC<{}> = (props) => {
     const [tip, setTip] = React.useState<string | null>(null);
     const [title, setTitle] = React.useState<string[] | null>(null);
     const timerShow = React.useRef<any>();
-    const currentElement = React.useRef<HTMLElement>();
+    const [currentElement, setCurrentElement] = React.useState<HTMLElement | null>(null);
     const element = React.useRef<HTMLElement>();
     const contentRef = React.useRef<HTMLDivElement | null>(null);
     const rootRef = React.useRef<HTMLDivElement | null>(null);
@@ -49,7 +49,7 @@ export const Tooltip: React.FC<{}> = (props) => {
             const tipNew = target.getAttribute("data-qtip");
 
             if (tipNew) {
-                currentElement.current = target;
+                setCurrentElement(target);
 
                 return tipNew;
             }
@@ -59,18 +59,19 @@ export const Tooltip: React.FC<{}> = (props) => {
 
         return "";
     }, []);
-    const makeHideTooltip = (val: boolean) => {
+    const makeHideTooltip = React.useCallback((val: boolean) => {
         if (val) {
             return;
         }
 
         element.current = undefined;
+        setCurrentElement(null);
         setInTooltip(false);
         setShow(false);
         setShowBackdrop(false);
         setTip(null);
         setTitle(null);
-    };
+    }, []);
 
     const setShowTooltip = () => {
         setShow(true);
@@ -101,7 +102,7 @@ export const Tooltip: React.FC<{}> = (props) => {
                 }
             }
         },
-        [getTipTitle, inTooltip, tip],
+        [getTipTitle, inTooltip, makeHideTooltip, tip],
     );
 
     const updateTooltipDebounce = debounce((left: number, top: number) => {

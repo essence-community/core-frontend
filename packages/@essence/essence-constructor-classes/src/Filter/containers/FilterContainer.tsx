@@ -52,6 +52,7 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                 bc={bc}
                 initialValues={initialValues}
                 pageStore={pageStore}
+                mode="1"
             >
                 <Grid
                     spacing={0}

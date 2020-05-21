@@ -1,6 +1,7 @@
+/* eslint-disable capitalized-comments */
 import * as React from "react";
 import uuid from "uuid";
-import {IBuilderConfig, IPageModel, IRecordsModel, IStoreBaseModel} from "../types";
+import {IBuilderConfig, IPageModel, IStoreBaseModel} from "../types";
 import {checkAutoload} from "../decorators/utils";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
 
@@ -11,19 +12,18 @@ interface IUseModelProps {
     hidden?: boolean;
 }
 
-interface IModelRequired extends IStoreBaseModel {
-    hidden?: boolean;
-    disabled?: boolean;
-    recordsStore?: IRecordsModel;
-}
-
-export function useModel<IModel extends IModelRequired, P extends IUseModelProps>(
+/**
+ * isAutoLoad moved to useMemo to pass this value immediately
+ * Call loadRecordsAction in the first useEffect lifecycli
+ */
+export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProps>(
     createModel: (props: P) => IModel,
     props: P,
 ): [IModel, boolean, string] {
     const {bc, pageStore, hidden, disabled} = props;
     const [store, setStore] = React.useState<IModel>(() => createModel(props));
-    const [isAutoLoad, setIsAutoload] = React.useState(false);
+    // const [isAutoLoad, setIsAutoload] = React.useState(false);
+    const isAutoLoad = React.useMemo(() => checkAutoload({bc, pageStore}), [bc, pageStore]);
     const [storeName, setStoreName] = React.useState<string>(function getStoreName() {
         return bc[VAR_RECORD_PAGE_OBJECT_ID] || uuid();
     });
@@ -31,13 +31,13 @@ export function useModel<IModel extends IModelRequired, P extends IUseModelProps
     React.useEffect(() => {
         // Const storeNext: IModel = createModel(props);
         const storeNext = store;
-        const isAutoLoadNext = checkAutoload({bc, pageStore});
+        // const isAutoLoadNext = checkAutoload({bc, pageStore});
 
         const name = pageStore.addStore(storeNext, storeName, true);
 
         setStore(storeNext);
         setStoreName(name);
-        setIsAutoload(isAutoLoadNext);
+        // setIsAutoload(isAutoLoadNext);
 
         return () => {
             pageStore.removeStore(name, storeNext);
@@ -45,17 +45,13 @@ export function useModel<IModel extends IModelRequired, P extends IUseModelProps
     }, [bc, pageStore, store, storeName]);
 
     React.useEffect(() => {
-        if (store) {
-            store.disabled = disabled;
-            store.hidden = hidden;
-        }
+        store.disabled = disabled;
+        store.hidden = hidden;
     }, [disabled, hidden, store]);
 
     React.useEffect(() => {
-        if (store) {
-            if (isAutoLoad && store.recordsStore && !store.recordsStore.isLoading) {
-                store.recordsStore.loadRecordsAction({status: "autoload"});
-            }
+        if (isAutoLoad && store.recordsStore && !store.recordsStore.isLoading) {
+            store.recordsStore.loadRecordsAction({status: "autoload"});
         }
     }, [isAutoLoad, store]);
 

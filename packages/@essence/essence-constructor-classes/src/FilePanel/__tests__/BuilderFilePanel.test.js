@@ -1,24 +1,27 @@
-/* eslint-disable max-statements */
-// @flow
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable capitalized-comments */
+/* eslint-disable import/order */
+/* eslint-disable max-len */
+/* eslint-disable import/namespace */
+/* eslint-disable import/named */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-extraneous-dependencies */
 import * as React from "react";
-import {mountShallowWithTheme} from "../../utils/test";
-import {BaseBuilderFilePanel} from "../BuilderFilePanel";
+import {mountShallowWithTheme} from "../../../../essence-constructor-components/src/utils/test";
+import {BaseBuilderFilePanel} from "../../../../essence-constructor-components/src/FilePanel/BuilderFilePanel";
 import {createEmptyPageStore} from "../../stores";
-import type {PageModelType} from "../../stores/PageModel";
-import {FileRecordBase} from "../FileRecord/FileRecord";
+import {FileRecordBase} from "../../../../essence-constructor-components/src/FilePanel/FileRecord/FileRecord";
 import {BuilderMobxButtonBase} from "../../Button/BuilderMobxButton";
-import {FileInput} from "../../FileInput/FileInput";
-
-type FilePanelPropsType = {
-    pageStore: PageModelType,
-};
+import {FileInput} from "../../../../essence-constructor-components/src/FileInput/FileInput";
 
 const BuilderPage = () => null;
 
 // eslint-disable-next-line max-lines-per-function
 describe("BuilderFilePanel", () => {
-    const getWrapper = ({pageStore}: FilePanelPropsType) =>
-        mountShallowWithTheme(<BuilderPage pageStore={pageStore} visible />);
+    const getWrapper = ({pageStore}) => mountShallowWithTheme(<BuilderPage pageStore={pageStore} visible />);
 
     it("render", async () => {
         const pageStore = createEmptyPageStore();

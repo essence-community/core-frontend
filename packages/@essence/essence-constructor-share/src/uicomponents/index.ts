@@ -15,3 +15,4 @@ export {UIForm} from "./UIForm";
 export {EmptyTitle} from "./EmptyTitle";
 export {TextFieldMask} from "./TextFieldMask";
 export {HorizontalResizer} from "./HorizontalResizer";
+export {Tooltip} from "./Tooltip";

@@ -1,10 +1,11 @@
 import React, {Component, Suspense} from "react";
 import moment from "moment";
 import "moment/locale/ru";
-import {Tooltip} from "@essence-community/constructor-components";
+// TODO Без нее падает
+import "@essence-community/constructor-components";
 import {settingsStore, ProjectModel} from "@essence-community/constructor-share/models";
 import {ProjectContext} from "@essence-community/constructor-share/context";
-import {PageLoader} from "@essence-community/constructor-share/uicomponents";
+import {PageLoader, Tooltip} from "@essence-community/constructor-share/uicomponents";
 import {VAR_SETTING_PROJECT_LOADER} from "@essence-community/constructor-share/constants";
 
 import {KeyboardStatusManager} from "./Components/KeyboardStatusManager";

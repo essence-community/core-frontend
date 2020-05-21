@@ -2,9 +2,6 @@
 /* eslint-disable import/no-unresolved */
 import {preference} from "@essence-community/constructor-share/constants";
 
-// Intialize components
-import "@essence-community/constructor-components/src/TextField/BuilderField";
-
 import "@essence-community/constructor-classes/src/FilterExtended";
 import "@essence-community/constructor-classes/src/ButtonGroup";
 import "@essence-community/constructor-classes/src/ButtonGroupDelimiter";
@@ -78,6 +75,7 @@ import "@essence-community/constructor-classes/src/FieldColor";
 import "@essence-community/constructor-classes/src/FieldGroup";
 import "@essence-community/constructor-classes/src/FieldImage";
 import "@essence-community/constructor-classes/src/FieldRadio";
+import "@essence-community/constructor-classes/src/FieldPassword";
 
 if (preference.experimentalUI) {
     // Pass exteremental components

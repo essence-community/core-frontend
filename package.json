@@ -35,7 +35,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "concurrently \"yarn tscheck:classes\" \"yarn tscheck:share\" \"yarn tscheck:website\""
+      "pre-push": "concurrently \"yarn tscheck:classes\" \"yarn tscheck:share\""
     }
   },
   "devDependencies": {

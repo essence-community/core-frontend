@@ -56,7 +56,7 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
         }
     }, [field, store]);
 
-    React.useEffect(() => reaction(() => field.value, handleReactValue), [field.value, handleReactValue]);
+    React.useEffect(() => reaction(() => field.value, handleReactValue), [field, handleReactValue]);
     React.useEffect(() => reaction(() => store.suggestions, handleChangeSuggestions), [
         handleChangeSuggestions,
         store.suggestions,

@@ -38,9 +38,7 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
     const classes = useStyles();
 
     React.useEffect(() => {
-        if (isAutoLoad) {
-            store.handleAutoload();
-        }
+        store.handleAutoload(isAutoLoad);
     }, [isAutoLoad, store]);
 
     return useObserver(() => (
@@ -52,6 +50,7 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                 bc={bc}
                 initialValues={initialValues}
                 pageStore={pageStore}
+                mode="1"
             >
                 <Grid
                     spacing={0}

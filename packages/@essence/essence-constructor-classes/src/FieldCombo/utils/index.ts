@@ -1,0 +1,1 @@
+export {getFirstValues} from "./getFirstValues";

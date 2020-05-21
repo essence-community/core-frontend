@@ -346,10 +346,12 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     };
 
     handleDbSelectAction = (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
-        const selectAction =
-            this.bc.collectionvalues === "array" ? this.handleSelectArrayAction : this.handleSelectAction;
+        if (this.bc.collectionvalues === "array") {
+            // Skip db click for array
+            return Promise.resolve(true);
+        }
 
-        return selectAction(mode, btnBc, options);
+        return this.handleSelectAction(mode, btnBc, options);
     };
 
     handlers = {

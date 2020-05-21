@@ -17,6 +17,7 @@ import {useDisposable, useObserver} from "mobx-react-lite";
 import {reaction, observe} from "mobx";
 import {useParams, useHistory, useRouteMatch} from "react-router-dom";
 import {IForm, Form} from "@essence-community/constructor-share/Form";
+import {CssBaseline} from "@material-ui/core";
 import {ApplicationModel, CLOSE_CODE} from "../store/ApplicationModel";
 import {renderGlobalValuelsInfo} from "../utils/renderGlobalValuelsInfo";
 import {ApplicationWindows} from "../components/ApplicationWindows";
@@ -249,6 +250,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                         onClose={snackbarStore.snackbarCloseAction}
                         onSetCloseble={snackbarStore.setClosebleAction}
                     />
+                    <CssBaseline />
                 </Theme>
             </FormContext.Provider>
         </ApplicationContext.Provider>

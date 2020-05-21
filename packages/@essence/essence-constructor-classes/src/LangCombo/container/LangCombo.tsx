@@ -11,7 +11,7 @@ import {
 } from "@essence-community/constructor-share/constants/variables";
 import * as React from "react";
 import {useDisposable} from "mobx-react-lite";
-import {getComponent} from "@essence-community/constructor-share/components";
+import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {reaction} from "mobx";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
@@ -26,7 +26,7 @@ const getComponentBc = (bc: IBuilderConfig, defaultValue?: string) => ({
     autoload: "true",
     clearable: "false",
     column: bc.column || "lang",
-    datatype: "COMBO",
+    datatype: "combo",
     defaultvalue: defaultValue,
     displayfield: bc.displayfield || "cv_name",
     getglobal: VAR_SETTING_LANG,
@@ -87,11 +87,12 @@ export const LangCombo: React.FC<IClassProps> = (props) => {
             },
         );
     });
-    const Comp: React.ComponentType<IComboClassProps> | null = getComponent(bc.type);
 
-    if (!Comp) {
-        return null;
-    }
-
-    return <Comp {...props} bc={bc} editing />;
+    return (
+        <>
+            {mapComponentOne(bc, (Comp) => (
+                <Comp {...props} bc={bc} />
+            ))}
+        </>
+    );
 };

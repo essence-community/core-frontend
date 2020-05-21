@@ -38,6 +38,7 @@ export const dateMap = (trans: TFunction): Record<string | number, IDateConfig> 
             moment(value, "YYYY-MM-DDTHH:mm:ss")
                 .endOf("year")
                 .format("YYYY-MM-DDTHH:mm:ss"),
+        serverFormatIn: "YYYY-MM-DDTHH:mm:ss",
     },
     2: {
         component: FieldDateMonth,
@@ -51,6 +52,7 @@ export const dateMap = (trans: TFunction): Record<string | number, IDateConfig> 
             moment(value, "YYYY-MM-DDTHH:mm:ss")
                 .endOf("month")
                 .format("YYYY-MM-DDTHH:mm:ss"),
+        serverFormatIn: "YYYY-MM-DDTHH:mm:ss",
     },
     3: {
         component: FieldDateMain,
@@ -65,6 +67,7 @@ export const dateMap = (trans: TFunction): Record<string | number, IDateConfig> 
             moment(value, "YYYY-MM-DDTHH:mm:ss")
                 .endOf("day")
                 .format("YYYY-MM-DDTHH:mm:ss"),
+        serverFormatIn: "YYYY-MM-DDTHH:mm:ss",
     },
     4: {
         component: FieldDateMain,
@@ -79,6 +82,7 @@ export const dateMap = (trans: TFunction): Record<string | number, IDateConfig> 
             moment(value, "YYYY-MM-DDTHH:mm:ss")
                 .endOf("hour")
                 .format("YYYY-MM-DDTHH:mm:ss"),
+        serverFormatIn: "YYYY-MM-DDTHH:mm:ss",
         withTime: true,
     },
     5: {
@@ -94,6 +98,7 @@ export const dateMap = (trans: TFunction): Record<string | number, IDateConfig> 
             moment(value, "YYYY-MM-DDTHH:mm:ss")
                 .endOf("minute")
                 .format("YYYY-MM-DDTHH:mm:ss"),
+        serverFormatIn: "YYYY-MM-DDTHH:mm:ss",
         withTime: true,
     },
     6: {
@@ -109,6 +114,7 @@ export const dateMap = (trans: TFunction): Record<string | number, IDateConfig> 
             moment(value, "YYYY-MM-DDTHH:mm:ss")
                 .endOf("second")
                 .format("YYYY-MM-DDTHH:mm:ss"),
+        serverFormatIn: "YYYY-MM-DDTHH:mm:ss",
         withTime: true,
     },
     default: {
@@ -120,10 +126,12 @@ export const dateMap = (trans: TFunction): Record<string | number, IDateConfig> 
         invalidText: (value: string) => `${value} ${trans("static:f0f42f35a2d241f3b51cd16747c37186")}`,
         invalidTextValidation: trans("static:77050515e7b2462e95429b9df33a7958"),
         serverFormat: "YYYY-MM-DDTHH:mm:ss",
+
         serverFormatEnd: (value: string) =>
             moment(value, "YYYY-MM-DDTHH:mm:ss")
                 .endOf("day")
                 .format("YYYY-MM-DDTHH:mm:ss"),
+        serverFormatIn: "YYYY-MM-DDTHH:mm:ss",
     },
 });
 

@@ -105,9 +105,13 @@ export const Tooltip: React.FC<{}> = (props) => {
         [getTipTitle, inTooltip, makeHideTooltip, tip],
     );
 
-    const updateTooltipDebounce = debounce((left: number, top: number) => {
-        setPosition({left, top});
-    }, DEBOUNCE_TIME);
+    const updateTooltipDebounce = React.useMemo(
+        () =>
+            debounce((left: number, top: number) => {
+                setPosition({left, top});
+            }, DEBOUNCE_TIME),
+        [],
+    );
 
     const updateTooltip = React.useCallback(
         (event: MouseEvent) => {

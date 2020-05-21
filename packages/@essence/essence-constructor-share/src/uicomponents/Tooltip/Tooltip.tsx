@@ -64,8 +64,6 @@ export const Tooltip: React.FC<{}> = (props) => {
             return;
         }
 
-        element.current = undefined;
-        setCurrentElement(null);
         setInTooltip(false);
         setShow(false);
         setShowBackdrop(false);

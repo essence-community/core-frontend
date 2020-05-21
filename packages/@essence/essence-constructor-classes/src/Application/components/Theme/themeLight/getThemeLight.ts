@@ -1,6 +1,9 @@
 import {IEssenceTheme} from "@essence-community/constructor-share";
 import {Theme} from "@material-ui/core";
 
+// eslint-disable-next-line quotes
+const fontFamily = '"Uni Neue Regular", "Roboto Light", "Roboto Regular", "Roboto"';
+
 export const getThemeLight = (theme: Theme): IEssenceTheme => ({
     ...theme,
     palette: {
@@ -37,9 +40,26 @@ export const getThemeLight = (theme: Theme): IEssenceTheme => ({
         },
     },
     typography: {
-        ...theme.typography,
-        // eslint-disable-next-line quotes
-        fontFamily: '"Uni Neue Regular", "Roboto Light", "Roboto Regular", "Roboto"',
+        body1: {...theme.typography.body1, fontFamily},
+        body2: {...theme.typography.body2, fontFamily},
+        button: {...theme.typography.button, fontFamily},
+        caption: {...theme.typography.caption, fontFamily},
+        fontFamily,
+        fontSize: theme.typography.fontSize,
+        fontWeightBold: theme.typography.fontWeightBold,
+        fontWeightLight: theme.typography.fontWeightLight,
+        fontWeightMedium: theme.typography.fontWeightMedium,
+        fontWeightRegular: theme.typography.fontWeightRegular,
+        h1: {...theme.typography.h1, fontFamily},
+        h2: {...theme.typography.h2, fontFamily},
+        h3: {...theme.typography.h3, fontFamily},
+        h4: {...theme.typography.h4, fontFamily},
+        h5: {...theme.typography.h5, fontFamily},
+        h6: {...theme.typography.h6, fontFamily},
+        overline: {...theme.typography.overline, fontFamily},
+        pxToRem: theme.typography.pxToRem,
+        subtitle1: {...theme.typography.subtitle1, fontFamily},
+        subtitle2: {...theme.typography.subtitle2, fontFamily},
     },
     // eslint-disable-next-line sort-keys
     essence: {

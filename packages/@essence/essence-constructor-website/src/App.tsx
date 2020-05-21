@@ -1,5 +1,4 @@
 import React, {Component, Suspense} from "react";
-import {CssBaseline} from "@material-ui/core";
 import moment from "moment";
 import "moment/locale/ru";
 import {Tooltip} from "@essence-community/constructor-components";
@@ -32,7 +31,6 @@ class App extends Component {
                     <Settings>
                         <KeyboardStatusManager />
                         <AppRoutes />
-                        <CssBaseline />
                         <Tooltip />
                     </Settings>
                 </Suspense>

@@ -25,6 +25,7 @@ export interface IDateConfig {
     mode?: Mode;
     serverFormat: string;
     serverFormatEnd: (value: FieldValue) => string;
+    serverFormatIn: string;
     withTime?: boolean;
 }
 

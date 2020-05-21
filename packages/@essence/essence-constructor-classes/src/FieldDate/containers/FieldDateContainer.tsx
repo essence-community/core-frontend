@@ -21,7 +21,7 @@ import "rc-time-picker/assets/index.css";
 import "moment/locale/ru";
 
 export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
-    const {bc, pageStore, disabled} = props;
+    const {bc, pageStore, disabled, readOnly} = props;
     const {disabledenddate} = bc;
     const form = React.useContext(FormContext);
     const field = useField({
@@ -39,7 +39,6 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
     const inputElement = React.useRef<HTMLInputElement | HTMLTextAreaElement>();
     const [trans] = useTranslation("meta");
     const classes = useStyles();
-
     const handleFocus = (event: React.FocusEvent<HTMLButtonElement>) => {
         event.stopPropagation();
         event.preventDefault();
@@ -99,7 +98,7 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
                 key="calendar-open"
                 onClick={handleCalendarOpen}
                 onFocus={handleFocus}
-                disabled={disabled}
+                disabled={readOnly || disabled || !form.editing}
                 tabIndex={-1}
                 disableRipple
                 className={classes.rootIcon}
@@ -107,13 +106,14 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
                 <Icon iconfont="calendar" size="xs" />
             </IconButton>
         ),
-        [classes.rootIcon, disabled],
+        [classes.rootIcon, disabled, form.editing, readOnly],
     );
     const inputProps = useTextFieldProps({bc: props.bc, disabled: props.disabled, field, tips: [calendarIcon]});
 
     const textField = React.useMemo(() => {
         inputProps.inputRef = inputElement;
         inputProps.value = formatValue;
+        inputProps["data-qtip"] = inputProps.error ? inputProps["data-qtip"] : formatValue || inputProps["data-qtip"];
         if (dateConfig.inputMask) {
             return () => (
                 <TextFieldMask textFieldProps={inputProps} imask={dateConfig.inputMask!} onChange={handleChange} />
@@ -135,10 +135,11 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
         const fn = (value: FieldValue) => {
             if (!value) {
                 setFormatValue("");
+                setMomentValue(undefined);
 
                 return;
             }
-            const mValue = moment(value as string, dateConfig.serverFormat, true);
+            const mValue = moment(value as string, dateConfig.serverFormatIn, true);
 
             if (mValue.isValid() && !mValue.isSame(momentValue)) {
                 setMomentValue(mValue);

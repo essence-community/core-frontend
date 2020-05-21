@@ -1,5 +1,7 @@
-// @flow
-const TooltipStyles = (theme: Object) => ({
+import {makeStyles} from "@material-ui/core";
+import {IEssenceTheme} from "../../types";
+
+export const useStyles = makeStyles((theme: IEssenceTheme) => ({
     tooltipBackdrop: {
         backgroundColor: "transparent",
         height: "100%",
@@ -27,6 +29,4 @@ const TooltipStyles = (theme: Object) => ({
         zIndex: theme.zIndex.tooltip,
     },
     tooltipRoot: {},
-});
-
-export default TooltipStyles;
+}));

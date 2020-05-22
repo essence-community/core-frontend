@@ -64,6 +64,8 @@ export class Field implements IField {
 
     @observable private extraRules: string[] = [];
 
+    @observable public registers = 0;
+
     @computed get isRequired(): boolean {
         if (this.bc.required === "true") {
             return true;

@@ -90,13 +90,21 @@ export class Form implements IForm {
             );
         }
 
+        field.registers += 1;
+
         return field;
     };
 
     @action
     unregisterField = (key: string) => {
-        if (this.fields.has(key)) {
-            this.fields.delete(key);
+        const field = this.fields.get(key);
+
+        if (field) {
+            field.registers -= 1;
+
+            if (field.registers === 0) {
+                this.fields.delete(key);
+            }
         }
     };
 

@@ -22,6 +22,7 @@ export interface IField {
     isValid: boolean;
     errors: TError[];
     form: IForm;
+    registers: number;
     error?: TError;
     input: (initialValues: IRecord, field: IField, form: IForm) => [boolean, IRecord | FieldValue];
     output: (field: IField, form: IForm, value?: IRecord | FieldValue) => IRecord | FieldValue;

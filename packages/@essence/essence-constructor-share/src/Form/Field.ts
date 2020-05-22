@@ -54,6 +54,8 @@ export class Field implements IField {
 
     private hidden: boolean;
 
+    public registers = 0;
+
     @computed get label() {
         return this.bc[VAR_RECORD_DISPLAYED];
     }
@@ -156,6 +158,10 @@ export class Field implements IField {
 
     @computed get clearValue(): FieldValue {
         switch (true) {
+            case this.isArray:
+                return [];
+            case this.isObject:
+                return {};
             case this.bc.datatype === "checkbox":
             case this.bc.datatype === "boolean":
                 return 0;

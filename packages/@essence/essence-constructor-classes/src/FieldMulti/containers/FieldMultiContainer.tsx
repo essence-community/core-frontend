@@ -18,7 +18,7 @@ const MODELS: Record<string, typeof FieldMultiModel> = {
 };
 
 export const FieldMultiContainer: React.FC<IClassProps> = (props) => {
-    const {bc, pageStore, disabled, hidden} = props;
+    const {bc, pageStore, disabled, hidden, readOnly} = props;
     const [store] = useModel((options) => new MODELS[options.bc.datatype || ""](options), props);
     const field = useField({bc, disabled, hidden, pageStore});
     const classes = useStyles();
@@ -75,7 +75,7 @@ export const FieldMultiContainer: React.FC<IClassProps> = (props) => {
             pageStore={pageStore}
             hideOnScroll
         >
-            <FieldMultiInput bc={bc} disabled={disabled} field={field} store={store} />
+            <FieldMultiInput bc={bc} disabled={disabled} readOnly={readOnly} field={field} store={store} />
         </Popover>
     );
 };

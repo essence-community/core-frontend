@@ -7,7 +7,7 @@ import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/co
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {PopoverContext} from "@essence-community/constructor-share/context";
 import {IField} from "@essence-community/constructor-share/Form";
-import {useTextFieldProps} from "@essence-community/constructor-share/hooks";
+import {useTextFieldProps, useFieldDisabled} from "@essence-community/constructor-share/hooks";
 import {FieldComboModel} from "../store/FieldComboModel";
 import {ISuggestion} from "../store/FieldComboModel.types";
 import {useStyles} from "./FieldComboInput.styles";
@@ -24,6 +24,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
     const {store, textFieldRef, bc, disabled, field, readOnly} = props;
     const classes = useStyles(props);
     const popoverCtx = React.useContext(PopoverContext);
+    const isDisabled = useFieldDisabled({disabled, form: field.form, readOnly});
 
     const handleInputClick = () => {
         if (!popoverCtx.open) {
@@ -109,7 +110,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             data-page-object={`${props.bc[VAR_RECORD_PAGE_OBJECT_ID]}-chevron-up`}
             onFocus={handlFocusInput}
             onClick={handleButtonUp}
-            disabled={props.disabled}
+            disabled={isDisabled}
         >
             <Icon iconfont="chevron-up" />
         </IconButton>
@@ -122,7 +123,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             className={classes.iconRoot}
             data-page-object={`${props.bc[VAR_RECORD_PAGE_OBJECT_ID]}-chevron-down`}
             onFocus={handlFocusInput}
-            disabled={props.disabled}
+            disabled={isDisabled}
         >
             <Icon iconfont="chevron-down" />
         </IconButton>
@@ -134,9 +135,9 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             {...textFieldProps}
             ref={textFieldRef}
             value={store.inputValue}
-            onClick={props.disabled ? undefined : handleInputClick}
-            onChange={props.disabled ? undefined : handleChange}
-            onKeyDown={props.disabled ? undefined : handleKeyDown}
+            onClick={isDisabled ? undefined : handleInputClick}
+            onChange={isDisabled ? undefined : handleChange}
+            onKeyDown={isDisabled ? undefined : handleKeyDown}
         />
     ));
 });

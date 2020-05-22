@@ -37,7 +37,6 @@ export const FieldPasswordContainer: React.FC<IClassProps> = (props) => {
                 onClick={handleToggleShowPassword}
                 data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-eye`}
                 tabIndex={-1}
-                disableRipple
             >
                 <Icon iconfont={showPassword ? "eye-slash" : "eye"} size="xs" />
             </IconButton>,

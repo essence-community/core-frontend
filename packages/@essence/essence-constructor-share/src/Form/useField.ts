@@ -30,23 +30,14 @@ export const useField = ({bc, pageStore, output, input, isArray, disabled, hidde
 
         return columnKey;
     }, [bc.column, parentField]);
-    const [field, isRegisted] = useMemo(() => {
-        const existedField = form.select(key);
-
-        if (existedField) {
-            return [existedField, false];
-        }
-
-        return [
-            form.registerField(key, {
-                bc,
-                input: input || parentField?.input,
-                isArray,
-                output: output || parentField?.output,
-                pageStore,
-            }),
-            true,
-        ];
+    const field = useMemo(() => {
+        return form.registerField(key, {
+            bc,
+            input: input || parentField?.input,
+            isArray,
+            output: output || parentField?.output,
+            pageStore,
+        });
     }, [bc, form, input, isArray, key, output, pageStore, parentField]);
 
     const handleReactValue = useCallback(
@@ -101,14 +92,10 @@ export const useField = ({bc, pageStore, output, input, isArray, disabled, hidde
     }, [field, disabled, hidden]);
 
     useEffect(() => {
-        if (isRegisted) {
-            return () => {
-                form.unregisterField(key);
-            };
-        }
-
-        return undefined;
-    }, [form, isRegisted, key]);
+        return () => {
+            form.unregisterField(key);
+        };
+    }, [form, key]);
 
     return field;
 };

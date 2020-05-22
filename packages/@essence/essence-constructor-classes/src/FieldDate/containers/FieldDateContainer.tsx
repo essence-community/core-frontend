@@ -3,17 +3,21 @@
 import * as React from "react";
 import {FieldValue} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
-import {useTextFieldProps, useFieldGetGlobal, useFieldSetGlobal} from "@essence-community/constructor-share/hooks";
+import {
+    useTextFieldProps,
+    useFieldGetGlobal,
+    useFieldSetGlobal,
+    useFieldDisabled,
+} from "@essence-community/constructor-share/hooks";
 import {TextFieldMask} from "@essence-community/constructor-share/uicomponents";
 import {TextField, IconButton} from "@material-ui/core";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import moment from "moment";
 import {reaction} from "mobx";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {FormContext} from "@essence-community/constructor-share/context";
 import {getFieldDate} from "../util/Util";
 import {IFieldBuildClassProps} from "../components/FieldDate.types";
-import {useFieldDisabled} from "../hook/useFieldDisabled";
+import {useFieldDateDisabled} from "../hook/useFieldDateDisabled";
 import {useStyles} from "./FieldDateContainer.types";
 
 import "rc-calendar/assets/index.css";
@@ -23,7 +27,6 @@ import "moment/locale/ru";
 export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
     const {bc, pageStore, disabled, readOnly} = props;
     const {disabledenddate} = bc;
-    const form = React.useContext(FormContext);
     const field = useField({
         bc,
         disabled: props.disabled,
@@ -39,6 +42,7 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
     const inputElement = React.useRef<HTMLInputElement | HTMLTextAreaElement>();
     const [trans] = useTranslation("meta");
     const classes = useStyles();
+    const isDisabled = useFieldDisabled({disabled, form: field.form, readOnly});
     const handleFocus = (event: React.FocusEvent<HTMLButtonElement>) => {
         event.stopPropagation();
         event.preventDefault();
@@ -90,7 +94,7 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
         },
         [dateConfig.format, dateConfig.serverFormat, onChange],
     );
-    const [getDisabledFunction] = useFieldDisabled(props);
+    const [getDisabledFunction] = useFieldDateDisabled(props);
     const calendarIcon = React.useMemo(
         () => (
             <IconButton
@@ -98,7 +102,7 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
                 key="calendar-open"
                 onClick={handleCalendarOpen}
                 onFocus={handleFocus}
-                disabled={readOnly || disabled || !form.editing}
+                disabled={isDisabled}
                 tabIndex={-1}
                 disableRipple
                 className={classes.rootIcon}
@@ -106,7 +110,7 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
                 <Icon iconfont="calendar" size="xs" />
             </IconButton>
         ),
-        [classes.rootIcon, disabled, form.editing, readOnly],
+        [classes.rootIcon, isDisabled],
     );
     const inputProps = useTextFieldProps({bc: props.bc, disabled: props.disabled, field, tips: [calendarIcon]});
 

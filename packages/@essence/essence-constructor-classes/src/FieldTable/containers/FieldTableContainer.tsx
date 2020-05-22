@@ -13,7 +13,7 @@ import {getFirstValues} from "../utils";
 import {FieldTableInput} from "../components/FieldTableInput";
 
 export const FieldTableContainer: React.FC<IClassProps> = (props) => {
-    const {bc, pageStore, disabled, hidden} = props;
+    const {bc, pageStore, disabled, hidden, readOnly} = props;
     const form = React.useContext(FormContext);
     const field = useField({bc, disabled, hidden, pageStore});
     const [store] = useModel((options) => new FieldTableModel({...options, field, form}), props);
@@ -66,7 +66,7 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
             pageStore={pageStore}
             hideOnScroll
         >
-            <FieldTableInput bc={bc} disabled={disabled} field={field} store={store} />
+            <FieldTableInput bc={bc} disabled={disabled} readOnly={readOnly} field={field} store={store} />
         </Popover>
     );
 };

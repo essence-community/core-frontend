@@ -47,7 +47,7 @@ export const FieldCheckboxContainer: React.FC<IClassProps> = (props) => {
             <label
                 className={cn(classes.root, {
                     [classes.setInline]: isInline,
-                    [classes.disabled]: disabled,
+                    [classes.disabled]: textFieldProps.disabled,
                     [classes.noLabelRender]: noLabel,
                     [classes.focused]: focused,
                 })}
@@ -78,12 +78,12 @@ export const FieldCheckboxContainer: React.FC<IClassProps> = (props) => {
                     checked={Boolean(field.value)}
                     onChange={onChange}
                     className={classes.checkboxRoot}
-                    disabled={disabled}
+                    disabled={textFieldProps.disabled}
                     color="default"
                     checkedIcon={<Icon iconfont="check-square" />}
-                    icon={disabled ? <Icon iconfont="square" /> : <Icon iconfont="square-o" />}
+                    icon={textFieldProps.disabled ? <Icon iconfont="square" /> : <Icon iconfont="square-o" />}
                     disableRipple
-                    tabIndex={disabled || readOnly ? -1 : undefined}
+                    tabIndex={textFieldProps.disabled ? -1 : undefined}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                 />

@@ -158,6 +158,10 @@ export class Field implements IField {
 
     @computed get clearValue(): FieldValue {
         switch (true) {
+            case this.isArray:
+                return [];
+            case this.isObject:
+                return {};
             case this.bc.datatype === "checkbox":
             case this.bc.datatype === "boolean":
                 return 0;

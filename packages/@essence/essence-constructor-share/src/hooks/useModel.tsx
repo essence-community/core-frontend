@@ -24,7 +24,8 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
     const pageObjectId = bc[VAR_RECORD_PAGE_OBJECT_ID];
     const [store] = React.useState<IModel>(() => createModel(props));
     // const [isAutoLoad, setIsAutoload] = React.useState(false);
-    const isAutoLoad = React.useMemo(() => checkAutoload({bc, pageStore}), [bc, pageStore]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const isAutoLoad = React.useMemo(() => checkAutoload({bc, pageStore}), []);
     /*
      * const [storeName, setStoreName] = React.useState<string>(function getStoreName() {
      *     return bc[VAR_RECORD_PAGE_OBJECT_ID] || uuid();
@@ -36,7 +37,7 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
         return pageStore.addStore(store, name, true);
     }, [pageObjectId, pageStore, store]);
 
-    React.useLayoutEffect(() => {
+    React.useEffect(() => {
         /*
          * const storeNext: IModel = createModel(props);
          * const storeNext = store;
@@ -50,7 +51,7 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
         return () => {
             pageStore.removeStore(storeName, store);
         };
-    }, [bc, pageStore, store, storeName]);
+    }, [pageStore, store, storeName]);
 
     React.useEffect(() => {
         store.disabled = disabled;

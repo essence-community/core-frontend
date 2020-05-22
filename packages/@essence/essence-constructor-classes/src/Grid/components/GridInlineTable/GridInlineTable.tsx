@@ -4,7 +4,7 @@ import {Focusable} from "@essence-community/constructor-share/uicomponents";
 import {Table, TableBody, useTheme} from "@material-ui/core";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
-import {mapComponents} from "@essence-community/constructor-share";
+import {getComponentByBc} from "@essence-community/constructor-share";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {GridColgroup} from "../GridColgroup";
 import {checkEditable} from "../../utils";
@@ -51,7 +51,8 @@ export const GridInlineTable: React.FC<IGridInlineTable> = ({gridStore, ...class
                     <GridColgroup store={gridStore} />
                     <TableBody>
                         <tr className={classes.row} tabIndex={-1}>
-                            {mapComponents(bc.childs, (ChildCmp, childBc, idx) => {
+                            {bc.childs?.map((childBc, idx) => {
+                                const ChildCmp = getComponentByBc(childBc);
                                 const isEditable = Boolean(checkEditable(bc.mode as IBuilderMode, childBc.editmode));
                                 const fieldBc =
                                     childBc.datatype === "boolean" || childBc.datatype === "checkbox"
@@ -66,7 +67,7 @@ export const GridInlineTable: React.FC<IGridInlineTable> = ({gridStore, ...class
                                         data-page-object={`${childBc[VAR_RECORD_PAGE_OBJECT_ID]}-cell`}
                                         data-qtip={isEditable || isNew ? undefined : getQtip(idx)}
                                     >
-                                        {isEditable && <ChildCmp {...classProps} bc={fieldBc} />}
+                                        {isEditable && ChildCmp && <ChildCmp {...classProps} bc={fieldBc} />}
                                     </td>
                                 );
                             })}

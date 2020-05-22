@@ -98,6 +98,20 @@ export function getComponent(componentName: string): React.ComponentType<IClassP
     return componentConfig ? componentConfig.component : null;
 }
 
+export function getComponentByBc(bc: IBuilderConfig): React.ComponentType<IClassProps> | undefined {
+    let componentConfig = bc.datatype ? components[`${bc.type}.${bc.datatype}`] : components[bc.type];
+
+    if (!componentConfig && bc.datatype) {
+        componentConfig = components[bc.type];
+    }
+
+    if (!componentConfig) {
+        return undefined;
+    }
+
+    return componentConfig ? componentConfig.component : undefined;
+}
+
 /**
  * Render components by childs config.
  */
@@ -107,21 +121,9 @@ export function mapComponents(childs?: IBuilderConfig[], resolve?: TResolve) {
     }
 
     return childs.map((child, index) => {
-        if (!child.type) {
-            return null;
-        }
+        const ChildComp = getComponentByBc(child);
 
-        let ChildComp = child.datatype ? getComponent(`${child.type}.${child.datatype}`) : getComponent(child.type);
-
-        if (!ChildComp && child.datatype) {
-            ChildComp = getComponent(child.type);
-        }
-
-        if (!ChildComp) {
-            return null;
-        }
-
-        return resolve ? resolve(ChildComp, child, index) : null;
+        return resolve && ChildComp !== undefined ? resolve(ChildComp, child, index) : null;
     });
 }
 
@@ -129,19 +131,7 @@ export function mapComponents(childs?: IBuilderConfig[], resolve?: TResolve) {
  * Render components by one child config.
  */
 export function mapComponentOne(child: IBuilderConfig, resolve?: TResolve): null | React.ReactChild {
-    if (!child || !child.type) {
-        return null;
-    }
+    const ChildComp = getComponentByBc(child);
 
-    let ChildComp = child.datatype ? getComponent(`${child.type}.${child.datatype}`) : getComponent(child.type);
-
-    if (!ChildComp && child.datatype) {
-        ChildComp = getComponent(child.type);
-    }
-
-    if (!ChildComp) {
-        return null;
-    }
-
-    return resolve ? resolve(ChildComp, child, 0) : null;
+    return resolve && ChildComp !== undefined ? resolve(ChildComp, child, 0) : null;
 }

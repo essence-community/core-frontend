@@ -14,7 +14,7 @@ export const FieldTextContainer: React.FC<IClassProps> = (props) => {
         hidden: props.hidden,
         pageStore,
     });
-    const inputProps = useTextFieldProps({bc: props.bc, disabled: props.disabled, field});
+    const inputProps = useTextFieldProps({bc: props.bc, disabled: props.disabled, field, readOnly: props.readOnly});
     const handleChange = React.useCallback(
         (event: React.SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>) => {
             field.onChange(event.currentTarget.value);
@@ -31,7 +31,7 @@ export const FieldTextContainer: React.FC<IClassProps> = (props) => {
                 textFieldProps={inputProps}
                 imask={bc.imask}
                 onChange={handleChange}
-                disabled={props.disabled}
+                disabled={inputProps.disabled}
                 field={field}
                 pageStore={props.pageStore}
             />

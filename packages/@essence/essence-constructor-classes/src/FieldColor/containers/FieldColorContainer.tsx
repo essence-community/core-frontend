@@ -26,7 +26,7 @@ export const FieldColorContainer: React.FC<IClassProps> = (props) => {
         <label
             className={cn(classes.root, {
                 [classes.setInline]: isInline,
-                [classes.disabled]: disabled,
+                [classes.disabled]: textFieldProps.disabled,
                 [classes.noLabelRender]: !displayed,
             })}
             data-qtip={displayed && trans(displayed)}
@@ -54,7 +54,7 @@ export const FieldColorContainer: React.FC<IClassProps> = (props) => {
             <FieldColorPicker
                 bc={bc}
                 pageStore={pageStore}
-                disabled={disabled}
+                disabled={textFieldProps.disabled}
                 value={field.value}
                 onChange={field.onChange}
             />

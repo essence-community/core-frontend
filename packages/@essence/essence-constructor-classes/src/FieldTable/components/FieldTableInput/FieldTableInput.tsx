@@ -1,6 +1,6 @@
 import * as React from "react";
 import {IconButton, TextField} from "@material-ui/core";
-import {useTextFieldProps} from "@essence-community/constructor-share/hooks";
+import {useTextFieldProps, useFieldDisabled} from "@essence-community/constructor-share/hooks";
 import {IField} from "@essence-community/constructor-share/Form";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
@@ -15,16 +15,18 @@ import {useStyles} from "./FieldTableInput.styles";
 interface IFieldTableInputProps {
     bc: IBuilderConfig;
     disabled?: boolean;
+    readOnly?: boolean;
     field: IField;
     store: IFieldTableModel;
 }
 
 export const FieldTableInput: React.FC<IFieldTableInputProps> = (props) => {
-    const {bc, disabled, field, store} = props;
+    const {bc, disabled, field, store, readOnly} = props;
     const classes = useStyles();
     const [trans] = useTranslation("meta");
     const {onOpen} = React.useContext(PopoverContext);
     const inputRef = React.useRef<HTMLInputElement>(null);
+    const isDisabled = useFieldDisabled({disabled, form: field.form, readOnly});
 
     const handleFocusButton = React.useCallback(() => {
         if (inputRef.current) {
@@ -36,15 +38,16 @@ export const FieldTableInput: React.FC<IFieldTableInputProps> = (props) => {
         bc,
         disabled,
         field,
+        readOnly,
         tips: [
             <IconButton
                 key="search"
-                disabled={disabled}
+                disabled={isDisabled}
                 color="secondary"
                 className={classes.search}
                 data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-search`}
                 tabIndex={-1}
-                onClick={disabled ? undefined : onOpen}
+                onClick={isDisabled ? undefined : onOpen}
                 onFocus={handleFocusButton}
             >
                 <Icon iconfont="search" size="xs" />
@@ -60,7 +63,7 @@ export const FieldTableInput: React.FC<IFieldTableInputProps> = (props) => {
                 {...textFieldProps}
                 ref={inputRef}
                 value={displayValue}
-                inputProps={{...textFieldProps.inputProps, onClick: disabled ? undefined : onOpen}}
+                inputProps={{...textFieldProps.inputProps, onClick: isDisabled ? undefined : onOpen}}
                 data-qtip={textFieldProps["data-qtip"] === field.value ? displayValue : textFieldProps["data-qtip"]}
             />
         );

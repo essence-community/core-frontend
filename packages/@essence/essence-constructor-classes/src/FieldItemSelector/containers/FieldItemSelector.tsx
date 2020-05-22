@@ -29,8 +29,8 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
 
     const [ComponentFieldFrom, ComponentFieldTo] = React.useMemo(
         () => [
-            getComponent(store.fieldFrom.type!) as React.ComponentClass<IClassWithEditingProps>,
-            getComponent(store.fieldTo.type!) as React.ComponentClass<IClassWithEditingProps>,
+            getComponent(store.fieldFrom.type) as React.ComponentClass<IClassWithEditingProps>,
+            getComponent(store.fieldTo.type) as React.ComponentClass<IClassWithEditingProps>,
         ],
         [store],
     );

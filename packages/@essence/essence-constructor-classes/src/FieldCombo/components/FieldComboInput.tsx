@@ -5,9 +5,9 @@ import {IconButton, TextField} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {IClassProps} from "@essence-community/constructor-share/types";
-import {PopoverContext, FormContext} from "@essence-community/constructor-share/context";
+import {PopoverContext} from "@essence-community/constructor-share/context";
 import {IField} from "@essence-community/constructor-share/Form";
-import {useTextFieldProps} from "@essence-community/constructor-share/hooks";
+import {useTextFieldProps, useFieldDisabled} from "@essence-community/constructor-share/hooks";
 import {FieldComboModel} from "../store/FieldComboModel";
 import {ISuggestion} from "../store/FieldComboModel.types";
 import {useStyles} from "./FieldComboInput.styles";
@@ -22,10 +22,9 @@ interface IProps extends IClassProps {
 
 export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
     const {store, textFieldRef, bc, disabled, field, readOnly} = props;
-    const form = React.useContext(FormContext);
     const classes = useStyles(props);
     const popoverCtx = React.useContext(PopoverContext);
-    const isDisabled = useObserver(() => readOnly || disabled || !form.editing);
+    const isDisabled = useFieldDisabled({disabled, form: field.form, readOnly});
 
     const handleInputClick = () => {
         if (!popoverCtx.open) {

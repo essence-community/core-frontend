@@ -4,7 +4,7 @@ import {FormContext} from "@essence-community/constructor-share/context";
 import {parse} from "@essence-community/constructor-share/utils/parser";
 import {IFieldBuildClassProps} from "../components/FieldDate.types";
 
-export function useFieldDisabled(props: IFieldBuildClassProps) {
+export function useFieldDateDisabled(props: IFieldBuildClassProps) {
     const {bc, pageStore} = props;
     const {disabledenddate, disabledstartdate, minvalue, maxvalue} = bc;
     const form = React.useContext(FormContext);

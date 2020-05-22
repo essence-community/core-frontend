@@ -6,12 +6,12 @@ import {TextField} from "@material-ui/core";
 import {NumberFormat} from "../components/NumberFormat";
 
 export const FieldNumericContainer: React.FC<IClassProps> = (props) => {
-    const {bc, pageStore, disabled} = props;
+    const {bc, pageStore, disabled, readOnly} = props;
     const field = useField({
         bc: props.bc,
         pageStore: props.pageStore,
     });
-    const inputProps = useTextFieldProps({bc, disabled, field});
+    const inputProps = useTextFieldProps({bc, disabled, field, readOnly});
 
     useFieldGetGlobal({bc, field, pageStore});
     useFieldSetGlobal({bc, field, pageStore});

@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-    IClassProps,
-    mapComponents,
-    IBuilderConfig,
-    useModel,
-    FieldValue,
-    IRecord,
-} from "@essence-community/constructor-share";
+import {IClassProps, IBuilderConfig, FieldValue, IRecord} from "@essence-community/constructor-share/types";
 import {ApplicationContext, ParentFieldContext} from "@essence-community/constructor-share/context";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -20,16 +13,18 @@ import {useObserver} from "mobx-react-lite";
 import {useField} from "@essence-community/constructor-share/Form";
 import {reaction} from "mobx";
 import {IParentFieldContext} from "@essence-community/constructor-share/Form/types";
+import {useModel, useFieldDisabled} from "@essence-community/constructor-share/hooks";
+import {mapComponents} from "@essence-community/constructor-share/components";
 import {Group} from "../components/Group";
 import {FieldRepeaterModel} from "../Store/FieldRepeaterModel";
 import {RepeaterGroup} from "../components/RepeaterGroup";
 
 export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
-    const {bc, pageStore, disabled, hidden} = props;
+    const {bc, pageStore, disabled, hidden, readOnly} = props;
     const field = useField({bc, disabled, hidden, isArray: true, pageStore});
     const applicationStore = React.useContext(ApplicationContext);
     const [trans] = useTranslation("meta");
-    const modelOptions = useModel((options) => new FieldRepeaterModel(options), {
+    const [, , storeName] = useModel((options) => new FieldRepeaterModel(options), {
         applicationStore,
         bc,
         disabled,
@@ -37,9 +32,8 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
         hidden,
         pageStore,
     });
-    // eslint-disable-next-line prefer-destructuring
-    const storeName = modelOptions[2];
     const addLabel = trans("static:3a5239ee97d9464c9c4143c18fda9815");
+    const isDisabled = useFieldDisabled({disabled, form: field.form, readOnly});
     const addBtnConfig: IBuilderConfig = React.useMemo<IBuilderConfig>(
         () => ({
             [VAR_RECORD_DISPLAYED]: addLabel,
@@ -91,15 +85,16 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
         const maxSize = bc.maxsize && /[g_]/u.test(bc.maxsize) ? pageStore.globalValues.get(bc.maxsize) : bc.maxsize;
         const minSize = bc.minsize && /[g_]/u.test(bc.minsize) ? pageStore.globalValues.get(bc.minsize) : bc.minsize;
         const isHiddenAdd = (maxSize && maxSize <= value.length) || hidden;
-        const isDisabledDel = (minSize && minSize >= value.length) || disabled;
+        const isDisabledDel = (minSize && minSize >= value.length) || isDisabled;
 
         return (
-            <Group error={Boolean(!disabled && !field.isValid)} isRow={false} bc={props.bc}>
+            <Group error={Boolean(!isDisabled && !field.isValid)} isRow={false} bc={props.bc}>
                 <Grid item xs={12}>
                     {value.map((childField: IRecord, idx: number) => (
                         <ParentFieldContext.Provider key={idx} value={parentContext[idx]}>
                             <RepeaterGroup
                                 {...props}
+                                disabled={isDisabled}
                                 idx={idx}
                                 isDisabledDel={isDisabledDel}
                                 storeName={storeName}
@@ -111,7 +106,7 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
                 <Grid item xs={12} container justify="flex-end">
                     {mapComponents([addBtnConfig], (ChildCmp, bcChild) => (
                         <Grid item key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]}>
-                            <ChildCmp {...props} bc={bcChild} hidden={isHiddenAdd} />
+                            <ChildCmp {...props} disabled={isDisabled} bc={bcChild} hidden={isHiddenAdd} />
                         </Grid>
                     ))}
                 </Grid>

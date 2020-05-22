@@ -48,8 +48,8 @@ export const FieldMarkdownContainer: React.FC<IClassProps> = (props) => {
     useFieldSetGlobal({bc, field, pageStore});
 
     return useObserver(() => {
-        const error = Boolean(!disabled && !field.isValid);
-        const errorText = disabled ? undefined : field.error;
+        const error = Boolean(!textFieldProps.disabled && !field.isValid);
+        const errorText = textFieldProps.disabled ? undefined : field.error;
 
         return (
             <div
@@ -59,7 +59,7 @@ export const FieldMarkdownContainer: React.FC<IClassProps> = (props) => {
                 <div className={classes.label}>
                     <FieldMarkdownLabel
                         title={bc[VAR_RECORD_DISPLAYED]}
-                        disabled={disabled}
+                        disabled={textFieldProps.disabled}
                         status={status}
                         onStatusChange={setStatus}
                         isRequired={field.rules && field.rules.indexOf("required") >= 0}
@@ -73,7 +73,7 @@ export const FieldMarkdownContainer: React.FC<IClassProps> = (props) => {
                 >
                     <div className={classes.scrollContent}>
                         <Grid container spacing={2} alignItems="stretch">
-                            {status !== "view" && !disabled ? (
+                            {status !== "view" && !textFieldProps.disabled ? (
                                 <Grid item xs className={classes.editor}>
                                     <TextField
                                         className={textFieldProps.className}
@@ -95,7 +95,7 @@ export const FieldMarkdownContainer: React.FC<IClassProps> = (props) => {
                                     />
                                 </Grid>
                             ) : null}
-                            {status !== "code" || disabled ? (
+                            {status !== "code" || textFieldProps.disabled ? (
                                 <Grid item xs className={classes.preview} ref={mardownRef}>
                                     <ReactMarkdown source={typeof field.value === "string" ? field.value : ""} />
                                 </Grid>

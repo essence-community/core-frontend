@@ -109,7 +109,7 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
             <label
                 className={cn(classes.root, {
                     [classes.setInline]: isInline,
-                    [classes.disabled]: disabled,
+                    [classes.disabled]: textFieldProps.disabled,
                     [classes.focused]: focused,
                 })}
                 data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
@@ -133,7 +133,7 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
                     value={value}
                     onChange={handleChange}
                     className={classes.radioRoot}
-                    disabled={disabled}
+                    disabled={textFieldProps.disabled}
                     color="default"
                     disableRipple
                     tabIndex={visible ? undefined : -1}

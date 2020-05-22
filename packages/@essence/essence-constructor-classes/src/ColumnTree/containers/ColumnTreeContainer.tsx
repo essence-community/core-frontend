@@ -26,12 +26,16 @@ export const ColumnTreeContainer: React.FC<IClassProps> = (props) => {
             <ColumnTreeIcon pageStore={pageStore} bc={bc} record={record} />
             {bc.localization || record.type === "root" ? (
                 <Translation ns={bc.localization}>
-                    {(trans) =>
-                        trans(record.type === "root" ? "static:e3e33760864d44f88a9ecfe8f5da7a0b" : String(value))
-                    }
+                    {(trans) => {
+                        const valueTrans = trans(
+                            record.type === "root" ? "static:e3e33760864d44f88a9ecfe8f5da7a0b" : String(value),
+                        );
+
+                        return <span data-qtip={valueTrans}>{valueTrans}</span>;
+                    }}
                 </Translation>
             ) : (
-                value
+                <span data-qtip={value}>{value}</span>
             )}
         </span>
     );

@@ -102,7 +102,7 @@ export class Form implements IForm {
         if (field) {
             field.registers -= 1;
 
-            if (field.registers === 0) {
+            if (field.registers <= 0) {
                 this.fields.delete(key);
             }
         }

@@ -54,6 +54,8 @@ export class Field implements IField {
 
     private hidden: boolean;
 
+    public registers = 0;
+
     @computed get label() {
         return this.bc[VAR_RECORD_DISPLAYED];
     }
@@ -63,8 +65,6 @@ export class Field implements IField {
     @observable errors: TError[] = [];
 
     @observable private extraRules: string[] = [];
-
-    @observable public registers = 0;
 
     @computed get isRequired(): boolean {
         if (this.bc.required === "true") {

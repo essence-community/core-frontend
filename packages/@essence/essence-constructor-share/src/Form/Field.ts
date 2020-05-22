@@ -277,7 +277,6 @@ export class Field implements IField {
         }
 
         this.resetChilds();
-
         this.execChangeHooks();
     };
 

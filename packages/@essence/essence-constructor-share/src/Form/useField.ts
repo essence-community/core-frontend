@@ -1,9 +1,10 @@
-/* eslint-disable max-len */
-import {useMemo, useContext, useEffect} from "react";
+import {useMemo, useContext, useEffect, useCallback} from "react";
 import uniqueId from "lodash/uniqueId";
-import {IBuilderConfig, IPageModel} from "../types";
+import {reaction} from "mobx";
+import {IBuilderConfig, IPageModel, FieldValue} from "../types";
 import {FormContext, ParentFieldContext} from "../context";
-import {VAR_RECORD_MASTER_ID} from "../constants";
+import {VAR_RECORD_MASTER_ID, VAR_RECORD_CL_IS_MASTER, VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
+import {isEmpty} from "../utils";
 import {IField, IRegisterFieldOptions} from "./types";
 
 interface IUseFieldProps {
@@ -47,6 +48,38 @@ export const useField = ({bc, pageStore, output, input, isArray, disabled, hidde
             true,
         ];
     }, [bc, form, input, isArray, key, output, pageStore, parentField]);
+
+    const handleReactValue = useCallback(
+        (value: FieldValue) => {
+            const ckPageObject = bc[VAR_RECORD_PAGE_OBJECT_ID];
+
+            pageStore.addFieldValueMaster(ckPageObject, value);
+
+            pageStore.stores.forEach((store) => {
+                if (store && store.bc && store.bc[VAR_RECORD_MASTER_ID] === ckPageObject) {
+                    store.reloadStoreAction();
+                    store.clearAction && store.clearAction();
+                }
+            });
+        },
+        [bc, pageStore],
+    );
+
+    useEffect(() => {
+        if (bc[VAR_RECORD_CL_IS_MASTER]) {
+            const disposer = reaction(() => field.value, handleReactValue, {
+                fireImmediately: !isEmpty(field.value),
+            });
+
+            return () => {
+                disposer();
+                pageStore.removeFieldValueMaster(bc[VAR_RECORD_PAGE_OBJECT_ID]);
+            };
+        }
+
+        return undefined;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [field, handleReactValue]);
 
     useEffect(() => {
         const masterId = bc[VAR_RECORD_MASTER_ID];

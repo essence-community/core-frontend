@@ -204,43 +204,45 @@ export class PageModel implements IPageModel {
         });
     };
 
-    openQuestionWindow = action(
-        "openQuestionWindow",
-        (questionWindow: TText[], saveCallBack: PageModelSaveCallback) => {
-            this.showQuestionWindow = true;
-            this.questionWindow = questionWindow;
-            this.saveCallBack = saveCallBack;
-        },
-    );
+    @action
+    openQuestionWindow = (questionWindow: TText[], saveCallBack: PageModelSaveCallback) => {
+        this.showQuestionWindow = true;
+        this.questionWindow = questionWindow;
+        this.saveCallBack = saveCallBack;
+    };
 
-    handleQuestionAccept = action("handleQuestionAccept", () => {
+    @action
+    handleQuestionAccept = () => {
         this.showQuestionWindow = false;
         this.questionWindow = undefined;
         if (this.saveCallBack) {
             this.saveCallBack(1);
         }
         this.saveCallBack = null;
-    });
+    };
 
-    handleQuestionDecline = action("handleQuestionDecline", () => {
+    @action
+    handleQuestionDecline = () => {
         this.showQuestionWindow = false;
         this.questionWindow = undefined;
         if (this.saveCallBack) {
             this.saveCallBack(0);
         }
         this.saveCallBack = null;
-    });
+    };
 
-    addFieldValueMaster = action("addFieldValueMaster", (name: string, value: FieldValue) => {
+    @action
+    addFieldValueMaster = (name: string, value: FieldValue) => {
         this.fieldValueMaster.set(name, value);
-    });
+    };
 
-    removeFieldValueMaster = action("addFieldValueMaster", (name: string) => {
+    @action
+    removeFieldValueMaster = (name: string) => {
         this.fieldValueMaster.delete(name);
-    });
+    };
 
-    // @ts-ignore
-    addStore = action("addStore", (store: IStoreBaseModel, name: string, allowNewName = false): string => {
+    @action
+    addStore = (store: IStoreBaseModel, name: string, allowNewName = false): string => {
         let newName = name;
 
         if (this.stores.has(name)) {
@@ -254,14 +256,16 @@ export class PageModel implements IPageModel {
         this.stores.set(newName, store);
 
         return newName;
-    });
+    };
 
-    removeStore = action("removeStore", (name: string, store: IStoreBaseModel) => {
+    @action
+    removeStore = (name: string, store: IStoreBaseModel) => {
         if (store && store === this.stores.get(name)) {
             this.stores.delete(name);
         }
-    });
+    };
 
+    @action
     addGlobalStoresAction = (name: string, store: IStoreBaseModel) => {
         let stores = this.globalStores.get(name);
 
@@ -274,6 +278,7 @@ export class PageModel implements IPageModel {
         stores.push(store);
     };
 
+    @action
     removeGlobalStoresAction = (name: string, store: IStoreBaseModel) => {
         const stores = this.globalStores.get(name);
 
@@ -286,6 +291,7 @@ export class PageModel implements IPageModel {
         }
     };
 
+    @action
     loadConfigAction = action("loadConfigAction", async (pageId: string) => {
         this.pageId = pageId;
 

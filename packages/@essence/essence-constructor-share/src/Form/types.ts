@@ -7,6 +7,7 @@ export interface IRegisterFieldOptions {
     pageStore: IPageModel;
     isArray?: boolean;
     isObject?: boolean;
+    defaultValueFn?: IField["defaultValueFn"];
     output?: (field: IField, form: IForm, value?: IRecord | FieldValue) => IRecord | FieldValue;
     input?: (initialValues: IRecord, field: IField, form: IForm) => [boolean, IRecord | FieldValue];
 }
@@ -15,7 +16,8 @@ export interface IField {
     key: string;
     bc: IBuilderConfig;
     value: FieldValue;
-    defaultValue: FieldValue;
+    defaultValue?: FieldValue;
+    defaultValueFn?: (field: IField, changeFn: IField["onChange"], clearFn: IField["onReset"]) => void;
     label?: string;
     isRequired: boolean;
     rules: string[];
@@ -37,6 +39,7 @@ export interface IField {
     redirect(): void;
     setExtraRules(extraRules: string[]): void;
     setDefaultValue(defaultValue: FieldValue): void;
+    setDefaultValueFn(fn: IField["defaultValueFn"]): void;
     setDisabled(disabled?: boolean): void;
     setHidden(hidden?: boolean): void;
     setValue(value?: FieldValue): void;

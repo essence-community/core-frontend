@@ -8,13 +8,14 @@ import {deepFind, deepDelete} from "../utils/transform";
 import {IField, IForm, IRegisterFieldOptions, TError} from "./types";
 import {validations} from "./validations";
 
-interface IFieldOptions {
+export interface IFieldOptions {
     bc: IBuilderConfig;
     pageStore: IPageModel;
     form: IForm;
     key: string;
     output?: IRegisterFieldOptions["output"];
     input?: IRegisterFieldOptions["input"];
+    defaultValueFn?: IField["defaultValueFn"];
     isArray?: boolean;
     isObject?: boolean;
 }
@@ -44,7 +45,9 @@ export class Field implements IField {
 
     public key: string;
 
-    public defaultValue: FieldValue;
+    public defaultValue: IField["defaultValue"];
+
+    public defaultValueFn: IField["defaultValueFn"];
 
     private isArray: boolean;
 
@@ -183,6 +186,7 @@ export class Field implements IField {
         this.isObject = options.isObject ?? false;
         this.input = this.getInput(options.input);
         this.output = this.getOutput(options.output);
+        this.defaultValueFn = options.defaultValueFn;
 
         if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
             this.defaultValue = Number(this.bc.defaultvalue === "true" || this.bc.defaultvalue === "1");
@@ -288,8 +292,10 @@ export class Field implements IField {
 
     @action
     onReset = () => {
-        if (this.defaultValue === undefined) {
+        if (this.defaultValue === undefined && this.defaultValueFn === undefined) {
             this.onClear();
+        } else if (this.defaultValueFn) {
+            this.defaultValueFn(this, this.onChange, this.onClear);
         } else {
             this.onChange(this.defaultValue);
         }
@@ -342,14 +348,20 @@ export class Field implements IField {
         this.defaultValue = defaultValue;
     };
 
+    public setDefaultValueFn = (defaultValueFn: IField["defaultValueFn"]) => {
+        this.defaultValueFn = defaultValueFn;
+    };
+
     /**
      * Reset value to default
      * Can be call deaultquery
      */
     @action
     reset = () => {
-        if (this.defaultValue === undefined) {
+        if (this.defaultValue === undefined && this.defaultValueFn === undefined) {
             this.clear();
+        } else if (this.defaultValueFn) {
+            this.defaultValueFn(this, this.setValue, this.clear);
         } else {
             this.setValue(this.defaultValue);
         }

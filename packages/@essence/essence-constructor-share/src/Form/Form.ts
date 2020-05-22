@@ -75,6 +75,7 @@ export class Form implements IForm {
         if (!field) {
             field = new Field({
                 bc: options.bc,
+                defaultValueFn: options.defaultValueFn,
                 form: this,
                 input: options.input,
                 isArray: options.isArray,

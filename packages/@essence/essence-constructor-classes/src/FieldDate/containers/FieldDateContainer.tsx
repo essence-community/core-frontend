@@ -26,7 +26,7 @@ import "moment/locale/ru";
 
 export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
     const {bc, pageStore, disabled, readOnly} = props;
-    const {disabledenddate} = bc;
+    const {disabledenddate, defaultvalue} = bc;
     const field = useField({
         bc,
         disabled: props.disabled,
@@ -155,6 +155,14 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
 
         return reaction(() => field.value, fn);
     });
+
+    React.useEffect(() => {
+        if (defaultvalue === "sysdate") {
+            field.setDefaultValueFn((field, setValue) => {
+                setValue(moment().format(dateConfig.serverFormat));
+            });
+        }
+    }, [field, defaultvalue, dateConfig]);
 
     if (!dateConfig) {
         return null;

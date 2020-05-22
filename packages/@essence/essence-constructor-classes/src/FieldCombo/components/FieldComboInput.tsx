@@ -5,7 +5,7 @@ import {IconButton, TextField} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {IClassProps} from "@essence-community/constructor-share/types";
-import {PopoverContext} from "@essence-community/constructor-share/context";
+import {PopoverContext, FormContext} from "@essence-community/constructor-share/context";
 import {IField} from "@essence-community/constructor-share/Form";
 import {useTextFieldProps} from "@essence-community/constructor-share/hooks";
 import {FieldComboModel} from "../store/FieldComboModel";
@@ -22,8 +22,10 @@ interface IProps extends IClassProps {
 
 export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
     const {store, textFieldRef, bc, disabled, field, readOnly} = props;
+    const form = React.useContext(FormContext);
     const classes = useStyles(props);
     const popoverCtx = React.useContext(PopoverContext);
+    const isDisabled = useObserver(() => readOnly || disabled || !form.editing);
 
     const handleInputClick = () => {
         if (!popoverCtx.open) {
@@ -109,7 +111,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             data-page-object={`${props.bc[VAR_RECORD_PAGE_OBJECT_ID]}-chevron-up`}
             onFocus={handlFocusInput}
             onClick={handleButtonUp}
-            disabled={props.disabled}
+            disabled={isDisabled}
         >
             <Icon iconfont="chevron-up" />
         </IconButton>
@@ -122,7 +124,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             className={classes.iconRoot}
             data-page-object={`${props.bc[VAR_RECORD_PAGE_OBJECT_ID]}-chevron-down`}
             onFocus={handlFocusInput}
-            disabled={props.disabled}
+            disabled={isDisabled}
         >
             <Icon iconfont="chevron-down" />
         </IconButton>
@@ -134,9 +136,9 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             {...textFieldProps}
             ref={textFieldRef}
             value={store.inputValue}
-            onClick={props.disabled ? undefined : handleInputClick}
-            onChange={props.disabled ? undefined : handleChange}
-            onKeyDown={props.disabled ? undefined : handleKeyDown}
+            onClick={isDisabled ? undefined : handleInputClick}
+            onChange={isDisabled ? undefined : handleChange}
+            onKeyDown={isDisabled ? undefined : handleKeyDown}
         />
     ));
 });

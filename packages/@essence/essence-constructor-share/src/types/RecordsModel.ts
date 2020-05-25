@@ -97,8 +97,8 @@ export interface IRecordsModel {
     recordsTree: Record<string, IRecord[]>;
     loadRecordsAction: (props: ILoadRecordsProps) => Promise<undefined | IRecord>;
     clearRecordsAction: () => void;
-    saveAction: (values: IRecord | IRecord[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<string>;
-    removeSelectedRecordAction: (options: ISaveActionOptions) => Promise<string>;
+    saveAction: (values: IRecord | IRecord[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<boolean>;
+    removeSelectedRecordAction: (options: ISaveActionOptions) => Promise<boolean>;
     downloadAction: (values: IRecord | IRecord[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<boolean>;
     setSelectionAction: (ckId: FieldValue, key?: string) => Promise<number>;
     setRecordsAction: (records: IRecord[]) => void;

@@ -1,5 +1,6 @@
 /* eslint-disable max-lines */
 import {action, extendObservable, ObservableMap, observable} from "mobx";
+import pLimit from "p-limit";
 import {saveAction} from "../../actions/saveAction";
 import {
     IBuilderConfig,
@@ -423,16 +424,46 @@ export class RecordsModel implements IRecordsModel {
         this.isLoading = isLoading;
     });
 
-    saveAction = action(
-        "saveAction",
-        (values: Record<string, FieldValue>, mode: IBuilderMode, options: ISaveActionOptions): Promise<string> =>
-            saveAction.call(this, values, mode, {
-                bc: this.bc,
-                pageStore: this.pageStore,
-                recordId: this.recordId,
-                ...options,
-            }),
-    );
+    @action
+    saveAction = async (
+        values: Record<string, FieldValue>,
+        mode: IBuilderMode,
+        options: ISaveActionOptions,
+    ): Promise<boolean> => {
+        const {files} = options;
+
+        if (files && files.length) {
+            // TODO: брать из syssettings
+            const limit = pLimit(3);
+            const promises = files.map((file: File) => {
+                const formData = new FormData();
+
+                formData.append("upload_file", file);
+
+                return limit(() =>
+                    saveAction.call(this, values, mode, {
+                        bc: this.bc,
+                        filesNames: [file.name],
+                        formData,
+                        pageStore: this.pageStore,
+                        recordId: this.recordId,
+                        ...options,
+                    }),
+                );
+            });
+
+            const statuses = await Promise.all(promises);
+
+            return statuses.every(Boolean);
+        }
+
+        return saveAction.call(this, values, mode, {
+            bc: this.bc,
+            pageStore: this.pageStore,
+            recordId: this.recordId,
+            ...options,
+        });
+    };
 
     downloadAction = (values: Record<string, FieldValue>, mode: IBuilderMode, options: ISaveActionOptions) => {
         return download(values, mode, {
@@ -449,7 +480,7 @@ export class RecordsModel implements IRecordsModel {
             return this.saveAction(this.selectedRecord, "3", {...options, query: options.actionBc.updatequery});
         }
 
-        return Promise.resolve("");
+        return Promise.resolve(false);
     };
 
     setRecordsAction = (records: IRecord[]) => {

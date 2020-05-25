@@ -37,3 +37,12 @@ export const preference = {
     ...getFromStore<typeof defaultPreference>("preference"),
 };
 export const MAX_NUMBER_SIZE = 9;
+export const ACTIONS_MODE_MAP = {
+    1: "I",
+    2: "U",
+    3: "D",
+    4: "U",
+    6: "I",
+    7: "I",
+    8: "I",
+};

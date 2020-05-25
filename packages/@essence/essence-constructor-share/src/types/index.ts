@@ -6,7 +6,6 @@ export * from "./PageModel";
 export * from "./PagesModel";
 export * from "./RecordsModel";
 export * from "./StoreBaseModel";
-export * from "./Module";
 export * from "./Request";
 export * from "./RoutesModel";
 export * from "./Grid";

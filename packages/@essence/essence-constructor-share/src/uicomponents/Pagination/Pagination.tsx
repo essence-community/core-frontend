@@ -1,4 +1,5 @@
 import * as React from "react";
+import cn from "clsx";
 import {IconButton, Typography} from "@material-ui/core";
 import {useTranslation} from "../../utils/I18n";
 import {Icon} from "../../Icon";
@@ -11,6 +12,7 @@ interface IPaginationProps {
     count: number;
     rowsPerPage: number;
     ckPageObject: string;
+    className?: string;
 }
 
 export const Pagination: React.FC<IPaginationProps> = (props) => {
@@ -37,7 +39,7 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
     };
 
     return (
-        <div className={classes.root}>
+        <div className={cn(classes.root, props.className)}>
             <IconButton
                 data-qtip={trans("static:23264e86a9cd446f83cee0eb86c20bd9")}
                 color="primary"

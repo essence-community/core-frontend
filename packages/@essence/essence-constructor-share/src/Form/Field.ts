@@ -306,7 +306,9 @@ export class Field implements IField {
             this.errors = [];
         } else {
             const errors = this.rules.reduce<TError[]>((acc, ruleConfig) => {
-                const [rule, req] = ruleConfig.split(":");
+                const posSep = ruleConfig.indexOf(":");
+                const rule = posSep === -1 ? ruleConfig : ruleConfig.slice(0, posSep);
+                const req = posSep === -1 ? undefined : ruleConfig.slice(posSep + 1);
 
                 if (validations[rule]) {
                     const err: TError | undefined = validations[rule](this, this.form, req);

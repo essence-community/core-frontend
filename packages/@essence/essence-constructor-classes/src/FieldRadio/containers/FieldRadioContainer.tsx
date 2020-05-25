@@ -65,10 +65,7 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
     useFieldSetGlobal({bc, field, pageStore});
 
     React.useEffect(() => reaction(() => field.value, handleReactValue), [field, handleReactValue]);
-    React.useEffect(() => reaction(() => store.suggestions, handleChangeSuggestions), [
-        handleChangeSuggestions,
-        store.suggestions,
-    ]);
+    React.useEffect(() => reaction(() => store.suggestions, handleChangeSuggestions), [handleChangeSuggestions, store]);
 
     React.useEffect(() => {
         if (getgloballist) {

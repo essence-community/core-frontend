@@ -3,7 +3,7 @@ import cn from "clsx";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {useTranslation} from "@essence-community/constructor-share/utils";
-import {useTextFieldProps, useFieldSetGlobal} from "@essence-community/constructor-share/hooks";
+import {useTextFieldProps, useFieldSetGlobal, useDefaultValueQuery} from "@essence-community/constructor-share/hooks";
 import {useField} from "@essence-community/constructor-share/Form";
 import {FormLabel} from "@material-ui/core";
 import {TextFieldLabel} from "@essence-community/constructor-share/uicomponents";
@@ -21,6 +21,7 @@ export const FieldColorContainer: React.FC<IClassProps> = (props) => {
     const textFieldProps = useTextFieldProps({bc, disabled, field, readOnly});
 
     useFieldSetGlobal({bc, field, pageStore});
+    useDefaultValueQuery({bc, field, pageStore});
 
     return useObserver(() => (
         <label

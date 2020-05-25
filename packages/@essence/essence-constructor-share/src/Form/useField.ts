@@ -12,6 +12,7 @@ interface IUseFieldProps {
     pageStore: IPageModel;
     isArray?: boolean;
     isObject?: boolean;
+    defaultValueFn?: IField["defaultValueFn"];
     output?: IRegisterFieldOptions["output"];
     input?: IRegisterFieldOptions["input"];
     disabled?: boolean;

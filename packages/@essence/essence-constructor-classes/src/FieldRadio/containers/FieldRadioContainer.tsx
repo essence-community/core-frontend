@@ -17,6 +17,7 @@ import {
     useTextFieldProps,
     useFieldGetGlobal,
     useFieldSetGlobal,
+    useDefaultValueQuery,
 } from "@essence-community/constructor-share/hooks";
 import {useField} from "@essence-community/constructor-share/Form";
 import {useObserver} from "mobx-react-lite";
@@ -63,6 +64,7 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
 
     useFieldGetGlobal({bc, field, pageStore});
     useFieldSetGlobal({bc, field, pageStore});
+    useDefaultValueQuery({bc, field, pageStore});
 
     React.useEffect(() => reaction(() => field.value, handleReactValue), [field, handleReactValue]);
     React.useEffect(() => reaction(() => store.suggestions, handleChangeSuggestions), [

@@ -1,6 +1,11 @@
 import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
-import {useModel, useFieldGetGlobal, useFieldSetGlobal} from "@essence-community/constructor-share/hooks";
+import {
+    useModel,
+    useFieldGetGlobal,
+    useFieldSetGlobal,
+    useDefaultValueQuery,
+} from "@essence-community/constructor-share/hooks";
 import {isEmpty} from "@essence-community/constructor-share/utils";
 import {useField} from "@essence-community/constructor-share/Form";
 import {reaction} from "mobx";
@@ -26,6 +31,7 @@ export const FieldMultiContainer: React.FC<IClassProps> = (props) => {
 
     useFieldGetGlobal({bc, field, pageStore, store});
     useFieldSetGlobal({bc, field, pageStore, store});
+    useDefaultValueQuery({bc, field, pageStore});
 
     React.useEffect(() => {
         return reaction(

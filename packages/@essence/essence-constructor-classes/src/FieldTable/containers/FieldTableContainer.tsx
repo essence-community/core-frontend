@@ -3,7 +3,12 @@ import {toSize, isEmpty} from "@essence-community/constructor-share/utils";
 import {VALUE_SELF_FIRST, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
-import {useModel, useFieldGetGlobal, useFieldSetGlobal} from "@essence-community/constructor-share/hooks";
+import {
+    useModel,
+    useFieldGetGlobal,
+    useFieldSetGlobal,
+    useDefaultValueQuery,
+} from "@essence-community/constructor-share/hooks";
 import {reaction} from "mobx";
 import {Popover} from "@essence-community/constructor-share/uicomponents";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
@@ -20,6 +25,7 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
 
     useFieldGetGlobal({bc, field, pageStore, store});
     useFieldSetGlobal({bc, field, pageStore, store});
+    useDefaultValueQuery({bc, field, pageStore});
 
     React.useEffect(() => {
         if (!isEmpty(field.value) && !Array.isArray(field.value)) {

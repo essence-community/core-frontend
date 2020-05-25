@@ -2,7 +2,12 @@ import * as React from "react";
 import {reaction} from "mobx";
 import {IClassProps, FieldValue} from "@essence-community/constructor-share/types";
 import {Popover} from "@essence-community/constructor-share/uicomponents";
-import {useModel, useFieldGetGlobal, useFieldSetGlobal} from "@essence-community/constructor-share/hooks";
+import {
+    useModel,
+    useFieldGetGlobal,
+    useFieldSetGlobal,
+    useDefaultValueQuery,
+} from "@essence-community/constructor-share/hooks";
 import {useTranslation, isEmpty} from "@essence-community/constructor-share/utils";
 import {IPopoverChildrenProps} from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";
 import {useField} from "@essence-community/constructor-share/Form";
@@ -66,6 +71,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
 
     useFieldGetGlobal({bc, field, pageStore, store});
     useFieldSetGlobal({bc, field, pageStore, store});
+    useDefaultValueQuery({bc, field, pageStore});
 
     React.useEffect(() => {
         if (!isEmpty(field.value) && !store.recordsStore.isLoading) {

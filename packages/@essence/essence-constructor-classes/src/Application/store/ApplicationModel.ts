@@ -105,9 +105,11 @@ export class ApplicationModel implements IApplicationModel {
             return NONE_BC;
         }
 
-        return children.find((rec: IBuilderConfig) => {
-            return parseMemoize(rec.activerules).runer({get: this.handleGetValue});
-        });
+        return (
+            children.find((rec: IBuilderConfig) => {
+                return parseMemoize(rec.activerules).runer({get: this.handleGetValue});
+            }) || NONE_BC
+        );
     }
 
     @observable blockText = "";

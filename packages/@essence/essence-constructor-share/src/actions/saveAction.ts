@@ -8,6 +8,9 @@ import {
     loggerRoot,
     VAR_RECORD_CK_MAIN,
     VAR_RECORD_CL_WARNING,
+    ACTIONS_MODE_MAP,
+    VAR_RECORD_CV_ACTION,
+    META_PAGE_OBJECT,
 } from "../constants";
 import {ProgressModel, snackbarStore} from "../models";
 import {
@@ -23,7 +26,7 @@ import {findGetGlobalKey, isEmpty, i18next} from "../utils";
 import {getMasterObject} from "../utils/getMasterObject";
 import {TText} from "../types/SnackbarModel";
 import {IForm} from "../Form";
-import {apiSaveAction} from "./apiSaveAction";
+import {request} from "../request";
 import {setMask} from "./recordsActions";
 
 export interface IConfig {
@@ -89,7 +92,7 @@ export const attachGlobalValues = ({globalValues, getglobaltostore, values}: IAt
     return values;
 };
 
-// eslint-disable-next-line max-params, max-statements
+// eslint-disable-next-line max-params, max-statements, max-lines-per-function
 export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mode: IBuilderMode, config: IConfig) {
     const {
         actionBc,
@@ -141,19 +144,26 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
 
     setMask(bc.noglobalmask, pageStore, true);
 
-    return apiSaveAction(filteredValues, {
-        [VAR_RECORD_CK_MAIN]: main,
-        [VAR_RECORD_CL_WARNING]: warningStatus,
-        [VAR_RECORD_PAGE_OBJECT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-        [VAR_RECORD_ROUTE_PAGE_ID]: pageStore.pageId,
+    return request({
+        [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
         action,
         formData,
-        master,
-        mode: modeCheck,
+        json: {
+            data: filteredValues,
+            master,
+            service: {
+                [VAR_RECORD_CK_MAIN]: main,
+                [VAR_RECORD_CL_WARNING]: warningStatus,
+                [VAR_RECORD_CV_ACTION]: ACTIONS_MODE_MAP[modeCheck] || modeCheck,
+                [VAR_RECORD_PAGE_OBJECT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+                [VAR_RECORD_ROUTE_PAGE_ID]: pageStore.pageId,
+            },
+        },
+        list: false,
         onUploadProgress,
         plugin: extraplugingate || bc.extraplugingate,
         query,
-        session: (this.applicationStore && this.applicationStore.authStore.userInfo.session) || "",
+        session: this.applicationStore?.authStore.userInfo.session || "",
         timeout,
     })
         .then(

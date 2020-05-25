@@ -9,7 +9,8 @@ export const ButtonContainer: React.FC<IClassProps> = (props) => {
     const {bc, readOnly, disabled, pageStore} = props;
     const fileInputStore = React.useMemo(() => {
         return bc.mode === "8" ? new FileInputModel({applicationStore: null, bc, pageStore}) : undefined;
-    }, [bc, pageStore]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     const [onClick, isDisabled, popoverCtx] = useButtonClick({
         bc,
         disabled,

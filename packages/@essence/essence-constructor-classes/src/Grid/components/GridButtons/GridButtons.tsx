@@ -145,16 +145,21 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
                 )}
 
                 {pageSize && theme.palette.type === "light" ? (
-                    <Grid item xs>
-                        <Pagination
-                            disabled={classProps.disabled || isInlineEditing}
-                            count={recordsCount}
-                            rowsPerPage={pageSize}
-                            page={pageNumber}
-                            onChangePage={store.recordsStore.setPageNumberAction}
-                            ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]}
-                        />
-                    </Grid>
+                    <>
+                        <Grid item xs>
+                            &nbsp;
+                        </Grid>
+                        <Grid item>
+                            <Pagination
+                                disabled={classProps.disabled || isInlineEditing}
+                                count={recordsCount}
+                                rowsPerPage={pageSize}
+                                page={pageNumber}
+                                onChangePage={store.recordsStore.setPageNumberAction}
+                                ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]}
+                            />
+                        </Grid>
+                    </>
                 ) : null}
             </Grid>
         );

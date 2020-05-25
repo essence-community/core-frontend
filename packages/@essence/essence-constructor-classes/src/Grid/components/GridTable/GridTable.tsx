@@ -166,6 +166,7 @@ export const GridTable: React.FC<IGridTableProps> = ({store, children, ...classP
                             rowsPerPage={pageSize}
                             page={pageNumber}
                             onChangePage={store.recordsStore.setPageNumberAction}
+                            className={classes.pagination}
                         />
                     ) : null}
                 </Grid>

@@ -9,6 +9,9 @@ export const useStyles = makeStyles(
         headerScroll: {
             overflow: "hidden",
         },
+        pagination: {
+            justifyContent: "center",
+        },
         tableBodyRoot: {
             marginBottom: SCROLL_WEIGHT - 2,
             tableLayout: "fixed",

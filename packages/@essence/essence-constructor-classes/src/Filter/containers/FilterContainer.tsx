@@ -100,7 +100,7 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                                         <ChildComp
                                             {...props}
                                             bc={child}
-                                            disabled={store.isOpen ? false : props.disabled}
+                                            disabled={store.isOpen ? props.disabled : true}
                                         />
                                     </Grid>
                                 ))}

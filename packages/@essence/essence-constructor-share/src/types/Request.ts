@@ -7,7 +7,7 @@ import {
 import {FieldValue} from "./Base";
 
 export interface IRequest {
-    query?: string;
+    query: string;
     action?: string;
     body?: Record<string, FieldValue>;
     session?: string;

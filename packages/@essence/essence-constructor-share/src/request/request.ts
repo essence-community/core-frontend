@@ -43,7 +43,7 @@ const parseResponse = ({responseJSON, list}: IRequestCheckError) => {
 // eslint-disable-next-line max-statements
 export const request = async <R = IRecord | IRecord[]>({
     json,
-    query = "",
+    query,
     action = "dml",
     [META_PAGE_OBJECT]: pageObjectName = "",
     session,
@@ -77,7 +77,7 @@ export const request = async <R = IRecord | IRecord[]>({
 
     // fallback to xhr for upload progress
     if (onUploadProgress) {
-        responseJSON = await axios({
+        const response = await axios({
             data: formData ? formData : stringify(data),
             headers: {
                 "Content-type": "application/x-www-form-urlencoded",
@@ -87,6 +87,8 @@ export const request = async <R = IRecord | IRecord[]>({
             timeout: parseInt(timeout, 10) * MILLISECOND,
             url: `${gate}?${stringify(formData ? {...queryParams, ...data} : queryParams)}`,
         });
+
+        responseJSON = response.data;
     } else {
         const controller = window.AbortController ? new window.AbortController() : undefined;
         const timeoutId = window.setTimeout(() => controller?.abort(), parseInt(timeout, 10) * MILLISECOND);

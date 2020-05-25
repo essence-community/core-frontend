@@ -1,4 +1,4 @@
-import {forOwn, noop} from "lodash";
+import {forOwn} from "lodash";
 import {ObservableMap, toJS} from "mobx";
 import {
     VAR_RECORD_ID,
@@ -98,7 +98,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
         actionBc,
         action,
         [VAR_RECORD_CL_WARNING]: warningStatus = 0,
-        query,
+        query = "Modify",
         bc,
         pageStore,
         recordId = VAR_RECORD_ID,
@@ -111,7 +111,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
     const masterId = bc[VAR_RECORD_MASTER_ID];
     let master = undefined;
     let modeCheck = mode;
-    let onUploadProgress = noop;
+    let onUploadProgress;
     let filteredValues = null;
     let main = null;
 

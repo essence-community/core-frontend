@@ -86,6 +86,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
         body,
         // Gate: bc[VAR_RECORD_CK_D_ENDPOINT],
         json,
+        list: false,
         plugin: bcBtn.extraplugingate || bc.extraplugingate,
         query: bc[VAR_RECORD_QUERY_ID] || "",
         session: pageStore.applicationStore.authStore.userInfo.session,

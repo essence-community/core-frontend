@@ -4,7 +4,12 @@ import {Icon} from "@essence-community/constructor-share/Icon";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
-import {useTextFieldProps, useFieldSetGlobal, useFieldGetGlobal} from "@essence-community/constructor-share/hooks";
+import {
+    useTextFieldProps,
+    useFieldSetGlobal,
+    useFieldGetGlobal,
+    useDefaultValueQuery,
+} from "@essence-community/constructor-share/hooks";
 import {useStyles} from "./FIeldPasswordContainer.styles";
 
 export const FieldPasswordContainer: React.FC<IClassProps> = (props) => {
@@ -23,6 +28,7 @@ export const FieldPasswordContainer: React.FC<IClassProps> = (props) => {
 
     useFieldSetGlobal({bc, field, pageStore});
     useFieldGetGlobal({bc, field, pageStore});
+    useDefaultValueQuery({bc, field, pageStore});
 
     const textFieldProps = useTextFieldProps({
         bc,

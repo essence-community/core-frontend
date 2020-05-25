@@ -11,7 +11,12 @@ import {useObserver} from "mobx-react-lite";
 import {TextFieldLabel} from "@essence-community/constructor-share/uicomponents/TextFieldLabel";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
-import {useTextFieldProps, useFieldSetGlobal, useFieldGetGlobal} from "@essence-community/constructor-share/hooks";
+import {
+    useTextFieldProps,
+    useFieldSetGlobal,
+    useFieldGetGlobal,
+    useDefaultValueQuery,
+} from "@essence-community/constructor-share/hooks";
 import {useStyles} from "./FieldCheckboxContainer.styles";
 
 export const FieldCheckboxContainer: React.FC<IClassProps> = (props) => {
@@ -38,6 +43,7 @@ export const FieldCheckboxContainer: React.FC<IClassProps> = (props) => {
 
     useFieldSetGlobal({bc, field, pageStore});
     useFieldGetGlobal({bc, field, pageStore});
+    useDefaultValueQuery({bc, field, pageStore});
 
     return useObserver(() => {
         const isInline = bc.edittype && bc.edittype === "inline";

@@ -8,7 +8,9 @@ import {
     useFieldGetGlobal,
     useFieldSetGlobal,
     useFieldDisabled,
+    useDefaultValueQuery,
 } from "@essence-community/constructor-share/hooks";
+import {VAR_RECORD_CT_DATE} from "@essence-community/constructor-share/constants";
 import {TextFieldMask} from "@essence-community/constructor-share/uicomponents";
 import {TextField, IconButton} from "@material-ui/core";
 import {useTranslation} from "@essence-community/constructor-share/utils";
@@ -36,6 +38,7 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
 
     useFieldGetGlobal({bc, field, pageStore});
     useFieldSetGlobal({bc, field, pageStore});
+    useDefaultValueQuery({bc, field, nameAttr: VAR_RECORD_CT_DATE, pageStore});
     const [open, setOpen] = React.useState<boolean>(false);
     const [momentValue, setMomentValue] = React.useState<moment.Moment | undefined>(undefined);
     const [formatValue, setFormatValue] = React.useState<string | undefined>(undefined);
@@ -158,8 +161,8 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
 
     React.useEffect(() => {
         if (defaultvalue === "sysdate") {
-            field.setDefaultValueFn((field, setValue) => {
-                setValue(moment().format(dateConfig.serverFormat));
+            field.setDefaultValueFn((field, onChange) => {
+                onChange(moment().format(dateConfig.serverFormat));
             });
         }
     }, [field, defaultvalue, dateConfig]);

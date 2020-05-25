@@ -1,7 +1,12 @@
 import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
-import {useTextFieldProps, useFieldGetGlobal, useFieldSetGlobal} from "@essence-community/constructor-share/hooks";
+import {
+    useTextFieldProps,
+    useFieldGetGlobal,
+    useFieldSetGlobal,
+    useDefaultValueQuery,
+} from "@essence-community/constructor-share/hooks";
 import {reaction} from "mobx";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {TextField} from "@material-ui/core";
@@ -38,7 +43,7 @@ export const FieldTextareaContainer: React.FC<IClassProps> = (props) => {
 
     useFieldGetGlobal({bc, field, pageStore});
     useFieldSetGlobal({bc, field, pageStore});
-
+    useDefaultValueQuery({bc, field, pageStore});
     React.useEffect(() => {
         return reaction(
             () => form.editing,

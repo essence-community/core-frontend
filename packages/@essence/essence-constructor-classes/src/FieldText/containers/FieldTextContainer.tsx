@@ -1,7 +1,12 @@
 import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
-import {useTextFieldProps, useFieldSetGlobal, useFieldGetGlobal} from "@essence-community/constructor-share/hooks";
+import {
+    useTextFieldProps,
+    useFieldSetGlobal,
+    useFieldGetGlobal,
+    useDefaultValueQuery,
+} from "@essence-community/constructor-share/hooks";
 import {TextFieldMask} from "@essence-community/constructor-share/uicomponents";
 import {TextField} from "@material-ui/core";
 import {FieldTextSmartMask} from "../components/FieldTextSmartMask";
@@ -24,6 +29,7 @@ export const FieldTextContainer: React.FC<IClassProps> = (props) => {
 
     useFieldSetGlobal({bc, field, pageStore});
     useFieldGetGlobal({bc, field, pageStore});
+    useDefaultValueQuery({bc, field, pageStore});
 
     if (bc.imask) {
         return bc.imask.indexOf("!") === 0 ? (

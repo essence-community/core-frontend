@@ -8,7 +8,12 @@ import {useObserver} from "mobx-react-lite";
 import {useTranslation, toTranslateTextArray} from "@essence-community/constructor-share/utils";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
-import {useTextFieldProps, useFieldGetGlobal, useFieldSetGlobal} from "@essence-community/constructor-share/hooks";
+import {
+    useTextFieldProps,
+    useFieldGetGlobal,
+    useFieldSetGlobal,
+    useDefaultValueQuery,
+} from "@essence-community/constructor-share/hooks";
 import {FieldMarkdownLabel} from "../components/FieldMarkdownLabel";
 import {useStyles} from "./FieldMarkdownContainer.styles";
 
@@ -46,6 +51,7 @@ export const FieldMarkdownContainer: React.FC<IClassProps> = (props) => {
 
     useFieldGetGlobal({bc, field, pageStore});
     useFieldSetGlobal({bc, field, pageStore});
+    useDefaultValueQuery({bc, field, pageStore});
 
     return useObserver(() => {
         const error = Boolean(!textFieldProps.disabled && !field.isValid);

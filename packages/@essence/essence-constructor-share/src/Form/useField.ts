@@ -5,7 +5,6 @@ import {IBuilderConfig, IPageModel, FieldValue} from "../types";
 import {FormContext, ParentFieldContext} from "../context";
 import {VAR_RECORD_MASTER_ID, VAR_RECORD_CL_IS_MASTER, VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
 import {isEmpty} from "../utils";
-import {useDefaultValueQuery} from "../hooks/useDefaultValueQuery";
 import {IField, IRegisterFieldOptions} from "./types";
 
 interface IUseFieldProps {
@@ -93,7 +92,6 @@ export const useField = ({bc, pageStore, output, input, isArray, disabled, hidde
         field.setHidden(hidden);
     }, [field, disabled, hidden]);
 
-    useDefaultValueQuery({bc, field, pageStore});
     useEffect(() => {
         return () => {
             form.unregisterField(key);

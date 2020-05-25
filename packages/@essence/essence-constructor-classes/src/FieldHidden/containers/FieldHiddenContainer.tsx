@@ -1,7 +1,7 @@
 import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
-import {useFieldGetGlobal, useFieldSetGlobal} from "@essence-community/constructor-share/hooks";
+import {useFieldGetGlobal, useFieldSetGlobal, useDefaultValueQuery} from "@essence-community/constructor-share/hooks";
 
 export const FIeldHiddenContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
@@ -9,6 +9,7 @@ export const FIeldHiddenContainer: React.FC<IClassProps> = (props) => {
 
     useFieldGetGlobal({bc, field, pageStore});
     useFieldSetGlobal({bc, field, pageStore});
+    useDefaultValueQuery({bc, field, pageStore});
 
     return null;
 };

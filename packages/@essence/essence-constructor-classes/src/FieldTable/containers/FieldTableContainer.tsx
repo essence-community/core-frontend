@@ -20,6 +20,7 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
 
     useFieldGetGlobal({bc, field, pageStore, store});
     useFieldSetGlobal({bc, field, pageStore, store});
+    useDefaultValueQuery({bc, field, pageStore});
 
     React.useEffect(() => {
         if (!isEmpty(field.value) && !Array.isArray(field.value)) {

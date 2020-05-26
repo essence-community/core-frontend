@@ -27,7 +27,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
     const theme = useTheme();
     const isDarkTheme = theme.palette.type === "dark";
     const form = React.useContext(FormContext);
-    const isHideActions = hideactions === "true";
+    const isHideActions = React.useMemo(() => hideactions === "true" || topbtn.length === 0, [hideactions, topbtn]);
     const filterIsOpen: boolean = useObserver(() => {
         const filterStore: any = filters[0] && pageStore.stores.get(filters[0][VAR_RECORD_PAGE_OBJECT_ID]);
 

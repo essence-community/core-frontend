@@ -20,8 +20,10 @@ export const PanelContainer: React.FC<IPanelContainerProps> = (props) => {
     const {hideTitle, bc, elevation} = props;
     const {collapsible, editmodepanel} = bc;
     const [trans] = useTranslation("meta");
+    const [isHiddenTitle, setHiddenTitle] = React.useState<boolean>(hideTitle || false);
     const collapsePanel: renderFn = React.useMemo(() => {
         if (collapsible === "true") {
+            setHiddenTitle(true);
             const collapseBc = {
                 ...bc,
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-collapsible-panel`,
@@ -50,7 +52,7 @@ export const PanelContainer: React.FC<IPanelContainerProps> = (props) => {
                     </Child>
                 ));
         }
-        if (!hideTitle && bc[VAR_RECORD_DISPLAYED]) {
+        if (!isHiddenTitle && bc[VAR_RECORD_DISPLAYED]) {
             return (render: renderFn) => (
                 <Grid container spacing={0} direction="column">
                     <Grid item xs>
@@ -68,7 +70,7 @@ export const PanelContainer: React.FC<IPanelContainerProps> = (props) => {
         }
 
         return (render: renderFn) => <PanelWrapper {...props}>{render()}</PanelWrapper>;
-    }, [bc, editmodepanel, hideTitle, props, trans]);
+    }, [bc, editmodepanel, isHiddenTitle, props, trans]);
 
     const content = React.useMemo(() => {
         if (elevation) {

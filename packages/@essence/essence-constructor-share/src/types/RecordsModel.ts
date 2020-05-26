@@ -62,8 +62,7 @@ export interface IRecordsSearchOptions {
     filter?: Record<string, FieldValue>[];
     reset?: boolean;
     noLoad?: boolean;
-    resetFilter?: boolean;
-    selectedRecordId?: string;
+    selectedRecordId?: ICkId;
     status?: RecordsStateStatusType;
     isUserReload?: boolean;
 }

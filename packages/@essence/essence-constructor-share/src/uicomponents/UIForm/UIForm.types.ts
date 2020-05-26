@@ -1,13 +1,4 @@
-import {IForm} from "../../Form";
-import {IPageModel, IRecord, IBuilderMode, IBuilderConfig} from "../../types";
-
-interface IFormOptionsType {
-    reset?: boolean;
-    form: IForm;
-    noClean?: boolean;
-    noLoad?: boolean;
-    resetFilter?: boolean;
-}
+import {IPageModel, IRecord, IBuilderMode, IBuilderConfig, IFormOptions} from "../../types";
 
 export interface IUIFormProps {
     pageStore: IPageModel;
@@ -20,5 +11,5 @@ export interface IUIFormProps {
     submitOnChange?: boolean;
     className?: string;
     style?: React.CSSProperties;
-    onSubmit: (values: IRecord, options: IFormOptionsType) => Promise<void> | void;
+    onSubmit: (values: IRecord, options: IFormOptions) => Promise<void> | void;
 }

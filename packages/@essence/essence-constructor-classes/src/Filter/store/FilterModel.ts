@@ -1,5 +1,5 @@
 import {action, observable, computed} from "mobx";
-import {removeFromStore, print, findSetKey, isEmpty, saveToStore} from "@essence-community/constructor-share/utils";
+import {removeFromStore, print, findSetKey, saveToStore} from "@essence-community/constructor-share/utils";
 import {snackbarStore, StoreBaseModel} from "@essence-community/constructor-share/models";
 import {
     VAR_RECORD_PARENT_ID,
@@ -14,7 +14,7 @@ import {
     IBuilderConfig,
     IHandlerOptions,
     IStoreBaseModelProps,
-    IRecordsSearchOptions,
+    IFormOptions,
 } from "@essence-community/constructor-share/types";
 import {attachGlobalValues} from "@essence-community/constructor-share/actions/saveAction";
 import {awaitFormFilter} from "@essence-community/constructor-share/models/PageModel/PageModelRedirect";
@@ -44,14 +44,16 @@ export class FilterModel extends StoreBaseModel {
     setValues = (values: IRecord): void => {
         const filterValues = {...values};
 
-        if (isEmpty(filterValues[this.recordId]) && this.bc.childs) {
-            for (const child of this.bc.childs) {
-                if (child.required === "true" && child.column) {
-                    filterValues[this.recordId] = filterValues[child.column];
-                    break;
-                }
-            }
-        }
+        // TODO: remove after 2.4
+        // Not used before refactoring
+        // if (isEmpty(filterValues[this.recordId]) && this.bc.childs) {
+        //     for (const child of this.bc.childs) {
+        //         if (child.required === "true" && child.column) {
+        //             filterValues[this.recordId] = filterValues[child.column];
+        //             break;
+        //         }
+        //     }
+        // }
         if (this.valuesStorageKey) {
             saveToStore(this.valuesStorageKey, filterValues);
         }
@@ -121,10 +123,21 @@ export class FilterModel extends StoreBaseModel {
     };
 
     @action
-    handleSubmit = async (values: IRecord, options?: IRecordsSearchOptions) => {
+    handleSubmit = async (values: IRecord, options?: IFormOptions) => {
         const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_PARENT_ID]);
+        const form = this.pageStore.forms.get(this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
 
-        this.setValues(values);
+        if (options && !options.redirect && form) {
+            // Reset hidden field for not redirected search
+            form.fields.forEach((field) => {
+                if (field.hidden) {
+                    field.reset();
+                }
+            });
+            this.setValues(form.values);
+        } else {
+            this.setValues(values);
+        }
 
         if (parentStore && parentStore.recordsStore) {
             await parentStore.recordsStore.searchAction(this.values, options);

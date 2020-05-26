@@ -38,7 +38,7 @@ export const useStyles = makeStyles(
             theme.palette.type === "light"
                 ? {
                       "&:before": {
-                          borderTop: `5px solid ${theme.palette.secondary.light}`,
+                          borderTop: `5px solid ${theme.palette.secondary.main}`,
                           bottom: 0,
                           content: "''",
                           height: 23,
@@ -79,7 +79,7 @@ export const useStyles = makeStyles(
                       "&:before": {
                           borderLeft: `1px solid ${theme.essence.palette.grey.main}`,
                           borderRight: `1px solid ${theme.essence.palette.grey.main}`,
-                          borderTop: `5px solid ${theme.palette.secondary.light}`,
+                          borderTop: `5px solid ${theme.palette.secondary.main}`,
                           bottom: 0,
                           content: "''",
                           height: 23,

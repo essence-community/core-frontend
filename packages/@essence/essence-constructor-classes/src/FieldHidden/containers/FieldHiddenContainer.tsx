@@ -5,7 +5,7 @@ import {useFieldGetGlobal, useFieldSetGlobal, useDefaultValueQuery} from "@essen
 
 export const FIeldHiddenContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
-    const field = useField(props);
+    const field = useField({bc, hidden: true, pageStore});
 
     useFieldGetGlobal({bc, field, pageStore});
     useFieldSetGlobal({bc, field, pageStore});

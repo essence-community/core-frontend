@@ -33,7 +33,6 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
     const firstFilter = bc.filters?.[0];
     const transCvDisplayed = toTranslateText(trans, bc[VAR_RECORD_DISPLAYED]);
     const isFilterActionsPresent = firstFilter && firstFilter.dynamicfilter !== "true";
-    const filterStore = firstFilter && pageStore.stores.get(firstFilter[VAR_RECORD_PAGE_OBJECT_ID]);
     const classNameRoot = cn(classes.root, isHideActions ? undefined : classes.rootActions);
     let marginTop = 0;
 
@@ -120,15 +119,17 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
     const setRefGridContent = (node: HTMLElement | null) => store.addRefAction("grid-content", node);
     const setRefGridInlineButton = (node: HTMLElement | null) => store.addRefAction("grid-inline-button", node);
 
-    if (isFilterActionsPresent && theme.palette.type === "dark") {
-        if (firstFilter && firstFilter.topbtn && firstFilter.topbtn.length > 0) {
-            marginTop = firstFilter.topbtn.length * FITER_ONE_BUTTON;
-        } else {
-            marginTop = filterStore && (filterStore as any).isOpen ? FILTER_THREE_BUTTON : FITER_ONE_BUTTON;
-        }
-    }
-
     return useObserver(() => {
+        const filterStore = firstFilter && pageStore.stores.get(firstFilter[VAR_RECORD_PAGE_OBJECT_ID]);
+
+        if (isFilterActionsPresent && theme.palette.type === "dark") {
+            if (firstFilter && firstFilter.topbtn && firstFilter.topbtn.length > 0) {
+                marginTop = firstFilter.topbtn.length * FITER_ONE_BUTTON;
+            } else {
+                marginTop = filterStore && (filterStore as any).isOpen ? FILTER_THREE_BUTTON : FITER_ONE_BUTTON;
+            }
+        }
+
         const actionsComponent = isHideActions ? null : (
             <Grid
                 style={{marginTop}}

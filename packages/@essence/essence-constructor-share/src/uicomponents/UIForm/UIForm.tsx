@@ -28,7 +28,7 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
 
     const handleValueChange = React.useCallback(
         debounce((form: IForm) => {
-            form.submit();
+            form.onSubmit();
         }, CHANGE_DELAY),
         [],
     );
@@ -53,7 +53,7 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
                 await form.validate();
 
                 if (form.isValid) {
-                    await onSubmit(form.values, {form, noClean: true, resetFilter: true});
+                    await onSubmit(form.values, {form, redirect: true, reset: true});
                 }
             }
         },

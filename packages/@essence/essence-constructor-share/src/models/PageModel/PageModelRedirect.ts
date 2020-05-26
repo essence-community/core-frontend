@@ -98,7 +98,7 @@ function getNotFieldParams(forms: IForm[], params: IRecord) {
     forms.forEach((form: IForm) => {
         for (const field of form.fields.values()) {
             if (Object.prototype.hasOwnProperty.call(params, field.key)) {
-                delete params[field.key];
+                delete notFieldParams[field.key];
             }
         }
     });

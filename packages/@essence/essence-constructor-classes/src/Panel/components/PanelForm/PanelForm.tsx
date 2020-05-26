@@ -28,6 +28,11 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
     const isDarkTheme = theme.palette.type === "dark";
     const form = React.useContext(FormContext);
     const isHideActions = hideactions === "true";
+    const filterIsOpen: boolean = useObserver(() => {
+        const filterStore: any = filters[0] && pageStore.stores.get(filters[0][VAR_RECORD_PAGE_OBJECT_ID]);
+
+        return filterStore && filterStore.isOpen;
+    });
 
     const [trans] = useTranslation("meta");
     const transCvDisplayed = toTranslateText(trans, bc[VAR_RECORD_DISPLAYED]);
@@ -37,18 +42,17 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
 
     const paddingTop = React.useMemo(() => {
         const isFilterActionsPresent = filters.length > 0 && filters[0].dynamicfilter !== "true";
-        const filterStore: any = filters[0] && pageStore.stores.get(filters[0][VAR_RECORD_PAGE_OBJECT_ID]);
 
-        if (isFilterActionsPresent && theme.palette.type === "dark") {
+        if (isFilterActionsPresent && isDarkTheme) {
             if (filters && filters[0].topbtn && filters[0].topbtn.length > 0) {
                 return filters[0].topbtn.length * FITER_ONE_BUTTON;
             }
 
-            return filterStore && filterStore.isOpen ? FILTER_THREE_BUTTON : FITER_ONE_BUTTON;
+            return filterIsOpen ? FILTER_THREE_BUTTON : FITER_ONE_BUTTON;
         }
 
         return undefined;
-    }, [filters, pageStore.stores, theme.palette.type]);
+    }, [filterIsOpen, filters, isDarkTheme]);
 
     return useObserver(() => {
         const isEditing = form.editing;

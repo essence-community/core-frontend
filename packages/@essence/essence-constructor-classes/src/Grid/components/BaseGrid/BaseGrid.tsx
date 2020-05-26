@@ -30,6 +30,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
     const isHideActions = bc.hideactions === "true";
     const [trans] = useTranslation("meta");
     const theme = useTheme();
+    const isDarkTheme = theme.palette.type === "dark";
     const firstFilter = bc.filters?.[0];
     const transCvDisplayed = toTranslateText(trans, bc[VAR_RECORD_DISPLAYED]);
     const isFilterActionsPresent = firstFilter && firstFilter.dynamicfilter !== "true";
@@ -122,7 +123,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
     return useObserver(() => {
         const filterStore = firstFilter && pageStore.stores.get(firstFilter[VAR_RECORD_PAGE_OBJECT_ID]);
 
-        if (isFilterActionsPresent && theme.palette.type === "dark") {
+        if (isFilterActionsPresent && isDarkTheme) {
             if (firstFilter && firstFilter.topbtn && firstFilter.topbtn.length > 0) {
                 marginTop = firstFilter.topbtn.length * FITER_ONE_BUTTON;
             } else {
@@ -141,7 +142,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
             </Grid>
         );
         const filterComponent = (
-            <Grid item xs>
+            <Grid item xs={!isDarkTheme}>
                 {mapComponents(bc.filters, (ChildCmp, childBc) => (
                     <ChildCmp key={bc[VAR_RECORD_PAGE_OBJECT_ID]} {...classProps} bc={childBc} />
                 ))}
@@ -170,7 +171,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
             </Grid>
         );
 
-        if (theme.palette.type === "dark") {
+        if (isDarkTheme) {
             return (
                 <Grid container direction="row" className={classNameRoot} wrap="nowrap">
                     {actionsComponent}

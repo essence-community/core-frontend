@@ -73,7 +73,8 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
     useFieldSetGlobal({bc, field, pageStore, store});
     useDefaultValueQuery({bc, field, pageStore});
 
-    React.useEffect(() => {
+    // TODO: call this method before loading in the useModel
+    React.useLayoutEffect(() => {
         if (!isEmpty(field.value) && !store.recordsStore.isLoading) {
             handleReactValue(field.value);
         }

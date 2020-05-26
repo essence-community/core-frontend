@@ -133,6 +133,9 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
     return useObserver(() => (
         <TextField
             {...textFieldProps}
+            data-qtip={
+                textFieldProps["data-qtip"] === String(field.value) ? store.inputValue : textFieldProps["data-qtip"]
+            }
             ref={textFieldRef}
             value={store.inputValue}
             onClick={isDisabled ? undefined : handleInputClick}

@@ -7,6 +7,7 @@ import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constan
 import {EmptyTitle} from "@essence-community/constructor-share/uicomponents/EmptyTitle";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {HistoryPanelWrapper} from "../component/HistoryPanelWrapper/HistoryPanelWrapper";
+import {useStyles} from "./HistoryPanelContainer.styles";
 
 export interface IPanelContainerProps extends IClassProps {
     hideTitle?: boolean;
@@ -14,6 +15,7 @@ export interface IPanelContainerProps extends IClassProps {
 export const HistoryPanelContainer: React.FC<IPanelContainerProps> = (props) => {
     const {hideTitle, bc, elevation} = props;
     const [trans] = useTranslation("meta");
+    const classes = useStyles();
 
     const renderPanel = React.useMemo(() => {
         if (!hideTitle && bc[VAR_RECORD_DISPLAYED]) {
@@ -43,7 +45,7 @@ export const HistoryPanelContainer: React.FC<IPanelContainerProps> = (props) => 
             {mapComponentOne(formBc, (Child, childBc) => (
                 <Child key={childBc.ck_page_object} {...props} bc={childBc}>
                     {elevation ? (
-                        <Paper className="paper-overflow-hidden" elevation={elevation}>
+                        <Paper className={`paper-overflow-hidden ${classes.paper}`} elevation={elevation}>
                             {renderPanel()}
                         </Paper>
                     ) : (

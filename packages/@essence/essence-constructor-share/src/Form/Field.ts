@@ -53,9 +53,9 @@ export class Field implements IField {
 
     private isObject: boolean;
 
-    private disabled: boolean;
+    public disabled: boolean;
 
-    private hidden: boolean;
+    public hidden: boolean;
 
     public registers = 0;
 

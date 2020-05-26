@@ -12,14 +12,9 @@ import {TextField} from "@material-ui/core";
 import {FieldTextSmartMask} from "../components/FieldTextSmartMask";
 
 export const FieldTextContainer: React.FC<IClassProps> = (props) => {
-    const {bc, pageStore} = props;
-    const field = useField({
-        bc,
-        disabled: props.disabled,
-        hidden: props.hidden,
-        pageStore,
-    });
-    const inputProps = useTextFieldProps({bc: props.bc, disabled: props.disabled, field, readOnly: props.readOnly});
+    const {bc, pageStore, disabled, hidden, readOnly} = props;
+    const field = useField({bc, disabled, hidden, pageStore});
+    const inputProps = useTextFieldProps({bc, disabled, field, readOnly});
     const handleChange = React.useCallback(
         (event: React.SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>) => {
             field.onChange(event.currentTarget.value);

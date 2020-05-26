@@ -119,15 +119,26 @@ export class Form implements IForm {
     };
 
     @action
-    onSubmit = async (event: React.SyntheticEvent) => {
-        event.preventDefault();
+    onSubmit = async (event?: React.SyntheticEvent) => {
+        if (event) {
+            event.preventDefault();
+        }
 
         this.validate();
-        await this.submit();
+
+        if (this.isValid) {
+            await this.submit();
+        } else {
+            if (this.hooks.onError) {
+                this.hooks.onError(this);
+            }
+        }
     };
 
     @action
     update = (initialValues: IRecord = {}, isReset = false) => {
+        this.initialValues = initialValues;
+
         for (const [, field] of this.fields) {
             const [isExists, value] = field.input(initialValues, field, this);
 

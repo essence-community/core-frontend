@@ -11,6 +11,8 @@ import {findGetGlobalKey, isEmpty} from "@essence-community/constructor-share/ut
 import {FormPanelModel} from "../store/FormPanelModel";
 import {useStyles} from "./FormPanelContainer.styles";
 
+const EMPTY_OBJECT = {};
+
 export const FormPanelContainer: React.FC<IClassProps> = (props) => {
     const {children, bc, pageStore} = props;
     const {setglobal, getglobal} = bc;
@@ -90,7 +92,7 @@ export const FormPanelContainer: React.FC<IClassProps> = (props) => {
             bc={bc}
             mode={store.mode}
             editing={store.editing}
-            initialValues={store.selectedRecord || {}}
+            initialValues={store.selectedRecord || EMPTY_OBJECT}
             pageStore={pageStore}
         >
             {children

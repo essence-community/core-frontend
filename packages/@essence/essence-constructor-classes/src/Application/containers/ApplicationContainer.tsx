@@ -4,7 +4,7 @@ import {settingsStore, snackbarStore} from "@essence-community/constructor-share
 import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {PageLoader} from "@essence-community/constructor-share/uicomponents";
-import {useTranslation} from "@essence-community/constructor-share/utils";
+import {useTranslation, TFunction} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_SETTING_PROJECT_LOADER,
@@ -27,6 +27,10 @@ import {Snackbar} from "../components/Snackbar";
 import {Theme} from "../components/Theme";
 
 const logger = loggerRoot.extend("PagerContainer");
+
+function globalTitle(trans: TFunction) {
+    return trans("static:d2c071c58aca4b73853c1fcc6e2f08a3");
+}
 
 // eslint-disable-next-line max-lines-per-function, max-statements
 export const ApplicationContainer: React.FC<IClassProps> = () => {
@@ -195,8 +199,9 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                     hiddenTimeout: 0,
                     status: "debug",
                     text: renderGlobalValuelsInfo(globalValues),
-                    title: trans("static:d2c071c58aca4b73853c1fcc6e2f08a3"),
+                    title: globalTitle,
                 }),
+            {fireImmediately: true},
         );
     });
 
@@ -219,7 +224,6 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                 }),
         );
     });
-    applicationStore.updateGlobalValuesAction(settingsStore.globals);
 
     return useObserver(() => (
         <ApplicationContext.Provider value={applicationStore}>

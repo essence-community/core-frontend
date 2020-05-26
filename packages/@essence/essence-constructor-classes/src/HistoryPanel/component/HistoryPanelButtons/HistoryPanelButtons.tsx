@@ -111,7 +111,7 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
             },
             {
                 bc: overrides["Override Right Button"],
-                disabled: disabled || selectedRecordIndex === -1 || recordSize <= 1,
+                disabled: disabled || selectedRecordIndex === -1 || selectedRecordIndex === 0 || recordSize <= 1,
                 order: overrides["Override Right Button"][VAR_RECORD_CN_ORDER],
             },
         );

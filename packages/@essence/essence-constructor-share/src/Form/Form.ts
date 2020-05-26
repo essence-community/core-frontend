@@ -128,6 +128,8 @@ export class Form implements IForm {
 
     @action
     update = (initialValues: IRecord = {}, isReset = false) => {
+        this.initialValues = initialValues;
+
         for (const [, field] of this.fields) {
             const [isExists, value] = field.input(initialValues, field, this);
 

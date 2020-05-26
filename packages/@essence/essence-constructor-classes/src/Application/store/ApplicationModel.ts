@@ -157,6 +157,7 @@ export class ApplicationModel implements IApplicationModel {
             {applicationStore: this, pageStore: null},
         );
 
+        this.globalValues.merge(settingsStore.globals);
         this.globalValues.merge(prepareUserGlobals(this.authStore.userInfo));
     }
 

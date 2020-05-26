@@ -122,6 +122,7 @@ export class Form implements IForm {
     onSubmit = async (event?: React.SyntheticEvent) => {
         if (event) {
             event.preventDefault();
+            event.stopPropagation();
         }
 
         this.validate();

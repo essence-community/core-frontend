@@ -1,6 +1,5 @@
 import {IClassProps} from "@essence-community/constructor-share";
-import {settingsStore} from "@essence-community/constructor-share/models";
-import {saveToStore, getFromStore} from "@essence-community/constructor-share/utils";
+import {saveToStore} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -11,19 +10,18 @@ import {
     VAR_RECORD_ID,
 } from "@essence-community/constructor-share/constants/variables";
 import * as React from "react";
-import {useDisposable} from "mobx-react-lite";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {reaction} from "mobx";
-import {ApplicationContext} from "@essence-community/constructor-share/context";
+import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
+import {useTheme} from "@material-ui/core";
 
-const getComponentBc = (bc: IBuilderConfig, defaultTheme?: string) => ({
+const getComponentBc = (bc: IBuilderConfig, defaultTheme?: string): IBuilderConfig => ({
     [VAR_RECORD_DISPLAYED]: "static:0b5e4673fa194e16a0c411ff471d21d2",
     [VAR_RECORD_OBJECT_ID]: bc[VAR_RECORD_OBJECT_ID],
     [VAR_RECORD_PAGE_OBJECT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PARENT_ID],
     [VAR_RECORD_QUERY_ID]: bc[VAR_RECORD_QUERY_ID],
-    clearable: "false",
     column: bc.column || "theme",
     datatype: "combo",
     defaultvalue: defaultTheme,
@@ -36,62 +34,37 @@ const getComponentBc = (bc: IBuilderConfig, defaultTheme?: string) => ({
         {[VAR_RECORD_ID]: "dark", name: "static:66ef0068472a4a0394710177f828a9b1", value: "dark"},
         {[VAR_RECORD_ID]: "light", name: "static:fd7c7f3539954cc8a55876e3514906b5", value: "light"},
     ],
-    setglobal: VAR_SETTING_THEME,
     type: "IFIELD",
     valuefield: bc.valuefield || "value",
 });
 
-const getTheme = () => getFromStore("theme", settingsStore.settings[VAR_SETTING_THEME]);
-
 export const ThemeCombo: React.FC<IClassProps> = (props) => {
+    const {pageStore} = props;
+    const currentTheme = useTheme().palette.type;
+    const form = React.useContext(FormContext);
     const applicationStore = React.useContext(ApplicationContext);
-    const [currentTheme, setCurrentTheme] = React.useState(getTheme);
-
-    React.useEffect(() => {
-        const curTheme = getTheme();
-
-        if (settingsStore.settings[VAR_SETTING_THEME] !== curTheme) {
-            if (applicationStore) {
-                applicationStore.updateGlobalValuesAction({
-                    [VAR_SETTING_THEME]: curTheme || "",
-                });
-            }
-            props.pageStore.updateGlobalValues({
-                [VAR_SETTING_THEME]: curTheme,
-            });
-        }
-    }, [applicationStore, props.pageStore]);
 
     const bc = React.useMemo(() => getComponentBc(props.bc, currentTheme), [props.bc, currentTheme]);
 
-    useDisposable(() => {
-        return reaction(
-            () => props.pageStore.globalValues.get(bc.setglobal),
-            (theme: string) => {
-                const curTheme = getTheme();
+    React.useEffect(
+        () =>
+            reaction(
+                () => bc.column && form.select(bc.column)?.value,
+                (theme) => {
+                    if (typeof theme === "string" && applicationStore) {
+                        saveToStore("theme", theme);
+                        // instead of reload
+                        // applicationStore.updateGlobalValuesAction({[VAR_SETTING_THEME]: theme});
+                        document.location.reload();
+                    }
+                },
+            ),
+        [applicationStore, bc.column, form],
+    );
 
-                if (theme && curTheme !== theme) {
-                    saveToStore("theme", theme);
-                    setCurrentTheme(theme);
-                    if (applicationStore) {
-                        applicationStore.updateGlobalValuesAction({
-                            [VAR_SETTING_THEME]: theme,
-                        });
-                    }
-                    document.location.reload();
-                } else if (!theme) {
-                    if (applicationStore) {
-                        applicationStore.updateGlobalValuesAction({
-                            [VAR_SETTING_THEME]: curTheme || "",
-                        });
-                    }
-                    props.pageStore.updateGlobalValues({
-                        [bc.getglobal]: curTheme,
-                    });
-                }
-            },
-        );
-    });
+    React.useEffect(() => {
+        pageStore.updateGlobalValues({[VAR_SETTING_THEME]: currentTheme});
+    }, [currentTheme, pageStore]);
 
     return (
         <>

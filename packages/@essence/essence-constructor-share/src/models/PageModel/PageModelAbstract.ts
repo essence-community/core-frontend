@@ -62,8 +62,6 @@ export class PageModelAbstract implements IPageModel {
 
     public windows: PageModelWindows = observable.array();
 
-    public styleTheme: "dark" | "light" = "light";
-
     public saveCallBack: PageModelSaveCallback | null = null;
 
     public loadingCount = 0;

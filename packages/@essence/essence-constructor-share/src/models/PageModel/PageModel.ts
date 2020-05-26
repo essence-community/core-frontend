@@ -13,7 +13,6 @@ import {
     VAR_RECORD_CN_ACTION_EDIT,
     VAR_RECORD_ROUTE_NAME,
 } from "../../constants";
-import {styleTheme} from "../../constants/deprecated";
 import {
     IBuilderConfig,
     FieldValue,
@@ -65,9 +64,6 @@ export class PageModel implements IPageModel {
     public recordsStore: RecordsModel;
 
     public applicationStore: IApplicationModel;
-
-    // @deprecated
-    public styleTheme = styleTheme;
 
     private defaultVisible: boolean;
 

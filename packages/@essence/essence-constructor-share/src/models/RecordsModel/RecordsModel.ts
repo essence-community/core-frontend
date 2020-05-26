@@ -328,7 +328,7 @@ export class RecordsModel implements IRecordsModel {
     searchAction = action(
         "searchAction",
         (values: Record<string, FieldValue>, options: IRecordsSearchOptions = {}): Promise<void | object> => {
-            const {filter, reset, noLoad, resetFilter, selectedRecordId, status = "search", isUserReload} = options;
+            const {filter, reset, noLoad, selectedRecordId, status = "search", isUserReload} = options;
 
             /*
              * TODO: реализовать сравнение
@@ -338,7 +338,7 @@ export class RecordsModel implements IRecordsModel {
              */
             this.searchValues = values;
 
-            if (reset || resetFilter || filter !== undefined) {
+            if (reset || filter !== undefined) {
                 this.filter = filter;
             }
 

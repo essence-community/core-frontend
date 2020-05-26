@@ -53,7 +53,7 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
                 await form.validate();
 
                 if (form.isValid) {
-                    await onSubmit(form.values, {form, noClean: true, resetFilter: true});
+                    await onSubmit(form.values, {form, redirect: true, reset: true});
                 }
             }
         },

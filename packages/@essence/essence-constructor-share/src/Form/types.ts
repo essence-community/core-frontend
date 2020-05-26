@@ -25,6 +25,8 @@ export interface IField {
     errors: TError[];
     form: IForm;
     registers: number;
+    hidden: boolean;
+    disabled: boolean;
     error?: TError;
     input: (initialValues: IRecord, field: IField, form: IForm) => [boolean, IRecord | FieldValue];
     output: (field: IField, form: IForm, value?: IRecord | FieldValue) => IRecord | FieldValue;

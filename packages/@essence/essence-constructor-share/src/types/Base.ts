@@ -16,10 +16,10 @@ export type IBuilderMode = "1" | "2" | "3" | "4" | "6" | "7" | "8";
 export type FieldValue = number | string | object | undefined | null | boolean;
 
 export interface IFormOptions {
-    filter?: object[];
+    filter?: Record<string, FieldValue>[];
     reset?: boolean;
     form?: IForm;
-    noClean?: boolean;
+    redirect?: boolean;
     noLoad?: boolean;
     selectedRecordId?: ICkId;
 }

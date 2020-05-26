@@ -16,13 +16,17 @@ interface IGridDetailProps extends IClassProps {
 
 export const GridDetail: React.FC<IGridDetailProps> = ({record, bc, store, ...classProps}) => {
     const classes = useStyles();
+    const panelDetails = React.useMemo(
+        () => bc.detail?.map((detailBc) => ({...detailBc, type: detailBc.type || "BOX"})),
+        [bc.detail],
+    );
 
     return (
         <TableCell colSpan={store.gridColumns.length} padding="none">
             <UIForm onSubmit={noop} noForm initialValues={record} pageStore={classProps.pageStore} editing={false}>
                 <div className={classes.content}>
                     <Grid container spacing={1}>
-                        {mapComponents(bc.detail, (ChildCmp, childBc) => (
+                        {mapComponents(panelDetails, (ChildCmp, childBc) => (
                             <Grid
                                 item
                                 key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}

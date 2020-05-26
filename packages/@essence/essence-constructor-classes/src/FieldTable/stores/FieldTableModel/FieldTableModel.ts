@@ -125,10 +125,10 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             [VAR_RECORD_PAGE_OBJECT_ID]: gridId,
             [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
             columns: this.bc.columns?.map((column) => ({...column, [VAR_RECORD_PARENT_ID]: gridId})),
-            // Clearonsearch: "false",
             datatype: undefined,
             disabled: undefined,
             disabledrules: undefined,
+            filters: this.bc.filters?.map((column) => ({...column, [VAR_RECORD_PARENT_ID]: gridId})),
             getglobal: undefined,
             height:
                 isEmpty(this.bc.pickerheight) && !isEmpty(this.bc.pagesize)

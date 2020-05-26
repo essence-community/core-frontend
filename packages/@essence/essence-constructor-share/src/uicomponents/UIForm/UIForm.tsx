@@ -28,7 +28,7 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
 
     const handleValueChange = React.useCallback(
         debounce((form: IForm) => {
-            form.submit();
+            form.onSubmit();
         }, CHANGE_DELAY),
         [],
     );

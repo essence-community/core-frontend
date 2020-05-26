@@ -76,7 +76,7 @@ export interface IForm {
     setIsDirty(boolean: true): void;
 
     // Event
-    onSubmit(event: React.SyntheticEvent): void;
+    onSubmit(event?: React.SyntheticEvent): void;
 }
 
 export interface IFormHooks {

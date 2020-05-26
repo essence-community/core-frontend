@@ -121,6 +121,10 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
         inputProps.inputRef = inputElement;
         inputProps.value = formatValue;
         inputProps["data-qtip"] = inputProps.error ? inputProps["data-qtip"] : formatValue || inputProps["data-qtip"];
+        inputProps.InputLabelProps = {
+            ...inputProps.InputLabelProps,
+            shrink: formatValue ? true : false,
+        };
         if (dateConfig.inputMask) {
             return () => (
                 <TextFieldMask textFieldProps={inputProps} imask={dateConfig.inputMask!} onChange={handleChange} />

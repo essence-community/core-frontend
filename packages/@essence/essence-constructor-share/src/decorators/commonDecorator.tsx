@@ -7,10 +7,7 @@ import {IClassProps} from "../types/Class";
 import {isEmpty} from "../utils/base";
 import {parseMemoize} from "../utils/parser";
 import {IRecord} from "../types";
-
-export interface ICommonHOCProps extends IClassProps {
-    record?: IRecord;
-}
+import {RecordContext} from "../context";
 
 export interface ICommonHOCState {
     disabled: boolean;
@@ -19,10 +16,12 @@ export interface ICommonHOCState {
 }
 
 // eslint-disable-next-line max-lines-per-function
-export function commonDecorator<Props extends ICommonHOCProps>(
+export function commonDecorator<Props extends IClassProps>(
     WrappedComponent: React.ComponentType<Props>,
 ): React.ComponentType<Props> {
     class CommonHOC extends React.Component<Props, ICommonHOCState> {
+        static contextType = RecordContext;
+
         public state: ICommonHOCState = {
             disabled: this.props.bc.disabled === "true",
             hidden: this.props.bc.hidden === "true",
@@ -33,9 +32,13 @@ export function commonDecorator<Props extends ICommonHOCProps>(
 
         private unmounted = false;
 
+        private prevContext: IRecord;
+
         public componentDidMount() {
             const {bc} = this.props;
             const {reqsel, disabledrules, hiddenrules, readonlyrules, disabledemptymaster} = bc;
+
+            this.prevContext = this.context;
 
             if ((reqsel === "true" && bc[VAR_RECORD_MASTER_ID]) || disabledrules || disabledemptymaster === "true") {
                 this.disposers.push(autorun(this.handleDisabled));
@@ -50,8 +53,8 @@ export function commonDecorator<Props extends ICommonHOCProps>(
             }
         }
 
-        public componentDidUpdate(prevProps: ICommonHOCProps) {
-            if (prevProps.record !== this.props.record) {
+        public componentDidUpdate() {
+            if (this.prevContext !== this.context) {
                 const {reqsel, disabledrules, hiddenrules, readonlyrules, disabledemptymaster} = this.props.bc;
 
                 if (
@@ -69,6 +72,8 @@ export function commonDecorator<Props extends ICommonHOCProps>(
                 if (readonlyrules) {
                     this.handleReadOnly();
                 }
+
+                this.prevContext = this.context;
             }
         }
 
@@ -99,7 +104,8 @@ export function commonDecorator<Props extends ICommonHOCProps>(
         }
 
         private getValue = (name: string) => {
-            const {record, pageStore} = this.props;
+            const record = this.context;
+            const {pageStore} = this.props;
 
             return record && name.charAt(0) !== "g" ? record[name] : pageStore.globalValues.get(name);
         };

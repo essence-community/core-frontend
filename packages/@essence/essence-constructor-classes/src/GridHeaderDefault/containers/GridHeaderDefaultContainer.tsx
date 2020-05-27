@@ -19,12 +19,20 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
     const displayed = bc[VAR_RECORD_DISPLAYED];
     const transCvDisplayed = displayed && trans(displayed);
     const classes = useStyles();
-    const handleSort = () => {
+    const handleSort = async () => {
         const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
         const column = bc.sortcolumn || bc.column;
 
         if (store && store.recordsStore && column) {
-            store.recordsStore.setOrderAction(column);
+            if (store.handlers.onApplyFilters) {
+                const isValid = await store.handlers.onApplyFilters("1", bc, {});
+
+                if (isValid) {
+                    store.recordsStore.setOrderAction(column);
+                }
+            } else {
+                store.recordsStore.setOrderAction(column);
+            }
         }
     };
 

@@ -166,12 +166,22 @@ export class FilterModel extends StoreBaseModel {
     };
 
     handlers = {
+        /**
+         * Call from parent store
+         */
+        onChangeValues: (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
+            const {record: values = {}} = options;
+
+            this.handleGlobals(values);
+            this.setValues(values);
+
+            return Promise.resolve(true);
+        },
         onFilterToggle: () => {
             this.isOpen = !this.isOpen;
 
             return Promise.resolve(true);
         },
-
         /**
          * Offline print. Result will be after delay.
          * Should be WebSocket notifictio after complete

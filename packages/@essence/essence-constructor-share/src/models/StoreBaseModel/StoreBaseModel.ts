@@ -7,6 +7,8 @@ import {
     IHandlers,
     IApplicationModel,
     IRecord,
+    IBuilderMode,
+    IHandlerOptions,
 } from "../../types";
 import {VAR_RECORD_ID, loggerRoot} from "../../constants";
 import {i18next} from "../../utils";
@@ -56,5 +58,13 @@ export class StoreBaseModel implements IStoreBaseModel {
 
     public clearStoreAction = (): void => {
         logger(i18next.t("static:5c3108d6508a4141bdca1e52881e196d", {name: this.constructor.name}));
+    };
+
+    public invokeHandler = (name: string, args: [IBuilderMode, IBuilderConfig, IHandlerOptions]): Promise<boolean> => {
+        if (this.handlers[name]) {
+            return this.handlers[name](...args);
+        }
+
+        return Promise.resolve(false);
     };
 }

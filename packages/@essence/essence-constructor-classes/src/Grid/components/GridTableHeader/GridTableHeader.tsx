@@ -19,8 +19,9 @@ export const GridTableHeader: React.FC<IGridTableHeaderProps> = (props) => {
 
     const handleSubmit = async (data: IRecord) => {
         const filter = Object.values(data).filter((value) => Boolean(value)) as Record<string, FieldValue>[];
+        const isValid = await store.applyFiltersAction();
 
-        await store.recordsStore.searchAction(store.recordsStore.searchValues, {filter});
+        await store.recordsStore.searchAction(store.recordsStore.searchValues, {filter, noLoad: !isValid});
     };
 
     const tableHead = (

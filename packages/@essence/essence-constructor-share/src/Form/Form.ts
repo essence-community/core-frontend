@@ -155,6 +155,10 @@ export class Form implements IForm {
         this.setIsDirty(false);
     };
 
+    updateMode = (mode: IBuilderMode) => {
+        this.mode = mode;
+    };
+
     @action
     patch = (values: IRecord) => {
         Object.keys(values).forEach((key) => {

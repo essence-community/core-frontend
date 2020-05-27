@@ -108,6 +108,7 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
             inputProps: {
                 autoComplete: "off",
                 className: classes.input,
+                maxLength: bc.maxsize,
                 name: bc[VAR_RECORD_PAGE_OBJECT_ID],
             },
             label: (

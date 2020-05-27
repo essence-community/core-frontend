@@ -385,28 +385,26 @@ export class RecordsModel implements IRecordsModel {
     });
 
     removeRecordsAction = action("removeRecordsAction", (records: IRecord[], key: string, reload?: boolean) => {
-        const ids: Record<string, boolean> = {};
+        const ids: Record<ICkId, boolean> = {};
         const selectedRecordId = this.selectedRecord && this.selectedRecord[key];
         const storeRecords = reload ? this.recordsAll : this.recordsState.records;
 
         records.forEach((record) => {
-            const recordId = record[key];
+            const recordId = record[key] as ICkId;
 
-            if (typeof recordId === "string") {
-                ids[recordId] = true;
+            ids[recordId] = true;
 
-                if (recordId === selectedRecordId) {
-                    this.setSelectionAction();
-                }
+            if (recordId === selectedRecordId) {
+                this.setSelectionAction();
             }
         });
 
         this.recordsState = {
             isUserReload: false,
             records: storeRecords.filter((record) => {
-                const recordId = record[key];
+                const recordId = record[key] as ICkId;
 
-                return typeof recordId === "string" ? !ids[recordId] : true;
+                return !ids[recordId];
             }),
             status: "remove",
         };
@@ -430,7 +428,11 @@ export class RecordsModel implements IRecordsModel {
         mode: IBuilderMode,
         options: ISaveActionOptions,
     ): Promise<boolean> => {
-        const {files} = options;
+        const {
+            files,
+            query,
+            actionBc: {updatequery},
+        } = options;
 
         if (files && files.length) {
             // TODO: брать из syssettings
@@ -446,6 +448,7 @@ export class RecordsModel implements IRecordsModel {
                         filesNames: [file.name],
                         formData,
                         pageStore: this.pageStore,
+                        query: query || updatequery,
                         recordId: this.recordId,
                         ...options,
                     }),
@@ -460,6 +463,7 @@ export class RecordsModel implements IRecordsModel {
         return saveAction.call(this, values, mode, {
             bc: this.bc,
             pageStore: this.pageStore,
+            query: query || updatequery,
             recordId: this.recordId,
             ...options,
         });
@@ -470,7 +474,7 @@ export class RecordsModel implements IRecordsModel {
             actionBc: options.actionBc,
             bc: this.bc,
             pageStore: this.pageStore,
-            query: options.query,
+            query: options.query || options.actionBc.updatequery,
             recordId: this.recordId,
         });
     };

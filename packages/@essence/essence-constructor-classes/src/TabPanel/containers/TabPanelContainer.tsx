@@ -25,15 +25,17 @@ export const TabPanelContainer: React.FC<IClassProps> = (props) => {
             <div className={cn(classes.rootDefault, classes.root, classes[positonName])}>
                 <Tabs {...props} store={store} />
                 {mapComponents(store.childs, (Child, childBc) => {
-                    const isVisible = childBc[VAR_RECORD_PAGE_OBJECT_ID] === store.tabValue;
+                    const pageObjectId = childBc[VAR_RECORD_PAGE_OBJECT_ID];
+                    const isVisible = pageObjectId === store.tabValue;
                     const isPanel = childBc.type === "TABPANEL" && elevation;
 
-                    if (!isVisible && !store.openedTabs.get(childBc[VAR_RECORD_PAGE_OBJECT_ID])) {
+                    if (!isVisible && !store.openedTabs.get(pageObjectId)) {
                         return null;
                     }
 
                     const content = (
                         <div
+                            key={pageObjectId}
                             className={cn(classes.content, {
                                 [classes.contentHidden]: !isVisible,
                                 [classes.elevation]: elevation,

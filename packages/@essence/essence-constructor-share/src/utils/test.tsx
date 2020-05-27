@@ -203,6 +203,8 @@ class ApplicationModelMock implements IApplicationModel {
     url = "test";
 
     wsClient = null;
+
+    invokeHandler = () => Promise.resolve(true);
 }
 
 const createEmptyApplicationStore = (): IApplicationModel => {

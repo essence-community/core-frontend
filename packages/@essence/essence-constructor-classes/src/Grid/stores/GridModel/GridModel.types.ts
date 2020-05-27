@@ -53,6 +53,7 @@ export interface IGridModel extends IStoreBaseModel {
     addRefAction(ckId: ICkId, node: HTMLElement | null): void;
     setHeightAction(height: number): void;
     setScrollTopAction(scrollTop: number): void;
+    applyFiltersAction(): Promise<boolean>;
 
     // Other
     handleDoubleClick(): void;

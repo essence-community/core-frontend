@@ -41,6 +41,7 @@ export const BoxContainer: React.FC<IClassProps> = (props) => {
                           key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
                           xs={isRow ? true : MAX_PANEL_WIDTH}
                           zeroMinWidth
+                          style={toColumnStyleWidth(childBc.width)}
                       >
                           <Child {...props} bc={childBc} />
                       </Grid>

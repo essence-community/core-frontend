@@ -145,7 +145,7 @@ export class FilterModel extends StoreBaseModel {
     };
 
     @action
-    handleAutoload = async (iaAutoload: boolean) => {
+    handleAutoload = async (isAutoload: boolean) => {
         const form = this.pageStore.forms.get(this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
         const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_PARENT_ID]);
 
@@ -154,22 +154,34 @@ export class FilterModel extends StoreBaseModel {
             await form.validate();
 
             if (form.isValid) {
-                if (iaAutoload) {
+                if (isAutoload) {
                     form.submit();
                 } else {
                     this.handleSubmit(form.values, {noLoad: true});
                 }
+            } else if (!isAutoload) {
+                form.resetValidation();
             }
         }
     };
 
     handlers = {
+        /**
+         * Call from parent store
+         */
+        onChangeValues: (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
+            const {record: values = {}} = options;
+
+            this.handleGlobals(values);
+            this.setValues(values);
+
+            return Promise.resolve(true);
+        },
         onFilterToggle: () => {
             this.isOpen = !this.isOpen;
 
             return Promise.resolve(true);
         },
-
         /**
          * Offline print. Result will be after delay.
          * Should be WebSocket notifictio after complete

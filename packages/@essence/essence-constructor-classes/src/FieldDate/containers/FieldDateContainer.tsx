@@ -92,8 +92,11 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
             if (mValue.isValid()) {
                 onChange(mValue.format(dateConfig.serverFormat));
                 setMomentValue(mValue);
-                setFormatValue(strValue);
+            } else {
+                onChange("");
             }
+
+            setFormatValue(strValue);
         },
         [dateConfig.format, dateConfig.serverFormat, onChange],
     );
@@ -152,16 +155,19 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
             }
             const mValue = moment(value as string, dateConfig.serverFormatIn, true);
 
-            if (mValue.isValid() && !mValue.isSame(momentValue)) {
-                setMomentValue(mValue);
-                setFormatValue(mValue.format(dateConfig.format));
-            }
+            setMomentValue((prevMomentValue) => {
+                if (mValue.isValid() && !mValue.isSame(prevMomentValue)) {
+                    setFormatValue(mValue.format(dateConfig.format));
+
+                    return mValue;
+                }
+
+                return prevMomentValue;
+            });
         };
 
-        fn(field.value);
-
-        return reaction(() => field.value, fn);
-    });
+        return reaction(() => field.value, fn, {fireImmediately: true});
+    }, [dateConfig, field]);
 
     React.useEffect(() => {
         if (defaultvalue === "sysdate") {

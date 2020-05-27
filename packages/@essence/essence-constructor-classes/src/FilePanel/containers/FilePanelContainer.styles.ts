@@ -9,6 +9,7 @@ export const useStyles = makeStyles(
         },
         contentPanel: {
             padding: 16,
+            width: "100%",
         },
     }),
     {name: "EssencePanelWrapper"},

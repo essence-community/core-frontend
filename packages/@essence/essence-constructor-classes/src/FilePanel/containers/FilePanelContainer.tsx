@@ -31,6 +31,13 @@ export const FilePanelContainer: React.FC<IClassProps> = (props) => {
         ...props,
         btnsConfig,
     });
+    const btns = React.useMemo(
+        () =>
+            bc.btnrefresh === "true"
+                ? [btnsConfig["Override Add Button"], btnsConfig["Override Refresh Button"]]
+                : [btnsConfig["Override Add Button"]],
+        [btnsConfig, bc],
+    );
     const actionsBar = (
         <Grid
             container
@@ -39,22 +46,17 @@ export const FilePanelContainer: React.FC<IClassProps> = (props) => {
             spacing={1}
             direction={isDarkTheme ? "column-reverse" : "row"}
         >
-            <Grid item>
-                {mapComponents(
-                    [btnsConfig["Override Add Button"], btnsConfig["Override Refresh Button"]],
-                    (ChildCmp, childBc) => (
-                        <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
-                            <ChildCmp
-                                key="add"
-                                bc={childBc}
-                                disabled={readOnly || disabled}
-                                pageStore={pageStore}
-                                visible={visible}
-                            />
-                        </Grid>
-                    ),
-                )}
-            </Grid>
+            {mapComponents(btns, (ChildCmp, childBc) => (
+                <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                    <ChildCmp
+                        key="add"
+                        bc={childBc}
+                        disabled={readOnly || disabled}
+                        pageStore={pageStore}
+                        visible={visible}
+                    />
+                </Grid>
+            ))}
         </Grid>
     );
 

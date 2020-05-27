@@ -521,6 +521,8 @@ export class ApplicationModel implements IApplicationModel {
         }
     };
 
+    invokeHandler = () => Promise.resolve(false);
+
     /**
      * @memberof ApplicationModel
      * @member

@@ -193,12 +193,17 @@ export class FilterModel extends StoreBaseModel {
         onPrintHandleOnline: (mode: IBuilderMode, btnBc: IBuilderConfig) => this.handlePrint(true, btnBc),
         onReset: (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
             const {form} = options;
+            const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_PARENT_ID]);
 
             if (form) {
                 form.reset();
             }
 
             this.resetValues();
+
+            if (form && parentStore && parentStore.recordsStore) {
+                parentStore.recordsStore.searchAction(form.values, {noLoad: true, reset: true});
+            }
 
             return Promise.resolve(true);
         },

@@ -430,7 +430,11 @@ export class RecordsModel implements IRecordsModel {
         mode: IBuilderMode,
         options: ISaveActionOptions,
     ): Promise<boolean> => {
-        const {files} = options;
+        const {
+            files,
+            query,
+            actionBc: {updatequery},
+        } = options;
 
         if (files && files.length) {
             // TODO: брать из syssettings
@@ -446,6 +450,7 @@ export class RecordsModel implements IRecordsModel {
                         filesNames: [file.name],
                         formData,
                         pageStore: this.pageStore,
+                        query: query || updatequery,
                         recordId: this.recordId,
                         ...options,
                     }),
@@ -460,6 +465,7 @@ export class RecordsModel implements IRecordsModel {
         return saveAction.call(this, values, mode, {
             bc: this.bc,
             pageStore: this.pageStore,
+            query: query || updatequery,
             recordId: this.recordId,
             ...options,
         });
@@ -470,7 +476,7 @@ export class RecordsModel implements IRecordsModel {
             actionBc: options.actionBc,
             bc: this.bc,
             pageStore: this.pageStore,
-            query: options.query,
+            query: options.query || options.actionBc.updatequery,
             recordId: this.recordId,
         });
     };

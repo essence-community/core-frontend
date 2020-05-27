@@ -63,4 +63,5 @@ export interface IStoreBaseModel {
     afterSelected?: () => void;
     reloadStoreAction: (checkParent?: boolean) => Promise<IRecord | undefined>;
     clearStoreAction: () => void;
+    invokeHandler(name: string, args: [IBuilderMode, IBuilderConfig, IHandlerOptions]): Promise<boolean>;
 }

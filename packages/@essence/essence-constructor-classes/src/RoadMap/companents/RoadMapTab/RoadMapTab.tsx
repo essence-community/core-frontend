@@ -1,12 +1,12 @@
 import * as React from "react";
 import MaterialTab from "@material-ui/core/Tab";
 import {toColumnStyleWidth} from "@essence-community/constructor-share/utils/transform";
-import {IBuilderConfig} from "@essence-community/constructor-share/types";
+import {IBuilderConfig, IClassProps} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {ICommonHOCProps, commonDecorator} from "@essence-community/constructor-share/decorators";
+import {commonDecorator} from "@essence-community/constructor-share/decorators";
 import {RoadMapModel} from "../../store/RoadMapModel";
 
-export interface IRoadMapTab extends ICommonHOCProps {
+export interface IRoadMapTab extends IClassProps {
     orientation: "vertical" | "horizontal";
     store: RoadMapModel;
     bc: IBuilderConfig;

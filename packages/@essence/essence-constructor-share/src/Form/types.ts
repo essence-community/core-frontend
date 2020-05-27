@@ -68,6 +68,7 @@ export interface IForm {
     reset(): void;
     clear(): void;
     update(initialValues?: IRecord, isReset?: boolean): void;
+    updateMode(mode: IBuilderMode): void;
     patch(values: IRecord): void;
     select(key: string): IField | undefined;
     registerField(key: string, options: IRegisterFieldOptions): IField;

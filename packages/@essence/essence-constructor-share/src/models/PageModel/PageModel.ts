@@ -305,11 +305,11 @@ export class PageModel implements IPageModel {
 
                 await loadComponentsFromModules(classNames);
 
-                this.pageBc = pageBc;
-
                 if (globalValue) {
                     this.updateGlobalValues(globalValue);
                 }
+
+                this.pageBc = pageBc;
             } else {
                 this.pageBc = [];
             }
@@ -406,9 +406,7 @@ export class PageModel implements IPageModel {
 
     scrollToRecordAction = (params: Record<string, FieldValue>) => {
         this.stores.forEach((store) => {
-            if (store.handlers?.onScrollToRecordAction) {
-                store.handlers.onScrollToRecordAction("1", store.bc, {record: params});
-            }
+            store.invokeHandler("onScrollToRecordAction", ["1", store.bc, {record: params}]);
         });
     };
 

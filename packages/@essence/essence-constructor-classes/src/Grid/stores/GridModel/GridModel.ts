@@ -30,6 +30,7 @@ import {
     HandlerType,
 } from "@essence-community/constructor-share/types";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
+import {awaitFormFilter} from "@essence-community/constructor-share/models/PageModel/PageModelRedirect";
 import {
     gridScrollToRecordAction,
     gridSetGlobalValues,
@@ -480,12 +481,41 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     };
 
     @action
+    applyFiltersAction = () =>
+        Promise.all(
+            (this.bc.filters || []).map(async (filter: IBuilderConfig) => {
+                const filterStore = this.pageStore.stores.get(filter[VAR_RECORD_PAGE_OBJECT_ID]);
+                const filterForm = this.pageStore.forms.get(filter[VAR_RECORD_PAGE_OBJECT_ID]);
+
+                if (filterStore && filterForm) {
+                    await awaitFormFilter(this.pageStore, filterForm, false);
+                    await filterForm.validate();
+                    const isFilterValid = filterForm.isValid;
+                    const {values} = filterForm;
+
+                    if (isFilterValid) {
+                        this.recordsStore.searchAction(values, {noLoad: true});
+
+                        filterStore.invokeHandler("onChangeValues", ["1", this.bc, {record: values}]);
+                    }
+
+                    return isFilterValid;
+                }
+
+                return true;
+            }),
+        ).then((results) => results.every((result) => result === true));
+
+    @action
     setScrollTopAction = (scrollTop: number) => {
         this.scrollTop = scrollTop;
     };
 
     handlers = {
         defaultHandlerBtnAction: this.defaultHandlerBtnAction,
+        onApplyFilters: () => {
+            return this.applyFiltersAction();
+        },
         onCloseSettings: () => {
             this.isOpenSettings = false;
 
@@ -506,7 +536,11 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             return this.onPrintExcel(record || {}, btnBc);
         },
         onRefresh: async () => {
-            await this.loadRecordsAction({});
+            const isFilterValid = await this.applyFiltersAction();
+
+            if (isFilterValid) {
+                await this.loadRecordsAction({});
+            }
 
             return Promise.resolve(true);
         },

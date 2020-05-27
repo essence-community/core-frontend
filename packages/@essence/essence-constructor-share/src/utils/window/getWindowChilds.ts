@@ -41,7 +41,7 @@ export function getWindowChilds({windowBc, pageStore, values, autobuild}: IGetWi
             visibleinwindow: field.visibleinwindow,
             ...(field.required ? {required: field.required} : {}),
             ...(windowBc.edittype === "inline" ? {width: "100%"} : {}),
-            type: "IFIELD",
+            type: fieldProps.type === "COLUMN" ? "IFIELD" : fieldProps.type,
         };
     });
 

@@ -17,11 +17,15 @@ export const getThemeLight = (theme: Theme): IEssenceTheme => ({
             white: "#fff",
         },
         primary: {
-            ...theme.palette.primary,
+            contrastText: "#fff",
+            dark: "rgb(61, 84, 118)",
+            light: "rgb(121, 147, 186)",
             main: "#5879a9",
         },
         secondary: {
-            ...theme.palette.secondary,
+            contrastText: "rgba(0, 0, 0, 0.87)",
+            dark: "rgb(172, 100, 21)",
+            light: "rgb(248, 165, 75)",
             main: "#f78f1e",
         },
         text: {

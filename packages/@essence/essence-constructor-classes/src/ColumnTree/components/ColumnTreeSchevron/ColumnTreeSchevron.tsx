@@ -21,8 +21,8 @@ export const ColumnTreeSchevron: React.FC<IColumnTreeSchevronProps> = (props) =>
     const handleClick = (event: React.SyntheticEvent) => {
         event.stopPropagation();
 
-        if (record && store && store.handlers?.onToggleExpansion) {
-            store.handlers.onToggleExpansion("1", bc, {record});
+        if (record && store) {
+            store.invokeHandler("onToggleExpansion", ["1", bc, {record}]);
         }
     };
 

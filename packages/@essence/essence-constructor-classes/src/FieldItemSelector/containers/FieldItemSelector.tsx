@@ -96,13 +96,13 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
     const [prevRecords, setPrevRecords] = React.useState<IRecord[]>([]);
     const [fromStore, setFromStore] = React.useState<IStoreBaseModel | undefined>(undefined);
     const [toStore, setToStore] = React.useState<IStoreBaseModel | undefined>(undefined);
-    const checkDisabled = React.useCallback((gridStore) => {
-        if (!gridStore) {
+    const checkDisabled = React.useCallback((gridStore?: IStoreBaseModel) => {
+        if (!gridStore || !gridStore.recordsStore) {
             return false;
         }
 
         return gridStore.bc.selmode === "MULTI" || gridStore.bc.selmode === "SIMPLE"
-            ? gridStore.selectedRecords.size === 0
+            ? gridStore.recordsStore.selectedRecords.size === 0
             : !gridStore.recordsStore.selectedRecord;
     }, []);
 

@@ -1,11 +1,12 @@
 import * as React from "react";
 import cn from "clsx";
-import {commonDecorator, ICommonHOCProps} from "@essence-community/constructor-share";
+import {IClassProps} from "@essence-community/constructor-share/types";
+import {commonDecorator} from "@essence-community/constructor-share/decorators";
 import {useTab} from "../../hooks/useTab";
 import {TabPanelModel} from "../../store/TabPanelModel";
 import {useStyles} from "./TabPopoverItem.styles";
 
-interface ITabPopoverItemComponentProps extends ICommonHOCProps {
+interface ITabPopoverItemComponentProps extends IClassProps {
     isActive: boolean;
     store: TabPanelModel;
     label: string;

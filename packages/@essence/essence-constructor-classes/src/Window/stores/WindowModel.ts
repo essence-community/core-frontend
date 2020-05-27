@@ -20,8 +20,6 @@ import {getWindowChilds} from "../utils";
  * @exports WindowModel
  */
 export class WindowModel extends StoreBaseModel {
-    public initialValues: IRecord | undefined;
-
     childs: IBuilderConfig[];
 
     recordsStore: IRecordsModel;
@@ -35,6 +33,8 @@ export class WindowModel extends StoreBaseModel {
         });
         this.initialValues = this.bc.values;
     }
+
+    @observable public initialValues: IRecord | undefined;
 
     @observable addMore = false;
 

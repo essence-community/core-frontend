@@ -385,28 +385,26 @@ export class RecordsModel implements IRecordsModel {
     });
 
     removeRecordsAction = action("removeRecordsAction", (records: IRecord[], key: string, reload?: boolean) => {
-        const ids: Record<string, boolean> = {};
+        const ids: Record<ICkId, boolean> = {};
         const selectedRecordId = this.selectedRecord && this.selectedRecord[key];
         const storeRecords = reload ? this.recordsAll : this.recordsState.records;
 
         records.forEach((record) => {
-            const recordId = record[key];
+            const recordId = record[key] as ICkId;
 
-            if (typeof recordId === "string") {
-                ids[recordId] = true;
+            ids[recordId] = true;
 
-                if (recordId === selectedRecordId) {
-                    this.setSelectionAction();
-                }
+            if (recordId === selectedRecordId) {
+                this.setSelectionAction();
             }
         });
 
         this.recordsState = {
             isUserReload: false,
             records: storeRecords.filter((record) => {
-                const recordId = record[key];
+                const recordId = record[key] as ICkId;
 
-                return typeof recordId === "string" ? !ids[recordId] : true;
+                return !ids[recordId];
             }),
             status: "remove",
         };

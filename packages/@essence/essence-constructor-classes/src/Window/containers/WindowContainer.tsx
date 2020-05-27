@@ -55,7 +55,7 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
     const displayedTrans = displayed && trans(displayed, displayed);
     const windowTitle = displayedTrans || `${trans(getModeTitle(bc.mode as IBuilderMode))} ${displayedTrans || ""}`;
     const autoHeightMax = isFulllScreen ? "100%" : `calc(90vh - ${WINDOW_HEADER_HEIGHT + WINDOW_BOTTOM_HEIGHT}px)`;
-    const checkboxAddMode =
+    const checkboxAddMode = useObserver(() =>
         bc.mode === "1" && checkaddmore === "true" && !stepnamenext ? (
             <FormControlLabel
                 control={
@@ -71,7 +71,8 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
                 classes={{label: classes.addMoreLabelColor}}
                 data-page-object={`${ckPageObject}-add-more`}
             />
-        ) : null;
+        ) : null,
+    );
 
     const handleCloseDialog = () => {
         if (!pageStore.hiddenPage) {

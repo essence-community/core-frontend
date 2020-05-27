@@ -159,6 +159,8 @@ export class FilterModel extends StoreBaseModel {
                 } else {
                     this.handleSubmit(form.values, {noLoad: true});
                 }
+            } else if (!iaAutoload) {
+                form.resetValidation();
             }
         }
     };

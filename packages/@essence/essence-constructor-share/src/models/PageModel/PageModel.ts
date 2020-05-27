@@ -305,11 +305,11 @@ export class PageModel implements IPageModel {
 
                 await loadComponentsFromModules(classNames);
 
-                this.pageBc = pageBc;
-
                 if (globalValue) {
                     this.updateGlobalValues(globalValue);
                 }
+
+                this.pageBc = pageBc;
             } else {
                 this.pageBc = [];
             }

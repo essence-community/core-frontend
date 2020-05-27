@@ -11,13 +11,15 @@ import {reaction} from "mobx";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {Scrollbars} from "@essence-community/constructor-share/uicomponents";
 import {useTranslation} from "@essence-community/constructor-share/utils";
+import {useObserver} from "mobx-react-lite";
 import {IGridModel} from "../stores/GridModel/GridModel.types";
 
 export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
-    const parentStore = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]) as IGridModel | undefined;
+    const parentStore = useObserver(() => pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]) as IGridModel | undefined);
     const [trans] = useTranslation("meta");
     const [visibility, setVisibility] = React.useState<Record<string, boolean>>({});
+    const [isOpen, setIsOpen] = React.useState(false);
 
     const btnBc = React.useMemo(
         () => ({
@@ -27,9 +29,7 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
             [VAR_RECORD_PAGE_OBJECT_ID]: "gridsettings",
             handler: "onOpenSettings",
             iconfont: "fa-sliders",
-            onlyicon: "true",
             type: "BTN",
-            uitype: "11",
         }),
         [bc],
     );
@@ -64,7 +64,7 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
     React.useEffect(() => {
         if (parentStore) {
             return reaction(
-                () => parentStore?.isOpenSettings,
+                () => parentStore.isOpenSettings,
                 (isOpenSettings) => {
                     if (isOpenSettings) {
                         const newVisibility: Record<string, boolean> = {};
@@ -75,6 +75,7 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
 
                         setVisibility(newVisibility);
                     }
+                    setIsOpen(isOpenSettings);
                 },
             );
         }
@@ -91,13 +92,7 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
             {mapComponentOne(btnBc, (ChildCmp, childBc) => (
                 <ChildCmp {...props} bc={childBc} />
             ))}
-            <Dialog
-                open={parentStore?.isOpenSettings}
-                maxWidth="sm"
-                fullWidth
-                container={pageStore.pageEl}
-                style={{position: "absolute"}}
-            >
+            <Dialog open={isOpen} maxWidth="sm" fullWidth container={pageStore.pageEl} style={{position: "absolute"}}>
                 <DialogTitle disableTypography>{trans("static:017af47503474ec58542b9db53bdeeff")}</DialogTitle>
                 <DialogContent>
                     <Scrollbars autoHeight autoHeightMax={300} autoHeightMin={38}>

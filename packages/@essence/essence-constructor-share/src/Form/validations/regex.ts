@@ -1,5 +1,6 @@
 import {TFunction} from "../../utils";
 import {IField, IForm} from "../types";
+import {VAR_RECORD_DISPLAYED} from "../../constants";
 
 export function regex(field: IField, form: IForm, req = "") {
     const mod = /[g|i|m]{1,3}$/u;
@@ -13,11 +14,16 @@ export function regex(field: IField, form: IForm, req = "") {
         return undefined;
     }
 
-    if (reqExp.test(String(value))) {
+    if (value === "" || reqExp.test(String(value))) {
         return undefined;
     }
 
     return function regexMessage(trans: TFunction) {
-        return trans("static:f488a90cb69e4567a092325fecffb1ed").replace(":attribute", req);
+        const displayed = field.bc[VAR_RECORD_DISPLAYED];
+
+        return trans("static:f488a90cb69e4567a092325fecffb1ed").replace(
+            ":attribute",
+            displayed ? trans(displayed, displayed) : "",
+        );
     };
 }

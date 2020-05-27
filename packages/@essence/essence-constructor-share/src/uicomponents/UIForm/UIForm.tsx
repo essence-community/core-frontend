@@ -103,7 +103,10 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
 
     React.useEffect(() => {
         form.update(initialValues, mode === "1" || mode === "6");
-        form.updateMode(mode);
+
+        if (mode) {
+            form.updateMode(mode);
+        }
     }, [form, initialValues, mode]);
 
     React.useEffect(() => {

@@ -65,9 +65,6 @@ export const useStyles = makeStyles(
         tableSortLabel:
             theme.palette.type === "dark"
                 ? {
-                      "&$activeSortLabel": {
-                          color: theme.palette.common.white,
-                      },
                       "&:focus": {
                           color: theme.palette.common.white,
                       },

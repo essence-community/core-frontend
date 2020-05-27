@@ -41,7 +41,7 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
     useDefaultValueQuery({bc, field, nameAttr: VAR_RECORD_CT_DATE, pageStore});
     const [open, setOpen] = React.useState<boolean>(false);
     const [momentValue, setMomentValue] = React.useState<moment.Moment | undefined>(undefined);
-    const [formatValue, setFormatValue] = React.useState<string | undefined>(undefined);
+    const [formatValue, setFormatValue] = React.useState<string>("");
     const inputElement = React.useRef<HTMLInputElement | HTMLTextAreaElement>();
     const [trans] = useTranslation("meta");
     const classes = useStyles();

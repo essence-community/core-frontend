@@ -3,6 +3,7 @@ import {IRecord, IClassProps, FieldValue} from "@essence-community/constructor-s
 import {TableHead, TableRow} from "@material-ui/core";
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {getComponent} from "@essence-community/constructor-share/components";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {GridColgroup} from "../GridColgroup";
 import {useStyles} from "./GridTableHeader.styles";
@@ -31,7 +32,7 @@ export const GridTableHeader: React.FC<IGridTableHeaderProps> = (props) => {
                         getComponent("GRID_HEADER.DEFAULT");
 
                     if (Component) {
-                        return <Component {...classProps} bc={bcColumn} />;
+                        return <Component key={bcColumn[VAR_RECORD_PAGE_OBJECT_ID]} {...classProps} bc={bcColumn} />;
                     }
 
                     return null;

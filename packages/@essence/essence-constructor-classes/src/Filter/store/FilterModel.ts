@@ -145,7 +145,7 @@ export class FilterModel extends StoreBaseModel {
     };
 
     @action
-    handleAutoload = async (iaAutoload: boolean) => {
+    handleAutoload = async (isAutoload: boolean) => {
         const form = this.pageStore.forms.get(this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
         const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_PARENT_ID]);
 
@@ -154,12 +154,12 @@ export class FilterModel extends StoreBaseModel {
             await form.validate();
 
             if (form.isValid) {
-                if (iaAutoload) {
+                if (isAutoload) {
                     form.submit();
                 } else {
                     this.handleSubmit(form.values, {noLoad: true});
                 }
-            } else if (!iaAutoload) {
+            } else if (!isAutoload) {
                 form.resetValidation();
             }
         }

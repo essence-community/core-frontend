@@ -38,11 +38,11 @@ export const useCommon = (props: IClassProps): IUseCommonResult => {
             bc.disabledrules ||
             bc.disabledemptymaster === "true"
         ) {
-            return reaction(() => isDisabled({bc, disabled, getValue, pageStore}), setDisabledState, {
+            return reaction(() => isDisabled({bc, getValue, pageStore}), setDisabledState, {
                 fireImmediately: true,
             });
         }
-    }, [bc, disabled, getValue, pageStore]);
+    }, [bc, getValue, pageStore]);
 
     useEffect(() => {
         if (hiddenrules) {

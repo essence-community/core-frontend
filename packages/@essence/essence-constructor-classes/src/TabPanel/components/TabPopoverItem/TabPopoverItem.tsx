@@ -1,12 +1,12 @@
 import * as React from "react";
 import cn from "clsx";
 import {IClassProps} from "@essence-community/constructor-share/types";
-import {commonDecorator} from "@essence-community/constructor-share/decorators";
+import {useCommon} from "@essence-community/constructor-share/hooks";
 import {useTab} from "../../hooks/useTab";
 import {TabPanelModel} from "../../store/TabPanelModel";
 import {useStyles} from "./TabPopoverItem.styles";
 
-interface ITabPopoverItemComponentProps extends IClassProps {
+interface ITabPopoverItemProps extends IClassProps {
     isActive: boolean;
     store: TabPanelModel;
     label: string;
@@ -14,8 +14,9 @@ interface ITabPopoverItemComponentProps extends IClassProps {
     onClose: (event: React.SyntheticEvent) => void;
 }
 
-export const TabPopoverItemComponent: React.FC<ITabPopoverItemComponentProps> = (props) => {
-    const {onChangeTab} = useTab(props);
+export const TabPopoverItem: React.FC<ITabPopoverItemProps> = (props) => {
+    const {hidden, disabled} = useCommon(props);
+    const {onChangeTab} = useTab({...props, disabled, hidden});
     const classes = useStyles();
     const className = cn(classes.root, classes.rootDefault, {
         [classes.active]: props.isActive,
@@ -34,5 +35,3 @@ export const TabPopoverItemComponent: React.FC<ITabPopoverItemComponentProps> = 
         </div>
     );
 };
-
-export const TabPopoverItem = commonDecorator(TabPopoverItemComponent);

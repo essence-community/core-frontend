@@ -1,13 +1,13 @@
 import * as React from "react";
 import cn from "clsx";
-import {commonDecorator} from "@essence-community/constructor-share/decorators";
+import {useCommon} from "@essence-community/constructor-share/hooks";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {TabPanelModel} from "../../store/TabPanelModel";
 import {useTab} from "../../hooks/useTab";
 import {TabPanelPosition} from "../../TabPanel.types";
 import {useStyles} from "./Tab.styles";
 
-interface ITabComponentProps extends IClassProps {
+interface ITabProps extends IClassProps {
     isActive: boolean;
     store: TabPanelModel;
     label: string;
@@ -15,10 +15,11 @@ interface ITabComponentProps extends IClassProps {
     positonName: TabPanelPosition;
 }
 
-export const TabComponent: React.FC<ITabComponentProps> = React.memo((props) => {
-    const {isActive, label, positonName, hidden, disabled} = props;
+export const Tab: React.FC<ITabProps> = React.memo((props) => {
+    const {isActive, label, positonName} = props;
+    const {hidden, disabled} = useCommon(props);
     const classes = useStyles();
-    const {onChangeTab} = useTab(props);
+    const {onChangeTab} = useTab({...props, disabled, hidden});
     const positionClassName = classes[positonName];
 
     return (
@@ -35,5 +36,3 @@ export const TabComponent: React.FC<ITabComponentProps> = React.memo((props) => 
         </div>
     );
 });
-
-export const Tab = commonDecorator(TabComponent);

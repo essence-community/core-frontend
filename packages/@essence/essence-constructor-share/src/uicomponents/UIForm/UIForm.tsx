@@ -103,11 +103,14 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
 
     React.useEffect(() => {
         form.update(initialValues, mode === "1" || mode === "6");
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [form, initialValues]);
 
+    React.useEffect(() => {
         if (mode) {
             form.updateMode(mode);
         }
-    }, [form, initialValues, mode]);
+    }, [form, mode]);
 
     React.useEffect(() => {
         form.setEditing(editing);

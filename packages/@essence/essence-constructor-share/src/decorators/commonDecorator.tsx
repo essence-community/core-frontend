@@ -1,4 +1,3 @@
-import {isString} from "lodash";
 // eslint-disable-next-line import/named
 import {autorun, IReactionDisposer} from "mobx";
 import * as React from "react";
@@ -8,6 +7,7 @@ import {isEmpty} from "../utils/base";
 import {parseMemoize} from "../utils/parser";
 import {IRecord} from "../types";
 import {RecordContext} from "../context";
+import {isDisabled} from "../hooks/useCommon/isDisabled";
 
 export interface ICommonHOCState {
     disabled: boolean;
@@ -111,7 +111,11 @@ export function commonDecorator<Props extends IClassProps>(
         };
 
         private handleDisabled = () => {
-            const disabled = this.isDisabled();
+            const disabled = isDisabled({
+                bc: this.props.bc,
+                getValue: this.getValue,
+                pageStore: this.props.pageStore,
+            });
 
             if (!this.unmounted) {
                 this.setState((prevState) => {
@@ -151,57 +155,6 @@ export function commonDecorator<Props extends IClassProps>(
                 });
             }
         };
-
-        // eslint-disable-next-line max-statements, complexity
-        private isDisabled() {
-            const {pageStore, disabled, bc} = this.props;
-            const {reqsel, disabledrules, disabledemptymaster, type} = bc;
-            const masterId = bc[VAR_RECORD_MASTER_ID];
-
-            if (disabledrules) {
-                return Boolean(parseMemoize(disabledrules).runer({get: this.getValue}));
-            }
-
-            if (reqsel === "true" && masterId) {
-                const masterStore = pageStore.stores.get(masterId);
-
-                if (masterStore) {
-                    if (masterStore.bc && masterStore.bc.collectionvalues === "array" && type === "IFIELD") {
-                        return masterStore.selectedEntries && masterStore.selectedEntries.length === 0;
-                    }
-
-                    if (typeof masterStore.selectedRecord !== "undefined") {
-                        return (
-                            !masterStore.selectedRecord ||
-                            (isString(masterStore.selectedRecord[masterStore.recordId]) &&
-                                // @ts-ignore
-                                masterStore.selectedRecord[masterStore.recordId].indexOf("auto-") === 0)
-                        );
-                    }
-
-                    if (masterStore.recordsStore) {
-                        return (
-                            !masterStore.recordsStore.selectedRecord ||
-                            (isString(masterStore.recordsStore.selectedRecord[masterStore.recordsStore.recordId]) &&
-                                // @ts-ignore
-                                masterStore.recordsStore.selectedRecord[masterStore.recordsStore.recordId].indexOf(
-                                    "auto-",
-                                ) === 0)
-                        );
-                    }
-                }
-            }
-
-            if (disabledemptymaster === "true" && masterId) {
-                const masterStore = pageStore.stores.get(masterId);
-
-                if (masterStore && masterStore.recordsStore) {
-                    return masterStore.recordsStore.records.length === 0;
-                }
-            }
-
-            return Boolean(disabled);
-        }
 
         private isHidden() {
             const {hidden} = this.props;

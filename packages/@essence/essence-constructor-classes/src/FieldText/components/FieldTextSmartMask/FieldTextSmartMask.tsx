@@ -175,6 +175,7 @@ export const FieldTextSmartMask: React.FC<IFieldTextSmartMaskProps> = (props) =>
                 ),
             }}
             imask={imask}
+            maskChar={null}
             onChange={props.onChange}
             beforeMaskedValueChange={handleBeforeMaskedValueChange}
         />

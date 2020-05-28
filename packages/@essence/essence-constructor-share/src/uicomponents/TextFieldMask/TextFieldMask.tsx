@@ -5,7 +5,7 @@ import {ITextFieldExtendProps} from "../../hooks/useTextFieldProps";
 import {formatChars} from "./maskConfig";
 
 export interface ITextFieldMaskProps {
-    maskChar?: string;
+    maskChar?: string | null;
     imask: string;
     textFieldProps: ITextFieldExtendProps & TextFieldProps;
     onChange: InputMaskProps["onChange"];

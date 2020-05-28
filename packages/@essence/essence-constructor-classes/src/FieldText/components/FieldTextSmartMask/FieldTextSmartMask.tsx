@@ -161,6 +161,10 @@ export const FieldTextSmartMask: React.FC<IFieldTextSmartMaskProps> = (props) =>
         [form, handleSetImask, pageStore, valueColumnName],
     );
 
+    React.useEffect(() => {
+        field.setHidden(!imask);
+    }, [field, imask]);
+
     return imask ? (
         <TextFieldMask
             textFieldProps={{

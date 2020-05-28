@@ -131,6 +131,12 @@ export const FieldTextSmartMask: React.FC<IFieldTextSmartMaskProps> = (props) =>
                         props.field.onClear();
                     }
                 },
+                {
+                    // TODO: for combo use value as is (number, string, ..., FieldValue)
+                    equals: (oldValue, newValue) => oldValue == newValue,
+                    // Need to initialize first value
+                    fireImmediately: true,
+                },
             ),
         [form, props.field, valueColumnName],
     );

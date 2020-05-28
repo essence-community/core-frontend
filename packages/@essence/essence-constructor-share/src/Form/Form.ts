@@ -144,7 +144,7 @@ export class Form implements IForm {
             const [isExists, value] = field.input(initialValues, field, this);
 
             if (isExists) {
-                field.value = value;
+                field.setValue(value);
             } else if (isReset) {
                 field.reset();
             } else {
@@ -208,6 +208,7 @@ export class Form implements IForm {
     @action
     setEditing = (editing: boolean) => {
         this.editing = editing;
+        this.resetValidation();
     };
 
     @action

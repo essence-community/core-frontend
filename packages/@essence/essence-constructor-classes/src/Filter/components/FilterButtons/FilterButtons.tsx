@@ -69,7 +69,7 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
                 onlyicon: "true",
                 readonly: "false",
                 type: "BTN",
-                uitype: "4",
+                uitype: "14",
             },
         }),
         [bc, styleTheme],

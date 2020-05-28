@@ -131,6 +131,12 @@ export const FieldTextSmartMask: React.FC<IFieldTextSmartMaskProps> = (props) =>
                         props.field.onClear();
                     }
                 },
+                {
+                    // TODO: for combo use value as is (number, string, ..., FieldValue)
+                    equals: (oldValue, newValue) => oldValue == newValue,
+                    // Need to initialize first value
+                    fireImmediately: true,
+                },
             ),
         [form, props.field, valueColumnName],
     );
@@ -161,6 +167,10 @@ export const FieldTextSmartMask: React.FC<IFieldTextSmartMaskProps> = (props) =>
         [form, handleSetImask, pageStore, valueColumnName],
     );
 
+    React.useEffect(() => {
+        field.setHidden(!imask);
+    }, [field, imask]);
+
     return imask ? (
         <TextFieldMask
             textFieldProps={{
@@ -175,6 +185,7 @@ export const FieldTextSmartMask: React.FC<IFieldTextSmartMaskProps> = (props) =>
                 ),
             }}
             imask={imask}
+            maskChar={null}
             onChange={props.onChange}
             beforeMaskedValueChange={handleBeforeMaskedValueChange}
         />

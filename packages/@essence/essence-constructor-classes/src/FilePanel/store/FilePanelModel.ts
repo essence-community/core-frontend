@@ -2,6 +2,7 @@ import {action} from "mobx";
 import {stringify} from "qs";
 import {
     VAR_RECORD_ID,
+    VAR_RECORD_MASTER_ID,
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
@@ -32,6 +33,7 @@ export class FilePanelModel extends StoreBaseModel {
         this.btnsConfig = btnsConfig;
         this.childwindow = {
             [VAR_RECORD_DISPLAYED]: "static:6a4c7f4488164e7e8fabd46e0cc01ccc",
+            [VAR_RECORD_MASTER_ID]: this.bc[VAR_RECORD_MASTER_ID],
             [VAR_RECORD_NAME]: "",
             [VAR_RECORD_PAGE_OBJECT_ID]: `${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow`,
             [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],

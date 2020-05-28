@@ -5,36 +5,20 @@ import {UIForm} from "@essence-community/constructor-share/uicomponents/UIForm";
 import {useModel} from "@essence-community/constructor-share/hooks/useModel";
 import {useObserver} from "mobx-react-lite";
 import {IRecord} from "@essence-community/constructor-share//types/Base";
-import {findSetKey} from "@essence-community/constructor-share/utils/findKey";
 import {reaction} from "mobx";
-import {findGetGlobalKey, isEmpty} from "@essence-community/constructor-share/utils";
+import {findGetGlobalKey, isEmpty, noop} from "@essence-community/constructor-share/utils";
 import {FormPanelModel} from "../store/FormPanelModel";
+import {FormPanelGlobals} from "../components/FormPanelGlobals";
 import {useStyles} from "./FormPanelContainer.styles";
 
 const EMPTY_OBJECT = {};
 
 export const FormPanelContainer: React.FC<IClassProps> = (props) => {
     const {children, bc, pageStore} = props;
-    const {setglobal, getglobal} = bc;
+    const {getglobal} = bc;
     const classes = useStyles();
     const boxBc = React.useMemo<IBuilderConfig>(() => ({...bc, type: "BOX.NOCOMMONDECORATOR"}), [bc]);
     const [store] = useModel((options) => new FormPanelModel(options), props);
-
-    const handleSetGlobal = React.useCallback(
-        (values: IRecord) => {
-            if (setglobal) {
-                const globalValues: Record<string, FieldValue> = {};
-                const keys = findSetKey(setglobal);
-
-                Object.entries(keys).forEach(([fieldName, globaleKey]) => {
-                    globalValues[globaleKey] = values[fieldName];
-                });
-
-                pageStore.updateGlobalValues(globalValues);
-            }
-        },
-        [pageStore, setglobal],
-    );
 
     React.useEffect(() => {
         if (getglobal) {
@@ -86,8 +70,7 @@ export const FormPanelContainer: React.FC<IClassProps> = (props) => {
 
     return useObserver(() => (
         <UIForm
-            onSubmit={handleSetGlobal}
-            submitOnChange
+            onSubmit={noop}
             className={classes.form}
             bc={bc}
             mode={store.mode}
@@ -100,6 +83,7 @@ export const FormPanelContainer: React.FC<IClassProps> = (props) => {
                 : mapComponentOne(boxBc, (Child, childBc) => (
                       <Child key={childBc.ck_page_object} {...props} bc={childBc} />
                   ))}
+            <FormPanelGlobals bc={bc} pageStore={pageStore} />
         </UIForm>
     ));
 };

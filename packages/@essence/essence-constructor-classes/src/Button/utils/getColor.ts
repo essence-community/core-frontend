@@ -2,6 +2,7 @@ const UI_TYPE_COLORS: Record<string, "primary" | "secondary" | "inherit"> = {
     1: "primary",
     11: "primary",
     12: "secondary",
+    14: "primary",
     2: "secondary",
     4: "primary",
     5: "primary",

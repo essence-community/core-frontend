@@ -93,6 +93,7 @@ export const getHouseFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     querydelay: "1",
     querymode: "remote",
     queryparam: "cv_house",
+    setglobal: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`,
     type: "IFIELD",
     valuefield: "ck_house",
 });

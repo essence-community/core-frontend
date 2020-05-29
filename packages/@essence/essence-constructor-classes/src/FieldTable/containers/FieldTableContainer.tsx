@@ -21,17 +21,31 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
     const form = React.useContext(FormContext);
     const field = useField({bc, disabled, hidden, pageStore});
-    const [store] = useModel((options) => new FieldTableModel({...options, field, form}), props);
+    const [store] = useModel(
+        (options) =>
+            new FieldTableModel({
+                ...options,
+                bc: {
+                    ...options.bc,
+                    autoload: "false",
+                },
+                field,
+                form,
+            }),
+        props,
+    );
 
     useFieldGetGlobal({bc, field, pageStore, store});
     useFieldSetGlobal({bc, field, pageStore, store});
     useDefaultValueQuery({bc, field, pageStore});
 
+    // componentDidMount
     React.useEffect(() => {
         if (!isEmpty(field.value) && !Array.isArray(field.value)) {
             store.setDefaultRecordAction(field.value);
         }
-    }, [field.value, store]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // Check for grid store
     React.useEffect(() => {

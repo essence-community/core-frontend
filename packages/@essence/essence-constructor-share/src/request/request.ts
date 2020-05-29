@@ -57,7 +57,7 @@ export const request = async <R = IRecord | IRecord[]>({
     onUploadProgress,
 }: IRequest): Promise<R> => {
     const queryParams = {
-        action,
+        action: formData ? "upload" : action,
         plugin,
         query,
     };

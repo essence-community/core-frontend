@@ -8,18 +8,18 @@ import {
     VAR_RECORD_CV_VERSION,
     VAR_RECORD_CC_CONFIG,
     VAR_RECORD_CC_MANIFEST,
-    preference,
 } from "../../constants";
 import {request} from "../../request";
 import {setModule} from "../../components";
 import {snackbarStore} from "../SnackbarModel";
 import {loadFiles} from "../../utils/browser";
+import {getPreference} from "../../utils";
 
 export class ModulesModel {
     isLoaded = false;
 
     loadModules = async (moduleUrl: string) => {
-        // @ts-ignore
+        const preference = getPreference();
 
         if (preference.modules) {
             await loadFiles(preference.modules.split(","), true);

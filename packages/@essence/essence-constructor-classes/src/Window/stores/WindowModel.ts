@@ -101,11 +101,12 @@ export class WindowModel extends StoreBaseModel {
 
         if (options.form.isValid) {
             let success: string | boolean = false;
+            const modeAction = (btnBc.modeaction || btnBc.mode || this.bc.mode || mode) as IBuilderMode;
 
             if (this.mainStore?.handlers?.onSaveWindow) {
-                success = await this.mainStore.handlers.onSaveWindow(mode || this.bc.mode, btnBc, options);
+                success = await this.mainStore.handlers.onSaveWindow(modeAction, btnBc, options);
             } else {
-                success = await this.recordsStore.saveAction(options.form.values, mode || this.bc.mode, {
+                success = await this.recordsStore.saveAction(options.form.values, modeAction, {
                     actionBc: btnBc,
                     // TODO: check new api of records store
                     files: options.files,
@@ -118,7 +119,7 @@ export class WindowModel extends StoreBaseModel {
                     this.pageStore.resetStepAction();
                     this.initialValues = {};
                 } else {
-                    this.closeAction(mode || this.bc.mode, btnBc, options);
+                    this.closeAction(modeAction, btnBc, options);
                 }
             }
 

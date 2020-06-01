@@ -21,7 +21,7 @@ export const GridContainer: React.FC<IClassProps> = (props) => {
         ) {
             return {
                 ...bc,
-                autoload: undefined,
+                autoload: false,
                 filters: filters.map((filter) => ({
                     ...filter,
                     autoload: bc.autoload,

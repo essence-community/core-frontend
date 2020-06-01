@@ -15,7 +15,7 @@ export const filterComboGlobalBc = {
             [VAR_RECORD_OBJECT_ID]: "filter_combo",
             [VAR_RECORD_PAGE_OBJECT_ID]: "filter_combo",
             [VAR_RECORD_QUERY_ID]: "jNSIRclOKOPF",
-            autoload: "true",
+            autoload: true,
             column: "combo_1",
             datatype: "combo",
             defaultvalue: "first",

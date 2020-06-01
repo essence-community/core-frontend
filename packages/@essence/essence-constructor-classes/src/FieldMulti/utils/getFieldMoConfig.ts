@@ -104,7 +104,7 @@ export const getMoFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     [VAR_RECORD_PAGE_OBJECT_ID]: `mo_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
     [VAR_RECORD_QUERY_ID]: "MOShowMOsByAddress",
-    autoload: "false",
+    autoload: false,
     column: "ck_id",
     datatype: "combo",
     disabledrules: `!g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area`,

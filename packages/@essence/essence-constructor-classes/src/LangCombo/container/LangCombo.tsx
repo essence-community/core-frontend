@@ -23,7 +23,7 @@ const getComponentBc = (bc: IBuilderConfig, defaultValue?: string) => ({
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PARENT_ID],
     [VAR_RECORD_QUERY_ID]: bc[VAR_RECORD_QUERY_ID],
     [VAR_RECORD_QUERY_ID]: "MTGetLang",
-    autoload: "true",
+    autoload: true,
     clearable: "false",
     column: bc.column || "lang",
     datatype: "combo",

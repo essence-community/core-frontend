@@ -11,7 +11,7 @@ export interface IBuilderBaseConfig {
     // Префикс-метка для нового значения. Пример: "allownew" = "NEW:", на сервер уйдет значение "NEW:введенное значение"
     allownew?: string;
     // Признак автозагрузки сервиса
-    autoload?: string;
+    autoload?: boolean;
     // Наименование параметра, определяющего уникальность возвращаемых данных.  Если этот столбец есть в filter и заполнен, то сработает автовыбор первой записи
     autoselectidentity?: string;
     // Отображение кнопки "Информация" (true/false)
@@ -210,6 +210,8 @@ export interface IBuilderBaseConfig {
     stylerules?: string;
     // Ширина Tab Panel
     tabwidth?: string;
+    // Имя сервиса
+    taskservice?: string;
     // Разделитель тысяч
     thousandseparator?: string;
     // Время ожидания выполнения запроса в секундах

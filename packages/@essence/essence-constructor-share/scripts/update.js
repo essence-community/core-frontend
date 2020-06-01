@@ -26,6 +26,16 @@ if (!GATE_URL) {
     throw new Error("GATE_URL should be set in env");
 }
 
+function converType(type) {
+    switch (type) {
+        case "text":
+        case "localization":
+            return "string";
+        default:
+            return type;
+    }
+}
+
 request.post(
     {
         form: {
@@ -67,7 +77,7 @@ function parseAttributes(session) {
             body.data.forEach((attribute) => {
                 if (ATTR_SKIP.indexOf(attribute.ck_id) === -1) {
                     types.push(`    // ${attribute.cv_description.replace(CARRY_LINES_REGEXP, " ")}`);
-                    types.push(`    ${attribute.ck_id}?: ${attribute.cv_static_type || "string"};`);
+                    types.push(`    ${attribute.ck_id}?: ${converType(attribute.ck_d_data_type || "string")};`);
                 }
             });
 

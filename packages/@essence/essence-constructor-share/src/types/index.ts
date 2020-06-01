@@ -8,7 +8,6 @@ export * from "./RecordsModel";
 export * from "./StoreBaseModel";
 export * from "./Request";
 export * from "./RoutesModel";
-export * from "./Grid";
 export * from "./Class";
 export * from "./Theme";
 export * from "./SnackbarModel";

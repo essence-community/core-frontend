@@ -3,7 +3,7 @@ import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_PARENT_ID} from "@essence-communit
 
 export function getGridColumns(gridBc: IBuilderConfig): IBuilderConfig[] {
     const {columns = [], detail} = gridBc;
-    const gridColumns = columns.filter((column) => column.visible !== "false");
+    const gridColumns = columns.filter((column) => !column.visible);
 
     if (detail && gridColumns.findIndex((col: IBuilderConfig) => col.datatype === "detail") === -1) {
         return [

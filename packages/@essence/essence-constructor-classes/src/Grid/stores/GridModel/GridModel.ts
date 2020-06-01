@@ -447,7 +447,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     };
 
     winReloadStores = () => {
-        if (this.bc.winreloadstores === "true") {
+        if (this.bc.winreloadstores) {
             this.reloadStoreAction(false);
         }
 

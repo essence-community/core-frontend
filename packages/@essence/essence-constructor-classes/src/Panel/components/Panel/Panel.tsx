@@ -28,7 +28,7 @@ export const Panel: React.FC<IClassProps> = (props) => {
     });
     const context = React.useContext(PanelWidthContext);
     const boxBc = React.useMemo(() => ({...bc, type: "BOX.NOCOMMONDECORATOR"} as IBuilderConfig), [bc]);
-    const isResizeEnable = resizable === "true" && contentview === "hbox";
+    const isResizeEnable = resizable === true && contentview === "hbox";
     const isRow = contentview === "hbox" || contentview === "hbox-wrap";
     const handleChangeChildWidth = React.useCallback(
         (id: string, newWidth: number, side?: "right" | "left") => {

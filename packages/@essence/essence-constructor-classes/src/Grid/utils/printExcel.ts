@@ -54,7 +54,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
                 (obj) =>
                     obj.datatype !== "icon" &&
                     obj.datatype !== "checkbox" &&
-                    obj.visible !== "false" &&
+                    !obj.visible &&
                     obj.hiddenrules !== "true",
             )
             .map((val) => ({

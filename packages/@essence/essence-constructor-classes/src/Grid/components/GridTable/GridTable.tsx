@@ -170,7 +170,7 @@ export const GridTable: React.FC<IGridTableProps> = ({store, children, ...classP
                         />
                     ) : null}
                 </Grid>
-                {bc.splitter === "true" ? (
+                {bc.splitter ? (
                     <Grid item>
                         <VerticalResizer
                             height={store.gridHeight}

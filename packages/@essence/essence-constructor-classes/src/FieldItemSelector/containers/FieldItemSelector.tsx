@@ -7,7 +7,7 @@ import {
 import * as React from "react";
 import {Grid} from "@material-ui/core";
 import {useModel} from "@essence-community/constructor-share/hooks";
-import {IRecord, IStoreBaseModel} from "@essence-community/constructor-share/types";
+import {IRecord, IStoreBaseModel, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {useObserver} from "mobx-react-lite";
 import {mapComponents, getComponent} from "@essence-community/constructor-share/components";
@@ -40,7 +40,7 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
     ]);
 
     const [btnAddAll, btnAddSelected, btnRemoveSelected, btnRemoveAll] = React.useMemo(
-        () => [
+        (): IBuilderConfig[] => [
             {
                 [VAR_RECORD_DISPLAYED]: "static:d78431bbcb484da4b516bc00626965ba",
                 [VAR_RECORD_MASTER_ID]: store.fieldFrom[VAR_RECORD_PAGE_OBJECT_ID],
@@ -50,7 +50,7 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
                 handler: "addAll",
                 iconfont: "fa-angle-double-right",
                 iconfontname: "fa",
-                onlyicon: "true",
+                onlyicon: true,
                 type: "BTN",
             },
             {
@@ -61,7 +61,7 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
                 handler: "addSelected",
                 iconfont: "fa-angle-right",
                 iconfontname: "fa",
-                onlyicon: "true",
+                onlyicon: true,
                 type: "BTN",
                 uitype: "1",
             },
@@ -73,7 +73,7 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
                 handler: "removeSelected",
                 iconfont: "fa-angle-left",
                 iconfontname: "fa",
-                onlyicon: "true",
+                onlyicon: true,
                 type: "BTN",
                 uitype: "1",
             },
@@ -86,7 +86,7 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
                 handler: "removeAll",
                 iconfont: "fa-angle-double-left",
                 iconfontname: "fa",
-                onlyicon: "true",
+                onlyicon: true,
                 type: "BTN",
                 uitype: "1",
             },

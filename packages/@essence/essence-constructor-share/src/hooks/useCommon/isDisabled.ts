@@ -11,7 +11,7 @@ interface IIsDisabledProps {
 function isDisabledMaster(pageStore: IPageModel, bc: IBuilderConfig): boolean {
     const masterId = bc[VAR_RECORD_MASTER_ID];
 
-    if (bc.reqsel === "true" && masterId) {
+    if (bc.reqsel && masterId) {
         const masterStore = pageStore.stores.get(masterId);
 
         if (masterStore) {

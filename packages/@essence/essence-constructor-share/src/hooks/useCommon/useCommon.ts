@@ -33,7 +33,7 @@ export const useCommon = (props: IClassProps): IUseCommonResult => {
     );
 
     useEffect(() => {
-        if ((bc.reqsel === "true" && bc[VAR_RECORD_MASTER_ID]) || bc.disabledrules || bc.disabledemptymaster) {
+        if ((bc.reqsel && bc[VAR_RECORD_MASTER_ID]) || bc.disabledrules || bc.disabledemptymaster) {
             return reaction(() => isDisabled({bc, getValue, pageStore}), setDisabledState, {
                 fireImmediately: true,
             });

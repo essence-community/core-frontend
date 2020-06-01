@@ -31,7 +31,7 @@ export function getExcelWindow({ckPageObject, overrideExcelButton}: ConfigBtnExc
                 [VAR_RECORD_PARENT_ID]: `${ckPageObject}_excel_window`,
                 handler: "onPrintExcel",
                 iconfontname: "",
-                onlyicon: "false",
+                onlyicon: false,
                 type: "BTN",
                 uitype: "1",
             },
@@ -59,7 +59,7 @@ export function getExcelWindow({ckPageObject, overrideExcelButton}: ConfigBtnExc
                 maxsize: "128",
                 // eslint-disable-next-line quotes
                 regexp: '[^\\\\/:*?"<>|+]*[^\\\\/:*?"<>|+ ]',
-                required: "true",
+                required: true,
                 type: "IFIELD",
             },
         ],

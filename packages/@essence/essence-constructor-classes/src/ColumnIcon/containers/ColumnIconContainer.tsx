@@ -12,7 +12,7 @@ export const ColumnIconContainer: React.FC<IClassProps> = (props) => {
         const btnBc: IBuilderConfig = {
             ...bc,
             iconsize: "xs",
-            onlyicon: "true",
+            onlyicon: true,
             type: "BTN",
             uitype: "7",
         };

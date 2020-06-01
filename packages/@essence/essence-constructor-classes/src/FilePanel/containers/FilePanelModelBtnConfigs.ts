@@ -20,8 +20,8 @@ const getAddBtnConfig = (bc: IBuilderConfig, styleTheme: string): IBuilderConfig
     iconfont: "fa-plus",
     iconfontname: "fa",
     mode: "1",
-    onlyicon: styleTheme === "light" ? undefined : "true",
-    reqsel: "false",
+    onlyicon: styleTheme === "light" ? undefined : true,
+    reqsel: false,
     type: "BTN",
     uitype: "4",
 });
@@ -68,7 +68,7 @@ const getDeleteButton = (bc: IBuilderConfig): IBuilderConfig => ({
     handler: "onDeleteRecord",
     iconfont: "times",
     iconfontname: "fa",
-    onlyicon: "true",
+    onlyicon: true,
     type: "BTN",
 });
 
@@ -79,9 +79,9 @@ const getBtnAuditConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
     iconfont: "info",
     iconfontname: "fa",
-    onlyicon: "true",
+    onlyicon: true,
     readonly: "false",
-    reqsel: "true",
+    reqsel: true,
     type: "AUDIT_INFO",
     uitype: "11",
 });
@@ -94,7 +94,7 @@ const getBtnRefreshConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     handler: "onRefresh",
     iconfont: "refresh",
     iconfontname: "fa",
-    onlyicon: "true",
+    onlyicon: true,
     readonly: "false",
     type: "BTN",
     uitype: "11",

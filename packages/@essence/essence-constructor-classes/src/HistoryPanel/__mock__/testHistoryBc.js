@@ -10,7 +10,7 @@ export default {
             column: "cv_short",
             datatype: "text",
             maxsize: "10",
-            required: "true",
+            required: true,
             type: "IFIELD",
         },
     ],

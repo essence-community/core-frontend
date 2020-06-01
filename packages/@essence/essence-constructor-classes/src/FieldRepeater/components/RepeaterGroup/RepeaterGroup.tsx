@@ -16,7 +16,7 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
     const {contentview = "", align} = bc;
 
     const deleteBtnConfig: IBuilderConfig = React.useMemo<IBuilderConfig>(
-        () => ({
+        (): IBuilderConfig => ({
             [VAR_RECORD_DISPLAYED]: deleteLabel,
             [VAR_RECORD_MASTER_ID]: storeName,
             [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_delete`,
@@ -26,7 +26,7 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
             handler: "onDel",
             hiddenrules: bc.minvalue,
             iconfont: "close",
-            onlyicon: "true",
+            onlyicon: true,
             type: "BTN",
         }),
         [bc, deleteLabel, idx, storeName],

@@ -12,7 +12,7 @@ export function checkAutoload({bc, pageStore}: ICheckAutoloadPropsType) {
         return false;
     }
 
-    if (bc.autoload && (!bc[VAR_RECORD_MASTER_ID] || bc.reqsel !== "true")) {
+    if (bc.autoload && (!bc[VAR_RECORD_MASTER_ID] || !bc.reqsel)) {
         return true;
     }
 

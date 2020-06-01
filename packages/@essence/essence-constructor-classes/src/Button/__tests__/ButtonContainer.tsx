@@ -176,7 +176,7 @@ describe("ButtonContainer", () => {
     });
 
     it("Отображение в види иконки", () => {
-        const wrapper = shallow(<Renderer bc={{...bc, onlyicon: "true"}} component={ButtonContainer} />);
+        const wrapper = shallow(<Renderer bc={{...bc, onlyicon: true}} component={ButtonContainer} />);
 
         expect(wrapper.find(Icon).length).toBe(1);
         expect(wrapper.find(IconButton).length).toBe(1);

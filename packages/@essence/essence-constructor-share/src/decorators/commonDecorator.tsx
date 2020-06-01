@@ -40,7 +40,7 @@ export function commonDecorator<Props extends IClassProps>(
 
             this.prevContext = this.context;
 
-            if ((reqsel === "true" && bc[VAR_RECORD_MASTER_ID]) || disabledrules || disabledemptymaster) {
+            if ((reqsel && bc[VAR_RECORD_MASTER_ID]) || disabledrules || disabledemptymaster) {
                 this.disposers.push(autorun(this.handleDisabled));
             }
 
@@ -57,11 +57,7 @@ export function commonDecorator<Props extends IClassProps>(
             if (this.prevContext !== this.context) {
                 const {reqsel, disabledrules, hiddenrules, readonlyrules, disabledemptymaster} = this.props.bc;
 
-                if (
-                    (reqsel === "true" && this.props.bc[VAR_RECORD_MASTER_ID]) ||
-                    disabledrules ||
-                    disabledemptymaster
-                ) {
+                if ((reqsel && this.props.bc[VAR_RECORD_MASTER_ID]) || disabledrules || disabledemptymaster) {
                     this.handleDisabled();
                 }
 

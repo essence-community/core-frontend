@@ -57,7 +57,7 @@ export const filter = (values: IRecord) => {
 const findReloadAction = (recordsStore: IRecordsModel, bc: IBuilderConfig) => {
     const masterId = bc[VAR_RECORD_MASTER_ID];
 
-    if (bc.reloadmaster === "true" && recordsStore.pageStore && masterId) {
+    if (bc.reloadmaster && recordsStore.pageStore && masterId) {
         const masterStore = recordsStore.pageStore.stores.get(masterId);
 
         if (masterStore && masterStore.reloadStoreAction) {
@@ -195,7 +195,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
                     } else if (check === 1) {
                         const loadRecordsAction = findReloadAction(this, bc);
                         const isAttach =
-                            bc.refreshallrecords === "false" &&
+                            !bc.refreshallrecords &&
                             (mode === "1" || mode === "2" || mode === "4") &&
                             !isEmpty(response[recordId]);
 

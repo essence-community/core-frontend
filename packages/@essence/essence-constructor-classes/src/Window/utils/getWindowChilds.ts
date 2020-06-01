@@ -16,7 +16,7 @@ export function getWindowChilds(mode: IBuilderMode, childs?: IBuilderConfig[]): 
         if (isDisabled) {
             childsAcc.push({
                 ...child,
-                disabled: "true",
+                disabled: true,
             });
         } else {
             childsAcc.push(child);

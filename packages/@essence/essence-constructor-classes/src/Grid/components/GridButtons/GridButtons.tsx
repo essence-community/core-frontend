@@ -40,7 +40,7 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
         const staticBtns: IOrderedBuielderConfig[] = [];
         const {overrides} = gridBtnsConfig;
 
-        if (bc.btnsettings === "true") {
+        if (bc.btnsettings) {
             staticBtns.push({
                 bc: {
                     [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_setting`,
@@ -60,7 +60,7 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
             });
         }
 
-        if (bc.btnexcel === "true") {
+        if (bc.btnexcel) {
             staticBtns.push({
                 bc: overrides["Override Excel Button"],
                 order: overrides["Override Excel Button"][VAR_RECORD_CN_ORDER],
@@ -84,14 +84,14 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
             }),
         ];
 
-        if (bc.btndelete === "true") {
+        if (bc.btndelete) {
             btnsAll.push({
                 bc: overrides["Override Delete Button"],
                 order: overrides["Override Delete Button"][VAR_RECORD_CN_ORDER],
             });
         }
 
-        if (bc.btnrefresh === "true") {
+        if (bc.btnrefresh) {
             btnsAll.push({
                 bc: overrides["Override Refresh Button"],
                 order: overrides["Override Refresh Button"][VAR_RECORD_CN_ORDER],

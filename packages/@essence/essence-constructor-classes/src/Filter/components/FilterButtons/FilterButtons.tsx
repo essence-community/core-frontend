@@ -80,12 +80,12 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
             isOpen ? btnsFilter.buttonChevronConfigOpen : btnsFilter.buttonChevronConfigClose,
             {
                 ...btnsFilter.buttonSearchConfig,
-                disabled: styleTheme === "dark" && isOpen === false ? "true" : undefined,
+                disabled: styleTheme === "dark" && isOpen === false ? true : undefined,
                 required: form && form.isDirty ? "true" : "false",
             },
             {
                 ...btnsFilter.buttonResetConfig,
-                disabled: styleTheme === "dark" && isOpen === false ? "true" : undefined,
+                disabled: styleTheme === "dark" && isOpen === false ? true : undefined,
             },
         ];
         const childsBtns = bc.topbtn

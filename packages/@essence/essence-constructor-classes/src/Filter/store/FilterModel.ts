@@ -37,7 +37,7 @@ export class FilterModel extends StoreBaseModel {
             this.valuesStorageKey = `${this.pageStore.pageId}_filter_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
         }
 
-        this.isOpen = this.bc.collapsed !== "true";
+        this.isOpen = !this.bc.collapsed;
     }
 
     @action

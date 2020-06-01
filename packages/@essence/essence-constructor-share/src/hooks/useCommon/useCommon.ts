@@ -18,7 +18,7 @@ export const useCommon = (props: IClassProps): IUseCommonResult => {
     const {hiddenrules, readonlyrules} = bc;
     const record = useContext(RecordContext);
 
-    const [disabledState, setDisabledState] = useState(bc.disabled === "true");
+    const [disabledState, setDisabledState] = useState(bc.disabled === true);
     const [hiddenState, setHiddenState] = useState(bc.hidden === "true");
     const [readOnlyState, setReadOnlyState] = useState(() =>
         isEmpty(bc.readonly) ? undefined : bc.readonly === "true",
@@ -33,11 +33,7 @@ export const useCommon = (props: IClassProps): IUseCommonResult => {
     );
 
     useEffect(() => {
-        if (
-            (bc.reqsel === "true" && bc[VAR_RECORD_MASTER_ID]) ||
-            bc.disabledrules ||
-            bc.disabledemptymaster === "true"
-        ) {
+        if ((bc.reqsel === "true" && bc[VAR_RECORD_MASTER_ID]) || bc.disabledrules || bc.disabledemptymaster) {
             return reaction(() => isDisabled({bc, getValue, pageStore}), setDisabledState, {
                 fireImmediately: true,
             });

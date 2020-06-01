@@ -40,7 +40,7 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
             [VAR_RECORD_MASTER_ID]: storeName,
             [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_add`,
             [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-            disabled: bc.maxvalue,
+            disabled: bc.maxvalue !== undefined,
             handler: "onAdd",
             iconfont: "plus",
             onlyicon: "true",

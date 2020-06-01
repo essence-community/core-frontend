@@ -87,7 +87,7 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
             },
         ];
 
-        if (btndelete === "true") {
+        if (btndelete) {
             btnsAll.push({
                 bc: overrides["Override Delete Button"],
                 disabled: disabled || selectedRecordIndex === -1 || selectedRecordIndex !== 0,
@@ -95,7 +95,7 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
             });
         }
 
-        if (btnrefresh === "true") {
+        if (btnrefresh) {
             btnsAll.push({
                 bc: overrides["Override Refresh Button"],
                 disabled,

@@ -19,23 +19,23 @@ export interface IBuilderBaseConfig {
     // Признак сбора статических кнопок в коллектор
     btncollectorall?: boolean;
     // Отображение кнопки "Удалить" (true/false)
-    btndelete?: string;
+    btndelete?: boolean;
     // Отображение кнопки "Экспорт в Excel" (true/false)
-    btnexcel?: string;
+    btnexcel?: boolean;
     // Признак доступности фильтрации по колонке  True - фильтрация включена  False - фильтрация выключена
     btnfilter?: boolean;
     // Отображение кнопки "Обновить" (true/false)
-    btnrefresh?: string;
+    btnrefresh?: boolean;
     // Отображение кнопки "Настройки" (true/false)
-    btnsettings?: string;
+    btnsettings?: boolean;
     // Признак "Добавить еще". Если не заполнен = false
-    checkaddmore?: string;
+    checkaddmore?: boolean;
     // Идентификатор для поиска окна в мастере
     ckwindow?: string;
     // Свернута ли панель при инициализации  true = свернута
-    collapsed?: string;
+    collapsed?: boolean;
     // Признак возможности сворачивания панели true/false
-    collapsible?: string;
+    collapsible?: boolean;
     // Тип  сбора значений: object - виде объекта array - массив строк
     collectionvalues?: string;
     // Наименование параметра для отображения данных и передачи в Modify
@@ -65,9 +65,9 @@ export interface IBuilderBaseConfig {
     // Сервис для запроса значения по умолчанию
     defaultvaluequery?: string;
     // Признак блокировки объекта при инициализации true-блокирован
-    disabled?: string;
+    disabled?: boolean;
     // Признак блокировки, если мастер вернул пустое значение
-    disabledemptymaster?: string;
+    disabledemptymaster?: boolean;
     // Правила отображения объекта. Если правило вернет true, то объект станет неактивным. Синтаксис: == - равно != - не равно '>' - больше '<' - меньше '&&' - и '||' - или Пример: gck_mo>1   // если глобальная переменная gck_mo больше 1, то поле заблокируется
     disabledrules?: string;
     // Наименование параметра, который будет отображен

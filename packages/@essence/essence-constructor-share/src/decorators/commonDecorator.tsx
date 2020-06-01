@@ -23,7 +23,7 @@ export function commonDecorator<Props extends IClassProps>(
         static contextType = RecordContext;
 
         public state: ICommonHOCState = {
-            disabled: this.props.bc.disabled === "true",
+            disabled: this.props.bc.disabled === true,
             hidden: this.props.bc.hidden === "true",
             readOnly: isEmpty(this.props.bc.readonly) ? undefined : this.props.bc.readonly === "true",
         };
@@ -40,7 +40,7 @@ export function commonDecorator<Props extends IClassProps>(
 
             this.prevContext = this.context;
 
-            if ((reqsel === "true" && bc[VAR_RECORD_MASTER_ID]) || disabledrules || disabledemptymaster === "true") {
+            if ((reqsel === "true" && bc[VAR_RECORD_MASTER_ID]) || disabledrules || disabledemptymaster) {
                 this.disposers.push(autorun(this.handleDisabled));
             }
 
@@ -60,7 +60,7 @@ export function commonDecorator<Props extends IClassProps>(
                 if (
                     (reqsel === "true" && this.props.bc[VAR_RECORD_MASTER_ID]) ||
                     disabledrules ||
-                    disabledemptymaster === "true"
+                    disabledemptymaster
                 ) {
                     this.handleDisabled();
                 }

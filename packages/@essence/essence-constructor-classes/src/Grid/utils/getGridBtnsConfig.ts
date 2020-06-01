@@ -61,7 +61,7 @@ const getBtnExcelConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-excel`,
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
     ckwindow: "btnexcel",
-    disabledemptymaster: "true",
+    disabledemptymaster: true,
     extraplugingate: "PrintJasperServer",
     handler: "onCreateChildWindowMaster",
     iconfont: "table",

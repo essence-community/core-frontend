@@ -22,7 +22,7 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
             [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_delete`,
             [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
             defaultvalue: String(idx),
-            disabled: bc.maxvalue,
+            disabled: bc.maxvalue !== undefined,
             handler: "onDel",
             hiddenrules: bc.minvalue,
             iconfont: "close",

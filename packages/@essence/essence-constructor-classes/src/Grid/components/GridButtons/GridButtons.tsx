@@ -53,7 +53,7 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
             });
         }
 
-        if (bc.btnaudit === "true") {
+        if (bc.btnaudit) {
             staticBtns.push({
                 bc: overrides["Override Audit Button"],
                 order: overrides["Override Audit Button"][VAR_RECORD_CN_ORDER],

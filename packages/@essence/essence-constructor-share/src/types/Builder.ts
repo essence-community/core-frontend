@@ -15,7 +15,7 @@ export interface IBuilderBaseConfig {
     // Наименование параметра, определяющего уникальность возвращаемых данных.  Если этот столбец есть в filter и заполнен, то сработает автовыбор первой записи
     autoselectidentity?: string;
     // Отображение кнопки "Информация" (true/false)
-    btnaudit?: string;
+    btnaudit?: boolean;
     // Признак сбора статических кнопок в коллектор
     btncollectorall?: string;
     // Отображение кнопки "Удалить" (true/false)

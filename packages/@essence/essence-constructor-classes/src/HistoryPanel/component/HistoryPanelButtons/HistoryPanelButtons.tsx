@@ -53,7 +53,7 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
         const btns = [];
         const {overrides} = btnOptions;
 
-        if (btnaudit === "true") {
+        if (btnaudit) {
             btns.push({
                 bc: overrides["Override Audit Button"],
                 disabled,

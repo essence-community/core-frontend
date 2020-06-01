@@ -73,13 +73,13 @@ export interface IBuilderBaseConfig {
     // Наименование параметра, который будет отображен
     displayfield?: string;
     // Признак автоматического применения фильтра
-    dynamicfilter?: string;
+    dynamicfilter?: boolean;
     // Признак изменения вида иконки от данных
-    dynamicicon?: string;
+    dynamicicon?: boolean;
     // Режим добавления/редактирования - all/insert/update/disabled
     editmode?: string;
     // Режим редактирования дочерних элементов true = включен
-    editmodepanel?: string;
+    editmodepanel?: boolean;
     // Режим добавления/редактирования: inline - в строке; modalwindow - в модальном окне
     edittype?: string;
     // Дополнительные плагины для шлюза
@@ -89,7 +89,7 @@ export interface IBuilderBaseConfig {
     // Тип документа, доступный для выбора при mode = 8. Пример: pdf,docs,doc
     filetypes?: string;
     // Признак сохранения данных фильтра в кеше
-    filtervaluessave?: string;
+    filtervaluessave?: boolean;
     // Формат данных Для дат номер от 1-6: 1 - ГГГГ 2 - МММ ГГГГ 3 - ДД.ММ.ГГГГ 4 - ДД.ММ.ГГГГ ЧЧ:00 5 - ДД.ММ.ГГГГ ЧЧ:МИ 6 - ДД.ММ.ГГГГ ЧЧ:МИ:CC
     format?: string;
     // Наименование глобального параметра, который хранит значение для объекта
@@ -105,11 +105,11 @@ export interface IBuilderBaseConfig {
     // Статическая высота в пикселях (px)
     height?: string;
     // Признак скрытия объекта при инициализации true-скрыт
-    hidden?: string;
+    hidden?: boolean;
     // Правила отображения объекта. Если правило вернет true, то объект скрывается. Синтаксис: == - равно != - не равно '>' - больше '<' - меньше '&&' - и '||' - или Пример: gck_mo>1   // если глобальная переменная gck_mo больше 1, то поле скроется
     hiddenrules?: string;
     // Признак скрытия всех кнопок (true/false)
-    hideactions?: string;
+    hideactions?: boolean;
     // Иконка (например, fa-plus)
     iconfont?: string;
     // Наименование класса или наименование колонки при динамике
@@ -145,7 +145,7 @@ export interface IBuilderBaseConfig {
     // Значение action, передаваемое в json вместо стандартных I,U,D
     modeaction?: string;
     // Признак отключения глобального лоадера при загрузке сервиса
-    noglobalmask?: string;
+    noglobalmask?: boolean;
     // Отображается только иконка кнопки (true/false)
     onlyicon?: string;
     // Направление сортировки: ASC / DESC

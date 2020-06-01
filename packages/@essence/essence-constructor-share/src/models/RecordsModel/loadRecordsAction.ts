@@ -93,8 +93,8 @@ export function attachGlobalStore({bc, json, globalValues}: IAttachGlobalStore):
     }
 }
 
-export function setMask(isLoading: boolean, noglobalmask?: string, pageStore?: IPageModel | null) {
-    if (noglobalmask !== "true" && pageStore) {
+export function setMask(isLoading: boolean, noglobalmask?: boolean, pageStore?: IPageModel | null) {
+    if (!noglobalmask && pageStore) {
         pageStore.setLoadingAction(isLoading);
     }
 }

@@ -16,7 +16,7 @@ const getAddBtnConfig = (bc: IBuilderConfig, styleTheme: string): IBuilderConfig
     [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_add`,
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
     handler: "onAddFileAction",
-    hidden: styleTheme === "light" ? undefined : "false",
+    hidden: styleTheme === "light" ? undefined : false,
     iconfont: "fa-plus",
     iconfontname: "fa",
     mode: "1",

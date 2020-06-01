@@ -28,8 +28,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
     const isDarkTheme = theme.palette.type === "dark";
     const form = React.useContext(FormContext);
     const isHideActions = React.useMemo(
-        () =>
-            hideactions === "true" || (topbtn.length === 0 && (!isDarkTheme || (isDarkTheme && filters.length === 0))),
+        () => hideactions || (topbtn.length === 0 && (!isDarkTheme || (isDarkTheme && filters.length === 0))),
         [filters.length, hideactions, isDarkTheme, topbtn.length],
     );
     const filterIsOpen: boolean = useObserver(() => {
@@ -45,7 +44,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
     const actions = React.useMemo(() => topbtn.reverse(), [topbtn]);
 
     const paddingTop = React.useMemo(() => {
-        const isFilterActionsPresent = filters.length > 0 && filters[0].dynamicfilter !== "true";
+        const isFilterActionsPresent = filters.length > 0 && !filters[0].dynamicfilter;
 
         if (isFilterActionsPresent && isDarkTheme) {
             if (filters && filters[0].topbtn && filters[0].topbtn.length > 0) {

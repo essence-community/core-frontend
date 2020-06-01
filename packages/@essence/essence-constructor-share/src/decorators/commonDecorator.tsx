@@ -24,7 +24,7 @@ export function commonDecorator<Props extends IClassProps>(
 
         public state: ICommonHOCState = {
             disabled: this.props.bc.disabled === true,
-            hidden: this.props.bc.hidden === "true",
+            hidden: this.props.bc.hidden === true,
             readOnly: isEmpty(this.props.bc.readonly) ? undefined : this.props.bc.readonly === "true",
         };
 

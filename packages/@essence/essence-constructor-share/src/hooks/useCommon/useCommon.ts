@@ -19,7 +19,7 @@ export const useCommon = (props: IClassProps): IUseCommonResult => {
     const record = useContext(RecordContext);
 
     const [disabledState, setDisabledState] = useState(bc.disabled === true);
-    const [hiddenState, setHiddenState] = useState(bc.hidden === "true");
+    const [hiddenState, setHiddenState] = useState(bc.hidden === true);
     const [readOnlyState, setReadOnlyState] = useState(() =>
         isEmpty(bc.readonly) ? undefined : bc.readonly === "true",
     );

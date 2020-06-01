@@ -41,7 +41,7 @@ export const PanelContainer: React.FC<IPanelContainerProps> = (props) => {
     }, [bc, collapsible, props]);
 
     const formPanel: renderFn = React.useMemo(() => {
-        if (editmodepanel === "true") {
+        if (editmodepanel) {
             const formBc = {...bc, type: "FORMPANEL.NOCOMMONDECORATOR"};
 
             return (render: renderFn) =>

@@ -18,7 +18,7 @@ export const PanelWrapper: React.FC<IClassProps> = (props) => {
     const actions = React.useMemo(() => topbtn.reverse(), [topbtn]);
 
     const actionsBar = React.useMemo(() => {
-        if (hideactions === "true") {
+        if (hideactions) {
             return null;
         }
 
@@ -55,7 +55,7 @@ export const PanelWrapper: React.FC<IClassProps> = (props) => {
             className={cn({[classes.panelEditing]: form.editing})}
             data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
         >
-            {hideactions === "true" || topbtn.length === 0 ? null : (
+            {hideactions || topbtn.length === 0 ? null : (
                 <Grid item className={classes.actionsBar}>
                     {actionsBar}
                 </Grid>

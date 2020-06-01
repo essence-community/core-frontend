@@ -27,13 +27,13 @@ interface IBaseGridProps extends IClassProps {
 export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classProps}) => {
     const {pageStore, visible, bc} = classProps;
     const classes = useStyles();
-    const isHideActions = bc.hideactions === "true";
+    const isHideActions = bc.hideactions === true;
     const [trans] = useTranslation("meta");
     const theme = useTheme();
     const isDarkTheme = theme.palette.type === "dark";
     const firstFilter = bc.filters?.[0];
     const transCvDisplayed = toTranslateText(trans, bc[VAR_RECORD_DISPLAYED]);
-    const isFilterActionsPresent = firstFilter && firstFilter.dynamicfilter !== "true";
+    const isFilterActionsPresent = firstFilter && !firstFilter.dynamicfilter;
     const classNameRoot = cn(classes.root, isHideActions ? undefined : classes.rootActions);
     let marginTop = 0;
 

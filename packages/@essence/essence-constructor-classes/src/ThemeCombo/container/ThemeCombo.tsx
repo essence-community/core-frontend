@@ -28,7 +28,7 @@ const getComponentBc = (bc: IBuilderConfig, defaultTheme?: string): IBuilderConf
     displayfield: bc.displayfield || "name",
     getglobal: VAR_SETTING_THEME,
     localization: "static",
-    noglobalmask: "true",
+    noglobalmask: true,
     querymode: "remote",
     records: [
         {[VAR_RECORD_ID]: "dark", name: "static:66ef0068472a4a0394710177f828a9b1", value: "dark"},

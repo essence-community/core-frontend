@@ -43,8 +43,8 @@ export class RoadMapModel extends StoreBaseModel {
         );
         this.childs = (this.bc.childs || []).map((tab) => ({
             ...tab,
-            editmodepanel: "true",
-            hideactions: "true",
+            editmodepanel: true,
+            hideactions: true,
             topbtn: [],
         }));
         this.tabs = [...childs];

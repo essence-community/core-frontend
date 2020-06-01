@@ -17,7 +17,7 @@ export const ColumnIconContainer: React.FC<IClassProps> = (props) => {
             uitype: "7",
         };
 
-        if (bc.dynamicicon === "true" && record && bc.iconfontname) {
+        if (bc.dynamicicon && record && bc.iconfontname) {
             btnBc.handler = "none";
 
             if (bc.iconfont) {

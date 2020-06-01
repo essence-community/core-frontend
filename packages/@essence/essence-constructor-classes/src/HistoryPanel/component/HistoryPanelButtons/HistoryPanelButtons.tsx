@@ -67,7 +67,7 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
     const btnBc = React.useMemo(() => {
         const {btns, overrides, btnsCollector} = btnOptions;
         const onlyIcon = theme.palette.type === "dark" ? true : undefined;
-        const showStaticBtns = !btnsCollector || btnsCollector.every((btn) => btn.btncollectorall !== "true");
+        const showStaticBtns = !btnsCollector || btnsCollector.every((btn) => !btn.btncollectorall);
 
         const btnsAll = [
             {

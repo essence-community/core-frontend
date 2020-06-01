@@ -17,7 +17,7 @@ export interface IBuilderBaseConfig {
     // Отображение кнопки "Информация" (true/false)
     btnaudit?: boolean;
     // Признак сбора статических кнопок в коллектор
-    btncollectorall?: string;
+    btncollectorall?: boolean;
     // Отображение кнопки "Удалить" (true/false)
     btndelete?: string;
     // Отображение кнопки "Экспорт в Excel" (true/false)

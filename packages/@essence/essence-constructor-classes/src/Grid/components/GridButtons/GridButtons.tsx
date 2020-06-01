@@ -71,7 +71,7 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
     }, [bc, gridBtnsConfig]);
     const btnsFinal = React.useMemo(() => {
         const {btns, overrides, btnsCollector} = gridBtnsConfig;
-        const showStaticBtns = !btnsCollector || btnsCollector.every((btn) => btn.btncollectorall !== "true");
+        const showStaticBtns = !btnsCollector || btnsCollector.every((btn) => !btn.btncollectorall);
         const btnsAll: IOrderedBuielderConfig[] = [
             ...btns.map((btn) => {
                 const isAddButton =

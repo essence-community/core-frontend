@@ -20,9 +20,9 @@ export const PanelContainer: React.FC<IPanelContainerProps> = (props) => {
     const {hideTitle, bc, elevation} = props;
     const {collapsible, editmodepanel} = bc;
     const [trans] = useTranslation("meta");
-    const isHiddenTitle = React.useMemo(() => hideTitle || collapsible === "true", [hideTitle, collapsible]);
+    const isHiddenTitle = React.useMemo(() => hideTitle || collapsible, [hideTitle, collapsible]);
     const collapsePanel: renderFn = React.useMemo(() => {
-        if (collapsible === "true") {
+        if (collapsible) {
             const collapseBc = {
                 ...bc,
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-collapsible-panel`,
@@ -41,7 +41,7 @@ export const PanelContainer: React.FC<IPanelContainerProps> = (props) => {
     }, [bc, collapsible, props]);
 
     const formPanel: renderFn = React.useMemo(() => {
-        if (editmodepanel === "true") {
+        if (editmodepanel) {
             const formBc = {...bc, type: "FORMPANEL.NOCOMMONDECORATOR"};
 
             return (render: renderFn) =>

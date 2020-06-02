@@ -265,7 +265,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
     @action
     reloadStoreAction = (checkParent: boolean) => {
-        if (checkParent && this.bc[VAR_RECORD_MASTER_ID] && this.bc.reloadmaster === "true") {
+        if (checkParent && this.bc[VAR_RECORD_MASTER_ID] && this.bc.reloadmaster) {
             const masterId = this.bc[VAR_RECORD_MASTER_ID];
             const masterStore = masterId === undefined ? undefined : this.pageStore.stores.get(masterId);
 
@@ -447,7 +447,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     };
 
     winReloadStores = () => {
-        if (this.bc.winreloadstores === "true") {
+        if (this.bc.winreloadstores) {
             this.reloadStoreAction(false);
         }
 

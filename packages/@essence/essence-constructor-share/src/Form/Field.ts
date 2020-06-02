@@ -70,7 +70,7 @@ export class Field implements IField {
     @observable private extraRules: string[] = [];
 
     @computed get isRequired(): boolean {
-        if (this.bc.required === "true") {
+        if (this.bc.required) {
             return true;
         }
 

@@ -25,7 +25,6 @@ describe("FieldCheckbox", () => {
      *          cv_displayed: "541c221f83014cd184aac1201df310b0",
      *          ck_page_object: "D3AE10D64D1342E39F0DA5A07AFC7DFE",
      *          cv_description: "field checkbox",
-     *          visibleinwindow: "false",
      *      },
      *  ],
      *  reqsel: "true",

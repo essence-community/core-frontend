@@ -21,7 +21,7 @@ export const GridContainer: React.FC<IClassProps> = (props) => {
         ) {
             return {
                 ...bc,
-                autoload: undefined,
+                autoload: false,
                 filters: filters.map((filter) => ({
                     ...filter,
                     autoload: bc.autoload,
@@ -47,7 +47,7 @@ export const GridContainer: React.FC<IClassProps> = (props) => {
                 readOnly={readOnly}
                 visible={visible}
             >
-                {gridBc.rootvisible === "true" ? <TreeGridRootRow store={store} {...props} bc={gridBc} /> : null}
+                {gridBc.rootvisible ? <TreeGridRootRow store={store} {...props} bc={gridBc} /> : null}
                 <VirtualizedGrid store={store} {...props} bc={gridBc} />
             </BaseGrid>
         </Paper>

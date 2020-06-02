@@ -35,15 +35,15 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
     const addLabel = trans("static:3a5239ee97d9464c9c4143c18fda9815");
     const isDisabled = useFieldDisabled({disabled, form: field.form, readOnly});
     const addBtnConfig: IBuilderConfig = React.useMemo<IBuilderConfig>(
-        () => ({
+        (): IBuilderConfig => ({
             [VAR_RECORD_DISPLAYED]: addLabel,
             [VAR_RECORD_MASTER_ID]: storeName,
             [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_add`,
             [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-            disabled: bc.maxvalue,
+            disabled: bc.maxvalue !== undefined,
             handler: "onAdd",
             iconfont: "plus",
-            onlyicon: "true",
+            onlyicon: true,
             type: "BTN",
         }),
         [addLabel, bc, storeName],

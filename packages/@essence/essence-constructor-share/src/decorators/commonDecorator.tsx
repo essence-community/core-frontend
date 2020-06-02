@@ -3,7 +3,6 @@ import {autorun, IReactionDisposer} from "mobx";
 import * as React from "react";
 import {VAR_RECORD_MASTER_ID} from "../constants";
 import {IClassProps} from "../types/Class";
-import {isEmpty} from "../utils/base";
 import {parseMemoize} from "../utils/parser";
 import {IRecord} from "../types";
 import {RecordContext} from "../context";
@@ -23,9 +22,9 @@ export function commonDecorator<Props extends IClassProps>(
         static contextType = RecordContext;
 
         public state: ICommonHOCState = {
-            disabled: this.props.bc.disabled === "true",
-            hidden: this.props.bc.hidden === "true",
-            readOnly: isEmpty(this.props.bc.readonly) ? undefined : this.props.bc.readonly === "true",
+            disabled: this.props.bc.disabled === true,
+            hidden: this.props.bc.hidden === true,
+            readOnly: this.props.bc.readonly,
         };
 
         private disposers: IReactionDisposer[] = [];
@@ -40,7 +39,7 @@ export function commonDecorator<Props extends IClassProps>(
 
             this.prevContext = this.context;
 
-            if ((reqsel === "true" && bc[VAR_RECORD_MASTER_ID]) || disabledrules || disabledemptymaster === "true") {
+            if ((reqsel && bc[VAR_RECORD_MASTER_ID]) || disabledrules || disabledemptymaster) {
                 this.disposers.push(autorun(this.handleDisabled));
             }
 
@@ -57,11 +56,7 @@ export function commonDecorator<Props extends IClassProps>(
             if (this.prevContext !== this.context) {
                 const {reqsel, disabledrules, hiddenrules, readonlyrules, disabledemptymaster} = this.props.bc;
 
-                if (
-                    (reqsel === "true" && this.props.bc[VAR_RECORD_MASTER_ID]) ||
-                    disabledrules ||
-                    disabledemptymaster === "true"
-                ) {
+                if ((reqsel && this.props.bc[VAR_RECORD_MASTER_ID]) || disabledrules || disabledemptymaster) {
                     this.handleDisabled();
                 }
 

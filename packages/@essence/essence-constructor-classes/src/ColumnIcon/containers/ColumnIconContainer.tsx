@@ -12,12 +12,12 @@ export const ColumnIconContainer: React.FC<IClassProps> = (props) => {
         const btnBc: IBuilderConfig = {
             ...bc,
             iconsize: "xs",
-            onlyicon: "true",
+            onlyicon: true,
             type: "BTN",
             uitype: "7",
         };
 
-        if (bc.dynamicicon === "true" && record && bc.iconfontname) {
+        if (bc.dynamicicon && record && bc.iconfontname) {
             btnBc.handler = "none";
 
             if (bc.iconfont) {

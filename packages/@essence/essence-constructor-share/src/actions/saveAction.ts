@@ -13,15 +13,7 @@ import {
     META_PAGE_OBJECT,
 } from "../constants";
 import {ProgressModel, snackbarStore} from "../models";
-import {
-    IBuilderConfig,
-    IBuilderMode,
-    IGridBuilder,
-    IPageModel,
-    IRecordsModel,
-    ILoadRecordsProps,
-    IRecord,
-} from "../types";
+import {IBuilderConfig, IBuilderMode, IPageModel, IRecordsModel, ILoadRecordsProps, IRecord} from "../types";
 import {findGetGlobalKey, isEmpty, i18next} from "../utils";
 import {getMasterObject} from "../utils/getMasterObject";
 import {TText} from "../types/SnackbarModel";
@@ -62,10 +54,10 @@ export const filter = (values: IRecord) => {
     return filteredValues;
 };
 
-const findReloadAction = (recordsStore: IRecordsModel, bc: IGridBuilder) => {
+const findReloadAction = (recordsStore: IRecordsModel, bc: IBuilderConfig) => {
     const masterId = bc[VAR_RECORD_MASTER_ID];
 
-    if (bc.reloadmaster === "true" && recordsStore.pageStore && masterId) {
+    if (bc.reloadmaster && recordsStore.pageStore && masterId) {
         const masterStore = recordsStore.pageStore.stores.get(masterId);
 
         if (masterStore && masterStore.reloadStoreAction) {
@@ -201,9 +193,9 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
                     if (check === 1 && noReload) {
                         resolve(response);
                     } else if (check === 1) {
-                        const loadRecordsAction = findReloadAction(this, bc as IGridBuilder);
+                        const loadRecordsAction = findReloadAction(this, bc);
                         const isAttach =
-                            bc.refreshallrecords === "false" &&
+                            !bc.refreshallrecords &&
                             (mode === "1" || mode === "2" || mode === "4") &&
                             !isEmpty(response[recordId]);
 

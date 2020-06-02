@@ -11,31 +11,31 @@ export interface IBuilderBaseConfig {
     // Префикс-метка для нового значения. Пример: "allownew" = "NEW:", на сервер уйдет значение "NEW:введенное значение"
     allownew?: string;
     // Признак автозагрузки сервиса
-    autoload?: string;
+    autoload?: boolean;
     // Наименование параметра, определяющего уникальность возвращаемых данных.  Если этот столбец есть в filter и заполнен, то сработает автовыбор первой записи
     autoselectidentity?: string;
     // Отображение кнопки "Информация" (true/false)
-    btnaudit?: string;
+    btnaudit?: boolean;
     // Признак сбора статических кнопок в коллектор
-    btncollectorall?: string;
+    btncollectorall?: boolean;
     // Отображение кнопки "Удалить" (true/false)
-    btndelete?: string;
+    btndelete?: boolean;
     // Отображение кнопки "Экспорт в Excel" (true/false)
-    btnexcel?: string;
+    btnexcel?: boolean;
     // Признак доступности фильтрации по колонке  True - фильтрация включена  False - фильтрация выключена
     btnfilter?: boolean;
     // Отображение кнопки "Обновить" (true/false)
-    btnrefresh?: string;
+    btnrefresh?: boolean;
     // Отображение кнопки "Настройки" (true/false)
-    btnsettings?: string;
+    btnsettings?: boolean;
     // Признак "Добавить еще". Если не заполнен = false
-    checkaddmore?: string;
+    checkaddmore?: boolean;
     // Идентификатор для поиска окна в мастере
     ckwindow?: string;
     // Свернута ли панель при инициализации  true = свернута
-    collapsed?: string;
+    collapsed?: boolean;
     // Признак возможности сворачивания панели true/false
-    collapsible?: string;
+    collapsible?: boolean;
     // Тип  сбора значений: object - виде объекта array - массив строк
     collectionvalues?: string;
     // Наименование параметра для отображения данных и передачи в Modify
@@ -65,21 +65,21 @@ export interface IBuilderBaseConfig {
     // Сервис для запроса значения по умолчанию
     defaultvaluequery?: string;
     // Признак блокировки объекта при инициализации true-блокирован
-    disabled?: string;
+    disabled?: boolean;
     // Признак блокировки, если мастер вернул пустое значение
-    disabledemptymaster?: string;
+    disabledemptymaster?: boolean;
     // Правила отображения объекта. Если правило вернет true, то объект станет неактивным. Синтаксис: == - равно != - не равно '>' - больше '<' - меньше '&&' - и '||' - или Пример: gck_mo>1   // если глобальная переменная gck_mo больше 1, то поле заблокируется
     disabledrules?: string;
     // Наименование параметра, который будет отображен
     displayfield?: string;
     // Признак автоматического применения фильтра
-    dynamicfilter?: string;
+    dynamicfilter?: boolean;
     // Признак изменения вида иконки от данных
-    dynamicicon?: string;
+    dynamicicon?: boolean;
     // Режим добавления/редактирования - all/insert/update/disabled
     editmode?: string;
     // Режим редактирования дочерних элементов true = включен
-    editmodepanel?: string;
+    editmodepanel?: boolean;
     // Режим добавления/редактирования: inline - в строке; modalwindow - в модальном окне
     edittype?: string;
     // Дополнительные плагины для шлюза
@@ -89,7 +89,7 @@ export interface IBuilderBaseConfig {
     // Тип документа, доступный для выбора при mode = 8. Пример: pdf,docs,doc
     filetypes?: string;
     // Признак сохранения данных фильтра в кеше
-    filtervaluessave?: string;
+    filtervaluessave?: boolean;
     // Формат данных Для дат номер от 1-6: 1 - ГГГГ 2 - МММ ГГГГ 3 - ДД.ММ.ГГГГ 4 - ДД.ММ.ГГГГ ЧЧ:00 5 - ДД.ММ.ГГГГ ЧЧ:МИ 6 - ДД.ММ.ГГГГ ЧЧ:МИ:CC
     format?: string;
     // Наименование глобального параметра, который хранит значение для объекта
@@ -105,11 +105,11 @@ export interface IBuilderBaseConfig {
     // Статическая высота в пикселях (px)
     height?: string;
     // Признак скрытия объекта при инициализации true-скрыт
-    hidden?: string;
+    hidden?: boolean;
     // Правила отображения объекта. Если правило вернет true, то объект скрывается. Синтаксис: == - равно != - не равно '>' - больше '<' - меньше '&&' - и '||' - или Пример: gck_mo>1   // если глобальная переменная gck_mo больше 1, то поле скроется
     hiddenrules?: string;
     // Признак скрытия всех кнопок (true/false)
-    hideactions?: string;
+    hideactions?: boolean;
     // Иконка (например, fa-plus)
     iconfont?: string;
     // Наименование класса или наименование колонки при динамике
@@ -145,9 +145,9 @@ export interface IBuilderBaseConfig {
     // Значение action, передаваемое в json вместо стандартных I,U,D
     modeaction?: string;
     // Признак отключения глобального лоадера при загрузке сервиса
-    noglobalmask?: string;
+    noglobalmask?: boolean;
     // Отображается только иконка кнопки (true/false)
-    onlyicon?: string;
+    onlyicon?: boolean;
     // Направление сортировки: ASC / DESC
     orderdirection?: string;
     // Наименование параметра, по которому осуществляется сортировка при инициализации
@@ -173,25 +173,25 @@ export interface IBuilderBaseConfig {
     // Наименование запроса, возвращающего cv_url для перехода
     redirectusequery?: string;
     // Признак перезагрузки всех данных после сохранения/обновления.   false - после сохранения/обновления запись подгружается одна без перезагрузки всего списка   true - список перегружается полнстью, при этом сама запись может не показать, если не попала под фильтр или пагинацию
-    refreshallrecords?: string;
+    refreshallrecords?: boolean;
     // Регулярное выражение для проверки введенного значения
     regexp?: string;
     // Признак обновления родителя по мастеру
-    reloadmaster?: string;
+    reloadmaster?: boolean;
     // Количество обязательно заполненных полей в группе, требуемое для корректной валидации
     reqcount?: string;
     // Правила для изменения количества обязательно заполненных полей в группе. Имеет приоритет над reqcount
     reqcountrules?: string;
     // Признак зависимости от мастера (true/false)
-    reqsel?: string;
+    reqsel?: boolean;
     // Признак обязательности заполнения
-    required?: string;
+    required?: boolean;
     // Правила обязательности объекта. Только глобальные переменные.  Синтаксис: == - равно != - не равно '>' - больше '<' - меньше '&&' - и '||' - или Пример: gck_mo>1   // если глобальная переменная gck_mo больше 1, то поле станет обязательным
     requiredrules?: string;
     // Признак доступности изменения ширины объекта (true/false)
-    resizable?: string;
+    resizable?: boolean;
     // Отображение корня
-    rootvisible?: string;
+    rootvisible?: boolean;
     // Возможность выделения нескольких значений в GRID и TREEGRID SINGLE - только 1 значение SIMPLE - позволяет выбирать значения одно-за-другим. Каждое нажатие добавляет/удаляет значение. MULTI - позволяет комплексно выбирать значения, с учетом ctrl и shift
     selmode?: string;
     // Наименование глобальной переменной. Должно начинаться с g
@@ -201,7 +201,7 @@ export interface IBuilderBaseConfig {
     // Наименование парамента, по которому будет осуществлена сортировка вместо column
     sortcolumn?: string;
     // Признак отображения сплиттера (true/false)
-    splitter?: string;
+    splitter?: boolean;
     // Наименование шага
     stepname?: string;
     // Наименование следующего шага Может принимать выражение вида: "выражение?верный-шаг:неверный-шаг"
@@ -231,13 +231,11 @@ export interface IBuilderBaseConfig {
     // Наименование параметра из внутреннего сервиса, значение которого будет передано для дальнейшей обработки
     valuefield?: string;
     // Признак отображения колонки
-    visible?: string;
-    // Признак отображения в автособираемом окне неактивных полей (анализирует editmode)
-    visibleinwindow?: string;
+    visible?: boolean;
     // Ширина поля. Целое число от 1% до 100%. Обязательно добавлять %.
     width?: string;
     // Обновления связанных сторов (таблиц, панелей) при закрытии модального окна
-    winreloadstores?: string;
+    winreloadstores?: boolean;
     // Тип окна (влияет на ширину окна): narrow: 500px, default: 800px, wide: 1000px, xwide: 1200px, xlwide: 1600px
     wintype?: string;
 }
@@ -281,7 +279,7 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     // Служебный параметр не править
     type: string;
     // Признак Только чтение
-    readonly?: string;
+    readonly?: boolean;
     // Interanal
     confirmquestionposition?: "right" | "top";
     // Internal

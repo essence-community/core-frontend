@@ -64,7 +64,9 @@ export const ButtonCollectorContainer: React.FC<IClassProps> = (props) => {
     const displayed = bc[VAR_RECORD_DISPLAYED];
     const qtip = bc.tipmsg || displayed;
     const btns = React.useMemo(
-        () => bc.topbtn && bc.topbtn.map((btn: IBuilderConfig) => ({...btn, onlyicon: "false", uitype: "8"})),
+        () =>
+            bc.topbtn &&
+            bc.topbtn.map((btn: IBuilderConfig): IBuilderConfig => ({...btn, onlyicon: false, uitype: "8"})),
         [bc.topbtn],
     );
 

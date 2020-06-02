@@ -30,7 +30,7 @@ export const GridInlineButtons: React.FC<IGridInlineButtonsProps> = React.memo(f
 
     const saveBtnBc = React.useMemo(
         () => ({
-            onlyicon: isDarkTheme ? "true" : "false",
+            onlyicon: isDarkTheme ? true : false,
             ...overrides["Override Save Button"],
         }),
         [isDarkTheme, overrides],
@@ -38,7 +38,7 @@ export const GridInlineButtons: React.FC<IGridInlineButtonsProps> = React.memo(f
 
     const cancelBtnBc = React.useMemo(
         () => ({
-            onlyicon: isDarkTheme ? "true" : "false",
+            onlyicon: isDarkTheme ? true : false,
             ...overrides["Override Cancel Button"],
         }),
         [isDarkTheme, overrides],

@@ -33,11 +33,11 @@ export class FilterModel extends StoreBaseModel {
     constructor(props: IStoreBaseModelProps) {
         super(props);
 
-        if (this.bc.filtervaluessave === "true" && this.pageStore.pageId) {
+        if (this.bc.filtervaluessave && this.pageStore.pageId) {
             this.valuesStorageKey = `${this.pageStore.pageId}_filter_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
         }
 
-        this.isOpen = this.bc.collapsed !== "true";
+        this.isOpen = !this.bc.collapsed;
     }
 
     @action

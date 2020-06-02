@@ -54,7 +54,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
                 (obj) =>
                     obj.datatype !== "icon" &&
                     obj.datatype !== "checkbox" &&
-                    obj.visible !== "false" &&
+                    !obj.visible &&
                     obj.hiddenrules !== "true",
             )
             .map((val) => ({
@@ -78,7 +78,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
         jsonbc: JSON.stringify(jsonbc),
     };
 
-    setMask(true, "false", pageStore);
+    setMask(true, false, pageStore);
 
     return request({
         [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
@@ -93,7 +93,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
         timeout: bcBtn.timeout || "660",
     })
         .then((res: any) => {
-            setMask(false, "false", pageStore);
+            setMask(false, false, pageStore);
             const isValid: number = snackbarStore.checkValidResponseAction(res, {
                 applicationStore: pageStore.applicationStore,
                 route: pageStore.route,
@@ -108,7 +108,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
             return isValid > 0;
         })
         .catch(() => {
-            setMask(false, "false", pageStore);
+            setMask(false, false, pageStore);
 
             return false;
         });

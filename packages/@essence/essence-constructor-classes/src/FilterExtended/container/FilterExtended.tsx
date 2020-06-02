@@ -17,7 +17,7 @@ export const FilterExtended = (props: IClassProps) => {
     const form = React.useContext(FormContext);
     const classes = useStyles(props);
     const {bc} = props;
-    const [isOpen, setIsOpen] = React.useState(bc.collapsed !== "true");
+    const [isOpen, setIsOpen] = React.useState(!bc.collapsed);
     const columns = React.useMemo(() => findColumns(bc), [bc]);
     const [trans] = useTranslation("meta");
     const label = bc[VAR_RECORD_DISPLAYED];

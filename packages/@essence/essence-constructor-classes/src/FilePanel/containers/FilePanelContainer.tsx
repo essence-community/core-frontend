@@ -33,7 +33,7 @@ export const FilePanelContainer: React.FC<IClassProps> = (props) => {
     });
     const btns = React.useMemo(
         () =>
-            bc.btnrefresh === "true"
+            bc.btnrefresh
                 ? [btnsConfig["Override Add Button"], btnsConfig["Override Refresh Button"]]
                 : [btnsConfig["Override Add Button"]],
         [btnsConfig, bc],

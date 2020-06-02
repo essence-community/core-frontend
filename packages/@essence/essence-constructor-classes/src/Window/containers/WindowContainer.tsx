@@ -56,7 +56,7 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
     const windowTitle = displayedTrans || `${trans(getModeTitle(bc.mode as IBuilderMode))} ${displayedTrans || ""}`;
     const autoHeightMax = isFulllScreen ? "100%" : `calc(90vh - ${WINDOW_HEADER_HEIGHT + WINDOW_BOTTOM_HEIGHT}px)`;
     const checkboxAddMode = useObserver(() =>
-        bc.mode === "1" && checkaddmore === "true" && !stepnamenext ? (
+        bc.mode === "1" && checkaddmore && !stepnamenext ? (
             <FormControlLabel
                 control={
                     <Checkbox

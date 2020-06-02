@@ -46,7 +46,7 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
             <UIForm
                 onSubmit={store.handleSubmit}
                 placement="filter"
-                submitOnChange={bc.dynamicfilter === "true"}
+                submitOnChange={bc.dynamicfilter}
                 bc={bc}
                 initialValues={initialValues}
                 pageStore={pageStore}
@@ -59,16 +59,16 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                     wrap="nowrap"
                     data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                 >
-                    {bc.dynamicfilter === "true" || bc.hideactions === "true" ? null : (
+                    {bc.dynamicfilter || bc.hideactions ? null : (
                         <FilterButtons styleTheme={styleTheme} title={title} isOpen={store.isOpen} {...props} />
                     )}
-                    {bc.dynamicfilter === "true" && styleTheme !== "light" ? (
+                    {bc.dynamicfilter && styleTheme !== "light" ? (
                         <Grid item className={`${classes.filterButtons} ${classes.filterButtonsAbsolute}`}>
                             &nbsp;
                         </Grid>
                     ) : null}
                     <Grid item className={classes.maxWidth}>
-                        {!title || (styleTheme === "light" && bc.dynamicfilter !== "true") ? null : (
+                        {!title || (styleTheme === "light" && !bc.dynamicfilter) ? null : (
                             <div className={classes.dynamicTitle}>
                                 <Typography
                                     variant="body2"

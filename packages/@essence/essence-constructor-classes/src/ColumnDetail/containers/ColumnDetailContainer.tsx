@@ -21,7 +21,7 @@ export const ColumnDetailContainer: React.FC<IClassProps> = React.memo(function 
             handler: "onToggleExpansion",
             iconfont: isExpanded ? "caret-down" : "caret-right",
             iconsize: "xs",
-            onlyicon: "true",
+            onlyicon: true,
             type: "BTN",
             uitype: "7",
         };

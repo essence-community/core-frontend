@@ -27,7 +27,7 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
                 ...options,
                 bc: {
                     ...options.bc,
-                    autoload: "false",
+                    autoload: false,
                 },
                 field,
                 form,

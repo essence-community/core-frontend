@@ -33,7 +33,7 @@ const getBtnAuditConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     iconfont: "info",
     iconfontname: "fa",
     onlyicon: true,
-    readonly: "false",
+    readonly: false,
     reqsel: true,
     type: "AUDIT_INFO",
     uitype: "11",
@@ -49,7 +49,7 @@ const getBtnRefreshConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     iconfont: "refresh",
     iconfontname: "fa",
     onlyicon: true,
-    readonly: "false",
+    readonly: false,
     type: "BTN",
     uitype: "11",
 });
@@ -67,7 +67,7 @@ const getBtnExcelConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     iconfont: "table",
     iconfontname: "fa",
     onlyicon: true,
-    readonly: "false",
+    readonly: false,
     type: "BTN",
     uitype: "11",
 });

@@ -38,7 +38,6 @@ export function getWindowChilds({windowBc, pageStore, values, autobuild}: IGetWi
             // eslint-disable-next-line sort-keys
             [VAR_RECORD_DISPLAYED]: field[VAR_RECORD_DISPLAYED],
             edittype: windowBc.edittype,
-            visibleinwindow: field.visibleinwindow,
             ...(field.required ? {required: field.required} : {}),
             ...(windowBc.edittype === "inline" ? {width: "100%"} : {}),
             type: fieldProps.type === "COLUMN" ? "IFIELD" : fieldProps.type,

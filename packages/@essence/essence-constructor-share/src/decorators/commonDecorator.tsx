@@ -3,7 +3,6 @@ import {autorun, IReactionDisposer} from "mobx";
 import * as React from "react";
 import {VAR_RECORD_MASTER_ID} from "../constants";
 import {IClassProps} from "../types/Class";
-import {isEmpty} from "../utils/base";
 import {parseMemoize} from "../utils/parser";
 import {IRecord} from "../types";
 import {RecordContext} from "../context";
@@ -25,7 +24,7 @@ export function commonDecorator<Props extends IClassProps>(
         public state: ICommonHOCState = {
             disabled: this.props.bc.disabled === true,
             hidden: this.props.bc.hidden === true,
-            readOnly: isEmpty(this.props.bc.readonly) ? undefined : this.props.bc.readonly === "true",
+            readOnly: this.props.bc.readonly,
         };
 
         private disposers: IReactionDisposer[] = [];

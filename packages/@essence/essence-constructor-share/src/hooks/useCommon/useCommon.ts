@@ -1,7 +1,7 @@
 import {useState, useContext, useCallback, useEffect} from "react";
 import {reaction} from "mobx";
 import {IClassProps} from "../../types";
-import {isEmpty, parseMemoize} from "../../utils";
+import {parseMemoize} from "../../utils";
 import {RecordContext} from "../../context";
 import {VAR_RECORD_MASTER_ID} from "../../constants";
 import {isDisabled} from "./isDisabled";
@@ -20,9 +20,7 @@ export const useCommon = (props: IClassProps): IUseCommonResult => {
 
     const [disabledState, setDisabledState] = useState(bc.disabled === true);
     const [hiddenState, setHiddenState] = useState(bc.hidden === true);
-    const [readOnlyState, setReadOnlyState] = useState(() =>
-        isEmpty(bc.readonly) ? undefined : bc.readonly === "true",
-    );
+    const [readOnlyState, setReadOnlyState] = useState(bc.readonly);
     const isHidden = hidden || hiddenState;
 
     const getValue = useCallback(

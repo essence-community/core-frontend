@@ -210,8 +210,6 @@ export interface IBuilderBaseConfig {
     stylerules?: string;
     // Ширина Tab Panel
     tabwidth?: string;
-    // Имя сервиса
-    taskservice?: string;
     // Разделитель тысяч
     thousandseparator?: string;
     // Время ожидания выполнения запроса в секундах
@@ -234,8 +232,6 @@ export interface IBuilderBaseConfig {
     valuefield?: string;
     // Признак отображения колонки
     visible?: boolean;
-    // Признак отображения в автособираемом окне неактивных полей (анализирует editmode)
-    visibleinwindow?: string;
     // Ширина поля. Целое число от 1% до 100%. Обязательно добавлять %.
     width?: string;
     // Обновления связанных сторов (таблиц, панелей) при закрытии модального окна
@@ -283,7 +279,7 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     // Служебный параметр не править
     type: string;
     // Признак Только чтение
-    readonly?: string;
+    readonly?: boolean;
     // Interanal
     confirmquestionposition?: "right" | "top";
     // Internal

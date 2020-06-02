@@ -23,7 +23,7 @@ export function getBackButtonConfig(bc: IBuilderConfig) {
         [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
         handler: "onBackTab",
         hiddenrules: VAR_RECORD_G_IS_START,
-        readonly: "false",
+        readonly: false,
         type: "BTN",
         uitype: "2",
     };
@@ -39,7 +39,7 @@ export function getNextButtonConfig(bc: IBuilderConfig) {
         [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
         handler: "onNextTab",
         hiddenrules: VAR_RECORD_G_IS_END,
-        readonly: "false",
+        readonly: false,
         type: "BTN",
     };
 }

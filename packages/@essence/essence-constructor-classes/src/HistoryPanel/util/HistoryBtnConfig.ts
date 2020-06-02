@@ -76,7 +76,7 @@ export function getHistoryRefreshButtonConfig(bc: IBuilderConfig): IBuilderConfi
         iconfont: "refresh",
         iconfontname: "fa",
         onlyicon: true,
-        readonly: "false",
+        readonly: false,
         type: "BTN",
         uitype: "11",
     } as IBuilderConfig;
@@ -111,7 +111,7 @@ export function getHistoryLeftButtonConfig(bc: IBuilderConfig): IBuilderConfig {
         iconfont: "chevron-left",
         iconfontname: "fa",
         onlyicon: true,
-        readonly: "false",
+        readonly: false,
         type: "BTN",
         uitype: "11",
     } as IBuilderConfig;
@@ -129,7 +129,7 @@ export function getHistoryRightButtonConfig(bc: IBuilderConfig): IBuilderConfig 
         iconfont: "chevron-right",
         iconfontname: "fa",
         onlyicon: true,
-        readonly: "false",
+        readonly: false,
         type: "BTN",
         uitype: "11",
     } as IBuilderConfig;
@@ -146,7 +146,7 @@ export function getBtnAuditConfig(bc: IBuilderConfig): IBuilderConfig {
         iconfont: "info",
         iconfontname: "fa",
         onlyicon: true,
-        readonly: "false",
+        readonly: false,
         reqsel: true,
         type: "AUDIT_INFO",
         uitype: "11",

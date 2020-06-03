@@ -1,10 +1,4 @@
-import {
-    IBuilderConfig,
-    IClassProps,
-    mapComponents,
-    toColumnStyleWidth,
-    toSize,
-} from "@essence-community/constructor-share";
+import {IBuilderConfig, IClassProps, mapComponents, toColumnStyleWidth} from "@essence-community/constructor-share";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
 import {AppBar as MaterialAppBar, Grid} from "@material-ui/core";
 import * as React from "react";
@@ -37,9 +31,9 @@ const colors = {
 };
 
 const calcStyleHeight = (bc: IBuilderConfig) => ({
-    height: bc.height ? toSize(bc.height, "") : undefined,
-    maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
-    minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
+    height: bc.height,
+    maxHeight: bc.maxheight ?? "100%",
+    minHeight: bc.minheight,
 });
 
 const calcStyle = (bc: IBuilderConfig) => ({
@@ -52,9 +46,9 @@ export const AppBar: React.FC<IClassProps> = (props) => {
     const {bc} = props;
     const contentStyle = React.useMemo(
         () => ({
-            height: bc.height ? toSize(bc.height, "") : undefined,
-            maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
-            minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
+            height: bc.height,
+            maxHeight: bc.maxheight ?? "100%",
+            minHeight: bc.minheight,
             padding: bc.contentview && bc.contentview.startsWith("hbox") ? "0 5px" : undefined,
             ...toColumnStyleWidth(bc.width),
         }),
@@ -62,9 +56,9 @@ export const AppBar: React.FC<IClassProps> = (props) => {
     );
     const contentGridHeightStyle = React.useMemo(
         () => ({
-            height: bc.height ? toSize(bc.height, "") : undefined,
-            maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
-            minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
+            height: bc.height,
+            maxHeight: bc.maxheight ?? "100%",
+            minHeight: bc.minheight,
         }),
         [bc.height, bc.maxheight, bc.minheight],
     );

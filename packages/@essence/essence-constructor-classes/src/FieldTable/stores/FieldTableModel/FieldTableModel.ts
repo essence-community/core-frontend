@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import {toSize, i18next, isEmpty} from "@essence-community/constructor-share/utils";
+import {i18next, isEmpty} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_PARENT_ID,
@@ -33,7 +33,7 @@ interface IFieldTableModelProps extends IStoreBaseModelProps {
     form: IForm;
 }
 
-const HEIGHT_GRID = 210;
+const HEIGHT_GRID = "210px";
 const loggerInfo = loggerRoot.extend("FieldTableModel");
 
 const clearChildStores = ({pageStore, bc}: {pageStore: IPageModel; bc: IBuilderConfig}) => {
@@ -131,9 +131,9 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             filters: this.bc.filters?.map((column) => ({...column, [VAR_RECORD_PARENT_ID]: gridId})),
             getglobal: undefined,
             height:
-                isEmpty(this.bc.pickerheight) && this.bc.pagesize !== undefined
+                this.bc.pickerheight === undefined && this.bc.pagesize !== undefined
                     ? undefined
-                    : String(toSize(this.bc.pickerheight, HEIGHT_GRID)),
+                    : this.bc.pickerheight ?? HEIGHT_GRID,
             hidden: undefined,
             hiddenrules: undefined,
             readonly: false,

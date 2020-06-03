@@ -3,7 +3,6 @@ import {useObserver} from "mobx-react-lite";
 import {Paper} from "@material-ui/core";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
-import {toSize} from "@essence-community/constructor-share/utils";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {LineLoader} from "@essence-community/constructor-share/uicomponents";
 import {settingsStore} from "@essence-community/constructor-share/models";
@@ -23,7 +22,6 @@ export const IframeContainer: React.FC<IClassProps> = (props) => {
         hidden,
         pageStore,
     });
-    const height = bc.height ? toSize(bc.height) : undefined;
 
     return useObserver(() => {
         if (hidden || !visible) {
@@ -31,14 +29,14 @@ export const IframeContainer: React.FC<IClassProps> = (props) => {
         }
 
         const content = (
-            <div className={classes.root} style={{height}}>
+            <div className={classes.root} style={{height: bc.height}}>
                 {disabled ? <div className={classes.disabled} /> : null}
                 {store.recordsStore.isLoading ? (
                     <div className={classes.loaderContainer}>
                         <LineLoader loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER]} size={100} />
                     </div>
                 ) : (
-                    <IFrame height={height} bc={bc} value={store.value} typeiframe={store.typeiframe} />
+                    <IFrame height={bc.height} bc={bc} value={store.value} typeiframe={store.typeiframe} />
                 )}
             </div>
         );

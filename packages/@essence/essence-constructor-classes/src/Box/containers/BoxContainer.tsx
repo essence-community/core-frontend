@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Grid} from "@material-ui/core";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {toColumnStyleWidth, toSize} from "@essence-community/constructor-share/utils/transform";
+import {toColumnStyleWidth} from "@essence-community/constructor-share/utils/transform";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {GRID_CONFIGS, GRID_ALIGN_CONFIGS} from "@essence-community/constructor-share/constants/ui";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
@@ -16,9 +16,9 @@ export const BoxContainer: React.FC<IClassProps> = (props) => {
     const isRow = contentview === "hbox" || contentview === "hbox-wrap";
     const contentStyle = React.useMemo(
         () => ({
-            height: bc.height ? toSize(bc.height, "") : undefined,
-            maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
-            minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
+            height: bc.height,
+            maxHeight: bc.maxheight ?? "100%",
+            minHeight: bc.minheight,
             ...toColumnStyleWidth(bc.width),
         }),
         [bc.height, bc.maxheight, bc.minheight, bc.width],

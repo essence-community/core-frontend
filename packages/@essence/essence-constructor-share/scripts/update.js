@@ -31,6 +31,8 @@ function converType(type) {
         case "text":
         case "localization":
             return "string";
+        case "integer":
+            return "number";
         default:
             return type;
     }

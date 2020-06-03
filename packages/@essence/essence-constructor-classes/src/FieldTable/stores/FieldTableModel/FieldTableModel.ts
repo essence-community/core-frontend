@@ -131,7 +131,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             filters: this.bc.filters?.map((column) => ({...column, [VAR_RECORD_PARENT_ID]: gridId})),
             getglobal: undefined,
             height:
-                isEmpty(this.bc.pickerheight) && !isEmpty(this.bc.pagesize)
+                isEmpty(this.bc.pickerheight) && this.bc.pagesize !== undefined
                     ? undefined
                     : String(toSize(this.bc.pickerheight, HEIGHT_GRID)),
             hidden: undefined,

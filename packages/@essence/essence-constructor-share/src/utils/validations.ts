@@ -33,8 +33,6 @@ export const fileTypeValidate = (file: File, fileMime: string[] = []) => {
 /**
  * Used in FileInputModel
  */
-export const fileSizeValidate = (file: File, maxfile?: string) => {
-    const maxSize = maxfile ? Number(maxfile) : maxFileSize;
-
+export const fileSizeValidate = (file: File, maxSize: number = maxFileSize) => {
     return file.size < maxSize;
 };

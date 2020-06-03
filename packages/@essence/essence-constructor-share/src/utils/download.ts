@@ -32,7 +32,7 @@ interface IPrint {
     snackbarStore: ISnackbarModel;
     pageStore: IPageModel;
     reloadPageObject?: IReloadPageObject;
-    timeout?: string;
+    timeout?: number;
 }
 
 interface IResult extends IResponse, IRecord {

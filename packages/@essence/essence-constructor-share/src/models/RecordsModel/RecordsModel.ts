@@ -101,7 +101,7 @@ export class RecordsModel implements IRecordsModel {
 
     constructor(bc: IBuilderConfig, options?: IOptions) {
         this.bc = bc;
-        this.pageSize = bc.pagesize ? parseInt(bc.pagesize, 10) : undefined;
+        this.pageSize = bc.pagesize;
         this.recordId = bc.idproperty || VAR_RECORD_ID;
         this.valueField = this.recordId;
 

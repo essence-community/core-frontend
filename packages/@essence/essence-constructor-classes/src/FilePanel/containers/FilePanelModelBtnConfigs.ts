@@ -35,7 +35,7 @@ export const getSaveBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     filemode: bc.filemode,
     filetypes: "doc,docx,pdf,zip,txt,ods,odt,xls,xlsx",
     handler: "onSimpleSaveWindow",
-    maxfile: "5242880",
+    maxfile: 5242880,
     mode: "8",
     type: "BTN",
 });

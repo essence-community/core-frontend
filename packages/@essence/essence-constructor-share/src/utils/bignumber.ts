@@ -8,19 +8,19 @@ interface IGetBigNumberInstanceResult {
 
 const BIG_PRECISION = 20;
 
-function getDecimalPreccision(bc: IBuilderConfig) {
+function getDecimalPreccision(bc: IBuilderConfig): number {
     if (bc.datatype === "integer") {
         return 0;
     }
 
-    return bc.decimalprecision ? parseInt(bc.decimalprecision, 10) : 2;
+    return bc.decimalprecision ?? 2;
 }
 
 export function getBigNumberInstance(bc: IBuilderConfig): IGetBigNumberInstanceResult {
     const decimalPrecision = getDecimalPreccision(bc);
 
     const conf: BigNumberBase.Config = {
-        DECIMAL_PLACES: bc.decimalprecision === "-1" ? BIG_PRECISION : decimalPrecision,
+        DECIMAL_PLACES: bc.decimalprecision === -1 ? BIG_PRECISION : decimalPrecision,
         FORMAT: {
             decimalSeparator: bc.decimalseparator || ",",
             fractionGroupSeparator: " ",

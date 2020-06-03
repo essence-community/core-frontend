@@ -50,7 +50,7 @@ export const request = async <R = IRecord | IRecord[]>({
     body,
     list = true,
     plugin,
-    timeout = "30",
+    timeout = 30,
     gate = settingsStore.settings[VAR_SETTING_GATE_URL],
     method = "POST",
     formData,
@@ -84,14 +84,14 @@ export const request = async <R = IRecord | IRecord[]>({
             },
             method,
             onUploadProgress,
-            timeout: parseInt(timeout, 10) * MILLISECOND,
+            timeout: timeout * MILLISECOND,
             url: `${gate}?${stringify(formData ? {...queryParams, ...data} : queryParams)}`,
         });
 
         responseJSON = response.data;
     } else {
         const controller = window.AbortController ? new window.AbortController() : undefined;
-        const timeoutId = window.setTimeout(() => controller?.abort(), parseInt(timeout, 10) * MILLISECOND);
+        const timeoutId = window.setTimeout(() => controller?.abort(), timeout * MILLISECOND);
         const response = await fetch(url, {
             body: formData ? formData : stringify(data),
             headers: {

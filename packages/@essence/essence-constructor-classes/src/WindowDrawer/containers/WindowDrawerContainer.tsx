@@ -1,7 +1,7 @@
 import * as React from "react";
 import {mapComponents, SideResizer} from "@essence-community/constructor-share";
 import {IClassProps} from "@essence-community/constructor-share/types";
-import {toSize, toColumnStyleWidth} from "@essence-community/constructor-share/utils";
+import {toColumnStyleWidth} from "@essence-community/constructor-share/utils";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {Grid, Drawer} from "@material-ui/core";
 import {useStyles} from "./WindowDrawerContainer.styles";
@@ -15,7 +15,7 @@ export const WindowDrawerContainer: React.FC<IClassProps> = (props) => {
     const paperProps = React.useMemo(
         () => ({
             style: {
-                height: height ? toSize(height) : undefined,
+                height: height,
                 width: drawerWidth,
             },
         }),

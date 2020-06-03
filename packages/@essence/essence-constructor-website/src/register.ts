@@ -75,3 +75,4 @@ import "@essence-community/constructor-classes/src/FieldImage";
 import "@essence-community/constructor-classes/src/FieldRadio";
 import "@essence-community/constructor-classes/src/FieldPassword";
 import "@essence-community/constructor-classes/src/FieldHidden";
+import "@essence-community/constructor-classes/src/FieldCssMeasure";

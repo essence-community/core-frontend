@@ -65,7 +65,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
                 column: val.column || "",
                 currencysign: val.currencysign || "",
                 datatype: val.datatype || "",
-                decimalprecision: val.decimalprecision ? parseInt(val.decimalprecision, 10) : 2,
+                decimalprecision: val.decimalprecision ?? 2,
                 decimalseparator: val.decimalseparator ? val.decimalseparator : ",",
                 format: val.format || "",
                 thousandseparator: val.thousandseparator ? val.thousandseparator : " ",
@@ -90,7 +90,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
         plugin: bcBtn.extraplugingate || bc.extraplugingate,
         query: bc[VAR_RECORD_QUERY_ID] || "",
         session: pageStore.applicationStore.authStore.userInfo.session,
-        timeout: bcBtn.timeout || "660",
+        timeout: bcBtn.timeout ?? 660,
     })
         .then((res: any) => {
             setMask(false, false, pageStore);

@@ -81,11 +81,11 @@ export class FieldComboModel extends StoreBaseModel {
         super(props);
 
         const {bc, pageStore} = props;
-        const {column = "", displayfield = "", valuefield = "", minchars = "", querydelay = ""} = bc;
+        const {column = "", displayfield = "", valuefield = "", minchars = 0, querydelay = 0} = bc;
 
         this.displayfield = displayfield;
         this.valuefield = valuefield || column;
-        this.valueLength = parseInt(minchars, 10);
+        this.valueLength = minchars;
 
         this.recordsStore = new RecordsModel(bc, {
             applicationStore: pageStore.applicationStore,
@@ -98,7 +98,7 @@ export class FieldComboModel extends StoreBaseModel {
             if (bc.queryparam && toString(inputValue).length >= this.valueLength) {
                 this.recordsStore.searchAction({[bc.queryparam]: inputValue}, {isUserReload});
             }
-        }, parseInt(querydelay, 10) * 1000);
+        }, querydelay * 1000);
     }
 
     reloadStoreAction = (): Promise<IRecord | undefined> => {

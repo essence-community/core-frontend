@@ -30,7 +30,10 @@ function converType(type) {
     switch (type) {
         case "text":
         case "localization":
+        case "cssmeasure":
             return "string";
+        case "integer":
+            return "number";
         default:
             return type;
     }

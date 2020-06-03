@@ -1,7 +1,6 @@
 import * as React from "react";
 import {Grid, Paper, useTheme} from "@material-ui/core";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {toSize} from "@essence-community/constructor-share/utils/transform";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {Scrollbars} from "@essence-community/constructor-share/uicomponents";
@@ -20,9 +19,9 @@ export const FilePanelContainer: React.FC<IClassProps> = (props) => {
     const classes = useStyles();
     const contentStyle = React.useMemo(
         () => ({
-            height: toSize(bc.height, "100%"),
-            maxHeight: toSize(bc.maxheight, "100%"),
-            minHeight: toSize(bc.minheight, "100%"),
+            height: bc.height ?? "100%",
+            maxHeight: bc.maxheight ?? "100%",
+            minHeight: bc.minheight ?? "100%",
         }),
         [bc.height, bc.maxheight, bc.minheight],
     );

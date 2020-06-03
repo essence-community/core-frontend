@@ -25,8 +25,14 @@ export const FieldMarkdownContainer: React.FC<IClassProps> = (props) => {
     const field = useField({bc, disabled, hidden, pageStore});
     const [trans] = useTranslation("meta");
     const [status, setStatus] = React.useState<TStatus>("all");
-    const minHeight = React.useMemo(() => (bc.minheight ? parseInt(bc.minheight, 10) : undefined), [bc.minheight]);
-    const maxHeight = React.useMemo(() => (bc.maxheight ? parseInt(bc.maxheight, 10) : "auto"), [bc.maxheight]);
+    const minHeight = React.useMemo(
+        () => (bc.minheight && bc.minheight.indexOf("px") !== -1 ? parseInt(bc.minheight, 10) : undefined),
+        [bc.minheight],
+    );
+    const maxHeight = React.useMemo(
+        () => (bc.maxheight && bc.maxheight.indexOf("px") !== -1 ? parseInt(bc.maxheight, 10) : "auto"),
+        [bc.maxheight],
+    );
     const [height, setHeight] = React.useState<number>(0);
     const mardownRef = React.useRef<HTMLDivElement>(null);
     const inputRef = React.useRef<HTMLDivElement>(null);

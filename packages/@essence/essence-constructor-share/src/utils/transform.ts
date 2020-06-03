@@ -1,21 +1,9 @@
 import * as DOMPurify from "dompurify";
-import {isEmpty, isString} from "lodash";
+import {isEmpty} from "lodash";
 import {TText} from "../types/SnackbarModel";
 import {IRecord} from "../types/Base";
 import {FieldValue} from "../types";
 import {TFunction} from "./I18n";
-
-export const toSize = (value?: string, defaultValue?: string | number) => {
-    if (isEmpty(value) || !isString(value)) {
-        return value || defaultValue;
-    }
-
-    if (/^\d+$/u.test(value)) {
-        return parseFloat(value);
-    }
-
-    return value || defaultValue;
-};
 
 export const toStringGlobal = (getglobal: string) => getglobal.split("||").join(" + ");
 

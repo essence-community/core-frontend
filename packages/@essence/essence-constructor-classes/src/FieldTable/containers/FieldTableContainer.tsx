@@ -1,5 +1,5 @@
 import * as React from "react";
-import {toSize, isEmpty} from "@essence-community/constructor-share/utils";
+import {isEmpty} from "@essence-community/constructor-share/utils";
 import {VALUE_SELF_FIRST, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
@@ -82,7 +82,7 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
                 <ChildCmp {...props} bc={childBc} />
             ))}
             container={pageStore.pageEl}
-            width={toSize(bc.pickerwidth) as number}
+            width={bc.pickerwidth}
             pageStore={pageStore}
             hideOnScroll
         >

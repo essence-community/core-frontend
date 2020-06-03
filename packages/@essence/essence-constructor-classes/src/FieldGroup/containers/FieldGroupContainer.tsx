@@ -57,13 +57,12 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
     }, [columns, form]);
 
     const handleChangeReqCount = React.useCallback(
-        (reqcount: string) => {
-            const reqCountInt = parseInt(reqcount, 10) || 0;
-
-            field.setExtraRules([`reqcount:${reqCountInt},${columns.length}`]);
+        // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+        (reqcount: number = 0) => {
+            field.setExtraRules([`reqcount:${reqcount},${columns.length}`]);
             field.validate();
 
-            setReqCount(reqCountInt);
+            setReqCount(reqcount);
         },
         [columns.length, field],
     );
@@ -77,12 +76,12 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
         [field],
     );
 
-    const handleRegCountRules = React.useCallback((): string => {
+    const handleRegCountRules = React.useCallback((): number => {
         if (bc.reqcountrules) {
             return parseMemoize(bc.reqcountrules).runer(pageStore.globalValues);
         }
 
-        return "0";
+        return 0;
     }, [bc.reqcountrules, pageStore]);
 
     React.useEffect(() => {
@@ -91,7 +90,7 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
         field.onChange(newValue);
         field.setDefaultValue(newValue);
 
-        handleChangeReqCount(bc.reqcount || "0");
+        handleChangeReqCount(bc.reqcount);
     }, [bc.reqcount, field, handleChangeReqCount, handleGetValues]);
 
     React.useEffect(() => reaction(handleGetValues, handleChangeValue), [handleChangeValue, handleGetValues]);

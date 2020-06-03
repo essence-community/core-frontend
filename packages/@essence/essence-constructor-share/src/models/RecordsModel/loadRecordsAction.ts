@@ -228,7 +228,7 @@ export function loadRecordsAction(
                     return record;
                 });
 
-                if (bc.pagesize && records[0] && !records[0][VAR_RECORD_JN_TOTAL_CNT]) {
+                if (bc.pagesize !== undefined && records[0] && !records[0][VAR_RECORD_JN_TOTAL_CNT]) {
                     snackbarStore.snackbarOpenAction(
                         {
                             status: "error",

@@ -57,7 +57,7 @@ export interface IBuilderBaseConfig {
     // Тип данных колонки
     datatype?: string;
     // Точность после запятой. Если не заполнен, то точность равна 2
-    decimalprecision?: string;
+    decimalprecision?: number;
     // Разделитель дробного остатка
     decimalseparator?: string;
     // Значение по умолчанию CheckBox: true/false DateField: sysdate - текущее время или дата в формате ISO 8601 2005-08-09T18:31:42 для выбора первой записи указать значение "##first##"  для выбора первой записи всегда - указать значение "##alwaysfirst##"
@@ -123,7 +123,7 @@ export interface IBuilderBaseConfig {
     // Установка значение из локализационного пакета. Возможные значения: meta, message
     localization?: string;
     // Максимальный размер файла в байтах
-    maxfile?: string;
+    maxfile?: number;
     // Максимальная высота
     maxheight?: string;
     // Максимальное возможное количество выбранных элементов
@@ -133,7 +133,7 @@ export interface IBuilderBaseConfig {
     // Максимальное значение. Для значений с дробной частью использовать только точку
     maxvalue?: string;
     // Количество введенных символов для получения подсказок
-    minchars?: string;
+    minchars?: number;
     // Минимальная высота
     minheight?: string;
     // Минимальное количество символов
@@ -153,7 +153,7 @@ export interface IBuilderBaseConfig {
     // Наименование параметра, по которому осуществляется сортировка при инициализации
     orderproperty?: string;
     // Количество выводимых строк (включает пагинатор)
-    pagesize?: string;
+    pagesize?: number;
     // Высота выпадающей таблицы/списка. По умолчанию 390
     pickerheight?: string;
     // Ширина выпадающей таблицы/списка
@@ -161,7 +161,7 @@ export interface IBuilderBaseConfig {
     // Позиция компонента
     position?: string;
     // Пауза (в сек) до вызова сервиса с применением фильтра
-    querydelay?: string;
+    querydelay?: number;
     // Режим вызова сервиса: remote или local
     querymode?: string;
     // Наименование параметра, по которому фильтруются значения при вводе
@@ -179,7 +179,7 @@ export interface IBuilderBaseConfig {
     // Признак обновления родителя по мастеру
     reloadmaster?: boolean;
     // Количество обязательно заполненных полей в группе, требуемое для корректной валидации
-    reqcount?: string;
+    reqcount?: number;
     // Правила для изменения количества обязательно заполненных полей в группе. Имеет приоритет над reqcount
     reqcountrules?: string;
     // Признак зависимости от мастера (true/false)
@@ -213,13 +213,13 @@ export interface IBuilderBaseConfig {
     // Разделитель тысяч
     thousandseparator?: string;
     // Время ожидания выполнения запроса в секундах
-    timeout?: string;
+    timeout?: number;
     // Подсказка у кнопки
     tipmsg?: string;
     // Заголовок
     title?: string;
     // Отступ от верха в пикселях
-    top?: string;
+    top?: number;
     // Формат возвращаемого значения с сервиса. Значения: "URL", "HTML". Допускаются условия с учетом глобальных переменных.
     typeiframe?: string;
     // Тип вида кнопки: 1-primary 2-secondary

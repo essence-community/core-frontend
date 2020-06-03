@@ -12,10 +12,14 @@ export const FieldTextareaInput: React.FC<IFieldTextareaInputProps> = (props) =>
     const scrollbarsRef: React.MutableRefObject<any> = React.useRef(null);
     const form = React.useContext(FormContext);
     const {height, onChangeHeight, bc, inputRef, ...otherProps} = props;
-    const minHeight = React.useMemo(() => (bc.minheight ? parseInt(bc.minheight, 10) : MIN_INPUT_HEIGHT), [
-        bc.minheight,
-    ]);
-    const maxHeight = React.useMemo(() => (bc.maxheight ? parseInt(bc.maxheight, 10) : undefined), [bc.maxheight]);
+    const minHeight = React.useMemo(
+        () => (bc.minheight && bc.minheight.indexOf("px") !== -1 ? parseInt(bc.minheight, 10) : MIN_INPUT_HEIGHT),
+        [bc.minheight],
+    );
+    const maxHeight = React.useMemo(
+        () => (bc.maxheight && bc.maxheight.indexOf("px") !== -1 ? parseInt(bc.maxheight, 10) : undefined),
+        [bc.maxheight],
+    );
     const classes = useStyles(props);
 
     const handleFocus = (event: React.MouseEvent<ReactCustomScrollbars.Scrollbars, MouseEvent>) => {

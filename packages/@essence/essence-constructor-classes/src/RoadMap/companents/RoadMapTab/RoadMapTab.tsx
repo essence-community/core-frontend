@@ -40,7 +40,7 @@ const BuilderRoadMapTab: React.FC<IRoadMapTab> = (props) => {
     // eslint-disable-next-line no-unused-vars
     const {orientation, classes, store, bc, disabled, pageStore, ...propsTab} = props;
     const {tabwidth} = bc;
-    const style = React.useMemo(() => toColumnStyleWidth(tabwidth ? tabwidth : DEFAULT_WIDTH_TAB), [tabwidth]);
+    const style = React.useMemo(() => toColumnStyleWidth(tabwidth ?? DEFAULT_WIDTH_TAB), [tabwidth]);
 
     React.useEffect(() => {
         store.setTabStatus(bc[VAR_RECORD_PAGE_OBJECT_ID], {

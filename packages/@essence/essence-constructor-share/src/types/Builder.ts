@@ -219,7 +219,7 @@ export interface IBuilderBaseConfig {
     // Заголовок
     title?: string;
     // Отступ от верха в пикселях
-    top?: string;
+    top?: number;
     // Формат возвращаемого значения с сервиса. Значения: "URL", "HTML". Допускаются условия с учетом глобальных переменных.
     typeiframe?: string;
     // Тип вида кнопки: 1-primary 2-secondary

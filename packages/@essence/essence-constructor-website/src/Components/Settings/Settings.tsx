@@ -5,7 +5,6 @@ import {
     VAR_RECORD_ID,
     VAR_RECORD_CV_VALUE,
     VAR_SETTING_PROJECT_NAME,
-    VAR_SETTING_FRONT_APP_VERSION,
     VAR_SETTING_FRONT_BRANCH_DATE_TIME,
     VAR_SETTING_FRONT_BRANCH_NAME,
     VAR_SETTING_FRONT_COMMIT_ID,
@@ -16,7 +15,6 @@ export const BRANCH_NAME = process.env.REACT_APP_BRANCH_NAME || "";
 export const BRANCH_DATE_TIME = process.env.REACT_APP_BRANCH_DATE_TIME || "";
 const RELOAD_APP = 5000;
 
-// eslint-disable-next-line max-lines-per-function
 export const Settings: React.FC = (props) => {
     const isReady = React.useMemo(() => {
         if (!(window as any).SETTINGS) {
@@ -27,14 +25,6 @@ export const Settings: React.FC = (props) => {
 
         const setting = [
             ...((window as any).SETTINGS || []),
-            {
-                [VAR_RECORD_CV_VALUE]: i18next.t("static:26686005b3584a12aeb9ca9e96e54753", {
-                    BRANCH_DATE_TIME,
-                    BRANCH_NAME,
-                    COMMIT_ID,
-                }),
-                [VAR_RECORD_ID]: VAR_SETTING_FRONT_APP_VERSION,
-            },
             {
                 [VAR_RECORD_CV_VALUE]: BRANCH_DATE_TIME,
                 [VAR_RECORD_ID]: VAR_SETTING_FRONT_BRANCH_DATE_TIME,

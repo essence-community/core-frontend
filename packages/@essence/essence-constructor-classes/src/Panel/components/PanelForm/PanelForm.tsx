@@ -1,18 +1,19 @@
 import * as React from "react";
-import {IClassProps} from "@essence-community/constructor-share/types";
+import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants/variables";
 import {toTranslateText} from "@essence-community/constructor-share/utils/transform";
 import cn from "clsx";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {Grid, useTheme} from "@material-ui/core";
+import {Grid, useTheme, ThemeProvider} from "@material-ui/core";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {useObserver} from "mobx-react-lite";
 import {EmptyTitle} from "@essence-community/constructor-share/uicomponents/EmptyTitle";
 import {PanelEditingButtons} from "../PanelEditingButtons/PanelEditingButtons";
 import {Panel} from "../Panel/Panel";
 import {useStyles} from "./PanelForm.styles";
+import {makeTheme} from "./PanelForm.overrides";
 
 interface IPanelFormProps extends IClassProps {
     hideTitle?: boolean;
@@ -24,7 +25,8 @@ const FILTER_THREE_BUTTON = 128;
 export const PanelForm: React.FC<IPanelFormProps> = (props) => {
     const {bc, readOnly, pageStore, visible, elevation, disabled, hidden, hideTitle, children} = props;
     const {filters = [], hideactions, topbtn = []} = bc;
-    const theme = useTheme();
+    const theme = useTheme<IEssenceTheme>();
+    const themeFilterNew = React.useMemo(() => makeTheme(theme), [theme]);
     const isDarkTheme = theme.palette.type === "dark";
     const form = React.useContext(FormContext);
     const isHideActions = React.useMemo(
@@ -64,21 +66,23 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
         });
 
         const filterComponent = (
-            <Grid item xs>
-                {mapComponents(filters, (ChildCmp, childBc) => (
-                    <ChildCmp
-                        key={bc[VAR_RECORD_PAGE_OBJECT_ID]}
-                        // {...props}
-                        pageStore={pageStore}
-                        hidden={hidden}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                        visible={visible}
-                        elevation={elevation}
-                        bc={childBc}
-                    />
-                ))}
-            </Grid>
+            <ThemeProvider theme={themeFilterNew}>
+                <Grid item xs>
+                    {mapComponents(filters, (ChildCmp, childBc) => (
+                        <ChildCmp
+                            key={bc[VAR_RECORD_PAGE_OBJECT_ID]}
+                            // {...props}
+                            pageStore={pageStore}
+                            hidden={hidden}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                            visible={visible}
+                            elevation={elevation}
+                            bc={childBc}
+                        />
+                    ))}
+                </Grid>
+            </ThemeProvider>
         );
 
         const actionsComponent = (

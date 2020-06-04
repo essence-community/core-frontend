@@ -1,10 +1,10 @@
 import * as React from "react";
-import {IClassProps, ICkId} from "@essence-community/constructor-share/types";
+import {IClassProps, ICkId, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {isEmpty, useTranslation, toTranslateText} from "@essence-community/constructor-share/utils";
 import {reaction} from "mobx";
 import cn from "clsx";
 import {parse} from "@essence-community/constructor-share/utils/parser";
-import {Grid, useTheme} from "@material-ui/core";
+import {Grid, useTheme, ThemeProvider} from "@material-ui/core";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {EmptyTitle} from "@essence-community/constructor-share/uicomponents";
@@ -15,6 +15,7 @@ import {GridTable} from "../GridTable";
 import {GridWarning} from "../GridWarning";
 import {GridButtons} from "../GridButtons";
 import {useStyles} from "./BaseGrid.styles";
+import {makeTheme} from "./BaseGrid.overrides";
 
 const FITER_ONE_BUTTON = 42;
 const FILTER_THREE_BUTTON = 128;
@@ -29,12 +30,13 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
     const classes = useStyles();
     const isHideActions = bc.hideactions === true;
     const [trans] = useTranslation("meta");
-    const theme = useTheme();
+    const theme = useTheme<IEssenceTheme>();
     const isDarkTheme = theme.palette.type === "dark";
     const firstFilter = bc.filters?.[0];
     const transCvDisplayed = toTranslateText(trans, bc[VAR_RECORD_DISPLAYED]);
     const isFilterActionsPresent = firstFilter && !firstFilter.dynamicfilter;
     const classNameRoot = cn(classes.root, isHideActions ? undefined : classes.rootActions);
+    const themeFilterNew = React.useMemo(() => makeTheme(theme), [theme]);
     let marginTop = 0;
 
     const handleUpdateGridWidth = React.useCallback(() => {
@@ -142,11 +144,13 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
             </Grid>
         );
         const filterComponent = (
-            <Grid item xs={!isDarkTheme}>
-                {mapComponents(bc.filters, (ChildCmp, childBc) => (
-                    <ChildCmp key={bc[VAR_RECORD_PAGE_OBJECT_ID]} {...classProps} bc={childBc} />
-                ))}
-            </Grid>
+            <ThemeProvider theme={themeFilterNew}>
+                <Grid item xs={!isDarkTheme}>
+                    {mapComponents(bc.filters, (ChildCmp, childBc) => (
+                        <ChildCmp key={bc[VAR_RECORD_PAGE_OBJECT_ID]} {...classProps} bc={childBc} />
+                    ))}
+                </Grid>
+            </ThemeProvider>
         );
         const tableComponent = (
             <Grid item xs className={store.isInlineEditing ? "panel-editing-focus" : undefined}>

@@ -1,4 +1,5 @@
 import * as React from "react";
+import cn from "clsx";
 import {
     useTranslation,
     toTranslateText,
@@ -63,11 +64,16 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                         <FilterButtons styleTheme={styleTheme} title={title} isOpen={store.isOpen} {...props} />
                     )}
                     {bc.dynamicfilter && styleTheme !== "light" ? (
-                        <Grid item className={`${classes.filterButtons} ${classes.filterButtonsAbsolute}`}>
+                        <Grid item className={classes.filterButtons}>
                             &nbsp;
                         </Grid>
                     ) : null}
-                    <Grid item className={classes.maxWidth}>
+                    <Grid
+                        item
+                        className={cn(classes.maxWidth, {
+                            [classes.baseFilter]: !bc.dynamicfilter,
+                        })}
+                    >
                         {!title || (styleTheme === "light" && !bc.dynamicfilter) ? null : (
                             <div className={classes.dynamicTitle}>
                                 <Typography

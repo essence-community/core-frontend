@@ -3,6 +3,12 @@ import {IEssenceTheme} from "@essence-community/constructor-share/types";
 
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
+        baseFilter:
+            theme.palette.type === "dark"
+                ? {
+                      minHeight: 42 * 3,
+                  }
+                : {},
         dynamicTitle:
             theme.palette.type === "dark"
                 ? {
@@ -63,15 +69,6 @@ export const useStyles = makeStyles(
                       height: 42,
                       position: "relative",
                   },
-        filterButtonsAbsolute:
-            theme.palette.type === "dark"
-                ? {
-                      // Dark
-                      background: "none",
-                      left: 0,
-                      position: "absolute",
-                  }
-                : {},
         filterFields: {
             // Dark
             backgroundColor:
@@ -89,5 +86,5 @@ export const useStyles = makeStyles(
             whiteSpace: "nowrap",
         },
     }),
-    {name: "FilterContainer"},
+    {name: "EssenceFilterContainer"},
 );

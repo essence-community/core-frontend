@@ -98,7 +98,6 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
                 xs={styleTheme === "light" ? GRID_FULL_WIDTH : false}
                 className={cn(classes.filterButtons, {
                     [classes.filterButtonsCollect]: bc.topbtn,
-                    [classes.filterButtonsAbsolute]: true,
                 })}
             >
                 {styleTheme === "dark" ? (

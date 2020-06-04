@@ -16,9 +16,9 @@ export function getWindowChilds(mode: IBuilderMode, childs?: IBuilderConfig[]): 
                 childsAcc.push(child);
                 break;
             case editmode === "disabled":
-            case mode === "1" && editmode === "update":
-            case mode === "2" && editmode === "insert":
-                // Hide field if mode not for *-editing
+            case mode === "1" && editmode === "update-editing":
+            case mode === "2" && editmode === "insert-editing":
+                // Hide field if mode for *-editing
                 childsAcc.push({
                     ...child,
                     disabled: true,

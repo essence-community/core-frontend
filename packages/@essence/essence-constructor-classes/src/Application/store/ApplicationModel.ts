@@ -138,12 +138,6 @@ export class ApplicationModel implements IApplicationModel {
         this.mode = url;
         this.history = history;
         this.pagesStore = new PagesModel(this);
-        this.pageStore = new PageModel({
-            applicationStore: this,
-            defaultVisible: true,
-            isActiveRedirect: false,
-            pageId: "-1",
-        });
         this.authStore = new AuthModel(this);
         this.countConnect = 0;
         this.recordsStore = new RecordsModel(
@@ -159,6 +153,13 @@ export class ApplicationModel implements IApplicationModel {
 
         this.globalValues.merge(settingsStore.globals);
         this.globalValues.merge(prepareUserGlobals(this.authStore.userInfo));
+
+        this.pageStore = new PageModel({
+            applicationStore: this,
+            defaultVisible: true,
+            isActiveRedirect: false,
+            pageId: "-1",
+        });
     }
 
     handleGetValue = (name: string) => {

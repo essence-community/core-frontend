@@ -73,7 +73,7 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
         const {btns, overrides, btnsCollector} = gridBtnsConfig;
         const showStaticBtns = !btnsCollector || btnsCollector.every((btn) => !btn.btncollectorall);
         const btnsAll: IOrderedBuielderConfig[] = [
-            ...btns.map((btn) => {
+            ...btns.map<IOrderedBuielderConfig>((btn) => {
                 const isAddButton =
                     btn.mode === "1" || btn.handler === "onCreateChildWindowMaster" || btn.handler === "onSimpleAddRow";
 

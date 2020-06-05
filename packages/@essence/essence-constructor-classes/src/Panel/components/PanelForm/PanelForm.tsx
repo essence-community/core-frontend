@@ -1,5 +1,5 @@
 import * as React from "react";
-import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
+import {IClassProps, IEssenceTheme, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants/variables";
@@ -99,7 +99,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
                     >
                         {mapComponents(actions, (ChildComp, childBc) => {
                             const isAddButton = childBc.mode === "1";
-                            const newChildBc = isAddButton
+                            const newChildBc: IBuilderConfig = isAddButton
                                 ? {...childBc, uitype: "4"}
                                 : {...childBc, uitype: childBc.uitype === "1" ? "11" : childBc.uitype};
 

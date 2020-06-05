@@ -56,7 +56,7 @@
 |align|left,right,center|Расположение текста: left - слева, center - по центру, right - справа|
 |collectionvalues|object,array|Тип сбора значений: object - виде объекта array - массив строк|
 |contentview|hbox,hbox-wrap,vbox|Вид наполнения: hbox: горизонтальное hbox-wrap: горизонтальное с переносом на следующую строку vbox: вертикальное|
-|editmode|all,insert,update,disabled|Режим добавления/редактирования|
+|editmode|all,insert,update,disabled,insert-editing,update-editing|Режим добавления/редактирования|
 |edittype|inline,modalwindow|Режим добавления/редактирования: inline - в строке; modalwindow - в модальном окне|
 |filemode|multi,single|Вариант выбора файлов для загрузки. multi - несколько файлов, single - по одному.|
 |format|1,2,3,4,5,6|Формат данных Для дат номер от 1-6: 1 - ГГГГ 2 - МММ ГГГГ 3 - ДД.ММ.ГГГГ 4 - ДД.ММ.ГГГГ ЧЧ:00 5 - ДД.ММ.ГГГГ ЧЧ:МИ 6 - ДД.ММ.ГГГГ ЧЧ:МИ:CC|

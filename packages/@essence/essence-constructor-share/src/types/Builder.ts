@@ -7,7 +7,7 @@ export interface IBuilderBaseConfig {
     // Правила для выбора активного элемента
     activerules?: string;
     // Расположение текста: left - слева, center - по центру, right - справа
-    align?: "left" | "right" | "center";
+    align?: "left" | "right" | "center" | "top";
     // Префикс-метка для нового значения. Пример: "allownew" = "NEW:", на сервер уйдет значение "NEW:введенное значение"
     allownew?: string;
     // Признак автозагрузки сервиса
@@ -77,7 +77,7 @@ export interface IBuilderBaseConfig {
     // Признак изменения вида иконки от данных
     dynamicicon?: boolean;
     // Режим добавления/редактирования - all/insert/update/disabled
-    editmode?: "all" | "insert" | "update" | "disabled";
+    editmode?: "all" | "insert" | "update" | "disabled" | "insert-editing" | "update-editing";
     // Режим редактирования дочерних элементов true = включен
     editmodepanel?: boolean;
     // Режим добавления/редактирования: inline - в строке; modalwindow - в модальном окне

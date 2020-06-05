@@ -13,7 +13,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {mergeComponents} from "@essence-community/constructor-share/utils";
 
-export function getBackButtonConfig(bc: IBuilderConfig) {
+export function getBackButtonConfig(bc: IBuilderConfig): IBuilderConfig {
     return {
         [VAR_RECORD_DISPLAYED]: "static:85c19e316e9e446d9383a9ffe184d19a",
         [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
@@ -29,7 +29,7 @@ export function getBackButtonConfig(bc: IBuilderConfig) {
     };
 }
 
-export function getNextButtonConfig(bc: IBuilderConfig) {
+export function getNextButtonConfig(bc: IBuilderConfig): IBuilderConfig {
     return {
         [VAR_RECORD_DISPLAYED]: "static:dcfd5234c348410994c690eec7d28028",
         [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
@@ -44,7 +44,7 @@ export function getNextButtonConfig(bc: IBuilderConfig) {
     };
 }
 
-export const getSaveBtnConfig = (bc: IBuilderConfig) => ({
+export const getSaveBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     [VAR_RECORD_DISPLAYED]: "static:8a930c6b5dd440429c0f0e867ce98316",
     [VAR_RECORD_NAME]: "Override Save Button",
     [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}-save`,
@@ -56,7 +56,7 @@ export const getSaveBtnConfig = (bc: IBuilderConfig) => ({
     type: "BTN",
 });
 
-export const getCancelBtnConfig = (bc: IBuilderConfig) => ({
+export const getCancelBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     [VAR_RECORD_DISPLAYED]: "static:64aacc431c4c4640b5f2c45def57cae9",
     [VAR_RECORD_NAME]: "Override Cancel Button",
     [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}-cancel`,

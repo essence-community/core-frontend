@@ -27,7 +27,7 @@ export class FieldMultiMoModel extends FieldMultiModel implements IFieldMultiMod
                 ...props.bc,
                 [VAR_RECORD_QUERY_ID]: "jNSIGetAddrByID",
                 defaultvalue: VALUE_SELF_ALWAYSFIRST,
-                orderdirection: "",
+                orderdirection: undefined,
                 orderproperty: "",
             },
         });

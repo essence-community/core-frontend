@@ -16,10 +16,11 @@ import {noop} from "@essence-community/constructor-share/utils";
 import darkLogo from "../images/dark_logo.png";
 import lightLogo from "../images/light_logo.png";
 import {AuthFormModel} from "../store/AuthFormModel";
+import {IBuilderClassConfig} from "../types";
 import {useStyles} from "./AuthFormContainer.styles";
 import {makeTheme} from "./AuthFormContainer.overrides";
 
-export const AuthFormContainer: React.FC<IClassProps> = (props) => {
+export const AuthFormContainer: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
     const {pageStore, bc} = props;
     const theme: IEssenceTheme = useTheme();
     const themeNew = React.useMemo(() => makeTheme(theme), [theme]);

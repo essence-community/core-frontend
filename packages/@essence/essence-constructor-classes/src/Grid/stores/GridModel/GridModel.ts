@@ -473,7 +473,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
             this.pageStore.updateGlobalValues({
                 [this.bc.setrecordtoglobal]:
-                    selmode === "MULTI" || selmode === "SIMPLE" || collectionvalues === "array"
+                    selmode === "MULTI" || collectionvalues === "array"
                         ? selectedRecords
                         : this.recordsStore.selectedRecord || null,
             });

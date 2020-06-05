@@ -17,7 +17,7 @@ import {
 import {IFieldItemSelectorModel, IChildGridBuildConfig} from "./FieldItemSelectorModel.types";
 
 function getSelectionRecords(gridStore: IStoreBaseModel): IRecord[] {
-    if (gridStore.bc.selmode === "MULTI" || gridStore.bc.selmode === "SIMPLE") {
+    if (gridStore.bc.selmode === "MULTI") {
         return mapValueToArray(gridStore.recordsStore?.selectedRecords);
     }
 
@@ -36,11 +36,13 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
 
         this.fieldFrom = {
             height: this.bc.height,
+            selmode: "MULTI",
             ...fieldFrom,
         };
 
         this.fieldTo = {
             height: this.bc.height,
+            selmode: "MULTI",
             ...fieldTo,
         };
     }

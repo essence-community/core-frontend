@@ -13,7 +13,7 @@ import {IRepeaterGroupProps} from "./RepeaterGroup.types";
 
 export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
     const {bc, idx, isDisabledDel, storeName, deleteLabel, ...fieldProps} = props;
-    const {contentview = "", align} = bc;
+    const {contentview = "hbox", align} = bc;
 
     const deleteBtnConfig: IBuilderConfig = React.useMemo<IBuilderConfig>(
         (): IBuilderConfig => ({

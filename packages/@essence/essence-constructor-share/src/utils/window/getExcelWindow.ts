@@ -30,7 +30,7 @@ export function getExcelWindow({ckPageObject, overrideExcelButton}: ConfigBtnExc
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${ckPageObject}_excel_window_btn_print`,
                 [VAR_RECORD_PARENT_ID]: `${ckPageObject}_excel_window`,
                 handler: "onPrintExcel",
-                iconfontname: "",
+                iconfontname: undefined,
                 onlyicon: false,
                 type: "BTN",
                 uitype: "1",

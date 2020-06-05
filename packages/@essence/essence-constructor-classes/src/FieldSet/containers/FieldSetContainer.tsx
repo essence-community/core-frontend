@@ -57,7 +57,7 @@ export const FieldSetContainer: React.FC<IClassProps> = (props) => {
     }, []);
     const field = useField({bc, disabled, hidden, isArray: true, output, pageStore});
     const {contentview} = bc;
-    const isRow = contentview === "hbox" || contentview === "column";
+    const isRow = contentview === "hbox";
     const parentContext = React.useMemo(
         () =>
             (bc.childs || []).map((val, index) => ({
@@ -75,11 +75,7 @@ export const FieldSetContainer: React.FC<IClassProps> = (props) => {
                     key={child[VAR_RECORD_PAGE_OBJECT_ID] ? child[VAR_RECORD_PAGE_OBJECT_ID] : `child_${index}`}
                     value={parentContext[index]}
                 >
-                    <Grid
-                        item
-                        xs={isRow ? true : MAX_PANEL_WIDTH}
-                        style={contentview === "column" ? toColumnStyleWidth(child.width) : undefined}
-                    >
+                    <Grid item xs={isRow ? true : MAX_PANEL_WIDTH} style={toColumnStyleWidth(child.width)}>
                         <ChildComp {...props} bc={child} />
                     </Grid>
                 </ParentFieldContext.Provider>

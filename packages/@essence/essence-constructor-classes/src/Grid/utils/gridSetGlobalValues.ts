@@ -17,7 +17,7 @@ export function gridSetGlobalValues(gridStore: IGridModel) {
         if (Object.prototype.hasOwnProperty.call(keys, globaleKey)) {
             const fieldName = keys[globaleKey];
 
-            if (selmode === "MULTI" || selmode === "SIMPLE") {
+            if (selmode === "MULTI") {
                 values[globaleKey] = selectedRecords.map((value) => {
                     if (valueFields.length === 1) {
                         return value[valueFields[0][1]];

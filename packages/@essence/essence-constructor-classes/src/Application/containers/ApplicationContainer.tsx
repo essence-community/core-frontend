@@ -25,6 +25,7 @@ import {Block} from "../components/Block";
 import {useHistoryListen} from "../hooks";
 import {Snackbar} from "../components/Snackbar";
 import {Theme} from "../components/Theme";
+import {IBuilderClassConfig} from "../types";
 
 const logger = loggerRoot.extend("PagerContainer");
 
@@ -33,7 +34,7 @@ function globalTitle(trans: TFunction) {
 }
 
 // eslint-disable-next-line max-lines-per-function, max-statements
-export const ApplicationContainer: React.FC<IClassProps> = () => {
+export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = () => {
     const history = useHistory();
     const match = useRouteMatch<any>("/:appNameDefault");
     const appNameDefault = match?.params.appNameDefault ?? "";

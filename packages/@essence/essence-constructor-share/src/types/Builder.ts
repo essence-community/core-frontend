@@ -7,7 +7,7 @@ export interface IBuilderBaseConfig {
     // Правила для выбора активного элемента
     activerules?: string;
     // Расположение текста: left - слева, center - по центру, right - справа
-    align?: string;
+    align?: "left" | "right" | "center" | "top";
     // Префикс-метка для нового значения. Пример: "allownew" = "NEW:", на сервер уйдет значение "NEW:введенное значение"
     allownew?: string;
     // Признак автозагрузки сервиса
@@ -37,7 +37,7 @@ export interface IBuilderBaseConfig {
     // Признак возможности сворачивания панели true/false
     collapsible?: boolean;
     // Тип  сбора значений: object - виде объекта array - массив строк
-    collectionvalues?: string;
+    collectionvalues?: "object" | "array";
     // Наименование параметра для отображения данных и передачи в Modify
     column?: string;
     // Наименование параметра - конца периода
@@ -49,7 +49,7 @@ export interface IBuilderBaseConfig {
     // Вопрос на подтверждение операции
     confirmquestion?: string;
     // Вид наполнения: hbox: горизонтальное hbox-wrap: горизонтальное с переносом на следующую строку vbox: вертикальное
-    contentview?: string;
+    contentview?: "hbox" | "hbox-wrap" | "vbox";
     // Ширина вложенных полей. Целое число от 1% до 100%. Обязательно добавлять %.
     contentwidth?: string;
     // Подпись для отображения Пример: к деньгам добавляем " руб."
@@ -77,21 +77,21 @@ export interface IBuilderBaseConfig {
     // Признак изменения вида иконки от данных
     dynamicicon?: boolean;
     // Режим добавления/редактирования - all/insert/update/disabled
-    editmode?: string;
+    editmode?: "all" | "insert" | "update" | "disabled" | "insert-editing" | "update-editing";
     // Режим редактирования дочерних элементов true = включен
     editmodepanel?: boolean;
     // Режим добавления/редактирования: inline - в строке; modalwindow - в модальном окне
-    edittype?: string;
+    edittype?: "inline" | "modalwindow";
     // Дополнительные плагины для шлюза
     extraplugingate?: string;
     // Вариант выбора файлов для загрузки. multi - несколько файлов, single - по одному.
-    filemode?: string;
+    filemode?: "multi" | "single";
     // Тип документа, доступный для выбора при mode = 8. Пример: pdf,docs,doc
     filetypes?: string;
     // Признак сохранения данных фильтра в кеше
     filtervaluessave?: boolean;
     // Формат данных Для дат номер от 1-6: 1 - ГГГГ 2 - МММ ГГГГ 3 - ДД.ММ.ГГГГ 4 - ДД.ММ.ГГГГ ЧЧ:00 5 - ДД.ММ.ГГГГ ЧЧ:МИ 6 - ДД.ММ.ГГГГ ЧЧ:МИ:CC
-    format?: string;
+    format?: "1" | "2" | "3" | "4" | "5" | "6";
     // Наименование глобального параметра, который хранит значение для объекта
     getglobal?: string;
     // Наименование глобального параметра, который хранит список значений для combobox
@@ -113,15 +113,15 @@ export interface IBuilderBaseConfig {
     // Иконка (например, fa-plus)
     iconfont?: string;
     // Наименование класса или наименование колонки при динамике
-    iconfontname?: string;
+    iconfontname?: "fa" | "mdi";
     // Наименование параметра, отвечающего за уникальность записей
     idproperty?: string;
     // Маска ввода, например: (999) 999-99-99   Если значение для маски пустое или несуществует, то поле будет скрыто
     imask?: string;
     // Дополнительная информация для полей ввода
     info?: string;
-    // Установка значение из локализационного пакета. Возможные значения: meta, message
-    localization?: string;
+    // Установка значение из локализационного пакета. Возможные значения: meta, message, static
+    localization?: "meta" | "message" | "static";
     // Максимальный размер файла в байтах
     maxfile?: number;
     // Максимальная высота
@@ -140,8 +140,8 @@ export interface IBuilderBaseConfig {
     minsize?: string;
     // Минимальное значение
     minvalue?: string;
-    // Тип операции 1 - Добавление 2 - Редактирование 3 - Удаление 4 - Вызов сервиса из атрибута updatequery 5 - Вызов меню с информацией 6 - Режим клонирования значений 7 - Режим выгрузки файла 8 - Режим загрузки файла
-    mode?: string;
+    // Тип операции 1 - Добавление 2 - Редактирование 3 - Удаление 4 - Вызов сервиса из атрибута updatequery 6 - Режим клонирования значений 7 - Режим выгрузки файла 8 - Режим загрузки файла
+    mode?: "1" | "2" | "3" | "4" | "6" | "7" | "8";
     // Значение action, передаваемое в json вместо стандартных I,U,D
     modeaction?: string;
     // Признак отключения глобального лоадера при загрузке сервиса
@@ -149,7 +149,7 @@ export interface IBuilderBaseConfig {
     // Отображается только иконка кнопки (true/false)
     onlyicon?: boolean;
     // Направление сортировки: ASC / DESC
-    orderdirection?: string;
+    orderdirection?: "ASC" | "DESC";
     // Наименование параметра, по которому осуществляется сортировка при инициализации
     orderproperty?: string;
     // Количество выводимых строк (включает пагинатор)
@@ -159,11 +159,21 @@ export interface IBuilderBaseConfig {
     // Ширина выпадающей таблицы/списка
     pickerwidth?: string;
     // Позиция компонента
-    position?: string;
+    position?:
+        | "fixed"
+        | "absolute"
+        | "relative"
+        | "static"
+        | "sticky"
+        | "top"
+        | "bottom"
+        | "window"
+        | "theme"
+        | "inside";
     // Пауза (в сек) до вызова сервиса с применением фильтра
     querydelay?: number;
     // Режим вызова сервиса: remote или local
-    querymode?: string;
+    querymode?: "remote" | "local";
     // Наименование параметра, по которому фильтруются значения при вводе
     queryparam?: string;
     // Правила отображения объекта. Если правило вернет true, то объект перейдет в режим "Только чтение".  Синтаксис: == - равно != - не равно '>' - больше '<' - меньше '&&' - и '||' - или Пример: gck_mo>1   // если глобальная переменная gck_mo больше 1, то объект перейдет в режим "только чтение"
@@ -192,8 +202,6 @@ export interface IBuilderBaseConfig {
     resizable?: boolean;
     // Отображение корня
     rootvisible?: boolean;
-    // Возможность выделения нескольких значений в GRID и TREEGRID SINGLE - только 1 значение SIMPLE - позволяет выбирать значения одно-за-другим. Каждое нажатие добавляет/удаляет значение. MULTI - позволяет комплексно выбирать значения, с учетом ctrl и shift
-    selmode?: string;
     // Наименование глобальной переменной. Должно начинаться с g
     setglobal?: string;
     // Наименование глобалки в которую добавляется выбранная строка.
@@ -221,9 +229,9 @@ export interface IBuilderBaseConfig {
     // Отступ от верха в пикселях
     top?: number;
     // Формат возвращаемого значения с сервиса. Значения: "URL", "HTML". Допускаются условия с учетом глобальных переменных.
-    typeiframe?: string;
+    typeiframe?: "URL" | "HTML";
     // Тип вида кнопки: 1-primary 2-secondary
-    uitype?: string;
+    uitype?: "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "11" | "12" | "14";
     // Наименование глобальной переменной для обновления
     updateglobal?: string;
     // Наименование сервиса для кастомных операций
@@ -236,8 +244,8 @@ export interface IBuilderBaseConfig {
     width?: string;
     // Обновления связанных сторов (таблиц, панелей) при закрытии модального окна
     winreloadstores?: boolean;
-    // Тип окна (влияет на ширину окна): narrow: 500px, default: 800px, wide: 1000px, xwide: 1200px, xlwide: 1600px
-    wintype?: string;
+    // Тип окна (влияет на ширину окна): narrow: 500px, default: 800px, wide: 1000px, xwide: 1200px, xlwide: 1600px, fullscreen
+    wintype?: "narrow" | "default" | "wide" | "xwide" | "xlwide" | "fullscreen";
 }
 // BUILDER_CONFIG_END
 
@@ -286,4 +294,6 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     iconsize?: "xs";
     // Internal values for window store or etc.
     values?: IRecord;
+    // Internal Возможность выделения нескольких значений в GRID и TREEGRID SINGLE - только 1 значение SIMPLE - позволяет выбирать значения одно-за-другим. Каждое нажатие добавляет/удаляет значение. MULTI - позволяет комплексно выбирать значения, с учетом ctrl и shift
+    selmode?: "MULTI";
 }

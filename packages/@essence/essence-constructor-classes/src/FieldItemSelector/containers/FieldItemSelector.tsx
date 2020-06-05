@@ -101,7 +101,7 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
             return false;
         }
 
-        return gridStore.bc.selmode === "MULTI" || gridStore.bc.selmode === "SIMPLE"
+        return gridStore.bc.selmode === "MULTI"
             ? gridStore.recordsStore.selectedRecords.size === 0
             : !gridStore.recordsStore.selectedRecord;
     }, []);

@@ -4,8 +4,8 @@ import {IPageModel} from "./PageModel";
 /**
  * Props for base class
  */
-export interface IClassProps {
-    bc: IBuilderConfig;
+export interface IClassProps<BC = IBuilderConfig> {
+    bc: BC;
     pageStore: IPageModel;
     hidden?: boolean;
     disabled?: boolean;

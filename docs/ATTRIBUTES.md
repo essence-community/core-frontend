@@ -26,6 +26,13 @@
 |maxsize|integer,global|Максимальное количество символов|
 |maxvalue|float,global|Максимальное значение. Для значений с дробной частью использовать только точку|
 |minvalue|float,global|Минимальное значение|
+|defaultvaluequery|TQuery|Сервис для запроса значения по умолчанию|
+|extraplugingate|Plugins|Дополнительные плагины для шлюза|
+|iconfont|Icons|Иконка (например, fa-plus)|
+|modeaction|I,U,D,string|Значение action, передаваемое в json вместо стандартных I,U,D|
+|redirecturl|PageId|URL страницы, на которую будет произведен переход|
+|redirectusequery|TQuery|Наименование запроса, возвращающего cv_url для перехода|
+|updatequery|TQuery|Наименование сервиса для кастомных операций|
 
 
 ## Number (int)
@@ -49,27 +56,19 @@
 |align|left,right,center|Расположение текста: left - слева, center - по центру, right - справа|
 |collectionvalues|object,array|Тип сбора значений: object - виде объекта array - массив строк|
 |contentview|hbox,hbox-wrap,vbox|Вид наполнения: hbox: горизонтальное hbox-wrap: горизонтальное с переносом на следующую строку vbox: вертикальное|
-|defaultvaluequery|TQuery|Сервис для запроса значения по умолчанию|
-|editmode|all,insert,update,disabled|Режим добавления/редактирования|
+|editmode|all,insert,update,disabled,insert-editing,update-editing|Режим добавления/редактирования|
 |edittype|inline,modalwindow|Режим добавления/редактирования: inline - в строке; modalwindow - в модальном окне|
-|extraplugingate|Plugins|Дополнительные плагины для шлюза|
 |filemode|multi,single|Вариант выбора файлов для загрузки. multi - несколько файлов, single - по одному.|
 |format|1,2,3,4,5,6|Формат данных Для дат номер от 1-6: 1 - ГГГГ 2 - МММ ГГГГ 3 - ДД.ММ.ГГГГ 4 - ДД.ММ.ГГГГ ЧЧ:00 5 - ДД.ММ.ГГГГ ЧЧ:МИ 6 - ДД.ММ.ГГГГ ЧЧ:МИ:CC|
-|iconfont|Icons|Иконка (например, fa-plus)|
 |iconfontname|fa,mdi|Наименование класса или наименование колонки при динамике|
-|localization|meta,message|Установка значение из локализационного пакета. Возможные значения: meta, message|
-|mode|1,2,3,4,5,6,7,8|Тип операции 1 - Добавление 2 - Редактирование 3 - Удаление 4 - Вызов сервиса из атрибута updatequery 5 - Вызов меню с информацией 6 - Режим клонирования значений 7 - Режим выгрузки файла 8 - Режим загрузки файла|
-|modeaction|I,U,D|Значение action, передаваемое в json вместо стандартных I,U,D|
+|localization|meta,message,static|Установка значение из локализационного пакета. Возможные значения: meta, message|
+|mode|1,2,3,4,6,7,8|Тип операции 1 - Добавление 2 - Редактирование 3 - Удаление 4 - Вызов сервиса из атрибута updatequery 6 - Режим клонирования значений 7 - Режим выгрузки файла 8 - Режим загрузки файла|
 |orderdirection|ASC,DESC|Направление сортировки: ASC / DESC|
-|position|top,bottom|Позиция компонента|
-|~~querymode~~|remote,local|Режим вызова сервиса: remote или local|
-|redirecturl|PageId|URL страницы, на которую будет произведен переход|
-|redirectusequery|TQuery|Наименование запроса, возвращающего cv_url для перехода|
-|selmode|SINGLE,SIMPLE,MULTI|Возможность выделения нескольких значений в GRID и TREEGRID SINGLE - только 1 значение SIMPLE - позволяет выбирать значения одно-за-другим. Каждое нажатие добавляет/удаляет значение. MULTI - позволяет комплексно выбирать значения, с учетом ctrl и shift|
+|position|fixed,absolute,relative,static,sticky,top,bottom,window,theme,inside|Позиция компонента|
+|querymode|remote,local|Режим вызова сервиса: remote или local|
 |typeiframe|URL,HTML|Формат возвращаемого значения с сервиса. Значения: "URL", "HTML". Допускаются условия с учетом глобальных переменных.|
-|uitype|1,2,3,4,5,6,7,8,11,12,14|Тип вида кнопки: 1-primary 2-secondary|
-|updatequery|TQuery|Наименование сервиса для кастомных операций|
-|wintype|narrow,default,wide,xwide,xlwide,fullscreen|Тип окна (влияет на ширину окна): narrow: 500px, default: 800px, wide: 1000px, xwide: 1200px, xlwide: 1600px|
+|uitype|1,2,3,4,5,6,7,8,11,12,14|Тип вида кнопки: 1-primary 2-secondary, 3 - inherit, 4 - add, 5- save, 6 - cancel, 7 - gridbutton, 8 - collector, 11 - primarytheme, 12 - secondarytheme, 14 - search|
+|wintype|narrow,default,wide,xwide,xlwide,fullscreen|Тип окна (влияет на ширину окна): narrow: 500px, default: 800px, wide: 1000px, xwide: 1200px, xlwide: 1600px, fullscreen|
 
 ## Boolean
 

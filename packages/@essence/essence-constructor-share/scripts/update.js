@@ -26,16 +26,18 @@ if (!GATE_URL) {
     throw new Error("GATE_URL should be set in env");
 }
 
-function converType(type) {
-    switch (type) {
+function converType(attribute) {
+    switch (attribute.ck_d_data_type) {
         case "text":
         case "localization":
         case "cssmeasure":
             return "string";
+        case "enum":
+            return attribute.cv_data_type_extra.map((attr) => `"${attr.cv_data_type_extra_value}"`).join(" | ");
         case "integer":
             return "number";
         default:
-            return type;
+            return attribute.ck_d_data_type || "string";
     }
 }
 
@@ -80,7 +82,7 @@ function parseAttributes(session) {
             body.data.forEach((attribute) => {
                 if (ATTR_SKIP.indexOf(attribute.ck_id) === -1) {
                     types.push(`    // ${attribute.cv_description.replace(CARRY_LINES_REGEXP, " ")}`);
-                    types.push(`    ${attribute.ck_id}?: ${converType(attribute.ck_d_data_type || "string")};`);
+                    types.push(`    ${attribute.ck_id}?: ${converType(attribute)};`);
                 }
             });
 

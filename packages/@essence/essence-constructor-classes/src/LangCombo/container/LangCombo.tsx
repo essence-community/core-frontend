@@ -16,7 +16,12 @@ import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {reaction} from "mobx";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 
-const getComponentBc = (bc: IBuilderConfig, defaultValue?: string) => ({
+interface IBuilderConfigRequired extends IBuilderConfig {
+    getglobal: string;
+    setglobal: string;
+}
+
+const getComponentBc = (bc: IBuilderConfig, defaultValue?: string): IBuilderConfigRequired => ({
     [VAR_RECORD_DISPLAYED]: "static:4ae012ef02dd4cf4a7eafb422d1db827",
     [VAR_RECORD_OBJECT_ID]: bc[VAR_RECORD_OBJECT_ID],
     [VAR_RECORD_PAGE_OBJECT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
@@ -37,10 +42,6 @@ const getComponentBc = (bc: IBuilderConfig, defaultValue?: string) => ({
 });
 
 const getLang = () => getFromStore("lang", settingsStore.settings[VAR_SETTING_LANG]);
-
-interface IComboClassProps extends IClassProps {
-    editing?: boolean;
-}
 
 export const LangCombo: React.FC<IClassProps> = (props) => {
     const applicationStore = React.useContext(ApplicationContext);

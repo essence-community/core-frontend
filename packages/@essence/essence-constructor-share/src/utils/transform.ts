@@ -67,9 +67,10 @@ export const deepFind = (obj: IRecord, path: string): [boolean, IRecord | FieldV
     let current: any = obj;
 
     for (const val of paths) {
-        if (current[val] === undefined) {
-            return [false, undefined];
+        if (current[val] === undefined || current[val] === null) {
+            return [false, current[val]];
         }
+
         current = current[val];
     }
 

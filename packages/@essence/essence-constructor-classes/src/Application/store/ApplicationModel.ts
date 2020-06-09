@@ -18,14 +18,12 @@ import {
 import {
     VAR_RECORD_ID,
     VAR_RECORD_URL,
-    VAR_SETTING_PROJECT_APPLICATION_PAGE,
     VAR_LANG_ID,
     VAR_NAMESPACE_VALUE,
     VAR_RECORD_ROUTE_NAME,
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
-    VAR_RECORD_ROUTE_PAGE_ID,
     VAR_RECORD_CV_LOGIN,
     VAR_SETTING_MODULE_URL,
     VAR_SETTING_ANONYMOUS_ACTION,
@@ -90,6 +88,8 @@ export class ApplicationModel implements IApplicationModel {
 
     recordsStore: IRecordsModel;
 
+    recordsApplicationStore: IRecordsModel;
+
     pageStore: IPageModel;
 
     mode: string;
@@ -100,16 +100,26 @@ export class ApplicationModel implements IApplicationModel {
 
     @computed get bc(): IBuilderConfig {
         const {children} = this.recordsStore.selectedRecordValues;
+        const {selectedRecordValues} = this.recordsApplicationStore;
 
         if (!Array.isArray(children)) {
             return NONE_BC;
         }
 
-        return (
+        const bc =
             children.find((rec: IBuilderConfig) => {
                 return parseMemoize(rec.activerules).runer({get: this.handleGetValue});
-            }) || NONE_BC
-        );
+            }) || NONE_BC;
+
+        if (bc) {
+            if (bc[VAR_RECORD_PAGE_OBJECT_ID] === selectedRecordValues[VAR_RECORD_PAGE_OBJECT_ID]) {
+                return (selectedRecordValues as unknown) as IBuilderConfig;
+            }
+
+            return bc;
+        }
+
+        return NONE_BC;
     }
 
     @observable blockText = "";
@@ -144,7 +154,17 @@ export class ApplicationModel implements IApplicationModel {
             {
                 [VAR_RECORD_PAGE_OBJECT_ID]: "application",
                 [VAR_RECORD_PARENT_ID]: "application",
-                [VAR_RECORD_QUERY_ID]: "GetMetamodelPage2.0",
+                [VAR_RECORD_QUERY_ID]: "MTApplicationRoute",
+                defaultvalue: "##alwaysfirst##",
+                type: "NONE",
+            },
+            {applicationStore: this, pageStore: null},
+        );
+        this.recordsApplicationStore = new RecordsModel(
+            {
+                [VAR_RECORD_PAGE_OBJECT_ID]: "application",
+                [VAR_RECORD_PARENT_ID]: "application",
+                [VAR_RECORD_QUERY_ID]: "GetPageObject",
                 defaultvalue: "##alwaysfirst##",
                 type: "NONE",
             },
@@ -265,21 +285,17 @@ export class ApplicationModel implements IApplicationModel {
     loadApplicationAction = action("loadApplicationAction", async () => {
         await Promise.all<Promise<any> | false>([
             this.recordsStore.recordsState.status === "init" &&
-                this.recordsStore
-                    .searchAction({
-                        [VAR_RECORD_ROUTE_PAGE_ID]: settingsStore.settings[VAR_SETTING_PROJECT_APPLICATION_PAGE],
-                    })
-                    .then(() => {
-                        const {children} = this.recordsStore.selectedRecordValues;
+                this.recordsStore.loadRecordsAction({}).then(() => {
+                    const {children} = this.recordsStore.selectedRecordValues;
 
-                        this.recordsStore.setRecordsAction([
-                            {
-                                ...this.recordsStore.selectedRecordValues,
-                                children: [...(Array.isArray(children) ? children : []), ...pages],
-                            },
-                        ]);
-                        this.recordsStore.setSelectionAction(this.recordsStore.selectedRecordId);
-                    }),
+                    this.recordsStore.setRecordsAction([
+                        {
+                            ...this.recordsStore.selectedRecordValues,
+                            children: [...(Array.isArray(children) ? children : []), ...pages],
+                        },
+                    ]);
+                    this.recordsStore.setSelectionAction(this.recordsStore.selectedRecordId);
+                }),
             settingsStore.settings.module_available === "true" &&
                 !modulesStore.isLoaded &&
                 modulesStore.loadModules(settingsStore.settings[VAR_SETTING_MODULE_URL]),

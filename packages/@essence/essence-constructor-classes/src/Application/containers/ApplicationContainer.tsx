@@ -209,7 +209,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     // Close all windows after change application
     useDisposable(() => {
         return reaction(
-            () => applicationStore.bc,
+            () => applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID],
             () => {
                 applicationStore.pageStore.windows.clear();
             },
@@ -225,6 +225,21 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 }),
         );
     });
+
+    React.useEffect(
+        () =>
+            reaction(
+                () => applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID],
+                (pageObjectId) => {
+                    if (pageObjectId !== "none") {
+                        applicationStore.recordsApplicationStore.searchAction({
+                            [VAR_RECORD_PAGE_OBJECT_ID]: pageObjectId,
+                        });
+                    }
+                },
+            ),
+        [applicationStore],
+    );
 
     return useObserver(() => (
         <ApplicationContext.Provider value={applicationStore}>

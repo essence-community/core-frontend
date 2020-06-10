@@ -67,7 +67,9 @@ export const ColumnTextContainer: React.FC<IClassProps> = (props) => {
     const stringValue = value.replace(/((<br)|\r|\n)[\s\S]*/iu, "...");
 
     if (bc.localization) {
-        return <Translation ns={bc.localization}>{(trans) => getRenderValue(trans(stringValue))}</Translation>;
+        return (
+            <Translation ns={bc.localization}>{(trans) => getRenderValue(trans(stringValue, stringValue))}</Translation>
+        );
     }
 
     return getRenderValue(stringValue, value);

@@ -52,6 +52,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                 applicationStore,
                 defaultVisible: true,
                 isActiveRedirect: false,
+                isReadOnly: false,
                 pageId: bc.defaultvalue,
             });
 

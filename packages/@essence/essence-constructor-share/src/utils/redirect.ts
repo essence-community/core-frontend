@@ -74,10 +74,26 @@ function choiceUrl(
     return undefined;
 }
 
-function redirectToUrl({redirecturl, values, pageStore, record}: IRedirectToUrlProps) {
-    const url = parseMemoize(redirecturl).runer(values);
+function redirectToApplication(pageStore: IPageModel, values: IRecord, redirectUrl: string) {
+    const parts = redirectUrl.split("/").filter(Boolean);
 
-    window.open(prepareUrl(String(url), pageStore, record));
+    if (Object.keys(values).length > 0) {
+        parts.push(encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(values))))));
+    }
+
+    pageStore.applicationStore.history.push(`/${parts.join("/")}`);
+}
+
+function redirectToUrl({redirecturl, values, pageStore, record}: IRedirectToUrlProps) {
+    const url = choiceUrl(redirecturl, pageStore.globalValues, record);
+
+    if (url) {
+        if (url.indexOf("redirect/") === 0) {
+            redirectToApplication(pageStore, values, url.replace("redirect/", ""));
+        } else {
+            window.open(prepareUrl(url, pageStore, record));
+        }
+    }
 }
 
 async function redirectUseQuery({bc, query, pageStore, values, record}: IRedirectUseQueryProps) {
@@ -226,7 +242,9 @@ export function makeRedirect(bc: IBuilderConfig, pageStore: IPageModel, record: 
     }
 
     if (redirecturl) {
-        if (redirecturl.indexOf("/") >= 0) {
+        if (redirecturl.indexOf("redirect/") === 0) {
+            redirectToApplication(pageStore, values, redirecturl.replace("redirect/", ""));
+        } else if (redirecturl.indexOf("/") >= 0) {
             redirectToUrl({pageStore, record, redirecturl, values});
         } else {
             pageStore.applicationStore.redirectToAction(redirecturl, values);

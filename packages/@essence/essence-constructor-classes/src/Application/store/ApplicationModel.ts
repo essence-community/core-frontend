@@ -496,7 +496,7 @@ export class ApplicationModel implements IApplicationModel {
         this.isApplicationReady = false;
         this.url = url;
 
-        if (this.bc) {
+        if (this.bc[VAR_RECORD_PAGE_OBJECT_ID] !== "none") {
             const queryId = this.bc[VAR_RECORD_QUERY_ID] || "MTRoute";
 
             if (!this.routesStore || this.routesStore.recordsStore.bc[VAR_RECORD_QUERY_ID] !== queryId) {

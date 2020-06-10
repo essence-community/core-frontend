@@ -1,0 +1,1 @@
+export {PromoBlockImage} from "./PromoBlockImage";

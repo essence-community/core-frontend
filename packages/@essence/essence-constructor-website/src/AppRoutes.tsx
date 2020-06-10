@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Router, Route, Switch, Redirect} from "react-router-dom";
+import {Router, Route, Switch} from "react-router-dom";
 import {ApplicationRouter} from "./Components/ApplicationRouter";
 import {history} from "./history";
 
@@ -15,8 +15,7 @@ export const AppRoutes = () => (
             <Route path="/safe/:ckId?/:filter?" component={ApplicationRouter} />
             <Route path="/preference" component={ApplicationRouter} />
             {/* Dynamic page from meta */}
-            <Route path="/:appName/:ckId?/:filter?" component={ApplicationRouter} />
-            <Redirect to="/auth" />
+            <Route path="/:appName?/:ckId?/:filter?" component={ApplicationRouter} />
         </Switch>
     </Router>
 );

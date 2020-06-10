@@ -113,7 +113,7 @@ export function useButtonClick(
             return null;
         }
 
-        if ((redirecturl || redirectusequery) && columnsfilter) {
+        if (redirecturl || redirectusequery) {
             return makeRedirect({...bc, columnsfilter, redirecturl, redirectusequery}, pageStore, recordCtx);
         }
 

@@ -36,33 +36,29 @@ interface IPagerProps extends IClassProps {}
 // eslint-disable-next-line max-lines-per-function
 export const PagerContainer: React.FC<IPagerProps> = (props) => {
     const {bc} = props;
+    const {[VAR_RECORD_PARENT_ID]: parentId, defaultvalue} = bc;
     const applicationStore = React.useContext(ApplicationContext);
     /**
      * We are making a new pageStore when we get defaultvalue.
      * It means that we want to make custom page and getting them from server by bc.ck_query
      */
     const pageStore = React.useMemo<IPageModel>(() => {
-        if (
-            applicationStore &&
-            bc &&
-            bc.defaultvalue &&
-            bc[VAR_RECORD_PARENT_ID] !== applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID]
-        ) {
+        if (applicationStore && defaultvalue && parentId !== applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
             const newPageStore: IPageModel = new PageModel({
                 applicationStore,
                 defaultVisible: true,
                 isActiveRedirect: false,
                 isReadOnly: false,
-                pageId: bc.defaultvalue,
+                pageId: defaultvalue,
             });
 
-            newPageStore.loadConfigAction(bc.defaultvalue);
+            newPageStore.loadConfigAction(defaultvalue);
 
             return newPageStore;
         }
 
         return props.pageStore;
-    }, [applicationStore, bc, props.pageStore]);
+    }, [applicationStore, defaultvalue, parentId, props.pageStore]);
 
     const classes = useStyles(props);
     const theme = useTheme();
@@ -81,14 +77,14 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
 
     // TODO: need to ferify it
     React.useEffect(() => {
-        if (route && !route[VAR_RECORD_ROUTE_VISIBLE_MENU] && bc && bc.defaultvalue !== pageStore.pageId) {
+        if (route && !route[VAR_RECORD_ROUTE_VISIBLE_MENU] && defaultvalue !== pageStore.pageId) {
             setTimeout(() => {
                 if (applicationStore) {
                     applicationStore.pagesStore.removePageAction(pageStore.pageId);
                 }
             });
         }
-    }, [applicationStore, pageStore.pageId, route, bc]);
+    }, [applicationStore, pageStore.pageId, route, defaultvalue]);
 
     React.useEffect(() => {
         return () => {
@@ -131,7 +127,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                 <FormContext.Provider value={form}>
                     <Grid container spacing={2}>
                         {mapComponents(
-                            pageStore.pageBc,
+                            bc.childs || pageStore.pageBc,
                             (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
                                 <Grid
                                     key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
@@ -162,7 +158,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                 onKeyDown={handleKeyDown}
             >
                 {/* TODO: to make pager as part of content (page) */}
-                {/* {bc.defaultvalue ? (
+                {/* {defaultvalue ? (
                     content
                 ) : ( */}
                 <Scrollbars
@@ -179,7 +175,9 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                 </Scrollbars>
                 {/* )} */}
                 <PagerWindowMessage pageStore={pageStore} />
-                {bc === pageStore.pagerBc ? <PagerWindows {...props} /> : null}
+                {bc[VAR_RECORD_PAGE_OBJECT_ID] === pageStore.pagerBc[VAR_RECORD_PAGE_OBJECT_ID] ? (
+                    <PagerWindows {...props} />
+                ) : null}
             </div>
         );
     });

@@ -209,7 +209,10 @@ export class ApplicationModel implements IApplicationModel {
     });
 
     setSesssionAction = action("setSesssionAction", (userInfo: IAuthSession) => {
-        this.globalValues.merge(prepareUserGlobals(userInfo));
+        const newGlobals = prepareUserGlobals(userInfo);
+
+        this.globalValues.merge(newGlobals);
+        this.pageStore.globalValues.merge(newGlobals);
 
         return Promise.resolve();
     });

@@ -2,8 +2,12 @@
 const http = require("http");
 const url = require("url");
 
-function httpRequest(urlRequest, postData) {
-    const {port, hostname, path} = url.parse(urlRequest);
+if (!GATE_URL) {
+    throw new Error("GATE_URL should be set in env");
+}
+
+function httpRequest(query, postData) {
+    const {port, hostname, path} = url.parse(`${GATE_URL}?${query}`);
 
     return new Promise(function(resolve, reject) {
         const req = http.request(

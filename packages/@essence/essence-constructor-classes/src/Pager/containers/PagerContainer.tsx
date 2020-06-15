@@ -14,6 +14,7 @@ import {
     VAR_SETTING_PROJECT_LOADER,
     VAR_RECORD_PARENT_ID,
     loggerRoot,
+    VAR_RECORD_NOLOAD,
 } from "@essence-community/constructor-share/constants";
 import {reaction} from "mobx";
 import {IForm, Form} from "@essence-community/constructor-share/Form";
@@ -127,7 +128,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                 <FormContext.Provider value={form}>
                     <Grid container spacing={2}>
                         {mapComponents(
-                            bc.childs || pageStore.pageBc,
+                            pageStore.route?.[VAR_RECORD_NOLOAD] === 1 ? bc.childs : pageStore.pageBc,
                             (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
                                 <Grid
                                     key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}

@@ -12,6 +12,7 @@ import {
     VAR_RECORD_CA_ACTIONS,
     VAR_RECORD_CN_ACTION_EDIT,
     VAR_RECORD_ROUTE_NAME,
+    VAR_RECORD_NOLOAD,
 } from "../../constants";
 import {
     IBuilderConfig,
@@ -291,7 +292,7 @@ export class PageModel implements IPageModel {
     loadConfigAction = action("loadConfigAction", async (pageId: string) => {
         this.pageId = pageId;
 
-        if (this.route?.cl_noload === 1) {
+        if (this.route?.[VAR_RECORD_NOLOAD] === 1) {
             return undefined;
         }
 

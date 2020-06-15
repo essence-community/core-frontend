@@ -98,6 +98,8 @@ export class ApplicationModel implements IApplicationModel {
 
     isLogoutProcess = false;
 
+    history: History;
+
     @computed get bc(): IBuilderConfig {
         const {children} = this.recordsStore.selectedRecordValues;
         const {selectedRecordValues} = this.recordsApplicationStore;
@@ -142,7 +144,7 @@ export class ApplicationModel implements IApplicationModel {
         return this.authStore.userInfo as any;
     }
 
-    constructor(public history: History, url: string) {
+    constructor(history: History, url: string) {
         this.routesStore = null;
         this.url = url;
         this.mode = url;

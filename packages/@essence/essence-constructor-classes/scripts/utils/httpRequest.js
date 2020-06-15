@@ -2,6 +2,8 @@
 const http = require("http");
 const url = require("url");
 
+const {GATE_URL} = process.env;
+
 if (!GATE_URL) {
     throw new Error("GATE_URL should be set in env");
 }
@@ -45,13 +47,13 @@ function httpRequest(query, postData) {
 
         // reject on request error
         req.on("error", function(err) {
-            // This is not a "Second reject", just a different sort of failure
             reject(err);
         });
+
         if (postData) {
             req.write(postData);
         }
-        // IMPORTANT
+
         req.end();
     });
 }

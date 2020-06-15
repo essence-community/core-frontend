@@ -92,7 +92,7 @@ export class PageModel implements IPageModel {
             [VAR_RECORD_PAGE_OBJECT_ID]: this.pageId,
             [VAR_RECORD_PARENT_ID]: this.applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID],
             defaultvalue: this.applicationStore.bc.defaultvalue,
-            type: "NONE",
+            type: "PAGER",
         };
     }
 
@@ -290,6 +290,10 @@ export class PageModel implements IPageModel {
     @action
     loadConfigAction = action("loadConfigAction", async (pageId: string) => {
         this.pageId = pageId;
+
+        if (this.route?.cl_noload === 1) {
+            return undefined;
+        }
 
         this.setLoadingAction(true);
 

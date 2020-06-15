@@ -1,3 +1,7 @@
 {
-    "name": "Application"
+    "name": "Application",
+    "docs": [
+        ["containers", "ApplicationContainer.tsx"],
+        ["store", "ApplicationModel.ts"]
+    ]
 }

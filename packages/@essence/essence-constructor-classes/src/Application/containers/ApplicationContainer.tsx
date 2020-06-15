@@ -33,6 +33,11 @@ function globalTitle(trans: TFunction) {
     return trans("static:d2c071c58aca4b73853c1fcc6e2f08a3");
 }
 
+/**
+ * @exports ApplicationContainer
+ * @description Включает commonDecorator
+ */
+
 // eslint-disable-next-line max-lines-per-function, max-statements
 export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = () => {
     const history = useHistory();
@@ -62,6 +67,11 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     );
 
     React.useEffect(() => {
+        /**
+         * @memberof ApplicationContainer
+         * @member
+         * @description Загрузка начального состоянии приложения
+         */
         const loadApplication = async () => {
             await applicationStore.authStore.checkAuthAction(history);
             const isSuccess = await applicationStore.loadApplicationAction();
@@ -111,7 +121,6 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [appName, applicationStore]);
 
-    // Init ws client only for session
     React.useEffect(() => {
         const dispose = reaction(
             () => applicationStore.authStore.userInfo.session,

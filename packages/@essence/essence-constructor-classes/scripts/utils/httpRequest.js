@@ -2,8 +2,14 @@
 const http = require("http");
 const url = require("url");
 
-function httpRequest(urlRequest, postData) {
-    const {port, hostname, path} = url.parse(urlRequest);
+const {GATE_URL} = process.env;
+
+if (!GATE_URL) {
+    throw new Error("GATE_URL should be set in env");
+}
+
+function httpRequest(query, postData) {
+    const {port, hostname, path} = url.parse(`${GATE_URL}?${query}`);
 
     return new Promise(function(resolve, reject) {
         const req = http.request(
@@ -41,13 +47,13 @@ function httpRequest(urlRequest, postData) {
 
         // reject on request error
         req.on("error", function(err) {
-            // This is not a "Second reject", just a different sort of failure
             reject(err);
         });
+
         if (postData) {
             req.write(postData);
         }
-        // IMPORTANT
+
         req.end();
     });
 }

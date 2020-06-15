@@ -11,10 +11,6 @@ export const useStyles = makeStyles((theme: IEssenceTheme) => ({
         position: "absolute",
     },
     resizerRootIcon: {
-        "&$resizerRootCollapsed": {
-            // 35 / 2
-            width: 17.5,
-        },
         height: 35,
         overflow: "hidden",
         pointerEvents: "none",

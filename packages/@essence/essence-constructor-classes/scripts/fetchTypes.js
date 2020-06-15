@@ -2,9 +2,11 @@
 const fs = require("fs");
 const path = require("path");
 const querystring = require("querystring");
-const httpRequest = require("./httpRequest");
+const httpRequest = require("./utils/httpRequest");
+const getdirs = require("./utils/getdirs");
+const fetchSession = require("./utils/fetchSession");
+const fetchClassAttrs = require("./utils/fetchClassAttrs");
 
-const {GATE_URL} = process.env;
 const ATTR_BUILDER = [
     "bottombtn",
     "childs",
@@ -17,16 +19,6 @@ const ATTR_BUILDER = [
     "detail",
 ];
 const CARRY_LINES_REGEXP = /\r\n|\r|\n|<br\/?>/giu;
-
-if (!GATE_URL) {
-    throw new Error("GATE_URL should be set in env");
-}
-
-function getdirs(p) {
-    return fs.readdirSync(p).filter(function(f) {
-        return fs.statSync(path.join(p, f)).isDirectory();
-    });
-}
 
 function converType(attribute) {
     if (ATTR_BUILDER.includes(attribute.ck_attr)) {
@@ -71,7 +63,7 @@ function writeToFile(classDirName, types) {
 
 function parseAttributes(session, dir, classId) {
     httpRequest(
-        `${GATE_URL}?action=sql&query=MTClassAttr`,
+        "action=sql&query=MTClassAttr",
         querystring.stringify({
             json: JSON.stringify({
                 ck_attr_type: "all",
@@ -107,51 +99,6 @@ function parseAttributes(session, dir, classId) {
 
         writeToFile(dir, ["export interface IBuilderClassConfig {", ...types, "}"]);
     });
-}
-
-function fetchSession() {
-    return (
-        httpRequest(
-            `${GATE_URL}?action=auth&query=Login`,
-            querystring.stringify({
-                cv_login: "admin_core",
-                cv_password: "admin_core",
-            }),
-        )
-            // parseAttributes(session);
-            .then((body) => body.data[0].session)
-            .catch((err) => {
-                console.log(err);
-            })
-    );
-}
-
-function fetchClassAttrs(session) {
-    return (
-        httpRequest(
-            `${GATE_URL}?action=sql&query=MTClass`,
-            querystring.stringify({
-                json: JSON.stringify({
-                    filter: {
-                        jl_filter: [],
-                        jl_sort: [{direction: "DESC", property: "ck_id"}],
-                        jn_fetch: 1000,
-                        jn_offset: 0,
-                    },
-                }),
-                page_object: "8CCD5F9C1925486BAF5018B17F6C0E26",
-                session,
-            }),
-        )
-            // parseAttributes(session);
-            .then((body) =>
-                body.data.reduce((acc, cls) => {
-                    acc[cls.cv_name] = cls;
-
-                    return acc;
-                }, {}),
-            )
-    );
 }
 
 function fetchAllTypes(dirs) {

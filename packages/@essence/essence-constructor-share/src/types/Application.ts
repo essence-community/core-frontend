@@ -33,6 +33,7 @@ export interface IApplicationModel extends IStoreBaseModel {
     setSesssionAction(userInfo: IAuthSession): Promise<void>;
     logoutAction(): void;
     redirectToAction(pageId: string, params: Record<string, FieldValue>): Promise<void>;
+    loadApplictionConfigs(): Promise<void>;
     loadApplicationAction(): Promise<boolean>;
     blockApplicationAction(type: string, text: string | ((trans: TFunction) => string)): void;
     initWsClient(session: string): void;

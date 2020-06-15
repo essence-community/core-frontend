@@ -287,20 +287,22 @@ export class ApplicationModel implements IApplicationModel {
         return this.history.push("/auth", {backUrl: this.history.location.pathname});
     };
 
+    loadApplictionConfigs = () =>
+        this.recordsStore.loadRecordsAction({}).then(() => {
+            const {children} = this.recordsStore.selectedRecordValues;
+
+            this.recordsStore.setRecordsAction([
+                {
+                    ...this.recordsStore.selectedRecordValues,
+                    children: [...(Array.isArray(children) ? children : []), ...pages],
+                },
+            ]);
+            this.recordsStore.setSelectionAction(this.recordsStore.selectedRecordId);
+        });
+
     loadApplicationAction = action("loadApplicationAction", async () => {
         await Promise.all<Promise<any> | false>([
-            this.recordsStore.recordsState.status === "init" &&
-                this.recordsStore.loadRecordsAction({}).then(() => {
-                    const {children} = this.recordsStore.selectedRecordValues;
-
-                    this.recordsStore.setRecordsAction([
-                        {
-                            ...this.recordsStore.selectedRecordValues,
-                            children: [...(Array.isArray(children) ? children : []), ...pages],
-                        },
-                    ]);
-                    this.recordsStore.setSelectionAction(this.recordsStore.selectedRecordId);
-                }),
+            this.recordsStore.recordsState.status === "init" && this.loadApplictionConfigs(),
             settingsStore.settings.module_available === "true" &&
                 !modulesStore.isLoaded &&
                 modulesStore.loadModules(settingsStore.settings[VAR_SETTING_MODULE_URL]),

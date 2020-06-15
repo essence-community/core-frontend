@@ -65,34 +65,34 @@ export class AuthModel implements IAuthModel {
                 }),
     );
 
-    loginAction = action(
-        "loginAction",
-        (authValues: Record<string, string>, history: History, responseOptions: Partial<IAuthSession> = {}) =>
-            request({
-                action: "auth",
-                body: authValues,
-                list: false,
-                query: "Login",
+    @action
+    loginAction = (authValues: Record<string, string>, history: History, responseOptions: Partial<IAuthSession> = {}) =>
+        request({
+            action: "auth",
+            body: authValues,
+            list: false,
+            query: "Login",
+        })
+            .then((response) => {
+                if (response && snackbarStore.checkValidLoginResponse(response as IRecord)) {
+                    this.successLoginAction(
+                        {
+                            ...(response as IAuthSession),
+                            ...responseOptions,
+                        },
+                        history,
+                        true,
+                    );
+                }
             })
-                .then((response) => {
-                    if (response && snackbarStore.checkValidLoginResponse(response as IRecord)) {
-                        this.successLoginAction(
-                            {
-                                ...(response as IAuthSession),
-                                ...responseOptions,
-                            },
-                            history,
-                        );
-                    }
-                })
-                .catch((error: Error) => {
-                    snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
-                    this.applicationStore.logoutAction();
-                    this.userInfo = DEAULT_USER_INFO;
-                }),
-    );
+            .catch((error: Error) => {
+                snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
+                this.applicationStore.logoutAction();
+                this.userInfo = DEAULT_USER_INFO;
+            });
 
-    successLoginAction = action("successLoginAction", (response: IAuthSession, history: History) => {
+    @action
+    successLoginAction = async (response: IAuthSession, history: History, isReloadAppications = false) => {
         const {redirecturl = "/"} = this.applicationStore.bc;
         const backUrl: string = history.location.state?.backUrl ?? redirecturl;
 
@@ -100,8 +100,13 @@ export class AuthModel implements IAuthModel {
         this.applicationStore.setSesssionAction(response);
         // TODO: сделать проверку на bc, что бы не сохранять пользователя при репортах
         saveToStore("auth", response);
+
+        if (isReloadAppications) {
+            await this.applicationStore.loadApplictionConfigs();
+        }
+
         history.push(backUrl.indexOf("/") === 0 ? backUrl : `/${backUrl}`, {backUrl: undefined});
-    });
+    };
 
     changeUserInfo = action("changeUserInfo", (userInfo: Partial<IAuthSession>) => {
         this.userInfo = {

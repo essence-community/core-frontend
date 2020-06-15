@@ -172,6 +172,8 @@ class ApplicationModelMock implements IApplicationModel {
 
     loadApplicationAction = () => Promise.resolve(true);
 
+    loadApplictionConfigs = () => Promise.resolve();
+
     logoutAction = () => undefined;
 
     pageStore: IPageModel = new PageModel({

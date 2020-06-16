@@ -82,6 +82,7 @@ export const VAR_RECORD_JN_TOTAL_CNT = "jn_total_cnt";
 export const VAR_RECORD_CK_ATTR = "ck_attr";
 export const VAR_RECORD_CL_STATIC = "cl_static";
 export const VAR_RECORD_JV_ROWCOLOR = "jv_rowcolor";
+export const VAR_RECORD_NOLOAD = "cl_noload";
 
 // SETTING
 export const VAR_SETTING_VALUE = "cv_value";

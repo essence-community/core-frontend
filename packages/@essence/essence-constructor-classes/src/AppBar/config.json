@@ -1,3 +1,7 @@
 {
-    "name": "App Bar Panel"
+    "name": "App Bar Panel",
+    "docs": [
+        ["container", "AppBar.tsx"],
+        ["container", "AppBar.styles.ts"]
+    ]
 }

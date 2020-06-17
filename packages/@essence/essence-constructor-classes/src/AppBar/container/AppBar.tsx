@@ -29,6 +29,11 @@ const calcStyle = (bc: IBuilderConfig) => ({
     ...toColumnStyleWidth(bc.width),
 });
 
+/**
+ * Отображения навигационной панели
+ * @see {@link https://material-ui.com/components/app-bar/#app-bar|AppBar}
+ * @since 2.5
+ */
 export const AppBar: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
     const classes = useStyles(props);
     const {bc} = props;

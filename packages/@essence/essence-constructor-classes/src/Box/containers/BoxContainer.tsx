@@ -19,9 +19,8 @@ export const BoxContainer: React.FC<IClassProps> = (props) => {
             height: bc.height,
             maxHeight: bc.maxheight ?? "100%",
             minHeight: bc.minheight,
-            ...toColumnStyleWidth(bc.width),
         }),
-        [bc.height, bc.maxheight, bc.minheight, bc.width],
+        [bc.height, bc.maxheight, bc.minheight],
     );
 
     return (

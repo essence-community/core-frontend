@@ -9,6 +9,7 @@ import {useStyles} from "./FieldComputedContainer.styles";
 
 function makeParser(): IParseReturnType {
     return {
+        hasError: false,
         runer: (values?: Record<string, FieldValue>) =>
             `${i18next.t("static:e077e7f97f954e85905a8e754511e441")} ${JSON.stringify(values)} `,
         variables: [],

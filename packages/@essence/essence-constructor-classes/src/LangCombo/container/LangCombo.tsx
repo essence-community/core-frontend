@@ -35,7 +35,6 @@ const getComponentBc = (bc: IBuilderConfig, defaultValue?: string): IBuilderConf
     displayfield: bc.displayfield || "cv_name",
     getglobal: VAR_SETTING_LANG,
     noglobalmask: true,
-    querymode: "remote",
     setglobal: VAR_SETTING_LANG,
     type: "IFIELD",
     valuefield: bc.valuefield || "ck_id",

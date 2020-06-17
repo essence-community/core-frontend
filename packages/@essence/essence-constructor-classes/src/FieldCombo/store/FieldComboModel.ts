@@ -70,7 +70,7 @@ export class FieldComboModel extends StoreBaseModel {
             ];
         }
 
-        if (this.isInputChanged) {
+        if (this.isInputChanged && this.bc.querymode === "local") {
             return suggestions.filter((sug: ISuggestion) => sug.labelLower.indexOf(inputValueLower) !== -1);
         }
 
@@ -95,8 +95,8 @@ export class FieldComboModel extends StoreBaseModel {
         });
 
         this.loadDebounce = debounce((inputValue: string, isUserReload: boolean) => {
-            if (bc.queryparam && toString(inputValue).length >= this.valueLength) {
-                this.recordsStore.searchAction({[bc.queryparam]: inputValue}, {isUserReload});
+            if (toString(inputValue).length >= this.valueLength) {
+                this.recordsStore.searchAction({[bc.queryparam || this.displayfield]: inputValue}, {isUserReload});
             }
         }, querydelay * 1000);
     }
@@ -127,7 +127,7 @@ export class FieldComboModel extends StoreBaseModel {
             this.highlightedValue = value;
         }
 
-        if (value.length >= this.valueLength) {
+        if (this.bc.querymode === "remote") {
             this.loadDebounce(value, true);
         }
     };
@@ -226,7 +226,7 @@ export class FieldComboModel extends StoreBaseModel {
                 }
 
                 return true;
-            } else if (this.bc.queryparam) {
+            } else if (this.bc.querymode === "remote") {
                 this.loadDebounce(stringNewValue, false);
 
                 return true;

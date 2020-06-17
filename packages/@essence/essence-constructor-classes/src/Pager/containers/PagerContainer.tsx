@@ -22,6 +22,7 @@ import {PagerWindows} from "../components/PagerWindows";
 import {focusPageElement} from "../utils/focusPageElement";
 import {PagerWindowMessage} from "../components/PagerWindowMessage";
 import {renderGlobalValuelsInfo} from "../../Application/utils/renderGlobalValuelsInfo";
+import {PagerErrorBoundary} from "../components/PagerErrorBoundary";
 import {useStyles} from "./PagerContainer.styles";
 
 const DARK_PAPER_ELEVATION = 8;
@@ -158,27 +159,29 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                 tabIndex={0}
                 onKeyDown={handleKeyDown}
             >
-                {/* TODO: to make pager as part of content (page) */}
-                {/* {defaultvalue ? (
+                <PagerErrorBoundary pageStore={pageStore}>
+                    {/* TODO: to make pager as part of content (page) */}
+                    {/* {defaultvalue ? (
                     content
                 ) : ( */}
-                <Scrollbars
-                    style={SCROLLABRS_STYLE}
-                    hideTracksWhenNotNeeded
-                    withRequestAnimationFrame
-                    contentProps={{
-                        className: classes.rootPageContent,
-                    }}
-                    pageStore={pageStore}
-                    verticalStyle={VERTICAL_STYLE}
-                >
-                    {content}
-                </Scrollbars>
-                {/* )} */}
-                <PagerWindowMessage pageStore={pageStore} />
-                {bc[VAR_RECORD_PAGE_OBJECT_ID] === pageStore.pagerBc[VAR_RECORD_PAGE_OBJECT_ID] ? (
-                    <PagerWindows {...props} />
-                ) : null}
+                    <Scrollbars
+                        style={SCROLLABRS_STYLE}
+                        hideTracksWhenNotNeeded
+                        withRequestAnimationFrame
+                        contentProps={{
+                            className: classes.rootPageContent,
+                        }}
+                        pageStore={pageStore}
+                        verticalStyle={VERTICAL_STYLE}
+                    >
+                        {content}
+                    </Scrollbars>
+                    {/* )} */}
+                    <PagerWindowMessage pageStore={pageStore} />
+                    {bc[VAR_RECORD_PAGE_OBJECT_ID] === pageStore.pagerBc[VAR_RECORD_PAGE_OBJECT_ID] ? (
+                        <PagerWindows {...props} />
+                    ) : null}
+                </PagerErrorBoundary>
             </div>
         );
     });

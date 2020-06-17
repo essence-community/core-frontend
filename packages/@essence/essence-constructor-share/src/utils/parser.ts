@@ -14,6 +14,7 @@ interface IGetValue {
 export interface IParseReturnType {
     runer: (values?: Record<string, FieldValue> | IGetValue) => undefined | string | boolean | number;
     variables: string[];
+    hasError: boolean;
 }
 
 interface IValues {
@@ -107,12 +108,14 @@ export const parse = (src: string, withTokens = false): IParseReturnType => {
         logger(i18next.t("static:993c801f7f8b4284b3b1a0f624496ac8"), error.message);
 
         return {
+            hasError: true,
             runer: () => String(i18next.t("static:4b067f4b55154c46b0a8d6b34d4d9bfb")),
             variables: [],
         };
     }
 
     return {
+        hasError: false,
         runer: (values: IValues = {}) => {
             // @ts-ignore
             const expression = parsedSrc ? parsedSrc.body[0].expression : undefined;

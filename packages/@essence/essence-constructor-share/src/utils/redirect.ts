@@ -15,7 +15,6 @@ import {request} from "../request";
 import {findSetKey, findGetGlobalKey} from "./findKey";
 import {parseMemoize} from "./parser";
 import {getMasterObject} from "./getMasterObject";
-import {prepareUrl} from "./download";
 
 interface IGetQueryParams {
     columnsName: string;
@@ -52,6 +51,23 @@ interface IRedirectToUrlProps {
     record: IRecord;
 }
 
+export function prepareUrl(url: string, pageStore: IPageModel, record: Record<string, FieldValue> = {}) {
+    // eslint-disable-next-line require-unicode-regexp,  prefer-named-capture-group
+    return url.replace(/{([^}]+)}/g, (_match, pattern): string => {
+        if (pattern in record) {
+            return record[pattern] as string;
+        }
+
+        const globalValue = pageStore.globalValues.get(pattern);
+
+        if (typeof globalValue === "string") {
+            return globalValue;
+        }
+
+        return "";
+    });
+}
+
 /**
  * Convert path into url
  * @param {string} pathname Parse string for pathname
@@ -65,7 +81,8 @@ function choiceUrl(
     record: IRecord,
 ): string | undefined {
     const getValue = (name: string) => (record && name.charAt(0) !== "g" ? record[name] : globalValues.get(name));
-    const url = parseMemoize(pathname).runer({get: getValue});
+    const renerProc = parseMemoize(pathname);
+    const url = renerProc.hasError ? pathname : renerProc.runer({get: getValue});
 
     if (typeof url === "string") {
         return url;

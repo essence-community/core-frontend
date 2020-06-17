@@ -22,8 +22,6 @@ export const useStyles = makeStyles(
         root: {
             display: "flex",
             flexDirection: "column",
-            margin: "0 auto",
-            maxWidth: 1024,
         },
     }),
     {name: "EssenceDocumentationContainer"},

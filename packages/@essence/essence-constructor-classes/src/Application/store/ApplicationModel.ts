@@ -246,14 +246,21 @@ export class ApplicationModel implements IApplicationModel {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-    redirectToAction = action("redirectToAction", async (pageId: string, params: Record<string, any>) => {
-        const page = await this.pagesStore.setPageAction(pageId, true);
+    redirectToAction = action("redirectToAction", async (redirectPageId: string, params: Record<string, any>) => {
+        const pageConfig = this.routesStore?.recordsStore.records.find(
+            (route: IRecord) => route[VAR_RECORD_ID] === redirectPageId || route[VAR_RECORD_URL] === redirectPageId,
+        );
+        const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
-        // Log
-        if (page) {
-            await when(() => !page.isLoading);
+        if (pageId) {
+            const page = await this.pagesStore.setPageAction(pageId as string, true);
 
-            await redirectToPage(page, params);
+            // Log
+            if (page) {
+                await when(() => !page.isLoading);
+
+                await redirectToPage(page, params);
+            }
         }
     });
 

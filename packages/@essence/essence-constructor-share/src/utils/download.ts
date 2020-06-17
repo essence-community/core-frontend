@@ -17,6 +17,7 @@ import {
 } from "../constants";
 import {settingsStore} from "../models/SettingsModel";
 import {getMasterObject} from "./getMasterObject";
+import {prepareUrl} from "./redirect";
 
 interface IReloadPageObject {
     [VAR_RECORD_ROUTE_PAGE_ID]: string;
@@ -38,23 +39,6 @@ interface IPrint {
 interface IResult extends IResponse, IRecord {
     [VAR_RECORD_URL]: string | undefined;
 }
-
-export const prepareUrl = (url: string, pageStore: IPageModel, record: Record<string, FieldValue> = {}) => {
-    // eslint-disable-next-line require-unicode-regexp,  prefer-named-capture-group
-    return url.replace(/{([^}]+)}/g, (_match, pattern): string => {
-        if (pattern in record) {
-            return record[pattern] as string;
-        }
-
-        const globalValue = pageStore.globalValues.get(pattern);
-
-        if (typeof globalValue === "string") {
-            return globalValue;
-        }
-
-        return "";
-    });
-};
 
 export const print = async ({
     applicationStore,

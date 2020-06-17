@@ -1,7 +1,7 @@
 import * as React from "react";
 import cn from "clsx";
 import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
-import {Scrollbars, VerticalResizer} from "@essence-community/constructor-share/uicomponents";
+import {Scrollbars, VerticalResizer, makeRenderers} from "@essence-community/constructor-share/uicomponents";
 import ReactMarkdown from "react-markdown";
 import {Grid, TextField} from "@material-ui/core";
 import {useObserver} from "mobx-react-lite";
@@ -59,6 +59,8 @@ export const FieldMarkdownContainer: React.FC<IClassProps> = (props) => {
     useFieldSetGlobal({bc, field, pageStore});
     useDefaultValueQuery({bc, field, pageStore});
 
+    const renderers = React.useMemo(() => makeRenderers(pageStore, bc), [bc, pageStore]);
+
     return useObserver(() => {
         const error = Boolean(!textFieldProps.disabled && !field.isValid);
         const errorText = textFieldProps.disabled ? undefined : field.error;
@@ -109,7 +111,10 @@ export const FieldMarkdownContainer: React.FC<IClassProps> = (props) => {
                             ) : null}
                             {status !== "code" || textFieldProps.disabled ? (
                                 <Grid item xs className={classes.preview} ref={mardownRef}>
-                                    <ReactMarkdown source={typeof field.value === "string" ? field.value : ""} />
+                                    <ReactMarkdown
+                                        source={typeof field.value === "string" ? field.value : ""}
+                                        renderers={renderers}
+                                    />
                                 </Grid>
                             ) : null}
                         </Grid>

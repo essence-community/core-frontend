@@ -64,6 +64,10 @@ export function prepareUrl(url: string, pageStore: IPageModel, record: Record<st
             return globalValue;
         }
 
+        if (typeof globalValue === "number") {
+            return String(globalValue);
+        }
+
         return "";
     });
 }

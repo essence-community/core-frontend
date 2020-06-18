@@ -8,7 +8,11 @@ export const useStyles = makeStyles(
             pointerEvents: "auto",
         },
         disabled: {},
-        focused: {},
+        focused: {
+            "& $checkboxRoot": {
+                color: theme.palette.primary.main,
+            },
+        },
         formLabel: {
             paddingBottom: 0,
             paddingLeft: 5,
@@ -27,6 +31,9 @@ export const useStyles = makeStyles(
                 borderRadius: 4,
                 color: theme.palette.text.disabled,
                 cursor: "default",
+            },
+            "&:not($disabled):hover $checkboxRoot": {
+                color: theme.palette.type === "dark" ? theme.palette.primary.light : theme.essence.palette.primary.icon,
             },
             // Remove grey highlight
             WebkitTapHighlightColor: "transparent",

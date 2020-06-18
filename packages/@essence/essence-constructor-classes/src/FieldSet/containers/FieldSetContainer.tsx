@@ -5,9 +5,10 @@ import {mapComponents} from "@essence-community/constructor-share/components";
 import {ParentFieldContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
 import {toColumnStyleWidth, entriesMapSort} from "@essence-community/constructor-share/utils/transform";
-import {IClassProps, IRecord} from "@essence-community/constructor-share/types";
+import {IClassProps, IRecord, FieldValue} from "@essence-community/constructor-share/types";
 
 const MAX_PANEL_WIDTH = 12;
+const CLEAR_VALUE: FieldValue[] = [];
 
 export const FieldSetContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden} = props;
@@ -55,7 +56,7 @@ export const FieldSetContainer: React.FC<IClassProps> = (props) => {
 
         return field.defaultValue ? [true, field.defaultValue] : [false, undefined];
     }, []);
-    const field = useField({bc, disabled, hidden, isArray: true, output, pageStore});
+    const field = useField({bc, clearValue: CLEAR_VALUE, disabled, hidden, isArray: true, output, pageStore});
     const {contentview} = bc;
     const isRow = contentview === "hbox";
     const parentContext = React.useMemo(

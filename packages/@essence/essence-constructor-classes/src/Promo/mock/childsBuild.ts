@@ -263,6 +263,7 @@ function makeBtnWindow(masterId: string, gridId: string): IBuilderConfig {
                         iconfont: "cv_name",
                         iconfontname: ("cv_font" as unknown) as "fa" | "mdi",
                         type: "COLUMN",
+                        visible: true,
                     },
                     {
                         [VAR_RECORD_PAGE_OBJECT_ID]: `${iconfontId}-name`,
@@ -270,6 +271,7 @@ function makeBtnWindow(masterId: string, gridId: string): IBuilderConfig {
                         column: "cv_name",
                         datatype: "text",
                         type: "COLUMN",
+                        visible: true,
                     },
                 ],
                 datatype: "grid",
@@ -303,7 +305,7 @@ function makeGrid(objectId: string): IBuilderConfig {
                 [VAR_RECORD_PARENT_ID]: gridId,
                 ckwindow:
                     // eslint-disable-next-line quotes, max-len
-                    '{"IFIELDcombo": "combowindow", "IFIELDtext": "textwindow", "DEMO_SUBMIT": "btnwindow"}[type + (datatype || "")]',
+                    '{"IFIELDcombo": "combowindow", "IFIELDtext": "textwindow", "BTN": "btnwindow"}[type + (datatype || "")]',
                 datatype: "icon",
                 iconfont: "edit",
                 mode: "2",
@@ -325,7 +327,7 @@ function makeGrid(objectId: string): IBuilderConfig {
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${gridId}-column-щквук`,
                 [VAR_RECORD_PARENT_ID]: gridId,
                 column: VAR_RECORD_CN_ORDER,
-                datatype: "text",
+                datatype: "integer",
                 type: "COLUMN",
                 visible: true,
             },

@@ -31,6 +31,7 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
     const {disabledenddate, defaultvalue} = bc;
     const field = useField({
         bc,
+        clearValue: null,
         disabled: props.disabled,
         hidden: props.hidden,
         pageStore: props.pageStore,

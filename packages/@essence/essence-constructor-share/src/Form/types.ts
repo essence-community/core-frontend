@@ -7,6 +7,7 @@ export interface IRegisterFieldOptions {
     pageStore: IPageModel;
     isArray?: boolean;
     isObject?: boolean;
+    clearValue?: FieldValue;
     defaultValueFn?: IField["defaultValueFn"];
     output?: (field: IField, form: IForm, value?: IRecord | FieldValue) => IRecord | FieldValue;
     input?: (initialValues: IRecord, field: IField, form: IForm) => [boolean, IRecord | FieldValue];

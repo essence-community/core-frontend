@@ -21,8 +21,10 @@ export const PromoBehaviorText: React.FC<IClassProps> = (props) => {
             type: "IFIELD",
         };
 
+        childBc.column += `${childBc.disabledrules} ${childBc.hiddenrules} ${childBc.requiredrules}`;
+
         return (
-            <React.Fragment key={`${childBc.disabledrules} ${childBc.hiddenrules} ${childBc.requiredrules}`}>
+            <React.Fragment>
                 {mapComponentOne(childBc, (ChildCmp) => (
                     <ChildCmp {...props} bc={childBc} />
                 ))}

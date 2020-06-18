@@ -39,7 +39,8 @@ export const useField = ({bc, pageStore, output, input, isArray, disabled, hidde
             output: output || parentField?.output,
             pageStore,
         });
-    }, [bc, form, input, isArray, key, output, pageStore, parentField]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [form, key]);
 
     const handleReactValue = useCallback(
         (value: FieldValue) => {

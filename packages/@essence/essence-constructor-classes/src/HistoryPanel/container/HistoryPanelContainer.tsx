@@ -29,13 +29,13 @@ export const HistoryPanelContainer: React.FC<IPanelContainerProps> = (props) => 
                         />
                     </Grid>
                     <Grid item xs zeroMinWidth>
-                        <HistoryPanelWrapper {...props} />
+                        <HistoryPanelWrapper {...props} elevation={undefined} />
                     </Grid>
                 </Grid>
             );
         }
 
-        return () => <HistoryPanelWrapper {...props} />;
+        return () => <HistoryPanelWrapper {...props} elevation={undefined} />;
     }, [bc, hideTitle, props, trans]);
 
     const formBc = React.useMemo<IBuilderConfig>(() => ({...bc, type: "FORMPANEL.NOCOMMONDECORATOR"}), [bc]);

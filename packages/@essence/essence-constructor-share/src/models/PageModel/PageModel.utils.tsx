@@ -3,7 +3,7 @@ import {ObservableMap} from "mobx";
 import {FieldValue, IBuilderConfig, INextComponentReturn} from "../../types";
 
 export const renderGlobalValuelsInfo = (globalValues: ObservableMap<string, FieldValue>) => {
-    const blocks: React.ReactChild[] = [];
+    const blocks: React.ReactElement[] = [];
 
     globalValues.forEach((value: FieldValue, key: string) => {
         blocks.push(

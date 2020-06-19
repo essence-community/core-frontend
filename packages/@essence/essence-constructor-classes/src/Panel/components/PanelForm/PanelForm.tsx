@@ -133,6 +133,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
                             visible={visible}
                             readOnly={readOnly}
                             pageStore={pageStore}
+                            isFormPanel
                         />
                     )}
                 </div>

@@ -49,7 +49,7 @@ export interface IBuilderBaseConfig {
     // Наименование параметра - конца периода
     columnend?: string;
     // Список полей, по которым будет происходит фильтрация данных. Перечисление через запятую без пробела
-    columnsfilter?: string;
+    columnsfilter?: IBuilderAttrGlobal[];
     // Наименование параметра - начала периода
     columnstart?: string;
     // Вопрос на подтверждение операции

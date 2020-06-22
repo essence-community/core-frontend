@@ -1,6 +1,6 @@
 import {reaction} from "mobx";
 import {useEffect} from "react";
-import {parseMemoize, isEmpty, toStringGlobal} from "../utils";
+import {parseMemoize, isEmpty} from "../utils";
 import {VALUE_SELF_FIRST} from "../constants";
 import {IField} from "../Form";
 import {IPageModel, IBuilderConfig, IStoreBaseModel, FieldValue} from "../types";
@@ -14,13 +14,12 @@ interface IUseFieldGetGlobalProps {
 
 export function useFieldGetGlobal({field, pageStore, bc, store}: IUseFieldGetGlobalProps) {
     const {globalValues} = pageStore;
+    const {getglobal} = bc;
 
     useEffect(() => {
-        if (!bc.getglobal) {
+        if (!getglobal) {
             return undefined;
         }
-
-        const getglobalReturn = toStringGlobal(bc.getglobal);
 
         return reaction(
             () => {
@@ -44,7 +43,7 @@ export function useFieldGetGlobal({field, pageStore, bc, store}: IUseFieldGetGlo
                     return value;
                 };
 
-                return {hasEmptyValue, value: parseMemoize(getglobalReturn).runer({get: getValue})};
+                return {hasEmptyValue, value: parseMemoize(getglobal).runer({get: getValue})};
             },
             ({hasEmptyValue, value}) => {
                 if (hasEmptyValue) {
@@ -57,5 +56,5 @@ export function useFieldGetGlobal({field, pageStore, bc, store}: IUseFieldGetGlo
                 fireImmediately: isEmpty(field.value) || field.value === VALUE_SELF_FIRST,
             },
         );
-    }, [bc.getglobal, field, globalValues, store]);
+    }, [getglobal, field, globalValues, store]);
 }

@@ -437,7 +437,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     scrollToRecordAction = (params: IRecord) => gridScrollToRecordAction(params, this);
 
     afterSelected = () => {
-        if (this.bc.setglobal) {
+        if (this.bc.setglobal?.length) {
             return gridSetGlobalValues(this);
         }
 

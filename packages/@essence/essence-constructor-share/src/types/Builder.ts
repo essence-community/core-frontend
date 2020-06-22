@@ -1,6 +1,12 @@
+/* eslint-disable max-len */
 import {IRecord, FieldValue} from "./Base";
 
-/* eslint-disable max-len */
+export interface IBuilderAttrGlobal {
+    in?: string;
+    out: string;
+    required?: boolean;
+    reload?: boolean;
+}
 
 // BUILDER_CONFIG_START
 export interface IBuilderBaseConfig {
@@ -203,7 +209,7 @@ export interface IBuilderBaseConfig {
     // Отображение корня
     rootvisible?: boolean;
     // Наименование глобальной переменной. Должно начинаться с g
-    setglobal?: string;
+    setglobal?: IBuilderAttrGlobal[];
     // Наименование глобалки в которую добавляется выбранная строка.
     setrecordtoglobal?: string;
     // Наименование парамента, по которому будет осуществлена сортировка вместо column
@@ -218,6 +224,8 @@ export interface IBuilderBaseConfig {
     stylerules?: string;
     // Ширина Tab Panel
     tabwidth?: string;
+    // Выводимое статическое сообщение в виде markdown
+    text?: string;
     // Разделитель тысяч
     thousandseparator?: string;
     // Время ожидания выполнения запроса в секундах

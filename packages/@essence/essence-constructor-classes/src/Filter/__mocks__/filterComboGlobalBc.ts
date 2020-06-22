@@ -23,7 +23,10 @@ export const filterComboGlobalBc: IBuilderConfig = {
             column: "combo_1",
             datatype: "combo",
             defaultvalue: "first",
-            setglobal: "kd_okopf=g_kd_okopf,nm_okopf_abbr=g_nm_okopf_abbr",
+            setglobal: [
+                {in: "kd_okopf", out: "g_kd_okopf"},
+                {in: "nm_okopf_abbr", out: "g_nm_okopf_abbr"},
+            ],
             type: "IFIELD",
             valuefield: "kd_okopf",
         },

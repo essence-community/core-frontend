@@ -31,11 +31,15 @@ function converType(attribute) {
         case "text":
         case "localization":
         case "cssmeasure":
+        case "computed":
+        case "markdown":
             return "string";
         case "enum":
             return attribute.cv_data_type_extra.map((attr) => `"${attr.cv_data_type_extra_value}"`).join(" | ");
         case "integer":
             return "number";
+        case "global":
+            return "IBuilderAttrGlobal[]";
         default:
             return attribute.ck_d_data_type || "string";
     }

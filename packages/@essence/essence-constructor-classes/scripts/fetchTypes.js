@@ -37,11 +37,15 @@ function converType(attribute) {
         case "text":
         case "localization":
         case "cssmeasure":
+        case "computed":
+        case "markdown":
             return "string";
         case "enum":
             return attribute.cv_data_type_extra.map((attr) => `"${attr.cv_data_type_extra_value}"`).join(" | ");
         case "integer":
             return "number";
+        case "global":
+            return "IBuilderAttrGlobal[]";
         default:
             return attribute.ck_d_data_type || "string";
     }
@@ -50,7 +54,7 @@ function converType(attribute) {
 function writeToFile(classDirName, types) {
     const typeFilePath = path.join(__dirname, "..", "src", classDirName, "types.ts");
     let content = types.join("\n");
-    const deps = ["IBuilderConfig", "FieldValue"].filter((dep) => content.includes(dep));
+    const deps = ["IBuilderConfig", "FieldValue", "IBuilderAttrGlobal"].filter((dep) => content.includes(dep));
 
     if (deps.length) {
         content = `import {${deps.join(", ")}} from "@essence-community/constructor-share/types";\n\n${content}`;

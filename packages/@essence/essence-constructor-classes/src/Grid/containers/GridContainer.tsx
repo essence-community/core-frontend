@@ -13,24 +13,19 @@ export const GridContainer: React.FC<IClassProps> = (props) => {
     const gridBc = React.useMemo(() => {
         const {filters} = bc;
 
-        if (
-            bc[VAR_RECORD_MASTER_ID] === undefined &&
-            filters &&
-            filters.length > 0 &&
-            filters[0][VAR_RECORD_MASTER_ID] === undefined
-        ) {
+        if (!bc[VAR_RECORD_MASTER_ID] && filters && filters.length > 0 && !filters[0][VAR_RECORD_MASTER_ID]) {
             return {
                 ...bc,
                 autoload: false,
                 filters: filters.map((filter) => ({
                     ...filter,
-                    autoload: bc.autoload,
+                    autoload: pageStore.isActiveRedirect ? false : bc.autoload,
                 })),
             };
         }
 
         return bc;
-    }, [bc]);
+    }, [bc, pageStore]);
     const [store] = useModel((options) => new GridModel(options), {...props, bc: gridBc});
 
     return (

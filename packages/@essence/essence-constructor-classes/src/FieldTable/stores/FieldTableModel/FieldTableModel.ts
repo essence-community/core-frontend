@@ -25,7 +25,7 @@ import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share
 // eslint-disable-next-line import/named
 import {computed, observable, action, IObservableArray} from "mobx";
 import {IField, IForm} from "@essence-community/constructor-share/Form";
-import {prepareArrayValues} from "../../utils";
+import {prepareArrayValues, getRestoredRecords, getRestoreValue} from "../../utils";
 import {IFieldTableModel} from "./FieldTableModel.types";
 
 interface IFieldTableModelProps extends IStoreBaseModelProps {
@@ -163,30 +163,37 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
     @action
     setDefaultRecordAction = async (value?: FieldValue) => {
-        const filter = [
-            {
-                operator: "eq",
-                property: this.valueField,
-                value,
-            },
-        ];
-
-        await this.recordsStore.searchAction(
-            {},
-            {
-                filter,
-                selectedRecordId: value as string,
-            },
-        );
-
         if (this.bc.collectionvalues === "array") {
-            const records = prepareArrayValues(this, this.recordsStore.records, this.recordsStore.recordId);
+            if (
+                Array.isArray(value) &&
+                value.every((valDirty, idx) => {
+                    return this.valueFields.every(([fieldName, valueFeild]) => {
+                        const val = typeof valDirty === "object" && valDirty !== null ? valDirty[fieldName] : valDirty;
 
-            this.field.onChange(records);
-            this.selectedEntries.replace(
-                this.recordsStore.records.map((record) => [record[this.recordsStore.recordId] as string, record]),
-            );
+                        return val !== this.selectedEntries[idx]?.[1][valueFeild];
+                    });
+                })
+            ) {
+                await this.recordsStore.searchAction(
+                    {},
+                    {
+                        filter: this.valueFields.map(([fieldName, valueFeild]) => ({
+                            operator: "in",
+                            property: valueFeild,
+                            value: getRestoreValue(value, fieldName),
+                        })),
+                    },
+                );
+                this.selectedEntries.replace(getRestoredRecords(value, this));
+            }
         } else if (this.recordsStore.selectedRecord) {
+            await this.recordsStore.searchAction(
+                {},
+                {
+                    filter: [{operator: "eq", property: this.valueField, value}],
+                    selectedRecordId: value as string,
+                },
+            );
             this.handleChangeRecord(this.recordsStore.selectedRecord);
         }
         this.setRecordToGlobal();
@@ -277,8 +284,8 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
     @action
     restoreSelectedAction = (recordsStore: IRecordsModel) => {
-        this.selectedEntries.forEach(([key, value]) => {
-            recordsStore.selectedRecords.set(key, value);
+        this.selectedEntries.forEach(([key, rec]) => {
+            recordsStore.selectedRecords.set(key, rec);
         });
 
         if (this.bc.collectionvalues === "array") {
@@ -333,8 +340,8 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
         if (recordsStore && this.bc.collectionvalues === "array") {
             recordsStore.selectedRecords.clear();
-            this.selectedEntries.forEach(([key, value]) => {
-                recordsStore.selectedRecords.set(key, value);
+            this.selectedEntries.forEach(([key, rec]) => {
+                recordsStore.selectedRecords.set(key, rec);
             });
         }
 

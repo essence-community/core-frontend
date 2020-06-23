@@ -24,7 +24,7 @@ export const FavoritePage: React.FC<IFavoritePageProps> = (props) => {
     const [trans] = useTranslation("meta");
 
     const handleClickMenu = () => {
-        pagesStore.setPageAction(ckId, true);
+        pagesStore.setPageAction(ckId, false);
     };
 
     const name = trans(routerName);

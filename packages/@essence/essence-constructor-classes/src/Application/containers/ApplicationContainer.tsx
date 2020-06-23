@@ -88,9 +88,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 if (typeof pageId === "string") {
                     applicationStore.handleSetPage(pageId, filter);
                 } else if (ckId !== undefined) {
-                    pagesStore.setPageAction(ckId, true);
+                    pagesStore.setPageAction(ckId, false);
                 } else if (pagesStore.pages.length) {
-                    pagesStore.setPageAction(pagesStore.pages[0].pageId, true);
+                    pagesStore.setPageAction(pagesStore.pages[0].pageId, false);
                 }
             }
         };

@@ -63,11 +63,6 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                     {bc.dynamicfilter || bc.hideactions ? null : (
                         <FilterButtons styleTheme={styleTheme} title={title} isOpen={store.isOpen} {...props} />
                     )}
-                    {bc.dynamicfilter && styleTheme !== "light" ? (
-                        <Grid item className={classes.filterButtons}>
-                            &nbsp;
-                        </Grid>
-                    ) : null}
                     <Grid
                         item
                         className={cn(classes.maxWidth, {

@@ -58,7 +58,9 @@ function converType(attribute) {
 function writeToFile(classDirName, types) {
     const typeFilePath = path.join(__dirname, "..", "src", classDirName, "types.ts");
     let content = types.join("\n");
-    const deps = ["IBuilderConfig", "FieldValue", "IBuilderAttrGlobal"].filter((dep) => content.includes(dep));
+    const deps = ["IBuilderConfig", "FieldValue", "IBuilderAttrGlobal", "IBuilderAttrGlobalStore"].filter((dep) =>
+        content.match(new RegExp(`${dep}(\\[\\])?;`, "gm")),
+    );
 
     if (deps.length) {
         content = `import {${deps.join(", ")}} from "@essence-community/constructor-share/types";\n\n${content}`;

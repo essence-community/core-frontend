@@ -112,7 +112,7 @@ export const getMoFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     datatype: "combo",
     disabledrules: `!g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area`,
     displayfield: "cv_name",
-    getmastervalue: `ck_id=g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`,
+    getmastervalue: [{in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`, out: "ck_id"}],
     idproperty: "ck_id",
     minchars: 0,
     noglobalmask: true,

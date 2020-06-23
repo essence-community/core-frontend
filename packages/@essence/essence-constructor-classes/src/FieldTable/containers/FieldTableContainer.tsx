@@ -37,7 +37,7 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
 
     // componentDidMount
     React.useEffect(() => {
-        if (!isEmpty(field.value) && !Array.isArray(field.value)) {
+        if (!isEmpty(field.value)) {
             store.setDefaultRecordAction(field.value);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,7 +64,7 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
                         store.clearAction();
                     } else if (value === VALUE_SELF_FIRST) {
                         field.onChange(getFirstValues(store.recordsStore));
-                    } else if (!Array.isArray(value)) {
+                    } else {
                         store.setDefaultRecordAction(value);
                     }
                 },

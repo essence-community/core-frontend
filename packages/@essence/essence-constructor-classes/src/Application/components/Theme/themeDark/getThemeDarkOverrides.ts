@@ -32,6 +32,12 @@ export const getThemeDarkOverrides = (theme: IEssenceTheme): Theme["overrides"] 
                 boxShadow: `inset 0 0 1px 2px ${theme.palette.primary.light}`,
             },
         },
+        root: {
+            "&$disabled": {
+                color: theme.essence.palette.common.disabled,
+                fill: theme.essence.palette.common.disabled,
+            },
+        },
     },
     MuiCheckbox: {
         colorPrimary: {
@@ -109,8 +115,8 @@ export const getThemeDarkOverrides = (theme: IEssenceTheme): Theme["overrides"] 
         },
         root: {
             "&$disabled": {
-                color: "#7f828d",
-                fill: "#7f828d",
+                color: theme.essence.palette.common.disabled,
+                fill: theme.essence.palette.common.disabled,
             },
             "&:focus": {
                 color: theme.essence.palette.common.selectedMenu,

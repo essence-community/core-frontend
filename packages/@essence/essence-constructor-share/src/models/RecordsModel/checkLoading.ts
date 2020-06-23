@@ -20,7 +20,6 @@
 import {Lambda, observe, reaction} from "mobx";
 import {i18next} from "../../utils";
 import {IBuilderConfig, IPageModel, IStoreBaseModel, IRecord} from "../../types";
-import {findGetGlobalKey} from "../../utils/findKey";
 
 type DisposerType = () => void;
 
@@ -91,34 +90,25 @@ export class CheckLoading {
         );
     }
 
-    private initGetGlobalToStore(getglobaltostore: string) {
-        Object.values(findGetGlobalKey(getglobaltostore)).forEach((globaleKey) => {
-            if (typeof globaleKey === "string") {
-                const stores = this.pageStore ? this.pageStore.globalStores.get(globaleKey) : undefined;
-                let isLoadingOne = false;
+    private initGetGlobalToStore(getglobaltostore: IBuilderConfig["getglobaltostore"]) {
+        getglobaltostore?.forEach(({in: keyIn}) => {
+            const stores = this.pageStore ? this.pageStore.globalStores.get(keyIn) : undefined;
+            let isLoadingOne = false;
 
-                if (stores) {
-                    stores.forEach((store) => {
-                        if (store.recordsStore?.isLoading) {
-                            isLoadingOne = true;
-                            this.records[globaleKey] = store.recordsStore.selectedRecord;
-                            this.disposers.push(
-                                reaction(
-                                    () => store.recordsStore?.isLoading,
-                                    this.handleFinishedLoading(globaleKey, store),
-                                ),
-                            );
-                        }
-                    });
-                }
+            if (stores) {
+                stores.forEach((store) => {
+                    if (store.recordsStore?.isLoading) {
+                        isLoadingOne = true;
+                        this.records[keyIn] = store.recordsStore.selectedRecord;
+                        this.disposers.push(
+                            reaction(() => store.recordsStore?.isLoading, this.handleFinishedLoading(keyIn, store)),
+                        );
+                    }
+                });
+            }
 
-                if (isLoadingOne && this.pageStore) {
-                    this.checkers[globaleKey] = observe(
-                        this.pageStore.globalValues,
-                        globaleKey,
-                        this.handleReaction(globaleKey),
-                    );
-                }
+            if (isLoadingOne && this.pageStore) {
+                this.checkers[keyIn] = observe(this.pageStore.globalValues, keyIn, this.handleReaction(keyIn));
             }
         });
     }

@@ -98,11 +98,10 @@ export const getBtn = (bc: IBuilderConfig, topbtn: IBuilderConfig[]) => {
                 .replace(new RegExp(VAR_RECORD_G_PANEL_INDEX, "giu"), `g_panel_index_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`);
         }
         if (btn.getglobaltostore) {
-            btn.getglobaltostore = btn.getglobaltostore
-                .replace(new RegExp(VAR_RECORD_G_IS_START, "giu"), `g_is_start_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`)
-                .replace(new RegExp(VAR_RECORD_G_IS_END, "giu"), `g_is_end_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`)
-                .replace(new RegExp(VAR_RECORD_G_PANEL_NUM, "giu"), `g_panel_num_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`)
-                .replace(new RegExp(VAR_RECORD_G_PANEL_INDEX, "giu"), `g_panel_index_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`);
+            btn.getglobaltostore = btn.getglobaltostore.map((params) => ({
+                ...params,
+                in: `${params.in}_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+            }));
         }
     });
 

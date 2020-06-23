@@ -119,8 +119,6 @@
 ## Custom
 |Наименование|Тип|Значеня|Вид отображения|Описание|
 |-|:-:|:-:|-|-|
-|columnsfilter|array|string|repeater|Список полей, по которым будет происходит фильтрация данных. Перечисление через запятую без пробела|
-|getglobaltostore|array|string-string|repeater|Список глобальных переменных(через запятую), передаваемых в filter сервиса на объекте.  Пример: Если указать gck_mo, то положит в json.filter.gck_mo Если указать gck_mo=ck_mo, то положит в json.filter.ck_mo|
 |getmastervalue|object|string-string|Нет компонента|Наименование параметра из мастера, который будет передан в json в виде "master": {"наименование_параметра":"значение"}|
 |regexp|string|regex|new field: regex|Регулярное выражение для проверки введенного значения|
 |setrecordtoglobal|array|string-string|repeater|Наименование глобалки в которую добавляется выбранная строка.|
@@ -129,7 +127,8 @@
 ## Global
 |Наименование|Тип|Значеня|Вид отображения|Описание|
 |setglobal|array|string-string|repeater|Наименование глобальной переменной. Должно начинаться с g|
-
+|columnsfilter|array|string|repeater|Список полей, по которым будет происходит фильтрация данных. Перечисление через запятую без пробела|
+|getglobaltostore|array|string-string|repeater|Список глобальных переменных(через запятую), передаваемых в filter сервиса на объекте.  Пример: Если указать gck_mo, то положит в json.filter.gck_mo Если указать gck_mo=ck_mo, то положит в json.filter.ck_mo|
 
 ## Computed
 |Наименование|Описание|

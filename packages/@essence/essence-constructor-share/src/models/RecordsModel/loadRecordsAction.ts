@@ -3,7 +3,6 @@ import {v4} from "uuid";
 import {isEqual} from "lodash";
 import {request} from "../../request";
 import {IPageModel, IRecordsModel, FieldValue, IResponse} from "../../types";
-import {findGetGlobalKey} from "../../utils/findKey";
 import {i18next, getMasterObject} from "../../utils";
 import {
     VALUE_SELF_FIRST,
@@ -81,13 +80,11 @@ export function getFilterData({
 
 export function attachGlobalStore({bc, json, globalValues}: IAttachGlobalStore): void {
     if (bc.getglobaltostore && globalValues) {
-        const globalKeys: Record<string, string> = findGetGlobalKey(bc.getglobaltostore);
+        bc.getglobaltostore.forEach(({in: keyIn, out}) => {
+            const name = out || keyIn;
 
-        Object.keys(globalKeys).forEach((fieldName: string) => {
-            const globaleKey = globalKeys[fieldName];
-
-            if (typeof json.filter[fieldName] === "undefined") {
-                json.filter[fieldName] = globalValues.get(globaleKey);
+            if (typeof json.filter[name] === "undefined") {
+                json.filter[name] = globalValues.get(keyIn);
             }
         });
     }

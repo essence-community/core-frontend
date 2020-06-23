@@ -33,6 +33,10 @@ function converType(attribute) {
         return `"${attribute.cv_value}"`;
     }
 
+    if (attribute.ck_d_data_type === "global" && ["columnsfilter", "setglobal"].includes(attribute.ck_attr)) {
+        return "IBuilderAttrGlobal[]";
+    }
+
     switch (attribute.ck_d_data_type) {
         case "text":
         case "localization":
@@ -45,7 +49,7 @@ function converType(attribute) {
         case "integer":
             return "number";
         case "global":
-            return "IBuilderAttrGlobal[]";
+            return "IBuilderAttrGlobalStore[]";
         default:
             return attribute.ck_d_data_type || "string";
     }

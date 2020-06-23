@@ -3,7 +3,6 @@ import {IClassProps, IRecord} from "@essence-community/constructor-share/types";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {autorun, reaction} from "mobx";
-import {findGetGlobalKey} from "@essence-community/constructor-share/utils";
 import {ServiceHiddenModel} from "../stores/ServiceHiddenModel";
 
 export const ServiceHiddenContainer: React.FC<IClassProps> = (props) => {
@@ -48,13 +47,7 @@ export const ServiceHiddenContainer: React.FC<IClassProps> = (props) => {
     React.useEffect(() => {
         if (getglobaltostore) {
             const dispose = reaction(
-                () => {
-                    const globalKeys: Record<string, string> = findGetGlobalKey(getglobaltostore);
-
-                    return Object.values(globalKeys)
-                        .map((name) => pageStore.globalValues.get(name))
-                        .join(":");
-                },
+                () => getglobaltostore.map(({in: keyIn}) => pageStore.globalValues.get(keyIn)).join(":"),
                 store.reloadStoreAction,
                 {
                     delay: 300,

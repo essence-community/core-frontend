@@ -1,13 +1,3 @@
-export const findGetGlobalKey = (str: string): {[$key: string]: string} =>
-    str.split(",").reduce((acc: {[$key: string]: string}, item) => {
-        const keys = item.split("=");
-
-        // eslint-disable-next-line prefer-destructuring
-        acc[keys[1] || keys[0]] = keys[0];
-
-        return acc;
-    }, {});
-
 /**
  * Column - используется для определения дефолнотного значения "локального поля"
  *

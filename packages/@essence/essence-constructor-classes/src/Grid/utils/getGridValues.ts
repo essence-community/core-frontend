@@ -21,7 +21,7 @@ function getFirstSubGridValues(pageStore: IPageModel, winBc: IBuilderConfig, gri
             }
 
             const values: IRecord[] = [];
-            const {valuefield} = store.bc;
+            const valuefield = store.bc.valuefield?.[0]?.in;
 
             // eslint-disable-next-line guard-for-in
             for (const key in recordsStore.selectedRecords.keys()) {

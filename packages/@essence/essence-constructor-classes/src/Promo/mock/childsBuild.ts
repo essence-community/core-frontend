@@ -54,7 +54,7 @@ export function makePreviewChilds(objectId: string): IBuilderConfig[] {
             datatype: "combo",
             displayfield: "cv_display",
             type: "IFIELD",
-            valuefield: "cv_name",
+            valuefield: [{in: "cv_name"}],
             width: "100%",
         },
         {
@@ -136,7 +136,7 @@ function makeComboWindow(masterId: string, gridId: string): IBuilderConfig {
                 displayfield: "displayfield",
                 records: COMBO_COLUMNS,
                 type: "IFIELD",
-                valuefield: "valuefield",
+                valuefield: [{in: "valuefield"}],
             },
             {
                 [VAR_RECORD_DISPLAYED]:
@@ -149,7 +149,7 @@ function makeComboWindow(masterId: string, gridId: string): IBuilderConfig {
                 displayfield: "displayfield",
                 records: COMBO_COLUMNS,
                 type: "IFIELD",
-                valuefield: "valuefield",
+                valuefield: [{in: "valuefield"}],
             },
         ],
         ckwindow: "combowindow",
@@ -177,7 +177,7 @@ function makeTextWindow(masterId: string, gridId: string): IBuilderConfig {
                 displayfield: "displayfield",
                 records: TRUE_FALSE_RECORDS,
                 type: "IFIELD",
-                valuefield: "valuefield",
+                valuefield: [{in: "valuefield"}],
             },
             {
                 [VAR_RECORD_DISPLAYED]: "Порядок",
@@ -278,7 +278,7 @@ function makeBtnWindow(masterId: string, gridId: string): IBuilderConfig {
                 displayfield: "cv_name",
                 orderproperty: "1",
                 type: "IFIELD",
-                valuefield: "cv_name",
+                valuefield: [{in: "cv_name"}],
             },
         ],
         ckwindow: "btnwindow",

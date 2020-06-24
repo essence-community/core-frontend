@@ -66,19 +66,17 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
         this.field = props.field;
         this.form = props.form;
-        this.valueField = this.bc.valuefield || this.bc.idproperty || VAR_RECORD_ID;
+        this.valueField = this.bc.valuefield?.[0]?.in || this.bc.idproperty || VAR_RECORD_ID;
 
         if (this.bc.valuefield) {
-            this.valueFields = this.bc.valuefield.split(",").map((key) => {
-                const keys = key.split("=");
-                const fieldKeyName = keys[1] || keys[0];
-                const [valueField] = keys;
+            this.valueFields = this.bc.valuefield.map(({in: keyIn, out}) => {
+                const fieldKeyName = out || keyIn;
 
                 if (fieldKeyName === this.bc.column) {
-                    this.valueField = valueField;
+                    this.valueField = keyIn;
                 }
 
-                return [fieldKeyName, valueField];
+                return [fieldKeyName, keyIn];
             });
         }
 

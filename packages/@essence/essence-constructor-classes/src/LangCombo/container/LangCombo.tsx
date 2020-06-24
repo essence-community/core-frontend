@@ -32,7 +32,7 @@ const getComponentBc = (bc: IBuilderConfig, defaultValue?: string): IBuilderConf
     noglobalmask: true,
     setglobal: [{out: VAR_SETTING_LANG}],
     type: "IFIELD",
-    valuefield: bc.valuefield || "ck_id",
+    valuefield: bc.valuefield || [{in: "ck_id"}],
 });
 
 const getLang = () => getFromStore("lang", settingsStore.settings[VAR_SETTING_LANG]);

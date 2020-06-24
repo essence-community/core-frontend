@@ -1,7 +1,6 @@
 import {IPageModel} from "../types/PageModel";
 import {VAR_RECORD_ID} from "../constants/variables";
-import {FieldValue, IBuilderConfig, IBuilderAttrGlobalStore} from "../types";
-import {isEmpty} from "./base";
+import {FieldValue, IBuilderConfig} from "../types";
 
 const getValue = (value: FieldValue) => (typeof value === "string" && value.indexOf("auto-") === 0 ? undefined : value);
 
@@ -10,13 +9,9 @@ export function getMasterObject(
     pageStore?: IPageModel | null,
     getMasterValue?: IBuilderConfig["getmastervalue"],
 ) {
-    if (!pageStore || !idMaster) {
+    if (!pageStore || !idMaster || !getMasterValue) {
         return undefined;
     }
-    // TODO: refactor this after changing in the backend
-    const masterValues = isEmpty(getMasterValue)
-        ? [{in: VAR_RECORD_ID}]
-        : (getMasterValue as IBuilderAttrGlobalStore[]);
     const result: Record<string, FieldValue> = {};
     const {globalValues} = pageStore;
     const masterStore = pageStore.stores.get(idMaster);
@@ -27,7 +22,7 @@ export function getMasterObject(
         ...(typeof masterFieldValue === "undefined" ? {} : {[idProperty]: masterFieldValue}),
     };
 
-    masterValues.forEach(({in: keyIn, out}) => {
+    getMasterValue.forEach(({in: keyIn, out}) => {
         const name = out || keyIn;
 
         if (Object.prototype.hasOwnProperty.call(record, keyIn)) {

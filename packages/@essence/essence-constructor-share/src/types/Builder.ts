@@ -252,7 +252,7 @@ export interface IBuilderBaseConfig {
     // Наименование сервиса для кастомных операций
     updatequery?: string;
     // Наименование параметра из внутреннего сервиса, значение которого будет передано для дальнейшей обработки
-    valuefield?: string;
+    valuefield?: IBuilderAttrGlobalStore[];
     // Признак отображения колонки
     visible?: boolean;
     // Ширина поля. Целое число от 1% до 100%. Обязательно добавлять %.

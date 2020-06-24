@@ -100,12 +100,10 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         }
 
         if (this.bc.valuefield) {
-            this.valueFields = this.bc.valuefield.split(",").map((key) => {
-                const keys = key.split("=");
-                const fieldKeyName = keys[1] || keys[0];
-                const [valueField] = keys;
+            this.valueFields = this.bc.valuefield.map(({in: keyIn, out}) => {
+                const fieldKeyName = out || keyIn;
 
-                return [fieldKeyName, valueField];
+                return [fieldKeyName, keyIn];
             });
         }
         this.afterSelected();

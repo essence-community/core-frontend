@@ -34,7 +34,7 @@ const getComponentBc = (bc: IBuilderConfig, defaultTheme?: string): IBuilderConf
         {[VAR_RECORD_ID]: "light", name: "static:fd7c7f3539954cc8a55876e3514906b5", value: "light"},
     ],
     type: "IFIELD",
-    valuefield: bc.valuefield || "value",
+    valuefield: bc.valuefield || [{in: "value"}],
 });
 
 export const ThemeCombo: React.FC<IClassProps> = (props) => {

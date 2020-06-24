@@ -28,7 +28,7 @@ export const filterComboGlobalBc: IBuilderConfig = {
                 {in: "nm_okopf_abbr", out: "g_nm_okopf_abbr"},
             ],
             type: "IFIELD",
-            valuefield: "kd_okopf",
+            valuefield: [{in: "kd_okopf"}],
         },
         {
             [VAR_RECORD_NAME]: "filter_text",

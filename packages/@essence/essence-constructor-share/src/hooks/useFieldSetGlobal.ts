@@ -44,16 +44,16 @@ export function useFieldSetGlobal({field, pageStore, bc, store}: IUseFieldSetGlo
                 const values: IRecord = {};
                 const selectedEntries = store?.selectedEntries;
 
-                if (selectedEntries && collectionvalues === "array" && valuefield) {
+                if (selectedEntries && collectionvalues === "array" && valuefield?.length) {
                     setglobal.forEach(({out}) => {
-                        if (valuefield.indexOf(",") === -1) {
-                            values[out] = selectedEntries.map((value) => value[1][valuefield]);
+                        if (valuefield.length === 1) {
+                            values[out] = selectedEntries.map((value) => value[1][valuefield[0].in]);
                         } else {
                             values[out] = selectedEntries.map((value) => {
                                 const obj: IRecord = {};
 
-                                valuefield.split(",").forEach((fieldKey) => {
-                                    obj[fieldKey] = value[1][fieldKey];
+                                valuefield.forEach(({in: keyIn, out}) => {
+                                    obj[out || keyIn] = value[1][keyIn];
                                 });
 
                                 return obj;

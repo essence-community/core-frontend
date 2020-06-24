@@ -24,7 +24,6 @@ export const getRegionFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     required: true,
     setglobal: [{out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`}],
     type: "IFIELD",
-    valuefield: "ck_region",
 });
 
 export const getAreaFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
@@ -49,7 +48,6 @@ export const getAreaFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
         {out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`},
     ],
     type: "IFIELD",
-    valuefield: "ck_area",
 });
 
 export const getStreetFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
@@ -73,7 +71,6 @@ export const getStreetFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     queryparam: "cv_street",
     setglobal: [{out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_street`}],
     type: "IFIELD",
-    valuefield: "ck_street",
 });
 
 export const getHouseFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
@@ -98,7 +95,6 @@ export const getHouseFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     queryparam: "cv_house",
     setglobal: [{out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`}],
     type: "IFIELD",
-    valuefield: "ck_house",
 });
 
 export const getMoFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
@@ -121,7 +117,6 @@ export const getMoFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     queryparam: "cv_name",
     required: true,
     type: "IFIELD",
-    valuefield: "ck_id",
 });
 
 export function getFieldMoConfig(bc: IBuilderConfig): IBuilderConfig[] {

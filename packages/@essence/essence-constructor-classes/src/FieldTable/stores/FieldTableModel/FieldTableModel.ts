@@ -186,7 +186,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
                 );
                 this.selectedEntries.replace(getRestoredRecords(value, this));
             }
-        } else if (this.recordsStore.selectedRecord) {
+        } else {
             await this.recordsStore.searchAction(
                 {},
                 {
@@ -194,7 +194,10 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
                     selectedRecordId: value as string,
                 },
             );
-            this.handleChangeRecord(this.recordsStore.selectedRecord);
+
+            if (this.recordsStore.selectedRecord) {
+                this.handleChangeRecord(this.recordsStore.selectedRecord);
+            }
         }
         this.setRecordToGlobal();
     };

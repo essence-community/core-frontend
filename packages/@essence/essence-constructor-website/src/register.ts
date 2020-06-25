@@ -80,3 +80,4 @@ import "@essence-community/constructor-classes/src/Promo";
 import "@essence-community/constructor-classes/src/Documentation";
 import "@essence-community/constructor-classes/src/Text";
 import "@essence-community/constructor-classes/src/PagerView";
+import "@essence-community/constructor-classes/src/FieldRegexpRepl";

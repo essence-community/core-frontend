@@ -7,14 +7,14 @@ export function gridSetGlobalValues(gridStore: IGridModel) {
         pageStore: {globalValues},
         recordsStore: {recordId},
     } = gridStore;
-    const {setglobal = [], selmode} = gridStore.bc;
+    const {setglobal = [], selmode, collectionvalues} = gridStore.bc;
     const selectedRecord = gridStore.selectedRecord || {};
     const selectedRecords = mapValueToArray(gridStore.recordsStore.selectedRecords);
     const {valueFields} = gridStore;
     const values: IRecord = {};
 
     setglobal.forEach(({in: keyIn, out}) => {
-        if (selmode === "MULTI") {
+        if (selmode === "MULTI" || collectionvalues === "array") {
             values[out] = selectedRecords.map((value) => {
                 if (valueFields.length === 1) {
                     return value[valueFields[0][1]];

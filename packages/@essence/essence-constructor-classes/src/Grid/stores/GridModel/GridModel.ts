@@ -243,11 +243,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
      */
     saveAction = action("saveAction", async (values: IRecord, mode: IBuilderMode, config: GridSaveConfigType) => {
         const {actionBc, files, form} = config;
-        const winBc = this.pageStore.windows.find(
-            (bc) => bc[VAR_RECORD_PARENT_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID],
-        );
         const isDownload = mode === "7" || actionBc.mode === "7";
-        const gridValues = getGridValues({gridStore: this, mode, pageStore: this.pageStore, values, winBc});
+        const gridValues = getGridValues({gridStore: this, mode, values});
 
         const result = await this.recordsStore[isDownload ? "downloadAction" : "saveAction"](gridValues, mode, {
             actionBc,

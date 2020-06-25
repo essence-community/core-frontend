@@ -1,6 +1,6 @@
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {IStoreBaseModelProps, IRecordsModel, IBuilderConfig} from "@essence-community/constructor-share/types";
-import {VAR_RECORD_CK_NSI_ADR_OBJECTS, loggerRoot} from "@essence-community/constructor-share/constants";
+import {loggerRoot} from "@essence-community/constructor-share/constants";
 import {observable, computed, action} from "mobx";
 import {IForm} from "@essence-community/constructor-share/Form";
 import {IFieldMultiModel} from "./FieldMultiModel.types";
@@ -40,9 +40,11 @@ export class FieldMultiModel extends StoreBaseModel implements IFieldMultiModel 
         this.recordsStore.clearRecordsAction();
     };
 
-    @action
-    searchRecordAction = (value: string | number) =>
-        this.recordsStore.searchAction({[VAR_RECORD_CK_NSI_ADR_OBJECTS]: value});
+    searchRecordAction = (value: string | number): Promise<void | object> => {
+        logger("searchRecordAction should implement with parameters:", value);
+
+        return Promise.resolve(undefined);
+    };
 
     fillActiveRecordAction = (form: IForm, configs: IBuilderConfig[]) => {
         logger("fillActiveRecordAction should implement with parameters:", form, configs);

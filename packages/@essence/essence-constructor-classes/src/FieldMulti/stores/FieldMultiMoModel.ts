@@ -13,6 +13,7 @@ import {
     VAR_RECORD_CV_HOUSE,
     VAR_RECORD_CK_HOUSE,
     VAR_RECORD_ID,
+    VAR_RECORD_CK_MO,
 } from "@essence-community/constructor-share/constants";
 import {action, computed} from "mobx";
 import {IForm} from "@essence-community/constructor-share/Form";
@@ -25,7 +26,7 @@ export class FieldMultiMoModel extends FieldMultiModel implements IFieldMultiMod
             ...props,
             bc: {
                 ...props.bc,
-                [VAR_RECORD_QUERY_ID]: "jNSIGetAddrByID",
+                [VAR_RECORD_QUERY_ID]: "jNSIGetAddrByMO",
                 defaultvalue: VALUE_SELF_ALWAYSFIRST,
                 orderdirection: undefined,
                 orderproperty: "",
@@ -51,6 +52,9 @@ export class FieldMultiMoModel extends FieldMultiModel implements IFieldMultiMod
               })
             : "";
     }
+
+    @action
+    searchRecordAction = (value: string | number) => this.recordsStore.searchAction({[VAR_RECORD_CK_MO]: value});
 
     @action
     // eslint-disable-next-line max-statements, complexity

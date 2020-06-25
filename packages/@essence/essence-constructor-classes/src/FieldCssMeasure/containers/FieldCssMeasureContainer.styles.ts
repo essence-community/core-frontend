@@ -5,6 +5,7 @@ export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         iconLeft: {
             borderLeft: `1px solid ${theme.essence.palette.grey.main}`,
+            borderRadius: 0,
         },
         iconRoot: {
             height: theme.essence.sizing.gridRowHeight,

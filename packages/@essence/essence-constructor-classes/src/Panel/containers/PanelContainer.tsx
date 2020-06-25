@@ -37,7 +37,7 @@ export const PanelContainer: React.FC<IPanelContainerProps> = React.memo(functio
         if (collapsible) {
             return mapComponentOne(collapseBc, (Child, childBc) => (
                 <Child key={childBc.ck_page_object} {...props} bc={childBc}>
-                    {render()}
+                    {render(true)}
                 </Child>
             ));
         }
@@ -76,8 +76,8 @@ export const PanelContainer: React.FC<IPanelContainerProps> = React.memo(functio
     if (elevation) {
         return (
             <Paper className="paper-overflow-hidden" elevation={elevation}>
-                {collapsePanel(() =>
-                    formPanel((isFormPanel) => (
+                {collapsePanel((isFormPanelCollabsible = false) =>
+                    formPanel((isFormPanel = isFormPanelCollabsible) => (
                         <Panel {...props} isFormPanel={isFormPanel} elevation={undefined}></Panel>
                     )),
                 )}
@@ -85,5 +85,7 @@ export const PanelContainer: React.FC<IPanelContainerProps> = React.memo(functio
         );
     }
 
-    return collapsePanel(() => formPanel(() => <Panel {...props}></Panel>));
+    return collapsePanel((isFormPanelCollabsible = false) =>
+        formPanel((isFormPanel = isFormPanelCollabsible) => <Panel {...props} isFormPanel={isFormPanel}></Panel>),
+    );
 });

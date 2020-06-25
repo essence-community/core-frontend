@@ -46,6 +46,10 @@ export class FieldMultiAddrModel extends FieldMultiModel implements IFieldMultiM
     }
 
     @action
+    searchRecordAction = (value: string | number) =>
+        this.recordsStore.searchAction({[VAR_RECORD_CK_NSI_ADR_OBJECTS]: value});
+
+    @action
     // eslint-disable-next-line max-statements
     fillActiveRecordAction = async (form: IForm, configs: IBuilderConfig[]) => {
         const [bcRegion, bcArea, bcStreet, bcHouse] = configs;

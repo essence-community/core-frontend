@@ -73,7 +73,7 @@ export const PanelContainer: React.FC<IPanelContainerProps> = React.memo(functio
         return <PanelWrapper {...props}>{render()}</PanelWrapper>;
     };
 
-    if (elevation) {
+    if (elevation && editmodepanel) {
         return (
             <Paper className="paper-overflow-hidden" elevation={elevation}>
                 {collapsePanel((isFormPanelCollabsible = false) =>

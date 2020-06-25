@@ -16,12 +16,7 @@ import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {reaction} from "mobx";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 
-interface IBuilderConfigRequired extends IBuilderConfig {
-    getglobal: string;
-    setglobal: string;
-}
-
-const getComponentBc = (bc: IBuilderConfig, defaultValue?: string): IBuilderConfigRequired => ({
+const getComponentBc = (bc: IBuilderConfig, defaultValue?: string): IBuilderConfig => ({
     [VAR_RECORD_DISPLAYED]: "static:4ae012ef02dd4cf4a7eafb422d1db827",
     [VAR_RECORD_OBJECT_ID]: bc[VAR_RECORD_OBJECT_ID],
     [VAR_RECORD_PAGE_OBJECT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
@@ -35,9 +30,9 @@ const getComponentBc = (bc: IBuilderConfig, defaultValue?: string): IBuilderConf
     displayfield: bc.displayfield || "cv_name",
     getglobal: VAR_SETTING_LANG,
     noglobalmask: true,
-    setglobal: VAR_SETTING_LANG,
+    setglobal: [{out: VAR_SETTING_LANG}],
     type: "IFIELD",
-    valuefield: bc.valuefield || "ck_id",
+    valuefield: bc.valuefield || [{in: "ck_id"}],
 });
 
 const getLang = () => getFromStore("lang", settingsStore.settings[VAR_SETTING_LANG]);
@@ -65,7 +60,7 @@ export const LangCombo: React.FC<IClassProps> = (props) => {
 
     useDisposable(() => {
         return reaction(
-            () => props.pageStore.globalValues.get(bc.setglobal),
+            () => props.pageStore.globalValues.get(VAR_SETTING_LANG),
             (lang: string) => {
                 const curLang = getLang();
 
@@ -80,7 +75,7 @@ export const LangCombo: React.FC<IClassProps> = (props) => {
                         });
                     }
                     props.pageStore.updateGlobalValues({
-                        [bc.getglobal]: curLang,
+                        [VAR_SETTING_LANG]: curLang,
                     });
                 }
             },

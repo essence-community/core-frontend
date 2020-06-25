@@ -366,7 +366,7 @@ export class Field implements IField {
     @action
     add = () => {
         if (this.isArray) {
-            this.onChange([...this.value, {}]);
+            this.onChange(Array.isArray(this.value) ? [...this.value, {}] : [{}]);
         }
     };
 

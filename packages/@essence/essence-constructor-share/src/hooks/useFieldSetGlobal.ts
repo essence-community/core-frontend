@@ -2,7 +2,7 @@ import React from "react";
 import {reaction} from "mobx";
 import {IBuilderConfig, IPageModel, IStoreBaseModel, IRecord} from "../types";
 import {IField} from "../Form";
-import {findSetKey, isEmpty} from "../utils";
+import {isEmpty} from "../utils";
 
 interface IUseFieldSetGlobalProps {
     bc: IBuilderConfig;
@@ -12,50 +12,48 @@ interface IUseFieldSetGlobalProps {
 }
 
 export function useFieldSetGlobal({field, pageStore, bc, store}: IUseFieldSetGlobalProps) {
-    React.useEffect(() => {
-        if (store && bc.setglobal) {
-            const keys = findSetKey(bc.setglobal, field.key);
+    const {setglobal} = bc;
 
-            Object.keys(keys).forEach((globaleKey) => {
-                pageStore.addGlobalStoresAction(globaleKey, store);
+    React.useEffect(() => {
+        if (store && setglobal?.length) {
+            setglobal.forEach(({out}) => {
+                pageStore.addGlobalStoresAction(out, store);
             });
 
             return () => {
-                Object.keys(keys).forEach((globaleKey) => {
-                    pageStore.removeGlobalStoresAction(globaleKey, store);
+                setglobal.forEach(({out}) => {
+                    pageStore.removeGlobalStoresAction(out, store);
                 });
             };
         }
 
         return undefined;
-    }, [bc.setglobal, field, pageStore, store]);
+    }, [setglobal, field, pageStore, store]);
 
     React.useEffect(() => {
-        if (!bc.setglobal) {
+        if (!setglobal?.length) {
             return undefined;
         }
 
-        const {setglobal = "", collectionvalues, valuefield} = bc;
+        const {collectionvalues, valuefield} = bc;
         const {globalValues} = pageStore;
-        const isStoreRecord =
-            store && ((setglobal.indexOf("=") > -1 && setglobal.indexOf(",") > -1) || setglobal.indexOf("=") > -1);
+        const isStoreRecord = store && (setglobal.length > 1 || !!setglobal[0].in);
 
         return reaction(
             () => {
-                const keys = findSetKey(setglobal, field.key);
                 const values: IRecord = {};
                 const selectedEntries = store?.selectedEntries;
 
-                if (selectedEntries && collectionvalues === "array" && valuefield) {
-                    Object.keys(keys).forEach((globaleKey) => {
-                        if (valuefield.indexOf(",") === -1) {
-                            values[globaleKey] = selectedEntries.map((value) => value[1][valuefield]);
+                if (selectedEntries && collectionvalues === "array" && valuefield?.length) {
+                    setglobal.forEach(({out}) => {
+                        if (valuefield.length === 1) {
+                            values[out] = selectedEntries.map((value) => value[1][valuefield[0].in]);
                         } else {
-                            values[globaleKey] = selectedEntries.map((value) => {
+                            values[out] = selectedEntries.map((value) => {
                                 const obj: IRecord = {};
 
-                                valuefield.split(",").forEach((fieldKey) => {
-                                    obj[fieldKey] = value[1][fieldKey];
+                                valuefield.forEach(({in: keyIn, out}) => {
+                                    obj[out || keyIn] = value[1][keyIn];
                                 });
 
                                 return obj;
@@ -67,26 +65,27 @@ export function useFieldSetGlobal({field, pageStore, bc, store}: IUseFieldSetGlo
                 }
 
                 if (store && !store.selectedRecord) {
-                    Object.keys(keys).forEach((globaleKey) => {
-                        values[globaleKey] = null;
+                    setglobal.forEach(({out}) => {
+                        values[out] = null;
                     });
 
                     return values;
                 }
 
-                Object.keys(keys).forEach((globaleKey) => {
-                    const fieldName = keys[globaleKey];
+                setglobal.forEach((keys) => {
+                    const keyIn = keys.in || field.key;
+                    const {out} = keys;
 
                     if (isStoreRecord && store) {
-                        values[globaleKey] = store.selectedRecord?.[fieldName];
+                        values[out] = store.selectedRecord?.[keyIn];
 
-                        if (isEmpty(values[globaleKey])) {
-                            values[globaleKey] = globalValues.has(globaleKey) ? null : undefined;
+                        if (isEmpty(values[out])) {
+                            values[out] = globalValues.has(out) ? null : undefined;
                         }
-                    } else if (field.form.select(fieldName)) {
-                        values[globaleKey] = field.form.select(fieldName)?.value;
-                    } else if (globalValues.has(globaleKey)) {
-                        values[globaleKey] = null;
+                    } else if (field.form.select(keyIn)) {
+                        values[out] = field.form.select(keyIn)?.value;
+                    } else if (globalValues.has(out)) {
+                        values[out] = null;
                     }
                 });
 
@@ -107,5 +106,5 @@ export function useFieldSetGlobal({field, pageStore, bc, store}: IUseFieldSetGlo
                 fireImmediately: true,
             },
         );
-    }, [bc, field, pageStore, store]);
+    }, [bc, field, pageStore, setglobal, store]);
 }

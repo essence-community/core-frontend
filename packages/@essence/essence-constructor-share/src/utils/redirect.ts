@@ -12,12 +12,11 @@ import {
 } from "../constants";
 import {snackbarStore} from "../models";
 import {request} from "../request";
-import {findSetKey, findGetGlobalKey} from "./findKey";
 import {parseMemoize} from "./parser";
 import {getMasterObject} from "./getMasterObject";
 
 interface IGetQueryParams {
-    columnsName: string;
+    columnsName?: IBuilderConfig["columnsfilter"];
     record?: IRecord;
     globalValues: ObservableMap<string, FieldValue>;
 }
@@ -26,7 +25,7 @@ interface IMakeRedirectUrlProps {
     authData: Partial<IAuthSession>;
     bc: IBuilderConfig;
     redirecturl: string;
-    columnsName?: string;
+    columnsName?: IBuilderConfig["columnsfilter"];
     record?: IRecord;
     globalValues: ObservableMap<string, FieldValue>;
 }
@@ -172,19 +171,16 @@ async function redirectUseQuery({bc, query, pageStore, values, record}: IRedirec
  * @return {Object} queryParams
  */
 export function getQueryParams({columnsName, record = {}, globalValues}: IGetQueryParams): IRecord {
-    const keys = findSetKey(columnsName);
     const values: IRecord = {};
 
-    for (const fieldName in keys) {
-        if (Object.prototype.hasOwnProperty.call(keys, fieldName)) {
-            const globaleKey = keys[fieldName];
-            const value = record[fieldName] || globalValues.get(fieldName);
+    columnsName?.forEach(({in: keyIn, out}) => {
+        const name = keyIn || out;
+        const value: FieldValue = record[name] || globalValues.get(name);
 
-            if (value !== undefined) {
-                values[globaleKey] = value;
-            }
+        if (value !== undefined) {
+            values[out] = value;
         }
-    }
+    });
 
     return values;
 }
@@ -245,22 +241,10 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
 }
 
 export function makeRedirect(bc: IBuilderConfig, pageStore: IPageModel, record: IRecord = {}): void {
-    const {redirecturl, redirectusequery, columnsfilter = ""} = bc;
+    const {redirecturl, redirectusequery, columnsfilter} = bc;
     const {globalValues} = pageStore;
 
-    const keys = findGetGlobalKey(columnsfilter);
-    const values: IRecord = {};
-
-    for (const globaleKey in keys) {
-        if (Object.prototype.hasOwnProperty.call(keys, globaleKey)) {
-            const fieldName = keys[globaleKey];
-            const value: FieldValue = record[fieldName] || globalValues.get(fieldName);
-
-            if (value !== undefined) {
-                values[globaleKey] = value;
-            }
-        }
-    }
+    const values: IRecord = getQueryParams({columnsName: columnsfilter, globalValues, record});
 
     if (redirecturl) {
         if (redirecturl.indexOf("redirect/") === 0) {

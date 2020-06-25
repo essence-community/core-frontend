@@ -4,6 +4,7 @@ import {TableHead, TableRow} from "@material-ui/core";
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {getComponent} from "@essence-community/constructor-share/components";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share";
+import {useObserver} from "mobx-react-lite";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {GridColgroup} from "../GridColgroup";
 import {useStyles} from "./GridTableHeader.styles";
@@ -24,37 +25,41 @@ export const GridTableHeader: React.FC<IGridTableHeaderProps> = (props) => {
         await store.recordsStore.searchAction(store.recordsStore.searchValues, {filter, noLoad: !isValid});
     };
 
-    const tableHead = (
-        <TableHead className={classes.tableHead}>
-            <TableRow className={classes.tableRow}>
-                {store.gridColumns.map((bcColumn) => {
-                    const Component =
-                        getComponent(`GRID_HEADER.${bcColumn.datatype?.toUpperCase()}`) ||
-                        getComponent("GRID_HEADER.DEFAULT");
+    return useObserver(() => {
+        const tableHead = (
+            <TableHead className={classes.tableHead}>
+                <TableRow className={classes.tableRow}>
+                    {store.gridColumns.map((bcColumn) => {
+                        const Component =
+                            getComponent(`GRID_HEADER.${bcColumn.datatype?.toUpperCase()}`) ||
+                            getComponent("GRID_HEADER.DEFAULT");
 
-                    if (Component) {
-                        return <Component key={bcColumn[VAR_RECORD_PAGE_OBJECT_ID]} {...classProps} bc={bcColumn} />;
-                    }
+                        if (Component) {
+                            return (
+                                <Component key={bcColumn[VAR_RECORD_PAGE_OBJECT_ID]} {...classProps} bc={bcColumn} />
+                            );
+                        }
 
-                    return null;
-                })}
-            </TableRow>
-        </TableHead>
-    );
+                        return null;
+                    })}
+                </TableRow>
+            </TableHead>
+        );
 
-    if (isTreeGrid) {
+        if (isTreeGrid) {
+            return (
+                <React.Fragment>
+                    <GridColgroup store={store} />
+                    {tableHead}
+                </React.Fragment>
+            );
+        }
+
         return (
-            <React.Fragment>
+            <UIForm noForm submitOnChange onSubmit={handleSubmit} pageStore={props.pageStore} bc={classProps.bc}>
                 <GridColgroup store={store} />
                 {tableHead}
-            </React.Fragment>
+            </UIForm>
         );
-    }
-
-    return (
-        <UIForm noForm submitOnChange onSubmit={handleSubmit} pageStore={props.pageStore} bc={classProps.bc}>
-            <GridColgroup store={store} />
-            {tableHead}
-        </UIForm>
-    );
+    });
 };

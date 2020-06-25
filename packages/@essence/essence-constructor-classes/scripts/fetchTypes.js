@@ -33,15 +33,24 @@ function converType(attribute) {
         return `"${attribute.cv_value}"`;
     }
 
+    if (attribute.ck_d_data_type === "global" && ["columnsfilter", "setglobal"].includes(attribute.ck_attr)) {
+        return "IBuilderAttrGlobal[]";
+    }
+
     switch (attribute.ck_d_data_type) {
         case "text":
         case "localization":
         case "cssmeasure":
+        case "computed":
+        case "markdown":
+        case "regexp":
             return "string";
         case "enum":
             return attribute.cv_data_type_extra.map((attr) => `"${attr.cv_data_type_extra_value}"`).join(" | ");
         case "integer":
             return "number";
+        case "global":
+            return "IBuilderAttrGlobalStore[]";
         default:
             return attribute.ck_d_data_type || "string";
     }
@@ -50,7 +59,9 @@ function converType(attribute) {
 function writeToFile(classDirName, types) {
     const typeFilePath = path.join(__dirname, "..", "src", classDirName, "types.ts");
     let content = types.join("\n");
-    const deps = ["IBuilderConfig", "FieldValue"].filter((dep) => content.includes(dep));
+    const deps = ["IBuilderConfig", "FieldValue", "IBuilderAttrGlobal", "IBuilderAttrGlobalStore"].filter((dep) =>
+        content.match(new RegExp(`${dep}(\\[\\])?;`, "gm")),
+    );
 
     if (deps.length) {
         content = `import {${deps.join(", ")}} from "@essence-community/constructor-share/types";\n\n${content}`;

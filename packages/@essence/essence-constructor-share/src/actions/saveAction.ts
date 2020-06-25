@@ -14,7 +14,7 @@ import {
 } from "../constants";
 import {ProgressModel, snackbarStore} from "../models";
 import {IBuilderConfig, IBuilderMode, IPageModel, IRecordsModel, ILoadRecordsProps, IRecord} from "../types";
-import {findGetGlobalKey, isEmpty, i18next} from "../utils";
+import {isEmpty, i18next} from "../utils";
 import {getMasterObject} from "../utils/getMasterObject";
 import {TText} from "../types/SnackbarModel";
 import {IForm} from "../Form";
@@ -36,7 +36,7 @@ export interface IConfig {
 
 interface IAttachGlobalValues {
     globalValues: ObservableMap;
-    getglobaltostore?: string;
+    getglobaltostore?: IBuilderConfig["getglobaltostore"];
     values: IRecord;
 }
 
@@ -69,12 +69,14 @@ const findReloadAction = (recordsStore: IRecordsModel, bc: IBuilderConfig) => {
 };
 
 export const attachGlobalValues = ({globalValues, getglobaltostore, values}: IAttachGlobalValues) => {
-    if (getglobaltostore) {
+    if (getglobaltostore?.length) {
         const newValues = {...values};
 
-        forOwn(findGetGlobalKey(getglobaltostore), (globaleKey, fieldName) => {
-            if (typeof newValues[fieldName] === "undefined") {
-                newValues[fieldName] = toJS(globalValues.get(globaleKey));
+        getglobaltostore.forEach(({in: keyIn, out}) => {
+            const name = out || keyIn;
+
+            if (typeof newValues[name] === "undefined") {
+                newValues[name] = toJS(globalValues.get(keyIn));
             }
         });
 

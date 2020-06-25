@@ -7,9 +7,7 @@ import {getGridCkId} from "./getGridCkId";
 import {getAllVisibleGridRecords} from "./getAllVisibleGridRecords";
 
 export async function gridScrollToRecordAction(params: IRecord, gridStore: IGridModel) {
-    const ckId =
-        getGridCkId(params, gridStore.bc.getglobal, gridStore.recordsStore.recordId) ||
-        gridStore.recordsStore.selectedRecordId;
+    const ckId = getGridCkId(params, gridStore.bc.getglobal) || gridStore.recordsStore.selectedRecordId;
 
     if (!isEmpty(ckId)) {
         if (ckId !== gridStore.recordsStore.selectedRecordId) {

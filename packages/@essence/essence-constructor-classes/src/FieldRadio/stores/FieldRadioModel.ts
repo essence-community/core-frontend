@@ -15,16 +15,20 @@ import {ISuggestion} from "../FieldRadio.types";
 export class FieldRadioModel extends StoreBaseModel implements IStoreBaseModel {
     recordsStore: IRecordsModel;
 
+    valuefield: string;
+
     constructor({bc, pageStore}: IStoreBaseModelProps) {
         super({bc, pageStore});
 
         const noLoadChilds = Boolean(bc[VAR_RECORD_CL_IS_MASTER]);
 
+        this.valuefield = this.bc.valuefield?.[0]?.in || this.bc.column || "";
+
         this.recordsStore = new RecordsModel(bc, {
             applicationStore: pageStore.applicationStore,
             noLoadChilds,
             pageStore,
-            valueField: this.bc.valuefield,
+            valueField: this.valuefield,
         });
     }
 
@@ -34,7 +38,7 @@ export class FieldRadioModel extends StoreBaseModel implements IStoreBaseModel {
 
     getSuggestion = (record: IRecord): ISuggestion => ({
         label: toString(record[this.bc.displayfield!]),
-        value: toString(record[this.bc.valuefield!]),
+        value: toString(record[this.valuefield!]),
     });
 
     @action
@@ -48,6 +52,6 @@ export class FieldRadioModel extends StoreBaseModel implements IStoreBaseModel {
 
     @action
     setSelectRecord = (value: FieldValue) => {
-        this.recordsStore.setSelectionAction(value, this.bc.valuefield);
+        this.recordsStore.setSelectionAction(value, this.valuefield);
     };
 }

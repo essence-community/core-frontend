@@ -5,8 +5,6 @@ import {IRecord} from "../types/Base";
 import {FieldValue} from "../types";
 import {TFunction} from "./I18n";
 
-export const toStringGlobal = (getglobal: string) => getglobal.split("||").join(" + ");
-
 /**
  * Преобразование bc.width в width для material-grid
  *
@@ -110,23 +108,6 @@ export function entriesMapSort<K, V>(map: Map<K, V>, sortFn?: (a: [K, V], b: [K,
     }
 
     return arr;
-}
-
-export function setglobalToParse(str: string): string {
-    const objectStr = str
-        .split(",")
-        // Trim all spaces in the part
-        .map((part: string) => part.trim())
-        // Convert to part of object
-        .map((part: string) => {
-            // If no right side, value and key are equal
-            const [left, right = left] = part.split("=");
-
-            return `"${right}":${left}`;
-        })
-        .join(",");
-
-    return `{${objectStr}}`;
 }
 
 export function mapValueToArray<K, L>(map?: Map<K, L>): L[] {

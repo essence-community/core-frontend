@@ -22,9 +22,8 @@ export const getRegionFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     querymode: "remote",
     queryparam: "cv_region",
     required: true,
-    setglobal: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`,
+    setglobal: [{out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`}],
     type: "IFIELD",
-    valuefield: "ck_region",
 });
 
 export const getAreaFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
@@ -37,16 +36,18 @@ export const getAreaFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     datatype: "combo",
     disabledrules: `!g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`,
     displayfield: "cv_area",
-    getglobaltostore: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region=ck_region`,
+    getglobaltostore: [{in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`, out: "ck_region"}],
     minchars: 4,
     noglobalmask: true,
     querydelay: 1,
     querymode: "remote",
     queryparam: "cv_area",
     required: true,
-    setglobal: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area,g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`,
+    setglobal: [
+        {out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area`},
+        {out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`},
+    ],
     type: "IFIELD",
-    valuefield: "ck_area",
 });
 
 export const getStreetFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
@@ -60,17 +61,16 @@ export const getStreetFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     disabledrules: `!g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area`,
     displayfield: "cv_street",
     getglobaltostore: [
-        `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area=ck_area`,
-        `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region=ck_region`,
-    ].join(","),
+        {in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area`, out: "ck_area"},
+        {in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`, out: "ck_region"},
+    ],
     minchars: 4,
     noglobalmask: true,
     querydelay: 1,
     querymode: "remote",
     queryparam: "cv_street",
-    setglobal: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_street`,
+    setglobal: [{out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_street`}],
     type: "IFIELD",
-    valuefield: "ck_street",
 });
 
 export const getHouseFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
@@ -84,18 +84,17 @@ export const getHouseFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     disabledrules: `!g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area`,
     displayfield: "cv_house",
     getglobaltostore: [
-        `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area=ck_area`,
-        `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region=ck_region`,
-        `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_street=ck_street`,
-    ].join(","),
+        {in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area`, out: "ck_area"},
+        {in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`, out: "ck_region"},
+        {in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_street`, out: "ck_street"},
+    ],
     minchars: 1,
     noglobalmask: true,
     querydelay: 1,
     querymode: "remote",
     queryparam: "cv_house",
-    setglobal: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`,
+    setglobal: [{out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`}],
     type: "IFIELD",
-    valuefield: "ck_house",
 });
 
 export const getMoFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
@@ -109,7 +108,7 @@ export const getMoFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     datatype: "combo",
     disabledrules: `!g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area`,
     displayfield: "cv_name",
-    getmastervalue: `ck_id=g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`,
+    getmastervalue: [{in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`, out: "ck_id"}],
     idproperty: "ck_id",
     minchars: 0,
     noglobalmask: true,
@@ -118,7 +117,6 @@ export const getMoFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     queryparam: "cv_name",
     required: true,
     type: "IFIELD",
-    valuefield: "ck_id",
 });
 
 export function getFieldMoConfig(bc: IBuilderConfig): IBuilderConfig[] {

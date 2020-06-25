@@ -1,6 +1,19 @@
+/* eslint-disable max-len */
 import {IRecord, FieldValue} from "./Base";
 
-/* eslint-disable max-len */
+export interface IBuilderAttrGlobal {
+    in?: string;
+    out: string;
+    required?: boolean;
+    reload?: boolean;
+}
+
+export interface IBuilderAttrGlobalStore {
+    in: string;
+    out?: string;
+    required?: boolean;
+    reload?: boolean;
+}
 
 // BUILDER_CONFIG_START
 export interface IBuilderBaseConfig {
@@ -43,7 +56,7 @@ export interface IBuilderBaseConfig {
     // Наименование параметра - конца периода
     columnend?: string;
     // Список полей, по которым будет происходит фильтрация данных. Перечисление через запятую без пробела
-    columnsfilter?: string;
+    columnsfilter?: IBuilderAttrGlobal[];
     // Наименование параметра - начала периода
     columnstart?: string;
     // Вопрос на подтверждение операции
@@ -97,9 +110,9 @@ export interface IBuilderBaseConfig {
     // Наименование глобального параметра, который хранит список значений для combobox
     getgloballist?: string;
     // Список глобальных переменных(через запятую), передаваемых в filter сервиса на объекте.  Пример: Если указать gck_mo, то положит в json.filter.gck_mo Если указать gck_mo=ck_mo, то положит в json.filter.ck_mo
-    getglobaltostore?: string;
+    getglobaltostore?: IBuilderAttrGlobalStore[];
     // Наименование параметра из мастера, который будет передан в json в виде "master": {"наименование_параметра":"значение"}
-    getmastervalue?: string;
+    getmastervalue?: IBuilderAttrGlobalStore[];
     // Обработчик в ExtJS onCreateChildWindowMaster - для вызова окна при создании onRowCreateChildWindowMaster - для вызова окна при редактировании onSimpleSaveWindow - сохранение данных по кнопке для модального окна onCloseWindow - закрытие модального окна onCloseWindowSilent - закрытие модального окна без сообщения onPrintHandleOnline - Онлайн печать onPrintHandleOffline - Отложенная печать free - общий обработчик для передачи данных в сервис
     handler?: string;
     // Статическая высота в пикселях (px)
@@ -203,7 +216,7 @@ export interface IBuilderBaseConfig {
     // Отображение корня
     rootvisible?: boolean;
     // Наименование глобальной переменной. Должно начинаться с g
-    setglobal?: string;
+    setglobal?: IBuilderAttrGlobal[];
     // Наименование глобалки в которую добавляется выбранная строка.
     setrecordtoglobal?: string;
     // Наименование парамента, по которому будет осуществлена сортировка вместо column
@@ -218,6 +231,8 @@ export interface IBuilderBaseConfig {
     stylerules?: string;
     // Ширина Tab Panel
     tabwidth?: string;
+    // Выводимое статическое сообщение в виде markdown
+    text?: string;
     // Разделитель тысяч
     thousandseparator?: string;
     // Время ожидания выполнения запроса в секундах
@@ -237,7 +252,7 @@ export interface IBuilderBaseConfig {
     // Наименование сервиса для кастомных операций
     updatequery?: string;
     // Наименование параметра из внутреннего сервиса, значение которого будет передано для дальнейшей обработки
-    valuefield?: string;
+    valuefield?: IBuilderAttrGlobalStore[];
     // Признак отображения колонки
     visible?: boolean;
     // Ширина поля. Целое число от 1% до 100%. Обязательно добавлять %.

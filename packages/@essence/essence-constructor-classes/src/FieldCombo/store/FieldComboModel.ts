@@ -81,10 +81,10 @@ export class FieldComboModel extends StoreBaseModel {
         super(props);
 
         const {bc, pageStore} = props;
-        const {column = "", displayfield = "", valuefield = "", minchars = 0, querydelay = 0} = bc;
+        const {column = "", displayfield = "", valuefield, minchars = 0, querydelay = 0} = bc;
 
         this.displayfield = displayfield;
-        this.valuefield = valuefield || column;
+        this.valuefield = valuefield?.[0]?.in || column;
         this.valueLength = minchars;
 
         this.recordsStore = new RecordsModel(bc, {

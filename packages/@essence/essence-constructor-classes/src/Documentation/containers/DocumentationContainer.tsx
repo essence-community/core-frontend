@@ -133,7 +133,7 @@ export const DocumentationContainer: React.FC<IClassProps> = (props) => {
                             [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
                             [VAR_RECORD_QUERY_ID]: "MTGetPageObjects",
                             autoload: true,
-                            getglobaltostore: `${VAR_SYS_ROUTER_URL}=ck_parent`,
+                            getglobaltostore: [{in: VAR_SYS_ROUTER_URL, out: "ck_parent"}],
                             type: "DYNAMICPANEL",
                         },
                         (ChildCmp, childBc) => (

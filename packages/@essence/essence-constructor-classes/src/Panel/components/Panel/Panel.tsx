@@ -21,7 +21,7 @@ interface IPanelProps extends IClassProps {
 }
 
 export const Panel: React.FC<IPanelProps> = (props) => {
-    const {bc} = props;
+    const {bc, isFormPanel = true} = props;
     const classes = useStyles();
     const {resizable, contentview, childs = []} = bc;
     const [store] = useModel((options) => new PanelModel(options), {
@@ -46,7 +46,7 @@ export const Panel: React.FC<IPanelProps> = (props) => {
         const {childsWidths = {}} = store;
 
         return (
-            <div className={cn(classes.contentRoot, {[classes.contentForm]: props.isFormPanel})}>
+            <div className={cn(classes.contentRoot, {[classes.contentForm]: isFormPanel})}>
                 {mapComponentOne(boxBc, (Child, childBc) => (
                     <Child key={childBc.ck_page_object} {...props} bc={childBc}>
                         {mapComponents(childs, (ChildComp, child, index) => {

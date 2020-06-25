@@ -19,7 +19,7 @@ function makeLeftPanel(objectId: string): IBuilderConfig {
                 datatype: "text",
                 getglobal: "gv_disabledrules",
                 maxsize: "120",
-                setglobal: "gv_disabledrules",
+                setglobal: [{out: "gv_disabledrules"}],
                 type: "IFIELD",
             },
             {
@@ -30,7 +30,7 @@ function makeLeftPanel(objectId: string): IBuilderConfig {
                 getglobal: "gv_hiddenrules",
                 maxsize: "120",
                 required: false,
-                setglobal: "gv_hiddenrules",
+                setglobal: [{out: "gv_hiddenrules"}],
                 type: "IFIELD",
             },
             {
@@ -40,7 +40,7 @@ function makeLeftPanel(objectId: string): IBuilderConfig {
                 datatype: "text",
                 getglobal: "gv_requiredrules",
                 maxsize: "120",
-                setglobal: "gv_requiredrules",
+                setglobal: [{out: "gv_requiredrules"}],
                 type: "IFIELD",
             },
         ],
@@ -63,7 +63,7 @@ function makeRightPanel(objectId: string): IBuilderConfig {
                 column: "disabled",
                 datatype: "checkbox",
                 getglobal: "gc_disabled",
-                setglobal: "gc_disabled",
+                setglobal: [{out: "gc_disabled"}],
                 type: "IFIELD",
             },
             {
@@ -73,7 +73,7 @@ function makeRightPanel(objectId: string): IBuilderConfig {
                 column: "hidden",
                 datatype: "checkbox",
                 getglobal: "gc_hidden",
-                setglobal: "gc_hidden",
+                setglobal: [{out: "gc_hidden"}],
                 type: "IFIELD",
             },
             {
@@ -83,7 +83,7 @@ function makeRightPanel(objectId: string): IBuilderConfig {
                 column: "required",
                 datatype: "checkbox",
                 getglobal: "gc_required",
-                setglobal: "gc_required",
+                setglobal: [{out: "gc_required"}],
                 type: "IFIELD",
             },
         ],

@@ -1,4 +1,4 @@
-import {IBuilderConfig} from "@essence-community/constructor-share/types";
+import {IBuilderConfig, IBuilderAttrGlobalStore} from "@essence-community/constructor-share/types";
 
 export interface IBuilderClassConfig {
     // Правила для выбора активного элемента
@@ -17,7 +17,7 @@ export interface IBuilderClassConfig {
     setrecordtoglobal?: string;
     // Наименование параметра из мастера,
     // который будет передан в json в виде "master": {"наименование_параметра":"значение"}
-    getmastervalue: string;
+    getmastervalue: IBuilderAttrGlobalStore[];
     // Служебный параметр для иерархии
     childs?: IBuilderConfig[];
     // Наименование параметра, отвечающего за уникальность записей

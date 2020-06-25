@@ -37,6 +37,7 @@ function converType(attribute) {
         case "cssmeasure":
         case "computed":
         case "markdown":
+        case "regexp":
             return "string";
         case "enum":
             return attribute.cv_data_type_extra.map((attr) => `"${attr.cv_data_type_extra_value}"`).join(" | ");

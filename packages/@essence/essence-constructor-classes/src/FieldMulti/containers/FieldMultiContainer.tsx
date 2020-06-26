@@ -6,7 +6,7 @@ import {
     useFieldSetGlobal,
     useDefaultValueQuery,
 } from "@essence-community/constructor-share/hooks";
-import {isEmpty} from "@essence-community/constructor-share/utils";
+import {isEmpty, noop} from "@essence-community/constructor-share/utils";
 import {useField} from "@essence-community/constructor-share/Form";
 import {reaction} from "mobx";
 import {Popover, UIForm} from "@essence-community/constructor-share/uicomponents";
@@ -49,27 +49,31 @@ export const FieldMultiContainer: React.FC<IClassProps> = (props) => {
         );
     }, [field, store]);
 
-    const handleSubmit = React.useCallback(() => {
-        // TODO: Делать проверку на disabled: false
-        requestAnimationFrame(() => {
-            const {current: contentEl} = contentRef;
+    // TODO: Проблема в переходах, бывает приводит к тому, что пользователь выбирает одно поле
+    // и сразу же перекидывает в другое поле, при этом открывается 2 combo (воспроизвести сложно)
+    // нужно определять измнения как то по другом, возножно через reaction в FieldMultiContent
+    //
+    // const handleSubmit = React.useCallback(() => {
+    //     // TODO: Делать проверку на disabled: false
+    //     requestAnimationFrame(() => {
+    //         const {current: contentEl} = contentRef;
 
-            if (contentEl) {
-                const elements = Array.from(contentEl.querySelectorAll("input, button:not([tabindex='-1'])"));
-                const nextSelectedIndex = elements.findIndex((el) => el === document.activeElement) + 1;
-                const nextElement = elements[nextSelectedIndex];
+    //         if (contentEl) {
+    //             const elements = Array.from(contentEl.querySelectorAll("input, button:not([tabindex='-1'])"));
+    //             const nextSelectedIndex = elements.findIndex((el) => el === document.activeElement) + 1;
+    //             const nextElement = elements[nextSelectedIndex];
 
-                if (nextElement instanceof HTMLElement) {
-                    nextElement.focus();
-                }
-            }
-        });
-    }, []);
+    //             if (nextElement instanceof HTMLElement) {
+    //                 nextElement.focus();
+    //             }
+    //         }
+    //     });
+    // }, []);
 
     return (
         <Popover
             popoverContent={
-                <UIForm pageStore={pageStore} onSubmit={handleSubmit} submitOnChange>
+                <UIForm pageStore={pageStore} onSubmit={noop} submitOnChange={false}>
                     <div ref={contentRef} className={classes.content}>
                         <FieldMultiContent {...props} store={store} field={field} />
                     </div>

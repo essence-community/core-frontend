@@ -17,9 +17,19 @@ interface IUseFieldProps {
     input?: IRegisterFieldOptions["input"];
     disabled?: boolean;
     hidden?: boolean;
+    clearValue?: FieldValue;
 }
 
-export const useField = ({bc, pageStore, output, input, isArray, disabled, hidden}: IUseFieldProps): IField => {
+export const useField = ({
+    bc,
+    pageStore,
+    output,
+    input,
+    isArray,
+    disabled,
+    hidden,
+    clearValue,
+}: IUseFieldProps): IField => {
     const form = useContext(FormContext);
     const parentField = useContext(ParentFieldContext);
     const key = useMemo(() => {
@@ -34,12 +44,14 @@ export const useField = ({bc, pageStore, output, input, isArray, disabled, hidde
     const field = useMemo(() => {
         return form.registerField(key, {
             bc,
+            clearValue,
             input: input || parentField?.input,
             isArray,
             output: output || parentField?.output,
             pageStore,
         });
-    }, [bc, form, input, isArray, key, output, pageStore, parentField]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [form, key]);
 
     const handleReactValue = useCallback(
         (value: FieldValue) => {

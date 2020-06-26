@@ -3,7 +3,7 @@ import {Grid, useTheme} from "@material-ui/core";
 import {FormContext} from "@essence-community/constructor-share/context";
 import cn from "clsx";
 import {useObserver} from "mobx-react-lite";
-import {IClassProps} from "@essence-community/constructor-share/types";
+import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useStyles} from "./PanelWrapper.styles";
@@ -18,7 +18,7 @@ export const PanelWrapper: React.FC<IClassProps> = (props) => {
     const actions = React.useMemo(() => topbtn.reverse(), [topbtn]);
 
     const actionsBar = React.useMemo(() => {
-        if (hideactions === "true") {
+        if (hideactions) {
             return null;
         }
 
@@ -32,7 +32,7 @@ export const PanelWrapper: React.FC<IClassProps> = (props) => {
             >
                 {mapComponents(actions, (ChildComp, childBc) => {
                     const isAddButton = childBc.mode === "1";
-                    const newChildBc = isAddButton
+                    const newChildBc: IBuilderConfig = isAddButton
                         ? {...childBc, uitype: "4"}
                         : {...childBc, uitype: childBc.uitype === "1" ? "11" : childBc.uitype};
 
@@ -55,7 +55,7 @@ export const PanelWrapper: React.FC<IClassProps> = (props) => {
             className={cn({[classes.panelEditing]: form.editing})}
             data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
         >
-            {hideactions === "true" || topbtn.length === 0 ? null : (
+            {hideactions || topbtn.length === 0 ? null : (
                 <Grid item className={classes.actionsBar}>
                     {actionsBar}
                 </Grid>

@@ -1,5 +1,4 @@
 import {IClassProps, ApplicationContext, IRouteRecord} from "@essence-community/constructor-share";
-import {toSize} from "@essence-community/constructor-share/utils/transform";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_ROUTE_NAME,
@@ -43,9 +42,9 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
     const {bc} = props;
     const contentStyle = React.useMemo(
         () => ({
-            height: toSize(bc.height, "42"),
-            maxHeight: toSize(bc.maxheight, "100%"),
-            minHeight: toSize(bc.minheight, ""),
+            height: bc.height ?? "42px",
+            maxHeight: bc.maxheight ?? "100%",
+            minHeight: bc.minheight,
         }),
         [bc.height, bc.maxheight, bc.minheight],
     );

@@ -19,7 +19,13 @@ export function minvalue(field: IField, form: IForm, req = "") {
     const reqValue = req.replace(",", ".");
     const {value} = field;
 
-    if (value === undefined || value === null || typeof value === "object" || typeof value === "boolean") {
+    if (
+        value === undefined ||
+        value === null ||
+        typeof value === "object" ||
+        typeof value === "boolean" ||
+        value === ""
+    ) {
         return undefined;
     }
 

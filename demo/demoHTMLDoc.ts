@@ -1,3 +1,7 @@
+/**
+ * @deprecated
+ */
+
 interface IObject {
     [key: string]: any;
 }
@@ -18,12 +22,6 @@ export function getModeTitle(mode: string): string {
             return "Редактирование";
     }
 }
-
-/**
- * @deprecated
- */
-
-import isEmpty from "lodash/isEmpty";
 
 const KEY_REG = /(?!\w|").([gc][A-z_0-9]+)|^([gc][A-z_0-9]+)/gi;
 
@@ -57,7 +55,7 @@ function isHiddenByRules(hiddenrules: string, record: IObject = {}, globalValues
         obj[key] = key.match(/^g/i) ? globalValues[key] : record[key];
     });
 
-    if (isEmpty(obj)) {
+    if (Object.keys(obj).length === 0) {
         return false;
     }
 
@@ -82,8 +80,8 @@ export function isHidden(bc: IObject, record: IObject = {}, globalValues: IObjec
     const {hidden, hiddenrules} = bc;
 
     switch (true) {
-        case Boolean(hidden):
-            return hidden === "true";
+        case hidden !== undefined:
+            return hidden;
         case Boolean(hiddenrules):
             return isHiddenByRules(hiddenrules, record, globalValues);
         default:

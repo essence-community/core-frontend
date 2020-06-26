@@ -33,22 +33,22 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
                 [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
                 handler: "onFilterToggle",
                 iconfont: "chevron-down",
-                onlyicon: "true",
-                readonly: "false",
+                onlyicon: true,
+                readonly: false,
                 type: "BTN",
                 uitype: "11",
-            },
+            } as IBuilderConfig,
             buttonChevronConfigOpen: {
                 [VAR_RECORD_DISPLAYED]: "static:72b93dbe37884153a95363420b9ceb59",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-chevron`,
                 [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
                 handler: "onFilterToggle",
                 iconfont: "chevron-up",
-                onlyicon: "true",
-                readonly: "false",
+                onlyicon: true,
+                readonly: false,
                 type: "BTN",
                 uitype: "11",
-            },
+            } as IBuilderConfig,
             buttonResetConfig: {
                 [VAR_RECORD_DISPLAYED]: "static:cda88d85fb7e4a88932dc232d7604bfb",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-reset`,
@@ -56,21 +56,21 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
                 handler: "onReset",
                 iconfont: styleTheme === "light" ? "broom" : "eraser",
                 iconfontname: "mdi",
-                onlyicon: "true",
-                readonly: "false",
+                onlyicon: true,
+                readonly: false,
                 type: "BTN",
                 uitype: "11",
-            },
+            } as IBuilderConfig,
             buttonSearchConfig: {
                 [VAR_RECORD_DISPLAYED]: "static:704af666dbd3465781149e4282df5dcf",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-search`,
                 [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
                 iconfont: "search",
-                onlyicon: "true",
-                readonly: "false",
+                onlyicon: true,
+                readonly: false,
                 type: "BTN",
                 uitype: "14",
-            },
+            } as IBuilderConfig,
         }),
         [bc, styleTheme],
     );
@@ -80,12 +80,12 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
             isOpen ? btnsFilter.buttonChevronConfigOpen : btnsFilter.buttonChevronConfigClose,
             {
                 ...btnsFilter.buttonSearchConfig,
-                disabled: styleTheme === "dark" && isOpen === false ? "true" : undefined,
-                required: form && form.isDirty ? "true" : "false",
+                disabled: styleTheme === "dark" && isOpen === false ? true : undefined,
+                required: form && form.isDirty ? true : false,
             },
             {
                 ...btnsFilter.buttonResetConfig,
-                disabled: styleTheme === "dark" && isOpen === false ? "true" : undefined,
+                disabled: styleTheme === "dark" && isOpen === false ? true : undefined,
             },
         ];
         const childsBtns = bc.topbtn
@@ -98,7 +98,6 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
                 xs={styleTheme === "light" ? GRID_FULL_WIDTH : false}
                 className={cn(classes.filterButtons, {
                     [classes.filterButtonsCollect]: bc.topbtn,
-                    [classes.filterButtonsAbsolute]: true,
                 })}
             >
                 {styleTheme === "dark" ? (

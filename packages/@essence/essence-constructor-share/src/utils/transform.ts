@@ -1,23 +1,9 @@
 import * as DOMPurify from "dompurify";
-import {isEmpty, isString} from "lodash";
+import {isEmpty} from "lodash";
 import {TText} from "../types/SnackbarModel";
 import {IRecord} from "../types/Base";
 import {FieldValue} from "../types";
 import {TFunction} from "./I18n";
-
-export const toSize = (value?: string, defaultValue?: string | number) => {
-    if (isEmpty(value) || !isString(value)) {
-        return value || defaultValue;
-    }
-
-    if (/^\d+$/u.test(value)) {
-        return parseFloat(value);
-    }
-
-    return value || defaultValue;
-};
-
-export const toStringGlobal = (getglobal: string) => getglobal.split("||").join(" + ");
 
 /**
  * Преобразование bc.width в width для material-grid
@@ -79,9 +65,10 @@ export const deepFind = (obj: IRecord, path: string): [boolean, IRecord | FieldV
     let current: any = obj;
 
     for (const val of paths) {
-        if (current[val] === undefined) {
-            return [false, undefined];
+        if (current[val] === undefined || current[val] === null) {
+            return [false, current[val]];
         }
+
         current = current[val];
     }
 
@@ -121,23 +108,6 @@ export function entriesMapSort<K, V>(map: Map<K, V>, sortFn?: (a: [K, V], b: [K,
     }
 
     return arr;
-}
-
-export function setglobalToParse(str: string): string {
-    const objectStr = str
-        .split(",")
-        // Trim all spaces in the part
-        .map((part: string) => part.trim())
-        // Convert to part of object
-        .map((part: string) => {
-            // If no right side, value and key are equal
-            const [left, right = left] = part.split("=");
-
-            return `"${right}":${left}`;
-        })
-        .join(",");
-
-    return `{${objectStr}}`;
 }
 
 export function mapValueToArray<K, L>(map?: Map<K, L>): L[] {

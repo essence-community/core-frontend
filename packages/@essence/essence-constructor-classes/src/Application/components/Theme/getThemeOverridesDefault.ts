@@ -138,7 +138,7 @@ export const getThemeOverridesDefault = (theme: IEssenceTheme): Theme["overrides
             "&:before": {
                 display: "none",
             },
-            border: "1px solid #cbcaca",
+            border: `1px solid ${theme.essence.palette.grey.main}`,
             borderRadius: 4,
             "label + &": {
                 marginTop: 0,

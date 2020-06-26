@@ -1,10 +1,4 @@
-import {
-    IBuilderConfig,
-    IClassProps,
-    mapComponents,
-    toColumnStyleWidth,
-    toSize,
-} from "@essence-community/constructor-share";
+import {IBuilderConfig, IClassProps, mapComponents, toColumnStyleWidth} from "@essence-community/constructor-share";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
 import {Grid, Toolbar as MaterialToolbar} from "@material-ui/core";
 import * as React from "react";
@@ -57,9 +51,9 @@ const GRID_ALIGN_CONFIGS = {
     },
 };
 const calcStyle = (bc: IBuilderConfig) => ({
-    height: bc.height ? toSize(bc.height, "") : undefined,
-    maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
-    minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
+    height: bc.height,
+    maxHeight: bc.maxheight ?? "100%",
+    minHeight: bc.minheight,
     overflow: bc.width ? "hidden" : "none",
     ...toColumnStyleWidth(bc.width),
 });
@@ -69,9 +63,9 @@ export const ToolBar: React.FC<IClassProps> = (props) => {
     const {contentview, align} = bc;
     const contentStyle = React.useMemo(
         () => ({
-            height: bc.height ? toSize(bc.height, "") : undefined,
-            maxHeight: bc.maxheight ? toSize(bc.maxheight, "100%") : undefined,
-            minHeight: bc.minheight ? toSize(bc.minheight, "") : undefined,
+            height: bc.height,
+            maxHeight: bc.maxheight ?? "100%",
+            minHeight: bc.minheight,
             ...toColumnStyleWidth(bc.width),
         }),
         [bc.height, bc.maxheight, bc.minheight, bc.width],

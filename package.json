@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "license": "MIT",
   "private": true,
   "engines": {
@@ -39,15 +39,14 @@
     }
   },
   "devDependencies": {
-    "@essence-community/eslint-config-react": "file:./packages/@essence/essence-constructor-eslint",
     "@babel/code-frame": "^7.5.5",
     "@babel/preset-typescript": "^7.7.4",
+    "@essence-community/eslint-config-react": "file:./packages/@essence/essence-constructor-eslint",
     "babel-jest": "^24.9.0",
     "babel-preset-react-app": "9.1.0",
     "concurrently": "^5.0.1",
     "copy-dir": "^1.2.0",
     "cross-spawn": "^7.0.1",
-    "documentation": "^12.1.4",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "eslint": "^6.7.2",
@@ -68,9 +67,7 @@
     "object-assign": "4.1.1",
     "prettier": "^1.19.1",
     "promise": "8.0.3",
-    "raf": "3.4.1",
-    "stream-array": "^1.1.2",
-    "vinyl-fs": "^3.0.3"
+    "raf": "3.4.1"
   },
   "workspaces": {
     "packages": [

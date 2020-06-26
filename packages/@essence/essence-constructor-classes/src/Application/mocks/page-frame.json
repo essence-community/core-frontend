@@ -4,6 +4,6 @@
         "type": "STATIC.FRAME",
         "ck_page_object": "frame"
     }],
-    "ck_page_object": "main",
+    "ck_page_object": "none",
     "activerules": "cv_url === \"frame\""
 }

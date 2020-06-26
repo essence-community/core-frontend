@@ -29,7 +29,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
     const inputRef: React.MutableRefObject<HTMLInputElement | null> = React.useRef(null);
     const listRef: React.MutableRefObject<HTMLInputElement | null> = React.useRef(null);
     const textFieldRef: React.MutableRefObject<HTMLDivElement | null> = React.useRef(null);
-    const field = useField({bc, disabled, hidden, pageStore});
+    const field = useField({bc, clearValue: "", disabled, hidden, pageStore});
     const [store] = useModel((modelProps) => new FieldComboModel(modelProps), props);
 
     const popoverContent = (popoverProps: IPopoverChildrenProps) => (

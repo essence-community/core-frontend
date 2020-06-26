@@ -1,8 +1,16 @@
 import {IEssenceTheme} from "@essence-community/constructor-share";
 import {makeStyles} from "@material-ui/core/styles";
 
+/**
+ * @module StylesEssenceAppBar
+ * @description name: **EssenceAppBar**
+ */
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
+        /**
+         * Общий root для MaterialAppBar
+         * @memberof EssenceAppBar
+         */
         root: {
             "& .MuiAppBar-root": {
                 minHeight: "inherit",

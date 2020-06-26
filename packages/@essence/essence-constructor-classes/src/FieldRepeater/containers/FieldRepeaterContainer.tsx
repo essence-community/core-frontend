@@ -19,9 +19,11 @@ import {Group} from "../components/Group";
 import {FieldRepeaterModel} from "../Store/FieldRepeaterModel";
 import {RepeaterGroup} from "../components/RepeaterGroup";
 
+const CLEAR_VALUE: FieldValue[] = [];
+
 export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
-    const field = useField({bc, disabled, hidden, isArray: true, pageStore});
+    const field = useField({bc, clearValue: CLEAR_VALUE, disabled, hidden, isArray: true, pageStore});
     const applicationStore = React.useContext(ApplicationContext);
     const [trans] = useTranslation("meta");
     const [, , storeName] = useModel((options) => new FieldRepeaterModel(options), {
@@ -35,15 +37,15 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
     const addLabel = trans("static:3a5239ee97d9464c9c4143c18fda9815");
     const isDisabled = useFieldDisabled({disabled, form: field.form, readOnly});
     const addBtnConfig: IBuilderConfig = React.useMemo<IBuilderConfig>(
-        () => ({
+        (): IBuilderConfig => ({
             [VAR_RECORD_DISPLAYED]: addLabel,
             [VAR_RECORD_MASTER_ID]: storeName,
             [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_add`,
             [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-            disabled: bc.maxvalue,
+            disabled: bc.maxvalue !== undefined,
             handler: "onAdd",
             iconfont: "plus",
-            onlyicon: "true",
+            onlyicon: true,
             type: "BTN",
         }),
         [addLabel, bc, storeName],
@@ -81,7 +83,7 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
     }, [field]);
 
     return useObserver(() => {
-        const value = (field.value || []) as FieldValue[];
+        const value = (Array.isArray(field.value) ? field.value : []) as FieldValue[];
         const maxSize = bc.maxsize && /[g_]/u.test(bc.maxsize) ? pageStore.globalValues.get(bc.maxsize) : bc.maxsize;
         const minSize = bc.minsize && /[g_]/u.test(bc.minsize) ? pageStore.globalValues.get(bc.minsize) : bc.minsize;
         const isHiddenAdd = (maxSize && maxSize <= value.length) || hidden;

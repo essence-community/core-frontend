@@ -98,7 +98,7 @@ export class FileInputModel extends StoreBaseModel {
                 {
                     status: "error",
                     text: `${i18next.t("static:7d9d6e64612643cfa6bb568cd3bde543")} ${fileSizeText(
-                        parseInt(this.bc.maxfile || "5242880", 10),
+                        this.bc.maxfile || 5242880,
                     )}`,
                 },
                 this.pageStore.route,

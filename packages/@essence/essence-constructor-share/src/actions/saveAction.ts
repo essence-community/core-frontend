@@ -13,16 +13,8 @@ import {
     META_PAGE_OBJECT,
 } from "../constants";
 import {ProgressModel, snackbarStore} from "../models";
-import {
-    IBuilderConfig,
-    IBuilderMode,
-    IGridBuilder,
-    IPageModel,
-    IRecordsModel,
-    ILoadRecordsProps,
-    IRecord,
-} from "../types";
-import {findGetGlobalKey, isEmpty, i18next} from "../utils";
+import {IBuilderConfig, IBuilderMode, IPageModel, IRecordsModel, ILoadRecordsProps, IRecord} from "../types";
+import {isEmpty, i18next} from "../utils";
 import {getMasterObject} from "../utils/getMasterObject";
 import {TText} from "../types/SnackbarModel";
 import {IForm} from "../Form";
@@ -44,7 +36,7 @@ export interface IConfig {
 
 interface IAttachGlobalValues {
     globalValues: ObservableMap;
-    getglobaltostore?: string;
+    getglobaltostore?: IBuilderConfig["getglobaltostore"];
     values: IRecord;
 }
 
@@ -62,10 +54,10 @@ export const filter = (values: IRecord) => {
     return filteredValues;
 };
 
-const findReloadAction = (recordsStore: IRecordsModel, bc: IGridBuilder) => {
+const findReloadAction = (recordsStore: IRecordsModel, bc: IBuilderConfig) => {
     const masterId = bc[VAR_RECORD_MASTER_ID];
 
-    if (bc.reloadmaster === "true" && recordsStore.pageStore && masterId) {
+    if (bc.reloadmaster && recordsStore.pageStore && masterId) {
         const masterStore = recordsStore.pageStore.stores.get(masterId);
 
         if (masterStore && masterStore.reloadStoreAction) {
@@ -77,12 +69,14 @@ const findReloadAction = (recordsStore: IRecordsModel, bc: IGridBuilder) => {
 };
 
 export const attachGlobalValues = ({globalValues, getglobaltostore, values}: IAttachGlobalValues) => {
-    if (getglobaltostore) {
+    if (getglobaltostore?.length) {
         const newValues = {...values};
 
-        forOwn(findGetGlobalKey(getglobaltostore), (globaleKey, fieldName) => {
-            if (typeof newValues[fieldName] === "undefined") {
-                newValues[fieldName] = toJS(globalValues.get(globaleKey));
+        getglobaltostore.forEach(({in: keyIn, out}) => {
+            const name = out || keyIn;
+
+            if (typeof newValues[name] === "undefined") {
+                newValues[name] = toJS(globalValues.get(keyIn));
             }
         });
 
@@ -201,9 +195,9 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
                     if (check === 1 && noReload) {
                         resolve(response);
                     } else if (check === 1) {
-                        const loadRecordsAction = findReloadAction(this, bc as IGridBuilder);
+                        const loadRecordsAction = findReloadAction(this, bc);
                         const isAttach =
-                            bc.refreshallrecords === "false" &&
+                            !bc.refreshallrecords &&
                             (mode === "1" || mode === "2" || mode === "4") &&
                             !isEmpty(response[recordId]);
 

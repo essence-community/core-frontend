@@ -26,6 +26,30 @@ if (!GATE_URL) {
     throw new Error("GATE_URL should be set in env");
 }
 
+function converType(attribute) {
+    if (attribute.ck_d_data_type === "global" && ["columnsfilter", "setglobal"].includes(attribute.ck_id)) {
+        return "IBuilderAttrGlobal[]";
+    }
+
+    switch (attribute.ck_d_data_type) {
+        case "text":
+        case "localization":
+        case "cssmeasure":
+        case "computed":
+        case "markdown":
+        case "regexp":
+            return "string";
+        case "enum":
+            return attribute.cv_data_type_extra.map((attr) => `"${attr.cv_data_type_extra_value}"`).join(" | ");
+        case "integer":
+            return "number";
+        case "global":
+            return "IBuilderAttrGlobalStore[]";
+        default:
+            return attribute.ck_d_data_type || "string";
+    }
+}
+
 request.post(
     {
         form: {
@@ -67,7 +91,7 @@ function parseAttributes(session) {
             body.data.forEach((attribute) => {
                 if (ATTR_SKIP.indexOf(attribute.ck_id) === -1) {
                     types.push(`    // ${attribute.cv_description.replace(CARRY_LINES_REGEXP, " ")}`);
-                    types.push(`    ${attribute.ck_id}?: ${attribute.cv_static_type || "string"};`);
+                    types.push(`    ${attribute.ck_id}?: ${converType(attribute)};`);
                 }
             });
 

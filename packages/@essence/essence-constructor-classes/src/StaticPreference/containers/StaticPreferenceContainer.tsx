@@ -1,15 +1,14 @@
 import * as React from "react";
 import {Paper, Grid, Typography, Slider, Switch, Button, TextField} from "@material-ui/core";
 import {IClassProps} from "@essence-community/constructor-share/types";
-import {preference} from "@essence-community/constructor-share/constants";
-import {saveToStore} from "@essence-community/constructor-share/utils";
+import {getPreference, savePreference} from "@essence-community/constructor-share/utils";
 import {useTranslation} from "@essence-community/constructor-share";
 import {useStyles} from "./StaticPreferenceContainer.styles";
 
 export const StaticPreferenceContainer: React.FC<IClassProps> = () => {
     const classes = useStyles();
     const [trans] = useTranslation();
-    const [form, setForm] = React.useState(preference);
+    const [form, setForm] = React.useState(getPreference);
     const renderPreference = (title: string, setting: React.ReactNode) => (
         <Grid item xs>
             <Grid container>
@@ -23,7 +22,7 @@ export const StaticPreferenceContainer: React.FC<IClassProps> = () => {
         </Grid>
     );
     const handleSave = () => {
-        saveToStore("preference", form);
+        savePreference(form);
         window.location.reload();
     };
 
@@ -109,7 +108,7 @@ export const StaticPreferenceContainer: React.FC<IClassProps> = () => {
                     value={form.modules}
                     name="modules"
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        setForm((prevForm) => ({...prevForm, modules: event.target.value}))
+                        setForm((prevForm) => ({...prevForm, modules: event.currentTarget.value}))
                     }
                 />
                 <Grid item>

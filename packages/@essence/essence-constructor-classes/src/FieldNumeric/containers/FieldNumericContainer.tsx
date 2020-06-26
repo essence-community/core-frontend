@@ -12,10 +12,7 @@ import {NumberFormat} from "../components/NumberFormat";
 
 export const FieldNumericContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, readOnly} = props;
-    const field = useField({
-        bc: props.bc,
-        pageStore: props.pageStore,
-    });
+    const field = useField(props);
     const inputProps = useTextFieldProps({bc, disabled, field, readOnly});
 
     useFieldGetGlobal({bc, field, pageStore});

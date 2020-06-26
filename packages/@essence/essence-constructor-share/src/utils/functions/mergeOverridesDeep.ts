@@ -1,10 +1,8 @@
-import {CSSProperties} from "@material-ui/core/styles/withStyles";
-
 interface IClassClasses {
-    [className: string]: CSSProperties | (() => CSSProperties) | undefined;
+    [className: string]: React.CSSProperties | (() => React.CSSProperties) | undefined;
 }
 
-interface IOverrides {
+export interface IOverrides {
     [name: string]: undefined | IClassClasses;
 }
 

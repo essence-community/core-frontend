@@ -18,14 +18,12 @@ import {
 import {
     VAR_RECORD_ID,
     VAR_RECORD_URL,
-    VAR_SETTING_PROJECT_APPLICATION_PAGE,
     VAR_LANG_ID,
     VAR_NAMESPACE_VALUE,
     VAR_RECORD_ROUTE_NAME,
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
-    VAR_RECORD_ROUTE_PAGE_ID,
     VAR_RECORD_CV_LOGIN,
     VAR_SETTING_MODULE_URL,
     VAR_SETTING_ANONYMOUS_ACTION,
@@ -90,6 +88,8 @@ export class ApplicationModel implements IApplicationModel {
 
     recordsStore: IRecordsModel;
 
+    recordsApplicationStore: IRecordsModel;
+
     pageStore: IPageModel;
 
     mode: string;
@@ -98,18 +98,30 @@ export class ApplicationModel implements IApplicationModel {
 
     isLogoutProcess = false;
 
+    history: History;
+
     @computed get bc(): IBuilderConfig {
         const {children} = this.recordsStore.selectedRecordValues;
+        const {selectedRecordValues} = this.recordsApplicationStore;
 
         if (!Array.isArray(children)) {
             return NONE_BC;
         }
 
-        return (
+        const bc =
             children.find((rec: IBuilderConfig) => {
                 return parseMemoize(rec.activerules).runer({get: this.handleGetValue});
-            }) || NONE_BC
-        );
+            }) || NONE_BC;
+
+        if (bc) {
+            if (bc[VAR_RECORD_PAGE_OBJECT_ID] === selectedRecordValues[VAR_RECORD_PAGE_OBJECT_ID]) {
+                return (selectedRecordValues as unknown) as IBuilderConfig;
+            }
+
+            return bc;
+        }
+
+        return NONE_BC;
     }
 
     @observable blockText = "";
@@ -132,25 +144,29 @@ export class ApplicationModel implements IApplicationModel {
         return this.authStore.userInfo as any;
     }
 
-    constructor(public history: History, url: string) {
+    constructor(history: History, url: string) {
         this.routesStore = null;
         this.url = url;
         this.mode = url;
         this.history = history;
         this.pagesStore = new PagesModel(this);
-        this.pageStore = new PageModel({
-            applicationStore: this,
-            defaultVisible: true,
-            isActiveRedirect: false,
-            pageId: "-1",
-        });
         this.authStore = new AuthModel(this);
         this.countConnect = 0;
         this.recordsStore = new RecordsModel(
             {
                 [VAR_RECORD_PAGE_OBJECT_ID]: "application",
                 [VAR_RECORD_PARENT_ID]: "application",
-                [VAR_RECORD_QUERY_ID]: "GetMetamodelPage2.0",
+                [VAR_RECORD_QUERY_ID]: "MTApplicationRoute",
+                defaultvalue: "##alwaysfirst##",
+                type: "NONE",
+            },
+            {applicationStore: this, pageStore: null},
+        );
+        this.recordsApplicationStore = new RecordsModel(
+            {
+                [VAR_RECORD_PAGE_OBJECT_ID]: "application",
+                [VAR_RECORD_PARENT_ID]: "application",
+                [VAR_RECORD_QUERY_ID]: "GetPageObject",
                 defaultvalue: "##alwaysfirst##",
                 type: "NONE",
             },
@@ -159,6 +175,13 @@ export class ApplicationModel implements IApplicationModel {
 
         this.globalValues.merge(settingsStore.globals);
         this.globalValues.merge(prepareUserGlobals(this.authStore.userInfo));
+
+        this.pageStore = new PageModel({
+            applicationStore: this,
+            defaultVisible: true,
+            isActiveRedirect: false,
+            pageId: "-1",
+        });
     }
 
     handleGetValue = (name: string) => {
@@ -188,7 +211,10 @@ export class ApplicationModel implements IApplicationModel {
     });
 
     setSesssionAction = action("setSesssionAction", (userInfo: IAuthSession) => {
-        this.globalValues.merge(prepareUserGlobals(userInfo));
+        const newGlobals = prepareUserGlobals(userInfo);
+
+        this.globalValues.merge(newGlobals);
+        this.pageStore.globalValues.merge(newGlobals);
 
         return Promise.resolve();
     });
@@ -220,14 +246,21 @@ export class ApplicationModel implements IApplicationModel {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-    redirectToAction = action("redirectToAction", async (pageId: string, params: Record<string, any>) => {
-        const page = await this.pagesStore.setPageAction(pageId, true);
+    redirectToAction = action("redirectToAction", async (redirectPageId: string, params: Record<string, any>) => {
+        const pageConfig = this.routesStore?.recordsStore.records.find(
+            (route: IRecord) => route[VAR_RECORD_ID] === redirectPageId || route[VAR_RECORD_URL] === redirectPageId,
+        );
+        const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
-        // Log
-        if (page) {
-            await when(() => !page.isLoading);
+        if (pageId) {
+            const page = await this.pagesStore.setPageAction(pageId as string, true);
 
-            await redirectToPage(page, params);
+            // Log
+            if (page) {
+                await when(() => !page.isLoading);
+
+                await redirectToPage(page, params);
+            }
         }
     });
 
@@ -261,24 +294,22 @@ export class ApplicationModel implements IApplicationModel {
         return this.history.push("/auth", {backUrl: this.history.location.pathname});
     };
 
+    loadApplictionConfigs = () =>
+        this.recordsStore.loadRecordsAction({}).then(() => {
+            const {children} = this.recordsStore.selectedRecordValues;
+
+            this.recordsStore.setRecordsAction([
+                {
+                    ...this.recordsStore.selectedRecordValues,
+                    children: [...(Array.isArray(children) ? children : []), ...pages],
+                },
+            ]);
+            this.recordsStore.setSelectionAction(this.recordsStore.selectedRecordId);
+        });
+
     loadApplicationAction = action("loadApplicationAction", async () => {
         await Promise.all<Promise<any> | false>([
-            this.recordsStore.recordsState.status === "init" &&
-                this.recordsStore
-                    .searchAction({
-                        [VAR_RECORD_ROUTE_PAGE_ID]: settingsStore.settings[VAR_SETTING_PROJECT_APPLICATION_PAGE],
-                    })
-                    .then(() => {
-                        const {children} = this.recordsStore.selectedRecordValues;
-
-                        this.recordsStore.setRecordsAction([
-                            {
-                                ...this.recordsStore.selectedRecordValues,
-                                children: [...(Array.isArray(children) ? children : []), ...pages],
-                            },
-                        ]);
-                        this.recordsStore.setSelectionAction(this.recordsStore.selectedRecordId);
-                    }),
+            this.recordsStore.recordsState.status === "init" && this.loadApplictionConfigs(),
             settingsStore.settings.module_available === "true" &&
                 !modulesStore.isLoaded &&
                 modulesStore.loadModules(settingsStore.settings[VAR_SETTING_MODULE_URL]),
@@ -479,7 +510,7 @@ export class ApplicationModel implements IApplicationModel {
         this.isApplicationReady = false;
         this.url = url;
 
-        if (this.bc) {
+        if (this.bc[VAR_RECORD_PAGE_OBJECT_ID] !== "none") {
             const queryId = this.bc[VAR_RECORD_QUERY_ID] || "MTRoute";
 
             if (!this.routesStore || this.routesStore.recordsStore.bc[VAR_RECORD_QUERY_ID] !== queryId) {

@@ -35,7 +35,7 @@ export const IconButton: React.FC<IButtonInternalProps> = (props) => {
         return (
             <Fab {...buttonProps} color={getColor(bc.uitype)} size="small" type={isSubmit ? "submit" : undefined}>
                 {icon}
-                {bc.required === "true" ? <span className={classes.highlightFab}>*</span> : null}
+                {bc.required ? <span className={classes.highlightFab}>*</span> : null}
             </Fab>
         );
     }
@@ -48,7 +48,7 @@ export const IconButton: React.FC<IButtonInternalProps> = (props) => {
             color={bc.uitype === "11" || bc.uitype === "12" ? "inherit" : getColor(bc.uitype)}
         >
             {icon}
-            {bc.required === "true" ? <span className={classes.highlight}>*</span> : null}
+            {bc.required ? <span className={classes.highlight}>*</span> : null}
         </MuiIconButton>
     );
 };

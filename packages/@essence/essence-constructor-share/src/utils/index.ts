@@ -12,7 +12,6 @@ export * from "./download";
 export * from "./mergeComponents";
 export * from "./I18n";
 export {parseMemoize} from "./parser";
-export {findGetGlobalKey, findSetKey} from "./findKey";
 export {findColumns} from "./findColumns";
 export {findClassNames} from "./findClassNames";
 export * from "./getTextWidth";
@@ -21,5 +20,6 @@ export * from "./redirect";
 export * from "./bignumber";
 export * from "./window";
 export {getModeTitle} from "./getModeTitle";
+export * from "./preference";
 
 export {animate};

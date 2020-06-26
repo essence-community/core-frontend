@@ -1,0 +1,1 @@
+export {PromoInfo} from "./PromoInfo";

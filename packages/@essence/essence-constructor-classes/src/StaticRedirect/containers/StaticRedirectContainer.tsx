@@ -1,8 +1,8 @@
 import * as React from "react";
 import {Grid, Button} from "@material-ui/core";
 import {IClassProps, IRecord} from "@essence-community/constructor-share/types";
-import {loggerRoot, preference} from "@essence-community/constructor-share/constants";
-import {useTranslation} from "@essence-community/constructor-share/utils";
+import {loggerRoot} from "@essence-community/constructor-share/constants";
+import {useTranslation, getPreference} from "@essence-community/constructor-share/utils";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {useParams, useHistory} from "react-router-dom";
 import {useStyles} from "./StaticRedirectContainer.styles";
@@ -36,6 +36,7 @@ interface IStateParams {
 const logger = loggerRoot.extend("RedirectPage");
 
 export const StaticRedirectContainer: React.FC<IClassProps> = () => {
+    const preference = getPreference();
     const history = useHistory();
     const applicationStore = React.useContext(ApplicationContext);
     const [trans] = useTranslation();

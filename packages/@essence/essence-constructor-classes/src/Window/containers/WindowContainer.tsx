@@ -1,7 +1,7 @@
 import * as React from "react";
 import cn from "classnames";
 import {Grid, DialogTitle, Checkbox, FormControlLabel, Modal, Paper, Backdrop} from "@material-ui/core";
-import {toSize, toColumnStyleWidth, useTranslation, noop} from "@essence-community/constructor-share/utils";
+import {toColumnStyleWidth, useTranslation, noop} from "@essence-community/constructor-share/utils";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {UIForm, Focusable, Scrollbars} from "@essence-community/constructor-share/uicomponents";
@@ -36,9 +36,9 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
     const classes = useStyles();
     const contentStyle = React.useMemo(
         () => ({
-            height: toSize(bc.height),
-            maxHeight: toSize(bc.maxheight),
-            minHeight: toSize(bc.minheight),
+            height: bc.height,
+            maxHeight: bc.maxheight,
+            minHeight: bc.minheight,
         }),
         [bc.height, bc.maxheight, bc.minheight],
     );
@@ -56,7 +56,7 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
     const windowTitle = displayedTrans || `${trans(getModeTitle(bc.mode as IBuilderMode))} ${displayedTrans || ""}`;
     const autoHeightMax = isFulllScreen ? "100%" : `calc(90vh - ${WINDOW_HEADER_HEIGHT + WINDOW_BOTTOM_HEIGHT}px)`;
     const checkboxAddMode = useObserver(() =>
-        bc.mode === "1" && checkaddmore === "true" && !stepnamenext ? (
+        bc.mode === "1" && checkaddmore && !stepnamenext ? (
             <FormControlLabel
                 control={
                     <Checkbox

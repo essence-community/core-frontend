@@ -13,7 +13,7 @@ import {FieldTextSmartMask} from "../components/FieldTextSmartMask";
 
 export const FieldTextContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
-    const field = useField({bc, disabled, hidden, pageStore});
+    const field = useField({bc, clearValue: "", disabled, hidden, pageStore});
     const inputProps = useTextFieldProps({bc, disabled, field, readOnly});
     const handleChange = React.useCallback(
         (event: React.SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>) => {

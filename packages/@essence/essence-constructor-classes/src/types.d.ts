@@ -2,6 +2,7 @@
 /* eslint-disable import/no-duplicates */
 /* eslint-disable max-classes-per-file */
 declare module "*.png";
+declare module "*.svg";
 declare module "rc-calendar/lib/Picker" {
     import * as moment from "moment";
     import * as React from "react";

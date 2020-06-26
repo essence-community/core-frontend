@@ -12,13 +12,11 @@ import {
 } from "../constants";
 import {snackbarStore} from "../models";
 import {request} from "../request";
-import {findSetKey, findGetGlobalKey} from "./findKey";
 import {parseMemoize} from "./parser";
 import {getMasterObject} from "./getMasterObject";
-import {prepareUrl} from "./download";
 
 interface IGetQueryParams {
-    columnsName: string;
+    columnsName?: IBuilderConfig["columnsfilter"];
     record?: IRecord;
     globalValues: ObservableMap<string, FieldValue>;
 }
@@ -27,7 +25,7 @@ interface IMakeRedirectUrlProps {
     authData: Partial<IAuthSession>;
     bc: IBuilderConfig;
     redirecturl: string;
-    columnsName?: string;
+    columnsName?: IBuilderConfig["columnsfilter"];
     record?: IRecord;
     globalValues: ObservableMap<string, FieldValue>;
 }
@@ -52,6 +50,27 @@ interface IRedirectToUrlProps {
     record: IRecord;
 }
 
+export function prepareUrl(url: string, pageStore: IPageModel, record: Record<string, FieldValue> = {}) {
+    // eslint-disable-next-line require-unicode-regexp,  prefer-named-capture-group
+    return url.replace(/{([^}]+)}/g, (_match, pattern): string => {
+        if (pattern in record) {
+            return record[pattern] as string;
+        }
+
+        const globalValue = pageStore.globalValues.get(pattern);
+
+        if (typeof globalValue === "string") {
+            return globalValue;
+        }
+
+        if (typeof globalValue === "number") {
+            return String(globalValue);
+        }
+
+        return "";
+    });
+}
+
 /**
  * Convert path into url
  * @param {string} pathname Parse string for pathname
@@ -65,7 +84,8 @@ function choiceUrl(
     record: IRecord,
 ): string | undefined {
     const getValue = (name: string) => (record && name.charAt(0) !== "g" ? record[name] : globalValues.get(name));
-    const url = parseMemoize(pathname).runer({get: getValue});
+    const renerProc = parseMemoize(pathname);
+    const url = renerProc.hasError ? pathname : renerProc.runer({get: getValue});
 
     if (typeof url === "string") {
         return url;
@@ -74,10 +94,26 @@ function choiceUrl(
     return undefined;
 }
 
-function redirectToUrl({redirecturl, values, pageStore, record}: IRedirectToUrlProps) {
-    const url = parseMemoize(redirecturl).runer(values);
+function redirectToApplication(pageStore: IPageModel, values: IRecord, redirectUrl: string) {
+    const parts = redirectUrl.split("/").filter(Boolean);
 
-    window.open(prepareUrl(String(url), pageStore, record));
+    if (Object.keys(values).length > 0) {
+        parts.push(encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(values))))));
+    }
+
+    pageStore.applicationStore.history.push(`/${parts.join("/")}`);
+}
+
+function redirectToUrl({redirecturl, values, pageStore, record}: IRedirectToUrlProps) {
+    const url = choiceUrl(redirecturl, pageStore.globalValues, record);
+
+    if (url) {
+        if (url.indexOf("redirect/") === 0) {
+            redirectToApplication(pageStore, values, url.replace("redirect/", ""));
+        } else {
+            window.open(prepareUrl(url, pageStore, record));
+        }
+    }
 }
 
 async function redirectUseQuery({bc, query, pageStore, values, record}: IRedirectUseQueryProps) {
@@ -135,19 +171,16 @@ async function redirectUseQuery({bc, query, pageStore, values, record}: IRedirec
  * @return {Object} queryParams
  */
 export function getQueryParams({columnsName, record = {}, globalValues}: IGetQueryParams): IRecord {
-    const keys = findSetKey(columnsName);
     const values: IRecord = {};
 
-    for (const fieldName in keys) {
-        if (Object.prototype.hasOwnProperty.call(keys, fieldName)) {
-            const globaleKey = keys[fieldName];
-            const value = record[fieldName] || globalValues.get(fieldName);
+    columnsName?.forEach(({in: keyIn, out}) => {
+        const name = keyIn || out;
+        const value: FieldValue = record[name] || globalValues.get(name);
 
-            if (value !== undefined) {
-                values[globaleKey] = value;
-            }
+        if (value !== undefined) {
+            values[out] = value;
         }
-    }
+    });
 
     return values;
 }
@@ -208,25 +241,15 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
 }
 
 export function makeRedirect(bc: IBuilderConfig, pageStore: IPageModel, record: IRecord = {}): void {
-    const {redirecturl, redirectusequery, columnsfilter = ""} = bc;
+    const {redirecturl, redirectusequery, columnsfilter} = bc;
     const {globalValues} = pageStore;
 
-    const keys = findGetGlobalKey(columnsfilter);
-    const values: IRecord = {};
-
-    for (const globaleKey in keys) {
-        if (Object.prototype.hasOwnProperty.call(keys, globaleKey)) {
-            const fieldName = keys[globaleKey];
-            const value: FieldValue = record[fieldName] || globalValues.get(fieldName);
-
-            if (value !== undefined) {
-                values[globaleKey] = value;
-            }
-        }
-    }
+    const values: IRecord = getQueryParams({columnsName: columnsfilter, globalValues, record});
 
     if (redirecturl) {
-        if (redirecturl.indexOf("/") >= 0) {
+        if (redirecturl.indexOf("redirect/") === 0) {
+            redirectToApplication(pageStore, values, redirecturl.replace("redirect/", ""));
+        } else if (redirecturl.indexOf("/") >= 0) {
             redirectToUrl({pageStore, record, redirecturl, values});
         } else {
             pageStore.applicationStore.redirectToAction(redirecturl, values);

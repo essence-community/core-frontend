@@ -17,7 +17,7 @@ export const useStyles = makeStyles(
         drawerPaper: {
             alignItems: "center",
             backgroundColor: theme.palette.primary.main,
-            top: (props: IClassProps) => (props.bc.top ? parseInt(props.bc.top, 10) : 0),
+            top: (props: IClassProps) => props.bc.top,
         },
     }),
     {

@@ -25,7 +25,7 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
     const iconName = route[VAR_RECORD_ICON_NAME];
     const handleClick = () => {
         if (leaf === "true") {
-            pagesStore.setPageAction(id, true);
+            pagesStore.setPageAction(id, false);
         } else {
             treeModel.openCloseExpansionAction(id);
         }

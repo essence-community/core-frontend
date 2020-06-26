@@ -30,7 +30,6 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
         !isEnvProduction && require.resolve("style-loader"),
         isEnvProduction && {
             loader: MiniCssExtractPlugin.loader,
-            // Options: Object.assign({}, shouldUseRelativeAssetPaths ? {publicPath: "../../"} : undefined),
         },
         {
             loader: require.resolve("css-loader"),
@@ -192,13 +191,11 @@ module.exports = {
              */
             {
                 loader: require.resolve("file-loader"),
-                /*
-                 * Exclude `js` files to keep "css" loader working as it injects
-                 * its runtime that would otherwise be processed through "file" loader.
-                 * Also exclude `html` and `json` extensions so they get processed
-                 * by webpacks internal loaders.
-                 */
-                exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
+                // Exclude `js` files to keep "css" loader working as it injects
+                // its runtime that would otherwise be processed through "file" loader.
+                // Also exclude `html` and `json` extensions so they get processed
+                // by webpacks internal loaders.
+                exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.css$/, /\.html$/, /\.json$/],
                 options: {
                     name: "[name].[hash:8].[ext]",
                 },
@@ -287,7 +284,16 @@ module.exports = {
             }),
         !isEnvProduction &&
             new CopyWebpackPlugin([
-                {from: path.join(__dirname, "..", "..", "constructor-dll", "dist", "assets"), to: "static/"},
+                {
+                    from: path.join(
+                        resolveApp("node_modules"),
+                        "@essence-community",
+                        "constructor-dll",
+                        "dist",
+                        "assets",
+                    ),
+                    to: "static/",
+                },
             ]),
         !isEnvProduction &&
             new HtmlWebpackIncludeAssetsPlugin({
@@ -295,14 +301,26 @@ module.exports = {
                     {
                         path: "static",
                         glob: "*.js",
-                        globPath: path.join(__dirname, "..", "..", "constructor-dll", "dist", "assets"),
+                        globPath: path.join(
+                            resolveApp("node_modules"),
+                            "@essence-community",
+                            "constructor-dll",
+                            "dist",
+                            "assets",
+                        ),
                     },
                 ],
                 append: false,
             }),
         new webpack.DllReferencePlugin({
             context: resolveApp(""),
-            manifest: require("../../constructor-dll/dist/manifest.json"),
+            manifest: require(path.join(
+                resolveApp("node_modules"),
+                "@essence-community",
+                "constructor-dll",
+                "dist",
+                "manifest.json",
+            )),
             name: "essenceconstructorshare",
         }),
         !isEnvProduction && new webpack.HotModuleReplacementPlugin(),

@@ -16,15 +16,14 @@ export const getRegionFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     column: "ck_region",
     datatype: "combo",
     displayfield: "cv_region",
-    minchars: "4",
-    noglobalmask: "true",
-    querydelay: "1",
+    minchars: 4,
+    noglobalmask: true,
+    querydelay: 1,
     querymode: "remote",
     queryparam: "cv_region",
-    required: "true",
-    setglobal: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`,
+    required: true,
+    setglobal: [{out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`}],
     type: "IFIELD",
-    valuefield: "ck_region",
 });
 
 export const getAreaFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
@@ -37,16 +36,18 @@ export const getAreaFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     datatype: "combo",
     disabledrules: `!g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`,
     displayfield: "cv_area",
-    getglobaltostore: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region=ck_region`,
-    minchars: "4",
-    noglobalmask: "true",
-    querydelay: "1",
+    getglobaltostore: [{in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`, out: "ck_region"}],
+    minchars: 4,
+    noglobalmask: true,
+    querydelay: 1,
     querymode: "remote",
     queryparam: "cv_area",
-    required: "true",
-    setglobal: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area,g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`,
+    required: true,
+    setglobal: [
+        {out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area`},
+        {out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`},
+    ],
     type: "IFIELD",
-    valuefield: "ck_area",
 });
 
 export const getStreetFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
@@ -60,17 +61,16 @@ export const getStreetFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     disabledrules: `!g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area`,
     displayfield: "cv_street",
     getglobaltostore: [
-        `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area=ck_area`,
-        `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region=ck_region`,
-    ].join(","),
-    minchars: "4",
-    noglobalmask: "true",
-    querydelay: "1",
+        {in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area`, out: "ck_area"},
+        {in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`, out: "ck_region"},
+    ],
+    minchars: 4,
+    noglobalmask: true,
+    querydelay: 1,
     querymode: "remote",
     queryparam: "cv_street",
-    setglobal: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_street`,
+    setglobal: [{out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_street`}],
     type: "IFIELD",
-    valuefield: "ck_street",
 });
 
 export const getHouseFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
@@ -84,17 +84,16 @@ export const getHouseFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     disabledrules: `!g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area`,
     displayfield: "cv_house",
     getglobaltostore: [
-        `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area=ck_area`,
-        `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region=ck_region`,
-        `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_street=ck_street`,
-    ].join(","),
-    minchars: "1",
-    noglobalmask: "true",
-    querydelay: "1",
+        {in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area`, out: "ck_area"},
+        {in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`, out: "ck_region"},
+        {in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_street`, out: "ck_street"},
+    ],
+    minchars: 1,
+    noglobalmask: true,
+    querydelay: 1,
     querymode: "remote",
     queryparam: "cv_house",
     type: "IFIELD",
-    valuefield: "ck_house",
 });
 
 export function getFieldAddrConfig(bc: IBuilderConfig): IBuilderConfig[] {

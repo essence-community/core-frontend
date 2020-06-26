@@ -1,4 +1,4 @@
-import {ReactChild} from "react";
+import {ReactElement} from "react";
 import {VAR_RECORD_CV_VALUE, VAR_RECORD_CV_CV_TYPE, VAR_RECORD_CLASS_ATTRIBUTES, VAR_RECORD_CK_ATTR} from "./constants";
 import {IClassProps, IBuilderConfig} from "./types";
 import {loadFiles} from "./utils/browser";
@@ -22,7 +22,7 @@ interface IModules {
     [$name: string]: IModule;
 }
 
-type TResolve = (ChildComp: React.ComponentType<IClassProps>, bc: IBuilderConfig, index: number) => null | ReactChild;
+type TResolve = (ChildComp: React.ComponentType<IClassProps>, bc: IBuilderConfig, index: number) => null | ReactElement;
 
 const components: IComponents = {};
 const modules: IModules = {};
@@ -115,7 +115,7 @@ export function getComponentByBc(bc: IBuilderConfig): React.ComponentType<IClass
 /**
  * Render components by childs config.
  */
-export function mapComponents(childs?: IBuilderConfig[], resolve?: TResolve) {
+export function mapComponents(childs?: IBuilderConfig[], resolve?: TResolve): null | (null | ReactElement)[] {
     if (!childs) {
         return null;
     }
@@ -130,7 +130,7 @@ export function mapComponents(childs?: IBuilderConfig[], resolve?: TResolve) {
 /**
  * Render components by one child config.
  */
-export function mapComponentOne(child: IBuilderConfig, resolve?: TResolve): null | React.ReactChild {
+export function mapComponentOne(child: IBuilderConfig, resolve?: TResolve): null | React.ReactElement {
     const ChildComp = getComponentByBc(child);
 
     return resolve && ChildComp !== undefined ? resolve(ChildComp, child, 0) : null;

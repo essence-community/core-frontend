@@ -82,6 +82,7 @@ export const VAR_RECORD_JN_TOTAL_CNT = "jn_total_cnt";
 export const VAR_RECORD_CK_ATTR = "ck_attr";
 export const VAR_RECORD_CL_STATIC = "cl_static";
 export const VAR_RECORD_JV_ROWCOLOR = "jv_rowcolor";
+export const VAR_RECORD_NOLOAD = "cl_noload";
 
 // SETTING
 export const VAR_SETTING_VALUE = "cv_value";
@@ -101,7 +102,6 @@ export const VAR_SETTING_PROJECT_PROFILE_PAGE = "project_profile_page";
 export const VAR_SETTING_PROJECT_AUTH_TITLE = "project_auth_title";
 export const VAR_SETTING_MODULE_AVAILABLE = "module_available";
 export const VAR_SETTING_MODULE_URL = "g_sys_module_url";
-export const VAR_SETTING_FRONT_APP_VERSION = "g_sys_front_app_version";
 export const VAR_SETTING_FRONT_BRANCH_DATE_TIME = "g_sys_front_branch_date_time";
 export const VAR_SETTING_FRONT_BRANCH_NAME = "g_sys_front_branch_name";
 export const VAR_SETTING_FRONT_COMMIT_ID = "g_sys_front_commit_id";

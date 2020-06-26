@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {toSize, parseMemoize, useTranslation} from "@essence-community/constructor-share/utils";
+import {parseMemoize, useTranslation} from "@essence-community/constructor-share/utils";
 import {downloadImage} from "@essence-community/constructor-share/utils/download";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {FormContext} from "@essence-community/constructor-share";
@@ -54,12 +54,7 @@ export const FieldImageContainer: React.FC<IClassProps> = (props) => {
         const src = typeof field.value === "string" ? getSrc(field.value) : "";
 
         return (
-            <div
-                className={classes.container}
-                style={{
-                    height: toSize(bc.height),
-                }}
-            >
+            <div className={classes.container} style={{height: bc.height}}>
                 {src ? (
                     <React.Fragment>
                         <img

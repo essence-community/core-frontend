@@ -25,6 +25,7 @@ import {Block} from "../components/Block";
 import {useHistoryListen} from "../hooks";
 import {Snackbar} from "../components/Snackbar";
 import {Theme} from "../components/Theme";
+import {IBuilderClassConfig} from "../types";
 
 const logger = loggerRoot.extend("PagerContainer");
 
@@ -32,8 +33,13 @@ function globalTitle(trans: TFunction) {
     return trans("static:d2c071c58aca4b73853c1fcc6e2f08a3");
 }
 
+/**
+ * @exports ApplicationContainer
+ * @description Включает commonDecorator
+ */
+
 // eslint-disable-next-line max-lines-per-function, max-statements
-export const ApplicationContainer: React.FC<IClassProps> = () => {
+export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = () => {
     const history = useHistory();
     const match = useRouteMatch<any>("/:appNameDefault");
     const appNameDefault = match?.params.appNameDefault ?? "";
@@ -61,6 +67,11 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
     );
 
     React.useEffect(() => {
+        /**
+         * @memberof ApplicationContainer
+         * @member
+         * @description Загрузка начального состоянии приложения
+         */
         const loadApplication = async () => {
             await applicationStore.authStore.checkAuthAction(history);
             const isSuccess = await applicationStore.loadApplicationAction();
@@ -77,9 +88,9 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                 if (typeof pageId === "string") {
                     applicationStore.handleSetPage(pageId, filter);
                 } else if (ckId !== undefined) {
-                    pagesStore.setPageAction(ckId, true);
+                    pagesStore.setPageAction(ckId, false);
                 } else if (pagesStore.pages.length) {
-                    pagesStore.setPageAction(pagesStore.pages[0].pageId, true);
+                    pagesStore.setPageAction(pagesStore.pages[0].pageId, false);
                 }
             }
         };
@@ -110,7 +121,6 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [appName, applicationStore]);
 
-    // Init ws client only for session
     React.useEffect(() => {
         const dispose = reaction(
             () => applicationStore.authStore.userInfo.session,
@@ -208,7 +218,7 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
     // Close all windows after change application
     useDisposable(() => {
         return reaction(
-            () => applicationStore.bc,
+            () => applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID],
             () => {
                 applicationStore.pageStore.windows.clear();
             },
@@ -224,6 +234,21 @@ export const ApplicationContainer: React.FC<IClassProps> = () => {
                 }),
         );
     });
+
+    React.useEffect(
+        () =>
+            reaction(
+                () => applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID],
+                (pageObjectId) => {
+                    if (pageObjectId !== "none") {
+                        applicationStore.recordsApplicationStore.searchAction({
+                            [VAR_RECORD_PAGE_OBJECT_ID]: pageObjectId,
+                        });
+                    }
+                },
+            ),
+        [applicationStore],
+    );
 
     return useObserver(() => (
         <ApplicationContext.Provider value={applicationStore}>

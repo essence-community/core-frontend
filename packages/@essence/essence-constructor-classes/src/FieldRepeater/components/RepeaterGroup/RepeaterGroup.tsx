@@ -13,20 +13,20 @@ import {IRepeaterGroupProps} from "./RepeaterGroup.types";
 
 export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
     const {bc, idx, isDisabledDel, storeName, deleteLabel, ...fieldProps} = props;
-    const {contentview = "", align} = bc;
+    const {contentview = "hbox", align} = bc;
 
     const deleteBtnConfig: IBuilderConfig = React.useMemo<IBuilderConfig>(
-        () => ({
+        (): IBuilderConfig => ({
             [VAR_RECORD_DISPLAYED]: deleteLabel,
             [VAR_RECORD_MASTER_ID]: storeName,
             [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_delete`,
             [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
             defaultvalue: String(idx),
-            disabled: bc.maxvalue,
+            disabled: bc.maxvalue !== undefined,
             handler: "onDel",
             hiddenrules: bc.minvalue,
             iconfont: "close",
-            onlyicon: "true",
+            onlyicon: true,
             type: "BTN",
         }),
         [bc, deleteLabel, idx, storeName],

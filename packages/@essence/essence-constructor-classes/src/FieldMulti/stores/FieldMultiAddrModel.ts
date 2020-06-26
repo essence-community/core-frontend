@@ -26,7 +26,7 @@ export class FieldMultiAddrModel extends FieldMultiModel implements IFieldMultiM
                 ...props.bc,
                 [VAR_RECORD_QUERY_ID]: "jNSIGetAddrByID",
                 defaultvalue: VALUE_SELF_ALWAYSFIRST,
-                orderdirection: "",
+                orderdirection: undefined,
                 orderproperty: "",
             },
         });
@@ -44,6 +44,10 @@ export class FieldMultiAddrModel extends FieldMultiModel implements IFieldMultiM
                   .join(", ")
             : "";
     }
+
+    @action
+    searchRecordAction = (value: string | number) =>
+        this.recordsStore.searchAction({[VAR_RECORD_CK_NSI_ADR_OBJECTS]: value});
 
     @action
     // eslint-disable-next-line max-statements

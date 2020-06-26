@@ -53,7 +53,7 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
         const btns = [];
         const {overrides} = btnOptions;
 
-        if (btnaudit === "true") {
+        if (btnaudit) {
             btns.push({
                 bc: overrides["Override Audit Button"],
                 disabled,
@@ -67,7 +67,7 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
     const btnBc = React.useMemo(() => {
         const {btns, overrides, btnsCollector} = btnOptions;
         const onlyIcon = theme.palette.type === "dark" ? true : undefined;
-        const showStaticBtns = !btnsCollector || btnsCollector.every((btn) => btn.btncollectorall !== "true");
+        const showStaticBtns = !btnsCollector || btnsCollector.every((btn) => !btn.btncollectorall);
 
         const btnsAll = [
             {
@@ -87,7 +87,7 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
             },
         ];
 
-        if (btndelete === "true") {
+        if (btndelete) {
             btnsAll.push({
                 bc: overrides["Override Delete Button"],
                 disabled: disabled || selectedRecordIndex === -1 || selectedRecordIndex !== 0,
@@ -95,7 +95,7 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
             });
         }
 
-        if (btnrefresh === "true") {
+        if (btnrefresh) {
             btnsAll.push({
                 bc: overrides["Override Refresh Button"],
                 disabled,
@@ -118,7 +118,7 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
 
         btns.forEach((btn) => {
             btnsAll.push({
-                bc: onlyIcon ? {...btn, onlyicon: "true"} : btn,
+                bc: onlyIcon ? {...btn, onlyicon: true} : btn,
                 disabled,
                 order: btn[VAR_RECORD_CN_ORDER],
             });
@@ -131,14 +131,14 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
         if (btnsCollector) {
             const childBtns = [...staticAll].sort(compareOrderedBC).map((config) => ({
                 ...config.bc,
-                onlyicon: "false",
+                onlyicon: false,
             }));
 
             btnsCollector.forEach((btn) => {
                 btnsAll.push({
                     bc: {
                         ...btn,
-                        onlyicon: onlyIcon ? "true" : btn.onlyicon,
+                        onlyicon: onlyIcon ? true : btn.onlyicon,
                         topbtn: btn.topbtn ? [...btn.topbtn, ...childBtns] : childBtns,
                     },
                     disabled,

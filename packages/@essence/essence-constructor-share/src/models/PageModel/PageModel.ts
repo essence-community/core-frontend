@@ -12,6 +12,7 @@ import {
     VAR_RECORD_CA_ACTIONS,
     VAR_RECORD_CN_ACTION_EDIT,
     VAR_RECORD_ROUTE_NAME,
+    VAR_RECORD_NOLOAD,
 } from "../../constants";
 import {
     IBuilderConfig,
@@ -92,7 +93,7 @@ export class PageModel implements IPageModel {
             [VAR_RECORD_PAGE_OBJECT_ID]: this.pageId,
             [VAR_RECORD_PARENT_ID]: this.applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID],
             defaultvalue: this.applicationStore.bc.defaultvalue,
-            type: "NONE",
+            type: "PAGER",
         };
     }
 
@@ -290,6 +291,10 @@ export class PageModel implements IPageModel {
     @action
     loadConfigAction = action("loadConfigAction", async (pageId: string) => {
         this.pageId = pageId;
+
+        if (this.route?.[VAR_RECORD_NOLOAD] === 1) {
+            return undefined;
+        }
 
         this.setLoadingAction(true);
 

@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import {toSize, i18next, isEmpty} from "@essence-community/constructor-share/utils";
+import {i18next, isEmpty} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_PARENT_ID,
@@ -25,7 +25,7 @@ import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share
 // eslint-disable-next-line import/named
 import {computed, observable, action, IObservableArray} from "mobx";
 import {IField, IForm} from "@essence-community/constructor-share/Form";
-import {prepareArrayValues} from "../../utils";
+import {prepareArrayValues, getRestoredRecords, getRestoreValue} from "../../utils";
 import {IFieldTableModel} from "./FieldTableModel.types";
 
 interface IFieldTableModelProps extends IStoreBaseModelProps {
@@ -33,7 +33,7 @@ interface IFieldTableModelProps extends IStoreBaseModelProps {
     form: IForm;
 }
 
-const HEIGHT_GRID = 210;
+const HEIGHT_GRID = "210px";
 const loggerInfo = loggerRoot.extend("FieldTableModel");
 
 const clearChildStores = ({pageStore, bc}: {pageStore: IPageModel; bc: IBuilderConfig}) => {
@@ -66,19 +66,17 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
         this.field = props.field;
         this.form = props.form;
-        this.valueField = this.bc.valuefield || this.bc.idproperty || VAR_RECORD_ID;
+        this.valueField = this.bc.valuefield?.[0]?.in || this.bc.idproperty || VAR_RECORD_ID;
 
         if (this.bc.valuefield) {
-            this.valueFields = this.bc.valuefield.split(",").map((key) => {
-                const keys = key.split("=");
-                const fieldKeyName = keys[1] || keys[0];
-                const [valueField] = keys;
+            this.valueFields = this.bc.valuefield.map(({in: keyIn, out}) => {
+                const fieldKeyName = out || keyIn;
 
                 if (fieldKeyName === this.bc.column) {
-                    this.valueField = valueField;
+                    this.valueField = keyIn;
                 }
 
-                return [fieldKeyName, valueField];
+                return [fieldKeyName, keyIn];
             });
         }
 
@@ -98,9 +96,9 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
                 handler: this.bc.collectionvalues === "array" ? "onSelectArrayAction" : "onSelectAction",
                 iconfont: "fa-check",
                 iconfontname: "fa",
-                onlyicon: "true",
-                readonly: "false",
-                reqsel: this.bc.collectionvalues === "array" ? undefined : "true",
+                onlyicon: true,
+                readonly: false,
+                reqsel: this.bc.collectionvalues === "array" ? undefined : true,
                 type: "BTN",
                 uitype: "11",
             },
@@ -112,8 +110,8 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
                 handler: "onCloseAction",
                 iconfont: "fa-ban",
                 iconfontname: "fa",
-                onlyicon: "true",
-                readonly: "false",
+                onlyicon: true,
+                readonly: false,
                 type: "BTN",
                 uitype: "11",
             },
@@ -131,12 +129,12 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             filters: this.bc.filters?.map((column) => ({...column, [VAR_RECORD_PARENT_ID]: gridId})),
             getglobal: undefined,
             height:
-                isEmpty(this.bc.pickerheight) && !isEmpty(this.bc.pagesize)
+                this.bc.pickerheight === undefined && this.bc.pagesize !== undefined
                     ? undefined
-                    : String(toSize(this.bc.pickerheight, HEIGHT_GRID)),
+                    : this.bc.pickerheight ?? HEIGHT_GRID,
             hidden: undefined,
             hiddenrules: undefined,
-            readonly: "false",
+            readonly: false,
             reqsel: undefined,
             setglobal: undefined,
             setrecordtoglobal: undefined,
@@ -163,31 +161,41 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
     @action
     setDefaultRecordAction = async (value?: FieldValue) => {
-        const filter = [
-            {
-                operator: "eq",
-                property: this.valueField,
-                value,
-            },
-        ];
-
-        await this.recordsStore.searchAction(
-            {},
-            {
-                filter,
-                selectedRecordId: value as string,
-            },
-        );
-
         if (this.bc.collectionvalues === "array") {
-            const records = prepareArrayValues(this, this.recordsStore.records, this.recordsStore.recordId);
+            if (
+                Array.isArray(value) &&
+                value.every((valDirty, idx) => {
+                    return this.valueFields.every(([fieldName, valueFeild]) => {
+                        const val = typeof valDirty === "object" && valDirty !== null ? valDirty[fieldName] : valDirty;
 
-            this.field.onChange(records);
-            this.selectedEntries.replace(
-                this.recordsStore.records.map((record) => [record[this.recordsStore.recordId] as string, record]),
+                        return val !== this.selectedEntries[idx]?.[1][valueFeild];
+                    });
+                })
+            ) {
+                await this.recordsStore.searchAction(
+                    {},
+                    {
+                        filter: this.valueFields.map(([fieldName, valueFeild]) => ({
+                            operator: "in",
+                            property: valueFeild,
+                            value: getRestoreValue(value, fieldName),
+                        })),
+                    },
+                );
+                this.selectedEntries.replace(getRestoredRecords(value, this));
+            }
+        } else {
+            await this.recordsStore.searchAction(
+                {},
+                {
+                    filter: [{operator: "eq", property: this.valueField, value}],
+                    selectedRecordId: value as string,
+                },
             );
-        } else if (this.recordsStore.selectedRecord) {
-            this.handleChangeRecord(this.recordsStore.selectedRecord);
+
+            if (this.recordsStore.selectedRecord) {
+                this.handleChangeRecord(this.recordsStore.selectedRecord);
+            }
         }
         this.setRecordToGlobal();
     };
@@ -277,8 +285,8 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
     @action
     restoreSelectedAction = (recordsStore: IRecordsModel) => {
-        this.selectedEntries.forEach(([key, value]) => {
-            recordsStore.selectedRecords.set(key, value);
+        this.selectedEntries.forEach(([key, rec]) => {
+            recordsStore.selectedRecords.set(key, rec);
         });
 
         if (this.bc.collectionvalues === "array") {
@@ -333,8 +341,8 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
         if (recordsStore && this.bc.collectionvalues === "array") {
             recordsStore.selectedRecords.clear();
-            this.selectedEntries.forEach(([key, value]) => {
-                recordsStore.selectedRecords.set(key, value);
+            this.selectedEntries.forEach(([key, rec]) => {
+                recordsStore.selectedRecords.set(key, rec);
             });
         }
 

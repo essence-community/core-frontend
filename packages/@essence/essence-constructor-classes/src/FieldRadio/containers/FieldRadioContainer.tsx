@@ -146,7 +146,7 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
     return useObserver(() => {
         const content = (
             <Scrollbars autoHeight autoHeightMax={371} autoHeightMin={30} hideTracksWhenNotNeeded preventAltScroll>
-                <div style={{height: bc.height ? `${bc.height}px` : "auto"}}>
+                <div style={{height: bc.height ? bc.height : "auto"}}>
                     <RadioGroup onChange={handleChange}>
                         <Grid
                             container

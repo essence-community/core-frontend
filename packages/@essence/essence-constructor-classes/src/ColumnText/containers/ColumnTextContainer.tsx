@@ -2,12 +2,13 @@ import * as React from "react";
 import {makeRedirectUrl, getQueryParams, Translation} from "@essence-community/constructor-share/utils";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {RecordContext} from "@essence-community/constructor-share/context";
+import {toString} from "../utils";
 import {useStyles} from "./ColumnTextContainer.styles";
 
 export const ColumnTextContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
     const record = React.useContext(RecordContext);
-    const value = record && bc.column ? record[bc.column] : undefined;
+    const value = record && bc.column ? toString(record[bc.column]) : undefined;
     const classes = useStyles();
     const redirectUrl = React.useMemo(
         () =>
@@ -67,7 +68,9 @@ export const ColumnTextContainer: React.FC<IClassProps> = (props) => {
     const stringValue = value.replace(/((<br)|\r|\n)[\s\S]*/iu, "...");
 
     if (bc.localization) {
-        return <Translation ns={bc.localization}>{(trans) => getRenderValue(trans(stringValue))}</Translation>;
+        return (
+            <Translation ns={bc.localization}>{(trans) => getRenderValue(trans(stringValue, stringValue))}</Translation>
+        );
     }
 
     return getRenderValue(stringValue, value);

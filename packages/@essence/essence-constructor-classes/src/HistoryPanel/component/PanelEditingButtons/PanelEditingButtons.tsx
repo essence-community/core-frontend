@@ -18,7 +18,7 @@ import {mergeComponents, useTranslation} from "@essence-community/constructor-sh
 import {toTranslateText} from "@essence-community/constructor-share/utils/transform";
 import {useStyles} from "./PanelEditingButtons.styles";
 
-const getSaveBtnConfig = (bc: IBuilderConfig, isDarkTheme: boolean) => ({
+const getSaveBtnConfig = (bc: IBuilderConfig, isDarkTheme: boolean): IBuilderConfig => ({
     [VAR_RECORD_CN_ORDER]: 1e6,
     [VAR_RECORD_DISPLAYED]: "static:8a930c6b5dd440429c0f0e867ce98316",
     [VAR_RECORD_NAME]: "Override Save Button",
@@ -27,12 +27,12 @@ const getSaveBtnConfig = (bc: IBuilderConfig, isDarkTheme: boolean) => ({
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
     handler: "onSimpleSave",
     iconfont: isDarkTheme ? "save" : undefined,
-    onlyicon: isDarkTheme ? "true" : undefined,
+    onlyicon: isDarkTheme ? true : undefined,
     type: "BTN",
     uitype: "5",
 });
 
-const getCancelBtnConfig = (bc: IBuilderConfig, isDarkTheme: boolean) => ({
+const getCancelBtnConfig = (bc: IBuilderConfig, isDarkTheme: boolean): IBuilderConfig => ({
     [VAR_RECORD_CN_ORDER]: 1e6,
     [VAR_RECORD_DISPLAYED]: "static:64aacc431c4c4640b5f2c45def57cae9",
     [VAR_RECORD_NAME]: "Override Cancel Button",
@@ -42,7 +42,7 @@ const getCancelBtnConfig = (bc: IBuilderConfig, isDarkTheme: boolean) => ({
     confirmquestion: "static:9b475e25ae8a40b0b158543b84ba8c08",
     handler: "onCloseWindow",
     iconfont: isDarkTheme ? "times" : undefined,
-    onlyicon: isDarkTheme ? "true" : undefined,
+    onlyicon: isDarkTheme ? true : undefined,
     type: "BTN",
     uitype: "6",
 });

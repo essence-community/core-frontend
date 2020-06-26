@@ -11,48 +11,50 @@ import {PanelWrapper} from "../components/PanelWrapper/PanelWrapper";
 import {PanelForm} from "../components/PanelForm/PanelForm";
 import {Panel} from "../components/Panel/Panel";
 
-type renderFn = (render?: renderFn) => any;
+type RenderPanelType = (isFormPanel?: boolean) => React.ReactElement | null;
+type RenderFnType = (render: RenderPanelType) => React.ReactElement | null;
 
 export interface IPanelContainerProps extends IClassProps {
     hideTitle?: boolean;
 }
-export const PanelContainer: React.FC<IPanelContainerProps> = (props) => {
+export const PanelContainer: React.FC<IPanelContainerProps> = React.memo(function PanelContainerMemo(
+    props,
+): React.ReactElement | null {
     const {hideTitle, bc, elevation} = props;
     const {collapsible, editmodepanel} = bc;
     const [trans] = useTranslation("meta");
-    const isHiddenTitle = React.useMemo(() => hideTitle || collapsible === "true", [hideTitle, collapsible]);
-    const collapsePanel: renderFn = React.useMemo(() => {
-        if (collapsible === "true") {
-            const collapseBc = {
-                ...bc,
-                [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-collapsible-panel`,
-                type: "PANELCOLLAPSED.NOCOMMONDECORATOR",
-            };
-
-            return (render: renderFn) =>
-                mapComponentOne(collapseBc, (Child, childBc) => (
-                    <Child key={childBc.ck_page_object} {...props} bc={childBc}>
-                        {render()}
-                    </Child>
-                ));
+    const isHiddenTitle = React.useMemo(() => hideTitle || collapsible, [hideTitle, collapsible]);
+    const collapseBc = React.useMemo(
+        () => ({
+            ...bc,
+            [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-collapsible-panel`,
+            type: "PANELCOLLAPSED.NOCOMMONDECORATOR",
+        }),
+        [bc],
+    );
+    const formBc = React.useMemo(() => ({...bc, type: "FORMPANEL.NOCOMMONDECORATOR"}), [bc]);
+    const collapsePanel: RenderFnType = (render: RenderPanelType): React.ReactElement | null => {
+        if (collapsible) {
+            return mapComponentOne(collapseBc, (Child, childBc) => (
+                <Child key={childBc.ck_page_object} {...props} bc={childBc}>
+                    {render(true)}
+                </Child>
+            ));
         }
 
-        return (render: renderFn) => render();
-    }, [bc, collapsible, props]);
+        return render();
+    };
 
-    const formPanel: renderFn = React.useMemo(() => {
-        if (editmodepanel === "true") {
-            const formBc = {...bc, type: "FORMPANEL.NOCOMMONDECORATOR"};
-
-            return (render: renderFn) =>
-                mapComponentOne(formBc, (Child, childBc) => (
-                    <Child key={childBc.ck_page_object} {...props} bc={childBc}>
-                        <PanelForm {...props}>{render()}</PanelForm>
-                    </Child>
-                ));
+    const formPanel: RenderFnType = (render: RenderPanelType) => {
+        if (editmodepanel) {
+            return mapComponentOne(formBc, (Child, childBc) => (
+                <Child key={childBc.ck_page_object} {...props} bc={childBc}>
+                    <PanelForm {...props}>{render(true)}</PanelForm>
+                </Child>
+            ));
         }
         if (!isHiddenTitle && bc[VAR_RECORD_DISPLAYED]) {
-            return (render: renderFn) => (
+            return (
                 <Grid container spacing={0} direction="column">
                     <Grid item xs>
                         <EmptyTitle
@@ -68,20 +70,22 @@ export const PanelContainer: React.FC<IPanelContainerProps> = (props) => {
             );
         }
 
-        return (render: renderFn) => <PanelWrapper {...props}>{render()}</PanelWrapper>;
-    }, [bc, editmodepanel, isHiddenTitle, props, trans]);
+        return <PanelWrapper {...props}>{render()}</PanelWrapper>;
+    };
 
-    const content = React.useMemo(() => {
-        if (elevation) {
-            return (
-                <Paper className="paper-overflow-hidden" elevation={elevation}>
-                    {collapsePanel(() => formPanel(() => <Panel {...props}></Panel>))}
-                </Paper>
-            );
-        }
+    if (elevation && editmodepanel) {
+        return (
+            <Paper className="paper-overflow-hidden" elevation={elevation}>
+                {collapsePanel((isFormPanelCollabsible = false) =>
+                    formPanel((isFormPanel = isFormPanelCollabsible) => (
+                        <Panel {...props} isFormPanel={isFormPanel} elevation={undefined}></Panel>
+                    )),
+                )}
+            </Paper>
+        );
+    }
 
-        return collapsePanel(() => formPanel(() => <Panel {...props}></Panel>));
-    }, [collapsePanel, elevation, formPanel, props]);
-
-    return content;
-};
+    return collapsePanel((isFormPanelCollabsible = false) =>
+        formPanel((isFormPanel = isFormPanelCollabsible) => <Panel {...props} isFormPanel={isFormPanel}></Panel>),
+    );
+});

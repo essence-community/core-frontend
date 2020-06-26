@@ -41,7 +41,7 @@ export const HistoryPanelWrapper: React.FC<IClassProps> = (props) => {
         >
             <Grid item className={classes.actionsBar}>
                 {store && store.editing ? <PanelEditingButtons {...props} /> : null}
-                {store && hideactions !== "true" ? <HistoryPanelButtons {...props} store={store} /> : null}
+                {store && !hideactions ? <HistoryPanelButtons {...props} store={store} /> : null}
             </Grid>
             <Grid item xs zeroMinWidth className={cn({[classes.contentEditing]: form.editing})}>
                 {mapComponentOne(boxBc, (Child, childBc) => (

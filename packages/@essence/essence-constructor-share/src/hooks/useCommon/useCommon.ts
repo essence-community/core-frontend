@@ -1,7 +1,7 @@
 import {useState, useContext, useCallback, useEffect} from "react";
 import {reaction} from "mobx";
 import {IClassProps} from "../../types";
-import {isEmpty, parseMemoize} from "../../utils";
+import {parseMemoize} from "../../utils";
 import {RecordContext} from "../../context";
 import {VAR_RECORD_MASTER_ID} from "../../constants";
 import {isDisabled} from "./isDisabled";
@@ -18,11 +18,9 @@ export const useCommon = (props: IClassProps): IUseCommonResult => {
     const {hiddenrules, readonlyrules} = bc;
     const record = useContext(RecordContext);
 
-    const [disabledState, setDisabledState] = useState(bc.disabled === "true");
-    const [hiddenState, setHiddenState] = useState(bc.hidden === "true");
-    const [readOnlyState, setReadOnlyState] = useState(() =>
-        isEmpty(bc.readonly) ? undefined : bc.readonly === "true",
-    );
+    const [disabledState, setDisabledState] = useState(bc.disabled === true);
+    const [hiddenState, setHiddenState] = useState(bc.hidden === true);
+    const [readOnlyState, setReadOnlyState] = useState(bc.readonly);
     const isHidden = hidden || hiddenState;
 
     const getValue = useCallback(
@@ -33,11 +31,7 @@ export const useCommon = (props: IClassProps): IUseCommonResult => {
     );
 
     useEffect(() => {
-        if (
-            (bc.reqsel === "true" && bc[VAR_RECORD_MASTER_ID]) ||
-            bc.disabledrules ||
-            bc.disabledemptymaster === "true"
-        ) {
+        if ((bc.reqsel && bc[VAR_RECORD_MASTER_ID]) || bc.disabledrules || bc.disabledemptymaster) {
             return reaction(() => isDisabled({bc, getValue, pageStore}), setDisabledState, {
                 fireImmediately: true,
             });

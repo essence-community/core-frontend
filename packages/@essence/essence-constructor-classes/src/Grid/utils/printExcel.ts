@@ -54,7 +54,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
                 (obj) =>
                     obj.datatype !== "icon" &&
                     obj.datatype !== "checkbox" &&
-                    obj.visible !== "false" &&
+                    !obj.visible &&
                     obj.hiddenrules !== "true",
             )
             .map((val) => ({
@@ -65,7 +65,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
                 column: val.column || "",
                 currencysign: val.currencysign || "",
                 datatype: val.datatype || "",
-                decimalprecision: val.decimalprecision ? parseInt(val.decimalprecision, 10) : 2,
+                decimalprecision: val.decimalprecision ?? 2,
                 decimalseparator: val.decimalseparator ? val.decimalseparator : ",",
                 format: val.format || "",
                 thousandseparator: val.thousandseparator ? val.thousandseparator : " ",
@@ -78,7 +78,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
         jsonbc: JSON.stringify(jsonbc),
     };
 
-    setMask(true, "false", pageStore);
+    setMask(true, false, pageStore);
 
     return request({
         [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
@@ -90,10 +90,10 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
         plugin: bcBtn.extraplugingate || bc.extraplugingate,
         query: bc[VAR_RECORD_QUERY_ID] || "",
         session: pageStore.applicationStore.authStore.userInfo.session,
-        timeout: bcBtn.timeout || "660",
+        timeout: bcBtn.timeout ?? 660,
     })
         .then((res: any) => {
-            setMask(false, "false", pageStore);
+            setMask(false, false, pageStore);
             const isValid: number = snackbarStore.checkValidResponseAction(res, {
                 applicationStore: pageStore.applicationStore,
                 route: pageStore.route,
@@ -108,7 +108,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
             return isValid > 0;
         })
         .catch(() => {
-            setMask(false, "false", pageStore);
+            setMask(false, false, pageStore);
 
             return false;
         });

@@ -28,14 +28,13 @@ const getComponentBc = (bc: IBuilderConfig, defaultTheme?: string): IBuilderConf
     displayfield: bc.displayfield || "name",
     getglobal: VAR_SETTING_THEME,
     localization: "static",
-    noglobalmask: "true",
-    querymode: "remote",
+    noglobalmask: true,
     records: [
         {[VAR_RECORD_ID]: "dark", name: "static:66ef0068472a4a0394710177f828a9b1", value: "dark"},
         {[VAR_RECORD_ID]: "light", name: "static:fd7c7f3539954cc8a55876e3514906b5", value: "light"},
     ],
     type: "IFIELD",
-    valuefield: bc.valuefield || "value",
+    valuefield: bc.valuefield || [{in: "value"}],
 });
 
 export const ThemeCombo: React.FC<IClassProps> = (props) => {

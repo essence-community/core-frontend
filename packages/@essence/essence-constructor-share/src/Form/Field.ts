@@ -18,6 +18,7 @@ export interface IFieldOptions {
     defaultValueFn?: IField["defaultValueFn"];
     isArray?: boolean;
     isObject?: boolean;
+    clearValue?: FieldValue;
 }
 
 export const disabledSize = {
@@ -59,6 +60,8 @@ export class Field implements IField {
 
     public registers = 0;
 
+    public clearValue: FieldValue | undefined;
+
     @computed get label() {
         return this.bc[VAR_RECORD_DISPLAYED];
     }
@@ -70,7 +73,7 @@ export class Field implements IField {
     @observable private extraRules: string[] = [];
 
     @computed get isRequired(): boolean {
-        if (this.bc.required === "true") {
+        if (this.bc.required) {
             return true;
         }
 
@@ -159,24 +162,6 @@ export class Field implements IField {
         return !this.error;
     }
 
-    @computed get clearValue(): FieldValue {
-        switch (true) {
-            case this.isArray:
-                return [];
-            case this.isObject:
-                return {};
-            case this.bc.datatype === "checkbox":
-            case this.bc.datatype === "boolean":
-                return 0;
-            case this.bc.datatype === "text":
-                return "";
-            case this.bc.datatype === "date":
-                return null;
-            default:
-                return undefined;
-        }
-    }
-
     constructor(options: IFieldOptions) {
         this.pageStore = options.pageStore;
         this.form = options.form;
@@ -184,6 +169,7 @@ export class Field implements IField {
         this.key = options.key;
         this.isArray = options.isArray ?? false;
         this.isObject = options.isObject ?? false;
+        this.clearValue = options.clearValue;
         this.input = this.getInput(options.input);
         this.output = this.getOutput(options.output);
         this.defaultValueFn = options.defaultValueFn;
@@ -380,7 +366,7 @@ export class Field implements IField {
     @action
     add = () => {
         if (this.isArray) {
-            this.onChange([...this.value, {}]);
+            this.onChange(Array.isArray(this.value) ? [...this.value, {}] : [{}]);
         }
     };
 

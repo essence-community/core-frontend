@@ -100,12 +100,10 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         }
 
         if (this.bc.valuefield) {
-            this.valueFields = this.bc.valuefield.split(",").map((key) => {
-                const keys = key.split("=");
-                const fieldKeyName = keys[1] || keys[0];
-                const [valueField] = keys;
+            this.valueFields = this.bc.valuefield.map(({in: keyIn, out}) => {
+                const fieldKeyName = out || keyIn;
 
-                return [fieldKeyName, valueField];
+                return [fieldKeyName, keyIn];
             });
         }
         this.afterSelected();
@@ -245,11 +243,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
      */
     saveAction = action("saveAction", async (values: IRecord, mode: IBuilderMode, config: GridSaveConfigType) => {
         const {actionBc, files, form} = config;
-        const winBc = this.pageStore.windows.find(
-            (bc) => bc[VAR_RECORD_PARENT_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID],
-        );
         const isDownload = mode === "7" || actionBc.mode === "7";
-        const gridValues = getGridValues({gridStore: this, mode, pageStore: this.pageStore, values, winBc});
+        const gridValues = getGridValues({gridStore: this, mode, values});
 
         const result = await this.recordsStore[isDownload ? "downloadAction" : "saveAction"](gridValues, mode, {
             actionBc,
@@ -265,7 +260,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
     @action
     reloadStoreAction = (checkParent: boolean) => {
-        if (checkParent && this.bc[VAR_RECORD_MASTER_ID] && this.bc.reloadmaster === "true") {
+        if (checkParent && this.bc[VAR_RECORD_MASTER_ID] && this.bc.reloadmaster) {
             const masterId = this.bc[VAR_RECORD_MASTER_ID];
             const masterStore = masterId === undefined ? undefined : this.pageStore.stores.get(masterId);
 
@@ -437,7 +432,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     scrollToRecordAction = (params: IRecord) => gridScrollToRecordAction(params, this);
 
     afterSelected = () => {
-        if (this.bc.setglobal) {
+        if (this.bc.setglobal?.length) {
             return gridSetGlobalValues(this);
         }
 
@@ -447,7 +442,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     };
 
     winReloadStores = () => {
-        if (this.bc.winreloadstores === "true") {
+        if (this.bc.winreloadstores) {
             this.reloadStoreAction(false);
         }
 
@@ -473,7 +468,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
             this.pageStore.updateGlobalValues({
                 [this.bc.setrecordtoglobal]:
-                    selmode === "MULTI" || selmode === "SIMPLE" || collectionvalues === "array"
+                    selmode === "MULTI" || collectionvalues === "array"
                         ? selectedRecords
                         : this.recordsStore.selectedRecord || null,
             });

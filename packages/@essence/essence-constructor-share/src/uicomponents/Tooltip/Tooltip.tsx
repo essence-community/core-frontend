@@ -1,16 +1,13 @@
 /* eslint-disable max-lines-per-function */
 /* eslint-disable max-statements */
 import React from "react";
-import {preference, CARRY_LINES_REGEXP} from "../../constants";
-import {debounce} from "../../utils";
+import {CARRY_LINES_REGEXP} from "../../constants";
+import {debounce, getPreference} from "../../utils";
 import {useStyles} from "./Tooltip.styles";
-
-const TIMEOUT_SHOW_TIME = preference.delayTooltipShow;
-const OFFSET_CURSOR = preference.offsetTooltip;
-const DEBOUNCE_TIME = preference.debounceTooltipTime;
 
 export const prepareTip = (tip: string | null): string[] | null => (tip ? tip.split(CARRY_LINES_REGEXP) : null);
 export const Tooltip: React.FC<{}> = (props) => {
+    const preference = getPreference();
     const classes = useStyles();
     const [inTooltip, setInTooltip] = React.useState(false);
     const [position, setPosition] = React.useState({
@@ -36,10 +33,11 @@ export const Tooltip: React.FC<{}> = (props) => {
             const isBottomOut = top + current.offsetHeight > window.innerHeight;
 
             current.style.right = isRightOut ? "10px" : "auto";
-            current.style.left = isRightOut ? "auto" : `${left + OFFSET_CURSOR}px`;
-            current.style.top = isBottomOut ? "auto" : `${top + OFFSET_CURSOR}px`;
+            current.style.left = isRightOut ? "auto" : `${left + preference.offsetTooltip}px`;
+            current.style.top = isBottomOut ? "auto" : `${top + preference.offsetTooltip}px`;
             current.style.bottom = isBottomOut ? "10px" : "auto";
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inTooltip, position]);
 
     const getTipTitle = React.useCallback(() => {
@@ -85,7 +83,7 @@ export const Tooltip: React.FC<{}> = (props) => {
                     requestAnimationFrame(() => {
                         if (newTip !== tip) {
                             clearTimeout(timerShow.current);
-                            timerShow.current = setTimeout(setShowTooltip, TIMEOUT_SHOW_TIME);
+                            timerShow.current = setTimeout(setShowTooltip, preference.delayTooltipShow);
                             makeHideTooltip(inTooltip);
                             setTip(newTip);
                             setTitle(prepareTip(newTip));
@@ -100,6 +98,7 @@ export const Tooltip: React.FC<{}> = (props) => {
                 }
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [getTipTitle, inTooltip, makeHideTooltip, tip],
     );
 
@@ -107,7 +106,8 @@ export const Tooltip: React.FC<{}> = (props) => {
         () =>
             debounce((left: number, top: number) => {
                 setPosition({left, top});
-            }, DEBOUNCE_TIME),
+            }, preference.debounceTooltipTime),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [],
     );
 

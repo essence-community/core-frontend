@@ -24,7 +24,7 @@ export class PanelModel extends StoreBaseModel {
 
         const {childs, resizable} = props.bc;
 
-        this.childsWidths = resizable === "true" && childs ? getInitChilds(childs) : undefined;
+        this.childsWidths = resizable && childs ? getInitChilds(childs) : undefined;
     }
 
     @action

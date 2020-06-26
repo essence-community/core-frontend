@@ -1,33 +1,30 @@
 import {IClassProps, Scrollbars} from "@essence-community/constructor-share";
-import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {useModel} from "@essence-community/constructor-share/hooks/useModel";
 import * as React from "react";
 import {TreeRows} from "../components/TreeRows/TreeRows";
 import {PagesTreeModel} from "../stores/PagesTreeModel";
+import {IBuilderClassConfig} from "../types";
+import {useStyles} from "./PagesTree.styles";
 
 const SCROLLBARS_STYLE = {
     height: "100%",
+    width: "100%",
 };
 
-export const PagesTree: React.FC<IClassProps> = (props) => {
-    const applicationStore = React.useContext(ApplicationContext);
+const UITYPES = {
+    1: "uitype-1" as "uitype-1",
+    3: "uitype-3" as "uitype-3",
+};
 
-    if (!applicationStore) {
-        throw new Error("Not found applicationStore");
-    }
+export const PagesTree: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
+    const {pageStore, bc} = props;
+    const {routesStore, pagesStore} = pageStore.applicationStore;
+    const classes = useStyles();
 
-    const [store] = useModel((modelProps) => new PagesTreeModel(modelProps), {
-        applicationStore,
-        bc: props.bc,
-        disabled: props.disabled,
-        hidden: props.hidden,
-        pageStore: props.pageStore,
-    });
-
-    const {routesStore, pagesStore} = applicationStore;
+    const [store] = useModel((modelProps) => new PagesTreeModel(modelProps), props);
 
     return (
-        <Scrollbars withRequestAnimationFrame style={SCROLLBARS_STYLE}>
+        <Scrollbars withRequestAnimationFrame style={SCROLLBARS_STYLE} className={classes[UITYPES[bc.uitype]]}>
             {routesStore ? (
                 <TreeRows parent={null} treeModel={store} routesStore={routesStore} pagesStore={pagesStore} level={0} />
             ) : null}

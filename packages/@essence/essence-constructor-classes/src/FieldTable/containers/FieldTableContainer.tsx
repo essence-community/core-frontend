@@ -1,5 +1,5 @@
 import * as React from "react";
-import {toSize, isEmpty} from "@essence-community/constructor-share/utils";
+import {isEmpty} from "@essence-community/constructor-share/utils";
 import {VALUE_SELF_FIRST, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
@@ -25,10 +25,6 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
         (options) =>
             new FieldTableModel({
                 ...options,
-                bc: {
-                    ...options.bc,
-                    autoload: "false",
-                },
                 field,
                 form,
             }),
@@ -41,7 +37,7 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
 
     // componentDidMount
     React.useEffect(() => {
-        if (!isEmpty(field.value) && !Array.isArray(field.value)) {
+        if (!isEmpty(field.value)) {
             store.setDefaultRecordAction(field.value);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,7 +64,7 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
                         store.clearAction();
                     } else if (value === VALUE_SELF_FIRST) {
                         field.onChange(getFirstValues(store.recordsStore));
-                    } else if (!Array.isArray(value)) {
+                    } else {
                         store.setDefaultRecordAction(value);
                     }
                 },
@@ -82,7 +78,7 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
                 <ChildCmp {...props} bc={childBc} />
             ))}
             container={pageStore.pageEl}
-            width={toSize(bc.pickerwidth) as number}
+            width={bc.pickerwidth}
             pageStore={pageStore}
             hideOnScroll
         >

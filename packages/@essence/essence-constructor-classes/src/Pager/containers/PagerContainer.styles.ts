@@ -24,6 +24,7 @@ export const useStyles = makeStyles(
             display: "flex",
             flexGrow: 1,
             height: "inherit",
+            outline: process.env.NODE_ENV === "production" ? "none" : undefined,
             position: "relative",
         },
         rootDialogContent: {},

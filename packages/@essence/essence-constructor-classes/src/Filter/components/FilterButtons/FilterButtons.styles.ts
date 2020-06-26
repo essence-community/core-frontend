@@ -9,6 +9,7 @@ export const useStyles = makeStyles(
                       // Dark
                       alignItems: "center",
                       backgroundColor: theme.palette.primary.main,
+                      borderRadius: "3px 0 0 3px",
                       color: theme.palette.common.white,
                       display: "flex",
                       fill: theme.palette.common.white,
@@ -35,15 +36,6 @@ export const useStyles = makeStyles(
                       height: 42,
                       position: "relative",
                   },
-        filterButtonsAbsolute:
-            theme.palette.type === "dark"
-                ? {
-                      // Dark
-                      background: "none",
-                      left: 0,
-                      position: "absolute",
-                  }
-                : {},
         filterButtonsCollapse:
             theme.palette.type === "dark"
                 ? {
@@ -97,5 +89,5 @@ export const useStyles = makeStyles(
             whiteSpace: "nowrap",
         },
     }),
-    {name: "FilterButtons"},
+    {name: "EssenceFilterButtons"},
 );

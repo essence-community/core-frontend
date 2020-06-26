@@ -5,7 +5,7 @@ import {IButtonInternalProps} from "../Button.types";
 
 export function getButtonComponent(bc: IBuilderConfig, theme: IEssenceTheme): React.FC<IButtonInternalProps> {
     switch (true) {
-        case bc.onlyicon === "true":
+        case bc.onlyicon:
         case theme.palette.type === "dark" && (bc.uitype === "4" || bc.uitype === "11" || bc.uitype === "12"):
             return IconButton;
         default:

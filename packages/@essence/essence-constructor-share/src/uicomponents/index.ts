@@ -16,3 +16,4 @@ export {EmptyTitle} from "./EmptyTitle";
 export {TextFieldMask} from "./TextFieldMask";
 export {HorizontalResizer} from "./HorizontalResizer";
 export {Tooltip} from "./Tooltip";
+export {makeRenderers} from "./MarkDown";

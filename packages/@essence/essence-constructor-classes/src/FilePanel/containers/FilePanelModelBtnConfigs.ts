@@ -16,12 +16,12 @@ const getAddBtnConfig = (bc: IBuilderConfig, styleTheme: string): IBuilderConfig
     [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_add`,
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
     handler: "onAddFileAction",
-    hidden: styleTheme === "light" ? undefined : "false",
+    hidden: styleTheme === "light" ? undefined : false,
     iconfont: "fa-plus",
     iconfontname: "fa",
     mode: "1",
-    onlyicon: styleTheme === "light" ? undefined : "true",
-    reqsel: "false",
+    onlyicon: styleTheme === "light" ? undefined : true,
+    reqsel: false,
     type: "BTN",
     uitype: "4",
 });
@@ -35,7 +35,7 @@ export const getSaveBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     filemode: bc.filemode,
     filetypes: "doc,docx,pdf,zip,txt,ods,odt,xls,xlsx",
     handler: "onSimpleSaveWindow",
-    maxfile: "5242880",
+    maxfile: 5242880,
     mode: "8",
     type: "BTN",
 });
@@ -68,7 +68,7 @@ const getDeleteButton = (bc: IBuilderConfig): IBuilderConfig => ({
     handler: "onDeleteRecord",
     iconfont: "times",
     iconfontname: "fa",
-    onlyicon: "true",
+    onlyicon: true,
     type: "BTN",
 });
 
@@ -79,9 +79,9 @@ const getBtnAuditConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
     iconfont: "info",
     iconfontname: "fa",
-    onlyicon: "true",
-    readonly: "false",
-    reqsel: "true",
+    onlyicon: true,
+    readonly: false,
+    reqsel: true,
     type: "AUDIT_INFO",
     uitype: "11",
 });
@@ -94,8 +94,8 @@ const getBtnRefreshConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     handler: "onRefresh",
     iconfont: "refresh",
     iconfontname: "fa",
-    onlyicon: "true",
-    readonly: "false",
+    onlyicon: true,
+    readonly: false,
     type: "BTN",
     uitype: "11",
 });

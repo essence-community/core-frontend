@@ -1,5 +1,5 @@
 import {action, observable, computed} from "mobx";
-import {removeFromStore, print, findSetKey, saveToStore} from "@essence-community/constructor-share/utils";
+import {removeFromStore, print, saveToStore} from "@essence-community/constructor-share/utils";
 import {snackbarStore, StoreBaseModel} from "@essence-community/constructor-share/models";
 import {
     VAR_RECORD_PARENT_ID,
@@ -33,11 +33,11 @@ export class FilterModel extends StoreBaseModel {
     constructor(props: IStoreBaseModelProps) {
         super(props);
 
-        if (this.bc.filtervaluessave === "true" && this.pageStore.pageId) {
+        if (this.bc.filtervaluessave && this.pageStore.pageId) {
             this.valuesStorageKey = `${this.pageStore.pageId}_filter_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
         }
 
-        this.isOpen = this.bc.collapsed !== "true";
+        this.isOpen = !this.bc.collapsed;
     }
 
     @action
@@ -108,15 +108,12 @@ export class FilterModel extends StoreBaseModel {
     handleGlobals = (values: IRecord) => {
         const {setglobal} = this.bc;
 
-        if (setglobal) {
+        if (setglobal && setglobal.length) {
             const globalValues: Record<string, FieldValue> = {};
-            const keys = findSetKey(setglobal);
 
-            for (const fieldName in keys) {
-                if (Object.prototype.hasOwnProperty.call(keys, fieldName)) {
-                    globalValues[keys[fieldName]] = values[fieldName];
-                }
-            }
+            setglobal.forEach(({in: keyIn, out}) => {
+                globalValues[out] = values[keyIn || out];
+            });
 
             this.pageStore.updateGlobalValues(globalValues);
         }

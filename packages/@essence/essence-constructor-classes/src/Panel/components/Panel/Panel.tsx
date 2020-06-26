@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from "react";
+import cn from "clsx";
 import {mapComponentOne, mapComponents} from "@essence-community/constructor-share/components";
 import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {useModel} from "@essence-community/constructor-share/hooks";
@@ -15,8 +16,12 @@ import {useStyles} from "./Panel.styles";
 
 const MAX_PANEL_WIDTH = 12;
 
-export const Panel: React.FC<IClassProps> = (props) => {
-    const {bc} = props;
+interface IPanelProps extends IClassProps {
+    isFormPanel?: boolean;
+}
+
+export const Panel: React.FC<IPanelProps> = (props) => {
+    const {bc, isFormPanel = true} = props;
     const classes = useStyles();
     const {resizable, contentview, childs = []} = bc;
     const [store] = useModel((options) => new PanelModel(options), {
@@ -28,7 +33,7 @@ export const Panel: React.FC<IClassProps> = (props) => {
     });
     const context = React.useContext(PanelWidthContext);
     const boxBc = React.useMemo(() => ({...bc, type: "BOX.NOCOMMONDECORATOR"} as IBuilderConfig), [bc]);
-    const isResizeEnable = resizable === "true" && contentview === "hbox";
+    const isResizeEnable = resizable === true && contentview === "hbox";
     const isRow = contentview === "hbox" || contentview === "hbox-wrap";
     const handleChangeChildWidth = React.useCallback(
         (id: string, newWidth: number, side?: "right" | "left") => {
@@ -41,7 +46,7 @@ export const Panel: React.FC<IClassProps> = (props) => {
         const {childsWidths = {}} = store;
 
         return (
-            <div className={classes.contentRoot}>
+            <div className={cn(classes.contentRoot, {[classes.contentForm]: isFormPanel})}>
                 {mapComponentOne(boxBc, (Child, childBc) => (
                     <Child key={childBc.ck_page_object} {...props} bc={childBc}>
                         {mapComponents(childs, (ChildComp, child, index) => {

@@ -22,7 +22,7 @@ import {useStyles} from "./FieldCheckboxContainer.styles";
 export const FieldCheckboxContainer: React.FC<IClassProps> = (props) => {
     const {bc, disabled, readOnly, pageStore} = props;
     const [focused, setFocus] = React.useState<boolean>(false);
-    const field = useField(props);
+    const field = useField({...props, clearValue: 0});
     const textFieldProps = useTextFieldProps({bc, disabled, field, readOnly});
 
     const [trans] = useTranslation("meta");

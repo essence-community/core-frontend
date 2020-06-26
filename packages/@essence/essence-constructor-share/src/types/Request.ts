@@ -16,7 +16,7 @@ export interface IRequest {
     list?: boolean;
     plugin?: string;
     gate?: string;
-    timeout?: string;
+    timeout?: number;
     formData?: FormData;
     method?: "POST";
     onUploadProgress?: (progressEvent: ProgressEvent) => void;

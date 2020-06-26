@@ -137,7 +137,8 @@ export class SnackbarModel implements ISnackbarModel {
         this.activeStatus = status;
     });
 
-    snackbarOpenAction = action("snackbarOpenAction", (snackbar: Partial<ISnackbar>, route?: IRouteRecord) => {
+    @action
+    snackbarOpenAction = (snackbar: Partial<ISnackbar>, route?: IRouteRecord): ISnackbar => {
         const routeName = route && route[VAR_RECORD_ROUTE_NAME];
         const {id, ...snackbarData} = snackbar;
         const date = new Date();
@@ -167,7 +168,9 @@ export class SnackbarModel implements ISnackbarModel {
         }
 
         this.snackbarsAll.unshift(snackbarProps);
-    });
+
+        return snackbarProps;
+    };
 
     setClosebleAction = action("setClosebleAction", (snackbarId: string) => {
         const closableSnackbar = this.snackbars.find((snakebar) => snakebar.id === snackbarId);

@@ -1,15 +1,12 @@
 import {action, extendObservable} from "mobx";
-import {IPageModel} from "../../types";
+import {IPageModel, ISnackbar, IProgressModel} from "../../types";
 import {snackbarStore} from "../SnackbarModel";
+import {toTranslateText} from "../../utils";
 
 export interface IProgressConfig {
     pageStore: IPageModel;
 }
 
-export interface IProgressModel {
-    progressCount: number;
-    changeProgress: (progressEvent: ProgressEvent) => void;
-}
 const MAX_COUNT = 100;
 
 export class ProgressModel implements IProgressModel {
@@ -17,20 +14,14 @@ export class ProgressModel implements IProgressModel {
 
     public progressCount: number;
 
-    public changeProgress = action("changeProgress", (progressEvent: ProgressEvent) => {
-        const totalLength = progressEvent.total;
-
-        if (totalLength !== null) {
-            this.progressCount = Math.round((progressEvent.loaded * MAX_COUNT) / totalLength);
-        }
-    });
+    private snackbar: ISnackbar;
 
     constructor({pageStore}: IProgressConfig) {
         extendObservable(this, {
             progressCount: 0,
         });
 
-        snackbarStore.snackbarOpenAction(
+        this.snackbar = snackbarStore.snackbarOpenAction(
             {
                 autoHidden: false,
                 progressStore: this,
@@ -40,4 +31,33 @@ export class ProgressModel implements IProgressModel {
             pageStore.route,
         );
     }
+
+    @action
+    changeProgress = (progressEvent: ProgressEvent) => {
+        const totalLength = progressEvent.total;
+
+        if (totalLength !== null) {
+            this.progressCount = Math.round((progressEvent.loaded * MAX_COUNT) / totalLength);
+        }
+    };
+
+    @action
+    changeStatusProgress = (status: "errorUpload" | "uploaded" | "progress") => {
+        const data: Partial<ISnackbar> = {};
+
+        if (status === "errorUpload") {
+            data.text = "static:c80abfb5b59c400ca1f8f9e868e4c761";
+        }
+        if (status === "uploaded") {
+            const {title = ""} = this.snackbar;
+
+            data.text = (trans) =>
+                `${trans("static:179cc83540e94b87a8d8aff919552f22")} ${toTranslateText(trans, title)}`;
+            data.title = "static:31b05bf92be1431894c448c4c3ef95bb";
+        }
+        snackbarStore.snackbarChangeAction(this.snackbar.id, {
+            ...data,
+            status,
+        });
+    };
 }

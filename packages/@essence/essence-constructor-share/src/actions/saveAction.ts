@@ -13,7 +13,15 @@ import {
     META_PAGE_OBJECT,
 } from "../constants";
 import {ProgressModel, snackbarStore} from "../models";
-import {IBuilderConfig, IBuilderMode, IPageModel, IRecordsModel, ILoadRecordsProps, IRecord} from "../types";
+import {
+    IBuilderConfig,
+    IBuilderMode,
+    IPageModel,
+    IRecordsModel,
+    ILoadRecordsProps,
+    IRecord,
+    IProgressModel,
+} from "../types";
 import {isEmpty, i18next} from "../utils";
 import {getMasterObject} from "../utils/getMasterObject";
 import {TText} from "../types/SnackbarModel";
@@ -105,7 +113,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
     const masterId = bc[VAR_RECORD_MASTER_ID];
     let master = undefined;
     let modeCheck = mode;
-    let onUploadProgress;
+    let progressModel: IProgressModel | undefined;
     let filteredValues = null;
     let main = null;
 
@@ -120,9 +128,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
 
     if (formData || values instanceof FormData) {
         filteredValues = values;
-        const {changeProgress} = new ProgressModel({pageStore});
-
-        onUploadProgress = changeProgress;
+        progressModel = new ProgressModel({pageStore});
     } else if (Array.isArray(values)) {
         filteredValues = values.map((item: IRecord) =>
             attachGlobalValues({getglobaltostore, globalValues: pageStore.globalValues, values: filter(item)}),
@@ -154,7 +160,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
             },
         },
         list: false,
-        onUploadProgress,
+        onUploadProgress: progressModel?.changeProgress,
         plugin: extraplugingate || bc.extraplugingate,
         query,
         session: this.applicationStore?.authStore.userInfo.session || "",
@@ -191,6 +197,10 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
                             });
                         },
                     });
+
+                    if (progressModel) {
+                        progressModel.changeStatusProgress(check === 1 || check === 2 ? "uploaded" : "errorUpload");
+                    }
 
                     if (check === 1 && noReload) {
                         resolve(response);

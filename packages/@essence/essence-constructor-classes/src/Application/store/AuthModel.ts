@@ -94,7 +94,11 @@ export class AuthModel implements IAuthModel {
     @action
     successLoginAction = async (response: IAuthSession, history: History, isReloadAppications = false) => {
         const {redirecturl = "/"} = this.applicationStore.bc;
-        const backUrl: string = history.location.state?.backUrl ?? redirecturl;
+        let backUrl: string = history.location.state?.backUrl ?? redirecturl;
+
+        if (backUrl === history.location.pathname) {
+            backUrl = redirecturl;
+        }
 
         this.userInfo = response;
         this.applicationStore.setSesssionAction(response);

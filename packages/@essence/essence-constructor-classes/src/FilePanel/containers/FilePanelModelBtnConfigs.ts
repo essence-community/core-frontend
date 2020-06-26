@@ -34,7 +34,7 @@ export const getSaveBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     [VAR_RECORD_PARENT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow`,
     filemode: bc.filemode,
     filetypes: "doc,docx,pdf,zip,txt,ods,odt,xls,xlsx",
-    handler: "onSimpleSaveWindow",
+    handler: "onSaveFile",
     maxfile: 5242880,
     mode: "8",
     type: "BTN",

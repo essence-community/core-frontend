@@ -129,6 +129,40 @@ export class WindowModel extends StoreBaseModel {
         return false;
     };
 
+    /**
+     * TODO: Понять проблему после релиза
+     * Сохранение данных
+     */
+    @action
+    saveFileAction = async (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
+        if (!options.form) {
+            return false;
+        }
+
+        await options.form.validate();
+
+        if (options.form.isValid) {
+            const modeAction = (btnBc.modeaction || btnBc.mode || this.bc.mode || mode) as IBuilderMode;
+            const success = await this.recordsStore.saveAction(options.form.values, modeAction, {
+                actionBc: btnBc,
+                files: options.files,
+                form: options.form,
+            });
+            const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_PARENT_ID]);
+
+            this.closeAction(modeAction, btnBc, options);
+
+            // TODO: ХАК для того что бы file panel перезапустилась
+            if (success && parentStore) {
+                parentStore.reloadStoreAction();
+            }
+
+            return Boolean(success);
+        }
+
+        return false;
+    };
+
     onPrintExcel = async (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
         if (!options.form) {
             return false;
@@ -170,6 +204,12 @@ export class WindowModel extends StoreBaseModel {
          * @instance
          */
         onPrintExcel: this.onPrintExcel,
+        /**
+         * Сохраняем значение по кнопке "Save" для FilePanel
+         * @memberof WindowModel.handlers
+         * @instance
+         */
+        onSaveFile: this.saveFileAction,
         /**
          * Сохраняем значение по кнопке "Save"
          * @memberof WindowModel.handlers

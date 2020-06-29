@@ -250,7 +250,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
                 }
             });
 
-            this.form.patch(patchValues);
+            this.form.patch(patchValues, true);
         } else if (this.valueFields && this.valueFields.length) {
             column = this.valueField;
         } else {

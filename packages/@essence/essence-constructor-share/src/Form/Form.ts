@@ -33,6 +33,8 @@ export class Form implements IForm {
 
     @observable public fields: ObservableMap<string, IField> = observable.map();
 
+    @observable public extraValue: IRecord = {};
+
     @observable public submitting = false;
 
     @observable public isDirty = false;
@@ -47,6 +49,7 @@ export class Form implements IForm {
     @computed get values(): IRecord {
         const values: IRecord = {
             ...this.initialValues,
+            ...this.extraValue,
         };
 
         for (const [key, field] of this.fields.entries()) {
@@ -161,8 +164,8 @@ export class Form implements IForm {
     };
 
     @action
-    patch = (values: IRecord) => {
-        Object.keys(values).forEach((key) => {
+    patch = (values: IRecord, isExtra = false) => {
+        Object.entries(values).forEach(([key, value]) => {
             const field = this.fields.get(key);
 
             if (field) {
@@ -173,6 +176,8 @@ export class Form implements IForm {
                 } else {
                     field.clear();
                 }
+            } else if (isExtra) {
+                this.extraValue[key] = value;
             } else {
                 loggerForm(`Can not update field ${key}. Field should be added from class`);
             }

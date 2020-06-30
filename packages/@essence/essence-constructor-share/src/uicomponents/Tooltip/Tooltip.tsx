@@ -16,10 +16,10 @@ export const Tooltip: React.FC<{}> = (props) => {
     });
     const [show, setShow] = React.useState(false);
     const [showBackdrop, setShowBackdrop] = React.useState(false);
-    const [tip, setTip] = React.useState<string | null>(null);
+    const [, setTip] = React.useState<string | null>(null);
     const [title, setTitle] = React.useState<string[] | null>(null);
     const timerShow = React.useRef<any>();
-    const [currentElement, setCurrentElement] = React.useState<HTMLElement | null>(null);
+    const currentElement = React.useRef<HTMLElement>();
     const element = React.useRef<HTMLElement>();
     const contentRef = React.useRef<HTMLDivElement | null>(null);
     const rootRef = React.useRef<HTMLDivElement | null>(null);
@@ -47,7 +47,7 @@ export const Tooltip: React.FC<{}> = (props) => {
             const tipNew = target.getAttribute("data-qtip");
 
             if (tipNew) {
-                setCurrentElement(target);
+                currentElement.current = target;
 
                 return tipNew;
             }
@@ -69,9 +69,6 @@ export const Tooltip: React.FC<{}> = (props) => {
         setTitle(null);
     }, []);
 
-    const setShowTooltip = () => {
-        setShow(true);
-    };
     const showTooltip = React.useCallback(
         (event: MouseEvent) => {
             if (event.target instanceof HTMLElement) {
@@ -81,14 +78,19 @@ export const Tooltip: React.FC<{}> = (props) => {
 
                 if (newTip) {
                     requestAnimationFrame(() => {
-                        if (newTip !== tip) {
-                            clearTimeout(timerShow.current);
-                            timerShow.current = setTimeout(setShowTooltip, preference.delayTooltipShow);
-                            makeHideTooltip(inTooltip);
-                            setTip(newTip);
-                            setTitle(prepareTip(newTip));
-                            setPosition({left: event.clientX, top: event.clientY});
-                        }
+                        setTip((tip) => {
+                            if (newTip !== tip) {
+                                clearTimeout(timerShow.current);
+                                timerShow.current = setTimeout(() => setShow(true), preference.delayTooltipShow);
+                                makeHideTooltip(inTooltip);
+                                setTitle(prepareTip(newTip));
+                                setPosition({left: event.clientX, top: event.clientY});
+
+                                return newTip;
+                            }
+
+                            return tip;
+                        });
                     });
                 } else {
                     clearTimeout(timerShow.current);
@@ -99,7 +101,7 @@ export const Tooltip: React.FC<{}> = (props) => {
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [getTipTitle, inTooltip, makeHideTooltip, tip],
+        [getTipTitle, makeHideTooltip],
     );
 
     const updateTooltipDebounce = React.useMemo(
@@ -136,7 +138,8 @@ export const Tooltip: React.FC<{}> = (props) => {
 
             return undefined;
         },
-        [inTooltip, show, showTooltip],
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [],
     );
 
     const handleTooltipMouseOver = () => {
@@ -174,7 +177,7 @@ export const Tooltip: React.FC<{}> = (props) => {
 
     const isValidTitle = title && title.length > 0;
 
-    if (show && currentElement && isValidTitle) {
+    if (show && currentElement.current && isValidTitle) {
         return (
             <React.Fragment>
                 <div

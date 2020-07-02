@@ -68,6 +68,9 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
                         store.setDefaultRecordAction(value);
                     }
                 },
+                {
+                    fireImmediately: true,
+                },
             ),
         [field, store],
     );

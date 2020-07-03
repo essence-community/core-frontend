@@ -35,13 +35,18 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
     useFieldSetGlobal({bc, field, pageStore, store});
     useDefaultValueQuery({bc, field, pageStore});
 
-    // componentDidMount
-    React.useEffect(() => {
-        if (!isEmpty(field.value)) {
-            store.setDefaultRecordAction(field.value);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const changeValue = React.useCallback(
+        (value) => {
+            if (isEmpty(value)) {
+                store.clearAction();
+            } else if (value === VALUE_SELF_FIRST) {
+                field.onChange(getFirstValues(store.recordsStore));
+            } else {
+                store.setDefaultRecordAction(value);
+            }
+        },
+        [store, field],
+    );
 
     // Check for grid store
     React.useEffect(() => {
@@ -55,25 +60,13 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
         );
     }, [pageStore.stores, store]);
 
-    React.useEffect(
-        () =>
-            reaction(
-                () => field.value,
-                (value) => {
-                    if (isEmpty(value)) {
-                        store.clearAction();
-                    } else if (value === VALUE_SELF_FIRST) {
-                        field.onChange(getFirstValues(store.recordsStore));
-                    } else {
-                        store.setDefaultRecordAction(value);
-                    }
-                },
-                {
-                    fireImmediately: true,
-                },
-            ),
-        [field, store],
-    );
+    React.useEffect(() => {
+        changeValue(field.value);
+
+        return reaction(() => field.value, changeValue, {
+            fireImmediately: true,
+        });
+    }, [changeValue, field.value]);
 
     return (
         <Popover

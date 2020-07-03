@@ -66,7 +66,8 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
         return reaction(() => field.value, changeValue, {
             fireImmediately: true,
         });
-    }, [changeValue, field.value]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [changeValue]);
 
     return (
         <Popover

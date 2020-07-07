@@ -63,6 +63,7 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
             bc: this.bc,
             noReload: true,
             pageStore: this.pageStore,
+            query: this.bc.updatequery,
             recordId: this.recordId,
         });
 

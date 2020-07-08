@@ -7,6 +7,7 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_JN_TOTAL_CNT,
+    VALUE_SELF_FIRST,
     loggerRoot,
     VAR_RECORD_NAME,
 } from "@essence-community/constructor-share/constants";
@@ -145,6 +146,8 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
     @observable selectedEntries: IObservableArray<[ICkId, IRecord]> = observable.array([], {deep: false});
 
+    @observable value?: FieldValue;
+
     @computed get recordsGridStore(): IRecordsModel | undefined {
         const gridStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
@@ -161,6 +164,9 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
     @action
     setDefaultRecordAction = async (value?: FieldValue) => {
+        if (value === this.value) {
+            return;
+        }
         if (this.bc.collectionvalues === "array") {
             if (
                 Array.isArray(value) &&
@@ -187,10 +193,12 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         } else {
             await this.recordsStore.searchAction(
                 {},
-                {
-                    filter: [{operator: "eq", property: this.valueField, value}],
-                    selectedRecordId: value as string,
-                },
+                value !== VALUE_SELF_FIRST
+                    ? {
+                          filter: [{operator: "eq", property: this.valueField, value}],
+                          selectedRecordId: value as string,
+                      }
+                    : {},
             );
 
             if (this.recordsStore.selectedRecord) {
@@ -266,6 +274,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         } else if (this.field.value !== value) {
             this.field.onChange(value);
         }
+        this.value = value;
     };
 
     @action

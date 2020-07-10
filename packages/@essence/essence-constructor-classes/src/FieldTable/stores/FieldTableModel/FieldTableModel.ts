@@ -146,8 +146,6 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
     @observable selectedEntries: IObservableArray<[ICkId, IRecord]> = observable.array([], {deep: false});
 
-    @observable value?: FieldValue;
-
     @computed get recordsGridStore(): IRecordsModel | undefined {
         const gridStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
@@ -164,9 +162,6 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
     @action
     setDefaultRecordAction = async (value?: FieldValue) => {
-        if (value === this.value) {
-            return;
-        }
         if (this.bc.collectionvalues === "array") {
             if (
                 Array.isArray(value) &&
@@ -274,7 +269,6 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         } else if (this.field.value !== value) {
             this.field.onChange(value);
         }
-        this.value = value;
     };
 
     @action

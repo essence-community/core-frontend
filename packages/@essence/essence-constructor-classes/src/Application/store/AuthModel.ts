@@ -1,8 +1,8 @@
 import {observable, action} from "mobx";
 import {History} from "history";
 import {
-    getFromStore,
-    saveToStore,
+    getFromLocalStore,
+    saveToLocalStore,
     IAuthModel,
     IApplicationModel,
     loggerRoot,
@@ -27,7 +27,7 @@ const DEAULT_USER_INFO: IAuthSession = {
 };
 
 export class AuthModel implements IAuthModel {
-    @observable userInfo = getFromStore<IAuthSession>("auth") || DEAULT_USER_INFO;
+    @observable userInfo = getFromLocalStore<IAuthSession>("auth") || DEAULT_USER_INFO;
 
     // eslint-disable-next-line no-useless-constructor
     constructor(public applicationStore: IApplicationModel) {}
@@ -103,7 +103,7 @@ export class AuthModel implements IAuthModel {
         this.userInfo = response;
         this.applicationStore.setSesssionAction(response);
         // TODO: сделать проверку на bc, что бы не сохранять пользователя при репортах
-        saveToStore("auth", response);
+        saveToLocalStore("auth", response);
 
         if (isReloadAppications) {
             await this.applicationStore.loadApplictionConfigs();
@@ -117,7 +117,7 @@ export class AuthModel implements IAuthModel {
             ...this.userInfo,
             ...userInfo,
         };
-        saveToStore("auth", this.userInfo);
+        saveToLocalStore("auth", this.userInfo);
     });
 
     logoutAction = action("logoutAction", async () => {

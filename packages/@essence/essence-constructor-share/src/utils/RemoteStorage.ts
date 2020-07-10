@@ -1,0 +1,121 @@
+import {settingsStore} from "../models/SettingsModel";
+import {
+    META_PAGE_OBJECT,
+    VAR_RECORD_RES_ERROR,
+    VAR_RECORD_ID,
+    VAR_RECORD_CV_VALUE,
+    VAR_SETTING_REMOTE_STORAGE_LOAD_QUERY,
+    VAR_SETTING_REMOTE_STORAGE_ADD_QUERY,
+    VAR_RECORD_CV_ACTION,
+    VAR_SETTING_REMOTE_STORAGE_DELETE_QUERY,
+} from "../constants/variables";
+import {request} from "../request";
+import {IRecord} from "../types";
+import {loggerRoot} from "../constants";
+import {IStorage} from "./storage";
+import {isEmpty} from "./base";
+
+const logger = loggerRoot.extend("RemoteStorage");
+
+export class RemoteStorage implements IStorage {
+    private data = new Map();
+    private session?: string;
+
+    public setItem(key: string, value: string): void {
+        this.data.set(key, value);
+        if (!isEmpty(this.session)) {
+            request({
+                [META_PAGE_OBJECT]: "user_cache",
+                action: "dml",
+                json: {
+                    data: {
+                        [VAR_RECORD_CV_VALUE]: value,
+                        [VAR_RECORD_ID]: key,
+                    },
+                    service: {
+                        [VAR_RECORD_CV_ACTION]: "I",
+                    },
+                },
+                list: false,
+                query: settingsStore.settings[VAR_SETTING_REMOTE_STORAGE_ADD_QUERY],
+                session: this.session,
+            })
+                .then((response: IRecord) => {
+                    logger.debug(response);
+                })
+                .catch((error: Error) => {
+                    logger.error(error);
+                });
+        }
+    }
+    public getItem(key: string): string | null {
+        return this.data.get(key);
+    }
+    public removeItem(key: string): void {
+        this.data.delete(key);
+        if (!isEmpty(this.session)) {
+            request({
+                [META_PAGE_OBJECT]: "user_cache",
+                action: "dml",
+                json: {
+                    data: {
+                        [VAR_RECORD_ID]: key,
+                    },
+                    service: {
+                        [VAR_RECORD_CV_ACTION]: "D",
+                    },
+                },
+                list: false,
+                query: settingsStore.settings[VAR_SETTING_REMOTE_STORAGE_DELETE_QUERY],
+                session: this.session,
+            })
+                .then((response: IRecord) => {
+                    logger.debug(response);
+                })
+                .catch((error: Error) => {
+                    logger.error(error);
+                });
+        }
+    }
+    public removeFromStoreByRegex(reg: RegExp): void {
+        for (const key in this.data.keys()) {
+            if (reg.test(key)) {
+                this.data.delete(key);
+                localStorage.removeItem(key);
+            }
+        }
+    }
+    public load(session?: string) {
+        if (isEmpty(session)) {
+            this.data.clear();
+        }
+        this.session = session;
+        if (!isEmpty(session)) {
+            return request({
+                [META_PAGE_OBJECT]: "user_cache",
+                action: "sql",
+                list: true,
+                query: settingsStore.settings[VAR_SETTING_REMOTE_STORAGE_LOAD_QUERY],
+                session,
+            })
+                .then((response: IRecord[]) => {
+                    if (response && response.length && isEmpty(response[0][VAR_RECORD_RES_ERROR])) {
+                        if (response.length === 1 && isEmpty(response[0][VAR_RECORD_ID])) {
+                            Object.entries(response[0]).forEach(([key, value]) => {
+                                this.data.set(key, value);
+                            });
+                        } else {
+                            response.forEach((val) => {
+                                this.data.set(val[VAR_RECORD_ID], val[VAR_RECORD_CV_VALUE]);
+                            });
+                        }
+                    }
+                })
+                .catch((error: Error) => {
+                    logger.error(error);
+                });
+        }
+
+        return Promise.resolve();
+    }
+}

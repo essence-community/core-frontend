@@ -7,6 +7,7 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_JN_TOTAL_CNT,
+    VALUE_SELF_FIRST,
     loggerRoot,
     VAR_RECORD_NAME,
 } from "@essence-community/constructor-share/constants";
@@ -187,10 +188,12 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         } else {
             await this.recordsStore.searchAction(
                 {},
-                {
-                    filter: [{operator: "eq", property: this.valueField, value}],
-                    selectedRecordId: value as string,
-                },
+                value !== VALUE_SELF_FIRST
+                    ? {
+                          filter: [{operator: "eq", property: this.valueField, value}],
+                          selectedRecordId: value as string,
+                      }
+                    : {},
             );
 
             if (this.recordsStore.selectedRecord) {

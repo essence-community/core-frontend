@@ -10,10 +10,8 @@ export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
     const store = props.pageStore.stores.get(props.bc[VAR_RECORD_PARENT_ID]);
 
     const handleChange = () => {
-        const onToggleAllSelectedRecords = store?.handlers?.onToggleAllSelectedRecords;
-
-        if (onToggleAllSelectedRecords) {
-            onToggleAllSelectedRecords("1", props.bc, {});
+        if (store) {
+            store.invokeHandler("onToggleAllSelectedRecords", ["1", props.bc, {}]);
         }
     };
 
@@ -22,14 +20,15 @@ export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
     };
 
     const getChekedIcon = () => {
-        if (store) {
-            const isPageSelectedRecords = checkPageSelectedRecords(store);
+        if (store && store.recordsStore) {
+            const isPageSelectedRecords = checkPageSelectedRecords(store, props.bc);
 
             if (store.bc.type === "TREEGRID" && isPageSelectedRecords) {
                 return <Icon iconfont="check-square" size="xs" />;
             } else if (
                 isPageSelectedRecords &&
-                store.recordsStore?.selectedRecords.size === store.recordsStore?.records.length
+                (!store.recordsStore.pageSize ||
+                    store.recordsStore.selectedRecords.size === store.recordsStore?.records.length)
             ) {
                 return <Icon iconfont="check-square" size="xs" />;
             }
@@ -42,12 +41,11 @@ export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
         <Checkbox
             color="primary"
             checked={store?.recordsStore?.selectedRecords.size !== 0}
-            disabled={props.readOnly || props.disabled}
+            disabled={props.readOnly || props.disabled || props.bc.disabled}
             onClick={handlePrevent}
             onChange={handleChange}
             icon={<Icon iconfont="square-o" size="xs" />}
             checkedIcon={getChekedIcon()}
-            disableRipple
         />
     ));
 };

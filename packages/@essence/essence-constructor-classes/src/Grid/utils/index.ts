@@ -16,3 +16,5 @@ export {getGridValues} from "./getGridValues";
 export {printExcel} from "./printExcel";
 export {checkEditable} from "./checkEditable";
 export {getModeTitle} from "./getModeTitle";
+export {getRecordsEnabled} from "./getRecordsEnabled";
+export {checkIsPageSelectedRecords} from "./checkIsPageSelectedRecords";

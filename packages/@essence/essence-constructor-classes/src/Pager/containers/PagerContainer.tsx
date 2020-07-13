@@ -1,6 +1,6 @@
 import * as React from "react";
 import cn from "classnames";
-import {useObserver, useDisposable} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {toColumnStyleWidth, i18next} from "@essence-community/constructor-share/utils";
 import {IBuilderConfig, IClassProps, IPageModel} from "@essence-community/constructor-share/types";
@@ -95,7 +95,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
         };
     }, [pageStore]);
 
-    useDisposable(() => {
+    React.useEffect(() => {
         return reaction(
             () => pageStore.globalValues.toJS(),
             (globalValues) => {
@@ -111,7 +111,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
             },
             {fireImmediately: true},
         );
-    });
+    }, [pageStore]);
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
         focusPageElement(event, pageStore);

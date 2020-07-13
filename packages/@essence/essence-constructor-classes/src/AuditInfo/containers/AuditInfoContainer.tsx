@@ -14,7 +14,7 @@ import {
 import {Popover} from "@essence-community/constructor-share/uicomponents";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {useTranslation} from "@essence-community/constructor-share/utils";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {AuditInfoModel} from "../store/AuditInfoModel";
 import {useStyles} from "./AuditInfoContainer.styles";

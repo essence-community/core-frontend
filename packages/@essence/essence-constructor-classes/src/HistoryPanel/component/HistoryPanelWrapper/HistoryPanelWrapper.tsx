@@ -2,7 +2,7 @@ import * as React from "react";
 import {Grid, useTheme} from "@material-ui/core";
 import {FormContext} from "@essence-community/constructor-share/context";
 import cn from "clsx";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {IClassProps, IStoreBaseModel, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {mapComponentOne} from "@essence-community/constructor-share/components";

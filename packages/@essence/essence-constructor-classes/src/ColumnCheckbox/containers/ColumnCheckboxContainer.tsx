@@ -4,7 +4,7 @@ import {RecordContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_PARENT_ID, VAR_RECORD_LEAF} from "@essence-community/constructor-share/constants";
 import {Checkbox} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {parseMemoize} from "@essence-community/constructor-share/utils";
 import {isCheckedChilds} from "../utils/isCheckedChilds";
 import {isMinusChecked} from "../utils/isMinusChecked";

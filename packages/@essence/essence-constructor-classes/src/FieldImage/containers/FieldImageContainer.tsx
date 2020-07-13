@@ -5,7 +5,7 @@ import {downloadImage} from "@essence-community/constructor-share/utils/download
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {FormContext} from "@essence-community/constructor-share";
 import {useField} from "@essence-community/constructor-share/Form";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {useStyles} from "./FieldImageContainer.styles";
 
 export const FieldImageContainer: React.FC<IClassProps> = (props) => {

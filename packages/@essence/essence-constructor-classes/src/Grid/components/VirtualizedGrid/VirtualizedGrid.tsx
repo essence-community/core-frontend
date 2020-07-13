@@ -1,7 +1,7 @@
 import * as React from "react";
 import {observe, reaction} from "mobx";
 import {VALUE_SELF_ROOT} from "@essence-community/constructor-share/constants";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {IClassProps, IRecord, ICkId} from "@essence-community/constructor-share";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {getRecords, getTreeRecords} from "../../utils";

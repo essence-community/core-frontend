@@ -10,7 +10,6 @@ import {
     VAR_SETTING_LANG,
 } from "@essence-community/constructor-share/constants/variables";
 import * as React from "react";
-import {useDisposable} from "mobx-react-lite";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {reaction} from "mobx";
@@ -38,6 +37,7 @@ const getComponentBc = (bc: IBuilderConfig, defaultValue?: string): IBuilderConf
 const getLang = () => getFromStore("lang", settingsStore.settings[VAR_SETTING_LANG]);
 
 export const LangCombo: React.FC<IClassProps> = (props) => {
+    const {pageStore} = props;
     const applicationStore = React.useContext(ApplicationContext);
     const [currentLang, setCurrentLang] = React.useState(getLang);
 
@@ -50,17 +50,17 @@ export const LangCombo: React.FC<IClassProps> = (props) => {
                     [VAR_SETTING_LANG]: curLang || "",
                 });
             }
-            props.pageStore.updateGlobalValues({
+            pageStore.updateGlobalValues({
                 [VAR_SETTING_LANG]: curLang,
             });
         }
-    }, [applicationStore, props.pageStore]);
+    }, [applicationStore, pageStore]);
 
     const bc = React.useMemo(() => getComponentBc(props.bc, currentLang), [props.bc, currentLang]);
 
-    useDisposable(() => {
+    React.useEffect(() => {
         return reaction(
-            () => props.pageStore.globalValues.get(VAR_SETTING_LANG),
+            () => pageStore.globalValues.get(VAR_SETTING_LANG),
             (lang: string) => {
                 const curLang = getLang();
 
@@ -74,13 +74,13 @@ export const LangCombo: React.FC<IClassProps> = (props) => {
                             [VAR_SETTING_LANG]: curLang || "",
                         });
                     }
-                    props.pageStore.updateGlobalValues({
+                    pageStore.updateGlobalValues({
                         [VAR_SETTING_LANG]: curLang,
                     });
                 }
             },
         );
-    });
+    }, [applicationStore, pageStore]);
 
     return (
         <>

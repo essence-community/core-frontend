@@ -9,7 +9,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {Grid} from "@material-ui/core";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {useField} from "@essence-community/constructor-share/Form";
 import {reaction} from "mobx";
 import {IParentFieldContext} from "@essence-community/constructor-share/Form/types";

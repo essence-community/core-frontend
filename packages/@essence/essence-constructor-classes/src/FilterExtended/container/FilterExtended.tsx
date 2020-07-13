@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Collapse, Grid, Typography} from "@material-ui/core";
 import clsx from "clsx";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {mapComponents, IBuilderConfig, IClassProps, Icon, FormContext} from "@essence-community/constructor-share";
 import {useTranslation, toColumnStyleWidth} from "@essence-community/constructor-share/utils";
 import {findColumns} from "@essence-community/constructor-share/utils/findColumns";

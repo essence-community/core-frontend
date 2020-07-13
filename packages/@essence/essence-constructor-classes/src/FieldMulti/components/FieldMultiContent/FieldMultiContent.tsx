@@ -2,7 +2,7 @@ import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {Focusable} from "@essence-community/constructor-share/uicomponents";
 import {Grid, CircularProgress, Button} from "@material-ui/core";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {useTranslation, isEmpty} from "@essence-community/constructor-share/utils";

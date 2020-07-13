@@ -1,4 +1,4 @@
-import {IStorage} from "./storage";
+import {IStorage} from "../types/Storage";
 
 export class LocalStorage implements IStorage {
     public setItem(key: string, value: string): void {

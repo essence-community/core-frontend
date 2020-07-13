@@ -1,17 +1,11 @@
 import {settingsStore} from "../models/SettingsModel";
 import {VAR_SETTING_GATE_URL, VAR_SETTING_REMOTE_STORAGE} from "../constants/variables";
+import {IStorage} from "../types/Storage";
 import {LocalStorage} from "./LocalStorage";
 import {RemoteStorage} from "./RemoteStorage";
 
 type ValueType = string | number | any[];
 
-export interface IStorage {
-    setItem(key: string, value: string): void;
-    getItem(key: string): string | null;
-    removeItem(key: string): void;
-    removeFromStoreByRegex(key: RegExp): void;
-    load(session?: string): Promise<void>;
-}
 const localStore: IStorage = new LocalStorage();
 const store: IStorage =
     settingsStore.settings[VAR_SETTING_REMOTE_STORAGE] === "true" ? new RemoteStorage() : localStore;

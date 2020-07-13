@@ -9,10 +9,11 @@ import {
     VAR_RECORD_CV_ACTION,
     VAR_SETTING_REMOTE_STORAGE_DELETE_QUERY,
 } from "../constants/variables";
-import {request} from "../request";
-import {IRecord} from "../types";
-import {loggerRoot} from "../constants";
-import {IStorage, getFromLocalStore} from "./storage";
+import {request} from "../request/request";
+import {IRecord} from "../types/Base";
+import {loggerRoot} from "../constants/base";
+import {IStorage} from "../types/Storage";
+import {getFromLocalStore} from "./storage";
 import {isEmpty} from "./base";
 
 const logger = loggerRoot.extend("RemoteStorage");

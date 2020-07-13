@@ -12,14 +12,19 @@ import {
 import {request} from "../request";
 import {IRecord} from "../types";
 import {loggerRoot} from "../constants";
-import {IStorage} from "./storage";
+import {IStorage, getFromLocalStore} from "./storage";
 import {isEmpty} from "./base";
 
 const logger = loggerRoot.extend("RemoteStorage");
+const AUTH_KEY = "auth";
 
 export class RemoteStorage implements IStorage {
     private data = new Map();
     private session?: string;
+
+    constructor() {
+        this.load(getFromLocalStore(AUTH_KEY, {session: undefined})?.session);
+    }
 
     public setItem(key: string, value: string): void {
         this.data.set(key, value);
@@ -85,7 +90,7 @@ export class RemoteStorage implements IStorage {
             }
         }
     }
-    public load(session?: string) {
+    public load(session = this.session) {
         if (isEmpty(session)) {
             this.data.clear();
         }

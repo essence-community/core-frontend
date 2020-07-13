@@ -4,7 +4,7 @@ import {settingsStore, snackbarStore} from "@essence-community/constructor-share
 import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {PageLoader} from "@essence-community/constructor-share/uicomponents";
-import {useTranslation, TFunction, loadStore} from "@essence-community/constructor-share/utils";
+import {useTranslation, TFunction} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_SETTING_PROJECT_LOADER,
@@ -74,7 +74,6 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
          */
         const loadApplication = async () => {
             await applicationStore.authStore.checkAuthAction(history);
-            await loadStore(applicationStore.authStore.userInfo.session);
             const isSuccess = await applicationStore.loadApplicationAction();
 
             // Contrinue for found application, else redirect to other application in loadApplicationAction

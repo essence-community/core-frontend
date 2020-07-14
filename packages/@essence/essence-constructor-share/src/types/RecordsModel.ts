@@ -67,6 +67,16 @@ export interface IRecordsSearchOptions {
     isUserReload?: boolean;
 }
 
+export interface IRecordsModelLite {
+    records: IRecord[];
+    recordsState: IRecordsState<IRecord>;
+    loadCounter: number;
+    bc: IBuilderConfig;
+    isLoading: boolean;
+    recordId: string;
+    loadRecordsAction: (props: ILoadRecordsProps) => Promise<void>;
+}
+
 export interface IRecordsModel {
     recordsAll: IRecord[];
     recordId: string;

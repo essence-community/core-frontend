@@ -48,9 +48,12 @@ function findClassNamesRecursive(bc: IBuilderConfig, acc: string[]): string[] {
  *
  * @param bcs {IBuilderConfig[]} Builder Configs
  */
-export const findClassNames = (bcs: IBuilderConfig[]) => {
-    // @ts-ignore
-    const classNames: string[] = [].concat(...bcs.map((bc) => findClassNamesRecursive(bc, [])));
+export const findClassNames = (bcs: IBuilderConfig[]): string[] => {
+    const classNames: string[] = [];
+
+    bcs.forEach((bc) => {
+        classNames.push(...findClassNamesRecursive(bc, []));
+    });
 
     return Array.from(new Set(classNames));
 };

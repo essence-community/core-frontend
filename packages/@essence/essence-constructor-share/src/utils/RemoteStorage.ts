@@ -84,8 +84,7 @@ export class RemoteStorage implements IStorage {
     public removeFromStoreByRegex(reg: RegExp): void {
         for (const key in this.data.keys()) {
             if (reg.test(key)) {
-                this.data.delete(key);
-                localStorage.removeItem(key);
+                this.removeItem(key);
             }
         }
     }

@@ -7,7 +7,7 @@ import {RemoteStorage} from "./RemoteStorage";
 type ValueType = string | number | any[];
 
 const localStore: IStorage = new LocalStorage();
-let store: IStorage;
+let store: IStorage = localStore;
 
 function makeKey(key: string): string {
     return `${settingsStore.settings[VAR_SETTING_GATE_URL]}_${key}`;
@@ -57,10 +57,12 @@ export function removeFromStoreByRegex(reg: RegExp) {
     return store.removeFromStoreByRegex(reg);
 }
 
-export function loadStore(session?: string) {
-    if (!store) {
-        store = settingsStore.settings[VAR_SETTING_REMOTE_STORAGE] === "true" ? new RemoteStorage() : localStore;
-    }
+export function initStorage() {
+    store = settingsStore.settings[VAR_SETTING_REMOTE_STORAGE] === "true" ? new RemoteStorage() : localStore;
 
+    return store.load();
+}
+
+export function loadStore(session?: string) {
     return store.load(session);
 }

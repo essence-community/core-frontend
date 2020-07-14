@@ -7,6 +7,7 @@ import {
     IApplicationModel,
     loggerRoot,
 } from "@essence-community/constructor-share";
+import {loadStore} from "@essence-community/constructor-share/utils/storage";
 import {snackbarStore, settingsStore} from "@essence-community/constructor-share/models";
 import {request} from "@essence-community/constructor-share/request";
 import {
@@ -102,6 +103,7 @@ export class AuthModel implements IAuthModel {
 
         this.userInfo = response;
         this.applicationStore.setSesssionAction(response);
+        await loadStore(this.userInfo.session);
         // TODO: сделать проверку на bc, что бы не сохранять пользователя при репортах
         saveToLocalStore("auth", response);
 
@@ -135,6 +137,7 @@ export class AuthModel implements IAuthModel {
 
         this.userInfo = DEAULT_USER_INFO;
         this.applicationStore.setSesssionAction(cleanedValues);
+        await loadStore(this.userInfo.session);
 
         try {
             await request({

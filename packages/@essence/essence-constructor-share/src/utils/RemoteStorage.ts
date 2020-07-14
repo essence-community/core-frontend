@@ -22,11 +22,9 @@ const AUTH_KEY = "auth";
 export class RemoteStorage implements IStorage {
     private data = new Map();
     private session?: string;
-
     constructor() {
-        this.load(getFromLocalStore(AUTH_KEY, {session: undefined})?.session);
+        this.session = getFromLocalStore(AUTH_KEY, {session: undefined})?.session;
     }
-
     public setItem(key: string, value: string): void {
         this.data.set(key, value);
         if (!isEmpty(this.session)) {
@@ -47,10 +45,10 @@ export class RemoteStorage implements IStorage {
                 session: this.session,
             })
                 .then((response: IRecord) => {
-                    logger.debug(response);
+                    logger(response);
                 })
                 .catch((error: Error) => {
-                    logger.error(error);
+                    logger(error);
                 });
         }
     }
@@ -76,10 +74,10 @@ export class RemoteStorage implements IStorage {
                 session: this.session,
             })
                 .then((response: IRecord) => {
-                    logger.debug(response);
+                    logger(response);
                 })
                 .catch((error: Error) => {
-                    logger.error(error);
+                    logger(error);
                 });
         }
     }
@@ -118,7 +116,7 @@ export class RemoteStorage implements IStorage {
                     }
                 })
                 .catch((error: Error) => {
-                    logger.error(error);
+                    logger(error);
                 });
         }
 

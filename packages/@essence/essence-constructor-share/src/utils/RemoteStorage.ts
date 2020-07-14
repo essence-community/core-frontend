@@ -112,6 +112,8 @@ export class RemoteStorage implements IStorage {
                                 this.data.set(val[VAR_RECORD_ID], val[VAR_RECORD_CV_VALUE]);
                             });
                         }
+                    } else {
+                        logger(response);
                     }
                 })
                 .catch((error: Error) => {

@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {History, Location, LocationState, Action} from "history";
+import {History, Update, State} from "history";
 import {matchPath} from "react-router-dom";
 import {IApplicationModel} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_ID, VAR_RECORD_URL} from "@essence-community/constructor-share/constants";
@@ -16,7 +16,7 @@ interface IMatch {
 
 export function useHistoryListen({history, applicationStore}: IUseHistoryListenProps) {
     useEffect(() => {
-        const handleHistory = (location: Location<LocationState>, action: Action) => {
+        const handleHistory = ({location, action}: Update<State>) => {
             if (action === "POP") {
                 const match = matchPath<IMatch>(location.pathname, "/:appName/:ckId");
 

@@ -4,6 +4,7 @@ import "core-js/features/symbol";
 import "core-js/features/symbol/iterator";
 import React from "react";
 import ReactDOM from "react-dom";
+import "mobx-react/batchingForReactDom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";

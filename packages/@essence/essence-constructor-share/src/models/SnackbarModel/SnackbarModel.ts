@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 // eslint-disable-next-line import/named
 import {extendObservable, action, IObservableArray} from "mobx";
-import uuidv4 from "uuid/v4";
+import {v4} from "uuid";
 import {isObject, forEach, get} from "lodash";
 import {
     IBuilderConfig,
@@ -147,7 +147,7 @@ export class SnackbarModel implements ISnackbarModel {
             // TODO: should be format "DD.MM.YYYY, HH:mm";
             createdAt: date.toLocaleString(),
             hiddenTimeout: 5000,
-            id: id || uuidv4(),
+            id: id || v4(),
             open: true,
             pageName: typeof routeName === "string" ? routeName : "",
             read: false,
@@ -180,7 +180,7 @@ export class SnackbarModel implements ISnackbarModel {
         }
     });
 
-    snackbarCloseAction = action("snackbarCloseAction", (snackbarId: string) => {
+    snackbarCloseAction = action("snackbarCloseAction", (snackbarId: ISnackbar["id"]) => {
         const removedSnackbar = this.snackbars.find((snakebar) => snakebar.id === snackbarId);
 
         if (removedSnackbar) {

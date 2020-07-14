@@ -65,7 +65,7 @@ export interface ISnackbarModel {
     deleteSnackbarAction: (snackbarId: string) => void;
     snackbarOpenAction: (snakebar: ISnackbar) => void;
     setClosebleAction: (snackbarId: string) => void;
-    snackbarCloseAction: (snackbarId: string) => void;
+    snackbarCloseAction: (snackbarId: ISnackbar["id"]) => void;
     snackbarChangeAction: (snackbarId: string, snackbar: Record<string, any>) => void;
     checkValidResponseAction: (response: IResponse, options: IOptionCheck) => number;
     checkValidLoginResponse: (response: Record<string, FieldValue>) => boolean;

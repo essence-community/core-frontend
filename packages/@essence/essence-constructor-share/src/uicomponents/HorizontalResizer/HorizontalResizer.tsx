@@ -2,7 +2,6 @@ import * as React from "react";
 import {createPortal} from "react-dom";
 import cn from "clsx";
 import {Grid} from "@material-ui/core";
-import {CSSProperties} from "@material-ui/core/styles/withStyles";
 import {debounce} from "../../utils";
 import {getCoords} from "../../utils/html/getCoords";
 import {HorizontalSizerIcon} from "../../icons";
@@ -49,8 +48,8 @@ export const HorizontalResizer: React.FC<IHorizontalResizerProps> = (props) => {
     const [over, setOver] = React.useState(false);
 
     const stateRef = React.useRef(INITIAL_STATE);
-    const cssCursorRef = React.useRef<CSSProperties>();
-    const cssLineRef = React.useRef<CSSProperties>();
+    const cssCursorRef = React.useRef<React.CSSProperties>();
+    const cssLineRef = React.useRef<React.CSSProperties>();
     const propsCacheRef = React.useRef<[IItemProps, IItemProps | undefined]>([props.item, props.nextItem]);
 
     React.useEffect(() => {

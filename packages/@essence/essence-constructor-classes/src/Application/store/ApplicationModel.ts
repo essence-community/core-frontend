@@ -14,6 +14,7 @@ import {
     IBuilderMode,
     IHandlers,
     IRecord,
+    IRoutesModel,
 } from "@essence-community/constructor-share";
 import {
     VAR_RECORD_ID,
@@ -30,7 +31,7 @@ import {
     VAR_SETTING_WS_GATE_URL,
     loggerRoot,
 } from "@essence-community/constructor-share/constants";
-import {i18next} from "@essence-community/constructor-share/utils";
+import {i18next, TFunction} from "@essence-community/constructor-share/utils";
 import {parseMemoize} from "@essence-community/constructor-share/utils/parser";
 import {
     snackbarStore,
@@ -74,13 +75,13 @@ const logger = loggerRoot.extend("ApplicationModel");
  * @exports ApplicationModel
  */
 export class ApplicationModel implements IApplicationModel {
-    routesStore: RoutesModel | null;
+    routesStore: IRoutesModel | null;
 
     applicationStore = null;
 
     authStore: AuthModel;
 
-    wsClient: WebSocket | null;
+    wsClient: WebSocket | null = null;
 
     countConnect: number;
 
@@ -124,7 +125,7 @@ export class ApplicationModel implements IApplicationModel {
         return NONE_BC;
     }
 
-    @observable blockText = "";
+    @observable blockText: string | ((trans: TFunction) => string) = "";
 
     @observable globalValues: ObservableMap<string, FieldValue> = observable.map();
 
@@ -230,7 +231,8 @@ export class ApplicationModel implements IApplicationModel {
         removeFromStore("auth");
 
         if (this.history.location.pathname.indexOf("auth") === -1) {
-            const {state: {backUrl = this.history.location.pathname} = {}} = this.history.location;
+            const state = (this.history.location.state || {}) as {backUrl?: string};
+            const {backUrl = this.history.location.pathname} = state;
 
             this.history.push("/auth", {backUrl});
         }
@@ -264,7 +266,7 @@ export class ApplicationModel implements IApplicationModel {
         }
     });
 
-    redirectToFirstValidApplication = async () => {
+    redirectToFirstValidApplication = async (): Promise<boolean | void> => {
         const {children} = this.recordsStore.selectedRecordValues;
 
         if (Array.isArray(children)) {
@@ -294,7 +296,7 @@ export class ApplicationModel implements IApplicationModel {
         return this.history.push("/auth", {backUrl: this.history.location.pathname});
     };
 
-    loadApplictionConfigs = () =>
+    loadApplictionConfigs = (): Promise<void> =>
         this.recordsStore.loadRecordsAction({}).then(() => {
             const {children} = this.recordsStore.selectedRecordValues;
 
@@ -328,7 +330,7 @@ export class ApplicationModel implements IApplicationModel {
                 this,
             );
 
-            await this.routesStore?.recordsStore.loadRecordsAction();
+            await this.routesStore?.recordsStore.loadRecordsAction({});
             this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
         } else {
             this.redirectToFirstValidApplication();
@@ -341,13 +343,16 @@ export class ApplicationModel implements IApplicationModel {
         return true;
     });
 
-    blockApplicationAction = action("blockApplicationAction", (type: string, text = "") => {
-        if (this.isBlock && type === "unblock") {
-            window.location.reload(true);
-        }
-        this.isBlock = type === "block";
-        this.blockText = text;
-    });
+    blockApplicationAction = action(
+        "blockApplicationAction",
+        (type: string, text: string | ((trans: TFunction) => string) = "") => {
+            if (this.isBlock && type === "unblock") {
+                window.location.reload(true);
+            }
+            this.isBlock = type === "block";
+            this.blockText = text;
+        },
+    );
 
     initWsClient = (session: string) => {
         let wsClient: WebSocket | null = null;
@@ -525,7 +530,7 @@ export class ApplicationModel implements IApplicationModel {
                 );
             }
 
-            await this.routesStore?.recordsStore.loadRecordsAction();
+            await this.routesStore?.recordsStore.loadRecordsAction({});
 
             this.pagesStore.pages.clear();
             this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");

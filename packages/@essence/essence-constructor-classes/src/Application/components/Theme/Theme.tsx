@@ -51,10 +51,10 @@ export const Theme: React.FC<IThemeProps> = (props) => {
         const themeVariables = getTheme(materialTheme);
         let overrides = getThemeOverrides(themeVariables);
 
-        overrides = mergeOverridesDeep(overrides, getThemeOverridesDefault(themeVariables));
+        overrides = mergeOverridesDeep(overrides as any, getThemeOverridesDefault(themeVariables));
 
         if (isIE()) {
-            overrides = mergeOverridesDeep(overrides, getThemeIEOverrides());
+            overrides = mergeOverridesDeep(overrides as any, getThemeIEOverrides());
         }
 
         return createMuiTheme({

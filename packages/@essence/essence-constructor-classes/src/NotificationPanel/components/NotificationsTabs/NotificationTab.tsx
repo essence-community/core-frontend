@@ -3,7 +3,7 @@ import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constan
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {Tab, Typography} from "@material-ui/core";
 import clsx from "clsx";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import * as React from "react";
 import {useStyles} from "./NotificationsTab.styles";
 import {INotificationsTabProps} from "./NotificationsTab.types";

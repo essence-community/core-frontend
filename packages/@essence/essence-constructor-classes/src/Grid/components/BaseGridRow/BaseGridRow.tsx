@@ -5,7 +5,7 @@ import {VAR_RECORD_JV_ROWCOLOR, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-commun
 import {RecordContext} from "@essence-community/constructor-share/context";
 import {reaction} from "mobx";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {useStyles} from "./BaseGridRow.styles";
 

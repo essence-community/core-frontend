@@ -13,7 +13,7 @@ import {
     VAR_RECORD_ID,
     loggerRoot,
 } from "@essence-community/constructor-share/constants";
-import {useDisposable, useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {reaction, observe} from "mobx";
 import {useParams, useHistory, useRouteMatch} from "react-router-dom";
 import {IForm, Form} from "@essence-community/constructor-share/Form";
@@ -142,7 +142,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
 
     useHistoryListen({applicationStore, history});
 
-    useDisposable(() => {
+    React.useEffect(() => {
         return observe(applicationStore, "bc", (change) => {
             if (change.oldValue) {
                 applicationStore.pageStore.removeStore(change.oldValue[VAR_RECORD_PAGE_OBJECT_ID], applicationStore);
@@ -152,9 +152,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 applicationStore.pageStore.addStore(applicationStore, change.newValue[VAR_RECORD_PAGE_OBJECT_ID]);
             }
         });
-    });
+    }, []);
 
-    useDisposable(() => {
+    React.useEffect(() => {
         return reaction(
             () => applicationStore.pagesStore.activePage,
             (activePage) => {
@@ -187,9 +187,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 }
             },
         );
-    }, [applicationStore]);
+    }, [applicationStore, history]);
 
-    useDisposable(() => {
+    React.useEffect(() => {
         return reaction(
             () => applicationStore.globalValues.toJSON(),
             (globalValues) => {
@@ -198,9 +198,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 });
             },
         );
-    });
+    }, [applicationStore]);
 
-    useDisposable(() => {
+    React.useEffect(() => {
         return reaction(
             () => applicationStore.globalValues.toJS(),
             (globalValues) =>
@@ -213,19 +213,19 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 }),
             {fireImmediately: true},
         );
-    });
+    }, [applicationStore]);
 
     // Close all windows after change application
-    useDisposable(() => {
+    React.useEffect(() => {
         return reaction(
             () => applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID],
             () => {
                 applicationStore.pageStore.windows.clear();
             },
         );
-    });
+    }, [applicationStore]);
 
-    useDisposable(() => {
+    React.useEffect(() => {
         return reaction(
             () => snackbarStore.snackbarsCount,
             (snackbarsCount) =>
@@ -233,7 +233,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                     gSysNoReadSnack: `${snackbarsCount}`,
                 }),
         );
-    });
+    }, [applicationStore]);
 
     React.useEffect(
         () =>

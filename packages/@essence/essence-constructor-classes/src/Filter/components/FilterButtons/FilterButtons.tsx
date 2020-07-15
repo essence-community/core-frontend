@@ -8,7 +8,7 @@ import {
     VAR_RECORD_PARENT_ID,
 } from "@essence-community/constructor-share/constants";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {useStyles} from "./FilterButtons.styles";
 

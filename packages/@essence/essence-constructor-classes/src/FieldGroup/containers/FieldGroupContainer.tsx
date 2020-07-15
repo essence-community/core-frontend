@@ -10,7 +10,7 @@ import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-communit
 import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
 import {FormContext} from "@essence-community/constructor-share/context";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {getColumns, isIncorrect, getTip} from "../utils";
 import {useStyles} from "./FieldGroupContainer.styles";
 

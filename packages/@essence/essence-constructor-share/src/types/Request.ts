@@ -3,8 +3,9 @@ import {
     VAR_RECORD_RES_ERROR,
     VAR_RECORD_RES_FORM_ERROR,
     VAR_RECORD_RES_STACK_TRACE,
+    VAR_RECORD_ID,
 } from "../constants";
-import {FieldValue} from "./Base";
+import {FieldValue, ICkId} from "./Base";
 
 export interface IRequest {
     query: string;
@@ -43,6 +44,7 @@ export interface IResponseError extends Error {
 }
 
 export interface IResponse {
+    [VAR_RECORD_ID]?: null | ICkId;
     [VAR_RECORD_RES_ERROR]?: Record<string, string[]>;
     [VAR_RECORD_RES_FORM_ERROR]?: Record<string, Record<string, string[]>>;
     [VAR_RECORD_RES_STACK_TRACE]?: string;

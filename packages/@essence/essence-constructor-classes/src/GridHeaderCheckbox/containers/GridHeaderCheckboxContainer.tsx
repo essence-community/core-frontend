@@ -3,7 +3,7 @@ import {Checkbox} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {checkPageSelectedRecords} from "../utils";
 
 export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {

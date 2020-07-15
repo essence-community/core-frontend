@@ -49,8 +49,9 @@ export class AuthModel implements IAuthModel {
                 query: "GetSessionData",
                 session,
             })
-                // eslint-disable-next-line consistent-return
-                .then((response: IAuthSession) => {
+                .then((responseAny: any) => {
+                    const response = responseAny as IAuthSession;
+
                     if (response && snackbarStore.checkValidLoginResponse(response)) {
                         if (response.session === this.userInfo.session) {
                             this.changeUserInfo(response);
@@ -93,9 +94,14 @@ export class AuthModel implements IAuthModel {
             });
 
     @action
-    successLoginAction = async (response: IAuthSession, history: History, isReloadAppications = false) => {
+    successLoginAction = async (
+        response: IAuthSession,
+        history: History,
+        isReloadAppications = false,
+    ): Promise<void> => {
         const {redirecturl = "/"} = this.applicationStore.bc;
-        let backUrl: string = history.location.state?.backUrl ?? redirecturl;
+        const state = (history.location.state || {}) as {backUrl?: string};
+        let backUrl: string = state.backUrl ?? redirecturl;
 
         if (backUrl === history.location.pathname) {
             backUrl = redirecturl;

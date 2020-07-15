@@ -34,7 +34,6 @@ module.exports = {
         "@typescript-eslint/no-empty-interface": "off",
         "@typescript-eslint/ban-ts-ignore": "off",
         "react/prop-types": "off",
-        "@typescript-eslint/interface-name-prefix": ["error", {prefixWithI: "always"}],
         "no-magic-numbers": "off",
         "max-lines-per-function": ["error", 150],
         "max-statements": ["error", 20],
@@ -90,7 +89,7 @@ module.exports = {
         "space-before-function-paren": [
             "error",
             {
-                anonymous: "never",
+                anonymous: "always",
                 named: "never",
                 asyncArrow: "always",
             },
@@ -146,6 +145,18 @@ module.exports = {
         ],
         "flowtype/no-dupe-keys": 2,
         "filenames/match-exported": 2,
+        "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+                selector: "interface",
+                format: ["PascalCase"],
+                custom: {
+                    regex: "^I[A-Z]",
+                    match: true,
+                },
+            },
+        ],
     },
     settings: {
         "import/resolver": {

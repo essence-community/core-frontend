@@ -1,6 +1,6 @@
 import * as React from "react";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {WIDTH_MAP} from "../../constants";
 

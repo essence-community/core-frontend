@@ -8,7 +8,7 @@ import {Grid, useTheme, ThemeProvider} from "@material-ui/core";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {EmptyTitle} from "@essence-community/constructor-share/uicomponents";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {updateGridWidth} from "../../utils";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {GridTable} from "../GridTable";

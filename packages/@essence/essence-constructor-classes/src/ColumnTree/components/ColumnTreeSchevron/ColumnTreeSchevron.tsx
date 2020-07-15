@@ -3,7 +3,7 @@ import {IRecord, IPageModel, IBuilderConfig} from "@essence-community/constructo
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {IconButton} from "@material-ui/core";
 import {VAR_RECORD_PARENT_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {useStyles} from "./ColumnTreeSchevron.styles";
 
 interface IColumnTreeSchevronProps {

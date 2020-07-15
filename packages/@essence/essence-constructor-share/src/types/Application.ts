@@ -25,7 +25,7 @@ export interface IApplicationModel extends IStoreBaseModel {
     wsClient: WebSocket | null;
     countConnect: number;
     isBlock: boolean;
-    blockText: string;
+    blockText: string | ((trans: TFunction) => string);
     pagesStore: IPagesModel;
     history: History;
     url: string;

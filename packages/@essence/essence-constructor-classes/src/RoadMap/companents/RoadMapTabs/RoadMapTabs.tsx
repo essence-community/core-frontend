@@ -2,7 +2,7 @@
 import * as React from "react";
 import {IBuilderConfig, IPageModel} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {debounce, toTranslateText, useTranslation} from "@essence-community/constructor-share/utils";
 import keycode from "keycode";
 import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants/variables";
@@ -68,7 +68,7 @@ export const RoadMapTabs: React.FC<IRoadMapTabs> = (props) => {
     }, [orientation, handleGetTabsMode]);
 
     const handleChangeTab = React.useCallback(
-        (event: React.ChangeEvent<{}>, tabValue: string) => {
+        (event: React.ChangeEvent, tabValue: string) => {
             pageStore.freezeScrollAction();
             store.changeTabAction(tabValue);
             setSelectedTab(tabValue);

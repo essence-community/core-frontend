@@ -13,7 +13,7 @@ import {FormContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {IClassProps, IBuilderMode, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {getModeTitle} from "@essence-community/constructor-share/utils/getModeTitle";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {mergeComponents, useTranslation} from "@essence-community/constructor-share/utils";
 import {toTranslateText} from "@essence-community/constructor-share/utils/transform";
 import {useStyles} from "./PanelEditingButtons.styles";

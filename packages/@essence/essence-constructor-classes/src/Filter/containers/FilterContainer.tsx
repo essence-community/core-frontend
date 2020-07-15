@@ -17,7 +17,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {FilterModel} from "../store/FilterModel";
 import {FilterButtons} from "../components/FilterButtons";
 import {useStyles} from "./FilterContainer.styles";

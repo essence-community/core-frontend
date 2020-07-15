@@ -7,7 +7,7 @@ import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-communit
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {toTranslateText} from "@essence-community/constructor-share/utils/transform";
 import {FormContext} from "@essence-community/constructor-share/context";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {useStyles} from "./PanelCollapsible.styles";
 
 export const PanelCollapsible: React.FC<IClassProps> = (props) => {

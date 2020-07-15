@@ -8,7 +8,7 @@ import {
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {Grid, Typography} from "@material-ui/core";
 import clsx from "clsx";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import * as React from "react";
 import {useStyles} from "./TreeRow.styles";
 import {ITreeRowProps} from "./TreeRow.types";

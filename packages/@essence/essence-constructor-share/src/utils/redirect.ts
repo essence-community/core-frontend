@@ -145,7 +145,6 @@ async function redirectUseQuery({bc, query, pageStore, values, record}: IRedirec
     } catch (err) {
         snackbarStore.checkValidResponseAction(
             {
-                // @ts-ignore
                 [VAR_RECORD_ID]: null,
                 [VAR_RECORD_RES_ERROR]: {
                     1000: [],

@@ -8,12 +8,12 @@ import {
 } from "../../constants";
 import {IBuilderConfig} from "../../types";
 
-type ConfigBtnExcelWindowType = {
+interface IConfigBtnExcelWindow {
     ckPageObject: string;
     overrideExcelButton: IBuilderConfig;
-};
+}
 
-export function getExcelWindow({ckPageObject, overrideExcelButton}: ConfigBtnExcelWindowType): IBuilderConfig {
+export function getExcelWindow({ckPageObject, overrideExcelButton}: IConfigBtnExcelWindow): IBuilderConfig {
     return {
         [VAR_RECORD_DISPLAYED]: "static:7578080854a84cc3b4faad62d4499a4b",
         [VAR_RECORD_NAME]: "Excel Window",

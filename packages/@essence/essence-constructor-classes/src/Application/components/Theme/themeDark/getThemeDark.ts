@@ -9,6 +9,7 @@ export const getThemeDark = (theme: Theme): IEssenceTheme => ({
     palette: {
         ...theme.palette,
         action: {
+            ...theme.palette.action,
             active: "rgba(0, 0, 0, 0.54)",
             disabled: "rgba(0, 0, 0, 0.26)",
             disabledBackground: "rgba(0, 0, 0, 0.12)",

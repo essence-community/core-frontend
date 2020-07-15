@@ -4,7 +4,7 @@ import {mapComponents} from "@essence-community/constructor-share/components";
 import {IBuilderConfig, IClassProps} from "@essence-community/constructor-share/types";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 
 interface IWindowButtonsProps extends IClassProps {
     className?: string;

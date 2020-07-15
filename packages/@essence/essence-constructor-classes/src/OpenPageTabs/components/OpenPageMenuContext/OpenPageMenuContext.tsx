@@ -1,6 +1,6 @@
 import {List, ListItem, Popover} from "@material-ui/core";
 import cn from "classnames";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import * as React from "react";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {useStyles} from "./OpenPageMenuContext.styles";

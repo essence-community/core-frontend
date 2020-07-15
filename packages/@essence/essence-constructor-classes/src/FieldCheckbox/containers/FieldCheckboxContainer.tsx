@@ -7,7 +7,7 @@ import {
     VAR_RECORD_DISPLAYED,
 } from "@essence-community/constructor-share/constants/variables";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {TextFieldLabel} from "@essence-community/constructor-share/uicomponents/TextFieldLabel";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";

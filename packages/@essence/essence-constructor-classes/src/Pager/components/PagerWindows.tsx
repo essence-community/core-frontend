@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {mapComponents} from "@essence-community/constructor-share/components";

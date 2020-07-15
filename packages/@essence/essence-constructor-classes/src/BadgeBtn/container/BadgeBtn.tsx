@@ -1,11 +1,10 @@
 import {IBuilderConfig, IClassProps, mapComponents, parseMemoize} from "@essence-community/constructor-share";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
 import {Badge} from "@material-ui/core";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import * as React from "react";
 import {useStyles} from "./BadgeBtn.styles";
 
-// @ts-ignore
 export const BadgeBtn: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, children} = props;
     const classes = useStyles(props);
@@ -34,7 +33,7 @@ export const BadgeBtn: React.FC<IClassProps> = (props) => {
         }
 
         if (children) {
-            return children;
+            return <>{children}</>;
         }
 
         return (

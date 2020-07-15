@@ -6,7 +6,7 @@ import {mapComponents} from "@essence-community/constructor-share/components";
 import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {useModel} from "@essence-community/constructor-share/hooks";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {RoadMapModel} from "../store/RoadMapModel";
 import {RoadMapTabs} from "../companents/RoadMapTabs/RoadMapTabs";
 import {useStyles} from "./RoadMapContainer.styles";

@@ -3,7 +3,7 @@ import {IClassProps} from "@essence-community/constructor-share/types";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import ReactMarkdown from "react-markdown";
 import {Typography, Divider} from "@material-ui/core";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {settingsStore} from "@essence-community/constructor-share/models/SettingsModel";
 import {
     VAR_SETTING_PROJECT_LOADER,

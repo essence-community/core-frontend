@@ -3,7 +3,7 @@ import {IClassProps} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {Grid, Checkbox, Divider} from "@material-ui/core";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {reaction} from "mobx";
 import {useStyles} from "./GridHFDateContainer.styles";

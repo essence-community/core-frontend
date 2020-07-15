@@ -5,7 +5,7 @@ import {reaction} from "mobx";
 import {useTheme, Grid} from "@material-ui/core";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {getHistoryPanelBtnsConfig} from "../../util/HistoryBtnConfig";
 
 interface IOrderedBuielderConfig {

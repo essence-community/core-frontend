@@ -1,5 +1,5 @@
 import {Collapse} from "@material-ui/core";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import * as React from "react";
 import {VAR_RECORD_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants/variables";
 import {TreeRow} from "../TreeRow/TreeRow";

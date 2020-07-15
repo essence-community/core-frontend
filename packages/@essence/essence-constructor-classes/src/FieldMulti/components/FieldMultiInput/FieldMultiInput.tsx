@@ -6,7 +6,7 @@ import {IconButton, TextField} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {IField} from "@essence-community/constructor-share/Form";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {IFieldMultiModel} from "../../stores/FieldMultiModel";
 import {useStyles} from "./FieldMultiInput.styles";
 

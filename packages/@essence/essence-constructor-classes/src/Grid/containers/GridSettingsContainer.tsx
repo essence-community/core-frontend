@@ -11,7 +11,7 @@ import {reaction} from "mobx";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {Scrollbars} from "@essence-community/constructor-share/uicomponents";
 import {useTranslation} from "@essence-community/constructor-share/utils";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {IGridModel} from "../stores/GridModel/GridModel.types";
 
 export const GridSettingsContainer: React.FC<IClassProps> = (props) => {

@@ -13,7 +13,6 @@ import {
     ISnackbar,
     SnackbarStatus,
     IErrorData,
-    IRecordsModel,
 } from "../../types";
 import {isEmpty, i18next, TFunction} from "../../utils";
 import {
@@ -35,6 +34,8 @@ import {
 import {IRouteRecord} from "../../types/RoutesModel";
 import {TText, IOptionCheck} from "../../types/SnackbarModel";
 import {IForm} from "../../Form";
+import {RecordsModelLite} from "../RecordsModelLite/RecordsModelLite";
+import {IRecordsModelLite} from "../../types/RecordsModel";
 import {MAX_OPENED_SNACKBARS, CODE_ACCESS_DENIEND, GROUP_ACTION_MAP, CODE_GROUP_MAP} from "./SnackbarModel.contants";
 
 /**
@@ -49,7 +50,7 @@ export class SnackbarModel implements ISnackbarModel {
 
     snackbarsAll: Array<ISnackbar>;
 
-    recordsStore: IRecordsModel;
+    recordsStore: IRecordsModelLite;
 
     activeStatus: SnackbarStatus;
 
@@ -61,7 +62,6 @@ export class SnackbarModel implements ISnackbarModel {
 
     constructor() {
         // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-        const {RecordsModel} = require("../RecordsModel");
         const bc: IBuilderConfig = {
             [VAR_RECORD_PAGE_OBJECT_ID]: "Snackbar",
             [VAR_RECORD_PARENT_ID]: "root",
@@ -69,7 +69,7 @@ export class SnackbarModel implements ISnackbarModel {
             type: "NONE",
         };
 
-        this.recordsStore = new RecordsModel(bc);
+        this.recordsStore = new RecordsModelLite(bc);
 
         extendObservable(this, {
             activeStatus: "all",

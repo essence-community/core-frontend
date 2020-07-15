@@ -491,7 +491,8 @@ export class RecordsModel implements IRecordsModel {
         return Promise.resolve(false);
     };
 
-    setRecordsAction = (records: IRecord[]): boolean => {
+    @action
+    setRecordsAction = (records: IRecord[]) => {
         this.recordsState = {
             isUserReload: false,
             records,

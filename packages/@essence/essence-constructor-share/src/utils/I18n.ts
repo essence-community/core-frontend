@@ -4,7 +4,8 @@ import Backend from "i18next-chained-backend";
 import LocalStorageBackend from "i18next-localstorage-backend";
 import {request} from "../request/request";
 import {VAR_LANG_ID, VAR_NAMESPACE_VALUE, VAR_SETTING_LANG} from "../constants/variables";
-import {snackbarStore, settingsStore} from "../models";
+import {snackbarStore} from "../models/SnackbarModel";
+import {settingsStore} from "../models/SettingsModel";
 import {getFromStore} from "./storage";
 
 const ENABLE_CACHE = false;

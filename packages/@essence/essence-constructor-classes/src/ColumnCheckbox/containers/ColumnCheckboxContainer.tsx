@@ -71,7 +71,7 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
 
         return (
             <Checkbox
-                color="default"
+                color="primary"
                 checked={checked}
                 disabled={readOnly || disabled || isDisabledCheck}
                 onClick={handlePrevent}

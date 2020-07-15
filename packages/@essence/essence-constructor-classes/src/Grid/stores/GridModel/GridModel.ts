@@ -42,6 +42,8 @@ import {
     updateGridWidth,
     getGridValues,
     printExcel,
+    getRecordsEnabled,
+    checkIsPageSelectedRecords,
 } from "../../utils";
 import {WIDTH_MAP, GRID_ROW_HEIGHT, GRID_ROWS_COUNT, TABLE_CELL_MIN_WIDTH} from "../../constants";
 import {getOverrideExcelButton, getOverrideWindowBottomBtn} from "../../utils/getGridBtnsConfig";
@@ -155,20 +157,6 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                     (windBc) => windBc[VAR_RECORD_PARENT_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID],
                 ),
             )
-        );
-    }
-
-    @computed get isPageSelectedRecords() {
-        if (this.bc.type === "TREEGRID") {
-            return this.recordsStore.records.every(
-                (record) =>
-                    record[VAR_RECORD_LEAF] === "false" ||
-                    Boolean(this.recordsStore.selectedRecords.get(record[this.recordsStore.recordId] as ICkId)),
-            );
-        }
-
-        return this.recordsStore.records.every((record) =>
-            Boolean(this.recordsStore.selectedRecords.get(record[this.recordsStore.recordId] as ICkId)),
         );
     }
 
@@ -399,11 +387,11 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     };
 
     @action
-    setAllSelectedRecords = (all: boolean, bcBtn: IBuilderConfig) => {
+    setAllSelectedRecords = (all: boolean, bcBtn: IBuilderConfig, records: IRecord[]) => {
         const maxSize = bcBtn.maxselected && parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues);
 
         if (all) {
-            this.recordsStore.records.forEach((record) => {
+            records.forEach((record) => {
                 if (!maxSize || maxSize > this.recordsStore.selectedRecords.size) {
                     this.recordsStore.selectedRecords.set(record[this.recordsStore.recordId] as ICkId, record);
                 }
@@ -567,8 +555,12 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         },
         onSimpleAddRow: (mode: IBuilderMode, bc: IBuilderConfig) => this.handlers.onCreateChildWindowMaster(mode, bc),
         onToggleAllSelectedRecords: (mode: IBuilderMode, bc: IBuilderConfig) => {
-            if (this.recordsStore.records.length !== 0) {
-                this.setAllSelectedRecords(!this.isPageSelectedRecords, bc);
+            const records = getRecordsEnabled(bc, this.recordsStore, this.pageStore);
+
+            if (records.length !== 0) {
+                const isPageSelectedRecords = checkIsPageSelectedRecords(bc, records, this.recordsStore);
+
+                this.setAllSelectedRecords(!isPageSelectedRecords, bc, records);
             }
 
             return Promise.resolve(true);

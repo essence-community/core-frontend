@@ -240,7 +240,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             reaction(
                 () => applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID],
                 (pageObjectId) => {
-                    if (pageObjectId !== "none") {
+                    if (pageObjectId !== "none" && pageObjectId !== "mock") {
                         applicationStore.recordsApplicationStore.searchAction({
                             [VAR_RECORD_PAGE_OBJECT_ID]: pageObjectId,
                         });

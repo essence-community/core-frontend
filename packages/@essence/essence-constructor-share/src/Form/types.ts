@@ -70,7 +70,7 @@ export interface IForm {
     clear(): void;
     update(initialValues?: IRecord, isReset?: boolean): void;
     updateMode(mode: IBuilderMode): void;
-    patch(values: IRecord): void;
+    patch(values: IRecord, isExtra?: boolean): void;
     select(key: string): IField | undefined;
     registerField(key: string, options: IRegisterFieldOptions): IField;
     unregisterField(key: string): void;

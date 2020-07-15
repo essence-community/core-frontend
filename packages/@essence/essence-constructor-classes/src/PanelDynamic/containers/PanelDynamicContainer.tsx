@@ -4,7 +4,7 @@ import {mapComponents} from "@essence-community/constructor-share/components";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {toColumnStyleWidth} from "@essence-community/constructor-share/utils/transform";
 import {IClassProps} from "@essence-community/constructor-share/types";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {GRID_CONFIGS, GRID_ALIGN_CONFIGS} from "@essence-community/constructor-share/constants/ui";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {PanelDynamicModel} from "../store/PanelDynamicModel";

@@ -3,7 +3,7 @@ import {useTranslation} from "@essence-community/constructor-share/utils";
 import {SnackbarContentText} from "@essence-community/constructor-share/uicomponents";
 import {ButtonBase, Grid} from "@material-ui/core";
 import cn from "classnames";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import * as React from "react";
 import {useStyles} from "./Notification.styles";
 

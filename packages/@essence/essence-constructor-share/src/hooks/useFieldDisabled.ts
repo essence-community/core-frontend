@@ -1,4 +1,4 @@
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {IForm} from "../Form";
 
 interface IUseFieldDisabled {

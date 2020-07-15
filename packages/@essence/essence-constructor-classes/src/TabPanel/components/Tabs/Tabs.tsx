@@ -3,7 +3,6 @@ import {IClassProps} from "@essence-community/constructor-share/types";
 import {PanelWidthContext} from "@essence-community/constructor-share/context";
 import {Popover} from "@essence-community/constructor-share/uicomponents";
 import keycode from "keycode";
-// @ts-ignore
 // eslint-disable-next-line import/no-extraneous-dependencies
 import isEqual from "lodash/isEqual";
 import cn from "clsx";
@@ -15,7 +14,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {useTheme, IconButton} from "@material-ui/core";
 import {reaction} from "mobx";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {
     IPopoverAnchorOrigin,

@@ -8,7 +8,7 @@ import cn from "clsx";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {Grid, useTheme, ThemeProvider} from "@material-ui/core";
 import {FormContext} from "@essence-community/constructor-share/context";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {EmptyTitle} from "@essence-community/constructor-share/uicomponents/EmptyTitle";
 import {PanelEditingButtons} from "../PanelEditingButtons/PanelEditingButtons";
 import {Panel} from "../Panel/Panel";

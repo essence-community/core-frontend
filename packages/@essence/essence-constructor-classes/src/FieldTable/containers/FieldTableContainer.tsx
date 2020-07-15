@@ -1,6 +1,6 @@
 import * as React from "react";
 import {isEmpty} from "@essence-community/constructor-share/utils";
-import {VALUE_SELF_FIRST, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
 import {
@@ -14,7 +14,6 @@ import {Popover} from "@essence-community/constructor-share/uicomponents";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {FieldTableModel} from "../stores/FieldTableModel";
-import {getFirstValues} from "../utils";
 import {FieldTableInput} from "../components/FieldTableInput";
 
 export const FieldTableContainer: React.FC<IClassProps> = (props) => {
@@ -35,13 +34,16 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
     useFieldSetGlobal({bc, field, pageStore, store});
     useDefaultValueQuery({bc, field, pageStore});
 
-    // componentDidMount
-    React.useEffect(() => {
-        if (!isEmpty(field.value)) {
-            store.setDefaultRecordAction(field.value);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const changeValue = React.useCallback(
+        (value) => {
+            if (isEmpty(value)) {
+                store.clearAction();
+            } else {
+                store.setDefaultRecordAction(value);
+            }
+        },
+        [store],
+    );
 
     // Check for grid store
     React.useEffect(() => {
@@ -55,22 +57,14 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
         );
     }, [pageStore.stores, store]);
 
-    React.useEffect(
-        () =>
-            reaction(
-                () => field.value,
-                (value) => {
-                    if (isEmpty(value)) {
-                        store.clearAction();
-                    } else if (value === VALUE_SELF_FIRST) {
-                        field.onChange(getFirstValues(store.recordsStore));
-                    } else {
-                        store.setDefaultRecordAction(value);
-                    }
-                },
-            ),
-        [field, store],
-    );
+    React.useEffect(() => {
+        changeValue(field.value);
+
+        return reaction(() => field.value, changeValue, {
+            fireImmediately: true,
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [changeValue]);
 
     return (
         <Popover

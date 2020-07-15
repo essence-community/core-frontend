@@ -8,7 +8,7 @@ import {useModel} from "@essence-community/constructor-share/hooks";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
 import {toColumnStyleWidth} from "@essence-community/constructor-share/utils";
 import {HorizontalResizer} from "@essence-community/constructor-share/uicomponents";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {Grid} from "@material-ui/core";
 import {PanelWidthContext} from "@essence-community/constructor-share/context";
 import {PanelModel, IItemType} from "../../store/PanelModel";

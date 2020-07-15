@@ -135,8 +135,8 @@ export class RecordsModel implements IRecordsModel {
                     property: bc.orderproperty,
                 },
                 pageNumber: 0,
-                get records(this: IRecordsModel) {
-                    return this.recordsState.records;
+                get records() {
+                    return (this as IRecordsModel).recordsState.records;
                 },
                 recordsAll: records,
                 get recordsCount() {
@@ -223,7 +223,7 @@ export class RecordsModel implements IRecordsModel {
         },
     );
 
-    reloadChildStoresAction = action("reloadChildsStoresAction", (oldSelectedRecord) => {
+    reloadChildStoresAction = action("reloadChildsStoresAction", (oldSelectedRecord?: IRecord) => {
         if (!this.pageStore) {
             return false;
         }
@@ -424,7 +424,7 @@ export class RecordsModel implements IRecordsModel {
 
     @action
     saveAction = async (
-        values: Record<string, FieldValue>,
+        values: IRecord | IRecord[],
         mode: IBuilderMode,
         options: ISaveActionOptions,
     ): Promise<boolean> => {
@@ -469,7 +469,11 @@ export class RecordsModel implements IRecordsModel {
         });
     };
 
-    downloadAction = (values: Record<string, FieldValue>, mode: IBuilderMode, options: ISaveActionOptions) => {
+    downloadAction = (
+        values: IRecord | IRecord[],
+        mode: IBuilderMode,
+        options: ISaveActionOptions,
+    ): Promise<boolean> => {
         return download(values, mode, {
             actionBc: options.actionBc,
             bc: this.bc,
@@ -479,7 +483,7 @@ export class RecordsModel implements IRecordsModel {
         });
     };
 
-    removeSelectedRecordAction = (options: ISaveActionOptions) => {
+    removeSelectedRecordAction = (options: ISaveActionOptions): Promise<boolean> => {
         if (this.selectedRecord) {
             return this.saveAction(this.selectedRecord, "3", {...options, query: options.actionBc.updatequery});
         }
@@ -487,6 +491,7 @@ export class RecordsModel implements IRecordsModel {
         return Promise.resolve(false);
     };
 
+    @action
     setRecordsAction = (records: IRecord[]) => {
         this.recordsState = {
             isUserReload: false,

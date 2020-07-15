@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {IPageModel, IClassProps} from "@essence-community/constructor-share/types";
 import {getComponent, mapComponentOne} from "@essence-community/constructor-share/components";
 import {ApplicationContext} from "@essence-community/constructor-share/context";

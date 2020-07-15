@@ -1,12 +1,13 @@
 import {observable, action} from "mobx";
 import {History} from "history";
 import {
-    getFromStore,
-    saveToStore,
+    getFromLocalStore,
+    saveToLocalStore,
     IAuthModel,
     IApplicationModel,
     loggerRoot,
 } from "@essence-community/constructor-share";
+import {loadStore} from "@essence-community/constructor-share/utils/storage";
 import {snackbarStore, settingsStore} from "@essence-community/constructor-share/models";
 import {request} from "@essence-community/constructor-share/request";
 import {
@@ -27,7 +28,7 @@ const DEAULT_USER_INFO: IAuthSession = {
 };
 
 export class AuthModel implements IAuthModel {
-    @observable userInfo = getFromStore<IAuthSession>("auth") || DEAULT_USER_INFO;
+    @observable userInfo = getFromLocalStore<IAuthSession>("auth") || DEAULT_USER_INFO;
 
     // eslint-disable-next-line no-useless-constructor
     constructor(public applicationStore: IApplicationModel) {}
@@ -48,8 +49,9 @@ export class AuthModel implements IAuthModel {
                 query: "GetSessionData",
                 session,
             })
-                // eslint-disable-next-line consistent-return
-                .then((response: IAuthSession) => {
+                .then((responseAny: any) => {
+                    const response = responseAny as IAuthSession;
+
                     if (response && snackbarStore.checkValidLoginResponse(response)) {
                         if (response.session === this.userInfo.session) {
                             this.changeUserInfo(response);
@@ -92,9 +94,14 @@ export class AuthModel implements IAuthModel {
             });
 
     @action
-    successLoginAction = async (response: IAuthSession, history: History, isReloadAppications = false) => {
+    successLoginAction = async (
+        response: IAuthSession,
+        history: History,
+        isReloadAppications = false,
+    ): Promise<void> => {
         const {redirecturl = "/"} = this.applicationStore.bc;
-        let backUrl: string = history.location.state?.backUrl ?? redirecturl;
+        const state = (history.location.state || {}) as {backUrl?: string};
+        let backUrl: string = state.backUrl ?? redirecturl;
 
         if (backUrl === history.location.pathname) {
             backUrl = redirecturl;
@@ -102,8 +109,9 @@ export class AuthModel implements IAuthModel {
 
         this.userInfo = response;
         this.applicationStore.setSesssionAction(response);
+        await loadStore(this.userInfo.session);
         // TODO: сделать проверку на bc, что бы не сохранять пользователя при репортах
-        saveToStore("auth", response);
+        saveToLocalStore("auth", response);
 
         if (isReloadAppications) {
             await this.applicationStore.loadApplictionConfigs();
@@ -117,7 +125,7 @@ export class AuthModel implements IAuthModel {
             ...this.userInfo,
             ...userInfo,
         };
-        saveToStore("auth", this.userInfo);
+        saveToLocalStore("auth", this.userInfo);
     });
 
     logoutAction = action("logoutAction", async () => {
@@ -135,6 +143,7 @@ export class AuthModel implements IAuthModel {
 
         this.userInfo = DEAULT_USER_INFO;
         this.applicationStore.setSesssionAction(cleanedValues);
+        await loadStore(this.userInfo.session);
 
         try {
             await request({

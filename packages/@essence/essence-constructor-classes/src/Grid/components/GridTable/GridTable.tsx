@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import * as React from "react";
 import {Grid, Table, useTheme, TableBody} from "@material-ui/core";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {VerticalResizer, Pagination, Scrollbars} from "@essence-community/constructor-share/uicomponents";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {ScrollbalrsValuesType} from "@essence-community/constructor-share/uicomponents/Scrollbars";
 import {observe} from "mobx";
 import {PopoverContext} from "@essence-community/constructor-share/context";

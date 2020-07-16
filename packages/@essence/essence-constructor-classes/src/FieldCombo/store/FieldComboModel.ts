@@ -46,12 +46,7 @@ export class FieldComboModel extends StoreBaseModel {
     @observable language: string = i18next.language;
 
     @computed get selectedRecord() {
-        const {allownew = ""} = this.bc;
-        const stringValue = toString(this.lastValue);
-        const isNewValue = allownew && stringValue.indexOf(allownew) === 0;
-        const stringNewValue = isNewValue ? stringValue.replace(allownew, "") : stringValue;
-
-        return isEmpty(stringNewValue) ? null : this.recordsStore.selectedRecord;
+        return this.recordsStore.selectedRecord;
     }
 
     @computed get suggestions(): Array<ISuggestion> {
@@ -132,6 +127,7 @@ export class FieldComboModel extends StoreBaseModel {
         this.inputValue = "";
         this.lastValue = "";
         this.recordsStore.searchAction({reset: true});
+        this.recordsStore.setSelectionAction(undefined);
     };
 
     @action

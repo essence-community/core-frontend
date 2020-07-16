@@ -4,6 +4,7 @@ import keycode from "keycode";
 import {IconButton, TextField} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {isEmpty} from "@essence-community/constructor-share/utils";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {PopoverContext} from "@essence-community/constructor-share/context";
 import {IField} from "@essence-community/constructor-share/Form";
@@ -26,30 +27,32 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
     const popoverCtx = React.useContext(PopoverContext);
     const isDisabled = useFieldDisabled({disabled, form: field.form, readOnly});
 
-    const handleInputClick = () => {
+    const handleInputClick = React.useCallback(() => {
         if (!popoverCtx.open) {
-            props.store.handleRestoreSelected(field.value, "down");
+            store.handleRestoreSelected(field.value, "down");
             popoverCtx.onOpen();
         }
-    };
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    }, [store, popoverCtx]);
+    const handleChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         const {value} = event.target;
 
-        if (props.bc.allownew) {
+        if (bc.allownew && value !== bc.allownew) {
             const sugValue = props.store.suggestions.find((sug: ISuggestion) => sug.label === value);
-            const newValue = sugValue ? sugValue.value : `${props.bc.allownew}${value}`;
+            const newValue = sugValue ? sugValue.value : `${bc.allownew}${value}`;
 
-            props.store.handleChangeValue(value, !sugValue);
+            store.handleChangeValue(value, !sugValue);
             field.onChange(newValue);
+        } else if (isEmpty(value) || (bc.allownew && value === bc.allownew)) {
+            field.onChange("");
         } else {
-            props.store.handleChangeValue(value);
+            store.handleChangeValue(value);
         }
 
         if (!popoverCtx.open) {
-            props.store.handleRestoreSelected(field.value, "down");
+            store.handleRestoreSelected(field.value, "down");
             popoverCtx.onOpen();
         }
-    };
+    }, [bc, store, popoverCtx, field]);
     const handleKeyDown = React.useCallback(
         (event: React.KeyboardEvent<HTMLInputElement>) => {
             // @ts-ignore
@@ -89,16 +92,16 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
         },
         [field, popoverCtx, props.bc.allownew, store],
     );
-    const handleButtonUp = (event: React.SyntheticEvent) => {
+    const handleButtonUp = React.useCallback((event: React.SyntheticEvent) => {
         event.stopPropagation();
         popoverCtx.onClose();
-    };
-    const handlFocusInput = (event: React.FocusEvent) => {
+    }, [popoverCtx]);
+    const handlFocusInput = React.useCallback((event: React.FocusEvent) => {
         event.preventDefault();
         if (props.inputRef.current) {
             props.inputRef.current.focus();
         }
-    };
+    }, [props.inputRef]);
 
     const chevron = popoverCtx.open ? (
         <IconButton

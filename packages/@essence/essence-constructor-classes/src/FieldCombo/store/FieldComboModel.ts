@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import {computed, observable} from "mobx";
+import {computed, observable, action} from "mobx";
 import {
     IStoreBaseModelProps,
     IRecordsModel,
@@ -8,7 +8,11 @@ import {
     FieldValue,
     IRecord,
 } from "@essence-community/constructor-share";
-import {VAR_RECORD_CL_IS_MASTER} from "@essence-community/constructor-share/constants";
+import {
+    VAR_RECORD_CL_IS_MASTER,
+    VALUE_SELF_FIRST,
+    VALUE_SELF_ALWAYSFIRST,
+} from "@essence-community/constructor-share/constants";
 import {i18next, isEmpty} from "@essence-community/constructor-share/utils";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {ISuggestion} from "./FieldComboModel.types";
@@ -70,7 +74,7 @@ export class FieldComboModel extends StoreBaseModel {
             ];
         }
 
-        if (this.isInputChanged && this.bc.querymode === "local") {
+        if (this.isInputChanged && this.bc.querymode === "local" && !isEmpty(inputValueLower)) {
             return suggestions.filter((sug: ISuggestion) => sug.labelLower.indexOf(inputValueLower) !== -1);
         }
 
@@ -118,6 +122,15 @@ export class FieldComboModel extends StoreBaseModel {
 
     clearStoreAction = () => this.recordsStore.clearChildsStoresAction();
 
+    @action
+    clearAction = () => {
+        this.inputValue = "";
+        this.lastValue = "";
+        this.recordsStore.searchAction({reset: true});
+        this.recordsStore.setSelectionAction(undefined);
+    };
+
+    @action
     handleChangeValue = (value: string, isNew?: boolean) => {
         this.isInputChanged = true;
         this.inputValue = value;
@@ -132,6 +145,7 @@ export class FieldComboModel extends StoreBaseModel {
         }
     };
 
+    @action
     handleChangeSelected = (code: "up" | "down") => {
         if (this.suggestions.length === 0) {
             this.highlightedValue = "";
@@ -154,6 +168,7 @@ export class FieldComboModel extends StoreBaseModel {
         }
     };
 
+    @action
     handleRestoreSelected = (value: FieldValue, code: "up" | "down") => {
         const suggerstion = this.suggestions.find((sug) => sug.value === value);
 
@@ -168,6 +183,7 @@ export class FieldComboModel extends StoreBaseModel {
         this.handleSetValue(this.highlightedValue, false, false);
     };
 
+    @action
     handleSetValueList = (value: FieldValue, loaded: boolean, isUserSearch: boolean) => {
         const stringValue = toString(value);
         const suggestion = this.suggestions.find((sug) => sug.value === stringValue);
@@ -198,6 +214,7 @@ export class FieldComboModel extends StoreBaseModel {
         return !value && value !== 0;
     };
 
+    @action
     handleSetValueNew = (value: FieldValue, loaded: boolean, isUserSearch: boolean): boolean => {
         const {allownew = ""} = this.bc;
         const stringValue = toString(value);
@@ -238,6 +255,7 @@ export class FieldComboModel extends StoreBaseModel {
         return !value && value !== 0;
     };
 
+    @action
     handleSetSuggestionValue = (suggestion: ISuggestion, isUserSearch: boolean): boolean => {
         if (this.recordsStore.selectedRecordValues[this.recordsStore.recordId] !== suggestion.id) {
             const rec: any = suggestion.id;
@@ -252,8 +270,9 @@ export class FieldComboModel extends StoreBaseModel {
         return true;
     };
 
+    @action
     handleSetValue = (value: FieldValue, loaded: boolean, isUserSearch: boolean) => {
-        this.lastValue = value === "##first##" || value === "##alwaysfirst##" ? "" : value;
+        this.lastValue = value === VALUE_SELF_FIRST || value === VALUE_SELF_ALWAYSFIRST ? "" : value;
         const prevInputValue = this.inputValue;
         const prevSsInputChanged = this.isInputChanged;
 
@@ -280,6 +299,7 @@ export class FieldComboModel extends StoreBaseModel {
         }
     };
 
+    @action
     handleChangeLanguage = (value: FieldValue, language: string) => {
         const stringValue = toString(value);
 

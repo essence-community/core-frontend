@@ -32,27 +32,32 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             store.handleRestoreSelected(field.value, "down");
             popoverCtx.onOpen();
         }
-    }, [store, popoverCtx]);
-    const handleChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        const {value} = event.target;
+    }, [popoverCtx, store, field.value]);
 
-        if (bc.allownew && value !== bc.allownew) {
-            const sugValue = props.store.suggestions.find((sug: ISuggestion) => sug.label === value);
-            const newValue = sugValue ? sugValue.value : `${bc.allownew}${value}`;
+    const handleChange = React.useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            const {value} = event.target;
 
-            store.handleChangeValue(value, !sugValue);
-            field.onChange(newValue);
-        } else if (isEmpty(value) || (bc.allownew && value === bc.allownew)) {
-            field.onChange("");
-        } else {
-            store.handleChangeValue(value);
-        }
+            if (bc.allownew && value !== bc.allownew) {
+                const sugValue = props.store.suggestions.find((sug: ISuggestion) => sug.label === value);
+                const newValue = sugValue ? sugValue.value : `${bc.allownew}${value}`;
 
-        if (!popoverCtx.open) {
-            store.handleRestoreSelected(field.value, "down");
-            popoverCtx.onOpen();
-        }
-    }, [bc, store, popoverCtx, field]);
+                store.handleChangeValue(value, !sugValue);
+                field.onChange(newValue);
+            } else if (isEmpty(value) || (bc.allownew && value === bc.allownew)) {
+                field.onChange("");
+            } else {
+                store.handleChangeValue(value);
+            }
+
+            if (!popoverCtx.open) {
+                store.handleRestoreSelected(field.value, "down");
+                popoverCtx.onOpen();
+            }
+        },
+        [bc.allownew, popoverCtx, props.store.suggestions, store, field],
+    );
+
     const handleKeyDown = React.useCallback(
         (event: React.KeyboardEvent<HTMLInputElement>) => {
             // @ts-ignore
@@ -92,16 +97,22 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
         },
         [field, popoverCtx, props.bc.allownew, store],
     );
-    const handleButtonUp = React.useCallback((event: React.SyntheticEvent) => {
-        event.stopPropagation();
-        popoverCtx.onClose();
-    }, [popoverCtx]);
-    const handlFocusInput = React.useCallback((event: React.FocusEvent) => {
-        event.preventDefault();
-        if (props.inputRef.current) {
-            props.inputRef.current.focus();
-        }
-    }, [props.inputRef]);
+    const handleButtonUp = React.useCallback(
+        (event: React.SyntheticEvent) => {
+            event.stopPropagation();
+            popoverCtx.onClose();
+        },
+        [popoverCtx],
+    );
+    const handlFocusInput = React.useCallback(
+        (event: React.FocusEvent) => {
+            event.preventDefault();
+            if (props.inputRef.current) {
+                props.inputRef.current.focus();
+            }
+        },
+        [props.inputRef],
+    );
 
     const chevron = popoverCtx.open ? (
         <IconButton

@@ -8,7 +8,11 @@ import {
     FieldValue,
     IRecord,
 } from "@essence-community/constructor-share";
-import {VAR_RECORD_CL_IS_MASTER, VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "@essence-community/constructor-share/constants";
+import {
+    VAR_RECORD_CL_IS_MASTER,
+    VALUE_SELF_FIRST,
+    VALUE_SELF_ALWAYSFIRST,
+} from "@essence-community/constructor-share/constants";
 import {i18next, isEmpty} from "@essence-community/constructor-share/utils";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {ISuggestion} from "./FieldComboModel.types";
@@ -46,6 +50,7 @@ export class FieldComboModel extends StoreBaseModel {
         const stringValue = toString(this.lastValue);
         const isNewValue = allownew && stringValue.indexOf(allownew) === 0;
         const stringNewValue = isNewValue ? stringValue.replace(allownew, "") : stringValue;
+
         return isEmpty(stringNewValue) ? null : this.recordsStore.selectedRecord;
     }
 

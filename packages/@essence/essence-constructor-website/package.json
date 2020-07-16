@@ -1,6 +1,6 @@
 {
   "name": "@essence-community/constructor-website",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@babel/core": "7.10.4",
-    "@essence-community/constructor-classes": "2.5.1",
+    "@essence-community/constructor-classes": "2.5.2",
     "@essence-community/constructor-share": "file:../essence-constructor-share/lib",
     "@material-ui/core": "^4.11.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.3.3",

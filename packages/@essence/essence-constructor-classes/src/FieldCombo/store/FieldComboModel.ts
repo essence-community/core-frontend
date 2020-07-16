@@ -74,7 +74,7 @@ export class FieldComboModel extends StoreBaseModel {
             ];
         }
 
-        if (this.isInputChanged && this.bc.querymode === "local" && inputValueLower) {
+        if (this.isInputChanged && this.bc.querymode === "local" && !isEmpty(inputValueLower)) {
             return suggestions.filter((sug: ISuggestion) => sug.labelLower.indexOf(inputValueLower) !== -1);
         }
 

@@ -64,7 +64,7 @@ export function useFieldSetGlobal({field, pageStore, bc, store}: IUseFieldSetGlo
                     return values;
                 }
 
-                if (store && !store.selectedRecord) {
+                if (store && (!store.selectedRecord || isEmpty(field.value))) {
                     setglobal.forEach(({out}) => {
                         values[out] = null;
                     });

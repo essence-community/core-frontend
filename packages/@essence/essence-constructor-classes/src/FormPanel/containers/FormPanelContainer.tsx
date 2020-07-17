@@ -3,7 +3,7 @@ import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {UIForm} from "@essence-community/constructor-share/uicomponents/UIForm";
 import {useModel} from "@essence-community/constructor-share/hooks/useModel";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {noop} from "@essence-community/constructor-share/utils";
 import {FormPanelModel} from "../store/FormPanelModel";
 import {FormPanelGlobals} from "../components/FormPanelGlobals";

@@ -11,7 +11,7 @@ if (!GATE_URL) {
 function httpRequest(query, postData) {
     const {port, hostname, path} = url.parse(`${GATE_URL}?${query}`);
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         const req = http.request(
             {
                 headers: {
@@ -22,7 +22,7 @@ function httpRequest(query, postData) {
                 path,
                 port,
             },
-            function(res) {
+            function (res) {
                 // reject on bad status
                 if (res.statusCode < 200 || res.statusCode >= 300) {
                     return reject(new Error("statusCode=" + res.statusCode));
@@ -30,11 +30,11 @@ function httpRequest(query, postData) {
                 // cumulate data
                 let body = [];
 
-                res.on("data", function(chunk) {
+                res.on("data", function (chunk) {
                     body.push(chunk);
                 });
                 // resolve on end
-                res.on("end", function() {
+                res.on("end", function () {
                     try {
                         body = JSON.parse(Buffer.concat(body).toString());
                     } catch (e) {
@@ -46,7 +46,7 @@ function httpRequest(query, postData) {
         );
 
         // reject on request error
-        req.on("error", function(err) {
+        req.on("error", function (err) {
             reject(err);
         });
 

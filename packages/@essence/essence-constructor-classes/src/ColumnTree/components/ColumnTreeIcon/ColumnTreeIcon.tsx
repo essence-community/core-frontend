@@ -2,7 +2,7 @@ import * as React from "react";
 import {VAR_RECORD_LEAF, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import {IRecord, IPageModel, IBuilderConfig, ICkId} from "@essence-community/constructor-share/types";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 
 interface IColumnTreeIconProps {
     record: IRecord;

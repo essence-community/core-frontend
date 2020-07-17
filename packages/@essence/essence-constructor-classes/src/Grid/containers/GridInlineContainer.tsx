@@ -3,7 +3,7 @@ import {createPortal} from "react-dom";
 import {VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {IClassProps, IBuilderMode} from "@essence-community/constructor-share/types";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {IGridModel} from "../stores/GridModel/GridModel.types";
 import {GridInlineTable} from "../components/GridInlineTable";

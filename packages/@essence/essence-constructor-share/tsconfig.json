@@ -11,7 +11,8 @@
         "strictNullChecks": true,
         "experimentalDecorators": true,
         "downlevelIteration": true,
-        "typeRoots": ["src/typings"]
+        "typeRoots": ["src/typings"],
+        "types": ["node"]
     },
     "include": ["src/**/*.ts", "src/**/*.tsx"],
     "exclude": ["**/__tests__/**"]

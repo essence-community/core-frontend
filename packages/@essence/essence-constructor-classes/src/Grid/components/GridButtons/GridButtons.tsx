@@ -7,7 +7,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {Grid, useTheme} from "@material-ui/core";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {Pagination} from "@essence-community/constructor-share/uicomponents/Pagination";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {getGridBtnsConfig} from "../../utils";

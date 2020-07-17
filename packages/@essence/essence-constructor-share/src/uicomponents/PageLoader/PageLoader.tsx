@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Modal} from "@material-ui/core";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {IPageModel} from "../../types";
 import {LineLoader} from "../LineLoader";
 import {useStyles} from "./PageLoader.styles";

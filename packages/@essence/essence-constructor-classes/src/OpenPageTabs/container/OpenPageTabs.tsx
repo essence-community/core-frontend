@@ -5,7 +5,7 @@ import {
     VAR_RECORD_ICON_NAME,
 } from "@essence-community/constructor-share/constants/variables";
 import {Tabs} from "@material-ui/core";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import * as React from "react";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import ReactDOM from "react-dom";

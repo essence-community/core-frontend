@@ -1,7 +1,7 @@
 // @flow
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {Badge, ButtonBase} from "@material-ui/core";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import * as React from "react";
 import {useStyles} from "./NotificationsReadButton.styles";

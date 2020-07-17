@@ -20,7 +20,7 @@ import {
     useDefaultValueQuery,
 } from "@essence-community/constructor-share/hooks";
 import {useField} from "@essence-community/constructor-share/Form";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {FieldRadioModel} from "../stores/FieldRadioModel";
 import {getFirstValues} from "../utils";
 import {ISuggestion} from "../FieldRadio.types";

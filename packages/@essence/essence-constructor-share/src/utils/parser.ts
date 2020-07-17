@@ -117,8 +117,7 @@ export const parse = (src: string, withTokens = false): IParseReturnType => {
     return {
         hasError: false,
         runer: (values: IValues = {}) => {
-            // @ts-ignore
-            const expression = parsedSrc ? parsedSrc.body[0].expression : undefined;
+            const expression = parsedSrc ? (parsedSrc.body[0] as any).expression : undefined;
 
             return expression
                 ? parseOperations(expression, values)

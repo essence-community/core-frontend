@@ -117,11 +117,11 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
     }, [editing, form]);
 
     React.useEffect(
-        function() {
+        function () {
             if (bc) {
                 pageStore.addForm(bc[VAR_RECORD_PAGE_OBJECT_ID], form);
 
-                return function() {
+                return function () {
                     pageStore.removeForm(bc[VAR_RECORD_PAGE_OBJECT_ID]);
                 };
             }

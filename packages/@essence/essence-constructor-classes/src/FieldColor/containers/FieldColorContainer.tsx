@@ -7,7 +7,7 @@ import {useTextFieldProps, useFieldSetGlobal, useDefaultValueQuery} from "@essen
 import {useField} from "@essence-community/constructor-share/Form";
 import {FormLabel} from "@material-ui/core";
 import {TextFieldLabel} from "@essence-community/constructor-share/uicomponents";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {FieldColorPicker} from "../components/FieldColorPicker";
 import {useStyles} from "./FieldColorContainer.styles";
 

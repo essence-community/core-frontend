@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import keycode from "keycode";
 import {IconButton, TextField} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
@@ -60,8 +60,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
 
     const handleKeyDown = React.useCallback(
         (event: React.KeyboardEvent<HTMLInputElement>) => {
-            // @ts-ignore
-            const code = keycode(event);
+            const code = keycode(event as any);
 
             switch (code) {
                 case "up":

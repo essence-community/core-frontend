@@ -11,8 +11,8 @@
     "constructor-package-builder": "./bin/constructor-package-builder.js"
   },
   "dependencies": {
-    "cross-spawn": "^7.0.1",
-    "fs-extra": "^8.1.0",
-    "typescript": "^3.7.3"
+    "cross-spawn": "^7.0.3",
+    "fs-extra": "^9.0.1",
+    "typescript": "^3.9.6"
   }
 }

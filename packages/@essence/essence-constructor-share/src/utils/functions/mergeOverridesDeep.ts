@@ -28,8 +28,7 @@ export function mergeOverridesDeep<T extends IOverrides>(origin?: T, changes?: T
                 }
             }
 
-            // @ts-ignore
-            clonedOrigin[key] = clonedProperties;
+            (clonedOrigin as any)[key] = clonedProperties;
         }
     }
 

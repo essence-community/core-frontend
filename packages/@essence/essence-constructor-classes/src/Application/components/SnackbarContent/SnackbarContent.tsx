@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import cn from "clsx";
 import {Grid, Grow, Paper, CircularProgress} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";

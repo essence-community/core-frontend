@@ -8,7 +8,7 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_PARENT_ID,
 } from "@essence-community/constructor-share/constants";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {GridHeaderResizer} from "../components/GridHeaderResizer";
 import {GridHeaderFilter} from "../components/GridHeaderFilter";
 import {useStyles} from "./GridHeaderDefaultContainer.styles";

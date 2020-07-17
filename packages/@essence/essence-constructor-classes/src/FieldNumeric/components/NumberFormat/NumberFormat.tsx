@@ -15,7 +15,7 @@ const MIN_VALUE = 10;
 const MAX_VALUE = -10;
 
 export const NumberFormat: React.FC<INumberFormatProps> = (props) => {
-    const {bc, onValueChange, inputRef, ...inputProps} = props;
+    const {bc, onValueChange, inputRef, value, ...inputProps} = props;
     const config = React.useMemo(() => {
         const {BigNumber, decimalPrecision} = getBigNumberInstance(bc);
 
@@ -27,31 +27,42 @@ export const NumberFormat: React.FC<INumberFormatProps> = (props) => {
             minValue: bc.minvalue ? parseFloat(bc.minvalue.replace(",", ".")) : 0,
         };
     }, [bc]);
-    const handleChange = ({value}: NumberFormatValues) => {
-        onValueChange(value);
-    };
+    const handleChange = React.useCallback(
+        ({value: valNew}: NumberFormatValues) => {
+            onValueChange(valNew);
+        },
+        [onValueChange],
+    );
 
-    const handleIsAllowed = ({value}: NumberFormatValues) => {
-        if (config.maxSize && value.replace(/[,. ]/gu, "").length > config.maxSize) {
-            return false;
-        }
-        const [, decimal] = value.split(".");
+    const handleIsAllowed = React.useCallback(
+        ({value: valNew}: NumberFormatValues) => {
+            if (config.maxSize && valNew.replace(/[,. ]/gu, "").length > config.maxSize) {
+                if (valNew.replace(/[,. ]/gu, "").length < `${value}`.replace(/[,. ]/gu, "").length) {
+                    return true;
+                }
 
-        if (decimal && decimal.length > config.decimalPrecision) {
-            return false;
-        }
-        const num = new config.BigNumber(value);
+                return false;
+            }
+            const [, decimal] = valNew.split(".");
 
-        if (config.maxValue && config.maxValue > MAX_VALUE && num.isGreaterThan(config.maxValue)) {
-            return false;
-        }
+            if (decimal && decimal.length > config.decimalPrecision) {
+                return false;
+            }
+            const num = new config.BigNumber(valNew);
 
-        return config.minValue > MIN_VALUE || !num.isLessThan(config.minValue);
-    };
+            if (config.maxValue && config.maxValue > MAX_VALUE && num.isGreaterThan(config.maxValue)) {
+                return false;
+            }
+
+            return config.minValue > MIN_VALUE || !num.isLessThan(config.minValue);
+        },
+        [config, value],
+    );
 
     return (
         <ReactNumberFormat
             {...inputProps}
+            value={value}
             getInputRef={inputRef}
             onValueChange={handleChange}
             isNumericString

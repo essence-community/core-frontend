@@ -38,13 +38,13 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
         (event: React.ChangeEvent<HTMLInputElement>) => {
             const {value} = event.target;
 
-            if (bc.allownew && value !== bc.allownew) {
+            if (bc.allownew) {
                 const sugValue = props.store.suggestions.find((sug: ISuggestion) => sug.label === value);
                 const newValue = sugValue ? sugValue.value : `${bc.allownew}${value}`;
 
                 store.handleChangeValue(value, !sugValue);
                 field.onChange(newValue);
-            } else if (isEmpty(value) || (bc.allownew && value === bc.allownew)) {
+            } else if (isEmpty(value)) {
                 field.onChange("");
             } else {
                 store.handleChangeValue(value);

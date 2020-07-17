@@ -61,7 +61,9 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                 store.clearAction();
             } else if (
                 !store.recordsStore.isLoading &&
-                (value === VALUE_SELF_FIRST || value === VALUE_SELF_ALWAYSFIRST)
+                store.recordsStore.loadCounter &&
+                (value === VALUE_SELF_FIRST || value === VALUE_SELF_ALWAYSFIRST) &&
+                value === bc.defaultvalue
             ) {
                 const val = getFirstValues(store.recordsStore);
 
@@ -71,7 +73,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                 store.handleSetValue(value, false, false);
             }
         },
-        [bc.allownew, field, store],
+        [bc.allownew, bc.defaultvalue, field, store],
     );
 
     useFieldGetGlobal({bc, field, pageStore, store});
@@ -93,8 +95,8 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                 (recordsState) => {
                     const isDefault = Boolean(
                         (isEmpty(field.value) ||
-                            field.value === VALUE_SELF_FIRST ||
-                            field.value === VALUE_SELF_ALWAYSFIRST) &&
+                            ((field.value === VALUE_SELF_FIRST || field.value === VALUE_SELF_ALWAYSFIRST) &&
+                                field.value === bc.defaultvalue)) &&
                             recordsState.isDefault,
                     );
                     const value =
@@ -107,7 +109,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                     store.handleSetValue(value, true, recordsState.status === "search" && recordsState.isUserReload);
                 },
             ),
-        [field, store],
+        [bc.defaultvalue, field, store],
     );
 
     React.useEffect(() => {

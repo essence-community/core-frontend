@@ -272,7 +272,11 @@ export class FieldComboModel extends StoreBaseModel {
 
     @action
     handleSetValue = (value: FieldValue, loaded: boolean, isUserSearch: boolean) => {
-        this.lastValue = value === VALUE_SELF_FIRST || value === VALUE_SELF_ALWAYSFIRST ? "" : value;
+        if ((value === VALUE_SELF_FIRST || value === VALUE_SELF_ALWAYSFIRST) && this.bc.defaultvalue === value) {
+            this.lastValue = "";
+        } else {
+            this.lastValue = value;
+        }
         const prevInputValue = this.inputValue;
         const prevSsInputChanged = this.isInputChanged;
 

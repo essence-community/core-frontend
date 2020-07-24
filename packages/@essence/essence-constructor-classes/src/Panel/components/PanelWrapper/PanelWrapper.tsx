@@ -4,7 +4,7 @@ import {FormContext} from "@essence-community/constructor-share/context";
 import cn from "clsx";
 import {useObserver} from "mobx-react";
 import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_NAME} from "@essence-community/constructor-share/constants";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useStyles} from "./PanelWrapper.styles";
 
@@ -15,7 +15,10 @@ export const PanelWrapper: React.FC<IClassProps> = (props) => {
     const classes = useStyles();
     const theme = useTheme();
     const isDarkTheme = theme.palette.type === "dark";
-    const actions = React.useMemo(() => topbtn.reverse(), [topbtn]);
+    const actions = React.useMemo(
+        () => topbtn.reverse().filter((bc) => !bc[VAR_RECORD_NAME] || bc[VAR_RECORD_NAME]?.indexOf("Override") !== 0),
+        [topbtn],
+    );
 
     const actionsBar = React.useMemo(() => {
         if (hideactions) {

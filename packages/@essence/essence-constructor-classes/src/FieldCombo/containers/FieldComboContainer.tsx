@@ -11,7 +11,7 @@ import {
 import {useTranslation, isEmpty} from "@essence-community/constructor-share/utils";
 import {IPopoverChildrenProps} from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";
 import {useField} from "@essence-community/constructor-share/Form";
-import {VALUE_SELF_FIRST} from "@essence-community/constructor-share/constants";
+import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "@essence-community/constructor-share/constants";
 import {FieldComboList} from "../components/FieldComboList";
 import {FieldComboInput} from "../components/FieldComboInput";
 import {FieldComboModel} from "../store/FieldComboModel";
@@ -57,7 +57,14 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
         (value: FieldValue) => {
             if (bc.allownew && value === bc.allownew) {
                 field.onChange("");
-            } else if (!store.recordsStore.isLoading && value === VALUE_SELF_FIRST) {
+            } else if (isEmpty(value)) {
+                store.clearAction();
+            } else if (
+                !store.recordsStore.isLoading &&
+                store.recordsStore.loadCounter &&
+                (value === VALUE_SELF_FIRST || value === VALUE_SELF_ALWAYSFIRST) &&
+                value === bc.defaultvalue
+            ) {
                 const val = getFirstValues(store.recordsStore);
 
                 field.onChange(val);
@@ -66,7 +73,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                 store.handleSetValue(value, false, false);
             }
         },
-        [bc.allownew, field, store],
+        [bc.allownew, bc.defaultvalue, field, store],
     );
 
     useFieldGetGlobal({bc, field, pageStore, store});
@@ -87,7 +94,10 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                 () => store.recordsStore.recordsState,
                 (recordsState) => {
                     const isDefault = Boolean(
-                        (isEmpty(field.value) || field.value === VALUE_SELF_FIRST) && recordsState.isDefault,
+                        (isEmpty(field.value) ||
+                            ((field.value === VALUE_SELF_FIRST || field.value === VALUE_SELF_ALWAYSFIRST) &&
+                                field.value === bc.defaultvalue)) &&
+                            recordsState.isDefault,
                     );
                     const value =
                         isDefault && recordsState.record ? recordsState.record[store.valuefield] : field.value;
@@ -99,7 +109,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                     store.handleSetValue(value, true, recordsState.status === "search" && recordsState.isUserReload);
                 },
             ),
-        [field, store],
+        [bc.defaultvalue, field, store],
     );
 
     React.useEffect(() => {

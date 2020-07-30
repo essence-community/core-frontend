@@ -2,7 +2,7 @@ import * as React from "react";
 import {IClassProps, IEssenceTheme, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {useTranslation} from "@essence-community/constructor-share/utils";
-import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants/variables";
+import {VAR_RECORD_DISPLAYED, VAR_RECORD_NAME} from "@essence-community/constructor-share/constants/variables";
 import {toTranslateText} from "@essence-community/constructor-share/utils/transform";
 import cn from "clsx";
 import {mapComponents} from "@essence-community/constructor-share/components";
@@ -43,7 +43,10 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
     const transCvDisplayed = toTranslateText(trans, bc[VAR_RECORD_DISPLAYED]);
     const classes = useStyles();
 
-    const actions = React.useMemo(() => topbtn.reverse(), [topbtn]);
+    const actions = React.useMemo(
+        () => topbtn.reverse().filter((bc) => !bc[VAR_RECORD_NAME] || bc[VAR_RECORD_NAME]?.indexOf("Override") !== 0),
+        [topbtn],
+    );
 
     const paddingTop = React.useMemo(() => {
         const isFilterActionsPresent = filters.length > 0 && !filters[0].dynamicfilter;

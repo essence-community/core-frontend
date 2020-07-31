@@ -101,7 +101,7 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
                                 const {visible, hiddenrules} = column;
                                 const displayed = column[VAR_RECORD_DISPLAYED];
 
-                                if (visible || hiddenrules === "true") {
+                                if (!visible || hiddenrules === "true") {
                                     return null;
                                 }
 

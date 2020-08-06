@@ -46,6 +46,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
                 field.onChange(newValue);
             } else if (isEmpty(value)) {
                 field.onChange("");
+                store.handleChangeValue(value);
             } else {
                 store.handleChangeValue(value);
             }

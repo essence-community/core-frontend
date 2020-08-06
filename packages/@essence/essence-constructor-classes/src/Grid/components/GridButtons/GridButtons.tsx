@@ -100,7 +100,8 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
 
         if (showStaticBtns) {
             btnsAll.push(...gridButtons);
-        } else if (btnsCollector) {
+        }
+        if (btnsCollector) {
             const childBtns = [...gridButtons].sort(compareOrderedBC).map((config) => ({
                 ...config.bc,
                 onlyicon: false,
@@ -108,7 +109,12 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
 
             btnsCollector.forEach((btn) => {
                 btnsAll.push({
-                    bc: {...btn, topbtn: btn.topbtn ? [...btn.topbtn, ...childBtns] : childBtns},
+                    bc: {
+                        ...btn,
+                        ...(btn.btncollectorall
+                            ? {topbtn: btn.topbtn ? [...btn.topbtn, ...childBtns] : childBtns}
+                            : {}),
+                    },
                     order: btn[VAR_RECORD_CN_ORDER],
                 });
             });

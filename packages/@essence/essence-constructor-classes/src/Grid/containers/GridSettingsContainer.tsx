@@ -10,7 +10,7 @@ import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {reaction} from "mobx";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {Scrollbars} from "@essence-community/constructor-share/uicomponents";
-import {useTranslation} from "@essence-community/constructor-share/utils";
+import {useTranslation, saveToStore} from "@essence-community/constructor-share/utils";
 import {useObserver} from "mobx-react";
 import {IGridModel} from "../stores/GridModel/GridModel.types";
 
@@ -53,6 +53,7 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
 
     const handleSave = () => {
         if (parentStore) {
+            saveToStore(`${parentStore.bc[VAR_RECORD_PAGE_OBJECT_ID]}_visibility`, visibility);
             parentStore.setGridColumns(
                 parentStore.gridColumnsInitial.filter((column) => visibility[column[VAR_RECORD_PAGE_OBJECT_ID]]),
             );

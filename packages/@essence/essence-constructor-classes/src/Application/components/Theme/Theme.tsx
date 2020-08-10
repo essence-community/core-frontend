@@ -1,7 +1,13 @@
 import * as React from "react";
 import {ThemeProvider, createMuiTheme, useTheme} from "@material-ui/core";
 import {IApplicationModel} from "@essence-community/constructor-share/types";
-import {mergeOverridesDeep, isIE, getFromStore} from "@essence-community/constructor-share/utils";
+import {
+    mergeOverridesDeep,
+    isIE,
+    getFromStore,
+    addListenLoaded,
+    remListenLoaded,
+} from "@essence-community/constructor-share/utils";
 import {settingsStore} from "@essence-community/constructor-share/models/SettingsModel";
 import {VAR_SETTING_THEME} from "@essence-community/constructor-share/constants";
 import {reaction} from "mobx";
@@ -44,6 +50,20 @@ export const Theme: React.FC<IThemeProps> = (props) => {
         () => reaction(() => applicationStore.globalValues.get(VAR_SETTING_THEME) as "light" | "dark", setThemeType),
         [applicationStore.globalValues],
     );
+
+    React.useEffect(() => {
+        const fn = async () => {
+            const theme = getFromStore("theme") as "dark" | "light" | undefined;
+
+            if (theme) {
+                setThemeType(theme);
+            }
+        };
+
+        addListenLoaded(fn);
+
+        return () => remListenLoaded(fn);
+    }, []);
 
     const theme = React.useMemo(() => {
         const getTheme = themeType === "dark" ? getThemeDark : getThemeLight;

@@ -6,7 +6,7 @@ import {request} from "../request/request";
 import {VAR_LANG_ID, VAR_NAMESPACE_VALUE, VAR_SETTING_LANG} from "../constants/variables";
 import {snackbarStore} from "../models/SnackbarModel";
 import {settingsStore} from "../models/SettingsModel";
-import {getFromStore} from "./storage";
+import {getFromStore, addListenLoaded} from "./storage";
 
 const ENABLE_CACHE = false;
 
@@ -15,11 +15,11 @@ class I18nBackend implements BackendModule {
 
     services: Services;
 
-    options: object;
+    options: Record<string, any>;
 
     i18nextOptions: InitOptions;
 
-    init(services: Services, backendOptions: object, i18nextOptions: InitOptions): void {
+    init(services: Services, backendOptions: Record<string, any>, i18nextOptions: InitOptions): void {
         this.services = services;
         this.options = backendOptions;
         this.i18nextOptions = i18nextOptions;
@@ -78,8 +78,15 @@ export function initI18n() {
                 bindI18n: "languageChanged loaded",
             },
         });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     window.i18next = i18next;
+    addListenLoaded(async () => {
+        const defaultLng = settingsStore.settings[VAR_SETTING_LANG];
+        const lang = getFromStore<string>("lang", defaultLng);
+
+        i18next.changeLanguage(lang!);
+    });
 }
 
 export {i18next, TFunction, WithT, withTranslation, useTranslation, Translation};

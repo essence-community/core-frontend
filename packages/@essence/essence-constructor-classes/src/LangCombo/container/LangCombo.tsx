@@ -1,6 +1,12 @@
 import {IClassProps} from "@essence-community/constructor-share";
 import {settingsStore} from "@essence-community/constructor-share/models";
-import {saveToStore, getFromStore, i18next} from "@essence-community/constructor-share/utils";
+import {
+    saveToStore,
+    getFromStore,
+    i18next,
+    addListenLoaded,
+    remListenLoaded,
+} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -20,8 +26,7 @@ const getComponentBc = (bc: IBuilderConfig, defaultValue?: string): IBuilderConf
     [VAR_RECORD_OBJECT_ID]: bc[VAR_RECORD_OBJECT_ID],
     [VAR_RECORD_PAGE_OBJECT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PARENT_ID],
-    [VAR_RECORD_QUERY_ID]: bc[VAR_RECORD_QUERY_ID],
-    [VAR_RECORD_QUERY_ID]: "MTGetLang",
+    [VAR_RECORD_QUERY_ID]: bc[VAR_RECORD_QUERY_ID] || "MTGetLang",
     autoload: true,
     column: bc.column || "lang",
     datatype: "combo",
@@ -29,9 +34,9 @@ const getComponentBc = (bc: IBuilderConfig, defaultValue?: string): IBuilderConf
     displayfield: bc.displayfield || "cv_name",
     getglobal: VAR_SETTING_LANG,
     noglobalmask: true,
-    setglobal: [{out: VAR_SETTING_LANG}],
+    setglobal: [{in: "ck_id", out: VAR_SETTING_LANG}],
     type: "IFIELD",
-    valuefield: bc.valuefield || [{in: "ck_id"}],
+    valuefield: bc.valuefield || [{in: "ck_id", out: bc.column || "lang"}],
 });
 
 const getLang = () => getFromStore("lang", settingsStore.settings[VAR_SETTING_LANG]);
@@ -40,6 +45,35 @@ export const LangCombo: React.FC<IClassProps> = (props) => {
     const {pageStore} = props;
     const applicationStore = React.useContext(ApplicationContext);
     const [currentLang, setCurrentLang] = React.useState(getLang);
+
+    React.useEffect(() => {
+        const fn = async () => {
+            const curLang = getFromStore("lang") as string | undefined;
+
+            if (curLang) {
+                setCurrentLang((oldLang) => {
+                    if (oldLang !== curLang) {
+                        if (applicationStore) {
+                            applicationStore.updateGlobalValuesAction({
+                                [VAR_SETTING_LANG]: curLang || "",
+                            });
+                        }
+                        pageStore.updateGlobalValues({
+                            [VAR_SETTING_LANG]: curLang,
+                        });
+
+                        return curLang;
+                    }
+
+                    return oldLang;
+                });
+            }
+        };
+
+        addListenLoaded(fn);
+
+        return () => remListenLoaded(fn);
+    }, []);
 
     React.useEffect(() => {
         const curLang = getLang();

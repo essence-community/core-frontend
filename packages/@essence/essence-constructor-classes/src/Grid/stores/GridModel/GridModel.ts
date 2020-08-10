@@ -8,6 +8,7 @@ import {
     getDefaultWindowBc,
     getExcelWindow,
     parseMemoize,
+    getFromStore,
 } from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PARENT_ID,
@@ -82,6 +83,14 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         this.valueFields = [[this.recordsStore.recordId, this.recordsStore.recordId]];
         this.gridColumnsInitial = getGridColumns(this.bc);
         this.gridColumns = this.gridColumnsInitial;
+
+        const visibility = getFromStore<Record<string, boolean>>(`${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_visibility`);
+
+        if (visibility) {
+            this.gridColumns = this.gridColumnsInitial.filter(
+                (column) => visibility[column[VAR_RECORD_PAGE_OBJECT_ID]],
+            );
+        }
 
         const columnsWithZeroWidth: string[] = [];
 
@@ -446,7 +455,13 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     });
 
     setGridColumns = action("setGridColumns", (gridColumns: IBuilderConfig[]) => {
-        this.gridColumns = gridColumns;
+        const visibility = getFromStore<Record<string, boolean>>(`${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_visibility`);
+
+        if (visibility) {
+            this.gridColumns = gridColumns.filter((column) => visibility[column[VAR_RECORD_PAGE_OBJECT_ID]]);
+        } else {
+            this.gridColumns = gridColumns;
+        }
     });
 
     setRecordToGlobal = () => {

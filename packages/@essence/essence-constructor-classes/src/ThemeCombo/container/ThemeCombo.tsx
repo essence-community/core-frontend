@@ -49,9 +49,9 @@ export const ThemeCombo: React.FC<IClassProps> = (props) => {
         () =>
             reaction(
                 () => bc.column && form.select(bc.column)?.value,
-                (theme) => {
+                async (theme) => {
                     if (typeof theme === "string" && applicationStore) {
-                        saveToStore("theme", theme);
+                        await saveToStore("theme", theme);
                         // instead of reload
                         // applicationStore.updateGlobalValuesAction({[VAR_SETTING_THEME]: theme});
                         document.location.reload();

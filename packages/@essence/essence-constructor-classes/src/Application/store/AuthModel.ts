@@ -114,6 +114,7 @@ export class AuthModel implements IAuthModel {
         saveToLocalStore("auth", response);
 
         if (isReloadAppications) {
+            history.replace(backUrl.indexOf("/") === 0 ? backUrl : `/${backUrl}`, {backUrl: undefined});
             await this.applicationStore.loadApplictionConfigs();
         }
 

@@ -8,6 +8,7 @@ import {
     IPopoverContext,
 } from "@essence-community/constructor-share/context";
 import {makeRedirect} from "@essence-community/constructor-share/utils";
+import {reaction} from "mobx";
 import {handers} from "../handlers";
 import {FileInputModel} from "../store/FileInputModel";
 
@@ -38,6 +39,7 @@ export function useButtonClick(
     const {pageStore, bc, disabled, fileInputStore} = props;
     const [isDisabled, setIsDisabled] = React.useState(false);
     const isMountedRef = React.useRef(false);
+    const formValidation = React.useRef(null);
     const formCtx = React.useContext(FormContext);
     const recordCtx = React.useContext(RecordContext);
     const popoverCtx = React.useContext(PopoverContext);
@@ -76,8 +78,10 @@ export function useButtonClick(
 
                     // @deprecated
 
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
                     if (builderStore && typeof builderStore[handlerBtn] === "function") {
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         // @ts-ignore
                         promise = builderStore[handlerBtn](bc.mode, bc, {
                             form: formCtx,
@@ -96,7 +100,26 @@ export function useButtonClick(
 
             return promise.then((res) => {
                 if (isMountedRef.current) {
-                    setIsDisabled(false);
+                    if (formCtx && !formCtx.isValid) {
+                        if (!formValidation.current) {
+                            setIsDisabled(!formCtx.isValid);
+                            formValidation.current = reaction(
+                                () => formCtx.isValid,
+                                (isValid) => {
+                                    setIsDisabled(!isValid);
+                                    if (isValid) {
+                                        formValidation.current();
+                                        formValidation.current = null;
+                                    }
+                                },
+                                {
+                                    fireImmediately: true,
+                                },
+                            );
+                        }
+                    } else {
+                        setIsDisabled(false);
+                    }
                 }
 
                 return res;

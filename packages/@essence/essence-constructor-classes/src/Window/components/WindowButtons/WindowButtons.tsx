@@ -39,7 +39,7 @@ export const WindowButtons: React.FC<IWindowButtonsProps> = ({checkboxAddMode, c
                     key={btn[VAR_RECORD_PAGE_OBJECT_ID]}
                     {...classProps}
                     bc={btn}
-                    disabled={btn.handler === "onCloseWindow" ? false : !form.isValid || form.submitting}
+                    disabled={btn.handler === "onCloseWindow" ? false : form.submitting}
                 />
             ))}
         </DialogActions>

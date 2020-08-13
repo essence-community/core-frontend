@@ -39,7 +39,7 @@ export function useGridDnd({
             ) {
                 store.dragDropAction(
                     event.dataTransfer.getData("pageObjectId"),
-                    event.dataTransfer.getData("recordId"),
+                    JSON.parse(event.dataTransfer.getData("recordId")),
                     record,
                 );
             }

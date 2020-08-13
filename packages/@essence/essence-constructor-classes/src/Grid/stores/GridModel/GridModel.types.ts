@@ -59,5 +59,5 @@ export interface IGridModel extends IStoreBaseModel {
     handleDoubleClick(): void;
 
     // DragDrop
-    dragDropAction(pageObjectId: string, dragId: string, drop?: IRecord): Promise<boolean>;
+    dragDropAction(pageObjectId: string, dragId: string | string[], drop?: IRecord): Promise<boolean>;
 }

@@ -512,9 +512,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     };
 
     @action
-    dragDropAction = async (pageObjectId: string, dragIdStr: string, drop?: IRecord) => {
+    dragDropAction = async (pageObjectId: string, dragId: string | string[], drop?: IRecord) => {
         const recordStore = this.pageStore.stores.get(pageObjectId)?.recordsStore;
-        const dragId = JSON.parse(dragIdStr);
         const drag = Array.isArray(dragId) ? recordStore?.records.filter((rec) => dragId.indexOf(String(rec[recordStore?.recordId])) > -1) : recordStore?.records.find((rec) => String(rec[recordStore?.recordId]) === dragId);
         const btn = getOverrideDragDropButton(this.bc);
         const res = await this.saveAction({

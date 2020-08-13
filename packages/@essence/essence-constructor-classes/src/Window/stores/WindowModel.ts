@@ -99,7 +99,7 @@ export class WindowModel extends StoreBaseModel {
 
         await options.form.validate();
 
-        if (options.form.isValid) {
+        if (btnBc.skipvalidation || options.form.isValid) {
             let success: string | boolean = false;
             const modeAction = (btnBc.modeaction || btnBc.mode || this.bc.mode || mode) as IBuilderMode;
 
@@ -141,7 +141,7 @@ export class WindowModel extends StoreBaseModel {
 
         await options.form.validate();
 
-        if (options.form.isValid) {
+        if (btnBc.skipvalidation || options.form.isValid) {
             const modeAction = (btnBc.modeaction || btnBc.mode || this.bc.mode || mode) as IBuilderMode;
             const success = await this.recordsStore.saveAction(options.form.values, modeAction, {
                 actionBc: btnBc,
@@ -170,7 +170,7 @@ export class WindowModel extends StoreBaseModel {
 
         await options.form.validate();
 
-        if (options.form.isValid && this.mainStore && this.mainStore.handlers.onPrintExcel) {
+        if ((btnBc.skipvalidation || options.form.isValid) && this.mainStore && this.mainStore.handlers.onPrintExcel) {
             const success = await this.mainStore.handlers.onPrintExcel(mode, btnBc, {record: options.form.values});
 
             if (success) {

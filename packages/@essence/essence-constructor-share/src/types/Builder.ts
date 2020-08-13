@@ -221,6 +221,8 @@ export interface IBuilderBaseConfig {
     setglobal?: IBuilderAttrGlobal[];
     // Наименование глобалки в которую добавляется выбранная строка.
     setrecordtoglobal?: string;
+    // Пропуск проверки формы на ошибки
+    skipvalidation?: boolean;
     // Наименование парамента, по которому будет осуществлена сортировка вместо column
     sortcolumn?: string;
     // Признак отображения сплиттера (true/false)

@@ -7,6 +7,7 @@ import {reaction} from "mobx";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
+import {useGridDnd} from "../../hooks/useGridDnd";
 import {useStyles} from "./BaseGridRow.styles";
 
 interface IBaseGridRowProps extends IClassProps {
@@ -21,6 +22,7 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
     const rowcolor = record[VAR_RECORD_JV_ROWCOLOR];
     const [selected, setSelected] = React.useState(false);
     const classes = useStyles();
+    const dndProps = useGridDnd({record, store});
 
     const isSelected = React.useCallback(() => {
         return bc.selmode === "MULTI"
@@ -93,6 +95,7 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
             data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-row-${record[store.recordsStore.recordId]}`}
             onDoubleClick={store.handleDoubleClick}
             tabIndex={-1}
+            {...dndProps}
         >
             {children ? (
                 children

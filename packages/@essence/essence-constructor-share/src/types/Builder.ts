@@ -89,6 +89,8 @@ export interface IBuilderBaseConfig {
     dynamicfilter?: boolean;
     // Признак изменения вида иконки от данных
     dynamicicon?: boolean;
+    // Признак возможности переноса
+    draggable?: boolean;
     // Режим добавления/редактирования - all/insert/update/disabled
     editmode?: "all" | "insert" | "update" | "disabled" | "insert-editing" | "update-editing";
     // Режим редактирования дочерних элементов true = включен

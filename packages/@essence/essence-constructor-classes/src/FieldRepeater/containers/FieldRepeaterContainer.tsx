@@ -53,15 +53,30 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
 
     // CORE-1538 - minzise - guaranteed minimum fields for the repeater
     React.useEffect(() => {
-        const val = (Array.isArray(field.value) ? [...field.value] : []) as FieldValue[];
-        const minSize = bc.minsize ? parseInt(bc.minsize, 10) : undefined;
+        const changeRepeat = () => {
+            const val = (Array.isArray(field.value) ? [...field.value] : []) as FieldValue[];
+            const minSize = bc.minsize ? parseInt(bc.minsize, 10) : undefined;
 
-        if (minSize && val.length < minSize) {
-            for (let idx = val.length; idx < minSize; idx += 1) {
-                val.push({});
+            if (minSize && val.length < minSize) {
+                for (let idx = val.length; idx < minSize; idx += 1) {
+                    val.push({});
+                }
+                field.onChange(val);
             }
-            field.onChange(val);
+        };
+
+        if (field.form.mode === "1" && field.form.editing) {
+            changeRepeat();
         }
+
+        return reaction(
+            () => [field.form.editing, field.form.mode],
+            ([isEdit, mode]) => {
+                if (mode === "1" && isEdit) {
+                    changeRepeat();
+                }
+            },
+        );
     }, [bc.minsize, field]);
 
     const [parentContext, setParentContext] = React.useState<IParentFieldContext[]>([]);

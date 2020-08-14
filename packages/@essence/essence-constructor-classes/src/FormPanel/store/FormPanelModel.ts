@@ -120,7 +120,7 @@ export class FormPanelModel extends StoreBaseModel {
     saveAction = async (mode: IBuilderMode, btnBc: IBuilderConfig, {form, ...opt}: IHandlerOptions) => {
         await form?.validate();
 
-        if (!form?.isValid) {
+        if (!btnBc.skipvalidation && !form?.isValid) {
             return false;
         }
 

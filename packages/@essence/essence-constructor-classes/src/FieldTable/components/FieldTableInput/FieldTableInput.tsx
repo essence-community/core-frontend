@@ -6,7 +6,7 @@ import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {PopoverContext} from "@essence-community/constructor-share/context";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {IFieldTableModel} from "../../stores/FieldTableModel/FieldTableModel.types";
 import {getDisplayText} from "../../utils";

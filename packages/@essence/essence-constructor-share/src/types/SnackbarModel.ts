@@ -3,7 +3,8 @@ import {IObservableArray} from "mobx";
 import {TFunction} from "i18next";
 import {VAR_ERROR_TEXT, VAR_ERROR_ID, VAR_ERROR_CODE} from "../constants/variables";
 import {IForm} from "../Form";
-import {IResponse, FieldValue, IRecordsModel, IProgressModel, IApplicationModel, IRouteRecord} from ".";
+import {IRecordsModelLite} from "./RecordsModel";
+import {IResponse, FieldValue, IProgressModel, IApplicationModel, IRouteRecord} from ".";
 
 export type SnackbarStatus =
     | "all"
@@ -53,7 +54,7 @@ export interface IOptionCheck {
 export interface ISnackbarModel {
     snackbars: IObservableArray<ISnackbar>;
     snackbarsAll: ISnackbar[];
-    recordsStore: IRecordsModel;
+    recordsStore: IRecordsModelLite;
     snackbarsCount: number;
     activeStatus: SnackbarStatus;
     snackbarsInStatus: ISnackbar[];
@@ -65,7 +66,7 @@ export interface ISnackbarModel {
     deleteSnackbarAction: (snackbarId: string) => void;
     snackbarOpenAction: (snakebar: ISnackbar) => void;
     setClosebleAction: (snackbarId: string) => void;
-    snackbarCloseAction: (snackbarId: string) => void;
+    snackbarCloseAction: (snackbarId: ISnackbar["id"]) => void;
     snackbarChangeAction: (snackbarId: string, snackbar: Record<string, any>) => void;
     checkValidResponseAction: (response: IResponse, options: IOptionCheck) => number;
     checkValidLoginResponse: (response: Record<string, FieldValue>) => boolean;

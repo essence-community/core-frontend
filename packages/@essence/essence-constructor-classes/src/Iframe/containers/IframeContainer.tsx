@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {Paper} from "@material-ui/core";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {ApplicationContext} from "@essence-community/constructor-share/context";

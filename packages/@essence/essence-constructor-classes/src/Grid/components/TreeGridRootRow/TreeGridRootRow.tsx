@@ -3,7 +3,7 @@ import {IClassProps} from "@essence-community/constructor-share/types";
 import {VALUE_SELF_ROOT, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {RecordContext} from "@essence-community/constructor-share/context";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {BaseGridRow} from "../BaseGridRow";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 

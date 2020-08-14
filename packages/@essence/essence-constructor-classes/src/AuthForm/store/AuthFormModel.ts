@@ -28,7 +28,7 @@ export class AuthFormModel extends StoreBaseModel {
             if (form) {
                 await form.validate();
 
-                if (form.isValid && authStore) {
+                if ((btnBc.skipvalidation || form.isValid) && authStore) {
                     authStore.loginAction(form.values as Record<string, string>, this.history);
 
                     return true;

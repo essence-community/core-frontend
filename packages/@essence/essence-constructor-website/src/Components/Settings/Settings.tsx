@@ -1,5 +1,5 @@
 import * as React from "react";
-import {initI18n, i18next} from "@essence-community/constructor-share/utils";
+import {initI18n, initStorage, i18next} from "@essence-community/constructor-share/utils";
 import {settingsStore} from "@essence-community/constructor-share/models/SettingsModel";
 import {
     VAR_RECORD_ID,
@@ -40,6 +40,8 @@ export const Settings: React.FC = (props) => {
         ];
 
         settingsStore.setSettings(setting);
+
+        initStorage();
 
         initI18n();
 

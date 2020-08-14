@@ -8,7 +8,7 @@ import {UIForm, Focusable, Scrollbars} from "@essence-community/constructor-shar
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {IClassProps, IBuilderMode} from "@essence-community/constructor-share/types";
 import {useModel} from "@essence-community/constructor-share/hooks";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {getModeTitle} from "../utils";
 import {WindowModel} from "../stores/WindowModel";
 import {WindowButtons} from "../components/WindowButtons";

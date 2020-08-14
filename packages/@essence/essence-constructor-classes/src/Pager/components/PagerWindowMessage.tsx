@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Grid, Dialog, Button, DialogContent} from "@material-ui/core";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {Icon, Scrollbars, IPageModel} from "@essence-community/constructor-share";
 import {useTranslation, toTranslateText} from "@essence-community/constructor-share/utils";
 import {useStyles} from "./PagerWindowMessage.styles";

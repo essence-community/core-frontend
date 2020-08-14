@@ -9,7 +9,7 @@ import {Grid} from "@material-ui/core";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {IRecord, IStoreBaseModel, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {mapComponents, getComponent} from "@essence-community/constructor-share/components";
 import {reaction} from "mobx";
 import {IClassWithEditingProps} from "../store/FieldItemSelectorModel.types";

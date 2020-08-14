@@ -74,7 +74,7 @@ export class FilterModel extends StoreBaseModel {
         if (form) {
             form.validate();
 
-            const values = form.isValid ? form.values : undefined;
+            const values = bcBtn.skipvalidation || form.isValid ? form.values : undefined;
 
             if (values) {
                 const isValidPrint = await print({

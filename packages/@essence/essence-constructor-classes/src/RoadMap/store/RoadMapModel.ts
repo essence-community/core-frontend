@@ -134,7 +134,7 @@ export class RoadMapModel extends StoreBaseModel {
         const form = this.pageStore.forms.get(this.tabValue)!;
         const isSuccess = btnBc.updatequery
             ? await this.checkFormAction(mode, btnBc, {...options, form})
-            : form && form.isValid;
+            : form && (btnBc.skipvalidation || form.isValid);
 
         if (isSuccess) {
             const tabs = this.tabs
@@ -221,7 +221,7 @@ export class RoadMapModel extends StoreBaseModel {
     checkFormAction = async (mode: IBuilderMode, btnBc: IBuilderConfig, {form, files}: IHandlerOptions) => {
         await form!.validate();
 
-        if (form!.isValid) {
+        if (btnBc.skipvalidation || form!.isValid) {
             return this.recordStore.saveAction(form!.values, (btnBc.modeaction || btnBc.mode || mode) as IBuilderMode, {
                 actionBc: btnBc,
                 files,
@@ -249,7 +249,7 @@ export class RoadMapModel extends StoreBaseModel {
 
                         const result = bcBtn.updatequery
                             ? await this.checkFormAction((bcBtn.mode || "1") as IBuilderMode, bcBtn, {form: formTab})
-                            : formTab && formTab.isValid;
+                            : formTab && (bcBtn.skipvalidation || formTab.isValid);
 
                         if (!result) {
                             this.changeTabAction(ckPageObject);

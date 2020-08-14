@@ -6,7 +6,7 @@ import {debounce, getPreference} from "../../utils";
 import {useStyles} from "./Tooltip.styles";
 
 export const prepareTip = (tip: string | null): string[] | null => (tip ? tip.split(CARRY_LINES_REGEXP) : null);
-export const Tooltip: React.FC<{}> = (props) => {
+export const Tooltip = () => {
     const preference = getPreference();
     const classes = useStyles();
     const [inTooltip, setInTooltip] = React.useState(false);
@@ -16,10 +16,10 @@ export const Tooltip: React.FC<{}> = (props) => {
     });
     const [show, setShow] = React.useState(false);
     const [showBackdrop, setShowBackdrop] = React.useState(false);
-    const [tip, setTip] = React.useState<string | null>(null);
+    const [, setTip] = React.useState<string | null>(null);
     const [title, setTitle] = React.useState<string[] | null>(null);
     const timerShow = React.useRef<any>();
-    const [currentElement, setCurrentElement] = React.useState<HTMLElement | null>(null);
+    const currentElement = React.useRef<HTMLElement>();
     const element = React.useRef<HTMLElement>();
     const contentRef = React.useRef<HTMLDivElement | null>(null);
     const rootRef = React.useRef<HTMLDivElement | null>(null);
@@ -37,8 +37,7 @@ export const Tooltip: React.FC<{}> = (props) => {
             current.style.top = isBottomOut ? "auto" : `${top + preference.offsetTooltip}px`;
             current.style.bottom = isBottomOut ? "10px" : "auto";
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [inTooltip, position]);
+    }, [inTooltip, position, preference.offsetTooltip]);
 
     const getTipTitle = React.useCallback(() => {
         let target = element.current;
@@ -47,7 +46,7 @@ export const Tooltip: React.FC<{}> = (props) => {
             const tipNew = target.getAttribute("data-qtip");
 
             if (tipNew) {
-                setCurrentElement(target);
+                currentElement.current = target;
 
                 return tipNew;
             }
@@ -69,9 +68,6 @@ export const Tooltip: React.FC<{}> = (props) => {
         setTitle(null);
     }, []);
 
-    const setShowTooltip = () => {
-        setShow(true);
-    };
     const showTooltip = React.useCallback(
         (event: MouseEvent) => {
             if (event.target instanceof HTMLElement) {
@@ -81,14 +77,21 @@ export const Tooltip: React.FC<{}> = (props) => {
 
                 if (newTip) {
                     requestAnimationFrame(() => {
-                        if (newTip !== tip) {
-                            clearTimeout(timerShow.current);
-                            timerShow.current = setTimeout(setShowTooltip, preference.delayTooltipShow);
-                            makeHideTooltip(inTooltip);
-                            setTip(newTip);
-                            setTitle(prepareTip(newTip));
-                            setPosition({left: event.clientX, top: event.clientY});
-                        }
+                        setTip((tip) => {
+                            if (newTip !== tip) {
+                                clearTimeout(timerShow.current);
+                                timerShow.current = setTimeout(() => {
+                                    setShow(true);
+                                    setPosition({left: event.clientX, top: event.clientY});
+                                }, preference.delayTooltipShow);
+                                makeHideTooltip(inTooltip);
+                                setTitle(prepareTip(newTip));
+
+                                return newTip;
+                            }
+
+                            return tip;
+                        });
                     });
                 } else {
                     clearTimeout(timerShow.current);
@@ -98,17 +101,17 @@ export const Tooltip: React.FC<{}> = (props) => {
                 }
             }
         },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [getTipTitle, inTooltip, makeHideTooltip, tip],
+        [getTipTitle, makeHideTooltip, inTooltip, preference.delayTooltipShow],
     );
 
     const updateTooltipDebounce = React.useMemo(
         () =>
             debounce((left: number, top: number) => {
-                setPosition({left, top});
+                requestAnimationFrame(() => {
+                    setPosition({left, top});
+                });
             }, preference.debounceTooltipTime),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [],
+        [preference.debounceTooltipTime],
     );
 
     const updateTooltip = React.useCallback(
@@ -136,45 +139,54 @@ export const Tooltip: React.FC<{}> = (props) => {
 
             return undefined;
         },
-        [inTooltip, show, showTooltip],
+        [show, inTooltip, showTooltip],
     );
 
-    const handleTooltipMouseOver = () => {
+    const handleTooltipMouseOver = React.useCallback(() => {
         setInTooltip(true);
-    };
+    }, []);
 
-    const handleMouseDown = () => {
+    const handleMouseDown = React.useCallback(() => {
         setShowBackdrop(true);
-    };
+    }, []);
 
-    const handleMouseUp = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        const {target} = event;
+    const handleMouseUp = React.useCallback(
+        (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+            const {target} = event;
 
-        setShowBackdrop(false);
+            setShowBackdrop(false);
 
-        if (target instanceof HTMLDivElement && target.className.indexOf(classes.tooltipBackdrop) !== -1) {
-            setInTooltip(false);
-            makeHideTooltip(false);
-        }
-    };
+            if (target instanceof HTMLDivElement && target.className.indexOf(classes.tooltipBackdrop) !== -1) {
+                setInTooltip(false);
+                makeHideTooltip(false);
+            }
+        },
+        [classes.tooltipBackdrop, makeHideTooltip],
+    );
 
     React.useEffect(() => {
         document.addEventListener("mouseover", handleMouseOver);
-        document.addEventListener("mousemove", updateTooltip);
 
         return () => {
             document.removeEventListener("mouseover", handleMouseOver);
+        };
+    }, [handleMouseOver]);
+
+    React.useEffect(() => {
+        document.addEventListener("mousemove", updateTooltip);
+
+        return () => {
             document.removeEventListener("mousemove", updateTooltip);
         };
-    }, [handleMouseOver, updateTooltip]);
+    }, [updateTooltip]);
 
     React.useEffect(() => {
         setOffsetTooltip();
-    }, [props, setOffsetTooltip]);
+    }, [setOffsetTooltip]);
 
     const isValidTitle = title && title.length > 0;
 
-    if (show && currentElement && isValidTitle) {
+    if (show && currentElement.current && isValidTitle) {
         return (
             <React.Fragment>
                 <div

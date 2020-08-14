@@ -39,7 +39,7 @@ export function useFieldDateDisabled(props: IFieldBuildClassProps) {
             handlers.push((value: moment.Moment) => {
                 const valueBcParsed = parse(minvalue).runer(pageStore.globalValues);
 
-                const valueBcMoment = valueBcParsed ? moment(valueBcParsed as string) : valueBcParsed;
+                const valueBcMoment = valueBcParsed ? moment(valueBcParsed as string) : undefined;
 
                 if (!valueBcMoment || !(valueBcMoment as moment.Moment).isValid()) {
                     return false;

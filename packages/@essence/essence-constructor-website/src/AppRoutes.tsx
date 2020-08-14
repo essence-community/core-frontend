@@ -1,10 +1,11 @@
 import * as React from "react";
-import {Router, Route, Switch} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {ApplicationRouter} from "./Components/ApplicationRouter";
-import {history} from "./history";
 
-export const AppRoutes = () => (
-    <Router history={history}>
+const basename = process.env.REACT_APP_PUBLIC_URL || "";
+
+export const AppRoutes: React.FC = () => (
+    <Router basename={basename}>
         <Switch>
             {/* Static pages from mocks */}
             <Route path="/reports/session/:session" component={ApplicationRouter} />

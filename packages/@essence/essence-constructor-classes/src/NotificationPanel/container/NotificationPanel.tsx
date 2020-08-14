@@ -2,7 +2,7 @@ import {IClassProps, Icon, Scrollbars, SnackbarStatus} from "@essence-community/
 import {snackbarStore} from "@essence-community/constructor-share/models";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {ButtonBase, Grid, Tabs} from "@material-ui/core";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import * as React from "react";
 import {Notification} from "../components/Notification/Notification";
 import NotificationsReadButton from "../components/NotificationsReadButton/NotificationsReadButton";
@@ -20,7 +20,7 @@ export const NotificationPanel: React.FC<IClassProps> = (props) => {
     const tabsBc = React.useMemo(() => {
         return getTabsData(props.bc, props.bc.childs || []);
     }, [props.bc]);
-    const handlerChangeTab = (event: React.ChangeEvent<{}>, tabValue: number) => {
+    const handlerChangeTab = (event: React.ChangeEvent, tabValue: number) => {
         const {defaultvalue} = tabsBc[tabValue];
 
         snackbarStore.setStatusAction(defaultvalue as SnackbarStatus);

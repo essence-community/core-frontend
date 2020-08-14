@@ -1,7 +1,7 @@
 import * as React from "react";
 import {TextFieldProps, IconButton, InputAdornment} from "@material-ui/core";
 import cn from "clsx";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {IField} from "../../Form/types";
 import {IBuilderConfig} from "../../types";
 import {isEmpty, useTranslation, toTranslateTextArray} from "../../utils";

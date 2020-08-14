@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import * as React from "react";
-import {useObserver, useDisposable} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {Paper, MenuItem, CircularProgress} from "@material-ui/core";
 import {IBuilderConfig, Scrollbars, Pagination, FieldValue, toString} from "@essence-community/constructor-share";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
@@ -60,10 +61,10 @@ export const FieldComboList: React.FC<IProps> = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    useDisposable(
+    React.useEffect(
         () =>
             reaction(
-                () => props.store.highlightedIndex,
+                () => store.highlightedIndex,
                 (highlightedIndex) => {
                     if (highlightedIndex >= 0 && scrollbarRef.current) {
                         // @ts-ignore
@@ -71,7 +72,7 @@ export const FieldComboList: React.FC<IProps> = (props) => {
                     }
                 },
             ),
-        [],
+        [store],
     );
 
     return useObserver(() => (

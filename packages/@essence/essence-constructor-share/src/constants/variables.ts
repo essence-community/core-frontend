@@ -83,6 +83,9 @@ export const VAR_RECORD_CK_ATTR = "ck_attr";
 export const VAR_RECORD_CL_STATIC = "cl_static";
 export const VAR_RECORD_JV_ROWCOLOR = "jv_rowcolor";
 export const VAR_RECORD_NOLOAD = "cl_noload";
+// DRAG&DROP
+export const VAR_RECORD_PAGE_OBJECT_DRAG = "ck_page_object_drag";
+export const VAR_RECORD_PAGE_OBJECT_DROP = "ck_page_object_drop";
 
 // SETTING
 export const VAR_SETTING_VALUE = "cv_value";
@@ -108,6 +111,10 @@ export const VAR_SETTING_FRONT_COMMIT_ID = "g_sys_front_commit_id";
 export const VAR_SETTING_ENABLE_QUEST_LOGIN = "g_sys_enable_guest_login";
 export const VAR_SETTING_AUTO_CONNECT_GUEST = "auto_connect_guest";
 export const VAR_SETTING_ANONYMOUS_ACTION = "g_sys_anonymous_action";
+export const VAR_SETTING_REMOTE_STORAGE = "use_remote_storage_cache";
+export const VAR_SETTING_REMOTE_STORAGE_LOAD_QUERY = "remote_storage_load_query";
+export const VAR_SETTING_REMOTE_STORAGE_ADD_QUERY = "remote_storage_add_query";
+export const VAR_SETTING_REMOTE_STORAGE_DELETE_QUERY = "remote_storage_delete_query";
 
 // META
 export const META_OUT_RESULT = "out_result";

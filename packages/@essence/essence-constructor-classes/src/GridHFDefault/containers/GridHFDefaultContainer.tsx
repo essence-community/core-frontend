@@ -2,7 +2,7 @@ import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {isEmpty} from "@essence-community/constructor-share/utils";
 import {IField} from "@essence-community/constructor-share/Form";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {mapComponentOne, FormContext} from "@essence-community/constructor-share";
 
 const datatypeOperator = {

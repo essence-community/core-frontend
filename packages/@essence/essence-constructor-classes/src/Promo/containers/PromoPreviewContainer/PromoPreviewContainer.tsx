@@ -1,6 +1,6 @@
 import * as React from "react";
 import {IClassProps, VAR_RECORD_MASTER_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {PromoExampleBuildModel} from "../../store/PromoExampleBuildModel";
 
 export const PromoPreviewContainer: React.FC<IClassProps> = ({pageStore, bc}) => {

@@ -107,12 +107,22 @@ const getCancelBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     uitype: "6",
 });
 
+const getDragDropBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
+    [VAR_RECORD_CN_ORDER]: 1e6,
+    [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_drag-drop`,
+    [VAR_RECORD_PARENT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_drag-drop`,
+    mode: "2",
+    modeaction: "dragdrop",
+    type: "BTN",
+});
+
 export const getGridBtnsConfig = (bc: IBuilderConfig, styleTheme: "light" | "dark"): GridBtnsConfigType => {
     const {components, overrides} = mergeComponents(bc.topbtn, {
         "Override Audit Button": getBtnAuditConfig(bc),
         "Override Cancel Button":
             bc.edittype === "inline" ? getCancelInlineBtnConfig(bc, styleTheme) : getCancelBtnConfig(bc),
         "Override Delete Button": getBtnDeleteConfig(bc),
+        "Override DragDrop Button": getDragDropBtnConfig(bc),
         "Override Excel Button": getBtnExcelConfig(bc),
         "Override Refresh Button": getBtnRefreshConfig(bc),
         "Override Save Button": getSaveBtnConfig(bc, styleTheme),
@@ -137,6 +147,14 @@ export function getOverrideExcelButton(bc: IBuilderConfig) {
     });
 
     return overrides["Override Excel Button"];
+}
+
+export function getOverrideDragDropButton(bc: IBuilderConfig) {
+    const {overrides} = mergeComponents(bc.topbtn, {
+        "Override DragDrop Button": getDragDropBtnConfig(bc),
+    });
+
+    return overrides["Override DragDrop Button"];
 }
 
 export function getOverrideWindowBottomBtn(bc: IBuilderConfig) {

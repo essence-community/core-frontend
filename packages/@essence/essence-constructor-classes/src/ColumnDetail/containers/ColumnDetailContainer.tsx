@@ -2,7 +2,7 @@ import * as React from "react";
 import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import {RecordContext} from "@essence-community/constructor-share/context";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 
 export const ColumnDetailContainer: React.FC<IClassProps> = React.memo(function ColumnDetailContainerMemo(props) {

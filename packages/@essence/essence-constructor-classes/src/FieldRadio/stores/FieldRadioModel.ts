@@ -36,6 +36,10 @@ export class FieldRadioModel extends StoreBaseModel implements IStoreBaseModel {
         return this.recordsStore.records.map(this.getSuggestion);
     }
 
+    @computed get selectedRecord() {
+        return this.recordsStore.selectedRecord;
+    }
+
     getSuggestion = (record: IRecord): ISuggestion => ({
         label: toString(record[this.bc.displayfield!]),
         value: toString(record[this.valuefield]),

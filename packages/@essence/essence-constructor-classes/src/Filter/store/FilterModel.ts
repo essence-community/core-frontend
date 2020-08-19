@@ -6,6 +6,7 @@ import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_ROUTE_PAGE_ID,
+    VAR_RECORD_CL_IS_MASTER,
 } from "@essence-community/constructor-share/constants";
 import {
     IRecord,
@@ -15,6 +16,7 @@ import {
     IHandlerOptions,
     IStoreBaseModelProps,
     IFormOptions,
+    IStoreBaseModel,
 } from "@essence-community/constructor-share/types";
 import {attachGlobalValues} from "@essence-community/constructor-share/actions/saveAction";
 import {awaitFormFilter} from "@essence-community/constructor-share/models/PageModel/PageModelRedirect";
@@ -121,7 +123,7 @@ export class FilterModel extends StoreBaseModel {
 
     @action
     handleSubmit = async (values: IRecord, options?: IFormOptions) => {
-        const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_PARENT_ID]);
+        const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_MASTER_ID] || this.bc[VAR_RECORD_PARENT_ID]);
         const form = this.pageStore.forms.get(this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (options && !options.redirect && form) {
@@ -132,18 +134,34 @@ export class FilterModel extends StoreBaseModel {
                 }
             });
             this.setValues(form.values);
+            this.handleGlobals(form.values);
         } else {
             this.setValues(values);
+            this.handleGlobals(values);
         }
 
         if (parentStore && parentStore.recordsStore) {
             await parentStore.recordsStore.searchAction(this.values, options);
         }
+        if (this.bc[VAR_RECORD_CL_IS_MASTER]) {
+            const promises = [];
+
+            this.pageStore.stores.forEach((store: IStoreBaseModel) => {
+                if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
+                    const promise = store.recordsStore?.searchAction(this.values, options);
+
+                    if (promise) {
+                        promises.push(promise);
+                    }
+                }
+            });
+            await Promise.all(promises);
+        }
     };
 
     @action
     handleAutoload = async (isAutoload: boolean) => {
-        const form = this.pageStore.forms.get(this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
+        const form = this.pageStore.forms.get(this.bc[VAR_RECORD_MASTER_ID] || this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
         const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_PARENT_ID]);
 
         if (form && parentStore) {
@@ -190,7 +208,9 @@ export class FilterModel extends StoreBaseModel {
         onPrintHandleOnline: (mode: IBuilderMode, btnBc: IBuilderConfig) => this.handlePrint(true, btnBc),
         onReset: (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
             const {form} = options;
-            const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_PARENT_ID]);
+            const parentStore = this.pageStore.stores.get(
+                this.bc[VAR_RECORD_MASTER_ID] || this.bc[VAR_RECORD_PARENT_ID],
+            );
 
             if (form) {
                 form.reset();
@@ -200,6 +220,26 @@ export class FilterModel extends StoreBaseModel {
 
             if (form && parentStore && parentStore.recordsStore) {
                 parentStore.recordsStore.searchAction(form.values, {noLoad: true, reset: true});
+            }
+
+            if (form && this.bc[VAR_RECORD_CL_IS_MASTER]) {
+                const promises = [];
+
+                this.pageStore.stores.forEach((store: IStoreBaseModel) => {
+                    if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
+                        const promise = store.recordsStore?.searchAction(form.values, {noLoad: true, reset: true});
+
+                        if (promise) {
+                            promises.push(promise);
+                        }
+                    }
+                });
+
+                return Promise.all(promises).then(() => true);
+            }
+
+            if (form) {
+                this.handleGlobals(form.values);
             }
 
             return Promise.resolve(true);

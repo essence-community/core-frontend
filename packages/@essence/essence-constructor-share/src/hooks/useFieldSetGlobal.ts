@@ -43,6 +43,7 @@ export function useFieldSetGlobal({field, pageStore, bc, store}: IUseFieldSetGlo
             () => {
                 const values: IRecord = {};
                 const selectedEntries = store?.selectedEntries;
+                const selectedRecord = store?.selectedRecord;
 
                 if (selectedEntries && collectionvalues === "array" && valuefield?.length) {
                     setglobal.forEach(({out}) => {
@@ -64,7 +65,7 @@ export function useFieldSetGlobal({field, pageStore, bc, store}: IUseFieldSetGlo
                     return values;
                 }
 
-                if (store && (!store.selectedRecord || isEmpty(field.value))) {
+                if (store && (!selectedRecord || isEmpty(field.value))) {
                     setglobal.forEach(({out}) => {
                         values[out] = null;
                     });
@@ -77,7 +78,7 @@ export function useFieldSetGlobal({field, pageStore, bc, store}: IUseFieldSetGlo
                     const {out} = keys;
 
                     if (isStoreRecord && store) {
-                        values[out] = store.selectedRecord?.[keyIn];
+                        values[out] = selectedRecord?.[keyIn];
 
                         if (isEmpty(values[out])) {
                             values[out] = globalValues.has(out) ? null : undefined;

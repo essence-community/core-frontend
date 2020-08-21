@@ -15,7 +15,7 @@ export class GridInlineModel extends StoreBaseModel {
             if (parentStore && parentStore.recordsStore && form) {
                 await form.validate();
 
-                if (form.isValid) {
+                if (btnBc.skipvalidation || form.isValid) {
                     const success = await parentStore.recordsStore.saveAction(
                         form.values,
                         this.bc.mode as IBuilderMode,

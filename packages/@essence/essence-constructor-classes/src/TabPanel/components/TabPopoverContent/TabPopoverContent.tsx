@@ -5,7 +5,7 @@ import {
     VAR_RECORD_DISPLAYED,
     IClassProps,
 } from "@essence-community/constructor-share";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {TabPopoverItem} from "../TabPopoverItem";
 import {TabPanelModel} from "../../store/TabPanelModel";
 import {useStyles} from "./TabPopoverContent.styles";

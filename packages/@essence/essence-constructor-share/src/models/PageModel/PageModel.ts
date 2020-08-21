@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import {action, observable, ObservableMap, computed} from "mobx";
-import uuid from "uuid";
+import {v4} from "uuid";
 import {
     loggerRoot,
     VAR_RECORD_ID,
@@ -60,7 +60,7 @@ export class PageModel implements IPageModel {
 
     public masters: Record<string, IField[]> = {};
 
-    public scrollEvents: Array<Function> = [];
+    public scrollEvents: Array<() => void> = [];
 
     public recordsStore: RecordsModel;
 
@@ -246,7 +246,7 @@ export class PageModel implements IPageModel {
             logger(i18next.t("static:7ef1547ac7084e178bf1447361e3ccc3"));
 
             if (allowNewName) {
-                newName = name + uuid();
+                newName = name + v4();
             }
         }
 
@@ -353,9 +353,7 @@ export class PageModel implements IPageModel {
             return false;
         }
 
-        // @ts-ignore
         if (nextComponentStore && nextComponentStore.handleNextStepAction) {
-            // @ts-ignore
             nextComponentStore.handleNextStepAction();
 
             return true;
@@ -468,11 +466,11 @@ export class PageModel implements IPageModel {
         }
     };
 
-    addScrollEvent = (scrollEvent: Function) => {
+    addScrollEvent = (scrollEvent: () => void) => {
         this.scrollEvents.push(scrollEvent);
     };
 
-    removeScrollEvent = (scrollEvent: Function) => {
+    removeScrollEvent = (scrollEvent: () => void) => {
         this.scrollEvents = this.scrollEvents.filter((event) => event !== scrollEvent);
     };
 

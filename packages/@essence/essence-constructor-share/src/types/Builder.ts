@@ -89,6 +89,8 @@ export interface IBuilderBaseConfig {
     dynamicfilter?: boolean;
     // Признак изменения вида иконки от данных
     dynamicicon?: boolean;
+    // Признак возможности переноса
+    draggable?: boolean;
     // Режим добавления/редактирования - all/insert/update/disabled
     editmode?: "all" | "insert" | "update" | "disabled" | "insert-editing" | "update-editing";
     // Режим редактирования дочерних элементов true = включен
@@ -219,6 +221,8 @@ export interface IBuilderBaseConfig {
     setglobal?: IBuilderAttrGlobal[];
     // Наименование глобалки в которую добавляется выбранная строка.
     setrecordtoglobal?: string;
+    // Пропуск проверки формы на ошибки
+    skipvalidation?: boolean;
     // Наименование парамента, по которому будет осуществлена сортировка вместо column
     sortcolumn?: string;
     // Признак отображения сплиттера (true/false)

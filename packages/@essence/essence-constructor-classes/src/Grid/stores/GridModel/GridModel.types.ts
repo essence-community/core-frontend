@@ -1,4 +1,4 @@
-import {IBuilderConfig, ICkId, IStoreBaseModel, IRecordsModel} from "@essence-community/constructor-share/types";
+import { IBuilderConfig, ICkId, IStoreBaseModel, IRecordsModel, IRecord } from '@essence-community/constructor-share/types';
 import {ObservableMap} from "mobx";
 import {IForm} from "@essence-community/constructor-share/Form";
 
@@ -57,4 +57,7 @@ export interface IGridModel extends IStoreBaseModel {
 
     // Other
     handleDoubleClick(): void;
+
+    // DragDrop
+    dragDropAction(pageObjectId: string, dragId: string | string[], drop?: IRecord): Promise<boolean>;
 }

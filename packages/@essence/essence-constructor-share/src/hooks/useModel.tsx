@@ -1,6 +1,6 @@
 /* eslint-disable capitalized-comments */
 import * as React from "react";
-import uuid from "uuid";
+import {v4} from "uuid";
 import {IBuilderConfig, IPageModel, IStoreBaseModel} from "../types";
 import {checkAutoload} from "../decorators/utils";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
@@ -32,7 +32,7 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
      * });
      */
     const storeName = React.useMemo(() => {
-        const name = pageObjectId || uuid();
+        const name = pageObjectId || v4();
 
         return pageStore.addStore(store, name, true);
     }, [pageObjectId, pageStore, store]);

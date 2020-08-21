@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {Grid, Paper, Typography} from "@material-ui/core";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {IApplicationModel} from "@essence-community/constructor-share/types";

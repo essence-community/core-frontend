@@ -3,7 +3,7 @@ import cn from "clsx";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {PopoverContext, FormContext} from "@essence-community/constructor-share/context";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {isEmpty} from "@essence-community/constructor-share/utils";
 import {useStyles} from "./GridHFIcon.styles";
 

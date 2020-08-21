@@ -4,7 +4,7 @@ import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constan
 import {Scrollbars, VerticalResizer, makeRenderers} from "@essence-community/constructor-share/uicomponents";
 import ReactMarkdown from "react-markdown";
 import {Grid, TextField} from "@material-ui/core";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {useTranslation, toTranslateTextArray} from "@essence-community/constructor-share/utils";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";

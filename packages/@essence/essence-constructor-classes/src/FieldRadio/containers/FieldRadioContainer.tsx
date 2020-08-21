@@ -20,7 +20,7 @@ import {
     useDefaultValueQuery,
 } from "@essence-community/constructor-share/hooks";
 import {useField} from "@essence-community/constructor-share/Form";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {FieldRadioModel} from "../stores/FieldRadioModel";
 import {getFirstValues} from "../utils";
 import {ISuggestion} from "../FieldRadio.types";
@@ -62,8 +62,8 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
         }
     }, [field, store]);
 
-    useFieldGetGlobal({bc, field, pageStore});
-    useFieldSetGlobal({bc, field, pageStore});
+    useFieldGetGlobal({bc, field, pageStore, store});
+    useFieldSetGlobal({bc, field, pageStore, store});
     useDefaultValueQuery({bc, field, pageStore});
 
     React.useEffect(() => reaction(() => field.value, handleReactValue), [field, handleReactValue]);
@@ -85,20 +85,20 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
         return undefined;
     }, [getgloballist, pageStore.globalValues, store.recordsStore]);
 
-    const handleChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
+    const handleChange = React.useCallback((event: React.SyntheticEvent<HTMLInputElement>) => {
         const {value} = event.currentTarget;
 
-        field.onChange(value);
         store.setSelectRecord(value);
-    };
+        field.onChange(value);
+    }, []);
 
-    const handleFocus = () => {
+    const handleFocus = React.useCallback(() => {
         setFocused(true);
-    };
+    }, [setFocused]);
 
-    const handleBlur = () => {
+    const handleBlur = React.useCallback(() => {
         setFocused(false);
-    };
+    }, [setFocused]);
 
     const renderRadio = (record: ISuggestion) => {
         const {label, value} = record;

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import * as React from "react";
 import {TextareaAutosize} from "@material-ui/core";
 import {Scrollbars, VerticalResizer} from "@essence-community/constructor-share/uicomponents";
 import {FormContext} from "@essence-community/constructor-share/context";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {useStyles} from "./FieldTextareaInput.styles";
 import {IFieldTextareaInputProps} from "./FieldTextareaInput.types";
 

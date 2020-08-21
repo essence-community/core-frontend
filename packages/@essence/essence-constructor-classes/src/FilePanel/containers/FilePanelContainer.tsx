@@ -4,7 +4,7 @@ import {mapComponents} from "@essence-community/constructor-share/components";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {Scrollbars} from "@essence-community/constructor-share/uicomponents";
-import {useObserver} from "mobx-react-lite";
+import {useObserver} from "mobx-react";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {PanelWrapper} from "../components/PanelWrapper/PanelWrapper";
 import {FileRecord} from "../components/FileRecord/FileRecord";

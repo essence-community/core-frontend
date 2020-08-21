@@ -60,7 +60,7 @@ export class PromoExampleBuildModel extends StoreBaseModel {
             if (form) {
                 await form.validate();
 
-                if (form.isValid) {
+                if (_btnBc.skipvalidation || form.isValid) {
                     this.values = form.values;
 
                     return true;

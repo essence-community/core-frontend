@@ -1,7 +1,7 @@
 import {stringify} from "qs";
 import axios from "axios";
 import {IRequest, IRequestCheckError} from "../types";
-import {settingsStore} from "../models";
+import {settingsStore} from "../models/SettingsModel";
 import {IRecord} from "../types/Base";
 import {VAR_SETTING_GATE_URL, META_OUT_RESULT, META_PAGE_OBJECT} from "../constants";
 import {ResponseError} from "./error";

@@ -26,7 +26,7 @@ export function maxsize(field: IField, form: IForm, req = "") {
         return undefined;
     }
 
-    return function(trans: TFunction) {
+    return function (trans: TFunction) {
         return trans("static:e668fef0db6d4eeb9eb72c62a8d31052").replace(":maxsize", req);
     };
 }

@@ -25,6 +25,7 @@ export const useField = ({
     output,
     input,
     isArray,
+    isObject,
     disabled,
     hidden,
     clearValue,
@@ -46,6 +47,7 @@ export const useField = ({
             clearValue,
             input: input || parentField?.input,
             isArray,
+            isObject,
             output: output || parentField?.output,
             pageStore,
         });

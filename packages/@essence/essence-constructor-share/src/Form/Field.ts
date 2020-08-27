@@ -5,6 +5,7 @@ import {parseMemoize, makeRedirect} from "../utils";
 import {parse} from "../utils/parser";
 import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
 import {deepFind, deepDelete} from "../utils/transform";
+import {isEmpty} from "../utils/base";
 import {IField, IForm, IRegisterFieldOptions, TError} from "./types";
 import {validations} from "./validations";
 
@@ -162,6 +163,7 @@ export class Field implements IField {
         return !this.error;
     }
 
+    // eslint-disable-next-line max-statements
     constructor(options: IFieldOptions) {
         this.pageStore = options.pageStore;
         this.form = options.form;
@@ -184,6 +186,8 @@ export class Field implements IField {
             }
         } else if (!this.bc.defaultvalue && this.isArray) {
             this.defaultValue = [];
+        } else if (!this.bc.defaultvalue && this.isObject) {
+            this.defaultValue = {};
         }
 
         const [, val] = this.input(this.form.initialValues, this, this.form);
@@ -192,6 +196,21 @@ export class Field implements IField {
 
         if (this.value === undefined && this.isArray) {
             this.value = [];
+        }
+        if (this.value === undefined && this.isObject) {
+            this.value = {};
+        }
+        if (
+            isEmpty(this.value) &&
+            this.form.mode === "1" &&
+            this.form.editing &&
+            (this.defaultValue !== undefined || this.defaultValueFn !== undefined)
+        ) {
+            if (this.defaultValue) {
+                this.value = this.defaultValue;
+            } else {
+                this.defaultValueFn!(this, this.onChange, this.onClear);
+            }
         }
     }
 

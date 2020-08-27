@@ -5,7 +5,6 @@ import {parseMemoize, makeRedirect} from "../utils";
 import {parse} from "../utils/parser";
 import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
 import {deepFind, deepDelete} from "../utils/transform";
-import {isEmpty} from "../utils/base";
 import {IField, IForm, IRegisterFieldOptions, TError} from "./types";
 import {validations} from "./validations";
 
@@ -201,7 +200,7 @@ export class Field implements IField {
             this.value = {};
         }
         if (
-            isEmpty(this.value) &&
+            val === undefined &&
             this.form.mode === "1" &&
             this.form.editing &&
             (this.defaultValue !== undefined || this.defaultValueFn !== undefined)

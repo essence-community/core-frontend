@@ -7,7 +7,11 @@ import {
     IPopoverAnchorOrigin,
 } from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_PARENT_ID,
+} from "@essence-community/constructor-share/constants";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {IconButton, useTheme} from "@material-ui/core";
@@ -66,7 +70,17 @@ export const ButtonCollectorContainer: React.FC<IClassProps> = (props) => {
     const btns = React.useMemo(
         () =>
             bc.topbtn &&
-            bc.topbtn.map((btn: IBuilderConfig): IBuilderConfig => ({...btn, onlyicon: false, uitype: "8"})),
+            bc.topbtn.map(
+                (btn: IBuilderConfig): IBuilderConfig => ({
+                    ...btn,
+                    [VAR_RECORD_PARENT_ID]:
+                        btn[VAR_RECORD_PARENT_ID] === bc[VAR_RECORD_PAGE_OBJECT_ID]
+                            ? bc[VAR_RECORD_PARENT_ID]
+                            : btn[VAR_RECORD_PARENT_ID],
+                    onlyicon: false,
+                    uitype: "8",
+                }),
+            ),
         [bc.topbtn],
     );
 

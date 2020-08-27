@@ -206,7 +206,7 @@ export class Field implements IField {
             this.form.editing &&
             (this.defaultValue !== undefined || this.defaultValueFn !== undefined)
         ) {
-            if (this.defaultValue) {
+            if (this.defaultValue !== undefined) {
                 this.value = this.defaultValue;
             } else {
                 this.defaultValueFn!(this, this.onChange, this.onClear);

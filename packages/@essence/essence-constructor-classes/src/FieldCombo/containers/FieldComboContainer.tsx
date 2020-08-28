@@ -61,9 +61,9 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                 store.clearAction();
             } else if (
                 !store.recordsStore.isLoading &&
-                store.recordsStore.loadCounter &&
                 (value === VALUE_SELF_FIRST || value === VALUE_SELF_ALWAYSFIRST) &&
-                value === bc.defaultvalue
+                value === bc.defaultvalue &&
+                (store.recordsStore.loadCounter || store.recordsStore.records.length)
             ) {
                 const val = getFirstValues(store.recordsStore);
 

@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import {computed, action, observable, when, ObservableMap} from "mobx";
 import {
-    removeFromStore,
+    removeFromLocalStore,
     saveToStore,
     FieldValue,
     noop,
@@ -228,7 +228,7 @@ export class ApplicationModel implements IApplicationModel {
 
         await this.authStore.logoutAction();
 
-        removeFromStore("auth");
+        removeFromLocalStore("auth");
 
         if (this.history.location.pathname.indexOf("auth") === -1) {
             const state = (this.history.location.state || {}) as {backUrl?: string};

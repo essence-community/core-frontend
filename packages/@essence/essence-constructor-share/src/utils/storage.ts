@@ -59,6 +59,14 @@ export function removeFromStoreByRegex(reg: RegExp) {
     return store.removeFromStoreByRegex(reg);
 }
 
+export function removeFromLocalStore(key: string) {
+    return localStore.removeItem(makeKey(key));
+}
+
+export function removeFromLocalStoreByRegex(reg: RegExp) {
+    return localStore.removeFromStoreByRegex(reg);
+}
+
 export function addListenLoaded(fn: CallBackLoadedType) {
     callbackLoaded.push(fn);
 }

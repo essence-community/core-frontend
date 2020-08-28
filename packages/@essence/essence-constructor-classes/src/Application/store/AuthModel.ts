@@ -2,6 +2,7 @@ import {observable, action} from "mobx";
 import {History} from "history";
 import {
     getFromLocalStore,
+    removeFromLocalStore,
     saveToLocalStore,
     IAuthModel,
     IApplicationModel,
@@ -131,6 +132,7 @@ export class AuthModel implements IAuthModel {
 
     logoutAction = action("logoutAction", async () => {
         const cleanedValues: IAuthSession = {...this.userInfo};
+        const session = this.userInfo.session;
 
         for (const key in cleanedValues) {
             if (Object.prototype.hasOwnProperty.call(cleanedValues, key)) {
@@ -144,13 +146,16 @@ export class AuthModel implements IAuthModel {
 
         this.userInfo = DEAULT_USER_INFO;
         this.applicationStore.setSesssionAction(cleanedValues);
+
+        removeFromLocalStore("auth");
+
         await loadStore(this.userInfo.session);
 
         try {
             await request({
                 action: "auth",
                 query: "Logout",
-                session: this.userInfo.session,
+                session,
             });
         } catch (err) {
             logger(err);

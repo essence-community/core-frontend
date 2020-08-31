@@ -47,7 +47,7 @@ export const FormNestedContainer: React.FC<IClassProps> = (props) => {
     );
 
     return (
-        <ParentFieldContext.Provider key={bc.ck_page_object} value={parentContext}>
+        <ParentFieldContext.Provider value={parentContext}>
             {mapComponentOne(boxBc, (Child, childBc) => (
                 <Child key={childBc.ck_page_object} {...props} bc={childBc} />
             ))}

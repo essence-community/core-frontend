@@ -1,6 +1,7 @@
 import * as React from "react";
 import moment from "moment";
 import {IClassProps, RecordContext} from "@essence-community/constructor-share";
+import {deepFind} from "@essence-community/constructor-share/utils";
 import {useStyles} from "./ColumnDateContainer.styles";
 
 const dateMap: Record<string, string> = {
@@ -16,7 +17,8 @@ const dateMap: Record<string, string> = {
 export const ColumnDateContainer: React.FC<IClassProps> = (props) => {
     const {bc} = props;
     const record = React.useContext(RecordContext);
-    const value = record && bc.column ? record[bc.column] : undefined;
+    const [isExist, val] = deepFind(record, props.bc.column);
+    const value = isExist ? val : undefined;
     const classes = useStyles();
 
     const formattedValue = React.useMemo(() => {

@@ -223,12 +223,16 @@ export class RecordsModel implements IRecordsModel {
         },
     );
 
-    reloadChildStoresAction = action("reloadChildsStoresAction", (oldSelectedRecord?: IRecord) => {
+    reloadChildStoresAction = action("reloadChildsStoresAction", async (oldSelectedRecord?: IRecord) => {
         if (!this.pageStore) {
             return false;
         }
+        const isReload =
+            this.bc.selmode === "MULTI" && this.bc.collectionvalues === "array"
+                ? this.selectedRecords.size > 0
+                : this.selectedRecord && oldSelectedRecord !== this.selectedRecord;
 
-        if (this.selectedRecord && oldSelectedRecord !== this.selectedRecord) {
+        if (isReload) {
             const promises: Array<Promise<any>> = [];
 
             this.pageStore.stores.forEach((store: IStoreBaseModel) => {
@@ -243,8 +247,12 @@ export class RecordsModel implements IRecordsModel {
 
             return Promise.all(promises).then(() => true);
         }
+        const isClean =
+            this.bc.selmode === "MULTI" && this.bc.collectionvalues === "array"
+                ? this.selectedRecords.size === 0
+                : this.selectedRecord === undefined;
 
-        if (this.selectedRecord === undefined) {
+        if (isClean) {
             this.clearChildsStoresAction();
         }
 
@@ -327,7 +335,7 @@ export class RecordsModel implements IRecordsModel {
 
     searchAction = action(
         "searchAction",
-        (values: Record<string, FieldValue>, options: IRecordsSearchOptions = {}): Promise<void | object> => {
+        (values: Record<string, FieldValue>, options: IRecordsSearchOptions = {}): Promise<void | IRecord> => {
             const {filter, reset, noLoad, selectedRecordId, status = "search", isUserReload} = options;
 
             /*
@@ -361,10 +369,12 @@ export class RecordsModel implements IRecordsModel {
 
         records.sort((rec1, rec2) => {
             if (direction === "DESC") {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 return Number(rec1[property] < rec2[property]) || -Number(rec1[property] > rec2[property]);
             }
 
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             return Number(rec1[property] > rec2[property]) || -Number(rec1[property] < rec2[property]);
         });

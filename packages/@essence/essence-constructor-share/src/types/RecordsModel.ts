@@ -109,6 +109,7 @@ export interface IRecordsModel {
     saveAction: (values: IRecord | IRecord[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<boolean>;
     removeSelectedRecordAction: (options: ISaveActionOptions) => Promise<boolean>;
     downloadAction: (values: IRecord | IRecord[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<boolean>;
+    reloadChildStoresAction: (oldSelect?: IRecord) => Promise<boolean>;
     setSelectionAction: (ckId: FieldValue, key?: string) => Promise<number>;
     setRecordsAction: (records: IRecord[]) => void;
     setPageNumberAction: (pageNumber: number) => void;
@@ -118,7 +119,7 @@ export interface IRecordsModel {
     setLastRecord: () => void;
     setOrderAction: (property: string) => void;
     setRecordToGlobal: () => void;
-    searchAction: (values: IRecord, options?: IRecordsSearchOptions) => Promise<void | object>;
+    searchAction: (values: IRecord, options?: IRecordsSearchOptions) => Promise<void | IRecord>;
     setSearchValuesAction: (values: IRecord) => void;
     clearChildsStoresAction: () => void;
     sortRecordsAction: () => void;

@@ -49,7 +49,11 @@ import {
     checkIsPageSelectedRecords,
 } from "../../utils";
 import {WIDTH_MAP, GRID_ROW_HEIGHT, GRID_ROWS_COUNT, TABLE_CELL_MIN_WIDTH} from "../../constants";
-import {getOverrideExcelButton, getOverrideWindowBottomBtn, getOverrideDragDropButton} from "../../utils/getGridBtnsConfig";
+import {
+    getOverrideExcelButton,
+    getOverrideWindowBottomBtn,
+    getOverrideDragDropButton,
+} from "../../utils/getGridBtnsConfig";
 import {IHanderOptions} from "../../../Button/handlers/hander.types";
 import {updatePercentColumnsWidth, setWidthForZeroWidthCol} from "./actions";
 import {GridSaveConfigType} from "./GridModel.types";
@@ -436,6 +440,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         }
 
         this.setRecordToGlobal();
+        this.recordsStore.reloadChildStoresAction();
 
         return undefined;
     };
@@ -514,20 +519,26 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     @action
     dragDropAction = async (pageObjectId: string, dragId: string | string[], drop?: IRecord) => {
         const recordStore = this.pageStore.stores.get(pageObjectId)?.recordsStore;
-        const drag = Array.isArray(dragId) ? recordStore?.records.filter((rec) => dragId.indexOf(String(rec[recordStore?.recordId])) > -1) : recordStore?.records.find((rec) => String(rec[recordStore?.recordId]) === dragId);
+        const drag = Array.isArray(dragId)
+            ? recordStore?.records.filter((rec) => dragId.indexOf(String(rec[recordStore?.recordId])) > -1)
+            : recordStore?.records.find((rec) => String(rec[recordStore?.recordId]) === dragId);
         const btn = getOverrideDragDropButton(this.bc);
-        const res = await this.saveAction({
-            [recordStore?.recordId]: Array.isArray(dragId) ? undefined : drag?.[recordStore?.recordId],
-            [VAR_RECORD_PAGE_OBJECT_DRAG]: pageObjectId,
-            [VAR_RECORD_PAGE_OBJECT_DROP]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
-            drag,
-            drop,
-        }, btn.modeaction as IBuilderMode || "2", {
-            actionBc: btn,
-        });
+        const res = await this.saveAction(
+            {
+                [recordStore?.recordId]: Array.isArray(dragId) ? undefined : drag?.[recordStore?.recordId],
+                [VAR_RECORD_PAGE_OBJECT_DRAG]: pageObjectId,
+                [VAR_RECORD_PAGE_OBJECT_DROP]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+                drag,
+                drop,
+            },
+            (btn.modeaction as IBuilderMode) || "2",
+            {
+                actionBc: btn,
+            },
+        );
 
         return Boolean(res);
-    }
+    };
 
     handlers = {
         defaultHandlerBtnAction: this.defaultHandlerBtnAction,

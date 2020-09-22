@@ -46,16 +46,26 @@ export function useFieldSetGlobal({field, pageStore, bc, store}: IUseFieldSetGlo
                 const selectedRecord = store?.selectedRecord;
 
                 if (selectedEntries && collectionvalues === "array" && valuefield?.length) {
-                    setglobal.forEach(({out}) => {
-                        if (valuefield.length === 1) {
-                            values[out] = selectedEntries.map((value) => value[1][valuefield[0].in]);
-                        } else {
+                    setglobal.forEach(({in: inKey, out}) => {
+                        if (isEmpty(inKey)) {
+                            if (valuefield.length === 1) {
+                                values[out] = selectedEntries.map((value) => value[1][valuefield[0].in]);
+                            } else {
+                                values[out] = selectedEntries.map((value) => {
+                                    const obj: IRecord = {};
+
+                                    valuefield.forEach(({in: keyIn, out}) => {
+                                        obj[out || keyIn] = value[1][keyIn];
+                                    });
+
+                                    return obj;
+                                });
+                            }
+                        } else if (inKey) {
                             values[out] = selectedEntries.map((value) => {
                                 const obj: IRecord = {};
 
-                                valuefield.forEach(({in: keyIn, out}) => {
-                                    obj[out || keyIn] = value[1][keyIn];
-                                });
+                                obj[inKey] = value[1][inKey];
 
                                 return obj;
                             });
@@ -74,7 +84,7 @@ export function useFieldSetGlobal({field, pageStore, bc, store}: IUseFieldSetGlo
                 }
 
                 setglobal.forEach((keys) => {
-                    const keyIn = keys.in || field.key;
+                    const keyIn = keys.in || bc.idproperty || field.key;
                     const {out} = keys;
 
                     if (isStoreRecord && store) {

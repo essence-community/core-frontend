@@ -18,7 +18,7 @@ export const FormPanelGlobals: React.FC<IFormPanelGlobalsProps> = React.memo(fun
                 const globalValues: Record<string, FieldValue> = {};
 
                 bc.setglobal.forEach(({in: keyIn, out}) => {
-                    globalValues[out] = values[keyIn || out];
+                    globalValues[out] = values[keyIn || bc.idproperty || out];
                 });
 
                 pageStore.updateGlobalValues(globalValues);

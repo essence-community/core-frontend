@@ -84,11 +84,11 @@ export function useFieldSetGlobal({field, pageStore, bc, store}: IUseFieldSetGlo
                 }
 
                 setglobal.forEach((keys) => {
-                    const keyIn = keys.in || bc.idproperty || field.key;
+                    const keyIn = keys.in || field.key;
                     const {out} = keys;
 
                     if (isStoreRecord && store) {
-                        values[out] = selectedRecord?.[keyIn];
+                        values[out] = selectedRecord?.[keys.in || bc.idproperty || field.key];
 
                         if (isEmpty(values[out])) {
                             values[out] = globalValues.has(out) ? null : undefined;

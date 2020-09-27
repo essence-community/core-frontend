@@ -50,9 +50,9 @@ export class Field implements IField {
 
     public defaultValueFn: IField["defaultValueFn"];
 
-    private isArray: boolean;
+    public isArray: boolean;
 
-    private isObject: boolean;
+    public isObject: boolean;
 
     public disabled: boolean;
 

@@ -1,7 +1,7 @@
 import {reaction} from "mobx";
 import {useEffect} from "react";
 import {parseMemoize, isEmpty} from "../utils";
-import {VALUE_SELF_FIRST} from "../constants";
+import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "../constants";
 import {IField} from "../Form";
 import {IPageModel, IBuilderConfig, IStoreBaseModel, FieldValue} from "../types";
 
@@ -36,7 +36,7 @@ export function useFieldGetGlobal({field, pageStore, bc, store}: IUseFieldGetGlo
                         value = field.form.select(name)?.value;
                     }
 
-                    if (!value) {
+                    if (isEmpty(value)) {
                         hasEmptyValue = true;
                     }
 
@@ -47,13 +47,14 @@ export function useFieldGetGlobal({field, pageStore, bc, store}: IUseFieldGetGlo
             },
             ({hasEmptyValue, value}) => {
                 if (hasEmptyValue) {
-                    field.onChange("");
+                    field.onChange(field.isArray || field.isObject ? value : "");
                 } else {
-                    field.onChange(isEmpty(value) ? "" : value);
+                    field.onChange(value);
                 }
             },
             {
-                fireImmediately: isEmpty(field.value) || field.value === VALUE_SELF_FIRST,
+                fireImmediately:
+                    isEmpty(field.value) || field.value === VALUE_SELF_FIRST || field.value === VALUE_SELF_ALWAYSFIRST,
             },
         );
     }, [getglobal, field, globalValues, store]);

@@ -29,6 +29,8 @@ export interface IField {
     hidden: boolean;
     disabled: boolean;
     error?: TError;
+    isArray?: boolean;
+    isObject?: boolean;
     input: (initialValues: IRecord, field: IField, form: IForm) => [boolean, IRecord | FieldValue];
     output: (field: IField, form: IForm, value?: IRecord | FieldValue) => IRecord | FieldValue;
     reset(): void;

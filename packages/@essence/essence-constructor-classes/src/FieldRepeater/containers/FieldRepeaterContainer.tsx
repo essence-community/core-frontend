@@ -80,14 +80,14 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
             }
         };
 
-        if (field.form.mode === "1" && field.form.editing) {
+        if (field.form.editing) {
             changeRepeat();
         }
 
         return reaction(
             () => [field.form.editing, field.form.mode],
-            ([isEdit, mode]) => {
-                if (mode === "1" && isEdit) {
+            ([isEdit]) => {
+                if (isEdit) {
                     changeRepeat();
                 }
             },

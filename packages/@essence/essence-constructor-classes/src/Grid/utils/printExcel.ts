@@ -19,19 +19,18 @@ import {
 import {request} from "@essence-community/constructor-share/request";
 import {IGridModel} from "../stores/GridModel/GridModel.types";
 
-type PrintExcelType = {
+interface IPrintExcelType {
     bcBtn: IBuilderConfig;
     recordsStore: IRecordsModel;
     gridStore: IGridModel;
     values: IRecord;
-};
+}
 
-export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelType): Promise<boolean> {
+export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcelType): Promise<boolean> {
     const {bc, pageStore} = gridStore;
     const {getmastervalue, columns} = bc;
     const {globalValues} = pageStore;
     const displayed = bc[VAR_RECORD_DISPLAYED];
-    // @ts-ignore
     const description = bc[VAR_RECORD_CV_DESCRIPTION];
     const json = {
         filter: getFilterData({
@@ -52,15 +51,10 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: PrintExcelT
         columns: (columns || [])
             .filter(
                 (obj) =>
-                    obj.datatype !== "icon" &&
-                    obj.datatype !== "checkbox" &&
-                    !obj.visible &&
-                    obj.hiddenrules !== "true",
+                    obj.datatype !== "icon" && obj.datatype !== "checkbox" && obj.visible && obj.hiddenrules !== "true",
             )
             .map((val) => ({
-                // @ts-ignore
                 [VAR_RECORD_CV_DESCRIPTION]: val[VAR_RECORD_CV_DESCRIPTION] || "",
-                // @ts-ignore
                 [VAR_RECORD_DISPLAYED]: i18next.t(val[VAR_RECORD_DISPLAYED]) || "",
                 column: val.column || "",
                 currencysign: val.currencysign || "",

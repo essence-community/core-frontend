@@ -2,7 +2,7 @@
 import {v4} from "uuid";
 import {isEqual} from "lodash";
 import {request} from "../../request";
-import {IPageModel, IRecordsModel, FieldValue, IResponse} from "../../types";
+import {IPageModel, IRecordsModel, FieldValue, IResponse, IRecord} from "../../types";
 import {i18next, getMasterObject} from "../../utils";
 import {
     VALUE_SELF_FIRST,
@@ -20,7 +20,6 @@ import {
     VAR_RECORD_JN_TOTAL_CNT,
 } from "../../constants";
 import {snackbarStore} from "../SnackbarModel";
-import {IRecord} from "../../../lib/types/Base";
 import {
     IGetFilterData,
     IGetFilterDataOptions,

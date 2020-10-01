@@ -288,9 +288,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
     @action
     restoreSelectedAction = (recordsStore: IRecordsModel) => {
-        this.selectedEntries.forEach(([key, rec]) => {
-            recordsStore.selectedRecords.set(key, rec);
-        });
+        recordsStore.setSelectionsAction(this.selectedEntries.map(([, rec]) => rec));
 
         if (this.bc.collectionvalues === "array") {
             recordsStore.setRecordsAction(
@@ -311,6 +309,8 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             gridStore.recordsStore.selectedRecords.forEach((value, key) => {
                 this.selectedEntries.push([key, value]);
             });
+            this.recordsStore.setRecordsAction(this.selectedEntries.map(([, rec]) => rec));
+            this.recordsStore.setSelectionsAction(this.selectedEntries.map(([, rec]) => rec));
             this.setRecordToGlobal();
         }
 
@@ -326,6 +326,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         const record = this.recordsGridStore && this.recordsGridStore.selectedRecord;
 
         if (record) {
+            this.recordsStore.setRecordsAction([record]);
             this.handleChangeRecord(record, true);
         }
 
@@ -343,10 +344,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         const recordsStore = this.pageStore.stores.get(`grid_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`)?.recordsStore;
 
         if (recordsStore && this.bc.collectionvalues === "array") {
-            recordsStore.selectedRecords.clear();
-            this.selectedEntries.forEach(([key, rec]) => {
-                recordsStore.selectedRecords.set(key, rec);
-            });
+            this.recordsStore.setSelectionsAction(this.selectedEntries.map(([, rec]) => rec));
         }
 
         if (popoverCtx) {

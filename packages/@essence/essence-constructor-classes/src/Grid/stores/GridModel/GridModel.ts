@@ -301,9 +301,9 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             isSelectedDefault === undefined ? Boolean(this.recordsStore.selectedRecords.get(ckId)) : isSelectedDefault;
 
         if (isSelected) {
-            this.recordsStore.selectedRecords.delete(ckId);
+            this.recordsStore.setSelectionsAction([record], this.recordsStore.recordId, "delete");
         } else if (!maxSize || maxSize > this.recordsStore.selectedRecords.size) {
-            this.recordsStore.selectedRecords.set(ckId, record);
+            this.recordsStore.setSelectionsAction([record], this.recordsStore.recordId, "append");
         }
 
         if (!isEmpty(record[VAR_RECORD_LEAF])) {
@@ -321,8 +321,6 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                 maxSize,
             });
         }
-
-        this.afterSelected();
     };
 
     addRefAction = (ckId: ICkId, node: HTMLElement) => {
@@ -404,17 +402,16 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     @action
     setAllSelectedRecords = (all: boolean, bcBtn: IBuilderConfig, records: IRecord[]) => {
         const maxSize = bcBtn.maxselected && parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues);
+        const selRecords = [];
 
         if (all) {
             records.forEach((record) => {
                 if (!maxSize || maxSize > this.recordsStore.selectedRecords.size) {
-                    this.recordsStore.selectedRecords.set(record[this.recordsStore.recordId] as ICkId, record);
+                    selRecords.push(record);
                 }
             });
-        } else {
-            this.recordsStore.selectedRecords.clear();
         }
-        this.afterSelected();
+        this.recordsStore.setSelectionsAction(selRecords, this.recordsStore.recordId);
     };
 
     setColumnsWidth = (ckId: ICkId, width: number) => {
@@ -440,7 +437,6 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         }
 
         this.setRecordToGlobal();
-        this.recordsStore.reloadChildStoresAction();
 
         return undefined;
     };

@@ -20,7 +20,7 @@ import {
     IRecordsSearchOptions,
     IRouteRecord,
 } from "../../types";
-import {i18next} from "../../utils";
+import {i18next, debounce} from "../../utils";
 import {
     loggerRoot,
     VAR_RECORD_ID,
@@ -41,6 +41,7 @@ interface ILoadRecordsProps {
 }
 
 const logger = loggerRoot.extend("RecordsModel");
+const WAIT_MULTI_SELECT = 300;
 
 export class RecordsModel implements IRecordsModel {
     selectedRecordId?: FieldValue;
@@ -65,7 +66,7 @@ export class RecordsModel implements IRecordsModel {
 
     order: IRecordsOrder;
 
-    jsonMaster: Record<string, FieldValue>;
+    jsonMaster: Record<string, FieldValue> | Record<string, FieldValue>[];
 
     pageSize: number | undefined;
 
@@ -223,12 +224,50 @@ export class RecordsModel implements IRecordsModel {
         },
     );
 
+    @action
+    setSelectionsAction = async (records: IRecord[], key = this.recordId, isMode = "default"): Promise<number> => {
+        const firstRecord = records[0];
+        const stringCkId = firstRecord === undefined || isMode === "delete" ? "" : String(firstRecord[key]);
+
+        this.selectedRecordIndex = this.recordsState.records.findIndex((record) => String(record[key]) === stringCkId);
+        this.selectedRecord = this.recordsState.records[this.selectedRecordIndex];
+
+        if (isMode === "default") {
+            this.selectedRecords.clear();
+
+            records.forEach((rec) => {
+                this.selectedRecords.set(String(rec[key]), rec);
+            });
+        } else if (isMode === "append") {
+            records.forEach((rec) => {
+                this.selectedRecords.set(String(rec[key]), rec);
+            });
+        } else if (isMode === "delete") {
+            records.forEach((rec) => {
+                this.selectedRecords.delete(String(rec[key]));
+            });
+        }
+
+        if (this.parentStore && this.parentStore.afterSelected) {
+            await this.parentStore.afterSelected();
+        }
+
+        this.setRecordToGlobal();
+        if (!this.noLoadChilds) {
+            this.debounceReloadChildStoresAction();
+        }
+
+        return this.selectedRecordIndex;
+    };
+
+    debounceReloadChildStoresAction = debounce(() => this.reloadChildStoresAction(), WAIT_MULTI_SELECT);
+
     reloadChildStoresAction = action("reloadChildsStoresAction", async (oldSelectedRecord?: IRecord) => {
         if (!this.pageStore) {
             return false;
         }
         const isReload =
-            this.bc.selmode === "MULTI" && this.bc.collectionvalues === "array"
+            this.bc.selmode === "MULTI" || this.bc.collectionvalues === "array"
                 ? this.selectedRecords.size > 0
                 : this.selectedRecord && oldSelectedRecord !== this.selectedRecord;
 
@@ -248,7 +287,7 @@ export class RecordsModel implements IRecordsModel {
             return Promise.all(promises).then(() => true);
         }
         const isClean =
-            this.bc.selmode === "MULTI" && this.bc.collectionvalues === "array"
+            this.bc.selmode === "MULTI" || this.bc.collectionvalues === "array"
                 ? this.selectedRecords.size === 0
                 : this.selectedRecord === undefined;
 

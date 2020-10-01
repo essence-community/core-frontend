@@ -25,7 +25,7 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
     const dndProps = useGridDnd({record, store});
 
     const isSelected = React.useCallback(() => {
-        return bc.selmode === "MULTI"
+        return bc.selmode === "MULTI" || bc.collectionvalues === "array"
             ? store.recordsStore.selectedRecords.has(record[store.recordsStore.recordId] as ICkId)
             : store.recordsStore.selectedRecordId === record[store.recordsStore.recordId];
     }, [bc.selmode, record, store]);

@@ -29,7 +29,9 @@ function isDisabledMaster(pageStore: IPageModel, bc: IBuilderConfig): boolean {
                 const recordId = masterStore.recordsStore.selectedRecord?.[masterStore.recordId];
 
                 return (
-                    !masterStore.recordsStore.selectedRecord ||
+                    (masterStore.bc.selmode === "MULTI" || masterStore.bc.collectionvalues === "array"
+                        ? masterStore.recordsStore.selectedRecords.size === 0
+                        : !masterStore.recordsStore.selectedRecord) ||
                     (typeof recordId == "string" && recordId.indexOf("auto-") === 0)
                 );
             }

@@ -90,7 +90,7 @@ export interface IRecordsModel {
     pageNumber: number;
     recordsCount: number;
     order: IRecordsOrder;
-    jsonMaster: IRecord;
+    jsonMaster: IRecord | Record<string, FieldValue>[];
     pageSize?: number;
     bc: IBuilderConfig;
     searchValues: IRecord;
@@ -111,6 +111,11 @@ export interface IRecordsModel {
     downloadAction: (values: IRecord | IRecord[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<boolean>;
     reloadChildStoresAction: (oldSelect?: IRecord) => Promise<boolean>;
     setSelectionAction: (ckId: FieldValue, key?: string) => Promise<number>;
+    setSelectionsAction: (
+        records: IRecord[],
+        key?: string,
+        isMode?: "default" | "append" | "delete",
+    ) => Promise<number>;
     setRecordsAction: (records: IRecord[]) => void;
     setPageNumberAction: (pageNumber: number) => void;
     setFirstRecord: () => void;

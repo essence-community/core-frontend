@@ -513,7 +513,6 @@ export class ApplicationModel implements IApplicationModel {
 
     handleChangeUrl = async (url: string) => {
         this.isApplicationReady = false;
-        this.url = url;
 
         if (this.bc[VAR_RECORD_PAGE_OBJECT_ID] !== "none") {
             const queryId = this.bc[VAR_RECORD_QUERY_ID] || "MTRoute";
@@ -539,6 +538,9 @@ export class ApplicationModel implements IApplicationModel {
         } else {
             this.redirectToFirstValidApplication();
         }
+        this.isApplicationReady = true;
+        this.url = url;
+        this.mode = url;
     };
 
     handleSetPage = async (pageId: string, filter?: string) => {

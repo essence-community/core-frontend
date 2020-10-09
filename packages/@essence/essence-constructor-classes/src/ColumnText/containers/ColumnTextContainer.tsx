@@ -1,5 +1,5 @@
 import * as React from "react";
-import {makeRedirectUrl, getQueryParams, Translation} from "@essence-community/constructor-share/utils";
+import {makeRedirectUrl, getQueryParams, Translation, deepFind} from "@essence-community/constructor-share/utils";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {RecordContext} from "@essence-community/constructor-share/context";
 import {toString} from "../utils";
@@ -8,7 +8,8 @@ import {useStyles} from "./ColumnTextContainer.styles";
 export const ColumnTextContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
     const record = React.useContext(RecordContext);
-    const value = record && bc.column ? toString(record[bc.column]) : undefined;
+    const [isExist, val] = deepFind(record, props.bc.column);
+    const value = isExist ? toString(val) : undefined;
     const classes = useStyles();
     const redirectUrl = React.useMemo(
         () =>

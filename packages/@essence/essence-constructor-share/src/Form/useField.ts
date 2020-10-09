@@ -24,7 +24,9 @@ export const useField = ({
     pageStore,
     output,
     input,
+    defaultValueFn,
     isArray,
+    isObject,
     disabled,
     hidden,
     clearValue,
@@ -44,8 +46,10 @@ export const useField = ({
         return form.registerField(key, {
             bc,
             clearValue,
+            defaultValueFn,
             input: input || parentField?.input,
             isArray,
+            isObject,
             output: output || parentField?.output,
             pageStore,
         });

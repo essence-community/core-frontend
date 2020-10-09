@@ -23,7 +23,22 @@ const CLEAR_VALUE: FieldValue[] = [];
 
 export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
-    const field = useField({bc, clearValue: CLEAR_VALUE, disabled, hidden, isArray: true, pageStore});
+    const defaultValueFn = React.useCallback(
+        (field, onChange) => {
+            if (bc.defaultvalue && typeof bc.defaultvalue === "string") {
+                const val = JSON.parse(bc.defaultvalue);
+
+                onChange(Array.isArray(val) ? val : []);
+            } else if (Array.isArray(bc.defaultvalue)) {
+                onChange(bc.defaultvalue);
+            } else {
+                onChange([...Array(parseInt(bc.minsize || "0", 10))].map(() => ({})));
+            }
+        },
+        [bc.defaultvalue, bc.minsize],
+    );
+
+    const field = useField({bc, clearValue: CLEAR_VALUE, defaultValueFn, disabled, hidden, isArray: true, pageStore});
     const applicationStore = React.useContext(ApplicationContext);
     const [trans] = useTranslation("meta");
     const [, , storeName] = useModel((options) => new FieldRepeaterModel(options), {
@@ -65,14 +80,14 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
             }
         };
 
-        if (field.form.mode === "1" && field.form.editing) {
+        if (field.form.editing) {
             changeRepeat();
         }
 
         return reaction(
             () => [field.form.editing, field.form.mode],
-            ([isEdit, mode]) => {
-                if (mode === "1" && isEdit) {
+            ([isEdit]) => {
+                if (isEdit) {
                     changeRepeat();
                 }
             },

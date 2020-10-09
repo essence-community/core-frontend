@@ -17,7 +17,7 @@ import {
 import {IFieldItemSelectorModel, IChildGridBuildConfig} from "./FieldItemSelectorModel.types";
 
 function getSelectionRecords(gridStore: IStoreBaseModel): IRecord[] {
-    if (gridStore.bc.selmode === "MULTI") {
+    if (gridStore.bc.selmode === "MULTI" || gridStore.bc.collectionvalues === "array") {
         return mapValueToArray(gridStore.recordsStore?.selectedRecords);
     }
 

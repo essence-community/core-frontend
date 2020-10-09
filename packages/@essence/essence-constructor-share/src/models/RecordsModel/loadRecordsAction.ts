@@ -2,7 +2,7 @@
 import {v4} from "uuid";
 import {isEqual} from "lodash";
 import {request} from "../../request";
-import {IPageModel, IRecordsModel, FieldValue, IResponse} from "../../types";
+import {IPageModel, IRecordsModel, FieldValue, IResponse, IRecord} from "../../types";
 import {i18next, getMasterObject} from "../../utils";
 import {
     VALUE_SELF_FIRST,
@@ -96,7 +96,10 @@ export function setMask(isLoading: boolean, noglobalmask?: boolean, pageStore?: 
     }
 }
 
-export function checkPageNumber(recordsStore: IRecordsModel, master: Record<string, FieldValue> = {}) {
+export function checkPageNumber(
+    recordsStore: IRecordsModel,
+    master: Record<string, FieldValue> | Record<string, FieldValue>[] = {},
+) {
     if (!isEqual(master, recordsStore.jsonMaster)) {
         recordsStore.jsonMaster = master;
         recordsStore.pageNumber = 0;
@@ -171,7 +174,7 @@ export function loadRecordsAction(
         recordId = VAR_RECORD_ID,
         isUserReload = false,
     }: ILoadRecordsAction,
-): Promise<object | undefined> {
+): Promise<IRecord | undefined> {
     const {noglobalmask, defaultvalue} = bc;
     const isWaiting = bc[VAR_RECORD_MASTER_ID] || bc.getglobaltostore;
 

@@ -122,6 +122,21 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     }, [appName, applicationStore]);
 
     React.useEffect(() => {
+        if (ckId) {
+            const {routesStore, pagesStore} = applicationStore;
+            const routes = routesStore ? routesStore.recordsStore.records : [];
+            const pageConfig = routes.find(
+                (route: IRecord) => route[VAR_RECORD_ID] === ckId || route[VAR_RECORD_URL] === ckId,
+            );
+            const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
+
+            if (pageId && pagesStore.activePage.pageId !== pageId) {
+                pagesStore.setPageAction(String(pageId), false);
+            }
+        }
+    }, [ckId, applicationStore]);
+
+    React.useEffect(() => {
         const dispose = reaction(
             () => applicationStore.authStore.userInfo.session,
             (session) => {

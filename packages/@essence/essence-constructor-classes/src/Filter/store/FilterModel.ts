@@ -108,13 +108,13 @@ export class FilterModel extends StoreBaseModel {
     };
 
     handleGlobals = (values: IRecord) => {
-        const {setglobal} = this.bc;
+        const {setglobal, idproperty} = this.bc;
 
         if (setglobal && setglobal.length) {
             const globalValues: Record<string, FieldValue> = {};
 
             setglobal.forEach(({in: keyIn, out}) => {
-                globalValues[out] = values[keyIn || out];
+                globalValues[out] = values[keyIn || idproperty || out];
             });
 
             this.pageStore.updateGlobalValues(globalValues);

@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "2.6.1",
+  "version": "2.6.2",
   "license": "MIT",
   "private": true,
   "engines": {
@@ -29,7 +29,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint",
+      "eslint --fix",
       "git add"
     ]
   },

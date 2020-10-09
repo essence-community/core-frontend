@@ -49,7 +49,11 @@ import {
     checkIsPageSelectedRecords,
 } from "../../utils";
 import {WIDTH_MAP, GRID_ROW_HEIGHT, GRID_ROWS_COUNT, TABLE_CELL_MIN_WIDTH} from "../../constants";
-import {getOverrideExcelButton, getOverrideWindowBottomBtn, getOverrideDragDropButton} from "../../utils/getGridBtnsConfig";
+import {
+    getOverrideExcelButton,
+    getOverrideWindowBottomBtn,
+    getOverrideDragDropButton,
+} from "../../utils/getGridBtnsConfig";
 import {IHanderOptions} from "../../../Button/handlers/hander.types";
 import {updatePercentColumnsWidth, setWidthForZeroWidthCol} from "./actions";
 import {GridSaveConfigType} from "./GridModel.types";
@@ -297,9 +301,9 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             isSelectedDefault === undefined ? Boolean(this.recordsStore.selectedRecords.get(ckId)) : isSelectedDefault;
 
         if (isSelected) {
-            this.recordsStore.selectedRecords.delete(ckId);
+            this.recordsStore.setSelectionsAction([record], this.recordsStore.recordId, "delete");
         } else if (!maxSize || maxSize > this.recordsStore.selectedRecords.size) {
-            this.recordsStore.selectedRecords.set(ckId, record);
+            this.recordsStore.setSelectionsAction([record], this.recordsStore.recordId, "append");
         }
 
         if (!isEmpty(record[VAR_RECORD_LEAF])) {
@@ -317,8 +321,6 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                 maxSize,
             });
         }
-
-        this.afterSelected();
     };
 
     addRefAction = (ckId: ICkId, node: HTMLElement) => {
@@ -400,17 +402,16 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     @action
     setAllSelectedRecords = (all: boolean, bcBtn: IBuilderConfig, records: IRecord[]) => {
         const maxSize = bcBtn.maxselected && parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues);
+        const selRecords = [];
 
         if (all) {
             records.forEach((record) => {
                 if (!maxSize || maxSize > this.recordsStore.selectedRecords.size) {
-                    this.recordsStore.selectedRecords.set(record[this.recordsStore.recordId] as ICkId, record);
+                    selRecords.push(record);
                 }
             });
-        } else {
-            this.recordsStore.selectedRecords.clear();
         }
-        this.afterSelected();
+        this.recordsStore.setSelectionsAction(selRecords, this.recordsStore.recordId);
     };
 
     setColumnsWidth = (ckId: ICkId, width: number) => {
@@ -514,20 +515,26 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     @action
     dragDropAction = async (pageObjectId: string, dragId: string | string[], drop?: IRecord) => {
         const recordStore = this.pageStore.stores.get(pageObjectId)?.recordsStore;
-        const drag = Array.isArray(dragId) ? recordStore?.records.filter((rec) => dragId.indexOf(String(rec[recordStore?.recordId])) > -1) : recordStore?.records.find((rec) => String(rec[recordStore?.recordId]) === dragId);
+        const drag = Array.isArray(dragId)
+            ? recordStore?.records.filter((rec) => dragId.indexOf(String(rec[recordStore?.recordId])) > -1)
+            : recordStore?.records.find((rec) => String(rec[recordStore?.recordId]) === dragId);
         const btn = getOverrideDragDropButton(this.bc);
-        const res = await this.saveAction({
-            [recordStore?.recordId]: Array.isArray(dragId) ? undefined : drag?.[recordStore?.recordId],
-            [VAR_RECORD_PAGE_OBJECT_DRAG]: pageObjectId,
-            [VAR_RECORD_PAGE_OBJECT_DROP]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
-            drag,
-            drop,
-        }, btn.modeaction as IBuilderMode || "2", {
-            actionBc: btn,
-        });
+        const res = await this.saveAction(
+            {
+                [recordStore?.recordId]: Array.isArray(dragId) ? undefined : drag?.[recordStore?.recordId],
+                [VAR_RECORD_PAGE_OBJECT_DRAG]: pageObjectId,
+                [VAR_RECORD_PAGE_OBJECT_DROP]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+                drag,
+                drop,
+            },
+            (btn.modeaction as IBuilderMode) || "2",
+            {
+                actionBc: btn,
+            },
+        );
 
         return Boolean(res);
-    }
+    };
 
     handlers = {
         defaultHandlerBtnAction: this.defaultHandlerBtnAction,

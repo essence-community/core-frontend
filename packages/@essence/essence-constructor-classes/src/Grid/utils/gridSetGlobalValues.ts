@@ -16,14 +16,19 @@ export function gridSetGlobalValues(gridStore: IGridModel) {
     setglobal.forEach(({in: keyIn, out}) => {
         if (selmode === "MULTI" || collectionvalues === "array") {
             values[out] = selectedRecords.map((value) => {
-                if (valueFields.length === 1) {
-                    return value[valueFields[0][1]];
-                }
                 const obj: IRecord = {};
 
-                valueFields.forEach(([valueFieldName, valueField]) => {
-                    obj[valueFieldName] = value[valueField];
-                });
+                if (isEmpty(keyIn)) {
+                    if (valueFields.length === 1) {
+                        return value[valueFields[0][1]];
+                    }
+
+                    valueFields.forEach(([valueFieldName, valueField]) => {
+                        obj[valueFieldName] = value[valueField];
+                    });
+                } else {
+                    obj[keyIn] = value[keyIn];
+                }
 
                 return obj;
             });

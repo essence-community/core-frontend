@@ -7,7 +7,7 @@ import {ServiceHiddenModel} from "../stores/ServiceHiddenModel";
 
 export const ServiceHiddenContainer: React.FC<IClassProps> = (props) => {
     const {
-        bc: {setglobal, getglobaltostore},
+        bc: {setglobal, idproperty, getglobaltostore},
         pageStore,
     } = props;
     const applicationStore = React.useContext(ApplicationContext);
@@ -18,7 +18,7 @@ export const ServiceHiddenContainer: React.FC<IClassProps> = (props) => {
         if (setglobal?.length) {
             const calcRecord = (record: IRecord = {}) => {
                 const values = setglobal.reduce<IRecord>((acc, {in: keyIn, out}) => {
-                    acc[out] = record[keyIn || out];
+                    acc[out] = record[keyIn || idproperty || out];
 
                     return acc;
                 }, {});

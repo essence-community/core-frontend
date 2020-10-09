@@ -2,7 +2,7 @@ import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {RecordContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_LEAF} from "@essence-community/constructor-share/constants";
-import {Translation} from "@essence-community/constructor-share/utils";
+import {Translation, deepFind} from "@essence-community/constructor-share/utils";
 import {ColumnTreeSchevron} from "../components/ColumnTreeSchevron";
 import {ColumnTreeIcon} from "../components/ColumnTreeIcon";
 
@@ -14,7 +14,8 @@ export const ColumnTreeContainer: React.FC<IClassProps> = (props) => {
     const record = React.useContext(RecordContext) || {};
     const isLeaf = record[VAR_RECORD_LEAF] === "true";
     const addPadding = isLeaf ? LEAF_ICON_WIDTH : 0;
-    const value = record && bc.column ? record[bc.column] : undefined;
+    const [isExist, val] = deepFind(record, props.bc.column);
+    const value = isExist ? val : undefined;
 
     return (
         <span

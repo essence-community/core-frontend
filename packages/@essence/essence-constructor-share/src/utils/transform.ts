@@ -61,10 +61,16 @@ export const toTranslateTextArray = (
 };
 
 export const deepFind = (obj: IRecord, path: string): [boolean, IRecord | FieldValue] => {
+    if (isEmpty(obj) || isEmpty(path)) {
+        return [false, undefined];
+    }
     const paths: any[] = path.split(".");
     let current: any = obj;
 
     for (const val of paths) {
+        if (!Array.isArray(current) && typeof current !== "object") {
+            return [false, undefined];
+        }
         if (current[val] === undefined || current[val] === null) {
             return [false, current[val]];
         }

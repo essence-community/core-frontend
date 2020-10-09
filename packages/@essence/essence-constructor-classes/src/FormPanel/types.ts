@@ -21,6 +21,7 @@ export interface IBuilderClassConfig {
     // hbox-wrap: горизонтальное с переносом на следующую строку
     // vbox: вертикальное
     contentview?: "hbox" | "hbox-wrap" | "vbox";
+    idproperty?: string;
     // Служебные параметры
     ck_parent: string;
     ck_page_object: string;

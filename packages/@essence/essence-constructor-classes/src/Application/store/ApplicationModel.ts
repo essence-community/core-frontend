@@ -538,6 +538,7 @@ export class ApplicationModel implements IApplicationModel {
         } else {
             this.redirectToFirstValidApplication();
         }
+        this.isApplicationReady = true;
         this.url = url;
         this.mode = url;
     };

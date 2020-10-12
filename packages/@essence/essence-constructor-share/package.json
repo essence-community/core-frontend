@@ -38,7 +38,7 @@
     "mdi-react": "3.4.0",
     "memoizee": "^0.4.14",
     "mobx": "^5.15.4",
-    "mobx-react": "^6.2.2",
+    "mobx-react": "6.3.0",
     "moment": "2.27.0",
     "p-limit": "^3.0.2",
     "qs": "^6.9.4",

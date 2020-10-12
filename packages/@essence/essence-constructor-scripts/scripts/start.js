@@ -5,7 +5,7 @@ const config = require("../config/webpack.config");
 
 // eslint-disable-next-line no-magic-numbers
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 8080;
-const HOST = process.env.HOST || "0.0.0.0";
+const HOST = process.env.HOST || "localhost";
 const isInteractive = process.stdout.isTTY;
 
 const compiler = webpack(config);

@@ -39,6 +39,8 @@ if (projectName === "") {
 const root = path.resolve(projectName);
 const appName = path.basename(root);
 
+console.log(root);
+
 fs.ensureDirSync(projectName);
 
 const packageJsonNew = {
@@ -58,7 +60,7 @@ const packageJsonNew = {
     },
 };
 
-const dependencies = ["@material-ui/core", "react", "react-dom", "mobx", "mobx-react"];
+const dependencies = ["@material-ui/core", "react", "react-dom", "mobx@5.15.4", "mobx-react@6.3.0"];
 
 const essencePackages = [
     "@essence-community/constructor-dll",
@@ -73,19 +75,12 @@ if (program.example) {
 fs.writeFileSync(path.join(root, "package.json"), JSON.stringify(packageJsonNew, null, 2) + os.EOL);
 fs.copyFileSync(path.join(__dirname, "eslintrc"), path.join(root, ".eslintrc"));
 fs.copyFileSync(path.join(__dirname, "prettierrc"), path.join(root, ".prettierrc"));
+// fs.copyFileSync(path.join(__dirname, "gitignore"), path.join(root, ".gitignore"));
 
 // Spawn.sync("yarnpkg", ["--cwd", root], {stdio: "inherit"});
 spawn.sync("yarnpkg", ["add", ...dependencies, ...essencePackages], {cwd: root, stdio: "inherit"});
 
-const packages = [
-    "@types/node",
-    "@types/react",
-    "typescript",
-    "@essence-community/eslint-config-react",
-    "eslint",
-    "tslint-config-prettier",
-    "tslint-eslint-rules",
-];
+const packages = ["@types/node", "@types/react", "typescript", "@essence-community/eslint-config-react", "eslint"];
 
 spawn.sync("yarnpkg", ["add", "-D", ...packages], {cwd: root, stdio: "inherit"});
 

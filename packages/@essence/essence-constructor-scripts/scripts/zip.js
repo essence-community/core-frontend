@@ -1,4 +1,4 @@
-/* eslint-disable no-console, no-process-exit, no-sync */
+/* eslint-disable no-console, no-process-exit, no-sync, @typescript-eslint/no-var-requires */
 const path = require("path");
 const fs = require("fs-extra");
 const chalk = require("chalk");
@@ -30,7 +30,22 @@ function patchFiles() {
     });
 
     if (fs.existsSync(resolveApp("src", "schema_manifest.json"))) {
-        zip.addLocalFile(resolveApp("src", "schema_manifest.json"));
+        let manifest = require(resolveApp("src", "schema_manifest.json"));
+
+        manifest = manifest.map((classInfo) => {
+            if (fs.existsSync(resolveApp(`DOC_${classInfo.class.cv_type}.md`))) {
+                classInfo.class.cv_manual_documentation = fs.readFileSync(
+                    resolveApp(`DOC_${classInfo.class.cv_type}.md`),
+                    "utf8",
+                );
+            }
+
+            return classInfo;
+        });
+
+        manifest = JSON.stringify(manifest);
+
+        zip.addFile("schema_manifest.json", Buffer.from(manifest));
     }
 
     const config = {

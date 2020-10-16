@@ -266,7 +266,7 @@ export class ApplicationModel implements IApplicationModel {
         }
     });
 
-    redirectToFirstValidApplication = async (): Promise<boolean | void> => {
+    redirectToFirstValidApplication = async (url?: string): Promise<boolean | void> => {
         const {children} = this.recordsStore.selectedRecordValues;
 
         if (Array.isArray(children)) {
@@ -284,7 +284,31 @@ export class ApplicationModel implements IApplicationModel {
                 const match = /cv_url\s?={2,3}\s?["'](?<app>\w+)["']/u.exec(firstValisApplication.activerules);
 
                 if (match && match.groups && match.groups.app) {
-                    return this.history.push(`/${match.groups.app}`, {backUrl: this.history.location.pathname});
+                    if (match.groups.app !== url) {
+                        return this.history.push(`/${match.groups.app}`, {backUrl: this.history.location.pathname});
+                    } else {
+                        const queryId = firstValisApplication[VAR_RECORD_QUERY_ID] || "MTRoute";
+
+                        if (!this.routesStore || this.routesStore.recordsStore.bc[VAR_RECORD_QUERY_ID] !== queryId) {
+                            this.routesStore = new RoutesModel(
+                                {
+                                    [VAR_RECORD_PAGE_OBJECT_ID]: "routes",
+                                    [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+                                    [VAR_RECORD_QUERY_ID]: queryId,
+                                    type: "NONE",
+                                },
+                                this,
+                            );
+                        }
+
+                        await this.routesStore?.recordsStore.loadRecordsAction({});
+
+                        this.pagesStore.pages.clear();
+                        this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
+                        this.pagesStore.activePage = null;
+
+                        return;
+                    }
                 }
             }
         }
@@ -483,8 +507,9 @@ export class ApplicationModel implements IApplicationModel {
     reloadApplication = async (appName: string, routerPageId?: string, filter?: string) => {
         await this.handleChangeUrl(appName);
         const routes = this.routesStore ? this.routesStore.recordsStore.records : [];
+        const routePageIdFind = routerPageId || this.bc.defaultvalue;
         const pageConfig = routes.find(
-            (route: IRecord) => route[VAR_RECORD_ID] === routerPageId || route[VAR_RECORD_URL] === routerPageId,
+            (route: IRecord) => route[VAR_RECORD_ID] === routePageIdFind || route[VAR_RECORD_URL] === routePageIdFind,
         );
         const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
@@ -536,7 +561,7 @@ export class ApplicationModel implements IApplicationModel {
             this.pagesStore.activePage = null;
             this.isApplicationReady = true;
         } else {
-            this.redirectToFirstValidApplication();
+            this.redirectToFirstValidApplication(url);
         }
         this.isApplicationReady = true;
         this.url = url;

@@ -285,7 +285,14 @@ export class ApplicationModel implements IApplicationModel {
 
                 if (match && match.groups && match.groups.app) {
                     if (match.groups.app !== url) {
-                        return this.history.push(`/${match.groups.app}`, {backUrl: this.history.location.pathname});
+                        return this.history.push(
+                            `/${match.groups.app}${
+                                firstValisApplication.defaultvalue ? "/" + firstValisApplication.defaultvalue : ""
+                            }`,
+                            isEmpty(this.history.location.pathname) || this.history.location.pathname === "/"
+                                ? {backUrl: undefined}
+                                : {backUrl: this.history.location.pathname},
+                        );
                     } else {
                         const queryId = firstValisApplication[VAR_RECORD_QUERY_ID] || "MTRoute";
 

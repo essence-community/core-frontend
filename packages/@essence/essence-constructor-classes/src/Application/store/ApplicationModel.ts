@@ -266,11 +266,12 @@ export class ApplicationModel implements IApplicationModel {
         }
     });
 
+    // eslint-disable-next-line max-statements
     redirectToFirstValidApplication = async (url?: string): Promise<boolean | void> => {
         const {children} = this.recordsStore.selectedRecordValues;
 
         if (Array.isArray(children)) {
-            const firstValisApplication = children.find((rec: IBuilderConfig) => {
+            const firstValidApplication = children.find((rec: IBuilderConfig) => {
                 if (!rec.activerules) {
                     return false;
                 }
@@ -280,27 +281,28 @@ export class ApplicationModel implements IApplicationModel {
                 });
             });
 
-            if (firstValisApplication) {
-                const match = /cv_url\s?={2,3}\s?["'](?<app>\w+)["']/u.exec(firstValisApplication.activerules);
+            if (firstValidApplication) {
+                const match = /cv_url\s?={2,3}\s?["'](?<app>\w+)["']/u.exec(firstValidApplication.activerules);
 
                 if (match && match.groups && match.groups.app) {
                     if (match.groups.app !== url) {
+                        const state = (this.history.location.state || {}) as {backUrl?: string};
+                        const {backUrl = this.history.location.pathname} = state;
+
                         return this.history.push(
                             `/${match.groups.app}${
-                                firstValisApplication.defaultvalue ? "/" + firstValisApplication.defaultvalue : ""
+                                firstValidApplication.defaultvalue ? "/" + firstValidApplication.defaultvalue : ""
                             }`,
-                            isEmpty(this.history.location.pathname) || this.history.location.pathname === "/"
-                                ? {backUrl: undefined}
-                                : {backUrl: this.history.location.pathname},
+                            isEmpty(backUrl) || backUrl === "/" ? {backUrl: undefined} : {backUrl: backUrl},
                         );
                     } else {
-                        const queryId = firstValisApplication[VAR_RECORD_QUERY_ID] || "MTRoute";
+                        const queryId = firstValidApplication[VAR_RECORD_QUERY_ID] || "MTRoute";
 
                         if (!this.routesStore || this.routesStore.recordsStore.bc[VAR_RECORD_QUERY_ID] !== queryId) {
                             this.routesStore = new RoutesModel(
                                 {
                                     [VAR_RECORD_PAGE_OBJECT_ID]: "routes",
-                                    [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+                                    [VAR_RECORD_PARENT_ID]: firstValidApplication[VAR_RECORD_PAGE_OBJECT_ID],
                                     [VAR_RECORD_QUERY_ID]: queryId,
                                     type: "NONE",
                                 },
@@ -324,7 +326,12 @@ export class ApplicationModel implements IApplicationModel {
             await this.logoutAction();
         }
 
-        return this.history.push("/auth", {backUrl: this.history.location.pathname});
+        if (this.history.location.pathname.indexOf("auth") === -1) {
+            const state = (this.history.location.state || {}) as {backUrl?: string};
+            const {backUrl = this.history.location.pathname} = state;
+
+            this.history.push("/auth", {backUrl});
+        }
     };
 
     loadApplictionConfigs = (): Promise<void> =>

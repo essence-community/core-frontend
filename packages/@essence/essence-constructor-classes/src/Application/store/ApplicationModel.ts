@@ -314,7 +314,6 @@ export class ApplicationModel implements IApplicationModel {
 
                         this.pagesStore.pages.clear();
                         this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
-                        this.pagesStore.activePage = null;
 
                         return;
                     }
@@ -371,7 +370,7 @@ export class ApplicationModel implements IApplicationModel {
             await this.routesStore?.recordsStore.loadRecordsAction({});
             this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
         } else {
-            this.redirectToFirstValidApplication();
+            await this.redirectToFirstValidApplication();
 
             return false;
         }
@@ -572,10 +571,9 @@ export class ApplicationModel implements IApplicationModel {
 
             this.pagesStore.pages.clear();
             this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
-            this.pagesStore.activePage = null;
             this.isApplicationReady = true;
         } else {
-            this.redirectToFirstValidApplication(url);
+            await this.redirectToFirstValidApplication(url);
         }
         this.isApplicationReady = true;
         this.url = url;

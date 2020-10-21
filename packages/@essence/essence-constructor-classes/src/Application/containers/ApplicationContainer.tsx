@@ -193,9 +193,6 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                         route[VAR_RECORD_CL_STATIC] && route[VAR_RECORD_URL]
                             ? route[VAR_RECORD_URL]
                             : route[VAR_RECORD_ID];
-                } else if (!route && ckId) {
-                    pageId = ckId;
-                    routeUrl = ckId;
                 } else if (applicationStore.authStore.userInfo.session) {
                     pageId = applicationStore.bc.defaultvalue;
                     routeUrl = applicationStore.bc.defaultvalue;
@@ -206,7 +203,11 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 }
 
                 if (url && history.location.pathname !== url) {
-                    history.push(url);
+                    if (routeUrl === applicationStore.bc.defaultvalue) {
+                        history.replace(url);
+                    } else {
+                        history.push(url);
+                    }
                 }
 
                 if (pageId && (!activePage || activePage.pageId !== pageId)) {

@@ -8,6 +8,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const HtmlWebpackTagsPlugin = require("html-webpack-tags-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackIncludeAssetsPlugin = require("html-webpack-include-assets-plugin");
 
@@ -280,24 +281,26 @@ module.exports = {
             new HtmlWebpackPlugin({
                 inject: true,
                 excludeChunks: [packageJson.name],
-                template: path.resolve(resolveApp("public"), "index.html"),
+                template: path.join(resolveApp("public"), "index.html"),
             }),
         !isEnvProduction &&
-            new CopyWebpackPlugin([
-                {
-                    from: path.join(
-                        resolveApp("node_modules"),
-                        "@essence-community",
-                        "constructor-dll",
-                        "dist",
-                        "assets",
-                    ),
-                    to: "static/",
-                },
-            ]),
+            new CopyWebpackPlugin({
+                patterns: [
+                    {
+                        from: path.join(
+                            resolveApp("node_modules"),
+                            "@essence-community",
+                            "constructor-dll",
+                            "dist",
+                            "assets",
+                        ),
+                        to: "static/",
+                    },
+                ],
+            }),
         !isEnvProduction &&
-            new HtmlWebpackIncludeAssetsPlugin({
-                assets: [
+            new HtmlWebpackTagsPlugin({
+                tags: [
                     {
                         path: "static",
                         glob: "*.js",

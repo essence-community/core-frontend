@@ -266,11 +266,12 @@ export class ApplicationModel implements IApplicationModel {
         }
     });
 
-    redirectToFirstValidApplication = async (): Promise<boolean | void> => {
+    // eslint-disable-next-line max-statements
+    redirectToFirstValidApplication = async (url?: string): Promise<boolean | void> => {
         const {children} = this.recordsStore.selectedRecordValues;
 
         if (Array.isArray(children)) {
-            const firstValisApplication = children.find((rec: IBuilderConfig) => {
+            const firstValidApplication = children.find((rec: IBuilderConfig) => {
                 if (!rec.activerules) {
                     return false;
                 }
@@ -280,11 +281,42 @@ export class ApplicationModel implements IApplicationModel {
                 });
             });
 
-            if (firstValisApplication) {
-                const match = /cv_url\s?={2,3}\s?["'](?<app>\w+)["']/u.exec(firstValisApplication.activerules);
+            if (firstValidApplication) {
+                const match = /cv_url\s?={2,3}\s?["'](?<app>\w+)["']/u.exec(firstValidApplication.activerules);
 
                 if (match && match.groups && match.groups.app) {
-                    return this.history.push(`/${match.groups.app}`, {backUrl: this.history.location.pathname});
+                    if (match.groups.app !== url) {
+                        const state = (this.history.location.state || {}) as {backUrl?: string};
+                        const {backUrl = this.history.location.pathname} = state;
+
+                        return this.history.push(
+                            `/${match.groups.app}${
+                                firstValidApplication.defaultvalue ? "/" + firstValidApplication.defaultvalue : ""
+                            }`,
+                            isEmpty(backUrl) || backUrl === "/" ? {backUrl: undefined} : {backUrl: backUrl},
+                        );
+                    } else {
+                        const queryId = firstValidApplication[VAR_RECORD_QUERY_ID] || "MTRoute";
+
+                        if (!this.routesStore || this.routesStore.recordsStore.bc[VAR_RECORD_QUERY_ID] !== queryId) {
+                            this.routesStore = new RoutesModel(
+                                {
+                                    [VAR_RECORD_PAGE_OBJECT_ID]: "routes",
+                                    [VAR_RECORD_PARENT_ID]: firstValidApplication[VAR_RECORD_PAGE_OBJECT_ID],
+                                    [VAR_RECORD_QUERY_ID]: queryId,
+                                    type: "NONE",
+                                },
+                                this,
+                            );
+                        }
+
+                        await this.routesStore?.recordsStore.loadRecordsAction({});
+
+                        this.pagesStore.pages.clear();
+                        this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
+
+                        return;
+                    }
                 }
             }
         }
@@ -293,7 +325,12 @@ export class ApplicationModel implements IApplicationModel {
             await this.logoutAction();
         }
 
-        return this.history.push("/auth", {backUrl: this.history.location.pathname});
+        if (this.history.location.pathname.indexOf("auth") === -1) {
+            const state = (this.history.location.state || {}) as {backUrl?: string};
+            const {backUrl = this.history.location.pathname} = state;
+
+            this.history.push("/auth", {backUrl});
+        }
     };
 
     loadApplictionConfigs = (): Promise<void> =>
@@ -333,7 +370,7 @@ export class ApplicationModel implements IApplicationModel {
             await this.routesStore?.recordsStore.loadRecordsAction({});
             this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
         } else {
-            this.redirectToFirstValidApplication();
+            await this.redirectToFirstValidApplication();
 
             return false;
         }
@@ -483,8 +520,9 @@ export class ApplicationModel implements IApplicationModel {
     reloadApplication = async (appName: string, routerPageId?: string, filter?: string) => {
         await this.handleChangeUrl(appName);
         const routes = this.routesStore ? this.routesStore.recordsStore.records : [];
+        const routePageIdFind = routerPageId || this.bc.defaultvalue;
         const pageConfig = routes.find(
-            (route: IRecord) => route[VAR_RECORD_ID] === routerPageId || route[VAR_RECORD_URL] === routerPageId,
+            (route: IRecord) => route[VAR_RECORD_ID] === routePageIdFind || route[VAR_RECORD_URL] === routePageIdFind,
         );
         const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
@@ -513,7 +551,6 @@ export class ApplicationModel implements IApplicationModel {
 
     handleChangeUrl = async (url: string) => {
         this.isApplicationReady = false;
-        this.url = url;
 
         if (this.bc[VAR_RECORD_PAGE_OBJECT_ID] !== "none") {
             const queryId = this.bc[VAR_RECORD_QUERY_ID] || "MTRoute";
@@ -534,11 +571,13 @@ export class ApplicationModel implements IApplicationModel {
 
             this.pagesStore.pages.clear();
             this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
-            this.pagesStore.activePage = null;
             this.isApplicationReady = true;
         } else {
-            this.redirectToFirstValidApplication();
+            await this.redirectToFirstValidApplication(url);
         }
+        this.isApplicationReady = true;
+        this.url = url;
+        this.mode = url;
     };
 
     handleSetPage = async (pageId: string, filter?: string) => {

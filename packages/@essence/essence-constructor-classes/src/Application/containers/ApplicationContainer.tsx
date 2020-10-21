@@ -122,6 +122,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     }, [appName, applicationStore]);
 
     React.useEffect(() => {
+        if (appNameRef.current !== applicationStore.url) {
+            return;
+        }
         if (ckId) {
             const {routesStore, pagesStore} = applicationStore;
             const routes = routesStore ? routesStore.recordsStore.records : [];
@@ -133,6 +136,8 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             if (pageId && pagesStore.activePage.pageId !== pageId) {
                 pagesStore.setPageAction(String(pageId), false);
             }
+        } else if (applicationStore.bc.defaultvalue) {
+            applicationStore.pagesStore.setPageAction(applicationStore.bc.defaultvalue, false);
         }
     }, [ckId, applicationStore]);
 
@@ -178,6 +183,10 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 let routeUrl: FieldValue = "";
                 let url = "";
 
+                if (appNameRef.current !== applicationStore.url) {
+                    return;
+                }
+
                 if (route && route[VAR_RECORD_ID]) {
                     pageId = route[VAR_RECORD_ID];
                     routeUrl =
@@ -194,7 +203,11 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 }
 
                 if (url && history.location.pathname !== url) {
-                    history.push(url);
+                    if (routeUrl === applicationStore.bc.defaultvalue) {
+                        history.replace(url);
+                    } else {
+                        history.push(url);
+                    }
                 }
 
                 if (pageId && (!activePage || activePage.pageId !== pageId)) {

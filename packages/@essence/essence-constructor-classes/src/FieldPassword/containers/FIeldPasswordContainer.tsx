@@ -56,6 +56,7 @@ export const FieldPasswordContainer: React.FC<IClassProps> = (props) => {
                 field.value === textFieldProps["data-qtip"] && !showPassword ? "***" : textFieldProps["data-qtip"]
             }
             inputProps={{
+                value: showPassword ? field.value : undefined,
                 ...textFieldProps.inputProps,
                 type: showPassword ? "text" : "password",
             }}

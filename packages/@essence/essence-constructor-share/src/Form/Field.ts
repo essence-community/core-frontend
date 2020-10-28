@@ -183,6 +183,8 @@ export class Field implements IField {
             } else {
                 this.defaultValue = this.bc.defaultvalue;
             }
+        } else if (this.bc.defaultvaluelocalization) {
+            this.defaultValue = this.bc.defaultvaluelocalization;
         } else if (!this.bc.defaultvalue && this.isArray && !options.defaultValueFn) {
             this.defaultValue = [];
         } else if (!this.bc.defaultvalue && this.isObject && !options.defaultValueFn) {

@@ -75,6 +75,8 @@ export interface IBuilderBaseConfig {
     decimalseparator?: string;
     // Значение по умолчанию CheckBox: true/false DateField: sysdate - текущее время или дата в формате ISO 8601 2005-08-09T18:31:42 для выбора первой записи указать значение "##first##"  для выбора первой записи всегда - указать значение "##alwaysfirst##"
     defaultvalue?: string;
+    // Значение по умолчанию из словаря локализации
+    defaultvaluelocalization?: string;
     // Сервис для запроса значения по умолчанию
     defaultvaluequery?: string;
     // Признак блокировки объекта при инициализации true-блокирован

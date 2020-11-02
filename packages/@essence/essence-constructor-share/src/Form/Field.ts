@@ -4,7 +4,7 @@ import {FieldValue, IBuilderConfig, IPageModel} from "../types";
 import {parseMemoize, makeRedirect} from "../utils";
 import {parse} from "../utils/parser";
 import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
-import {deepFind, deepDelete} from "../utils/transform";
+import {deepFind, deepDelete, deepChange} from "../utils/transform";
 import {IField, IForm, IRegisterFieldOptions, TError} from "./types";
 import {validations} from "./validations";
 
@@ -286,7 +286,16 @@ export class Field implements IField {
 
     @action
     onChange = (value: FieldValue) => {
-        this.setValue(value);
+        let val = value;
+
+        if ((this.isObject || this.isArray) && typeof value === "string") {
+            try {
+                val = JSON.parse(value);
+            } catch (e) {
+                val = this.isArray ? [] : {};
+            }
+        }
+        this.setValue(val);
 
         if (!this.isValid) {
             this.validate();
@@ -294,6 +303,23 @@ export class Field implements IField {
 
         this.resetChilds();
         this.execChangeHooks();
+        if (this.isObject) {
+            const newValues = this.form.values;
+
+            deepChange(newValues, this.key, val);
+
+            for (const [, field] of this.form.fields) {
+                if (field.key.indexOf(this.key) === 0) {
+                    const [isExists, valField] = field.input(newValues, field, this.form);
+
+                    if (isExists) {
+                        field.setValue(valField);
+                    } else {
+                        field.clear();
+                    }
+                }
+            }
+        }
     };
 
     @action

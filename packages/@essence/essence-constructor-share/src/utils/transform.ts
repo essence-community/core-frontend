@@ -81,6 +81,26 @@ export const deepFind = (obj: IRecord, path: string): [boolean, IRecord | FieldV
     return [true, current];
 };
 
+export const deepChange = (obj: IRecord, path: string, value: IRecord | FieldValue): boolean => {
+    if (isEmpty(path) || isEmpty(obj)) {
+        return false;
+    }
+    const paths: any[] = path.split(".");
+    const last = paths.pop();
+    let current: any = obj;
+
+    for (const val of paths) {
+        current = current[val];
+        if (!Array.isArray(current) && typeof current !== "object") {
+            current[val] = /[0-9]/.test(val) ? [] : {};
+            current = current[val];
+        }
+    }
+    current[last] = value;
+
+    return true;
+};
+
 export const deepDelete = (obj: IRecord, path: string): IRecord => {
     const res = {...obj};
     const paths: any[] = path.split(".");

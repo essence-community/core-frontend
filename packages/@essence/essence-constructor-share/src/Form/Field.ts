@@ -286,7 +286,16 @@ export class Field implements IField {
 
     @action
     onChange = (value: FieldValue) => {
-        this.setValue(value);
+        let val = value;
+
+        if ((this.isObject || this.isArray) && typeof value === "string") {
+            try {
+                val = JSON.parse(value);
+            } catch (e) {
+                val = this.isArray ? [] : {};
+            }
+        }
+        this.setValue(val);
 
         if (!this.isValid) {
             this.validate();
@@ -297,14 +306,14 @@ export class Field implements IField {
         if (this.isObject) {
             const newValues = this.form.values;
 
-            deepChange(newValues, this.key, value);
+            deepChange(newValues, this.key, val);
 
             for (const [, field] of this.form.fields) {
                 if (field.key.indexOf(this.key) === 0) {
-                    const [isExists, value] = field.input(newValues, field, this.form);
+                    const [isExists, valField] = field.input(newValues, field, this.form);
 
                     if (isExists) {
-                        field.setValue(value);
+                        field.setValue(valField);
                     } else {
                         field.clear();
                     }

@@ -72,7 +72,13 @@ export const request = async <R = IRecord | IRecord[]>({
         session,
         ...(body ? body : {}),
     };
-    const url = `${gate}?${stringify(formData ? {...queryParams, ...data} : queryParams)}`;
+
+    if (formData) {
+        Object.entries(data).forEach(([key, val]) => {
+            formData.append(key, val || "");
+        });
+    }
+    const url = `${gate}?${stringify(queryParams)}`;
     let responseJSON: any = undefined;
 
     // fallback to xhr for upload progress
@@ -85,7 +91,7 @@ export const request = async <R = IRecord | IRecord[]>({
             method,
             onUploadProgress,
             timeout: timeout * MILLISECOND,
-            url: `${gate}?${stringify(formData ? {...queryParams, ...data} : queryParams)}`,
+            url,
         });
 
         responseJSON = response.data;

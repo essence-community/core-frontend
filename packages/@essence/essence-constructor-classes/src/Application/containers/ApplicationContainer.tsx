@@ -183,7 +183,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 let routeUrl: FieldValue = "";
                 let url = "";
 
-                if (appNameRef.current !== applicationStore.url) {
+                if (!applicationStore.isApplicationReady || appNameRef.current !== applicationStore.url) {
                     return;
                 }
 

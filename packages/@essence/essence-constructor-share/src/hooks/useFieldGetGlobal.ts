@@ -25,17 +25,19 @@ export function useFieldGetGlobal({field, pageStore, bc, store}: IUseFieldGetGlo
             () => {
                 let hasEmptyValue = false;
                 const getValue = (name: string) => {
-                    let value: FieldValue = "";
+                    const [isExists, val] = field.input(field.form.initialValues, field, field.form);
+                    let value: FieldValue = val || "";
 
-                    if (name.charAt(0) === "g") {
-                        value = globalValues.has(name) ? globalValues.get(name) : "";
-                    } else if (store) {
-                        value = store.selectedRecord ? store.selectedRecord[name] : "";
-                    } else {
-                        // eslint-disable-next-line prefer-destructuring
-                        value = field.form.select(name)?.value;
+                    if (!isExists || field.form.mode !== "2") {
+                        if (name.charAt(0) === "g") {
+                            value = globalValues.has(name) ? globalValues.get(name) : "";
+                        } else if (store) {
+                            value = store.selectedRecord ? store.selectedRecord[name] : "";
+                        } else {
+                            // eslint-disable-next-line prefer-destructuring
+                            value = field.form.select(name)?.value;
+                        }
                     }
-
                     if (isEmpty(value)) {
                         hasEmptyValue = true;
                     }

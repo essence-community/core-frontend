@@ -115,7 +115,7 @@ export class PageModel implements IPageModel {
             const actionEdit = this.route?.[VAR_RECORD_CN_ACTION_EDIT];
 
             if (typeof actionEdit !== "number") {
-                return false;
+                return true;
             }
 
             return (this.applicationStore.authStore.userInfo[VAR_RECORD_CA_ACTIONS] || []).indexOf(actionEdit) < 0;
@@ -373,6 +373,7 @@ export class PageModel implements IPageModel {
                     const tabStore = this.stores.get(parentBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
                     if (tabStore) {
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         // @ts-ignore
                         tabStore.setActiveTab(childBc[VAR_RECORD_PAGE_OBJECT_ID]);
                     }
@@ -395,6 +396,7 @@ export class PageModel implements IPageModel {
         }
 
         const [stepNameExp, stepNames] = stepNameQuery;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const isStepNameTurnFirst = parseMemoize(stepNameExp).runer(this.globalValues);
 

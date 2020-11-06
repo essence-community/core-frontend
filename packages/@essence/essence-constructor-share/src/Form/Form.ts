@@ -8,7 +8,7 @@ import {IField, IFormProps, IForm, IFormHooks, IRegisterFieldOptions} from "./ty
 const loggerForm = loggerRoot.extend("share.form");
 
 export class Form implements IForm {
-    public initialValues: IRecord = {};
+    @observable public initialValues: IRecord = {};
 
     public hooks: IFormHooks;
 

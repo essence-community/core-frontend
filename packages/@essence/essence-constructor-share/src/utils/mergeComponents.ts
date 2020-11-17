@@ -23,6 +23,11 @@ const DEFAULT_OVERRIDE_FIELD = [
     "updatequery",
     "columnsfilter",
     "filemode",
+    "tipmsg",
+    "info",
+    "iconfontname",
+    "iconfont",
+    "activerules",
 ];
 
 export interface IMergeOptions {

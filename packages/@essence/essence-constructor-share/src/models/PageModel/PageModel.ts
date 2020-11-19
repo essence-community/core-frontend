@@ -112,13 +112,17 @@ export class PageModel implements IPageModel {
 
     @computed public get isReadOnly(): boolean {
         if (typeof this.defaultIsReadOnly === "undefined") {
-            const actionEdit = this.route?.[VAR_RECORD_CN_ACTION_EDIT];
+            const actionEdit = this.route?.[VAR_RECORD_CN_ACTION_EDIT] as any;
 
-            if (typeof actionEdit !== "number") {
-                return false;
+            if (isEmpty(actionEdit)) {
+                return true;
             }
 
-            return (this.applicationStore.authStore.userInfo[VAR_RECORD_CA_ACTIONS] || []).indexOf(actionEdit) < 0;
+            return (
+                (this.applicationStore.authStore.userInfo[VAR_RECORD_CA_ACTIONS] || []).indexOf(
+                    parseInt(actionEdit, 10),
+                ) < 0
+            );
         }
 
         return this.defaultIsReadOnly;
@@ -373,6 +377,7 @@ export class PageModel implements IPageModel {
                     const tabStore = this.stores.get(parentBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
                     if (tabStore) {
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         // @ts-ignore
                         tabStore.setActiveTab(childBc[VAR_RECORD_PAGE_OBJECT_ID]);
                     }
@@ -395,6 +400,7 @@ export class PageModel implements IPageModel {
         }
 
         const [stepNameExp, stepNames] = stepNameQuery;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const isStepNameTurnFirst = parseMemoize(stepNameExp).runer(this.globalValues);
 

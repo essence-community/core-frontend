@@ -22,14 +22,14 @@ import {IAuthSession} from "./AuthModel.types";
 
 const logger = loggerRoot.extend("AuthModel");
 
-const DEAULT_USER_INFO: IAuthSession = {
+const DEFAULT_USER_INFO: IAuthSession = {
     [VAR_RECORD_CA_ACTIONS]: [],
     [VAR_RECORD_CV_LOGIN]: "",
     session: "",
 };
 
 export class AuthModel implements IAuthModel {
-    @observable userInfo = getFromLocalStore<IAuthSession>("auth") || DEAULT_USER_INFO;
+    @observable userInfo = getFromLocalStore<IAuthSession>("auth") || DEFAULT_USER_INFO;
 
     // eslint-disable-next-line no-useless-constructor
     constructor(public applicationStore: IApplicationModel) {}
@@ -91,14 +91,14 @@ export class AuthModel implements IAuthModel {
             .catch((error: Error) => {
                 snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
                 this.applicationStore.logoutAction();
-                this.userInfo = DEAULT_USER_INFO;
+                this.userInfo = DEFAULT_USER_INFO;
             });
 
     @action
     successLoginAction = async (
         response: IAuthSession,
         history: History,
-        isReloadAppications = false,
+        isReloadApplications = false,
     ): Promise<void> => {
         const {redirecturl = "/"} = this.applicationStore.bc;
         const state = (history.location.state || {}) as {backUrl?: string};
@@ -114,8 +114,7 @@ export class AuthModel implements IAuthModel {
         // TODO: сделать проверку на bc, что бы не сохранять пользователя при репортах
         saveToLocalStore("auth", response);
 
-        if (isReloadAppications) {
-            history.replace(backUrl.indexOf("/") === 0 ? backUrl : `/${backUrl}`, {backUrl: undefined});
+        if (isReloadApplications) {
             await this.applicationStore.loadApplictionConfigs();
         }
 
@@ -144,7 +143,7 @@ export class AuthModel implements IAuthModel {
             }
         }
 
-        this.userInfo = DEAULT_USER_INFO;
+        this.userInfo = DEFAULT_USER_INFO;
         this.applicationStore.setSesssionAction(cleanedValues);
 
         removeFromLocalStore("auth");

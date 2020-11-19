@@ -1,6 +1,6 @@
 {
   "name": "@essence-community/constructor-dll",
-  "version": "2.6.3",
+  "version": "2.6.4",
   "description": "Dll vendor",
   "main": "index.js",
   "repository": "https://github.com/essence-community/core-frontend",

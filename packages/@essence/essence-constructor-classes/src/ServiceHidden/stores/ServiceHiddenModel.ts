@@ -1,6 +1,12 @@
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
-import {IRecordsModel, IStoreBaseModelProps} from "@essence-community/constructor-share/types";
-import {computed} from "mobx";
+import {
+    IRecordsModel,
+    IStoreBaseModelProps,
+    IBuilderMode,
+    IBuilderConfig,
+    IHandlerOptions,
+} from "@essence-community/constructor-share/types";
+import {computed, action} from "mobx";
 
 export class ServiceHiddenModel extends StoreBaseModel {
     recordsStore: IRecordsModel;
@@ -21,4 +27,45 @@ export class ServiceHiddenModel extends StoreBaseModel {
     reloadStoreAction = () => this.recordsStore.loadRecordsAction({});
 
     clearStoreAction = () => this.recordsStore.clearChildsStoresAction();
+
+    @action
+    updateBtnAction = async (mode: IBuilderMode, bc: IBuilderConfig, options: IHandlerOptions = {}) => {
+        await this.recordsStore.saveAction(this.selectedRecord!, (bc.modeaction || mode) as IBuilderMode, {
+            ...options,
+            actionBc: bc,
+            query: bc.updatequery,
+        });
+
+        return Promise.resolve(true);
+    };
+
+    @action
+    defaultHandlerBtnAction = async (
+        mode: IBuilderMode,
+        bc: IBuilderConfig,
+        options: IHandlerOptions = {},
+    ): Promise<boolean> => {
+        switch (mode) {
+            case "7":
+                await this.recordsStore.downloadAction(this.selectedRecord!, (bc.modeaction || mode) as IBuilderMode, {
+                    ...options,
+                    actionBc: bc,
+                    query: bc.updatequery,
+                });
+                break;
+            default:
+                await this.recordsStore.saveAction(this.selectedRecord!, (bc.modeaction || mode) as IBuilderMode, {
+                    ...options,
+                    actionBc: bc,
+                    query: bc.updatequery,
+                });
+        }
+
+        return Promise.resolve(true);
+    };
+
+    handlers = {
+        defaultHandlerBtnAction: this.defaultHandlerBtnAction,
+        updateBtnAction: this.updateBtnAction,
+    };
 }

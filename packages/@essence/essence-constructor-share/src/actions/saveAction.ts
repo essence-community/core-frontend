@@ -108,6 +108,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
         formData,
         noReload,
     } = config;
+    let formDataValue = formData;
     const {extraplugingate, getglobaltostore, getmastervalue, timeout} = actionBc;
     const getMasterValue = getmastervalue || bc.getmastervalue;
     const masterId = bc[VAR_RECORD_MASTER_ID];
@@ -127,13 +128,16 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
     }
 
     if (formData || values instanceof FormData) {
-        filteredValues = values;
+        if (values instanceof FormData) {
+            formDataValue = values;
+        }
         progressModel = new ProgressModel({pageStore});
-    } else if (Array.isArray(values)) {
+    }
+    if (Array.isArray(values)) {
         filteredValues = values.map((item: IRecord) =>
             attachGlobalValues({getglobaltostore, globalValues: pageStore.globalValues, values: filter(item)}),
         );
-    } else {
+    } else if (!(values instanceof FormData)) {
         filteredValues = attachGlobalValues({
             getglobaltostore,
             globalValues: pageStore.globalValues,
@@ -147,7 +151,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
     return request({
         [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
         action,
-        formData,
+        formData: formDataValue,
         json: {
             data: filteredValues,
             master,

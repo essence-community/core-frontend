@@ -46,7 +46,10 @@ export class ProgressModel implements IProgressModel {
         const data: Partial<ISnackbar> = {};
 
         if (status === "errorUpload") {
-            data.text = "static:c80abfb5b59c400ca1f8f9e868e4c761";
+            snackbarStore.snackbarCloseAction(this.snackbar.id);
+            snackbarStore.deleteSnackbarAction(this.snackbar.id);
+
+            return;
         }
         if (status === "uploaded") {
             const {title = ""} = this.snackbar;

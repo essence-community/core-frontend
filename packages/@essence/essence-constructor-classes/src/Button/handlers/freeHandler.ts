@@ -19,7 +19,8 @@ interface IFreeHanderOptions {
 
 export function freeHandler(options: IFreeHanderOptions) {
     const {pageStore, bc, files, form, applicationStore} = options;
-    let recordsStore: IRecordsModel = new RecordsModel(bc, {applicationStore, pageStore});
+    const recordsStore: IRecordsModel = new RecordsModel(bc, {applicationStore, pageStore});
+    let recordsStoreParent: IRecordsModel = null;
 
     // Try to get records store from master or parent
     for (const ckPageObjectMain of [bc[VAR_RECORD_MASTER_ID], bc[VAR_RECORD_PARENT_ID]]) {
@@ -28,7 +29,7 @@ export function freeHandler(options: IFreeHanderOptions) {
 
             if (builderStore && builderStore.recordsStore) {
                 // eslint-disable-next-line prefer-destructuring
-                recordsStore = builderStore.recordsStore;
+                recordsStoreParent = builderStore.recordsStore;
                 break;
             }
         }
@@ -36,10 +37,14 @@ export function freeHandler(options: IFreeHanderOptions) {
 
     const mode = (bc.modeaction || bc.mode) as IBuilderMode;
 
-    return recordsStore[bc.mode === "7" ? "downloadAction" : "saveAction"]({}, mode, {
-        actionBc: bc,
-        files,
-        form,
-        query: bc.updatequery || "Modify",
-    });
+    return recordsStore[bc.mode === "7" ? "downloadAction" : "saveAction"](
+        recordsStoreParent.selectedRecord || {},
+        mode,
+        {
+            actionBc: bc,
+            files,
+            form,
+            query: bc.updatequery || "Modify",
+        },
+    );
 }

@@ -11,6 +11,7 @@ import {
     VAR_RECORD_CL_STATIC,
     VAR_RECORD_URL,
     VAR_RECORD_ID,
+    VAR_SETTING_URL_APP_NAME,
     loggerRoot,
 } from "@essence-community/constructor-share/constants";
 import {useObserver} from "mobx-react";
@@ -113,6 +114,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     // Change url for application
     React.useEffect(() => {
         appNameRef.current = appName;
+        applicationStore.updateGlobalValuesAction({
+            [VAR_SETTING_URL_APP_NAME]: `${appName}`,
+        });
 
         if (applicationStore.url !== appName) {
             applicationStore.reloadApplication(appName, ckId, filter);
@@ -194,16 +198,16 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                             ? route[VAR_RECORD_URL]
                             : route[VAR_RECORD_ID];
                 } else if (applicationStore.authStore.userInfo.session) {
-                    pageId = applicationStore.bc.defaultvalue;
-                    routeUrl = applicationStore.bc.defaultvalue;
+                    pageId = applicationStore.defaultValue;
+                    routeUrl = applicationStore.defaultValue;
                 }
 
                 if (routeUrl) {
-                    url = `/${appNameRef.current}/${routeUrl}`;
+                    url = `/${applicationStore.url}/${routeUrl}`;
                 }
 
                 if (url && history.location.pathname !== url) {
-                    if (routeUrl === applicationStore.bc.defaultvalue) {
+                    if (routeUrl === applicationStore.defaultValue) {
                         history.replace(url);
                     } else {
                         history.push(url);
@@ -262,21 +266,6 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 }),
         );
     }, [applicationStore]);
-
-    React.useEffect(
-        () =>
-            reaction(
-                () => applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID],
-                (pageObjectId) => {
-                    if (pageObjectId !== "none" && pageObjectId !== "mock") {
-                        applicationStore.recordsApplicationStore.searchAction({
-                            [VAR_RECORD_PAGE_OBJECT_ID]: pageObjectId,
-                        });
-                    }
-                },
-            ),
-        [applicationStore],
-    );
 
     return useObserver(() => (
         <ApplicationContext.Provider value={applicationStore}>

@@ -4,6 +4,7 @@ import {
     VAR_RECORD_ROUTE_NAME,
     VAR_RECORD_ICON_NAME,
     VAR_RECORD_LEAF,
+    VAR_RECORD_APP_URL,
 } from "@essence-community/constructor-share/constants/variables";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {Grid, Typography} from "@material-ui/core";
@@ -25,7 +26,11 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
     const iconName = route[VAR_RECORD_ICON_NAME];
     const handleClick = () => {
         if (leaf === "true") {
-            pagesStore.setPageAction(id, false);
+            if (route[VAR_RECORD_APP_URL] !== pagesStore.applicationStore.url) {
+                pagesStore.applicationStore.history.push(`/${route[VAR_RECORD_APP_URL]}/${id}`);
+            } else {
+                pagesStore.setPageAction(id, false);
+            }
         } else {
             treeModel.openCloseExpansionAction(id);
         }

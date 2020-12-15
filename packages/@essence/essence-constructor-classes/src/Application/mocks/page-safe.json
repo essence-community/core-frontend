@@ -201,7 +201,7 @@
     "ck_modify": "modify",
     "ck_object": "94E486331F324BBC9495ACEDD9002A1B",
     "cl_dataset": 1,
-    "activerules": "cv_url === \"safe\" && !(g_sys_anonymous_action in g_sess_ca_actions)",
+    "activerules": "!(g_sys_anonymous_action in g_sess_ca_actions)",
     "childwindow": [
         {
             "top": "45",
@@ -416,7 +416,9 @@
     ],
     "cl_is_master": 1,
     "defaultvalue": "home",
-    "ck_page_object": "CAFD27D8A5AE4EC782AD8E69EDAAAE87",
+    "ck_page_object": "mock",
+    "ck_id": "safe",
+    "ck_url": "safe",
     "cv_description": "Приложение - Safe",
     "cv_helper_color": "yellow"
 }

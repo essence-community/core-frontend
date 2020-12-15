@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import {VAR_RECORD_CK_VIEW} from "../constants/variables";
 import {IRecord, FieldValue} from "./Base";
 
 export interface IBuilderAttrGlobal {
@@ -77,6 +78,8 @@ export interface IBuilderBaseConfig {
     defaultvalue?: string;
     // Значение по умолчанию из словаря локализации
     defaultvaluelocalization?: string;
+    // Значение по умолчанию расчитываемое
+    defaultvaluerule?: string;
     // Сервис для запроса значения по умолчанию
     defaultvaluequery?: string;
     // Признак блокировки объекта при инициализации true-блокирован
@@ -282,6 +285,7 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     cv_name?: string;
     ck_object?: string;
     cn_order?: number;
+    [VAR_RECORD_CK_VIEW]?: string;
     // Определяет класс в качестве мастера
     cl_is_master?: boolean;
     contentwidth?: string;

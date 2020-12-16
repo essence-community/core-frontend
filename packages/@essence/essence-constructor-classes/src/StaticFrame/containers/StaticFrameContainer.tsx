@@ -10,7 +10,12 @@ export const StaticFrameContainer: React.FC<IClassProps> = () => {
     const {session, token = "", app, pageId, filter} = useParams();
 
     React.useEffect(() => {
-        history.replace(history.location.pathname, {backUrl: `/${app}/${pageId}${filter ? `/${filter}` : ""}`});
+        const backUrl = `/${app}/${pageId}${filter ? `/${filter}` : ""}`;
+
+        if (history.location.pathname === backUrl || history.location.pathname.indexOf(applicationStore.url) != 1) {
+            return;
+        }
+        history.replace(history.location.pathname, {backUrl});
         const loginByToken = async () => {
             await applicationStore?.authStore.loginAction(
                 {
@@ -21,14 +26,14 @@ export const StaticFrameContainer: React.FC<IClassProps> = () => {
 
             // If not logger change bach url to page instead of return to back frame page
             if (!applicationStore?.authStore.userInfo.session) {
-                history.replace(history.location.pathname, {backUrl: `/${app}/${pageId}${filter ? `/${filter}` : ""}`});
+                history.replace("/auth", {backUrl});
             }
         };
         const loginBySesstion = async () => {
             await applicationStore?.authStore.checkAuthAction(history, session);
             // If not session go to auth page
             if (!applicationStore?.authStore.userInfo.session) {
-                history.replace("/auth", {backUrl: `/${app}/${pageId}${filter ? `/${filter}` : ""}`});
+                history.replace("/auth", {backUrl});
             }
         };
 

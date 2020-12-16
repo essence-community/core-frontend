@@ -40,6 +40,7 @@ export interface IOptions {
     parentStore?: IStoreBaseModel;
     noLoadChilds?: boolean;
     pageStore: IPageModel | null;
+    searchValues?: IRecord;
     applicationStore?: IApplicationModel | null;
 }
 

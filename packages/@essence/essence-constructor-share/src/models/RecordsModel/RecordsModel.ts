@@ -161,7 +161,7 @@ export class RecordsModel implements IRecordsModel {
                         return acc;
                     }, {});
                 },
-                searchValues: {},
+                searchValues: options && options.searchValues ? options.searchValues : {},
                 selectedRecord: undefined,
                 get selectedRecordId() {
                     return this.selectedRecord ? this.selectedRecord[this.valueField] : undefined;

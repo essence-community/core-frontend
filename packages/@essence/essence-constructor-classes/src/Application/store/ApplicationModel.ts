@@ -320,10 +320,13 @@ export class ApplicationModel implements IApplicationModel {
                                 type: "NONE",
                             },
                             this,
+                            {
+                                searchValues: {appUrl: url || this.url},
+                            },
                         );
                     }
-                    this.routesStore?.recordsStore.setSearchValuesAction({appUrl: this.url});
-                    await this.routesStore?.recordsStore.searchAction({appUrl: this.url});
+                    this.routesStore?.recordsStore.setSearchValuesAction({appUrl: url || this.url});
+                    await this.routesStore?.recordsStore.searchAction({appUrl: url || this.url});
 
                     this.pagesStore.pages.clear();
                     this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
@@ -373,6 +376,9 @@ export class ApplicationModel implements IApplicationModel {
                     type: "NONE",
                 },
                 this,
+                {
+                    searchValues: {appUrl: this.url},
+                },
             );
             this.routesStore?.recordsStore.setSearchValuesAction({appUrl: this.url});
             await this.routesStore?.recordsStore.searchAction({appUrl: this.url});
@@ -573,6 +579,9 @@ export class ApplicationModel implements IApplicationModel {
                         type: "NONE",
                     },
                     this,
+                    {
+                        searchValues: {appUrl: this.url},
+                    },
                 );
             }
 

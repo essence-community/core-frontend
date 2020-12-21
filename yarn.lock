@@ -1390,7 +1390,7 @@
   integrity sha512-kBJtf7PH6aWwZ6fka3zQ0p6SBYzx4fl1LoZXE2RrnYST9Xljm7WfKJrU4g/Xr3Beg72MLrp1AWNUmuYJTL7Cow==
 
 "@essence-community/constructor-share@file:packages/@essence/essence-constructor-share/lib":
-  version "2.6.4"
+  version "2.6.5"
   dependencies:
     "@material-ui/core" "4.11.0"
     "@types/react-custom-scrollbars" "^4.0.6"
@@ -1427,7 +1427,7 @@
     uuid "^8.2.0"
 
 "@essence-community/eslint-config-react@file:./packages/@essence/essence-constructor-eslint":
-  version "2.6.4"
+  version "2.6.5"
   dependencies:
     "@typescript-eslint/eslint-plugin" "^3.6.0"
     "@typescript-eslint/parser" "^3.6.0"

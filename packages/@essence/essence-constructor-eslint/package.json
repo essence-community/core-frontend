@@ -1,6 +1,6 @@
 {
   "name": "@essence-community/eslint-config-react",
-  "version": "2.6.4",
+  "version": "2.6.5",
   "description": "Eslint config for frontend essence project",
   "main": "index.js",
   "repository": "https://github.com/essence-community/core-frontend",

@@ -77,6 +77,9 @@ export const StaticRedirectContainer: React.FC<IClassProps> = () => {
     }, [b64, history, isAuthorized, params]);
 
     React.useEffect(() => {
+        if (history.location.pathname.indexOf(applicationStore.url) != 1) {
+            return;
+        }
         if (!preference.redirectDebugWindow) {
             handleClick();
         }

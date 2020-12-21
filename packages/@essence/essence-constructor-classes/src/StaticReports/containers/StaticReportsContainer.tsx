@@ -44,6 +44,10 @@ export const StaticReportsContainer: React.FC<IClassProps> = (props) => {
     React.useEffect(() => {
         const authStore = applicationStore?.authStore;
 
+        if (history.location.pathname.indexOf(applicationStore.url) != 1) {
+            return;
+        }
+
         history.replace(history.location.pathname, {backUrl: "/reports"});
 
         const processLogin = async () => {

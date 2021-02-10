@@ -32,6 +32,7 @@ export class Form implements IForm {
     }
 
     @observable public fields: ObservableMap<string, IField> = observable.map();
+    @observable public fieldsInput: ObservableMap<string, IField> = observable.map();
 
     @observable public extraValue: IRecord = {};
 
@@ -60,6 +61,20 @@ export class Form implements IForm {
 
         return values;
     }
+    @computed get valuesFile(): FormData {
+        const formData = new FormData();
+
+        for (const [key, field] of this.fieldsInput.entries()) {
+            for (const file of field.output(field, this) as File[]) {
+                formData.append(key, file);
+            }
+        }
+
+        return formData;
+    }
+    @computed get isExistFile(): boolean {
+        return this.fieldsInput.size > 0;
+    }
 
     @computed get isValid(): boolean {
         for (const field of this.fields.values()) {
@@ -73,7 +88,8 @@ export class Form implements IForm {
 
     @action
     registerField = (key: string, options: IRegisterFieldOptions): IField => {
-        let field = this.fields.get(key);
+        const store = options.isFile ? this.fieldsInput : this.fields;
+        let field = store.get(key);
 
         if (!field) {
             field = new Field({
@@ -89,10 +105,16 @@ export class Form implements IForm {
                 pageStore: options.pageStore,
             });
 
-            this.fields.set(key, field);
-            this.fields = new ObservableMap(
-                entriesMapSort(this.fields, ([keyOld], [keyNew]) => keyOld.length - keyNew.length),
-            );
+            store.set(key, field);
+            if (options.isFile) {
+                this.fieldsInput = new ObservableMap(
+                    entriesMapSort(store, ([keyOld], [keyNew]) => keyOld.length - keyNew.length),
+                );
+            } else {
+                this.fields = new ObservableMap(
+                    entriesMapSort(store, ([keyOld], [keyNew]) => keyOld.length - keyNew.length),
+                );
+            }
         }
 
         field.registers += 1;

@@ -27,7 +27,11 @@ export const fileTypeValidate = (file: File, fileMime: string[] = []) => {
               ".ods",
           ];
 
-    return fileTypes.includes(file.type) || fileTypes.findIndex((type) => file.name.endsWith(type)) > -1;
+    return (
+        fileTypes.includes(file.type) ||
+        fileTypes.findIndex((type) => file.name.endsWith(type)) > -1 ||
+        fileTypes.includes("all")
+    );
 };
 
 /**

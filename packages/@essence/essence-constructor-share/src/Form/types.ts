@@ -7,10 +7,11 @@ export interface IRegisterFieldOptions {
     pageStore: IPageModel;
     isArray?: boolean;
     isObject?: boolean;
+    isFile?: boolean;
     clearValue?: FieldValue;
     defaultValueFn?: IField["defaultValueFn"];
-    output?: (field: IField, form: IForm, value?: IRecord | FieldValue) => IRecord | FieldValue;
-    input?: (initialValues: IRecord, field: IField, form: IForm) => [boolean, IRecord | FieldValue];
+    output?: IField["output"];
+    input?: IField["input"];
 }
 
 export interface IField {
@@ -31,6 +32,7 @@ export interface IField {
     error?: TError;
     isArray?: boolean;
     isObject?: boolean;
+    isFile?: boolean;
     input: (initialValues: IRecord, field: IField, form: IForm) => [boolean, IRecord | FieldValue];
     output: (field: IField, form: IForm, value?: IRecord | FieldValue) => IRecord | FieldValue;
     reset(): void;
@@ -57,10 +59,12 @@ export interface IField {
 
 export interface IForm {
     values: IRecord;
+    valuesFile: FormData;
     initialValues: IRecord;
     hooks: IFormHooks;
     mode: IBuilderMode;
     isValid: boolean;
+    isExistFile: boolean;
     placement: string;
     isDirty: boolean;
     submitting: boolean;

@@ -495,7 +495,10 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                     const {values} = filterForm;
 
                     if (isFilterValid) {
-                        this.recordsStore.searchAction(values, {noLoad: true});
+                        this.recordsStore.searchAction(values, {
+                            formData: filterForm.isExistFile ? filterForm.valuesFile : undefined,
+                            noLoad: true,
+                        });
 
                         filterStore.invokeHandler("onChangeValues", ["1", this.bc, {record: values}]);
                     }

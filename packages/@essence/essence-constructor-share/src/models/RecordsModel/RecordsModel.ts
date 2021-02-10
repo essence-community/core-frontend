@@ -37,6 +37,7 @@ import {loadRecordsAction} from "./loadRecordsAction";
 interface ILoadRecordsProps {
     selectedRecordId?: ICkId;
     status?: RecordsStateStatusType;
+    formData?: FormData;
     isUserReload?: boolean;
 }
 
@@ -81,6 +82,8 @@ export class RecordsModel implements IRecordsModel {
     isLoading: boolean;
 
     filter?: Record<string, FieldValue>[];
+
+    formData?: FormData;
 
     valueField: string;
 
@@ -375,7 +378,7 @@ export class RecordsModel implements IRecordsModel {
     searchAction = action(
         "searchAction",
         (values: Record<string, FieldValue>, options: IRecordsSearchOptions = {}): Promise<void | IRecord> => {
-            const {filter, reset, noLoad, selectedRecordId, status = "search", isUserReload} = options;
+            const {filter, reset, noLoad, selectedRecordId, status = "search", isUserReload, formData} = options;
 
             /*
              * TODO: реализовать сравнение
@@ -389,6 +392,10 @@ export class RecordsModel implements IRecordsModel {
                 this.filter = filter;
             }
 
+            if (reset || formData !== undefined) {
+                this.formData = formData;
+            }
+
             if (reset) {
                 this.clearRecordsAction();
             }
@@ -400,6 +407,11 @@ export class RecordsModel implements IRecordsModel {
     setSearchValuesAction = action("setSearchValuesAction", (values: Record<string, FieldValue>) => {
         this.searchValues = values;
     });
+
+    @action
+    setFormDataAction = (formData: FormData) => {
+        this.formData = formData;
+    };
 
     sortRecordsAction = action("sortRecordsAction", () => {
         const {direction} = this.order;

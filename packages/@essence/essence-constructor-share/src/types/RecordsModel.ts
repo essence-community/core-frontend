@@ -56,12 +56,14 @@ export interface ISaveActionOptions {
     query?: string;
     noReload?: boolean;
     files?: File[];
+    formData?: FormData;
     form?: IForm;
 }
 
 export interface IRecordsSearchOptions {
     filter?: Record<string, FieldValue>[];
     reset?: boolean;
+    formData?: FormData;
     noLoad?: boolean;
     selectedRecordId?: ICkId;
     status?: RecordsStateStatusType;
@@ -99,6 +101,7 @@ export interface IRecordsModel {
     applicationStore?: IApplicationModel | null;
     isLoading: boolean;
     filter?: IRecord[];
+    formData?: FormData;
     loadCounter: number;
     valueField: string;
     route: IRouteRecord;
@@ -132,6 +135,7 @@ export interface IRecordsModel {
     addRecordsAction: (records: IRecord[]) => void;
     removeRecordsAction: (records: IRecord[], key: string, reload?: boolean) => void;
     setLoadingAction: (isLoading: boolean) => void;
+    setFormDataAction: (formData: FormData) => void;
 }
 
 export type IRecordsModelConstructor = new (

@@ -11,6 +11,7 @@ interface IUseFieldProps {
     pageStore: IPageModel;
     isArray?: boolean;
     isObject?: boolean;
+    isFile?: boolean;
     defaultValueFn?: IField["defaultValueFn"];
     output?: IRegisterFieldOptions["output"];
     input?: IRegisterFieldOptions["input"];
@@ -27,6 +28,7 @@ export const useField = ({
     defaultValueFn,
     isArray,
     isObject,
+    isFile,
     disabled,
     hidden,
     clearValue,
@@ -49,6 +51,7 @@ export const useField = ({
             defaultValueFn,
             input: input || parentField?.input,
             isArray,
+            isFile,
             isObject,
             output: output || parentField?.output,
             pageStore,

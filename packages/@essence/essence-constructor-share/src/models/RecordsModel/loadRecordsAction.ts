@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable max-lines */
 import {v4} from "uuid";
 import {isEqual} from "lodash";
@@ -177,6 +178,7 @@ export function loadRecordsAction(
 ): Promise<IRecord | undefined> {
     const {noglobalmask, defaultvalue} = bc;
     const isWaiting = bc[VAR_RECORD_MASTER_ID] || bc.getglobaltostore;
+    const {formData} = this;
 
     this.isLoading = true;
 
@@ -204,7 +206,7 @@ export function loadRecordsAction(
 
             return request<IResponse[]>({
                 [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-                action: "sql",
+                formData,
                 json,
                 list: true,
                 plugin: bc.extraplugingate,

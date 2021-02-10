@@ -18,6 +18,7 @@ export interface IFieldOptions {
     defaultValueFn?: IField["defaultValueFn"];
     isArray?: boolean;
     isObject?: boolean;
+    isFile?: boolean;
     clearValue?: FieldValue;
 }
 
@@ -53,6 +54,8 @@ export class Field implements IField {
     public isArray: boolean;
 
     public isObject: boolean;
+
+    public isFile: boolean;
 
     public disabled: boolean;
 
@@ -170,6 +173,7 @@ export class Field implements IField {
         this.key = options.key;
         this.isArray = options.isArray ?? false;
         this.isObject = options.isObject ?? false;
+        this.isFile = options.isFile ?? false;
         this.clearValue = options.clearValue;
         this.input = this.getInput(options.input);
         this.output = this.getOutput(options.output);
@@ -195,7 +199,7 @@ export class Field implements IField {
 
         this.value = val;
 
-        if (this.value === undefined && this.isArray) {
+        if (this.value === undefined && (this.isArray || this.isFile)) {
             this.value = [];
         }
         if (this.value === undefined && this.isObject) {

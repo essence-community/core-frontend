@@ -108,7 +108,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
         formData,
         noReload,
     } = config;
-    let formDataValue = formData;
+    let formDataValue = formData || (form?.isExistFile ? form?.valuesFile : undefined);
     const {extraplugingate, getglobaltostore, getmastervalue, timeout} = actionBc;
     const getMasterValue = getmastervalue || bc.getmastervalue;
     const masterId = bc[VAR_RECORD_MASTER_ID];

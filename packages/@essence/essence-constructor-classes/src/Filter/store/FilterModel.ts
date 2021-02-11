@@ -141,14 +141,20 @@ export class FilterModel extends StoreBaseModel {
         }
 
         if (parentStore && parentStore.recordsStore) {
-            await parentStore.recordsStore.searchAction(this.values, options);
+            await parentStore.recordsStore.searchAction(this.values, {
+                ...options,
+                formData: options.formData || form.isExistFile ? form.valuesFile : undefined,
+            });
         }
         if (this.bc[VAR_RECORD_CL_IS_MASTER]) {
             const promises = [];
 
             this.pageStore.stores.forEach((store: IStoreBaseModel) => {
                 if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
-                    const promise = store.recordsStore?.searchAction(this.values, options);
+                    const promise = store.recordsStore?.searchAction(this.values, {
+                        ...options,
+                        formData: options.formData || form.isExistFile ? form.valuesFile : undefined,
+                    });
 
                     if (promise) {
                         promises.push(promise);
@@ -172,7 +178,10 @@ export class FilterModel extends StoreBaseModel {
                 if (isAutoload) {
                     form.submit();
                 } else {
-                    this.handleSubmit(form.values, {noLoad: true});
+                    this.handleSubmit(form.values, {
+                        formData: form.isExistFile ? form.valuesFile : undefined,
+                        noLoad: true,
+                    });
                 }
             } else if (!isAutoload) {
                 form.resetValidation();
@@ -219,7 +228,11 @@ export class FilterModel extends StoreBaseModel {
             this.resetValues();
 
             if (form && parentStore && parentStore.recordsStore) {
-                parentStore.recordsStore.searchAction(form.values, {noLoad: true, reset: true});
+                parentStore.recordsStore.searchAction(form.values, {
+                    formData: form.isExistFile ? form.valuesFile : undefined,
+                    noLoad: true,
+                    reset: true,
+                });
             }
 
             if (form && this.bc[VAR_RECORD_CL_IS_MASTER]) {
@@ -227,7 +240,11 @@ export class FilterModel extends StoreBaseModel {
 
                 this.pageStore.stores.forEach((store: IStoreBaseModel) => {
                     if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
-                        const promise = store.recordsStore?.searchAction(form.values, {noLoad: true, reset: true});
+                        const promise = store.recordsStore?.searchAction(form.values, {
+                            formData: form.isExistFile ? form.valuesFile : undefined,
+                            noLoad: true,
+                            reset: true,
+                        });
 
                         if (promise) {
                             promises.push(promise);

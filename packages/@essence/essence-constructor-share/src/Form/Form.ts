@@ -32,6 +32,7 @@ export class Form implements IForm {
     }
 
     @observable public fields: ObservableMap<string, IField> = observable.map();
+    @observable public fieldsFile: ObservableMap<string, IField> = observable.map();
 
     @observable public extraValue: IRecord = {};
 
@@ -60,6 +61,24 @@ export class Form implements IForm {
 
         return values;
     }
+    @computed get valuesFile(): FormData {
+        const formData = new FormData();
+
+        for (const [key, field] of this.fieldsFile.entries()) {
+            const val = field.output(field, this) as File[];
+
+            if (Array.isArray(val)) {
+                for (const file of val) {
+                    formData.append(key, file);
+                }
+            }
+        }
+
+        return formData;
+    }
+    @computed get isExistFile(): boolean {
+        return this.fieldsFile.size > 0;
+    }
 
     @computed get isValid(): boolean {
         for (const field of this.fields.values()) {
@@ -73,7 +92,8 @@ export class Form implements IForm {
 
     @action
     registerField = (key: string, options: IRegisterFieldOptions): IField => {
-        let field = this.fields.get(key);
+        const keyStore = options.isFile ? "fieldsFile" : "fields";
+        let field = this[keyStore].get(key);
 
         if (!field) {
             field = new Field({
@@ -89,9 +109,9 @@ export class Form implements IForm {
                 pageStore: options.pageStore,
             });
 
-            this.fields.set(key, field);
-            this.fields = new ObservableMap(
-                entriesMapSort(this.fields, ([keyOld], [keyNew]) => keyOld.length - keyNew.length),
+            this[keyStore].set(key, field);
+            this[keyStore] = new ObservableMap(
+                entriesMapSort(this[keyStore], ([keyOld], [keyNew]) => keyOld.length - keyNew.length),
             );
         }
 

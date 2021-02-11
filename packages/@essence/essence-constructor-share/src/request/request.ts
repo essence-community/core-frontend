@@ -57,7 +57,7 @@ export const request = async <R = IRecord | IRecord[]>({
     onUploadProgress,
 }: IRequest): Promise<R> => {
     const queryParams = {
-        action: formData ? "upload" : action,
+        action: query === "Modify" ? (formData ? "upload" : action) : undefined,
         plugin,
         query,
     };
@@ -86,7 +86,7 @@ export const request = async <R = IRecord | IRecord[]>({
         const response = await axios({
             data: formData ? formData : stringify(data),
             headers: {
-                "Content-type": "application/x-www-form-urlencoded",
+                "Content-type": formData ? undefined : "application/x-www-form-urlencoded",
             },
             method,
             onUploadProgress,
@@ -100,9 +100,13 @@ export const request = async <R = IRecord | IRecord[]>({
         const timeoutId = window.setTimeout(() => controller?.abort(), timeout * MILLISECOND);
         const response = await fetch(url, {
             body: formData ? formData : stringify(data),
-            headers: {
-                "Content-type": "application/x-www-form-urlencoded",
-            },
+            ...(formData
+                ? {}
+                : {
+                      headers: {
+                          "Content-type": "application/x-www-form-urlencoded",
+                      },
+                  }),
             method,
             signal: controller?.signal,
         });

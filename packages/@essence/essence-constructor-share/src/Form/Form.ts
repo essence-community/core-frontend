@@ -65,8 +65,12 @@ export class Form implements IForm {
         const formData = new FormData();
 
         for (const [key, field] of this.fieldsFile.entries()) {
-            for (const file of field.output(field, this) as File[]) {
-                formData.append(key, file);
+            const val = field.output(field, this) as File[];
+
+            if (Array.isArray(val)) {
+                for (const file of val) {
+                    formData.append(key, file);
+                }
             }
         }
 

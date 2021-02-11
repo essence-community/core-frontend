@@ -7,9 +7,9 @@ import {useField} from "@essence-community/constructor-share/Form";
 import {useTextFieldProps} from "@essence-community/constructor-share/hooks";
 import {useCallback} from "react";
 import {FileInputModel} from "../store/FileInputModel";
-import {useStyles} from "./FieldInputContainer.styles";
+import {useStyles} from "./FieldFileContainer.styles";
 
-export const FieldInputContainer: React.FC<IClassProps> = (props) => {
+export const FieldFileContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
     const classes = useStyles();
     const inputRef = React.useRef<HTMLInputElement>(null);

@@ -1,5 +1,5 @@
 import {setComponent} from "@essence-community/constructor-share/components";
 import {commonDecorator} from "@essence-community/constructor-share/decorators";
-import {FieldInputContainer} from "./containers/FieldInputContainer";
+import {FieldFileContainer} from "./containers/FieldFileContainer";
 
-setComponent("IFIELD.input", commonDecorator(FieldInputContainer));
+setComponent("IFIELD.file", commonDecorator(FieldFileContainer));

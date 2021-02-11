@@ -14,5 +14,5 @@ export const useStyles = makeStyles(
             width: theme.essence.sizing.gridRowHeight,
         },
     }),
-    {name: "EssenceFieldInputContainer"},
+    {name: "EssenceFieldFileContainer"},
 );

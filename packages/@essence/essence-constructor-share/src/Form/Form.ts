@@ -32,7 +32,7 @@ export class Form implements IForm {
     }
 
     @observable public fields: ObservableMap<string, IField> = observable.map();
-    @observable public fieldsInput: ObservableMap<string, IField> = observable.map();
+    @observable public fieldsFile: ObservableMap<string, IField> = observable.map();
 
     @observable public extraValue: IRecord = {};
 
@@ -64,7 +64,7 @@ export class Form implements IForm {
     @computed get valuesFile(): FormData {
         const formData = new FormData();
 
-        for (const [key, field] of this.fieldsInput.entries()) {
+        for (const [key, field] of this.fieldsFile.entries()) {
             for (const file of field.output(field, this) as File[]) {
                 formData.append(key, file);
             }
@@ -73,7 +73,7 @@ export class Form implements IForm {
         return formData;
     }
     @computed get isExistFile(): boolean {
-        return this.fieldsInput.size > 0;
+        return this.fieldsFile.size > 0;
     }
 
     @computed get isValid(): boolean {
@@ -88,8 +88,8 @@ export class Form implements IForm {
 
     @action
     registerField = (key: string, options: IRegisterFieldOptions): IField => {
-        const store = options.isFile ? this.fieldsInput : this.fields;
-        let field = store.get(key);
+        const keyStore = options.isFile ? "fieldsFile" : "fields";
+        let field = this[keyStore].get(key);
 
         if (!field) {
             field = new Field({
@@ -105,16 +105,10 @@ export class Form implements IForm {
                 pageStore: options.pageStore,
             });
 
-            store.set(key, field);
-            if (options.isFile) {
-                this.fieldsInput = new ObservableMap(
-                    entriesMapSort(store, ([keyOld], [keyNew]) => keyOld.length - keyNew.length),
-                );
-            } else {
-                this.fields = new ObservableMap(
-                    entriesMapSort(store, ([keyOld], [keyNew]) => keyOld.length - keyNew.length),
-                );
-            }
+            this[keyStore].set(key, field);
+            this[keyStore] = new ObservableMap(
+                entriesMapSort(this[keyStore], ([keyOld], [keyNew]) => keyOld.length - keyNew.length),
+            );
         }
 
         field.registers += 1;

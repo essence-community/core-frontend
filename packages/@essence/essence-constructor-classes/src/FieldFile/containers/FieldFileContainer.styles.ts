@@ -3,6 +3,9 @@ import {IEssenceTheme} from "@essence-community/constructor-share/types";
 
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
+        dragTrue: {
+            border: "1px solid green",
+        },
         eyeButton: {
             "&:focus": {
                 color: theme.essence.palette.icon.secondary,

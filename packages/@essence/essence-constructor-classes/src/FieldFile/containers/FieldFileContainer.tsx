@@ -59,6 +59,35 @@ export const FieldFileContainer: React.FC<IClassProps> = (props) => {
         },
         [inputRef, fileInputStore],
     );
+    const [drag, setDrag] = React.useState(false);
+    const handleDragEnter = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+        if (event.dataTransfer.files) {
+            setDrag(true);
+        }
+    }, []);
+
+    const handleDragLeave = useCallback(() => {
+        setDrag(false);
+    }, []);
+
+    const handleDropFile = useCallback(
+        (event: React.DragEvent<HTMLDivElement>) => {
+            const files = event.dataTransfer.files ? Array.from(event.dataTransfer.files) : [];
+            const {current} = inputRef;
+
+            if (files.length > 0) {
+                fileInputStore.fileChooseAwait(files as any);
+
+                if (current) {
+                    current.value = "";
+                }
+            }
+            setDrag(false);
+            event.stopPropagation();
+            event.preventDefault();
+        },
+        [inputRef, fileInputStore],
+    );
 
     const textFieldProps = useTextFieldProps({
         bc,
@@ -80,7 +109,13 @@ export const FieldFileContainer: React.FC<IClassProps> = (props) => {
     });
 
     return (
-        <>
+        <div
+            onDrop={handleDropFile}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onDragExit={handleDragLeave}
+            className={drag ? classes.dragTrue : null}
+        >
             <TextField
                 {...textFieldProps}
                 inputProps={{
@@ -98,6 +133,6 @@ export const FieldFileContainer: React.FC<IClassProps> = (props) => {
                 style={{display: "none"}}
                 multiple={bc.filemode === "multi"}
             />
-        </>
+        </div>
     );
 };

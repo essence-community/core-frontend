@@ -8,8 +8,18 @@ import {IApplicationModel} from "./Application";
 import {IRouteRecord} from "./RoutesModel";
 
 export interface IRecordsOrder {
-    direction?: string;
-    property?: string;
+    direction: string;
+    datatype?: string;
+    format?: string;
+    property: string;
+}
+
+export interface IRecordFilter extends Record<string, FieldValue> {
+    datatype?: string;
+    format?: string;
+    operator: string;
+    property: string;
+    value: FieldValue;
 }
 
 export type RecordsStateStatusType =
@@ -61,7 +71,7 @@ export interface ISaveActionOptions {
 }
 
 export interface IRecordsSearchOptions {
-    filter?: Record<string, FieldValue>[];
+    filter?: IRecordFilter[];
     reset?: boolean;
     formData?: FormData;
     noLoad?: boolean;
@@ -126,7 +136,7 @@ export interface IRecordsModel {
     setPrevRecord: () => void;
     setNextRecord: () => void;
     setLastRecord: () => void;
-    setOrderAction: (property: string) => void;
+    setOrderAction: (property: string, datatype?: string, format?: string) => void;
     setRecordToGlobal: () => void;
     searchAction: (values: IRecord, options?: IRecordsSearchOptions) => Promise<void | IRecord>;
     setSearchValuesAction: (values: IRecord) => void;

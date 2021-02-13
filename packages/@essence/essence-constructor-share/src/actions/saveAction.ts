@@ -27,6 +27,7 @@ import {getMasterObject} from "../utils/getMasterObject";
 import {TText} from "../types/SnackbarModel";
 import {IForm} from "../Form";
 import {request} from "../request";
+import {RETURN_FORM_DATA, RETURN_FORM_DATA_BREAK} from "../constants/variables";
 import {setMask} from "./recordsActions";
 
 export interface IConfig {
@@ -205,26 +206,40 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
                     if (progressModel) {
                         progressModel.changeStatusProgress(check === 1 || check === 2 ? "uploaded" : "errorUpload");
                     }
+                    let result = response;
 
+                    if (
+                        form &&
+                        typeof response === "object" &&
+                        (response[RETURN_FORM_DATA] || response[RETURN_FORM_DATA_BREAK])
+                    ) {
+                        form.update({
+                            ...form.values,
+                            ...(response[RETURN_FORM_DATA] || response[RETURN_FORM_DATA_BREAK]),
+                        });
+                        if (response[RETURN_FORM_DATA_BREAK]) {
+                            result = false;
+                        }
+                    }
                     if (check === 1 && noReload) {
-                        resolve(response);
+                        resolve(result);
                     } else if (check === 1) {
                         const loadRecordsAction = findReloadAction(this, bc);
                         const isAttach =
                             !bc.refreshallrecords &&
                             (mode === "1" || mode === "2" || mode === "4") &&
-                            !isEmpty(response[recordId]);
+                            !isEmpty(typeof response === "object" ? response[recordId] : undefined);
 
                         loadRecordsAction
                             ? loadRecordsAction({
-                                  selectedRecordId: response[recordId],
+                                  selectedRecordId: typeof response === "object" ? response[recordId] : undefined,
                                   status: isAttach ? "attach" : "save-any",
                               }).then(() => {
                                   pageStore.nextStepAction(mode, bc);
 
-                                  resolve(response);
+                                  resolve(result);
                               })
-                            : resolve(response);
+                            : resolve(result);
                     }
 
                     if (check === 0) {

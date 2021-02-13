@@ -1,10 +1,13 @@
+/* eslint-disable max-lines-per-function */
 import * as React from "react";
 import debounce from "lodash/debounce";
 import cn from "clsx";
+import {reaction} from "mobx";
 import {Form} from "../../Form/Form";
 import {FormContext} from "../../context";
 import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID} from "../../constants";
 import {IForm} from "../../Form";
+import {parseMemoize} from "../../utils/parser";
 import {IUIFormProps} from "./UIForm.types";
 import {useStyles} from "./UIForm.styles";
 
@@ -21,7 +24,7 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
         onSubmit,
         pageStore,
         placement = "panel",
-        editing = true,
+        editing = bc && typeof bc.editing === "boolean" ? bc.editing : true,
     } = props;
     const classes = useStyles();
     const rootFormRef = React.useRef<HTMLFormElement>(null);
@@ -100,6 +103,23 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [],
     );
+
+    const getValue = React.useCallback(
+        (name: string) => {
+            return form && name.charAt(0) !== "g" ? form.values[name] : pageStore.globalValues.get(name);
+        },
+        [pageStore, form],
+    );
+
+    React.useEffect(() => {
+        const editingrule = bc?.editingrule;
+
+        if (editingrule) {
+            return reaction(() => parseMemoize(editingrule).runer({get: getValue}) as boolean, form.setEditing, {
+                fireImmediately: true,
+            });
+        }
+    }, [getValue, bc, form]);
 
     React.useEffect(() => {
         form.update(initialValues, mode === "1" || mode === "6");

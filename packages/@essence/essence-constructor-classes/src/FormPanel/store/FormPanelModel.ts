@@ -23,10 +23,14 @@ export class FormPanelModel extends StoreBaseModel {
     @observable
     public mode: IBuilderMode;
 
+    public editable: boolean;
+
     constructor(props: IStoreBaseModelProps) {
         super(props);
 
-        this.editing = false;
+        this.editing = this.bc.editing || false;
+
+        this.editable = typeof this.bc.editable === "boolean" ? this.bc.editable : true;
 
         this.recordsStore = new RecordsModel(
             {defaultvalue: VALUE_SELF_FIRST, ...this.bc},
@@ -98,22 +102,29 @@ export class FormPanelModel extends StoreBaseModel {
     };
 
     @action
+    setEditing = (editing: boolean) => {
+        if (this.editable) {
+            this.editing = editing;
+        }
+    };
+
+    @action
     addAction = () => {
         this.mode = "1";
         this.recordsStore.setSelectionAction();
-        this.editing = true;
+        this.setEditing(true);
     };
 
     @action
     editAction = () => {
         this.mode = "2";
-        this.editing = true;
+        this.setEditing(true);
     };
 
     @action
     cloneAction = () => {
         this.mode = "6";
-        this.editing = true;
+        this.setEditing(true);
     };
 
     @action
@@ -136,7 +147,7 @@ export class FormPanelModel extends StoreBaseModel {
         );
 
         if (result) {
-            this.editing = false;
+            this.setEditing(false);
         }
 
         return Promise.resolve(!isEmpty(result));
@@ -145,7 +156,7 @@ export class FormPanelModel extends StoreBaseModel {
     @action
     closeAction = () => {
         this.recordsStore.setFirstRecord();
-        this.editing = false;
+        this.setEditing(false);
 
         return Promise.resolve(true);
     };

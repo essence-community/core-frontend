@@ -33,7 +33,7 @@ const parseResponse = ({responseJSON, list}: IRequestCheckError) => {
 
     const responseSingleData = Array.isArray(data) ? data[0] : undefined;
 
-    if (responseSingleData && typeof responseSingleData.result === "string") {
+    if (responseSingleData && typeof responseSingleData === "object" && typeof responseSingleData.result === "string") {
         return JSON.parse(responseSingleData.result);
     }
 

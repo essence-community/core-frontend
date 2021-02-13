@@ -92,6 +92,10 @@ export class Field implements IField {
             return this.bc.datatype === "checkbox" || this.bc.datatype === "boolean" ? "required-checkbox" : "required";
         }
 
+        if (this.isFile) {
+            return "required-file";
+        }
+
         return undefined;
     }
 

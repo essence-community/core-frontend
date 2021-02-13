@@ -87,6 +87,12 @@ export class Form implements IForm {
             }
         }
 
+        for (const field of this.fieldsFile.values()) {
+            if (field.isValid === false) {
+                return false;
+            }
+        }
+
         return true;
     }
 

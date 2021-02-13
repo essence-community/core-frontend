@@ -12,11 +12,10 @@ import {regex} from "./regex";
 import {afterNotRequired} from "./afterNotRequired";
 import {beforeNotRequired} from "./beforeNotRequired";
 import {reqcount} from "./reqcount";
+import {requiredFile} from "./requiredFile";
 
 export const validations: Record<string, TValidation> = {
-    // eslint-disable-next-line @typescript-eslint/camelcase
     after_not_required: afterNotRequired,
-    // eslint-disable-next-line @typescript-eslint/camelcase
     before_not_required: beforeNotRequired,
     "date-1": date1,
     "date-2": date2,
@@ -35,4 +34,5 @@ export const validations: Record<string, TValidation> = {
     reqcount,
     required,
     "required-checkbox": requiredCheckbox,
+    "required-file": requiredFile,
 };

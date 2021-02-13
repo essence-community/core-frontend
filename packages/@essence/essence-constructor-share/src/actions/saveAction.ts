@@ -213,7 +213,10 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
                         typeof response === "object" &&
                         (response[RETURN_FORM_DATA] || response[RETURN_FORM_DATA_BREAK])
                     ) {
-                        form.update(response[RETURN_FORM_DATA] || response[RETURN_FORM_DATA_BREAK]);
+                        form.update({
+                            ...form.values,
+                            ...(response[RETURN_FORM_DATA] || response[RETURN_FORM_DATA_BREAK]),
+                        });
                         if (response[RETURN_FORM_DATA_BREAK]) {
                             result = false;
                         }

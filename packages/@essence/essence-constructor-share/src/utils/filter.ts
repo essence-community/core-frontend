@@ -75,7 +75,7 @@ export function sortFilesData(jlSort: IRecordsOrder[]) {
 
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
-                return val + +(direction === "ASC" ? val1 > val2 : val2 > val1, "10");
+                return val + +(direction === "ASC" ? val1 > val2 : val2 > val1);
             }, 0);
     }
 

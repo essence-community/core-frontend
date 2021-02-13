@@ -32,6 +32,8 @@ import {
     VALUE_SELF_ROOT,
 } from "../../constants";
 import {download} from "../../actions/download";
+import {IRecordFilter} from "../../types/RecordsModel";
+import {filterFilesData, sortFilesData} from "../../utils/filter";
 import {loadRecordsAction} from "./loadRecordsAction";
 
 interface ILoadRecordsProps {
@@ -81,7 +83,7 @@ export class RecordsModel implements IRecordsModel {
 
     isLoading: boolean;
 
-    filter?: Record<string, FieldValue>[];
+    filter?: IRecordFilter[];
 
     formData?: FormData;
 
@@ -363,21 +365,21 @@ export class RecordsModel implements IRecordsModel {
         this.setSelectionAction(newRecord[this.recordId]);
     });
 
-    setOrderAction = action("setOrderAction", (property: string) => {
+    setOrderAction = action("setOrderAction", (property: string, datatype?: string, format?: string) => {
         let direction = "DESC";
 
         if (this.order.property === property && this.order.direction === "DESC") {
             direction = "ASC";
         }
 
-        this.order = {direction, property};
+        this.order = {datatype, direction, format, property};
 
         this.loadRecordsAction();
     });
 
     searchAction = action(
         "searchAction",
-        (values: Record<string, FieldValue>, options: IRecordsSearchOptions = {}): Promise<void | IRecord> => {
+        async (values: Record<string, FieldValue>, options: IRecordsSearchOptions = {}): Promise<void | IRecord> => {
             const {filter, reset, noLoad, selectedRecordId, status = "search", isUserReload, formData} = options;
 
             /*
@@ -399,10 +401,40 @@ export class RecordsModel implements IRecordsModel {
             if (reset) {
                 this.clearRecordsAction();
             }
+            let res = null;
 
-            return noLoad ? Promise.resolve(null) : this.loadRecordsAction({isUserReload, selectedRecordId, status});
+            if (!noLoad) {
+                res = await this.loadRecordsAction({isUserReload, selectedRecordId, status});
+            }
+
+            if (this.bc.querymode === "local") {
+                this.localFilter();
+            }
+
+            return res;
         },
     );
+
+    @action
+    localFilter = (): void => {
+        let records = [...this.recordsState.records];
+
+        if (!records || records.length <= 0) {
+            return;
+        }
+
+        if (this.filter) {
+            records = records.filter(filterFilesData(this.filter));
+        }
+        if (this.order) {
+            records.sort(sortFilesData([this.order]));
+        }
+
+        this.recordsState = {
+            ...this.recordsState,
+            records,
+        };
+    };
 
     setSearchValuesAction = action("setSearchValuesAction", (values: Record<string, FieldValue>) => {
         this.searchValues = values;
@@ -414,21 +446,9 @@ export class RecordsModel implements IRecordsModel {
     };
 
     sortRecordsAction = action("sortRecordsAction", () => {
-        const {direction} = this.order;
-        const {property = ""} = this.order;
         const records = [...this.recordsState.records];
 
-        records.sort((rec1, rec2) => {
-            if (direction === "DESC") {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                return Number(rec1[property] < rec2[property]) || -Number(rec1[property] > rec2[property]);
-            }
-
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            return Number(rec1[property] > rec2[property]) || -Number(rec1[property] < rec2[property]);
-        });
+        records.sort(sortFilesData([this.order]));
 
         this.recordsState = {
             isUserReload: false,

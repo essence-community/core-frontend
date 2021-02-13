@@ -28,10 +28,10 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
                 const isValid = await store.handlers.onApplyFilters("1", bc, {});
 
                 if (isValid) {
-                    store.recordsStore.setOrderAction(column);
+                    store.recordsStore.setOrderAction(column, bc.datatype, bc.format);
                 }
             } else {
-                store.recordsStore.setOrderAction(column);
+                store.recordsStore.setOrderAction(column, bc.datatype, bc.format);
             }
         }
     };

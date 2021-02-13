@@ -130,6 +130,10 @@ export const VAR_META_JL_FILTER = "jl_filter";
 export const VAR_META_JL_SORT = "jl_sort";
 export const VAR_CONNECT_GUEST = "connect_guest";
 
+// FORM
+export const RETURN_FORM_DATA = "jt_return_form_data";
+export const RETURN_FORM_DATA_BREAK = "jt_return_form_data_break";
+
 // SELF
 export const VALUE_SELF_FIRST = "##first##";
 export const VALUE_SELF_ALWAYSFIRST = "##alwaysfirst##";

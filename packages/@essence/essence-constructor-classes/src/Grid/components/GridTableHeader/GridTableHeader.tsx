@@ -1,5 +1,5 @@
 import * as React from "react";
-import {IRecord, IClassProps, FieldValue} from "@essence-community/constructor-share/types";
+import {IRecord, IClassProps, IRecordFilter} from "@essence-community/constructor-share/types";
 import {TableHead, TableRow} from "@material-ui/core";
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {getComponent} from "@essence-community/constructor-share/components";
@@ -19,7 +19,7 @@ export const GridTableHeader: React.FC<IGridTableHeaderProps> = (props) => {
     const classes = useStyles();
 
     const handleSubmit = async (data: IRecord) => {
-        const filter = Object.values(data).filter((value) => Boolean(value)) as Record<string, FieldValue>[];
+        const filter = Object.values(data).filter((value) => Boolean(value)) as IRecordFilter[];
         const isValid = await store.applyFiltersAction();
 
         await store.recordsStore.searchAction(store.recordsStore.searchValues, {filter, noLoad: !isValid});

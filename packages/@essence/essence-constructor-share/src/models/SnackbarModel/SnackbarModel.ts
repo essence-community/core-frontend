@@ -191,6 +191,7 @@ export class SnackbarModel implements ISnackbarModel {
     // eslint-disable-next-line max-statements
     checkValidResponseAction = action(
         "checkValidResponseAction",
+        // eslint-disable-next-line max-statements
         (
             // eslint-disable-next-line default-param-last
             response: IResponse = {},
@@ -198,6 +199,20 @@ export class SnackbarModel implements ISnackbarModel {
         ) =>
             // eslint-disable-next-line max-params
             {
+                if (typeof response !== "object") {
+                    if (typeof response === "boolean") {
+                        return response ? 0 : 1;
+                    }
+                    if (
+                        typeof response === "string" &&
+                        ((response as string).trim().toLowerCase() === "true" ||
+                            (response as string).trim().toLowerCase() === "false")
+                    ) {
+                        return (response as string).trim().toLowerCase() === "true" ? 0 : 1;
+                    }
+
+                    return 0;
+                }
                 const error = response[VAR_RECORD_RES_ERROR];
                 const formError = response[VAR_RECORD_RES_FORM_ERROR];
                 let isError = false;
@@ -405,6 +420,7 @@ export class SnackbarModel implements ISnackbarModel {
             const errCode = responseError[VAR_ERROR_CODE] as keyof typeof CODE_GROUP_MAP;
             const groupCode = CODE_GROUP_MAP[errCode] as keyof typeof GROUP_ACTION_MAP;
             const functionName = `${get(GROUP_ACTION_MAP[groupCode], "TEST", "error")}Action`;
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             const callback = this[functionName];
 

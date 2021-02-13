@@ -96,6 +96,12 @@ export interface IBuilderBaseConfig {
     dynamicicon?: boolean;
     // Признак возможности переноса
     draggable?: boolean;
+    // Разрешено ли менять режим редактирования
+    editable?: boolean;
+    // режим редактирования формы
+    editing?: boolean;
+    // изменение edit формы согласно правилам;
+    editingrule?: string;
     // Режим добавления/редактирования - all/insert/update/disabled
     editmode?: "all" | "insert" | "update" | "disabled" | "insert-editing" | "update-editing";
     // Режим редактирования дочерних элементов true = включен

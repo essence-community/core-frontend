@@ -38,7 +38,7 @@ export const FileInput: React.FC<IFileInputProps> = (props) => {
             type="file"
             onChange={handleChange}
             ref={inputRef}
-            accept={store.fileTypes.join(",")}
+            accept={store.fileTypes.indexOf(".all") > -1 ? null : store.fileTypes.join(",")}
             style={{display: "none"}}
             multiple={mode === "multi"}
         />

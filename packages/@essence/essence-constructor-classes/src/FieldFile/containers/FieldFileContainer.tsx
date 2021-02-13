@@ -129,7 +129,7 @@ export const FieldFileContainer: React.FC<IClassProps> = (props) => {
                 type="file"
                 onChange={handleChange}
                 ref={inputRef}
-                accept={fileInputStore.fileTypes.join(",")}
+                accept={fileInputStore.fileTypes.indexOf(".all") > -1 ? null : fileInputStore.fileTypes.join(",")}
                 style={{display: "none"}}
                 multiple={bc.filemode === "multi"}
             />

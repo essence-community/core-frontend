@@ -144,6 +144,9 @@ export class Form implements IForm {
         for (const field of this.fields.values()) {
             field.validate();
         }
+        for (const field of this.fieldsFile.values()) {
+            field.validate();
+        }
 
         return undefined;
     };
@@ -217,13 +220,18 @@ export class Form implements IForm {
         for (const field of this.fields.values()) {
             field.clear();
         }
-
+        for (const field of this.fieldsFile.values()) {
+            field.clear();
+        }
         this.setIsDirty(false);
     };
 
     @action
     reset = () => {
         for (const field of this.fields.values()) {
+            field.reset();
+        }
+        for (const field of this.fieldsFile.values()) {
             field.reset();
         }
 
@@ -233,6 +241,9 @@ export class Form implements IForm {
     @action
     resetValidation = () => {
         for (const field of this.fields.values()) {
+            field.resetValidation();
+        }
+        for (const field of this.fieldsFile.values()) {
             field.resetValidation();
         }
     };

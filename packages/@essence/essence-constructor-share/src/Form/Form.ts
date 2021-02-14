@@ -69,7 +69,7 @@ export class Form implements IForm {
 
             if (Array.isArray(val)) {
                 for (const file of val) {
-                    formData.append(key, file);
+                    formData.append(key, file, file.name);
                 }
             }
         }

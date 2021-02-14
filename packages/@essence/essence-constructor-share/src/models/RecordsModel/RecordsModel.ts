@@ -558,6 +558,9 @@ export class RecordsModel implements IRecordsModel {
         return download(values, mode, {
             actionBc: options.actionBc,
             bc: this.bc,
+            files: options.files,
+            form: options.form,
+            formData: options.formData,
             pageStore: this.pageStore,
             query: options.query || options.actionBc.updatequery,
             recordId: this.recordId,

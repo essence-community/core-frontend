@@ -146,6 +146,8 @@ export interface IBuilderBaseConfig {
     imask?: string;
     // Дополнительная информация для полей ввода
     info?: string;
+    // Значение при создании
+    initvalue?: string;
     // Установка значение из локализационного пакета. Возможные значения: meta, message, static
     localization?: "meta" | "message" | "static";
     // Максимальный размер файла в байтах

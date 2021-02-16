@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import {observable, computed, action} from "mobx";
 import {FieldValue, IBuilderConfig, IPageModel} from "../types";
-import {parseMemoize, makeRedirect} from "../utils";
+import {parseMemoize, makeRedirect, isEmpty} from "../utils";
 import {parse} from "../utils/parser";
 import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
 import {deepFind, deepDelete, deepChange} from "../utils/transform";
@@ -184,7 +184,10 @@ export class Field implements IField {
         this.defaultValueFn = options.defaultValueFn;
 
         if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
-            this.defaultValue = Number(this.bc.defaultvalue === "true" || this.bc.defaultvalue === "1");
+            this.defaultValue =
+                typeof this.bc.defaultvalue === "string"
+                    ? Number(this.bc.defaultvalue === "true" || this.bc.defaultvalue === "1")
+                    : this.bc.defaultvalue;
         } else if (this.bc.defaultvalue) {
             if (this.isArray && typeof this.bc.defaultvalue === "string") {
                 this.defaultValue = JSON.parse(this.bc.defaultvalue);
@@ -202,7 +205,18 @@ export class Field implements IField {
         const [, val] = this.input(this.form.initialValues, this, this.form);
 
         this.value = val;
-
+        if (this.value === undefined && !isEmpty(this.bc.initvalue)) {
+            if ((this.isArray || this.isObject) && typeof this.bc.initvalue === "string") {
+                this.value = JSON.parse(this.bc.initvalue);
+            } else if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
+                this.value =
+                    typeof this.bc.initvalue === "string"
+                        ? Number(this.bc.initvalue === "true" || this.bc.initvalue === "1")
+                        : this.bc.initvalue;
+            } else {
+                this.value = this.bc.initvalue;
+            }
+        }
         if (this.value === undefined && (this.isArray || this.isFile)) {
             this.value = [];
         }

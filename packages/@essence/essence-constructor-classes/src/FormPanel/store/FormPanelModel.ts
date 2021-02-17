@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {action, computed, observable} from "mobx";
 import {VALUE_SELF_FIRST} from "@essence-community/constructor-share/constants";
 import {
@@ -56,28 +57,40 @@ export class FormPanelModel extends StoreBaseModel {
                 break;
             case "3":
             case "4":
-                await this.recordsStore.saveAction(this.selectedRecord!, (bc.modeaction || mode) as IBuilderMode, {
-                    ...options,
-                    actionBc: bc,
-                    query: bc.updatequery,
-                });
+                await this.recordsStore.saveAction(
+                    options.form?.values || this.selectedRecord,
+                    (bc.modeaction || mode) as IBuilderMode,
+                    {
+                        ...options,
+                        actionBc: bc,
+                        query: bc.updatequery,
+                    },
+                );
                 break;
             case "6":
                 this.cloneAction();
                 break;
             case "7":
-                await this.recordsStore.downloadAction(this.selectedRecord!, (bc.modeaction || mode) as IBuilderMode, {
-                    ...options,
-                    actionBc: bc,
-                    query: bc.updatequery,
-                });
+                await this.recordsStore.downloadAction(
+                    options.form?.values || this.selectedRecord,
+                    (bc.modeaction || mode) as IBuilderMode,
+                    {
+                        ...options,
+                        actionBc: bc,
+                        query: bc.updatequery,
+                    },
+                );
                 break;
             case "8":
-                await this.recordsStore.saveAction(this.selectedRecord!, (bc.modeaction || mode) as IBuilderMode, {
-                    ...options,
-                    actionBc: bc,
-                    query: bc.updatequery,
-                });
+                await this.recordsStore.saveAction(
+                    options.form?.values || this.selectedRecord,
+                    (bc.modeaction || mode) as IBuilderMode,
+                    {
+                        ...options,
+                        actionBc: bc,
+                        query: bc.updatequery,
+                    },
+                );
                 break;
             default:
                 return Promise.resolve(false);

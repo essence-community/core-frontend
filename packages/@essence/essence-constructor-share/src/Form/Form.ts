@@ -109,6 +109,7 @@ export class Form implements IForm {
                 form: this,
                 input: options.input,
                 isArray: options.isArray,
+                isFile: options.isFile,
                 isObject: options.isObject,
                 key,
                 output: options.output,

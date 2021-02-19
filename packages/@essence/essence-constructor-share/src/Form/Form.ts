@@ -128,13 +128,13 @@ export class Form implements IForm {
 
     @action
     unregisterField = (key: string) => {
-        const field = this.fields.get(key);
+        const field = this.fields.get(key) || this.fieldsFile.get(key);
 
         if (field) {
             field.registers -= 1;
 
             if (field.registers <= 0) {
-                this.fields.delete(key);
+                this[field.isFile ? "fieldsFile" : "fields"].delete(key);
             }
         }
     };

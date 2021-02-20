@@ -120,6 +120,7 @@ export interface IRecordsModel {
     recordsTree: Record<string, IRecord[]>;
     loadRecordsAction: (props: ILoadRecordsProps) => Promise<undefined | IRecord>;
     clearRecordsAction: () => void;
+    localFilter: () => void;
     saveAction: (values: IRecord | IRecord[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<boolean>;
     removeSelectedRecordAction: (options: ISaveActionOptions) => Promise<boolean>;
     downloadAction: (values: IRecord | IRecord[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<boolean>;

@@ -407,10 +407,6 @@ export class RecordsModel implements IRecordsModel {
                 res = await this.loadRecordsAction({isUserReload, selectedRecordId, status});
             }
 
-            if (this.bc.querymode === "local") {
-                this.localFilter();
-            }
-
             return res;
         },
     );

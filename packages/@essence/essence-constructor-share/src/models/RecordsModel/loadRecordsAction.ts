@@ -293,6 +293,9 @@ export function loadRecordsAction(
             };
             this.recordsAll = this.recordsState.records;
 
+            if (this.bc.querymode === "local") {
+                this.localFilter();
+            }
             /*
              * We can call setSelectionAction in listen for recordsState.
              * check this handle by verify selectedRecord

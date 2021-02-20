@@ -10,18 +10,19 @@ import {
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react";
 import {FormContext} from "@essence-community/constructor-share/context";
+import {FilterModel} from "../../store/FilterModel";
 import {useStyles} from "./FilterButtons.styles";
 
 interface IFilterButtonsProps extends IClassProps {
     styleTheme: "dark" | "light";
     title?: string | JSX.Element;
-    isOpen: boolean;
+    store: FilterModel;
 }
 
 const GRID_FULL_WIDTH = 12;
 
 export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
-    const {isOpen, styleTheme, bc, title, ...classProps} = props;
+    const {store, styleTheme, bc, title, ...classProps} = props;
     const classes = useStyles();
     const form = React.useContext(FormContext);
 
@@ -77,15 +78,22 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
 
     return useObserver(() => {
         const btns: IBuilderConfig[] = [
-            isOpen ? btnsFilter.buttonChevronConfigOpen : btnsFilter.buttonChevronConfigClose,
+            store.isOpen ? btnsFilter.buttonChevronConfigOpen : btnsFilter.buttonChevronConfigClose,
             {
                 ...btnsFilter.buttonSearchConfig,
-                disabled: styleTheme === "dark" && isOpen === false ? true : undefined,
-                required: form && form.isDirty ? true : false,
+                disabled:
+                    (styleTheme === "dark" && store.isOpen === false) ||
+                    (form &&
+                        ((!form.isValid && form.validationCount === 0) ||
+                            (!store.isOpen && form.isExistRequired && form.validationCount === 0)))
+                        ? true
+                        : false,
+                handler: store.isOpen ? undefined : "onSearch",
+                required: form && form.isDirty && store.isOpen ? true : false,
             },
             {
                 ...btnsFilter.buttonResetConfig,
-                disabled: styleTheme === "dark" && isOpen === false ? true : undefined,
+                disabled: styleTheme === "dark" && store.isOpen === false ? true : false,
             },
         ];
         const childsBtns = bc.topbtn
@@ -101,7 +109,7 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
                 })}
             >
                 {styleTheme === "dark" ? (
-                    <Collapse in={isOpen} collapsedHeight="42px" className={classes.filterButtonsContainer}>
+                    <Collapse in={store.isOpen} collapsedHeight="42px" className={classes.filterButtonsContainer}>
                         <div className={classes.filterButtonsCollapse}>
                             {mapComponents(childsBtns, (ChildCmp, childBc) => (
                                 <ChildCmp key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} {...classProps} bc={childBc} />

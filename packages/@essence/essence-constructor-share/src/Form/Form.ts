@@ -47,6 +47,8 @@ export class Form implements IForm {
      */
     @observable public editing: boolean;
 
+    @observable public validationCount = 0;
+
     @computed get values(): IRecord {
         const values: IRecord = {
             ...this.initialValues,
@@ -78,6 +80,22 @@ export class Form implements IForm {
     }
     @computed get isExistFile(): boolean {
         return this.fieldsFile.size > 0;
+    }
+
+    @computed get isExistRequired(): boolean {
+        for (const field of this.fields.values()) {
+            if (field.isRequired) {
+                return true;
+            }
+        }
+
+        for (const field of this.fieldsFile.values()) {
+            if (field.isRequired) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @computed get isValid(): boolean {
@@ -147,6 +165,10 @@ export class Form implements IForm {
         }
         for (const field of this.fieldsFile.values()) {
             field.validate();
+        }
+
+        if (this.isValid) {
+            this.validationCount += 1;
         }
 
         return undefined;

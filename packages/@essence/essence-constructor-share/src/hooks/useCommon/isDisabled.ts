@@ -42,7 +42,7 @@ function isDisabledMaster(pageStore: IPageModel, bc: IBuilderConfig): boolean {
 }
 
 export function isDisabled({bc, getValue, pageStore}: IIsDisabledProps): boolean {
-    const {disabledrules, disabledemptymaster} = bc;
+    const {disabled = false, disabledrules, disabledemptymaster} = bc;
     const masterId = bc[VAR_RECORD_MASTER_ID];
 
     if (isDisabledMaster(pageStore, bc)) {
@@ -61,5 +61,5 @@ export function isDisabled({bc, getValue, pageStore}: IIsDisabledProps): boolean
         }
     }
 
-    return false;
+    return disabled;
 }

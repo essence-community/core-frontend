@@ -61,7 +61,7 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                     data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                 >
                     {bc.dynamicfilter || bc.hideactions ? null : (
-                        <FilterButtons styleTheme={styleTheme} title={title} isOpen={store.isOpen} {...props} />
+                        <FilterButtons styleTheme={styleTheme} title={title} store={store} {...props} />
                     )}
                     <Grid
                         item

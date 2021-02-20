@@ -71,6 +71,8 @@ export interface IForm {
     fields: ObservableMap<string, IField>;
     bc?: IBuilderConfig;
     editing: boolean;
+    isExistRequired: boolean;
+    validationCount: number;
     submit(): void;
     reset(): void;
     clear(): void;

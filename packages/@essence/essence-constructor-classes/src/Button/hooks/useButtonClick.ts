@@ -100,7 +100,7 @@ export function useButtonClick(
 
             return promise.then((res) => {
                 if (isMountedRef.current) {
-                    if (formCtx && !formCtx.isValid) {
+                    if (!bc.noform && formCtx && !formCtx.isValid) {
                         if (!formValidation.current) {
                             setIsDisabled(!formCtx.isValid);
                             formValidation.current = reaction(

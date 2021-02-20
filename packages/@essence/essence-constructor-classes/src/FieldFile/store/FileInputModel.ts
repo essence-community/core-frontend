@@ -81,7 +81,7 @@ export class FileInputModel extends StoreBaseModel {
         const isValid = files.every((file) => this.validateFile(file));
 
         if (isValid) {
-            this.field.setValue(files);
+            this.field.onChange(files);
         }
     };
 

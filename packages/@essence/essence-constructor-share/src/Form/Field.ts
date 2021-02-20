@@ -89,11 +89,11 @@ export class Field implements IField {
 
     @computed private get requiredRule(): string | undefined {
         if (this.isRequired) {
-            return this.bc.datatype === "checkbox" || this.bc.datatype === "boolean" ? "required-checkbox" : "required";
-        }
+            if (this.isFile) {
+                return "required-file";
+            }
 
-        if (this.isFile) {
-            return "required-file";
+            return this.bc.datatype === "checkbox" || this.bc.datatype === "boolean" ? "required-checkbox" : "required";
         }
 
         return undefined;

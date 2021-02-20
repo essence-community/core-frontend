@@ -172,6 +172,8 @@ export interface IBuilderBaseConfig {
     mode?: "1" | "2" | "3" | "4" | "6" | "7" | "8";
     // Значение action, передаваемое в json вместо стандартных I,U,D
     modeaction?: string;
+    // Не обращать внимание на form
+    noform?: boolean;
     // Признак отключения глобального лоадера при загрузке сервиса
     noglobalmask?: boolean;
     // Отображается только иконка кнопки (true/false)

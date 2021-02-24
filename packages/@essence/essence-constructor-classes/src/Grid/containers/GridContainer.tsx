@@ -12,26 +12,16 @@ export const GridContainer: React.FC<IClassProps> = (props) => {
     const {elevation = 0, bc, disabled, pageStore, readOnly, visible} = props;
     const gridBc = React.useMemo(() => {
         const {filters} = bc;
+        const resBc = {...bc};
 
-        if (!bc[VAR_RECORD_MASTER_ID] && filters && filters.length > 0 && !filters[0][VAR_RECORD_MASTER_ID]) {
-            return {
-                ...bc,
-                autoload: false,
-                filters: filters.map((filter) => ({
-                    ...filter,
-                    autoload: pageStore.isActiveRedirect ? false : bc.autoload,
-                })),
-            };
-        }
-
-        if (bc.order && bc.columns) {
-            const colBc = bc.columns.find((bcCol) => bcCol.column === bc.order[0].property);
+        if (resBc.order && resBc.columns) {
+            const colBc = resBc.columns.find((bcCol) => bcCol.column === resBc.order[0].property);
 
             if (colBc && colBc.order && colBc.order.length) {
-                bc.order = colBc.order;
+                resBc.order = colBc.order;
             }
-            bc.order.forEach((val) => {
-                const colChildBc = bc.columns.find((bcCol) => bcCol.column === val.property);
+            resBc.order.forEach((val) => {
+                const colChildBc = resBc.columns.find((bcCol) => bcCol.column === val.property);
 
                 if (colChildBc) {
                     val.datatype = colChildBc.datatype;
@@ -40,7 +30,18 @@ export const GridContainer: React.FC<IClassProps> = (props) => {
             });
         }
 
-        return bc;
+        if (!resBc[VAR_RECORD_MASTER_ID] && filters && filters.length > 0 && !filters[0][VAR_RECORD_MASTER_ID]) {
+            return {
+                ...resBc,
+                autoload: false,
+                filters: filters.map((filter) => ({
+                    ...filter,
+                    autoload: pageStore.isActiveRedirect ? false : resBc.autoload,
+                })),
+            };
+        }
+
+        return resBc;
     }, [bc, pageStore]);
     const [store] = useModel((options) => new GridModel(options), {...props, bc: gridBc});
 

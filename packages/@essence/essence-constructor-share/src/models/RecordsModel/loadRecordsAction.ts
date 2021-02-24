@@ -73,7 +73,7 @@ export function getFilterData({
 }: IGetFilterDataOptions): IGetFilterData {
     return {
         [VAR_META_JL_FILTER]: filter,
-        [VAR_META_JL_SORT]: [order],
+        [VAR_META_JL_SORT]: order,
         ...getNotEmptyData(searchValues),
         ...getPageFilter(pageSize, pageNumber),
     };

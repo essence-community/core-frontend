@@ -67,7 +67,7 @@ export class RecordsModel implements IRecordsModel {
 
     recordsCount: number;
 
-    order: IRecordsOrder;
+    order: IRecordsOrder[];
 
     jsonMaster: Record<string, FieldValue> | Record<string, FieldValue>[];
 
@@ -136,10 +136,7 @@ export class RecordsModel implements IRecordsModel {
                 },
                 isLoading: false,
                 loadCounter: 0,
-                order: {
-                    direction: bc.orderdirection || "ASC",
-                    property: bc.orderproperty,
-                },
+                order: bc.order,
                 pageNumber: 0,
                 get records() {
                     return (this as IRecordsModel).recordsState.records;
@@ -365,17 +362,12 @@ export class RecordsModel implements IRecordsModel {
         this.setSelectionAction(newRecord[this.recordId]);
     });
 
-    setOrderAction = action("setOrderAction", (property: string, datatype?: string, format?: string) => {
-        let direction = "DESC";
+    @action
+    setOrderAction = (order: IRecordsOrder[]): Promise<void> => {
+        this.order = order;
 
-        if (this.order.property === property && this.order.direction === "DESC") {
-            direction = "ASC";
-        }
-
-        this.order = {datatype, direction, format, property};
-
-        this.loadRecordsAction();
-    });
+        return this.loadRecordsAction();
+    };
 
     searchAction = action(
         "searchAction",
@@ -423,7 +415,7 @@ export class RecordsModel implements IRecordsModel {
             records = records.filter(filterFilesData(this.filter));
         }
         if (this.order) {
-            records.sort(sortFilesData([this.order]));
+            records.sort(sortFilesData(this.order));
         }
 
         this.recordsState = {
@@ -437,14 +429,14 @@ export class RecordsModel implements IRecordsModel {
     });
 
     @action
-    setFormDataAction = (formData: FormData) => {
+    setFormDataAction = (formData: FormData): void => {
         this.formData = formData;
     };
 
     sortRecordsAction = action("sortRecordsAction", () => {
         const records = [...this.recordsState.records];
 
-        records.sort(sortFilesData([this.order]));
+        records.sort(sortFilesData(this.order));
 
         this.recordsState = {
             isUserReload: false,
@@ -487,7 +479,7 @@ export class RecordsModel implements IRecordsModel {
         };
     });
 
-    setRecordToGlobal = () => {
+    setRecordToGlobal = (): void => {
         if (this.bc.setrecordtoglobal && this.pageStore) {
             this.pageStore.updateGlobalValues({
                 [this.bc.setrecordtoglobal]: this.selectedRecord || null,

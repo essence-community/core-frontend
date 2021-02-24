@@ -276,7 +276,7 @@ function makeBtnWindow(masterId: string, gridId: string): IBuilderConfig {
                 ],
                 datatype: "grid",
                 displayfield: "cv_name",
-                orderproperty: "1",
+                order: [{direction: "ASC", property: "1"}],
                 type: "IFIELD",
                 valuefield: [{in: "cv_name"}],
             },
@@ -335,7 +335,7 @@ function makeGrid(objectId: string): IBuilderConfig {
         edittype: "modalwindow",
         hideactions: true,
         idproperty: VAR_RECORD_PAGE_OBJECT_ID,
-        orderproperty: VAR_RECORD_DISPLAYED,
+        order: [{direction: "ASC", property: VAR_RECORD_DISPLAYED}],
         records: (makePreviewChilds(objectId) as unknown) as Record<string, FieldValue>[],
         splitter: true,
         topbtn: [

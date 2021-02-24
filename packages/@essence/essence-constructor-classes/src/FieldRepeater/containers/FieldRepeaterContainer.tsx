@@ -19,8 +19,6 @@ import {Group} from "../components/Group";
 import {FieldRepeaterModel} from "../Store/FieldRepeaterModel";
 import {RepeaterGroup} from "../components/RepeaterGroup";
 
-const CLEAR_VALUE: FieldValue[] = [];
-
 export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
     const defaultValueFn = React.useCallback(
@@ -38,7 +36,15 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
         [bc.defaultvalue, bc.minsize],
     );
 
-    const field = useField({bc, clearValue: CLEAR_VALUE, defaultValueFn, disabled, hidden, isArray: true, pageStore});
+    const field = useField({
+        bc,
+        clearValue: [...Array(parseInt(bc.minsize || "0", 10))].map(() => ({})),
+        defaultValueFn,
+        disabled,
+        hidden,
+        isArray: true,
+        pageStore,
+    });
     const applicationStore = React.useContext(ApplicationContext);
     const [trans] = useTranslation("meta");
     const [, , storeName] = useModel((options) => new FieldRepeaterModel(options), {

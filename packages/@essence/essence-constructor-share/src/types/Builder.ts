@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import {VAR_RECORD_CK_VIEW} from "../constants/variables";
 import {IRecord, FieldValue} from "./Base";
+import {IRecordsOrder} from "./RecordsModel";
 
 export interface IBuilderAttrGlobal {
     in?: string;
@@ -178,10 +179,8 @@ export interface IBuilderBaseConfig {
     noglobalmask?: boolean;
     // Отображается только иконка кнопки (true/false)
     onlyicon?: boolean;
-    // Направление сортировки: ASC / DESC
-    orderdirection?: "ASC" | "DESC";
-    // Наименование параметра, по которому осуществляется сортировка при инициализации
-    orderproperty?: string;
+    // Сортировка модели
+    order?: IRecordsOrder[];
     // Количество выводимых строк (включает пагинатор)
     pagesize?: number;
     // Высота выпадающей таблицы/списка. По умолчанию 390
@@ -238,8 +237,6 @@ export interface IBuilderBaseConfig {
     setrecordtoglobal?: string;
     // Пропуск проверки формы на ошибки
     skipvalidation?: boolean;
-    // Наименование парамента, по которому будет осуществлена сортировка вместо column
-    sortcolumn?: string;
     // Признак отображения сплиттера (true/false)
     splitter?: boolean;
     // Наименование шага

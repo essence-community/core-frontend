@@ -11,7 +11,7 @@ export interface IJson {
 export interface IGetFilterDataOptions {
     filter?: Record<string, FieldValue>[];
     formData?: FormData;
-    order: IRecordsOrder;
+    order: IRecordsOrder[];
     searchValues: Record<string, FieldValue>;
     pageSize?: number;
     pageNumber: number;

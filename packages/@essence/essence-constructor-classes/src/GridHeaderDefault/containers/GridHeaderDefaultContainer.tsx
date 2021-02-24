@@ -26,11 +26,11 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
         if (store && store.recordsStore && column) {
             const [{property}] = store.recordsStore.order;
             const isSortable = property === bc.order?.[0].property || property === bc.column;
-            let order = store.recordsStore.order;
+            let order = [...store.recordsStore.order];
 
             if (!isSortable) {
                 if (bc.order) {
-                    order = bc.order;
+                    order = [...bc.order];
                 } else {
                     order = [
                         {
@@ -58,22 +58,26 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
                 if (isValid) {
                     store.recordsStore.setOrderAction(
                         order.map((val) => {
-                            if (val.property === column) {
-                                val.direction = val.direction === "ASC" ? "DESC" : "ASC";
+                            const res = {...val};
+
+                            if (res.property === column) {
+                                res.direction = res.direction === "ASC" ? "DESC" : "ASC";
                             }
 
-                            return {...val};
+                            return res;
                         }),
                     );
                 }
             } else {
                 store.recordsStore.setOrderAction(
                     order.map((val) => {
-                        if (val.property === column) {
-                            val.direction = val.direction === "ASC" ? "DESC" : "ASC";
+                        const res = {...val};
+
+                        if (res.property === column) {
+                            res.direction = res.direction === "ASC" ? "DESC" : "ASC";
                         }
 
-                        return {...val};
+                        return res;
                     }),
                 );
             }

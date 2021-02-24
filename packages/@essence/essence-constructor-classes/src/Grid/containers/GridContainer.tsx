@@ -20,13 +20,18 @@ export const GridContainer: React.FC<IClassProps> = (props) => {
             if (colBc && colBc.order && colBc.order.length) {
                 resBc.order = colBc.order;
             }
-            resBc.order.forEach((val) => {
+            resBc.order = resBc.order.map((val) => {
                 const colChildBc = resBc.columns.find((bcCol) => bcCol.column === val.property);
 
                 if (colChildBc) {
-                    val.datatype = colChildBc.datatype;
-                    val.format = colChildBc.format;
+                    return {
+                        ...val,
+                        datatype: colChildBc.datatype,
+                        format: colChildBc.format,
+                    };
                 }
+
+                return val;
             });
         }
 

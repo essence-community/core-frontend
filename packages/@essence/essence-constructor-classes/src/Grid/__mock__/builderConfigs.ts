@@ -46,8 +46,7 @@ export const gridBc = {
     [VAR_RECORD_PAGE_OBJECT_ID]: "boolean",
     childwindow: [],
     columns: [],
-    orderdirection: "ASC",
-    orderproperty: "cv_value",
+    order: [{direction: "ASC", property: "cv_value"}],
     type: "GRID",
 };
 

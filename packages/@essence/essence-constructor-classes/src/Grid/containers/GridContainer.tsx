@@ -24,6 +24,22 @@ export const GridContainer: React.FC<IClassProps> = (props) => {
             };
         }
 
+        if (bc.order && bc.columns) {
+            const colBc = bc.columns.find((bcCol) => bcCol.column === bc.order[0].property);
+
+            if (colBc && colBc.order && colBc.order.length) {
+                bc.order = colBc.order;
+            }
+            bc.order.forEach((val) => {
+                const colChildBc = bc.columns.find((bcCol) => bcCol.column === val.property);
+
+                if (colChildBc) {
+                    val.datatype = colChildBc.datatype;
+                    val.format = colChildBc.format;
+                }
+            });
+        }
+
         return bc;
     }, [bc, pageStore]);
     const [store] = useModel((options) => new GridModel(options), {...props, bc: gridBc});

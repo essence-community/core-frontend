@@ -8,7 +8,7 @@ import {IApplicationModel} from "./Application";
 import {IRouteRecord} from "./RoutesModel";
 
 export interface IRecordsOrder {
-    direction: string;
+    direction: "ASC" | "DESC";
     datatype?: string;
     format?: string;
     property: string;
@@ -102,7 +102,7 @@ export interface IRecordsModel {
     selectedRecordIndex: -1 | number;
     pageNumber: number;
     recordsCount: number;
-    order: IRecordsOrder;
+    order: IRecordsOrder[];
     jsonMaster: IRecord | Record<string, FieldValue>[];
     pageSize?: number;
     bc: IBuilderConfig;
@@ -137,7 +137,7 @@ export interface IRecordsModel {
     setPrevRecord: () => void;
     setNextRecord: () => void;
     setLastRecord: () => void;
-    setOrderAction: (property: string, datatype?: string, format?: string) => void;
+    setOrderAction: (order: IRecordsOrder[]) => Promise<void>;
     setRecordToGlobal: () => void;
     searchAction: (values: IRecord, options?: IRecordsSearchOptions) => Promise<void | IRecord>;
     setSearchValuesAction: (values: IRecord) => void;

@@ -163,7 +163,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
                         zeroMinWidth
                         ref={setRefGridContent}
                     >
-                        {bc.orderproperty === undefined ? (
+                        {bc.order === undefined || bc.order.length === 0 ? (
                             <GridWarning />
                         ) : (
                             <GridTable {...classProps} store={store}>

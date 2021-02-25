@@ -33,6 +33,31 @@ export const GridContainer: React.FC<IClassProps> = (props) => {
 
                 return val;
             });
+
+            resBc.columns = resBc.columns.map((col) => {
+                if (col.order) {
+                    const order = col.order.map((val) => {
+                        const colChildBc = resBc.columns.find((bcCol) => bcCol.column === val.property);
+
+                        if (colChildBc) {
+                            return {
+                                ...val,
+                                datatype: colChildBc.datatype,
+                                format: colChildBc.format,
+                            };
+                        }
+
+                        return val;
+                    });
+
+                    return {
+                        ...col,
+                        order,
+                    };
+                }
+
+                return col;
+            });
         }
 
         if (!resBc[VAR_RECORD_MASTER_ID] && filters && filters.length > 0 && !filters[0][VAR_RECORD_MASTER_ID]) {

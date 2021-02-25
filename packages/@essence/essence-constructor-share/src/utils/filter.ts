@@ -23,14 +23,16 @@ const {BigNumber} = getBigNumberInstance({
 
 export function sortFilesData(jlSort: IRecordsOrder[]) {
     if (!isEmpty(jlSort)) {
+        const cloneArr = [...jlSort].reverse();
+
         return (obj1: IRecord, obj2: IRecord) =>
-            jlSort.reduce((val: number, item) => {
+            cloneArr.reduce((val: number, item, index: number) => {
                 if (isEmpty(item.property) || isEmpty(item.direction)) {
                     return val;
                 }
                 const {datatype, format = "3", property} = item;
                 const nmColumn = property || "";
-                const direction = item.direction?.toUpperCase();
+                const direction = item.direction?.toUpperCase() || "ASC";
                 const val1 = obj1[nmColumn];
                 const val2 = obj2[nmColumn];
 
@@ -44,24 +46,32 @@ export function sortFilesData(jlSort: IRecordsOrder[]) {
                     return val;
                 }
 
-                if (datatype === "date" || nmColumn.startsWith("cd_") || nmColumn.startsWith("ct_")) {
+                if (
+                    datatype === "date" ||
+                    nmColumn.startsWith("cd_") ||
+                    nmColumn.startsWith("ct_") ||
+                    nmColumn.startsWith("fd_") ||
+                    nmColumn.startsWith("ft_")
+                ) {
                     return (
                         val +
                         moment(direction === "ASC" ? (val1 as string) : (val2 as string)).diff(
                             moment(direction === "ASC" ? (val2 as string) : (val1 as string)),
                             formatStr[format] as any,
-                        )
+                        ) *
+                            (10 * index)
                     );
                 }
                 if (typeof val1 === "number" && typeof val2 === "number") {
-                    return val + (direction === "ASC" ? val1 - val2 : val2 - val1);
+                    return val + (direction === "ASC" ? val1 - val2 : val2 - val1) * (10 * index);
                 }
                 if (datatype === "integer" || datatype === "numeric") {
                     return (
                         val +
                         (direction === "ASC"
                             ? new BigNumber(val1 as any).minus(new BigNumber(val2 as any)).toNumber()
-                            : new BigNumber(val2 as any).minus(new BigNumber(val1 as any)).toNumber())
+                            : new BigNumber(val2 as any).minus(new BigNumber(val1 as any)).toNumber()) *
+                            (10 * index)
                     );
                 }
                 if (typeof val1 === "string" && typeof val2 === "string") {
@@ -69,13 +79,14 @@ export function sortFilesData(jlSort: IRecordsOrder[]) {
                         val +
                         ((direction === "ASC" ? val1 : val2) || "").localeCompare(
                             (direction === "ASC" ? val2 : val1) || "",
-                        )
+                        ) *
+                            (10 * index)
                     );
                 }
 
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
-                return val + +(direction === "ASC" ? val1 > val2 : val2 > val1);
+                return val + +(direction === "ASC" ? val1 > val2 : val2 > val1) * (10 * index);
             }, 0);
     }
 
@@ -112,7 +123,11 @@ export function filterFilesData(jlFilter: IRecordFilter[]) {
                         if (
                             typeof valueRecord === "string" &&
                             typeof value === "string" &&
-                            (datatype === "date" || nmColumn.startsWith("cd_") || nmColumn.startsWith("ct_"))
+                            (datatype === "date" ||
+                                nmColumn.startsWith("cd_") ||
+                                nmColumn.startsWith("ct_") ||
+                                nmColumn.startsWith("fd_") ||
+                                nmColumn.startsWith("ft_"))
                         ) {
                             return moment(valueRecord).isAfter(value, formatStr[format]);
                         }
@@ -123,7 +138,11 @@ export function filterFilesData(jlFilter: IRecordFilter[]) {
                         if (
                             typeof valueRecord === "string" &&
                             typeof value === "string" &&
-                            (datatype === "date" || nmColumn.startsWith("cd_") || nmColumn.startsWith("ct_"))
+                            (datatype === "date" ||
+                                nmColumn.startsWith("cd_") ||
+                                nmColumn.startsWith("ct_") ||
+                                nmColumn.startsWith("fd_") ||
+                                nmColumn.startsWith("ft_"))
                         ) {
                             return moment(valueRecord).isSameOrAfter(value, formatStr[format]);
                         }
@@ -134,7 +153,11 @@ export function filterFilesData(jlFilter: IRecordFilter[]) {
                         if (
                             typeof valueRecord === "string" &&
                             typeof value === "string" &&
-                            (datatype === "date" || nmColumn.startsWith("cd_") || nmColumn.startsWith("ct_"))
+                            (datatype === "date" ||
+                                nmColumn.startsWith("cd_") ||
+                                nmColumn.startsWith("ct_") ||
+                                nmColumn.startsWith("fd_") ||
+                                nmColumn.startsWith("ft_"))
                         ) {
                             return moment(valueRecord).isBefore(value, formatStr[format]);
                         }
@@ -145,7 +168,11 @@ export function filterFilesData(jlFilter: IRecordFilter[]) {
                         if (
                             typeof valueRecord === "string" &&
                             typeof value === "string" &&
-                            (datatype === "date" || nmColumn.startsWith("cd_") || nmColumn.startsWith("ct_"))
+                            (datatype === "date" ||
+                                nmColumn.startsWith("cd_") ||
+                                nmColumn.startsWith("ct_") ||
+                                nmColumn.startsWith("fd_") ||
+                                nmColumn.startsWith("ft_"))
                         ) {
                             return moment(valueRecord).isSameOrBefore(value, formatStr[format]);
                         }
@@ -156,7 +183,11 @@ export function filterFilesData(jlFilter: IRecordFilter[]) {
                         if (
                             typeof valueRecord === "string" &&
                             typeof value === "string" &&
-                            (datatype === "date" || nmColumn.startsWith("cd_") || nmColumn.startsWith("ct_"))
+                            (datatype === "date" ||
+                                nmColumn.startsWith("cd_") ||
+                                nmColumn.startsWith("ct_") ||
+                                nmColumn.startsWith("fd_") ||
+                                nmColumn.startsWith("ft_"))
                         ) {
                             return moment(valueRecord).isSame(value, formatStr[format]);
                         }

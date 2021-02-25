@@ -35,51 +35,33 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
                     order = [
                         {
                             datatype: bc.datatype,
-                            direction: "DESC",
+                            direction: "ASC",
                             format: bc.format,
                             property: column,
                         },
                     ];
                 }
+            } else {
+                order = order.map((val) => {
+                    if (val.property === column) {
+                        return {
+                            ...val,
+                            direction: val.direction === "ASC" ? "DESC" : "ASC",
+                        };
+                    }
+
+                    return val;
+                });
             }
-
-            order.forEach((val) => {
-                const colChildBc = store.bc.columns.find((bcCol) => bcCol.column === val.property);
-
-                if (colChildBc) {
-                    val.datatype = colChildBc.datatype;
-                    val.format = colChildBc.format;
-                }
-            });
 
             if (store.handlers.onApplyFilters) {
                 const isValid = await store.handlers.onApplyFilters("1", bc, {});
 
                 if (isValid) {
-                    store.recordsStore.setOrderAction(
-                        order.map((val) => {
-                            const res = {...val};
-
-                            if (res.property === column) {
-                                res.direction = res.direction === "ASC" ? "DESC" : "ASC";
-                            }
-
-                            return res;
-                        }),
-                    );
+                    store.recordsStore.setOrderAction(order);
                 }
             } else {
-                store.recordsStore.setOrderAction(
-                    order.map((val) => {
-                        const res = {...val};
-
-                        if (res.property === column) {
-                            res.direction = res.direction === "ASC" ? "DESC" : "ASC";
-                        }
-
-                        return res;
-                    }),
-                );
+                store.recordsStore.setOrderAction(order);
             }
         }
     };

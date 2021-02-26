@@ -44,7 +44,7 @@ try {
     getDataTransfer = () => new ClipboardEvent("").clipboardData;
 }
 
-const appendInputForm = ({form, name, type = "text", value, files}: IInputFormType) => {
+export const appendInputForm = ({form, name, type = "text", value, files}: IInputFormType) => {
     const input = document.createElement("input");
 
     input.setAttribute("type", type);

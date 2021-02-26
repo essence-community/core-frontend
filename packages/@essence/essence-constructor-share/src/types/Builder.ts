@@ -35,8 +35,8 @@ export interface IBuilderBaseConfig {
     btncollectorall?: boolean;
     // Отображение кнопки "Удалить" (true/false)
     btndelete?: boolean;
-    // Отображение кнопки "Экспорт в Excel" (true/false)
-    btnexcel?: boolean;
+    // Отображение кнопки "Экспорт в Excel" ("off" | "url" | "file")
+    btnexcel?: "off" | "url" | "file";
     // Признак доступности фильтрации по колонке  True - фильтрация включена  False - фильтрация выключена
     btnfilter?: boolean;
     // Отображение кнопки "Обновить" (true/false)

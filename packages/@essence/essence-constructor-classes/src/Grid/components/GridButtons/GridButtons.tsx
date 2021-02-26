@@ -60,7 +60,7 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
             });
         }
 
-        if (bc.btnexcel) {
+        if (bc.btnexcel && bc.btnexcel !== "off") {
             staticBtns.push({
                 bc: overrides["Override Excel Button"],
                 order: overrides["Override Excel Button"][VAR_RECORD_CN_ORDER],

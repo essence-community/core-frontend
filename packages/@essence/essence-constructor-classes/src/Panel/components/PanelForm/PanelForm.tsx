@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import * as React from "react";
 import {IClassProps, IEssenceTheme, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
@@ -156,6 +157,11 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
             </Grid>
         ) : (
             <Grid container direction="column" className={classNameRoot} wrap="nowrap">
+                {hideTitle ? null : (
+                    <Grid item xs>
+                        <EmptyTitle hideactions title={transCvDisplayed} filters={filters} />
+                    </Grid>
+                )}
                 {filterComponent}
                 {isHideActions ? null : actionsComponent}
                 {formComponent}

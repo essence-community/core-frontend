@@ -12,7 +12,7 @@ import {
 import {IRepeaterGroupProps} from "./RepeaterGroup.types";
 
 export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
-    const {bc, idx, isDisabledDel, storeName, deleteLabel, ...fieldProps} = props;
+    const {bc, idx, isDisabledDel, isHiddenDel, storeName, deleteLabel, ...fieldProps} = props;
     const {contentview = "hbox", align} = bc;
 
     const deleteBtnConfig: IBuilderConfig = React.useMemo<IBuilderConfig>(
@@ -55,6 +55,7 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
                         {...props}
                         bc={bcChild}
                         disabled={isDisabledDel}
+                        hidden={isHiddenDel}
                     />
                 ))}
             </Grid>

@@ -135,6 +135,7 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
                                 disabled={isDisabled}
                                 idx={idx}
                                 isDisabledDel={isDisabledDel}
+                                isHiddenDel={!field.form.editing}
                                 storeName={storeName}
                                 deleteLabel={trans("static:f7e324760ede4c88b4f11f0af26c9e97")}
                             />
@@ -144,7 +145,12 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
                 <Grid item xs={12} container justify="flex-end">
                     {mapComponents([addBtnConfig], (ChildCmp, bcChild) => (
                         <Grid item key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]}>
-                            <ChildCmp {...props} disabled={isDisabled} bc={bcChild} hidden={isHiddenAdd} />
+                            <ChildCmp
+                                {...props}
+                                disabled={isDisabled}
+                                bc={bcChild}
+                                hidden={!field.form.editing || isHiddenAdd}
+                            />
                         </Grid>
                     ))}
                 </Grid>

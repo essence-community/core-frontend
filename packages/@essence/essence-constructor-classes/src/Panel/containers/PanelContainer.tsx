@@ -49,7 +49,9 @@ export const PanelContainer: React.FC<IPanelContainerProps> = React.memo(functio
         if (editmodepanel) {
             return mapComponentOne(formBc, (Child, childBc) => (
                 <Child key={childBc.ck_page_object} {...props} bc={childBc}>
-                    <PanelForm {...props}>{render(true)}</PanelForm>
+                    <PanelForm {...props} hideTitle={isHiddenTitle}>
+                        {render(true)}
+                    </PanelForm>
                 </Child>
             ));
         }

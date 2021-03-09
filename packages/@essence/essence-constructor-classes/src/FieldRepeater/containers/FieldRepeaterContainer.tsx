@@ -21,6 +21,9 @@ import {RepeaterGroup} from "../components/RepeaterGroup";
 
 export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
+    const clearValue = React.useMemo(() => {
+        return [...Array(parseInt(bc.minsize || "0", 10))].map(() => ({}));
+    }, [bc.minsize]);
     const defaultValueFn = React.useCallback(
         (field, onChange) => {
             if (bc.defaultvalue && typeof bc.defaultvalue === "string") {
@@ -30,15 +33,15 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
             } else if (Array.isArray(bc.defaultvalue)) {
                 onChange(bc.defaultvalue);
             } else {
-                onChange([...Array(parseInt(bc.minsize || "0", 10))].map(() => ({})));
+                onChange(clearValue);
             }
         },
-        [bc.defaultvalue, bc.minsize],
+        [bc.defaultvalue, clearValue],
     );
 
     const field = useField({
         bc,
-        clearValue: [...Array(parseInt(bc.minsize || "0", 10))].map(() => ({})),
+        clearValue,
         defaultValueFn,
         disabled,
         hidden,

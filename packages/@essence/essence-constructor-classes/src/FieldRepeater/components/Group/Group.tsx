@@ -29,6 +29,7 @@ export const Group: React.FC<IGroupProps> = (props) => {
             direction={isRow ? "row" : "column"}
             wrap={isRow ? "nowrap" : "wrap"}
             data-qtip={error ? t("static:a5a5d7213d1f4f77861ed40549ee9c57") : ""}
+            style={toColumnStyleWidth(bc.width)}
         >
             <Grid container className={classes.label} wrap="nowrap" justify="space-between">
                 <Grid item className={classes.labelTextStartAngle}>

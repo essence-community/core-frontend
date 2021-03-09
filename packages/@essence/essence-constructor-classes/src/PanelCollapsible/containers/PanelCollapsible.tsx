@@ -21,8 +21,8 @@ export const PanelCollapsible: React.FC<IClassProps> = (props) => {
     const {[VAR_RECORD_DISPLAYED]: title} = bc;
     const boxBc = React.useMemo(() => ({...bc, type: "BOX.NOCOMMONDECORATOR"} as IBuilderConfig), [bc]);
     const handleChangeCollapse = React.useCallback(() => {
-        setOpen(!open);
-    }, [open]);
+        setOpen((lastOpen) => !lastOpen);
+    }, []);
 
     const handleKeyDown = React.useCallback(
         (event: React.KeyboardEvent<HTMLDivElement>) => {

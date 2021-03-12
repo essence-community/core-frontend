@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable max-lines */
 /* eslint-disable require-unicode-regexp, prefer-named-capture-group */
 /* eslint-disable no-sync, sort-keys, global-require */
@@ -10,7 +11,6 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const HtmlWebpackTagsPlugin = require("html-webpack-tags-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const HtmlWebpackIncludeAssetsPlugin = require("html-webpack-include-assets-plugin");
 
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
@@ -208,6 +208,10 @@ module.exports = {
         ],
     },
     optimization: {
+        splitChunks: {
+            chunks: "all",
+            minChunks: 2,
+        },
         minimize: isEnvProduction,
         minimizer: [
             // This is only used in production mode

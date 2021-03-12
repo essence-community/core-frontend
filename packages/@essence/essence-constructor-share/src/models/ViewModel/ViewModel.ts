@@ -3,6 +3,7 @@ import {VAR_RECORD_NAME, VAR_RECORD_CL_AVAILABLE, VAR_RECORD_CCT_CONFIG, VAR_REC
 import {request} from "../../request";
 import {snackbarStore} from "../SnackbarModel";
 import {loadFiles} from "../../utils/browser";
+import {IRecord} from "../../types/Base";
 
 interface IView {
     loadingPromise: null | Promise<any>;
@@ -32,7 +33,8 @@ export class ViewModel {
             list: true,
             query: "MTViewOnlyConfig",
         })
-            .then(([{[VAR_RECORD_CCT_CONFIG]: viewConfig}]) => {
+            .then((res) => {
+                const [{[VAR_RECORD_CCT_CONFIG]: viewConfig}] = res as IRecord[];
                 const files = (
                     (typeof viewConfig === "string" ? JSON.parse(viewConfig) : viewConfig || {}).files || []
                 ).map((fileName: string) => `${viewUrl}/${fileName}`);

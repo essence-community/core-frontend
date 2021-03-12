@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /**
  * Механизм проверки загрузки данных
  * Исходные данные:
@@ -39,7 +40,7 @@ export class CheckLoading {
 
     private masterId?: string;
 
-    private resolve: () => void;
+    private resolve: (value: boolean | PromiseLike<boolean>) => void;
 
     private reject: (error: Error) => void;
 
@@ -61,7 +62,7 @@ export class CheckLoading {
     public wait(): Promise<boolean> {
         const master = this.pageStore && this.masterId ? this.pageStore.stores.get(this.masterId) : undefined;
 
-        return new Promise((resolve, reject) => {
+        return new Promise<boolean>((resolve, reject) => {
             this.resolve = resolve;
             this.reject = reject;
 
@@ -121,7 +122,7 @@ export class CheckLoading {
 
         if (Object.keys(this.checkers).length === 0) {
             this.clear();
-            this.resolve();
+            this.resolve(true);
         }
     };
 

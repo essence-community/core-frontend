@@ -53,6 +53,7 @@ export class RecordsModel implements IRecordsModel {
 
     selectedRecordValues: IRecord;
 
+    @observable
     recordsState: IRecordsState<IRecord>;
 
     recordsAll: IRecord[];
@@ -75,6 +76,7 @@ export class RecordsModel implements IRecordsModel {
 
     bc: IBuilderConfig;
 
+    @observable
     searchValues: Record<string, FieldValue>;
 
     pageStore: IPageModel | null;
@@ -99,8 +101,9 @@ export class RecordsModel implements IRecordsModel {
 
     recordId: string;
 
+    @observable
     expansionRecords: ObservableMap<string, boolean>;
-
+    @observable
     selectedRecords: ObservableMap<string, IRecord>;
 
     recordsTree: Record<string, IRecord[]>;
@@ -120,12 +123,18 @@ export class RecordsModel implements IRecordsModel {
         }
         const {records = []} = bc;
 
-        extendObservable(this, {
-            expansionRecords: observable.map({
-                [VALUE_SELF_ROOT]: this.bc.type === "TREEGRID",
-            }),
-            selectedRecords: observable.map({}),
+        this.expansionRecords = observable.map({
+            [VALUE_SELF_ROOT]: this.bc.type === "TREEGRID",
         });
+        this.selectedRecords = observable.map({});
+
+        this.recordsState = {
+            isUserReload: false,
+            records,
+            status: "init",
+        };
+
+        this.searchValues = options && options.searchValues ? options.searchValues : {};
 
         extendObservable(
             this,
@@ -145,11 +154,6 @@ export class RecordsModel implements IRecordsModel {
                 get recordsCount() {
                     return (this.records[0] || {})[VAR_RECORD_JN_TOTAL_CNT] || 0;
                 },
-                recordsState: {
-                    isUserReload: false,
-                    records,
-                    status: "init",
-                },
                 get recordsTree() {
                     return this.records.reduce((acc: Record<string, IRecord[]>, record: IRecord) => {
                         const parentId = record[VAR_RECORD_PARENT_ID] as ICkId;
@@ -163,7 +167,6 @@ export class RecordsModel implements IRecordsModel {
                         return acc;
                     }, {});
                 },
-                searchValues: options && options.searchValues ? options.searchValues : {},
                 selectedRecord: undefined,
                 get selectedRecordId() {
                     return this.selectedRecord ? this.selectedRecord[this.valueField] : undefined;

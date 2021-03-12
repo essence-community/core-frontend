@@ -1,4 +1,4 @@
-import {action, extendObservable} from "mobx";
+import {action, observable} from "mobx";
 import {IPageModel, ISnackbar, IProgressModel} from "../../types";
 import {snackbarStore} from "../SnackbarModel";
 import {toTranslateText} from "../../utils";
@@ -12,15 +12,12 @@ const MAX_COUNT = 100;
 export class ProgressModel implements IProgressModel {
     public name: "ProgressModel";
 
-    public progressCount: number;
+    @observable
+    public progressCount = 0;
 
     private snackbar: ISnackbar;
 
     constructor({pageStore}: IProgressConfig) {
-        extendObservable(this, {
-            progressCount: 0,
-        });
-
         this.snackbar = snackbarStore.snackbarOpenAction(
             {
                 autoHidden: false,

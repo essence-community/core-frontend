@@ -9,6 +9,16 @@ const resolveApp = (...relativePath) => path.resolve(appDirectory, ...relativePa
 const packageJson = require(resolveApp("package.json"));
 const packageJsonScripts = require(path.join(__dirname, "..", "package.json"));
 
+const childFile = (files, parentPath) => {
+    fs.readdirSync(resolveApp("dist", parentPath)).forEach((fileName) => {
+        if (fs.statSync(resolveApp("dist", parentPath, fileName)).isDirectory()) {
+            childFile(files, path.join(parentPath, fileName));
+        } else {
+            files.push(path.join(parentPath, fileName));
+        }
+    });
+};
+
 // eslint-disable-next-line max-statements
 function patchFiles() {
     const zip = new AdmZip();
@@ -25,8 +35,13 @@ function patchFiles() {
     }
 
     fs.readdirSync(resolveApp("dist")).forEach((fileName) => {
-        files.push(fileName);
-        zip.addLocalFile(resolveApp("dist", fileName));
+        if (fs.statSync(resolveApp("dist", fileName)).isDirectory()) {
+            childFile(files, fileName);
+            zip.addLocalFolder(resolveApp("dist", fileName), fileName);
+        } else {
+            files.push(fileName);
+            zip.addLocalFile(resolveApp("dist", fileName));
+        }
     });
 
     if (fs.existsSync(resolveApp("src", "schema_manifest.json"))) {

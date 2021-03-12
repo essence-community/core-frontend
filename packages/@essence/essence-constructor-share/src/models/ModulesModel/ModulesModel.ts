@@ -8,6 +8,7 @@ import {
     VAR_RECORD_CV_VERSION,
     VAR_RECORD_CC_CONFIG,
     VAR_RECORD_CC_MANIFEST,
+    VAR_RECORD_CK_VIEW,
 } from "../../constants";
 import {request} from "../../request";
 import {setModule} from "../../components";
@@ -18,7 +19,7 @@ import {getPreference} from "../../utils";
 export class ModulesModel {
     isLoaded = false;
 
-    loadModules = async (moduleUrl: string) => {
+    loadModules = async (moduleUrl: string, view: string) => {
         const preference = getPreference();
 
         if (preference.modules) {
@@ -28,6 +29,7 @@ export class ModulesModel {
         return request({
             json: {
                 filter: {
+                    [VAR_RECORD_CK_VIEW]: view,
                     [VAR_RECORD_CL_AVAILABLE]: 1,
                     [VAR_RECORD_CV_VERSION_API]: settingsStore.settings[VAR_SETTING_BRANCH_NAME],
                 },

@@ -360,7 +360,10 @@ export class ApplicationModel implements IApplicationModel {
             this.recordsStore.recordsState.status === "init" && this.loadApplictionConfigs(),
             settingsStore.settings.module_available === "true" &&
                 !modulesStore.isLoaded &&
-                modulesStore.loadModules(settingsStore.settings[VAR_SETTING_MODULE_URL]),
+                modulesStore.loadModules(
+                    settingsStore.settings[VAR_SETTING_MODULE_URL],
+                    this.bc[VAR_RECORD_CK_VIEW] || "system",
+                ),
             snackbarStore.recordsStore.recordsState.status === "init" &&
                 snackbarStore.recordsStore.loadRecordsAction({}),
         ]);
@@ -408,7 +411,7 @@ export class ApplicationModel implements IApplicationModel {
     initWsClient = (session: string) => {
         let wsClient: WebSocket | null = null;
 
-        new Promise((resolve, reject) => {
+        new Promise<void>((resolve, reject) => {
             const wsUrl = settingsStore.settings[VAR_SETTING_WS_GATE_URL];
             const currentSession = this.authStore.userInfo.session;
             let url = wsUrl;

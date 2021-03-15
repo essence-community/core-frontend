@@ -326,7 +326,7 @@ module.exports = {
                 "@essence-community",
                 "constructor-dll",
                 "dist",
-                "manifest.json",
+                "manifest_essence.json",
             )),
             name: "essenceconstructorshare",
         }),

@@ -64,7 +64,7 @@ export interface IBuilderBaseConfig {
     // Вопрос на подтверждение операции
     confirmquestion?: string;
     // Вид наполнения: hbox: горизонтальное hbox-wrap: горизонтальное с переносом на следующую строку vbox: вертикальное
-    contentview?: "hbox" | "hbox-wrap" | "vbox";
+    contentview?: "hbox" | "hbox-wrap" | "vbox" | "vbox-wrap";
     // Ширина вложенных полей. Целое число от 1% до 100%. Обязательно добавлять %.
     contentwidth?: string;
     // Подпись для отображения Пример: к деньгам добавляем " руб."

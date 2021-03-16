@@ -132,9 +132,14 @@ export class RoadMapModel extends StoreBaseModel {
     @action
     setNextTab = async (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
         const form = this.pageStore.forms.get(this.tabValue)!;
-        const isSuccess = btnBc.updatequery
-            ? await this.checkFormAction(mode, btnBc, {...options, form})
-            : form && (btnBc.skipvalidation || form.isValid);
+        let isSuccess = true;
+
+        if (btnBc.updatequery) {
+            isSuccess = await this.checkFormAction(mode, btnBc, {...options, form});
+        } else if (form && !btnBc.skipvalidation) {
+            await form.validate();
+            isSuccess = form.isValid;
+        }
 
         if (isSuccess) {
             const tabs = this.tabs

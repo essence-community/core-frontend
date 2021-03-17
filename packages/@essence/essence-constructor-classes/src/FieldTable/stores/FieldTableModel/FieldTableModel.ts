@@ -161,6 +161,11 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     }
 
     @action
+    setField = (field: IField) => {
+        this.field = field;
+    };
+
+    @action
     setDefaultRecordAction = async (value?: FieldValue) => {
         if (this.bc.collectionvalues === "array") {
             if (

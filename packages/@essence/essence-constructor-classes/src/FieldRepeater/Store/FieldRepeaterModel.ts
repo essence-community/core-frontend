@@ -1,6 +1,7 @@
 import {IHandlers, HandlerType} from "@essence-community/constructor-share/types";
 import {StoreBaseModel} from "@essence-community/constructor-share/models";
 import {IField} from "@essence-community/constructor-share/Form";
+import {action} from "mobx";
 import {IFieldRepeaterModelProps} from "./FieldRepeaterModel.types";
 
 /**
@@ -25,6 +26,11 @@ export class FieldRepeaterModel extends StoreBaseModel {
         this.field.del(btnBc.defaultvalue);
 
         return Promise.resolve(true);
+    };
+
+    @action
+    setField = (field: IField) => {
+        this.field = field;
     };
 
     /**

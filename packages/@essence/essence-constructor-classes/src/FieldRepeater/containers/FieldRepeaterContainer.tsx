@@ -50,7 +50,7 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
     });
     const applicationStore = React.useContext(ApplicationContext);
     const [trans] = useTranslation("meta");
-    const [, , storeName] = useModel((options) => new FieldRepeaterModel(options), {
+    const [store, , storeName] = useModel((options) => new FieldRepeaterModel(options), {
         applicationStore,
         bc,
         disabled,
@@ -74,6 +74,10 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
         }),
         [addLabel, bc, storeName],
     );
+
+    React.useEffect(() => {
+        store.setField(field);
+    }, [store, field]);
 
     // CORE-1538 - minzise - guaranteed minimum fields for the repeater
     React.useEffect(() => {

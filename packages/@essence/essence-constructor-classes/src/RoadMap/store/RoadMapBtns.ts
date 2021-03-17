@@ -69,12 +69,18 @@ export const getCancelBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
 });
 
 export const getBtn = (bc: IBuilderConfig, topbtn: IBuilderConfig[]) => {
-    const {overrides} = mergeComponents(topbtn, {
-        "Override Back Button": getBackButtonConfig(bc),
-        "Override Cancel Button": getCancelBtnConfig(bc),
-        "Override Next Button": getNextButtonConfig(bc),
-        "Override Save Button": getSaveBtnConfig(bc),
-    });
+    const {overrides} = mergeComponents(
+        topbtn,
+        {
+            "Override Back Button": getBackButtonConfig(bc),
+            "Override Cancel Button": getCancelBtnConfig(bc),
+            "Override Next Button": getNextButtonConfig(bc),
+            "Override Save Button": getSaveBtnConfig(bc),
+        },
+        {
+            include: [VAR_RECORD_PAGE_OBJECT_ID],
+        },
+    );
     const btns = [
         overrides["Override Back Button"],
         overrides["Override Next Button"],

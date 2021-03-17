@@ -246,16 +246,22 @@ export class RoadMapModel extends StoreBaseModel {
         const isSuccess = await tabs
             .reduce(
                 (val, ckPageObject) =>
-                    val.then(async () => {
+                    val.then(async (res) => {
                         const tab = this.tabStatus.get(ckPageObject)!;
                         const formTab = this.pageStore.forms.get(ckPageObject);
                         const {btns} = tab;
                         const [bcBtn] = btns.filter((btn) => btn[VAR_RECORD_NAME] === "Override Next Button");
 
-                        const result = bcBtn.updatequery
-                            ? await this.checkFormAction((bcBtn.mode || "1") as IBuilderMode, bcBtn, {form: formTab})
-                            : formTab && (bcBtn.skipvalidation || formTab.isValid);
+                        let result = res;
 
+                        if (btnBc.updatequery) {
+                            result = await this.checkFormAction((bcBtn.mode || "1") as IBuilderMode, bcBtn, {
+                                form: formTab,
+                            });
+                        } else if (formTab && !btnBc.skipvalidation) {
+                            await formTab.validate();
+                            result = formTab.isValid;
+                        }
                         if (!result) {
                             this.changeTabAction(ckPageObject);
                             throw result;

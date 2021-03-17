@@ -78,7 +78,7 @@ export const getBtn = (bc: IBuilderConfig, topbtn: IBuilderConfig[]) => {
             "Override Save Button": getSaveBtnConfig(bc),
         },
         {
-            include: [VAR_RECORD_PAGE_OBJECT_ID],
+            include: [VAR_RECORD_MASTER_ID],
         },
     );
     const btns = [

@@ -28,6 +28,10 @@ export const FieldFileContainer: React.FC<IClassProps> = (props) => {
         [inputRef],
     );
 
+    React.useEffect(() => {
+        fileInputStore.setField(field);
+    }, [fileInputStore, field]);
+
     const handleFilter = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             const {target} = event;

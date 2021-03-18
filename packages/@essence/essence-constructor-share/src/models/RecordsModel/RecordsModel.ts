@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 /* eslint-disable max-lines */
 import {action, extendObservable, ObservableMap, observable} from "mobx";
 import pLimit from "p-limit";
@@ -30,6 +31,8 @@ import {
     VAR_RECORD_JN_TOTAL_CNT,
     VAR_RECORD_PARENT_ID,
     VALUE_SELF_ROOT,
+    VALUE_SELF_ALWAYSFIRST,
+    VALUE_SELF_FIRST,
 } from "../../constants";
 import {download} from "../../actions/download";
 import {IRecordFilter} from "../../types/RecordsModel";
@@ -179,6 +182,18 @@ export class RecordsModel implements IRecordsModel {
             undefined,
             {deep: false},
         );
+
+        if (records.length) {
+            if (this.bc.defaultvalue === VALUE_SELF_ALWAYSFIRST || this.bc.defaultvalue === VALUE_SELF_FIRST) {
+                this.selectedRecordIndex = 0;
+                this.selectedRecord = records[0];
+            }
+            records.forEach((rec) => {
+                if (rec.expanded === "true" || rec.expanded === true) {
+                    this.expansionRecords.set(String(rec[this.valueField]), true);
+                }
+            });
+        }
     }
 
     loadRecordsAction = action(

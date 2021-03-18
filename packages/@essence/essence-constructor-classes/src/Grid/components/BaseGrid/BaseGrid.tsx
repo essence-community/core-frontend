@@ -147,7 +147,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
             <ThemeProvider theme={themeFilterNew}>
                 <Grid item xs={!isDarkTheme}>
                     {mapComponents(bc.filters, (ChildCmp, childBc) => (
-                        <ChildCmp key={bc[VAR_RECORD_PAGE_OBJECT_ID]} {...classProps} bc={childBc} />
+                        <ChildCmp key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} {...classProps} bc={childBc} />
                     ))}
                 </Grid>
             </ThemeProvider>

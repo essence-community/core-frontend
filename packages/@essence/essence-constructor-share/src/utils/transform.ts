@@ -77,8 +77,8 @@ export const deepFind = (obj: IRecord, path: string | string[]): [boolean, IReco
 
         if (val === "*" && (current[val] === undefined || current[val] === null)) {
             const arr = (Array.isArray(current)
-                ? current.map((obj) => deepFind(paths.slice(idx + 1), obj)[1])
-                : Object.entries(current).map(([, obj]) => deepFind(paths.slice(idx + 1), obj)[1])
+                ? current.map((obj) => deepFind(obj, paths.slice(idx + 1))[1])
+                : Object.entries(current).map(([, obj]) => deepFind(obj as any, paths.slice(idx + 1))[1])
             ).filter((val) => val !== undefined && val !== null);
 
             return [arr.length > 0, arr];

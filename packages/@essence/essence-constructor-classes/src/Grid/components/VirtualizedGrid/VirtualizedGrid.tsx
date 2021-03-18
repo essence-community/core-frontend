@@ -17,6 +17,7 @@ export const VirtualizedGrid: React.FC<IVirtualizedGridProps> = (props) => {
 
     React.useEffect(() => {
         if (store.bc.type === "TREEGRID") {
+            setRecords(getTreeRecords(store));
             const disposers = [
                 reaction(
                     () => store.recordsStore.recordsTree,

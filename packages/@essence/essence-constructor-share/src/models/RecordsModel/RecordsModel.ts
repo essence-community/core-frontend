@@ -187,6 +187,10 @@ export class RecordsModel implements IRecordsModel {
             if (!this.bc[VAR_RECORD_QUERY_ID]) {
                 logger(i18next.t("static:0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
 
+                if (this.bc.querymode === "local") {
+                    this.localFilter();
+                }
+
                 return Promise.resolve();
             }
 

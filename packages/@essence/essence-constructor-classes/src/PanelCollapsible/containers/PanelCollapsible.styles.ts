@@ -126,16 +126,18 @@ export const useStyles = makeStyles(
             theme.palette.type === "light"
                 ? {
                       backgroundColor: theme.palette.common.white,
-                      fontSize: 20,
+                      fontSize: 16,
                       overflow: "hidden",
+                      paddingTop: 6,
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
                       zIndex: 1,
                   }
                 : {
                       color: theme.palette.common.white,
-                      fontSize: 20,
+                      fontSize: 16,
                       overflow: "hidden",
+                      paddingTop: 3,
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
                   },

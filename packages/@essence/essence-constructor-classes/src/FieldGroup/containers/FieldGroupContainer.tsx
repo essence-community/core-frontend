@@ -124,7 +124,7 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
                         &nbsp;
                     </Grid>
                     {displayed ? (
-                        <Grid item className={`${classes.labelDisplay}`}>
+                        <Grid item className={`${classes.labelDisplay}`} data-qtip={trans(displayed)}>
                             {trans(displayed)}
                         </Grid>
                     ) : null}

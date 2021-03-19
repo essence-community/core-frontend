@@ -4,6 +4,7 @@ import {
     VALUE_SELF_ALWAYSFIRST,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_NAME,
+    VAR_RECORD_DISPLAYED,
 } from "@essence-community/constructor-share/constants";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {
@@ -32,7 +33,10 @@ export class RoadMapModel extends StoreBaseModel {
     constructor(props: IStoreBaseModelProps) {
         super(props);
 
-        const childs = (this.bc.childs || []).map((tab) => ({...tab, type: "TABBUTTON"}));
+        const childs = (this.bc.childs || []).map((tab) => ({
+            ...tab,
+            type: "TABBUTTON",
+        }));
 
         this.recordStore = new RecordsModel(
             {...this.bc, defaultvalue: VALUE_SELF_ALWAYSFIRST},
@@ -43,6 +47,7 @@ export class RoadMapModel extends StoreBaseModel {
         );
         this.childs = (this.bc.childs || []).map((tab) => ({
             ...tab,
+            [VAR_RECORD_DISPLAYED]: undefined,
             editmodepanel: true,
             hideactions: true,
             topbtn: [],

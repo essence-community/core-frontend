@@ -4,7 +4,7 @@ import * as React from "react";
 import {Grid} from "@material-ui/core";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {useObserver} from "mobx-react";
 import {RoadMapModel} from "../store/RoadMapModel";
@@ -47,7 +47,7 @@ export const RoadMapContainer: React.FC<IClassProps> = (props) => {
                                 style={{display: isVisible ? "block" : "none"}}
                             >
                                 <Cmp
-                                    bc={{...child, [VAR_RECORD_DISPLAYED]: undefined}}
+                                    bc={child}
                                     disabled={disabled}
                                     hidden={hidden}
                                     visible={isVisible ? visible : false}

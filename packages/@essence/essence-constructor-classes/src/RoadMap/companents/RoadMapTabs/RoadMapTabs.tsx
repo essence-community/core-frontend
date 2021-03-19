@@ -127,7 +127,10 @@ export const RoadMapTabs: React.FC<IRoadMapTabs> = (props) => {
     const renderLabel = React.useMemo(() => {
         if (orientation === "vertical") {
             return (tabStatus: TabsStatusType, child: IBuilderConfig) => (
-                <div className={cn([classes.label, classes.verticalLabel, classes.themeLabel])}>
+                <div
+                    className={cn([classes.label, classes.verticalLabel, classes.themeLabel])}
+                    data-qtip={toTranslateText(trans, child[VAR_RECORD_DISPLAYED])}
+                >
                     <span className={classes.cycleNum}>{tabStatus.get(child[VAR_RECORD_PAGE_OBJECT_ID])?.num}</span>
                     <span className={classes.verticalLabelText}>
                         {toTranslateText(trans, child[VAR_RECORD_DISPLAYED])}
@@ -137,7 +140,10 @@ export const RoadMapTabs: React.FC<IRoadMapTabs> = (props) => {
         }
 
         return (tabStatus: TabsStatusType, child: IBuilderConfig) => (
-            <div className={cn([classes.label, classes.horizontalLabel, classes.themeLabel])}>
+            <div
+                className={cn([classes.label, classes.horizontalLabel, classes.themeLabel])}
+                data-qtip={toTranslateText(trans, child[VAR_RECORD_DISPLAYED])}
+            >
                 <span className={classes.textNum}>{tabStatus.get(child[VAR_RECORD_PAGE_OBJECT_ID])?.num}</span>
                 <span className={classes.horizontalLabelText}>
                     {toTranslateText(trans, child[VAR_RECORD_DISPLAYED])}

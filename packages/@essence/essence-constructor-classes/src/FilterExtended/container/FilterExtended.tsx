@@ -45,7 +45,7 @@ export const FilterExtended = (props: IClassProps) => {
                         </Grid>
 
                         <Grid item>
-                            <Typography variant="body2" component="span">
+                            <Typography variant="body2" component="span" data-qtip={label ? trans(label) : ""}>
                                 {`${(label && trans(label)) || ""} `}
                             </Typography>
                             <Icon iconfont={isOpen ? "angle-up" : "angle-down"} />

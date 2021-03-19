@@ -36,7 +36,7 @@ export const Group: React.FC<IGroupProps> = (props) => {
                     &nbsp;
                 </Grid>
                 {label ? (
-                    <Grid item className={`${classes.labelDisplay}`}>
+                    <Grid item className={`${classes.labelDisplay}`} data-qtip={t(label)}>
                         <span>{t(label)}</span>
                     </Grid>
                 ) : null}

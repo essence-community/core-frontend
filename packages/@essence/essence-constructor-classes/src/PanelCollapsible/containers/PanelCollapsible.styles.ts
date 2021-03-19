@@ -86,6 +86,7 @@ export const useStyles = makeStyles(
                 : {},
         labelBoxText: {
             maxWidth: "calc(100% - 40px)",
+            paddingRight: 10,
         },
         labelGrid:
             theme.palette.type === "light"

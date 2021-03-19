@@ -5,7 +5,7 @@ import {useModel} from "@essence-community/constructor-share/hooks";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {Paper} from "@material-ui/core";
 import {TabPanelModel} from "../store/TabPanelModel";
 import {Tabs} from "../components/Tabs";
@@ -44,7 +44,10 @@ export const TabPanelContainer: React.FC<IClassProps> = (props) => {
                         >
                             <Child
                                 {...props}
-                                bc={childBc}
+                                bc={{
+                                    ...childBc,
+                                    [VAR_RECORD_DISPLAYED]: undefined,
+                                }}
                                 visible={isVisible ? visible : false}
                                 elevation={childBc.type === "TABPANEL" ? undefined : elevation}
                                 pageStore={pageStore}

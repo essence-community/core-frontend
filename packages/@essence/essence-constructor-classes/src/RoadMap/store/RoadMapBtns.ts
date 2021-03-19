@@ -41,6 +41,7 @@ export function getNextButtonConfig(bc: IBuilderConfig): IBuilderConfig {
         hiddenrules: VAR_RECORD_G_IS_END,
         readonly: false,
         type: "BTN",
+        uitype: "3",
     };
 }
 

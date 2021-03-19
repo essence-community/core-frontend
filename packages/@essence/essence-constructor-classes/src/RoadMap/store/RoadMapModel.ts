@@ -226,7 +226,7 @@ export class RoadMapModel extends StoreBaseModel {
     checkFormAction = async (mode: IBuilderMode, btnBc: IBuilderConfig, {form, files}: IHandlerOptions) => {
         await form!.validate();
 
-        if (btnBc.skipvalidation || form!.isValid) {
+        if (!btnBc.skipvalidation && form!.isValid) {
             return this.recordStore.saveAction(form!.values, (btnBc.modeaction || btnBc.mode || mode) as IBuilderMode, {
                 actionBc: btnBc,
                 files,
@@ -254,11 +254,11 @@ export class RoadMapModel extends StoreBaseModel {
 
                         let result = res;
 
-                        if (btnBc.updatequery) {
+                        if (bcBtn.updatequery) {
                             result = await this.checkFormAction((bcBtn.mode || "1") as IBuilderMode, bcBtn, {
                                 form: formTab,
                             });
-                        } else if (formTab && !btnBc.skipvalidation) {
+                        } else if (formTab && !bcBtn.skipvalidation) {
                             await formTab.validate();
                             result = formTab.isValid;
                         }

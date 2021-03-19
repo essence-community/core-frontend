@@ -27,11 +27,13 @@ export const useStyles = makeStyles(
                       border: "2px solid transparent",
                       borderRadius: 4,
                       color: theme.palette.primary.light,
+                      fontSize: 24,
                       margin: "0 14px",
                       padding: "2px 4px",
                   }
                 : {
                       color: theme.palette.common.white,
+                      fontSize: 24,
                       margin: "0 15px",
                   },
         closedLabelGrid:
@@ -64,14 +66,26 @@ export const useStyles = makeStyles(
                       border: `1px solid ${theme.essence.palette.grey.main}`,
                       borderTop: "0 !important",
                       padding: "8px 0",
+                      width: "100%",
                   }
                 : {
                       padding: "12px 0 8px 0",
+                      width: "100%",
                   },
         editCollapseContainer: {
             backgroundColor: theme.essence.palette.common.white,
             width: "100%",
             zIndex: 4,
+        },
+        labelBox:
+            theme.palette.type === "light"
+                ? {
+                      backgroundColor: theme.palette.common.white,
+                      zIndex: 1,
+                  }
+                : {},
+        labelBoxText: {
+            maxWidth: "calc(100% - 40px)",
         },
         labelGrid:
             theme.palette.type === "light"
@@ -102,21 +116,28 @@ export const useStyles = makeStyles(
                       display: "flex",
                       height: 35,
                   },
+        labelParentBox:
+            theme.palette.type === "light"
+                ? {
+                      width: `calc(100% - ${theme.spacing(4)}px)`,
+                  }
+                : {},
         labelTypography:
             theme.palette.type === "light"
                 ? {
-                      alignItems: "center",
                       backgroundColor: theme.palette.common.white,
-                      display: "flex",
-                      fontSize: 14,
-                      paddingRight: 16,
+                      fontSize: 20,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
                       zIndex: 1,
                   }
                 : {
-                      alignItems: "center",
                       color: theme.palette.common.white,
-                      display: "flex",
                       fontSize: 20,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
                   },
         root: {
             width: "100%",

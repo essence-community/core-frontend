@@ -3,13 +3,13 @@ import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-communit
 import {StoreBaseModel} from "@essence-community/constructor-share/models";
 import {IBuilderConfig, IStoreBaseModelProps} from "@essence-community/constructor-share/types";
 
-export type TabStatusType = {
+export interface ITabStatusType {
     disabled?: boolean;
     hidden?: boolean;
-};
-export type TabsStatusType = {
-    [$key: string]: TabStatusType;
-};
+}
+export interface ITabsStatusType {
+    [$key: string]: ITabStatusType;
+}
 
 export class TabPanelModel extends StoreBaseModel {
     tabBc: IBuilderConfig;
@@ -32,7 +32,7 @@ export class TabPanelModel extends StoreBaseModel {
         });
     }
 
-    @observable tabStatus: TabsStatusType = {};
+    @observable tabStatus: ITabsStatusType = {};
 
     @observable hiddenTabsIndex = 0;
 
@@ -45,7 +45,7 @@ export class TabPanelModel extends StoreBaseModel {
 
         const childs = this.bc.childs || [];
 
-        this.childs = childs.map((child) => ({...child, [VAR_RECORD_DISPLAYED]: ""}));
+        this.childs = childs.map((child) => ({...child, [VAR_RECORD_DISPLAYED]: undefined}));
         this.tabBc = this.bc;
         this.tabs = childs.map((tab) => ({...tab, type: "TABBUTTON"}));
 
@@ -90,7 +90,7 @@ export class TabPanelModel extends StoreBaseModel {
         }
     });
 
-    setTabStatus = (tabValue: string, status: TabStatusType) => {
+    setTabStatus = (tabValue: string, status: ITabStatusType) => {
         const oldStatus = this.tabStatus[tabValue];
 
         if (oldStatus.hidden !== status.hidden || oldStatus.disabled !== status.disabled) {

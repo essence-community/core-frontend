@@ -23,7 +23,7 @@ export const FieldMarkdownLabel: React.FC<IFieldMarkdownLabelProps> = React.memo
 
     return (
         <div className={classes.header}>
-            <Typography>
+            <Typography data-qtip={title ? trans(title, title) : ""}>
                 {title ? trans(title, title) : ""}
                 {isRequired ? <span className={classes.labelAsterisk}>{"\u2009*"}</span> : null}
             </Typography>

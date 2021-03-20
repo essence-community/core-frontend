@@ -8,6 +8,7 @@ export const useStyles = makeStyles(
                   titleButtons: {
                       alignItems: "center",
                       backgroundColor: theme.palette.primary.main,
+                      borderTopLeftRadius: 4,
                       color: theme.palette.common.white,
                       display: "flex",
                       fill: theme.palette.common.white,

@@ -7,6 +7,7 @@ export const useStyles = makeStyles(
             theme.palette.type === "dark"
                 ? {
                       backgroundColor: theme.palette.primary.main,
+                      borderBottomLeftRadius: 4,
                       color: theme.palette.common.white,
                       fill: theme.palette.common.white,
                       paddingTop: 4,
@@ -21,6 +22,9 @@ export const useStyles = makeStyles(
                   },
         contentEditing: {
             backgroundColor: theme.palette.common.white,
+        },
+        contentForm: {
+            padding: "16px 16px 16px 16px",
         },
         panelEditing:
             theme.palette.type === "dark"

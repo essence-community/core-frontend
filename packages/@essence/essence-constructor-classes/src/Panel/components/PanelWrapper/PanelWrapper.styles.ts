@@ -22,9 +22,6 @@ export const useStyles = makeStyles(
         actionsContent: {
             height: "100%",
         },
-        contentEditing: {
-            backgroundColor: theme.palette.common.white,
-        },
         panelEditing: {
             position: "relative",
             zIndex: 3,

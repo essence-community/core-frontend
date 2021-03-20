@@ -19,9 +19,6 @@ export const useStyles = makeStyles(
                       height: 48,
                       padding: "0 16px",
                   },
-        contentEditing: {
-            backgroundColor: theme.palette.common.white,
-        },
         panelEditing:
             theme.palette.type === "dark"
                 ? {

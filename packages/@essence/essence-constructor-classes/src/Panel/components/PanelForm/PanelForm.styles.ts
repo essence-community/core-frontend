@@ -6,7 +6,8 @@ export const useStyles = makeStyles(
         actionsBar:
             theme.palette.type === "dark"
                 ? {
-                      height: "100%",
+                      bottom: 0,
+                      position: "sticky",
                   }
                 : {},
         content: {
@@ -17,8 +18,12 @@ export const useStyles = makeStyles(
             theme.palette.type === "dark"
                 ? {
                       backgroundColor: theme.palette.primary.main,
+                      borderRadius: "4px 0 0 4px",
                       color: theme.palette.common.white,
+                      display: "flex",
                       fill: theme.palette.common.white,
+                      flexDirection: "column",
+                      justifyContent: "flex-end",
                       minWidth: theme.essence.sizing.controlPanelWidth,
                       paddingTop: 4,
                       width: theme.essence.sizing.controlPanelWidth,
@@ -32,6 +37,7 @@ export const useStyles = makeStyles(
                   },
         formRoot: {
             backgroundColor: theme.palette.background.paper,
+            borderBottomRightRadius: theme.palette.type === "dark" ? 4 : 0,
             position: "relative",
             zIndex: 3,
         },

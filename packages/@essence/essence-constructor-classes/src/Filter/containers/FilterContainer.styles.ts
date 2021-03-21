@@ -37,12 +37,17 @@ export const useStyles = makeStyles(
                       paddingRight: 16,
                       position: "relative",
                   },
-        filterFields: {
-            // Dark
-            backgroundColor:
-                theme.palette.type === "dark" ? theme.palette.common.white : theme.essence.palette.grey.light,
-            padding: 16,
-        },
+        filterFields:
+            theme.palette.type === "dark"
+                ? {
+                      backgroundColor: theme.palette.common.white,
+                      borderTopRightRadius: 4,
+                      padding: 16,
+                  }
+                : {
+                      backgroundColor: theme.essence.palette.grey.light,
+                      padding: 16,
+                  },
         maxWidth: {
             maxWidth: "100%",
             width: "100%",

@@ -20,9 +20,6 @@ export const useStyles = makeStyles(
                       height: 48,
                       padding: "0 16px",
                   },
-        contentEditing: {
-            backgroundColor: theme.palette.common.white,
-        },
         contentForm: {
             padding: "16px 16px 16px 16px",
         },

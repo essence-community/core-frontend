@@ -43,7 +43,7 @@ export const HistoryPanelWrapper: React.FC<IClassProps> = (props) => {
                 {store && store.editing ? <PanelEditingButtons {...props} /> : null}
                 {store && !hideactions ? <HistoryPanelButtons {...props} store={store} /> : null}
             </Grid>
-            <Grid item xs zeroMinWidth className={cn(classes.contentForm, {[classes.contentEditing]: form.editing})}>
+            <Grid item xs zeroMinWidth className={classes.contentForm}>
                 {mapComponentOne(boxBc, (Child, childBc) => (
                     <Child key={childBc.ck_page_object} {...props} bc={childBc} />
                 ))}

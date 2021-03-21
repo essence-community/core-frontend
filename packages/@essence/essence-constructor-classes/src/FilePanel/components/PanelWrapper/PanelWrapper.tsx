@@ -29,7 +29,7 @@ export const PanelWrapper: React.FC<IPanelWrapperProps> = (props) => {
             <Grid item className={classes.actionsBar}>
                 {actionsBar}
             </Grid>
-            <Grid item xs zeroMinWidth className={cn({[classes.contentEditing]: form.editing})}>
+            <Grid item xs zeroMinWidth>
                 {children}
             </Grid>
         </Grid>

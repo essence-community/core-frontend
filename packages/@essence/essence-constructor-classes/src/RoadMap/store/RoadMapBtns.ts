@@ -57,6 +57,7 @@ export const getSaveBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     hiddenrules: `!${VAR_RECORD_G_IS_END}`,
     mode: "1",
     type: "BTN",
+    uitype: "1",
 });
 
 export const getCancelBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({

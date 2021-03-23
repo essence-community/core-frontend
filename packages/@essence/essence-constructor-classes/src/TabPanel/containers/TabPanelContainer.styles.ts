@@ -11,7 +11,9 @@ export const useStyles = makeStyles(
         "center-vbox": {
             flexDirection: "column",
         },
-        content: {},
+        content: {
+            paddingTop: 10,
+        },
         contentHidden: {
             display: "none",
         },

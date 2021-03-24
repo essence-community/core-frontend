@@ -11,6 +11,9 @@ export const useStyles = makeStyles(
             height: 48,
             overflow: "hidden",
         },
+        horizontal: {
+            paddingTop: 10,
+        },
     }),
     {name: "EssenceRoadMapContainer"},
 );

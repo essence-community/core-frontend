@@ -27,7 +27,13 @@ export const RoadMapContainer: React.FC<IClassProps> = (props) => {
         }
         if (orientation === "horizontal") {
             return (
-                <Grid container spacing={1} direction="column" data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                <Grid
+                    container
+                    spacing={1}
+                    className={classes.horizontal}
+                    direction="column"
+                    data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
+                >
                     <RoadMapTabs
                         bc={bc}
                         disabled={disabled}

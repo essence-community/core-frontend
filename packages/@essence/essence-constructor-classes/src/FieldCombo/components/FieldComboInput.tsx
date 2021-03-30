@@ -52,7 +52,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
                     store.patchForm(field, record || {});
                 }
             } else if (isEmpty(value)) {
-                field.onChange("");
+                field.onClear();
                 store.handleChangeValue(value);
                 if (store.bc.valuefield && store.bc.valuefield.length > 1) {
                     store.patchForm(field, {});

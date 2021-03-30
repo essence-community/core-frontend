@@ -1,14 +1,14 @@
 import * as DOMPurify from "dompurify";
-import {isEmpty} from "lodash";
 import {TText} from "../types/SnackbarModel";
 import {IRecord} from "../types/Base";
 import {FieldValue} from "../types";
+import {isEmpty} from "./base";
 import {TFunction} from "./I18n";
 
 /**
  * Преобразование bc.width в width для material-grid
  *
- * @param {srting} [width] Ширина в формате 0-100%
+ * @param {string} [width] Ширина в формате 0-100%
  *
  * @returns {Object} [styleWidth] Ширина поля
  */
@@ -102,7 +102,7 @@ export const deepChange = (obj: IRecord, path: string, value: IRecord | FieldVal
     const last = paths.pop();
     let current: any = obj;
 
-    if (!Array.isArray(current[paths[0]]) && typeof current[paths[0]] !== "object") {
+    if (paths.length && !Array.isArray(current[paths[0]]) && typeof current[paths[0]] !== "object") {
         current[paths[0]] = /[0-9]+/.test(paths[0]) ? [] : {};
     }
     for (const val of paths) {

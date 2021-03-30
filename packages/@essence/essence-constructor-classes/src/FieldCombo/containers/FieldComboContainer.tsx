@@ -56,7 +56,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
     const handleReactValue = React.useCallback(
         (value: FieldValue) => {
             if (bc.allownew && value === bc.allownew) {
-                field.onChange("");
+                field.onClear();
             } else if (isEmpty(value)) {
                 store.resetAction();
             } else if (

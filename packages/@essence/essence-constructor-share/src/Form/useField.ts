@@ -4,6 +4,7 @@ import {reaction} from "mobx";
 import {IBuilderConfig, IPageModel, FieldValue} from "../types";
 import {FormContext, ParentFieldContext} from "../context";
 import {VAR_RECORD_MASTER_ID, VAR_RECORD_CL_IS_MASTER, VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
+import {isEmpty} from "../utils/base";
 import {IField, IRegisterFieldOptions} from "./types";
 
 interface IUseFieldProps {
@@ -67,8 +68,12 @@ export const useField = ({
 
             pageStore.stores.forEach((store) => {
                 if (store && store.bc && store.bc[VAR_RECORD_MASTER_ID] === ckPageObject) {
-                    store.reloadStoreAction();
-                    store.clearAction && store.clearAction();
+                    if (isEmpty(value)) {
+                        store.clearStoreAction();
+                        store.clearAction && store.clearAction();
+                    } else {
+                        store.reloadStoreAction();
+                    }
                 }
             });
         },

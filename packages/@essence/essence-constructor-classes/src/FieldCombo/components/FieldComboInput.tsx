@@ -44,9 +44,19 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
 
                 store.handleChangeValue(value, !sugValue);
                 field.onChange(newValue);
+                if (store.bc.valuefield && store.bc.valuefield.length > 1) {
+                    const record = store.recordsStore.records.find(
+                        (rec) => rec[store.recordsStore.recordId] === sugValue.id,
+                    );
+
+                    store.patchForm(field, record || {});
+                }
             } else if (isEmpty(value)) {
                 field.onChange("");
                 store.handleChangeValue(value);
+                if (store.bc.valuefield && store.bc.valuefield.length > 1) {
+                    store.patchForm(field, {});
+                }
             } else {
                 store.handleChangeValue(value);
             }

@@ -22,6 +22,7 @@ import {
 } from "@essence-community/constructor-share/types";
 import {attachGlobalValues} from "@essence-community/constructor-share/actions/saveAction";
 import {awaitFormFilter} from "@essence-community/constructor-share/models/PageModel/PageModelRedirect";
+import {IForm} from "@essence-community/constructor-share/Form/types";
 
 export class FilterModel extends StoreBaseModel {
     public valuesStorageKey = "";
@@ -189,7 +190,7 @@ export class FilterModel extends StoreBaseModel {
 
     @action
     handleAutoload = async (isAutoload: boolean) => {
-        const form = this.pageStore.forms.get(this.bc[VAR_RECORD_MASTER_ID] || this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
+        const form = this.pageStore.forms.get(this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
         const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_PARENT_ID]);
 
         if (form && parentStore) {
@@ -209,6 +210,51 @@ export class FilterModel extends StoreBaseModel {
                 form.resetValidation();
             }
         }
+    };
+
+    @action
+    resetAction = async (form?: IForm) => {
+        const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_MASTER_ID] || this.bc[VAR_RECORD_PARENT_ID]);
+
+        if (form) {
+            form.reset();
+        }
+
+        this.resetValues();
+
+        if (form && parentStore && parentStore.recordsStore) {
+            parentStore.recordsStore.searchAction(form.values, {
+                formData: form.isExistFile ? form.valuesFile : undefined,
+                noLoad: true,
+                reset: true,
+            });
+        }
+
+        if (form && this.bc[VAR_RECORD_CL_IS_MASTER]) {
+            const promises = [];
+
+            this.pageStore.stores.forEach((store: IStoreBaseModel) => {
+                if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
+                    const promise = store.recordsStore?.searchAction(form.values, {
+                        formData: form.isExistFile ? form.valuesFile : undefined,
+                        noLoad: true,
+                        reset: true,
+                    });
+
+                    if (promise) {
+                        promises.push(promise);
+                    }
+                }
+            });
+
+            return Promise.all(promises).then(() => true);
+        }
+
+        if (form) {
+            this.handleGlobals(form.values);
+        }
+
+        return Promise.resolve(true);
     };
 
     handlers: any = {
@@ -239,49 +285,8 @@ export class FilterModel extends StoreBaseModel {
         onPrintHandleOnline: (mode: IBuilderMode, btnBc: IBuilderConfig) => this.handlePrint(true, btnBc),
         onReset: (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
             const {form} = options;
-            const parentStore = this.pageStore.stores.get(
-                this.bc[VAR_RECORD_MASTER_ID] || this.bc[VAR_RECORD_PARENT_ID],
-            );
 
-            if (form) {
-                form.reset();
-            }
-
-            this.resetValues();
-
-            if (form && parentStore && parentStore.recordsStore) {
-                parentStore.recordsStore.searchAction(form.values, {
-                    formData: form.isExistFile ? form.valuesFile : undefined,
-                    noLoad: true,
-                    reset: true,
-                });
-            }
-
-            if (form && this.bc[VAR_RECORD_CL_IS_MASTER]) {
-                const promises = [];
-
-                this.pageStore.stores.forEach((store: IStoreBaseModel) => {
-                    if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
-                        const promise = store.recordsStore?.searchAction(form.values, {
-                            formData: form.isExistFile ? form.valuesFile : undefined,
-                            noLoad: true,
-                            reset: true,
-                        });
-
-                        if (promise) {
-                            promises.push(promise);
-                        }
-                    }
-                });
-
-                return Promise.all(promises).then(() => true);
-            }
-
-            if (form) {
-                this.handleGlobals(form.values);
-            }
-
-            return Promise.resolve(true);
+            return this.resetAction(form);
         },
         onSearch: async () => {
             const parentStore = this.pageStore.stores.get(

@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import {i18next, isEmpty} from "@essence-community/constructor-share/utils";
+import {deepChange, i18next, isEmpty} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_PARENT_ID,
@@ -83,6 +83,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
         this.recordsStore = new RecordsModel(this.bc, {
             applicationStore: this.pageStore.applicationStore,
+            noLoadChilds: true,
             pageStore: this.pageStore,
             valueField: this.valueField,
         });
@@ -171,19 +172,19 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             if (
                 Array.isArray(value) &&
                 value.every((valDirty, idx) => {
-                    return this.valueFields.every(([fieldName, valueFeild]) => {
+                    return this.valueFields.every(([fieldName, valueField]) => {
                         const val = typeof valDirty === "object" && valDirty !== null ? valDirty[fieldName] : valDirty;
 
-                        return val !== this.selectedEntries[idx]?.[1][valueFeild];
+                        return val !== this.selectedEntries[idx]?.[1][valueField];
                     });
                 })
             ) {
                 await this.recordsStore.searchAction(
                     {},
                     {
-                        filter: this.valueFields.map(([fieldName, valueFeild]) => ({
+                        filter: this.valueFields.map(([fieldName, valueField]) => ({
                             operator: "in",
-                            property: valueFeild,
+                            property: valueField,
                             value: getRestoreValue(value, fieldName),
                         })),
                     },
@@ -249,12 +250,19 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
         if (this.valueFields && this.valueFields.length > 1) {
             const patchValues: IRecord = {};
+            let parentKey = "";
 
-            this.valueFields.forEach(([fieldName, valueFeild]) => {
-                patchValues[fieldName] = record[valueFeild];
+            if (this.field.key.indexOf(".") > -1) {
+                const arrKey = this.field.key.split(".");
+
+                parentKey = arrKey.slice(0, arrKey.length - 1).join(".");
+            }
+
+            this.valueFields.forEach(([fieldName, valueField]) => {
+                deepChange(patchValues, `${parentKey ? `${parentKey}.` : ""}${fieldName}`, record[valueField]);
 
                 if (fieldName === this.bc.column) {
-                    column = valueFeild;
+                    column = valueField;
                 }
             });
 
@@ -282,6 +290,8 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
         this.selectedEntries.clear();
 
+        this.field.clear();
+
         return Promise.resolve(undefined);
     };
 
@@ -289,6 +299,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     clearStoreAction = () => {
         this.recordsGridStore && this.recordsGridStore.clearChildsStoresAction();
         this.selectedEntries.clear();
+        this.field.clear();
     };
 
     @action

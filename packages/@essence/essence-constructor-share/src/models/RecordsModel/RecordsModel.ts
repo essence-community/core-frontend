@@ -193,6 +193,9 @@ export class RecordsModel implements IRecordsModel {
                     this.expansionRecords.set(String(rec[this.valueField]), true);
                 }
             });
+            if (this.bc.querymode === "local") {
+                this.localFilter();
+            }
         }
     }
 

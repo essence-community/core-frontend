@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {action, computed, observable} from "mobx";
-import {VALUE_SELF_FIRST} from "@essence-community/constructor-share/constants";
+import {VALUE_SELF_ALWAYSFIRST} from "@essence-community/constructor-share/constants";
 import {
     IStoreBaseModelProps,
     IBuilderMode,
@@ -34,7 +34,7 @@ export class FormPanelModel extends StoreBaseModel {
         this.editable = typeof this.bc.editable === "boolean" ? this.bc.editable : true;
 
         this.recordsStore = new RecordsModel(
-            {defaultvalue: VALUE_SELF_FIRST, ...this.bc},
+            {defaultvalue: VALUE_SELF_ALWAYSFIRST, ...this.bc},
             {
                 applicationStore: props.applicationStore || props.pageStore.applicationStore,
                 pageStore: props.pageStore,

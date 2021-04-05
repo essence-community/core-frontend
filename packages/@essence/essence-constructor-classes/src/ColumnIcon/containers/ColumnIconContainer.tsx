@@ -18,14 +18,12 @@ export const ColumnIconContainer: React.FC<IClassProps> = (props) => {
         };
 
         if (bc.dynamicicon && record && bc.iconfontname) {
-            btnBc.handler = "none";
-
             if (bc.iconfont) {
                 btnBc.iconfont = record[bc.iconfont] as string;
             }
 
             if (bc.iconfontname) {
-                btnBc.iconfontname = record[bc.iconfontname] as "fa" | "mdi";
+                btnBc.iconfontname = (record[bc.iconfontname] || bc.iconfontname || "fa") as "fa" | "mdi";
             }
         }
 

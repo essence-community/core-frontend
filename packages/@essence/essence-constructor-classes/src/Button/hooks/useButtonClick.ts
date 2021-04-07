@@ -130,9 +130,9 @@ export function useButtonClick(
     };
 
     const handleClickDefer = () => {
-        const {redirecturl, redirectusequery, columnsfilter} = bc;
+        const {handler, redirecturl, redirectusequery, columnsfilter} = bc;
 
-        if (disabled || isDisabled) {
+        if (disabled || isDisabled || handler === "none") {
             return null;
         }
 

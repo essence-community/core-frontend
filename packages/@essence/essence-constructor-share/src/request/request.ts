@@ -49,6 +49,7 @@ export const request = async <R = IRecord | IRecord[]>({
     session,
     body,
     list = true,
+    mode,
     plugin,
     timeout = 30,
     gate = settingsStore.settings[VAR_SETTING_GATE_URL],
@@ -57,7 +58,7 @@ export const request = async <R = IRecord | IRecord[]>({
     onUploadProgress,
 }: IRequest): Promise<R> => {
     const queryParams = {
-        action: query === "Modify" ? (formData ? "upload" : action) : undefined,
+        action: query === "Modify" && mode === "8" ? (formData ? "upload" : action) : undefined,
         plugin,
         query,
     };

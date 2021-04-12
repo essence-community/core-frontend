@@ -165,6 +165,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
             },
         },
         list: false,
+        mode,
         onUploadProgress: progressModel?.changeProgress,
         plugin: extraplugingate || bc.extraplugingate,
         query,

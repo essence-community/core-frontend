@@ -58,7 +58,7 @@ export const request = async <R = IRecord | IRecord[]>({
     onUploadProgress,
 }: IRequest): Promise<R> => {
     const queryParams = {
-        action: query === "Modify" && mode === "8" ? (formData ? "upload" : action) : undefined,
+        action: query === "Modify" || mode === "8" ? (formData ? "upload" : action) : undefined,
         plugin,
         query,
     };

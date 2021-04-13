@@ -12,6 +12,7 @@ import {
 } from "../constants";
 import {snackbarStore} from "../models";
 import {request} from "../request";
+import {attachGlobalStore} from "../models/RecordsModel/loadRecordsAction";
 import {parseMemoize} from "./parser";
 import {getMasterObject} from "./getMasterObject";
 
@@ -118,13 +119,16 @@ function redirectToUrl({redirecturl, values, pageStore, record}: IRedirectToUrlP
 
 async function redirectUseQuery({bc, query, pageStore, values, record}: IRedirectUseQueryProps) {
     try {
+        const json = {
+            filter: values,
+            master: getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, bc.getmastervalue),
+        };
+
+        attachGlobalStore({bc, globalValues: pageStore.globalValues, json});
         const res: any = await request({
             [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
             action: "dml",
-            json: {
-                filter: values,
-                master: getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, bc.getmastervalue),
-            },
+            json,
             list: false,
             plugin: bc.extraplugingate,
             query,

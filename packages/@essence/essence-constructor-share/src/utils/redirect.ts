@@ -13,6 +13,7 @@ import {
 import {snackbarStore} from "../models";
 import {request} from "../request";
 import {attachGlobalStore} from "../models/RecordsModel/loadRecordsAction";
+import {setMask} from "../actions/recordsActions";
 import {parseMemoize} from "./parser";
 import {getMasterObject} from "./getMasterObject";
 
@@ -125,6 +126,7 @@ async function redirectUseQuery({bc, query, pageStore, values, record}: IRedirec
         };
 
         attachGlobalStore({bc, globalValues: pageStore.globalValues, json});
+        setMask(bc.noglobalmask, pageStore, true);
         const res: any = await request({
             [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
             action: "dml",
@@ -135,6 +137,8 @@ async function redirectUseQuery({bc, query, pageStore, values, record}: IRedirec
             session: pageStore.applicationStore.authStore.userInfo.session,
             timeout: bc.timeout,
         });
+
+        setMask(bc.noglobalmask, pageStore, false);
         const isValid = snackbarStore.checkValidResponseAction(res, {
             applicationStore: pageStore.applicationStore,
             route: pageStore.route,
@@ -159,6 +163,7 @@ async function redirectUseQuery({bc, query, pageStore, values, record}: IRedirec
                 route: pageStore.route,
             },
         );
+        setMask(bc.noglobalmask, pageStore, false);
 
         return false;
     }

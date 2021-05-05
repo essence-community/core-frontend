@@ -374,7 +374,7 @@ export class ApplicationModel implements IApplicationModel {
                 {
                     [VAR_RECORD_PAGE_OBJECT_ID]: "routes",
                     [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
-                    [VAR_RECORD_QUERY_ID]: "MTRoute",
+                    [VAR_RECORD_QUERY_ID]: this.bc[VAR_RECORD_QUERY_ID] || "MTRoute",
                     getglobaltostore: [{in: VAR_SETTING_URL_APP_NAME}],
                     type: "NONE",
                 },

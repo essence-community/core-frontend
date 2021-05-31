@@ -4,6 +4,8 @@ import {
     IBuilderMode,
     IBuilderConfig,
     IHandlerOptions,
+    IRecord,
+    IFormOptions,
 } from "@essence-community/constructor-share/types";
 import {History} from "history";
 
@@ -19,6 +21,22 @@ export class AuthFormModel extends StoreBaseModel {
 
         this.history = props.history;
     }
+
+    handleSubmit = async (values: IRecord, {form}: IFormOptions) => {
+        const authStore = this.applicationStore && this.applicationStore.authStore;
+
+        if (form) {
+            await form.validate();
+
+            if (form.isValid && authStore) {
+                authStore.loginAction(form.values as Record<string, string>, this.history);
+
+                return;
+            }
+        }
+
+        return;
+    };
 
     handlers = {
         onLogin: async (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {

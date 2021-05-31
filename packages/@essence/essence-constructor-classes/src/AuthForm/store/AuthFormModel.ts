@@ -1,3 +1,4 @@
+import {IForm} from "@essence-community/constructor-share/Form/types";
 import {StoreBaseModel} from "@essence-community/constructor-share/models";
 import {
     IStoreBaseModelProps,
@@ -22,38 +23,31 @@ export class AuthFormModel extends StoreBaseModel {
         this.history = props.history;
     }
 
-    handleSubmit = async (values: IRecord, {form}: IFormOptions) => {
-        const authStore = this.applicationStore && this.applicationStore.authStore;
-
+    handleLogin = async (form?: IForm) => {
         if (form) {
+            const authStore = this.applicationStore && this.applicationStore.authStore;
+
             await form.validate();
 
             if (form.isValid && authStore) {
                 authStore.loginAction(form.values as Record<string, string>, this.history);
 
-                return;
+                return true;
             }
         }
 
-        return;
+        return false;
+    };
+
+    handleSubmit = async (values: IRecord, {form}: IFormOptions) => {
+        await this.handleLogin(form);
     };
 
     handlers = {
         onLogin: async (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
             const {form} = options;
-            const authStore = this.applicationStore && this.applicationStore.authStore;
 
-            if (form) {
-                await form.validate();
-
-                if ((btnBc.skipvalidation || form.isValid) && authStore) {
-                    authStore.loginAction(form.values as Record<string, string>, this.history);
-
-                    return true;
-                }
-            }
-
-            return false;
+            return this.handleLogin(form);
         },
         onLoginGuest: () => {
             const authStore = this.applicationStore && this.applicationStore.authStore;

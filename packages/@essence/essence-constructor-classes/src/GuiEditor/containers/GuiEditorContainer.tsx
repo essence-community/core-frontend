@@ -4,6 +4,7 @@ import {mapComponents} from "@essence-community/constructor-share/components";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
+import {Grid} from "@material-ui/core";
 import {GuiEditorContext} from "../context";
 import {GuiEditorModel} from "../stores/GuiEditorModel";
 import {useStyles} from "./GuiEditorContainer.styles";
@@ -16,11 +17,13 @@ export const GuiEditorContainer: React.FC<IClassProps> = (props) => {
 
     return (
         <GuiEditorContext.Provider value={editorStore}>
-            <div className={classes.root}>
+            <Grid container wrap="nowrap" className={classes.root} spacing={2}>
                 {mapComponents(bc.childs, (ChildComponent, childBc) => (
-                    <ChildComponent key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} {...props} bc={childBc} />
+                    <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                        <ChildComponent {...props} bc={childBc} />
+                    </Grid>
                 ))}
-            </div>
+            </Grid>
         </GuiEditorContext.Provider>
     );
 };

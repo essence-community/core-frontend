@@ -2,6 +2,7 @@ import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_PARENT_ID} from "@e
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {IRecordsModel, IStoreBaseModelProps, IRecord, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {computed} from "mobx";
+import {patchChilds} from "../utils/patchChilds";
 import {GuiEditorModel} from "./GuiEditorModel";
 
 interface IGuiEditorContentModelProps extends IStoreBaseModelProps {
@@ -20,6 +21,19 @@ export class GuiEditorContentModel extends StoreBaseModel {
     @computed
     get relations(): any {
         return {};
+    }
+
+    @computed
+    get childs(): IBuilderConfig[] {
+        const {records} = this.editorStore.recordsStore;
+
+        if (records.length === 0) {
+            return [];
+        }
+
+        const children = records[0].children as IBuilderConfig[];
+
+        return patchChilds(children);
     }
 
     constructor(props: IGuiEditorContentModelProps) {

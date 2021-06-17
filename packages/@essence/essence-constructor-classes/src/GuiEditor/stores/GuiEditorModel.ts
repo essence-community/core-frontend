@@ -6,6 +6,7 @@ import {action, computed, observable} from "mobx";
 export class GuiEditorModel extends StoreBaseModel {
     @observable selectedBc: IBuilderConfig = null;
     @observable selectedObjectId: string | null = null;
+    @observable draggedCls: Record<string, unknown> | null = null;
 
     recordsStore: IRecordsModel;
 
@@ -70,5 +71,10 @@ export class GuiEditorModel extends StoreBaseModel {
     onDeselect = (): void => {
         this.selectedBc = null;
         this.selectedObjectId = null;
+    };
+
+    @action
+    onDragSelect = (cls: Record<string, never>): void => {
+        this.draggedCls = cls;
     };
 }

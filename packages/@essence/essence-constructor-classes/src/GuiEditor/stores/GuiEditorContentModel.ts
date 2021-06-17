@@ -1,7 +1,7 @@
-import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {IRecordsModel, IStoreBaseModelProps, IRecord, IBuilderConfig} from "@essence-community/constructor-share/types";
-import {computed} from "mobx";
+import {action, computed} from "mobx";
 import {patchChilds} from "../utils/patchChilds";
 import {GuiEditorModel} from "./GuiEditorModel";
 
@@ -46,22 +46,39 @@ export class GuiEditorContentModel extends StoreBaseModel {
         });
     }
 
-    canInsert(): boolean {
-        return true;
+    canInsert(bc: IBuilderConfig): any | false {
+        const {draggedCls} = this.editorStore;
+        const parentBc = bc.ck_parent ? this.editorStore.classes[bc.ck_parent] : undefined;
+
+        if (!draggedCls) {
+            return false;
+        }
+
+        if (!parentBc) {
+            return draggedCls.cl_final;
+        }
+
+        return (draggedCls.parents as any).find(
+            (cls) => cls.cv_type === parentBc.type && cls.cv_datatype == parentBc.datatype,
+        );
     }
 
-    handleInsert(bc: IBuilderConfig, classId: string): void {
-        const record = this.recordsStore.records.find((r) => r[VAR_RECORD_ID] === classId);
-        const newBc: IBuilderConfig = {
-            [VAR_RECORD_PAGE_OBJECT_ID]: "",
-            [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PARENT_ID],
-            datatype: record.cv_datatype as string,
-            type: record.cv_type as string,
-        };
+    @action
+    onInsert(bc: IBuilderConfig): void {
+        const {draggedCls} = this.editorStore;
 
-        // this.editorStore.handleInsert(bc, newBc )
-        this.editorStore.classes[bc.ck_parent].childs.push(newBc);
-        this.editorStore.recordsStore.setRecordsAction([...this.editorStore.recordsStore.records]);
+        if (draggedCls) {
+            const newBc: IBuilderConfig = {
+                [VAR_RECORD_PAGE_OBJECT_ID]: "",
+                [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PARENT_ID],
+                datatype: draggedCls.cv_datatype as string,
+                type: draggedCls.cv_type as string,
+            };
+
+            // this.editorStore.handleInsert(bc, newBc )
+            this.editorStore.classes[bc.ck_parent].childs.push(newBc);
+            this.editorStore.recordsStore.setRecordsAction([...this.editorStore.recordsStore.records]);
+        }
     }
 
     reloadStoreAction = (): Promise<IRecord> => this.recordsStore.loadRecordsAction({});

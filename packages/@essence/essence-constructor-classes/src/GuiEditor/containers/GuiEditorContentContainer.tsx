@@ -6,7 +6,7 @@ import {useModel} from "@essence-community/constructor-share/hooks";
 import {useObserver} from "mobx-react";
 import {Grid} from "@material-ui/core";
 import {GuiEditorContentModel} from "../stores/GuiEditorContentModel";
-import {GuiEditorContext} from "../context";
+import {GuiEditorContentContext, GuiEditorContext} from "../context";
 
 export const GuiEditorContentContainer: React.FC<IClassProps> = (props) => {
     const editorStore = useContext(GuiEditorContext);
@@ -17,12 +17,14 @@ export const GuiEditorContentContainer: React.FC<IClassProps> = (props) => {
     );
 
     return useObserver(() => (
-        <Grid container direction="column" spacing={2}>
-            {mapComponents(store.childs, (ChildCmp, childBc) => (
-                <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
-                    <ChildCmp {...props} bc={childBc} />
-                </Grid>
-            ))}
-        </Grid>
+        <GuiEditorContentContext.Provider value={store}>
+            <Grid container direction="column" spacing={2}>
+                {mapComponents(store.childs, (ChildCmp, childBc) => (
+                    <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                        <ChildCmp {...props} bc={childBc} />
+                    </Grid>
+                ))}
+            </Grid>
+        </GuiEditorContentContext.Provider>
     ));
 };

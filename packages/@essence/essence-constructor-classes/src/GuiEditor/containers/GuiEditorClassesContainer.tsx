@@ -1,7 +1,6 @@
 import React, {useContext} from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useModel} from "@essence-community/constructor-share/hooks";
-import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {useObserver} from "mobx-react";
 import {
     VAR_RECORD_CV_DESCRIPTION,
@@ -10,15 +9,21 @@ import {
     VAR_RECORD_PARENT_ID,
 } from "@essence-community/constructor-share/constants";
 import {GuiEditorClassesModel} from "../stores/GuiEditorClassesModel";
+import {GuiEditorContext} from "../context";
 import {useStyles} from "./GuiEditorClassesContainer.styles";
 
 export const GuiEditorClassesContainer: React.FC<IClassProps> = (props) => {
     const {pageStore, bc} = props;
-    const applicationStore = useContext(ApplicationContext);
-    const [store] = useModel((options) => new GuiEditorClassesModel({...options, applicationStore}), props);
+    const editorStore = useContext(GuiEditorContext);
+    const [store] = useModel(
+        (options) => new GuiEditorClassesModel({...options, applicationStore: pageStore.applicationStore}),
+        props,
+    );
     const classes = useStyles();
-    const handleDragStart = () => {
+    const handleDragStart = (cls: Record<string, never>) => {
         const parentStore = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
+
+        editorStore.onDragSelect(cls);
 
         if (parentStore) {
             // TODO: закрывать после начала движения
@@ -33,7 +38,7 @@ export const GuiEditorClassesContainer: React.FC<IClassProps> = (props) => {
                     key={cls[VAR_RECORD_ID] as string}
                     className={classes.element}
                     draggable
-                    onDragStart={handleDragStart}
+                    onDragStart={() => handleDragStart(cls as any)}
                 >
                     <div className={classes.title}>{cls[VAR_RECORD_NAME]}</div>
                     <div className={classes.description}>{cls[VAR_RECORD_CV_DESCRIPTION]}</div>

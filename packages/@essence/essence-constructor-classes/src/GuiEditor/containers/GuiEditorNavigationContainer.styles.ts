@@ -9,6 +9,7 @@ export const useStyles = makeStyles(
             color: theme.palette.common.white,
         },
         paper: {
+            backgroundColor: theme.palette.common.white,
             border: `1px solid ${theme.palette.primary.main}`,
             borderRadius: theme.spacing(1),
             left: 58,
@@ -18,6 +19,7 @@ export const useStyles = makeStyles(
             padding: theme.spacing(2),
             position: "absolute",
             top: 0,
+            zIndex: theme.zIndex.drawer,
         },
         root: {
             position: "relative",

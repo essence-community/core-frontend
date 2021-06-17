@@ -65,6 +65,7 @@ export const FieldSetContainer: React.FC<IClassProps> = (props) => {
                 input: inputChild,
                 key: `${field.key}.${index}`,
                 output: outputChild,
+                parentFieldKey: field.key,
             })),
         [bc, inputChild, field, outputChild],
     );

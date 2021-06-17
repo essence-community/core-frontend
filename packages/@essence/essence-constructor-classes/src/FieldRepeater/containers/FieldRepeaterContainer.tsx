@@ -19,6 +19,7 @@ import {Group} from "../components/Group";
 import {FieldRepeaterModel} from "../Store/FieldRepeaterModel";
 import {RepeaterGroup} from "../components/RepeaterGroup";
 
+// eslint-disable-next-line max-lines-per-function
 export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
     const clearValue = React.useMemo(() => {
@@ -112,13 +113,19 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
     React.useEffect(() => {
         if (field) {
             setParentContext(
-                Array.isArray(field.value) ? field.value.map((value, idx) => ({key: `${field.key}.${idx}`})) : [],
+                Array.isArray(field.value)
+                    ? field.value.map((value, idx) => ({key: `${field.key}.${idx}`, parentFieldKey: field.key}))
+                    : [],
             );
 
             return reaction(
                 () => field.value,
                 (val) =>
-                    setParentContext(Array.isArray(val) ? val.map((value, idx) => ({key: `${field.key}.${idx}`})) : []),
+                    setParentContext(
+                        Array.isArray(val)
+                            ? val.map((value, idx) => ({key: `${field.key}.${idx}`, parentFieldKey: field.key}))
+                            : [],
+                    ),
             );
         }
 

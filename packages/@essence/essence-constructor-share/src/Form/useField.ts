@@ -56,6 +56,7 @@ export const useField = ({
             isObject,
             output: output || parentField?.output,
             pageStore,
+            parentFieldKey: parentField?.parentFieldKey,
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [form, key]);

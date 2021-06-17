@@ -22,6 +22,7 @@ export const FormNestedContainer: React.FC<IClassProps> = (props) => {
     const parentContext = React.useMemo(
         () => ({
             key: field.key,
+            parentFieldKey: field.key,
         }),
         [bc, field],
     );

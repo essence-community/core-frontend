@@ -13,6 +13,7 @@ export interface IFieldOptions {
     pageStore: IPageModel;
     form: IForm;
     key: string;
+    parentFieldKey?: string;
     output?: IRegisterFieldOptions["output"];
     input?: IRegisterFieldOptions["input"];
     defaultValueFn?: IField["defaultValueFn"];
@@ -46,6 +47,8 @@ export class Field implements IField {
     public bc: IBuilderConfig;
 
     public key: string;
+
+    public parentFieldKey?: string;
 
     public defaultValue: IField["defaultValue"];
 
@@ -179,6 +182,7 @@ export class Field implements IField {
         this.isObject = options.isObject ?? false;
         this.isFile = options.isFile ?? false;
         this.clearValue = options.clearValue;
+        this.parentFieldKey = options.parentFieldKey;
         this.input = this.getInput(options.input);
         this.output = this.getOutput(options.output);
         this.defaultValueFn = options.defaultValueFn;
@@ -202,9 +206,26 @@ export class Field implements IField {
             this.defaultValue = {};
         }
 
-        const [, val] = this.input(this.form.initialValues, this, this.form);
+        if (this.parentFieldKey) {
+            const parentField = this.form.fields.get(this.parentFieldKey);
 
-        this.value = val;
+            if (parentField) {
+                const [isExists, val] = deepFind(
+                    (parentField.value as any) || (parentField.isArray ? [] : {}),
+                    this.key.substr(this.parentFieldKey.length + 1),
+                );
+
+                if (isExists) {
+                    this.value = val;
+                }
+            }
+        }
+        if (this.value === undefined) {
+            const [, val] = this.input(this.form.initialValues, this, this.form);
+
+            this.value = val;
+        }
+
         if (this.value === undefined && !isEmpty(this.bc.initvalue)) {
             if ((this.isArray || this.isObject) && typeof this.bc.initvalue === "string") {
                 this.value = JSON.parse(this.bc.initvalue);
@@ -217,14 +238,9 @@ export class Field implements IField {
                 this.value = this.bc.initvalue;
             }
         }
-        if (this.value === undefined && (this.isArray || this.isFile)) {
-            this.value = [];
-        }
-        if (this.value === undefined && this.isObject) {
-            this.value = {};
-        }
+
         if (
-            val === undefined &&
+            this.value === undefined &&
             this.form.mode === "1" &&
             this.form.editing &&
             (this.defaultValue !== undefined || this.defaultValueFn !== undefined)
@@ -234,6 +250,12 @@ export class Field implements IField {
             } else {
                 this.defaultValueFn!(this, this.onChange, this.onClear);
             }
+        }
+        if (this.value === undefined && (this.isArray || this.isFile)) {
+            this.value = [];
+        }
+        if (this.value === undefined && this.isObject) {
+            this.value = {};
         }
     }
 
@@ -457,11 +479,22 @@ export class Field implements IField {
     setValue = (value: FieldValue) => {
         let val = value;
 
-        if ((this.isObject || this.isArray) && typeof value === "string") {
-            try {
-                val = JSON.parse(value);
-            } catch (e) {
-                val = this.isArray ? [] : {};
+        if (this.isObject || this.isArray) {
+            if (typeof value === "string") {
+                try {
+                    val = JSON.parse(value);
+                } catch (e) {
+                    val = this.isArray ? [] : {};
+                }
+            }
+            for (const [key, field] of this.form.fields) {
+                if (field.parentFieldKey !== this.key) {
+                    const [isExists, val] = deepFind(value as any, key.substr(this.key.length + 1));
+
+                    if (isExists) {
+                        field.setValue(val);
+                    }
+                }
             }
         }
         this.value = val;

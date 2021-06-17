@@ -5,6 +5,7 @@ import {FieldValue, IRecord, IBuilderConfig, IPageModel, IBuilderMode} from "../
 export interface IRegisterFieldOptions {
     bc: IBuilderConfig;
     pageStore: IPageModel;
+    parentFieldKey?: string;
     isArray?: boolean;
     isObject?: boolean;
     isFile?: boolean;
@@ -16,6 +17,7 @@ export interface IRegisterFieldOptions {
 
 export interface IField {
     key: string;
+    parentFieldKey?: string;
     bc: IBuilderConfig;
     value: FieldValue;
     defaultValue?: FieldValue;
@@ -115,6 +117,7 @@ export type TValidation = (field: IField, form: IForm, req?: string) => TError |
 
 export interface IParentFieldContext {
     key: string;
+    parentFieldKey: string;
     output?: IRegisterFieldOptions["output"];
     input?: IRegisterFieldOptions["input"];
 }

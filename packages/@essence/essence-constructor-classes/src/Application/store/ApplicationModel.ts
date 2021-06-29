@@ -424,7 +424,7 @@ export class ApplicationModel implements IApplicationModel {
 
                 url = `${baseUrl.protocol.indexOf("https") > -1 ? "wss" : "ws"}://${baseUrl.host}${wsUrl}`;
             }
-            url = `${url}${url.indexOf("?") > -1 ? "&" : "?"}session=${session}`;
+            url = `${url}${url.indexOf("?") > -1 ? "&" : "?"}session=${encodeURIComponent(session)}`;
             wsClient = new WebSocket(url, "notification");
             wsClient.onopen = () => {
                 this.countConnect = 0;

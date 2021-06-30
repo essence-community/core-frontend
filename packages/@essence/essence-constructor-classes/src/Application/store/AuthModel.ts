@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {observable, action} from "mobx";
 import {History} from "history";
 import {
@@ -5,6 +6,7 @@ import {
     removeFromLocalStore,
     saveToLocalStore,
     IAuthModel,
+    ILoginOptions,
     IApplicationModel,
     loggerRoot,
 } from "@essence-community/constructor-share";
@@ -34,47 +36,47 @@ export class AuthModel implements IAuthModel {
     // eslint-disable-next-line no-useless-constructor
     constructor(public applicationStore: IApplicationModel) {}
 
-    checkAuthAction = action(
-        "checkAuthAction",
-        (
-            history: History,
-            session: string = this.userInfo.session,
-            connectGuest: string = settingsStore.settings[VAR_SETTING_AUTO_CONNECT_GUEST],
-        ) =>
-            request({
-                action: "sql",
-                body: {
-                    [VAR_CONNECT_GUEST]: connectGuest,
-                },
-                list: false,
-                query: "GetSessionData",
-                session,
-            })
-                .then((responseAny: any) => {
-                    const response = responseAny as IAuthSession;
+    @action
+    checkAuthAction = (
+        history: History,
+        session: string = this.userInfo.session,
+        connectGuest: string = settingsStore.settings[VAR_SETTING_AUTO_CONNECT_GUEST],
+    ) =>
+        request({
+            action: "sql",
+            body: {
+                [VAR_CONNECT_GUEST]: connectGuest,
+            },
+            list: false,
+            query: "GetSessionData",
+            session,
+        })
+            .then((responseAny: any) => {
+                const response = responseAny as IAuthSession;
 
-                    if (response && snackbarStore.checkValidLoginResponse(response)) {
-                        if (response.session === this.userInfo.session) {
-                            this.changeUserInfo(response);
-                        } else {
-                            this.successLoginAction(response, history);
-                        }
-                    } else if (!response && session === this.userInfo.session) {
-                        return this.logoutAction();
+                if (response && snackbarStore.checkValidLoginResponse(response)) {
+                    if (response.session === this.userInfo.session) {
+                        this.changeUserInfo(response);
+                    } else {
+                        this.successLoginAction(response, history);
                     }
-                })
-                .catch((err: Error) => {
-                    logger(err);
-                }),
-    );
+                } else if (!response && session === this.userInfo.session) {
+                    return this.logoutAction();
+                }
+            })
+            .catch((err: Error) => {
+                snackbarStore.checkExceptResponse(err, undefined, this.applicationStore);
+                logger(err);
+            });
 
     @action
-    loginAction = (authValues: Record<string, string>, history: History, responseOptions: Partial<IAuthSession> = {}) =>
+    loginAction = ({authValues, history, responseOptions = {}, headers = {}, query = "Login"}: ILoginOptions) =>
         request({
             action: "auth",
             body: authValues,
+            headers,
             list: false,
-            query: "Login",
+            query,
         })
             .then((response) => {
                 if (response && snackbarStore.checkValidLoginResponse(response as IRecord)) {
@@ -157,6 +159,7 @@ export class AuthModel implements IAuthModel {
                 session,
             });
         } catch (err) {
+            snackbarStore.checkExceptResponse(err, undefined, this.applicationStore);
             logger(err);
         }
     });

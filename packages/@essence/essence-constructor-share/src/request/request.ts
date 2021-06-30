@@ -49,6 +49,7 @@ export const request = async <R = IRecord | IRecord[]>({
     session,
     body,
     list = true,
+    headers = {},
     mode,
     plugin,
     timeout = 30,
@@ -87,6 +88,7 @@ export const request = async <R = IRecord | IRecord[]>({
         const response = await axios({
             data: formData ? formData : stringify(data),
             headers: {
+                ...headers,
                 "Content-type": formData ? undefined : "application/x-www-form-urlencoded",
             },
             method,
@@ -102,9 +104,10 @@ export const request = async <R = IRecord | IRecord[]>({
         const response = await fetch(url, {
             body: formData ? formData : stringify(data),
             ...(formData
-                ? {}
+                ? {...(Object.keys(headers).length ? {headers} : {})}
                 : {
                       headers: {
+                          ...headers,
                           "Content-type": "application/x-www-form-urlencoded",
                       },
                   }),

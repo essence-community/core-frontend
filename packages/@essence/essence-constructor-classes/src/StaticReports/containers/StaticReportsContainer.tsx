@@ -62,12 +62,12 @@ export const StaticReportsContainer: React.FC<IClassProps> = (props) => {
                         history,
                     );
                 } else if (token) {
-                    await authStore.loginAction(
-                        {
+                    await authStore.loginAction({
+                        authValues: {
                             [VAR_RECORD_CV_TOKEN]: token || "",
                         },
                         history,
-                    );
+                    });
                 }
 
                 if (applicationStore) {

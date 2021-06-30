@@ -191,7 +191,7 @@ export class Field implements IField {
             this.defaultValue =
                 typeof this.bc.defaultvalue === "string"
                     ? Number(this.bc.defaultvalue === "true" || this.bc.defaultvalue === "1")
-                    : this.bc.defaultvalue;
+                    : Number(this.bc.defaultvalue);
         } else if (this.bc.defaultvalue) {
             if (this.isArray && typeof this.bc.defaultvalue === "string") {
                 this.defaultValue = JSON.parse(this.bc.defaultvalue);
@@ -233,7 +233,7 @@ export class Field implements IField {
                 this.value =
                     typeof this.bc.initvalue === "string"
                         ? Number(this.bc.initvalue === "true" || this.bc.initvalue === "1")
-                        : this.bc.initvalue;
+                        : Number(this.bc.initvalue);
             } else {
                 this.value = this.bc.initvalue;
             }

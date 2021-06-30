@@ -170,7 +170,8 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
 
             return isValid > 0;
         })
-        .catch(() => {
+        .catch((error) => {
+            snackbarStore.checkExceptResponse(error, pageStore.route, pageStore.applicationStore);
             setMask(false, false, pageStore);
 
             return false;

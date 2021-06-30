@@ -1,10 +1,18 @@
 import {RecordsModel, StoreBaseModel} from "@essence-community/constructor-share/models";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {IBuilderConfig, IRecord, IRecordsModel, IStoreBaseModelProps} from "@essence-community/constructor-share/types";
+import {
+    IBuilderConfig,
+    IBuilderMode,
+    IHandlerOptions,
+    IRecord,
+    IRecordsModel,
+    IStoreBaseModelProps,
+} from "@essence-community/constructor-share/types";
 import {action, computed, observable} from "mobx";
+import {createPropertyForm} from "../utils/createPropertyForm";
 
 export class GuiEditorModel extends StoreBaseModel {
-    @observable selectedBc: IBuilderConfig = null;
+    @observable selectedBc: IBuilderConfig | null = null;
     @observable selectedObjectId: string | null = null;
     @observable draggedCls: Record<string, unknown> | null = null;
 
@@ -59,8 +67,6 @@ export class GuiEditorModel extends StoreBaseModel {
 
     clearStoreAction = (): void => this.recordsStore.clearChildsStoresAction();
 
-    handlers = {};
-
     @action
     onSelect = (bc: IBuilderConfig): void => {
         this.selectedBc = bc;
@@ -76,5 +82,38 @@ export class GuiEditorModel extends StoreBaseModel {
     @action
     onDragSelect = (cls: Record<string, never>): void => {
         this.draggedCls = cls;
+    };
+
+    @action
+    onOpenProperties = (bc: IBuilderConfig, properties: any[]): void => {
+        const winBc = createPropertyForm(this.bc, properties, bc);
+
+        this.pageStore.createWindowAction(winBc);
+    };
+
+    @action
+    onSave = (): void => {
+        this.recordsStore.saveAction(this.recordsStore.records[0], "2", {actionBc: this.bc});
+        console.log(JSON.stringify(this.recordsStore.records[0]));
+    };
+
+    @action
+    handleValueChange = (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions): Promise<boolean> => {
+        const {form} = options;
+        const pageObjectId = form.values[VAR_RECORD_PAGE_OBJECT_ID] as string;
+        const cls = this.classes[pageObjectId];
+
+        Object.entries(form.values).forEach(([key, newValue]) => {
+            if (newValue !== cls[key] || key === "hidden") {
+                console.log("Change:", key, "from:", cls[key], "to:", newValue);
+                cls[key] = newValue;
+            }
+        });
+
+        return Promise.resolve(true);
+    };
+
+    handlers = {
+        onValueChange: this.handleValueChange,
     };
 }

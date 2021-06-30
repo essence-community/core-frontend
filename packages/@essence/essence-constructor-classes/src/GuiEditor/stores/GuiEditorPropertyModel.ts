@@ -1,15 +1,11 @@
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {IRecordsModel, IStoreBaseModelProps, IRecord} from "@essence-community/constructor-share/types";
 import {computed} from "mobx";
-import {GuiEditorModel} from "./GuiEditorModel";
+import {Form, IForm} from "@essence-community/constructor-share/Form";
+import {VAR_RECORD_MASTER_ID} from "@essence-community/constructor-share/constants";
 
-interface IGuiEditorContentModelProps extends IStoreBaseModelProps {
-    editorStore: GuiEditorModel;
-}
-
-export class GuiEditorContentModel extends StoreBaseModel {
+export class GuiEditorPropertyModel extends StoreBaseModel {
     recordsStore: IRecordsModel;
-    editorStore: GuiEditorModel;
 
     @computed
     get selectedRecord(): IRecord | undefined {
@@ -23,15 +19,34 @@ export class GuiEditorContentModel extends StoreBaseModel {
         }, {});
     }
 
-    constructor(props: IGuiEditorContentModelProps) {
+    form: IForm;
+
+    constructor(props: IStoreBaseModelProps) {
         super(props);
-        this.editorStore = props.editorStore;
 
         this.recordsStore = new RecordsModel(props.bc, {
             applicationStore: props.applicationStore,
             pageStore: props.pageStore,
         });
+        this.form = new Form({
+            bc: props.bc,
+            editing: true,
+            hooks: {
+                onValueChange: this.onValueChange,
+            },
+            mode: "2",
+            placement: "GUI_EDITOR_PROPERTY",
+            values: this.bc.records[0],
+        });
     }
+
+    onValueChange = (form: IForm): void => {
+        const masterStore = this.pageStore.stores.get(this.bc[VAR_RECORD_MASTER_ID]);
+
+        if (masterStore) {
+            masterStore.invokeHandler("onValueChange", ["2", this.bc, {form}]);
+        }
+    };
 
     reloadStoreAction = (): Promise<IRecord> => this.recordsStore.loadRecordsAction({});
 

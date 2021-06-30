@@ -5,6 +5,11 @@ export const useStyles = makeStyles(
         hovered: {
             outline: `2px solid ${theme.palette.primary.light}`,
         },
+        root: {
+            "&:hover": {
+                outline: `2px solid ${theme.palette.primary.light}`,
+            },
+        },
     }),
     {name: "GuiEditorElementContainer"},
 );

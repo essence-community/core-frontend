@@ -6,7 +6,7 @@ const KEY_CHILDS = ["childs", "btns", "filters"];
 
 export const patchChilds = (childs: IBuilderConfig[]): IBuilderConfig[] => {
     return childs.map(
-        ({...child}: IBuilderConfig): IBuilderConfig => {
+        (child: IBuilderConfig): IBuilderConfig => {
             const childType = child.datatype ? `${child.type}.${child.datatype}` : child.type;
             const elementType = `${childType}.GUI_ELEMENT`;
             const component = getComponent(elementType);

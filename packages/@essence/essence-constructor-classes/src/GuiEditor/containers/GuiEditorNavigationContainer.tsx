@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef} from "react";
+import React, {useCallback, useEffect, useMemo, useRef, useContext} from "react";
 import {IBuilderConfig, IClassProps} from "@essence-community/constructor-share/types";
 import {mapComponentOne, mapComponents} from "@essence-community/constructor-share/components";
 import {
@@ -9,10 +9,12 @@ import {
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {useObserver} from "mobx-react";
 import {GuiEditorNavigationModel} from "../stores/GuiEditorNavigationModel";
+import {GuiEditorContext} from "../context";
 import {useStyles} from "./GuiEditorNavigationContainer.styles";
 
 export const GuiEditorNavigationContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
+    const editorStore = useContext(GuiEditorContext);
     const classes = useStyles();
     const buttons = useMemo<IBuilderConfig[]>(
         () =>
@@ -41,6 +43,9 @@ export const GuiEditorNavigationContainer: React.FC<IClassProps> = (props) => {
         },
         [store],
     );
+    const handleSave = () => {
+        editorStore.onSave();
+    };
 
     useEffect(() => {
         pageStore.pageEl.addEventListener("click", handleOutsideClick);
@@ -53,6 +58,7 @@ export const GuiEditorNavigationContainer: React.FC<IClassProps> = (props) => {
     return useObserver(() => (
         <div className={classes.root} ref={rootElement}>
             <div className={classes.menu}>
+                <button onClick={handleSave}>S</button>
                 {mapComponents(buttons, (ChildCmp, childBc) => (
                     <ChildCmp key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} {...props} bc={childBc} />
                 ))}

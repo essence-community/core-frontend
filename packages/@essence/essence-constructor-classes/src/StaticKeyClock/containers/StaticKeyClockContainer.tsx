@@ -14,8 +14,8 @@ export const StaticKeyClockContainer: React.FC<IClassProps> = ({bc}) => {
     const history = useHistory();
 
     React.useEffect(() => {
-        const params = parse(history.location.search.slice(1));
-
+        const params =
+            history.location.search && history.location.search.slice(1) ? parse(history.location.search.slice(1)) : {};
         const loginByKeyClock = async () => {
             const backUrl = getFromLocalStore("errorMoveResponse");
 

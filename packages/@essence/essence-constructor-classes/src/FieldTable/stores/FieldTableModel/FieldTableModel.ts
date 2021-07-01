@@ -122,6 +122,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         // Блокировка происходит на уровне поля
         this.gridBc = {
             ...this.bc,
+            [VAR_RECORD_DISPLAYED]: undefined,
             [VAR_RECORD_PAGE_OBJECT_ID]: gridId,
             [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
             columns: this.bc.columns?.map((column) => ({...column, [VAR_RECORD_PARENT_ID]: gridId})),

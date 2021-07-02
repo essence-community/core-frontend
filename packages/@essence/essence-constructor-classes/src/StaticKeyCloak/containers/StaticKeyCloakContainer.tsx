@@ -6,10 +6,10 @@ import {useHistory} from "react-router-dom";
 import {parse, stringify} from "qs";
 import {removeFromLocalStore, getFromLocalStore} from "@essence-community/constructor-share/utils/storage";
 
-const VAR_RECORD_KEYCLOCK = "jl_keyclock_auth_callback";
-const VAR_RECORD_KEYCLOCK_PARAM = "jt_keycloack";
+const VAR_RECORD_KEYCLOCK = "jl_keycloak_auth_callback";
+const VAR_RECORD_KEYCLOCK_PARAM = "jt_keycloak";
 
-export const StaticKeyClockContainer: React.FC<IClassProps> = ({bc}) => {
+export const StaticKeyCloakContainer: React.FC<IClassProps> = ({bc}) => {
     const applicationStore = React.useContext(ApplicationContext);
     const history = useHistory();
 
@@ -30,14 +30,13 @@ export const StaticKeyClockContainer: React.FC<IClassProps> = ({bc}) => {
                     [bc.column || VAR_RECORD_KEYCLOCK_PARAM]: JSON.stringify({
                         query: stringify(params),
                     }),
-                    ...params,
                 },
                 history,
                 query: bc[VAR_RECORD_QUERY_ID] || "Login",
             });
         };
 
-        if (params[VAR_RECORD_KEYCLOCK] === "1") {
+        if (params[bc.defaultvalue || VAR_RECORD_KEYCLOCK] === "1") {
             loginByKeyClock();
         }
     }, [applicationStore?.authStore, bc, history, history.location.search]);

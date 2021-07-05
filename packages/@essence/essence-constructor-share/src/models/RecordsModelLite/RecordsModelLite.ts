@@ -5,6 +5,8 @@ import {
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_ERROR_CODE,
+    VAR_ERROR_TEXT,
 } from "../../constants/variables";
 import {IRecord} from "../../types/Base";
 import {loggerRoot} from "../../constants/base";
@@ -56,7 +58,12 @@ export class RecordsModelLite implements IRecordsModelLite {
             .catch((error: Error) => {
                 this.loadCounter += 1;
                 this.isLoading = false;
-                logger.error(error);
+                const responseError = (error as any).responseError || {};
+
+                if (responseError?.[VAR_ERROR_CODE] == "302") {
+                    window.location.href = responseError?.[VAR_ERROR_TEXT];
+                }
+                logger(error);
             });
     }
 }

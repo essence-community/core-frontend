@@ -17,12 +17,12 @@ export const StaticFrameContainer: React.FC<IClassProps> = () => {
         }
         history.replace(history.location.pathname, {backUrl});
         const loginByToken = async () => {
-            await applicationStore?.authStore.loginAction(
-                {
+            await applicationStore?.authStore.loginAction({
+                authValues: {
                     [VAR_RECORD_CV_TOKEN]: token,
                 },
                 history,
-            );
+            });
 
             // If not logger change bach url to page instead of return to back frame page
             if (!applicationStore?.authStore.userInfo.session) {

@@ -36,6 +36,7 @@ import {TText, IOptionCheck} from "../../types/SnackbarModel";
 import {IForm} from "../../Form";
 import {RecordsModelLite} from "../RecordsModelLite/RecordsModelLite";
 import {IRecordsModelLite} from "../../types/RecordsModel";
+import {saveToLocalStore} from "../../utils/storage";
 import {MAX_OPENED_SNACKBARS, CODE_ACCESS_DENIEND, GROUP_ACTION_MAP, CODE_GROUP_MAP} from "./SnackbarModel.contants";
 
 /**
@@ -513,4 +514,15 @@ export class SnackbarModel implements ISnackbarModel {
             route,
         );
     });
+
+    @action
+    errorMoveResponseAction = (errorData: IErrorData, route?: IRouteRecord, applicationStore?: IApplicationModel) => {
+        if (errorData?.[VAR_ERROR_TEXT]) {
+            applicationStore?.history.replace(applicationStore?.history.location.pathname, {
+                backUrl: applicationStore?.history.location.pathname,
+            });
+            saveToLocalStore("errorMoveResponse", applicationStore?.history.location.pathname);
+            window.location.href = errorData?.[VAR_ERROR_TEXT];
+        }
+    };
 }

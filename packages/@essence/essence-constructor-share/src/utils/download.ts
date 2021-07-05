@@ -72,6 +72,8 @@ export const print = async ({
         query: bcBtn.updatequery || "Modify",
         session: applicationStore.authStore.userInfo.session,
         timeout,
+    }).catch((error) => {
+        snackbarStore.checkExceptResponse(error, pageStore.route, pageStore.applicationStore);
     });
     const res: IResult = result;
 

@@ -416,6 +416,10 @@ export class ApplicationModel implements IApplicationModel {
             const currentSession = this.authStore.userInfo.session;
             let url = wsUrl;
 
+            if (!currentSession) {
+                resolve();
+            }
+
             if (this.wsClient && this.wsClient.readyState === this.wsClient.OPEN) {
                 resolve();
             }
@@ -434,12 +438,17 @@ export class ApplicationModel implements IApplicationModel {
             wsClient.onmessage = this.handleWsMessage;
             wsClient.onclose = (event: Record<string, any>) => {
                 if (event.code === CLOSE_CODE) {
+                    this.wsClient = null;
+
                     return;
                 } else if (event.code === LOGOUT_CODE && session === currentSession) {
                     this.logoutAction();
+                    this.wsClient = null;
 
                     return;
                 } else if (event.code === LOGOUT_CODE && session !== currentSession) {
+                    this.wsClient = null;
+
                     return;
                 }
                 if (currentSession && this.countConnect < MAX_RECONNECT) {

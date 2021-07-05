@@ -21,6 +21,7 @@ export interface IRequest {
     timeout?: number;
     formData?: FormData;
     method?: "POST";
+    headers?: Record<string, string>;
     onUploadProgress?: (progressEvent: ProgressEvent) => void;
 }
 

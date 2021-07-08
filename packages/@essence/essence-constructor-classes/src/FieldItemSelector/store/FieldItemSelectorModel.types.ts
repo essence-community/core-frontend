@@ -2,7 +2,12 @@ import {IBuilderConfig, IStoreBaseModel, IBuilderMode, IClassProps} from "@essen
 
 export interface IFieldItemSelectorModel extends IStoreBaseModel {
     getStores: (props: IChildGridBuildConfig) => [IStoreBaseModel?, IStoreBaseModel?];
-    moveRecSaveAction(mode: IBuilderMode, fields: IChildGridBuildConfig, isAll: boolean): Promise<boolean>;
+    moveRecSaveAction(
+        mode: IBuilderMode,
+        fields: IChildGridBuildConfig,
+        isAll: boolean,
+        btnBc: IBuilderConfig,
+    ): Promise<boolean>;
 }
 
 export interface IChildGridBuildConfig {

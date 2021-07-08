@@ -53,9 +53,10 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
     ];
 
     @action
-    private saveAction = (values: IRecord[], mode: IBuilderMode): Promise<boolean> =>
+    private saveAction = (values: IRecord[], mode: IBuilderMode, btnBc: IBuilderConfig): Promise<boolean> =>
         saveAction.call(this, values, mode, {
             actionBc: {
+                ...btnBc,
                 [VAR_RECORD_NAME]: `${this.bc[VAR_RECORD_NAME]}_button`,
                 [VAR_RECORD_OBJECT_ID]: `${this.bc[VAR_RECORD_OBJECT_ID]}_button`,
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_button`,
@@ -81,6 +82,7 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
         mode: IBuilderMode,
         fields: IChildGridBuildConfig,
         isAll: boolean,
+        btnBc: IBuilderConfig,
     ): Promise<boolean> {
         const [fromStore, toStore] = this.getStores(fields);
 
@@ -89,7 +91,7 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
         }
 
         const recs = isAll ? fromStore.recordsStore?.records || [] : getSelectionRecords(fromStore);
-        const saveStatus = await this.saveAction(recs, mode);
+        const saveStatus = await this.saveAction(recs, mode, btnBc);
 
         if (saveStatus) {
             this.applySaveAction(fromStore, toStore, recs);
@@ -99,10 +101,14 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
     }
 
     handlers = {
-        addAll: () => this.moveRecSaveAction("1", {fieldFrom: this.fieldFrom, fieldTo: this.fieldTo}, true),
-        addSelected: () => this.moveRecSaveAction("1", {fieldFrom: this.fieldFrom, fieldTo: this.fieldTo}, false),
-        removeSelected: () => this.moveRecSaveAction("3", {fieldFrom: this.fieldTo, fieldTo: this.fieldFrom}, false),
+        addAll: (_mode: any, btnBc: IBuilderConfig) =>
+            this.moveRecSaveAction("1", {fieldFrom: this.fieldFrom, fieldTo: this.fieldTo}, true, btnBc),
+        addSelected: (_mode: any, btnBc: IBuilderConfig) =>
+            this.moveRecSaveAction("1", {fieldFrom: this.fieldFrom, fieldTo: this.fieldTo}, false, btnBc),
+        removeSelected: (_mode: any, btnBc: IBuilderConfig) =>
+            this.moveRecSaveAction("3", {fieldFrom: this.fieldTo, fieldTo: this.fieldFrom}, false, btnBc),
         // eslint-disable-next-line sort-keys
-        removeAll: () => this.moveRecSaveAction("3", {fieldFrom: this.fieldTo, fieldTo: this.fieldFrom}, true),
+        removeAll: (_mode: any, btnBc: IBuilderConfig) =>
+            this.moveRecSaveAction("3", {fieldFrom: this.fieldTo, fieldTo: this.fieldFrom}, true, btnBc),
     };
 }

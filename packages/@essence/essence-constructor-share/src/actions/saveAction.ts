@@ -112,6 +112,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
     let formDataValue = formData || (form?.isExistFile ? form?.valuesFile : undefined);
     const {extraplugingate, getglobaltostore, getmastervalue, timeout} = actionBc;
     const getMasterValue = getmastervalue || bc.getmastervalue;
+    const getGlobalToStore = getglobaltostore || bc.getglobaltostore;
     const masterId = bc[VAR_RECORD_MASTER_ID];
     let master = undefined;
     let modeCheck = mode;
@@ -136,11 +137,15 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
     }
     if (Array.isArray(values)) {
         filteredValues = values.map((item: IRecord) =>
-            attachGlobalValues({getglobaltostore, globalValues: pageStore.globalValues, values: filter(item)}),
+            attachGlobalValues({
+                getglobaltostore: getGlobalToStore,
+                globalValues: pageStore.globalValues,
+                values: filter(item),
+            }),
         );
     } else if (!(values instanceof FormData)) {
         filteredValues = attachGlobalValues({
-            getglobaltostore,
+            getglobaltostore: getGlobalToStore,
             globalValues: pageStore.globalValues,
             values: filter(values),
         });

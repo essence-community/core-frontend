@@ -17,7 +17,7 @@ export const useStyles = makeStyles((theme: IEssenceTheme) => ({
     },
     root: {
         alignItems: "center",
-        backgroundColor: theme.palette.type === "light" ? theme.essence.palette.grey.light : undefined,
+        backgroundColor: "inherit",
         display: "flex",
         justifyContent: "center",
         position: "relative",

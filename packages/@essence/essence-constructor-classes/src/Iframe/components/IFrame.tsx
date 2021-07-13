@@ -29,7 +29,7 @@ export const IFrame: React.FC<IIFrameProps> = (props) => {
             // @ts-ignore
             iframe.contentWindow.document.write(value);
         }
-    }, [typeiframe, value]);
+    }, [typeiframe, value, iframeRef, iframeRef.current]);
     const frameProps = {
         allowFullScreen: true,
         className: classes.iframe,

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable max-lines */
 import {v4} from "uuid";
@@ -21,6 +22,7 @@ import {
     VAR_RECORD_JN_TOTAL_CNT,
 } from "../../constants";
 import {snackbarStore} from "../SnackbarModel";
+import {isEmpty} from "../../utils/base";
 import {
     IGetFilterData,
     IGetFilterDataOptions,
@@ -260,12 +262,17 @@ export function loadRecordsAction(
             let isDefault: "##alwaysfirst##" | "##first##" | undefined = undefined;
             let recordIdValue = undefined;
             let record = undefined;
+            let selectedRecordIndex = 0;
 
             switch (true) {
                 case defaultvalue === VALUE_SELF_ALWAYSFIRST:
                     isDefault = VALUE_SELF_ALWAYSFIRST;
-                    [record] = records;
-                    recordIdValue = records[0] ? records[0][valueField] : undefined;
+                    selectedRecordIndex = this.isTree
+                        ? records.findIndex((val) => isEmpty(val[this.recordParentId]))
+                        : 0;
+
+                    record = records[selectedRecordIndex];
+                    recordIdValue = record ? record[valueField] : undefined;
                     break;
                 case selectedRecordId !== undefined:
                     recordIdValue = selectedRecordId;
@@ -275,8 +282,12 @@ export function loadRecordsAction(
                     break;
                 case defaultvalue === VALUE_SELF_FIRST:
                     isDefault = VALUE_SELF_FIRST;
-                    recordIdValue = records[0] ? records[0][valueField] : undefined;
-                    [record] = records;
+                    selectedRecordIndex = this.isTree
+                        ? records.findIndex((val) => isEmpty(val[this.recordParentId]))
+                        : 0;
+
+                    record = records[selectedRecordIndex];
+                    recordIdValue = record ? record[valueField] : undefined;
                     break;
                 default:
                     recordIdValue = undefined;

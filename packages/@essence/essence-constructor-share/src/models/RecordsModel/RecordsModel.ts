@@ -37,6 +37,7 @@ import {
 import {download} from "../../actions/download";
 import {IRecordFilter} from "../../types/RecordsModel";
 import {filterFilesData, sortFilesData} from "../../utils/filter";
+import {isEmpty} from "../../utils/base";
 import {loadRecordsAction} from "./loadRecordsAction";
 
 interface ILoadRecordsProps {
@@ -111,11 +112,17 @@ export class RecordsModel implements IRecordsModel {
 
     recordsTree: Record<string, IRecord[]>;
 
+    isTree = false;
+
+    recordParentId = VAR_RECORD_PARENT_ID;
+
     constructor(bc: IBuilderConfig, options?: IOptions) {
         this.bc = bc;
         this.pageSize = bc.pagesize;
         this.recordId = bc.idproperty || VAR_RECORD_ID;
+        this.recordParentId = bc.idpropertyparent || VAR_RECORD_PARENT_ID;
         this.valueField = this.recordId;
+        this.isTree = this.bc.type === "TREEGRID";
 
         if (options) {
             this.valueField = options.valueField || this.recordId;
@@ -127,7 +134,7 @@ export class RecordsModel implements IRecordsModel {
         const {records = []} = bc;
 
         this.expansionRecords = observable.map({
-            [VALUE_SELF_ROOT]: this.bc.type === "TREEGRID",
+            [VALUE_SELF_ROOT]: this.isTree,
         });
         this.selectedRecords = observable.map({});
 
@@ -159,7 +166,7 @@ export class RecordsModel implements IRecordsModel {
                 },
                 get recordsTree() {
                     return this.records.reduce((acc: Record<string, IRecord[]>, record: IRecord) => {
-                        const parentId = record[VAR_RECORD_PARENT_ID] as ICkId;
+                        const parentId = record[this.recordParentId] as ICkId;
 
                         if (acc[parentId] === undefined) {
                             acc[parentId] = [];
@@ -185,8 +192,10 @@ export class RecordsModel implements IRecordsModel {
 
         if (records.length) {
             if (this.bc.defaultvalue === VALUE_SELF_ALWAYSFIRST || this.bc.defaultvalue === VALUE_SELF_FIRST) {
-                this.selectedRecordIndex = 0;
-                this.selectedRecord = records[0];
+                this.selectedRecordIndex = this.isTree
+                    ? records.findIndex((val) => isEmpty(val[this.recordParentId]))
+                    : 0;
+                this.selectedRecord = records[this.selectedRecordIndex];
             }
             records.forEach((rec) => {
                 if (rec.expanded === "true" || rec.expanded === true) {

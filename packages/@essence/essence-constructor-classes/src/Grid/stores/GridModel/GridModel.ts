@@ -158,7 +158,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     @computed public get gridRecordsHeight() {
         const records =
             this.bc.type === "TREEGRID"
-                ? this.recordsStore.records.filter((record) => record[VAR_RECORD_PARENT_ID] === null)
+                ? this.recordsStore.records.filter((record) => record[this.recordsStore.recordParentId] === null)
                 : this.recordsStore.records;
 
         return records.length * GRID_ROW_HEIGHT;
@@ -295,7 +295,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     @action
     toggleSelectedRecordAction = (record: IRecord, bcBtn?: IBuilderConfig, isSelectedDefault?: boolean) => {
         const ckId = record[this.recordsStore.recordId] as string | number;
-        const parentId = record[VAR_RECORD_PARENT_ID] as string | number;
+        const parentId = record[this.recordsStore.recordParentId] as string | number;
         const maxSize = bcBtn?.maxselected && parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues);
         const isSelected =
             isSelectedDefault === undefined ? Boolean(this.recordsStore.selectedRecords.get(ckId)) : isSelectedDefault;
@@ -312,7 +312,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                 ckChild: parentId,
                 gridStore: this,
                 isSelected: !this.recordsStore.records
-                    .filter((rec) => rec[VAR_RECORD_PARENT_ID] === parentId)
+                    .filter((rec) => rec[this.recordsStore.recordParentId] === parentId)
                     .some((rec) => {
                         const recordId = rec[this.recordsStore.recordId];
 
@@ -342,7 +342,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
                 record = this.recordsStore.records.find(
                     // eslint-disable-next-line eqeqeq
-                    (rec) => rec[this.recordsStore.recordId] == childRecord[VAR_RECORD_PARENT_ID],
+                    (rec) => rec[this.recordsStore.recordId] == childRecord[this.recordsStore.recordParentId],
                 );
                 const recordId = record && (record[this.recordsStore.recordId] as string | number);
 

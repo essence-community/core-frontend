@@ -1,11 +1,7 @@
 import {Collapse} from "@material-ui/core";
 import {useObserver} from "mobx-react";
 import * as React from "react";
-import {
-    VAR_RECORD_ID,
-    VAR_RECORD_PARENT_ID,
-    VAR_RECORD_ROUTE_VISIBLE_MENU,
-} from "@essence-community/constructor-share/constants/variables";
+import {VAR_RECORD_ID, VAR_RECORD_ROUTE_VISIBLE_MENU} from "@essence-community/constructor-share/constants/variables";
 import {TreeRow} from "../TreeRow/TreeRow";
 import {IRoute} from "../TreeRow/TreeRow.types";
 import {useStyles} from "./TreeRows.styles";
@@ -19,7 +15,8 @@ export const TreeRows: React.FC<ITreeRowsProps> = (props) => {
         const isClose = parent !== null && !treeModel.expansionRecords.get(parent);
 
         const records = routesStore.recordsStore.records.filter(
-            (record) => record[VAR_RECORD_PARENT_ID] === parent && record[VAR_RECORD_ROUTE_VISIBLE_MENU],
+            (record) =>
+                record[routesStore.recordsStore.recordParentId] === parent && record[VAR_RECORD_ROUTE_VISIBLE_MENU],
         );
 
         return (

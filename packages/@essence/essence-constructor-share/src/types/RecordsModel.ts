@@ -114,6 +114,8 @@ export interface IRecordsModel {
     formData?: FormData;
     loadCounter: number;
     valueField: string;
+    isTree: boolean;
+    recordParentId: string;
     route: IRouteRecord;
     expansionRecords: ObservableMap<ICkId, boolean>;
     selectedRecords: ObservableMap<ICkId, IRecord>;

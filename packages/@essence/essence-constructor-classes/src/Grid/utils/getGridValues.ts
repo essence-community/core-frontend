@@ -1,12 +1,12 @@
 import {IBuilderMode, IRecord} from "@essence-community/constructor-share/types";
-import {VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import {IGridModel} from "../stores/GridModel/GridModel.types";
 
-type GetGridValuesType = {
+// eslint-disable-next-line @typescript-eslint/naming-convention
+interface GetGridValuesType {
     gridStore: IGridModel;
     mode: IBuilderMode;
     values: IRecord;
-};
+}
 
 /**
  * Получение данных для грида
@@ -23,7 +23,8 @@ export function getGridValues({gridStore, mode, values}: GetGridValuesType): IRe
         const value = selectedRecord[gridStore.recordsStore.recordId];
 
         gridValues = {
-            [VAR_RECORD_PARENT_ID]: typeof value === "string" && value.indexOf("auto-") === 0 ? null : value,
+            [gridStore.recordsStore.recordParentId]:
+                typeof value === "string" && value.indexOf("auto-") === 0 ? null : value,
             ...gridValues,
         };
     }

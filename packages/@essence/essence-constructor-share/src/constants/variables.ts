@@ -19,6 +19,7 @@ export const VAR_RECORD_RES_ERROR = "cv_error";
 export const VAR_RECORD_RES_FORM_ERROR = "jt_form_message";
 export const VAR_RECORD_RES_STACK_TRACE = "cv_stack_trace";
 export const VAR_RECORD_URL = "cv_url";
+export const VAR_RECORD_APP_URL = "cv_app_url";
 export const VAR_RECORD_GLOBAL_VALUE = "global_value";
 export const VAR_RECORD_CK_REGION = "ck_region";
 export const VAR_RECORD_CK_AREA = "ck_area";
@@ -35,6 +36,8 @@ export const VAR_RECORD_CL_AVAILABLE = "cl_available";
 export const VAR_RECORD_CV_VERSION_API = "cv_version_api";
 export const VAR_RECORD_CV_VERSION = "cv_version";
 export const VAR_RECORD_CC_CONFIG = "cc_config";
+export const VAR_RECORD_CK_VIEW = "ck_view";
+export const VAR_RECORD_CCT_CONFIG = "cct_config";
 export const VAR_RECORD_CC_MANIFEST = "cc_manifest";
 export const VAR_RECORD_CK_MAIN = "ck_main";
 export const VAR_RECORD_CL_WARNING = "cl_warning";
@@ -105,12 +108,14 @@ export const VAR_SETTING_PROJECT_PROFILE_PAGE = "project_profile_page";
 export const VAR_SETTING_PROJECT_AUTH_TITLE = "project_auth_title";
 export const VAR_SETTING_MODULE_AVAILABLE = "module_available";
 export const VAR_SETTING_MODULE_URL = "g_sys_module_url";
+export const VAR_SETTING_VIEW_URL = "g_sys_view_url";
 export const VAR_SETTING_FRONT_BRANCH_DATE_TIME = "g_sys_front_branch_date_time";
 export const VAR_SETTING_FRONT_BRANCH_NAME = "g_sys_front_branch_name";
 export const VAR_SETTING_FRONT_COMMIT_ID = "g_sys_front_commit_id";
 export const VAR_SETTING_ENABLE_QUEST_LOGIN = "g_sys_enable_guest_login";
 export const VAR_SETTING_AUTO_CONNECT_GUEST = "auto_connect_guest";
 export const VAR_SETTING_ANONYMOUS_ACTION = "g_sys_anonymous_action";
+export const VAR_SETTING_URL_APP_NAME = "g_sys_url_app_name";
 export const VAR_SETTING_REMOTE_STORAGE = "use_remote_storage_cache";
 export const VAR_SETTING_REMOTE_STORAGE_LOAD_QUERY = "remote_storage_load_query";
 export const VAR_SETTING_REMOTE_STORAGE_ADD_QUERY = "remote_storage_add_query";
@@ -124,6 +129,10 @@ export const VAR_META_JN_OFFSET = "jn_offset";
 export const VAR_META_JL_FILTER = "jl_filter";
 export const VAR_META_JL_SORT = "jl_sort";
 export const VAR_CONNECT_GUEST = "connect_guest";
+
+// FORM
+export const RETURN_FORM_DATA = "jt_return_form_data";
+export const RETURN_FORM_DATA_BREAK = "jt_return_form_data_break";
 
 // SELF
 export const VALUE_SELF_FIRST = "##first##";

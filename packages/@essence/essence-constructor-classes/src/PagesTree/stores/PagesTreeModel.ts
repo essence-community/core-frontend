@@ -3,7 +3,7 @@ import {StoreBaseModel} from "@essence-community/constructor-share/models";
 import {saveToStore, getFromStore} from "@essence-community/constructor-share/utils";
 import {action, observable, ObservableMap} from "mobx";
 import {RecordsModel} from "@essence-community/constructor-share/models/RecordsModel";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 
 const STORE_NAME = "PAGES_TREE_MENU";
 
@@ -47,14 +47,14 @@ export class PagesTreeModel extends StoreBaseModel {
         const {routesStore} = this.pageStore.applicationStore;
 
         if (routesStore) {
-            const {recordId, records} = routesStore.recordsStore;
+            const {recordId, records, recordParentId} = routesStore.recordsStore;
             const paths: Record<ICkId, boolean> = {};
             let parentRoute = records.find((rec) => rec[recordId] === ckId);
 
             while (parentRoute) {
                 paths[parentRoute[recordId] as ICkId] = true;
 
-                parentRoute = records.find((rec) => rec[recordId] === (parentRoute as IRecord)[VAR_RECORD_PARENT_ID]);
+                parentRoute = records.find((rec) => rec[recordId] === (parentRoute as IRecord)[recordParentId]);
             }
 
             this.expansionRecords.forEach((value, key) => {

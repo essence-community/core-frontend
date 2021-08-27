@@ -101,8 +101,14 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
                 children
             ) : (
                 <RecordContext.Provider value={record}>
-                    {mapComponents(store.gridColumns, (ChildCmp, childBc) => (
-                        <ChildCmp key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} {...classProps} bc={childBc} />
+                    {mapComponents(store.gridColumns, (ChildCmp, childBc, index) => (
+                        <ChildCmp
+                            key={`${childBc[VAR_RECORD_PAGE_OBJECT_ID]}-col-${
+                                record[store.recordsStore.recordId]
+                            }_${index}`}
+                            {...classProps}
+                            bc={childBc}
+                        />
                     ))}
                 </RecordContext.Provider>
             )}

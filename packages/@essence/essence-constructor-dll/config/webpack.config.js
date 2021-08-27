@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires, no-unused-vars */
 /* eslint-disable sort-keys, prefer-named-capture-group, require-unicode-regexp */
 const path = require("path");
 const webpack = require("webpack");
@@ -140,11 +141,13 @@ module.exports = {
         new webpack.DllPlugin({
             path: path.join(__dirname, "..", "dist", "manifest.json"),
             name: "vendor",
+            entryOnly: false,
         }),
         new webpack.DllPlugin({
             context: path.join(__dirname, "..", "one_level", "two_level", "three_level"),
             path: path.join(__dirname, "..", "dist", "manifest_essence.json"),
             name: "vendor",
+            entryOnly: false,
         }),
         new webpack.DefinePlugin({
             "process.env": filteredEnv,

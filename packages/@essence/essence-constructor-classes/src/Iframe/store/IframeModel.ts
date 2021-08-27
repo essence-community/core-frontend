@@ -14,6 +14,10 @@ export class IframeModel extends StoreBaseModel implements IStoreBaseModel {
             return typeiframe;
         }
 
+        if (this.bc.typeiframe === "HTML" || this.bc.typeiframe === "URL") {
+            return this.bc.typeiframe;
+        }
+
         return "URL";
     }
 

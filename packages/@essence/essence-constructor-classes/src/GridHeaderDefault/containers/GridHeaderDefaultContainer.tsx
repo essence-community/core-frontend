@@ -21,17 +21,47 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
     const classes = useStyles();
     const handleSort = async () => {
         const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
-        const column = bc.sortcolumn || bc.column;
+        const column = bc.order?.[0].property || bc.column;
 
         if (store && store.recordsStore && column) {
+            const [{property}] = store.recordsStore.order;
+            const isSortable = property === bc.order?.[0].property || property === bc.column;
+            let order = [...store.recordsStore.order];
+
+            if (!isSortable) {
+                if (bc.order) {
+                    order = [...bc.order];
+                } else {
+                    order = [
+                        {
+                            datatype: bc.datatype,
+                            direction: "ASC",
+                            format: bc.format,
+                            property: column,
+                        },
+                    ];
+                }
+            } else {
+                order = order.map((val) => {
+                    if (val.property === column) {
+                        return {
+                            ...val,
+                            direction: val.direction === "ASC" ? "DESC" : "ASC",
+                        };
+                    }
+
+                    return val;
+                });
+            }
+
             if (store.handlers.onApplyFilters) {
                 const isValid = await store.handlers.onApplyFilters("1", bc, {});
 
                 if (isValid) {
-                    store.recordsStore.setOrderAction(column);
+                    store.recordsStore.setOrderAction(order);
                 }
             } else {
-                store.recordsStore.setOrderAction(column);
+                store.recordsStore.setOrderAction(order);
             }
         }
     };
@@ -43,9 +73,9 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
             return null;
         }
 
-        const {direction, property} = store.recordsStore.order;
+        const [{direction, property}] = store.recordsStore.order;
         const lowerDirection = direction === "ASC" ? "asc" : "desc";
-        const isSortable = property === bc.sortcolumn || property === bc.column;
+        const isSortable = property === bc.order?.[0].property || property === bc.column;
         const isTreeGrid = store.bc.type === "TREEGRID";
 
         return (

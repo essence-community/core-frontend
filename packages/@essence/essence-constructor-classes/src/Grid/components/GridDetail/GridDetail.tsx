@@ -5,6 +5,7 @@ import {noop, toColumnStyleWidth} from "@essence-community/constructor-share/uti
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {IRecord, IClassProps, IPageModel} from "@essence-community/constructor-share/types";
+import {RecordContext} from "@essence-community/constructor-share/context";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {useStyles} from "./GridDetail.styles";
 
@@ -26,16 +27,18 @@ export const GridDetail: React.FC<IGridDetailProps> = ({record, bc, store, ...cl
             <UIForm onSubmit={noop} noForm initialValues={record} pageStore={classProps.pageStore} editing={false}>
                 <div className={classes.content}>
                     <Grid container spacing={1}>
-                        {mapComponents(panelDetails, (ChildCmp, childBc) => (
-                            <Grid
-                                item
-                                key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                xs={12}
-                                style={toColumnStyleWidth(childBc.width)}
-                            >
-                                <ChildCmp {...classProps} bc={childBc} />
-                            </Grid>
-                        ))}
+                        <RecordContext.Provider value={record}>
+                            {mapComponents(panelDetails, (ChildCmp, childBc) => (
+                                <Grid
+                                    item
+                                    key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                    xs={12}
+                                    style={toColumnStyleWidth(childBc.width)}
+                                >
+                                    <ChildCmp {...classProps} bc={childBc} />
+                                </Grid>
+                            ))}
+                        </RecordContext.Provider>
                     </Grid>
                 </div>
             </UIForm>

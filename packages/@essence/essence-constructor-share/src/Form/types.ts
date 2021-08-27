@@ -5,16 +5,19 @@ import {FieldValue, IRecord, IBuilderConfig, IPageModel, IBuilderMode} from "../
 export interface IRegisterFieldOptions {
     bc: IBuilderConfig;
     pageStore: IPageModel;
+    parentFieldKey?: string;
     isArray?: boolean;
     isObject?: boolean;
+    isFile?: boolean;
     clearValue?: FieldValue;
     defaultValueFn?: IField["defaultValueFn"];
-    output?: (field: IField, form: IForm, value?: IRecord | FieldValue) => IRecord | FieldValue;
-    input?: (initialValues: IRecord, field: IField, form: IForm) => [boolean, IRecord | FieldValue];
+    output?: IField["output"];
+    input?: IField["input"];
 }
 
 export interface IField {
     key: string;
+    parentFieldKey?: string;
     bc: IBuilderConfig;
     value: FieldValue;
     defaultValue?: FieldValue;
@@ -31,6 +34,7 @@ export interface IField {
     error?: TError;
     isArray?: boolean;
     isObject?: boolean;
+    isFile?: boolean;
     input: (initialValues: IRecord, field: IField, form: IForm) => [boolean, IRecord | FieldValue];
     output: (field: IField, form: IForm, value?: IRecord | FieldValue) => IRecord | FieldValue;
     reset(): void;
@@ -57,16 +61,20 @@ export interface IField {
 
 export interface IForm {
     values: IRecord;
+    valuesFile: FormData;
     initialValues: IRecord;
     hooks: IFormHooks;
     mode: IBuilderMode;
     isValid: boolean;
+    isExistFile: boolean;
     placement: string;
     isDirty: boolean;
     submitting: boolean;
     fields: ObservableMap<string, IField>;
     bc?: IBuilderConfig;
     editing: boolean;
+    isExistRequired: boolean;
+    validationCount: number;
     submit(): void;
     reset(): void;
     clear(): void;
@@ -109,6 +117,7 @@ export type TValidation = (field: IField, form: IForm, req?: string) => TError |
 
 export interface IParentFieldContext {
     key: string;
+    parentFieldKey: string;
     output?: IRegisterFieldOptions["output"];
     input?: IRegisterFieldOptions["input"];
 }

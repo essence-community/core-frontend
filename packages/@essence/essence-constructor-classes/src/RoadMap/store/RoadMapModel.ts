@@ -4,6 +4,7 @@ import {
     VALUE_SELF_ALWAYSFIRST,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_NAME,
+    VAR_RECORD_DISPLAYED,
 } from "@essence-community/constructor-share/constants";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {
@@ -32,7 +33,10 @@ export class RoadMapModel extends StoreBaseModel {
     constructor(props: IStoreBaseModelProps) {
         super(props);
 
-        const childs = (this.bc.childs || []).map((tab) => ({...tab, type: "TABBUTTON"}));
+        const childs = (this.bc.childs || []).map((tab) => ({
+            ...tab,
+            type: "TABBUTTON",
+        }));
 
         this.recordStore = new RecordsModel(
             {...this.bc, defaultvalue: VALUE_SELF_ALWAYSFIRST},
@@ -43,6 +47,7 @@ export class RoadMapModel extends StoreBaseModel {
         );
         this.childs = (this.bc.childs || []).map((tab) => ({
             ...tab,
+            [VAR_RECORD_DISPLAYED]: undefined,
             editmodepanel: true,
             hideactions: true,
             topbtn: [],
@@ -132,9 +137,14 @@ export class RoadMapModel extends StoreBaseModel {
     @action
     setNextTab = async (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
         const form = this.pageStore.forms.get(this.tabValue)!;
-        const isSuccess = btnBc.updatequery
-            ? await this.checkFormAction(mode, btnBc, {...options, form})
-            : form && (btnBc.skipvalidation || form.isValid);
+        let isSuccess = true;
+
+        if (btnBc.updatequery) {
+            isSuccess = await this.checkFormAction(mode, btnBc, {...options, form});
+        } else if (form && !btnBc.skipvalidation) {
+            await form.validate();
+            isSuccess = form.isValid;
+        }
 
         if (isSuccess) {
             const tabs = this.tabs
@@ -221,7 +231,7 @@ export class RoadMapModel extends StoreBaseModel {
     checkFormAction = async (mode: IBuilderMode, btnBc: IBuilderConfig, {form, files}: IHandlerOptions) => {
         await form!.validate();
 
-        if (btnBc.skipvalidation || form!.isValid) {
+        if (!btnBc.skipvalidation && form!.isValid) {
             return this.recordStore.saveAction(form!.values, (btnBc.modeaction || btnBc.mode || mode) as IBuilderMode, {
                 actionBc: btnBc,
                 files,
@@ -241,16 +251,22 @@ export class RoadMapModel extends StoreBaseModel {
         const isSuccess = await tabs
             .reduce(
                 (val, ckPageObject) =>
-                    val.then(async () => {
+                    val.then(async (res) => {
                         const tab = this.tabStatus.get(ckPageObject)!;
                         const formTab = this.pageStore.forms.get(ckPageObject);
                         const {btns} = tab;
                         const [bcBtn] = btns.filter((btn) => btn[VAR_RECORD_NAME] === "Override Next Button");
 
-                        const result = bcBtn.updatequery
-                            ? await this.checkFormAction((bcBtn.mode || "1") as IBuilderMode, bcBtn, {form: formTab})
-                            : formTab && (bcBtn.skipvalidation || formTab.isValid);
+                        let result = res;
 
+                        if (bcBtn.updatequery) {
+                            result = await this.checkFormAction((bcBtn.mode || "1") as IBuilderMode, bcBtn, {
+                                form: formTab,
+                            });
+                        } else if (formTab && !bcBtn.skipvalidation) {
+                            await formTab.validate();
+                            result = formTab.isValid;
+                        }
                         if (!result) {
                             this.changeTabAction(ckPageObject);
                             throw result;

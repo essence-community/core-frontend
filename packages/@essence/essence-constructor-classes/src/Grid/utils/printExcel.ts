@@ -1,5 +1,6 @@
+/* eslint-disable max-statements */
 import {i18next, getMasterObject, prepareUrl} from "@essence-community/constructor-share/utils";
-import {snackbarStore} from "@essence-community/constructor-share/models";
+import {snackbarStore, settingsStore} from "@essence-community/constructor-share/models";
 import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -9,6 +10,7 @@ import {
     META_PAGE_OBJECT,
     VAR_RECORD_CV_URL_RESPONSE,
     VAR_RECORD_URL,
+    VAR_SETTING_GATE_URL,
 } from "@essence-community/constructor-share/constants";
 import {IBuilderConfig, IRecordsModel, IRecord} from "@essence-community/constructor-share/types";
 import {
@@ -17,6 +19,8 @@ import {
     setMask,
 } from "@essence-community/constructor-share/models/RecordsModel/loadRecordsAction";
 import {request} from "@essence-community/constructor-share/request";
+import {appendInputForm} from "@essence-community/constructor-share/actions/download";
+import {stringify} from "qs";
 import {IGridModel} from "../stores/GridModel/GridModel.types";
 
 interface IPrintExcelType {
@@ -72,12 +76,77 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
         jsonbc: JSON.stringify(jsonbc),
     };
 
+    if (bc.btnexcel === "file") {
+        const queryStr = {
+            action: "file",
+            plugin: [bcBtn.extraplugingate, bc.extraplugingate].join(","),
+            query: bc[VAR_RECORD_QUERY_ID] || "",
+        };
+        const form = document.createElement("form");
+
+        form.setAttribute("method", "post");
+        form.setAttribute("action", `${settingsStore.settings[VAR_SETTING_GATE_URL]}?${stringify(queryStr)}`);
+        if (recordsStore.formData) {
+            form.setAttribute("enctype", "multipart/form-data");
+            if ((recordsStore.formData as any).keys) {
+                for (const key of (recordsStore.formData as any).keys()) {
+                    const value = (recordsStore.formData as any).getAll(key);
+
+                    if (typeof value[0] === "object") {
+                        appendInputForm({
+                            files: value,
+                            form,
+                            name: key,
+                            type: "file",
+                        });
+                    } else {
+                        appendInputForm({
+                            form,
+                            name: key,
+                            value: value[0],
+                        });
+                    }
+                }
+            }
+        }
+        appendInputForm({
+            form,
+            name: "page_object",
+            value: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        });
+        appendInputForm({
+            form,
+            name: "session",
+            value: pageStore?.applicationStore.authStore.userInfo.session || "",
+        });
+        appendInputForm({
+            form,
+            name: "json",
+            value: JSON.stringify(json),
+        });
+        Object.entries(body).forEach(([key, value]) => {
+            appendInputForm({
+                form,
+                name: key,
+                value: value,
+            });
+        });
+        if (document.body) {
+            document.body.appendChild(form);
+        }
+        form.submit();
+        if (document.body) {
+            document.body.removeChild(form);
+        }
+
+        return Promise.resolve(true);
+    }
     setMask(true, false, pageStore);
 
     return request({
         [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-        action: "sql",
         body,
+        formData: recordsStore.formData,
         // Gate: bc[VAR_RECORD_CK_D_ENDPOINT],
         json,
         list: false,
@@ -101,7 +170,8 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
 
             return isValid > 0;
         })
-        .catch(() => {
+        .catch((error) => {
+            snackbarStore.checkExceptResponse(error, pageStore.route, pageStore.applicationStore);
             setMask(false, false, pageStore);
 
             return false;

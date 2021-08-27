@@ -100,7 +100,7 @@ export function useButtonClick(
 
             return promise.then((res) => {
                 if (isMountedRef.current) {
-                    if (formCtx && !formCtx.isValid) {
+                    if (!bc.noform && formCtx && !formCtx.isValid) {
                         if (!formValidation.current) {
                             setIsDisabled(!formCtx.isValid);
                             formValidation.current = reaction(
@@ -130,9 +130,9 @@ export function useButtonClick(
     };
 
     const handleClickDefer = () => {
-        const {redirecturl, redirectusequery, columnsfilter} = bc;
+        const {handler, redirecturl, redirectusequery, columnsfilter} = bc;
 
-        if (disabled || isDisabled) {
+        if (disabled || isDisabled || handler === "none") {
             return null;
         }
 

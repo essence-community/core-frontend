@@ -12,7 +12,6 @@ import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {useModel} from "@essence-community/constructor-share/hooks";
-import {noop} from "@essence-community/constructor-share/utils";
 import darkLogo from "../images/dark_logo.png";
 import lightLogo from "../images/light_logo.png";
 import {AuthFormModel} from "../store/AuthFormModel";
@@ -29,7 +28,7 @@ export const AuthFormContainer: React.FC<IClassProps<IBuilderClassConfig>> = (pr
     const logo = theme.palette.type === "light" ? lightLogo : darkLogo;
     const classes = useStyles(props);
 
-    useModel((options) => new AuthFormModel({...options, applicationStore, history}), props);
+    const [store] = useModel((options) => new AuthFormModel({...options, applicationStore, history}), props);
 
     React.useEffect(() => {
         if (applicationStore && applicationStore.authStore.userInfo.session) {
@@ -50,7 +49,13 @@ export const AuthFormContainer: React.FC<IClassProps<IBuilderClassConfig>> = (pr
                             <img src={logo} alt="logo" height="50" width="50" />
                             {settingsStore.settings[VAR_SETTING_PROJECT_AUTH_TITLE]}
                         </Typography>
-                        <UIForm bc={bc} pageStore={pageStore} className={classes.form} onSubmit={noop} placement="auth">
+                        <UIForm
+                            bc={bc}
+                            pageStore={pageStore}
+                            className={classes.form}
+                            onSubmit={store.handleSubmit}
+                            placement="auth"
+                        >
                             <Grid container direction="column" spacing={3}>
                                 {mapComponents(bc.childs, (ChidCmp, childBc) => (
                                     <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} item>
@@ -58,6 +63,7 @@ export const AuthFormContainer: React.FC<IClassProps<IBuilderClassConfig>> = (pr
                                     </Grid>
                                 ))}
                                 <Grid item>
+                                    <button hidden />
                                     <Grid container spacing={3} justify="flex-end">
                                         {mapComponents(bc.bottombtn, (ChidCmp, childBc) => (
                                             <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} item>

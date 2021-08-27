@@ -12,19 +12,66 @@ export const GridContainer: React.FC<IClassProps> = (props) => {
     const {elevation = 0, bc, disabled, pageStore, readOnly, visible} = props;
     const gridBc = React.useMemo(() => {
         const {filters} = bc;
+        const resBc = {...bc};
 
-        if (!bc[VAR_RECORD_MASTER_ID] && filters && filters.length > 0 && !filters[0][VAR_RECORD_MASTER_ID]) {
+        if (resBc.order && resBc.columns) {
+            const colBc = resBc.columns.find((bcCol) => bcCol.column === resBc.order[0].property);
+
+            if (colBc && colBc.order && colBc.order.length) {
+                resBc.order = colBc.order;
+            }
+            resBc.order = resBc.order.map((val) => {
+                const colChildBc = resBc.columns.find((bcCol) => bcCol.column === val.property);
+
+                if (colChildBc) {
+                    return {
+                        ...val,
+                        datatype: colChildBc.datatype,
+                        format: colChildBc.format,
+                    };
+                }
+
+                return val;
+            });
+
+            resBc.columns = resBc.columns.map((col) => {
+                if (col.order) {
+                    const order = col.order.map((val) => {
+                        const colChildBc = resBc.columns.find((bcCol) => bcCol.column === val.property);
+
+                        if (colChildBc) {
+                            return {
+                                ...val,
+                                datatype: colChildBc.datatype,
+                                format: colChildBc.format,
+                            };
+                        }
+
+                        return val;
+                    });
+
+                    return {
+                        ...col,
+                        order,
+                    };
+                }
+
+                return col;
+            });
+        }
+
+        if (!resBc[VAR_RECORD_MASTER_ID] && filters && filters.length > 0 && !filters[0][VAR_RECORD_MASTER_ID]) {
             return {
-                ...bc,
+                ...resBc,
                 autoload: false,
                 filters: filters.map((filter) => ({
                     ...filter,
-                    autoload: pageStore.isActiveRedirect ? false : bc.autoload,
+                    autoload: pageStore.isActiveRedirect ? false : resBc.autoload,
                 })),
             };
         }
 
-        return bc;
+        return resBc;
     }, [bc, pageStore]);
     const [store] = useModel((options) => new GridModel(options), {...props, bc: gridBc});
 

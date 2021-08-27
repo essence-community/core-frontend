@@ -56,9 +56,9 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
     const handleReactValue = React.useCallback(
         (value: FieldValue) => {
             if (bc.allownew && value === bc.allownew) {
-                field.onChange("");
+                field.onClear();
             } else if (isEmpty(value)) {
-                store.clearAction();
+                store.resetAction();
             } else if (
                 !store.recordsStore.isLoading &&
                 (value === VALUE_SELF_FIRST || value === VALUE_SELF_ALWAYSFIRST) &&
@@ -104,6 +104,9 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
 
                     if (isDefault) {
                         field.onChange(recordsState.record ? recordsState.record[store.valuefield] : "");
+                        if (recordsState.record && store.bc.valuefield && store.bc.valuefield.length > 1) {
+                            store.patchForm(field, recordsState.record);
+                        }
                     }
 
                     store.handleSetValue(value, true, recordsState.status === "search" && recordsState.isUserReload);

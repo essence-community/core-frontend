@@ -29,6 +29,9 @@ import {
     VAR_SETTING_MODULE_URL,
     VAR_SETTING_ANONYMOUS_ACTION,
     VAR_SETTING_WS_GATE_URL,
+    VAR_RECORD_CK_VIEW,
+    VAR_SETTING_VIEW_URL,
+    VAR_SETTING_URL_APP_NAME,
     loggerRoot,
 } from "@essence-community/constructor-share/constants";
 import {i18next, TFunction} from "@essence-community/constructor-share/utils";
@@ -40,6 +43,7 @@ import {
     PageModel,
     modulesStore,
     redirectToPage,
+    viewStore,
 } from "@essence-community/constructor-share/models";
 import {History} from "history";
 import {pages} from "../mocks";
@@ -65,6 +69,7 @@ const prepareUserGlobals = (userInfo: Partial<IAuthSession>) => {
     }, {});
 };
 const NONE_BC: IBuilderConfig = {
+    [VAR_RECORD_CK_VIEW]: "system",
     [VAR_RECORD_PAGE_OBJECT_ID]: "none",
     [VAR_RECORD_PARENT_ID]: "none",
     type: "NONE",
@@ -102,8 +107,7 @@ export class ApplicationModel implements IApplicationModel {
     history: History;
 
     @computed get bc(): IBuilderConfig {
-        const {children} = this.recordsStore.selectedRecordValues;
-        const {selectedRecordValues} = this.recordsApplicationStore;
+        const children = this.recordsStore.recordsState.records as any;
 
         if (!Array.isArray(children)) {
             return NONE_BC;
@@ -111,18 +115,30 @@ export class ApplicationModel implements IApplicationModel {
 
         const bc =
             children.find((rec: IBuilderConfig) => {
-                return parseMemoize(rec.activerules).runer({get: this.handleGetValue});
+                return (
+                    rec[VAR_RECORD_URL] === this.url &&
+                    ((isEmpty(rec.activerules) && parseMemoize(rec.activerules).runer({get: this.handleGetValue})) ||
+                        true)
+                );
             }) || NONE_BC;
 
         if (bc) {
-            if (bc[VAR_RECORD_PAGE_OBJECT_ID] === selectedRecordValues[VAR_RECORD_PAGE_OBJECT_ID]) {
-                return (selectedRecordValues as unknown) as IBuilderConfig;
-            }
-
             return bc;
         }
 
         return NONE_BC;
+    }
+
+    @computed get defaultValue(): string | undefined {
+        let defaultValue = this.bc.defaultvalue;
+
+        if (this.bc.defaultvaluerule) {
+            defaultValue = parseMemoize(this.bc.defaultvaluerule).runer({
+                get: this.handleGetValue,
+            });
+        }
+
+        return defaultValue;
     }
 
     @observable blockText: string | ((trans: TFunction) => string) = "";
@@ -158,16 +174,6 @@ export class ApplicationModel implements IApplicationModel {
                 [VAR_RECORD_PAGE_OBJECT_ID]: "application",
                 [VAR_RECORD_PARENT_ID]: "application",
                 [VAR_RECORD_QUERY_ID]: "MTApplicationRoute",
-                defaultvalue: "##alwaysfirst##",
-                type: "NONE",
-            },
-            {applicationStore: this, pageStore: null},
-        );
-        this.recordsApplicationStore = new RecordsModel(
-            {
-                [VAR_RECORD_PAGE_OBJECT_ID]: "application",
-                [VAR_RECORD_PARENT_ID]: "application",
-                [VAR_RECORD_QUERY_ID]: "GetPageObject",
                 defaultvalue: "##alwaysfirst##",
                 type: "NONE",
             },
@@ -268,55 +274,64 @@ export class ApplicationModel implements IApplicationModel {
 
     // eslint-disable-next-line max-statements
     redirectToFirstValidApplication = async (url?: string): Promise<boolean | void> => {
-        const {children} = this.recordsStore.selectedRecordValues;
+        const children = this.recordsStore.records as any;
 
         if (Array.isArray(children)) {
             const firstValidApplication = children.find((rec: IBuilderConfig) => {
-                if (!rec.activerules) {
-                    return false;
+                if (isEmpty(rec.activerules)) {
+                    return true;
                 }
 
-                return parseMemoize(rec.activerules.replace(/cv_url\s?={2,3}\s?["']\w+["']/u, "true")).runer({
+                return parseMemoize(rec.activerules).runer({
                     get: this.handleGetValue,
                 });
             });
 
-            if (firstValidApplication) {
-                const match = /cv_url\s?={2,3}\s?["'](?<app>\w+)["']/u.exec(firstValidApplication.activerules);
+            if (firstValidApplication && firstValidApplication[VAR_RECORD_URL]) {
+                if (firstValidApplication[VAR_RECORD_URL] !== url) {
+                    const state = (this.history.location.state || {}) as {backUrl?: string};
+                    const {backUrl = this.history.location.pathname} = state;
+                    let defaultValue = firstValidApplication.defaultvalue;
 
-                if (match && match.groups && match.groups.app) {
-                    if (match.groups.app !== url) {
-                        const state = (this.history.location.state || {}) as {backUrl?: string};
-                        const {backUrl = this.history.location.pathname} = state;
-
-                        return this.history.push(
-                            `/${match.groups.app}${
-                                firstValidApplication.defaultvalue ? "/" + firstValidApplication.defaultvalue : ""
-                            }`,
-                            isEmpty(backUrl) || backUrl === "/" ? {backUrl: undefined} : {backUrl: backUrl},
-                        );
-                    } else {
-                        const queryId = firstValidApplication[VAR_RECORD_QUERY_ID] || "MTRoute";
-
-                        if (!this.routesStore || this.routesStore.recordsStore.bc[VAR_RECORD_QUERY_ID] !== queryId) {
-                            this.routesStore = new RoutesModel(
-                                {
-                                    [VAR_RECORD_PAGE_OBJECT_ID]: "routes",
-                                    [VAR_RECORD_PARENT_ID]: firstValidApplication[VAR_RECORD_PAGE_OBJECT_ID],
-                                    [VAR_RECORD_QUERY_ID]: queryId,
-                                    type: "NONE",
-                                },
-                                this,
-                            );
-                        }
-
-                        await this.routesStore?.recordsStore.loadRecordsAction({});
-
-                        this.pagesStore.pages.clear();
-                        this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
-
-                        return;
+                    if (firstValidApplication.defaultvaluerule) {
+                        defaultValue = parseMemoize(firstValidApplication.defaultvaluerule).runer({
+                            get: this.handleGetValue,
+                        });
                     }
+
+                    return this.history.push(
+                        `/${firstValidApplication[VAR_RECORD_URL]}${defaultValue ? "/" + defaultValue : ""}`,
+                        isEmpty(backUrl) || backUrl === "/" ? {backUrl: undefined} : {backUrl: backUrl},
+                    );
+                } else {
+                    await viewStore.loadView(
+                        firstValidApplication[VAR_RECORD_CK_VIEW],
+                        settingsStore.settings[VAR_SETTING_VIEW_URL],
+                    );
+                    const queryId = firstValidApplication[VAR_RECORD_QUERY_ID] || "MTRoute";
+
+                    if (!this.routesStore || this.routesStore.recordsStore.bc[VAR_RECORD_QUERY_ID] !== queryId) {
+                        this.routesStore = new RoutesModel(
+                            {
+                                [VAR_RECORD_PAGE_OBJECT_ID]: "routes",
+                                [VAR_RECORD_PARENT_ID]: firstValidApplication[VAR_RECORD_PAGE_OBJECT_ID],
+                                [VAR_RECORD_QUERY_ID]: queryId,
+                                getglobaltostore: [{in: VAR_SETTING_URL_APP_NAME}],
+                                type: "NONE",
+                            },
+                            this,
+                            {
+                                searchValues: {appUrl: url || this.url},
+                            },
+                        );
+                    }
+                    this.routesStore?.recordsStore.setSearchValuesAction({appUrl: url || this.url});
+                    await this.routesStore?.recordsStore.searchAction({appUrl: url || this.url});
+
+                    this.pagesStore.pages.clear();
+                    this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
+
+                    return;
                 }
             }
         }
@@ -335,15 +350,9 @@ export class ApplicationModel implements IApplicationModel {
 
     loadApplictionConfigs = (): Promise<void> =>
         this.recordsStore.loadRecordsAction({}).then(() => {
-            const {children} = this.recordsStore.selectedRecordValues;
+            const records = this.recordsStore.records;
 
-            this.recordsStore.setRecordsAction([
-                {
-                    ...this.recordsStore.selectedRecordValues,
-                    children: [...(Array.isArray(children) ? children : []), ...pages],
-                },
-            ]);
-            this.recordsStore.setSelectionAction(this.recordsStore.selectedRecordId);
+            this.recordsStore.setRecordsAction([...records, ...pages]);
         });
 
     loadApplicationAction = action("loadApplicationAction", async () => {
@@ -351,23 +360,31 @@ export class ApplicationModel implements IApplicationModel {
             this.recordsStore.recordsState.status === "init" && this.loadApplictionConfigs(),
             settingsStore.settings.module_available === "true" &&
                 !modulesStore.isLoaded &&
-                modulesStore.loadModules(settingsStore.settings[VAR_SETTING_MODULE_URL]),
+                modulesStore.loadModules(
+                    settingsStore.settings[VAR_SETTING_MODULE_URL],
+                    this.bc[VAR_RECORD_CK_VIEW] || "system",
+                ),
             snackbarStore.recordsStore.recordsState.status === "init" &&
                 snackbarStore.recordsStore.loadRecordsAction({}),
         ]);
 
         if (this.bc && this.bc[VAR_RECORD_PAGE_OBJECT_ID] !== "none") {
+            await viewStore.loadView(this.bc[VAR_RECORD_CK_VIEW], settingsStore.settings[VAR_SETTING_VIEW_URL]);
             this.routesStore = new RoutesModel(
                 {
                     [VAR_RECORD_PAGE_OBJECT_ID]: "routes",
                     [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
                     [VAR_RECORD_QUERY_ID]: this.bc[VAR_RECORD_QUERY_ID] || "MTRoute",
+                    getglobaltostore: [{in: VAR_SETTING_URL_APP_NAME}],
                     type: "NONE",
                 },
                 this,
+                {
+                    searchValues: {appUrl: this.url},
+                },
             );
-
-            await this.routesStore?.recordsStore.loadRecordsAction({});
+            this.routesStore?.recordsStore.setSearchValuesAction({appUrl: this.url});
+            await this.routesStore?.recordsStore.searchAction({appUrl: this.url});
             this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
         } else {
             await this.redirectToFirstValidApplication();
@@ -394,10 +411,14 @@ export class ApplicationModel implements IApplicationModel {
     initWsClient = (session: string) => {
         let wsClient: WebSocket | null = null;
 
-        new Promise((resolve, reject) => {
+        new Promise<void>((resolve, reject) => {
             const wsUrl = settingsStore.settings[VAR_SETTING_WS_GATE_URL];
             const currentSession = this.authStore.userInfo.session;
             let url = wsUrl;
+
+            if (!currentSession) {
+                resolve();
+            }
 
             if (this.wsClient && this.wsClient.readyState === this.wsClient.OPEN) {
                 resolve();
@@ -407,7 +428,7 @@ export class ApplicationModel implements IApplicationModel {
 
                 url = `${baseUrl.protocol.indexOf("https") > -1 ? "wss" : "ws"}://${baseUrl.host}${wsUrl}`;
             }
-            url = `${url}${url.indexOf("?") > -1 ? "&" : "?"}session=${session}`;
+            url = `${url}${url.indexOf("?") > -1 ? "&" : "?"}session=${encodeURIComponent(session)}`;
             wsClient = new WebSocket(url, "notification");
             wsClient.onopen = () => {
                 this.countConnect = 0;
@@ -417,12 +438,17 @@ export class ApplicationModel implements IApplicationModel {
             wsClient.onmessage = this.handleWsMessage;
             wsClient.onclose = (event: Record<string, any>) => {
                 if (event.code === CLOSE_CODE) {
+                    this.wsClient = null;
+
                     return;
                 } else if (event.code === LOGOUT_CODE && session === currentSession) {
                     this.logoutAction();
+                    this.wsClient = null;
 
                     return;
                 } else if (event.code === LOGOUT_CODE && session !== currentSession) {
+                    this.wsClient = null;
+
                     return;
                 }
                 if (currentSession && this.countConnect < MAX_RECONNECT) {
@@ -520,7 +546,7 @@ export class ApplicationModel implements IApplicationModel {
     reloadApplication = async (appName: string, routerPageId?: string, filter?: string) => {
         await this.handleChangeUrl(appName);
         const routes = this.routesStore ? this.routesStore.recordsStore.records : [];
-        const routePageIdFind = routerPageId || this.bc.defaultvalue;
+        const routePageIdFind = routerPageId || this.defaultValue;
         const pageConfig = routes.find(
             (route: IRecord) => route[VAR_RECORD_ID] === routePageIdFind || route[VAR_RECORD_URL] === routePageIdFind,
         );
@@ -551,8 +577,8 @@ export class ApplicationModel implements IApplicationModel {
 
     handleChangeUrl = async (url: string) => {
         this.isApplicationReady = false;
-
         if (this.bc[VAR_RECORD_PAGE_OBJECT_ID] !== "none") {
+            await viewStore.loadView(this.bc[VAR_RECORD_CK_VIEW], settingsStore.settings[VAR_SETTING_VIEW_URL]);
             const queryId = this.bc[VAR_RECORD_QUERY_ID] || "MTRoute";
 
             if (!this.routesStore || this.routesStore.recordsStore.bc[VAR_RECORD_QUERY_ID] !== queryId) {
@@ -561,13 +587,18 @@ export class ApplicationModel implements IApplicationModel {
                         [VAR_RECORD_PAGE_OBJECT_ID]: "routes",
                         [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
                         [VAR_RECORD_QUERY_ID]: queryId,
+                        getglobaltostore: [{in: VAR_SETTING_URL_APP_NAME}],
                         type: "NONE",
                     },
                     this,
+                    {
+                        searchValues: {appUrl: this.url},
+                    },
                 );
             }
 
-            await this.routesStore?.recordsStore.loadRecordsAction({});
+            this.routesStore?.recordsStore.setSearchValuesAction({appUrl: url});
+            await this.routesStore?.recordsStore.searchAction({appUrl: url});
 
             this.pagesStore.pages.clear();
             this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");

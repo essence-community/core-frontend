@@ -30,7 +30,7 @@ export const TabPopoverItem: React.FC<ITabPopoverItemProps> = (props) => {
     };
 
     return (
-        <div className={className} onClick={handleClick}>
+        <div className={className} onClick={handleClick} data-qtip={props.label}>
             <div className={classes.label}>{props.label}</div>
         </div>
     );

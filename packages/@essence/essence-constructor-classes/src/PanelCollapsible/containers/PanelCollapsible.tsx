@@ -8,6 +8,7 @@ import {useTranslation} from "@essence-community/constructor-share/utils";
 import {toTranslateText} from "@essence-community/constructor-share/utils/transform";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {useObserver} from "mobx-react";
+import {GRID_CONFIGS, GRID_ALIGN_CONFIGS} from "@essence-community/constructor-share/constants/ui";
 import {useStyles} from "./PanelCollapsible.styles";
 
 export const PanelCollapsible: React.FC<IClassProps> = (props) => {
@@ -21,8 +22,8 @@ export const PanelCollapsible: React.FC<IClassProps> = (props) => {
     const {[VAR_RECORD_DISPLAYED]: title} = bc;
     const boxBc = React.useMemo(() => ({...bc, type: "BOX.NOCOMMONDECORATOR"} as IBuilderConfig), [bc]);
     const handleChangeCollapse = React.useCallback(() => {
-        setOpen(!open);
-    }, [open]);
+        setOpen((lastOpen) => !lastOpen);
+    }, []);
 
     const handleKeyDown = React.useCallback(
         (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -43,26 +44,44 @@ export const PanelCollapsible: React.FC<IClassProps> = (props) => {
             <Grid container direction="column" spacing={styleTheme === "light" ? 0 : 1}>
                 <Grid
                     item
+                    container
                     onClick={handleChangeCollapse}
                     tabIndex={0}
                     onKeyDown={handleKeyDown}
+                    data-qtip={toTranslateText(trans, title)}
+                    {...GRID_CONFIGS.hbox}
+                    {...GRID_ALIGN_CONFIGS["left-hbox"]}
                     className={`${classes.baseLabelGrid} ${
                         !open && styleTheme === "light" ? classes.closedLabelGrid : classes.labelGrid
                     }`}
                 >
-                    <Typography variant="body2" className={classes.labelTypography}>
-                        <Icon iconfont={open ? "angle-up" : "angle-down"} className={classes.chevronIcon} />
-                        {toTranslateText(trans, title)}
-                    </Typography>
+                    <Grid
+                        item
+                        container
+                        className={classes.labelParentBox}
+                        {...GRID_CONFIGS.hbox}
+                        {...GRID_ALIGN_CONFIGS["left-hbox"]}
+                    >
+                        <Grid item className={classes.labelBox}>
+                            <Icon
+                                iconfont={open ? "angle-up" : "angle-down"}
+                                size="3x"
+                                className={classes.chevronIcon}
+                            />
+                        </Grid>
+                        <Grid item className={`${classes.labelBox} ${classes.labelBoxText}`}>
+                            <Typography variant="body2" className={classes.labelTypography}>
+                                {toTranslateText(trans, title)}
+                            </Typography>
+                        </Grid>
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    <div className={classes.collapseContent}>
-                        {children
-                            ? children
-                            : mapComponentOne(boxBc, (Child, childBc) => (
-                                  <Child key={childBc.ck_page_object} {...props} bc={childBc} />
-                              ))}
-                    </div>
+                <Grid item className={classes.collapseContent}>
+                    {children
+                        ? children
+                        : mapComponentOne(boxBc, (Child, childBc) => (
+                              <Child key={childBc.ck_page_object} {...props} bc={childBc} />
+                          ))}
                 </Grid>
             </Grid>
         </Collapse>

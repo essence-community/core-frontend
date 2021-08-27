@@ -27,6 +27,7 @@ import {getMasterObject} from "../utils/getMasterObject";
 import {TText} from "../types/SnackbarModel";
 import {IForm} from "../Form";
 import {request} from "../request";
+import {RETURN_FORM_DATA, RETURN_FORM_DATA_BREAK} from "../constants/variables";
 import {setMask} from "./recordsActions";
 
 export interface IConfig {
@@ -108,9 +109,10 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
         formData,
         noReload,
     } = config;
-    let formDataValue = formData;
+    let formDataValue = formData || (form?.isExistFile ? form?.valuesFile : undefined);
     const {extraplugingate, getglobaltostore, getmastervalue, timeout} = actionBc;
     const getMasterValue = getmastervalue || bc.getmastervalue;
+    const getGlobalToStore = getglobaltostore || bc.getglobaltostore;
     const masterId = bc[VAR_RECORD_MASTER_ID];
     let master = undefined;
     let modeCheck = mode;
@@ -135,11 +137,15 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
     }
     if (Array.isArray(values)) {
         filteredValues = values.map((item: IRecord) =>
-            attachGlobalValues({getglobaltostore, globalValues: pageStore.globalValues, values: filter(item)}),
+            attachGlobalValues({
+                getglobaltostore: getGlobalToStore,
+                globalValues: pageStore.globalValues,
+                values: filter(item),
+            }),
         );
     } else if (!(values instanceof FormData)) {
         filteredValues = attachGlobalValues({
-            getglobaltostore,
+            getglobaltostore: getGlobalToStore,
             globalValues: pageStore.globalValues,
             values: filter(values),
         });
@@ -164,6 +170,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
             },
         },
         list: false,
+        mode,
         onUploadProgress: progressModel?.changeProgress,
         plugin: extraplugingate || bc.extraplugingate,
         query,
@@ -205,26 +212,40 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
                     if (progressModel) {
                         progressModel.changeStatusProgress(check === 1 || check === 2 ? "uploaded" : "errorUpload");
                     }
+                    let result = response;
 
+                    if (
+                        form &&
+                        typeof response === "object" &&
+                        (response[RETURN_FORM_DATA] || response[RETURN_FORM_DATA_BREAK])
+                    ) {
+                        form.update({
+                            ...form.values,
+                            ...(response[RETURN_FORM_DATA] || response[RETURN_FORM_DATA_BREAK]),
+                        });
+                        if (response[RETURN_FORM_DATA_BREAK]) {
+                            result = false;
+                        }
+                    }
                     if (check === 1 && noReload) {
-                        resolve(response);
+                        resolve(result);
                     } else if (check === 1) {
                         const loadRecordsAction = findReloadAction(this, bc);
                         const isAttach =
                             !bc.refreshallrecords &&
                             (mode === "1" || mode === "2" || mode === "4") &&
-                            !isEmpty(response[recordId]);
+                            !isEmpty(typeof response === "object" ? response[recordId] : undefined);
 
                         loadRecordsAction
                             ? loadRecordsAction({
-                                  selectedRecordId: response[recordId],
+                                  selectedRecordId: typeof response === "object" ? response[recordId] : undefined,
                                   status: isAttach ? "attach" : "save-any",
                               }).then(() => {
                                   pageStore.nextStepAction(mode, bc);
 
-                                  resolve(response);
+                                  resolve(result);
                               })
-                            : resolve(response);
+                            : resolve(result);
                     }
 
                     if (check === 0) {

@@ -12,6 +12,7 @@ import {
     VAR_RECORD_CK_STREET,
     VAR_RECORD_CV_HOUSE,
     VAR_RECORD_CK_HOUSE,
+    VAR_RECORD_ID,
 } from "@essence-community/constructor-share/constants";
 import {action, computed} from "mobx";
 import {IForm} from "@essence-community/constructor-share/Form";
@@ -26,8 +27,7 @@ export class FieldMultiAddrModel extends FieldMultiModel implements IFieldMultiM
                 ...props.bc,
                 [VAR_RECORD_QUERY_ID]: "jNSIGetAddrByID",
                 defaultvalue: VALUE_SELF_ALWAYSFIRST,
-                orderdirection: undefined,
-                orderproperty: "",
+                order: [{direction: "ASC", property: VAR_RECORD_ID}],
             },
         });
     }

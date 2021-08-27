@@ -1,21 +1,18 @@
 import {action, observable, ObservableMap} from "mobx";
-import {
-    getFromStore,
-    saveToStore,
-    IBuilderConfig,
-    STORE_FAVORITS_KEY,
-    IRoutesModel,
-    IApplicationModel,
-} from "@essence-community/constructor-share";
+import {getFromStore, saveToStore, STORE_FAVORITS_KEY} from "@essence-community/constructor-share";
+import {IBuilderConfig, IRoutesModel, IApplicationModel, IOptions} from "@essence-community/constructor-share/types";
 import {RecordsModel} from "@essence-community/constructor-share/models";
 
+interface IRoutesModelOptions {
+    searchValues?: IOptions["searchValues"];
+}
 export class RoutesModel implements IRoutesModel {
     recordsStore: RecordsModel;
 
     @observable favorits: ObservableMap = observable.map(getFromStore(STORE_FAVORITS_KEY, {}));
 
-    constructor(bc: IBuilderConfig, applicationStore: IApplicationModel) {
-        this.recordsStore = new RecordsModel(bc, {applicationStore, pageStore: null});
+    constructor(bc: IBuilderConfig, applicationStore: IApplicationModel, options?: IRoutesModelOptions) {
+        this.recordsStore = new RecordsModel(bc, {...options, applicationStore, pageStore: null});
     }
 
     setFavoritsAction = action("setFavoritsAction", (ckId: string) => {

@@ -1,6 +1,6 @@
 {
   "name": "@essence-community/constructor-share",
-  "version": "2.6.5",
+  "version": "2.7.0",
   "description": "Share package for building modules",
   "main": "index.js",
   "repository": "https://github.com/essence-community/core-frontend",
@@ -18,12 +18,12 @@
     "tscheck": "tsc"
   },
   "dependencies": {
-    "@material-ui/core": "4.11.0",
+    "@material-ui/core": "4.11.3",
     "@types/react-custom-scrollbars": "^4.0.6",
     "@types/react-dom": "^16.9.8",
     "@types/react-input-mask": "^2.0.5",
     "@types/react-linkify": "^1.0.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bignumber.js": "9.0.0",
     "clsx": "^1.1.1",
     "debug": "4.1.1",
@@ -37,8 +37,8 @@
     "lodash": "^4.17.19",
     "mdi-react": "3.4.0",
     "memoizee": "^0.4.14",
-    "mobx": "^5.15.4",
-    "mobx-react": "6.3.0",
+    "mobx": "^5.15.7",
+    "mobx-react": "^6.3.1",
     "moment": "2.27.0",
     "p-limit": "^3.0.2",
     "qs": "^6.9.4",

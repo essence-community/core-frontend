@@ -12,6 +12,8 @@ import {
 } from "../constants";
 import {snackbarStore} from "../models";
 import {request} from "../request";
+import {attachGlobalStore} from "../models/RecordsModel/loadRecordsAction";
+import {setMask} from "../actions/recordsActions";
 import {parseMemoize} from "./parser";
 import {getMasterObject} from "./getMasterObject";
 
@@ -118,19 +120,25 @@ function redirectToUrl({redirecturl, values, pageStore, record}: IRedirectToUrlP
 
 async function redirectUseQuery({bc, query, pageStore, values, record}: IRedirectUseQueryProps) {
     try {
+        const json = {
+            filter: values,
+            master: getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, bc.getmastervalue),
+        };
+
+        attachGlobalStore({bc, globalValues: pageStore.globalValues, json});
+        setMask(bc.noglobalmask, pageStore, true);
         const res: any = await request({
             [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
             action: "dml",
-            json: {
-                filter: values,
-                master: getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, bc.getmastervalue),
-            },
+            json,
             list: false,
             plugin: bc.extraplugingate,
             query,
             session: pageStore.applicationStore.authStore.userInfo.session,
             timeout: bc.timeout,
         });
+
+        setMask(bc.noglobalmask, pageStore, false);
         const isValid = snackbarStore.checkValidResponseAction(res, {
             applicationStore: pageStore.applicationStore,
             route: pageStore.route,
@@ -155,6 +163,7 @@ async function redirectUseQuery({bc, query, pageStore, values, record}: IRedirec
                 route: pageStore.route,
             },
         );
+        setMask(bc.noglobalmask, pageStore, false);
 
         return false;
     }

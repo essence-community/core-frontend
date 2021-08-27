@@ -32,6 +32,7 @@ export class Form implements IForm {
     }
 
     @observable public fields: ObservableMap<string, IField> = observable.map();
+    @observable public fieldsFile: ObservableMap<string, IField> = observable.map();
 
     @observable public extraValue: IRecord = {};
 
@@ -45,6 +46,8 @@ export class Form implements IForm {
      * Panel, History - when click on edit or add or ... button
      */
     @observable public editing: boolean;
+
+    @observable public validationCount = 0;
 
     @computed get values(): IRecord {
         const values: IRecord = {
@@ -60,9 +63,49 @@ export class Form implements IForm {
 
         return values;
     }
+    @computed get valuesFile(): FormData {
+        const formData = new FormData();
+
+        for (const [key, field] of this.fieldsFile.entries()) {
+            const val = field.output(field, this) as File[];
+
+            if (Array.isArray(val)) {
+                for (const file of val) {
+                    formData.append(key, file, file.name);
+                }
+            }
+        }
+
+        return formData;
+    }
+    @computed get isExistFile(): boolean {
+        return this.fieldsFile.size > 0;
+    }
+
+    @computed get isExistRequired(): boolean {
+        for (const field of this.fields.values()) {
+            if (field.isRequired) {
+                return true;
+            }
+        }
+
+        for (const field of this.fieldsFile.values()) {
+            if (field.isRequired) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     @computed get isValid(): boolean {
         for (const field of this.fields.values()) {
+            if (field.isValid === false) {
+                return false;
+            }
+        }
+
+        for (const field of this.fieldsFile.values()) {
             if (field.isValid === false) {
                 return false;
             }
@@ -73,7 +116,8 @@ export class Form implements IForm {
 
     @action
     registerField = (key: string, options: IRegisterFieldOptions): IField => {
-        let field = this.fields.get(key);
+        const keyStore = options.isFile ? "fieldsFile" : "fields";
+        let field = this[keyStore].get(key);
 
         if (!field) {
             field = new Field({
@@ -83,15 +127,17 @@ export class Form implements IForm {
                 form: this,
                 input: options.input,
                 isArray: options.isArray,
+                isFile: options.isFile,
                 isObject: options.isObject,
                 key,
                 output: options.output,
                 pageStore: options.pageStore,
+                parentFieldKey: options.parentFieldKey,
             });
 
-            this.fields.set(key, field);
-            this.fields = new ObservableMap(
-                entriesMapSort(this.fields, ([keyOld], [keyNew]) => keyOld.length - keyNew.length),
+            this[keyStore].set(key, field);
+            this[keyStore] = new ObservableMap(
+                entriesMapSort(this[keyStore], ([keyOld], [keyNew]) => keyOld.length - keyNew.length),
             );
         }
 
@@ -102,13 +148,13 @@ export class Form implements IForm {
 
     @action
     unregisterField = (key: string) => {
-        const field = this.fields.get(key);
+        const field = this.fields.get(key) || this.fieldsFile.get(key);
 
         if (field) {
             field.registers -= 1;
 
             if (field.registers <= 0) {
-                this.fields.delete(key);
+                this[field.isFile ? "fieldsFile" : "fields"].delete(key);
             }
         }
     };
@@ -117,6 +163,13 @@ export class Form implements IForm {
     validate = () => {
         for (const field of this.fields.values()) {
             field.validate();
+        }
+        for (const field of this.fieldsFile.values()) {
+            field.validate();
+        }
+
+        if (this.isValid) {
+            this.validationCount += 1;
         }
 
         return undefined;
@@ -191,13 +244,18 @@ export class Form implements IForm {
         for (const field of this.fields.values()) {
             field.clear();
         }
-
+        for (const field of this.fieldsFile.values()) {
+            field.clear();
+        }
         this.setIsDirty(false);
     };
 
     @action
     reset = () => {
         for (const field of this.fields.values()) {
+            field.reset();
+        }
+        for (const field of this.fieldsFile.values()) {
             field.reset();
         }
 
@@ -207,6 +265,9 @@ export class Form implements IForm {
     @action
     resetValidation = () => {
         for (const field of this.fields.values()) {
+            field.resetValidation();
+        }
+        for (const field of this.fieldsFile.values()) {
             field.resetValidation();
         }
     };

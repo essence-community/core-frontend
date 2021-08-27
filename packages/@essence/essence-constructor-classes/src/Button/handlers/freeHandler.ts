@@ -38,7 +38,7 @@ export function freeHandler(options: IFreeHanderOptions) {
     const mode = (bc.modeaction || bc.mode) as IBuilderMode;
 
     return recordsStore[bc.mode === "7" ? "downloadAction" : "saveAction"](
-        recordsStoreParent.selectedRecord || {},
+        recordsStoreParent?.selectedRecord || {},
         mode,
         {
             actionBc: bc,

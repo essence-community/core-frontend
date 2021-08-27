@@ -1,4 +1,5 @@
 import {IForm} from "../Form";
+import {IRecordFilter} from "./RecordsModel";
 
 export type ICkId = number | string;
 
@@ -13,10 +14,11 @@ export type ICkId = number | string;
  */
 export type IBuilderMode = "1" | "2" | "3" | "4" | "6" | "7" | "8";
 
-export type FieldValue = number | string | object | undefined | null | boolean;
+export type FieldValue = number | string | Record<string, any> | undefined | null | boolean;
 
 export interface IFormOptions {
-    filter?: Record<string, FieldValue>[];
+    filter?: IRecordFilter[];
+    formData?: FormData;
     reset?: boolean;
     form?: IForm;
     redirect?: boolean;

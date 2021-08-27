@@ -5,8 +5,8 @@ You can find the most recent version of this guide [here](https://github.com/fac
 
 ## Зависимости
 
-1. `yarn` - (^1.4.2)
-1. `node` - (^10.0.0)
+1. `yarn` - (^1.18.0)
+1. `node` - (^14.0.0)
 
 ### Пакет `essence-constructor-share`
 
@@ -36,7 +36,7 @@ You can find the most recent version of this guide [here](https://github.com/fac
 
 При разработки в [setupProxy.js](./packages/@essence/essence-constructor-website/src/setupProxy.js) описаны стандартные адреса для проксирвоания:
 
-1. ` /api` -> `http://localhost:9020/`
+1. `/api` -> `http://localhost:9020/`
 1. `/notification` -> `http://localhost:9020/`
 
 ## Continuous Integration
@@ -64,3 +64,4 @@ You can find the most recent version of this guide [here](https://github.com/fac
 1. [PROXY.md](./docs/PROXY.md)
 1. [REDIRECT.md](./docs/REDIRECT.md)
 1. [APPLICATION.md](./docs/APPLICATION.md)
+1. [Подключение авторизации KeyCloak](./docs/KEYCLOAK.md)

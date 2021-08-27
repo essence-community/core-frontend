@@ -19,10 +19,12 @@ import {Group} from "../components/Group";
 import {FieldRepeaterModel} from "../Store/FieldRepeaterModel";
 import {RepeaterGroup} from "../components/RepeaterGroup";
 
-const CLEAR_VALUE: FieldValue[] = [];
-
+// eslint-disable-next-line max-lines-per-function
 export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
+    const clearValue = React.useMemo(() => {
+        return [...Array(parseInt(bc.minsize || "0", 10))].map(() => ({}));
+    }, [bc.minsize]);
     const defaultValueFn = React.useCallback(
         (field, onChange) => {
             if (bc.defaultvalue && typeof bc.defaultvalue === "string") {
@@ -32,16 +34,24 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
             } else if (Array.isArray(bc.defaultvalue)) {
                 onChange(bc.defaultvalue);
             } else {
-                onChange([...Array(parseInt(bc.minsize || "0", 10))].map(() => ({})));
+                onChange(clearValue);
             }
         },
-        [bc.defaultvalue, bc.minsize],
+        [bc.defaultvalue, clearValue],
     );
 
-    const field = useField({bc, clearValue: CLEAR_VALUE, defaultValueFn, disabled, hidden, isArray: true, pageStore});
+    const field = useField({
+        bc,
+        clearValue,
+        defaultValueFn,
+        disabled,
+        hidden,
+        isArray: true,
+        pageStore,
+    });
     const applicationStore = React.useContext(ApplicationContext);
     const [trans] = useTranslation("meta");
-    const [, , storeName] = useModel((options) => new FieldRepeaterModel(options), {
+    const [store, , storeName] = useModel((options) => new FieldRepeaterModel(options), {
         applicationStore,
         bc,
         disabled,
@@ -65,6 +75,10 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
         }),
         [addLabel, bc, storeName],
     );
+
+    React.useEffect(() => {
+        store.setField(field);
+    }, [store, field]);
 
     // CORE-1538 - minzise - guaranteed minimum fields for the repeater
     React.useEffect(() => {
@@ -99,13 +113,19 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
     React.useEffect(() => {
         if (field) {
             setParentContext(
-                Array.isArray(field.value) ? field.value.map((value, idx) => ({key: `${field.key}.${idx}`})) : [],
+                Array.isArray(field.value)
+                    ? field.value.map((value, idx) => ({key: `${field.key}.${idx}`, parentFieldKey: field.key}))
+                    : [],
             );
 
             return reaction(
                 () => field.value,
                 (val) =>
-                    setParentContext(Array.isArray(val) ? val.map((value, idx) => ({key: `${field.key}.${idx}`})) : []),
+                    setParentContext(
+                        Array.isArray(val)
+                            ? val.map((value, idx) => ({key: `${field.key}.${idx}`, parentFieldKey: field.key}))
+                            : [],
+                    ),
             );
         }
 
@@ -129,6 +149,7 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
                                 disabled={isDisabled}
                                 idx={idx}
                                 isDisabledDel={isDisabledDel}
+                                isHiddenDel={!field.form.editing}
                                 storeName={storeName}
                                 deleteLabel={trans("static:f7e324760ede4c88b4f11f0af26c9e97")}
                             />
@@ -138,7 +159,12 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
                 <Grid item xs={12} container justify="flex-end">
                     {mapComponents([addBtnConfig], (ChildCmp, bcChild) => (
                         <Grid item key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]}>
-                            <ChildCmp {...props} disabled={isDisabled} bc={bcChild} hidden={isHiddenAdd} />
+                            <ChildCmp
+                                {...props}
+                                disabled={isDisabled}
+                                bc={bcChild}
+                                hidden={!field.form.editing || isHiddenAdd}
+                            />
                         </Grid>
                     ))}
                 </Grid>

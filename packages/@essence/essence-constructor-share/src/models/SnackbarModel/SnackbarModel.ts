@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 // eslint-disable-next-line import/named
-import {extendObservable, action, IObservableArray} from "mobx";
+import {observable, computed, action, IObservableArray} from "mobx";
 import {v4} from "uuid";
 import {isObject, forEach, get} from "lodash";
 import {
@@ -36,6 +36,7 @@ import {TText, IOptionCheck} from "../../types/SnackbarModel";
 import {IForm} from "../../Form";
 import {RecordsModelLite} from "../RecordsModelLite/RecordsModelLite";
 import {IRecordsModelLite} from "../../types/RecordsModel";
+import {saveToLocalStore} from "../../utils/storage";
 import {MAX_OPENED_SNACKBARS, CODE_ACCESS_DENIEND, GROUP_ACTION_MAP, CODE_GROUP_MAP} from "./SnackbarModel.contants";
 
 /**
@@ -46,19 +47,38 @@ import {MAX_OPENED_SNACKBARS, CODE_ACCESS_DENIEND, GROUP_ACTION_MAP, CODE_GROUP_
  * Для создания нотификации для отдельного приложения можно создавать отдельные экзепляры класса.
  */
 export class SnackbarModel implements ISnackbarModel {
-    snackbars: IObservableArray<ISnackbar>;
-
-    snackbarsAll: Array<ISnackbar>;
+    @observable
+    snackbars: IObservableArray<ISnackbar> = observable.array([]);
+    @observable
+    snackbarsAll: Array<ISnackbar> = [];
 
     recordsStore: IRecordsModelLite;
 
-    activeStatus: SnackbarStatus;
+    @observable
+    activeStatus: SnackbarStatus = "all";
+    @computed
+    get snackbarsCount(): number {
+        return this.snackbarsAll.filter((snackbar: ISnackbar) => snackbar.status !== "debug" && snackbar.read === false)
+            .length;
+    }
+    @computed
+    get snackbarsInStatus(): Array<ISnackbar> {
+        if (this.activeStatus === "all") {
+            return this.snackbarsAll.filter((snackbar: ISnackbar) => snackbar.status !== "debug");
+        } else if (this.activeStatus === "notification") {
+            return this.snackbarsAll.filter(
+                (snackbar: ISnackbar) =>
+                    snackbar.pageName === i18next.t("static:2ff612aa52314ddea65a5d303c867eb8") ||
+                    snackbar.status === this.activeStatus,
+            );
+        }
 
-    snackbarsInStatus: Array<ISnackbar>;
-
-    snackbarsCount: number;
-
-    snackbarsInStatusToReadCount: number;
+        return this.snackbarsAll.filter((snackbar: ISnackbar) => snackbar.status === this.activeStatus);
+    }
+    @computed
+    get snackbarsInStatusToReadCount(): number {
+        return this.snackbarsInStatus.filter((snackbar: ISnackbar) => snackbar.read === false).length;
+    }
 
     constructor() {
         // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
@@ -70,33 +90,6 @@ export class SnackbarModel implements ISnackbarModel {
         };
 
         this.recordsStore = new RecordsModelLite(bc);
-
-        extendObservable(this, {
-            activeStatus: "all",
-            snackbars: [],
-            snackbarsAll: [],
-            get snackbarsCount() {
-                return this.snackbarsAll.filter(
-                    (snackbar: ISnackbar) => snackbar.status !== "debug" && snackbar.read === false,
-                ).length;
-            },
-            get snackbarsInStatus() {
-                if (this.activeStatus === "all") {
-                    return this.snackbarsAll.filter((snackbar: ISnackbar) => snackbar.status !== "debug");
-                } else if (this.activeStatus === "notification") {
-                    return this.snackbarsAll.filter(
-                        (snackbar: ISnackbar) =>
-                            snackbar.pageName === i18next.t("static:2ff612aa52314ddea65a5d303c867eb8") ||
-                            snackbar.status === this.activeStatus,
-                    );
-                }
-
-                return this.snackbarsAll.filter((snackbar: ISnackbar) => snackbar.status === this.activeStatus);
-            },
-            get snackbarsInStatusToReadCount() {
-                return this.snackbarsInStatus.filter((snackbar: ISnackbar) => snackbar.read === false).length;
-            },
-        });
     }
 
     deleteAllSnackbarAction = action("deleteAllSnackbarAction", () => {
@@ -191,6 +184,7 @@ export class SnackbarModel implements ISnackbarModel {
     // eslint-disable-next-line max-statements
     checkValidResponseAction = action(
         "checkValidResponseAction",
+        // eslint-disable-next-line max-statements
         (
             // eslint-disable-next-line default-param-last
             response: IResponse = {},
@@ -198,6 +192,20 @@ export class SnackbarModel implements ISnackbarModel {
         ) =>
             // eslint-disable-next-line max-params
             {
+                if (typeof response !== "object") {
+                    if (typeof response === "boolean") {
+                        return response ? 0 : 1;
+                    }
+                    if (
+                        typeof response === "string" &&
+                        ((response as string).trim().toLowerCase() === "true" ||
+                            (response as string).trim().toLowerCase() === "false")
+                    ) {
+                        return (response as string).trim().toLowerCase() === "true" ? 0 : 1;
+                    }
+
+                    return 0;
+                }
                 const error = response[VAR_RECORD_RES_ERROR];
                 const formError = response[VAR_RECORD_RES_FORM_ERROR];
                 let isError = false;
@@ -405,6 +413,7 @@ export class SnackbarModel implements ISnackbarModel {
             const errCode = responseError[VAR_ERROR_CODE] as keyof typeof CODE_GROUP_MAP;
             const groupCode = CODE_GROUP_MAP[errCode] as keyof typeof GROUP_ACTION_MAP;
             const functionName = `${get(GROUP_ACTION_MAP[groupCode], "TEST", "error")}Action`;
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             const callback = this[functionName];
 
@@ -505,4 +514,15 @@ export class SnackbarModel implements ISnackbarModel {
             route,
         );
     });
+
+    @action
+    errorMoveResponseAction = (errorData: IErrorData, route?: IRouteRecord, applicationStore?: IApplicationModel) => {
+        if (errorData?.[VAR_ERROR_TEXT]) {
+            applicationStore?.history.replace(applicationStore?.history.location.pathname, {
+                backUrl: applicationStore?.history.location.pathname,
+            });
+            saveToLocalStore("errorMoveResponse", applicationStore?.history.location.pathname);
+            window.location.href = errorData?.[VAR_ERROR_TEXT];
+        }
+    };
 }

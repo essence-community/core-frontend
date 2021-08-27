@@ -52,7 +52,16 @@ export function commonDecorator<Props extends IClassProps>(
             }
         }
 
-        public componentDidUpdate() {
+        public componentDidUpdate(prevProps: IClassProps) {
+            if (prevProps.bc.disabled !== this.props.bc.disabled) {
+                this.handleDisabled();
+            }
+            if (prevProps.bc.hidden !== this.props.bc.hidden) {
+                this.handleHidden();
+            }
+            if (prevProps.bc.readonly !== this.props.bc.readonly) {
+                this.handleReadOnly();
+            }
             if (this.prevContext !== this.context) {
                 const {reqsel, disabledrules, hiddenrules, readonlyrules, disabledemptymaster} = this.props.bc;
 

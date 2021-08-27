@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 /* eslint-disable max-lines */
 import {action, extendObservable, ObservableMap, observable} from "mobx";
 import pLimit from "p-limit";
@@ -30,13 +31,19 @@ import {
     VAR_RECORD_JN_TOTAL_CNT,
     VAR_RECORD_PARENT_ID,
     VALUE_SELF_ROOT,
+    VALUE_SELF_ALWAYSFIRST,
+    VALUE_SELF_FIRST,
 } from "../../constants";
 import {download} from "../../actions/download";
+import {IRecordFilter} from "../../types/RecordsModel";
+import {filterFilesData, sortFilesData} from "../../utils/filter";
+import {isEmpty} from "../../utils/base";
 import {loadRecordsAction} from "./loadRecordsAction";
 
 interface ILoadRecordsProps {
     selectedRecordId?: ICkId;
     status?: RecordsStateStatusType;
+    formData?: FormData;
     isUserReload?: boolean;
 }
 
@@ -50,6 +57,7 @@ export class RecordsModel implements IRecordsModel {
 
     selectedRecordValues: IRecord;
 
+    @observable
     recordsState: IRecordsState<IRecord>;
 
     recordsAll: IRecord[];
@@ -64,7 +72,7 @@ export class RecordsModel implements IRecordsModel {
 
     recordsCount: number;
 
-    order: IRecordsOrder;
+    order: IRecordsOrder[];
 
     jsonMaster: Record<string, FieldValue> | Record<string, FieldValue>[];
 
@@ -72,6 +80,7 @@ export class RecordsModel implements IRecordsModel {
 
     bc: IBuilderConfig;
 
+    @observable
     searchValues: Record<string, FieldValue>;
 
     pageStore: IPageModel | null;
@@ -80,7 +89,9 @@ export class RecordsModel implements IRecordsModel {
 
     isLoading: boolean;
 
-    filter?: Record<string, FieldValue>[];
+    filter?: IRecordFilter[];
+
+    formData?: FormData;
 
     valueField: string;
 
@@ -94,17 +105,24 @@ export class RecordsModel implements IRecordsModel {
 
     recordId: string;
 
+    @observable
     expansionRecords: ObservableMap<string, boolean>;
-
+    @observable
     selectedRecords: ObservableMap<string, IRecord>;
 
     recordsTree: Record<string, IRecord[]>;
+
+    isTree = false;
+
+    recordParentId = VAR_RECORD_PARENT_ID;
 
     constructor(bc: IBuilderConfig, options?: IOptions) {
         this.bc = bc;
         this.pageSize = bc.pagesize;
         this.recordId = bc.idproperty || VAR_RECORD_ID;
+        this.recordParentId = bc.idpropertyparent || VAR_RECORD_PARENT_ID;
         this.valueField = this.recordId;
+        this.isTree = this.bc.type === "TREEGRID";
 
         if (options) {
             this.valueField = options.valueField || this.recordId;
@@ -115,12 +133,18 @@ export class RecordsModel implements IRecordsModel {
         }
         const {records = []} = bc;
 
-        extendObservable(this, {
-            expansionRecords: observable.map({
-                [VALUE_SELF_ROOT]: this.bc.type === "TREEGRID",
-            }),
-            selectedRecords: observable.map({}),
+        this.expansionRecords = observable.map({
+            [VALUE_SELF_ROOT]: this.isTree,
         });
+        this.selectedRecords = observable.map({});
+
+        this.recordsState = {
+            isUserReload: false,
+            records,
+            status: "init",
+        };
+
+        this.searchValues = options && options.searchValues ? options.searchValues : {};
 
         extendObservable(
             this,
@@ -131,26 +155,18 @@ export class RecordsModel implements IRecordsModel {
                 },
                 isLoading: false,
                 loadCounter: 0,
-                order: {
-                    direction: bc.orderdirection || "ASC",
-                    property: bc.orderproperty,
-                },
+                order: bc.order,
                 pageNumber: 0,
                 get records() {
                     return (this as IRecordsModel).recordsState.records;
                 },
                 recordsAll: records,
                 get recordsCount() {
-                    return (this.records[0] || {})[VAR_RECORD_JN_TOTAL_CNT] || 0;
-                },
-                recordsState: {
-                    isUserReload: false,
-                    records,
-                    status: "init",
+                    return this.records.length ? this.records[0][VAR_RECORD_JN_TOTAL_CNT] || 0 : 0;
                 },
                 get recordsTree() {
                     return this.records.reduce((acc: Record<string, IRecord[]>, record: IRecord) => {
-                        const parentId = record[VAR_RECORD_PARENT_ID] as ICkId;
+                        const parentId = record[this.recordParentId] as ICkId;
 
                         if (acc[parentId] === undefined) {
                             acc[parentId] = [];
@@ -161,7 +177,6 @@ export class RecordsModel implements IRecordsModel {
                         return acc;
                     }, {});
                 },
-                searchValues: {},
                 selectedRecord: undefined,
                 get selectedRecordId() {
                     return this.selectedRecord ? this.selectedRecord[this.valueField] : undefined;
@@ -174,6 +189,23 @@ export class RecordsModel implements IRecordsModel {
             undefined,
             {deep: false},
         );
+
+        if (records.length) {
+            if (this.bc.defaultvalue === VALUE_SELF_ALWAYSFIRST || this.bc.defaultvalue === VALUE_SELF_FIRST) {
+                this.selectedRecordIndex = this.isTree
+                    ? records.findIndex((val) => isEmpty(val[this.recordParentId]))
+                    : 0;
+                this.selectedRecord = records[this.selectedRecordIndex];
+            }
+            records.forEach((rec) => {
+                if (rec.expanded === "true" || rec.expanded === true) {
+                    this.expansionRecords.set(String(rec[this.valueField]), true);
+                }
+            });
+            if (this.bc.querymode === "local") {
+                this.localFilter();
+            }
+        }
     }
 
     loadRecordsAction = action(
@@ -181,6 +213,18 @@ export class RecordsModel implements IRecordsModel {
         ({selectedRecordId, status = "load", isUserReload}: ILoadRecordsProps = {}) => {
             if (!this.bc[VAR_RECORD_QUERY_ID]) {
                 logger(i18next.t("static:0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
+
+                if (this.bc.records) {
+                    this.recordsState = {
+                        isUserReload: isUserReload ? isUserReload : false,
+                        records: [...this.bc.records],
+                        status: "load",
+                    };
+                }
+
+                if (this.bc.querymode === "local") {
+                    this.localFilter();
+                }
 
                 return Promise.resolve();
             }
@@ -360,22 +404,17 @@ export class RecordsModel implements IRecordsModel {
         this.setSelectionAction(newRecord[this.recordId]);
     });
 
-    setOrderAction = action("setOrderAction", (property: string) => {
-        let direction = "DESC";
+    @action
+    setOrderAction = (order: IRecordsOrder[]): Promise<void> => {
+        this.order = order;
 
-        if (this.order.property === property && this.order.direction === "DESC") {
-            direction = "ASC";
-        }
-
-        this.order = {direction, property};
-
-        this.loadRecordsAction();
-    });
+        return this.loadRecordsAction();
+    };
 
     searchAction = action(
         "searchAction",
-        (values: Record<string, FieldValue>, options: IRecordsSearchOptions = {}): Promise<void | IRecord> => {
-            const {filter, reset, noLoad, selectedRecordId, status = "search", isUserReload} = options;
+        async (values: Record<string, FieldValue>, options: IRecordsSearchOptions = {}): Promise<void | IRecord> => {
+            const {filter, reset, noLoad, selectedRecordId, status = "search", isUserReload, formData} = options;
 
             /*
              * TODO: реализовать сравнение
@@ -389,34 +428,57 @@ export class RecordsModel implements IRecordsModel {
                 this.filter = filter;
             }
 
+            if (reset || formData !== undefined) {
+                this.formData = formData;
+            }
+
             if (reset) {
                 this.clearRecordsAction();
             }
+            let res = null;
 
-            return noLoad ? Promise.resolve(null) : this.loadRecordsAction({isUserReload, selectedRecordId, status});
+            if (!noLoad) {
+                res = await this.loadRecordsAction({isUserReload, selectedRecordId, status});
+            }
+
+            return res;
         },
     );
+
+    @action
+    localFilter = (): void => {
+        let records = [...this.recordsState.records];
+
+        if (!records || records.length <= 0) {
+            return;
+        }
+
+        if (this.filter) {
+            records = records.filter(filterFilesData(this.filter));
+        }
+        if (this.order) {
+            records.sort(sortFilesData(this.order));
+        }
+
+        this.recordsState = {
+            ...this.recordsState,
+            records,
+        };
+    };
 
     setSearchValuesAction = action("setSearchValuesAction", (values: Record<string, FieldValue>) => {
         this.searchValues = values;
     });
 
+    @action
+    setFormDataAction = (formData: FormData): void => {
+        this.formData = formData;
+    };
+
     sortRecordsAction = action("sortRecordsAction", () => {
-        const {direction} = this.order;
-        const {property = ""} = this.order;
         const records = [...this.recordsState.records];
 
-        records.sort((rec1, rec2) => {
-            if (direction === "DESC") {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                return Number(rec1[property] < rec2[property]) || -Number(rec1[property] > rec2[property]);
-            }
-
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            return Number(rec1[property] > rec2[property]) || -Number(rec1[property] < rec2[property]);
-        });
+        records.sort(sortFilesData(this.order));
 
         this.recordsState = {
             isUserReload: false,
@@ -459,7 +521,7 @@ export class RecordsModel implements IRecordsModel {
         };
     });
 
-    setRecordToGlobal = () => {
+    setRecordToGlobal = (): void => {
         if (this.bc.setrecordtoglobal && this.pageStore) {
             this.pageStore.updateGlobalValues({
                 [this.bc.setrecordtoglobal]: this.selectedRecord || null,
@@ -526,6 +588,9 @@ export class RecordsModel implements IRecordsModel {
         return download(values, mode, {
             actionBc: options.actionBc,
             bc: this.bc,
+            files: options.files,
+            form: options.form,
+            formData: options.formData,
             pageStore: this.pageStore,
             query: options.query || options.actionBc.updatequery,
             recordId: this.recordId,

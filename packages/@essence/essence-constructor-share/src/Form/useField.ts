@@ -4,6 +4,7 @@ import {reaction} from "mobx";
 import {IBuilderConfig, IPageModel, FieldValue} from "../types";
 import {FormContext, ParentFieldContext} from "../context";
 import {VAR_RECORD_MASTER_ID, VAR_RECORD_CL_IS_MASTER, VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
+import {isEmpty} from "../utils/base";
 import {IField, IRegisterFieldOptions} from "./types";
 
 interface IUseFieldProps {
@@ -11,6 +12,7 @@ interface IUseFieldProps {
     pageStore: IPageModel;
     isArray?: boolean;
     isObject?: boolean;
+    isFile?: boolean;
     defaultValueFn?: IField["defaultValueFn"];
     output?: IRegisterFieldOptions["output"];
     input?: IRegisterFieldOptions["input"];
@@ -27,6 +29,7 @@ export const useField = ({
     defaultValueFn,
     isArray,
     isObject,
+    isFile,
     disabled,
     hidden,
     clearValue,
@@ -49,9 +52,11 @@ export const useField = ({
             defaultValueFn,
             input: input || parentField?.input,
             isArray,
+            isFile,
             isObject,
             output: output || parentField?.output,
             pageStore,
+            parentFieldKey: parentField?.parentFieldKey,
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [form, key]);
@@ -64,8 +69,12 @@ export const useField = ({
 
             pageStore.stores.forEach((store) => {
                 if (store && store.bc && store.bc[VAR_RECORD_MASTER_ID] === ckPageObject) {
-                    store.reloadStoreAction();
-                    store.clearAction && store.clearAction();
+                    if (isEmpty(value)) {
+                        store.clearStoreAction();
+                        store.clearAction && store.clearAction();
+                    } else {
+                        store.reloadStoreAction();
+                    }
                 }
             });
         },

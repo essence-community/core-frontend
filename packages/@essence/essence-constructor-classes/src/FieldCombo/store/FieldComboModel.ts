@@ -8,13 +8,10 @@ import {
     FieldValue,
     IRecord,
 } from "@essence-community/constructor-share";
-import {
-    VAR_RECORD_CL_IS_MASTER,
-    VALUE_SELF_FIRST,
-    VALUE_SELF_ALWAYSFIRST,
-} from "@essence-community/constructor-share/constants";
-import {i18next, isEmpty} from "@essence-community/constructor-share/utils";
+import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "@essence-community/constructor-share/constants";
+import {deepChange, i18next, isEmpty} from "@essence-community/constructor-share/utils";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
+import {IField} from "../../../../essence-constructor-share/lib/Form/types";
 import {ISuggestion} from "./FieldComboModel.types";
 
 export class FieldComboModel extends StoreBaseModel {
@@ -93,7 +90,7 @@ export class FieldComboModel extends StoreBaseModel {
 
         this.recordsStore = new RecordsModel(bc, {
             applicationStore: pageStore.applicationStore,
-            noLoadChilds: Boolean(bc[VAR_RECORD_CL_IS_MASTER]),
+            noLoadChilds: true,
             pageStore,
             valueField: this.valuefield,
         });
@@ -122,11 +119,38 @@ export class FieldComboModel extends StoreBaseModel {
 
     clearStoreAction = () => this.recordsStore.clearChildsStoresAction();
 
+    patchForm = (field: IField, record: IRecord) => {
+        const patchValues: IRecord = {};
+        let parentKey = "";
+
+        if (field.key.indexOf(".") > -1) {
+            const arrKey = field.key.split(".");
+
+            parentKey = arrKey.slice(0, arrKey.length - 1).join(".");
+        }
+
+        this.bc.valuefield.forEach(({in: recordField, out: fieldKey}) => {
+            if (recordField && fieldKey && fieldKey !== this.bc.column) {
+                deepChange(patchValues, `${parentKey ? `${parentKey}.` : ""}${fieldKey}`, record[recordField]);
+            }
+        });
+
+        field.form.patch(patchValues, true);
+    };
+
+    @action
+    resetAction = () => {
+        this.inputValue = "";
+        this.lastValue = "";
+        this.recordsStore.searchAction({}, {reset: true});
+        this.recordsStore.setSelectionAction(undefined);
+    };
+
     @action
     clearAction = () => {
         this.inputValue = "";
         this.lastValue = "";
-        this.recordsStore.searchAction({reset: true});
+        this.recordsStore.searchAction({}, {noLoad: true, reset: true});
         this.recordsStore.setSelectionAction(undefined);
     };
 

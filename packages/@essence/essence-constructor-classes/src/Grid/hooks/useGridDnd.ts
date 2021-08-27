@@ -68,12 +68,14 @@ export function useGridDnd({
         timeoutId.current = null;
     }, []);
 
-    return {
-        draggable: store.bc.draggable,
-        onDragEnter: handleDragEnter,
-        onDragLeave: handleDragLeave,
-        onDragOver: handleDragOver,
-        onDragStart: handleDragStart,
-        onDrop: handleDrop,
-    };
+    return store.bc.draggable
+        ? {
+              draggable: store.bc.draggable,
+              onDragEnter: handleDragEnter,
+              onDragLeave: handleDragLeave,
+              onDragOver: handleDragOver,
+              onDragStart: handleDragStart,
+              onDrop: handleDrop,
+          }
+        : {};
 }

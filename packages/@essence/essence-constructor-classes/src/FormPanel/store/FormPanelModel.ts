@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {action, computed, observable} from "mobx";
-import {VALUE_SELF_FIRST} from "@essence-community/constructor-share/constants";
+import {VALUE_SELF_ALWAYSFIRST} from "@essence-community/constructor-share/constants";
 import {
     IStoreBaseModelProps,
     IBuilderMode,
@@ -23,13 +24,17 @@ export class FormPanelModel extends StoreBaseModel {
     @observable
     public mode: IBuilderMode;
 
+    public editable: boolean;
+
     constructor(props: IStoreBaseModelProps) {
         super(props);
 
-        this.editing = false;
+        this.editing = this.bc.editing || false;
+
+        this.editable = typeof this.bc.editable === "boolean" ? this.bc.editable : true;
 
         this.recordsStore = new RecordsModel(
-            {defaultvalue: VALUE_SELF_FIRST, ...this.bc},
+            {defaultvalue: VALUE_SELF_ALWAYSFIRST, ...this.bc},
             {
                 applicationStore: props.applicationStore || props.pageStore.applicationStore,
                 pageStore: props.pageStore,
@@ -52,28 +57,40 @@ export class FormPanelModel extends StoreBaseModel {
                 break;
             case "3":
             case "4":
-                await this.recordsStore.saveAction(this.selectedRecord!, (bc.modeaction || mode) as IBuilderMode, {
-                    ...options,
-                    actionBc: bc,
-                    query: bc.updatequery,
-                });
+                await this.recordsStore.saveAction(
+                    options.form?.values || this.selectedRecord,
+                    (bc.modeaction || mode) as IBuilderMode,
+                    {
+                        ...options,
+                        actionBc: bc,
+                        query: bc.updatequery,
+                    },
+                );
                 break;
             case "6":
                 this.cloneAction();
                 break;
             case "7":
-                await this.recordsStore.downloadAction(this.selectedRecord!, (bc.modeaction || mode) as IBuilderMode, {
-                    ...options,
-                    actionBc: bc,
-                    query: bc.updatequery,
-                });
+                await this.recordsStore.downloadAction(
+                    options.form?.values || this.selectedRecord,
+                    (bc.modeaction || mode) as IBuilderMode,
+                    {
+                        ...options,
+                        actionBc: bc,
+                        query: bc.updatequery,
+                    },
+                );
                 break;
             case "8":
-                await this.recordsStore.saveAction(this.selectedRecord!, (bc.modeaction || mode) as IBuilderMode, {
-                    ...options,
-                    actionBc: bc,
-                    query: bc.updatequery,
-                });
+                await this.recordsStore.saveAction(
+                    options.form?.values || this.selectedRecord,
+                    (bc.modeaction || mode) as IBuilderMode,
+                    {
+                        ...options,
+                        actionBc: bc,
+                        query: bc.updatequery,
+                    },
+                );
                 break;
             default:
                 return Promise.resolve(false);
@@ -98,22 +115,29 @@ export class FormPanelModel extends StoreBaseModel {
     };
 
     @action
+    setEditing = (editing: boolean) => {
+        if (this.editable) {
+            this.editing = editing;
+        }
+    };
+
+    @action
     addAction = () => {
         this.mode = "1";
         this.recordsStore.setSelectionAction();
-        this.editing = true;
+        this.setEditing(true);
     };
 
     @action
     editAction = () => {
         this.mode = "2";
-        this.editing = true;
+        this.setEditing(true);
     };
 
     @action
     cloneAction = () => {
         this.mode = "6";
-        this.editing = true;
+        this.setEditing(true);
     };
 
     @action
@@ -136,7 +160,7 @@ export class FormPanelModel extends StoreBaseModel {
         );
 
         if (result) {
-            this.editing = false;
+            this.setEditing(false);
         }
 
         return Promise.resolve(!isEmpty(result));
@@ -145,7 +169,7 @@ export class FormPanelModel extends StoreBaseModel {
     @action
     closeAction = () => {
         this.recordsStore.setFirstRecord();
-        this.editing = false;
+        this.setEditing(false);
 
         return Promise.resolve(true);
     };

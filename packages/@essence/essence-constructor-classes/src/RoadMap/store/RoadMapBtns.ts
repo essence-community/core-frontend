@@ -23,6 +23,7 @@ export function getBackButtonConfig(bc: IBuilderConfig): IBuilderConfig {
         [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
         handler: "onBackTab",
         hiddenrules: VAR_RECORD_G_IS_START,
+        iconfont: "angle-double-left",
         readonly: false,
         type: "BTN",
         uitype: "2",
@@ -39,8 +40,10 @@ export function getNextButtonConfig(bc: IBuilderConfig): IBuilderConfig {
         [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
         handler: "onNextTab",
         hiddenrules: VAR_RECORD_G_IS_END,
+        iconfont: "angle-double-right",
         readonly: false,
         type: "BTN",
+        uitype: "1",
     };
 }
 
@@ -54,6 +57,7 @@ export const getSaveBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     hiddenrules: `!${VAR_RECORD_G_IS_END}`,
     mode: "1",
     type: "BTN",
+    uitype: "1",
 });
 
 export const getCancelBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
@@ -69,12 +73,18 @@ export const getCancelBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
 });
 
 export const getBtn = (bc: IBuilderConfig, topbtn: IBuilderConfig[]) => {
-    const {overrides} = mergeComponents(topbtn, {
-        "Override Back Button": getBackButtonConfig(bc),
-        "Override Cancel Button": getCancelBtnConfig(bc),
-        "Override Next Button": getNextButtonConfig(bc),
-        "Override Save Button": getSaveBtnConfig(bc),
-    });
+    const {overrides} = mergeComponents(
+        topbtn,
+        {
+            "Override Back Button": getBackButtonConfig(bc),
+            "Override Cancel Button": getCancelBtnConfig(bc),
+            "Override Next Button": getNextButtonConfig(bc),
+            "Override Save Button": getSaveBtnConfig(bc),
+        },
+        {
+            include: [VAR_RECORD_MASTER_ID],
+        },
+    );
     const btns = [
         overrides["Override Back Button"],
         overrides["Override Next Button"],

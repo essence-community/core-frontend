@@ -19,6 +19,14 @@ import {
 } from "@essence-community/constructor-share/hooks";
 import {useStyles} from "./FieldCheckboxContainer.styles";
 
+const fixBoolean = (value) => {
+    if (typeof value === "string") {
+        return value === "true" || value === "1" || value === "yes" || value === "on";
+    }
+
+    return Boolean(value);
+};
+
 export const FieldCheckboxContainer: React.FC<IClassProps> = (props) => {
     const {bc, disabled, readOnly, pageStore} = props;
     const [focused, setFocus] = React.useState<boolean>(false);
@@ -81,7 +89,7 @@ export const FieldCheckboxContainer: React.FC<IClassProps> = (props) => {
                     )}
                 </FormLabel>
                 <Checkbox
-                    checked={Boolean(field.value)}
+                    checked={fixBoolean(field.value)}
                     onChange={onChange}
                     className={classes.checkboxRoot}
                     disabled={textFieldProps.disabled}

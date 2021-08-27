@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import * as React from "react";
 import {IClassProps, IEssenceTheme, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
@@ -44,7 +45,17 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
     const classes = useStyles();
 
     const actions = React.useMemo(
-        () => topbtn.reverse().filter((bc) => !bc[VAR_RECORD_NAME] || bc[VAR_RECORD_NAME]?.indexOf("Override") !== 0),
+        () =>
+            topbtn
+                .reverse()
+                .filter((bc) => !bc[VAR_RECORD_NAME] || bc[VAR_RECORD_NAME]?.indexOf("Override") !== 0)
+                .map((childBc) => {
+                    const isAddButton = childBc.mode === "1";
+
+                    return isAddButton
+                        ? {...childBc, uitype: "4"}
+                        : {...childBc, uitype: childBc.uitype === "1" ? "11" : childBc.uitype};
+                }) as IBuilderConfig[],
         [topbtn],
     );
 
@@ -77,7 +88,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
                             // {...props}
                             pageStore={pageStore}
                             hidden={hidden}
-                            disabled={disabled}
+                            disabled={isEditing || disabled}
                             readOnly={readOnly}
                             visible={visible}
                             elevation={elevation}
@@ -100,24 +111,17 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
                         direction={isDarkTheme ? "column-reverse" : "row"}
                         spacing={1}
                     >
-                        {mapComponents(actions, (ChildComp, childBc) => {
-                            const isAddButton = childBc.mode === "1";
-                            const newChildBc: IBuilderConfig = isAddButton
-                                ? {...childBc, uitype: "4"}
-                                : {...childBc, uitype: childBc.uitype === "1" ? "11" : childBc.uitype};
-
-                            return (
-                                <Grid item key={newChildBc[VAR_RECORD_PAGE_OBJECT_ID]}>
-                                    <ChildComp
-                                        bc={newChildBc}
-                                        disabled={disabled}
-                                        pageStore={pageStore}
-                                        readOnly={readOnly}
-                                        visible={visible}
-                                    />
-                                </Grid>
-                            );
-                        })}
+                        {mapComponents(actions, (ChildComp, childBc) => (
+                            <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                                <ChildComp
+                                    bc={childBc}
+                                    disabled={disabled}
+                                    pageStore={pageStore}
+                                    readOnly={readOnly}
+                                    visible={visible}
+                                />
+                            </Grid>
+                        ))}
                     </Grid>
                 )}
             </Grid>
@@ -156,6 +160,11 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
             </Grid>
         ) : (
             <Grid container direction="column" className={classNameRoot} wrap="nowrap">
+                {hideTitle ? null : (
+                    <Grid item xs>
+                        <EmptyTitle hideactions title={transCvDisplayed} filters={filters} />
+                    </Grid>
+                )}
                 {filterComponent}
                 {isHideActions ? null : actionsComponent}
                 {formComponent}

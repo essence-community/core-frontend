@@ -5,7 +5,7 @@ import {
     VAR_RECORD_RES_STACK_TRACE,
     VAR_RECORD_ID,
 } from "../constants";
-import {FieldValue, ICkId} from "./Base";
+import {FieldValue, IBuilderMode, ICkId} from "./Base";
 
 export interface IRequest {
     query: string;
@@ -15,11 +15,13 @@ export interface IRequest {
     json?: Record<string, FieldValue>;
     [META_PAGE_OBJECT]?: string;
     list?: boolean;
+    mode?: IBuilderMode;
     plugin?: string;
     gate?: string;
     timeout?: number;
     formData?: FormData;
     method?: "POST";
+    headers?: Record<string, string>;
     onUploadProgress?: (progressEvent: ProgressEvent) => void;
 }
 

@@ -10,18 +10,19 @@ import {
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react";
 import {FormContext} from "@essence-community/constructor-share/context";
+import {FilterModel} from "../../store/FilterModel";
 import {useStyles} from "./FilterButtons.styles";
 
 interface IFilterButtonsProps extends IClassProps {
     styleTheme: "dark" | "light";
     title?: string | JSX.Element;
-    isOpen: boolean;
+    store: FilterModel;
 }
 
 const GRID_FULL_WIDTH = 12;
 
 export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
-    const {isOpen, styleTheme, bc, title, ...classProps} = props;
+    const {store, styleTheme, bc, title, ...classProps} = props;
     const classes = useStyles();
     const form = React.useContext(FormContext);
 
@@ -31,8 +32,10 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
                 [VAR_RECORD_DISPLAYED]: "static:76dd4f170842474d9776fe712e48d8e6",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-chevron`,
                 [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+                disabled: false,
                 handler: "onFilterToggle",
                 iconfont: "chevron-down",
+                noform: true,
                 onlyicon: true,
                 readonly: false,
                 type: "BTN",
@@ -42,8 +45,10 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
                 [VAR_RECORD_DISPLAYED]: "static:72b93dbe37884153a95363420b9ceb59",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-chevron`,
                 [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+                disabled: false,
                 handler: "onFilterToggle",
                 iconfont: "chevron-up",
+                noform: true,
                 onlyicon: true,
                 readonly: false,
                 type: "BTN",
@@ -56,6 +61,7 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
                 handler: "onReset",
                 iconfont: styleTheme === "light" ? "broom" : "eraser",
                 iconfontname: "mdi",
+                noform: true,
                 onlyicon: true,
                 readonly: false,
                 type: "BTN",
@@ -77,15 +83,22 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
 
     return useObserver(() => {
         const btns: IBuilderConfig[] = [
-            isOpen ? btnsFilter.buttonChevronConfigOpen : btnsFilter.buttonChevronConfigClose,
+            store.isOpen ? btnsFilter.buttonChevronConfigOpen : btnsFilter.buttonChevronConfigClose,
             {
                 ...btnsFilter.buttonSearchConfig,
-                disabled: styleTheme === "dark" && isOpen === false ? true : undefined,
-                required: form && form.isDirty ? true : false,
+                disabled:
+                    (styleTheme === "dark" && store.isOpen === false) ||
+                    (form &&
+                        ((!form.isValid && form.validationCount === 0) ||
+                            (!store.isOpen && form.isExistRequired && form.validationCount === 0)))
+                        ? true
+                        : false,
+                handler: store.isOpen ? undefined : "onSearch",
+                required: form && form.isDirty && store.isOpen ? true : false,
             },
             {
                 ...btnsFilter.buttonResetConfig,
-                disabled: styleTheme === "dark" && isOpen === false ? true : undefined,
+                disabled: styleTheme === "dark" && store.isOpen === false ? true : false,
             },
         ];
         const childsBtns = bc.topbtn
@@ -101,7 +114,7 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
                 })}
             >
                 {styleTheme === "dark" ? (
-                    <Collapse in={isOpen} collapsedHeight="42px" className={classes.filterButtonsContainer}>
+                    <Collapse in={store.isOpen} collapsedHeight="42px" className={classes.filterButtonsContainer}>
                         <div className={classes.filterButtonsCollapse}>
                             {mapComponents(childsBtns, (ChildCmp, childBc) => (
                                 <ChildCmp key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} {...classProps} bc={childBc} />

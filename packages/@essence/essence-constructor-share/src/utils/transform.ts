@@ -1,14 +1,14 @@
 import * as DOMPurify from "dompurify";
-import {isEmpty} from "lodash";
 import {TText} from "../types/SnackbarModel";
 import {IRecord} from "../types/Base";
 import {FieldValue} from "../types";
+import {isEmpty} from "./base";
 import {TFunction} from "./I18n";
 
 /**
  * Преобразование bc.width в width для material-grid
  *
- * @param {srting} [width] Ширина в формате 0-100%
+ * @param {string} [width] Ширина в формате 0-100%
  *
  * @returns {Object} [styleWidth] Ширина поля
  */
@@ -60,17 +60,30 @@ export const toTranslateTextArray = (
     return toTranslateText(trans, textArr);
 };
 
-export const deepFind = (obj: IRecord, path: string): [boolean, IRecord | FieldValue] => {
+export const deepFind = (obj: IRecord, path: string | string[]): [boolean, IRecord | FieldValue] => {
     if (isEmpty(obj) || isEmpty(path)) {
         return [false, undefined];
     }
-    const paths: any[] = path.split(".");
+    const paths: any[] = Array.isArray(path) ? path : path.split(".");
     let current: any = obj;
 
-    for (const val of paths) {
+    for (const [idx, val] of paths.entries()) {
+        if (typeof current === "string" && (current.trim().charAt(0) === "[" || current.trim().charAt(0) === "{")) {
+            current = JSON.parse(current);
+        }
         if (!Array.isArray(current) && typeof current !== "object") {
             return [false, undefined];
         }
+
+        if (val === "*" && (current[val] === undefined || current[val] === null)) {
+            const arr = (Array.isArray(current)
+                ? current.map((obj) => deepFind(obj, paths.slice(idx + 1))[1])
+                : Object.entries(current).map(([, obj]) => deepFind(obj as any, paths.slice(idx + 1))[1])
+            ).filter((val) => val !== undefined && val !== null);
+
+            return [arr.length > 0, arr];
+        }
+
         if (current[val] === undefined || current[val] === null) {
             return [false, current[val]];
         }
@@ -89,10 +102,13 @@ export const deepChange = (obj: IRecord, path: string, value: IRecord | FieldVal
     const last = paths.pop();
     let current: any = obj;
 
+    if (paths.length && !Array.isArray(current[paths[0]]) && typeof current[paths[0]] !== "object") {
+        current[paths[0]] = /[0-9]+/.test(paths[0]) ? [] : {};
+    }
     for (const val of paths) {
         current = current[val];
         if (!Array.isArray(current) && typeof current !== "object") {
-            current[val] = /[0-9]/.test(val) ? [] : {};
+            current[val] = /[0-9]+/.test(val) ? [] : {};
             current = current[val];
         }
     }

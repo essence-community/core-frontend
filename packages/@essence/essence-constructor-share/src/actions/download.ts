@@ -13,14 +13,16 @@ import {
 import {IRecord, IBuilderMode, IPageModel, IBuilderConfig} from "../types";
 import {getMasterObject, isEmpty} from "../utils";
 import {settingsStore} from "../models/SettingsModel";
+import {IForm} from "../Form";
 import {filter, attachGlobalValues} from "./saveAction";
 
-type InputFormType = {
+interface IInputFormType {
     form: HTMLFormElement;
     name: string;
     type?: string;
-    value: string;
-};
+    value?: string;
+    files?: File[];
+}
 
 interface IDownloadOptions {
     actionBc: IBuilderConfig;
@@ -29,14 +31,38 @@ interface IDownloadOptions {
     query?: string;
     bc: IBuilderConfig;
     pageStore: IPageModel | null;
+    formData?: FormData;
+    form?: IForm;
+    files?: File[];
 }
 
-const appendInputForm = ({form, name, type = "text", value}: InputFormType) => {
+let getDataTransfer: any = () => new DataTransfer();
+
+try {
+    getDataTransfer();
+} catch {
+    getDataTransfer = () => new ClipboardEvent("").clipboardData;
+}
+
+export const appendInputForm = ({form, name, type = "text", value, files}: IInputFormType) => {
     const input = document.createElement("input");
 
     input.setAttribute("type", type);
     input.setAttribute("name", name);
-    input.setAttribute("value", value);
+    if (typeof value === "string") {
+        input.setAttribute("value", value);
+    } else if (files) {
+        const dataTransfer = getDataTransfer();
+
+        files.forEach((file) => {
+            dataTransfer.items.add(file);
+        });
+        input.setAttribute("value", "");
+        input.setAttribute("multiple", "");
+        input.files = dataTransfer.files;
+    } else {
+        input.setAttribute("value", "");
+    }
     form.appendChild(input);
 };
 
@@ -49,6 +75,9 @@ export function download(values: IRecord | Array<IRecord>, mode: IBuilderMode, c
         query = "Modify",
         bc,
         pageStore,
+        form: formPanel,
+        files,
+        formData = formPanel && formPanel.isExistFile ? formPanel.valuesFile : null,
     } = config;
     const masterKey = bc[VAR_RECORD_MASTER_ID];
     const {extraplugingate, getglobaltostore, getmastervalue} = actionBc;
@@ -93,6 +122,38 @@ export function download(values: IRecord | Array<IRecord>, mode: IBuilderMode, c
 
     form.setAttribute("method", "post");
     form.setAttribute("action", `${settingsStore.settings[VAR_SETTING_GATE_URL]}?${stringify(queryStr)}`);
+    if (files && files.length) {
+        form.setAttribute("enctype", "multipart/form-data");
+        appendInputForm({
+            files,
+            form,
+            name: "upload_file",
+            type: "file",
+        });
+    }
+    if (formData) {
+        form.setAttribute("enctype", "multipart/form-data");
+        if ((formData as any).keys) {
+            for (const key of (formData as any).keys()) {
+                const value = (formData as any).getAll(key);
+
+                if (typeof value[0] === "object") {
+                    appendInputForm({
+                        files: value,
+                        form,
+                        name: key,
+                        type: "file",
+                    });
+                } else {
+                    appendInputForm({
+                        form,
+                        name: key,
+                        value: value[0],
+                    });
+                }
+            }
+        }
+    }
     appendInputForm({
         form,
         name: "page_object",

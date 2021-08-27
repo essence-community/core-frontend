@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 export const isIE = () => {
     const ua = window.navigator.userAgent;
     const msie = ua.indexOf("MSIE ");
@@ -71,7 +72,7 @@ export function loadFiles(files: string[], isLocal = false) {
             const runner = ext === "js" ? loadJS : loadCSS;
 
             if (ext === "js" || ext === "css") {
-                return new Promise((resolve) => {
+                return new Promise<void>((resolve) => {
                     runner(
                         isLocal ? `${url}?t=${Number(new Date())}` : url,
                         () => {

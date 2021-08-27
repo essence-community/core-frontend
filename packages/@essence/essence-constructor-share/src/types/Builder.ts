@@ -1,5 +1,7 @@
 /* eslint-disable max-len */
+import {VAR_RECORD_CK_VIEW} from "../constants/variables";
 import {IRecord, FieldValue} from "./Base";
+import {IRecordsOrder} from "./RecordsModel";
 
 export interface IBuilderAttrGlobal {
     in?: string;
@@ -33,8 +35,8 @@ export interface IBuilderBaseConfig {
     btncollectorall?: boolean;
     // Отображение кнопки "Удалить" (true/false)
     btndelete?: boolean;
-    // Отображение кнопки "Экспорт в Excel" (true/false)
-    btnexcel?: boolean;
+    // Отображение кнопки "Экспорт в Excel" ("off" | "url" | "file")
+    btnexcel?: "off" | "url" | "file";
     // Признак доступности фильтрации по колонке  True - фильтрация включена  False - фильтрация выключена
     btnfilter?: boolean;
     // Отображение кнопки "Обновить" (true/false)
@@ -62,7 +64,7 @@ export interface IBuilderBaseConfig {
     // Вопрос на подтверждение операции
     confirmquestion?: string;
     // Вид наполнения: hbox: горизонтальное hbox-wrap: горизонтальное с переносом на следующую строку vbox: вертикальное
-    contentview?: "hbox" | "hbox-wrap" | "vbox";
+    contentview?: "hbox" | "hbox-wrap" | "vbox" | "vbox-wrap";
     // Ширина вложенных полей. Целое число от 1% до 100%. Обязательно добавлять %.
     contentwidth?: string;
     // Подпись для отображения Пример: к деньгам добавляем " руб."
@@ -77,6 +79,8 @@ export interface IBuilderBaseConfig {
     defaultvalue?: string;
     // Значение по умолчанию из словаря локализации
     defaultvaluelocalization?: string;
+    // Значение по умолчанию расчитываемое
+    defaultvaluerule?: string;
     // Сервис для запроса значения по умолчанию
     defaultvaluequery?: string;
     // Признак блокировки объекта при инициализации true-блокирован
@@ -93,6 +97,12 @@ export interface IBuilderBaseConfig {
     dynamicicon?: boolean;
     // Признак возможности переноса
     draggable?: boolean;
+    // Разрешено ли менять режим редактирования
+    editable?: boolean;
+    // режим редактирования формы
+    editing?: boolean;
+    // изменение edit формы согласно правилам;
+    editingrule?: string;
     // Режим добавления/редактирования - all/insert/update/disabled
     editmode?: "all" | "insert" | "update" | "disabled" | "insert-editing" | "update-editing";
     // Режим редактирования дочерних элементов true = включен
@@ -133,10 +143,14 @@ export interface IBuilderBaseConfig {
     iconfontname?: "fa" | "mdi";
     // Наименование параметра, отвечающего за уникальность записей
     idproperty?: string;
+    // Наименование параметра, указывающего на родительскую запись родителя
+    idpropertyparent?: string;
     // Маска ввода, например: (999) 999-99-99   Если значение для маски пустое или несуществует, то поле будет скрыто
     imask?: string;
     // Дополнительная информация для полей ввода
     info?: string;
+    // Значение при создании
+    initvalue?: string;
     // Установка значение из локализационного пакета. Возможные значения: meta, message, static
     localization?: "meta" | "message" | "static";
     // Максимальный размер файла в байтах
@@ -161,14 +175,14 @@ export interface IBuilderBaseConfig {
     mode?: "1" | "2" | "3" | "4" | "6" | "7" | "8";
     // Значение action, передаваемое в json вместо стандартных I,U,D
     modeaction?: string;
+    // Не обращать внимание на form
+    noform?: boolean;
     // Признак отключения глобального лоадера при загрузке сервиса
     noglobalmask?: boolean;
     // Отображается только иконка кнопки (true/false)
     onlyicon?: boolean;
-    // Направление сортировки: ASC / DESC
-    orderdirection?: "ASC" | "DESC";
-    // Наименование параметра, по которому осуществляется сортировка при инициализации
-    orderproperty?: string;
+    // Сортировка модели
+    order?: IRecordsOrder[];
     // Количество выводимых строк (включает пагинатор)
     pagesize?: number;
     // Высота выпадающей таблицы/списка. По умолчанию 390
@@ -225,8 +239,6 @@ export interface IBuilderBaseConfig {
     setrecordtoglobal?: string;
     // Пропуск проверки формы на ошибки
     skipvalidation?: boolean;
-    // Наименование парамента, по которому будет осуществлена сортировка вместо column
-    sortcolumn?: string;
     // Признак отображения сплиттера (true/false)
     splitter?: boolean;
     // Наименование шага
@@ -282,6 +294,7 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     cv_name?: string;
     ck_object?: string;
     cn_order?: number;
+    [VAR_RECORD_CK_VIEW]?: string;
     // Определяет класс в качестве мастера
     cl_is_master?: boolean;
     contentwidth?: string;

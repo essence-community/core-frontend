@@ -33,7 +33,7 @@ const parseResponse = ({responseJSON, list}: IRequestCheckError) => {
 
     const responseSingleData = Array.isArray(data) ? data[0] : undefined;
 
-    if (responseSingleData && typeof responseSingleData.result === "string") {
+    if (responseSingleData && typeof responseSingleData === "object" && typeof responseSingleData.result === "string") {
         return JSON.parse(responseSingleData.result);
     }
 
@@ -49,6 +49,8 @@ export const request = async <R = IRecord | IRecord[]>({
     session,
     body,
     list = true,
+    headers = {},
+    mode,
     plugin,
     timeout = 30,
     gate = settingsStore.settings[VAR_SETTING_GATE_URL],
@@ -57,7 +59,7 @@ export const request = async <R = IRecord | IRecord[]>({
     onUploadProgress,
 }: IRequest): Promise<R> => {
     const queryParams = {
-        action: formData ? "upload" : action,
+        action: query === "Modify" || mode === "8" ? (formData ? "upload" : action) : undefined,
         plugin,
         query,
     };
@@ -86,7 +88,8 @@ export const request = async <R = IRecord | IRecord[]>({
         const response = await axios({
             data: formData ? formData : stringify(data),
             headers: {
-                "Content-type": "application/x-www-form-urlencoded",
+                ...headers,
+                "Content-type": formData ? undefined : "application/x-www-form-urlencoded",
             },
             method,
             onUploadProgress,
@@ -100,9 +103,14 @@ export const request = async <R = IRecord | IRecord[]>({
         const timeoutId = window.setTimeout(() => controller?.abort(), timeout * MILLISECOND);
         const response = await fetch(url, {
             body: formData ? formData : stringify(data),
-            headers: {
-                "Content-type": "application/x-www-form-urlencoded",
-            },
+            ...(formData
+                ? {...(Object.keys(headers).length ? {headers} : {})}
+                : {
+                      headers: {
+                          ...headers,
+                          "Content-type": "application/x-www-form-urlencoded",
+                      },
+                  }),
             method,
             signal: controller?.signal,
         });

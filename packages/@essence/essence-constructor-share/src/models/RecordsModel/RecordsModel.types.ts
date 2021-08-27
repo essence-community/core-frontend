@@ -10,7 +10,8 @@ export interface IJson {
 
 export interface IGetFilterDataOptions {
     filter?: Record<string, FieldValue>[];
-    order: IRecordsOrder;
+    formData?: FormData;
+    order: IRecordsOrder[];
     searchValues: Record<string, FieldValue>;
     pageSize?: number;
     pageNumber: number;

@@ -4,8 +4,10 @@ import {
     VAR_RECORD_RES_FORM_ERROR,
     VAR_RECORD_RES_STACK_TRACE,
     VAR_RECORD_ID,
+    VAR_RESULT_MESSAGE,
 } from "../constants";
 import {FieldValue, IBuilderMode, ICkId} from "./Base";
+import {SnackbarStatus} from "./SnackbarModel";
 
 export interface IRequest {
     query: string;
@@ -50,4 +52,5 @@ export interface IResponse {
     [VAR_RECORD_RES_ERROR]?: Record<string, string[]>;
     [VAR_RECORD_RES_FORM_ERROR]?: Record<string, Record<string, string[]>>;
     [VAR_RECORD_RES_STACK_TRACE]?: string;
+    [VAR_RESULT_MESSAGE]?: Record<SnackbarStatus, string[][]>;
 }

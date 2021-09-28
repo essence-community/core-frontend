@@ -129,6 +129,7 @@ export const VAR_META_JN_OFFSET = "jn_offset";
 export const VAR_META_JL_FILTER = "jl_filter";
 export const VAR_META_JL_SORT = "jl_sort";
 export const VAR_CONNECT_GUEST = "connect_guest";
+export const VAR_RESULT_MESSAGE = "jt_message";
 
 // FORM
 export const RETURN_FORM_DATA = "jt_return_form_data";

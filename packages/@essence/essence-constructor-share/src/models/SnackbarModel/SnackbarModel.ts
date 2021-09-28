@@ -30,6 +30,7 @@ import {
     VAR_ERROR_ID,
     VAR_ERROR_TEXT,
     VAR_RECORD_RES_FORM_ERROR,
+    VAR_RESULT_MESSAGE,
 } from "../../constants";
 import {IRouteRecord} from "../../types/RoutesModel";
 import {TText, IOptionCheck} from "../../types/SnackbarModel";
@@ -181,6 +182,41 @@ export class SnackbarModel implements ISnackbarModel {
         }
     });
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    forMessage = (messageType: SnackbarStatus, route?: Record<string, FieldValue>, message: string[][] = []) => {
+        const textArr: TText[] = [];
+
+        forEach(message, ([message, ...values]) => {
+            const text = (trans: TFunction) =>
+                typeof message === "string"
+                    ? trans(message, {
+                          defaultValue: message,
+                          ns: "message",
+                      })
+                          // eslint-disable-next-line require-unicode-regexp, prefer-named-capture-group
+                          .replace(/{(\d+)}/g, (match, pattern) =>
+                              values.length
+                                  ? trans(values[pattern], {
+                                        defaultValue: values[pattern],
+                                        ns: "message",
+                                    })
+                                  : "",
+                          )
+                    : "";
+
+            textArr.push(message);
+            this.snackbarOpenAction(
+                {
+                    status: messageType,
+                    text,
+                },
+                route,
+            );
+        });
+
+        return textArr;
+    };
+
     // eslint-disable-next-line max-statements
     checkValidResponseAction = action(
         "checkValidResponseAction",
@@ -207,13 +243,14 @@ export class SnackbarModel implements ISnackbarModel {
                     return 0;
                 }
                 const error = response[VAR_RECORD_RES_ERROR];
+                const jtMessage = response[VAR_RESULT_MESSAGE];
                 const formError = response[VAR_RECORD_RES_FORM_ERROR];
                 let isError = false;
                 let isWarn = false;
                 let rec: boolean | IRecord | undefined = false;
-                const warningText: TText[] = [];
+                let warningText: TText[] = [];
 
-                if (isEmpty(error) && isEmpty(formError)) {
+                if (isEmpty(error) && isEmpty(formError) && isEmpty(jtMessage)) {
                     return 1;
                 }
                 if (isObject(formError)) {
@@ -290,6 +327,35 @@ export class SnackbarModel implements ISnackbarModel {
                             },
                             route,
                         );
+                    }
+                }
+                if (isObject(jtMessage)) {
+                    if (!isEmpty(jtMessage.error)) {
+                        isError = true;
+                        this.forMessage("error", route, jtMessage.error);
+                    }
+                    if (!isEmpty(jtMessage.warning)) {
+                        isWarn = true;
+                        warningText = this.forMessage("warning", route, jtMessage.warning);
+                    }
+                    if (!isEmpty(jtMessage.info)) {
+                        this.forMessage("info", route, jtMessage.info);
+                    }
+                    if (!isEmpty(jtMessage.debug)) {
+                        this.forMessage("debug", route, jtMessage.debug);
+                    }
+                    if (!isEmpty(jtMessage.notification)) {
+                        this.forMessage("notification", route, jtMessage.notification);
+                    }
+                    if (!isEmpty(jtMessage.block)) {
+                        const [text] = this.forMessage("block", route, jtMessage.block);
+
+                        applicationStore?.blockApplicationAction("block", text);
+                    }
+                    if (!isEmpty(jtMessage.unblock)) {
+                        const [text] = this.forMessage("unblock", route, jtMessage.unblock);
+
+                        applicationStore?.blockApplicationAction("unblock", text);
                     }
                 }
                 if (!isError && isWarn && warnCallBack) {

@@ -6,18 +6,20 @@ import {IForm} from "../Form";
 import {IRecordsModelLite} from "./RecordsModel";
 import {IResponse, FieldValue, IProgressModel, IApplicationModel, IRouteRecord} from ".";
 
-export type SnackbarStatus =
-    | "all"
-    | "warning"
-    | "error"
-    | "info"
-    | "notification"
-    | "debug"
-    | "progress"
-    | "block"
-    | "unblock"
-    | "uploaded"
-    | "errorUpload";
+export enum MessageType {
+    "all" = "all",
+    "warning" = "warning",
+    "error" = "error",
+    "info" = "info",
+    "notification" = "notification",
+    "debug" = "debug",
+    "block" = "block",
+    "unblock" = "unblock",
+}
+
+type MessageTypeStrings = keyof typeof MessageType;
+
+export type SnackbarStatus = MessageTypeStrings | "progress" | "uploaded" | "errorUpload";
 
 export type TText = string | JSX.Element | ((trans: TFunction) => string | JSX.Element);
 export interface ISnackbar {
@@ -48,7 +50,7 @@ export interface IOptionCheck {
     applicationStore?: IApplicationModel | null;
     form?: IForm;
     route?: Record<string, FieldValue>;
-    warnCallBack?: Function;
+    warnCallBack?: (arr: TText[]) => void;
 }
 
 export interface ISnackbarModel {

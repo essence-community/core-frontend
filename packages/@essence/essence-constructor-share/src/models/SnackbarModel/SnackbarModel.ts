@@ -33,7 +33,7 @@ import {
     VAR_RESULT_MESSAGE,
 } from "../../constants";
 import {IRouteRecord} from "../../types/RoutesModel";
-import {TText, IOptionCheck} from "../../types/SnackbarModel";
+import {TText, IOptionCheck, MessageType} from "../../types/SnackbarModel";
 import {IForm} from "../../Form";
 import {RecordsModelLite} from "../RecordsModelLite/RecordsModelLite";
 import {IRecordsModelLite} from "../../types/RecordsModel";
@@ -183,7 +183,12 @@ export class SnackbarModel implements ISnackbarModel {
     });
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    forMessage = (messageType: SnackbarStatus, route?: Record<string, FieldValue>, message: string[][] = []) => {
+    forMessage = (
+        messageType: SnackbarStatus,
+        route?: Record<string, FieldValue>,
+        message: string[][] = [],
+        isSnack = true,
+    ) => {
         const textArr: TText[] = [];
 
         forEach(message, ([message, ...values]) => {
@@ -205,13 +210,15 @@ export class SnackbarModel implements ISnackbarModel {
                     : "";
 
             textArr.push(message);
-            this.snackbarOpenAction(
-                {
-                    status: messageType,
-                    text,
-                },
-                route,
-            );
+            if (isSnack) {
+                this.snackbarOpenAction(
+                    {
+                        status: messageType,
+                        text,
+                    },
+                    route,
+                );
+            }
         });
 
         return textArr;
@@ -372,19 +379,39 @@ export class SnackbarModel implements ISnackbarModel {
      * Add error to field
      */
     formError = (
-        formError: Record<string, Record<string, string[]>>,
+        formError: Record<string, Record<string, string[] | string[][]>>,
         form?: IForm,
         route?: Record<string, FieldValue>,
     ): boolean => {
         let isError = false;
 
         // eslint-disable-next-line default-param-last
-        forEach(formError, (errors: Record<string, string[]> = {}, fieldName: string) => {
+        forEach(formError, (errors: Record<string, string[] | string[][]> = {}, fieldName: string) => {
             const field = form?.select(fieldName);
             const fieldError: any[] = [];
 
             // eslint-disable-next-line default-param-last
-            forEach(errors, (values: string[] = [], code) => {
+            forEach(errors, (values: string[] | string[][] = [], code) => {
+                if (code in MessageType) {
+                    const arrText = this.forMessage(code as SnackbarStatus, route, values as string[][], false);
+
+                    forEach(arrText, (text) => {
+                        if (code === "error") {
+                            isError = true;
+                            fieldError.push(text);
+                        } else {
+                            this.snackbarOpenAction(
+                                {
+                                    status: code as SnackbarStatus,
+                                    text,
+                                },
+                                route,
+                            );
+                        }
+                    });
+
+                    return;
+                }
                 const rec = this.recordsStore.recordsState.records.find(
                     (record: IRecord) => String(record[this.recordsStore.recordId]) === code,
                 );

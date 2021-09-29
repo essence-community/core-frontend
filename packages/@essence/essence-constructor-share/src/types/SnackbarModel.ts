@@ -17,7 +17,7 @@ export enum MessageType {
     "unblock" = "unblock",
 }
 
-type MessageTypeStrings = keyof typeof MessageType;
+export type MessageTypeStrings = keyof typeof MessageType;
 
 export type SnackbarStatus = MessageTypeStrings | "progress" | "uploaded" | "errorUpload";
 

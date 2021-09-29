@@ -33,7 +33,7 @@ import {
     VAR_RESULT_MESSAGE,
 } from "../../constants";
 import {IRouteRecord} from "../../types/RoutesModel";
-import {TText, IOptionCheck, MessageType} from "../../types/SnackbarModel";
+import {TText, IOptionCheck, MessageType, MessageTypeStrings} from "../../types/SnackbarModel";
 import {IForm} from "../../Form";
 import {RecordsModelLite} from "../RecordsModelLite/RecordsModelLite";
 import {IRecordsModelLite} from "../../types/RecordsModel";
@@ -337,33 +337,24 @@ export class SnackbarModel implements ISnackbarModel {
                     }
                 }
                 if (isObject(jtMessage)) {
-                    if (!isEmpty(jtMessage.error)) {
-                        isError = true;
-                        this.forMessage("error", route, jtMessage.error);
-                    }
-                    if (!isEmpty(jtMessage.warning)) {
-                        isWarn = true;
-                        warningText = this.forMessage("warning", route, jtMessage.warning);
-                    }
-                    if (!isEmpty(jtMessage.info)) {
-                        this.forMessage("info", route, jtMessage.info);
-                    }
-                    if (!isEmpty(jtMessage.debug)) {
-                        this.forMessage("debug", route, jtMessage.debug);
-                    }
-                    if (!isEmpty(jtMessage.notification)) {
-                        this.forMessage("notification", route, jtMessage.notification);
-                    }
-                    if (!isEmpty(jtMessage.block)) {
-                        const [text] = this.forMessage("block", route, jtMessage.block);
+                    forEach(jtMessage, (value: string[][], key: MessageTypeStrings) => {
+                        if (key in MessageType) {
+                            const textArr = this.forMessage(key, route, value);
 
-                        applicationStore?.blockApplicationAction("block", text);
-                    }
-                    if (!isEmpty(jtMessage.unblock)) {
-                        const [text] = this.forMessage("unblock", route, jtMessage.unblock);
+                            if (key === "error") {
+                                isError = true;
+                            }
+                            if (key === "warning") {
+                                isWarn = true;
+                                warningText = textArr;
+                            }
+                            if (key === "block" || key === "unblock") {
+                                const [text] = textArr;
 
-                        applicationStore?.blockApplicationAction("unblock", text);
-                    }
+                                applicationStore?.blockApplicationAction(key, text);
+                            }
+                        }
+                    });
                 }
                 if (!isError && isWarn && warnCallBack) {
                     warnCallBack(warningText);

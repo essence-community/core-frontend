@@ -5,13 +5,14 @@ import {loggerRoot} from "@essence-community/constructor-share/constants";
 import {useTranslation, getPreference} from "@essence-community/constructor-share/utils";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {useParams, useHistory} from "react-router-dom";
+import {redirectAuth} from "@essence-community/constructor-share/utils/redirect";
 import {useStyles} from "./StaticRedirectContainer.styles";
 
 /**
  * How to use:
  *
  * app = pages
- * page = 1
+ * page = 1s
  * filter = {ck_page: 3}
  *
  * example json:
@@ -35,12 +36,16 @@ interface IStateParams {
 
 const logger = loggerRoot.extend("RedirectPage");
 
+interface IUrlParams {
+    b64?: string;
+}
+
 export const StaticRedirectContainer: React.FC<IClassProps> = () => {
     const preference = getPreference();
     const history = useHistory();
     const applicationStore = React.useContext(ApplicationContext);
     const [trans] = useTranslation();
-    const {b64 = ""} = useParams();
+    const {b64 = ""} = useParams<IUrlParams>();
     const classes = useStyles();
     const handleGetParams = (): IStateParams | undefined => {
         try {
@@ -70,9 +75,16 @@ export const StaticRedirectContainer: React.FC<IClassProps> = () => {
 
             history.replace(`/${params.app || "pages"}/${params.page}${filter ? `/${filter}` : ""}`);
         } else if (params) {
-            history.push("/auth", {backUrl: `/redirect/${b64}`});
+            redirectAuth({
+                backUrl: `/redirect/${b64}`,
+                history,
+                pageStore: applicationStore.pageStore,
+            });
         } else {
-            history.push("/auth");
+            redirectAuth({
+                history,
+                pageStore: applicationStore.pageStore,
+            });
         }
     }, [b64, history, isAuthorized, params]);
 

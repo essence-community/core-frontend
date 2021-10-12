@@ -1,5 +1,5 @@
 import {observable, computed, action} from "mobx";
-import {VAR_SETTING_VALUE, VAR_RECORD_ID} from "../../constants/variables";
+import {VAR_SETTING_VALUE, VAR_RECORD_ID, VAR_SETTING_BASE_PATH, VAR_SETTING_BASE_URL} from "../../constants/variables";
 
 export class SettingsModel {
     @observable
@@ -15,11 +15,22 @@ export class SettingsModel {
             return acc;
         }, {});
     }
-    setSettings = action("SettingsModel.setSettings", (records: Record<string, string>[]) => {
-        this.settings = records.reduce((acc: Record<string, string>, setting: Record<string, string>) => {
-            acc[setting[VAR_RECORD_ID]] = setting[VAR_SETTING_VALUE];
+    @action
+    setSettings = (records: Record<string, string>[]) => {
+        this.settings = records.reduce(
+            (acc: Record<string, string>, setting: Record<string, string>) => {
+                acc[setting[VAR_RECORD_ID]] = setting[VAR_SETTING_VALUE];
 
-            return acc;
-        }, {});
-    });
+                return acc;
+            },
+            {
+                [VAR_SETTING_BASE_PATH]: this.settings[VAR_SETTING_BASE_PATH],
+                [VAR_SETTING_BASE_URL]: this.settings[VAR_SETTING_BASE_URL],
+            },
+        );
+    };
+    @action
+    setSetting = (key: string, value: string) => {
+        this.settings[key] = value;
+    };
 }

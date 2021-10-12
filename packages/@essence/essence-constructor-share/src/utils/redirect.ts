@@ -1,5 +1,6 @@
 import {ObservableMap} from "mobx";
 import qs from "qs";
+import {History} from "history";
 import {IRecord, FieldValue, IAuthSession, IBuilderConfig, IPageModel} from "../types";
 import {
     SESSION_PREFIX,
@@ -14,6 +15,8 @@ import {snackbarStore} from "../models";
 import {request} from "../request";
 import {attachGlobalStore} from "../models/RecordsModel/loadRecordsAction";
 import {setMask} from "../actions/recordsActions";
+import {settingsStore} from "../models/SettingsModel";
+import {VAR_SETTING_AUTH_URL} from "../constants/variables";
 import {parseMemoize} from "./parser";
 import {getMasterObject} from "./getMasterObject";
 
@@ -21,6 +24,12 @@ interface IGetQueryParams {
     columnsName?: IBuilderConfig["columnsfilter"];
     record?: IRecord;
     globalValues: ObservableMap<string, FieldValue>;
+}
+
+interface IRedirectAuthParam {
+    history: History;
+    pageStore: IPageModel;
+    backUrl?: string;
 }
 
 interface IMakeRedirectUrlProps {
@@ -272,5 +281,34 @@ export function makeRedirect(bc: IBuilderConfig, pageStore: IPageModel, record: 
             record,
             values,
         });
+    }
+}
+
+/**
+ * Переход в авторизацию
+ * @param param0
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function redirectAuth({backUrl, history, pageStore}: IRedirectAuthParam) {
+    let url = settingsStore.settings[VAR_SETTING_AUTH_URL] || "/auth";
+    const params =
+        history.location.search && history.location.search.slice(1) ? qs.parse(history.location.search.slice(1)) : {};
+
+    if (url.startsWith("/") || url.startsWith("http") || url.startsWith("{")) {
+        url = prepareUrl(url, pageStore, {
+            ...params,
+            backUrl,
+        });
+    } else {
+        url =
+            choiceUrl(url, pageStore.globalValues, {
+                ...params,
+                backUrl,
+            }) || "/auth";
+    }
+    if (url.startsWith("http")) {
+        window.location.href = url;
+    } else {
+        history.push(url, backUrl ? {backUrl} : undefined);
     }
 }

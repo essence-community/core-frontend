@@ -36,7 +36,12 @@ export const GridTableHeader: React.FC<IGridTableHeaderProps> = (props) => {
 
                         if (Component) {
                             return (
-                                <Component key={bcColumn[VAR_RECORD_PAGE_OBJECT_ID]} {...classProps} bc={bcColumn} />
+                                <Component
+                                    key={bcColumn[VAR_RECORD_PAGE_OBJECT_ID]}
+                                    {...classProps}
+                                    disabled={store.isInlineEditing || classProps.disabled}
+                                    bc={bcColumn}
+                                />
                             );
                         }
 

@@ -74,7 +74,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
     }, [filterIsOpen, filters, isDarkTheme]);
 
     return useObserver(() => {
-        const isEditing = form.editing;
+        const isEditing = form.placement !== "application" && form.placement !== "pager" ? form.editing : false;
         const classNameRoot = cn(classes.root, isHideActions ? classes.rootActionsHide : classes.rootActions, {
             [classes.panelEditing]: isEditing,
         });
@@ -128,7 +128,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
         );
 
         const formComponent = (
-            <Grid item className={classes.formRoot} xs zeroMinWidth>
+            <Grid item className={cn(classes.formRoot, {[classes.formRootEditing]: isEditing})} xs zeroMinWidth>
                 <div className={classes.content}>
                     {children ? (
                         children

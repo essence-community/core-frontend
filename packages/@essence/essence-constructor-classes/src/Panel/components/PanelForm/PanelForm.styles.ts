@@ -38,6 +38,8 @@ export const useStyles = makeStyles(
         formRoot: {
             backgroundColor: theme.palette.background.paper,
             borderBottomRightRadius: theme.palette.type === "dark" ? 4 : 0,
+        },
+        formRootEditing: {
             position: "relative",
             zIndex: 3,
         },

@@ -55,7 +55,10 @@ export const PanelWrapper: React.FC<IClassProps> = (props) => {
             spacing={0}
             direction={isDarkTheme ? "row" : "column"}
             wrap="nowrap"
-            className={cn({[classes.panelEditing]: form.editing})}
+            className={cn({
+                [classes.panelEditing]:
+                    form.placement !== "application" && form.placement !== "pager" ? form.editing : false,
+            })}
             data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
         >
             {hideactions || topbtn.length === 0 ? null : (

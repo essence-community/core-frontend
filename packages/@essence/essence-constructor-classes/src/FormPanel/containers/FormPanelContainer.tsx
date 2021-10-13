@@ -5,6 +5,7 @@ import {UIForm} from "@essence-community/constructor-share/uicomponents/UIForm";
 import {useModel} from "@essence-community/constructor-share/hooks/useModel";
 import {useObserver} from "mobx-react";
 import {noop} from "@essence-community/constructor-share/utils";
+import {createPortal} from "react-dom";
 import {FormPanelModel} from "../store/FormPanelModel";
 import {FormPanelGlobals} from "../components/FormPanelGlobals";
 import {IBuilderClassConfig} from "../types";
@@ -34,6 +35,7 @@ export const FormPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = (p
                       <Child key={childBc.ck_page_object} {...props} bc={childBc} />
                   ))}
             <FormPanelGlobals bc={bc} pageStore={pageStore} />
+            {store.editing ? createPortal(<div className={classes.mask}></div>, pageStore.pageEl) : null}
         </UIForm>
     ));
 };

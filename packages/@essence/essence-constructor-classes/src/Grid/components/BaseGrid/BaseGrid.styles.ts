@@ -76,7 +76,6 @@ export const useStyles = makeStyles(
                       backgroundColor: theme.palette.common.white,
                       flexBasis: 0,
                       transition: "margin-top 200ms linear 0s",
-                      zIndex: 2,
                   }
                 : {
                       backgroundColor: theme.palette.common.white,

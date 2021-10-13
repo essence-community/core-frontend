@@ -1,9 +1,9 @@
-import {IGridModel, PercentColumnsType} from "../GridModel.types";
+import {IGridModel, IPercentColumnsType} from "../GridModel.types";
 
 const MAX_PERCENT_COLUMN_WIDTH = 100;
 
 export function setWidthForZeroWidthCol(gridStore: IGridModel, zerowWidthColArr: string[]) {
-    const percentColumns: PercentColumnsType[] = [];
+    const percentColumns: IPercentColumnsType[] = [];
 
     gridStore.columnsWidth.forEach((colWidth, colId) => {
         if (typeof colWidth === "string") {

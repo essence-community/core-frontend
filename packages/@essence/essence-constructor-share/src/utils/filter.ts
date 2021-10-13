@@ -26,7 +26,7 @@ export function sortFilesData(jlSort: IRecordsOrder[]) {
         const cloneArr = [...jlSort];
 
         return (obj1: IRecord, obj2: IRecord) =>
-            cloneArr.reduce((val: number, item, index: number) => {
+            cloneArr.reduce((val: number, item) => {
                 if (val !== 0) {
                     return val;
                 }
@@ -62,7 +62,7 @@ export function sortFilesData(jlSort: IRecordsOrder[]) {
                     );
                 }
                 if (typeof val1 === "number" && typeof val2 === "number") {
-                    return val + (direction === "ASC" ? val1 - val2 : val2 - val1) * (10 * index);
+                    return direction === "ASC" ? val1 - val2 : val2 - val1;
                 }
                 if (datatype === "integer" || datatype === "numeric") {
                     return direction === "ASC"

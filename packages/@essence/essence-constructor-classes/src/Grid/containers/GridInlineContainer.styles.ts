@@ -9,6 +9,7 @@ export const useStyles = makeStyles(
             opacity: 0.5,
             position: "absolute",
             width: "100%",
+            zIndex: 1,
         },
     }),
     {name: "GridInlineContainer"},

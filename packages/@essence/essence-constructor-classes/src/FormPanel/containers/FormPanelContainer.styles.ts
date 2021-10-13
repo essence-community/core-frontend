@@ -7,6 +7,14 @@ export const useStyles = makeStyles(
         form: {
             width: "100%",
         },
+        mask: {
+            backgroundColor: theme.essence.palette.common.disabled,
+            height: "100%",
+            opacity: 0.5,
+            position: "absolute",
+            width: "100%",
+            zIndex: 1,
+        },
     }),
     {name: "EssenceFormPanel"},
 );

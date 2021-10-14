@@ -18,6 +18,16 @@ export const FormPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = (p
     const classes = useStyles();
     const boxBc = React.useMemo<IBuilderConfig>(() => ({...bc, type: "BOX.NOCOMMONDECORATOR"}), [bc]);
     const [store] = useModel((options) => new FormPanelModel(options), props);
+    const handleOnWheel = React.useCallback(
+        (ev) => {
+            const scrollEl = pageStore.pageScrollEl;
+
+            if (scrollEl && scrollEl.scrollTop) {
+                scrollEl.scrollTop(scrollEl.getScrollTop() + ev.deltaY);
+            }
+        },
+        [pageStore],
+    );
 
     return useObserver(() => (
         <UIForm
@@ -35,7 +45,9 @@ export const FormPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = (p
                       <Child key={childBc.ck_page_object} {...props} bc={childBc} />
                   ))}
             <FormPanelGlobals bc={bc} pageStore={pageStore} />
-            {store.editing ? createPortal(<div className={classes.mask}></div>, pageStore.pageEl) : null}
+            {store.editing
+                ? createPortal(<div className={classes.mask} onWheel={handleOnWheel}></div>, pageStore.pageEl)
+                : null}
         </UIForm>
     ));
 };

@@ -35,6 +35,7 @@ import {snackbarStore} from "../SnackbarModel";
 import {loadComponentsFromModules} from "../../components";
 import {TText} from "../../types/SnackbarModel";
 import {IField, IForm} from "../../Form";
+import {IScrollEl} from "../../types/PageModel";
 import {getNextComponent} from "./PageModel.utils";
 
 const logger = loggerRoot.extend("PageModel");
@@ -45,6 +46,8 @@ export class PageModel implements IPageModel {
     public saveCallBack: PageModelSaveCallback | null;
 
     public pageEl: HTMLDivElement | null;
+
+    public pageScrollEl: IScrollEl | null;
 
     public pageInnerEl: HTMLDivElement | null;
 
@@ -335,6 +338,11 @@ export class PageModel implements IPageModel {
     setPageElAction = action("setPageElAction", (pageEl: HTMLDivElement | null) => {
         this.pageEl = pageEl;
     });
+
+    @action
+    setPageScrollEl = (pageScrollEl: IScrollEl | null) => {
+        this.pageScrollEl = pageScrollEl;
+    };
 
     setPageInnerElAction = (pageInnerEl: HTMLDivElement | null) => {
         this.pageInnerEl = pageInnerEl;

@@ -31,6 +31,17 @@ export const GridInlineContainer: React.FC<IClassProps> = (props) => {
         }
     };
 
+    const handleOnWheel = React.useCallback(
+        (ev) => {
+            const scrollEl = pageStore.pageScrollEl;
+
+            if (scrollEl && scrollEl.scrollTop) {
+                scrollEl.scrollTop(scrollEl.getScrollTop() + ev.deltaY);
+            }
+        },
+        [pageStore],
+    );
+
     return useObserver(() => {
         const gridStore = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]) as IGridModel | undefined;
 
@@ -42,7 +53,7 @@ export const GridInlineContainer: React.FC<IClassProps> = (props) => {
         const gridInlineContainer = gridStore.refs.get("grid-inline");
 
         return (
-            <div className={classes.mask}>
+            <div className={classes.mask} onWheel={handleOnWheel}>
                 <UIForm
                     noForm
                     onSubmit={handleSubmit}

@@ -11,11 +11,17 @@ import {
     PageModelWindows,
     PageModelSaveCallback,
     IRecordsModel,
+    TText,
 } from "../../types";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_PARENT_ID} from "../../constants";
 import {IForm} from "../../Form";
+import {TScrollEvent, IScrollEl} from "../../types/PageModel";
 
 export class PageModelAbstract implements IPageModel {
+    public questionWindow?: TText[] | undefined;
+    public pageScrollEl: IScrollEl | null;
+    public currentStep?: string | undefined;
+    public setPageScrollEl = (pageEl: IScrollEl) => {};
     public fieldValueMaster: ObservableMap<string, FieldValue> = observable.map();
 
     public pageBc: IBuilderConfig[] = [];
@@ -66,7 +72,7 @@ export class PageModelAbstract implements IPageModel {
 
     public loadingCount = 0;
 
-    public scrollEvents: Function[] = [];
+    public scrollEvents: TScrollEvent[] = [];
 
     public recordsStore: IRecordsModel;
 
@@ -74,7 +80,7 @@ export class PageModelAbstract implements IPageModel {
 
     public fireScrollEvent = () => {};
 
-    public updateGlobalValues = (_values: object) => {};
+    public updateGlobalValues = (_values: any) => {};
 
     public addStore = (_store: any, _name: string): string => "";
 
@@ -94,9 +100,9 @@ export class PageModelAbstract implements IPageModel {
 
     public resetStepAction = () => {};
 
-    public nextStepAction = (_mode: IBuilderMode, _bc: object) => {};
+    public nextStepAction = (_mode: IBuilderMode, _bc: any) => {};
 
-    public scrollToRecordAction = (_params: object) => {};
+    public scrollToRecordAction = (_params: any) => {};
 
     public handleQuestionAccept = () => {};
 

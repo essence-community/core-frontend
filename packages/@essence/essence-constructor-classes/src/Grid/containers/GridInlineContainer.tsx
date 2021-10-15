@@ -9,10 +9,12 @@ import {IGridModel} from "../stores/GridModel/GridModel.types";
 import {GridInlineTable} from "../components/GridInlineTable";
 import {GridInlineButtons} from "../components/GridInlineButtons";
 import {GridInlineModel} from "../stores/GridInlineModel";
+import {useStyles} from "./GridInlineContainer.styles";
 
 export const GridInlineContainer: React.FC<IClassProps> = (props) => {
     const {pageStore, bc} = props;
     const isNew = bc.mode === "1" || bc.mode === "6";
+    const classes = useStyles();
 
     useModel((options) => new GridInlineModel(options), props);
 
@@ -29,6 +31,17 @@ export const GridInlineContainer: React.FC<IClassProps> = (props) => {
         }
     };
 
+    const handleOnWheel = React.useCallback(
+        (ev) => {
+            const scrollEl = pageStore.pageScrollEl;
+
+            if (scrollEl && scrollEl.scrollTop) {
+                scrollEl.scrollTop(scrollEl.getScrollTop() + ev.deltaY);
+            }
+        },
+        [pageStore],
+    );
+
     return useObserver(() => {
         const gridStore = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]) as IGridModel | undefined;
 
@@ -40,21 +53,26 @@ export const GridInlineContainer: React.FC<IClassProps> = (props) => {
         const gridInlineContainer = gridStore.refs.get("grid-inline");
 
         return (
-            <UIForm
-                noForm
-                onSubmit={handleSubmit}
-                initialValues={isNew ? undefined : gridStore.recordsStore.selectedRecord}
-                mode={bc.mode as IBuilderMode}
-                pageStore={pageStore}
-            >
-                {gridInlineButtonContainer
-                    ? createPortal(<GridInlineButtons {...props} gridStore={gridStore} />, gridInlineButtonContainer)
-                    : null}
+            <div className={classes.mask} onWheel={handleOnWheel}>
+                <UIForm
+                    noForm
+                    onSubmit={handleSubmit}
+                    initialValues={isNew ? undefined : gridStore.recordsStore.selectedRecord}
+                    mode={bc.mode as IBuilderMode}
+                    pageStore={pageStore}
+                >
+                    {gridInlineButtonContainer
+                        ? createPortal(
+                              <GridInlineButtons {...props} gridStore={gridStore} />,
+                              gridInlineButtonContainer,
+                          )
+                        : null}
 
-                {gridInlineContainer
-                    ? createPortal(<GridInlineTable {...props} gridStore={gridStore} />, gridInlineContainer)
-                    : null}
-            </UIForm>
+                    {gridInlineContainer
+                        ? createPortal(<GridInlineTable {...props} gridStore={gridStore} />, gridInlineContainer)
+                        : null}
+                </UIForm>
+            </div>
         );
     });
 };

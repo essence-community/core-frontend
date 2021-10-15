@@ -2,7 +2,7 @@ import * as React from "react";
 import cn from "clsx";
 import {IClassProps, IRecord, ICkId} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_JV_ROWCOLOR, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {RecordContext} from "@essence-community/constructor-share/context";
+import {PopoverContext, RecordContext} from "@essence-community/constructor-share/context";
 import {reaction} from "mobx";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react";
@@ -21,6 +21,7 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
     const {bc, store, record, isExpanded, isDetail, children, ...classProps} = props;
     const rowcolor = record[VAR_RECORD_JV_ROWCOLOR];
     const [selected, setSelected] = React.useState(false);
+    const popoverCtx = React.useContext(PopoverContext);
     const classes = useStyles();
     const dndProps = useGridDnd({record, store});
 
@@ -87,13 +88,17 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
             : classes.autoStripe,
     );
 
+    const handleDoubleClick = React.useCallback(() => {
+        store.handleDoubleClick({popoverCtx});
+    }, [popoverCtx, store]);
+
     return useObserver(() => (
         <tr
             style={typeof rowcolor === "string" && !selected ? {backgroundColor: rowcolor} : undefined}
             className={className}
             onClick={handleClick}
             data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-row-${record[store.recordsStore.recordId]}`}
-            onDoubleClick={store.handleDoubleClick}
+            onDoubleClick={handleDoubleClick}
             tabIndex={-1}
             {...dndProps}
         >

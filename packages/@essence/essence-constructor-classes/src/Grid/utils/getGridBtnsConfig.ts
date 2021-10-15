@@ -7,7 +7,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {mergeComponents} from "@essence-community/constructor-share/utils";
-import {GridBtnsConfigType} from "../stores/GridModel/GridModel.types";
+import {IGridBtnsConfigType} from "../stores/GridModel/GridModel.types";
 
 const getBtnDeleteConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     [VAR_RECORD_CN_ORDER]: 1e6,
@@ -116,7 +116,7 @@ const getDragDropBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     type: "BTN",
 });
 
-export const getGridBtnsConfig = (bc: IBuilderConfig, styleTheme: "light" | "dark"): GridBtnsConfigType => {
+export const getGridBtnsConfig = (bc: IBuilderConfig, styleTheme: "light" | "dark"): IGridBtnsConfigType => {
     const {components, overrides} = mergeComponents(bc.topbtn, {
         "Override Audit Button": getBtnAuditConfig(bc),
         "Override Cancel Button":

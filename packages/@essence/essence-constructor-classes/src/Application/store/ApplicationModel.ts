@@ -34,7 +34,7 @@ import {
     VAR_SETTING_URL_APP_NAME,
     loggerRoot,
 } from "@essence-community/constructor-share/constants";
-import {i18next, TFunction} from "@essence-community/constructor-share/utils";
+import {i18next, redirectAuth, TFunction} from "@essence-community/constructor-share/utils";
 import {parseMemoize} from "@essence-community/constructor-share/utils/parser";
 import {
     snackbarStore,
@@ -240,7 +240,11 @@ export class ApplicationModel implements IApplicationModel {
             const state = (this.history.location.state || {}) as {backUrl?: string};
             const {backUrl = this.history.location.pathname} = state;
 
-            this.history.push("/auth", {backUrl});
+            redirectAuth({
+                backUrl,
+                history: this.history,
+                pageStore: this.pageStore,
+            });
         }
 
         if (this.wsClient && this.wsClient.readyState === this.wsClient.OPEN) {
@@ -344,7 +348,11 @@ export class ApplicationModel implements IApplicationModel {
             const state = (this.history.location.state || {}) as {backUrl?: string};
             const {backUrl = this.history.location.pathname} = state;
 
-            this.history.push("/auth", {backUrl});
+            redirectAuth({
+                backUrl,
+                history: this.history,
+                pageStore: this.pageStore,
+            });
         }
     };
 
@@ -401,6 +409,8 @@ export class ApplicationModel implements IApplicationModel {
         "blockApplicationAction",
         (type: string, text: string | ((trans: TFunction) => string) = "") => {
             if (this.isBlock && type === "unblock") {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
                 window.location.reload(true);
             }
             this.isBlock = type === "block";

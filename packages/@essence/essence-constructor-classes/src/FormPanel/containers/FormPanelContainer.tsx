@@ -5,6 +5,7 @@ import {UIForm} from "@essence-community/constructor-share/uicomponents/UIForm";
 import {useModel} from "@essence-community/constructor-share/hooks/useModel";
 import {useObserver} from "mobx-react";
 import {noop} from "@essence-community/constructor-share/utils";
+import {createPortal} from "react-dom";
 import {FormPanelModel} from "../store/FormPanelModel";
 import {FormPanelGlobals} from "../components/FormPanelGlobals";
 import {IBuilderClassConfig} from "../types";
@@ -17,6 +18,16 @@ export const FormPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = (p
     const classes = useStyles();
     const boxBc = React.useMemo<IBuilderConfig>(() => ({...bc, type: "BOX.NOCOMMONDECORATOR"}), [bc]);
     const [store] = useModel((options) => new FormPanelModel(options), props);
+    const handleOnWheel = React.useCallback(
+        (ev) => {
+            const scrollEl = pageStore.pageScrollEl;
+
+            if (scrollEl && scrollEl.scrollTop) {
+                scrollEl.scrollTop(scrollEl.getScrollTop() + ev.deltaY);
+            }
+        },
+        [pageStore],
+    );
 
     return useObserver(() => (
         <UIForm
@@ -34,6 +45,9 @@ export const FormPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = (p
                       <Child key={childBc.ck_page_object} {...props} bc={childBc} />
                   ))}
             <FormPanelGlobals bc={bc} pageStore={pageStore} />
+            {store.editing
+                ? createPortal(<div className={classes.mask} onWheel={handleOnWheel}></div>, pageStore.pageEl)
+                : null}
         </UIForm>
     ));
 };

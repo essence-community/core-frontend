@@ -64,7 +64,13 @@ export const PanelEditingButtons: React.FC<IClassProps> = (props) => {
     }, [bc, isDarkTheme]);
 
     return useObserver(() => (
-        <Grid container spacing={1} alignItems="center" direction={isDarkTheme ? "column" : "row"}>
+        <Grid
+            container
+            className={classes.editingRoot}
+            spacing={1}
+            alignItems="center"
+            direction={isDarkTheme ? "column" : "row"}
+        >
             {mapComponents([saveBtnBc, cancelBtnBc], (ChildCmp, childBc) => (
                 <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
                     <ChildCmp bc={childBc} pageStore={pageStore} visible />

@@ -30,9 +30,10 @@ import {
     VAR_ERROR_ID,
     VAR_ERROR_TEXT,
     VAR_RECORD_RES_FORM_ERROR,
+    VAR_RESULT_MESSAGE,
 } from "../../constants";
 import {IRouteRecord} from "../../types/RoutesModel";
-import {TText, IOptionCheck} from "../../types/SnackbarModel";
+import {TText, IOptionCheck, MessageType, MessageTypeStrings} from "../../types/SnackbarModel";
 import {IForm} from "../../Form";
 import {RecordsModelLite} from "../RecordsModelLite/RecordsModelLite";
 import {IRecordsModelLite} from "../../types/RecordsModel";
@@ -181,6 +182,48 @@ export class SnackbarModel implements ISnackbarModel {
         }
     });
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    forMessage = (
+        messageType: SnackbarStatus,
+        route?: Record<string, FieldValue>,
+        message: string[][] = [],
+        isSnack = true,
+    ) => {
+        const textArr: TText[] = [];
+
+        forEach(message, ([message, ...values]) => {
+            const text = (trans: TFunction) =>
+                typeof message === "string"
+                    ? trans(message, {
+                          defaultValue: message,
+                          ns: "message",
+                      })
+                          // eslint-disable-next-line require-unicode-regexp, prefer-named-capture-group
+                          .replace(/{(\d+)}/g, (match, pattern) =>
+                              values.length
+                                  ? trans(values[pattern], {
+                                        defaultValue: values[pattern],
+                                        ns: "message",
+                                    })
+                                  : "",
+                          )
+                    : "";
+
+            textArr.push(message);
+            if (isSnack) {
+                this.snackbarOpenAction(
+                    {
+                        status: messageType,
+                        text,
+                    },
+                    route,
+                );
+            }
+        });
+
+        return textArr;
+    };
+
     // eslint-disable-next-line max-statements
     checkValidResponseAction = action(
         "checkValidResponseAction",
@@ -207,13 +250,14 @@ export class SnackbarModel implements ISnackbarModel {
                     return 0;
                 }
                 const error = response[VAR_RECORD_RES_ERROR];
+                const jtMessage = response[VAR_RESULT_MESSAGE];
                 const formError = response[VAR_RECORD_RES_FORM_ERROR];
                 let isError = false;
                 let isWarn = false;
                 let rec: boolean | IRecord | undefined = false;
-                const warningText: TText[] = [];
+                let warningText: TText[] = [];
 
-                if (isEmpty(error) && isEmpty(formError)) {
+                if (isEmpty(error) && isEmpty(formError) && isEmpty(jtMessage)) {
                     return 1;
                 }
                 if (isObject(formError)) {
@@ -292,6 +336,26 @@ export class SnackbarModel implements ISnackbarModel {
                         );
                     }
                 }
+                if (isObject(jtMessage)) {
+                    forEach(jtMessage, (value: string[][], key: MessageTypeStrings) => {
+                        if (key in MessageType) {
+                            const textArr = this.forMessage(key, route, value);
+
+                            if (key === "error") {
+                                isError = true;
+                            }
+                            if (key === "warning") {
+                                isWarn = true;
+                                warningText = textArr;
+                            }
+                            if (key === "block" || key === "unblock") {
+                                const [text] = textArr;
+
+                                applicationStore?.blockApplicationAction(key, text);
+                            }
+                        }
+                    });
+                }
                 if (!isError && isWarn && warnCallBack) {
                     warnCallBack(warningText);
 
@@ -306,19 +370,39 @@ export class SnackbarModel implements ISnackbarModel {
      * Add error to field
      */
     formError = (
-        formError: Record<string, Record<string, string[]>>,
+        formError: Record<string, Record<string, string[] | string[][]>>,
         form?: IForm,
         route?: Record<string, FieldValue>,
     ): boolean => {
         let isError = false;
 
         // eslint-disable-next-line default-param-last
-        forEach(formError, (errors: Record<string, string[]> = {}, fieldName: string) => {
+        forEach(formError, (errors: Record<string, string[] | string[][]> = {}, fieldName: string) => {
             const field = form?.select(fieldName);
             const fieldError: any[] = [];
 
             // eslint-disable-next-line default-param-last
-            forEach(errors, (values: string[] = [], code) => {
+            forEach(errors, (values: string[] | string[][] = [], code) => {
+                if (code in MessageType) {
+                    const arrText = this.forMessage(code as SnackbarStatus, route, values as string[][], false);
+
+                    forEach(arrText, (text) => {
+                        if (code === "error") {
+                            isError = true;
+                            fieldError.push(text);
+                        } else {
+                            this.snackbarOpenAction(
+                                {
+                                    status: code as SnackbarStatus,
+                                    text,
+                                },
+                                route,
+                            );
+                        }
+                    });
+
+                    return;
+                }
                 const rec = this.recordsStore.recordsState.records.find(
                     (record: IRecord) => String(record[this.recordsStore.recordId]) === code,
                 );

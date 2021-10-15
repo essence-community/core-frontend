@@ -1,11 +1,11 @@
 import * as React from "react";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {settingsStore} from "@essence-community/constructor-share/models/SettingsModel";
+import {VAR_SETTING_BASE_PATH} from "@essence-community/constructor-share/constants/variables";
 import {ApplicationRouter} from "./Components/ApplicationRouter";
 
-const basename = process.env.REACT_APP_PUBLIC_URL || "";
-
 export const AppRoutes: React.FC = () => (
-    <Router basename={basename}>
+    <Router basename={settingsStore.settings[VAR_SETTING_BASE_PATH]}>
         <Switch>
             {/* Static pages from mocks */}
             <Route path="/reports/session/:session" component={ApplicationRouter} />

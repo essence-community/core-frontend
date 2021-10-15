@@ -16,6 +16,10 @@ export const useStyles = makeStyles(
                       position: "absolute",
                       right: 50,
                   },
+        editingRoot: {
+            position: "relative",
+            zIndex: 3,
+        },
     }),
     {name: "EssencePanelEditingButtons"},
 );

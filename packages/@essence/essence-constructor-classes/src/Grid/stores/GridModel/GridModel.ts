@@ -56,7 +56,7 @@ import {
 } from "../../utils/getGridBtnsConfig";
 import {IHanderOptions} from "../../../Button/handlers/hander.types";
 import {updatePercentColumnsWidth, setWidthForZeroWidthCol} from "./actions";
-import {GridSaveConfigType} from "./GridModel.types";
+import {IGridSaveConfigType} from "./GridModel.types";
 
 const logger = loggerRoot.extend("GridModel");
 
@@ -175,12 +175,12 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         );
     }
 
-    handleDoubleClick = () => {
+    handleDoubleClick = (options: IHandlerOptions) => {
         const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_PARENT_ID]);
         const onDoubleClick: HandlerType | undefined = parentStore?.handlers?.onDoubleClick;
 
         if (onDoubleClick) {
-            onDoubleClick("1", this.bc, {});
+            onDoubleClick("1", this.bc, options);
         }
     };
 
@@ -244,7 +244,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
      * 1. values - все значения
      * 2. config - конфиг сохранения, берется из кнопки и передаваемых параметров
      */
-    saveAction = action("saveAction", async (values: IRecord, mode: IBuilderMode, config: GridSaveConfigType) => {
+    saveAction = action("saveAction", async (values: IRecord, mode: IBuilderMode, config: IGridSaveConfigType) => {
         const {actionBc, files, form} = config;
         const isDownload = mode === "7" || actionBc.mode === "7";
         const gridValues = getGridValues({gridStore: this, mode, values});

@@ -173,6 +173,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                         }}
                         pageStore={pageStore}
                         verticalStyle={VERTICAL_STYLE}
+                        scrollbarsRef={pageStore.setPageScrollEl}
                     >
                         {content}
                     </Scrollbars>

@@ -33,7 +33,11 @@ const logger = loggerRoot.extend("PagerContainer");
 function globalTitle(trans: TFunction) {
     return trans("static:d2c071c58aca4b73853c1fcc6e2f08a3");
 }
-
+interface IUrlParams {
+    ckId?: string;
+    appName?: string;
+    filter?: string;
+}
 /**
  * @exports ApplicationContainer
  * @description Включает commonDecorator
@@ -44,7 +48,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     const history = useHistory();
     const match = useRouteMatch<any>("/:appNameDefault");
     const appNameDefault = match?.params.appNameDefault ?? "";
-    const {ckId, appName = appNameDefault, filter = ""} = useParams();
+    const {ckId, appName = appNameDefault, filter = ""} = useParams<IUrlParams>();
     const appNameRef = React.useRef(appName);
     const applicationStore = React.useMemo(() => new ApplicationModel(history, appNameRef.current), [history]);
     const [trans] = useTranslation("meta");

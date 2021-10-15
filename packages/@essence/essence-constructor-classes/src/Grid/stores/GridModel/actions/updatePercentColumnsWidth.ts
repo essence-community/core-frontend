@@ -1,10 +1,10 @@
 import {ICkId} from "@essence-community/constructor-share/types";
-import {PercentColumnsType, IGridModel} from "../GridModel.types";
+import {IPercentColumnsType, IGridModel} from "../GridModel.types";
 
 const MAX_PERCENT_COLUMN_WIDTH = 100;
 
 export function updatePercentColumnsWidth(gridStore: IGridModel, ckId: ICkId) {
-    const percentColumns: PercentColumnsType[] = [];
+    const percentColumns: IPercentColumnsType[] = [];
 
     gridStore.columnsWidth.forEach((colWidth, colId) => {
         if (colId !== ckId && typeof colWidth === "string") {

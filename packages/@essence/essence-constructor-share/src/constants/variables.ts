@@ -109,6 +109,9 @@ export const VAR_SETTING_PROJECT_AUTH_TITLE = "project_auth_title";
 export const VAR_SETTING_MODULE_AVAILABLE = "module_available";
 export const VAR_SETTING_MODULE_URL = "g_sys_module_url";
 export const VAR_SETTING_VIEW_URL = "g_sys_view_url";
+export const VAR_SETTING_AUTH_URL = "g_sys_auth_url";
+export const VAR_SETTING_BASE_PATH = "g_sys_base_path";
+export const VAR_SETTING_BASE_URL = "g_sys_base_url";
 export const VAR_SETTING_FRONT_BRANCH_DATE_TIME = "g_sys_front_branch_date_time";
 export const VAR_SETTING_FRONT_BRANCH_NAME = "g_sys_front_branch_name";
 export const VAR_SETTING_FRONT_COMMIT_ID = "g_sys_front_commit_id";
@@ -129,6 +132,7 @@ export const VAR_META_JN_OFFSET = "jn_offset";
 export const VAR_META_JL_FILTER = "jl_filter";
 export const VAR_META_JL_SORT = "jl_sort";
 export const VAR_CONNECT_GUEST = "connect_guest";
+export const VAR_RESULT_MESSAGE = "jt_message";
 
 // FORM
 export const RETURN_FORM_DATA = "jt_return_form_data";

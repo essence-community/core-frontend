@@ -16,12 +16,17 @@ import {useStyles} from "./StaticReportsContainer.styles";
 
 const MENU_GRID_WIDTH = "15%";
 
+interface IUrlParams {
+    session?: string;
+    token?: string;
+}
+
 export const StaticReportsContainer: React.FC<IClassProps> = (props) => {
     const history = useHistory();
     const applicationStore = React.useContext(ApplicationContext);
 
     const classes = useStyles();
-    const {session = "", token} = useParams();
+    const {session = "", token} = useParams<IUrlParams>();
     const [isReady, setIsReady] = React.useState(false);
     const [width, setWidth] = React.useState(MENU_GRID_WIDTH);
     const pagesTreeBc = React.useMemo<IBuilderConfig>(

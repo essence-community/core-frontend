@@ -1,4 +1,11 @@
-import { IBuilderConfig, ICkId, IStoreBaseModel, IRecordsModel, IRecord } from '@essence-community/constructor-share/types';
+import {
+    IBuilderConfig,
+    ICkId,
+    IStoreBaseModel,
+    IRecordsModel,
+    IRecord,
+    IHandlerOptions,
+} from "@essence-community/constructor-share/types";
 import {ObservableMap} from "mobx";
 import {IForm} from "@essence-community/constructor-share/Form";
 
@@ -10,23 +17,23 @@ export type GridCustomBtnNamesType =
     | "Override Cancel Button"
     | "Override Save Button";
 
-export type GridBtnsConfigType = {
+export interface IGridBtnsConfigType {
     btns: IBuilderConfig[];
     btnsCollector?: IBuilderConfig[];
     overrides: {
         [key in GridCustomBtnNamesType]: IBuilderConfig;
     };
-};
-export type GridSaveConfigType = {
+}
+export interface IGridSaveConfigType {
     actionBc: IBuilderConfig;
     files?: File[];
     form?: IForm;
-};
+}
 
-export type PercentColumnsType = {
+export interface IPercentColumnsType {
     id: ICkId;
     width: number;
-};
+}
 
 export interface IGridModel extends IStoreBaseModel {
     recordsStore: IRecordsModel;
@@ -56,7 +63,7 @@ export interface IGridModel extends IStoreBaseModel {
     applyFiltersAction(): Promise<boolean>;
 
     // Other
-    handleDoubleClick(): void;
+    handleDoubleClick(options: IHandlerOptions): void;
 
     // DragDrop
     dragDropAction(pageObjectId: string, dragId: string | string[], drop?: IRecord): Promise<boolean>;

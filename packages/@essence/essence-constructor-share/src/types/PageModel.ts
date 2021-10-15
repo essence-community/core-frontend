@@ -32,6 +32,12 @@ export type PageModelSaveCallback = (status: 0 | 1 | 2) => void;
 
 type PageModelParamsType = any;
 
+export type TScrollEvent = (...arg: any) => void;
+export interface IScrollEl extends Record<string, any> {
+    container: HTMLDivElement;
+    view: HTMLDivElement;
+}
+
 export interface IPageModel {
     pageBc: IBuilderConfig[];
     pagerBc: IBuilderConfig;
@@ -47,6 +53,7 @@ export interface IPageModel {
     saveCallBack: PageModelSaveCallback | null;
     route?: IRouteRecord;
     pageEl: HTMLDivElement | null;
+    pageScrollEl: IScrollEl | null;
     pageInnerEl: HTMLDivElement | null;
     isEdit: boolean;
     isReadOnly: boolean;
@@ -57,7 +64,7 @@ export interface IPageModel {
     isActiveRedirect: boolean;
     globalStores: Map<string, IStoreBaseModel[]>;
     masters: Record<string, IField[]>;
-    scrollEvents: Function[];
+    scrollEvents: TScrollEvent[];
     visible: boolean;
     recordsStore: IRecordsModel;
     titleRoutePath: string;
@@ -71,8 +78,9 @@ export interface IPageModel {
     removeStore(name: string, store: IStoreBaseModel): void;
     addGlobalStoresAction(name: string, store: IStoreBaseModel): void;
     removeGlobalStoresAction(name: string, store: IStoreBaseModel): void;
-    loadConfigAction(pageId: string): Promise<void | object>;
+    loadConfigAction(pageId: string): Promise<void | Record<string, any>>;
     setPageElAction(pageEl: HTMLDivElement | null): void;
+    setPageScrollEl(pageEl: IScrollEl | null): void;
     setPageInnerElAction(pageInnerEl: HTMLDivElement | null): void;
     resetStepAction(): void;
     handleNextStep(stepnamenext: string): void;
@@ -85,8 +93,8 @@ export interface IPageModel {
     freezeScrollAction(): void;
     addToMastersAction(masterId: string, field: IField): void;
     removeFromMastersAction(masterId?: string, field?: IField): void;
-    addScrollEvent(scrollEvent: Function): void;
-    removeScrollEvent(scrollEvent: Function): void;
+    addScrollEvent(scrollEvent: TScrollEvent): void;
+    removeScrollEvent(scrollEvent: TScrollEvent): void;
     fireScrollEvent(): void;
     clearAction(): void;
     createWindowAction(winBc: IBuilderConfig): void;

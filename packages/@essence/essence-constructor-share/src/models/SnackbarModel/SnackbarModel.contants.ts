@@ -9,7 +9,7 @@ export const CODE_GROUP_MAP = {
     "108": 1,
     "201": 3,
     "202": 2,
-    "203": 4,
+    "203": 9,
     "204": 2,
     "205": 2,
     "207": 5,
@@ -17,6 +17,8 @@ export const CODE_GROUP_MAP = {
     "300": 6,
     "301": "1*",
     "302": 8,
+    "403": 9,
+    "513": 9,
 };
 
 export const GROUP_ACTION_MAP = {
@@ -64,6 +66,11 @@ export const GROUP_ACTION_MAP = {
         DEV: "errorMoveResponse",
         PROD: "errorMoveResponse",
         TEST: "errorMoveResponse",
+    },
+    "9": {
+        DEV: "accessDenied",
+        PROD: "accessDenied",
+        TEST: "accessDenied",
     },
 };
 /* eslint-enable quote-props */

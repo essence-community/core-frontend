@@ -54,9 +54,9 @@ const parseResponse = ({responseJSON, list}: IRequestCheckSuccessResult) => {
 
 const checkStatusError = (status: number, query: string, body: any) => {
     const responseJSON: IRequestFaultResponse = {
-        [VAR_ERROR_CODE]: 301,
+        [VAR_ERROR_CODE]: 500,
         [VAR_ERROR_ID]: "",
-        [VAR_ERROR_TEXT]: `${body}`,
+        [VAR_ERROR_TEXT]: `${typeof body === "object" || Array.isArray(body) ? JSON.stringify(body) : body}`,
         success: false,
     };
 

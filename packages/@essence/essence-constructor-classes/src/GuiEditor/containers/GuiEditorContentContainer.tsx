@@ -1,10 +1,11 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {useObserver} from "mobx-react";
 import {Grid} from "@material-ui/core";
+import {reaction} from "mobx";
 import {GuiEditorContentModel} from "../stores/GuiEditorContentModel";
 import {GuiEditorContentContext, GuiEditorContext} from "../context";
 
@@ -15,6 +16,10 @@ export const GuiEditorContentContainer: React.FC<IClassProps> = (props) => {
         (options) => new GuiEditorContentModel({...options, applicationStore, editorStore}),
         props,
     );
+
+    useEffect(() => {
+        return reaction(() => editorStore.recordsStore.records, store.onReloadPage);
+    }, [store, editorStore]);
 
     return useObserver(() => (
         <GuiEditorContentContext.Provider value={store}>

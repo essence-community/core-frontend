@@ -10,6 +10,7 @@ import {
 } from "@essence-community/constructor-share/types";
 import {action, computed, observable} from "mobx";
 import {createPropertyForm} from "../utils/createPropertyForm";
+import {revokeChilds} from "../utils/patchChilds";
 
 export class GuiEditorModel extends StoreBaseModel {
     @observable selectedBc: IBuilderConfig | null = null;
@@ -93,8 +94,37 @@ export class GuiEditorModel extends StoreBaseModel {
 
     @action
     onSave = (): void => {
-        this.recordsStore.saveAction(this.recordsStore.records[0], "2", {actionBc: this.bc});
-        console.log(JSON.stringify(this.recordsStore.records[0]));
+        const [record] = this.recordsStore.records;
+
+        this.recordsStore.saveAction(
+            {
+                ...record,
+                children: revokeChilds(record.children as any),
+                ck_icon: null,
+                ck_id: "CE84ABF1EF5941C6A7B8E8E03BEB9402",
+                ck_parent: "000334084E3B4CE4B54960414385DA29",
+                ck_user: "4fd05ca9-3a9e-4d66-82df-886dfa082113",
+                ck_view: "system",
+                cl_menu: 1,
+                cl_static: 0,
+                cn_action_edit: "516",
+                cn_action_view: "515",
+                cn_order: "40",
+                cr_type: "2",
+                ct_change: "2021-06-29T16:11:57",
+                cv_icon_font: null,
+                cv_icon_name: null,
+                cv_name: "0f7e4e0b0cc84ecbb546e3bb4a5feb79",
+                cv_url: null,
+                cv_view_description: "Essence Core View",
+                leaf: "true",
+                root: "b749ad285f72426bbdfda8d89d181444",
+            },
+            "2",
+            {
+                actionBc: this.bc,
+            },
+        );
     };
 
     @action

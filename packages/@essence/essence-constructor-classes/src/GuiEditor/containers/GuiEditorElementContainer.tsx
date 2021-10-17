@@ -4,6 +4,7 @@ import {IClassProps} from "@essence-community/constructor-share/types";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {observe} from "mobx";
+import {useObserver} from "mobx-react";
 import {GuiEditorContentContext, GuiEditorContext} from "../context";
 import {useStyles} from "./GuiEditorElementContainer.styles";
 
@@ -47,7 +48,7 @@ export function GuiEditorElementContainer(props: IClassProps): ReactElement {
 
     useEffect(() => observe(props.bc.childs[0], forceRender), [props.bc.childs]);
 
-    return (
+    return useObserver(() => (
         <div
             onDragOver={handleDragOver}
             onDrop={handleDrop}
@@ -55,8 +56,12 @@ export function GuiEditorElementContainer(props: IClassProps): ReactElement {
             className={cn(classes.root, {[classes.hovered]: hovered})}
         >
             {mapComponents(props.bc.childs, (ChildCmp, childBc) => (
-                <ChildCmp key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} {...props} bc={childBc} />
+                <ChildCmp
+                    key={`${childBc[VAR_RECORD_PAGE_OBJECT_ID]}-${childBc.disabled}-${childBc.hidden}`}
+                    {...props}
+                    bc={childBc}
+                />
             ))}
         </div>
-    );
+    ));
 }

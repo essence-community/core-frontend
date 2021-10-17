@@ -5,7 +5,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {IRecordsModel, IStoreBaseModelProps, IRecord, IBuilderConfig} from "@essence-community/constructor-share/types";
-import {action, computed} from "mobx";
+import {action, computed, observable} from "mobx";
 import {patchChilds} from "../utils/patchChilds";
 import {GuiEditorModel} from "./GuiEditorModel";
 
@@ -27,18 +27,8 @@ export class GuiEditorContentModel extends StoreBaseModel {
         return {};
     }
 
-    @computed
-    get childs(): IBuilderConfig[] {
-        const {records} = this.editorStore.recordsStore;
-
-        if (records.length === 0) {
-            return [];
-        }
-
-        const children = records[0].children as IBuilderConfig[];
-
-        return patchChilds(children);
-    }
+    @observable
+    childs: IBuilderConfig[] = [];
 
     constructor(props: IGuiEditorContentModelProps) {
         super(props);
@@ -59,11 +49,13 @@ export class GuiEditorContentModel extends StoreBaseModel {
         }
 
         if (!parentBc) {
-            return draggedCls.cl_final;
+            return Boolean(draggedCls.cl_final);
         }
 
-        return (draggedCls.parents as any).find(
-            (cls) => cls.cv_type === parentBc.type && cls.cv_datatype == parentBc.datatype,
+        return Boolean(
+            (draggedCls.parents as any).find(
+                (cls) => cls.cv_type === parentBc.type && cls.cv_datatype == parentBc.datatype,
+            ),
         );
     }
 
@@ -96,6 +88,19 @@ export class GuiEditorContentModel extends StoreBaseModel {
             this.editorStore.recordsStore.setRecordsAction([...this.editorStore.recordsStore.records]);
         }
     }
+
+    @action
+    onReloadPage = (): void => {
+        const {records} = this.editorStore.recordsStore;
+
+        if (records.length === 0) {
+            this.childs = [];
+        } else {
+            const children = records[0].children as IBuilderConfig[];
+
+            this.childs = patchChilds(children);
+        }
+    };
 
     reloadStoreAction = (): Promise<IRecord> => this.recordsStore.loadRecordsAction({});
 

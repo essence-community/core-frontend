@@ -10,11 +10,13 @@ import {
     VAR_ERROR_CODE,
     VAR_ERROR_TEXT,
     VAR_ERROR_ID,
+    loggerRoot,
 } from "../constants";
 import {IRequestFaultResponse} from "../types/Request";
 import {ResponseError} from "./error";
 
 const MILLISECOND = 1000;
+const logger = loggerRoot.extend("Request");
 
 const checkError = ({responseJSON, query, list}: IRequestCheckError) => {
     let isError = false;
@@ -59,6 +61,8 @@ const checkStatusError = (status: number, query: string, body: any) => {
         [VAR_ERROR_TEXT]: `${typeof body === "object" || Array.isArray(body) ? JSON.stringify(body) : body}`,
         success: false,
     };
+
+    logger(`Reponse status: ${status}, data: \n ${body}`);
 
     if (status === 401) {
         responseJSON[VAR_ERROR_CODE] = 201;
@@ -129,7 +133,7 @@ export const request = async <R = IRecord | IRecord[]>({
             validateStatus: () => true,
         });
 
-        if (response.status > 299 && response.status < 200) {
+        if (response.status > 299 || response.status < 200) {
             checkStatusError(response.status, query, response.data);
         }
         responseJSON = response.data;
@@ -152,7 +156,7 @@ export const request = async <R = IRecord | IRecord[]>({
 
         clearTimeout(timeoutId);
 
-        if (response.status > 299 && response.status < 200) {
+        if (response.status > 299 || response.status < 200) {
             checkStatusError(response.status, query, await response.text());
         }
 

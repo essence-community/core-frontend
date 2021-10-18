@@ -55,10 +55,20 @@ const parseResponse = ({responseJSON, list}: IRequestCheckSuccessResult) => {
 };
 
 const checkStatusError = (status: number, query: string, body: any) => {
+    let json = typeof body === "object" ? body : {};
+
+    if (typeof body === "string" && body.startsWith("{") && body.endsWith("}")) {
+        try {
+            json = JSON.parse(body);
+        } catch (e) {
+            logger(`Parse Error data: \n ${body}`, e);
+        }
+    }
     const responseJSON: IRequestFaultResponse = {
-        [VAR_ERROR_CODE]: 500,
-        [VAR_ERROR_ID]: "",
-        [VAR_ERROR_TEXT]: `${typeof body === "object" || Array.isArray(body) ? JSON.stringify(body) : body}`,
+        [VAR_ERROR_CODE]: json[VAR_ERROR_CODE] || 500,
+        [VAR_ERROR_ID]: json[VAR_ERROR_ID] || "",
+        [VAR_ERROR_TEXT]:
+            json[VAR_ERROR_TEXT] || `${typeof body === "object" || Array.isArray(body) ? JSON.stringify(body) : body}`,
         success: false,
     };
 

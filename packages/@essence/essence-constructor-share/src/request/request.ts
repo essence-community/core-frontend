@@ -1,12 +1,22 @@
 import {stringify} from "qs";
 import axios from "axios";
-import {IRequest, IRequestCheckError} from "../types";
+import {IRequest, IRequestCheckError, IRequestCheckSuccessResult} from "../types";
 import {settingsStore} from "../models/SettingsModel";
 import {IRecord} from "../types/Base";
-import {VAR_SETTING_GATE_URL, META_OUT_RESULT, META_PAGE_OBJECT} from "../constants";
+import {
+    VAR_SETTING_GATE_URL,
+    META_OUT_RESULT,
+    META_PAGE_OBJECT,
+    VAR_ERROR_CODE,
+    VAR_ERROR_TEXT,
+    VAR_ERROR_ID,
+    loggerRoot,
+} from "../constants";
+import {IRequestFaultResponse} from "../types/Request";
 import {ResponseError} from "./error";
 
 const MILLISECOND = 1000;
+const logger = loggerRoot.extend("Request");
 
 const checkError = ({responseJSON, query, list}: IRequestCheckError) => {
     let isError = false;
@@ -15,7 +25,11 @@ const checkError = ({responseJSON, query, list}: IRequestCheckError) => {
         isError = true;
     }
 
-    if (list && !Array.isArray(responseJSON.data)) {
+    if (
+        list &&
+        (responseJSON.success === true || responseJSON.success === "true") &&
+        !Array.isArray(responseJSON.data)
+    ) {
         isError = true;
     }
 
@@ -24,7 +38,7 @@ const checkError = ({responseJSON, query, list}: IRequestCheckError) => {
     }
 };
 
-const parseResponse = ({responseJSON, list}: IRequestCheckError) => {
+const parseResponse = ({responseJSON, list}: IRequestCheckSuccessResult) => {
     const {data} = responseJSON;
 
     if (list) {
@@ -38,6 +52,37 @@ const parseResponse = ({responseJSON, list}: IRequestCheckError) => {
     }
 
     return responseSingleData;
+};
+
+const checkStatusError = (status: number, query: string, body: any) => {
+    let json = typeof body === "object" ? body : {};
+
+    if (typeof body === "string" && body.startsWith("{") && body.endsWith("}")) {
+        try {
+            json = JSON.parse(body);
+        } catch (e) {
+            logger(`Parse Error data: \n ${body}`, e);
+        }
+    }
+    const responseJSON: IRequestFaultResponse = {
+        [VAR_ERROR_CODE]: json[VAR_ERROR_CODE] || 500,
+        [VAR_ERROR_ID]: json[VAR_ERROR_ID] || "",
+        [VAR_ERROR_TEXT]:
+            json[VAR_ERROR_TEXT] || `${typeof body === "object" || Array.isArray(body) ? JSON.stringify(body) : body}`,
+        success: false,
+    };
+
+    logger(`Reponse status: ${status}, data: \n ${body}`);
+
+    if (status === 401) {
+        responseJSON[VAR_ERROR_CODE] = 201;
+        throw new ResponseError("static:63538aa4bcd748349defdf7510fc9c10", responseJSON, query);
+    }
+    if (status === 403) {
+        responseJSON[VAR_ERROR_CODE] = 403;
+        throw new ResponseError("static:63538aa4bcd748349defdf7510fc9c10", responseJSON, query);
+    }
+    throw new ResponseError("static:63538aa4bcd748349defdf7510fc9c10", responseJSON, query);
 };
 
 // eslint-disable-next-line max-statements
@@ -95,8 +140,12 @@ export const request = async <R = IRecord | IRecord[]>({
             onUploadProgress,
             timeout: timeout * MILLISECOND,
             url,
+            validateStatus: () => true,
         });
 
+        if (response.status > 299 || response.status < 200) {
+            checkStatusError(response.status, query, response.data);
+        }
         responseJSON = response.data;
     } else {
         const controller = window.AbortController ? new window.AbortController() : undefined;
@@ -116,6 +165,10 @@ export const request = async <R = IRecord | IRecord[]>({
         });
 
         clearTimeout(timeoutId);
+
+        if (response.status > 299 || response.status < 200) {
+            checkStatusError(response.status, query, await response.text());
+        }
 
         responseJSON = await response.json();
     }

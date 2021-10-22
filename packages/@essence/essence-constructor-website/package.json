@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "analyze": "source-map-explorer build/static/*.*",
+    "analyze": "source-map-explorer build/static/vendor.* build/static/js/*.*",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",

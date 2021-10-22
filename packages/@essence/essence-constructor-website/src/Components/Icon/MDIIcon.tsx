@@ -1,6 +1,5 @@
 /* eslint-disable sort-keys, @typescript-eslint/ban-ts-comment, max-len */
 import * as React from "react";
-import {mapComponents} from "@essence-community/constructor-share/Icon/Icon";
 
 interface IProps {
     iconfont: string;
@@ -19,20905 +18,20905 @@ const SIZE_MAP = {
 const mapIcon = {
     "mdi-access-point-network": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccessPointNetworkIcon" */
+            /* webpackChunkName: "mdi/AccessPointNetworkIcon" */
             "mdi-react/AccessPointNetworkIcon"
         ),
     ),
     "mdi-access-point": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccessPointIcon" */
+            /* webpackChunkName: "mdi/AccessPointIcon" */
             "mdi-react/AccessPointIcon"
         ),
     ),
     "mdi-account-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountAlertIcon" */
+            /* webpackChunkName: "mdi/AccountAlertIcon" */
             "mdi-react/AccountAlertIcon"
         ),
     ),
     "mdi-account-box-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountBoxMultipleIcon" */
+            /* webpackChunkName: "mdi/AccountBoxMultipleIcon" */
             "mdi-react/AccountBoxMultipleIcon"
         ),
     ),
     "mdi-account-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountBoxOutlineIcon" */
+            /* webpackChunkName: "mdi/AccountBoxOutlineIcon" */
             "mdi-react/AccountBoxOutlineIcon"
         ),
     ),
     "mdi-account-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountBoxIcon" */
+            /* webpackChunkName: "mdi/AccountBoxIcon" */
             "mdi-react/AccountBoxIcon"
         ),
     ),
     "mdi-account-card-details": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountCardDetailsIcon" */
+            /* webpackChunkName: "mdi/AccountCardDetailsIcon" */
             "mdi-react/AccountCardDetailsIcon"
         ),
     ),
     "mdi-account-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountCheckIcon" */
+            /* webpackChunkName: "mdi/AccountCheckIcon" */
             "mdi-react/AccountCheckIcon"
         ),
     ),
     "mdi-account-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountCircleIcon" */
+            /* webpackChunkName: "mdi/AccountCircleIcon" */
             "mdi-react/AccountCircleIcon"
         ),
     ),
     "mdi-account-convert": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountConvertIcon" */
+            /* webpackChunkName: "mdi/AccountConvertIcon" */
             "mdi-react/AccountConvertIcon"
         ),
     ),
     "mdi-account-edit": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountEditIcon" */
+            /* webpackChunkName: "mdi/AccountEditIcon" */
             "mdi-react/AccountEditIcon"
         ),
     ),
     "mdi-account-group": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountGroupIcon" */
+            /* webpackChunkName: "mdi/AccountGroupIcon" */
             "mdi-react/AccountGroupIcon"
         ),
     ),
     "mdi-account-heart": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountHeartIcon" */
+            /* webpackChunkName: "mdi/AccountHeartIcon" */
             "mdi-react/AccountHeartIcon"
         ),
     ),
     "mdi-account-key": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountKeyIcon" */
+            /* webpackChunkName: "mdi/AccountKeyIcon" */
             "mdi-react/AccountKeyIcon"
         ),
     ),
     "mdi-account-location": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountLocationIcon" */
+            /* webpackChunkName: "mdi/AccountLocationIcon" */
             "mdi-react/AccountLocationIcon"
         ),
     ),
     "mdi-account-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountMinusIcon" */
+            /* webpackChunkName: "mdi/AccountMinusIcon" */
             "mdi-react/AccountMinusIcon"
         ),
     ),
     "mdi-account-multiple-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountMultipleCheckIcon" */
+            /* webpackChunkName: "mdi/AccountMultipleCheckIcon" */
             "mdi-react/AccountMultipleCheckIcon"
         ),
     ),
     "mdi-account-multiple-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountMultipleMinusIcon" */
+            /* webpackChunkName: "mdi/AccountMultipleMinusIcon" */
             "mdi-react/AccountMultipleMinusIcon"
         ),
     ),
     "mdi-account-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/AccountMultipleOutlineIcon" */
             "mdi-react/AccountMultipleOutlineIcon"
         ),
     ),
     "mdi-account-multiple-plus-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountMultiplePlusOutlineIcon" */
+            /* webpackChunkName: "mdi/AccountMultiplePlusOutlineIcon" */
             "mdi-react/AccountMultiplePlusOutlineIcon"
         ),
     ),
     "mdi-account-multiple-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountMultiplePlusIcon" */
+            /* webpackChunkName: "mdi/AccountMultiplePlusIcon" */
             "mdi-react/AccountMultiplePlusIcon"
         ),
     ),
     "mdi-account-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountMultipleIcon" */
+            /* webpackChunkName: "mdi/AccountMultipleIcon" */
             "mdi-react/AccountMultipleIcon"
         ),
     ),
     "mdi-account-network": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountNetworkIcon" */
+            /* webpackChunkName: "mdi/AccountNetworkIcon" */
             "mdi-react/AccountNetworkIcon"
         ),
     ),
     "mdi-account-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountOffIcon" */
+            /* webpackChunkName: "mdi/AccountOffIcon" */
             "mdi-react/AccountOffIcon"
         ),
     ),
     "mdi-account-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountOutlineIcon" */
+            /* webpackChunkName: "mdi/AccountOutlineIcon" */
             "mdi-react/AccountOutlineIcon"
         ),
     ),
     "mdi-account-plus-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountPlusOutlineIcon" */
+            /* webpackChunkName: "mdi/AccountPlusOutlineIcon" */
             "mdi-react/AccountPlusOutlineIcon"
         ),
     ),
     "mdi-account-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountPlusIcon" */
+            /* webpackChunkName: "mdi/AccountPlusIcon" */
             "mdi-react/AccountPlusIcon"
         ),
     ),
     "mdi-account-remove": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountRemoveIcon" */
+            /* webpackChunkName: "mdi/AccountRemoveIcon" */
             "mdi-react/AccountRemoveIcon"
         ),
     ),
     "mdi-account-search-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountSearchOutlineIcon" */
+            /* webpackChunkName: "mdi/AccountSearchOutlineIcon" */
             "mdi-react/AccountSearchOutlineIcon"
         ),
     ),
     "mdi-account-search": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountSearchIcon" */
+            /* webpackChunkName: "mdi/AccountSearchIcon" */
             "mdi-react/AccountSearchIcon"
         ),
     ),
     "mdi-account-settings-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountSettingsVariantIcon" */
+            /* webpackChunkName: "mdi/AccountSettingsVariantIcon" */
             "mdi-react/AccountSettingsVariantIcon"
         ),
     ),
     "mdi-account-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountSettingsIcon" */
+            /* webpackChunkName: "mdi/AccountSettingsIcon" */
             "mdi-react/AccountSettingsIcon"
         ),
     ),
     "mdi-account-star": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountStarIcon" */
+            /* webpackChunkName: "mdi/AccountStarIcon" */
             "mdi-react/AccountStarIcon"
         ),
     ),
     "mdi-account-switch": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountSwitchIcon" */
+            /* webpackChunkName: "mdi/AccountSwitchIcon" */
             "mdi-react/AccountSwitchIcon"
         ),
     ),
     "mdi-account": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountIcon" */
+            /* webpackChunkName: "mdi/AccountIcon" */
             "mdi-react/AccountIcon"
         ),
     ),
     "mdi-accusoft": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccusoftIcon" */
+            /* webpackChunkName: "mdi/AccusoftIcon" */
             "mdi-react/AccusoftIcon"
         ),
     ),
     "mdi-adjust": React.lazy(() =>
         import(
-            /* webpackChunkName: "AdjustIcon" */
+            /* webpackChunkName: "mdi/AdjustIcon" */
             "mdi-react/AdjustIcon"
         ),
     ),
     "mdi-adobe": React.lazy(() =>
         import(
-            /* webpackChunkName: "AdobeIcon" */
+            /* webpackChunkName: "mdi/AdobeIcon" */
             "mdi-react/AdobeIcon"
         ),
     ),
     "mdi-air-conditioner": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirConditionerIcon" */
+            /* webpackChunkName: "mdi/AirConditionerIcon" */
             "mdi-react/AirConditionerIcon"
         ),
     ),
     "mdi-airballoon": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirballoonIcon" */
+            /* webpackChunkName: "mdi/AirballoonIcon" */
             "mdi-react/AirballoonIcon"
         ),
     ),
     "mdi-airplane-landing": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirplaneLandingIcon" */
+            /* webpackChunkName: "mdi/AirplaneLandingIcon" */
             "mdi-react/AirplaneLandingIcon"
         ),
     ),
     "mdi-airplane-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirplaneOffIcon" */
+            /* webpackChunkName: "mdi/AirplaneOffIcon" */
             "mdi-react/AirplaneOffIcon"
         ),
     ),
     "mdi-airplane-takeoff": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirplaneTakeoffIcon" */
+            /* webpackChunkName: "mdi/AirplaneTakeoffIcon" */
             "mdi-react/AirplaneTakeoffIcon"
         ),
     ),
     "mdi-airplane": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirplaneIcon" */
+            /* webpackChunkName: "mdi/AirplaneIcon" */
             "mdi-react/AirplaneIcon"
         ),
     ),
     "mdi-airplay": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirplayIcon" */
+            /* webpackChunkName: "mdi/AirplayIcon" */
             "mdi-react/AirplayIcon"
         ),
     ),
     "mdi-airport": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirportIcon" */
+            /* webpackChunkName: "mdi/AirportIcon" */
             "mdi-react/AirportIcon"
         ),
     ),
     "mdi-alarm-bell": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlarmBellIcon" */
+            /* webpackChunkName: "mdi/AlarmBellIcon" */
             "mdi-react/AlarmBellIcon"
         ),
     ),
     "mdi-alarm-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlarmCheckIcon" */
+            /* webpackChunkName: "mdi/AlarmCheckIcon" */
             "mdi-react/AlarmCheckIcon"
         ),
     ),
     "mdi-alarm-light": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlarmLightIcon" */
+            /* webpackChunkName: "mdi/AlarmLightIcon" */
             "mdi-react/AlarmLightIcon"
         ),
     ),
     "mdi-alarm-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlarmMultipleIcon" */
+            /* webpackChunkName: "mdi/AlarmMultipleIcon" */
             "mdi-react/AlarmMultipleIcon"
         ),
     ),
     "mdi-alarm-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlarmOffIcon" */
+            /* webpackChunkName: "mdi/AlarmOffIcon" */
             "mdi-react/AlarmOffIcon"
         ),
     ),
     "mdi-alarm-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlarmPlusIcon" */
+            /* webpackChunkName: "mdi/AlarmPlusIcon" */
             "mdi-react/AlarmPlusIcon"
         ),
     ),
     "mdi-alarm-snooze": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlarmSnoozeIcon" */
+            /* webpackChunkName: "mdi/AlarmSnoozeIcon" */
             "mdi-react/AlarmSnoozeIcon"
         ),
     ),
     "mdi-alarm": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlarmIcon" */
+            /* webpackChunkName: "mdi/AlarmIcon" */
             "mdi-react/AlarmIcon"
         ),
     ),
     "mdi-album": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlbumIcon" */
+            /* webpackChunkName: "mdi/AlbumIcon" */
             "mdi-react/AlbumIcon"
         ),
     ),
     "mdi-alert-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlertBoxIcon" */
+            /* webpackChunkName: "mdi/AlertBoxIcon" */
             "mdi-react/AlertBoxIcon"
         ),
     ),
     "mdi-alert-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlertCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/AlertCircleOutlineIcon" */
             "mdi-react/AlertCircleOutlineIcon"
         ),
     ),
     "mdi-alert-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlertCircleIcon" */
+            /* webpackChunkName: "mdi/AlertCircleIcon" */
             "mdi-react/AlertCircleIcon"
         ),
     ),
     "mdi-alert-decagram": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlertDecagramIcon" */
+            /* webpackChunkName: "mdi/AlertDecagramIcon" */
             "mdi-react/AlertDecagramIcon"
         ),
     ),
     "mdi-alert-octagon": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlertOctagonIcon" */
+            /* webpackChunkName: "mdi/AlertOctagonIcon" */
             "mdi-react/AlertOctagonIcon"
         ),
     ),
     "mdi-alert-octagram": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlertOctagramIcon" */
+            /* webpackChunkName: "mdi/AlertOctagramIcon" */
             "mdi-react/AlertOctagramIcon"
         ),
     ),
     "mdi-alert-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlertOutlineIcon" */
+            /* webpackChunkName: "mdi/AlertOutlineIcon" */
             "mdi-react/AlertOutlineIcon"
         ),
     ),
     "mdi-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlertIcon" */
+            /* webpackChunkName: "mdi/AlertIcon" */
             "mdi-react/AlertIcon"
         ),
     ),
     "mdi-alien": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlienIcon" */
+            /* webpackChunkName: "mdi/AlienIcon" */
             "mdi-react/AlienIcon"
         ),
     ),
     "mdi-all-inclusive": React.lazy(() =>
         import(
-            /* webpackChunkName: "AllInclusiveIcon" */
+            /* webpackChunkName: "mdi/AllInclusiveIcon" */
             "mdi-react/AllInclusiveIcon"
         ),
     ),
     "mdi-alpha": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlphaIcon" */
+            /* webpackChunkName: "mdi/AlphaIcon" */
             "mdi-react/AlphaIcon"
         ),
     ),
     "mdi-alphabetical": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlphabeticalIcon" */
+            /* webpackChunkName: "mdi/AlphabeticalIcon" */
             "mdi-react/AlphabeticalIcon"
         ),
     ),
     "mdi-altimeter": React.lazy(() =>
         import(
-            /* webpackChunkName: "AltimeterIcon" */
+            /* webpackChunkName: "mdi/AltimeterIcon" */
             "mdi-react/AltimeterIcon"
         ),
     ),
     "mdi-amazon-alexa": React.lazy(() =>
         import(
-            /* webpackChunkName: "AmazonAlexaIcon" */
+            /* webpackChunkName: "mdi/AmazonAlexaIcon" */
             "mdi-react/AmazonAlexaIcon"
         ),
     ),
     "mdi-amazon-drive": React.lazy(() =>
         import(
-            /* webpackChunkName: "AmazonDriveIcon" */
+            /* webpackChunkName: "mdi/AmazonDriveIcon" */
             "mdi-react/AmazonDriveIcon"
         ),
     ),
     "mdi-amazon": React.lazy(() =>
         import(
-            /* webpackChunkName: "AmazonIcon" */
+            /* webpackChunkName: "mdi/AmazonIcon" */
             "mdi-react/AmazonIcon"
         ),
     ),
     "mdi-ambulance": React.lazy(() =>
         import(
-            /* webpackChunkName: "AmbulanceIcon" */
+            /* webpackChunkName: "mdi/AmbulanceIcon" */
             "mdi-react/AmbulanceIcon"
         ),
     ),
     "mdi-amplifier": React.lazy(() =>
         import(
-            /* webpackChunkName: "AmplifierIcon" */
+            /* webpackChunkName: "mdi/AmplifierIcon" */
             "mdi-react/AmplifierIcon"
         ),
     ),
     "mdi-anchor": React.lazy(() =>
         import(
-            /* webpackChunkName: "AnchorIcon" */
+            /* webpackChunkName: "mdi/AnchorIcon" */
             "mdi-react/AnchorIcon"
         ),
     ),
     "mdi-android-debug-bridge": React.lazy(() =>
         import(
-            /* webpackChunkName: "AndroidDebugBridgeIcon" */
+            /* webpackChunkName: "mdi/AndroidDebugBridgeIcon" */
             "mdi-react/AndroidDebugBridgeIcon"
         ),
     ),
     "mdi-android-head": React.lazy(() =>
         import(
-            /* webpackChunkName: "AndroidHeadIcon" */
+            /* webpackChunkName: "mdi/AndroidHeadIcon" */
             "mdi-react/AndroidHeadIcon"
         ),
     ),
     "mdi-android-studio": React.lazy(() =>
         import(
-            /* webpackChunkName: "AndroidStudioIcon" */
+            /* webpackChunkName: "mdi/AndroidStudioIcon" */
             "mdi-react/AndroidStudioIcon"
         ),
     ),
     "mdi-android": React.lazy(() =>
         import(
-            /* webpackChunkName: "AndroidIcon" */
+            /* webpackChunkName: "mdi/AndroidIcon" */
             "mdi-react/AndroidIcon"
         ),
     ),
     "mdi-angle-acute": React.lazy(() =>
         import(
-            /* webpackChunkName: "AngleAcuteIcon" */
+            /* webpackChunkName: "mdi/AngleAcuteIcon" */
             "mdi-react/AngleAcuteIcon"
         ),
     ),
     "mdi-angle-obtuse": React.lazy(() =>
         import(
-            /* webpackChunkName: "AngleObtuseIcon" */
+            /* webpackChunkName: "mdi/AngleObtuseIcon" */
             "mdi-react/AngleObtuseIcon"
         ),
     ),
     "mdi-angle-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "AngleRightIcon" */
+            /* webpackChunkName: "mdi/AngleRightIcon" */
             "mdi-react/AngleRightIcon"
         ),
     ),
     "mdi-angular": React.lazy(() =>
         import(
-            /* webpackChunkName: "AngularIcon" */
+            /* webpackChunkName: "mdi/AngularIcon" */
             "mdi-react/AngularIcon"
         ),
     ),
     "mdi-angularjs": React.lazy(() =>
         import(
-            /* webpackChunkName: "AngularjsIcon" */
+            /* webpackChunkName: "mdi/AngularjsIcon" */
             "mdi-react/AngularjsIcon"
         ),
     ),
     "mdi-animation-play": React.lazy(() =>
         import(
-            /* webpackChunkName: "AnimationPlayIcon" */
+            /* webpackChunkName: "mdi/AnimationPlayIcon" */
             "mdi-react/AnimationPlayIcon"
         ),
     ),
     "mdi-animation": React.lazy(() =>
         import(
-            /* webpackChunkName: "AnimationIcon" */
+            /* webpackChunkName: "mdi/AnimationIcon" */
             "mdi-react/AnimationIcon"
         ),
     ),
     "mdi-anvil": React.lazy(() =>
         import(
-            /* webpackChunkName: "AnvilIcon" */
+            /* webpackChunkName: "mdi/AnvilIcon" */
             "mdi-react/AnvilIcon"
         ),
     ),
     "mdi-apple-finder": React.lazy(() =>
         import(
-            /* webpackChunkName: "AppleFinderIcon" */
+            /* webpackChunkName: "mdi/AppleFinderIcon" */
             "mdi-react/AppleFinderIcon"
         ),
     ),
     "mdi-apple-icloud": React.lazy(() =>
         import(
-            /* webpackChunkName: "AppleIcloudIcon" */
+            /* webpackChunkName: "mdi/AppleIcloudIcon" */
             "mdi-react/AppleIcloudIcon"
         ),
     ),
     "mdi-apple-ios": React.lazy(() =>
         import(
-            /* webpackChunkName: "AppleIosIcon" */
+            /* webpackChunkName: "mdi/AppleIosIcon" */
             "mdi-react/AppleIosIcon"
         ),
     ),
     "mdi-apple-keyboard-caps": React.lazy(() =>
         import(
-            /* webpackChunkName: "AppleKeyboardCapsIcon" */
+            /* webpackChunkName: "mdi/AppleKeyboardCapsIcon" */
             "mdi-react/AppleKeyboardCapsIcon"
         ),
     ),
     "mdi-apple-keyboard-command": React.lazy(() =>
         import(
-            /* webpackChunkName: "AppleKeyboardCommandIcon" */
+            /* webpackChunkName: "mdi/AppleKeyboardCommandIcon" */
             "mdi-react/AppleKeyboardCommandIcon"
         ),
     ),
     "mdi-apple-keyboard-control": React.lazy(() =>
         import(
-            /* webpackChunkName: "AppleKeyboardControlIcon" */
+            /* webpackChunkName: "mdi/AppleKeyboardControlIcon" */
             "mdi-react/AppleKeyboardControlIcon"
         ),
     ),
     "mdi-apple-keyboard-option": React.lazy(() =>
         import(
-            /* webpackChunkName: "AppleKeyboardOptionIcon" */
+            /* webpackChunkName: "mdi/AppleKeyboardOptionIcon" */
             "mdi-react/AppleKeyboardOptionIcon"
         ),
     ),
     "mdi-apple-keyboard-shift": React.lazy(() =>
         import(
-            /* webpackChunkName: "AppleKeyboardShiftIcon" */
+            /* webpackChunkName: "mdi/AppleKeyboardShiftIcon" */
             "mdi-react/AppleKeyboardShiftIcon"
         ),
     ),
     "mdi-apple-safari": React.lazy(() =>
         import(
-            /* webpackChunkName: "AppleSafariIcon" */
+            /* webpackChunkName: "mdi/AppleSafariIcon" */
             "mdi-react/AppleSafariIcon"
         ),
     ),
     "mdi-apple": React.lazy(() =>
         import(
-            /* webpackChunkName: "AppleIcon" */
+            /* webpackChunkName: "mdi/AppleIcon" */
             "mdi-react/AppleIcon"
         ),
     ),
     "mdi-application": React.lazy(() =>
         import(
-            /* webpackChunkName: "ApplicationIcon" */
+            /* webpackChunkName: "mdi/ApplicationIcon" */
             "mdi-react/ApplicationIcon"
         ),
     ),
     "mdi-approval": React.lazy(() =>
         import(
-            /* webpackChunkName: "ApprovalIcon" */
+            /* webpackChunkName: "mdi/ApprovalIcon" */
             "mdi-react/ApprovalIcon"
         ),
     ),
     "mdi-apps": React.lazy(() =>
         import(
-            /* webpackChunkName: "AppsIcon" */
+            /* webpackChunkName: "mdi/AppsIcon" */
             "mdi-react/AppsIcon"
         ),
     ),
     "mdi-arch": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArchIcon" */
+            /* webpackChunkName: "mdi/ArchIcon" */
             "mdi-react/ArchIcon"
         ),
     ),
     "mdi-archive": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArchiveIcon" */
+            /* webpackChunkName: "mdi/ArchiveIcon" */
             "mdi-react/ArchiveIcon"
         ),
     ),
     "mdi-arrange-bring-forward": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrangeBringForwardIcon" */
+            /* webpackChunkName: "mdi/ArrangeBringForwardIcon" */
             "mdi-react/ArrangeBringForwardIcon"
         ),
     ),
     "mdi-arrange-bring-to-front": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrangeBringToFrontIcon" */
+            /* webpackChunkName: "mdi/ArrangeBringToFrontIcon" */
             "mdi-react/ArrangeBringToFrontIcon"
         ),
     ),
     "mdi-arrange-send-backward": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrangeSendBackwardIcon" */
+            /* webpackChunkName: "mdi/ArrangeSendBackwardIcon" */
             "mdi-react/ArrangeSendBackwardIcon"
         ),
     ),
     "mdi-arrange-send-to-back": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrangeSendToBackIcon" */
+            /* webpackChunkName: "mdi/ArrangeSendToBackIcon" */
             "mdi-react/ArrangeSendToBackIcon"
         ),
     ),
     "mdi-arrow-all": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowAllIcon" */
+            /* webpackChunkName: "mdi/ArrowAllIcon" */
             "mdi-react/ArrowAllIcon"
         ),
     ),
     "mdi-arrow-bottom-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowBottomLeftIcon" */
+            /* webpackChunkName: "mdi/ArrowBottomLeftIcon" */
             "mdi-react/ArrowBottomLeftIcon"
         ),
     ),
     "mdi-arrow-bottom-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowBottomRightIcon" */
+            /* webpackChunkName: "mdi/ArrowBottomRightIcon" */
             "mdi-react/ArrowBottomRightIcon"
         ),
     ),
     "mdi-arrow-collapse-all": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowCollapseAllIcon" */
+            /* webpackChunkName: "mdi/ArrowCollapseAllIcon" */
             "mdi-react/ArrowCollapseAllIcon"
         ),
     ),
     "mdi-arrow-collapse-down": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowCollapseDownIcon" */
+            /* webpackChunkName: "mdi/ArrowCollapseDownIcon" */
             "mdi-react/ArrowCollapseDownIcon"
         ),
     ),
     "mdi-arrow-collapse-horizontal": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowCollapseHorizontalIcon" */
+            /* webpackChunkName: "mdi/ArrowCollapseHorizontalIcon" */
             "mdi-react/ArrowCollapseHorizontalIcon"
         ),
     ),
     "mdi-arrow-collapse-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowCollapseLeftIcon" */
+            /* webpackChunkName: "mdi/ArrowCollapseLeftIcon" */
             "mdi-react/ArrowCollapseLeftIcon"
         ),
     ),
     "mdi-arrow-collapse-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowCollapseRightIcon" */
+            /* webpackChunkName: "mdi/ArrowCollapseRightIcon" */
             "mdi-react/ArrowCollapseRightIcon"
         ),
     ),
     "mdi-arrow-collapse-up": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowCollapseUpIcon" */
+            /* webpackChunkName: "mdi/ArrowCollapseUpIcon" */
             "mdi-react/ArrowCollapseUpIcon"
         ),
     ),
     "mdi-arrow-collapse-vertical": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowCollapseVerticalIcon" */
+            /* webpackChunkName: "mdi/ArrowCollapseVerticalIcon" */
             "mdi-react/ArrowCollapseVerticalIcon"
         ),
     ),
     "mdi-arrow-collapse": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowCollapseIcon" */
+            /* webpackChunkName: "mdi/ArrowCollapseIcon" */
             "mdi-react/ArrowCollapseIcon"
         ),
     ),
     "mdi-arrow-down-bold-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowDownBoldBoxOutlineIcon" */
+            /* webpackChunkName: "mdi/ArrowDownBoldBoxOutlineIcon" */
             "mdi-react/ArrowDownBoldBoxOutlineIcon"
         ),
     ),
     "mdi-arrow-down-bold-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowDownBoldBoxIcon" */
+            /* webpackChunkName: "mdi/ArrowDownBoldBoxIcon" */
             "mdi-react/ArrowDownBoldBoxIcon"
         ),
     ),
     "mdi-arrow-down-bold-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowDownBoldCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/ArrowDownBoldCircleOutlineIcon" */
             "mdi-react/ArrowDownBoldCircleOutlineIcon"
         ),
     ),
     "mdi-arrow-down-bold-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowDownBoldCircleIcon" */
+            /* webpackChunkName: "mdi/ArrowDownBoldCircleIcon" */
             "mdi-react/ArrowDownBoldCircleIcon"
         ),
     ),
     "mdi-arrow-down-bold-hexagon-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowDownBoldHexagonOutlineIcon" */
+            /* webpackChunkName: "mdi/ArrowDownBoldHexagonOutlineIcon" */
             "mdi-react/ArrowDownBoldHexagonOutlineIcon"
         ),
     ),
     "mdi-arrow-down-bold": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowDownBoldIcon" */
+            /* webpackChunkName: "mdi/ArrowDownBoldIcon" */
             "mdi-react/ArrowDownBoldIcon"
         ),
     ),
     "mdi-arrow-down-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowDownBoxIcon" */
+            /* webpackChunkName: "mdi/ArrowDownBoxIcon" */
             "mdi-react/ArrowDownBoxIcon"
         ),
     ),
     "mdi-arrow-down-drop-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowDownDropCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/ArrowDownDropCircleOutlineIcon" */
             "mdi-react/ArrowDownDropCircleOutlineIcon"
         ),
     ),
     "mdi-arrow-down-drop-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowDownDropCircleIcon" */
+            /* webpackChunkName: "mdi/ArrowDownDropCircleIcon" */
             "mdi-react/ArrowDownDropCircleIcon"
         ),
     ),
     "mdi-arrow-down-thick": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowDownThickIcon" */
+            /* webpackChunkName: "mdi/ArrowDownThickIcon" */
             "mdi-react/ArrowDownThickIcon"
         ),
     ),
     "mdi-arrow-down": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowDownIcon" */
+            /* webpackChunkName: "mdi/ArrowDownIcon" */
             "mdi-react/ArrowDownIcon"
         ),
     ),
     "mdi-arrow-expand-all": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowExpandAllIcon" */
+            /* webpackChunkName: "mdi/ArrowExpandAllIcon" */
             "mdi-react/ArrowExpandAllIcon"
         ),
     ),
     "mdi-arrow-expand-down": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowExpandDownIcon" */
+            /* webpackChunkName: "mdi/ArrowExpandDownIcon" */
             "mdi-react/ArrowExpandDownIcon"
         ),
     ),
     "mdi-arrow-expand-horizontal": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowExpandHorizontalIcon" */
+            /* webpackChunkName: "mdi/ArrowExpandHorizontalIcon" */
             "mdi-react/ArrowExpandHorizontalIcon"
         ),
     ),
     "mdi-arrow-expand-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowExpandLeftIcon" */
+            /* webpackChunkName: "mdi/ArrowExpandLeftIcon" */
             "mdi-react/ArrowExpandLeftIcon"
         ),
     ),
     "mdi-arrow-expand-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowExpandRightIcon" */
+            /* webpackChunkName: "mdi/ArrowExpandRightIcon" */
             "mdi-react/ArrowExpandRightIcon"
         ),
     ),
     "mdi-arrow-expand-up": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowExpandUpIcon" */
+            /* webpackChunkName: "mdi/ArrowExpandUpIcon" */
             "mdi-react/ArrowExpandUpIcon"
         ),
     ),
     "mdi-arrow-expand-vertical": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowExpandVerticalIcon" */
+            /* webpackChunkName: "mdi/ArrowExpandVerticalIcon" */
             "mdi-react/ArrowExpandVerticalIcon"
         ),
     ),
     "mdi-arrow-expand": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowExpandIcon" */
+            /* webpackChunkName: "mdi/ArrowExpandIcon" */
             "mdi-react/ArrowExpandIcon"
         ),
     ),
     "mdi-arrow-left-bold-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowLeftBoldBoxOutlineIcon" */
+            /* webpackChunkName: "mdi/ArrowLeftBoldBoxOutlineIcon" */
             "mdi-react/ArrowLeftBoldBoxOutlineIcon"
         ),
     ),
     "mdi-arrow-left-bold-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowLeftBoldBoxIcon" */
+            /* webpackChunkName: "mdi/ArrowLeftBoldBoxIcon" */
             "mdi-react/ArrowLeftBoldBoxIcon"
         ),
     ),
     "mdi-arrow-left-bold-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowLeftBoldCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/ArrowLeftBoldCircleOutlineIcon" */
             "mdi-react/ArrowLeftBoldCircleOutlineIcon"
         ),
     ),
     "mdi-arrow-left-bold-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowLeftBoldCircleIcon" */
+            /* webpackChunkName: "mdi/ArrowLeftBoldCircleIcon" */
             "mdi-react/ArrowLeftBoldCircleIcon"
         ),
     ),
     "mdi-arrow-left-bold-hexagon-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowLeftBoldHexagonOutlineIcon" */
+            /* webpackChunkName: "mdi/ArrowLeftBoldHexagonOutlineIcon" */
             "mdi-react/ArrowLeftBoldHexagonOutlineIcon"
         ),
     ),
     "mdi-arrow-left-bold": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowLeftBoldIcon" */
+            /* webpackChunkName: "mdi/ArrowLeftBoldIcon" */
             "mdi-react/ArrowLeftBoldIcon"
         ),
     ),
     "mdi-arrow-left-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowLeftBoxIcon" */
+            /* webpackChunkName: "mdi/ArrowLeftBoxIcon" */
             "mdi-react/ArrowLeftBoxIcon"
         ),
     ),
     "mdi-arrow-left-drop-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowLeftDropCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/ArrowLeftDropCircleOutlineIcon" */
             "mdi-react/ArrowLeftDropCircleOutlineIcon"
         ),
     ),
     "mdi-arrow-left-drop-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowLeftDropCircleIcon" */
+            /* webpackChunkName: "mdi/ArrowLeftDropCircleIcon" */
             "mdi-react/ArrowLeftDropCircleIcon"
         ),
     ),
     "mdi-arrow-left-thick": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowLeftThickIcon" */
+            /* webpackChunkName: "mdi/ArrowLeftThickIcon" */
             "mdi-react/ArrowLeftThickIcon"
         ),
     ),
     "mdi-arrow-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowLeftIcon" */
+            /* webpackChunkName: "mdi/ArrowLeftIcon" */
             "mdi-react/ArrowLeftIcon"
         ),
     ),
     "mdi-arrow-right-bold-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowRightBoldBoxOutlineIcon" */
+            /* webpackChunkName: "mdi/ArrowRightBoldBoxOutlineIcon" */
             "mdi-react/ArrowRightBoldBoxOutlineIcon"
         ),
     ),
     "mdi-arrow-right-bold-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowRightBoldBoxIcon" */
+            /* webpackChunkName: "mdi/ArrowRightBoldBoxIcon" */
             "mdi-react/ArrowRightBoldBoxIcon"
         ),
     ),
     "mdi-arrow-right-bold-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowRightBoldCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/ArrowRightBoldCircleOutlineIcon" */
             "mdi-react/ArrowRightBoldCircleOutlineIcon"
         ),
     ),
     "mdi-arrow-right-bold-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowRightBoldCircleIcon" */
+            /* webpackChunkName: "mdi/ArrowRightBoldCircleIcon" */
             "mdi-react/ArrowRightBoldCircleIcon"
         ),
     ),
     "mdi-arrow-right-bold-hexagon-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowRightBoldHexagonOutlineIcon" */
+            /* webpackChunkName: "mdi/ArrowRightBoldHexagonOutlineIcon" */
             "mdi-react/ArrowRightBoldHexagonOutlineIcon"
         ),
     ),
     "mdi-arrow-right-bold": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowRightBoldIcon" */
+            /* webpackChunkName: "mdi/ArrowRightBoldIcon" */
             "mdi-react/ArrowRightBoldIcon"
         ),
     ),
     "mdi-arrow-right-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowRightBoxIcon" */
+            /* webpackChunkName: "mdi/ArrowRightBoxIcon" */
             "mdi-react/ArrowRightBoxIcon"
         ),
     ),
     "mdi-arrow-right-drop-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowRightDropCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/ArrowRightDropCircleOutlineIcon" */
             "mdi-react/ArrowRightDropCircleOutlineIcon"
         ),
     ),
     "mdi-arrow-right-drop-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowRightDropCircleIcon" */
+            /* webpackChunkName: "mdi/ArrowRightDropCircleIcon" */
             "mdi-react/ArrowRightDropCircleIcon"
         ),
     ),
     "mdi-arrow-right-thick": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowRightThickIcon" */
+            /* webpackChunkName: "mdi/ArrowRightThickIcon" */
             "mdi-react/ArrowRightThickIcon"
         ),
     ),
     "mdi-arrow-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowRightIcon" */
+            /* webpackChunkName: "mdi/ArrowRightIcon" */
             "mdi-react/ArrowRightIcon"
         ),
     ),
     "mdi-arrow-split-horizontal": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowSplitHorizontalIcon" */
+            /* webpackChunkName: "mdi/ArrowSplitHorizontalIcon" */
             "mdi-react/ArrowSplitHorizontalIcon"
         ),
     ),
     "mdi-arrow-split-vertical": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowSplitVerticalIcon" */
+            /* webpackChunkName: "mdi/ArrowSplitVerticalIcon" */
             "mdi-react/ArrowSplitVerticalIcon"
         ),
     ),
     "mdi-arrow-top-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowTopLeftIcon" */
+            /* webpackChunkName: "mdi/ArrowTopLeftIcon" */
             "mdi-react/ArrowTopLeftIcon"
         ),
     ),
     "mdi-arrow-top-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowTopRightIcon" */
+            /* webpackChunkName: "mdi/ArrowTopRightIcon" */
             "mdi-react/ArrowTopRightIcon"
         ),
     ),
     "mdi-arrow-up-bold-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowUpBoldBoxOutlineIcon" */
+            /* webpackChunkName: "mdi/ArrowUpBoldBoxOutlineIcon" */
             "mdi-react/ArrowUpBoldBoxOutlineIcon"
         ),
     ),
     "mdi-arrow-up-bold-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowUpBoldBoxIcon" */
+            /* webpackChunkName: "mdi/ArrowUpBoldBoxIcon" */
             "mdi-react/ArrowUpBoldBoxIcon"
         ),
     ),
     "mdi-arrow-up-bold-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowUpBoldCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/ArrowUpBoldCircleOutlineIcon" */
             "mdi-react/ArrowUpBoldCircleOutlineIcon"
         ),
     ),
     "mdi-arrow-up-bold-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowUpBoldCircleIcon" */
+            /* webpackChunkName: "mdi/ArrowUpBoldCircleIcon" */
             "mdi-react/ArrowUpBoldCircleIcon"
         ),
     ),
     "mdi-arrow-up-bold-hexagon-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowUpBoldHexagonOutlineIcon" */
+            /* webpackChunkName: "mdi/ArrowUpBoldHexagonOutlineIcon" */
             "mdi-react/ArrowUpBoldHexagonOutlineIcon"
         ),
     ),
     "mdi-arrow-up-bold": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowUpBoldIcon" */
+            /* webpackChunkName: "mdi/ArrowUpBoldIcon" */
             "mdi-react/ArrowUpBoldIcon"
         ),
     ),
     "mdi-arrow-up-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowUpBoxIcon" */
+            /* webpackChunkName: "mdi/ArrowUpBoxIcon" */
             "mdi-react/ArrowUpBoxIcon"
         ),
     ),
     "mdi-arrow-up-drop-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowUpDropCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/ArrowUpDropCircleOutlineIcon" */
             "mdi-react/ArrowUpDropCircleOutlineIcon"
         ),
     ),
     "mdi-arrow-up-drop-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowUpDropCircleIcon" */
+            /* webpackChunkName: "mdi/ArrowUpDropCircleIcon" */
             "mdi-react/ArrowUpDropCircleIcon"
         ),
     ),
     "mdi-arrow-up-thick": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowUpThickIcon" */
+            /* webpackChunkName: "mdi/ArrowUpThickIcon" */
             "mdi-react/ArrowUpThickIcon"
         ),
     ),
     "mdi-arrow-up": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowUpIcon" */
+            /* webpackChunkName: "mdi/ArrowUpIcon" */
             "mdi-react/ArrowUpIcon"
         ),
     ),
     "mdi-artist": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArtistIcon" */
+            /* webpackChunkName: "mdi/ArtistIcon" */
             "mdi-react/ArtistIcon"
         ),
     ),
     "mdi-assistant": React.lazy(() =>
         import(
-            /* webpackChunkName: "AssistantIcon" */
+            /* webpackChunkName: "mdi/AssistantIcon" */
             "mdi-react/AssistantIcon"
         ),
     ),
     "mdi-asterisk": React.lazy(() =>
         import(
-            /* webpackChunkName: "AsteriskIcon" */
+            /* webpackChunkName: "mdi/AsteriskIcon" */
             "mdi-react/AsteriskIcon"
         ),
     ),
     "mdi-at": React.lazy(() =>
         import(
-            /* webpackChunkName: "AtIcon" */
+            /* webpackChunkName: "mdi/AtIcon" */
             "mdi-react/AtIcon"
         ),
     ),
     "mdi-atlassian": React.lazy(() =>
         import(
-            /* webpackChunkName: "AtlassianIcon" */
+            /* webpackChunkName: "mdi/AtlassianIcon" */
             "mdi-react/AtlassianIcon"
         ),
     ),
     "mdi-atom": React.lazy(() =>
         import(
-            /* webpackChunkName: "AtomIcon" */
+            /* webpackChunkName: "mdi/AtomIcon" */
             "mdi-react/AtomIcon"
         ),
     ),
     "mdi-attachment": React.lazy(() =>
         import(
-            /* webpackChunkName: "AttachmentIcon" */
+            /* webpackChunkName: "mdi/AttachmentIcon" */
             "mdi-react/AttachmentIcon"
         ),
     ),
     "mdi-audio-video": React.lazy(() =>
         import(
-            /* webpackChunkName: "AudioVideoIcon" */
+            /* webpackChunkName: "mdi/AudioVideoIcon" */
             "mdi-react/AudioVideoIcon"
         ),
     ),
     "mdi-audiobook": React.lazy(() =>
         import(
-            /* webpackChunkName: "AudiobookIcon" */
+            /* webpackChunkName: "mdi/AudiobookIcon" */
             "mdi-react/AudiobookIcon"
         ),
     ),
     "mdi-augmented-reality": React.lazy(() =>
         import(
-            /* webpackChunkName: "AugmentedRealityIcon" */
+            /* webpackChunkName: "mdi/AugmentedRealityIcon" */
             "mdi-react/AugmentedRealityIcon"
         ),
     ),
     "mdi-auto-fix": React.lazy(() =>
         import(
-            /* webpackChunkName: "AutoFixIcon" */
+            /* webpackChunkName: "mdi/AutoFixIcon" */
             "mdi-react/AutoFixIcon"
         ),
     ),
     "mdi-auto-upload": React.lazy(() =>
         import(
-            /* webpackChunkName: "AutoUploadIcon" */
+            /* webpackChunkName: "mdi/AutoUploadIcon" */
             "mdi-react/AutoUploadIcon"
         ),
     ),
     "mdi-autorenew": React.lazy(() =>
         import(
-            /* webpackChunkName: "AutorenewIcon" */
+            /* webpackChunkName: "mdi/AutorenewIcon" */
             "mdi-react/AutorenewIcon"
         ),
     ),
     "mdi-av-timer": React.lazy(() =>
         import(
-            /* webpackChunkName: "AvTimerIcon" */
+            /* webpackChunkName: "mdi/AvTimerIcon" */
             "mdi-react/AvTimerIcon"
         ),
     ),
     "mdi-axe": React.lazy(() =>
         import(
-            /* webpackChunkName: "AxeIcon" */
+            /* webpackChunkName: "mdi/AxeIcon" */
             "mdi-react/AxeIcon"
         ),
     ),
     "mdi-azure": React.lazy(() =>
         import(
-            /* webpackChunkName: "AzureIcon" */
+            /* webpackChunkName: "mdi/AzureIcon" */
             "mdi-react/AzureIcon"
         ),
     ),
     "mdi-baby-buggy": React.lazy(() =>
         import(
-            /* webpackChunkName: "BabyBuggyIcon" */
+            /* webpackChunkName: "mdi/BabyBuggyIcon" */
             "mdi-react/BabyBuggyIcon"
         ),
     ),
     "mdi-baby": React.lazy(() =>
         import(
-            /* webpackChunkName: "BabyIcon" */
+            /* webpackChunkName: "mdi/BabyIcon" */
             "mdi-react/BabyIcon"
         ),
     ),
     "mdi-backburger": React.lazy(() =>
         import(
-            /* webpackChunkName: "BackburgerIcon" */
+            /* webpackChunkName: "mdi/BackburgerIcon" */
             "mdi-react/BackburgerIcon"
         ),
     ),
     "mdi-backspace": React.lazy(() =>
         import(
-            /* webpackChunkName: "BackspaceIcon" */
+            /* webpackChunkName: "mdi/BackspaceIcon" */
             "mdi-react/BackspaceIcon"
         ),
     ),
     "mdi-backup-restore": React.lazy(() =>
         import(
-            /* webpackChunkName: "BackupRestoreIcon" */
+            /* webpackChunkName: "mdi/BackupRestoreIcon" */
             "mdi-react/BackupRestoreIcon"
         ),
     ),
     "mdi-badminton": React.lazy(() =>
         import(
-            /* webpackChunkName: "BadmintonIcon" */
+            /* webpackChunkName: "mdi/BadmintonIcon" */
             "mdi-react/BadmintonIcon"
         ),
     ),
     "mdi-bandcamp": React.lazy(() =>
         import(
-            /* webpackChunkName: "BandcampIcon" */
+            /* webpackChunkName: "mdi/BandcampIcon" */
             "mdi-react/BandcampIcon"
         ),
     ),
     "mdi-bank": React.lazy(() =>
         import(
-            /* webpackChunkName: "BankIcon" */
+            /* webpackChunkName: "mdi/BankIcon" */
             "mdi-react/BankIcon"
         ),
     ),
     "mdi-barcode-scan": React.lazy(() =>
         import(
-            /* webpackChunkName: "BarcodeScanIcon" */
+            /* webpackChunkName: "mdi/BarcodeScanIcon" */
             "mdi-react/BarcodeScanIcon"
         ),
     ),
     "mdi-barcode": React.lazy(() =>
         import(
-            /* webpackChunkName: "BarcodeIcon" */
+            /* webpackChunkName: "mdi/BarcodeIcon" */
             "mdi-react/BarcodeIcon"
         ),
     ),
     "mdi-barley": React.lazy(() =>
         import(
-            /* webpackChunkName: "BarleyIcon" */
+            /* webpackChunkName: "mdi/BarleyIcon" */
             "mdi-react/BarleyIcon"
         ),
     ),
     "mdi-barrel": React.lazy(() =>
         import(
-            /* webpackChunkName: "BarrelIcon" */
+            /* webpackChunkName: "mdi/BarrelIcon" */
             "mdi-react/BarrelIcon"
         ),
     ),
     "mdi-baseball-bat": React.lazy(() =>
         import(
-            /* webpackChunkName: "BaseballBatIcon" */
+            /* webpackChunkName: "mdi/BaseballBatIcon" */
             "mdi-react/BaseballBatIcon"
         ),
     ),
     "mdi-baseball": React.lazy(() =>
         import(
-            /* webpackChunkName: "BaseballIcon" */
+            /* webpackChunkName: "mdi/BaseballIcon" */
             "mdi-react/BaseballIcon"
         ),
     ),
     "mdi-basecamp": React.lazy(() =>
         import(
-            /* webpackChunkName: "BasecampIcon" */
+            /* webpackChunkName: "mdi/BasecampIcon" */
             "mdi-react/BasecampIcon"
         ),
     ),
     "mdi-basket-fill": React.lazy(() =>
         import(
-            /* webpackChunkName: "BasketFillIcon" */
+            /* webpackChunkName: "mdi/BasketFillIcon" */
             "mdi-react/BasketFillIcon"
         ),
     ),
     "mdi-basket-unfill": React.lazy(() =>
         import(
-            /* webpackChunkName: "BasketUnfillIcon" */
+            /* webpackChunkName: "mdi/BasketUnfillIcon" */
             "mdi-react/BasketUnfillIcon"
         ),
     ),
     "mdi-basket": React.lazy(() =>
         import(
-            /* webpackChunkName: "BasketIcon" */
+            /* webpackChunkName: "mdi/BasketIcon" */
             "mdi-react/BasketIcon"
         ),
     ),
     "mdi-basketball": React.lazy(() =>
         import(
-            /* webpackChunkName: "BasketballIcon" */
+            /* webpackChunkName: "mdi/BasketballIcon" */
             "mdi-react/BasketballIcon"
         ),
     ),
     "mdi-battery-10-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery10BluetoothIcon" */
+            /* webpackChunkName: "mdi/Battery10BluetoothIcon" */
             "mdi-react/Battery10BluetoothIcon"
         ),
     ),
     "mdi-battery-10": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery10Icon" */
+            /* webpackChunkName: "mdi/Battery10Icon" */
             "mdi-react/Battery10Icon"
         ),
     ),
     "mdi-battery-20-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery20BluetoothIcon" */
+            /* webpackChunkName: "mdi/Battery20BluetoothIcon" */
             "mdi-react/Battery20BluetoothIcon"
         ),
     ),
     "mdi-battery-20": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery20Icon" */
+            /* webpackChunkName: "mdi/Battery20Icon" */
             "mdi-react/Battery20Icon"
         ),
     ),
     "mdi-battery-30-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery30BluetoothIcon" */
+            /* webpackChunkName: "mdi/Battery30BluetoothIcon" */
             "mdi-react/Battery30BluetoothIcon"
         ),
     ),
     "mdi-battery-30": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery30Icon" */
+            /* webpackChunkName: "mdi/Battery30Icon" */
             "mdi-react/Battery30Icon"
         ),
     ),
     "mdi-battery-40-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery40BluetoothIcon" */
+            /* webpackChunkName: "mdi/Battery40BluetoothIcon" */
             "mdi-react/Battery40BluetoothIcon"
         ),
     ),
     "mdi-battery-40": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery40Icon" */
+            /* webpackChunkName: "mdi/Battery40Icon" */
             "mdi-react/Battery40Icon"
         ),
     ),
     "mdi-battery-50-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery50BluetoothIcon" */
+            /* webpackChunkName: "mdi/Battery50BluetoothIcon" */
             "mdi-react/Battery50BluetoothIcon"
         ),
     ),
     "mdi-battery-50": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery50Icon" */
+            /* webpackChunkName: "mdi/Battery50Icon" */
             "mdi-react/Battery50Icon"
         ),
     ),
     "mdi-battery-60-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery60BluetoothIcon" */
+            /* webpackChunkName: "mdi/Battery60BluetoothIcon" */
             "mdi-react/Battery60BluetoothIcon"
         ),
     ),
     "mdi-battery-60": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery60Icon" */
+            /* webpackChunkName: "mdi/Battery60Icon" */
             "mdi-react/Battery60Icon"
         ),
     ),
     "mdi-battery-70-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery70BluetoothIcon" */
+            /* webpackChunkName: "mdi/Battery70BluetoothIcon" */
             "mdi-react/Battery70BluetoothIcon"
         ),
     ),
     "mdi-battery-70": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery70Icon" */
+            /* webpackChunkName: "mdi/Battery70Icon" */
             "mdi-react/Battery70Icon"
         ),
     ),
     "mdi-battery-80-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery80BluetoothIcon" */
+            /* webpackChunkName: "mdi/Battery80BluetoothIcon" */
             "mdi-react/Battery80BluetoothIcon"
         ),
     ),
     "mdi-battery-80": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery80Icon" */
+            /* webpackChunkName: "mdi/Battery80Icon" */
             "mdi-react/Battery80Icon"
         ),
     ),
     "mdi-battery-90-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery90BluetoothIcon" */
+            /* webpackChunkName: "mdi/Battery90BluetoothIcon" */
             "mdi-react/Battery90BluetoothIcon"
         ),
     ),
     "mdi-battery-90": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery90Icon" */
+            /* webpackChunkName: "mdi/Battery90Icon" */
             "mdi-react/Battery90Icon"
         ),
     ),
     "mdi-battery-alert-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryAlertBluetoothIcon" */
+            /* webpackChunkName: "mdi/BatteryAlertBluetoothIcon" */
             "mdi-react/BatteryAlertBluetoothIcon"
         ),
     ),
     "mdi-battery-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryAlertIcon" */
+            /* webpackChunkName: "mdi/BatteryAlertIcon" */
             "mdi-react/BatteryAlertIcon"
         ),
     ),
     "mdi-battery-bluetooth-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryBluetoothVariantIcon" */
+            /* webpackChunkName: "mdi/BatteryBluetoothVariantIcon" */
             "mdi-react/BatteryBluetoothVariantIcon"
         ),
     ),
     "mdi-battery-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryBluetoothIcon" */
+            /* webpackChunkName: "mdi/BatteryBluetoothIcon" */
             "mdi-react/BatteryBluetoothIcon"
         ),
     ),
     "mdi-battery-charging-10": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryCharging10Icon" */
+            /* webpackChunkName: "mdi/BatteryCharging10Icon" */
             "mdi-react/BatteryCharging10Icon"
         ),
     ),
     "mdi-battery-charging-100": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryCharging100Icon" */
+            /* webpackChunkName: "mdi/BatteryCharging100Icon" */
             "mdi-react/BatteryCharging100Icon"
         ),
     ),
     "mdi-battery-charging-20": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryCharging20Icon" */
+            /* webpackChunkName: "mdi/BatteryCharging20Icon" */
             "mdi-react/BatteryCharging20Icon"
         ),
     ),
     "mdi-battery-charging-30": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryCharging30Icon" */
+            /* webpackChunkName: "mdi/BatteryCharging30Icon" */
             "mdi-react/BatteryCharging30Icon"
         ),
     ),
     "mdi-battery-charging-40": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryCharging40Icon" */
+            /* webpackChunkName: "mdi/BatteryCharging40Icon" */
             "mdi-react/BatteryCharging40Icon"
         ),
     ),
     "mdi-battery-charging-50": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryCharging50Icon" */
+            /* webpackChunkName: "mdi/BatteryCharging50Icon" */
             "mdi-react/BatteryCharging50Icon"
         ),
     ),
     "mdi-battery-charging-60": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryCharging60Icon" */
+            /* webpackChunkName: "mdi/BatteryCharging60Icon" */
             "mdi-react/BatteryCharging60Icon"
         ),
     ),
     "mdi-battery-charging-70": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryCharging70Icon" */
+            /* webpackChunkName: "mdi/BatteryCharging70Icon" */
             "mdi-react/BatteryCharging70Icon"
         ),
     ),
     "mdi-battery-charging-80": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryCharging80Icon" */
+            /* webpackChunkName: "mdi/BatteryCharging80Icon" */
             "mdi-react/BatteryCharging80Icon"
         ),
     ),
     "mdi-battery-charging-90": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryCharging90Icon" */
+            /* webpackChunkName: "mdi/BatteryCharging90Icon" */
             "mdi-react/BatteryCharging90Icon"
         ),
     ),
     "mdi-battery-charging-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingOutlineIcon" */
+            /* webpackChunkName: "mdi/BatteryChargingOutlineIcon" */
             "mdi-react/BatteryChargingOutlineIcon"
         ),
     ),
     "mdi-battery-charging-wireless-10": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingWireless10Icon" */
+            /* webpackChunkName: "mdi/BatteryChargingWireless10Icon" */
             "mdi-react/BatteryChargingWireless10Icon"
         ),
     ),
     "mdi-battery-charging-wireless-20": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingWireless20Icon" */
+            /* webpackChunkName: "mdi/BatteryChargingWireless20Icon" */
             "mdi-react/BatteryChargingWireless20Icon"
         ),
     ),
     "mdi-battery-charging-wireless-30": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingWireless30Icon" */
+            /* webpackChunkName: "mdi/BatteryChargingWireless30Icon" */
             "mdi-react/BatteryChargingWireless30Icon"
         ),
     ),
     "mdi-battery-charging-wireless-40": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingWireless40Icon" */
+            /* webpackChunkName: "mdi/BatteryChargingWireless40Icon" */
             "mdi-react/BatteryChargingWireless40Icon"
         ),
     ),
     "mdi-battery-charging-wireless-50": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingWireless50Icon" */
+            /* webpackChunkName: "mdi/BatteryChargingWireless50Icon" */
             "mdi-react/BatteryChargingWireless50Icon"
         ),
     ),
     "mdi-battery-charging-wireless-60": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingWireless60Icon" */
+            /* webpackChunkName: "mdi/BatteryChargingWireless60Icon" */
             "mdi-react/BatteryChargingWireless60Icon"
         ),
     ),
     "mdi-battery-charging-wireless-70": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingWireless70Icon" */
+            /* webpackChunkName: "mdi/BatteryChargingWireless70Icon" */
             "mdi-react/BatteryChargingWireless70Icon"
         ),
     ),
     "mdi-battery-charging-wireless-80": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingWireless80Icon" */
+            /* webpackChunkName: "mdi/BatteryChargingWireless80Icon" */
             "mdi-react/BatteryChargingWireless80Icon"
         ),
     ),
     "mdi-battery-charging-wireless-90": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingWireless90Icon" */
+            /* webpackChunkName: "mdi/BatteryChargingWireless90Icon" */
             "mdi-react/BatteryChargingWireless90Icon"
         ),
     ),
     "mdi-battery-charging-wireless-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingWirelessAlertIcon" */
+            /* webpackChunkName: "mdi/BatteryChargingWirelessAlertIcon" */
             "mdi-react/BatteryChargingWirelessAlertIcon"
         ),
     ),
     "mdi-battery-charging-wireless-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingWirelessOutlineIcon" */
+            /* webpackChunkName: "mdi/BatteryChargingWirelessOutlineIcon" */
             "mdi-react/BatteryChargingWirelessOutlineIcon"
         ),
     ),
     "mdi-battery-charging-wireless": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingWirelessIcon" */
+            /* webpackChunkName: "mdi/BatteryChargingWirelessIcon" */
             "mdi-react/BatteryChargingWirelessIcon"
         ),
     ),
     "mdi-battery-charging": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingIcon" */
+            /* webpackChunkName: "mdi/BatteryChargingIcon" */
             "mdi-react/BatteryChargingIcon"
         ),
     ),
     "mdi-battery-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryMinusIcon" */
+            /* webpackChunkName: "mdi/BatteryMinusIcon" */
             "mdi-react/BatteryMinusIcon"
         ),
     ),
     "mdi-battery-negative": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryNegativeIcon" */
+            /* webpackChunkName: "mdi/BatteryNegativeIcon" */
             "mdi-react/BatteryNegativeIcon"
         ),
     ),
     "mdi-battery-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryOutlineIcon" */
+            /* webpackChunkName: "mdi/BatteryOutlineIcon" */
             "mdi-react/BatteryOutlineIcon"
         ),
     ),
     "mdi-battery-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryPlusIcon" */
+            /* webpackChunkName: "mdi/BatteryPlusIcon" */
             "mdi-react/BatteryPlusIcon"
         ),
     ),
     "mdi-battery-positive": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryPositiveIcon" */
+            /* webpackChunkName: "mdi/BatteryPositiveIcon" */
             "mdi-react/BatteryPositiveIcon"
         ),
     ),
     "mdi-battery-unknown-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryUnknownBluetoothIcon" */
+            /* webpackChunkName: "mdi/BatteryUnknownBluetoothIcon" */
             "mdi-react/BatteryUnknownBluetoothIcon"
         ),
     ),
     "mdi-battery-unknown": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryUnknownIcon" */
+            /* webpackChunkName: "mdi/BatteryUnknownIcon" */
             "mdi-react/BatteryUnknownIcon"
         ),
     ),
     "mdi-battery": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryIcon" */
+            /* webpackChunkName: "mdi/BatteryIcon" */
             "mdi-react/BatteryIcon"
         ),
     ),
     "mdi-beach": React.lazy(() =>
         import(
-            /* webpackChunkName: "BeachIcon" */
+            /* webpackChunkName: "mdi/BeachIcon" */
             "mdi-react/BeachIcon"
         ),
     ),
     "mdi-beaker": React.lazy(() =>
         import(
-            /* webpackChunkName: "BeakerIcon" */
+            /* webpackChunkName: "mdi/BeakerIcon" */
             "mdi-react/BeakerIcon"
         ),
     ),
     "mdi-beats": React.lazy(() =>
         import(
-            /* webpackChunkName: "BeatsIcon" */
+            /* webpackChunkName: "mdi/BeatsIcon" */
             "mdi-react/BeatsIcon"
         ),
     ),
     "mdi-bed-empty": React.lazy(() =>
         import(
-            /* webpackChunkName: "BedEmptyIcon" */
+            /* webpackChunkName: "mdi/BedEmptyIcon" */
             "mdi-react/BedEmptyIcon"
         ),
     ),
     "mdi-beer": React.lazy(() =>
         import(
-            /* webpackChunkName: "BeerIcon" */
+            /* webpackChunkName: "mdi/BeerIcon" */
             "mdi-react/BeerIcon"
         ),
     ),
     "mdi-behance": React.lazy(() =>
         import(
-            /* webpackChunkName: "BehanceIcon" */
+            /* webpackChunkName: "mdi/BehanceIcon" */
             "mdi-react/BehanceIcon"
         ),
     ),
     "mdi-bell-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "BellOffIcon" */
+            /* webpackChunkName: "mdi/BellOffIcon" */
             "mdi-react/BellOffIcon"
         ),
     ),
     "mdi-bell-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "BellOutlineIcon" */
+            /* webpackChunkName: "mdi/BellOutlineIcon" */
             "mdi-react/BellOutlineIcon"
         ),
     ),
     "mdi-bell-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "BellPlusIcon" */
+            /* webpackChunkName: "mdi/BellPlusIcon" */
             "mdi-react/BellPlusIcon"
         ),
     ),
     "mdi-bell-ring-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "BellRingOutlineIcon" */
+            /* webpackChunkName: "mdi/BellRingOutlineIcon" */
             "mdi-react/BellRingOutlineIcon"
         ),
     ),
     "mdi-bell-ring": React.lazy(() =>
         import(
-            /* webpackChunkName: "BellRingIcon" */
+            /* webpackChunkName: "mdi/BellRingIcon" */
             "mdi-react/BellRingIcon"
         ),
     ),
     "mdi-bell-sleep": React.lazy(() =>
         import(
-            /* webpackChunkName: "BellSleepIcon" */
+            /* webpackChunkName: "mdi/BellSleepIcon" */
             "mdi-react/BellSleepIcon"
         ),
     ),
     "mdi-bell": React.lazy(() =>
         import(
-            /* webpackChunkName: "BellIcon" */
+            /* webpackChunkName: "mdi/BellIcon" */
             "mdi-react/BellIcon"
         ),
     ),
     "mdi-beta": React.lazy(() =>
         import(
-            /* webpackChunkName: "BetaIcon" */
+            /* webpackChunkName: "mdi/BetaIcon" */
             "mdi-react/BetaIcon"
         ),
     ),
     "mdi-bible": React.lazy(() =>
         import(
-            /* webpackChunkName: "BibleIcon" */
+            /* webpackChunkName: "mdi/BibleIcon" */
             "mdi-react/BibleIcon"
         ),
     ),
     "mdi-bike": React.lazy(() =>
         import(
-            /* webpackChunkName: "BikeIcon" */
+            /* webpackChunkName: "mdi/BikeIcon" */
             "mdi-react/BikeIcon"
         ),
     ),
     "mdi-bing": React.lazy(() =>
         import(
-            /* webpackChunkName: "BingIcon" */
+            /* webpackChunkName: "mdi/BingIcon" */
             "mdi-react/BingIcon"
         ),
     ),
     "mdi-binoculars": React.lazy(() =>
         import(
-            /* webpackChunkName: "BinocularsIcon" */
+            /* webpackChunkName: "mdi/BinocularsIcon" */
             "mdi-react/BinocularsIcon"
         ),
     ),
     "mdi-bio": React.lazy(() =>
         import(
-            /* webpackChunkName: "BioIcon" */
+            /* webpackChunkName: "mdi/BioIcon" */
             "mdi-react/BioIcon"
         ),
     ),
     "mdi-biohazard": React.lazy(() =>
         import(
-            /* webpackChunkName: "BiohazardIcon" */
+            /* webpackChunkName: "mdi/BiohazardIcon" */
             "mdi-react/BiohazardIcon"
         ),
     ),
     "mdi-bitbucket": React.lazy(() =>
         import(
-            /* webpackChunkName: "BitbucketIcon" */
+            /* webpackChunkName: "mdi/BitbucketIcon" */
             "mdi-react/BitbucketIcon"
         ),
     ),
     "mdi-bitcoin": React.lazy(() =>
         import(
-            /* webpackChunkName: "BitcoinIcon" */
+            /* webpackChunkName: "mdi/BitcoinIcon" */
             "mdi-react/BitcoinIcon"
         ),
     ),
     "mdi-black-mesa": React.lazy(() =>
         import(
-            /* webpackChunkName: "BlackMesaIcon" */
+            /* webpackChunkName: "mdi/BlackMesaIcon" */
             "mdi-react/BlackMesaIcon"
         ),
     ),
     "mdi-blackberry": React.lazy(() =>
         import(
-            /* webpackChunkName: "BlackberryIcon" */
+            /* webpackChunkName: "mdi/BlackberryIcon" */
             "mdi-react/BlackberryIcon"
         ),
     ),
     "mdi-blender": React.lazy(() =>
         import(
-            /* webpackChunkName: "BlenderIcon" */
+            /* webpackChunkName: "mdi/BlenderIcon" */
             "mdi-react/BlenderIcon"
         ),
     ),
     "mdi-blinds": React.lazy(() =>
         import(
-            /* webpackChunkName: "BlindsIcon" */
+            /* webpackChunkName: "mdi/BlindsIcon" */
             "mdi-react/BlindsIcon"
         ),
     ),
     "mdi-block-helper": React.lazy(() =>
         import(
-            /* webpackChunkName: "BlockHelperIcon" */
+            /* webpackChunkName: "mdi/BlockHelperIcon" */
             "mdi-react/BlockHelperIcon"
         ),
     ),
     "mdi-blogger": React.lazy(() =>
         import(
-            /* webpackChunkName: "BloggerIcon" */
+            /* webpackChunkName: "mdi/BloggerIcon" */
             "mdi-react/BloggerIcon"
         ),
     ),
     "mdi-bluetooth-audio": React.lazy(() =>
         import(
-            /* webpackChunkName: "BluetoothAudioIcon" */
+            /* webpackChunkName: "mdi/BluetoothAudioIcon" */
             "mdi-react/BluetoothAudioIcon"
         ),
     ),
     "mdi-bluetooth-connect": React.lazy(() =>
         import(
-            /* webpackChunkName: "BluetoothConnectIcon" */
+            /* webpackChunkName: "mdi/BluetoothConnectIcon" */
             "mdi-react/BluetoothConnectIcon"
         ),
     ),
     "mdi-bluetooth-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "BluetoothOffIcon" */
+            /* webpackChunkName: "mdi/BluetoothOffIcon" */
             "mdi-react/BluetoothOffIcon"
         ),
     ),
     "mdi-bluetooth-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "BluetoothSettingsIcon" */
+            /* webpackChunkName: "mdi/BluetoothSettingsIcon" */
             "mdi-react/BluetoothSettingsIcon"
         ),
     ),
     "mdi-bluetooth-transfer": React.lazy(() =>
         import(
-            /* webpackChunkName: "BluetoothTransferIcon" */
+            /* webpackChunkName: "mdi/BluetoothTransferIcon" */
             "mdi-react/BluetoothTransferIcon"
         ),
     ),
     "mdi-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "BluetoothIcon" */
+            /* webpackChunkName: "mdi/BluetoothIcon" */
             "mdi-react/BluetoothIcon"
         ),
     ),
     "mdi-blur-linear": React.lazy(() =>
         import(
-            /* webpackChunkName: "BlurLinearIcon" */
+            /* webpackChunkName: "mdi/BlurLinearIcon" */
             "mdi-react/BlurLinearIcon"
         ),
     ),
     "mdi-blur-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "BlurOffIcon" */
+            /* webpackChunkName: "mdi/BlurOffIcon" */
             "mdi-react/BlurOffIcon"
         ),
     ),
     "mdi-blur-radial": React.lazy(() =>
         import(
-            /* webpackChunkName: "BlurRadialIcon" */
+            /* webpackChunkName: "mdi/BlurRadialIcon" */
             "mdi-react/BlurRadialIcon"
         ),
     ),
     "mdi-blur": React.lazy(() =>
         import(
-            /* webpackChunkName: "BlurIcon" */
+            /* webpackChunkName: "mdi/BlurIcon" */
             "mdi-react/BlurIcon"
         ),
     ),
     "mdi-bomb-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "BombOffIcon" */
+            /* webpackChunkName: "mdi/BombOffIcon" */
             "mdi-react/BombOffIcon"
         ),
     ),
     "mdi-bomb": React.lazy(() =>
         import(
-            /* webpackChunkName: "BombIcon" */
+            /* webpackChunkName: "mdi/BombIcon" */
             "mdi-react/BombIcon"
         ),
     ),
     "mdi-bone": React.lazy(() =>
         import(
-            /* webpackChunkName: "BoneIcon" */
+            /* webpackChunkName: "mdi/BoneIcon" */
             "mdi-react/BoneIcon"
         ),
     ),
     "mdi-book-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookMinusIcon" */
+            /* webpackChunkName: "mdi/BookMinusIcon" */
             "mdi-react/BookMinusIcon"
         ),
     ),
     "mdi-book-multiple-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookMultipleVariantIcon" */
+            /* webpackChunkName: "mdi/BookMultipleVariantIcon" */
             "mdi-react/BookMultipleVariantIcon"
         ),
     ),
     "mdi-book-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookMultipleIcon" */
+            /* webpackChunkName: "mdi/BookMultipleIcon" */
             "mdi-react/BookMultipleIcon"
         ),
     ),
     "mdi-book-open-page-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookOpenPageVariantIcon" */
+            /* webpackChunkName: "mdi/BookOpenPageVariantIcon" */
             "mdi-react/BookOpenPageVariantIcon"
         ),
     ),
     "mdi-book-open-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookOpenVariantIcon" */
+            /* webpackChunkName: "mdi/BookOpenVariantIcon" */
             "mdi-react/BookOpenVariantIcon"
         ),
     ),
     "mdi-book-open": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookOpenIcon" */
+            /* webpackChunkName: "mdi/BookOpenIcon" */
             "mdi-react/BookOpenIcon"
         ),
     ),
     "mdi-book-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookPlusIcon" */
+            /* webpackChunkName: "mdi/BookPlusIcon" */
             "mdi-react/BookPlusIcon"
         ),
     ),
     "mdi-book-secure": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookSecureIcon" */
+            /* webpackChunkName: "mdi/BookSecureIcon" */
             "mdi-react/BookSecureIcon"
         ),
     ),
     "mdi-book-unsecure": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookUnsecureIcon" */
+            /* webpackChunkName: "mdi/BookUnsecureIcon" */
             "mdi-react/BookUnsecureIcon"
         ),
     ),
     "mdi-book-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookVariantIcon" */
+            /* webpackChunkName: "mdi/BookVariantIcon" */
             "mdi-react/BookVariantIcon"
         ),
     ),
     "mdi-book": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookIcon" */
+            /* webpackChunkName: "mdi/BookIcon" */
             "mdi-react/BookIcon"
         ),
     ),
     "mdi-bookmark-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookmarkCheckIcon" */
+            /* webpackChunkName: "mdi/BookmarkCheckIcon" */
             "mdi-react/BookmarkCheckIcon"
         ),
     ),
     "mdi-bookmark-music": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookmarkMusicIcon" */
+            /* webpackChunkName: "mdi/BookmarkMusicIcon" */
             "mdi-react/BookmarkMusicIcon"
         ),
     ),
     "mdi-bookmark-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookmarkOutlineIcon" */
+            /* webpackChunkName: "mdi/BookmarkOutlineIcon" */
             "mdi-react/BookmarkOutlineIcon"
         ),
     ),
     "mdi-bookmark-plus-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookmarkPlusOutlineIcon" */
+            /* webpackChunkName: "mdi/BookmarkPlusOutlineIcon" */
             "mdi-react/BookmarkPlusOutlineIcon"
         ),
     ),
     "mdi-bookmark-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookmarkPlusIcon" */
+            /* webpackChunkName: "mdi/BookmarkPlusIcon" */
             "mdi-react/BookmarkPlusIcon"
         ),
     ),
     "mdi-bookmark-remove": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookmarkRemoveIcon" */
+            /* webpackChunkName: "mdi/BookmarkRemoveIcon" */
             "mdi-react/BookmarkRemoveIcon"
         ),
     ),
     "mdi-bookmark": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookmarkIcon" */
+            /* webpackChunkName: "mdi/BookmarkIcon" */
             "mdi-react/BookmarkIcon"
         ),
     ),
     "mdi-boombox": React.lazy(() =>
         import(
-            /* webpackChunkName: "BoomboxIcon" */
+            /* webpackChunkName: "mdi/BoomboxIcon" */
             "mdi-react/BoomboxIcon"
         ),
     ),
     "mdi-bootstrap": React.lazy(() =>
         import(
-            /* webpackChunkName: "BootstrapIcon" */
+            /* webpackChunkName: "mdi/BootstrapIcon" */
             "mdi-react/BootstrapIcon"
         ),
     ),
     "mdi-border-all-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderAllVariantIcon" */
+            /* webpackChunkName: "mdi/BorderAllVariantIcon" */
             "mdi-react/BorderAllVariantIcon"
         ),
     ),
     "mdi-border-all": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderAllIcon" */
+            /* webpackChunkName: "mdi/BorderAllIcon" */
             "mdi-react/BorderAllIcon"
         ),
     ),
     "mdi-border-bottom-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderBottomVariantIcon" */
+            /* webpackChunkName: "mdi/BorderBottomVariantIcon" */
             "mdi-react/BorderBottomVariantIcon"
         ),
     ),
     "mdi-border-bottom": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderBottomIcon" */
+            /* webpackChunkName: "mdi/BorderBottomIcon" */
             "mdi-react/BorderBottomIcon"
         ),
     ),
     "mdi-border-color": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderColorIcon" */
+            /* webpackChunkName: "mdi/BorderColorIcon" */
             "mdi-react/BorderColorIcon"
         ),
     ),
     "mdi-border-horizontal": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderHorizontalIcon" */
+            /* webpackChunkName: "mdi/BorderHorizontalIcon" */
             "mdi-react/BorderHorizontalIcon"
         ),
     ),
     "mdi-border-inside": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderInsideIcon" */
+            /* webpackChunkName: "mdi/BorderInsideIcon" */
             "mdi-react/BorderInsideIcon"
         ),
     ),
     "mdi-border-left-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderLeftVariantIcon" */
+            /* webpackChunkName: "mdi/BorderLeftVariantIcon" */
             "mdi-react/BorderLeftVariantIcon"
         ),
     ),
     "mdi-border-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderLeftIcon" */
+            /* webpackChunkName: "mdi/BorderLeftIcon" */
             "mdi-react/BorderLeftIcon"
         ),
     ),
     "mdi-border-none-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderNoneVariantIcon" */
+            /* webpackChunkName: "mdi/BorderNoneVariantIcon" */
             "mdi-react/BorderNoneVariantIcon"
         ),
     ),
     "mdi-border-none": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderNoneIcon" */
+            /* webpackChunkName: "mdi/BorderNoneIcon" */
             "mdi-react/BorderNoneIcon"
         ),
     ),
     "mdi-border-outside": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderOutsideIcon" */
+            /* webpackChunkName: "mdi/BorderOutsideIcon" */
             "mdi-react/BorderOutsideIcon"
         ),
     ),
     "mdi-border-right-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderRightVariantIcon" */
+            /* webpackChunkName: "mdi/BorderRightVariantIcon" */
             "mdi-react/BorderRightVariantIcon"
         ),
     ),
     "mdi-border-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderRightIcon" */
+            /* webpackChunkName: "mdi/BorderRightIcon" */
             "mdi-react/BorderRightIcon"
         ),
     ),
     "mdi-border-style": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderStyleIcon" */
+            /* webpackChunkName: "mdi/BorderStyleIcon" */
             "mdi-react/BorderStyleIcon"
         ),
     ),
     "mdi-border-top-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderTopVariantIcon" */
+            /* webpackChunkName: "mdi/BorderTopVariantIcon" */
             "mdi-react/BorderTopVariantIcon"
         ),
     ),
     "mdi-border-top": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderTopIcon" */
+            /* webpackChunkName: "mdi/BorderTopIcon" */
             "mdi-react/BorderTopIcon"
         ),
     ),
     "mdi-border-vertical": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderVerticalIcon" */
+            /* webpackChunkName: "mdi/BorderVerticalIcon" */
             "mdi-react/BorderVerticalIcon"
         ),
     ),
     "mdi-bottle-wine": React.lazy(() =>
         import(
-            /* webpackChunkName: "BottleWineIcon" */
+            /* webpackChunkName: "mdi/BottleWineIcon" */
             "mdi-react/BottleWineIcon"
         ),
     ),
     "mdi-bow-tie": React.lazy(() =>
         import(
-            /* webpackChunkName: "BowTieIcon" */
+            /* webpackChunkName: "mdi/BowTieIcon" */
             "mdi-react/BowTieIcon"
         ),
     ),
     "mdi-bowl": React.lazy(() =>
         import(
-            /* webpackChunkName: "BowlIcon" */
+            /* webpackChunkName: "mdi/BowlIcon" */
             "mdi-react/BowlIcon"
         ),
     ),
     "mdi-bowling": React.lazy(() =>
         import(
-            /* webpackChunkName: "BowlingIcon" */
+            /* webpackChunkName: "mdi/BowlingIcon" */
             "mdi-react/BowlingIcon"
         ),
     ),
     "mdi-box-cutter": React.lazy(() =>
         import(
-            /* webpackChunkName: "BoxCutterIcon" */
+            /* webpackChunkName: "mdi/BoxCutterIcon" */
             "mdi-react/BoxCutterIcon"
         ),
     ),
     "mdi-box-shadow": React.lazy(() =>
         import(
-            /* webpackChunkName: "BoxShadowIcon" */
+            /* webpackChunkName: "mdi/BoxShadowIcon" */
             "mdi-react/BoxShadowIcon"
         ),
     ),
     "mdi-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "BoxIcon" */
+            /* webpackChunkName: "mdi/BoxIcon" */
             "mdi-react/BoxIcon"
         ),
     ),
     "mdi-bridge": React.lazy(() =>
         import(
-            /* webpackChunkName: "BridgeIcon" */
+            /* webpackChunkName: "mdi/BridgeIcon" */
             "mdi-react/BridgeIcon"
         ),
     ),
     "mdi-briefcase-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "BriefcaseCheckIcon" */
+            /* webpackChunkName: "mdi/BriefcaseCheckIcon" */
             "mdi-react/BriefcaseCheckIcon"
         ),
     ),
     "mdi-briefcase-download": React.lazy(() =>
         import(
-            /* webpackChunkName: "BriefcaseDownloadIcon" */
+            /* webpackChunkName: "mdi/BriefcaseDownloadIcon" */
             "mdi-react/BriefcaseDownloadIcon"
         ),
     ),
     "mdi-briefcase-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "BriefcaseOutlineIcon" */
+            /* webpackChunkName: "mdi/BriefcaseOutlineIcon" */
             "mdi-react/BriefcaseOutlineIcon"
         ),
     ),
     "mdi-briefcase-upload": React.lazy(() =>
         import(
-            /* webpackChunkName: "BriefcaseUploadIcon" */
+            /* webpackChunkName: "mdi/BriefcaseUploadIcon" */
             "mdi-react/BriefcaseUploadIcon"
         ),
     ),
     "mdi-briefcase": React.lazy(() =>
         import(
-            /* webpackChunkName: "BriefcaseIcon" */
+            /* webpackChunkName: "mdi/BriefcaseIcon" */
             "mdi-react/BriefcaseIcon"
         ),
     ),
     "mdi-brightness-1": React.lazy(() =>
         import(
-            /* webpackChunkName: "Brightness1Icon" */
+            /* webpackChunkName: "mdi/Brightness1Icon" */
             "mdi-react/Brightness1Icon"
         ),
     ),
     "mdi-brightness-2": React.lazy(() =>
         import(
-            /* webpackChunkName: "Brightness2Icon" */
+            /* webpackChunkName: "mdi/Brightness2Icon" */
             "mdi-react/Brightness2Icon"
         ),
     ),
     "mdi-brightness-3": React.lazy(() =>
         import(
-            /* webpackChunkName: "Brightness3Icon" */
+            /* webpackChunkName: "mdi/Brightness3Icon" */
             "mdi-react/Brightness3Icon"
         ),
     ),
     "mdi-brightness-4": React.lazy(() =>
         import(
-            /* webpackChunkName: "Brightness4Icon" */
+            /* webpackChunkName: "mdi/Brightness4Icon" */
             "mdi-react/Brightness4Icon"
         ),
     ),
     "mdi-brightness-5": React.lazy(() =>
         import(
-            /* webpackChunkName: "Brightness5Icon" */
+            /* webpackChunkName: "mdi/Brightness5Icon" */
             "mdi-react/Brightness5Icon"
         ),
     ),
     "mdi-brightness-6": React.lazy(() =>
         import(
-            /* webpackChunkName: "Brightness6Icon" */
+            /* webpackChunkName: "mdi/Brightness6Icon" */
             "mdi-react/Brightness6Icon"
         ),
     ),
     "mdi-brightness-7": React.lazy(() =>
         import(
-            /* webpackChunkName: "Brightness7Icon" */
+            /* webpackChunkName: "mdi/Brightness7Icon" */
             "mdi-react/Brightness7Icon"
         ),
     ),
     "mdi-brightness-auto": React.lazy(() =>
         import(
-            /* webpackChunkName: "BrightnessAutoIcon" */
+            /* webpackChunkName: "mdi/BrightnessAutoIcon" */
             "mdi-react/BrightnessAutoIcon"
         ),
     ),
     "mdi-broom": React.lazy(() =>
         import(
-            /* webpackChunkName: "BroomIcon" */
+            /* webpackChunkName: "mdi/BroomIcon" */
             "mdi-react/BroomIcon"
         ),
     ),
     "mdi-brush": React.lazy(() =>
         import(
-            /* webpackChunkName: "BrushIcon" */
+            /* webpackChunkName: "mdi/BrushIcon" */
             "mdi-react/BrushIcon"
         ),
     ),
     "mdi-buddhism": React.lazy(() =>
         import(
-            /* webpackChunkName: "BuddhismIcon" */
+            /* webpackChunkName: "mdi/BuddhismIcon" */
             "mdi-react/BuddhismIcon"
         ),
     ),
     "mdi-buffer": React.lazy(() =>
         import(
-            /* webpackChunkName: "BufferIcon" */
+            /* webpackChunkName: "mdi/BufferIcon" */
             "mdi-react/BufferIcon"
         ),
     ),
     "mdi-bug": React.lazy(() =>
         import(
-            /* webpackChunkName: "BugIcon" */
+            /* webpackChunkName: "mdi/BugIcon" */
             "mdi-react/BugIcon"
         ),
     ),
     "mdi-bulletin-board": React.lazy(() =>
         import(
-            /* webpackChunkName: "BulletinBoardIcon" */
+            /* webpackChunkName: "mdi/BulletinBoardIcon" */
             "mdi-react/BulletinBoardIcon"
         ),
     ),
     "mdi-bullhorn": React.lazy(() =>
         import(
-            /* webpackChunkName: "BullhornIcon" */
+            /* webpackChunkName: "mdi/BullhornIcon" */
             "mdi-react/BullhornIcon"
         ),
     ),
     "mdi-bullseye-arrow": React.lazy(() =>
         import(
-            /* webpackChunkName: "BullseyeArrowIcon" */
+            /* webpackChunkName: "mdi/BullseyeArrowIcon" */
             "mdi-react/BullseyeArrowIcon"
         ),
     ),
     "mdi-bullseye": React.lazy(() =>
         import(
-            /* webpackChunkName: "BullseyeIcon" */
+            /* webpackChunkName: "mdi/BullseyeIcon" */
             "mdi-react/BullseyeIcon"
         ),
     ),
     "mdi-bus-articulated-end": React.lazy(() =>
         import(
-            /* webpackChunkName: "BusArticulatedEndIcon" */
+            /* webpackChunkName: "mdi/BusArticulatedEndIcon" */
             "mdi-react/BusArticulatedEndIcon"
         ),
     ),
     "mdi-bus-articulated-front": React.lazy(() =>
         import(
-            /* webpackChunkName: "BusArticulatedFrontIcon" */
+            /* webpackChunkName: "mdi/BusArticulatedFrontIcon" */
             "mdi-react/BusArticulatedFrontIcon"
         ),
     ),
     "mdi-bus-clock": React.lazy(() =>
         import(
-            /* webpackChunkName: "BusClockIcon" */
+            /* webpackChunkName: "mdi/BusClockIcon" */
             "mdi-react/BusClockIcon"
         ),
     ),
     "mdi-bus-double-decker": React.lazy(() =>
         import(
-            /* webpackChunkName: "BusDoubleDeckerIcon" */
+            /* webpackChunkName: "mdi/BusDoubleDeckerIcon" */
             "mdi-react/BusDoubleDeckerIcon"
         ),
     ),
     "mdi-bus-school": React.lazy(() =>
         import(
-            /* webpackChunkName: "BusSchoolIcon" */
+            /* webpackChunkName: "mdi/BusSchoolIcon" */
             "mdi-react/BusSchoolIcon"
         ),
     ),
     "mdi-bus-side": React.lazy(() =>
         import(
-            /* webpackChunkName: "BusSideIcon" */
+            /* webpackChunkName: "mdi/BusSideIcon" */
             "mdi-react/BusSideIcon"
         ),
     ),
     "mdi-bus": React.lazy(() =>
         import(
-            /* webpackChunkName: "BusIcon" */
+            /* webpackChunkName: "mdi/BusIcon" */
             "mdi-react/BusIcon"
         ),
     ),
     "mdi-cached": React.lazy(() =>
         import(
-            /* webpackChunkName: "CachedIcon" */
+            /* webpackChunkName: "mdi/CachedIcon" */
             "mdi-react/CachedIcon"
         ),
     ),
     "mdi-cake-layered": React.lazy(() =>
         import(
-            /* webpackChunkName: "CakeLayeredIcon" */
+            /* webpackChunkName: "mdi/CakeLayeredIcon" */
             "mdi-react/CakeLayeredIcon"
         ),
     ),
     "mdi-cake-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "CakeVariantIcon" */
+            /* webpackChunkName: "mdi/CakeVariantIcon" */
             "mdi-react/CakeVariantIcon"
         ),
     ),
     "mdi-cake": React.lazy(() =>
         import(
-            /* webpackChunkName: "CakeIcon" */
+            /* webpackChunkName: "mdi/CakeIcon" */
             "mdi-react/CakeIcon"
         ),
     ),
     "mdi-calculator": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalculatorIcon" */
+            /* webpackChunkName: "mdi/CalculatorIcon" */
             "mdi-react/CalculatorIcon"
         ),
     ),
     "mdi-calendar-blank": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarBlankIcon" */
+            /* webpackChunkName: "mdi/CalendarBlankIcon" */
             "mdi-react/CalendarBlankIcon"
         ),
     ),
     "mdi-calendar-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarCheckIcon" */
+            /* webpackChunkName: "mdi/CalendarCheckIcon" */
             "mdi-react/CalendarCheckIcon"
         ),
     ),
     "mdi-calendar-clock": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarClockIcon" */
+            /* webpackChunkName: "mdi/CalendarClockIcon" */
             "mdi-react/CalendarClockIcon"
         ),
     ),
     "mdi-calendar-edit": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarEditIcon" */
+            /* webpackChunkName: "mdi/CalendarEditIcon" */
             "mdi-react/CalendarEditIcon"
         ),
     ),
     "mdi-calendar-multiple-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarMultipleCheckIcon" */
+            /* webpackChunkName: "mdi/CalendarMultipleCheckIcon" */
             "mdi-react/CalendarMultipleCheckIcon"
         ),
     ),
     "mdi-calendar-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarMultipleIcon" */
+            /* webpackChunkName: "mdi/CalendarMultipleIcon" */
             "mdi-react/CalendarMultipleIcon"
         ),
     ),
     "mdi-calendar-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarPlusIcon" */
+            /* webpackChunkName: "mdi/CalendarPlusIcon" */
             "mdi-react/CalendarPlusIcon"
         ),
     ),
     "mdi-calendar-question": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarQuestionIcon" */
+            /* webpackChunkName: "mdi/CalendarQuestionIcon" */
             "mdi-react/CalendarQuestionIcon"
         ),
     ),
     "mdi-calendar-range": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarRangeIcon" */
+            /* webpackChunkName: "mdi/CalendarRangeIcon" */
             "mdi-react/CalendarRangeIcon"
         ),
     ),
     "mdi-calendar-remove": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarRemoveIcon" */
+            /* webpackChunkName: "mdi/CalendarRemoveIcon" */
             "mdi-react/CalendarRemoveIcon"
         ),
     ),
     "mdi-calendar-search": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarSearchIcon" */
+            /* webpackChunkName: "mdi/CalendarSearchIcon" */
             "mdi-react/CalendarSearchIcon"
         ),
     ),
     "mdi-calendar-text": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarTextIcon" */
+            /* webpackChunkName: "mdi/CalendarTextIcon" */
             "mdi-react/CalendarTextIcon"
         ),
     ),
     "mdi-calendar-today": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarTodayIcon" */
+            /* webpackChunkName: "mdi/CalendarTodayIcon" */
             "mdi-react/CalendarTodayIcon"
         ),
     ),
     "mdi-calendar": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarIcon" */
+            /* webpackChunkName: "mdi/CalendarIcon" */
             "mdi-react/CalendarIcon"
         ),
     ),
     "mdi-call-made": React.lazy(() =>
         import(
-            /* webpackChunkName: "CallMadeIcon" */
+            /* webpackChunkName: "mdi/CallMadeIcon" */
             "mdi-react/CallMadeIcon"
         ),
     ),
     "mdi-call-merge": React.lazy(() =>
         import(
-            /* webpackChunkName: "CallMergeIcon" */
+            /* webpackChunkName: "mdi/CallMergeIcon" */
             "mdi-react/CallMergeIcon"
         ),
     ),
     "mdi-call-missed": React.lazy(() =>
         import(
-            /* webpackChunkName: "CallMissedIcon" */
+            /* webpackChunkName: "mdi/CallMissedIcon" */
             "mdi-react/CallMissedIcon"
         ),
     ),
     "mdi-call-received": React.lazy(() =>
         import(
-            /* webpackChunkName: "CallReceivedIcon" */
+            /* webpackChunkName: "mdi/CallReceivedIcon" */
             "mdi-react/CallReceivedIcon"
         ),
     ),
     "mdi-call-split": React.lazy(() =>
         import(
-            /* webpackChunkName: "CallSplitIcon" */
+            /* webpackChunkName: "mdi/CallSplitIcon" */
             "mdi-react/CallSplitIcon"
         ),
     ),
     "mdi-camcorder-box-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "CamcorderBoxOffIcon" */
+            /* webpackChunkName: "mdi/CamcorderBoxOffIcon" */
             "mdi-react/CamcorderBoxOffIcon"
         ),
     ),
     "mdi-camcorder-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "CamcorderBoxIcon" */
+            /* webpackChunkName: "mdi/CamcorderBoxIcon" */
             "mdi-react/CamcorderBoxIcon"
         ),
     ),
     "mdi-camcorder-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "CamcorderOffIcon" */
+            /* webpackChunkName: "mdi/CamcorderOffIcon" */
             "mdi-react/CamcorderOffIcon"
         ),
     ),
     "mdi-camcorder": React.lazy(() =>
         import(
-            /* webpackChunkName: "CamcorderIcon" */
+            /* webpackChunkName: "mdi/CamcorderIcon" */
             "mdi-react/CamcorderIcon"
         ),
     ),
     "mdi-camera-account": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraAccountIcon" */
+            /* webpackChunkName: "mdi/CameraAccountIcon" */
             "mdi-react/CameraAccountIcon"
         ),
     ),
     "mdi-camera-burst": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraBurstIcon" */
+            /* webpackChunkName: "mdi/CameraBurstIcon" */
             "mdi-react/CameraBurstIcon"
         ),
     ),
     "mdi-camera-enhance": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraEnhanceIcon" */
+            /* webpackChunkName: "mdi/CameraEnhanceIcon" */
             "mdi-react/CameraEnhanceIcon"
         ),
     ),
     "mdi-camera-front-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraFrontVariantIcon" */
+            /* webpackChunkName: "mdi/CameraFrontVariantIcon" */
             "mdi-react/CameraFrontVariantIcon"
         ),
     ),
     "mdi-camera-front": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraFrontIcon" */
+            /* webpackChunkName: "mdi/CameraFrontIcon" */
             "mdi-react/CameraFrontIcon"
         ),
     ),
     "mdi-camera-gopro": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraGoproIcon" */
+            /* webpackChunkName: "mdi/CameraGoproIcon" */
             "mdi-react/CameraGoproIcon"
         ),
     ),
     "mdi-camera-image": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraImageIcon" */
+            /* webpackChunkName: "mdi/CameraImageIcon" */
             "mdi-react/CameraImageIcon"
         ),
     ),
     "mdi-camera-iris": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraIrisIcon" */
+            /* webpackChunkName: "mdi/CameraIrisIcon" */
             "mdi-react/CameraIrisIcon"
         ),
     ),
     "mdi-camera-metering-center": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraMeteringCenterIcon" */
+            /* webpackChunkName: "mdi/CameraMeteringCenterIcon" */
             "mdi-react/CameraMeteringCenterIcon"
         ),
     ),
     "mdi-camera-metering-matrix": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraMeteringMatrixIcon" */
+            /* webpackChunkName: "mdi/CameraMeteringMatrixIcon" */
             "mdi-react/CameraMeteringMatrixIcon"
         ),
     ),
     "mdi-camera-metering-partial": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraMeteringPartialIcon" */
+            /* webpackChunkName: "mdi/CameraMeteringPartialIcon" */
             "mdi-react/CameraMeteringPartialIcon"
         ),
     ),
     "mdi-camera-metering-spot": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraMeteringSpotIcon" */
+            /* webpackChunkName: "mdi/CameraMeteringSpotIcon" */
             "mdi-react/CameraMeteringSpotIcon"
         ),
     ),
     "mdi-camera-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraOffIcon" */
+            /* webpackChunkName: "mdi/CameraOffIcon" */
             "mdi-react/CameraOffIcon"
         ),
     ),
     "mdi-camera-party-mode": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraPartyModeIcon" */
+            /* webpackChunkName: "mdi/CameraPartyModeIcon" */
             "mdi-react/CameraPartyModeIcon"
         ),
     ),
     "mdi-camera-rear-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraRearVariantIcon" */
+            /* webpackChunkName: "mdi/CameraRearVariantIcon" */
             "mdi-react/CameraRearVariantIcon"
         ),
     ),
     "mdi-camera-rear": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraRearIcon" */
+            /* webpackChunkName: "mdi/CameraRearIcon" */
             "mdi-react/CameraRearIcon"
         ),
     ),
     "mdi-camera-switch": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraSwitchIcon" */
+            /* webpackChunkName: "mdi/CameraSwitchIcon" */
             "mdi-react/CameraSwitchIcon"
         ),
     ),
     "mdi-camera-timer": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraTimerIcon" */
+            /* webpackChunkName: "mdi/CameraTimerIcon" */
             "mdi-react/CameraTimerIcon"
         ),
     ),
     "mdi-camera": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraIcon" */
+            /* webpackChunkName: "mdi/CameraIcon" */
             "mdi-react/CameraIcon"
         ),
     ),
     "mdi-cancel": React.lazy(() =>
         import(
-            /* webpackChunkName: "CancelIcon" */
+            /* webpackChunkName: "mdi/CancelIcon" */
             "mdi-react/CancelIcon"
         ),
     ),
     "mdi-candle": React.lazy(() =>
         import(
-            /* webpackChunkName: "CandleIcon" */
+            /* webpackChunkName: "mdi/CandleIcon" */
             "mdi-react/CandleIcon"
         ),
     ),
     "mdi-candycane": React.lazy(() =>
         import(
-            /* webpackChunkName: "CandycaneIcon" */
+            /* webpackChunkName: "mdi/CandycaneIcon" */
             "mdi-react/CandycaneIcon"
         ),
     ),
     "mdi-cannabis": React.lazy(() =>
         import(
-            /* webpackChunkName: "CannabisIcon" */
+            /* webpackChunkName: "mdi/CannabisIcon" */
             "mdi-react/CannabisIcon"
         ),
     ),
     "mdi-car-battery": React.lazy(() =>
         import(
-            /* webpackChunkName: "CarBatteryIcon" */
+            /* webpackChunkName: "mdi/CarBatteryIcon" */
             "mdi-react/CarBatteryIcon"
         ),
     ),
     "mdi-car-connected": React.lazy(() =>
         import(
-            /* webpackChunkName: "CarConnectedIcon" */
+            /* webpackChunkName: "mdi/CarConnectedIcon" */
             "mdi-react/CarConnectedIcon"
         ),
     ),
     "mdi-car-convertible": React.lazy(() =>
         import(
-            /* webpackChunkName: "CarConvertibleIcon" */
+            /* webpackChunkName: "mdi/CarConvertibleIcon" */
             "mdi-react/CarConvertibleIcon"
         ),
     ),
     "mdi-car-estate": React.lazy(() =>
         import(
-            /* webpackChunkName: "CarEstateIcon" */
+            /* webpackChunkName: "mdi/CarEstateIcon" */
             "mdi-react/CarEstateIcon"
         ),
     ),
     "mdi-car-hatchback": React.lazy(() =>
         import(
-            /* webpackChunkName: "CarHatchbackIcon" */
+            /* webpackChunkName: "mdi/CarHatchbackIcon" */
             "mdi-react/CarHatchbackIcon"
         ),
     ),
     "mdi-car-limousine": React.lazy(() =>
         import(
-            /* webpackChunkName: "CarLimousineIcon" */
+            /* webpackChunkName: "mdi/CarLimousineIcon" */
             "mdi-react/CarLimousineIcon"
         ),
     ),
     "mdi-car-pickup": React.lazy(() =>
         import(
-            /* webpackChunkName: "CarPickupIcon" */
+            /* webpackChunkName: "mdi/CarPickupIcon" */
             "mdi-react/CarPickupIcon"
         ),
     ),
     "mdi-car-side": React.lazy(() =>
         import(
-            /* webpackChunkName: "CarSideIcon" */
+            /* webpackChunkName: "mdi/CarSideIcon" */
             "mdi-react/CarSideIcon"
         ),
     ),
     "mdi-car-sports": React.lazy(() =>
         import(
-            /* webpackChunkName: "CarSportsIcon" */
+            /* webpackChunkName: "mdi/CarSportsIcon" */
             "mdi-react/CarSportsIcon"
         ),
     ),
     "mdi-car-wash": React.lazy(() =>
         import(
-            /* webpackChunkName: "CarWashIcon" */
+            /* webpackChunkName: "mdi/CarWashIcon" */
             "mdi-react/CarWashIcon"
         ),
     ),
     "mdi-car": React.lazy(() =>
         import(
-            /* webpackChunkName: "CarIcon" */
+            /* webpackChunkName: "mdi/CarIcon" */
             "mdi-react/CarIcon"
         ),
     ),
     "mdi-caravan": React.lazy(() =>
         import(
-            /* webpackChunkName: "CaravanIcon" */
+            /* webpackChunkName: "mdi/CaravanIcon" */
             "mdi-react/CaravanIcon"
         ),
     ),
     "mdi-cards-club": React.lazy(() =>
         import(
-            /* webpackChunkName: "CardsClubIcon" */
+            /* webpackChunkName: "mdi/CardsClubIcon" */
             "mdi-react/CardsClubIcon"
         ),
     ),
     "mdi-cards-diamond": React.lazy(() =>
         import(
-            /* webpackChunkName: "CardsDiamondIcon" */
+            /* webpackChunkName: "mdi/CardsDiamondIcon" */
             "mdi-react/CardsDiamondIcon"
         ),
     ),
     "mdi-cards-heart": React.lazy(() =>
         import(
-            /* webpackChunkName: "CardsHeartIcon" */
+            /* webpackChunkName: "mdi/CardsHeartIcon" */
             "mdi-react/CardsHeartIcon"
         ),
     ),
     "mdi-cards-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CardsOutlineIcon" */
+            /* webpackChunkName: "mdi/CardsOutlineIcon" */
             "mdi-react/CardsOutlineIcon"
         ),
     ),
     "mdi-cards-playing-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CardsPlayingOutlineIcon" */
+            /* webpackChunkName: "mdi/CardsPlayingOutlineIcon" */
             "mdi-react/CardsPlayingOutlineIcon"
         ),
     ),
     "mdi-cards-spade": React.lazy(() =>
         import(
-            /* webpackChunkName: "CardsSpadeIcon" */
+            /* webpackChunkName: "mdi/CardsSpadeIcon" */
             "mdi-react/CardsSpadeIcon"
         ),
     ),
     "mdi-cards-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "CardsVariantIcon" */
+            /* webpackChunkName: "mdi/CardsVariantIcon" */
             "mdi-react/CardsVariantIcon"
         ),
     ),
     "mdi-cards": React.lazy(() =>
         import(
-            /* webpackChunkName: "CardsIcon" */
+            /* webpackChunkName: "mdi/CardsIcon" */
             "mdi-react/CardsIcon"
         ),
     ),
     "mdi-carrot": React.lazy(() =>
         import(
-            /* webpackChunkName: "CarrotIcon" */
+            /* webpackChunkName: "mdi/CarrotIcon" */
             "mdi-react/CarrotIcon"
         ),
     ),
     "mdi-cart-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "CartOffIcon" */
+            /* webpackChunkName: "mdi/CartOffIcon" */
             "mdi-react/CartOffIcon"
         ),
     ),
     "mdi-cart-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CartOutlineIcon" */
+            /* webpackChunkName: "mdi/CartOutlineIcon" */
             "mdi-react/CartOutlineIcon"
         ),
     ),
     "mdi-cart-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "CartPlusIcon" */
+            /* webpackChunkName: "mdi/CartPlusIcon" */
             "mdi-react/CartPlusIcon"
         ),
     ),
     "mdi-cart": React.lazy(() =>
         import(
-            /* webpackChunkName: "CartIcon" */
+            /* webpackChunkName: "mdi/CartIcon" */
             "mdi-react/CartIcon"
         ),
     ),
     "mdi-case-sensitive-alt": React.lazy(() =>
         import(
-            /* webpackChunkName: "CaseSensitiveAltIcon" */
+            /* webpackChunkName: "mdi/CaseSensitiveAltIcon" */
             "mdi-react/CaseSensitiveAltIcon"
         ),
     ),
     "mdi-cash-100": React.lazy(() =>
         import(
-            /* webpackChunkName: "Cash100Icon" */
+            /* webpackChunkName: "mdi/Cash100Icon" */
             "mdi-react/Cash100Icon"
         ),
     ),
     "mdi-cash-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "CashMultipleIcon" */
+            /* webpackChunkName: "mdi/CashMultipleIcon" */
             "mdi-react/CashMultipleIcon"
         ),
     ),
     "mdi-cash-usd": React.lazy(() =>
         import(
-            /* webpackChunkName: "CashUsdIcon" */
+            /* webpackChunkName: "mdi/CashUsdIcon" */
             "mdi-react/CashUsdIcon"
         ),
     ),
     "mdi-cash": React.lazy(() =>
         import(
-            /* webpackChunkName: "CashIcon" */
+            /* webpackChunkName: "mdi/CashIcon" */
             "mdi-react/CashIcon"
         ),
     ),
     "mdi-cast-connected": React.lazy(() =>
         import(
-            /* webpackChunkName: "CastConnectedIcon" */
+            /* webpackChunkName: "mdi/CastConnectedIcon" */
             "mdi-react/CastConnectedIcon"
         ),
     ),
     "mdi-cast-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "CastOffIcon" */
+            /* webpackChunkName: "mdi/CastOffIcon" */
             "mdi-react/CastOffIcon"
         ),
     ),
     "mdi-cast": React.lazy(() =>
         import(
-            /* webpackChunkName: "CastIcon" */
+            /* webpackChunkName: "mdi/CastIcon" */
             "mdi-react/CastIcon"
         ),
     ),
     "mdi-castle": React.lazy(() =>
         import(
-            /* webpackChunkName: "CastleIcon" */
+            /* webpackChunkName: "mdi/CastleIcon" */
             "mdi-react/CastleIcon"
         ),
     ),
     "mdi-cat": React.lazy(() =>
         import(
-            /* webpackChunkName: "CatIcon" */
+            /* webpackChunkName: "mdi/CatIcon" */
             "mdi-react/CatIcon"
         ),
     ),
     "mdi-cctv": React.lazy(() =>
         import(
-            /* webpackChunkName: "CctvIcon" */
+            /* webpackChunkName: "mdi/CctvIcon" */
             "mdi-react/CctvIcon"
         ),
     ),
     "mdi-ceiling-light": React.lazy(() =>
         import(
-            /* webpackChunkName: "CeilingLightIcon" */
+            /* webpackChunkName: "mdi/CeilingLightIcon" */
             "mdi-react/CeilingLightIcon"
         ),
     ),
     "mdi-cellphone-android": React.lazy(() =>
         import(
-            /* webpackChunkName: "CellphoneAndroidIcon" */
+            /* webpackChunkName: "mdi/CellphoneAndroidIcon" */
             "mdi-react/CellphoneAndroidIcon"
         ),
     ),
     "mdi-cellphone-basic": React.lazy(() =>
         import(
-            /* webpackChunkName: "CellphoneBasicIcon" */
+            /* webpackChunkName: "mdi/CellphoneBasicIcon" */
             "mdi-react/CellphoneBasicIcon"
         ),
     ),
     "mdi-cellphone-dock": React.lazy(() =>
         import(
-            /* webpackChunkName: "CellphoneDockIcon" */
+            /* webpackChunkName: "mdi/CellphoneDockIcon" */
             "mdi-react/CellphoneDockIcon"
         ),
     ),
     "mdi-cellphone-erase": React.lazy(() =>
         import(
-            /* webpackChunkName: "CellphoneEraseIcon" */
+            /* webpackChunkName: "mdi/CellphoneEraseIcon" */
             "mdi-react/CellphoneEraseIcon"
         ),
     ),
     "mdi-cellphone-iphone": React.lazy(() =>
         import(
-            /* webpackChunkName: "CellphoneIphoneIcon" */
+            /* webpackChunkName: "mdi/CellphoneIphoneIcon" */
             "mdi-react/CellphoneIphoneIcon"
         ),
     ),
     "mdi-cellphone-key": React.lazy(() =>
         import(
-            /* webpackChunkName: "CellphoneKeyIcon" */
+            /* webpackChunkName: "mdi/CellphoneKeyIcon" */
             "mdi-react/CellphoneKeyIcon"
         ),
     ),
     "mdi-cellphone-link-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "CellphoneLinkOffIcon" */
+            /* webpackChunkName: "mdi/CellphoneLinkOffIcon" */
             "mdi-react/CellphoneLinkOffIcon"
         ),
     ),
     "mdi-cellphone-link": React.lazy(() =>
         import(
-            /* webpackChunkName: "CellphoneLinkIcon" */
+            /* webpackChunkName: "mdi/CellphoneLinkIcon" */
             "mdi-react/CellphoneLinkIcon"
         ),
     ),
     "mdi-cellphone-lock": React.lazy(() =>
         import(
-            /* webpackChunkName: "CellphoneLockIcon" */
+            /* webpackChunkName: "mdi/CellphoneLockIcon" */
             "mdi-react/CellphoneLockIcon"
         ),
     ),
     "mdi-cellphone-message": React.lazy(() =>
         import(
-            /* webpackChunkName: "CellphoneMessageIcon" */
+            /* webpackChunkName: "mdi/CellphoneMessageIcon" */
             "mdi-react/CellphoneMessageIcon"
         ),
     ),
     "mdi-cellphone-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "CellphoneOffIcon" */
+            /* webpackChunkName: "mdi/CellphoneOffIcon" */
             "mdi-react/CellphoneOffIcon"
         ),
     ),
     "mdi-cellphone-settings-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "CellphoneSettingsVariantIcon" */
+            /* webpackChunkName: "mdi/CellphoneSettingsVariantIcon" */
             "mdi-react/CellphoneSettingsVariantIcon"
         ),
     ),
     "mdi-cellphone-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "CellphoneSettingsIcon" */
+            /* webpackChunkName: "mdi/CellphoneSettingsIcon" */
             "mdi-react/CellphoneSettingsIcon"
         ),
     ),
     "mdi-cellphone-sound": React.lazy(() =>
         import(
-            /* webpackChunkName: "CellphoneSoundIcon" */
+            /* webpackChunkName: "mdi/CellphoneSoundIcon" */
             "mdi-react/CellphoneSoundIcon"
         ),
     ),
     "mdi-cellphone-text": React.lazy(() =>
         import(
-            /* webpackChunkName: "CellphoneTextIcon" */
+            /* webpackChunkName: "mdi/CellphoneTextIcon" */
             "mdi-react/CellphoneTextIcon"
         ),
     ),
     "mdi-cellphone-wireless": React.lazy(() =>
         import(
-            /* webpackChunkName: "CellphoneWirelessIcon" */
+            /* webpackChunkName: "mdi/CellphoneWirelessIcon" */
             "mdi-react/CellphoneWirelessIcon"
         ),
     ),
     "mdi-cellphone": React.lazy(() =>
         import(
-            /* webpackChunkName: "CellphoneIcon" */
+            /* webpackChunkName: "mdi/CellphoneIcon" */
             "mdi-react/CellphoneIcon"
         ),
     ),
     "mdi-certificate": React.lazy(() =>
         import(
-            /* webpackChunkName: "CertificateIcon" */
+            /* webpackChunkName: "mdi/CertificateIcon" */
             "mdi-react/CertificateIcon"
         ),
     ),
     "mdi-chair-school": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChairSchoolIcon" */
+            /* webpackChunkName: "mdi/ChairSchoolIcon" */
             "mdi-react/ChairSchoolIcon"
         ),
     ),
     "mdi-chart-arc": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartArcIcon" */
+            /* webpackChunkName: "mdi/ChartArcIcon" */
             "mdi-react/ChartArcIcon"
         ),
     ),
     "mdi-chart-areaspline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartAreasplineIcon" */
+            /* webpackChunkName: "mdi/ChartAreasplineIcon" */
             "mdi-react/ChartAreasplineIcon"
         ),
     ),
     "mdi-chart-bar-stacked": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartBarStackedIcon" */
+            /* webpackChunkName: "mdi/ChartBarStackedIcon" */
             "mdi-react/ChartBarStackedIcon"
         ),
     ),
     "mdi-chart-bar": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartBarIcon" */
+            /* webpackChunkName: "mdi/ChartBarIcon" */
             "mdi-react/ChartBarIcon"
         ),
     ),
     "mdi-chart-bubble": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartBubbleIcon" */
+            /* webpackChunkName: "mdi/ChartBubbleIcon" */
             "mdi-react/ChartBubbleIcon"
         ),
     ),
     "mdi-chart-donut-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartDonutVariantIcon" */
+            /* webpackChunkName: "mdi/ChartDonutVariantIcon" */
             "mdi-react/ChartDonutVariantIcon"
         ),
     ),
     "mdi-chart-donut": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartDonutIcon" */
+            /* webpackChunkName: "mdi/ChartDonutIcon" */
             "mdi-react/ChartDonutIcon"
         ),
     ),
     "mdi-chart-gantt": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartGanttIcon" */
+            /* webpackChunkName: "mdi/ChartGanttIcon" */
             "mdi-react/ChartGanttIcon"
         ),
     ),
     "mdi-chart-histogram": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartHistogramIcon" */
+            /* webpackChunkName: "mdi/ChartHistogramIcon" */
             "mdi-react/ChartHistogramIcon"
         ),
     ),
     "mdi-chart-line-stacked": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartLineStackedIcon" */
+            /* webpackChunkName: "mdi/ChartLineStackedIcon" */
             "mdi-react/ChartLineStackedIcon"
         ),
     ),
     "mdi-chart-line-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartLineVariantIcon" */
+            /* webpackChunkName: "mdi/ChartLineVariantIcon" */
             "mdi-react/ChartLineVariantIcon"
         ),
     ),
     "mdi-chart-line": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartLineIcon" */
+            /* webpackChunkName: "mdi/ChartLineIcon" */
             "mdi-react/ChartLineIcon"
         ),
     ),
     "mdi-chart-multiline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartMultilineIcon" */
+            /* webpackChunkName: "mdi/ChartMultilineIcon" */
             "mdi-react/ChartMultilineIcon"
         ),
     ),
     "mdi-chart-pie": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartPieIcon" */
+            /* webpackChunkName: "mdi/ChartPieIcon" */
             "mdi-react/ChartPieIcon"
         ),
     ),
     "mdi-chart-scatterplot-hexbin": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartScatterplotHexbinIcon" */
+            /* webpackChunkName: "mdi/ChartScatterplotHexbinIcon" */
             "mdi-react/ChartScatterplotHexbinIcon"
         ),
     ),
     "mdi-chart-timeline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartTimelineIcon" */
+            /* webpackChunkName: "mdi/ChartTimelineIcon" */
             "mdi-react/ChartTimelineIcon"
         ),
     ),
     "mdi-check-all": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckAllIcon" */
+            /* webpackChunkName: "mdi/CheckAllIcon" */
             "mdi-react/CheckAllIcon"
         ),
     ),
     "mdi-check-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/CheckCircleOutlineIcon" */
             "mdi-react/CheckCircleOutlineIcon"
         ),
     ),
     "mdi-check-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckCircleIcon" */
+            /* webpackChunkName: "mdi/CheckCircleIcon" */
             "mdi-react/CheckCircleIcon"
         ),
     ),
     "mdi-check-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckOutlineIcon" */
+            /* webpackChunkName: "mdi/CheckOutlineIcon" */
             "mdi-react/CheckOutlineIcon"
         ),
     ),
     "mdi-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckIcon" */
+            /* webpackChunkName: "mdi/CheckIcon" */
             "mdi-react/CheckIcon"
         ),
     ),
     "mdi-checkbox-blank-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckboxBlankCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/CheckboxBlankCircleOutlineIcon" */
             "mdi-react/CheckboxBlankCircleOutlineIcon"
         ),
     ),
     "mdi-checkbox-blank-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckboxBlankCircleIcon" */
+            /* webpackChunkName: "mdi/CheckboxBlankCircleIcon" */
             "mdi-react/CheckboxBlankCircleIcon"
         ),
     ),
     "mdi-checkbox-blank-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckboxBlankOutlineIcon" */
+            /* webpackChunkName: "mdi/CheckboxBlankOutlineIcon" */
             "mdi-react/CheckboxBlankOutlineIcon"
         ),
     ),
     "mdi-checkbox-blank": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckboxBlankIcon" */
+            /* webpackChunkName: "mdi/CheckboxBlankIcon" */
             "mdi-react/CheckboxBlankIcon"
         ),
     ),
     "mdi-checkbox-intermediate": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckboxIntermediateIcon" */
+            /* webpackChunkName: "mdi/CheckboxIntermediateIcon" */
             "mdi-react/CheckboxIntermediateIcon"
         ),
     ),
     "mdi-checkbox-marked-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckboxMarkedCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/CheckboxMarkedCircleOutlineIcon" */
             "mdi-react/CheckboxMarkedCircleOutlineIcon"
         ),
     ),
     "mdi-checkbox-marked-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckboxMarkedCircleIcon" */
+            /* webpackChunkName: "mdi/CheckboxMarkedCircleIcon" */
             "mdi-react/CheckboxMarkedCircleIcon"
         ),
     ),
     "mdi-checkbox-marked-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckboxMarkedOutlineIcon" */
+            /* webpackChunkName: "mdi/CheckboxMarkedOutlineIcon" */
             "mdi-react/CheckboxMarkedOutlineIcon"
         ),
     ),
     "mdi-checkbox-marked": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckboxMarkedIcon" */
+            /* webpackChunkName: "mdi/CheckboxMarkedIcon" */
             "mdi-react/CheckboxMarkedIcon"
         ),
     ),
     "mdi-checkbox-multiple-blank-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckboxMultipleBlankCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/CheckboxMultipleBlankCircleOutlineIcon" */
             "mdi-react/CheckboxMultipleBlankCircleOutlineIcon"
         ),
     ),
     "mdi-checkbox-multiple-blank-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckboxMultipleBlankCircleIcon" */
+            /* webpackChunkName: "mdi/CheckboxMultipleBlankCircleIcon" */
             "mdi-react/CheckboxMultipleBlankCircleIcon"
         ),
     ),
     "mdi-checkbox-multiple-blank-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckboxMultipleBlankOutlineIcon" */
+            /* webpackChunkName: "mdi/CheckboxMultipleBlankOutlineIcon" */
             "mdi-react/CheckboxMultipleBlankOutlineIcon"
         ),
     ),
     "mdi-checkbox-multiple-blank": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckboxMultipleBlankIcon" */
+            /* webpackChunkName: "mdi/CheckboxMultipleBlankIcon" */
             "mdi-react/CheckboxMultipleBlankIcon"
         ),
     ),
     "mdi-checkbox-multiple-marked-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckboxMultipleMarkedCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/CheckboxMultipleMarkedCircleOutlineIcon" */
             "mdi-react/CheckboxMultipleMarkedCircleOutlineIcon"
         ),
     ),
     "mdi-checkbox-multiple-marked-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckboxMultipleMarkedCircleIcon" */
+            /* webpackChunkName: "mdi/CheckboxMultipleMarkedCircleIcon" */
             "mdi-react/CheckboxMultipleMarkedCircleIcon"
         ),
     ),
     "mdi-checkbox-multiple-marked-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckboxMultipleMarkedOutlineIcon" */
+            /* webpackChunkName: "mdi/CheckboxMultipleMarkedOutlineIcon" */
             "mdi-react/CheckboxMultipleMarkedOutlineIcon"
         ),
     ),
     "mdi-checkbox-multiple-marked": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckboxMultipleMarkedIcon" */
+            /* webpackChunkName: "mdi/CheckboxMultipleMarkedIcon" */
             "mdi-react/CheckboxMultipleMarkedIcon"
         ),
     ),
     "mdi-checkerboard": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckerboardIcon" */
+            /* webpackChunkName: "mdi/CheckerboardIcon" */
             "mdi-react/CheckerboardIcon"
         ),
     ),
     "mdi-chemical-weapon": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChemicalWeaponIcon" */
+            /* webpackChunkName: "mdi/ChemicalWeaponIcon" */
             "mdi-react/ChemicalWeaponIcon"
         ),
     ),
     "mdi-chess-bishop": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChessBishopIcon" */
+            /* webpackChunkName: "mdi/ChessBishopIcon" */
             "mdi-react/ChessBishopIcon"
         ),
     ),
     "mdi-chess-king": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChessKingIcon" */
+            /* webpackChunkName: "mdi/ChessKingIcon" */
             "mdi-react/ChessKingIcon"
         ),
     ),
     "mdi-chess-knight": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChessKnightIcon" */
+            /* webpackChunkName: "mdi/ChessKnightIcon" */
             "mdi-react/ChessKnightIcon"
         ),
     ),
     "mdi-chess-pawn": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChessPawnIcon" */
+            /* webpackChunkName: "mdi/ChessPawnIcon" */
             "mdi-react/ChessPawnIcon"
         ),
     ),
     "mdi-chess-queen": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChessQueenIcon" */
+            /* webpackChunkName: "mdi/ChessQueenIcon" */
             "mdi-react/ChessQueenIcon"
         ),
     ),
     "mdi-chess-rook": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChessRookIcon" */
+            /* webpackChunkName: "mdi/ChessRookIcon" */
             "mdi-react/ChessRookIcon"
         ),
     ),
     "mdi-chevron-double-down": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChevronDoubleDownIcon" */
+            /* webpackChunkName: "mdi/ChevronDoubleDownIcon" */
             "mdi-react/ChevronDoubleDownIcon"
         ),
     ),
     "mdi-chevron-double-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChevronDoubleLeftIcon" */
+            /* webpackChunkName: "mdi/ChevronDoubleLeftIcon" */
             "mdi-react/ChevronDoubleLeftIcon"
         ),
     ),
     "mdi-chevron-double-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChevronDoubleRightIcon" */
+            /* webpackChunkName: "mdi/ChevronDoubleRightIcon" */
             "mdi-react/ChevronDoubleRightIcon"
         ),
     ),
     "mdi-chevron-double-up": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChevronDoubleUpIcon" */
+            /* webpackChunkName: "mdi/ChevronDoubleUpIcon" */
             "mdi-react/ChevronDoubleUpIcon"
         ),
     ),
     "mdi-chevron-down": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChevronDownIcon" */
+            /* webpackChunkName: "mdi/ChevronDownIcon" */
             "mdi-react/ChevronDownIcon"
         ),
     ),
     "mdi-chevron-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChevronLeftIcon" */
+            /* webpackChunkName: "mdi/ChevronLeftIcon" */
             "mdi-react/ChevronLeftIcon"
         ),
     ),
     "mdi-chevron-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChevronRightIcon" */
+            /* webpackChunkName: "mdi/ChevronRightIcon" */
             "mdi-react/ChevronRightIcon"
         ),
     ),
     "mdi-chevron-up": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChevronUpIcon" */
+            /* webpackChunkName: "mdi/ChevronUpIcon" */
             "mdi-react/ChevronUpIcon"
         ),
     ),
     "mdi-chili-hot": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChiliHotIcon" */
+            /* webpackChunkName: "mdi/ChiliHotIcon" */
             "mdi-react/ChiliHotIcon"
         ),
     ),
     "mdi-chili-medium": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChiliMediumIcon" */
+            /* webpackChunkName: "mdi/ChiliMediumIcon" */
             "mdi-react/ChiliMediumIcon"
         ),
     ),
     "mdi-chili-mild": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChiliMildIcon" */
+            /* webpackChunkName: "mdi/ChiliMildIcon" */
             "mdi-react/ChiliMildIcon"
         ),
     ),
     "mdi-chip": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChipIcon" */
+            /* webpackChunkName: "mdi/ChipIcon" */
             "mdi-react/ChipIcon"
         ),
     ),
     "mdi-christiantiy": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChristiantiyIcon" */
+            /* webpackChunkName: "mdi/ChristiantiyIcon" */
             "mdi-react/ChristiantiyIcon"
         ),
     ),
     "mdi-church": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChurchIcon" */
+            /* webpackChunkName: "mdi/ChurchIcon" */
             "mdi-react/ChurchIcon"
         ),
     ),
     "mdi-circle-edit-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CircleEditOutlineIcon" */
+            /* webpackChunkName: "mdi/CircleEditOutlineIcon" */
             "mdi-react/CircleEditOutlineIcon"
         ),
     ),
     "mdi-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CircleOutlineIcon" */
+            /* webpackChunkName: "mdi/CircleOutlineIcon" */
             "mdi-react/CircleOutlineIcon"
         ),
     ),
     "mdi-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "CircleIcon" */
+            /* webpackChunkName: "mdi/CircleIcon" */
             "mdi-react/CircleIcon"
         ),
     ),
     "mdi-cisco-webex": React.lazy(() =>
         import(
-            /* webpackChunkName: "CiscoWebexIcon" */
+            /* webpackChunkName: "mdi/CiscoWebexIcon" */
             "mdi-react/CiscoWebexIcon"
         ),
     ),
     "mdi-city": React.lazy(() =>
         import(
-            /* webpackChunkName: "CityIcon" */
+            /* webpackChunkName: "mdi/CityIcon" */
             "mdi-react/CityIcon"
         ),
     ),
     "mdi-clipboard-account": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClipboardAccountIcon" */
+            /* webpackChunkName: "mdi/ClipboardAccountIcon" */
             "mdi-react/ClipboardAccountIcon"
         ),
     ),
     "mdi-clipboard-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClipboardAlertIcon" */
+            /* webpackChunkName: "mdi/ClipboardAlertIcon" */
             "mdi-react/ClipboardAlertIcon"
         ),
     ),
     "mdi-clipboard-arrow-down": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClipboardArrowDownIcon" */
+            /* webpackChunkName: "mdi/ClipboardArrowDownIcon" */
             "mdi-react/ClipboardArrowDownIcon"
         ),
     ),
     "mdi-clipboard-arrow-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClipboardArrowLeftIcon" */
+            /* webpackChunkName: "mdi/ClipboardArrowLeftIcon" */
             "mdi-react/ClipboardArrowLeftIcon"
         ),
     ),
     "mdi-clipboard-check-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClipboardCheckOutlineIcon" */
+            /* webpackChunkName: "mdi/ClipboardCheckOutlineIcon" */
             "mdi-react/ClipboardCheckOutlineIcon"
         ),
     ),
     "mdi-clipboard-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClipboardCheckIcon" */
+            /* webpackChunkName: "mdi/ClipboardCheckIcon" */
             "mdi-react/ClipboardCheckIcon"
         ),
     ),
     "mdi-clipboard-flow": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClipboardFlowIcon" */
+            /* webpackChunkName: "mdi/ClipboardFlowIcon" */
             "mdi-react/ClipboardFlowIcon"
         ),
     ),
     "mdi-clipboard-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClipboardOutlineIcon" */
+            /* webpackChunkName: "mdi/ClipboardOutlineIcon" */
             "mdi-react/ClipboardOutlineIcon"
         ),
     ),
     "mdi-clipboard-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClipboardPlusIcon" */
+            /* webpackChunkName: "mdi/ClipboardPlusIcon" */
             "mdi-react/ClipboardPlusIcon"
         ),
     ),
     "mdi-clipboard-pulse-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClipboardPulseOutlineIcon" */
+            /* webpackChunkName: "mdi/ClipboardPulseOutlineIcon" */
             "mdi-react/ClipboardPulseOutlineIcon"
         ),
     ),
     "mdi-clipboard-pulse": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClipboardPulseIcon" */
+            /* webpackChunkName: "mdi/ClipboardPulseIcon" */
             "mdi-react/ClipboardPulseIcon"
         ),
     ),
     "mdi-clipboard-text": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClipboardTextIcon" */
+            /* webpackChunkName: "mdi/ClipboardTextIcon" */
             "mdi-react/ClipboardTextIcon"
         ),
     ),
     "mdi-clipboard": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClipboardIcon" */
+            /* webpackChunkName: "mdi/ClipboardIcon" */
             "mdi-react/ClipboardIcon"
         ),
     ),
     "mdi-clippy": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClippyIcon" */
+            /* webpackChunkName: "mdi/ClippyIcon" */
             "mdi-react/ClippyIcon"
         ),
     ),
     "mdi-clock-alert-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClockAlertOutlineIcon" */
+            /* webpackChunkName: "mdi/ClockAlertOutlineIcon" */
             "mdi-react/ClockAlertOutlineIcon"
         ),
     ),
     "mdi-clock-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClockAlertIcon" */
+            /* webpackChunkName: "mdi/ClockAlertIcon" */
             "mdi-react/ClockAlertIcon"
         ),
     ),
     "mdi-clock-end": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClockEndIcon" */
+            /* webpackChunkName: "mdi/ClockEndIcon" */
             "mdi-react/ClockEndIcon"
         ),
     ),
     "mdi-clock-fast": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClockFastIcon" */
+            /* webpackChunkName: "mdi/ClockFastIcon" */
             "mdi-react/ClockFastIcon"
         ),
     ),
     "mdi-clock-in": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClockInIcon" */
+            /* webpackChunkName: "mdi/ClockInIcon" */
             "mdi-react/ClockInIcon"
         ),
     ),
     "mdi-clock-out": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClockOutIcon" */
+            /* webpackChunkName: "mdi/ClockOutIcon" */
             "mdi-react/ClockOutIcon"
         ),
     ),
     "mdi-clock-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClockOutlineIcon" */
+            /* webpackChunkName: "mdi/ClockOutlineIcon" */
             "mdi-react/ClockOutlineIcon"
         ),
     ),
     "mdi-clock-start": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClockStartIcon" */
+            /* webpackChunkName: "mdi/ClockStartIcon" */
             "mdi-react/ClockStartIcon"
         ),
     ),
     "mdi-clock": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClockIcon" */
+            /* webpackChunkName: "mdi/ClockIcon" */
             "mdi-react/ClockIcon"
         ),
     ),
     "mdi-close-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloseBoxOutlineIcon" */
+            /* webpackChunkName: "mdi/CloseBoxOutlineIcon" */
             "mdi-react/CloseBoxOutlineIcon"
         ),
     ),
     "mdi-close-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloseBoxIcon" */
+            /* webpackChunkName: "mdi/CloseBoxIcon" */
             "mdi-react/CloseBoxIcon"
         ),
     ),
     "mdi-close-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloseCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/CloseCircleOutlineIcon" */
             "mdi-react/CloseCircleOutlineIcon"
         ),
     ),
     "mdi-close-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloseCircleIcon" */
+            /* webpackChunkName: "mdi/CloseCircleIcon" */
             "mdi-react/CloseCircleIcon"
         ),
     ),
     "mdi-close-network": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloseNetworkIcon" */
+            /* webpackChunkName: "mdi/CloseNetworkIcon" */
             "mdi-react/CloseNetworkIcon"
         ),
     ),
     "mdi-close-octagon-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloseOctagonOutlineIcon" */
+            /* webpackChunkName: "mdi/CloseOctagonOutlineIcon" */
             "mdi-react/CloseOctagonOutlineIcon"
         ),
     ),
     "mdi-close-octagon": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloseOctagonIcon" */
+            /* webpackChunkName: "mdi/CloseOctagonIcon" */
             "mdi-react/CloseOctagonIcon"
         ),
     ),
     "mdi-close-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloseOutlineIcon" */
+            /* webpackChunkName: "mdi/CloseOutlineIcon" */
             "mdi-react/CloseOutlineIcon"
         ),
     ),
     "mdi-close": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloseIcon" */
+            /* webpackChunkName: "mdi/CloseIcon" */
             "mdi-react/CloseIcon"
         ),
     ),
     "mdi-closed-caption": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClosedCaptionIcon" */
+            /* webpackChunkName: "mdi/ClosedCaptionIcon" */
             "mdi-react/ClosedCaptionIcon"
         ),
     ),
     "mdi-cloud-braces": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloudBracesIcon" */
+            /* webpackChunkName: "mdi/CloudBracesIcon" */
             "mdi-react/CloudBracesIcon"
         ),
     ),
     "mdi-cloud-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloudCheckIcon" */
+            /* webpackChunkName: "mdi/CloudCheckIcon" */
             "mdi-react/CloudCheckIcon"
         ),
     ),
     "mdi-cloud-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloudCircleIcon" */
+            /* webpackChunkName: "mdi/CloudCircleIcon" */
             "mdi-react/CloudCircleIcon"
         ),
     ),
     "mdi-cloud-download": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloudDownloadIcon" */
+            /* webpackChunkName: "mdi/CloudDownloadIcon" */
             "mdi-react/CloudDownloadIcon"
         ),
     ),
     "mdi-cloud-off-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloudOffOutlineIcon" */
+            /* webpackChunkName: "mdi/CloudOffOutlineIcon" */
             "mdi-react/CloudOffOutlineIcon"
         ),
     ),
     "mdi-cloud-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloudOutlineIcon" */
+            /* webpackChunkName: "mdi/CloudOutlineIcon" */
             "mdi-react/CloudOutlineIcon"
         ),
     ),
     "mdi-cloud-print-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloudPrintOutlineIcon" */
+            /* webpackChunkName: "mdi/CloudPrintOutlineIcon" */
             "mdi-react/CloudPrintOutlineIcon"
         ),
     ),
     "mdi-cloud-print": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloudPrintIcon" */
+            /* webpackChunkName: "mdi/CloudPrintIcon" */
             "mdi-react/CloudPrintIcon"
         ),
     ),
     "mdi-cloud-search-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloudSearchOutlineIcon" */
+            /* webpackChunkName: "mdi/CloudSearchOutlineIcon" */
             "mdi-react/CloudSearchOutlineIcon"
         ),
     ),
     "mdi-cloud-search": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloudSearchIcon" */
+            /* webpackChunkName: "mdi/CloudSearchIcon" */
             "mdi-react/CloudSearchIcon"
         ),
     ),
     "mdi-cloud-sync": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloudSyncIcon" */
+            /* webpackChunkName: "mdi/CloudSyncIcon" */
             "mdi-react/CloudSyncIcon"
         ),
     ),
     "mdi-cloud-tags": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloudTagsIcon" */
+            /* webpackChunkName: "mdi/CloudTagsIcon" */
             "mdi-react/CloudTagsIcon"
         ),
     ),
     "mdi-cloud-upload": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloudUploadIcon" */
+            /* webpackChunkName: "mdi/CloudUploadIcon" */
             "mdi-react/CloudUploadIcon"
         ),
     ),
     "mdi-cloud": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloudIcon" */
+            /* webpackChunkName: "mdi/CloudIcon" */
             "mdi-react/CloudIcon"
         ),
     ),
     "mdi-clover": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloverIcon" */
+            /* webpackChunkName: "mdi/CloverIcon" */
             "mdi-react/CloverIcon"
         ),
     ),
     "mdi-code-array": React.lazy(() =>
         import(
-            /* webpackChunkName: "CodeArrayIcon" */
+            /* webpackChunkName: "mdi/CodeArrayIcon" */
             "mdi-react/CodeArrayIcon"
         ),
     ),
     "mdi-code-braces": React.lazy(() =>
         import(
-            /* webpackChunkName: "CodeBracesIcon" */
+            /* webpackChunkName: "mdi/CodeBracesIcon" */
             "mdi-react/CodeBracesIcon"
         ),
     ),
     "mdi-code-brackets": React.lazy(() =>
         import(
-            /* webpackChunkName: "CodeBracketsIcon" */
+            /* webpackChunkName: "mdi/CodeBracketsIcon" */
             "mdi-react/CodeBracketsIcon"
         ),
     ),
     "mdi-code-equal": React.lazy(() =>
         import(
-            /* webpackChunkName: "CodeEqualIcon" */
+            /* webpackChunkName: "mdi/CodeEqualIcon" */
             "mdi-react/CodeEqualIcon"
         ),
     ),
     "mdi-code-greater-than-or-equal": React.lazy(() =>
         import(
-            /* webpackChunkName: "CodeGreaterThanOrEqualIcon" */
+            /* webpackChunkName: "mdi/CodeGreaterThanOrEqualIcon" */
             "mdi-react/CodeGreaterThanOrEqualIcon"
         ),
     ),
     "mdi-code-greater-than": React.lazy(() =>
         import(
-            /* webpackChunkName: "CodeGreaterThanIcon" */
+            /* webpackChunkName: "mdi/CodeGreaterThanIcon" */
             "mdi-react/CodeGreaterThanIcon"
         ),
     ),
     "mdi-code-less-than-or-equal": React.lazy(() =>
         import(
-            /* webpackChunkName: "CodeLessThanOrEqualIcon" */
+            /* webpackChunkName: "mdi/CodeLessThanOrEqualIcon" */
             "mdi-react/CodeLessThanOrEqualIcon"
         ),
     ),
     "mdi-code-less-than": React.lazy(() =>
         import(
-            /* webpackChunkName: "CodeLessThanIcon" */
+            /* webpackChunkName: "mdi/CodeLessThanIcon" */
             "mdi-react/CodeLessThanIcon"
         ),
     ),
     "mdi-code-not-equal-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "CodeNotEqualVariantIcon" */
+            /* webpackChunkName: "mdi/CodeNotEqualVariantIcon" */
             "mdi-react/CodeNotEqualVariantIcon"
         ),
     ),
     "mdi-code-not-equal": React.lazy(() =>
         import(
-            /* webpackChunkName: "CodeNotEqualIcon" */
+            /* webpackChunkName: "mdi/CodeNotEqualIcon" */
             "mdi-react/CodeNotEqualIcon"
         ),
     ),
     "mdi-code-parentheses": React.lazy(() =>
         import(
-            /* webpackChunkName: "CodeParenthesesIcon" */
+            /* webpackChunkName: "mdi/CodeParenthesesIcon" */
             "mdi-react/CodeParenthesesIcon"
         ),
     ),
     "mdi-code-string": React.lazy(() =>
         import(
-            /* webpackChunkName: "CodeStringIcon" */
+            /* webpackChunkName: "mdi/CodeStringIcon" */
             "mdi-react/CodeStringIcon"
         ),
     ),
     "mdi-code-tags-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "CodeTagsCheckIcon" */
+            /* webpackChunkName: "mdi/CodeTagsCheckIcon" */
             "mdi-react/CodeTagsCheckIcon"
         ),
     ),
     "mdi-code-tags": React.lazy(() =>
         import(
-            /* webpackChunkName: "CodeTagsIcon" */
+            /* webpackChunkName: "mdi/CodeTagsIcon" */
             "mdi-react/CodeTagsIcon"
         ),
     ),
     "mdi-codepen": React.lazy(() =>
         import(
-            /* webpackChunkName: "CodepenIcon" */
+            /* webpackChunkName: "mdi/CodepenIcon" */
             "mdi-react/CodepenIcon"
         ),
     ),
     "mdi-coffee-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CoffeeOutlineIcon" */
+            /* webpackChunkName: "mdi/CoffeeOutlineIcon" */
             "mdi-react/CoffeeOutlineIcon"
         ),
     ),
     "mdi-coffee-to-go": React.lazy(() =>
         import(
-            /* webpackChunkName: "CoffeeToGoIcon" */
+            /* webpackChunkName: "mdi/CoffeeToGoIcon" */
             "mdi-react/CoffeeToGoIcon"
         ),
     ),
     "mdi-coffee": React.lazy(() =>
         import(
-            /* webpackChunkName: "CoffeeIcon" */
+            /* webpackChunkName: "mdi/CoffeeIcon" */
             "mdi-react/CoffeeIcon"
         ),
     ),
     "mdi-cogs": React.lazy(() =>
         import(
-            /* webpackChunkName: "CogsIcon" */
+            /* webpackChunkName: "mdi/CogsIcon" */
             "mdi-react/CogsIcon"
         ),
     ),
     "mdi-coin": React.lazy(() =>
         import(
-            /* webpackChunkName: "CoinIcon" */
+            /* webpackChunkName: "mdi/CoinIcon" */
             "mdi-react/CoinIcon"
         ),
     ),
     "mdi-coins": React.lazy(() =>
         import(
-            /* webpackChunkName: "CoinsIcon" */
+            /* webpackChunkName: "mdi/CoinsIcon" */
             "mdi-react/CoinsIcon"
         ),
     ),
     "mdi-collage": React.lazy(() =>
         import(
-            /* webpackChunkName: "CollageIcon" */
+            /* webpackChunkName: "mdi/CollageIcon" */
             "mdi-react/CollageIcon"
         ),
     ),
     "mdi-color-helper": React.lazy(() =>
         import(
-            /* webpackChunkName: "ColorHelperIcon" */
+            /* webpackChunkName: "mdi/ColorHelperIcon" */
             "mdi-react/ColorHelperIcon"
         ),
     ),
     "mdi-comment-account-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentAccountOutlineIcon" */
+            /* webpackChunkName: "mdi/CommentAccountOutlineIcon" */
             "mdi-react/CommentAccountOutlineIcon"
         ),
     ),
     "mdi-comment-account": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentAccountIcon" */
+            /* webpackChunkName: "mdi/CommentAccountIcon" */
             "mdi-react/CommentAccountIcon"
         ),
     ),
     "mdi-comment-alert-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentAlertOutlineIcon" */
+            /* webpackChunkName: "mdi/CommentAlertOutlineIcon" */
             "mdi-react/CommentAlertOutlineIcon"
         ),
     ),
     "mdi-comment-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentAlertIcon" */
+            /* webpackChunkName: "mdi/CommentAlertIcon" */
             "mdi-react/CommentAlertIcon"
         ),
     ),
     "mdi-comment-check-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentCheckOutlineIcon" */
+            /* webpackChunkName: "mdi/CommentCheckOutlineIcon" */
             "mdi-react/CommentCheckOutlineIcon"
         ),
     ),
     "mdi-comment-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentCheckIcon" */
+            /* webpackChunkName: "mdi/CommentCheckIcon" */
             "mdi-react/CommentCheckIcon"
         ),
     ),
     "mdi-comment-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/CommentMultipleOutlineIcon" */
             "mdi-react/CommentMultipleOutlineIcon"
         ),
     ),
     "mdi-comment-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentMultipleIcon" */
+            /* webpackChunkName: "mdi/CommentMultipleIcon" */
             "mdi-react/CommentMultipleIcon"
         ),
     ),
     "mdi-comment-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentOutlineIcon" */
+            /* webpackChunkName: "mdi/CommentOutlineIcon" */
             "mdi-react/CommentOutlineIcon"
         ),
     ),
     "mdi-comment-plus-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentPlusOutlineIcon" */
+            /* webpackChunkName: "mdi/CommentPlusOutlineIcon" */
             "mdi-react/CommentPlusOutlineIcon"
         ),
     ),
     "mdi-comment-processing-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentProcessingOutlineIcon" */
+            /* webpackChunkName: "mdi/CommentProcessingOutlineIcon" */
             "mdi-react/CommentProcessingOutlineIcon"
         ),
     ),
     "mdi-comment-processing": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentProcessingIcon" */
+            /* webpackChunkName: "mdi/CommentProcessingIcon" */
             "mdi-react/CommentProcessingIcon"
         ),
     ),
     "mdi-comment-question-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentQuestionOutlineIcon" */
+            /* webpackChunkName: "mdi/CommentQuestionOutlineIcon" */
             "mdi-react/CommentQuestionOutlineIcon"
         ),
     ),
     "mdi-comment-question": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentQuestionIcon" */
+            /* webpackChunkName: "mdi/CommentQuestionIcon" */
             "mdi-react/CommentQuestionIcon"
         ),
     ),
     "mdi-comment-remove-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentRemoveOutlineIcon" */
+            /* webpackChunkName: "mdi/CommentRemoveOutlineIcon" */
             "mdi-react/CommentRemoveOutlineIcon"
         ),
     ),
     "mdi-comment-remove": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentRemoveIcon" */
+            /* webpackChunkName: "mdi/CommentRemoveIcon" */
             "mdi-react/CommentRemoveIcon"
         ),
     ),
     "mdi-comment-text-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentTextMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/CommentTextMultipleOutlineIcon" */
             "mdi-react/CommentTextMultipleOutlineIcon"
         ),
     ),
     "mdi-comment-text-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentTextMultipleIcon" */
+            /* webpackChunkName: "mdi/CommentTextMultipleIcon" */
             "mdi-react/CommentTextMultipleIcon"
         ),
     ),
     "mdi-comment-text-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentTextOutlineIcon" */
+            /* webpackChunkName: "mdi/CommentTextOutlineIcon" */
             "mdi-react/CommentTextOutlineIcon"
         ),
     ),
     "mdi-comment-text": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentTextIcon" */
+            /* webpackChunkName: "mdi/CommentTextIcon" */
             "mdi-react/CommentTextIcon"
         ),
     ),
     "mdi-comment": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentIcon" */
+            /* webpackChunkName: "mdi/CommentIcon" */
             "mdi-react/CommentIcon"
         ),
     ),
     "mdi-compare": React.lazy(() =>
         import(
-            /* webpackChunkName: "CompareIcon" */
+            /* webpackChunkName: "mdi/CompareIcon" */
             "mdi-react/CompareIcon"
         ),
     ),
     "mdi-compass-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CompassOutlineIcon" */
+            /* webpackChunkName: "mdi/CompassOutlineIcon" */
             "mdi-react/CompassOutlineIcon"
         ),
     ),
     "mdi-compass": React.lazy(() =>
         import(
-            /* webpackChunkName: "CompassIcon" */
+            /* webpackChunkName: "mdi/CompassIcon" */
             "mdi-react/CompassIcon"
         ),
     ),
     "mdi-console-line": React.lazy(() =>
         import(
-            /* webpackChunkName: "ConsoleLineIcon" */
+            /* webpackChunkName: "mdi/ConsoleLineIcon" */
             "mdi-react/ConsoleLineIcon"
         ),
     ),
     "mdi-console-network": React.lazy(() =>
         import(
-            /* webpackChunkName: "ConsoleNetworkIcon" */
+            /* webpackChunkName: "mdi/ConsoleNetworkIcon" */
             "mdi-react/ConsoleNetworkIcon"
         ),
     ),
     "mdi-console": React.lazy(() =>
         import(
-            /* webpackChunkName: "ConsoleIcon" */
+            /* webpackChunkName: "mdi/ConsoleIcon" */
             "mdi-react/ConsoleIcon"
         ),
     ),
     "mdi-contact-mail": React.lazy(() =>
         import(
-            /* webpackChunkName: "ContactMailIcon" */
+            /* webpackChunkName: "mdi/ContactMailIcon" */
             "mdi-react/ContactMailIcon"
         ),
     ),
     "mdi-contacts": React.lazy(() =>
         import(
-            /* webpackChunkName: "ContactsIcon" */
+            /* webpackChunkName: "mdi/ContactsIcon" */
             "mdi-react/ContactsIcon"
         ),
     ),
     "mdi-content-copy": React.lazy(() =>
         import(
-            /* webpackChunkName: "ContentCopyIcon" */
+            /* webpackChunkName: "mdi/ContentCopyIcon" */
             "mdi-react/ContentCopyIcon"
         ),
     ),
     "mdi-content-cut": React.lazy(() =>
         import(
-            /* webpackChunkName: "ContentCutIcon" */
+            /* webpackChunkName: "mdi/ContentCutIcon" */
             "mdi-react/ContentCutIcon"
         ),
     ),
     "mdi-content-duplicate": React.lazy(() =>
         import(
-            /* webpackChunkName: "ContentDuplicateIcon" */
+            /* webpackChunkName: "mdi/ContentDuplicateIcon" */
             "mdi-react/ContentDuplicateIcon"
         ),
     ),
     "mdi-content-paste": React.lazy(() =>
         import(
-            /* webpackChunkName: "ContentPasteIcon" */
+            /* webpackChunkName: "mdi/ContentPasteIcon" */
             "mdi-react/ContentPasteIcon"
         ),
     ),
     "mdi-content-save-all": React.lazy(() =>
         import(
-            /* webpackChunkName: "ContentSaveAllIcon" */
+            /* webpackChunkName: "mdi/ContentSaveAllIcon" */
             "mdi-react/ContentSaveAllIcon"
         ),
     ),
     "mdi-content-save-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ContentSaveOutlineIcon" */
+            /* webpackChunkName: "mdi/ContentSaveOutlineIcon" */
             "mdi-react/ContentSaveOutlineIcon"
         ),
     ),
     "mdi-content-save-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "ContentSaveSettingsIcon" */
+            /* webpackChunkName: "mdi/ContentSaveSettingsIcon" */
             "mdi-react/ContentSaveSettingsIcon"
         ),
     ),
     "mdi-content-save": React.lazy(() =>
         import(
-            /* webpackChunkName: "ContentSaveIcon" */
+            /* webpackChunkName: "mdi/ContentSaveIcon" */
             "mdi-react/ContentSaveIcon"
         ),
     ),
     "mdi-contrast-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "ContrastBoxIcon" */
+            /* webpackChunkName: "mdi/ContrastBoxIcon" */
             "mdi-react/ContrastBoxIcon"
         ),
     ),
     "mdi-contrast-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "ContrastCircleIcon" */
+            /* webpackChunkName: "mdi/ContrastCircleIcon" */
             "mdi-react/ContrastCircleIcon"
         ),
     ),
     "mdi-contrast": React.lazy(() =>
         import(
-            /* webpackChunkName: "ContrastIcon" */
+            /* webpackChunkName: "mdi/ContrastIcon" */
             "mdi-react/ContrastIcon"
         ),
     ),
     "mdi-cookie": React.lazy(() =>
         import(
-            /* webpackChunkName: "CookieIcon" */
+            /* webpackChunkName: "mdi/CookieIcon" */
             "mdi-react/CookieIcon"
         ),
     ),
     "mdi-copyright": React.lazy(() =>
         import(
-            /* webpackChunkName: "CopyrightIcon" */
+            /* webpackChunkName: "mdi/CopyrightIcon" */
             "mdi-react/CopyrightIcon"
         ),
     ),
     "mdi-cordova": React.lazy(() =>
         import(
-            /* webpackChunkName: "CordovaIcon" */
+            /* webpackChunkName: "mdi/CordovaIcon" */
             "mdi-react/CordovaIcon"
         ),
     ),
     "mdi-corn": React.lazy(() =>
         import(
-            /* webpackChunkName: "CornIcon" */
+            /* webpackChunkName: "mdi/CornIcon" */
             "mdi-react/CornIcon"
         ),
     ),
     "mdi-counter": React.lazy(() =>
         import(
-            /* webpackChunkName: "CounterIcon" */
+            /* webpackChunkName: "mdi/CounterIcon" */
             "mdi-react/CounterIcon"
         ),
     ),
     "mdi-cow": React.lazy(() =>
         import(
-            /* webpackChunkName: "CowIcon" */
+            /* webpackChunkName: "mdi/CowIcon" */
             "mdi-react/CowIcon"
         ),
     ),
     "mdi-crane": React.lazy(() =>
         import(
-            /* webpackChunkName: "CraneIcon" */
+            /* webpackChunkName: "mdi/CraneIcon" */
             "mdi-react/CraneIcon"
         ),
     ),
     "mdi-creation": React.lazy(() =>
         import(
-            /* webpackChunkName: "CreationIcon" */
+            /* webpackChunkName: "mdi/CreationIcon" */
             "mdi-react/CreationIcon"
         ),
     ),
     "mdi-credit-card-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "CreditCardMultipleIcon" */
+            /* webpackChunkName: "mdi/CreditCardMultipleIcon" */
             "mdi-react/CreditCardMultipleIcon"
         ),
     ),
     "mdi-credit-card-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "CreditCardOffIcon" */
+            /* webpackChunkName: "mdi/CreditCardOffIcon" */
             "mdi-react/CreditCardOffIcon"
         ),
     ),
     "mdi-credit-card-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "CreditCardPlusIcon" */
+            /* webpackChunkName: "mdi/CreditCardPlusIcon" */
             "mdi-react/CreditCardPlusIcon"
         ),
     ),
     "mdi-credit-card-scan": React.lazy(() =>
         import(
-            /* webpackChunkName: "CreditCardScanIcon" */
+            /* webpackChunkName: "mdi/CreditCardScanIcon" */
             "mdi-react/CreditCardScanIcon"
         ),
     ),
     "mdi-credit-card-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "CreditCardSettingsIcon" */
+            /* webpackChunkName: "mdi/CreditCardSettingsIcon" */
             "mdi-react/CreditCardSettingsIcon"
         ),
     ),
     "mdi-credit-card": React.lazy(() =>
         import(
-            /* webpackChunkName: "CreditCardIcon" */
+            /* webpackChunkName: "mdi/CreditCardIcon" */
             "mdi-react/CreditCardIcon"
         ),
     ),
     "mdi-crop-free": React.lazy(() =>
         import(
-            /* webpackChunkName: "CropFreeIcon" */
+            /* webpackChunkName: "mdi/CropFreeIcon" */
             "mdi-react/CropFreeIcon"
         ),
     ),
     "mdi-crop-landscape": React.lazy(() =>
         import(
-            /* webpackChunkName: "CropLandscapeIcon" */
+            /* webpackChunkName: "mdi/CropLandscapeIcon" */
             "mdi-react/CropLandscapeIcon"
         ),
     ),
     "mdi-crop-portrait": React.lazy(() =>
         import(
-            /* webpackChunkName: "CropPortraitIcon" */
+            /* webpackChunkName: "mdi/CropPortraitIcon" */
             "mdi-react/CropPortraitIcon"
         ),
     ),
     "mdi-crop-rotate": React.lazy(() =>
         import(
-            /* webpackChunkName: "CropRotateIcon" */
+            /* webpackChunkName: "mdi/CropRotateIcon" */
             "mdi-react/CropRotateIcon"
         ),
     ),
     "mdi-crop-square": React.lazy(() =>
         import(
-            /* webpackChunkName: "CropSquareIcon" */
+            /* webpackChunkName: "mdi/CropSquareIcon" */
             "mdi-react/CropSquareIcon"
         ),
     ),
     "mdi-crop": React.lazy(() =>
         import(
-            /* webpackChunkName: "CropIcon" */
+            /* webpackChunkName: "mdi/CropIcon" */
             "mdi-react/CropIcon"
         ),
     ),
     "mdi-crosshairs-gps": React.lazy(() =>
         import(
-            /* webpackChunkName: "CrosshairsGpsIcon" */
+            /* webpackChunkName: "mdi/CrosshairsGpsIcon" */
             "mdi-react/CrosshairsGpsIcon"
         ),
     ),
     "mdi-crosshairs": React.lazy(() =>
         import(
-            /* webpackChunkName: "CrosshairsIcon" */
+            /* webpackChunkName: "mdi/CrosshairsIcon" */
             "mdi-react/CrosshairsIcon"
         ),
     ),
     "mdi-crown": React.lazy(() =>
         import(
-            /* webpackChunkName: "CrownIcon" */
+            /* webpackChunkName: "mdi/CrownIcon" */
             "mdi-react/CrownIcon"
         ),
     ),
     "mdi-cryengine": React.lazy(() =>
         import(
-            /* webpackChunkName: "CryengineIcon" */
+            /* webpackChunkName: "mdi/CryengineIcon" */
             "mdi-react/CryengineIcon"
         ),
     ),
     "mdi-cube-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CubeOutlineIcon" */
+            /* webpackChunkName: "mdi/CubeOutlineIcon" */
             "mdi-react/CubeOutlineIcon"
         ),
     ),
     "mdi-cube-send": React.lazy(() =>
         import(
-            /* webpackChunkName: "CubeSendIcon" */
+            /* webpackChunkName: "mdi/CubeSendIcon" */
             "mdi-react/CubeSendIcon"
         ),
     ),
     "mdi-cube-unfolded": React.lazy(() =>
         import(
-            /* webpackChunkName: "CubeUnfoldedIcon" */
+            /* webpackChunkName: "mdi/CubeUnfoldedIcon" */
             "mdi-react/CubeUnfoldedIcon"
         ),
     ),
     "mdi-cube": React.lazy(() =>
         import(
-            /* webpackChunkName: "CubeIcon" */
+            /* webpackChunkName: "mdi/CubeIcon" */
             "mdi-react/CubeIcon"
         ),
     ),
     "mdi-cup-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "CupOffIcon" */
+            /* webpackChunkName: "mdi/CupOffIcon" */
             "mdi-react/CupOffIcon"
         ),
     ),
     "mdi-cup-water": React.lazy(() =>
         import(
-            /* webpackChunkName: "CupWaterIcon" */
+            /* webpackChunkName: "mdi/CupWaterIcon" */
             "mdi-react/CupWaterIcon"
         ),
     ),
     "mdi-cup": React.lazy(() =>
         import(
-            /* webpackChunkName: "CupIcon" */
+            /* webpackChunkName: "mdi/CupIcon" */
             "mdi-react/CupIcon"
         ),
     ),
     "mdi-cupcake": React.lazy(() =>
         import(
-            /* webpackChunkName: "CupcakeIcon" */
+            /* webpackChunkName: "mdi/CupcakeIcon" */
             "mdi-react/CupcakeIcon"
         ),
     ),
     "mdi-curling": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurlingIcon" */
+            /* webpackChunkName: "mdi/CurlingIcon" */
             "mdi-react/CurlingIcon"
         ),
     ),
     "mdi-currency-bdt": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencyBdtIcon" */
+            /* webpackChunkName: "mdi/CurrencyBdtIcon" */
             "mdi-react/CurrencyBdtIcon"
         ),
     ),
     "mdi-currency-btc": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencyBtcIcon" */
+            /* webpackChunkName: "mdi/CurrencyBtcIcon" */
             "mdi-react/CurrencyBtcIcon"
         ),
     ),
     "mdi-currency-chf": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencyChfIcon" */
+            /* webpackChunkName: "mdi/CurrencyChfIcon" */
             "mdi-react/CurrencyChfIcon"
         ),
     ),
     "mdi-currency-cny": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencyCnyIcon" */
+            /* webpackChunkName: "mdi/CurrencyCnyIcon" */
             "mdi-react/CurrencyCnyIcon"
         ),
     ),
     "mdi-currency-eth": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencyEthIcon" */
+            /* webpackChunkName: "mdi/CurrencyEthIcon" */
             "mdi-react/CurrencyEthIcon"
         ),
     ),
     "mdi-currency-eur": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencyEurIcon" */
+            /* webpackChunkName: "mdi/CurrencyEurIcon" */
             "mdi-react/CurrencyEurIcon"
         ),
     ),
     "mdi-currency-gbp": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencyGbpIcon" */
+            /* webpackChunkName: "mdi/CurrencyGbpIcon" */
             "mdi-react/CurrencyGbpIcon"
         ),
     ),
     "mdi-currency-inr": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencyInrIcon" */
+            /* webpackChunkName: "mdi/CurrencyInrIcon" */
             "mdi-react/CurrencyInrIcon"
         ),
     ),
     "mdi-currency-jpy": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencyJpyIcon" */
+            /* webpackChunkName: "mdi/CurrencyJpyIcon" */
             "mdi-react/CurrencyJpyIcon"
         ),
     ),
     "mdi-currency-krw": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencyKrwIcon" */
+            /* webpackChunkName: "mdi/CurrencyKrwIcon" */
             "mdi-react/CurrencyKrwIcon"
         ),
     ),
     "mdi-currency-kzt": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencyKztIcon" */
+            /* webpackChunkName: "mdi/CurrencyKztIcon" */
             "mdi-react/CurrencyKztIcon"
         ),
     ),
     "mdi-currency-ngn": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencyNgnIcon" */
+            /* webpackChunkName: "mdi/CurrencyNgnIcon" */
             "mdi-react/CurrencyNgnIcon"
         ),
     ),
     "mdi-currency-rub": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencyRubIcon" */
+            /* webpackChunkName: "mdi/CurrencyRubIcon" */
             "mdi-react/CurrencyRubIcon"
         ),
     ),
     "mdi-currency-sign": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencySignIcon" */
+            /* webpackChunkName: "mdi/CurrencySignIcon" */
             "mdi-react/CurrencySignIcon"
         ),
     ),
     "mdi-currency-try": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencyTryIcon" */
+            /* webpackChunkName: "mdi/CurrencyTryIcon" */
             "mdi-react/CurrencyTryIcon"
         ),
     ),
     "mdi-currency-twd": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencyTwdIcon" */
+            /* webpackChunkName: "mdi/CurrencyTwdIcon" */
             "mdi-react/CurrencyTwdIcon"
         ),
     ),
     "mdi-currency-usd-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencyUsdOffIcon" */
+            /* webpackChunkName: "mdi/CurrencyUsdOffIcon" */
             "mdi-react/CurrencyUsdOffIcon"
         ),
     ),
     "mdi-currency-usd": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencyUsdIcon" */
+            /* webpackChunkName: "mdi/CurrencyUsdIcon" */
             "mdi-react/CurrencyUsdIcon"
         ),
     ),
     "mdi-current-ac": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrentAcIcon" */
+            /* webpackChunkName: "mdi/CurrentAcIcon" */
             "mdi-react/CurrentAcIcon"
         ),
     ),
     "mdi-current-dc": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrentDcIcon" */
+            /* webpackChunkName: "mdi/CurrentDcIcon" */
             "mdi-react/CurrentDcIcon"
         ),
     ),
     "mdi-cursor-default-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CursorDefaultOutlineIcon" */
+            /* webpackChunkName: "mdi/CursorDefaultOutlineIcon" */
             "mdi-react/CursorDefaultOutlineIcon"
         ),
     ),
     "mdi-cursor-default": React.lazy(() =>
         import(
-            /* webpackChunkName: "CursorDefaultIcon" */
+            /* webpackChunkName: "mdi/CursorDefaultIcon" */
             "mdi-react/CursorDefaultIcon"
         ),
     ),
     "mdi-cursor-move": React.lazy(() =>
         import(
-            /* webpackChunkName: "CursorMoveIcon" */
+            /* webpackChunkName: "mdi/CursorMoveIcon" */
             "mdi-react/CursorMoveIcon"
         ),
     ),
     "mdi-cursor-pointer": React.lazy(() =>
         import(
-            /* webpackChunkName: "CursorPointerIcon" */
+            /* webpackChunkName: "mdi/CursorPointerIcon" */
             "mdi-react/CursorPointerIcon"
         ),
     ),
     "mdi-cursor-text": React.lazy(() =>
         import(
-            /* webpackChunkName: "CursorTextIcon" */
+            /* webpackChunkName: "mdi/CursorTextIcon" */
             "mdi-react/CursorTextIcon"
         ),
     ),
     "mdi-database-export": React.lazy(() =>
         import(
-            /* webpackChunkName: "DatabaseExportIcon" */
+            /* webpackChunkName: "mdi/DatabaseExportIcon" */
             "mdi-react/DatabaseExportIcon"
         ),
     ),
     "mdi-database-import": React.lazy(() =>
         import(
-            /* webpackChunkName: "DatabaseImportIcon" */
+            /* webpackChunkName: "mdi/DatabaseImportIcon" */
             "mdi-react/DatabaseImportIcon"
         ),
     ),
     "mdi-database-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "DatabaseMinusIcon" */
+            /* webpackChunkName: "mdi/DatabaseMinusIcon" */
             "mdi-react/DatabaseMinusIcon"
         ),
     ),
     "mdi-database-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "DatabasePlusIcon" */
+            /* webpackChunkName: "mdi/DatabasePlusIcon" */
             "mdi-react/DatabasePlusIcon"
         ),
     ),
     "mdi-database-search": React.lazy(() =>
         import(
-            /* webpackChunkName: "DatabaseSearchIcon" */
+            /* webpackChunkName: "mdi/DatabaseSearchIcon" */
             "mdi-react/DatabaseSearchIcon"
         ),
     ),
     "mdi-database": React.lazy(() =>
         import(
-            /* webpackChunkName: "DatabaseIcon" */
+            /* webpackChunkName: "mdi/DatabaseIcon" */
             "mdi-react/DatabaseIcon"
         ),
     ),
     "mdi-death-star-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "DeathStarVariantIcon" */
+            /* webpackChunkName: "mdi/DeathStarVariantIcon" */
             "mdi-react/DeathStarVariantIcon"
         ),
     ),
     "mdi-death-star": React.lazy(() =>
         import(
-            /* webpackChunkName: "DeathStarIcon" */
+            /* webpackChunkName: "mdi/DeathStarIcon" */
             "mdi-react/DeathStarIcon"
         ),
     ),
     "mdi-debian": React.lazy(() =>
         import(
-            /* webpackChunkName: "DebianIcon" */
+            /* webpackChunkName: "mdi/DebianIcon" */
             "mdi-react/DebianIcon"
         ),
     ),
     "mdi-debug-step-into": React.lazy(() =>
         import(
-            /* webpackChunkName: "DebugStepIntoIcon" */
+            /* webpackChunkName: "mdi/DebugStepIntoIcon" */
             "mdi-react/DebugStepIntoIcon"
         ),
     ),
     "mdi-debug-step-out": React.lazy(() =>
         import(
-            /* webpackChunkName: "DebugStepOutIcon" */
+            /* webpackChunkName: "mdi/DebugStepOutIcon" */
             "mdi-react/DebugStepOutIcon"
         ),
     ),
     "mdi-debug-step-over": React.lazy(() =>
         import(
-            /* webpackChunkName: "DebugStepOverIcon" */
+            /* webpackChunkName: "mdi/DebugStepOverIcon" */
             "mdi-react/DebugStepOverIcon"
         ),
     ),
     "mdi-decagram-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "DecagramOutlineIcon" */
+            /* webpackChunkName: "mdi/DecagramOutlineIcon" */
             "mdi-react/DecagramOutlineIcon"
         ),
     ),
     "mdi-decagram": React.lazy(() =>
         import(
-            /* webpackChunkName: "DecagramIcon" */
+            /* webpackChunkName: "mdi/DecagramIcon" */
             "mdi-react/DecagramIcon"
         ),
     ),
     "mdi-decimal-decrease": React.lazy(() =>
         import(
-            /* webpackChunkName: "DecimalDecreaseIcon" */
+            /* webpackChunkName: "mdi/DecimalDecreaseIcon" */
             "mdi-react/DecimalDecreaseIcon"
         ),
     ),
     "mdi-decimal-increase": React.lazy(() =>
         import(
-            /* webpackChunkName: "DecimalIncreaseIcon" */
+            /* webpackChunkName: "mdi/DecimalIncreaseIcon" */
             "mdi-react/DecimalIncreaseIcon"
         ),
     ),
     "mdi-delete-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "DeleteCircleIcon" */
+            /* webpackChunkName: "mdi/DeleteCircleIcon" */
             "mdi-react/DeleteCircleIcon"
         ),
     ),
     "mdi-delete-empty": React.lazy(() =>
         import(
-            /* webpackChunkName: "DeleteEmptyIcon" */
+            /* webpackChunkName: "mdi/DeleteEmptyIcon" */
             "mdi-react/DeleteEmptyIcon"
         ),
     ),
     "mdi-delete-forever": React.lazy(() =>
         import(
-            /* webpackChunkName: "DeleteForeverIcon" */
+            /* webpackChunkName: "mdi/DeleteForeverIcon" */
             "mdi-react/DeleteForeverIcon"
         ),
     ),
     "mdi-delete-restore": React.lazy(() =>
         import(
-            /* webpackChunkName: "DeleteRestoreIcon" */
+            /* webpackChunkName: "mdi/DeleteRestoreIcon" */
             "mdi-react/DeleteRestoreIcon"
         ),
     ),
     "mdi-delete-sweep": React.lazy(() =>
         import(
-            /* webpackChunkName: "DeleteSweepIcon" */
+            /* webpackChunkName: "mdi/DeleteSweepIcon" */
             "mdi-react/DeleteSweepIcon"
         ),
     ),
     "mdi-delete-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "DeleteVariantIcon" */
+            /* webpackChunkName: "mdi/DeleteVariantIcon" */
             "mdi-react/DeleteVariantIcon"
         ),
     ),
     "mdi-delete": React.lazy(() =>
         import(
-            /* webpackChunkName: "DeleteIcon" */
+            /* webpackChunkName: "mdi/DeleteIcon" */
             "mdi-react/DeleteIcon"
         ),
     ),
     "mdi-delta": React.lazy(() =>
         import(
-            /* webpackChunkName: "DeltaIcon" */
+            /* webpackChunkName: "mdi/DeltaIcon" */
             "mdi-react/DeltaIcon"
         ),
     ),
     "mdi-desk-lamp": React.lazy(() =>
         import(
-            /* webpackChunkName: "DeskLampIcon" */
+            /* webpackChunkName: "mdi/DeskLampIcon" */
             "mdi-react/DeskLampIcon"
         ),
     ),
     "mdi-deskphone": React.lazy(() =>
         import(
-            /* webpackChunkName: "DeskphoneIcon" */
+            /* webpackChunkName: "mdi/DeskphoneIcon" */
             "mdi-react/DeskphoneIcon"
         ),
     ),
     "mdi-desktop-classic": React.lazy(() =>
         import(
-            /* webpackChunkName: "DesktopClassicIcon" */
+            /* webpackChunkName: "mdi/DesktopClassicIcon" */
             "mdi-react/DesktopClassicIcon"
         ),
     ),
     "mdi-desktop-mac": React.lazy(() =>
         import(
-            /* webpackChunkName: "DesktopMacIcon" */
+            /* webpackChunkName: "mdi/DesktopMacIcon" */
             "mdi-react/DesktopMacIcon"
         ),
     ),
     "mdi-desktop-tower": React.lazy(() =>
         import(
-            /* webpackChunkName: "DesktopTowerIcon" */
+            /* webpackChunkName: "mdi/DesktopTowerIcon" */
             "mdi-react/DesktopTowerIcon"
         ),
     ),
     "mdi-details": React.lazy(() =>
         import(
-            /* webpackChunkName: "DetailsIcon" */
+            /* webpackChunkName: "mdi/DetailsIcon" */
             "mdi-react/DetailsIcon"
         ),
     ),
     "mdi-developer-board": React.lazy(() =>
         import(
-            /* webpackChunkName: "DeveloperBoardIcon" */
+            /* webpackChunkName: "mdi/DeveloperBoardIcon" */
             "mdi-react/DeveloperBoardIcon"
         ),
     ),
     "mdi-deviantart": React.lazy(() =>
         import(
-            /* webpackChunkName: "DeviantartIcon" */
+            /* webpackChunkName: "mdi/DeviantartIcon" */
             "mdi-react/DeviantartIcon"
         ),
     ),
     "mdi-dialpad": React.lazy(() =>
         import(
-            /* webpackChunkName: "DialpadIcon" */
+            /* webpackChunkName: "mdi/DialpadIcon" */
             "mdi-react/DialpadIcon"
         ),
     ),
     "mdi-diamond": React.lazy(() =>
         import(
-            /* webpackChunkName: "DiamondIcon" */
+            /* webpackChunkName: "mdi/DiamondIcon" */
             "mdi-react/DiamondIcon"
         ),
     ),
     "mdi-dice-1": React.lazy(() =>
         import(
-            /* webpackChunkName: "Dice1Icon" */
+            /* webpackChunkName: "mdi/Dice1Icon" */
             "mdi-react/Dice1Icon"
         ),
     ),
     "mdi-dice-2": React.lazy(() =>
         import(
-            /* webpackChunkName: "Dice2Icon" */
+            /* webpackChunkName: "mdi/Dice2Icon" */
             "mdi-react/Dice2Icon"
         ),
     ),
     "mdi-dice-3": React.lazy(() =>
         import(
-            /* webpackChunkName: "Dice3Icon" */
+            /* webpackChunkName: "mdi/Dice3Icon" */
             "mdi-react/Dice3Icon"
         ),
     ),
     "mdi-dice-4": React.lazy(() =>
         import(
-            /* webpackChunkName: "Dice4Icon" */
+            /* webpackChunkName: "mdi/Dice4Icon" */
             "mdi-react/Dice4Icon"
         ),
     ),
     "mdi-dice-5": React.lazy(() =>
         import(
-            /* webpackChunkName: "Dice5Icon" */
+            /* webpackChunkName: "mdi/Dice5Icon" */
             "mdi-react/Dice5Icon"
         ),
     ),
     "mdi-dice-6": React.lazy(() =>
         import(
-            /* webpackChunkName: "Dice6Icon" */
+            /* webpackChunkName: "mdi/Dice6Icon" */
             "mdi-react/Dice6Icon"
         ),
     ),
     "mdi-dice-d-10": React.lazy(() =>
         import(
-            /* webpackChunkName: "DiceD10Icon" */
+            /* webpackChunkName: "mdi/DiceD10Icon" */
             "mdi-react/DiceD10Icon"
         ),
     ),
     "mdi-dice-d-12": React.lazy(() =>
         import(
-            /* webpackChunkName: "DiceD12Icon" */
+            /* webpackChunkName: "mdi/DiceD12Icon" */
             "mdi-react/DiceD12Icon"
         ),
     ),
     "mdi-dice-d-20": React.lazy(() =>
         import(
-            /* webpackChunkName: "DiceD20Icon" */
+            /* webpackChunkName: "mdi/DiceD20Icon" */
             "mdi-react/DiceD20Icon"
         ),
     ),
     "mdi-dice-d-4": React.lazy(() =>
         import(
-            /* webpackChunkName: "DiceD4Icon" */
+            /* webpackChunkName: "mdi/DiceD4Icon" */
             "mdi-react/DiceD4Icon"
         ),
     ),
     "mdi-dice-d-6": React.lazy(() =>
         import(
-            /* webpackChunkName: "DiceD6Icon" */
+            /* webpackChunkName: "mdi/DiceD6Icon" */
             "mdi-react/DiceD6Icon"
         ),
     ),
     "mdi-dice-d-8": React.lazy(() =>
         import(
-            /* webpackChunkName: "DiceD8Icon" */
+            /* webpackChunkName: "mdi/DiceD8Icon" */
             "mdi-react/DiceD8Icon"
         ),
     ),
     "mdi-dice-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "DiceMultipleIcon" */
+            /* webpackChunkName: "mdi/DiceMultipleIcon" */
             "mdi-react/DiceMultipleIcon"
         ),
     ),
     "mdi-dictionary": React.lazy(() =>
         import(
-            /* webpackChunkName: "DictionaryIcon" */
+            /* webpackChunkName: "mdi/DictionaryIcon" */
             "mdi-react/DictionaryIcon"
         ),
     ),
     "mdi-dip-switch": React.lazy(() =>
         import(
-            /* webpackChunkName: "DipSwitchIcon" */
+            /* webpackChunkName: "mdi/DipSwitchIcon" */
             "mdi-react/DipSwitchIcon"
         ),
     ),
     "mdi-directions-fork": React.lazy(() =>
         import(
-            /* webpackChunkName: "DirectionsForkIcon" */
+            /* webpackChunkName: "mdi/DirectionsForkIcon" */
             "mdi-react/DirectionsForkIcon"
         ),
     ),
     "mdi-directions": React.lazy(() =>
         import(
-            /* webpackChunkName: "DirectionsIcon" */
+            /* webpackChunkName: "mdi/DirectionsIcon" */
             "mdi-react/DirectionsIcon"
         ),
     ),
     "mdi-discord": React.lazy(() =>
         import(
-            /* webpackChunkName: "DiscordIcon" */
+            /* webpackChunkName: "mdi/DiscordIcon" */
             "mdi-react/DiscordIcon"
         ),
     ),
     "mdi-disk-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "DiskAlertIcon" */
+            /* webpackChunkName: "mdi/DiskAlertIcon" */
             "mdi-react/DiskAlertIcon"
         ),
     ),
     "mdi-disk-player": React.lazy(() =>
         import(
-            /* webpackChunkName: "DiskPlayerIcon" */
+            /* webpackChunkName: "mdi/DiskPlayerIcon" */
             "mdi-react/DiskPlayerIcon"
         ),
     ),
     "mdi-disk": React.lazy(() =>
         import(
-            /* webpackChunkName: "DiskIcon" */
+            /* webpackChunkName: "mdi/DiskIcon" */
             "mdi-react/DiskIcon"
         ),
     ),
     "mdi-disqus-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "DisqusOutlineIcon" */
+            /* webpackChunkName: "mdi/DisqusOutlineIcon" */
             "mdi-react/DisqusOutlineIcon"
         ),
     ),
     "mdi-disqus": React.lazy(() =>
         import(
-            /* webpackChunkName: "DisqusIcon" */
+            /* webpackChunkName: "mdi/DisqusIcon" */
             "mdi-react/DisqusIcon"
         ),
     ),
     "mdi-division-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "DivisionBoxIcon" */
+            /* webpackChunkName: "mdi/DivisionBoxIcon" */
             "mdi-react/DivisionBoxIcon"
         ),
     ),
     "mdi-division": React.lazy(() =>
         import(
-            /* webpackChunkName: "DivisionIcon" */
+            /* webpackChunkName: "mdi/DivisionIcon" */
             "mdi-react/DivisionIcon"
         ),
     ),
     "mdi-dna": React.lazy(() =>
         import(
-            /* webpackChunkName: "DnaIcon" */
+            /* webpackChunkName: "mdi/DnaIcon" */
             "mdi-react/DnaIcon"
         ),
     ),
     "mdi-dns": React.lazy(() =>
         import(
-            /* webpackChunkName: "DnsIcon" */
+            /* webpackChunkName: "mdi/DnsIcon" */
             "mdi-react/DnsIcon"
         ),
     ),
     "mdi-do-not-disturb-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "DoNotDisturbOffIcon" */
+            /* webpackChunkName: "mdi/DoNotDisturbOffIcon" */
             "mdi-react/DoNotDisturbOffIcon"
         ),
     ),
     "mdi-do-not-disturb": React.lazy(() =>
         import(
-            /* webpackChunkName: "DoNotDisturbIcon" */
+            /* webpackChunkName: "mdi/DoNotDisturbIcon" */
             "mdi-react/DoNotDisturbIcon"
         ),
     ),
     "mdi-docker": React.lazy(() =>
         import(
-            /* webpackChunkName: "DockerIcon" */
+            /* webpackChunkName: "mdi/DockerIcon" */
             "mdi-react/DockerIcon"
         ),
     ),
     "mdi-dolby": React.lazy(() =>
         import(
-            /* webpackChunkName: "DolbyIcon" */
+            /* webpackChunkName: "mdi/DolbyIcon" */
             "mdi-react/DolbyIcon"
         ),
     ),
     "mdi-domain": React.lazy(() =>
         import(
-            /* webpackChunkName: "DomainIcon" */
+            /* webpackChunkName: "mdi/DomainIcon" */
             "mdi-react/DomainIcon"
         ),
     ),
     "mdi-donkey": React.lazy(() =>
         import(
-            /* webpackChunkName: "DonkeyIcon" */
+            /* webpackChunkName: "mdi/DonkeyIcon" */
             "mdi-react/DonkeyIcon"
         ),
     ),
     "mdi-door-closed": React.lazy(() =>
         import(
-            /* webpackChunkName: "DoorClosedIcon" */
+            /* webpackChunkName: "mdi/DoorClosedIcon" */
             "mdi-react/DoorClosedIcon"
         ),
     ),
     "mdi-door-open": React.lazy(() =>
         import(
-            /* webpackChunkName: "DoorOpenIcon" */
+            /* webpackChunkName: "mdi/DoorOpenIcon" */
             "mdi-react/DoorOpenIcon"
         ),
     ),
     "mdi-door": React.lazy(() =>
         import(
-            /* webpackChunkName: "DoorIcon" */
+            /* webpackChunkName: "mdi/DoorIcon" */
             "mdi-react/DoorIcon"
         ),
     ),
     "mdi-doorbell-video": React.lazy(() =>
         import(
-            /* webpackChunkName: "DoorbellVideoIcon" */
+            /* webpackChunkName: "mdi/DoorbellVideoIcon" */
             "mdi-react/DoorbellVideoIcon"
         ),
     ),
     "mdi-dots-horizontal-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "DotsHorizontalCircleIcon" */
+            /* webpackChunkName: "mdi/DotsHorizontalCircleIcon" */
             "mdi-react/DotsHorizontalCircleIcon"
         ),
     ),
     "mdi-dots-horizontal": React.lazy(() =>
         import(
-            /* webpackChunkName: "DotsHorizontalIcon" */
+            /* webpackChunkName: "mdi/DotsHorizontalIcon" */
             "mdi-react/DotsHorizontalIcon"
         ),
     ),
     "mdi-dots-vertical-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "DotsVerticalCircleIcon" */
+            /* webpackChunkName: "mdi/DotsVerticalCircleIcon" */
             "mdi-react/DotsVerticalCircleIcon"
         ),
     ),
     "mdi-dots-vertical": React.lazy(() =>
         import(
-            /* webpackChunkName: "DotsVerticalIcon" */
+            /* webpackChunkName: "mdi/DotsVerticalIcon" */
             "mdi-react/DotsVerticalIcon"
         ),
     ),
     "mdi-douban": React.lazy(() =>
         import(
-            /* webpackChunkName: "DoubanIcon" */
+            /* webpackChunkName: "mdi/DoubanIcon" */
             "mdi-react/DoubanIcon"
         ),
     ),
     "mdi-download-network": React.lazy(() =>
         import(
-            /* webpackChunkName: "DownloadNetworkIcon" */
+            /* webpackChunkName: "mdi/DownloadNetworkIcon" */
             "mdi-react/DownloadNetworkIcon"
         ),
     ),
     "mdi-download": React.lazy(() =>
         import(
-            /* webpackChunkName: "DownloadIcon" */
+            /* webpackChunkName: "mdi/DownloadIcon" */
             "mdi-react/DownloadIcon"
         ),
     ),
     "mdi-drag-horizontal": React.lazy(() =>
         import(
-            /* webpackChunkName: "DragHorizontalIcon" */
+            /* webpackChunkName: "mdi/DragHorizontalIcon" */
             "mdi-react/DragHorizontalIcon"
         ),
     ),
     "mdi-drag-vertical": React.lazy(() =>
         import(
-            /* webpackChunkName: "DragVerticalIcon" */
+            /* webpackChunkName: "mdi/DragVerticalIcon" */
             "mdi-react/DragVerticalIcon"
         ),
     ),
     "mdi-drag": React.lazy(() =>
         import(
-            /* webpackChunkName: "DragIcon" */
+            /* webpackChunkName: "mdi/DragIcon" */
             "mdi-react/DragIcon"
         ),
     ),
     "mdi-drawing-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "DrawingBoxIcon" */
+            /* webpackChunkName: "mdi/DrawingBoxIcon" */
             "mdi-react/DrawingBoxIcon"
         ),
     ),
     "mdi-drawing": React.lazy(() =>
         import(
-            /* webpackChunkName: "DrawingIcon" */
+            /* webpackChunkName: "mdi/DrawingIcon" */
             "mdi-react/DrawingIcon"
         ),
     ),
     "mdi-dribbble-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "DribbbleBoxIcon" */
+            /* webpackChunkName: "mdi/DribbbleBoxIcon" */
             "mdi-react/DribbbleBoxIcon"
         ),
     ),
     "mdi-dribbble": React.lazy(() =>
         import(
-            /* webpackChunkName: "DribbbleIcon" */
+            /* webpackChunkName: "mdi/DribbbleIcon" */
             "mdi-react/DribbbleIcon"
         ),
     ),
     "mdi-drone": React.lazy(() =>
         import(
-            /* webpackChunkName: "DroneIcon" */
+            /* webpackChunkName: "mdi/DroneIcon" */
             "mdi-react/DroneIcon"
         ),
     ),
     "mdi-dropbox": React.lazy(() =>
         import(
-            /* webpackChunkName: "DropboxIcon" */
+            /* webpackChunkName: "mdi/DropboxIcon" */
             "mdi-react/DropboxIcon"
         ),
     ),
     "mdi-drupal": React.lazy(() =>
         import(
-            /* webpackChunkName: "DrupalIcon" */
+            /* webpackChunkName: "mdi/DrupalIcon" */
             "mdi-react/DrupalIcon"
         ),
     ),
     "mdi-duck": React.lazy(() =>
         import(
-            /* webpackChunkName: "DuckIcon" */
+            /* webpackChunkName: "mdi/DuckIcon" */
             "mdi-react/DuckIcon"
         ),
     ),
     "mdi-dumbbell": React.lazy(() =>
         import(
-            /* webpackChunkName: "DumbbellIcon" */
+            /* webpackChunkName: "mdi/DumbbellIcon" */
             "mdi-react/DumbbellIcon"
         ),
     ),
     "mdi-ear-hearing": React.lazy(() =>
         import(
-            /* webpackChunkName: "EarHearingIcon" */
+            /* webpackChunkName: "mdi/EarHearingIcon" */
             "mdi-react/EarHearingIcon"
         ),
     ),
     "mdi-earth-box-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "EarthBoxOffIcon" */
+            /* webpackChunkName: "mdi/EarthBoxOffIcon" */
             "mdi-react/EarthBoxOffIcon"
         ),
     ),
     "mdi-earth-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "EarthBoxIcon" */
+            /* webpackChunkName: "mdi/EarthBoxIcon" */
             "mdi-react/EarthBoxIcon"
         ),
     ),
     "mdi-earth-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "EarthOffIcon" */
+            /* webpackChunkName: "mdi/EarthOffIcon" */
             "mdi-react/EarthOffIcon"
         ),
     ),
     "mdi-earth": React.lazy(() =>
         import(
-            /* webpackChunkName: "EarthIcon" */
+            /* webpackChunkName: "mdi/EarthIcon" */
             "mdi-react/EarthIcon"
         ),
     ),
     "mdi-edge": React.lazy(() =>
         import(
-            /* webpackChunkName: "EdgeIcon" */
+            /* webpackChunkName: "mdi/EdgeIcon" */
             "mdi-react/EdgeIcon"
         ),
     ),
     "mdi-eject": React.lazy(() =>
         import(
-            /* webpackChunkName: "EjectIcon" */
+            /* webpackChunkName: "mdi/EjectIcon" */
             "mdi-react/EjectIcon"
         ),
     ),
     "mdi-elephant": React.lazy(() =>
         import(
-            /* webpackChunkName: "ElephantIcon" */
+            /* webpackChunkName: "mdi/ElephantIcon" */
             "mdi-react/ElephantIcon"
         ),
     ),
     "mdi-elevation-decline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ElevationDeclineIcon" */
+            /* webpackChunkName: "mdi/ElevationDeclineIcon" */
             "mdi-react/ElevationDeclineIcon"
         ),
     ),
     "mdi-elevation-rise": React.lazy(() =>
         import(
-            /* webpackChunkName: "ElevationRiseIcon" */
+            /* webpackChunkName: "mdi/ElevationRiseIcon" */
             "mdi-react/ElevationRiseIcon"
         ),
     ),
     "mdi-elevator": React.lazy(() =>
         import(
-            /* webpackChunkName: "ElevatorIcon" */
+            /* webpackChunkName: "mdi/ElevatorIcon" */
             "mdi-react/ElevatorIcon"
         ),
     ),
     "mdi-email-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmailAlertIcon" */
+            /* webpackChunkName: "mdi/EmailAlertIcon" */
             "mdi-react/EmailAlertIcon"
         ),
     ),
     "mdi-email-open-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmailOpenOutlineIcon" */
+            /* webpackChunkName: "mdi/EmailOpenOutlineIcon" */
             "mdi-react/EmailOpenOutlineIcon"
         ),
     ),
     "mdi-email-open": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmailOpenIcon" */
+            /* webpackChunkName: "mdi/EmailOpenIcon" */
             "mdi-react/EmailOpenIcon"
         ),
     ),
     "mdi-email-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmailOutlineIcon" */
+            /* webpackChunkName: "mdi/EmailOutlineIcon" */
             "mdi-react/EmailOutlineIcon"
         ),
     ),
     "mdi-email-search-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmailSearchOutlineIcon" */
+            /* webpackChunkName: "mdi/EmailSearchOutlineIcon" */
             "mdi-react/EmailSearchOutlineIcon"
         ),
     ),
     "mdi-email-search": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmailSearchIcon" */
+            /* webpackChunkName: "mdi/EmailSearchIcon" */
             "mdi-react/EmailSearchIcon"
         ),
     ),
     "mdi-email-secure": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmailSecureIcon" */
+            /* webpackChunkName: "mdi/EmailSecureIcon" */
             "mdi-react/EmailSecureIcon"
         ),
     ),
     "mdi-email-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmailVariantIcon" */
+            /* webpackChunkName: "mdi/EmailVariantIcon" */
             "mdi-react/EmailVariantIcon"
         ),
     ),
     "mdi-email": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmailIcon" */
+            /* webpackChunkName: "mdi/EmailIcon" */
             "mdi-react/EmailIcon"
         ),
     ),
     "mdi-emby": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmbyIcon" */
+            /* webpackChunkName: "mdi/EmbyIcon" */
             "mdi-react/EmbyIcon"
         ),
     ),
     "mdi-emoticon-cool": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmoticonCoolIcon" */
+            /* webpackChunkName: "mdi/EmoticonCoolIcon" */
             "mdi-react/EmoticonCoolIcon"
         ),
     ),
     "mdi-emoticon-dead": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmoticonDeadIcon" */
+            /* webpackChunkName: "mdi/EmoticonDeadIcon" */
             "mdi-react/EmoticonDeadIcon"
         ),
     ),
     "mdi-emoticon-devil": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmoticonDevilIcon" */
+            /* webpackChunkName: "mdi/EmoticonDevilIcon" */
             "mdi-react/EmoticonDevilIcon"
         ),
     ),
     "mdi-emoticon-excited": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmoticonExcitedIcon" */
+            /* webpackChunkName: "mdi/EmoticonExcitedIcon" */
             "mdi-react/EmoticonExcitedIcon"
         ),
     ),
     "mdi-emoticon-happy": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmoticonHappyIcon" */
+            /* webpackChunkName: "mdi/EmoticonHappyIcon" */
             "mdi-react/EmoticonHappyIcon"
         ),
     ),
     "mdi-emoticon-neutral": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmoticonNeutralIcon" */
+            /* webpackChunkName: "mdi/EmoticonNeutralIcon" */
             "mdi-react/EmoticonNeutralIcon"
         ),
     ),
     "mdi-emoticon-poop": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmoticonPoopIcon" */
+            /* webpackChunkName: "mdi/EmoticonPoopIcon" */
             "mdi-react/EmoticonPoopIcon"
         ),
     ),
     "mdi-emoticon-sad": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmoticonSadIcon" */
+            /* webpackChunkName: "mdi/EmoticonSadIcon" */
             "mdi-react/EmoticonSadIcon"
         ),
     ),
     "mdi-emoticon-tongue": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmoticonTongueIcon" */
+            /* webpackChunkName: "mdi/EmoticonTongueIcon" */
             "mdi-react/EmoticonTongueIcon"
         ),
     ),
     "mdi-emoticon": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmoticonIcon" */
+            /* webpackChunkName: "mdi/EmoticonIcon" */
             "mdi-react/EmoticonIcon"
         ),
     ),
     "mdi-engine-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "EngineOutlineIcon" */
+            /* webpackChunkName: "mdi/EngineOutlineIcon" */
             "mdi-react/EngineOutlineIcon"
         ),
     ),
     "mdi-engine": React.lazy(() =>
         import(
-            /* webpackChunkName: "EngineIcon" */
+            /* webpackChunkName: "mdi/EngineIcon" */
             "mdi-react/EngineIcon"
         ),
     ),
     "mdi-equal-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "EqualBoxIcon" */
+            /* webpackChunkName: "mdi/EqualBoxIcon" */
             "mdi-react/EqualBoxIcon"
         ),
     ),
     "mdi-equal": React.lazy(() =>
         import(
-            /* webpackChunkName: "EqualIcon" */
+            /* webpackChunkName: "mdi/EqualIcon" */
             "mdi-react/EqualIcon"
         ),
     ),
     "mdi-eraser-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "EraserVariantIcon" */
+            /* webpackChunkName: "mdi/EraserVariantIcon" */
             "mdi-react/EraserVariantIcon"
         ),
     ),
     "mdi-eraser": React.lazy(() =>
         import(
-            /* webpackChunkName: "EraserIcon" */
+            /* webpackChunkName: "mdi/EraserIcon" */
             "mdi-react/EraserIcon"
         ),
     ),
     "mdi-escalator": React.lazy(() =>
         import(
-            /* webpackChunkName: "EscalatorIcon" */
+            /* webpackChunkName: "mdi/EscalatorIcon" */
             "mdi-react/EscalatorIcon"
         ),
     ),
     "mdi-ethereum": React.lazy(() =>
         import(
-            /* webpackChunkName: "EthereumIcon" */
+            /* webpackChunkName: "mdi/EthereumIcon" */
             "mdi-react/EthereumIcon"
         ),
     ),
     "mdi-ethernet-cable-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "EthernetCableOffIcon" */
+            /* webpackChunkName: "mdi/EthernetCableOffIcon" */
             "mdi-react/EthernetCableOffIcon"
         ),
     ),
     "mdi-ethernet-cable": React.lazy(() =>
         import(
-            /* webpackChunkName: "EthernetCableIcon" */
+            /* webpackChunkName: "mdi/EthernetCableIcon" */
             "mdi-react/EthernetCableIcon"
         ),
     ),
     "mdi-ethernet": React.lazy(() =>
         import(
-            /* webpackChunkName: "EthernetIcon" */
+            /* webpackChunkName: "mdi/EthernetIcon" */
             "mdi-react/EthernetIcon"
         ),
     ),
     "mdi-etsy": React.lazy(() =>
         import(
-            /* webpackChunkName: "EtsyIcon" */
+            /* webpackChunkName: "mdi/EtsyIcon" */
             "mdi-react/EtsyIcon"
         ),
     ),
     "mdi-ev-station": React.lazy(() =>
         import(
-            /* webpackChunkName: "EvStationIcon" */
+            /* webpackChunkName: "mdi/EvStationIcon" */
             "mdi-react/EvStationIcon"
         ),
     ),
     "mdi-eventbrite": React.lazy(() =>
         import(
-            /* webpackChunkName: "EventbriteIcon" */
+            /* webpackChunkName: "mdi/EventbriteIcon" */
             "mdi-react/EventbriteIcon"
         ),
     ),
     "mdi-evernote": React.lazy(() =>
         import(
-            /* webpackChunkName: "EvernoteIcon" */
+            /* webpackChunkName: "mdi/EvernoteIcon" */
             "mdi-react/EvernoteIcon"
         ),
     ),
     "mdi-exclamation": React.lazy(() =>
         import(
-            /* webpackChunkName: "ExclamationIcon" */
+            /* webpackChunkName: "mdi/ExclamationIcon" */
             "mdi-react/ExclamationIcon"
         ),
     ),
     "mdi-exit-to-app": React.lazy(() =>
         import(
-            /* webpackChunkName: "ExitToAppIcon" */
+            /* webpackChunkName: "mdi/ExitToAppIcon" */
             "mdi-react/ExitToAppIcon"
         ),
     ),
     "mdi-exponent-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "ExponentBoxIcon" */
+            /* webpackChunkName: "mdi/ExponentBoxIcon" */
             "mdi-react/ExponentBoxIcon"
         ),
     ),
     "mdi-exponent": React.lazy(() =>
         import(
-            /* webpackChunkName: "ExponentIcon" */
+            /* webpackChunkName: "mdi/ExponentIcon" */
             "mdi-react/ExponentIcon"
         ),
     ),
     "mdi-export": React.lazy(() =>
         import(
-            /* webpackChunkName: "ExportIcon" */
+            /* webpackChunkName: "mdi/ExportIcon" */
             "mdi-react/ExportIcon"
         ),
     ),
     "mdi-eye-off-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "EyeOffOutlineIcon" */
+            /* webpackChunkName: "mdi/EyeOffOutlineIcon" */
             "mdi-react/EyeOffOutlineIcon"
         ),
     ),
     "mdi-eye-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "EyeOffIcon" */
+            /* webpackChunkName: "mdi/EyeOffIcon" */
             "mdi-react/EyeOffIcon"
         ),
     ),
     "mdi-eye-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "EyeOutlineIcon" */
+            /* webpackChunkName: "mdi/EyeOutlineIcon" */
             "mdi-react/EyeOutlineIcon"
         ),
     ),
     "mdi-eye-plus-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "EyePlusOutlineIcon" */
+            /* webpackChunkName: "mdi/EyePlusOutlineIcon" */
             "mdi-react/EyePlusOutlineIcon"
         ),
     ),
     "mdi-eye-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "EyePlusIcon" */
+            /* webpackChunkName: "mdi/EyePlusIcon" */
             "mdi-react/EyePlusIcon"
         ),
     ),
     "mdi-eye-settings-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "EyeSettingsOutlineIcon" */
+            /* webpackChunkName: "mdi/EyeSettingsOutlineIcon" */
             "mdi-react/EyeSettingsOutlineIcon"
         ),
     ),
     "mdi-eye-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "EyeSettingsIcon" */
+            /* webpackChunkName: "mdi/EyeSettingsIcon" */
             "mdi-react/EyeSettingsIcon"
         ),
     ),
     "mdi-eye": React.lazy(() =>
         import(
-            /* webpackChunkName: "EyeIcon" */
+            /* webpackChunkName: "mdi/EyeIcon" */
             "mdi-react/EyeIcon"
         ),
     ),
     "mdi-eyedropper-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "EyedropperVariantIcon" */
+            /* webpackChunkName: "mdi/EyedropperVariantIcon" */
             "mdi-react/EyedropperVariantIcon"
         ),
     ),
     "mdi-eyedropper": React.lazy(() =>
         import(
-            /* webpackChunkName: "EyedropperIcon" */
+            /* webpackChunkName: "mdi/EyedropperIcon" */
             "mdi-react/EyedropperIcon"
         ),
     ),
     "mdi-face-profile": React.lazy(() =>
         import(
-            /* webpackChunkName: "FaceProfileIcon" */
+            /* webpackChunkName: "mdi/FaceProfileIcon" */
             "mdi-react/FaceProfileIcon"
         ),
     ),
     "mdi-face": React.lazy(() =>
         import(
-            /* webpackChunkName: "FaceIcon" */
+            /* webpackChunkName: "mdi/FaceIcon" */
             "mdi-react/FaceIcon"
         ),
     ),
     "mdi-facebook-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "FacebookBoxIcon" */
+            /* webpackChunkName: "mdi/FacebookBoxIcon" */
             "mdi-react/FacebookBoxIcon"
         ),
     ),
     "mdi-facebook-messenger": React.lazy(() =>
         import(
-            /* webpackChunkName: "FacebookMessengerIcon" */
+            /* webpackChunkName: "mdi/FacebookMessengerIcon" */
             "mdi-react/FacebookMessengerIcon"
         ),
     ),
     "mdi-facebook": React.lazy(() =>
         import(
-            /* webpackChunkName: "FacebookIcon" */
+            /* webpackChunkName: "mdi/FacebookIcon" */
             "mdi-react/FacebookIcon"
         ),
     ),
     "mdi-factory": React.lazy(() =>
         import(
-            /* webpackChunkName: "FactoryIcon" */
+            /* webpackChunkName: "mdi/FactoryIcon" */
             "mdi-react/FactoryIcon"
         ),
     ),
     "mdi-fan-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "FanOffIcon" */
+            /* webpackChunkName: "mdi/FanOffIcon" */
             "mdi-react/FanOffIcon"
         ),
     ),
     "mdi-fan": React.lazy(() =>
         import(
-            /* webpackChunkName: "FanIcon" */
+            /* webpackChunkName: "mdi/FanIcon" */
             "mdi-react/FanIcon"
         ),
     ),
     "mdi-fast-forward-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "FastForwardOutlineIcon" */
+            /* webpackChunkName: "mdi/FastForwardOutlineIcon" */
             "mdi-react/FastForwardOutlineIcon"
         ),
     ),
     "mdi-fast-forward": React.lazy(() =>
         import(
-            /* webpackChunkName: "FastForwardIcon" */
+            /* webpackChunkName: "mdi/FastForwardIcon" */
             "mdi-react/FastForwardIcon"
         ),
     ),
     "mdi-fax": React.lazy(() =>
         import(
-            /* webpackChunkName: "FaxIcon" */
+            /* webpackChunkName: "mdi/FaxIcon" */
             "mdi-react/FaxIcon"
         ),
     ),
     "mdi-feather": React.lazy(() =>
         import(
-            /* webpackChunkName: "FeatherIcon" */
+            /* webpackChunkName: "mdi/FeatherIcon" */
             "mdi-react/FeatherIcon"
         ),
     ),
     "mdi-fedora": React.lazy(() =>
         import(
-            /* webpackChunkName: "FedoraIcon" */
+            /* webpackChunkName: "mdi/FedoraIcon" */
             "mdi-react/FedoraIcon"
         ),
     ),
     "mdi-ferry": React.lazy(() =>
         import(
-            /* webpackChunkName: "FerryIcon" */
+            /* webpackChunkName: "mdi/FerryIcon" */
             "mdi-react/FerryIcon"
         ),
     ),
     "mdi-file-account": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileAccountIcon" */
+            /* webpackChunkName: "mdi/FileAccountIcon" */
             "mdi-react/FileAccountIcon"
         ),
     ),
     "mdi-file-chart": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileChartIcon" */
+            /* webpackChunkName: "mdi/FileChartIcon" */
             "mdi-react/FileChartIcon"
         ),
     ),
     "mdi-file-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileCheckIcon" */
+            /* webpackChunkName: "mdi/FileCheckIcon" */
             "mdi-react/FileCheckIcon"
         ),
     ),
     "mdi-file-cloud": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileCloudIcon" */
+            /* webpackChunkName: "mdi/FileCloudIcon" */
             "mdi-react/FileCloudIcon"
         ),
     ),
     "mdi-file-compare": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileCompareIcon" */
+            /* webpackChunkName: "mdi/FileCompareIcon" */
             "mdi-react/FileCompareIcon"
         ),
     ),
     "mdi-file-delimited": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileDelimitedIcon" */
+            /* webpackChunkName: "mdi/FileDelimitedIcon" */
             "mdi-react/FileDelimitedIcon"
         ),
     ),
     "mdi-file-document-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileDocumentBoxIcon" */
+            /* webpackChunkName: "mdi/FileDocumentBoxIcon" */
             "mdi-react/FileDocumentBoxIcon"
         ),
     ),
     "mdi-file-document": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileDocumentIcon" */
+            /* webpackChunkName: "mdi/FileDocumentIcon" */
             "mdi-react/FileDocumentIcon"
         ),
     ),
     "mdi-file-download-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileDownloadOutlineIcon" */
+            /* webpackChunkName: "mdi/FileDownloadOutlineIcon" */
             "mdi-react/FileDownloadOutlineIcon"
         ),
     ),
     "mdi-file-download": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileDownloadIcon" */
+            /* webpackChunkName: "mdi/FileDownloadIcon" */
             "mdi-react/FileDownloadIcon"
         ),
     ),
     "mdi-file-excel-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileExcelBoxIcon" */
+            /* webpackChunkName: "mdi/FileExcelBoxIcon" */
             "mdi-react/FileExcelBoxIcon"
         ),
     ),
     "mdi-file-excel": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileExcelIcon" */
+            /* webpackChunkName: "mdi/FileExcelIcon" */
             "mdi-react/FileExcelIcon"
         ),
     ),
     "mdi-file-export": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileExportIcon" */
+            /* webpackChunkName: "mdi/FileExportIcon" */
             "mdi-react/FileExportIcon"
         ),
     ),
     "mdi-file-find": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileFindIcon" */
+            /* webpackChunkName: "mdi/FileFindIcon" */
             "mdi-react/FileFindIcon"
         ),
     ),
     "mdi-file-hidden": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileHiddenIcon" */
+            /* webpackChunkName: "mdi/FileHiddenIcon" */
             "mdi-react/FileHiddenIcon"
         ),
     ),
     "mdi-file-image": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileImageIcon" */
+            /* webpackChunkName: "mdi/FileImageIcon" */
             "mdi-react/FileImageIcon"
         ),
     ),
     "mdi-file-import": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileImportIcon" */
+            /* webpackChunkName: "mdi/FileImportIcon" */
             "mdi-react/FileImportIcon"
         ),
     ),
     "mdi-file-lock": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileLockIcon" */
+            /* webpackChunkName: "mdi/FileLockIcon" */
             "mdi-react/FileLockIcon"
         ),
     ),
     "mdi-file-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileMultipleIcon" */
+            /* webpackChunkName: "mdi/FileMultipleIcon" */
             "mdi-react/FileMultipleIcon"
         ),
     ),
     "mdi-file-music": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileMusicIcon" */
+            /* webpackChunkName: "mdi/FileMusicIcon" */
             "mdi-react/FileMusicIcon"
         ),
     ),
     "mdi-file-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileOutlineIcon" */
+            /* webpackChunkName: "mdi/FileOutlineIcon" */
             "mdi-react/FileOutlineIcon"
         ),
     ),
     "mdi-file-pdf-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "FilePdfBoxIcon" */
+            /* webpackChunkName: "mdi/FilePdfBoxIcon" */
             "mdi-react/FilePdfBoxIcon"
         ),
     ),
     "mdi-file-pdf": React.lazy(() =>
         import(
-            /* webpackChunkName: "FilePdfIcon" */
+            /* webpackChunkName: "mdi/FilePdfIcon" */
             "mdi-react/FilePdfIcon"
         ),
     ),
     "mdi-file-percent": React.lazy(() =>
         import(
-            /* webpackChunkName: "FilePercentIcon" */
+            /* webpackChunkName: "mdi/FilePercentIcon" */
             "mdi-react/FilePercentIcon"
         ),
     ),
     "mdi-file-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "FilePlusIcon" */
+            /* webpackChunkName: "mdi/FilePlusIcon" */
             "mdi-react/FilePlusIcon"
         ),
     ),
     "mdi-file-powerpoint-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "FilePowerpointBoxIcon" */
+            /* webpackChunkName: "mdi/FilePowerpointBoxIcon" */
             "mdi-react/FilePowerpointBoxIcon"
         ),
     ),
     "mdi-file-powerpoint": React.lazy(() =>
         import(
-            /* webpackChunkName: "FilePowerpointIcon" */
+            /* webpackChunkName: "mdi/FilePowerpointIcon" */
             "mdi-react/FilePowerpointIcon"
         ),
     ),
     "mdi-file-presentation-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "FilePresentationBoxIcon" */
+            /* webpackChunkName: "mdi/FilePresentationBoxIcon" */
             "mdi-react/FilePresentationBoxIcon"
         ),
     ),
     "mdi-file-question": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileQuestionIcon" */
+            /* webpackChunkName: "mdi/FileQuestionIcon" */
             "mdi-react/FileQuestionIcon"
         ),
     ),
     "mdi-file-restore": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileRestoreIcon" */
+            /* webpackChunkName: "mdi/FileRestoreIcon" */
             "mdi-react/FileRestoreIcon"
         ),
     ),
     "mdi-file-send": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileSendIcon" */
+            /* webpackChunkName: "mdi/FileSendIcon" */
             "mdi-react/FileSendIcon"
         ),
     ),
     "mdi-file-tree": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileTreeIcon" */
+            /* webpackChunkName: "mdi/FileTreeIcon" */
             "mdi-react/FileTreeIcon"
         ),
     ),
     "mdi-file-undo": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileUndoIcon" */
+            /* webpackChunkName: "mdi/FileUndoIcon" */
             "mdi-react/FileUndoIcon"
         ),
     ),
     "mdi-file-video": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileVideoIcon" */
+            /* webpackChunkName: "mdi/FileVideoIcon" */
             "mdi-react/FileVideoIcon"
         ),
     ),
     "mdi-file-word-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileWordBoxIcon" */
+            /* webpackChunkName: "mdi/FileWordBoxIcon" */
             "mdi-react/FileWordBoxIcon"
         ),
     ),
     "mdi-file-word": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileWordIcon" */
+            /* webpackChunkName: "mdi/FileWordIcon" */
             "mdi-react/FileWordIcon"
         ),
     ),
     "mdi-file-xml": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileXmlIcon" */
+            /* webpackChunkName: "mdi/FileXmlIcon" */
             "mdi-react/FileXmlIcon"
         ),
     ),
     "mdi-file": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileIcon" */
+            /* webpackChunkName: "mdi/FileIcon" */
             "mdi-react/FileIcon"
         ),
     ),
     "mdi-film": React.lazy(() =>
         import(
-            /* webpackChunkName: "FilmIcon" */
+            /* webpackChunkName: "mdi/FilmIcon" */
             "mdi-react/FilmIcon"
         ),
     ),
     "mdi-filmstrip-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "FilmstripOffIcon" */
+            /* webpackChunkName: "mdi/FilmstripOffIcon" */
             "mdi-react/FilmstripOffIcon"
         ),
     ),
     "mdi-filmstrip": React.lazy(() =>
         import(
-            /* webpackChunkName: "FilmstripIcon" */
+            /* webpackChunkName: "mdi/FilmstripIcon" */
             "mdi-react/FilmstripIcon"
         ),
     ),
     "mdi-filter-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "FilterOutlineIcon" */
+            /* webpackChunkName: "mdi/FilterOutlineIcon" */
             "mdi-react/FilterOutlineIcon"
         ),
     ),
     "mdi-filter-remove-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "FilterRemoveOutlineIcon" */
+            /* webpackChunkName: "mdi/FilterRemoveOutlineIcon" */
             "mdi-react/FilterRemoveOutlineIcon"
         ),
     ),
     "mdi-filter-remove": React.lazy(() =>
         import(
-            /* webpackChunkName: "FilterRemoveIcon" */
+            /* webpackChunkName: "mdi/FilterRemoveIcon" */
             "mdi-react/FilterRemoveIcon"
         ),
     ),
     "mdi-filter-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "FilterVariantIcon" */
+            /* webpackChunkName: "mdi/FilterVariantIcon" */
             "mdi-react/FilterVariantIcon"
         ),
     ),
     "mdi-filter": React.lazy(() =>
         import(
-            /* webpackChunkName: "FilterIcon" */
+            /* webpackChunkName: "mdi/FilterIcon" */
             "mdi-react/FilterIcon"
         ),
     ),
     "mdi-finance": React.lazy(() =>
         import(
-            /* webpackChunkName: "FinanceIcon" */
+            /* webpackChunkName: "mdi/FinanceIcon" */
             "mdi-react/FinanceIcon"
         ),
     ),
     "mdi-find-replace": React.lazy(() =>
         import(
-            /* webpackChunkName: "FindReplaceIcon" */
+            /* webpackChunkName: "mdi/FindReplaceIcon" */
             "mdi-react/FindReplaceIcon"
         ),
     ),
     "mdi-fingerprint": React.lazy(() =>
         import(
-            /* webpackChunkName: "FingerprintIcon" */
+            /* webpackChunkName: "mdi/FingerprintIcon" */
             "mdi-react/FingerprintIcon"
         ),
     ),
     "mdi-fire-truck": React.lazy(() =>
         import(
-            /* webpackChunkName: "FireTruckIcon" */
+            /* webpackChunkName: "mdi/FireTruckIcon" */
             "mdi-react/FireTruckIcon"
         ),
     ),
     "mdi-fire": React.lazy(() =>
         import(
-            /* webpackChunkName: "FireIcon" */
+            /* webpackChunkName: "mdi/FireIcon" */
             "mdi-react/FireIcon"
         ),
     ),
     "mdi-firebase": React.lazy(() =>
         import(
-            /* webpackChunkName: "FirebaseIcon" */
+            /* webpackChunkName: "mdi/FirebaseIcon" */
             "mdi-react/FirebaseIcon"
         ),
     ),
     "mdi-firefox": React.lazy(() =>
         import(
-            /* webpackChunkName: "FirefoxIcon" */
+            /* webpackChunkName: "mdi/FirefoxIcon" */
             "mdi-react/FirefoxIcon"
         ),
     ),
     "mdi-fish": React.lazy(() =>
         import(
-            /* webpackChunkName: "FishIcon" */
+            /* webpackChunkName: "mdi/FishIcon" */
             "mdi-react/FishIcon"
         ),
     ),
     "mdi-flag-checkered": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlagCheckeredIcon" */
+            /* webpackChunkName: "mdi/FlagCheckeredIcon" */
             "mdi-react/FlagCheckeredIcon"
         ),
     ),
     "mdi-flag-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlagOutlineIcon" */
+            /* webpackChunkName: "mdi/FlagOutlineIcon" */
             "mdi-react/FlagOutlineIcon"
         ),
     ),
     "mdi-flag-triangle": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlagTriangleIcon" */
+            /* webpackChunkName: "mdi/FlagTriangleIcon" */
             "mdi-react/FlagTriangleIcon"
         ),
     ),
     "mdi-flag-variant-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlagVariantOutlineIcon" */
+            /* webpackChunkName: "mdi/FlagVariantOutlineIcon" */
             "mdi-react/FlagVariantOutlineIcon"
         ),
     ),
     "mdi-flag-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlagVariantIcon" */
+            /* webpackChunkName: "mdi/FlagVariantIcon" */
             "mdi-react/FlagVariantIcon"
         ),
     ),
     "mdi-flag": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlagIcon" */
+            /* webpackChunkName: "mdi/FlagIcon" */
             "mdi-react/FlagIcon"
         ),
     ),
     "mdi-flash-auto": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlashAutoIcon" */
+            /* webpackChunkName: "mdi/FlashAutoIcon" */
             "mdi-react/FlashAutoIcon"
         ),
     ),
     "mdi-flash-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlashCircleIcon" */
+            /* webpackChunkName: "mdi/FlashCircleIcon" */
             "mdi-react/FlashCircleIcon"
         ),
     ),
     "mdi-flash-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlashOffIcon" */
+            /* webpackChunkName: "mdi/FlashOffIcon" */
             "mdi-react/FlashOffIcon"
         ),
     ),
     "mdi-flash-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlashOutlineIcon" */
+            /* webpackChunkName: "mdi/FlashOutlineIcon" */
             "mdi-react/FlashOutlineIcon"
         ),
     ),
     "mdi-flash-red-eye": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlashRedEyeIcon" */
+            /* webpackChunkName: "mdi/FlashRedEyeIcon" */
             "mdi-react/FlashRedEyeIcon"
         ),
     ),
     "mdi-flash": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlashIcon" */
+            /* webpackChunkName: "mdi/FlashIcon" */
             "mdi-react/FlashIcon"
         ),
     ),
     "mdi-flashlight-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlashlightOffIcon" */
+            /* webpackChunkName: "mdi/FlashlightOffIcon" */
             "mdi-react/FlashlightOffIcon"
         ),
     ),
     "mdi-flashlight": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlashlightIcon" */
+            /* webpackChunkName: "mdi/FlashlightIcon" */
             "mdi-react/FlashlightIcon"
         ),
     ),
     "mdi-flask-empty-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlaskEmptyOutlineIcon" */
+            /* webpackChunkName: "mdi/FlaskEmptyOutlineIcon" */
             "mdi-react/FlaskEmptyOutlineIcon"
         ),
     ),
     "mdi-flask-empty": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlaskEmptyIcon" */
+            /* webpackChunkName: "mdi/FlaskEmptyIcon" */
             "mdi-react/FlaskEmptyIcon"
         ),
     ),
     "mdi-flask-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlaskOutlineIcon" */
+            /* webpackChunkName: "mdi/FlaskOutlineIcon" */
             "mdi-react/FlaskOutlineIcon"
         ),
     ),
     "mdi-flask": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlaskIcon" */
+            /* webpackChunkName: "mdi/FlaskIcon" */
             "mdi-react/FlaskIcon"
         ),
     ),
     "mdi-flattr": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlattrIcon" */
+            /* webpackChunkName: "mdi/FlattrIcon" */
             "mdi-react/FlattrIcon"
         ),
     ),
     "mdi-flip-to-back": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlipToBackIcon" */
+            /* webpackChunkName: "mdi/FlipToBackIcon" */
             "mdi-react/FlipToBackIcon"
         ),
     ),
     "mdi-flip-to-front": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlipToFrontIcon" */
+            /* webpackChunkName: "mdi/FlipToFrontIcon" */
             "mdi-react/FlipToFrontIcon"
         ),
     ),
     "mdi-floor-lamp": React.lazy(() =>
         import(
-            /* webpackChunkName: "FloorLampIcon" */
+            /* webpackChunkName: "mdi/FloorLampIcon" */
             "mdi-react/FloorLampIcon"
         ),
     ),
     "mdi-floor-plan": React.lazy(() =>
         import(
-            /* webpackChunkName: "FloorPlanIcon" */
+            /* webpackChunkName: "mdi/FloorPlanIcon" */
             "mdi-react/FloorPlanIcon"
         ),
     ),
     "mdi-floppy": React.lazy(() =>
         import(
-            /* webpackChunkName: "FloppyIcon" */
+            /* webpackChunkName: "mdi/FloppyIcon" */
             "mdi-react/FloppyIcon"
         ),
     ),
     "mdi-flower": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlowerIcon" */
+            /* webpackChunkName: "mdi/FlowerIcon" */
             "mdi-react/FlowerIcon"
         ),
     ),
     "mdi-folder-account": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderAccountIcon" */
+            /* webpackChunkName: "mdi/FolderAccountIcon" */
             "mdi-react/FolderAccountIcon"
         ),
     ),
     "mdi-folder-download": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderDownloadIcon" */
+            /* webpackChunkName: "mdi/FolderDownloadIcon" */
             "mdi-react/FolderDownloadIcon"
         ),
     ),
     "mdi-folder-edit": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderEditIcon" */
+            /* webpackChunkName: "mdi/FolderEditIcon" */
             "mdi-react/FolderEditIcon"
         ),
     ),
     "mdi-folder-google-drive": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderGoogleDriveIcon" */
+            /* webpackChunkName: "mdi/FolderGoogleDriveIcon" */
             "mdi-react/FolderGoogleDriveIcon"
         ),
     ),
     "mdi-folder-image": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderImageIcon" */
+            /* webpackChunkName: "mdi/FolderImageIcon" */
             "mdi-react/FolderImageIcon"
         ),
     ),
     "mdi-folder-key-network": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderKeyNetworkIcon" */
+            /* webpackChunkName: "mdi/FolderKeyNetworkIcon" */
             "mdi-react/FolderKeyNetworkIcon"
         ),
     ),
     "mdi-folder-key": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderKeyIcon" */
+            /* webpackChunkName: "mdi/FolderKeyIcon" */
             "mdi-react/FolderKeyIcon"
         ),
     ),
     "mdi-folder-lock-open": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderLockOpenIcon" */
+            /* webpackChunkName: "mdi/FolderLockOpenIcon" */
             "mdi-react/FolderLockOpenIcon"
         ),
     ),
     "mdi-folder-lock": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderLockIcon" */
+            /* webpackChunkName: "mdi/FolderLockIcon" */
             "mdi-react/FolderLockIcon"
         ),
     ),
     "mdi-folder-move": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderMoveIcon" */
+            /* webpackChunkName: "mdi/FolderMoveIcon" */
             "mdi-react/FolderMoveIcon"
         ),
     ),
     "mdi-folder-multiple-image": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderMultipleImageIcon" */
+            /* webpackChunkName: "mdi/FolderMultipleImageIcon" */
             "mdi-react/FolderMultipleImageIcon"
         ),
     ),
     "mdi-folder-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/FolderMultipleOutlineIcon" */
             "mdi-react/FolderMultipleOutlineIcon"
         ),
     ),
     "mdi-folder-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderMultipleIcon" */
+            /* webpackChunkName: "mdi/FolderMultipleIcon" */
             "mdi-react/FolderMultipleIcon"
         ),
     ),
     "mdi-folder-network": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderNetworkIcon" */
+            /* webpackChunkName: "mdi/FolderNetworkIcon" */
             "mdi-react/FolderNetworkIcon"
         ),
     ),
     "mdi-folder-open": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderOpenIcon" */
+            /* webpackChunkName: "mdi/FolderOpenIcon" */
             "mdi-react/FolderOpenIcon"
         ),
     ),
     "mdi-folder-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderOutlineIcon" */
+            /* webpackChunkName: "mdi/FolderOutlineIcon" */
             "mdi-react/FolderOutlineIcon"
         ),
     ),
     "mdi-folder-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderPlusIcon" */
+            /* webpackChunkName: "mdi/FolderPlusIcon" */
             "mdi-react/FolderPlusIcon"
         ),
     ),
     "mdi-folder-remove": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderRemoveIcon" */
+            /* webpackChunkName: "mdi/FolderRemoveIcon" */
             "mdi-react/FolderRemoveIcon"
         ),
     ),
     "mdi-folder-search-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderSearchOutlineIcon" */
+            /* webpackChunkName: "mdi/FolderSearchOutlineIcon" */
             "mdi-react/FolderSearchOutlineIcon"
         ),
     ),
     "mdi-folder-search": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderSearchIcon" */
+            /* webpackChunkName: "mdi/FolderSearchIcon" */
             "mdi-react/FolderSearchIcon"
         ),
     ),
     "mdi-folder-star": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderStarIcon" */
+            /* webpackChunkName: "mdi/FolderStarIcon" */
             "mdi-react/FolderStarIcon"
         ),
     ),
     "mdi-folder-upload": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderUploadIcon" */
+            /* webpackChunkName: "mdi/FolderUploadIcon" */
             "mdi-react/FolderUploadIcon"
         ),
     ),
     "mdi-folder": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderIcon" */
+            /* webpackChunkName: "mdi/FolderIcon" */
             "mdi-react/FolderIcon"
         ),
     ),
     "mdi-font-awesome": React.lazy(() =>
         import(
-            /* webpackChunkName: "FontAwesomeIcon" */
+            /* webpackChunkName: "mdi/FontAwesomeIcon" */
             "mdi-react/FontAwesomeIcon"
         ),
     ),
     "mdi-food-apple": React.lazy(() =>
         import(
-            /* webpackChunkName: "FoodAppleIcon" */
+            /* webpackChunkName: "mdi/FoodAppleIcon" */
             "mdi-react/FoodAppleIcon"
         ),
     ),
     "mdi-food-croissant": React.lazy(() =>
         import(
-            /* webpackChunkName: "FoodCroissantIcon" */
+            /* webpackChunkName: "mdi/FoodCroissantIcon" */
             "mdi-react/FoodCroissantIcon"
         ),
     ),
     "mdi-food-fork-drink": React.lazy(() =>
         import(
-            /* webpackChunkName: "FoodForkDrinkIcon" */
+            /* webpackChunkName: "mdi/FoodForkDrinkIcon" */
             "mdi-react/FoodForkDrinkIcon"
         ),
     ),
     "mdi-food-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "FoodOffIcon" */
+            /* webpackChunkName: "mdi/FoodOffIcon" */
             "mdi-react/FoodOffIcon"
         ),
     ),
     "mdi-food-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "FoodVariantIcon" */
+            /* webpackChunkName: "mdi/FoodVariantIcon" */
             "mdi-react/FoodVariantIcon"
         ),
     ),
     "mdi-food": React.lazy(() =>
         import(
-            /* webpackChunkName: "FoodIcon" */
+            /* webpackChunkName: "mdi/FoodIcon" */
             "mdi-react/FoodIcon"
         ),
     ),
     "mdi-football-australian": React.lazy(() =>
         import(
-            /* webpackChunkName: "FootballAustralianIcon" */
+            /* webpackChunkName: "mdi/FootballAustralianIcon" */
             "mdi-react/FootballAustralianIcon"
         ),
     ),
     "mdi-football-helmet": React.lazy(() =>
         import(
-            /* webpackChunkName: "FootballHelmetIcon" */
+            /* webpackChunkName: "mdi/FootballHelmetIcon" */
             "mdi-react/FootballHelmetIcon"
         ),
     ),
     "mdi-football": React.lazy(() =>
         import(
-            /* webpackChunkName: "FootballIcon" */
+            /* webpackChunkName: "mdi/FootballIcon" */
             "mdi-react/FootballIcon"
         ),
     ),
     "mdi-forklift": React.lazy(() =>
         import(
-            /* webpackChunkName: "ForkliftIcon" */
+            /* webpackChunkName: "mdi/ForkliftIcon" */
             "mdi-react/ForkliftIcon"
         ),
     ),
     "mdi-format-align-bottom": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatAlignBottomIcon" */
+            /* webpackChunkName: "mdi/FormatAlignBottomIcon" */
             "mdi-react/FormatAlignBottomIcon"
         ),
     ),
     "mdi-format-align-center": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatAlignCenterIcon" */
+            /* webpackChunkName: "mdi/FormatAlignCenterIcon" */
             "mdi-react/FormatAlignCenterIcon"
         ),
     ),
     "mdi-format-align-justify": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatAlignJustifyIcon" */
+            /* webpackChunkName: "mdi/FormatAlignJustifyIcon" */
             "mdi-react/FormatAlignJustifyIcon"
         ),
     ),
     "mdi-format-align-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatAlignLeftIcon" */
+            /* webpackChunkName: "mdi/FormatAlignLeftIcon" */
             "mdi-react/FormatAlignLeftIcon"
         ),
     ),
     "mdi-format-align-middle": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatAlignMiddleIcon" */
+            /* webpackChunkName: "mdi/FormatAlignMiddleIcon" */
             "mdi-react/FormatAlignMiddleIcon"
         ),
     ),
     "mdi-format-align-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatAlignRightIcon" */
+            /* webpackChunkName: "mdi/FormatAlignRightIcon" */
             "mdi-react/FormatAlignRightIcon"
         ),
     ),
     "mdi-format-align-top": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatAlignTopIcon" */
+            /* webpackChunkName: "mdi/FormatAlignTopIcon" */
             "mdi-react/FormatAlignTopIcon"
         ),
     ),
     "mdi-format-annotation-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatAnnotationPlusIcon" */
+            /* webpackChunkName: "mdi/FormatAnnotationPlusIcon" */
             "mdi-react/FormatAnnotationPlusIcon"
         ),
     ),
     "mdi-format-bold": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatBoldIcon" */
+            /* webpackChunkName: "mdi/FormatBoldIcon" */
             "mdi-react/FormatBoldIcon"
         ),
     ),
     "mdi-format-clear": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatClearIcon" */
+            /* webpackChunkName: "mdi/FormatClearIcon" */
             "mdi-react/FormatClearIcon"
         ),
     ),
     "mdi-format-color-fill": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatColorFillIcon" */
+            /* webpackChunkName: "mdi/FormatColorFillIcon" */
             "mdi-react/FormatColorFillIcon"
         ),
     ),
     "mdi-format-color-text": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatColorTextIcon" */
+            /* webpackChunkName: "mdi/FormatColorTextIcon" */
             "mdi-react/FormatColorTextIcon"
         ),
     ),
     "mdi-format-columns": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatColumnsIcon" */
+            /* webpackChunkName: "mdi/FormatColumnsIcon" */
             "mdi-react/FormatColumnsIcon"
         ),
     ),
     "mdi-format-float-center": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatFloatCenterIcon" */
+            /* webpackChunkName: "mdi/FormatFloatCenterIcon" */
             "mdi-react/FormatFloatCenterIcon"
         ),
     ),
     "mdi-format-float-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatFloatLeftIcon" */
+            /* webpackChunkName: "mdi/FormatFloatLeftIcon" */
             "mdi-react/FormatFloatLeftIcon"
         ),
     ),
     "mdi-format-float-none": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatFloatNoneIcon" */
+            /* webpackChunkName: "mdi/FormatFloatNoneIcon" */
             "mdi-react/FormatFloatNoneIcon"
         ),
     ),
     "mdi-format-float-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatFloatRightIcon" */
+            /* webpackChunkName: "mdi/FormatFloatRightIcon" */
             "mdi-react/FormatFloatRightIcon"
         ),
     ),
     "mdi-format-font": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatFontIcon" */
+            /* webpackChunkName: "mdi/FormatFontIcon" */
             "mdi-react/FormatFontIcon"
         ),
     ),
     "mdi-format-header-1": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatHeader1Icon" */
+            /* webpackChunkName: "mdi/FormatHeader1Icon" */
             "mdi-react/FormatHeader1Icon"
         ),
     ),
     "mdi-format-header-2": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatHeader2Icon" */
+            /* webpackChunkName: "mdi/FormatHeader2Icon" */
             "mdi-react/FormatHeader2Icon"
         ),
     ),
     "mdi-format-header-3": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatHeader3Icon" */
+            /* webpackChunkName: "mdi/FormatHeader3Icon" */
             "mdi-react/FormatHeader3Icon"
         ),
     ),
     "mdi-format-header-4": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatHeader4Icon" */
+            /* webpackChunkName: "mdi/FormatHeader4Icon" */
             "mdi-react/FormatHeader4Icon"
         ),
     ),
     "mdi-format-header-5": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatHeader5Icon" */
+            /* webpackChunkName: "mdi/FormatHeader5Icon" */
             "mdi-react/FormatHeader5Icon"
         ),
     ),
     "mdi-format-header-6": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatHeader6Icon" */
+            /* webpackChunkName: "mdi/FormatHeader6Icon" */
             "mdi-react/FormatHeader6Icon"
         ),
     ),
     "mdi-format-header-decrease": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatHeaderDecreaseIcon" */
+            /* webpackChunkName: "mdi/FormatHeaderDecreaseIcon" */
             "mdi-react/FormatHeaderDecreaseIcon"
         ),
     ),
     "mdi-format-header-equal": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatHeaderEqualIcon" */
+            /* webpackChunkName: "mdi/FormatHeaderEqualIcon" */
             "mdi-react/FormatHeaderEqualIcon"
         ),
     ),
     "mdi-format-header-increase": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatHeaderIncreaseIcon" */
+            /* webpackChunkName: "mdi/FormatHeaderIncreaseIcon" */
             "mdi-react/FormatHeaderIncreaseIcon"
         ),
     ),
     "mdi-format-header-pound": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatHeaderPoundIcon" */
+            /* webpackChunkName: "mdi/FormatHeaderPoundIcon" */
             "mdi-react/FormatHeaderPoundIcon"
         ),
     ),
     "mdi-format-horizontal-align-center": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatHorizontalAlignCenterIcon" */
+            /* webpackChunkName: "mdi/FormatHorizontalAlignCenterIcon" */
             "mdi-react/FormatHorizontalAlignCenterIcon"
         ),
     ),
     "mdi-format-horizontal-align-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatHorizontalAlignLeftIcon" */
+            /* webpackChunkName: "mdi/FormatHorizontalAlignLeftIcon" */
             "mdi-react/FormatHorizontalAlignLeftIcon"
         ),
     ),
     "mdi-format-horizontal-align-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatHorizontalAlignRightIcon" */
+            /* webpackChunkName: "mdi/FormatHorizontalAlignRightIcon" */
             "mdi-react/FormatHorizontalAlignRightIcon"
         ),
     ),
     "mdi-format-indent-decrease": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatIndentDecreaseIcon" */
+            /* webpackChunkName: "mdi/FormatIndentDecreaseIcon" */
             "mdi-react/FormatIndentDecreaseIcon"
         ),
     ),
     "mdi-format-indent-increase": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatIndentIncreaseIcon" */
+            /* webpackChunkName: "mdi/FormatIndentIncreaseIcon" */
             "mdi-react/FormatIndentIncreaseIcon"
         ),
     ),
     "mdi-format-italic": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatItalicIcon" */
+            /* webpackChunkName: "mdi/FormatItalicIcon" */
             "mdi-react/FormatItalicIcon"
         ),
     ),
     "mdi-format-line-spacing": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatLineSpacingIcon" */
+            /* webpackChunkName: "mdi/FormatLineSpacingIcon" */
             "mdi-react/FormatLineSpacingIcon"
         ),
     ),
     "mdi-format-line-style": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatLineStyleIcon" */
+            /* webpackChunkName: "mdi/FormatLineStyleIcon" */
             "mdi-react/FormatLineStyleIcon"
         ),
     ),
     "mdi-format-line-weight": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatLineWeightIcon" */
+            /* webpackChunkName: "mdi/FormatLineWeightIcon" */
             "mdi-react/FormatLineWeightIcon"
         ),
     ),
     "mdi-format-list-bulleted-type": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatListBulletedTypeIcon" */
+            /* webpackChunkName: "mdi/FormatListBulletedTypeIcon" */
             "mdi-react/FormatListBulletedTypeIcon"
         ),
     ),
     "mdi-format-list-bulleted": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatListBulletedIcon" */
+            /* webpackChunkName: "mdi/FormatListBulletedIcon" */
             "mdi-react/FormatListBulletedIcon"
         ),
     ),
     "mdi-format-list-checkbox": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatListCheckboxIcon" */
+            /* webpackChunkName: "mdi/FormatListCheckboxIcon" */
             "mdi-react/FormatListCheckboxIcon"
         ),
     ),
     "mdi-format-list-checks": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatListChecksIcon" */
+            /* webpackChunkName: "mdi/FormatListChecksIcon" */
             "mdi-react/FormatListChecksIcon"
         ),
     ),
     "mdi-format-list-numbers": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatListNumbersIcon" */
+            /* webpackChunkName: "mdi/FormatListNumbersIcon" */
             "mdi-react/FormatListNumbersIcon"
         ),
     ),
     "mdi-format-page-break": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatPageBreakIcon" */
+            /* webpackChunkName: "mdi/FormatPageBreakIcon" */
             "mdi-react/FormatPageBreakIcon"
         ),
     ),
     "mdi-format-paint": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatPaintIcon" */
+            /* webpackChunkName: "mdi/FormatPaintIcon" */
             "mdi-react/FormatPaintIcon"
         ),
     ),
     "mdi-format-paragraph": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatParagraphIcon" */
+            /* webpackChunkName: "mdi/FormatParagraphIcon" */
             "mdi-react/FormatParagraphIcon"
         ),
     ),
     "mdi-format-pilcrow": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatPilcrowIcon" */
+            /* webpackChunkName: "mdi/FormatPilcrowIcon" */
             "mdi-react/FormatPilcrowIcon"
         ),
     ),
     "mdi-format-quote-close": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatQuoteCloseIcon" */
+            /* webpackChunkName: "mdi/FormatQuoteCloseIcon" */
             "mdi-react/FormatQuoteCloseIcon"
         ),
     ),
     "mdi-format-quote-open": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatQuoteOpenIcon" */
+            /* webpackChunkName: "mdi/FormatQuoteOpenIcon" */
             "mdi-react/FormatQuoteOpenIcon"
         ),
     ),
     "mdi-format-rotate-90": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatRotate90Icon" */
+            /* webpackChunkName: "mdi/FormatRotate90Icon" */
             "mdi-react/FormatRotate90Icon"
         ),
     ),
     "mdi-format-section": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatSectionIcon" */
+            /* webpackChunkName: "mdi/FormatSectionIcon" */
             "mdi-react/FormatSectionIcon"
         ),
     ),
     "mdi-format-size": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatSizeIcon" */
+            /* webpackChunkName: "mdi/FormatSizeIcon" */
             "mdi-react/FormatSizeIcon"
         ),
     ),
     "mdi-format-strikethrough-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatStrikethroughVariantIcon" */
+            /* webpackChunkName: "mdi/FormatStrikethroughVariantIcon" */
             "mdi-react/FormatStrikethroughVariantIcon"
         ),
     ),
     "mdi-format-strikethrough": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatStrikethroughIcon" */
+            /* webpackChunkName: "mdi/FormatStrikethroughIcon" */
             "mdi-react/FormatStrikethroughIcon"
         ),
     ),
     "mdi-format-subscript": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatSubscriptIcon" */
+            /* webpackChunkName: "mdi/FormatSubscriptIcon" */
             "mdi-react/FormatSubscriptIcon"
         ),
     ),
     "mdi-format-superscript": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatSuperscriptIcon" */
+            /* webpackChunkName: "mdi/FormatSuperscriptIcon" */
             "mdi-react/FormatSuperscriptIcon"
         ),
     ),
     "mdi-format-text": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatTextIcon" */
+            /* webpackChunkName: "mdi/FormatTextIcon" */
             "mdi-react/FormatTextIcon"
         ),
     ),
     "mdi-format-textdirection-l-to-r": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatTextdirectionLToRIcon" */
+            /* webpackChunkName: "mdi/FormatTextdirectionLToRIcon" */
             "mdi-react/FormatTextdirectionLToRIcon"
         ),
     ),
     "mdi-format-textdirection-r-to-l": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatTextdirectionRToLIcon" */
+            /* webpackChunkName: "mdi/FormatTextdirectionRToLIcon" */
             "mdi-react/FormatTextdirectionRToLIcon"
         ),
     ),
     "mdi-format-title": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatTitleIcon" */
+            /* webpackChunkName: "mdi/FormatTitleIcon" */
             "mdi-react/FormatTitleIcon"
         ),
     ),
     "mdi-format-underline": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatUnderlineIcon" */
+            /* webpackChunkName: "mdi/FormatUnderlineIcon" */
             "mdi-react/FormatUnderlineIcon"
         ),
     ),
     "mdi-format-vertical-align-bottom": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatVerticalAlignBottomIcon" */
+            /* webpackChunkName: "mdi/FormatVerticalAlignBottomIcon" */
             "mdi-react/FormatVerticalAlignBottomIcon"
         ),
     ),
     "mdi-format-vertical-align-center": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatVerticalAlignCenterIcon" */
+            /* webpackChunkName: "mdi/FormatVerticalAlignCenterIcon" */
             "mdi-react/FormatVerticalAlignCenterIcon"
         ),
     ),
     "mdi-format-vertical-align-top": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatVerticalAlignTopIcon" */
+            /* webpackChunkName: "mdi/FormatVerticalAlignTopIcon" */
             "mdi-react/FormatVerticalAlignTopIcon"
         ),
     ),
     "mdi-format-wrap-inline": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatWrapInlineIcon" */
+            /* webpackChunkName: "mdi/FormatWrapInlineIcon" */
             "mdi-react/FormatWrapInlineIcon"
         ),
     ),
     "mdi-format-wrap-square": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatWrapSquareIcon" */
+            /* webpackChunkName: "mdi/FormatWrapSquareIcon" */
             "mdi-react/FormatWrapSquareIcon"
         ),
     ),
     "mdi-format-wrap-tight": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatWrapTightIcon" */
+            /* webpackChunkName: "mdi/FormatWrapTightIcon" */
             "mdi-react/FormatWrapTightIcon"
         ),
     ),
     "mdi-format-wrap-top-bottom": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatWrapTopBottomIcon" */
+            /* webpackChunkName: "mdi/FormatWrapTopBottomIcon" */
             "mdi-react/FormatWrapTopBottomIcon"
         ),
     ),
     "mdi-forum-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ForumOutlineIcon" */
+            /* webpackChunkName: "mdi/ForumOutlineIcon" */
             "mdi-react/ForumOutlineIcon"
         ),
     ),
     "mdi-forum": React.lazy(() =>
         import(
-            /* webpackChunkName: "ForumIcon" */
+            /* webpackChunkName: "mdi/ForumIcon" */
             "mdi-react/ForumIcon"
         ),
     ),
     "mdi-forward": React.lazy(() =>
         import(
-            /* webpackChunkName: "ForwardIcon" */
+            /* webpackChunkName: "mdi/ForwardIcon" */
             "mdi-react/ForwardIcon"
         ),
     ),
     "mdi-fountain": React.lazy(() =>
         import(
-            /* webpackChunkName: "FountainIcon" */
+            /* webpackChunkName: "mdi/FountainIcon" */
             "mdi-react/FountainIcon"
         ),
     ),
     "mdi-foursquare": React.lazy(() =>
         import(
-            /* webpackChunkName: "FoursquareIcon" */
+            /* webpackChunkName: "mdi/FoursquareIcon" */
             "mdi-react/FoursquareIcon"
         ),
     ),
     "mdi-freebsd": React.lazy(() =>
         import(
-            /* webpackChunkName: "FreebsdIcon" */
+            /* webpackChunkName: "mdi/FreebsdIcon" */
             "mdi-react/FreebsdIcon"
         ),
     ),
     "mdi-fridge-filled-bottom": React.lazy(() =>
         import(
-            /* webpackChunkName: "FridgeFilledBottomIcon" */
+            /* webpackChunkName: "mdi/FridgeFilledBottomIcon" */
             "mdi-react/FridgeFilledBottomIcon"
         ),
     ),
     "mdi-fridge-filled-top": React.lazy(() =>
         import(
-            /* webpackChunkName: "FridgeFilledTopIcon" */
+            /* webpackChunkName: "mdi/FridgeFilledTopIcon" */
             "mdi-react/FridgeFilledTopIcon"
         ),
     ),
     "mdi-fridge-filled": React.lazy(() =>
         import(
-            /* webpackChunkName: "FridgeFilledIcon" */
+            /* webpackChunkName: "mdi/FridgeFilledIcon" */
             "mdi-react/FridgeFilledIcon"
         ),
     ),
     "mdi-fridge": React.lazy(() =>
         import(
-            /* webpackChunkName: "FridgeIcon" */
+            /* webpackChunkName: "mdi/FridgeIcon" */
             "mdi-react/FridgeIcon"
         ),
     ),
     "mdi-fuel": React.lazy(() =>
         import(
-            /* webpackChunkName: "FuelIcon" */
+            /* webpackChunkName: "mdi/FuelIcon" */
             "mdi-react/FuelIcon"
         ),
     ),
     "mdi-fullscreen-exit": React.lazy(() =>
         import(
-            /* webpackChunkName: "FullscreenExitIcon" */
+            /* webpackChunkName: "mdi/FullscreenExitIcon" */
             "mdi-react/FullscreenExitIcon"
         ),
     ),
     "mdi-fullscreen": React.lazy(() =>
         import(
-            /* webpackChunkName: "FullscreenIcon" */
+            /* webpackChunkName: "mdi/FullscreenIcon" */
             "mdi-react/FullscreenIcon"
         ),
     ),
     "mdi-function-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "FunctionVariantIcon" */
+            /* webpackChunkName: "mdi/FunctionVariantIcon" */
             "mdi-react/FunctionVariantIcon"
         ),
     ),
     "mdi-function": React.lazy(() =>
         import(
-            /* webpackChunkName: "FunctionIcon" */
+            /* webpackChunkName: "mdi/FunctionIcon" */
             "mdi-react/FunctionIcon"
         ),
     ),
     "mdi-gamepad-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "GamepadVariantIcon" */
+            /* webpackChunkName: "mdi/GamepadVariantIcon" */
             "mdi-react/GamepadVariantIcon"
         ),
     ),
     "mdi-gamepad": React.lazy(() =>
         import(
-            /* webpackChunkName: "GamepadIcon" */
+            /* webpackChunkName: "mdi/GamepadIcon" */
             "mdi-react/GamepadIcon"
         ),
     ),
     "mdi-garage-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "GarageAlertIcon" */
+            /* webpackChunkName: "mdi/GarageAlertIcon" */
             "mdi-react/GarageAlertIcon"
         ),
     ),
     "mdi-garage-open": React.lazy(() =>
         import(
-            /* webpackChunkName: "GarageOpenIcon" */
+            /* webpackChunkName: "mdi/GarageOpenIcon" */
             "mdi-react/GarageOpenIcon"
         ),
     ),
     "mdi-garage": React.lazy(() =>
         import(
-            /* webpackChunkName: "GarageIcon" */
+            /* webpackChunkName: "mdi/GarageIcon" */
             "mdi-react/GarageIcon"
         ),
     ),
     "mdi-gas-cylinder": React.lazy(() =>
         import(
-            /* webpackChunkName: "GasCylinderIcon" */
+            /* webpackChunkName: "mdi/GasCylinderIcon" */
             "mdi-react/GasCylinderIcon"
         ),
     ),
     "mdi-gas-station": React.lazy(() =>
         import(
-            /* webpackChunkName: "GasStationIcon" */
+            /* webpackChunkName: "mdi/GasStationIcon" */
             "mdi-react/GasStationIcon"
         ),
     ),
     "mdi-gate-and": React.lazy(() =>
         import(
-            /* webpackChunkName: "GateAndIcon" */
+            /* webpackChunkName: "mdi/GateAndIcon" */
             "mdi-react/GateAndIcon"
         ),
     ),
     "mdi-gate-nand": React.lazy(() =>
         import(
-            /* webpackChunkName: "GateNandIcon" */
+            /* webpackChunkName: "mdi/GateNandIcon" */
             "mdi-react/GateNandIcon"
         ),
     ),
     "mdi-gate-nor": React.lazy(() =>
         import(
-            /* webpackChunkName: "GateNorIcon" */
+            /* webpackChunkName: "mdi/GateNorIcon" */
             "mdi-react/GateNorIcon"
         ),
     ),
     "mdi-gate-not": React.lazy(() =>
         import(
-            /* webpackChunkName: "GateNotIcon" */
+            /* webpackChunkName: "mdi/GateNotIcon" */
             "mdi-react/GateNotIcon"
         ),
     ),
     "mdi-gate-or": React.lazy(() =>
         import(
-            /* webpackChunkName: "GateOrIcon" */
+            /* webpackChunkName: "mdi/GateOrIcon" */
             "mdi-react/GateOrIcon"
         ),
     ),
     "mdi-gate-xnor": React.lazy(() =>
         import(
-            /* webpackChunkName: "GateXnorIcon" */
+            /* webpackChunkName: "mdi/GateXnorIcon" */
             "mdi-react/GateXnorIcon"
         ),
     ),
     "mdi-gate-xor": React.lazy(() =>
         import(
-            /* webpackChunkName: "GateXorIcon" */
+            /* webpackChunkName: "mdi/GateXorIcon" */
             "mdi-react/GateXorIcon"
         ),
     ),
     "mdi-gate": React.lazy(() =>
         import(
-            /* webpackChunkName: "GateIcon" */
+            /* webpackChunkName: "mdi/GateIcon" */
             "mdi-react/GateIcon"
         ),
     ),
     "mdi-gauge-empty": React.lazy(() =>
         import(
-            /* webpackChunkName: "GaugeEmptyIcon" */
+            /* webpackChunkName: "mdi/GaugeEmptyIcon" */
             "mdi-react/GaugeEmptyIcon"
         ),
     ),
     "mdi-gauge-full": React.lazy(() =>
         import(
-            /* webpackChunkName: "GaugeFullIcon" */
+            /* webpackChunkName: "mdi/GaugeFullIcon" */
             "mdi-react/GaugeFullIcon"
         ),
     ),
     "mdi-gauge-low": React.lazy(() =>
         import(
-            /* webpackChunkName: "GaugeLowIcon" */
+            /* webpackChunkName: "mdi/GaugeLowIcon" */
             "mdi-react/GaugeLowIcon"
         ),
     ),
     "mdi-gauge": React.lazy(() =>
         import(
-            /* webpackChunkName: "GaugeIcon" */
+            /* webpackChunkName: "mdi/GaugeIcon" */
             "mdi-react/GaugeIcon"
         ),
     ),
     "mdi-gavel": React.lazy(() =>
         import(
-            /* webpackChunkName: "GavelIcon" */
+            /* webpackChunkName: "mdi/GavelIcon" */
             "mdi-react/GavelIcon"
         ),
     ),
     "mdi-gender-female": React.lazy(() =>
         import(
-            /* webpackChunkName: "GenderFemaleIcon" */
+            /* webpackChunkName: "mdi/GenderFemaleIcon" */
             "mdi-react/GenderFemaleIcon"
         ),
     ),
     "mdi-gender-male-female": React.lazy(() =>
         import(
-            /* webpackChunkName: "GenderMaleFemaleIcon" */
+            /* webpackChunkName: "mdi/GenderMaleFemaleIcon" */
             "mdi-react/GenderMaleFemaleIcon"
         ),
     ),
     "mdi-gender-male": React.lazy(() =>
         import(
-            /* webpackChunkName: "GenderMaleIcon" */
+            /* webpackChunkName: "mdi/GenderMaleIcon" */
             "mdi-react/GenderMaleIcon"
         ),
     ),
     "mdi-gender-transgender": React.lazy(() =>
         import(
-            /* webpackChunkName: "GenderTransgenderIcon" */
+            /* webpackChunkName: "mdi/GenderTransgenderIcon" */
             "mdi-react/GenderTransgenderIcon"
         ),
     ),
     "mdi-gentoo": React.lazy(() =>
         import(
-            /* webpackChunkName: "GentooIcon" */
+            /* webpackChunkName: "mdi/GentooIcon" */
             "mdi-react/GentooIcon"
         ),
     ),
     "mdi-gesture-double-tap": React.lazy(() =>
         import(
-            /* webpackChunkName: "GestureDoubleTapIcon" */
+            /* webpackChunkName: "mdi/GestureDoubleTapIcon" */
             "mdi-react/GestureDoubleTapIcon"
         ),
     ),
     "mdi-gesture-swipe-down": React.lazy(() =>
         import(
-            /* webpackChunkName: "GestureSwipeDownIcon" */
+            /* webpackChunkName: "mdi/GestureSwipeDownIcon" */
             "mdi-react/GestureSwipeDownIcon"
         ),
     ),
     "mdi-gesture-swipe-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "GestureSwipeLeftIcon" */
+            /* webpackChunkName: "mdi/GestureSwipeLeftIcon" */
             "mdi-react/GestureSwipeLeftIcon"
         ),
     ),
     "mdi-gesture-swipe-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "GestureSwipeRightIcon" */
+            /* webpackChunkName: "mdi/GestureSwipeRightIcon" */
             "mdi-react/GestureSwipeRightIcon"
         ),
     ),
     "mdi-gesture-swipe-up": React.lazy(() =>
         import(
-            /* webpackChunkName: "GestureSwipeUpIcon" */
+            /* webpackChunkName: "mdi/GestureSwipeUpIcon" */
             "mdi-react/GestureSwipeUpIcon"
         ),
     ),
     "mdi-gesture-tap": React.lazy(() =>
         import(
-            /* webpackChunkName: "GestureTapIcon" */
+            /* webpackChunkName: "mdi/GestureTapIcon" */
             "mdi-react/GestureTapIcon"
         ),
     ),
     "mdi-gesture-two-double-tap": React.lazy(() =>
         import(
-            /* webpackChunkName: "GestureTwoDoubleTapIcon" */
+            /* webpackChunkName: "mdi/GestureTwoDoubleTapIcon" */
             "mdi-react/GestureTwoDoubleTapIcon"
         ),
     ),
     "mdi-gesture-two-tap": React.lazy(() =>
         import(
-            /* webpackChunkName: "GestureTwoTapIcon" */
+            /* webpackChunkName: "mdi/GestureTwoTapIcon" */
             "mdi-react/GestureTwoTapIcon"
         ),
     ),
     "mdi-gesture": React.lazy(() =>
         import(
-            /* webpackChunkName: "GestureIcon" */
+            /* webpackChunkName: "mdi/GestureIcon" */
             "mdi-react/GestureIcon"
         ),
     ),
     "mdi-ghost": React.lazy(() =>
         import(
-            /* webpackChunkName: "GhostIcon" */
+            /* webpackChunkName: "mdi/GhostIcon" */
             "mdi-react/GhostIcon"
         ),
     ),
     "mdi-gift": React.lazy(() =>
         import(
-            /* webpackChunkName: "GiftIcon" */
+            /* webpackChunkName: "mdi/GiftIcon" */
             "mdi-react/GiftIcon"
         ),
     ),
     "mdi-git": React.lazy(() =>
         import(
-            /* webpackChunkName: "GitIcon" */
+            /* webpackChunkName: "mdi/GitIcon" */
             "mdi-react/GitIcon"
         ),
     ),
     "mdi-github-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "GithubBoxIcon" */
+            /* webpackChunkName: "mdi/GithubBoxIcon" */
             "mdi-react/GithubBoxIcon"
         ),
     ),
     "mdi-github-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "GithubCircleIcon" */
+            /* webpackChunkName: "mdi/GithubCircleIcon" */
             "mdi-react/GithubCircleIcon"
         ),
     ),
     "mdi-github-face": React.lazy(() =>
         import(
-            /* webpackChunkName: "GithubFaceIcon" */
+            /* webpackChunkName: "mdi/GithubFaceIcon" */
             "mdi-react/GithubFaceIcon"
         ),
     ),
     "mdi-glass-cocktail": React.lazy(() =>
         import(
-            /* webpackChunkName: "GlassCocktailIcon" */
+            /* webpackChunkName: "mdi/GlassCocktailIcon" */
             "mdi-react/GlassCocktailIcon"
         ),
     ),
     "mdi-glass-flute": React.lazy(() =>
         import(
-            /* webpackChunkName: "GlassFluteIcon" */
+            /* webpackChunkName: "mdi/GlassFluteIcon" */
             "mdi-react/GlassFluteIcon"
         ),
     ),
     "mdi-glass-mug": React.lazy(() =>
         import(
-            /* webpackChunkName: "GlassMugIcon" */
+            /* webpackChunkName: "mdi/GlassMugIcon" */
             "mdi-react/GlassMugIcon"
         ),
     ),
     "mdi-glass-stange": React.lazy(() =>
         import(
-            /* webpackChunkName: "GlassStangeIcon" */
+            /* webpackChunkName: "mdi/GlassStangeIcon" */
             "mdi-react/GlassStangeIcon"
         ),
     ),
     "mdi-glass-tulip": React.lazy(() =>
         import(
-            /* webpackChunkName: "GlassTulipIcon" */
+            /* webpackChunkName: "mdi/GlassTulipIcon" */
             "mdi-react/GlassTulipIcon"
         ),
     ),
     "mdi-glass-wine": React.lazy(() =>
         import(
-            /* webpackChunkName: "GlassWineIcon" */
+            /* webpackChunkName: "mdi/GlassWineIcon" */
             "mdi-react/GlassWineIcon"
         ),
     ),
     "mdi-glassdoor": React.lazy(() =>
         import(
-            /* webpackChunkName: "GlassdoorIcon" */
+            /* webpackChunkName: "mdi/GlassdoorIcon" */
             "mdi-react/GlassdoorIcon"
         ),
     ),
     "mdi-glasses": React.lazy(() =>
         import(
-            /* webpackChunkName: "GlassesIcon" */
+            /* webpackChunkName: "mdi/GlassesIcon" */
             "mdi-react/GlassesIcon"
         ),
     ),
     "mdi-globe-model": React.lazy(() =>
         import(
-            /* webpackChunkName: "GlobeModelIcon" */
+            /* webpackChunkName: "mdi/GlobeModelIcon" */
             "mdi-react/GlobeModelIcon"
         ),
     ),
     "mdi-gmail": React.lazy(() =>
         import(
-            /* webpackChunkName: "GmailIcon" */
+            /* webpackChunkName: "mdi/GmailIcon" */
             "mdi-react/GmailIcon"
         ),
     ),
     "mdi-gnome": React.lazy(() =>
         import(
-            /* webpackChunkName: "GnomeIcon" */
+            /* webpackChunkName: "mdi/GnomeIcon" */
             "mdi-react/GnomeIcon"
         ),
     ),
     "mdi-golf": React.lazy(() =>
         import(
-            /* webpackChunkName: "GolfIcon" */
+            /* webpackChunkName: "mdi/GolfIcon" */
             "mdi-react/GolfIcon"
         ),
     ),
     "mdi-gondola": React.lazy(() =>
         import(
-            /* webpackChunkName: "GondolaIcon" */
+            /* webpackChunkName: "mdi/GondolaIcon" */
             "mdi-react/GondolaIcon"
         ),
     ),
     "mdi-google-allo": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleAlloIcon" */
+            /* webpackChunkName: "mdi/GoogleAlloIcon" */
             "mdi-react/GoogleAlloIcon"
         ),
     ),
     "mdi-google-analytics": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleAnalyticsIcon" */
+            /* webpackChunkName: "mdi/GoogleAnalyticsIcon" */
             "mdi-react/GoogleAnalyticsIcon"
         ),
     ),
     "mdi-google-assistant": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleAssistantIcon" */
+            /* webpackChunkName: "mdi/GoogleAssistantIcon" */
             "mdi-react/GoogleAssistantIcon"
         ),
     ),
     "mdi-google-cardboard": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleCardboardIcon" */
+            /* webpackChunkName: "mdi/GoogleCardboardIcon" */
             "mdi-react/GoogleCardboardIcon"
         ),
     ),
     "mdi-google-chrome": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleChromeIcon" */
+            /* webpackChunkName: "mdi/GoogleChromeIcon" */
             "mdi-react/GoogleChromeIcon"
         ),
     ),
     "mdi-google-circles-communities": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleCirclesCommunitiesIcon" */
+            /* webpackChunkName: "mdi/GoogleCirclesCommunitiesIcon" */
             "mdi-react/GoogleCirclesCommunitiesIcon"
         ),
     ),
     "mdi-google-circles-extended": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleCirclesExtendedIcon" */
+            /* webpackChunkName: "mdi/GoogleCirclesExtendedIcon" */
             "mdi-react/GoogleCirclesExtendedIcon"
         ),
     ),
     "mdi-google-circles-group": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleCirclesGroupIcon" */
+            /* webpackChunkName: "mdi/GoogleCirclesGroupIcon" */
             "mdi-react/GoogleCirclesGroupIcon"
         ),
     ),
     "mdi-google-circles": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleCirclesIcon" */
+            /* webpackChunkName: "mdi/GoogleCirclesIcon" */
             "mdi-react/GoogleCirclesIcon"
         ),
     ),
     "mdi-google-controller-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleControllerOffIcon" */
+            /* webpackChunkName: "mdi/GoogleControllerOffIcon" */
             "mdi-react/GoogleControllerOffIcon"
         ),
     ),
     "mdi-google-controller": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleControllerIcon" */
+            /* webpackChunkName: "mdi/GoogleControllerIcon" */
             "mdi-react/GoogleControllerIcon"
         ),
     ),
     "mdi-google-drive": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleDriveIcon" */
+            /* webpackChunkName: "mdi/GoogleDriveIcon" */
             "mdi-react/GoogleDriveIcon"
         ),
     ),
     "mdi-google-earth": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleEarthIcon" */
+            /* webpackChunkName: "mdi/GoogleEarthIcon" */
             "mdi-react/GoogleEarthIcon"
         ),
     ),
     "mdi-google-fit": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleFitIcon" */
+            /* webpackChunkName: "mdi/GoogleFitIcon" */
             "mdi-react/GoogleFitIcon"
         ),
     ),
     "mdi-google-glass": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleGlassIcon" */
+            /* webpackChunkName: "mdi/GoogleGlassIcon" */
             "mdi-react/GoogleGlassIcon"
         ),
     ),
     "mdi-google-hangouts": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleHangoutsIcon" */
+            /* webpackChunkName: "mdi/GoogleHangoutsIcon" */
             "mdi-react/GoogleHangoutsIcon"
         ),
     ),
     "mdi-google-home": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleHomeIcon" */
+            /* webpackChunkName: "mdi/GoogleHomeIcon" */
             "mdi-react/GoogleHomeIcon"
         ),
     ),
     "mdi-google-keep": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleKeepIcon" */
+            /* webpackChunkName: "mdi/GoogleKeepIcon" */
             "mdi-react/GoogleKeepIcon"
         ),
     ),
     "mdi-google-maps": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleMapsIcon" */
+            /* webpackChunkName: "mdi/GoogleMapsIcon" */
             "mdi-react/GoogleMapsIcon"
         ),
     ),
     "mdi-google-nearby": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleNearbyIcon" */
+            /* webpackChunkName: "mdi/GoogleNearbyIcon" */
             "mdi-react/GoogleNearbyIcon"
         ),
     ),
     "mdi-google-pages": React.lazy(() =>
         import(
-            /* webpackChunkName: "GooglePagesIcon" */
+            /* webpackChunkName: "mdi/GooglePagesIcon" */
             "mdi-react/GooglePagesIcon"
         ),
     ),
     "mdi-google-photos": React.lazy(() =>
         import(
-            /* webpackChunkName: "GooglePhotosIcon" */
+            /* webpackChunkName: "mdi/GooglePhotosIcon" */
             "mdi-react/GooglePhotosIcon"
         ),
     ),
     "mdi-google-physical-web": React.lazy(() =>
         import(
-            /* webpackChunkName: "GooglePhysicalWebIcon" */
+            /* webpackChunkName: "mdi/GooglePhysicalWebIcon" */
             "mdi-react/GooglePhysicalWebIcon"
         ),
     ),
     "mdi-google-play": React.lazy(() =>
         import(
-            /* webpackChunkName: "GooglePlayIcon" */
+            /* webpackChunkName: "mdi/GooglePlayIcon" */
             "mdi-react/GooglePlayIcon"
         ),
     ),
     "mdi-google-plus-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "GooglePlusBoxIcon" */
+            /* webpackChunkName: "mdi/GooglePlusBoxIcon" */
             "mdi-react/GooglePlusBoxIcon"
         ),
     ),
     "mdi-google-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "GooglePlusIcon" */
+            /* webpackChunkName: "mdi/GooglePlusIcon" */
             "mdi-react/GooglePlusIcon"
         ),
     ),
     "mdi-google-translate": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleTranslateIcon" */
+            /* webpackChunkName: "mdi/GoogleTranslateIcon" */
             "mdi-react/GoogleTranslateIcon"
         ),
     ),
     "mdi-google-wallet": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleWalletIcon" */
+            /* webpackChunkName: "mdi/GoogleWalletIcon" */
             "mdi-react/GoogleWalletIcon"
         ),
     ),
     "mdi-google": React.lazy(() =>
         import(
-            /* webpackChunkName: "GoogleIcon" */
+            /* webpackChunkName: "mdi/GoogleIcon" */
             "mdi-react/GoogleIcon"
         ),
     ),
     "mdi-gpu": React.lazy(() =>
         import(
-            /* webpackChunkName: "GpuIcon" */
+            /* webpackChunkName: "mdi/GpuIcon" */
             "mdi-react/GpuIcon"
         ),
     ),
     "mdi-gradient": React.lazy(() =>
         import(
-            /* webpackChunkName: "GradientIcon" */
+            /* webpackChunkName: "mdi/GradientIcon" */
             "mdi-react/GradientIcon"
         ),
     ),
     "mdi-graphql": React.lazy(() =>
         import(
-            /* webpackChunkName: "GraphqlIcon" */
+            /* webpackChunkName: "mdi/GraphqlIcon" */
             "mdi-react/GraphqlIcon"
         ),
     ),
     "mdi-grease-pencil": React.lazy(() =>
         import(
-            /* webpackChunkName: "GreasePencilIcon" */
+            /* webpackChunkName: "mdi/GreasePencilIcon" */
             "mdi-react/GreasePencilIcon"
         ),
     ),
     "mdi-greater-than-or-equal": React.lazy(() =>
         import(
-            /* webpackChunkName: "GreaterThanOrEqualIcon" */
+            /* webpackChunkName: "mdi/GreaterThanOrEqualIcon" */
             "mdi-react/GreaterThanOrEqualIcon"
         ),
     ),
     "mdi-greater-than": React.lazy(() =>
         import(
-            /* webpackChunkName: "GreaterThanIcon" */
+            /* webpackChunkName: "mdi/GreaterThanIcon" */
             "mdi-react/GreaterThanIcon"
         ),
     ),
     "mdi-grid-large": React.lazy(() =>
         import(
-            /* webpackChunkName: "GridLargeIcon" */
+            /* webpackChunkName: "mdi/GridLargeIcon" */
             "mdi-react/GridLargeIcon"
         ),
     ),
     "mdi-grid-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "GridOffIcon" */
+            /* webpackChunkName: "mdi/GridOffIcon" */
             "mdi-react/GridOffIcon"
         ),
     ),
     "mdi-grid": React.lazy(() =>
         import(
-            /* webpackChunkName: "GridIcon" */
+            /* webpackChunkName: "mdi/GridIcon" */
             "mdi-react/GridIcon"
         ),
     ),
     "mdi-group": React.lazy(() =>
         import(
-            /* webpackChunkName: "GroupIcon" */
+            /* webpackChunkName: "mdi/GroupIcon" */
             "mdi-react/GroupIcon"
         ),
     ),
     "mdi-guitar-acoustic": React.lazy(() =>
         import(
-            /* webpackChunkName: "GuitarAcousticIcon" */
+            /* webpackChunkName: "mdi/GuitarAcousticIcon" */
             "mdi-react/GuitarAcousticIcon"
         ),
     ),
     "mdi-guitar-electric": React.lazy(() =>
         import(
-            /* webpackChunkName: "GuitarElectricIcon" */
+            /* webpackChunkName: "mdi/GuitarElectricIcon" */
             "mdi-react/GuitarElectricIcon"
         ),
     ),
     "mdi-guitar-pick-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "GuitarPickOutlineIcon" */
+            /* webpackChunkName: "mdi/GuitarPickOutlineIcon" */
             "mdi-react/GuitarPickOutlineIcon"
         ),
     ),
     "mdi-guitar-pick": React.lazy(() =>
         import(
-            /* webpackChunkName: "GuitarPickIcon" */
+            /* webpackChunkName: "mdi/GuitarPickIcon" */
             "mdi-react/GuitarPickIcon"
         ),
     ),
     "mdi-guy-fawkes-mask": React.lazy(() =>
         import(
-            /* webpackChunkName: "GuyFawkesMaskIcon" */
+            /* webpackChunkName: "mdi/GuyFawkesMaskIcon" */
             "mdi-react/GuyFawkesMaskIcon"
         ),
     ),
     "mdi-hackernews": React.lazy(() =>
         import(
-            /* webpackChunkName: "HackernewsIcon" */
+            /* webpackChunkName: "mdi/HackernewsIcon" */
             "mdi-react/HackernewsIcon"
         ),
     ),
     "mdi-hamburger": React.lazy(() =>
         import(
-            /* webpackChunkName: "HamburgerIcon" */
+            /* webpackChunkName: "mdi/HamburgerIcon" */
             "mdi-react/HamburgerIcon"
         ),
     ),
     "mdi-hammer": React.lazy(() =>
         import(
-            /* webpackChunkName: "HammerIcon" */
+            /* webpackChunkName: "mdi/HammerIcon" */
             "mdi-react/HammerIcon"
         ),
     ),
     "mdi-hand-pointing-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "HandPointingRightIcon" */
+            /* webpackChunkName: "mdi/HandPointingRightIcon" */
             "mdi-react/HandPointingRightIcon"
         ),
     ),
     "mdi-hanger": React.lazy(() =>
         import(
-            /* webpackChunkName: "HangerIcon" */
+            /* webpackChunkName: "mdi/HangerIcon" */
             "mdi-react/HangerIcon"
         ),
     ),
     "mdi-hard-hat": React.lazy(() =>
         import(
-            /* webpackChunkName: "HardHatIcon" */
+            /* webpackChunkName: "mdi/HardHatIcon" */
             "mdi-react/HardHatIcon"
         ),
     ),
     "mdi-harddisk": React.lazy(() =>
         import(
-            /* webpackChunkName: "HarddiskIcon" */
+            /* webpackChunkName: "mdi/HarddiskIcon" */
             "mdi-react/HarddiskIcon"
         ),
     ),
     "mdi-headphones-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeadphonesBluetoothIcon" */
+            /* webpackChunkName: "mdi/HeadphonesBluetoothIcon" */
             "mdi-react/HeadphonesBluetoothIcon"
         ),
     ),
     "mdi-headphones-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeadphonesBoxIcon" */
+            /* webpackChunkName: "mdi/HeadphonesBoxIcon" */
             "mdi-react/HeadphonesBoxIcon"
         ),
     ),
     "mdi-headphones-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeadphonesOffIcon" */
+            /* webpackChunkName: "mdi/HeadphonesOffIcon" */
             "mdi-react/HeadphonesOffIcon"
         ),
     ),
     "mdi-headphones-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeadphonesSettingsIcon" */
+            /* webpackChunkName: "mdi/HeadphonesSettingsIcon" */
             "mdi-react/HeadphonesSettingsIcon"
         ),
     ),
     "mdi-headphones": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeadphonesIcon" */
+            /* webpackChunkName: "mdi/HeadphonesIcon" */
             "mdi-react/HeadphonesIcon"
         ),
     ),
     "mdi-headset-dock": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeadsetDockIcon" */
+            /* webpackChunkName: "mdi/HeadsetDockIcon" */
             "mdi-react/HeadsetDockIcon"
         ),
     ),
     "mdi-headset-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeadsetOffIcon" */
+            /* webpackChunkName: "mdi/HeadsetOffIcon" */
             "mdi-react/HeadsetOffIcon"
         ),
     ),
     "mdi-headset": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeadsetIcon" */
+            /* webpackChunkName: "mdi/HeadsetIcon" */
             "mdi-react/HeadsetIcon"
         ),
     ),
     "mdi-heart-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeartBoxOutlineIcon" */
+            /* webpackChunkName: "mdi/HeartBoxOutlineIcon" */
             "mdi-react/HeartBoxOutlineIcon"
         ),
     ),
     "mdi-heart-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeartBoxIcon" */
+            /* webpackChunkName: "mdi/HeartBoxIcon" */
             "mdi-react/HeartBoxIcon"
         ),
     ),
     "mdi-heart-broken": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeartBrokenIcon" */
+            /* webpackChunkName: "mdi/HeartBrokenIcon" */
             "mdi-react/HeartBrokenIcon"
         ),
     ),
     "mdi-heart-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeartCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/HeartCircleOutlineIcon" */
             "mdi-react/HeartCircleOutlineIcon"
         ),
     ),
     "mdi-heart-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeartCircleIcon" */
+            /* webpackChunkName: "mdi/HeartCircleIcon" */
             "mdi-react/HeartCircleIcon"
         ),
     ),
     "mdi-heart-half-full": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeartHalfFullIcon" */
+            /* webpackChunkName: "mdi/HeartHalfFullIcon" */
             "mdi-react/HeartHalfFullIcon"
         ),
     ),
     "mdi-heart-half-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeartHalfOutlineIcon" */
+            /* webpackChunkName: "mdi/HeartHalfOutlineIcon" */
             "mdi-react/HeartHalfOutlineIcon"
         ),
     ),
     "mdi-heart-half": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeartHalfIcon" */
+            /* webpackChunkName: "mdi/HeartHalfIcon" */
             "mdi-react/HeartHalfIcon"
         ),
     ),
     "mdi-heart-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeartOffIcon" */
+            /* webpackChunkName: "mdi/HeartOffIcon" */
             "mdi-react/HeartOffIcon"
         ),
     ),
     "mdi-heart-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeartOutlineIcon" */
+            /* webpackChunkName: "mdi/HeartOutlineIcon" */
             "mdi-react/HeartOutlineIcon"
         ),
     ),
     "mdi-heart-pulse": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeartPulseIcon" */
+            /* webpackChunkName: "mdi/HeartPulseIcon" */
             "mdi-react/HeartPulseIcon"
         ),
     ),
     "mdi-heart": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeartIcon" */
+            /* webpackChunkName: "mdi/HeartIcon" */
             "mdi-react/HeartIcon"
         ),
     ),
     "mdi-help-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "HelpBoxIcon" */
+            /* webpackChunkName: "mdi/HelpBoxIcon" */
             "mdi-react/HelpBoxIcon"
         ),
     ),
     "mdi-help-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "HelpCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/HelpCircleOutlineIcon" */
             "mdi-react/HelpCircleOutlineIcon"
         ),
     ),
     "mdi-help-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "HelpCircleIcon" */
+            /* webpackChunkName: "mdi/HelpCircleIcon" */
             "mdi-react/HelpCircleIcon"
         ),
     ),
     "mdi-help-network": React.lazy(() =>
         import(
-            /* webpackChunkName: "HelpNetworkIcon" */
+            /* webpackChunkName: "mdi/HelpNetworkIcon" */
             "mdi-react/HelpNetworkIcon"
         ),
     ),
     "mdi-help": React.lazy(() =>
         import(
-            /* webpackChunkName: "HelpIcon" */
+            /* webpackChunkName: "mdi/HelpIcon" */
             "mdi-react/HelpIcon"
         ),
     ),
     "mdi-hexagon-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "HexagonMultipleIcon" */
+            /* webpackChunkName: "mdi/HexagonMultipleIcon" */
             "mdi-react/HexagonMultipleIcon"
         ),
     ),
     "mdi-hexagon-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "HexagonOutlineIcon" */
+            /* webpackChunkName: "mdi/HexagonOutlineIcon" */
             "mdi-react/HexagonOutlineIcon"
         ),
     ),
     "mdi-hexagon": React.lazy(() =>
         import(
-            /* webpackChunkName: "HexagonIcon" */
+            /* webpackChunkName: "mdi/HexagonIcon" */
             "mdi-react/HexagonIcon"
         ),
     ),
     "mdi-high-definition-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "HighDefinitionBoxIcon" */
+            /* webpackChunkName: "mdi/HighDefinitionBoxIcon" */
             "mdi-react/HighDefinitionBoxIcon"
         ),
     ),
     "mdi-high-definition": React.lazy(() =>
         import(
-            /* webpackChunkName: "HighDefinitionIcon" */
+            /* webpackChunkName: "mdi/HighDefinitionIcon" */
             "mdi-react/HighDefinitionIcon"
         ),
     ),
     "mdi-highway": React.lazy(() =>
         import(
-            /* webpackChunkName: "HighwayIcon" */
+            /* webpackChunkName: "mdi/HighwayIcon" */
             "mdi-react/HighwayIcon"
         ),
     ),
     "mdi-hinduism": React.lazy(() =>
         import(
-            /* webpackChunkName: "HinduismIcon" */
+            /* webpackChunkName: "mdi/HinduismIcon" */
             "mdi-react/HinduismIcon"
         ),
     ),
     "mdi-history": React.lazy(() =>
         import(
-            /* webpackChunkName: "HistoryIcon" */
+            /* webpackChunkName: "mdi/HistoryIcon" */
             "mdi-react/HistoryIcon"
         ),
     ),
     "mdi-hockey-puck": React.lazy(() =>
         import(
-            /* webpackChunkName: "HockeyPuckIcon" */
+            /* webpackChunkName: "mdi/HockeyPuckIcon" */
             "mdi-react/HockeyPuckIcon"
         ),
     ),
     "mdi-hockey-sticks": React.lazy(() =>
         import(
-            /* webpackChunkName: "HockeySticksIcon" */
+            /* webpackChunkName: "mdi/HockeySticksIcon" */
             "mdi-react/HockeySticksIcon"
         ),
     ),
     "mdi-hololens": React.lazy(() =>
         import(
-            /* webpackChunkName: "HololensIcon" */
+            /* webpackChunkName: "mdi/HololensIcon" */
             "mdi-react/HololensIcon"
         ),
     ),
     "mdi-home-account": React.lazy(() =>
         import(
-            /* webpackChunkName: "HomeAccountIcon" */
+            /* webpackChunkName: "mdi/HomeAccountIcon" */
             "mdi-react/HomeAccountIcon"
         ),
     ),
     "mdi-home-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "HomeAlertIcon" */
+            /* webpackChunkName: "mdi/HomeAlertIcon" */
             "mdi-react/HomeAlertIcon"
         ),
     ),
     "mdi-home-assistant": React.lazy(() =>
         import(
-            /* webpackChunkName: "HomeAssistantIcon" */
+            /* webpackChunkName: "mdi/HomeAssistantIcon" */
             "mdi-react/HomeAssistantIcon"
         ),
     ),
     "mdi-home-automation": React.lazy(() =>
         import(
-            /* webpackChunkName: "HomeAutomationIcon" */
+            /* webpackChunkName: "mdi/HomeAutomationIcon" */
             "mdi-react/HomeAutomationIcon"
         ),
     ),
     "mdi-home-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "HomeCircleIcon" */
+            /* webpackChunkName: "mdi/HomeCircleIcon" */
             "mdi-react/HomeCircleIcon"
         ),
     ),
     "mdi-home-currency-usd": React.lazy(() =>
         import(
-            /* webpackChunkName: "HomeCurrencyUsdIcon" */
+            /* webpackChunkName: "mdi/HomeCurrencyUsdIcon" */
             "mdi-react/HomeCurrencyUsdIcon"
         ),
     ),
     "mdi-home-heart": React.lazy(() =>
         import(
-            /* webpackChunkName: "HomeHeartIcon" */
+            /* webpackChunkName: "mdi/HomeHeartIcon" */
             "mdi-react/HomeHeartIcon"
         ),
     ),
     "mdi-home-lock-open": React.lazy(() =>
         import(
-            /* webpackChunkName: "HomeLockOpenIcon" */
+            /* webpackChunkName: "mdi/HomeLockOpenIcon" */
             "mdi-react/HomeLockOpenIcon"
         ),
     ),
     "mdi-home-lock": React.lazy(() =>
         import(
-            /* webpackChunkName: "HomeLockIcon" */
+            /* webpackChunkName: "mdi/HomeLockIcon" */
             "mdi-react/HomeLockIcon"
         ),
     ),
     "mdi-home-map-marker": React.lazy(() =>
         import(
-            /* webpackChunkName: "HomeMapMarkerIcon" */
+            /* webpackChunkName: "mdi/HomeMapMarkerIcon" */
             "mdi-react/HomeMapMarkerIcon"
         ),
     ),
     "mdi-home-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "HomeMinusIcon" */
+            /* webpackChunkName: "mdi/HomeMinusIcon" */
             "mdi-react/HomeMinusIcon"
         ),
     ),
     "mdi-home-modern": React.lazy(() =>
         import(
-            /* webpackChunkName: "HomeModernIcon" */
+            /* webpackChunkName: "mdi/HomeModernIcon" */
             "mdi-react/HomeModernIcon"
         ),
     ),
     "mdi-home-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "HomeOutlineIcon" */
+            /* webpackChunkName: "mdi/HomeOutlineIcon" */
             "mdi-react/HomeOutlineIcon"
         ),
     ),
     "mdi-home-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "HomePlusIcon" */
+            /* webpackChunkName: "mdi/HomePlusIcon" */
             "mdi-react/HomePlusIcon"
         ),
     ),
     "mdi-home-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "HomeVariantIcon" */
+            /* webpackChunkName: "mdi/HomeVariantIcon" */
             "mdi-react/HomeVariantIcon"
         ),
     ),
     "mdi-home": React.lazy(() =>
         import(
-            /* webpackChunkName: "HomeIcon" */
+            /* webpackChunkName: "mdi/HomeIcon" */
             "mdi-react/HomeIcon"
         ),
     ),
     "mdi-hook-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "HookOffIcon" */
+            /* webpackChunkName: "mdi/HookOffIcon" */
             "mdi-react/HookOffIcon"
         ),
     ),
     "mdi-hook": React.lazy(() =>
         import(
-            /* webpackChunkName: "HookIcon" */
+            /* webpackChunkName: "mdi/HookIcon" */
             "mdi-react/HookIcon"
         ),
     ),
     "mdi-hops": React.lazy(() =>
         import(
-            /* webpackChunkName: "HopsIcon" */
+            /* webpackChunkName: "mdi/HopsIcon" */
             "mdi-react/HopsIcon"
         ),
     ),
     "mdi-hospital-building": React.lazy(() =>
         import(
-            /* webpackChunkName: "HospitalBuildingIcon" */
+            /* webpackChunkName: "mdi/HospitalBuildingIcon" */
             "mdi-react/HospitalBuildingIcon"
         ),
     ),
     "mdi-hospital-marker": React.lazy(() =>
         import(
-            /* webpackChunkName: "HospitalMarkerIcon" */
+            /* webpackChunkName: "mdi/HospitalMarkerIcon" */
             "mdi-react/HospitalMarkerIcon"
         ),
     ),
     "mdi-hospital": React.lazy(() =>
         import(
-            /* webpackChunkName: "HospitalIcon" */
+            /* webpackChunkName: "mdi/HospitalIcon" */
             "mdi-react/HospitalIcon"
         ),
     ),
     "mdi-hot-tub": React.lazy(() =>
         import(
-            /* webpackChunkName: "HotTubIcon" */
+            /* webpackChunkName: "mdi/HotTubIcon" */
             "mdi-react/HotTubIcon"
         ),
     ),
     "mdi-hotel": React.lazy(() =>
         import(
-            /* webpackChunkName: "HotelIcon" */
+            /* webpackChunkName: "mdi/HotelIcon" */
             "mdi-react/HotelIcon"
         ),
     ),
     "mdi-houzz-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "HouzzBoxIcon" */
+            /* webpackChunkName: "mdi/HouzzBoxIcon" */
             "mdi-react/HouzzBoxIcon"
         ),
     ),
     "mdi-houzz": React.lazy(() =>
         import(
-            /* webpackChunkName: "HouzzIcon" */
+            /* webpackChunkName: "mdi/HouzzIcon" */
             "mdi-react/HouzzIcon"
         ),
     ),
     "mdi-hulu": React.lazy(() =>
         import(
-            /* webpackChunkName: "HuluIcon" */
+            /* webpackChunkName: "mdi/HuluIcon" */
             "mdi-react/HuluIcon"
         ),
     ),
     "mdi-human-child": React.lazy(() =>
         import(
-            /* webpackChunkName: "HumanChildIcon" */
+            /* webpackChunkName: "mdi/HumanChildIcon" */
             "mdi-react/HumanChildIcon"
         ),
     ),
     "mdi-human-female": React.lazy(() =>
         import(
-            /* webpackChunkName: "HumanFemaleIcon" */
+            /* webpackChunkName: "mdi/HumanFemaleIcon" */
             "mdi-react/HumanFemaleIcon"
         ),
     ),
     "mdi-human-greeting": React.lazy(() =>
         import(
-            /* webpackChunkName: "HumanGreetingIcon" */
+            /* webpackChunkName: "mdi/HumanGreetingIcon" */
             "mdi-react/HumanGreetingIcon"
         ),
     ),
     "mdi-human-handsdown": React.lazy(() =>
         import(
-            /* webpackChunkName: "HumanHandsdownIcon" */
+            /* webpackChunkName: "mdi/HumanHandsdownIcon" */
             "mdi-react/HumanHandsdownIcon"
         ),
     ),
     "mdi-human-handsup": React.lazy(() =>
         import(
-            /* webpackChunkName: "HumanHandsupIcon" */
+            /* webpackChunkName: "mdi/HumanHandsupIcon" */
             "mdi-react/HumanHandsupIcon"
         ),
     ),
     "mdi-human-male-female": React.lazy(() =>
         import(
-            /* webpackChunkName: "HumanMaleFemaleIcon" */
+            /* webpackChunkName: "mdi/HumanMaleFemaleIcon" */
             "mdi-react/HumanMaleFemaleIcon"
         ),
     ),
     "mdi-human-male": React.lazy(() =>
         import(
-            /* webpackChunkName: "HumanMaleIcon" */
+            /* webpackChunkName: "mdi/HumanMaleIcon" */
             "mdi-react/HumanMaleIcon"
         ),
     ),
     "mdi-human-pregnant": React.lazy(() =>
         import(
-            /* webpackChunkName: "HumanPregnantIcon" */
+            /* webpackChunkName: "mdi/HumanPregnantIcon" */
             "mdi-react/HumanPregnantIcon"
         ),
     ),
     "mdi-human": React.lazy(() =>
         import(
-            /* webpackChunkName: "HumanIcon" */
+            /* webpackChunkName: "mdi/HumanIcon" */
             "mdi-react/HumanIcon"
         ),
     ),
     "mdi-humble-bundle": React.lazy(() =>
         import(
-            /* webpackChunkName: "HumbleBundleIcon" */
+            /* webpackChunkName: "mdi/HumbleBundleIcon" */
             "mdi-react/HumbleBundleIcon"
         ),
     ),
     "mdi-ice-cream": React.lazy(() =>
         import(
-            /* webpackChunkName: "IceCreamIcon" */
+            /* webpackChunkName: "mdi/IceCreamIcon" */
             "mdi-react/IceCreamIcon"
         ),
     ),
     "mdi-image-album": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageAlbumIcon" */
+            /* webpackChunkName: "mdi/ImageAlbumIcon" */
             "mdi-react/ImageAlbumIcon"
         ),
     ),
     "mdi-image-area-close": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageAreaCloseIcon" */
+            /* webpackChunkName: "mdi/ImageAreaCloseIcon" */
             "mdi-react/ImageAreaCloseIcon"
         ),
     ),
     "mdi-image-area": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageAreaIcon" */
+            /* webpackChunkName: "mdi/ImageAreaIcon" */
             "mdi-react/ImageAreaIcon"
         ),
     ),
     "mdi-image-broken-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageBrokenVariantIcon" */
+            /* webpackChunkName: "mdi/ImageBrokenVariantIcon" */
             "mdi-react/ImageBrokenVariantIcon"
         ),
     ),
     "mdi-image-broken": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageBrokenIcon" */
+            /* webpackChunkName: "mdi/ImageBrokenIcon" */
             "mdi-react/ImageBrokenIcon"
         ),
     ),
     "mdi-image-filter-black-white": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageFilterBlackWhiteIcon" */
+            /* webpackChunkName: "mdi/ImageFilterBlackWhiteIcon" */
             "mdi-react/ImageFilterBlackWhiteIcon"
         ),
     ),
     "mdi-image-filter-center-focus-weak": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageFilterCenterFocusWeakIcon" */
+            /* webpackChunkName: "mdi/ImageFilterCenterFocusWeakIcon" */
             "mdi-react/ImageFilterCenterFocusWeakIcon"
         ),
     ),
     "mdi-image-filter-center-focus": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageFilterCenterFocusIcon" */
+            /* webpackChunkName: "mdi/ImageFilterCenterFocusIcon" */
             "mdi-react/ImageFilterCenterFocusIcon"
         ),
     ),
     "mdi-image-filter-drama": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageFilterDramaIcon" */
+            /* webpackChunkName: "mdi/ImageFilterDramaIcon" */
             "mdi-react/ImageFilterDramaIcon"
         ),
     ),
     "mdi-image-filter-frames": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageFilterFramesIcon" */
+            /* webpackChunkName: "mdi/ImageFilterFramesIcon" */
             "mdi-react/ImageFilterFramesIcon"
         ),
     ),
     "mdi-image-filter-hdr": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageFilterHdrIcon" */
+            /* webpackChunkName: "mdi/ImageFilterHdrIcon" */
             "mdi-react/ImageFilterHdrIcon"
         ),
     ),
     "mdi-image-filter-none": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageFilterNoneIcon" */
+            /* webpackChunkName: "mdi/ImageFilterNoneIcon" */
             "mdi-react/ImageFilterNoneIcon"
         ),
     ),
     "mdi-image-filter-tilt-shift": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageFilterTiltShiftIcon" */
+            /* webpackChunkName: "mdi/ImageFilterTiltShiftIcon" */
             "mdi-react/ImageFilterTiltShiftIcon"
         ),
     ),
     "mdi-image-filter-vintage": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageFilterVintageIcon" */
+            /* webpackChunkName: "mdi/ImageFilterVintageIcon" */
             "mdi-react/ImageFilterVintageIcon"
         ),
     ),
     "mdi-image-filter": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageFilterIcon" */
+            /* webpackChunkName: "mdi/ImageFilterIcon" */
             "mdi-react/ImageFilterIcon"
         ),
     ),
     "mdi-image-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageMultipleIcon" */
+            /* webpackChunkName: "mdi/ImageMultipleIcon" */
             "mdi-react/ImageMultipleIcon"
         ),
     ),
     "mdi-image-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageOffIcon" */
+            /* webpackChunkName: "mdi/ImageOffIcon" */
             "mdi-react/ImageOffIcon"
         ),
     ),
     "mdi-image-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageOutlineIcon" */
+            /* webpackChunkName: "mdi/ImageOutlineIcon" */
             "mdi-react/ImageOutlineIcon"
         ),
     ),
     "mdi-image-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImagePlusIcon" */
+            /* webpackChunkName: "mdi/ImagePlusIcon" */
             "mdi-react/ImagePlusIcon"
         ),
     ),
     "mdi-image-search-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageSearchOutlineIcon" */
+            /* webpackChunkName: "mdi/ImageSearchOutlineIcon" */
             "mdi-react/ImageSearchOutlineIcon"
         ),
     ),
     "mdi-image-search": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageSearchIcon" */
+            /* webpackChunkName: "mdi/ImageSearchIcon" */
             "mdi-react/ImageSearchIcon"
         ),
     ),
     "mdi-image": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageIcon" */
+            /* webpackChunkName: "mdi/ImageIcon" */
             "mdi-react/ImageIcon"
         ),
     ),
     "mdi-import": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImportIcon" */
+            /* webpackChunkName: "mdi/ImportIcon" */
             "mdi-react/ImportIcon"
         ),
     ),
     "mdi-inbox-arrow-down": React.lazy(() =>
         import(
-            /* webpackChunkName: "InboxArrowDownIcon" */
+            /* webpackChunkName: "mdi/InboxArrowDownIcon" */
             "mdi-react/InboxArrowDownIcon"
         ),
     ),
     "mdi-inbox-arrow-up": React.lazy(() =>
         import(
-            /* webpackChunkName: "InboxArrowUpIcon" */
+            /* webpackChunkName: "mdi/InboxArrowUpIcon" */
             "mdi-react/InboxArrowUpIcon"
         ),
     ),
     "mdi-inbox-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "InboxMultipleIcon" */
+            /* webpackChunkName: "mdi/InboxMultipleIcon" */
             "mdi-react/InboxMultipleIcon"
         ),
     ),
     "mdi-inbox": React.lazy(() =>
         import(
-            /* webpackChunkName: "InboxIcon" */
+            /* webpackChunkName: "mdi/InboxIcon" */
             "mdi-react/InboxIcon"
         ),
     ),
     "mdi-incognito": React.lazy(() =>
         import(
-            /* webpackChunkName: "IncognitoIcon" */
+            /* webpackChunkName: "mdi/IncognitoIcon" */
             "mdi-react/IncognitoIcon"
         ),
     ),
     "mdi-infinity": React.lazy(() =>
         import(
-            /* webpackChunkName: "InfinityIcon" */
+            /* webpackChunkName: "mdi/InfinityIcon" */
             "mdi-react/InfinityIcon"
         ),
     ),
     "mdi-information-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "InformationOutlineIcon" */
+            /* webpackChunkName: "mdi/InformationOutlineIcon" */
             "mdi-react/InformationOutlineIcon"
         ),
     ),
     "mdi-information-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "InformationVariantIcon" */
+            /* webpackChunkName: "mdi/InformationVariantIcon" */
             "mdi-react/InformationVariantIcon"
         ),
     ),
     "mdi-information": React.lazy(() =>
         import(
-            /* webpackChunkName: "InformationIcon" */
+            /* webpackChunkName: "mdi/InformationIcon" */
             "mdi-react/InformationIcon"
         ),
     ),
     "mdi-instagram": React.lazy(() =>
         import(
-            /* webpackChunkName: "InstagramIcon" */
+            /* webpackChunkName: "mdi/InstagramIcon" */
             "mdi-react/InstagramIcon"
         ),
     ),
     "mdi-instapaper": React.lazy(() =>
         import(
-            /* webpackChunkName: "InstapaperIcon" */
+            /* webpackChunkName: "mdi/InstapaperIcon" */
             "mdi-react/InstapaperIcon"
         ),
     ),
     "mdi-internet-explorer": React.lazy(() =>
         import(
-            /* webpackChunkName: "InternetExplorerIcon" */
+            /* webpackChunkName: "mdi/InternetExplorerIcon" */
             "mdi-react/InternetExplorerIcon"
         ),
     ),
     "mdi-invert-colors": React.lazy(() =>
         import(
-            /* webpackChunkName: "InvertColorsIcon" */
+            /* webpackChunkName: "mdi/InvertColorsIcon" */
             "mdi-react/InvertColorsIcon"
         ),
     ),
     "mdi-islam": React.lazy(() =>
         import(
-            /* webpackChunkName: "IslamIcon" */
+            /* webpackChunkName: "mdi/IslamIcon" */
             "mdi-react/IslamIcon"
         ),
     ),
     "mdi-itunes": React.lazy(() =>
         import(
-            /* webpackChunkName: "ItunesIcon" */
+            /* webpackChunkName: "mdi/ItunesIcon" */
             "mdi-react/ItunesIcon"
         ),
     ),
     "mdi-jeepney": React.lazy(() =>
         import(
-            /* webpackChunkName: "JeepneyIcon" */
+            /* webpackChunkName: "mdi/JeepneyIcon" */
             "mdi-react/JeepneyIcon"
         ),
     ),
     "mdi-jira": React.lazy(() =>
         import(
-            /* webpackChunkName: "JiraIcon" */
+            /* webpackChunkName: "mdi/JiraIcon" */
             "mdi-react/JiraIcon"
         ),
     ),
     "mdi-jquery": React.lazy(() =>
         import(
-            /* webpackChunkName: "JqueryIcon" */
+            /* webpackChunkName: "mdi/JqueryIcon" */
             "mdi-react/JqueryIcon"
         ),
     ),
     "mdi-jsfiddle": React.lazy(() =>
         import(
-            /* webpackChunkName: "JsfiddleIcon" */
+            /* webpackChunkName: "mdi/JsfiddleIcon" */
             "mdi-react/JsfiddleIcon"
         ),
     ),
     "mdi-json": React.lazy(() =>
         import(
-            /* webpackChunkName: "JsonIcon" */
+            /* webpackChunkName: "mdi/JsonIcon" */
             "mdi-react/JsonIcon"
         ),
     ),
     "mdi-judaism": React.lazy(() =>
         import(
-            /* webpackChunkName: "JudaismIcon" */
+            /* webpackChunkName: "mdi/JudaismIcon" */
             "mdi-react/JudaismIcon"
         ),
     ),
     "mdi-karate": React.lazy(() =>
         import(
-            /* webpackChunkName: "KarateIcon" */
+            /* webpackChunkName: "mdi/KarateIcon" */
             "mdi-react/KarateIcon"
         ),
     ),
     "mdi-keg": React.lazy(() =>
         import(
-            /* webpackChunkName: "KegIcon" */
+            /* webpackChunkName: "mdi/KegIcon" */
             "mdi-react/KegIcon"
         ),
     ),
     "mdi-kettle": React.lazy(() =>
         import(
-            /* webpackChunkName: "KettleIcon" */
+            /* webpackChunkName: "mdi/KettleIcon" */
             "mdi-react/KettleIcon"
         ),
     ),
     "mdi-key-change": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyChangeIcon" */
+            /* webpackChunkName: "mdi/KeyChangeIcon" */
             "mdi-react/KeyChangeIcon"
         ),
     ),
     "mdi-key-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyMinusIcon" */
+            /* webpackChunkName: "mdi/KeyMinusIcon" */
             "mdi-react/KeyMinusIcon"
         ),
     ),
     "mdi-key-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyPlusIcon" */
+            /* webpackChunkName: "mdi/KeyPlusIcon" */
             "mdi-react/KeyPlusIcon"
         ),
     ),
     "mdi-key-remove": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyRemoveIcon" */
+            /* webpackChunkName: "mdi/KeyRemoveIcon" */
             "mdi-react/KeyRemoveIcon"
         ),
     ),
     "mdi-key-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyVariantIcon" */
+            /* webpackChunkName: "mdi/KeyVariantIcon" */
             "mdi-react/KeyVariantIcon"
         ),
     ),
     "mdi-key": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyIcon" */
+            /* webpackChunkName: "mdi/KeyIcon" */
             "mdi-react/KeyIcon"
         ),
     ),
     "mdi-keyboard-backspace": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyboardBackspaceIcon" */
+            /* webpackChunkName: "mdi/KeyboardBackspaceIcon" */
             "mdi-react/KeyboardBackspaceIcon"
         ),
     ),
     "mdi-keyboard-caps": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyboardCapsIcon" */
+            /* webpackChunkName: "mdi/KeyboardCapsIcon" */
             "mdi-react/KeyboardCapsIcon"
         ),
     ),
     "mdi-keyboard-close": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyboardCloseIcon" */
+            /* webpackChunkName: "mdi/KeyboardCloseIcon" */
             "mdi-react/KeyboardCloseIcon"
         ),
     ),
     "mdi-keyboard-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyboardOffIcon" */
+            /* webpackChunkName: "mdi/KeyboardOffIcon" */
             "mdi-react/KeyboardOffIcon"
         ),
     ),
     "mdi-keyboard-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyboardOutlineIcon" */
+            /* webpackChunkName: "mdi/KeyboardOutlineIcon" */
             "mdi-react/KeyboardOutlineIcon"
         ),
     ),
     "mdi-keyboard-return": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyboardReturnIcon" */
+            /* webpackChunkName: "mdi/KeyboardReturnIcon" */
             "mdi-react/KeyboardReturnIcon"
         ),
     ),
     "mdi-keyboard-tab": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyboardTabIcon" */
+            /* webpackChunkName: "mdi/KeyboardTabIcon" */
             "mdi-react/KeyboardTabIcon"
         ),
     ),
     "mdi-keyboard-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyboardVariantIcon" */
+            /* webpackChunkName: "mdi/KeyboardVariantIcon" */
             "mdi-react/KeyboardVariantIcon"
         ),
     ),
     "mdi-keyboard": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyboardIcon" */
+            /* webpackChunkName: "mdi/KeyboardIcon" */
             "mdi-react/KeyboardIcon"
         ),
     ),
     "mdi-kickstarter": React.lazy(() =>
         import(
-            /* webpackChunkName: "KickstarterIcon" */
+            /* webpackChunkName: "mdi/KickstarterIcon" */
             "mdi-react/KickstarterIcon"
         ),
     ),
     "mdi-kodi": React.lazy(() =>
         import(
-            /* webpackChunkName: "KodiIcon" */
+            /* webpackChunkName: "mdi/KodiIcon" */
             "mdi-react/KodiIcon"
         ),
     ),
     "mdi-label-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "LabelOutlineIcon" */
+            /* webpackChunkName: "mdi/LabelOutlineIcon" */
             "mdi-react/LabelOutlineIcon"
         ),
     ),
     "mdi-label": React.lazy(() =>
         import(
-            /* webpackChunkName: "LabelIcon" */
+            /* webpackChunkName: "mdi/LabelIcon" */
             "mdi-react/LabelIcon"
         ),
     ),
     "mdi-ladybug": React.lazy(() =>
         import(
-            /* webpackChunkName: "LadybugIcon" */
+            /* webpackChunkName: "mdi/LadybugIcon" */
             "mdi-react/LadybugIcon"
         ),
     ),
     "mdi-lambda": React.lazy(() =>
         import(
-            /* webpackChunkName: "LambdaIcon" */
+            /* webpackChunkName: "mdi/LambdaIcon" */
             "mdi-react/LambdaIcon"
         ),
     ),
     "mdi-lamp": React.lazy(() =>
         import(
-            /* webpackChunkName: "LampIcon" */
+            /* webpackChunkName: "mdi/LampIcon" */
             "mdi-react/LampIcon"
         ),
     ),
     "mdi-lan-connect": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanConnectIcon" */
+            /* webpackChunkName: "mdi/LanConnectIcon" */
             "mdi-react/LanConnectIcon"
         ),
     ),
     "mdi-lan-disconnect": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanDisconnectIcon" */
+            /* webpackChunkName: "mdi/LanDisconnectIcon" */
             "mdi-react/LanDisconnectIcon"
         ),
     ),
     "mdi-lan-pending": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanPendingIcon" */
+            /* webpackChunkName: "mdi/LanPendingIcon" */
             "mdi-react/LanPendingIcon"
         ),
     ),
     "mdi-lan": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanIcon" */
+            /* webpackChunkName: "mdi/LanIcon" */
             "mdi-react/LanIcon"
         ),
     ),
     "mdi-language-c": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanguageCIcon" */
+            /* webpackChunkName: "mdi/LanguageCIcon" */
             "mdi-react/LanguageCIcon"
         ),
     ),
     "mdi-language-cpp": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanguageCppIcon" */
+            /* webpackChunkName: "mdi/LanguageCppIcon" */
             "mdi-react/LanguageCppIcon"
         ),
     ),
     "mdi-language-csharp": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanguageCsharpIcon" */
+            /* webpackChunkName: "mdi/LanguageCsharpIcon" */
             "mdi-react/LanguageCsharpIcon"
         ),
     ),
     "mdi-language-css-3": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanguageCss3Icon" */
+            /* webpackChunkName: "mdi/LanguageCss3Icon" */
             "mdi-react/LanguageCss3Icon"
         ),
     ),
     "mdi-language-go": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanguageGoIcon" */
+            /* webpackChunkName: "mdi/LanguageGoIcon" */
             "mdi-react/LanguageGoIcon"
         ),
     ),
     "mdi-language-html-5": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanguageHtml5Icon" */
+            /* webpackChunkName: "mdi/LanguageHtml5Icon" */
             "mdi-react/LanguageHtml5Icon"
         ),
     ),
     "mdi-language-javascript": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanguageJavascriptIcon" */
+            /* webpackChunkName: "mdi/LanguageJavascriptIcon" */
             "mdi-react/LanguageJavascriptIcon"
         ),
     ),
     "mdi-language-lua": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanguageLuaIcon" */
+            /* webpackChunkName: "mdi/LanguageLuaIcon" */
             "mdi-react/LanguageLuaIcon"
         ),
     ),
     "mdi-language-php": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanguagePhpIcon" */
+            /* webpackChunkName: "mdi/LanguagePhpIcon" */
             "mdi-react/LanguagePhpIcon"
         ),
     ),
     "mdi-language-python-text": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanguagePythonTextIcon" */
+            /* webpackChunkName: "mdi/LanguagePythonTextIcon" */
             "mdi-react/LanguagePythonTextIcon"
         ),
     ),
     "mdi-language-python": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanguagePythonIcon" */
+            /* webpackChunkName: "mdi/LanguagePythonIcon" */
             "mdi-react/LanguagePythonIcon"
         ),
     ),
     "mdi-language-r": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanguageRIcon" */
+            /* webpackChunkName: "mdi/LanguageRIcon" */
             "mdi-react/LanguageRIcon"
         ),
     ),
     "mdi-language-swift": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanguageSwiftIcon" */
+            /* webpackChunkName: "mdi/LanguageSwiftIcon" */
             "mdi-react/LanguageSwiftIcon"
         ),
     ),
     "mdi-language-typescript": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanguageTypescriptIcon" */
+            /* webpackChunkName: "mdi/LanguageTypescriptIcon" */
             "mdi-react/LanguageTypescriptIcon"
         ),
     ),
     "mdi-laptop-chromebook": React.lazy(() =>
         import(
-            /* webpackChunkName: "LaptopChromebookIcon" */
+            /* webpackChunkName: "mdi/LaptopChromebookIcon" */
             "mdi-react/LaptopChromebookIcon"
         ),
     ),
     "mdi-laptop-mac": React.lazy(() =>
         import(
-            /* webpackChunkName: "LaptopMacIcon" */
+            /* webpackChunkName: "mdi/LaptopMacIcon" */
             "mdi-react/LaptopMacIcon"
         ),
     ),
     "mdi-laptop-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "LaptopOffIcon" */
+            /* webpackChunkName: "mdi/LaptopOffIcon" */
             "mdi-react/LaptopOffIcon"
         ),
     ),
     "mdi-laptop-windows": React.lazy(() =>
         import(
-            /* webpackChunkName: "LaptopWindowsIcon" */
+            /* webpackChunkName: "mdi/LaptopWindowsIcon" */
             "mdi-react/LaptopWindowsIcon"
         ),
     ),
     "mdi-laptop": React.lazy(() =>
         import(
-            /* webpackChunkName: "LaptopIcon" */
+            /* webpackChunkName: "mdi/LaptopIcon" */
             "mdi-react/LaptopIcon"
         ),
     ),
     "mdi-lastfm": React.lazy(() =>
         import(
-            /* webpackChunkName: "LastfmIcon" */
+            /* webpackChunkName: "mdi/LastfmIcon" */
             "mdi-react/LastfmIcon"
         ),
     ),
     "mdi-lastpass": React.lazy(() =>
         import(
-            /* webpackChunkName: "LastpassIcon" */
+            /* webpackChunkName: "mdi/LastpassIcon" */
             "mdi-react/LastpassIcon"
         ),
     ),
     "mdi-launch": React.lazy(() =>
         import(
-            /* webpackChunkName: "LaunchIcon" */
+            /* webpackChunkName: "mdi/LaunchIcon" */
             "mdi-react/LaunchIcon"
         ),
     ),
     "mdi-lava-lamp": React.lazy(() =>
         import(
-            /* webpackChunkName: "LavaLampIcon" */
+            /* webpackChunkName: "mdi/LavaLampIcon" */
             "mdi-react/LavaLampIcon"
         ),
     ),
     "mdi-layers-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "LayersOffIcon" */
+            /* webpackChunkName: "mdi/LayersOffIcon" */
             "mdi-react/LayersOffIcon"
         ),
     ),
     "mdi-layers": React.lazy(() =>
         import(
-            /* webpackChunkName: "LayersIcon" */
+            /* webpackChunkName: "mdi/LayersIcon" */
             "mdi-react/LayersIcon"
         ),
     ),
     "mdi-lead-pencil": React.lazy(() =>
         import(
-            /* webpackChunkName: "LeadPencilIcon" */
+            /* webpackChunkName: "mdi/LeadPencilIcon" */
             "mdi-react/LeadPencilIcon"
         ),
     ),
     "mdi-leaf": React.lazy(() =>
         import(
-            /* webpackChunkName: "LeafIcon" */
+            /* webpackChunkName: "mdi/LeafIcon" */
             "mdi-react/LeafIcon"
         ),
     ),
     "mdi-led-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "LedOffIcon" */
+            /* webpackChunkName: "mdi/LedOffIcon" */
             "mdi-react/LedOffIcon"
         ),
     ),
     "mdi-led-on": React.lazy(() =>
         import(
-            /* webpackChunkName: "LedOnIcon" */
+            /* webpackChunkName: "mdi/LedOnIcon" */
             "mdi-react/LedOnIcon"
         ),
     ),
     "mdi-led-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "LedOutlineIcon" */
+            /* webpackChunkName: "mdi/LedOutlineIcon" */
             "mdi-react/LedOutlineIcon"
         ),
     ),
     "mdi-led-strip": React.lazy(() =>
         import(
-            /* webpackChunkName: "LedStripIcon" */
+            /* webpackChunkName: "mdi/LedStripIcon" */
             "mdi-react/LedStripIcon"
         ),
     ),
     "mdi-led-variant-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "LedVariantOffIcon" */
+            /* webpackChunkName: "mdi/LedVariantOffIcon" */
             "mdi-react/LedVariantOffIcon"
         ),
     ),
     "mdi-led-variant-on": React.lazy(() =>
         import(
-            /* webpackChunkName: "LedVariantOnIcon" */
+            /* webpackChunkName: "mdi/LedVariantOnIcon" */
             "mdi-react/LedVariantOnIcon"
         ),
     ),
     "mdi-led-variant-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "LedVariantOutlineIcon" */
+            /* webpackChunkName: "mdi/LedVariantOutlineIcon" */
             "mdi-react/LedVariantOutlineIcon"
         ),
     ),
     "mdi-less-than-or-equal": React.lazy(() =>
         import(
-            /* webpackChunkName: "LessThanOrEqualIcon" */
+            /* webpackChunkName: "mdi/LessThanOrEqualIcon" */
             "mdi-react/LessThanOrEqualIcon"
         ),
     ),
     "mdi-less-than": React.lazy(() =>
         import(
-            /* webpackChunkName: "LessThanIcon" */
+            /* webpackChunkName: "mdi/LessThanIcon" */
             "mdi-react/LessThanIcon"
         ),
     ),
     "mdi-library-books": React.lazy(() =>
         import(
-            /* webpackChunkName: "LibraryBooksIcon" */
+            /* webpackChunkName: "mdi/LibraryBooksIcon" */
             "mdi-react/LibraryBooksIcon"
         ),
     ),
     "mdi-library-music": React.lazy(() =>
         import(
-            /* webpackChunkName: "LibraryMusicIcon" */
+            /* webpackChunkName: "mdi/LibraryMusicIcon" */
             "mdi-react/LibraryMusicIcon"
         ),
     ),
     "mdi-library-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "LibraryPlusIcon" */
+            /* webpackChunkName: "mdi/LibraryPlusIcon" */
             "mdi-react/LibraryPlusIcon"
         ),
     ),
     "mdi-library": React.lazy(() =>
         import(
-            /* webpackChunkName: "LibraryIcon" */
+            /* webpackChunkName: "mdi/LibraryIcon" */
             "mdi-react/LibraryIcon"
         ),
     ),
     "mdi-lifebuoy": React.lazy(() =>
         import(
-            /* webpackChunkName: "LifebuoyIcon" */
+            /* webpackChunkName: "mdi/LifebuoyIcon" */
             "mdi-react/LifebuoyIcon"
         ),
     ),
     "mdi-light-switch": React.lazy(() =>
         import(
-            /* webpackChunkName: "LightSwitchIcon" */
+            /* webpackChunkName: "mdi/LightSwitchIcon" */
             "mdi-react/LightSwitchIcon"
         ),
     ),
     "mdi-lightbulb-on-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "LightbulbOnOutlineIcon" */
+            /* webpackChunkName: "mdi/LightbulbOnOutlineIcon" */
             "mdi-react/LightbulbOnOutlineIcon"
         ),
     ),
     "mdi-lightbulb-on": React.lazy(() =>
         import(
-            /* webpackChunkName: "LightbulbOnIcon" */
+            /* webpackChunkName: "mdi/LightbulbOnIcon" */
             "mdi-react/LightbulbOnIcon"
         ),
     ),
     "mdi-lightbulb-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "LightbulbOutlineIcon" */
+            /* webpackChunkName: "mdi/LightbulbOutlineIcon" */
             "mdi-react/LightbulbOutlineIcon"
         ),
     ),
     "mdi-lightbulb": React.lazy(() =>
         import(
-            /* webpackChunkName: "LightbulbIcon" */
+            /* webpackChunkName: "mdi/LightbulbIcon" */
             "mdi-react/LightbulbIcon"
         ),
     ),
     "mdi-link-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "LinkOffIcon" */
+            /* webpackChunkName: "mdi/LinkOffIcon" */
             "mdi-react/LinkOffIcon"
         ),
     ),
     "mdi-link-variant-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "LinkVariantOffIcon" */
+            /* webpackChunkName: "mdi/LinkVariantOffIcon" */
             "mdi-react/LinkVariantOffIcon"
         ),
     ),
     "mdi-link-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "LinkVariantIcon" */
+            /* webpackChunkName: "mdi/LinkVariantIcon" */
             "mdi-react/LinkVariantIcon"
         ),
     ),
     "mdi-link": React.lazy(() =>
         import(
-            /* webpackChunkName: "LinkIcon" */
+            /* webpackChunkName: "mdi/LinkIcon" */
             "mdi-react/LinkIcon"
         ),
     ),
     "mdi-linkedin-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "LinkedinBoxIcon" */
+            /* webpackChunkName: "mdi/LinkedinBoxIcon" */
             "mdi-react/LinkedinBoxIcon"
         ),
     ),
     "mdi-linkedin": React.lazy(() =>
         import(
-            /* webpackChunkName: "LinkedinIcon" */
+            /* webpackChunkName: "mdi/LinkedinIcon" */
             "mdi-react/LinkedinIcon"
         ),
     ),
     "mdi-linux-mint": React.lazy(() =>
         import(
-            /* webpackChunkName: "LinuxMintIcon" */
+            /* webpackChunkName: "mdi/LinuxMintIcon" */
             "mdi-react/LinuxMintIcon"
         ),
     ),
     "mdi-linux": React.lazy(() =>
         import(
-            /* webpackChunkName: "LinuxIcon" */
+            /* webpackChunkName: "mdi/LinuxIcon" */
             "mdi-react/LinuxIcon"
         ),
     ),
     "mdi-loading": React.lazy(() =>
         import(
-            /* webpackChunkName: "LoadingIcon" */
+            /* webpackChunkName: "mdi/LoadingIcon" */
             "mdi-react/LoadingIcon"
         ),
     ),
     "mdi-lock-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "LockAlertIcon" */
+            /* webpackChunkName: "mdi/LockAlertIcon" */
             "mdi-react/LockAlertIcon"
         ),
     ),
     "mdi-lock-clock": React.lazy(() =>
         import(
-            /* webpackChunkName: "LockClockIcon" */
+            /* webpackChunkName: "mdi/LockClockIcon" */
             "mdi-react/LockClockIcon"
         ),
     ),
     "mdi-lock-open-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "LockOpenOutlineIcon" */
+            /* webpackChunkName: "mdi/LockOpenOutlineIcon" */
             "mdi-react/LockOpenOutlineIcon"
         ),
     ),
     "mdi-lock-open": React.lazy(() =>
         import(
-            /* webpackChunkName: "LockOpenIcon" */
+            /* webpackChunkName: "mdi/LockOpenIcon" */
             "mdi-react/LockOpenIcon"
         ),
     ),
     "mdi-lock-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "LockOutlineIcon" */
+            /* webpackChunkName: "mdi/LockOutlineIcon" */
             "mdi-react/LockOutlineIcon"
         ),
     ),
     "mdi-lock-pattern": React.lazy(() =>
         import(
-            /* webpackChunkName: "LockPatternIcon" */
+            /* webpackChunkName: "mdi/LockPatternIcon" */
             "mdi-react/LockPatternIcon"
         ),
     ),
     "mdi-lock-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "LockPlusIcon" */
+            /* webpackChunkName: "mdi/LockPlusIcon" */
             "mdi-react/LockPlusIcon"
         ),
     ),
     "mdi-lock-question": React.lazy(() =>
         import(
-            /* webpackChunkName: "LockQuestionIcon" */
+            /* webpackChunkName: "mdi/LockQuestionIcon" */
             "mdi-react/LockQuestionIcon"
         ),
     ),
     "mdi-lock-reset": React.lazy(() =>
         import(
-            /* webpackChunkName: "LockResetIcon" */
+            /* webpackChunkName: "mdi/LockResetIcon" */
             "mdi-react/LockResetIcon"
         ),
     ),
     "mdi-lock-smart": React.lazy(() =>
         import(
-            /* webpackChunkName: "LockSmartIcon" */
+            /* webpackChunkName: "mdi/LockSmartIcon" */
             "mdi-react/LockSmartIcon"
         ),
     ),
     "mdi-lock": React.lazy(() =>
         import(
-            /* webpackChunkName: "LockIcon" */
+            /* webpackChunkName: "mdi/LockIcon" */
             "mdi-react/LockIcon"
         ),
     ),
     "mdi-locker-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "LockerMultipleIcon" */
+            /* webpackChunkName: "mdi/LockerMultipleIcon" */
             "mdi-react/LockerMultipleIcon"
         ),
     ),
     "mdi-locker": React.lazy(() =>
         import(
-            /* webpackChunkName: "LockerIcon" */
+            /* webpackChunkName: "mdi/LockerIcon" */
             "mdi-react/LockerIcon"
         ),
     ),
     "mdi-login-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "LoginVariantIcon" */
+            /* webpackChunkName: "mdi/LoginVariantIcon" */
             "mdi-react/LoginVariantIcon"
         ),
     ),
     "mdi-login": React.lazy(() =>
         import(
-            /* webpackChunkName: "LoginIcon" */
+            /* webpackChunkName: "mdi/LoginIcon" */
             "mdi-react/LoginIcon"
         ),
     ),
     "mdi-logout-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "LogoutVariantIcon" */
+            /* webpackChunkName: "mdi/LogoutVariantIcon" */
             "mdi-react/LogoutVariantIcon"
         ),
     ),
     "mdi-logout": React.lazy(() =>
         import(
-            /* webpackChunkName: "LogoutIcon" */
+            /* webpackChunkName: "mdi/LogoutIcon" */
             "mdi-react/LogoutIcon"
         ),
     ),
     "mdi-looks": React.lazy(() =>
         import(
-            /* webpackChunkName: "LooksIcon" */
+            /* webpackChunkName: "mdi/LooksIcon" */
             "mdi-react/LooksIcon"
         ),
     ),
     "mdi-loop": React.lazy(() =>
         import(
-            /* webpackChunkName: "LoopIcon" */
+            /* webpackChunkName: "mdi/LoopIcon" */
             "mdi-react/LoopIcon"
         ),
     ),
     "mdi-loupe": React.lazy(() =>
         import(
-            /* webpackChunkName: "LoupeIcon" */
+            /* webpackChunkName: "mdi/LoupeIcon" */
             "mdi-react/LoupeIcon"
         ),
     ),
     "mdi-lumx": React.lazy(() =>
         import(
-            /* webpackChunkName: "LumxIcon" */
+            /* webpackChunkName: "mdi/LumxIcon" */
             "mdi-react/LumxIcon"
         ),
     ),
     "mdi-magnet-on": React.lazy(() =>
         import(
-            /* webpackChunkName: "MagnetOnIcon" */
+            /* webpackChunkName: "mdi/MagnetOnIcon" */
             "mdi-react/MagnetOnIcon"
         ),
     ),
     "mdi-magnet": React.lazy(() =>
         import(
-            /* webpackChunkName: "MagnetIcon" */
+            /* webpackChunkName: "mdi/MagnetIcon" */
             "mdi-react/MagnetIcon"
         ),
     ),
     "mdi-magnify-close": React.lazy(() =>
         import(
-            /* webpackChunkName: "MagnifyCloseIcon" */
+            /* webpackChunkName: "mdi/MagnifyCloseIcon" */
             "mdi-react/MagnifyCloseIcon"
         ),
     ),
     "mdi-magnify-minus-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "MagnifyMinusOutlineIcon" */
+            /* webpackChunkName: "mdi/MagnifyMinusOutlineIcon" */
             "mdi-react/MagnifyMinusOutlineIcon"
         ),
     ),
     "mdi-magnify-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "MagnifyMinusIcon" */
+            /* webpackChunkName: "mdi/MagnifyMinusIcon" */
             "mdi-react/MagnifyMinusIcon"
         ),
     ),
     "mdi-magnify-plus-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "MagnifyPlusOutlineIcon" */
+            /* webpackChunkName: "mdi/MagnifyPlusOutlineIcon" */
             "mdi-react/MagnifyPlusOutlineIcon"
         ),
     ),
     "mdi-magnify-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "MagnifyPlusIcon" */
+            /* webpackChunkName: "mdi/MagnifyPlusIcon" */
             "mdi-react/MagnifyPlusIcon"
         ),
     ),
     "mdi-magnify": React.lazy(() =>
         import(
-            /* webpackChunkName: "MagnifyIcon" */
+            /* webpackChunkName: "mdi/MagnifyIcon" */
             "mdi-react/MagnifyIcon"
         ),
     ),
     "mdi-mail-ru": React.lazy(() =>
         import(
-            /* webpackChunkName: "MailRuIcon" */
+            /* webpackChunkName: "mdi/MailRuIcon" */
             "mdi-react/MailRuIcon"
         ),
     ),
     "mdi-mailbox": React.lazy(() =>
         import(
-            /* webpackChunkName: "MailboxIcon" */
+            /* webpackChunkName: "mdi/MailboxIcon" */
             "mdi-react/MailboxIcon"
         ),
     ),
     "mdi-map-marker-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "MapMarkerCircleIcon" */
+            /* webpackChunkName: "mdi/MapMarkerCircleIcon" */
             "mdi-react/MapMarkerCircleIcon"
         ),
     ),
     "mdi-map-marker-distance": React.lazy(() =>
         import(
-            /* webpackChunkName: "MapMarkerDistanceIcon" */
+            /* webpackChunkName: "mdi/MapMarkerDistanceIcon" */
             "mdi-react/MapMarkerDistanceIcon"
         ),
     ),
     "mdi-map-marker-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "MapMarkerMinusIcon" */
+            /* webpackChunkName: "mdi/MapMarkerMinusIcon" */
             "mdi-react/MapMarkerMinusIcon"
         ),
     ),
     "mdi-map-marker-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "MapMarkerMultipleIcon" */
+            /* webpackChunkName: "mdi/MapMarkerMultipleIcon" */
             "mdi-react/MapMarkerMultipleIcon"
         ),
     ),
     "mdi-map-marker-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "MapMarkerOffIcon" */
+            /* webpackChunkName: "mdi/MapMarkerOffIcon" */
             "mdi-react/MapMarkerOffIcon"
         ),
     ),
     "mdi-map-marker-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "MapMarkerOutlineIcon" */
+            /* webpackChunkName: "mdi/MapMarkerOutlineIcon" */
             "mdi-react/MapMarkerOutlineIcon"
         ),
     ),
     "mdi-map-marker-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "MapMarkerPlusIcon" */
+            /* webpackChunkName: "mdi/MapMarkerPlusIcon" */
             "mdi-react/MapMarkerPlusIcon"
         ),
     ),
     "mdi-map-marker-radius": React.lazy(() =>
         import(
-            /* webpackChunkName: "MapMarkerRadiusIcon" */
+            /* webpackChunkName: "mdi/MapMarkerRadiusIcon" */
             "mdi-react/MapMarkerRadiusIcon"
         ),
     ),
     "mdi-map-marker": React.lazy(() =>
         import(
-            /* webpackChunkName: "MapMarkerIcon" */
+            /* webpackChunkName: "mdi/MapMarkerIcon" */
             "mdi-react/MapMarkerIcon"
         ),
     ),
     "mdi-map-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "MapMinusIcon" */
+            /* webpackChunkName: "mdi/MapMinusIcon" */
             "mdi-react/MapMinusIcon"
         ),
     ),
     "mdi-map-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "MapOutlineIcon" */
+            /* webpackChunkName: "mdi/MapOutlineIcon" */
             "mdi-react/MapOutlineIcon"
         ),
     ),
     "mdi-map-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "MapPlusIcon" */
+            /* webpackChunkName: "mdi/MapPlusIcon" */
             "mdi-react/MapPlusIcon"
         ),
     ),
     "mdi-map-search-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "MapSearchOutlineIcon" */
+            /* webpackChunkName: "mdi/MapSearchOutlineIcon" */
             "mdi-react/MapSearchOutlineIcon"
         ),
     ),
     "mdi-map-search": React.lazy(() =>
         import(
-            /* webpackChunkName: "MapSearchIcon" */
+            /* webpackChunkName: "mdi/MapSearchIcon" */
             "mdi-react/MapSearchIcon"
         ),
     ),
     "mdi-map": React.lazy(() =>
         import(
-            /* webpackChunkName: "MapIcon" */
+            /* webpackChunkName: "mdi/MapIcon" */
             "mdi-react/MapIcon"
         ),
     ),
     "mdi-margin": React.lazy(() =>
         import(
-            /* webpackChunkName: "MarginIcon" */
+            /* webpackChunkName: "mdi/MarginIcon" */
             "mdi-react/MarginIcon"
         ),
     ),
     "mdi-markdown": React.lazy(() =>
         import(
-            /* webpackChunkName: "MarkdownIcon" */
+            /* webpackChunkName: "mdi/MarkdownIcon" */
             "mdi-react/MarkdownIcon"
         ),
     ),
     "mdi-marker-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "MarkerCheckIcon" */
+            /* webpackChunkName: "mdi/MarkerCheckIcon" */
             "mdi-react/MarkerCheckIcon"
         ),
     ),
     "mdi-marker": React.lazy(() =>
         import(
-            /* webpackChunkName: "MarkerIcon" */
+            /* webpackChunkName: "mdi/MarkerIcon" */
             "mdi-react/MarkerIcon"
         ),
     ),
     "mdi-material-design": React.lazy(() =>
         import(
-            /* webpackChunkName: "MaterialDesignIcon" */
+            /* webpackChunkName: "mdi/MaterialDesignIcon" */
             "mdi-react/MaterialDesignIcon"
         ),
     ),
     "mdi-material-ui": React.lazy(() =>
         import(
-            /* webpackChunkName: "MaterialUiIcon" */
+            /* webpackChunkName: "mdi/MaterialUiIcon" */
             "mdi-react/MaterialUiIcon"
         ),
     ),
     "mdi-math-compass": React.lazy(() =>
         import(
-            /* webpackChunkName: "MathCompassIcon" */
+            /* webpackChunkName: "mdi/MathCompassIcon" */
             "mdi-react/MathCompassIcon"
         ),
     ),
     "mdi-matrix": React.lazy(() =>
         import(
-            /* webpackChunkName: "MatrixIcon" */
+            /* webpackChunkName: "mdi/MatrixIcon" */
             "mdi-react/MatrixIcon"
         ),
     ),
     "mdi-maxcdn": React.lazy(() =>
         import(
-            /* webpackChunkName: "MaxcdnIcon" */
+            /* webpackChunkName: "mdi/MaxcdnIcon" */
             "mdi-react/MaxcdnIcon"
         ),
     ),
     "mdi-medal": React.lazy(() =>
         import(
-            /* webpackChunkName: "MedalIcon" */
+            /* webpackChunkName: "mdi/MedalIcon" */
             "mdi-react/MedalIcon"
         ),
     ),
     "mdi-medical-bag": React.lazy(() =>
         import(
-            /* webpackChunkName: "MedicalBagIcon" */
+            /* webpackChunkName: "mdi/MedicalBagIcon" */
             "mdi-react/MedicalBagIcon"
         ),
     ),
     "mdi-medium": React.lazy(() =>
         import(
-            /* webpackChunkName: "MediumIcon" */
+            /* webpackChunkName: "mdi/MediumIcon" */
             "mdi-react/MediumIcon"
         ),
     ),
     "mdi-memory": React.lazy(() =>
         import(
-            /* webpackChunkName: "MemoryIcon" */
+            /* webpackChunkName: "mdi/MemoryIcon" */
             "mdi-react/MemoryIcon"
         ),
     ),
     "mdi-menu-down-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "MenuDownOutlineIcon" */
+            /* webpackChunkName: "mdi/MenuDownOutlineIcon" */
             "mdi-react/MenuDownOutlineIcon"
         ),
     ),
     "mdi-menu-down": React.lazy(() =>
         import(
-            /* webpackChunkName: "MenuDownIcon" */
+            /* webpackChunkName: "mdi/MenuDownIcon" */
             "mdi-react/MenuDownIcon"
         ),
     ),
     "mdi-menu-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "MenuLeftIcon" */
+            /* webpackChunkName: "mdi/MenuLeftIcon" */
             "mdi-react/MenuLeftIcon"
         ),
     ),
     "mdi-menu-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "MenuRightIcon" */
+            /* webpackChunkName: "mdi/MenuRightIcon" */
             "mdi-react/MenuRightIcon"
         ),
     ),
     "mdi-menu-up-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "MenuUpOutlineIcon" */
+            /* webpackChunkName: "mdi/MenuUpOutlineIcon" */
             "mdi-react/MenuUpOutlineIcon"
         ),
     ),
     "mdi-menu-up": React.lazy(() =>
         import(
-            /* webpackChunkName: "MenuUpIcon" */
+            /* webpackChunkName: "mdi/MenuUpIcon" */
             "mdi-react/MenuUpIcon"
         ),
     ),
     "mdi-menu": React.lazy(() =>
         import(
-            /* webpackChunkName: "MenuIcon" */
+            /* webpackChunkName: "mdi/MenuIcon" */
             "mdi-react/MenuIcon"
         ),
     ),
     "mdi-message-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "MessageAlertIcon" */
+            /* webpackChunkName: "mdi/MessageAlertIcon" */
             "mdi-react/MessageAlertIcon"
         ),
     ),
     "mdi-message-bulleted-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "MessageBulletedOffIcon" */
+            /* webpackChunkName: "mdi/MessageBulletedOffIcon" */
             "mdi-react/MessageBulletedOffIcon"
         ),
     ),
     "mdi-message-bulleted": React.lazy(() =>
         import(
-            /* webpackChunkName: "MessageBulletedIcon" */
+            /* webpackChunkName: "mdi/MessageBulletedIcon" */
             "mdi-react/MessageBulletedIcon"
         ),
     ),
     "mdi-message-draw": React.lazy(() =>
         import(
-            /* webpackChunkName: "MessageDrawIcon" */
+            /* webpackChunkName: "mdi/MessageDrawIcon" */
             "mdi-react/MessageDrawIcon"
         ),
     ),
     "mdi-message-image": React.lazy(() =>
         import(
-            /* webpackChunkName: "MessageImageIcon" */
+            /* webpackChunkName: "mdi/MessageImageIcon" */
             "mdi-react/MessageImageIcon"
         ),
     ),
     "mdi-message-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "MessageOutlineIcon" */
+            /* webpackChunkName: "mdi/MessageOutlineIcon" */
             "mdi-react/MessageOutlineIcon"
         ),
     ),
     "mdi-message-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "MessagePlusIcon" */
+            /* webpackChunkName: "mdi/MessagePlusIcon" */
             "mdi-react/MessagePlusIcon"
         ),
     ),
     "mdi-message-processing": React.lazy(() =>
         import(
-            /* webpackChunkName: "MessageProcessingIcon" */
+            /* webpackChunkName: "mdi/MessageProcessingIcon" */
             "mdi-react/MessageProcessingIcon"
         ),
     ),
     "mdi-message-reply-text": React.lazy(() =>
         import(
-            /* webpackChunkName: "MessageReplyTextIcon" */
+            /* webpackChunkName: "mdi/MessageReplyTextIcon" */
             "mdi-react/MessageReplyTextIcon"
         ),
     ),
     "mdi-message-reply": React.lazy(() =>
         import(
-            /* webpackChunkName: "MessageReplyIcon" */
+            /* webpackChunkName: "mdi/MessageReplyIcon" */
             "mdi-react/MessageReplyIcon"
         ),
     ),
     "mdi-message-settings-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "MessageSettingsVariantIcon" */
+            /* webpackChunkName: "mdi/MessageSettingsVariantIcon" */
             "mdi-react/MessageSettingsVariantIcon"
         ),
     ),
     "mdi-message-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "MessageSettingsIcon" */
+            /* webpackChunkName: "mdi/MessageSettingsIcon" */
             "mdi-react/MessageSettingsIcon"
         ),
     ),
     "mdi-message-text-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "MessageTextOutlineIcon" */
+            /* webpackChunkName: "mdi/MessageTextOutlineIcon" */
             "mdi-react/MessageTextOutlineIcon"
         ),
     ),
     "mdi-message-text": React.lazy(() =>
         import(
-            /* webpackChunkName: "MessageTextIcon" */
+            /* webpackChunkName: "mdi/MessageTextIcon" */
             "mdi-react/MessageTextIcon"
         ),
     ),
     "mdi-message-video": React.lazy(() =>
         import(
-            /* webpackChunkName: "MessageVideoIcon" */
+            /* webpackChunkName: "mdi/MessageVideoIcon" */
             "mdi-react/MessageVideoIcon"
         ),
     ),
     "mdi-message": React.lazy(() =>
         import(
-            /* webpackChunkName: "MessageIcon" */
+            /* webpackChunkName: "mdi/MessageIcon" */
             "mdi-react/MessageIcon"
         ),
     ),
     "mdi-meteor": React.lazy(() =>
         import(
-            /* webpackChunkName: "MeteorIcon" */
+            /* webpackChunkName: "mdi/MeteorIcon" */
             "mdi-react/MeteorIcon"
         ),
     ),
     "mdi-metronome-tick": React.lazy(() =>
         import(
-            /* webpackChunkName: "MetronomeTickIcon" */
+            /* webpackChunkName: "mdi/MetronomeTickIcon" */
             "mdi-react/MetronomeTickIcon"
         ),
     ),
     "mdi-metronome": React.lazy(() =>
         import(
-            /* webpackChunkName: "MetronomeIcon" */
+            /* webpackChunkName: "mdi/MetronomeIcon" */
             "mdi-react/MetronomeIcon"
         ),
     ),
     "mdi-micro-sd": React.lazy(() =>
         import(
-            /* webpackChunkName: "MicroSdIcon" */
+            /* webpackChunkName: "mdi/MicroSdIcon" */
             "mdi-react/MicroSdIcon"
         ),
     ),
     "mdi-microphone-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "MicrophoneMinusIcon" */
+            /* webpackChunkName: "mdi/MicrophoneMinusIcon" */
             "mdi-react/MicrophoneMinusIcon"
         ),
     ),
     "mdi-microphone-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "MicrophoneOffIcon" */
+            /* webpackChunkName: "mdi/MicrophoneOffIcon" */
             "mdi-react/MicrophoneOffIcon"
         ),
     ),
     "mdi-microphone-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "MicrophoneOutlineIcon" */
+            /* webpackChunkName: "mdi/MicrophoneOutlineIcon" */
             "mdi-react/MicrophoneOutlineIcon"
         ),
     ),
     "mdi-microphone-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "MicrophonePlusIcon" */
+            /* webpackChunkName: "mdi/MicrophonePlusIcon" */
             "mdi-react/MicrophonePlusIcon"
         ),
     ),
     "mdi-microphone-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "MicrophoneSettingsIcon" */
+            /* webpackChunkName: "mdi/MicrophoneSettingsIcon" */
             "mdi-react/MicrophoneSettingsIcon"
         ),
     ),
     "mdi-microphone-variant-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "MicrophoneVariantOffIcon" */
+            /* webpackChunkName: "mdi/MicrophoneVariantOffIcon" */
             "mdi-react/MicrophoneVariantOffIcon"
         ),
     ),
     "mdi-microphone-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "MicrophoneVariantIcon" */
+            /* webpackChunkName: "mdi/MicrophoneVariantIcon" */
             "mdi-react/MicrophoneVariantIcon"
         ),
     ),
     "mdi-microphone": React.lazy(() =>
         import(
-            /* webpackChunkName: "MicrophoneIcon" */
+            /* webpackChunkName: "mdi/MicrophoneIcon" */
             "mdi-react/MicrophoneIcon"
         ),
     ),
     "mdi-microscope": React.lazy(() =>
         import(
-            /* webpackChunkName: "MicroscopeIcon" */
+            /* webpackChunkName: "mdi/MicroscopeIcon" */
             "mdi-react/MicroscopeIcon"
         ),
     ),
     "mdi-microsoft-dynamics": React.lazy(() =>
         import(
-            /* webpackChunkName: "MicrosoftDynamicsIcon" */
+            /* webpackChunkName: "mdi/MicrosoftDynamicsIcon" */
             "mdi-react/MicrosoftDynamicsIcon"
         ),
     ),
     "mdi-microsoft": React.lazy(() =>
         import(
-            /* webpackChunkName: "MicrosoftIcon" */
+            /* webpackChunkName: "mdi/MicrosoftIcon" */
             "mdi-react/MicrosoftIcon"
         ),
     ),
     "mdi-midi-port": React.lazy(() =>
         import(
-            /* webpackChunkName: "MidiPortIcon" */
+            /* webpackChunkName: "mdi/MidiPortIcon" */
             "mdi-react/MidiPortIcon"
         ),
     ),
     "mdi-midi": React.lazy(() =>
         import(
-            /* webpackChunkName: "MidiIcon" */
+            /* webpackChunkName: "mdi/MidiIcon" */
             "mdi-react/MidiIcon"
         ),
     ),
     "mdi-minecraft": React.lazy(() =>
         import(
-            /* webpackChunkName: "MinecraftIcon" */
+            /* webpackChunkName: "mdi/MinecraftIcon" */
             "mdi-react/MinecraftIcon"
         ),
     ),
     "mdi-minus-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "MinusBoxOutlineIcon" */
+            /* webpackChunkName: "mdi/MinusBoxOutlineIcon" */
             "mdi-react/MinusBoxOutlineIcon"
         ),
     ),
     "mdi-minus-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "MinusBoxIcon" */
+            /* webpackChunkName: "mdi/MinusBoxIcon" */
             "mdi-react/MinusBoxIcon"
         ),
     ),
     "mdi-minus-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "MinusCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/MinusCircleOutlineIcon" */
             "mdi-react/MinusCircleOutlineIcon"
         ),
     ),
     "mdi-minus-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "MinusCircleIcon" */
+            /* webpackChunkName: "mdi/MinusCircleIcon" */
             "mdi-react/MinusCircleIcon"
         ),
     ),
     "mdi-minus-network": React.lazy(() =>
         import(
-            /* webpackChunkName: "MinusNetworkIcon" */
+            /* webpackChunkName: "mdi/MinusNetworkIcon" */
             "mdi-react/MinusNetworkIcon"
         ),
     ),
     "mdi-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "MinusIcon" */
+            /* webpackChunkName: "mdi/MinusIcon" */
             "mdi-react/MinusIcon"
         ),
     ),
     "mdi-mixcloud": React.lazy(() =>
         import(
-            /* webpackChunkName: "MixcloudIcon" */
+            /* webpackChunkName: "mdi/MixcloudIcon" */
             "mdi-react/MixcloudIcon"
         ),
     ),
     "mdi-mixed-reality": React.lazy(() =>
         import(
-            /* webpackChunkName: "MixedRealityIcon" */
+            /* webpackChunkName: "mdi/MixedRealityIcon" */
             "mdi-react/MixedRealityIcon"
         ),
     ),
     "mdi-mixer": React.lazy(() =>
         import(
-            /* webpackChunkName: "MixerIcon" */
+            /* webpackChunkName: "mdi/MixerIcon" */
             "mdi-react/MixerIcon"
         ),
     ),
     "mdi-monitor-cellphone-star": React.lazy(() =>
         import(
-            /* webpackChunkName: "MonitorCellphoneStarIcon" */
+            /* webpackChunkName: "mdi/MonitorCellphoneStarIcon" */
             "mdi-react/MonitorCellphoneStarIcon"
         ),
     ),
     "mdi-monitor-cellphone": React.lazy(() =>
         import(
-            /* webpackChunkName: "MonitorCellphoneIcon" */
+            /* webpackChunkName: "mdi/MonitorCellphoneIcon" */
             "mdi-react/MonitorCellphoneIcon"
         ),
     ),
     "mdi-monitor-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "MonitorMultipleIcon" */
+            /* webpackChunkName: "mdi/MonitorMultipleIcon" */
             "mdi-react/MonitorMultipleIcon"
         ),
     ),
     "mdi-monitor": React.lazy(() =>
         import(
-            /* webpackChunkName: "MonitorIcon" */
+            /* webpackChunkName: "mdi/MonitorIcon" */
             "mdi-react/MonitorIcon"
         ),
     ),
     "mdi-more": React.lazy(() =>
         import(
-            /* webpackChunkName: "MoreIcon" */
+            /* webpackChunkName: "mdi/MoreIcon" */
             "mdi-react/MoreIcon"
         ),
     ),
     "mdi-motorbike": React.lazy(() =>
         import(
-            /* webpackChunkName: "MotorbikeIcon" */
+            /* webpackChunkName: "mdi/MotorbikeIcon" */
             "mdi-react/MotorbikeIcon"
         ),
     ),
     "mdi-mouse-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "MouseBluetoothIcon" */
+            /* webpackChunkName: "mdi/MouseBluetoothIcon" */
             "mdi-react/MouseBluetoothIcon"
         ),
     ),
     "mdi-mouse-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "MouseOffIcon" */
+            /* webpackChunkName: "mdi/MouseOffIcon" */
             "mdi-react/MouseOffIcon"
         ),
     ),
     "mdi-mouse-variant-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "MouseVariantOffIcon" */
+            /* webpackChunkName: "mdi/MouseVariantOffIcon" */
             "mdi-react/MouseVariantOffIcon"
         ),
     ),
     "mdi-mouse-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "MouseVariantIcon" */
+            /* webpackChunkName: "mdi/MouseVariantIcon" */
             "mdi-react/MouseVariantIcon"
         ),
     ),
     "mdi-mouse": React.lazy(() =>
         import(
-            /* webpackChunkName: "MouseIcon" */
+            /* webpackChunkName: "mdi/MouseIcon" */
             "mdi-react/MouseIcon"
         ),
     ),
     "mdi-move-resize-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "MoveResizeVariantIcon" */
+            /* webpackChunkName: "mdi/MoveResizeVariantIcon" */
             "mdi-react/MoveResizeVariantIcon"
         ),
     ),
     "mdi-move-resize": React.lazy(() =>
         import(
-            /* webpackChunkName: "MoveResizeIcon" */
+            /* webpackChunkName: "mdi/MoveResizeIcon" */
             "mdi-react/MoveResizeIcon"
         ),
     ),
     "mdi-movie-roll": React.lazy(() =>
         import(
-            /* webpackChunkName: "MovieRollIcon" */
+            /* webpackChunkName: "mdi/MovieRollIcon" */
             "mdi-react/MovieRollIcon"
         ),
     ),
     "mdi-movie": React.lazy(() =>
         import(
-            /* webpackChunkName: "MovieIcon" */
+            /* webpackChunkName: "mdi/MovieIcon" */
             "mdi-react/MovieIcon"
         ),
     ),
     "mdi-muffin": React.lazy(() =>
         import(
-            /* webpackChunkName: "MuffinIcon" */
+            /* webpackChunkName: "mdi/MuffinIcon" */
             "mdi-react/MuffinIcon"
         ),
     ),
     "mdi-multiplication-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "MultiplicationBoxIcon" */
+            /* webpackChunkName: "mdi/MultiplicationBoxIcon" */
             "mdi-react/MultiplicationBoxIcon"
         ),
     ),
     "mdi-multiplication": React.lazy(() =>
         import(
-            /* webpackChunkName: "MultiplicationIcon" */
+            /* webpackChunkName: "mdi/MultiplicationIcon" */
             "mdi-react/MultiplicationIcon"
         ),
     ),
     "mdi-mushroom-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "MushroomOutlineIcon" */
+            /* webpackChunkName: "mdi/MushroomOutlineIcon" */
             "mdi-react/MushroomOutlineIcon"
         ),
     ),
     "mdi-mushroom": React.lazy(() =>
         import(
-            /* webpackChunkName: "MushroomIcon" */
+            /* webpackChunkName: "mdi/MushroomIcon" */
             "mdi-react/MushroomIcon"
         ),
     ),
     "mdi-music-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "MusicBoxOutlineIcon" */
+            /* webpackChunkName: "mdi/MusicBoxOutlineIcon" */
             "mdi-react/MusicBoxOutlineIcon"
         ),
     ),
     "mdi-music-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "MusicBoxIcon" */
+            /* webpackChunkName: "mdi/MusicBoxIcon" */
             "mdi-react/MusicBoxIcon"
         ),
     ),
     "mdi-music-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "MusicCircleIcon" */
+            /* webpackChunkName: "mdi/MusicCircleIcon" */
             "mdi-react/MusicCircleIcon"
         ),
     ),
     "mdi-music-note-bluetooth-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "MusicNoteBluetoothOffIcon" */
+            /* webpackChunkName: "mdi/MusicNoteBluetoothOffIcon" */
             "mdi-react/MusicNoteBluetoothOffIcon"
         ),
     ),
     "mdi-music-note-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "MusicNoteBluetoothIcon" */
+            /* webpackChunkName: "mdi/MusicNoteBluetoothIcon" */
             "mdi-react/MusicNoteBluetoothIcon"
         ),
     ),
     "mdi-music-note-eighth": React.lazy(() =>
         import(
-            /* webpackChunkName: "MusicNoteEighthIcon" */
+            /* webpackChunkName: "mdi/MusicNoteEighthIcon" */
             "mdi-react/MusicNoteEighthIcon"
         ),
     ),
     "mdi-music-note-half": React.lazy(() =>
         import(
-            /* webpackChunkName: "MusicNoteHalfIcon" */
+            /* webpackChunkName: "mdi/MusicNoteHalfIcon" */
             "mdi-react/MusicNoteHalfIcon"
         ),
     ),
     "mdi-music-note-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "MusicNoteOffIcon" */
+            /* webpackChunkName: "mdi/MusicNoteOffIcon" */
             "mdi-react/MusicNoteOffIcon"
         ),
     ),
     "mdi-music-note-quarter": React.lazy(() =>
         import(
-            /* webpackChunkName: "MusicNoteQuarterIcon" */
+            /* webpackChunkName: "mdi/MusicNoteQuarterIcon" */
             "mdi-react/MusicNoteQuarterIcon"
         ),
     ),
     "mdi-music-note-sixteenth": React.lazy(() =>
         import(
-            /* webpackChunkName: "MusicNoteSixteenthIcon" */
+            /* webpackChunkName: "mdi/MusicNoteSixteenthIcon" */
             "mdi-react/MusicNoteSixteenthIcon"
         ),
     ),
     "mdi-music-note-whole": React.lazy(() =>
         import(
-            /* webpackChunkName: "MusicNoteWholeIcon" */
+            /* webpackChunkName: "mdi/MusicNoteWholeIcon" */
             "mdi-react/MusicNoteWholeIcon"
         ),
     ),
     "mdi-music-note": React.lazy(() =>
         import(
-            /* webpackChunkName: "MusicNoteIcon" */
+            /* webpackChunkName: "mdi/MusicNoteIcon" */
             "mdi-react/MusicNoteIcon"
         ),
     ),
     "mdi-music-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "MusicOffIcon" */
+            /* webpackChunkName: "mdi/MusicOffIcon" */
             "mdi-react/MusicOffIcon"
         ),
     ),
     "mdi-music": React.lazy(() =>
         import(
-            /* webpackChunkName: "MusicIcon" */
+            /* webpackChunkName: "mdi/MusicIcon" */
             "mdi-react/MusicIcon"
         ),
     ),
     "mdi-nas": React.lazy(() =>
         import(
-            /* webpackChunkName: "NasIcon" */
+            /* webpackChunkName: "mdi/NasIcon" */
             "mdi-react/NasIcon"
         ),
     ),
     "mdi-nativescript": React.lazy(() =>
         import(
-            /* webpackChunkName: "NativescriptIcon" */
+            /* webpackChunkName: "mdi/NativescriptIcon" */
             "mdi-react/NativescriptIcon"
         ),
     ),
     "mdi-nature-people": React.lazy(() =>
         import(
-            /* webpackChunkName: "NaturePeopleIcon" */
+            /* webpackChunkName: "mdi/NaturePeopleIcon" */
             "mdi-react/NaturePeopleIcon"
         ),
     ),
     "mdi-nature": React.lazy(() =>
         import(
-            /* webpackChunkName: "NatureIcon" */
+            /* webpackChunkName: "mdi/NatureIcon" */
             "mdi-react/NatureIcon"
         ),
     ),
     "mdi-navigation": React.lazy(() =>
         import(
-            /* webpackChunkName: "NavigationIcon" */
+            /* webpackChunkName: "mdi/NavigationIcon" */
             "mdi-react/NavigationIcon"
         ),
     ),
     "mdi-near-me": React.lazy(() =>
         import(
-            /* webpackChunkName: "NearMeIcon" */
+            /* webpackChunkName: "mdi/NearMeIcon" */
             "mdi-react/NearMeIcon"
         ),
     ),
     "mdi-needle": React.lazy(() =>
         import(
-            /* webpackChunkName: "NeedleIcon" */
+            /* webpackChunkName: "mdi/NeedleIcon" */
             "mdi-react/NeedleIcon"
         ),
     ),
     "mdi-netflix": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetflixIcon" */
+            /* webpackChunkName: "mdi/NetflixIcon" */
             "mdi-react/NetflixIcon"
         ),
     ),
     "mdi-network-strength-1-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetworkStrength1AlertIcon" */
+            /* webpackChunkName: "mdi/NetworkStrength1AlertIcon" */
             "mdi-react/NetworkStrength1AlertIcon"
         ),
     ),
     "mdi-network-strength-1": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetworkStrength1Icon" */
+            /* webpackChunkName: "mdi/NetworkStrength1Icon" */
             "mdi-react/NetworkStrength1Icon"
         ),
     ),
     "mdi-network-strength-2-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetworkStrength2AlertIcon" */
+            /* webpackChunkName: "mdi/NetworkStrength2AlertIcon" */
             "mdi-react/NetworkStrength2AlertIcon"
         ),
     ),
     "mdi-network-strength-2": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetworkStrength2Icon" */
+            /* webpackChunkName: "mdi/NetworkStrength2Icon" */
             "mdi-react/NetworkStrength2Icon"
         ),
     ),
     "mdi-network-strength-3-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetworkStrength3AlertIcon" */
+            /* webpackChunkName: "mdi/NetworkStrength3AlertIcon" */
             "mdi-react/NetworkStrength3AlertIcon"
         ),
     ),
     "mdi-network-strength-3": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetworkStrength3Icon" */
+            /* webpackChunkName: "mdi/NetworkStrength3Icon" */
             "mdi-react/NetworkStrength3Icon"
         ),
     ),
     "mdi-network-strength-4-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetworkStrength4AlertIcon" */
+            /* webpackChunkName: "mdi/NetworkStrength4AlertIcon" */
             "mdi-react/NetworkStrength4AlertIcon"
         ),
     ),
     "mdi-network-strength-4": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetworkStrength4Icon" */
+            /* webpackChunkName: "mdi/NetworkStrength4Icon" */
             "mdi-react/NetworkStrength4Icon"
         ),
     ),
     "mdi-network-strength-off-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetworkStrengthOffOutlineIcon" */
+            /* webpackChunkName: "mdi/NetworkStrengthOffOutlineIcon" */
             "mdi-react/NetworkStrengthOffOutlineIcon"
         ),
     ),
     "mdi-network-strength-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetworkStrengthOffIcon" */
+            /* webpackChunkName: "mdi/NetworkStrengthOffIcon" */
             "mdi-react/NetworkStrengthOffIcon"
         ),
     ),
     "mdi-network-strength-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetworkStrengthOutlineIcon" */
+            /* webpackChunkName: "mdi/NetworkStrengthOutlineIcon" */
             "mdi-react/NetworkStrengthOutlineIcon"
         ),
     ),
     "mdi-network": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetworkIcon" */
+            /* webpackChunkName: "mdi/NetworkIcon" */
             "mdi-react/NetworkIcon"
         ),
     ),
     "mdi-new-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "NewBoxIcon" */
+            /* webpackChunkName: "mdi/NewBoxIcon" */
             "mdi-react/NewBoxIcon"
         ),
     ),
     "mdi-newspaper": React.lazy(() =>
         import(
-            /* webpackChunkName: "NewspaperIcon" */
+            /* webpackChunkName: "mdi/NewspaperIcon" */
             "mdi-react/NewspaperIcon"
         ),
     ),
     "mdi-nfc-tap": React.lazy(() =>
         import(
-            /* webpackChunkName: "NfcTapIcon" */
+            /* webpackChunkName: "mdi/NfcTapIcon" */
             "mdi-react/NfcTapIcon"
         ),
     ),
     "mdi-nfc-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "NfcVariantIcon" */
+            /* webpackChunkName: "mdi/NfcVariantIcon" */
             "mdi-react/NfcVariantIcon"
         ),
     ),
     "mdi-nfc": React.lazy(() =>
         import(
-            /* webpackChunkName: "NfcIcon" */
+            /* webpackChunkName: "mdi/NfcIcon" */
             "mdi-react/NfcIcon"
         ),
     ),
     "mdi-ninja": React.lazy(() =>
         import(
-            /* webpackChunkName: "NinjaIcon" */
+            /* webpackChunkName: "mdi/NinjaIcon" */
             "mdi-react/NinjaIcon"
         ),
     ),
     "mdi-nintendo-switch": React.lazy(() =>
         import(
-            /* webpackChunkName: "NintendoSwitchIcon" */
+            /* webpackChunkName: "mdi/NintendoSwitchIcon" */
             "mdi-react/NintendoSwitchIcon"
         ),
     ),
     "mdi-nodejs": React.lazy(() =>
         import(
-            /* webpackChunkName: "NodejsIcon" */
+            /* webpackChunkName: "mdi/NodejsIcon" */
             "mdi-react/NodejsIcon"
         ),
     ),
     "mdi-not-equal-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "NotEqualVariantIcon" */
+            /* webpackChunkName: "mdi/NotEqualVariantIcon" */
             "mdi-react/NotEqualVariantIcon"
         ),
     ),
     "mdi-not-equal": React.lazy(() =>
         import(
-            /* webpackChunkName: "NotEqualIcon" */
+            /* webpackChunkName: "mdi/NotEqualIcon" */
             "mdi-react/NotEqualIcon"
         ),
     ),
     "mdi-note-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "NoteMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/NoteMultipleOutlineIcon" */
             "mdi-react/NoteMultipleOutlineIcon"
         ),
     ),
     "mdi-note-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "NoteMultipleIcon" */
+            /* webpackChunkName: "mdi/NoteMultipleIcon" */
             "mdi-react/NoteMultipleIcon"
         ),
     ),
     "mdi-note-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "NoteOutlineIcon" */
+            /* webpackChunkName: "mdi/NoteOutlineIcon" */
             "mdi-react/NoteOutlineIcon"
         ),
     ),
     "mdi-note-plus-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "NotePlusOutlineIcon" */
+            /* webpackChunkName: "mdi/NotePlusOutlineIcon" */
             "mdi-react/NotePlusOutlineIcon"
         ),
     ),
     "mdi-note-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "NotePlusIcon" */
+            /* webpackChunkName: "mdi/NotePlusIcon" */
             "mdi-react/NotePlusIcon"
         ),
     ),
     "mdi-note-text": React.lazy(() =>
         import(
-            /* webpackChunkName: "NoteTextIcon" */
+            /* webpackChunkName: "mdi/NoteTextIcon" */
             "mdi-react/NoteTextIcon"
         ),
     ),
     "mdi-note": React.lazy(() =>
         import(
-            /* webpackChunkName: "NoteIcon" */
+            /* webpackChunkName: "mdi/NoteIcon" */
             "mdi-react/NoteIcon"
         ),
     ),
     "mdi-notebook": React.lazy(() =>
         import(
-            /* webpackChunkName: "NotebookIcon" */
+            /* webpackChunkName: "mdi/NotebookIcon" */
             "mdi-react/NotebookIcon"
         ),
     ),
     "mdi-notification-clear-all": React.lazy(() =>
         import(
-            /* webpackChunkName: "NotificationClearAllIcon" */
+            /* webpackChunkName: "mdi/NotificationClearAllIcon" */
             "mdi-react/NotificationClearAllIcon"
         ),
     ),
     "mdi-npm-variant-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "NpmVariantOutlineIcon" */
+            /* webpackChunkName: "mdi/NpmVariantOutlineIcon" */
             "mdi-react/NpmVariantOutlineIcon"
         ),
     ),
     "mdi-npm-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "NpmVariantIcon" */
+            /* webpackChunkName: "mdi/NpmVariantIcon" */
             "mdi-react/NpmVariantIcon"
         ),
     ),
     "mdi-npm": React.lazy(() =>
         import(
-            /* webpackChunkName: "NpmIcon" */
+            /* webpackChunkName: "mdi/NpmIcon" */
             "mdi-react/NpmIcon"
         ),
     ),
     "mdi-nuke": React.lazy(() =>
         import(
-            /* webpackChunkName: "NukeIcon" */
+            /* webpackChunkName: "mdi/NukeIcon" */
             "mdi-react/NukeIcon"
         ),
     ),
     "mdi-null": React.lazy(() =>
         import(
-            /* webpackChunkName: "NullIcon" */
+            /* webpackChunkName: "mdi/NullIcon" */
             "mdi-react/NullIcon"
         ),
     ),
     "mdi-numeric-0-box-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric0BoxMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric0BoxMultipleOutlineIcon" */
             "mdi-react/Numeric0BoxMultipleOutlineIcon"
         ),
     ),
     "mdi-numeric-0-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric0BoxOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric0BoxOutlineIcon" */
             "mdi-react/Numeric0BoxOutlineIcon"
         ),
     ),
     "mdi-numeric-0-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric0BoxIcon" */
+            /* webpackChunkName: "mdi/Numeric0BoxIcon" */
             "mdi-react/Numeric0BoxIcon"
         ),
     ),
     "mdi-numeric-1-box-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric1BoxMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric1BoxMultipleOutlineIcon" */
             "mdi-react/Numeric1BoxMultipleOutlineIcon"
         ),
     ),
     "mdi-numeric-1-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric1BoxOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric1BoxOutlineIcon" */
             "mdi-react/Numeric1BoxOutlineIcon"
         ),
     ),
     "mdi-numeric-1-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric1BoxIcon" */
+            /* webpackChunkName: "mdi/Numeric1BoxIcon" */
             "mdi-react/Numeric1BoxIcon"
         ),
     ),
     "mdi-numeric-2-box-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric2BoxMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric2BoxMultipleOutlineIcon" */
             "mdi-react/Numeric2BoxMultipleOutlineIcon"
         ),
     ),
     "mdi-numeric-2-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric2BoxOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric2BoxOutlineIcon" */
             "mdi-react/Numeric2BoxOutlineIcon"
         ),
     ),
     "mdi-numeric-2-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric2BoxIcon" */
+            /* webpackChunkName: "mdi/Numeric2BoxIcon" */
             "mdi-react/Numeric2BoxIcon"
         ),
     ),
     "mdi-numeric-3-box-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric3BoxMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric3BoxMultipleOutlineIcon" */
             "mdi-react/Numeric3BoxMultipleOutlineIcon"
         ),
     ),
     "mdi-numeric-3-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric3BoxOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric3BoxOutlineIcon" */
             "mdi-react/Numeric3BoxOutlineIcon"
         ),
     ),
     "mdi-numeric-3-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric3BoxIcon" */
+            /* webpackChunkName: "mdi/Numeric3BoxIcon" */
             "mdi-react/Numeric3BoxIcon"
         ),
     ),
     "mdi-numeric-4-box-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric4BoxMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric4BoxMultipleOutlineIcon" */
             "mdi-react/Numeric4BoxMultipleOutlineIcon"
         ),
     ),
     "mdi-numeric-4-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric4BoxOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric4BoxOutlineIcon" */
             "mdi-react/Numeric4BoxOutlineIcon"
         ),
     ),
     "mdi-numeric-4-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric4BoxIcon" */
+            /* webpackChunkName: "mdi/Numeric4BoxIcon" */
             "mdi-react/Numeric4BoxIcon"
         ),
     ),
     "mdi-numeric-5-box-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric5BoxMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric5BoxMultipleOutlineIcon" */
             "mdi-react/Numeric5BoxMultipleOutlineIcon"
         ),
     ),
     "mdi-numeric-5-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric5BoxOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric5BoxOutlineIcon" */
             "mdi-react/Numeric5BoxOutlineIcon"
         ),
     ),
     "mdi-numeric-5-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric5BoxIcon" */
+            /* webpackChunkName: "mdi/Numeric5BoxIcon" */
             "mdi-react/Numeric5BoxIcon"
         ),
     ),
     "mdi-numeric-6-box-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric6BoxMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric6BoxMultipleOutlineIcon" */
             "mdi-react/Numeric6BoxMultipleOutlineIcon"
         ),
     ),
     "mdi-numeric-6-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric6BoxOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric6BoxOutlineIcon" */
             "mdi-react/Numeric6BoxOutlineIcon"
         ),
     ),
     "mdi-numeric-6-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric6BoxIcon" */
+            /* webpackChunkName: "mdi/Numeric6BoxIcon" */
             "mdi-react/Numeric6BoxIcon"
         ),
     ),
     "mdi-numeric-7-box-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric7BoxMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric7BoxMultipleOutlineIcon" */
             "mdi-react/Numeric7BoxMultipleOutlineIcon"
         ),
     ),
     "mdi-numeric-7-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric7BoxOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric7BoxOutlineIcon" */
             "mdi-react/Numeric7BoxOutlineIcon"
         ),
     ),
     "mdi-numeric-7-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric7BoxIcon" */
+            /* webpackChunkName: "mdi/Numeric7BoxIcon" */
             "mdi-react/Numeric7BoxIcon"
         ),
     ),
     "mdi-numeric-8-box-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric8BoxMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric8BoxMultipleOutlineIcon" */
             "mdi-react/Numeric8BoxMultipleOutlineIcon"
         ),
     ),
     "mdi-numeric-8-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric8BoxOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric8BoxOutlineIcon" */
             "mdi-react/Numeric8BoxOutlineIcon"
         ),
     ),
     "mdi-numeric-8-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric8BoxIcon" */
+            /* webpackChunkName: "mdi/Numeric8BoxIcon" */
             "mdi-react/Numeric8BoxIcon"
         ),
     ),
     "mdi-numeric-9-box-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric9BoxMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric9BoxMultipleOutlineIcon" */
             "mdi-react/Numeric9BoxMultipleOutlineIcon"
         ),
     ),
     "mdi-numeric-9-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric9BoxOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric9BoxOutlineIcon" */
             "mdi-react/Numeric9BoxOutlineIcon"
         ),
     ),
     "mdi-numeric-9-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric9BoxIcon" */
+            /* webpackChunkName: "mdi/Numeric9BoxIcon" */
             "mdi-react/Numeric9BoxIcon"
         ),
     ),
     "mdi-numeric-9-plus-box-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric9PlusBoxMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric9PlusBoxMultipleOutlineIcon" */
             "mdi-react/Numeric9PlusBoxMultipleOutlineIcon"
         ),
     ),
     "mdi-numeric-9-plus-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric9PlusBoxOutlineIcon" */
+            /* webpackChunkName: "mdi/Numeric9PlusBoxOutlineIcon" */
             "mdi-react/Numeric9PlusBoxOutlineIcon"
         ),
     ),
     "mdi-numeric-9-plus-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "Numeric9PlusBoxIcon" */
+            /* webpackChunkName: "mdi/Numeric9PlusBoxIcon" */
             "mdi-react/Numeric9PlusBoxIcon"
         ),
     ),
     "mdi-numeric": React.lazy(() =>
         import(
-            /* webpackChunkName: "NumericIcon" */
+            /* webpackChunkName: "mdi/NumericIcon" */
             "mdi-react/NumericIcon"
         ),
     ),
     "mdi-nut": React.lazy(() =>
         import(
-            /* webpackChunkName: "NutIcon" */
+            /* webpackChunkName: "mdi/NutIcon" */
             "mdi-react/NutIcon"
         ),
     ),
     "mdi-nutrition": React.lazy(() =>
         import(
-            /* webpackChunkName: "NutritionIcon" */
+            /* webpackChunkName: "mdi/NutritionIcon" */
             "mdi-react/NutritionIcon"
         ),
     ),
     "mdi-oar": React.lazy(() =>
         import(
-            /* webpackChunkName: "OarIcon" */
+            /* webpackChunkName: "mdi/OarIcon" */
             "mdi-react/OarIcon"
         ),
     ),
     "mdi-octagon-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "OctagonOutlineIcon" */
+            /* webpackChunkName: "mdi/OctagonOutlineIcon" */
             "mdi-react/OctagonOutlineIcon"
         ),
     ),
     "mdi-octagon": React.lazy(() =>
         import(
-            /* webpackChunkName: "OctagonIcon" */
+            /* webpackChunkName: "mdi/OctagonIcon" */
             "mdi-react/OctagonIcon"
         ),
     ),
     "mdi-octagram-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "OctagramOutlineIcon" */
+            /* webpackChunkName: "mdi/OctagramOutlineIcon" */
             "mdi-react/OctagramOutlineIcon"
         ),
     ),
     "mdi-octagram": React.lazy(() =>
         import(
-            /* webpackChunkName: "OctagramIcon" */
+            /* webpackChunkName: "mdi/OctagramIcon" */
             "mdi-react/OctagramIcon"
         ),
     ),
     "mdi-odnoklassniki": React.lazy(() =>
         import(
-            /* webpackChunkName: "OdnoklassnikiIcon" */
+            /* webpackChunkName: "mdi/OdnoklassnikiIcon" */
             "mdi-react/OdnoklassnikiIcon"
         ),
     ),
     "mdi-office-building": React.lazy(() =>
         import(
-            /* webpackChunkName: "OfficeBuildingIcon" */
+            /* webpackChunkName: "mdi/OfficeBuildingIcon" */
             "mdi-react/OfficeBuildingIcon"
         ),
     ),
     "mdi-office": React.lazy(() =>
         import(
-            /* webpackChunkName: "OfficeIcon" */
+            /* webpackChunkName: "mdi/OfficeIcon" */
             "mdi-react/OfficeIcon"
         ),
     ),
     "mdi-oil-temperature": React.lazy(() =>
         import(
-            /* webpackChunkName: "OilTemperatureIcon" */
+            /* webpackChunkName: "mdi/OilTemperatureIcon" */
             "mdi-react/OilTemperatureIcon"
         ),
     ),
     "mdi-oil": React.lazy(() =>
         import(
-            /* webpackChunkName: "OilIcon" */
+            /* webpackChunkName: "mdi/OilIcon" */
             "mdi-react/OilIcon"
         ),
     ),
     "mdi-omega": React.lazy(() =>
         import(
-            /* webpackChunkName: "OmegaIcon" */
+            /* webpackChunkName: "mdi/OmegaIcon" */
             "mdi-react/OmegaIcon"
         ),
     ),
     "mdi-onedrive": React.lazy(() =>
         import(
-            /* webpackChunkName: "OnedriveIcon" */
+            /* webpackChunkName: "mdi/OnedriveIcon" */
             "mdi-react/OnedriveIcon"
         ),
     ),
     "mdi-onenote": React.lazy(() =>
         import(
-            /* webpackChunkName: "OnenoteIcon" */
+            /* webpackChunkName: "mdi/OnenoteIcon" */
             "mdi-react/OnenoteIcon"
         ),
     ),
     "mdi-onepassword": React.lazy(() =>
         import(
-            /* webpackChunkName: "OnepasswordIcon" */
+            /* webpackChunkName: "mdi/OnepasswordIcon" */
             "mdi-react/OnepasswordIcon"
         ),
     ),
     "mdi-opacity": React.lazy(() =>
         import(
-            /* webpackChunkName: "OpacityIcon" */
+            /* webpackChunkName: "mdi/OpacityIcon" */
             "mdi-react/OpacityIcon"
         ),
     ),
     "mdi-open-in-app": React.lazy(() =>
         import(
-            /* webpackChunkName: "OpenInAppIcon" */
+            /* webpackChunkName: "mdi/OpenInAppIcon" */
             "mdi-react/OpenInAppIcon"
         ),
     ),
     "mdi-open-in-new": React.lazy(() =>
         import(
-            /* webpackChunkName: "OpenInNewIcon" */
+            /* webpackChunkName: "mdi/OpenInNewIcon" */
             "mdi-react/OpenInNewIcon"
         ),
     ),
     "mdi-openid": React.lazy(() =>
         import(
-            /* webpackChunkName: "OpenidIcon" */
+            /* webpackChunkName: "mdi/OpenidIcon" */
             "mdi-react/OpenidIcon"
         ),
     ),
     "mdi-opera": React.lazy(() =>
         import(
-            /* webpackChunkName: "OperaIcon" */
+            /* webpackChunkName: "mdi/OperaIcon" */
             "mdi-react/OperaIcon"
         ),
     ),
     "mdi-orbit": React.lazy(() =>
         import(
-            /* webpackChunkName: "OrbitIcon" */
+            /* webpackChunkName: "mdi/OrbitIcon" */
             "mdi-react/OrbitIcon"
         ),
     ),
     "mdi-ornament-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "OrnamentVariantIcon" */
+            /* webpackChunkName: "mdi/OrnamentVariantIcon" */
             "mdi-react/OrnamentVariantIcon"
         ),
     ),
     "mdi-ornament": React.lazy(() =>
         import(
-            /* webpackChunkName: "OrnamentIcon" */
+            /* webpackChunkName: "mdi/OrnamentIcon" */
             "mdi-react/OrnamentIcon"
         ),
     ),
     "mdi-owl": React.lazy(() =>
         import(
-            /* webpackChunkName: "OwlIcon" */
+            /* webpackChunkName: "mdi/OwlIcon" */
             "mdi-react/OwlIcon"
         ),
     ),
     "mdi-package-down": React.lazy(() =>
         import(
-            /* webpackChunkName: "PackageDownIcon" */
+            /* webpackChunkName: "mdi/PackageDownIcon" */
             "mdi-react/PackageDownIcon"
         ),
     ),
     "mdi-package-up": React.lazy(() =>
         import(
-            /* webpackChunkName: "PackageUpIcon" */
+            /* webpackChunkName: "mdi/PackageUpIcon" */
             "mdi-react/PackageUpIcon"
         ),
     ),
     "mdi-package-variant-closed": React.lazy(() =>
         import(
-            /* webpackChunkName: "PackageVariantClosedIcon" */
+            /* webpackChunkName: "mdi/PackageVariantClosedIcon" */
             "mdi-react/PackageVariantClosedIcon"
         ),
     ),
     "mdi-package-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "PackageVariantIcon" */
+            /* webpackChunkName: "mdi/PackageVariantIcon" */
             "mdi-react/PackageVariantIcon"
         ),
     ),
     "mdi-package": React.lazy(() =>
         import(
-            /* webpackChunkName: "PackageIcon" */
+            /* webpackChunkName: "mdi/PackageIcon" */
             "mdi-react/PackageIcon"
         ),
     ),
     "mdi-page-first": React.lazy(() =>
         import(
-            /* webpackChunkName: "PageFirstIcon" */
+            /* webpackChunkName: "mdi/PageFirstIcon" */
             "mdi-react/PageFirstIcon"
         ),
     ),
     "mdi-page-last": React.lazy(() =>
         import(
-            /* webpackChunkName: "PageLastIcon" */
+            /* webpackChunkName: "mdi/PageLastIcon" */
             "mdi-react/PageLastIcon"
         ),
     ),
     "mdi-page-layout-body": React.lazy(() =>
         import(
-            /* webpackChunkName: "PageLayoutBodyIcon" */
+            /* webpackChunkName: "mdi/PageLayoutBodyIcon" */
             "mdi-react/PageLayoutBodyIcon"
         ),
     ),
     "mdi-page-layout-footer": React.lazy(() =>
         import(
-            /* webpackChunkName: "PageLayoutFooterIcon" */
+            /* webpackChunkName: "mdi/PageLayoutFooterIcon" */
             "mdi-react/PageLayoutFooterIcon"
         ),
     ),
     "mdi-page-layout-header": React.lazy(() =>
         import(
-            /* webpackChunkName: "PageLayoutHeaderIcon" */
+            /* webpackChunkName: "mdi/PageLayoutHeaderIcon" */
             "mdi-react/PageLayoutHeaderIcon"
         ),
     ),
     "mdi-page-layout-sidebar-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "PageLayoutSidebarLeftIcon" */
+            /* webpackChunkName: "mdi/PageLayoutSidebarLeftIcon" */
             "mdi-react/PageLayoutSidebarLeftIcon"
         ),
     ),
     "mdi-page-layout-sidebar-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "PageLayoutSidebarRightIcon" */
+            /* webpackChunkName: "mdi/PageLayoutSidebarRightIcon" */
             "mdi-react/PageLayoutSidebarRightIcon"
         ),
     ),
     "mdi-palette-advanced": React.lazy(() =>
         import(
-            /* webpackChunkName: "PaletteAdvancedIcon" */
+            /* webpackChunkName: "mdi/PaletteAdvancedIcon" */
             "mdi-react/PaletteAdvancedIcon"
         ),
     ),
     "mdi-palette-swatch": React.lazy(() =>
         import(
-            /* webpackChunkName: "PaletteSwatchIcon" */
+            /* webpackChunkName: "mdi/PaletteSwatchIcon" */
             "mdi-react/PaletteSwatchIcon"
         ),
     ),
     "mdi-palette": React.lazy(() =>
         import(
-            /* webpackChunkName: "PaletteIcon" */
+            /* webpackChunkName: "mdi/PaletteIcon" */
             "mdi-react/PaletteIcon"
         ),
     ),
     "mdi-panda": React.lazy(() =>
         import(
-            /* webpackChunkName: "PandaIcon" */
+            /* webpackChunkName: "mdi/PandaIcon" */
             "mdi-react/PandaIcon"
         ),
     ),
     "mdi-pandora": React.lazy(() =>
         import(
-            /* webpackChunkName: "PandoraIcon" */
+            /* webpackChunkName: "mdi/PandoraIcon" */
             "mdi-react/PandoraIcon"
         ),
     ),
     "mdi-panorama-fisheye": React.lazy(() =>
         import(
-            /* webpackChunkName: "PanoramaFisheyeIcon" */
+            /* webpackChunkName: "mdi/PanoramaFisheyeIcon" */
             "mdi-react/PanoramaFisheyeIcon"
         ),
     ),
     "mdi-panorama-horizontal": React.lazy(() =>
         import(
-            /* webpackChunkName: "PanoramaHorizontalIcon" */
+            /* webpackChunkName: "mdi/PanoramaHorizontalIcon" */
             "mdi-react/PanoramaHorizontalIcon"
         ),
     ),
     "mdi-panorama-vertical": React.lazy(() =>
         import(
-            /* webpackChunkName: "PanoramaVerticalIcon" */
+            /* webpackChunkName: "mdi/PanoramaVerticalIcon" */
             "mdi-react/PanoramaVerticalIcon"
         ),
     ),
     "mdi-panorama-wide-angle": React.lazy(() =>
         import(
-            /* webpackChunkName: "PanoramaWideAngleIcon" */
+            /* webpackChunkName: "mdi/PanoramaWideAngleIcon" */
             "mdi-react/PanoramaWideAngleIcon"
         ),
     ),
     "mdi-panorama": React.lazy(() =>
         import(
-            /* webpackChunkName: "PanoramaIcon" */
+            /* webpackChunkName: "mdi/PanoramaIcon" */
             "mdi-react/PanoramaIcon"
         ),
     ),
     "mdi-paper-cut-vertical": React.lazy(() =>
         import(
-            /* webpackChunkName: "PaperCutVerticalIcon" */
+            /* webpackChunkName: "mdi/PaperCutVerticalIcon" */
             "mdi-react/PaperCutVerticalIcon"
         ),
     ),
     "mdi-paperclip": React.lazy(() =>
         import(
-            /* webpackChunkName: "PaperclipIcon" */
+            /* webpackChunkName: "mdi/PaperclipIcon" */
             "mdi-react/PaperclipIcon"
         ),
     ),
     "mdi-parking": React.lazy(() =>
         import(
-            /* webpackChunkName: "ParkingIcon" */
+            /* webpackChunkName: "mdi/ParkingIcon" */
             "mdi-react/ParkingIcon"
         ),
     ),
     "mdi-passport": React.lazy(() =>
         import(
-            /* webpackChunkName: "PassportIcon" */
+            /* webpackChunkName: "mdi/PassportIcon" */
             "mdi-react/PassportIcon"
         ),
     ),
     "mdi-patreon": React.lazy(() =>
         import(
-            /* webpackChunkName: "PatreonIcon" */
+            /* webpackChunkName: "mdi/PatreonIcon" */
             "mdi-react/PatreonIcon"
         ),
     ),
     "mdi-pause-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "PauseCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/PauseCircleOutlineIcon" */
             "mdi-react/PauseCircleOutlineIcon"
         ),
     ),
     "mdi-pause-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "PauseCircleIcon" */
+            /* webpackChunkName: "mdi/PauseCircleIcon" */
             "mdi-react/PauseCircleIcon"
         ),
     ),
     "mdi-pause-octagon-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "PauseOctagonOutlineIcon" */
+            /* webpackChunkName: "mdi/PauseOctagonOutlineIcon" */
             "mdi-react/PauseOctagonOutlineIcon"
         ),
     ),
     "mdi-pause-octagon": React.lazy(() =>
         import(
-            /* webpackChunkName: "PauseOctagonIcon" */
+            /* webpackChunkName: "mdi/PauseOctagonIcon" */
             "mdi-react/PauseOctagonIcon"
         ),
     ),
     "mdi-pause": React.lazy(() =>
         import(
-            /* webpackChunkName: "PauseIcon" */
+            /* webpackChunkName: "mdi/PauseIcon" */
             "mdi-react/PauseIcon"
         ),
     ),
     "mdi-paw-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "PawOffIcon" */
+            /* webpackChunkName: "mdi/PawOffIcon" */
             "mdi-react/PawOffIcon"
         ),
     ),
     "mdi-paw": React.lazy(() =>
         import(
-            /* webpackChunkName: "PawIcon" */
+            /* webpackChunkName: "mdi/PawIcon" */
             "mdi-react/PawIcon"
         ),
     ),
     "mdi-paypal": React.lazy(() =>
         import(
-            /* webpackChunkName: "PaypalIcon" */
+            /* webpackChunkName: "mdi/PaypalIcon" */
             "mdi-react/PaypalIcon"
         ),
     ),
     "mdi-peace": React.lazy(() =>
         import(
-            /* webpackChunkName: "PeaceIcon" */
+            /* webpackChunkName: "mdi/PeaceIcon" */
             "mdi-react/PeaceIcon"
         ),
     ),
     "mdi-pen": React.lazy(() =>
         import(
-            /* webpackChunkName: "PenIcon" */
+            /* webpackChunkName: "mdi/PenIcon" */
             "mdi-react/PenIcon"
         ),
     ),
     "mdi-pencil-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "PencilBoxOutlineIcon" */
+            /* webpackChunkName: "mdi/PencilBoxOutlineIcon" */
             "mdi-react/PencilBoxOutlineIcon"
         ),
     ),
     "mdi-pencil-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "PencilBoxIcon" */
+            /* webpackChunkName: "mdi/PencilBoxIcon" */
             "mdi-react/PencilBoxIcon"
         ),
     ),
     "mdi-pencil-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "PencilCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/PencilCircleOutlineIcon" */
             "mdi-react/PencilCircleOutlineIcon"
         ),
     ),
     "mdi-pencil-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "PencilCircleIcon" */
+            /* webpackChunkName: "mdi/PencilCircleIcon" */
             "mdi-react/PencilCircleIcon"
         ),
     ),
     "mdi-pencil-lock": React.lazy(() =>
         import(
-            /* webpackChunkName: "PencilLockIcon" */
+            /* webpackChunkName: "mdi/PencilLockIcon" */
             "mdi-react/PencilLockIcon"
         ),
     ),
     "mdi-pencil-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "PencilOffIcon" */
+            /* webpackChunkName: "mdi/PencilOffIcon" */
             "mdi-react/PencilOffIcon"
         ),
     ),
     "mdi-pencil": React.lazy(() =>
         import(
-            /* webpackChunkName: "PencilIcon" */
+            /* webpackChunkName: "mdi/PencilIcon" */
             "mdi-react/PencilIcon"
         ),
     ),
     "mdi-pentagon-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "PentagonOutlineIcon" */
+            /* webpackChunkName: "mdi/PentagonOutlineIcon" */
             "mdi-react/PentagonOutlineIcon"
         ),
     ),
     "mdi-pentagon": React.lazy(() =>
         import(
-            /* webpackChunkName: "PentagonIcon" */
+            /* webpackChunkName: "mdi/PentagonIcon" */
             "mdi-react/PentagonIcon"
         ),
     ),
     "mdi-percent": React.lazy(() =>
         import(
-            /* webpackChunkName: "PercentIcon" */
+            /* webpackChunkName: "mdi/PercentIcon" */
             "mdi-react/PercentIcon"
         ),
     ),
     "mdi-periodic-table-co-2": React.lazy(() =>
         import(
-            /* webpackChunkName: "PeriodicTableCo2Icon" */
+            /* webpackChunkName: "mdi/PeriodicTableCo2Icon" */
             "mdi-react/PeriodicTableCo2Icon"
         ),
     ),
     "mdi-periodic-table": React.lazy(() =>
         import(
-            /* webpackChunkName: "PeriodicTableIcon" */
+            /* webpackChunkName: "mdi/PeriodicTableIcon" */
             "mdi-react/PeriodicTableIcon"
         ),
     ),
     "mdi-periscope": React.lazy(() =>
         import(
-            /* webpackChunkName: "PeriscopeIcon" */
+            /* webpackChunkName: "mdi/PeriscopeIcon" */
             "mdi-react/PeriscopeIcon"
         ),
     ),
     "mdi-pharmacy": React.lazy(() =>
         import(
-            /* webpackChunkName: "PharmacyIcon" */
+            /* webpackChunkName: "mdi/PharmacyIcon" */
             "mdi-react/PharmacyIcon"
         ),
     ),
     "mdi-phone-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneBluetoothIcon" */
+            /* webpackChunkName: "mdi/PhoneBluetoothIcon" */
             "mdi-react/PhoneBluetoothIcon"
         ),
     ),
     "mdi-phone-classic": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneClassicIcon" */
+            /* webpackChunkName: "mdi/PhoneClassicIcon" */
             "mdi-react/PhoneClassicIcon"
         ),
     ),
     "mdi-phone-forward": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneForwardIcon" */
+            /* webpackChunkName: "mdi/PhoneForwardIcon" */
             "mdi-react/PhoneForwardIcon"
         ),
     ),
     "mdi-phone-hangup": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneHangupIcon" */
+            /* webpackChunkName: "mdi/PhoneHangupIcon" */
             "mdi-react/PhoneHangupIcon"
         ),
     ),
     "mdi-phone-in-talk": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneInTalkIcon" */
+            /* webpackChunkName: "mdi/PhoneInTalkIcon" */
             "mdi-react/PhoneInTalkIcon"
         ),
     ),
     "mdi-phone-incoming": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneIncomingIcon" */
+            /* webpackChunkName: "mdi/PhoneIncomingIcon" */
             "mdi-react/PhoneIncomingIcon"
         ),
     ),
     "mdi-phone-locked": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneLockedIcon" */
+            /* webpackChunkName: "mdi/PhoneLockedIcon" */
             "mdi-react/PhoneLockedIcon"
         ),
     ),
     "mdi-phone-log": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneLogIcon" */
+            /* webpackChunkName: "mdi/PhoneLogIcon" */
             "mdi-react/PhoneLogIcon"
         ),
     ),
     "mdi-phone-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneMinusIcon" */
+            /* webpackChunkName: "mdi/PhoneMinusIcon" */
             "mdi-react/PhoneMinusIcon"
         ),
     ),
     "mdi-phone-missed": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneMissedIcon" */
+            /* webpackChunkName: "mdi/PhoneMissedIcon" */
             "mdi-react/PhoneMissedIcon"
         ),
     ),
     "mdi-phone-outgoing": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneOutgoingIcon" */
+            /* webpackChunkName: "mdi/PhoneOutgoingIcon" */
             "mdi-react/PhoneOutgoingIcon"
         ),
     ),
     "mdi-phone-paused": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhonePausedIcon" */
+            /* webpackChunkName: "mdi/PhonePausedIcon" */
             "mdi-react/PhonePausedIcon"
         ),
     ),
     "mdi-phone-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhonePlusIcon" */
+            /* webpackChunkName: "mdi/PhonePlusIcon" */
             "mdi-react/PhonePlusIcon"
         ),
     ),
     "mdi-phone-return": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneReturnIcon" */
+            /* webpackChunkName: "mdi/PhoneReturnIcon" */
             "mdi-react/PhoneReturnIcon"
         ),
     ),
     "mdi-phone-rotate-landscape": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneRotateLandscapeIcon" */
+            /* webpackChunkName: "mdi/PhoneRotateLandscapeIcon" */
             "mdi-react/PhoneRotateLandscapeIcon"
         ),
     ),
     "mdi-phone-rotate-portrait": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneRotatePortraitIcon" */
+            /* webpackChunkName: "mdi/PhoneRotatePortraitIcon" */
             "mdi-react/PhoneRotatePortraitIcon"
         ),
     ),
     "mdi-phone-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneSettingsIcon" */
+            /* webpackChunkName: "mdi/PhoneSettingsIcon" */
             "mdi-react/PhoneSettingsIcon"
         ),
     ),
     "mdi-phone-voip": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneVoipIcon" */
+            /* webpackChunkName: "mdi/PhoneVoipIcon" */
             "mdi-react/PhoneVoipIcon"
         ),
     ),
     "mdi-phone": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneIcon" */
+            /* webpackChunkName: "mdi/PhoneIcon" */
             "mdi-react/PhoneIcon"
         ),
     ),
     "mdi-pi-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "PiBoxIcon" */
+            /* webpackChunkName: "mdi/PiBoxIcon" */
             "mdi-react/PiBoxIcon"
         ),
     ),
     "mdi-pi": React.lazy(() =>
         import(
-            /* webpackChunkName: "PiIcon" */
+            /* webpackChunkName: "mdi/PiIcon" */
             "mdi-react/PiIcon"
         ),
     ),
     "mdi-piano": React.lazy(() =>
         import(
-            /* webpackChunkName: "PianoIcon" */
+            /* webpackChunkName: "mdi/PianoIcon" */
             "mdi-react/PianoIcon"
         ),
     ),
     "mdi-pickaxe": React.lazy(() =>
         import(
-            /* webpackChunkName: "PickaxeIcon" */
+            /* webpackChunkName: "mdi/PickaxeIcon" */
             "mdi-react/PickaxeIcon"
         ),
     ),
     "mdi-pier-crane": React.lazy(() =>
         import(
-            /* webpackChunkName: "PierCraneIcon" */
+            /* webpackChunkName: "mdi/PierCraneIcon" */
             "mdi-react/PierCraneIcon"
         ),
     ),
     "mdi-pier": React.lazy(() =>
         import(
-            /* webpackChunkName: "PierIcon" */
+            /* webpackChunkName: "mdi/PierIcon" */
             "mdi-react/PierIcon"
         ),
     ),
     "mdi-pig": React.lazy(() =>
         import(
-            /* webpackChunkName: "PigIcon" */
+            /* webpackChunkName: "mdi/PigIcon" */
             "mdi-react/PigIcon"
         ),
     ),
     "mdi-pill": React.lazy(() =>
         import(
-            /* webpackChunkName: "PillIcon" */
+            /* webpackChunkName: "mdi/PillIcon" */
             "mdi-react/PillIcon"
         ),
     ),
     "mdi-pillar": React.lazy(() =>
         import(
-            /* webpackChunkName: "PillarIcon" */
+            /* webpackChunkName: "mdi/PillarIcon" */
             "mdi-react/PillarIcon"
         ),
     ),
     "mdi-pin-off-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "PinOffOutlineIcon" */
+            /* webpackChunkName: "mdi/PinOffOutlineIcon" */
             "mdi-react/PinOffOutlineIcon"
         ),
     ),
     "mdi-pin-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "PinOffIcon" */
+            /* webpackChunkName: "mdi/PinOffIcon" */
             "mdi-react/PinOffIcon"
         ),
     ),
     "mdi-pin-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "PinOutlineIcon" */
+            /* webpackChunkName: "mdi/PinOutlineIcon" */
             "mdi-react/PinOutlineIcon"
         ),
     ),
     "mdi-pin": React.lazy(() =>
         import(
-            /* webpackChunkName: "PinIcon" */
+            /* webpackChunkName: "mdi/PinIcon" */
             "mdi-react/PinIcon"
         ),
     ),
     "mdi-pine-tree-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "PineTreeBoxIcon" */
+            /* webpackChunkName: "mdi/PineTreeBoxIcon" */
             "mdi-react/PineTreeBoxIcon"
         ),
     ),
     "mdi-pine-tree": React.lazy(() =>
         import(
-            /* webpackChunkName: "PineTreeIcon" */
+            /* webpackChunkName: "mdi/PineTreeIcon" */
             "mdi-react/PineTreeIcon"
         ),
     ),
     "mdi-pinterest-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "PinterestBoxIcon" */
+            /* webpackChunkName: "mdi/PinterestBoxIcon" */
             "mdi-react/PinterestBoxIcon"
         ),
     ),
     "mdi-pinterest": React.lazy(() =>
         import(
-            /* webpackChunkName: "PinterestIcon" */
+            /* webpackChunkName: "mdi/PinterestIcon" */
             "mdi-react/PinterestIcon"
         ),
     ),
     "mdi-pipe-disconnected": React.lazy(() =>
         import(
-            /* webpackChunkName: "PipeDisconnectedIcon" */
+            /* webpackChunkName: "mdi/PipeDisconnectedIcon" */
             "mdi-react/PipeDisconnectedIcon"
         ),
     ),
     "mdi-pipe-leak": React.lazy(() =>
         import(
-            /* webpackChunkName: "PipeLeakIcon" */
+            /* webpackChunkName: "mdi/PipeLeakIcon" */
             "mdi-react/PipeLeakIcon"
         ),
     ),
     "mdi-pipe": React.lazy(() =>
         import(
-            /* webpackChunkName: "PipeIcon" */
+            /* webpackChunkName: "mdi/PipeIcon" */
             "mdi-react/PipeIcon"
         ),
     ),
     "mdi-pistol": React.lazy(() =>
         import(
-            /* webpackChunkName: "PistolIcon" */
+            /* webpackChunkName: "mdi/PistolIcon" */
             "mdi-react/PistolIcon"
         ),
     ),
     "mdi-piston": React.lazy(() =>
         import(
-            /* webpackChunkName: "PistonIcon" */
+            /* webpackChunkName: "mdi/PistonIcon" */
             "mdi-react/PistonIcon"
         ),
     ),
     "mdi-pizza": React.lazy(() =>
         import(
-            /* webpackChunkName: "PizzaIcon" */
+            /* webpackChunkName: "mdi/PizzaIcon" */
             "mdi-react/PizzaIcon"
         ),
     ),
     "mdi-plane-shield": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlaneShieldIcon" */
+            /* webpackChunkName: "mdi/PlaneShieldIcon" */
             "mdi-react/PlaneShieldIcon"
         ),
     ),
     "mdi-play-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlayBoxOutlineIcon" */
+            /* webpackChunkName: "mdi/PlayBoxOutlineIcon" */
             "mdi-react/PlayBoxOutlineIcon"
         ),
     ),
     "mdi-play-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlayCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/PlayCircleOutlineIcon" */
             "mdi-react/PlayCircleOutlineIcon"
         ),
     ),
     "mdi-play-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlayCircleIcon" */
+            /* webpackChunkName: "mdi/PlayCircleIcon" */
             "mdi-react/PlayCircleIcon"
         ),
     ),
     "mdi-play-network": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlayNetworkIcon" */
+            /* webpackChunkName: "mdi/PlayNetworkIcon" */
             "mdi-react/PlayNetworkIcon"
         ),
     ),
     "mdi-play-pause": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlayPauseIcon" */
+            /* webpackChunkName: "mdi/PlayPauseIcon" */
             "mdi-react/PlayPauseIcon"
         ),
     ),
     "mdi-play-protected-content": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlayProtectedContentIcon" */
+            /* webpackChunkName: "mdi/PlayProtectedContentIcon" */
             "mdi-react/PlayProtectedContentIcon"
         ),
     ),
     "mdi-play-speed": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlaySpeedIcon" */
+            /* webpackChunkName: "mdi/PlaySpeedIcon" */
             "mdi-react/PlaySpeedIcon"
         ),
     ),
     "mdi-play": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlayIcon" */
+            /* webpackChunkName: "mdi/PlayIcon" */
             "mdi-react/PlayIcon"
         ),
     ),
     "mdi-playlist-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlaylistCheckIcon" */
+            /* webpackChunkName: "mdi/PlaylistCheckIcon" */
             "mdi-react/PlaylistCheckIcon"
         ),
     ),
     "mdi-playlist-edit": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlaylistEditIcon" */
+            /* webpackChunkName: "mdi/PlaylistEditIcon" */
             "mdi-react/PlaylistEditIcon"
         ),
     ),
     "mdi-playlist-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlaylistMinusIcon" */
+            /* webpackChunkName: "mdi/PlaylistMinusIcon" */
             "mdi-react/PlaylistMinusIcon"
         ),
     ),
     "mdi-playlist-play": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlaylistPlayIcon" */
+            /* webpackChunkName: "mdi/PlaylistPlayIcon" */
             "mdi-react/PlaylistPlayIcon"
         ),
     ),
     "mdi-playlist-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlaylistPlusIcon" */
+            /* webpackChunkName: "mdi/PlaylistPlusIcon" */
             "mdi-react/PlaylistPlusIcon"
         ),
     ),
     "mdi-playlist-remove": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlaylistRemoveIcon" */
+            /* webpackChunkName: "mdi/PlaylistRemoveIcon" */
             "mdi-react/PlaylistRemoveIcon"
         ),
     ),
     "mdi-playstation": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlaystationIcon" */
+            /* webpackChunkName: "mdi/PlaystationIcon" */
             "mdi-react/PlaystationIcon"
         ),
     ),
     "mdi-plex": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlexIcon" */
+            /* webpackChunkName: "mdi/PlexIcon" */
             "mdi-react/PlexIcon"
         ),
     ),
     "mdi-plus-box-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlusBoxOutlineIcon" */
+            /* webpackChunkName: "mdi/PlusBoxOutlineIcon" */
             "mdi-react/PlusBoxOutlineIcon"
         ),
     ),
     "mdi-plus-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlusBoxIcon" */
+            /* webpackChunkName: "mdi/PlusBoxIcon" */
             "mdi-react/PlusBoxIcon"
         ),
     ),
     "mdi-plus-circle-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlusCircleMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/PlusCircleMultipleOutlineIcon" */
             "mdi-react/PlusCircleMultipleOutlineIcon"
         ),
     ),
     "mdi-plus-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlusCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/PlusCircleOutlineIcon" */
             "mdi-react/PlusCircleOutlineIcon"
         ),
     ),
     "mdi-plus-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlusCircleIcon" */
+            /* webpackChunkName: "mdi/PlusCircleIcon" */
             "mdi-react/PlusCircleIcon"
         ),
     ),
     "mdi-plus-minus-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlusMinusBoxIcon" */
+            /* webpackChunkName: "mdi/PlusMinusBoxIcon" */
             "mdi-react/PlusMinusBoxIcon"
         ),
     ),
     "mdi-plus-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlusMinusIcon" */
+            /* webpackChunkName: "mdi/PlusMinusIcon" */
             "mdi-react/PlusMinusIcon"
         ),
     ),
     "mdi-plus-network": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlusNetworkIcon" */
+            /* webpackChunkName: "mdi/PlusNetworkIcon" */
             "mdi-react/PlusNetworkIcon"
         ),
     ),
     "mdi-plus-one": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlusOneIcon" */
+            /* webpackChunkName: "mdi/PlusOneIcon" */
             "mdi-react/PlusOneIcon"
         ),
     ),
     "mdi-plus-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlusOutlineIcon" */
+            /* webpackChunkName: "mdi/PlusOutlineIcon" */
             "mdi-react/PlusOutlineIcon"
         ),
     ),
     "mdi-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlusIcon" */
+            /* webpackChunkName: "mdi/PlusIcon" */
             "mdi-react/PlusIcon"
         ),
     ),
     "mdi-pocket": React.lazy(() =>
         import(
-            /* webpackChunkName: "PocketIcon" */
+            /* webpackChunkName: "mdi/PocketIcon" */
             "mdi-react/PocketIcon"
         ),
     ),
     "mdi-podcast": React.lazy(() =>
         import(
-            /* webpackChunkName: "PodcastIcon" */
+            /* webpackChunkName: "mdi/PodcastIcon" */
             "mdi-react/PodcastIcon"
         ),
     ),
     "mdi-pokeball": React.lazy(() =>
         import(
-            /* webpackChunkName: "PokeballIcon" */
+            /* webpackChunkName: "mdi/PokeballIcon" */
             "mdi-react/PokeballIcon"
         ),
     ),
     "mdi-poker-chip": React.lazy(() =>
         import(
-            /* webpackChunkName: "PokerChipIcon" */
+            /* webpackChunkName: "mdi/PokerChipIcon" */
             "mdi-react/PokerChipIcon"
         ),
     ),
     "mdi-polaroid": React.lazy(() =>
         import(
-            /* webpackChunkName: "PolaroidIcon" */
+            /* webpackChunkName: "mdi/PolaroidIcon" */
             "mdi-react/PolaroidIcon"
         ),
     ),
     "mdi-poll-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "PollBoxIcon" */
+            /* webpackChunkName: "mdi/PollBoxIcon" */
             "mdi-react/PollBoxIcon"
         ),
     ),
     "mdi-poll": React.lazy(() =>
         import(
-            /* webpackChunkName: "PollIcon" */
+            /* webpackChunkName: "mdi/PollIcon" */
             "mdi-react/PollIcon"
         ),
     ),
     "mdi-polymer": React.lazy(() =>
         import(
-            /* webpackChunkName: "PolymerIcon" */
+            /* webpackChunkName: "mdi/PolymerIcon" */
             "mdi-react/PolymerIcon"
         ),
     ),
     "mdi-pool": React.lazy(() =>
         import(
-            /* webpackChunkName: "PoolIcon" */
+            /* webpackChunkName: "mdi/PoolIcon" */
             "mdi-react/PoolIcon"
         ),
     ),
     "mdi-popcorn": React.lazy(() =>
         import(
-            /* webpackChunkName: "PopcornIcon" */
+            /* webpackChunkName: "mdi/PopcornIcon" */
             "mdi-react/PopcornIcon"
         ),
     ),
     "mdi-pot-mix": React.lazy(() =>
         import(
-            /* webpackChunkName: "PotMixIcon" */
+            /* webpackChunkName: "mdi/PotMixIcon" */
             "mdi-react/PotMixIcon"
         ),
     ),
     "mdi-pot": React.lazy(() =>
         import(
-            /* webpackChunkName: "PotIcon" */
+            /* webpackChunkName: "mdi/PotIcon" */
             "mdi-react/PotIcon"
         ),
     ),
     "mdi-pound-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "PoundBoxIcon" */
+            /* webpackChunkName: "mdi/PoundBoxIcon" */
             "mdi-react/PoundBoxIcon"
         ),
     ),
     "mdi-pound": React.lazy(() =>
         import(
-            /* webpackChunkName: "PoundIcon" */
+            /* webpackChunkName: "mdi/PoundIcon" */
             "mdi-react/PoundIcon"
         ),
     ),
     "mdi-power-cycle": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerCycleIcon" */
+            /* webpackChunkName: "mdi/PowerCycleIcon" */
             "mdi-react/PowerCycleIcon"
         ),
     ),
     "mdi-power-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerOffIcon" */
+            /* webpackChunkName: "mdi/PowerOffIcon" */
             "mdi-react/PowerOffIcon"
         ),
     ),
     "mdi-power-on": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerOnIcon" */
+            /* webpackChunkName: "mdi/PowerOnIcon" */
             "mdi-react/PowerOnIcon"
         ),
     ),
     "mdi-power-plug-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerPlugOffIcon" */
+            /* webpackChunkName: "mdi/PowerPlugOffIcon" */
             "mdi-react/PowerPlugOffIcon"
         ),
     ),
     "mdi-power-plug": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerPlugIcon" */
+            /* webpackChunkName: "mdi/PowerPlugIcon" */
             "mdi-react/PowerPlugIcon"
         ),
     ),
     "mdi-power-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSettingsIcon" */
+            /* webpackChunkName: "mdi/PowerSettingsIcon" */
             "mdi-react/PowerSettingsIcon"
         ),
     ),
     "mdi-power-sleep": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSleepIcon" */
+            /* webpackChunkName: "mdi/PowerSleepIcon" */
             "mdi-react/PowerSleepIcon"
         ),
     ),
     "mdi-power-socket-au": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketAuIcon" */
+            /* webpackChunkName: "mdi/PowerSocketAuIcon" */
             "mdi-react/PowerSocketAuIcon"
         ),
     ),
     "mdi-power-socket-eu": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketEuIcon" */
+            /* webpackChunkName: "mdi/PowerSocketEuIcon" */
             "mdi-react/PowerSocketEuIcon"
         ),
     ),
     "mdi-power-socket-uk": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketUkIcon" */
+            /* webpackChunkName: "mdi/PowerSocketUkIcon" */
             "mdi-react/PowerSocketUkIcon"
         ),
     ),
     "mdi-power-socket-us": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketUsIcon" */
+            /* webpackChunkName: "mdi/PowerSocketUsIcon" */
             "mdi-react/PowerSocketUsIcon"
         ),
     ),
     "mdi-power-socket": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketIcon" */
+            /* webpackChunkName: "mdi/PowerSocketIcon" */
             "mdi-react/PowerSocketIcon"
         ),
     ),
     "mdi-power-standby": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerStandbyIcon" */
+            /* webpackChunkName: "mdi/PowerStandbyIcon" */
             "mdi-react/PowerStandbyIcon"
         ),
     ),
     "mdi-power": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerIcon" */
+            /* webpackChunkName: "mdi/PowerIcon" */
             "mdi-react/PowerIcon"
         ),
     ),
     "mdi-prescription": React.lazy(() =>
         import(
-            /* webpackChunkName: "PrescriptionIcon" */
+            /* webpackChunkName: "mdi/PrescriptionIcon" */
             "mdi-react/PrescriptionIcon"
         ),
     ),
     "mdi-presentation-play": React.lazy(() =>
         import(
-            /* webpackChunkName: "PresentationPlayIcon" */
+            /* webpackChunkName: "mdi/PresentationPlayIcon" */
             "mdi-react/PresentationPlayIcon"
         ),
     ),
     "mdi-presentation": React.lazy(() =>
         import(
-            /* webpackChunkName: "PresentationIcon" */
+            /* webpackChunkName: "mdi/PresentationIcon" */
             "mdi-react/PresentationIcon"
         ),
     ),
     "mdi-printer-3-d": React.lazy(() =>
         import(
-            /* webpackChunkName: "Printer3dIcon" */
+            /* webpackChunkName: "mdi/Printer3dIcon" */
             "mdi-react/Printer3dIcon"
         ),
     ),
     "mdi-printer-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "PrinterAlertIcon" */
+            /* webpackChunkName: "mdi/PrinterAlertIcon" */
             "mdi-react/PrinterAlertIcon"
         ),
     ),
     "mdi-printer-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "PrinterSettingsIcon" */
+            /* webpackChunkName: "mdi/PrinterSettingsIcon" */
             "mdi-react/PrinterSettingsIcon"
         ),
     ),
     "mdi-printer": React.lazy(() =>
         import(
-            /* webpackChunkName: "PrinterIcon" */
+            /* webpackChunkName: "mdi/PrinterIcon" */
             "mdi-react/PrinterIcon"
         ),
     ),
     "mdi-priority-high": React.lazy(() =>
         import(
-            /* webpackChunkName: "PriorityHighIcon" */
+            /* webpackChunkName: "mdi/PriorityHighIcon" */
             "mdi-react/PriorityHighIcon"
         ),
     ),
     "mdi-priority-low": React.lazy(() =>
         import(
-            /* webpackChunkName: "PriorityLowIcon" */
+            /* webpackChunkName: "mdi/PriorityLowIcon" */
             "mdi-react/PriorityLowIcon"
         ),
     ),
     "mdi-professional-hexagon": React.lazy(() =>
         import(
-            /* webpackChunkName: "ProfessionalHexagonIcon" */
+            /* webpackChunkName: "mdi/ProfessionalHexagonIcon" */
             "mdi-react/ProfessionalHexagonIcon"
         ),
     ),
     "mdi-progress-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "ProgressCheckIcon" */
+            /* webpackChunkName: "mdi/ProgressCheckIcon" */
             "mdi-react/ProgressCheckIcon"
         ),
     ),
     "mdi-progress-clock": React.lazy(() =>
         import(
-            /* webpackChunkName: "ProgressClockIcon" */
+            /* webpackChunkName: "mdi/ProgressClockIcon" */
             "mdi-react/ProgressClockIcon"
         ),
     ),
     "mdi-progress-download": React.lazy(() =>
         import(
-            /* webpackChunkName: "ProgressDownloadIcon" */
+            /* webpackChunkName: "mdi/ProgressDownloadIcon" */
             "mdi-react/ProgressDownloadIcon"
         ),
     ),
     "mdi-progress-upload": React.lazy(() =>
         import(
-            /* webpackChunkName: "ProgressUploadIcon" */
+            /* webpackChunkName: "mdi/ProgressUploadIcon" */
             "mdi-react/ProgressUploadIcon"
         ),
     ),
     "mdi-projector-screen": React.lazy(() =>
         import(
-            /* webpackChunkName: "ProjectorScreenIcon" */
+            /* webpackChunkName: "mdi/ProjectorScreenIcon" */
             "mdi-react/ProjectorScreenIcon"
         ),
     ),
     "mdi-projector": React.lazy(() =>
         import(
-            /* webpackChunkName: "ProjectorIcon" */
+            /* webpackChunkName: "mdi/ProjectorIcon" */
             "mdi-react/ProjectorIcon"
         ),
     ),
     "mdi-publish": React.lazy(() =>
         import(
-            /* webpackChunkName: "PublishIcon" */
+            /* webpackChunkName: "mdi/PublishIcon" */
             "mdi-react/PublishIcon"
         ),
     ),
     "mdi-pulse": React.lazy(() =>
         import(
-            /* webpackChunkName: "PulseIcon" */
+            /* webpackChunkName: "mdi/PulseIcon" */
             "mdi-react/PulseIcon"
         ),
     ),
     "mdi-puzzle": React.lazy(() =>
         import(
-            /* webpackChunkName: "PuzzleIcon" */
+            /* webpackChunkName: "mdi/PuzzleIcon" */
             "mdi-react/PuzzleIcon"
         ),
     ),
     "mdi-qi": React.lazy(() =>
         import(
-            /* webpackChunkName: "QiIcon" */
+            /* webpackChunkName: "mdi/QiIcon" */
             "mdi-react/QiIcon"
         ),
     ),
     "mdi-qqchat": React.lazy(() =>
         import(
-            /* webpackChunkName: "QqchatIcon" */
+            /* webpackChunkName: "mdi/QqchatIcon" */
             "mdi-react/QqchatIcon"
         ),
     ),
     "mdi-qrcode-edit": React.lazy(() =>
         import(
-            /* webpackChunkName: "QrcodeEditIcon" */
+            /* webpackChunkName: "mdi/QrcodeEditIcon" */
             "mdi-react/QrcodeEditIcon"
         ),
     ),
     "mdi-qrcode-scan": React.lazy(() =>
         import(
-            /* webpackChunkName: "QrcodeScanIcon" */
+            /* webpackChunkName: "mdi/QrcodeScanIcon" */
             "mdi-react/QrcodeScanIcon"
         ),
     ),
     "mdi-qrcode": React.lazy(() =>
         import(
-            /* webpackChunkName: "QrcodeIcon" */
+            /* webpackChunkName: "mdi/QrcodeIcon" */
             "mdi-react/QrcodeIcon"
         ),
     ),
     "mdi-quadcopter": React.lazy(() =>
         import(
-            /* webpackChunkName: "QuadcopterIcon" */
+            /* webpackChunkName: "mdi/QuadcopterIcon" */
             "mdi-react/QuadcopterIcon"
         ),
     ),
     "mdi-quality-high": React.lazy(() =>
         import(
-            /* webpackChunkName: "QualityHighIcon" */
+            /* webpackChunkName: "mdi/QualityHighIcon" */
             "mdi-react/QualityHighIcon"
         ),
     ),
     "mdi-quicktime": React.lazy(() =>
         import(
-            /* webpackChunkName: "QuicktimeIcon" */
+            /* webpackChunkName: "mdi/QuicktimeIcon" */
             "mdi-react/QuicktimeIcon"
         ),
     ),
     "mdi-rabbit": React.lazy(() =>
         import(
-            /* webpackChunkName: "RabbitIcon" */
+            /* webpackChunkName: "mdi/RabbitIcon" */
             "mdi-react/RabbitIcon"
         ),
     ),
     "mdi-radar": React.lazy(() =>
         import(
-            /* webpackChunkName: "RadarIcon" */
+            /* webpackChunkName: "mdi/RadarIcon" */
             "mdi-react/RadarIcon"
         ),
     ),
     "mdi-radiator": React.lazy(() =>
         import(
-            /* webpackChunkName: "RadiatorIcon" */
+            /* webpackChunkName: "mdi/RadiatorIcon" */
             "mdi-react/RadiatorIcon"
         ),
     ),
     "mdi-radio-handheld": React.lazy(() =>
         import(
-            /* webpackChunkName: "RadioHandheldIcon" */
+            /* webpackChunkName: "mdi/RadioHandheldIcon" */
             "mdi-react/RadioHandheldIcon"
         ),
     ),
     "mdi-radio-tower": React.lazy(() =>
         import(
-            /* webpackChunkName: "RadioTowerIcon" */
+            /* webpackChunkName: "mdi/RadioTowerIcon" */
             "mdi-react/RadioTowerIcon"
         ),
     ),
     "mdi-radio": React.lazy(() =>
         import(
-            /* webpackChunkName: "RadioIcon" */
+            /* webpackChunkName: "mdi/RadioIcon" */
             "mdi-react/RadioIcon"
         ),
     ),
     "mdi-radioactive": React.lazy(() =>
         import(
-            /* webpackChunkName: "RadioactiveIcon" */
+            /* webpackChunkName: "mdi/RadioactiveIcon" */
             "mdi-react/RadioactiveIcon"
         ),
     ),
     "mdi-radiobox-blank": React.lazy(() =>
         import(
-            /* webpackChunkName: "RadioboxBlankIcon" */
+            /* webpackChunkName: "mdi/RadioboxBlankIcon" */
             "mdi-react/RadioboxBlankIcon"
         ),
     ),
     "mdi-radiobox-marked": React.lazy(() =>
         import(
-            /* webpackChunkName: "RadioboxMarkedIcon" */
+            /* webpackChunkName: "mdi/RadioboxMarkedIcon" */
             "mdi-react/RadioboxMarkedIcon"
         ),
     ),
     "mdi-raspberrypi": React.lazy(() =>
         import(
-            /* webpackChunkName: "RaspberrypiIcon" */
+            /* webpackChunkName: "mdi/RaspberrypiIcon" */
             "mdi-react/RaspberrypiIcon"
         ),
     ),
     "mdi-ray-end-arrow": React.lazy(() =>
         import(
-            /* webpackChunkName: "RayEndArrowIcon" */
+            /* webpackChunkName: "mdi/RayEndArrowIcon" */
             "mdi-react/RayEndArrowIcon"
         ),
     ),
     "mdi-ray-end": React.lazy(() =>
         import(
-            /* webpackChunkName: "RayEndIcon" */
+            /* webpackChunkName: "mdi/RayEndIcon" */
             "mdi-react/RayEndIcon"
         ),
     ),
     "mdi-ray-start-arrow": React.lazy(() =>
         import(
-            /* webpackChunkName: "RayStartArrowIcon" */
+            /* webpackChunkName: "mdi/RayStartArrowIcon" */
             "mdi-react/RayStartArrowIcon"
         ),
     ),
     "mdi-ray-start-end": React.lazy(() =>
         import(
-            /* webpackChunkName: "RayStartEndIcon" */
+            /* webpackChunkName: "mdi/RayStartEndIcon" */
             "mdi-react/RayStartEndIcon"
         ),
     ),
     "mdi-ray-start": React.lazy(() =>
         import(
-            /* webpackChunkName: "RayStartIcon" */
+            /* webpackChunkName: "mdi/RayStartIcon" */
             "mdi-react/RayStartIcon"
         ),
     ),
     "mdi-ray-vertex": React.lazy(() =>
         import(
-            /* webpackChunkName: "RayVertexIcon" */
+            /* webpackChunkName: "mdi/RayVertexIcon" */
             "mdi-react/RayVertexIcon"
         ),
     ),
     "mdi-react": React.lazy(() =>
         import(
-            /* webpackChunkName: "ReactIcon" */
+            /* webpackChunkName: "mdi/ReactIcon" */
             "mdi-react/ReactIcon"
         ),
     ),
     "mdi-read": React.lazy(() =>
         import(
-            /* webpackChunkName: "ReadIcon" */
+            /* webpackChunkName: "mdi/ReadIcon" */
             "mdi-react/ReadIcon"
         ),
     ),
     "mdi-receipt": React.lazy(() =>
         import(
-            /* webpackChunkName: "ReceiptIcon" */
+            /* webpackChunkName: "mdi/ReceiptIcon" */
             "mdi-react/ReceiptIcon"
         ),
     ),
     "mdi-record-player": React.lazy(() =>
         import(
-            /* webpackChunkName: "RecordPlayerIcon" */
+            /* webpackChunkName: "mdi/RecordPlayerIcon" */
             "mdi-react/RecordPlayerIcon"
         ),
     ),
     "mdi-record-rec": React.lazy(() =>
         import(
-            /* webpackChunkName: "RecordRecIcon" */
+            /* webpackChunkName: "mdi/RecordRecIcon" */
             "mdi-react/RecordRecIcon"
         ),
     ),
     "mdi-record": React.lazy(() =>
         import(
-            /* webpackChunkName: "RecordIcon" */
+            /* webpackChunkName: "mdi/RecordIcon" */
             "mdi-react/RecordIcon"
         ),
     ),
     "mdi-recycle": React.lazy(() =>
         import(
-            /* webpackChunkName: "RecycleIcon" */
+            /* webpackChunkName: "mdi/RecycleIcon" */
             "mdi-react/RecycleIcon"
         ),
     ),
     "mdi-reddit": React.lazy(() =>
         import(
-            /* webpackChunkName: "RedditIcon" */
+            /* webpackChunkName: "mdi/RedditIcon" */
             "mdi-react/RedditIcon"
         ),
     ),
     "mdi-redo-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "RedoVariantIcon" */
+            /* webpackChunkName: "mdi/RedoVariantIcon" */
             "mdi-react/RedoVariantIcon"
         ),
     ),
     "mdi-redo": React.lazy(() =>
         import(
-            /* webpackChunkName: "RedoIcon" */
+            /* webpackChunkName: "mdi/RedoIcon" */
             "mdi-react/RedoIcon"
         ),
     ),
     "mdi-refresh": React.lazy(() =>
         import(
-            /* webpackChunkName: "RefreshIcon" */
+            /* webpackChunkName: "mdi/RefreshIcon" */
             "mdi-react/RefreshIcon"
         ),
     ),
     "mdi-regex": React.lazy(() =>
         import(
-            /* webpackChunkName: "RegexIcon" */
+            /* webpackChunkName: "mdi/RegexIcon" */
             "mdi-react/RegexIcon"
         ),
     ),
     "mdi-relative-scale": React.lazy(() =>
         import(
-            /* webpackChunkName: "RelativeScaleIcon" */
+            /* webpackChunkName: "mdi/RelativeScaleIcon" */
             "mdi-react/RelativeScaleIcon"
         ),
     ),
     "mdi-reload": React.lazy(() =>
         import(
-            /* webpackChunkName: "ReloadIcon" */
+            /* webpackChunkName: "mdi/ReloadIcon" */
             "mdi-react/ReloadIcon"
         ),
     ),
     "mdi-reminder": React.lazy(() =>
         import(
-            /* webpackChunkName: "ReminderIcon" */
+            /* webpackChunkName: "mdi/ReminderIcon" */
             "mdi-react/ReminderIcon"
         ),
     ),
     "mdi-remote-desktop": React.lazy(() =>
         import(
-            /* webpackChunkName: "RemoteDesktopIcon" */
+            /* webpackChunkName: "mdi/RemoteDesktopIcon" */
             "mdi-react/RemoteDesktopIcon"
         ),
     ),
     "mdi-remote": React.lazy(() =>
         import(
-            /* webpackChunkName: "RemoteIcon" */
+            /* webpackChunkName: "mdi/RemoteIcon" */
             "mdi-react/RemoteIcon"
         ),
     ),
     "mdi-rename-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "RenameBoxIcon" */
+            /* webpackChunkName: "mdi/RenameBoxIcon" */
             "mdi-react/RenameBoxIcon"
         ),
     ),
     "mdi-reorder-horizontal": React.lazy(() =>
         import(
-            /* webpackChunkName: "ReorderHorizontalIcon" */
+            /* webpackChunkName: "mdi/ReorderHorizontalIcon" */
             "mdi-react/ReorderHorizontalIcon"
         ),
     ),
     "mdi-reorder-vertical": React.lazy(() =>
         import(
-            /* webpackChunkName: "ReorderVerticalIcon" */
+            /* webpackChunkName: "mdi/ReorderVerticalIcon" */
             "mdi-react/ReorderVerticalIcon"
         ),
     ),
     "mdi-repeat-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "RepeatOffIcon" */
+            /* webpackChunkName: "mdi/RepeatOffIcon" */
             "mdi-react/RepeatOffIcon"
         ),
     ),
     "mdi-repeat-once": React.lazy(() =>
         import(
-            /* webpackChunkName: "RepeatOnceIcon" */
+            /* webpackChunkName: "mdi/RepeatOnceIcon" */
             "mdi-react/RepeatOnceIcon"
         ),
     ),
     "mdi-repeat": React.lazy(() =>
         import(
-            /* webpackChunkName: "RepeatIcon" */
+            /* webpackChunkName: "mdi/RepeatIcon" */
             "mdi-react/RepeatIcon"
         ),
     ),
     "mdi-replay": React.lazy(() =>
         import(
-            /* webpackChunkName: "ReplayIcon" */
+            /* webpackChunkName: "mdi/ReplayIcon" */
             "mdi-react/ReplayIcon"
         ),
     ),
     "mdi-reply-all": React.lazy(() =>
         import(
-            /* webpackChunkName: "ReplyAllIcon" */
+            /* webpackChunkName: "mdi/ReplyAllIcon" */
             "mdi-react/ReplyAllIcon"
         ),
     ),
     "mdi-reply": React.lazy(() =>
         import(
-            /* webpackChunkName: "ReplyIcon" */
+            /* webpackChunkName: "mdi/ReplyIcon" */
             "mdi-react/ReplyIcon"
         ),
     ),
     "mdi-reproduction": React.lazy(() =>
         import(
-            /* webpackChunkName: "ReproductionIcon" */
+            /* webpackChunkName: "mdi/ReproductionIcon" */
             "mdi-react/ReproductionIcon"
         ),
     ),
     "mdi-resize-bottom-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "ResizeBottomRightIcon" */
+            /* webpackChunkName: "mdi/ResizeBottomRightIcon" */
             "mdi-react/ResizeBottomRightIcon"
         ),
     ),
     "mdi-responsive": React.lazy(() =>
         import(
-            /* webpackChunkName: "ResponsiveIcon" */
+            /* webpackChunkName: "mdi/ResponsiveIcon" */
             "mdi-react/ResponsiveIcon"
         ),
     ),
     "mdi-restart": React.lazy(() =>
         import(
-            /* webpackChunkName: "RestartIcon" */
+            /* webpackChunkName: "mdi/RestartIcon" */
             "mdi-react/RestartIcon"
         ),
     ),
     "mdi-restore-clock": React.lazy(() =>
         import(
-            /* webpackChunkName: "RestoreClockIcon" */
+            /* webpackChunkName: "mdi/RestoreClockIcon" */
             "mdi-react/RestoreClockIcon"
         ),
     ),
     "mdi-restore": React.lazy(() =>
         import(
-            /* webpackChunkName: "RestoreIcon" */
+            /* webpackChunkName: "mdi/RestoreIcon" */
             "mdi-react/RestoreIcon"
         ),
     ),
     "mdi-rewind-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "RewindOutlineIcon" */
+            /* webpackChunkName: "mdi/RewindOutlineIcon" */
             "mdi-react/RewindOutlineIcon"
         ),
     ),
     "mdi-rewind": React.lazy(() =>
         import(
-            /* webpackChunkName: "RewindIcon" */
+            /* webpackChunkName: "mdi/RewindIcon" */
             "mdi-react/RewindIcon"
         ),
     ),
     "mdi-rhombus-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "RhombusOutlineIcon" */
+            /* webpackChunkName: "mdi/RhombusOutlineIcon" */
             "mdi-react/RhombusOutlineIcon"
         ),
     ),
     "mdi-rhombus": React.lazy(() =>
         import(
-            /* webpackChunkName: "RhombusIcon" */
+            /* webpackChunkName: "mdi/RhombusIcon" */
             "mdi-react/RhombusIcon"
         ),
     ),
     "mdi-ribbon": React.lazy(() =>
         import(
-            /* webpackChunkName: "RibbonIcon" */
+            /* webpackChunkName: "mdi/RibbonIcon" */
             "mdi-react/RibbonIcon"
         ),
     ),
     "mdi-rice": React.lazy(() =>
         import(
-            /* webpackChunkName: "RiceIcon" */
+            /* webpackChunkName: "mdi/RiceIcon" */
             "mdi-react/RiceIcon"
         ),
     ),
     "mdi-ring": React.lazy(() =>
         import(
-            /* webpackChunkName: "RingIcon" */
+            /* webpackChunkName: "mdi/RingIcon" */
             "mdi-react/RingIcon"
         ),
     ),
     "mdi-road-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "RoadVariantIcon" */
+            /* webpackChunkName: "mdi/RoadVariantIcon" */
             "mdi-react/RoadVariantIcon"
         ),
     ),
     "mdi-road": React.lazy(() =>
         import(
-            /* webpackChunkName: "RoadIcon" */
+            /* webpackChunkName: "mdi/RoadIcon" */
             "mdi-react/RoadIcon"
         ),
     ),
     "mdi-robot-vacuum-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "RobotVacuumVariantIcon" */
+            /* webpackChunkName: "mdi/RobotVacuumVariantIcon" */
             "mdi-react/RobotVacuumVariantIcon"
         ),
     ),
     "mdi-robot-vacuum": React.lazy(() =>
         import(
-            /* webpackChunkName: "RobotVacuumIcon" */
+            /* webpackChunkName: "mdi/RobotVacuumIcon" */
             "mdi-react/RobotVacuumIcon"
         ),
     ),
     "mdi-robot": React.lazy(() =>
         import(
-            /* webpackChunkName: "RobotIcon" */
+            /* webpackChunkName: "mdi/RobotIcon" */
             "mdi-react/RobotIcon"
         ),
     ),
     "mdi-rocket": React.lazy(() =>
         import(
-            /* webpackChunkName: "RocketIcon" */
+            /* webpackChunkName: "mdi/RocketIcon" */
             "mdi-react/RocketIcon"
         ),
     ),
     "mdi-room-service": React.lazy(() =>
         import(
-            /* webpackChunkName: "RoomServiceIcon" */
+            /* webpackChunkName: "mdi/RoomServiceIcon" */
             "mdi-react/RoomServiceIcon"
         ),
     ),
     "mdi-rotate-3-d": React.lazy(() =>
         import(
-            /* webpackChunkName: "Rotate3dIcon" */
+            /* webpackChunkName: "mdi/Rotate3dIcon" */
             "mdi-react/Rotate3dIcon"
         ),
     ),
     "mdi-rotate-left-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "RotateLeftVariantIcon" */
+            /* webpackChunkName: "mdi/RotateLeftVariantIcon" */
             "mdi-react/RotateLeftVariantIcon"
         ),
     ),
     "mdi-rotate-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "RotateLeftIcon" */
+            /* webpackChunkName: "mdi/RotateLeftIcon" */
             "mdi-react/RotateLeftIcon"
         ),
     ),
     "mdi-rotate-right-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "RotateRightVariantIcon" */
+            /* webpackChunkName: "mdi/RotateRightVariantIcon" */
             "mdi-react/RotateRightVariantIcon"
         ),
     ),
     "mdi-rotate-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "RotateRightIcon" */
+            /* webpackChunkName: "mdi/RotateRightIcon" */
             "mdi-react/RotateRightIcon"
         ),
     ),
     "mdi-rounded-corner": React.lazy(() =>
         import(
-            /* webpackChunkName: "RoundedCornerIcon" */
+            /* webpackChunkName: "mdi/RoundedCornerIcon" */
             "mdi-react/RoundedCornerIcon"
         ),
     ),
     "mdi-router-wireless": React.lazy(() =>
         import(
-            /* webpackChunkName: "RouterWirelessIcon" */
+            /* webpackChunkName: "mdi/RouterWirelessIcon" */
             "mdi-react/RouterWirelessIcon"
         ),
     ),
     "mdi-routes": React.lazy(() =>
         import(
-            /* webpackChunkName: "RoutesIcon" */
+            /* webpackChunkName: "mdi/RoutesIcon" */
             "mdi-react/RoutesIcon"
         ),
     ),
     "mdi-rowing": React.lazy(() =>
         import(
-            /* webpackChunkName: "RowingIcon" */
+            /* webpackChunkName: "mdi/RowingIcon" */
             "mdi-react/RowingIcon"
         ),
     ),
     "mdi-rss-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "RssBoxIcon" */
+            /* webpackChunkName: "mdi/RssBoxIcon" */
             "mdi-react/RssBoxIcon"
         ),
     ),
     "mdi-rss": React.lazy(() =>
         import(
-            /* webpackChunkName: "RssIcon" */
+            /* webpackChunkName: "mdi/RssIcon" */
             "mdi-react/RssIcon"
         ),
     ),
     "mdi-ruler": React.lazy(() =>
         import(
-            /* webpackChunkName: "RulerIcon" */
+            /* webpackChunkName: "mdi/RulerIcon" */
             "mdi-react/RulerIcon"
         ),
     ),
     "mdi-run-fast": React.lazy(() =>
         import(
-            /* webpackChunkName: "RunFastIcon" */
+            /* webpackChunkName: "mdi/RunFastIcon" */
             "mdi-react/RunFastIcon"
         ),
     ),
     "mdi-run": React.lazy(() =>
         import(
-            /* webpackChunkName: "RunIcon" */
+            /* webpackChunkName: "mdi/RunIcon" */
             "mdi-react/RunIcon"
         ),
     ),
     "mdi-sale": React.lazy(() =>
         import(
-            /* webpackChunkName: "SaleIcon" */
+            /* webpackChunkName: "mdi/SaleIcon" */
             "mdi-react/SaleIcon"
         ),
     ),
     "mdi-salesforce": React.lazy(() =>
         import(
-            /* webpackChunkName: "SalesforceIcon" */
+            /* webpackChunkName: "mdi/SalesforceIcon" */
             "mdi-react/SalesforceIcon"
         ),
     ),
     "mdi-sass": React.lazy(() =>
         import(
-            /* webpackChunkName: "SassIcon" */
+            /* webpackChunkName: "mdi/SassIcon" */
             "mdi-react/SassIcon"
         ),
     ),
     "mdi-satellite-uplink": React.lazy(() =>
         import(
-            /* webpackChunkName: "SatelliteUplinkIcon" */
+            /* webpackChunkName: "mdi/SatelliteUplinkIcon" */
             "mdi-react/SatelliteUplinkIcon"
         ),
     ),
     "mdi-satellite-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "SatelliteVariantIcon" */
+            /* webpackChunkName: "mdi/SatelliteVariantIcon" */
             "mdi-react/SatelliteVariantIcon"
         ),
     ),
     "mdi-satellite": React.lazy(() =>
         import(
-            /* webpackChunkName: "SatelliteIcon" */
+            /* webpackChunkName: "mdi/SatelliteIcon" */
             "mdi-react/SatelliteIcon"
         ),
     ),
     "mdi-sausage": React.lazy(() =>
         import(
-            /* webpackChunkName: "SausageIcon" */
+            /* webpackChunkName: "mdi/SausageIcon" */
             "mdi-react/SausageIcon"
         ),
     ),
     "mdi-saxophone": React.lazy(() =>
         import(
-            /* webpackChunkName: "SaxophoneIcon" */
+            /* webpackChunkName: "mdi/SaxophoneIcon" */
             "mdi-react/SaxophoneIcon"
         ),
     ),
     "mdi-scale-balance": React.lazy(() =>
         import(
-            /* webpackChunkName: "ScaleBalanceIcon" */
+            /* webpackChunkName: "mdi/ScaleBalanceIcon" */
             "mdi-react/ScaleBalanceIcon"
         ),
     ),
     "mdi-scale-bathroom": React.lazy(() =>
         import(
-            /* webpackChunkName: "ScaleBathroomIcon" */
+            /* webpackChunkName: "mdi/ScaleBathroomIcon" */
             "mdi-react/ScaleBathroomIcon"
         ),
     ),
     "mdi-scale": React.lazy(() =>
         import(
-            /* webpackChunkName: "ScaleIcon" */
+            /* webpackChunkName: "mdi/ScaleIcon" */
             "mdi-react/ScaleIcon"
         ),
     ),
     "mdi-scanner-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "ScannerOffIcon" */
+            /* webpackChunkName: "mdi/ScannerOffIcon" */
             "mdi-react/ScannerOffIcon"
         ),
     ),
     "mdi-scanner": React.lazy(() =>
         import(
-            /* webpackChunkName: "ScannerIcon" */
+            /* webpackChunkName: "mdi/ScannerIcon" */
             "mdi-react/ScannerIcon"
         ),
     ),
     "mdi-school": React.lazy(() =>
         import(
-            /* webpackChunkName: "SchoolIcon" */
+            /* webpackChunkName: "mdi/SchoolIcon" */
             "mdi-react/SchoolIcon"
         ),
     ),
     "mdi-screen-rotation-lock": React.lazy(() =>
         import(
-            /* webpackChunkName: "ScreenRotationLockIcon" */
+            /* webpackChunkName: "mdi/ScreenRotationLockIcon" */
             "mdi-react/ScreenRotationLockIcon"
         ),
     ),
     "mdi-screen-rotation": React.lazy(() =>
         import(
-            /* webpackChunkName: "ScreenRotationIcon" */
+            /* webpackChunkName: "mdi/ScreenRotationIcon" */
             "mdi-react/ScreenRotationIcon"
         ),
     ),
     "mdi-screwdriver": React.lazy(() =>
         import(
-            /* webpackChunkName: "ScrewdriverIcon" */
+            /* webpackChunkName: "mdi/ScrewdriverIcon" */
             "mdi-react/ScrewdriverIcon"
         ),
     ),
     "mdi-script": React.lazy(() =>
         import(
-            /* webpackChunkName: "ScriptIcon" */
+            /* webpackChunkName: "mdi/ScriptIcon" */
             "mdi-react/ScriptIcon"
         ),
     ),
     "mdi-sd": React.lazy(() =>
         import(
-            /* webpackChunkName: "SdIcon" */
+            /* webpackChunkName: "mdi/SdIcon" */
             "mdi-react/SdIcon"
         ),
     ),
     "mdi-seal": React.lazy(() =>
         import(
-            /* webpackChunkName: "SealIcon" */
+            /* webpackChunkName: "mdi/SealIcon" */
             "mdi-react/SealIcon"
         ),
     ),
     "mdi-search-web": React.lazy(() =>
         import(
-            /* webpackChunkName: "SearchWebIcon" */
+            /* webpackChunkName: "mdi/SearchWebIcon" */
             "mdi-react/SearchWebIcon"
         ),
     ),
     "mdi-seat-flat-angled": React.lazy(() =>
         import(
-            /* webpackChunkName: "SeatFlatAngledIcon" */
+            /* webpackChunkName: "mdi/SeatFlatAngledIcon" */
             "mdi-react/SeatFlatAngledIcon"
         ),
     ),
     "mdi-seat-flat": React.lazy(() =>
         import(
-            /* webpackChunkName: "SeatFlatIcon" */
+            /* webpackChunkName: "mdi/SeatFlatIcon" */
             "mdi-react/SeatFlatIcon"
         ),
     ),
     "mdi-seat-individual-suite": React.lazy(() =>
         import(
-            /* webpackChunkName: "SeatIndividualSuiteIcon" */
+            /* webpackChunkName: "mdi/SeatIndividualSuiteIcon" */
             "mdi-react/SeatIndividualSuiteIcon"
         ),
     ),
     "mdi-seat-legroom-extra": React.lazy(() =>
         import(
-            /* webpackChunkName: "SeatLegroomExtraIcon" */
+            /* webpackChunkName: "mdi/SeatLegroomExtraIcon" */
             "mdi-react/SeatLegroomExtraIcon"
         ),
     ),
     "mdi-seat-legroom-normal": React.lazy(() =>
         import(
-            /* webpackChunkName: "SeatLegroomNormalIcon" */
+            /* webpackChunkName: "mdi/SeatLegroomNormalIcon" */
             "mdi-react/SeatLegroomNormalIcon"
         ),
     ),
     "mdi-seat-legroom-reduced": React.lazy(() =>
         import(
-            /* webpackChunkName: "SeatLegroomReducedIcon" */
+            /* webpackChunkName: "mdi/SeatLegroomReducedIcon" */
             "mdi-react/SeatLegroomReducedIcon"
         ),
     ),
     "mdi-seat-recline-extra": React.lazy(() =>
         import(
-            /* webpackChunkName: "SeatReclineExtraIcon" */
+            /* webpackChunkName: "mdi/SeatReclineExtraIcon" */
             "mdi-react/SeatReclineExtraIcon"
         ),
     ),
     "mdi-seat-recline-normal": React.lazy(() =>
         import(
-            /* webpackChunkName: "SeatReclineNormalIcon" */
+            /* webpackChunkName: "mdi/SeatReclineNormalIcon" */
             "mdi-react/SeatReclineNormalIcon"
         ),
     ),
     "mdi-security-account": React.lazy(() =>
         import(
-            /* webpackChunkName: "SecurityAccountIcon" */
+            /* webpackChunkName: "mdi/SecurityAccountIcon" */
             "mdi-react/SecurityAccountIcon"
         ),
     ),
     "mdi-security-close": React.lazy(() =>
         import(
-            /* webpackChunkName: "SecurityCloseIcon" */
+            /* webpackChunkName: "mdi/SecurityCloseIcon" */
             "mdi-react/SecurityCloseIcon"
         ),
     ),
     "mdi-security-home": React.lazy(() =>
         import(
-            /* webpackChunkName: "SecurityHomeIcon" */
+            /* webpackChunkName: "mdi/SecurityHomeIcon" */
             "mdi-react/SecurityHomeIcon"
         ),
     ),
     "mdi-security-lock": React.lazy(() =>
         import(
-            /* webpackChunkName: "SecurityLockIcon" */
+            /* webpackChunkName: "mdi/SecurityLockIcon" */
             "mdi-react/SecurityLockIcon"
         ),
     ),
     "mdi-security-network": React.lazy(() =>
         import(
-            /* webpackChunkName: "SecurityNetworkIcon" */
+            /* webpackChunkName: "mdi/SecurityNetworkIcon" */
             "mdi-react/SecurityNetworkIcon"
         ),
     ),
     "mdi-security-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "SecurityOffIcon" */
+            /* webpackChunkName: "mdi/SecurityOffIcon" */
             "mdi-react/SecurityOffIcon"
         ),
     ),
     "mdi-security": React.lazy(() =>
         import(
-            /* webpackChunkName: "SecurityIcon" */
+            /* webpackChunkName: "mdi/SecurityIcon" */
             "mdi-react/SecurityIcon"
         ),
     ),
     "mdi-select-all": React.lazy(() =>
         import(
-            /* webpackChunkName: "SelectAllIcon" */
+            /* webpackChunkName: "mdi/SelectAllIcon" */
             "mdi-react/SelectAllIcon"
         ),
     ),
     "mdi-select-inverse": React.lazy(() =>
         import(
-            /* webpackChunkName: "SelectInverseIcon" */
+            /* webpackChunkName: "mdi/SelectInverseIcon" */
             "mdi-react/SelectInverseIcon"
         ),
     ),
     "mdi-select-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "SelectOffIcon" */
+            /* webpackChunkName: "mdi/SelectOffIcon" */
             "mdi-react/SelectOffIcon"
         ),
     ),
     "mdi-select": React.lazy(() =>
         import(
-            /* webpackChunkName: "SelectIcon" */
+            /* webpackChunkName: "mdi/SelectIcon" */
             "mdi-react/SelectIcon"
         ),
     ),
     "mdi-selection-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "SelectionOffIcon" */
+            /* webpackChunkName: "mdi/SelectionOffIcon" */
             "mdi-react/SelectionOffIcon"
         ),
     ),
     "mdi-selection": React.lazy(() =>
         import(
-            /* webpackChunkName: "SelectionIcon" */
+            /* webpackChunkName: "mdi/SelectionIcon" */
             "mdi-react/SelectionIcon"
         ),
     ),
     "mdi-send-secure": React.lazy(() =>
         import(
-            /* webpackChunkName: "SendSecureIcon" */
+            /* webpackChunkName: "mdi/SendSecureIcon" */
             "mdi-react/SendSecureIcon"
         ),
     ),
     "mdi-send": React.lazy(() =>
         import(
-            /* webpackChunkName: "SendIcon" */
+            /* webpackChunkName: "mdi/SendIcon" */
             "mdi-react/SendIcon"
         ),
     ),
     "mdi-serial-port": React.lazy(() =>
         import(
-            /* webpackChunkName: "SerialPortIcon" */
+            /* webpackChunkName: "mdi/SerialPortIcon" */
             "mdi-react/SerialPortIcon"
         ),
     ),
     "mdi-server-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "ServerMinusIcon" */
+            /* webpackChunkName: "mdi/ServerMinusIcon" */
             "mdi-react/ServerMinusIcon"
         ),
     ),
     "mdi-server-network-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "ServerNetworkOffIcon" */
+            /* webpackChunkName: "mdi/ServerNetworkOffIcon" */
             "mdi-react/ServerNetworkOffIcon"
         ),
     ),
     "mdi-server-network": React.lazy(() =>
         import(
-            /* webpackChunkName: "ServerNetworkIcon" */
+            /* webpackChunkName: "mdi/ServerNetworkIcon" */
             "mdi-react/ServerNetworkIcon"
         ),
     ),
     "mdi-server-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "ServerOffIcon" */
+            /* webpackChunkName: "mdi/ServerOffIcon" */
             "mdi-react/ServerOffIcon"
         ),
     ),
     "mdi-server-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "ServerPlusIcon" */
+            /* webpackChunkName: "mdi/ServerPlusIcon" */
             "mdi-react/ServerPlusIcon"
         ),
     ),
     "mdi-server-remove": React.lazy(() =>
         import(
-            /* webpackChunkName: "ServerRemoveIcon" */
+            /* webpackChunkName: "mdi/ServerRemoveIcon" */
             "mdi-react/ServerRemoveIcon"
         ),
     ),
     "mdi-server-security": React.lazy(() =>
         import(
-            /* webpackChunkName: "ServerSecurityIcon" */
+            /* webpackChunkName: "mdi/ServerSecurityIcon" */
             "mdi-react/ServerSecurityIcon"
         ),
     ),
     "mdi-server": React.lazy(() =>
         import(
-            /* webpackChunkName: "ServerIcon" */
+            /* webpackChunkName: "mdi/ServerIcon" */
             "mdi-react/ServerIcon"
         ),
     ),
     "mdi-set-all": React.lazy(() =>
         import(
-            /* webpackChunkName: "SetAllIcon" */
+            /* webpackChunkName: "mdi/SetAllIcon" */
             "mdi-react/SetAllIcon"
         ),
     ),
     "mdi-set-center-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "SetCenterRightIcon" */
+            /* webpackChunkName: "mdi/SetCenterRightIcon" */
             "mdi-react/SetCenterRightIcon"
         ),
     ),
     "mdi-set-center": React.lazy(() =>
         import(
-            /* webpackChunkName: "SetCenterIcon" */
+            /* webpackChunkName: "mdi/SetCenterIcon" */
             "mdi-react/SetCenterIcon"
         ),
     ),
     "mdi-set-left-center": React.lazy(() =>
         import(
-            /* webpackChunkName: "SetLeftCenterIcon" */
+            /* webpackChunkName: "mdi/SetLeftCenterIcon" */
             "mdi-react/SetLeftCenterIcon"
         ),
     ),
     "mdi-set-left-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "SetLeftRightIcon" */
+            /* webpackChunkName: "mdi/SetLeftRightIcon" */
             "mdi-react/SetLeftRightIcon"
         ),
     ),
     "mdi-set-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "SetLeftIcon" */
+            /* webpackChunkName: "mdi/SetLeftIcon" */
             "mdi-react/SetLeftIcon"
         ),
     ),
     "mdi-set-none": React.lazy(() =>
         import(
-            /* webpackChunkName: "SetNoneIcon" */
+            /* webpackChunkName: "mdi/SetNoneIcon" */
             "mdi-react/SetNoneIcon"
         ),
     ),
     "mdi-set-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "SetRightIcon" */
+            /* webpackChunkName: "mdi/SetRightIcon" */
             "mdi-react/SetRightIcon"
         ),
     ),
     "mdi-set-top-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "SetTopBoxIcon" */
+            /* webpackChunkName: "mdi/SetTopBoxIcon" */
             "mdi-react/SetTopBoxIcon"
         ),
     ),
     "mdi-settings-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "SettingsBoxIcon" */
+            /* webpackChunkName: "mdi/SettingsBoxIcon" */
             "mdi-react/SettingsBoxIcon"
         ),
     ),
     "mdi-settings-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "SettingsOutlineIcon" */
+            /* webpackChunkName: "mdi/SettingsOutlineIcon" */
             "mdi-react/SettingsOutlineIcon"
         ),
     ),
     "mdi-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "SettingsIcon" */
+            /* webpackChunkName: "mdi/SettingsIcon" */
             "mdi-react/SettingsIcon"
         ),
     ),
     "mdi-shape-circle-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShapeCirclePlusIcon" */
+            /* webpackChunkName: "mdi/ShapeCirclePlusIcon" */
             "mdi-react/ShapeCirclePlusIcon"
         ),
     ),
     "mdi-shape-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShapeOutlineIcon" */
+            /* webpackChunkName: "mdi/ShapeOutlineIcon" */
             "mdi-react/ShapeOutlineIcon"
         ),
     ),
     "mdi-shape-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShapePlusIcon" */
+            /* webpackChunkName: "mdi/ShapePlusIcon" */
             "mdi-react/ShapePlusIcon"
         ),
     ),
     "mdi-shape-polygon-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShapePolygonPlusIcon" */
+            /* webpackChunkName: "mdi/ShapePolygonPlusIcon" */
             "mdi-react/ShapePolygonPlusIcon"
         ),
     ),
     "mdi-shape-rectangle-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShapeRectanglePlusIcon" */
+            /* webpackChunkName: "mdi/ShapeRectanglePlusIcon" */
             "mdi-react/ShapeRectanglePlusIcon"
         ),
     ),
     "mdi-shape-square-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShapeSquarePlusIcon" */
+            /* webpackChunkName: "mdi/ShapeSquarePlusIcon" */
             "mdi-react/ShapeSquarePlusIcon"
         ),
     ),
     "mdi-shape": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShapeIcon" */
+            /* webpackChunkName: "mdi/ShapeIcon" */
             "mdi-react/ShapeIcon"
         ),
     ),
     "mdi-share-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShareOutlineIcon" */
+            /* webpackChunkName: "mdi/ShareOutlineIcon" */
             "mdi-react/ShareOutlineIcon"
         ),
     ),
     "mdi-share-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShareVariantIcon" */
+            /* webpackChunkName: "mdi/ShareVariantIcon" */
             "mdi-react/ShareVariantIcon"
         ),
     ),
     "mdi-share": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShareIcon" */
+            /* webpackChunkName: "mdi/ShareIcon" */
             "mdi-react/ShareIcon"
         ),
     ),
     "mdi-shield-half-full": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShieldHalfFullIcon" */
+            /* webpackChunkName: "mdi/ShieldHalfFullIcon" */
             "mdi-react/ShieldHalfFullIcon"
         ),
     ),
     "mdi-shield-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShieldOutlineIcon" */
+            /* webpackChunkName: "mdi/ShieldOutlineIcon" */
             "mdi-react/ShieldOutlineIcon"
         ),
     ),
     "mdi-shield": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShieldIcon" */
+            /* webpackChunkName: "mdi/ShieldIcon" */
             "mdi-react/ShieldIcon"
         ),
     ),
     "mdi-ship-wheel": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShipWheelIcon" */
+            /* webpackChunkName: "mdi/ShipWheelIcon" */
             "mdi-react/ShipWheelIcon"
         ),
     ),
     "mdi-shopping-music": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShoppingMusicIcon" */
+            /* webpackChunkName: "mdi/ShoppingMusicIcon" */
             "mdi-react/ShoppingMusicIcon"
         ),
     ),
     "mdi-shopping": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShoppingIcon" */
+            /* webpackChunkName: "mdi/ShoppingIcon" */
             "mdi-react/ShoppingIcon"
         ),
     ),
     "mdi-shovel-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShovelOffIcon" */
+            /* webpackChunkName: "mdi/ShovelOffIcon" */
             "mdi-react/ShovelOffIcon"
         ),
     ),
     "mdi-shovel": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShovelIcon" */
+            /* webpackChunkName: "mdi/ShovelIcon" */
             "mdi-react/ShovelIcon"
         ),
     ),
     "mdi-shower-head": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShowerHeadIcon" */
+            /* webpackChunkName: "mdi/ShowerHeadIcon" */
             "mdi-react/ShowerHeadIcon"
         ),
     ),
     "mdi-shower": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShowerIcon" */
+            /* webpackChunkName: "mdi/ShowerIcon" */
             "mdi-react/ShowerIcon"
         ),
     ),
     "mdi-shredder": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShredderIcon" */
+            /* webpackChunkName: "mdi/ShredderIcon" */
             "mdi-react/ShredderIcon"
         ),
     ),
     "mdi-shuffle-disabled": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShuffleDisabledIcon" */
+            /* webpackChunkName: "mdi/ShuffleDisabledIcon" */
             "mdi-react/ShuffleDisabledIcon"
         ),
     ),
     "mdi-shuffle-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShuffleVariantIcon" */
+            /* webpackChunkName: "mdi/ShuffleVariantIcon" */
             "mdi-react/ShuffleVariantIcon"
         ),
     ),
     "mdi-shuffle": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShuffleIcon" */
+            /* webpackChunkName: "mdi/ShuffleIcon" */
             "mdi-react/ShuffleIcon"
         ),
     ),
     "mdi-sigma-lower": React.lazy(() =>
         import(
-            /* webpackChunkName: "SigmaLowerIcon" */
+            /* webpackChunkName: "mdi/SigmaLowerIcon" */
             "mdi-react/SigmaLowerIcon"
         ),
     ),
     "mdi-sigma": React.lazy(() =>
         import(
-            /* webpackChunkName: "SigmaIcon" */
+            /* webpackChunkName: "mdi/SigmaIcon" */
             "mdi-react/SigmaIcon"
         ),
     ),
     "mdi-sign-caution": React.lazy(() =>
         import(
-            /* webpackChunkName: "SignCautionIcon" */
+            /* webpackChunkName: "mdi/SignCautionIcon" */
             "mdi-react/SignCautionIcon"
         ),
     ),
     "mdi-sign-direction": React.lazy(() =>
         import(
-            /* webpackChunkName: "SignDirectionIcon" */
+            /* webpackChunkName: "mdi/SignDirectionIcon" */
             "mdi-react/SignDirectionIcon"
         ),
     ),
     "mdi-sign-text": React.lazy(() =>
         import(
-            /* webpackChunkName: "SignTextIcon" */
+            /* webpackChunkName: "mdi/SignTextIcon" */
             "mdi-react/SignTextIcon"
         ),
     ),
     "mdi-signal-2-g": React.lazy(() =>
         import(
-            /* webpackChunkName: "Signal2gIcon" */
+            /* webpackChunkName: "mdi/Signal2gIcon" */
             "mdi-react/Signal2gIcon"
         ),
     ),
     "mdi-signal-3-g": React.lazy(() =>
         import(
-            /* webpackChunkName: "Signal3gIcon" */
+            /* webpackChunkName: "mdi/Signal3gIcon" */
             "mdi-react/Signal3gIcon"
         ),
     ),
     "mdi-signal-4-g": React.lazy(() =>
         import(
-            /* webpackChunkName: "Signal4gIcon" */
+            /* webpackChunkName: "mdi/Signal4gIcon" */
             "mdi-react/Signal4gIcon"
         ),
     ),
     "mdi-signal-cellular-1": React.lazy(() =>
         import(
-            /* webpackChunkName: "SignalCellular1Icon" */
+            /* webpackChunkName: "mdi/SignalCellular1Icon" */
             "mdi-react/SignalCellular1Icon"
         ),
     ),
     "mdi-signal-cellular-2": React.lazy(() =>
         import(
-            /* webpackChunkName: "SignalCellular2Icon" */
+            /* webpackChunkName: "mdi/SignalCellular2Icon" */
             "mdi-react/SignalCellular2Icon"
         ),
     ),
     "mdi-signal-cellular-3": React.lazy(() =>
         import(
-            /* webpackChunkName: "SignalCellular3Icon" */
+            /* webpackChunkName: "mdi/SignalCellular3Icon" */
             "mdi-react/SignalCellular3Icon"
         ),
     ),
     "mdi-signal-cellular-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "SignalCellularOutlineIcon" */
+            /* webpackChunkName: "mdi/SignalCellularOutlineIcon" */
             "mdi-react/SignalCellularOutlineIcon"
         ),
     ),
     "mdi-signal-hspa-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "SignalHspaPlusIcon" */
+            /* webpackChunkName: "mdi/SignalHspaPlusIcon" */
             "mdi-react/SignalHspaPlusIcon"
         ),
     ),
     "mdi-signal-hspa": React.lazy(() =>
         import(
-            /* webpackChunkName: "SignalHspaIcon" */
+            /* webpackChunkName: "mdi/SignalHspaIcon" */
             "mdi-react/SignalHspaIcon"
         ),
     ),
     "mdi-signal-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "SignalOffIcon" */
+            /* webpackChunkName: "mdi/SignalOffIcon" */
             "mdi-react/SignalOffIcon"
         ),
     ),
     "mdi-signal-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "SignalVariantIcon" */
+            /* webpackChunkName: "mdi/SignalVariantIcon" */
             "mdi-react/SignalVariantIcon"
         ),
     ),
     "mdi-signal": React.lazy(() =>
         import(
-            /* webpackChunkName: "SignalIcon" */
+            /* webpackChunkName: "mdi/SignalIcon" */
             "mdi-react/SignalIcon"
         ),
     ),
     "mdi-silverware-fork": React.lazy(() =>
         import(
-            /* webpackChunkName: "SilverwareForkIcon" */
+            /* webpackChunkName: "mdi/SilverwareForkIcon" */
             "mdi-react/SilverwareForkIcon"
         ),
     ),
     "mdi-silverware-spoon": React.lazy(() =>
         import(
-            /* webpackChunkName: "SilverwareSpoonIcon" */
+            /* webpackChunkName: "mdi/SilverwareSpoonIcon" */
             "mdi-react/SilverwareSpoonIcon"
         ),
     ),
     "mdi-silverware-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "SilverwareVariantIcon" */
+            /* webpackChunkName: "mdi/SilverwareVariantIcon" */
             "mdi-react/SilverwareVariantIcon"
         ),
     ),
     "mdi-silverware": React.lazy(() =>
         import(
-            /* webpackChunkName: "SilverwareIcon" */
+            /* webpackChunkName: "mdi/SilverwareIcon" */
             "mdi-react/SilverwareIcon"
         ),
     ),
     "mdi-sim-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "SimAlertIcon" */
+            /* webpackChunkName: "mdi/SimAlertIcon" */
             "mdi-react/SimAlertIcon"
         ),
     ),
     "mdi-sim-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "SimOffIcon" */
+            /* webpackChunkName: "mdi/SimOffIcon" */
             "mdi-react/SimOffIcon"
         ),
     ),
     "mdi-sim": React.lazy(() =>
         import(
-            /* webpackChunkName: "SimIcon" */
+            /* webpackChunkName: "mdi/SimIcon" */
             "mdi-react/SimIcon"
         ),
     ),
     "mdi-sitemap": React.lazy(() =>
         import(
-            /* webpackChunkName: "SitemapIcon" */
+            /* webpackChunkName: "mdi/SitemapIcon" */
             "mdi-react/SitemapIcon"
         ),
     ),
     "mdi-skip-backward": React.lazy(() =>
         import(
-            /* webpackChunkName: "SkipBackwardIcon" */
+            /* webpackChunkName: "mdi/SkipBackwardIcon" */
             "mdi-react/SkipBackwardIcon"
         ),
     ),
     "mdi-skip-forward": React.lazy(() =>
         import(
-            /* webpackChunkName: "SkipForwardIcon" */
+            /* webpackChunkName: "mdi/SkipForwardIcon" */
             "mdi-react/SkipForwardIcon"
         ),
     ),
     "mdi-skip-next-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "SkipNextCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/SkipNextCircleOutlineIcon" */
             "mdi-react/SkipNextCircleOutlineIcon"
         ),
     ),
     "mdi-skip-next-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "SkipNextCircleIcon" */
+            /* webpackChunkName: "mdi/SkipNextCircleIcon" */
             "mdi-react/SkipNextCircleIcon"
         ),
     ),
     "mdi-skip-next": React.lazy(() =>
         import(
-            /* webpackChunkName: "SkipNextIcon" */
+            /* webpackChunkName: "mdi/SkipNextIcon" */
             "mdi-react/SkipNextIcon"
         ),
     ),
     "mdi-skip-previous-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "SkipPreviousCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/SkipPreviousCircleOutlineIcon" */
             "mdi-react/SkipPreviousCircleOutlineIcon"
         ),
     ),
     "mdi-skip-previous-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "SkipPreviousCircleIcon" */
+            /* webpackChunkName: "mdi/SkipPreviousCircleIcon" */
             "mdi-react/SkipPreviousCircleIcon"
         ),
     ),
     "mdi-skip-previous": React.lazy(() =>
         import(
-            /* webpackChunkName: "SkipPreviousIcon" */
+            /* webpackChunkName: "mdi/SkipPreviousIcon" */
             "mdi-react/SkipPreviousIcon"
         ),
     ),
     "mdi-skull": React.lazy(() =>
         import(
-            /* webpackChunkName: "SkullIcon" */
+            /* webpackChunkName: "mdi/SkullIcon" */
             "mdi-react/SkullIcon"
         ),
     ),
     "mdi-skype-business": React.lazy(() =>
         import(
-            /* webpackChunkName: "SkypeBusinessIcon" */
+            /* webpackChunkName: "mdi/SkypeBusinessIcon" */
             "mdi-react/SkypeBusinessIcon"
         ),
     ),
     "mdi-skype": React.lazy(() =>
         import(
-            /* webpackChunkName: "SkypeIcon" */
+            /* webpackChunkName: "mdi/SkypeIcon" */
             "mdi-react/SkypeIcon"
         ),
     ),
     "mdi-slack": React.lazy(() =>
         import(
-            /* webpackChunkName: "SlackIcon" */
+            /* webpackChunkName: "mdi/SlackIcon" */
             "mdi-react/SlackIcon"
         ),
     ),
     "mdi-slackware": React.lazy(() =>
         import(
-            /* webpackChunkName: "SlackwareIcon" */
+            /* webpackChunkName: "mdi/SlackwareIcon" */
             "mdi-react/SlackwareIcon"
         ),
     ),
     "mdi-sleep-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "SleepOffIcon" */
+            /* webpackChunkName: "mdi/SleepOffIcon" */
             "mdi-react/SleepOffIcon"
         ),
     ),
     "mdi-sleep": React.lazy(() =>
         import(
-            /* webpackChunkName: "SleepIcon" */
+            /* webpackChunkName: "mdi/SleepIcon" */
             "mdi-react/SleepIcon"
         ),
     ),
     "mdi-smoke-detector": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmokeDetectorIcon" */
+            /* webpackChunkName: "mdi/SmokeDetectorIcon" */
             "mdi-react/SmokeDetectorIcon"
         ),
     ),
     "mdi-smoking-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmokingOffIcon" */
+            /* webpackChunkName: "mdi/SmokingOffIcon" */
             "mdi-react/SmokingOffIcon"
         ),
     ),
     "mdi-smoking": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmokingIcon" */
+            /* webpackChunkName: "mdi/SmokingIcon" */
             "mdi-react/SmokingIcon"
         ),
     ),
     "mdi-snapchat": React.lazy(() =>
         import(
-            /* webpackChunkName: "SnapchatIcon" */
+            /* webpackChunkName: "mdi/SnapchatIcon" */
             "mdi-react/SnapchatIcon"
         ),
     ),
     "mdi-snowflake": React.lazy(() =>
         import(
-            /* webpackChunkName: "SnowflakeIcon" */
+            /* webpackChunkName: "mdi/SnowflakeIcon" */
             "mdi-react/SnowflakeIcon"
         ),
     ),
     "mdi-snowman": React.lazy(() =>
         import(
-            /* webpackChunkName: "SnowmanIcon" */
+            /* webpackChunkName: "mdi/SnowmanIcon" */
             "mdi-react/SnowmanIcon"
         ),
     ),
     "mdi-soccer-field": React.lazy(() =>
         import(
-            /* webpackChunkName: "SoccerFieldIcon" */
+            /* webpackChunkName: "mdi/SoccerFieldIcon" */
             "mdi-react/SoccerFieldIcon"
         ),
     ),
     "mdi-soccer": React.lazy(() =>
         import(
-            /* webpackChunkName: "SoccerIcon" */
+            /* webpackChunkName: "mdi/SoccerIcon" */
             "mdi-react/SoccerIcon"
         ),
     ),
     "mdi-sofa": React.lazy(() =>
         import(
-            /* webpackChunkName: "SofaIcon" */
+            /* webpackChunkName: "mdi/SofaIcon" */
             "mdi-react/SofaIcon"
         ),
     ),
     "mdi-solid": React.lazy(() =>
         import(
-            /* webpackChunkName: "SolidIcon" */
+            /* webpackChunkName: "mdi/SolidIcon" */
             "mdi-react/SolidIcon"
         ),
     ),
     "mdi-sort-alphabetical": React.lazy(() =>
         import(
-            /* webpackChunkName: "SortAlphabeticalIcon" */
+            /* webpackChunkName: "mdi/SortAlphabeticalIcon" */
             "mdi-react/SortAlphabeticalIcon"
         ),
     ),
     "mdi-sort-ascending": React.lazy(() =>
         import(
-            /* webpackChunkName: "SortAscendingIcon" */
+            /* webpackChunkName: "mdi/SortAscendingIcon" */
             "mdi-react/SortAscendingIcon"
         ),
     ),
     "mdi-sort-descending": React.lazy(() =>
         import(
-            /* webpackChunkName: "SortDescendingIcon" */
+            /* webpackChunkName: "mdi/SortDescendingIcon" */
             "mdi-react/SortDescendingIcon"
         ),
     ),
     "mdi-sort-numeric": React.lazy(() =>
         import(
-            /* webpackChunkName: "SortNumericIcon" */
+            /* webpackChunkName: "mdi/SortNumericIcon" */
             "mdi-react/SortNumericIcon"
         ),
     ),
     "mdi-sort-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "SortVariantIcon" */
+            /* webpackChunkName: "mdi/SortVariantIcon" */
             "mdi-react/SortVariantIcon"
         ),
     ),
     "mdi-sort": React.lazy(() =>
         import(
-            /* webpackChunkName: "SortIcon" */
+            /* webpackChunkName: "mdi/SortIcon" */
             "mdi-react/SortIcon"
         ),
     ),
     "mdi-soundcloud": React.lazy(() =>
         import(
-            /* webpackChunkName: "SoundcloudIcon" */
+            /* webpackChunkName: "mdi/SoundcloudIcon" */
             "mdi-react/SoundcloudIcon"
         ),
     ),
     "mdi-source-branch": React.lazy(() =>
         import(
-            /* webpackChunkName: "SourceBranchIcon" */
+            /* webpackChunkName: "mdi/SourceBranchIcon" */
             "mdi-react/SourceBranchIcon"
         ),
     ),
     "mdi-source-commit-end-local": React.lazy(() =>
         import(
-            /* webpackChunkName: "SourceCommitEndLocalIcon" */
+            /* webpackChunkName: "mdi/SourceCommitEndLocalIcon" */
             "mdi-react/SourceCommitEndLocalIcon"
         ),
     ),
     "mdi-source-commit-end": React.lazy(() =>
         import(
-            /* webpackChunkName: "SourceCommitEndIcon" */
+            /* webpackChunkName: "mdi/SourceCommitEndIcon" */
             "mdi-react/SourceCommitEndIcon"
         ),
     ),
     "mdi-source-commit-local": React.lazy(() =>
         import(
-            /* webpackChunkName: "SourceCommitLocalIcon" */
+            /* webpackChunkName: "mdi/SourceCommitLocalIcon" */
             "mdi-react/SourceCommitLocalIcon"
         ),
     ),
     "mdi-source-commit-next-local": React.lazy(() =>
         import(
-            /* webpackChunkName: "SourceCommitNextLocalIcon" */
+            /* webpackChunkName: "mdi/SourceCommitNextLocalIcon" */
             "mdi-react/SourceCommitNextLocalIcon"
         ),
     ),
     "mdi-source-commit-start-next-local": React.lazy(() =>
         import(
-            /* webpackChunkName: "SourceCommitStartNextLocalIcon" */
+            /* webpackChunkName: "mdi/SourceCommitStartNextLocalIcon" */
             "mdi-react/SourceCommitStartNextLocalIcon"
         ),
     ),
     "mdi-source-commit-start": React.lazy(() =>
         import(
-            /* webpackChunkName: "SourceCommitStartIcon" */
+            /* webpackChunkName: "mdi/SourceCommitStartIcon" */
             "mdi-react/SourceCommitStartIcon"
         ),
     ),
     "mdi-source-commit": React.lazy(() =>
         import(
-            /* webpackChunkName: "SourceCommitIcon" */
+            /* webpackChunkName: "mdi/SourceCommitIcon" */
             "mdi-react/SourceCommitIcon"
         ),
     ),
     "mdi-source-fork": React.lazy(() =>
         import(
-            /* webpackChunkName: "SourceForkIcon" */
+            /* webpackChunkName: "mdi/SourceForkIcon" */
             "mdi-react/SourceForkIcon"
         ),
     ),
     "mdi-source-merge": React.lazy(() =>
         import(
-            /* webpackChunkName: "SourceMergeIcon" */
+            /* webpackChunkName: "mdi/SourceMergeIcon" */
             "mdi-react/SourceMergeIcon"
         ),
     ),
     "mdi-source-pull": React.lazy(() =>
         import(
-            /* webpackChunkName: "SourcePullIcon" */
+            /* webpackChunkName: "mdi/SourcePullIcon" */
             "mdi-react/SourcePullIcon"
         ),
     ),
     "mdi-soy-sauce": React.lazy(() =>
         import(
-            /* webpackChunkName: "SoySauceIcon" */
+            /* webpackChunkName: "mdi/SoySauceIcon" */
             "mdi-react/SoySauceIcon"
         ),
     ),
     "mdi-speaker-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "SpeakerBluetoothIcon" */
+            /* webpackChunkName: "mdi/SpeakerBluetoothIcon" */
             "mdi-react/SpeakerBluetoothIcon"
         ),
     ),
     "mdi-speaker-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "SpeakerOffIcon" */
+            /* webpackChunkName: "mdi/SpeakerOffIcon" */
             "mdi-react/SpeakerOffIcon"
         ),
     ),
     "mdi-speaker-wireless": React.lazy(() =>
         import(
-            /* webpackChunkName: "SpeakerWirelessIcon" */
+            /* webpackChunkName: "mdi/SpeakerWirelessIcon" */
             "mdi-react/SpeakerWirelessIcon"
         ),
     ),
     "mdi-speaker": React.lazy(() =>
         import(
-            /* webpackChunkName: "SpeakerIcon" */
+            /* webpackChunkName: "mdi/SpeakerIcon" */
             "mdi-react/SpeakerIcon"
         ),
     ),
     "mdi-speedometer": React.lazy(() =>
         import(
-            /* webpackChunkName: "SpeedometerIcon" */
+            /* webpackChunkName: "mdi/SpeedometerIcon" */
             "mdi-react/SpeedometerIcon"
         ),
     ),
     "mdi-spellcheck": React.lazy(() =>
         import(
-            /* webpackChunkName: "SpellcheckIcon" */
+            /* webpackChunkName: "mdi/SpellcheckIcon" */
             "mdi-react/SpellcheckIcon"
         ),
     ),
     "mdi-spotify": React.lazy(() =>
         import(
-            /* webpackChunkName: "SpotifyIcon" */
+            /* webpackChunkName: "mdi/SpotifyIcon" */
             "mdi-react/SpotifyIcon"
         ),
     ),
     "mdi-spotlight-beam": React.lazy(() =>
         import(
-            /* webpackChunkName: "SpotlightBeamIcon" */
+            /* webpackChunkName: "mdi/SpotlightBeamIcon" */
             "mdi-react/SpotlightBeamIcon"
         ),
     ),
     "mdi-spotlight": React.lazy(() =>
         import(
-            /* webpackChunkName: "SpotlightIcon" */
+            /* webpackChunkName: "mdi/SpotlightIcon" */
             "mdi-react/SpotlightIcon"
         ),
     ),
     "mdi-spray": React.lazy(() =>
         import(
-            /* webpackChunkName: "SprayIcon" */
+            /* webpackChunkName: "mdi/SprayIcon" */
             "mdi-react/SprayIcon"
         ),
     ),
     "mdi-square-edit-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "SquareEditOutlineIcon" */
+            /* webpackChunkName: "mdi/SquareEditOutlineIcon" */
             "mdi-react/SquareEditOutlineIcon"
         ),
     ),
     "mdi-square-inc-cash": React.lazy(() =>
         import(
-            /* webpackChunkName: "SquareIncCashIcon" */
+            /* webpackChunkName: "mdi/SquareIncCashIcon" */
             "mdi-react/SquareIncCashIcon"
         ),
     ),
     "mdi-square-inc": React.lazy(() =>
         import(
-            /* webpackChunkName: "SquareIncIcon" */
+            /* webpackChunkName: "mdi/SquareIncIcon" */
             "mdi-react/SquareIncIcon"
         ),
     ),
     "mdi-square-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "SquareOutlineIcon" */
+            /* webpackChunkName: "mdi/SquareOutlineIcon" */
             "mdi-react/SquareOutlineIcon"
         ),
     ),
     "mdi-square-root-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "SquareRootBoxIcon" */
+            /* webpackChunkName: "mdi/SquareRootBoxIcon" */
             "mdi-react/SquareRootBoxIcon"
         ),
     ),
     "mdi-square-root": React.lazy(() =>
         import(
-            /* webpackChunkName: "SquareRootIcon" */
+            /* webpackChunkName: "mdi/SquareRootIcon" */
             "mdi-react/SquareRootIcon"
         ),
     ),
     "mdi-square": React.lazy(() =>
         import(
-            /* webpackChunkName: "SquareIcon" */
+            /* webpackChunkName: "mdi/SquareIcon" */
             "mdi-react/SquareIcon"
         ),
     ),
     "mdi-ssh": React.lazy(() =>
         import(
-            /* webpackChunkName: "SshIcon" */
+            /* webpackChunkName: "mdi/SshIcon" */
             "mdi-react/SshIcon"
         ),
     ),
     "mdi-stack-exchange": React.lazy(() =>
         import(
-            /* webpackChunkName: "StackExchangeIcon" */
+            /* webpackChunkName: "mdi/StackExchangeIcon" */
             "mdi-react/StackExchangeIcon"
         ),
     ),
     "mdi-stack-overflow": React.lazy(() =>
         import(
-            /* webpackChunkName: "StackOverflowIcon" */
+            /* webpackChunkName: "mdi/StackOverflowIcon" */
             "mdi-react/StackOverflowIcon"
         ),
     ),
     "mdi-stadium": React.lazy(() =>
         import(
-            /* webpackChunkName: "StadiumIcon" */
+            /* webpackChunkName: "mdi/StadiumIcon" */
             "mdi-react/StadiumIcon"
         ),
     ),
     "mdi-stairs": React.lazy(() =>
         import(
-            /* webpackChunkName: "StairsIcon" */
+            /* webpackChunkName: "mdi/StairsIcon" */
             "mdi-react/StairsIcon"
         ),
     ),
     "mdi-standard-definition": React.lazy(() =>
         import(
-            /* webpackChunkName: "StandardDefinitionIcon" */
+            /* webpackChunkName: "mdi/StandardDefinitionIcon" */
             "mdi-react/StandardDefinitionIcon"
         ),
     ),
     "mdi-star-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "StarCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/StarCircleOutlineIcon" */
             "mdi-react/StarCircleOutlineIcon"
         ),
     ),
     "mdi-star-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "StarCircleIcon" */
+            /* webpackChunkName: "mdi/StarCircleIcon" */
             "mdi-react/StarCircleIcon"
         ),
     ),
     "mdi-star-face": React.lazy(() =>
         import(
-            /* webpackChunkName: "StarFaceIcon" */
+            /* webpackChunkName: "mdi/StarFaceIcon" */
             "mdi-react/StarFaceIcon"
         ),
     ),
     "mdi-star-half": React.lazy(() =>
         import(
-            /* webpackChunkName: "StarHalfIcon" */
+            /* webpackChunkName: "mdi/StarHalfIcon" */
             "mdi-react/StarHalfIcon"
         ),
     ),
     "mdi-star-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "StarOffIcon" */
+            /* webpackChunkName: "mdi/StarOffIcon" */
             "mdi-react/StarOffIcon"
         ),
     ),
     "mdi-star-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "StarOutlineIcon" */
+            /* webpackChunkName: "mdi/StarOutlineIcon" */
             "mdi-react/StarOutlineIcon"
         ),
     ),
     "mdi-star": React.lazy(() =>
         import(
-            /* webpackChunkName: "StarIcon" */
+            /* webpackChunkName: "mdi/StarIcon" */
             "mdi-react/StarIcon"
         ),
     ),
     "mdi-steam-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "SteamBoxIcon" */
+            /* webpackChunkName: "mdi/SteamBoxIcon" */
             "mdi-react/SteamBoxIcon"
         ),
     ),
     "mdi-steam": React.lazy(() =>
         import(
-            /* webpackChunkName: "SteamIcon" */
+            /* webpackChunkName: "mdi/SteamIcon" */
             "mdi-react/SteamIcon"
         ),
     ),
     "mdi-steering-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "SteeringOffIcon" */
+            /* webpackChunkName: "mdi/SteeringOffIcon" */
             "mdi-react/SteeringOffIcon"
         ),
     ),
     "mdi-steering": React.lazy(() =>
         import(
-            /* webpackChunkName: "SteeringIcon" */
+            /* webpackChunkName: "mdi/SteeringIcon" */
             "mdi-react/SteeringIcon"
         ),
     ),
     "mdi-step-backward-2": React.lazy(() =>
         import(
-            /* webpackChunkName: "StepBackward2Icon" */
+            /* webpackChunkName: "mdi/StepBackward2Icon" */
             "mdi-react/StepBackward2Icon"
         ),
     ),
     "mdi-step-backward": React.lazy(() =>
         import(
-            /* webpackChunkName: "StepBackwardIcon" */
+            /* webpackChunkName: "mdi/StepBackwardIcon" */
             "mdi-react/StepBackwardIcon"
         ),
     ),
     "mdi-step-forward-2": React.lazy(() =>
         import(
-            /* webpackChunkName: "StepForward2Icon" */
+            /* webpackChunkName: "mdi/StepForward2Icon" */
             "mdi-react/StepForward2Icon"
         ),
     ),
     "mdi-step-forward": React.lazy(() =>
         import(
-            /* webpackChunkName: "StepForwardIcon" */
+            /* webpackChunkName: "mdi/StepForwardIcon" */
             "mdi-react/StepForwardIcon"
         ),
     ),
     "mdi-stethoscope": React.lazy(() =>
         import(
-            /* webpackChunkName: "StethoscopeIcon" */
+            /* webpackChunkName: "mdi/StethoscopeIcon" */
             "mdi-react/StethoscopeIcon"
         ),
     ),
     "mdi-sticker-emoji": React.lazy(() =>
         import(
-            /* webpackChunkName: "StickerEmojiIcon" */
+            /* webpackChunkName: "mdi/StickerEmojiIcon" */
             "mdi-react/StickerEmojiIcon"
         ),
     ),
     "mdi-sticker": React.lazy(() =>
         import(
-            /* webpackChunkName: "StickerIcon" */
+            /* webpackChunkName: "mdi/StickerIcon" */
             "mdi-react/StickerIcon"
         ),
     ),
     "mdi-stocking": React.lazy(() =>
         import(
-            /* webpackChunkName: "StockingIcon" */
+            /* webpackChunkName: "mdi/StockingIcon" */
             "mdi-react/StockingIcon"
         ),
     ),
     "mdi-stop-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "StopCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/StopCircleOutlineIcon" */
             "mdi-react/StopCircleOutlineIcon"
         ),
     ),
     "mdi-stop-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "StopCircleIcon" */
+            /* webpackChunkName: "mdi/StopCircleIcon" */
             "mdi-react/StopCircleIcon"
         ),
     ),
     "mdi-stop": React.lazy(() =>
         import(
-            /* webpackChunkName: "StopIcon" */
+            /* webpackChunkName: "mdi/StopIcon" */
             "mdi-react/StopIcon"
         ),
     ),
     "mdi-store-24-hour": React.lazy(() =>
         import(
-            /* webpackChunkName: "Store24HourIcon" */
+            /* webpackChunkName: "mdi/Store24HourIcon" */
             "mdi-react/Store24HourIcon"
         ),
     ),
     "mdi-store": React.lazy(() =>
         import(
-            /* webpackChunkName: "StoreIcon" */
+            /* webpackChunkName: "mdi/StoreIcon" */
             "mdi-react/StoreIcon"
         ),
     ),
     "mdi-stove": React.lazy(() =>
         import(
-            /* webpackChunkName: "StoveIcon" */
+            /* webpackChunkName: "mdi/StoveIcon" */
             "mdi-react/StoveIcon"
         ),
     ),
     "mdi-subdirectory-arrow-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "SubdirectoryArrowLeftIcon" */
+            /* webpackChunkName: "mdi/SubdirectoryArrowLeftIcon" */
             "mdi-react/SubdirectoryArrowLeftIcon"
         ),
     ),
     "mdi-subdirectory-arrow-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "SubdirectoryArrowRightIcon" */
+            /* webpackChunkName: "mdi/SubdirectoryArrowRightIcon" */
             "mdi-react/SubdirectoryArrowRightIcon"
         ),
     ),
     "mdi-subway-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "SubwayVariantIcon" */
+            /* webpackChunkName: "mdi/SubwayVariantIcon" */
             "mdi-react/SubwayVariantIcon"
         ),
     ),
     "mdi-subway": React.lazy(() =>
         import(
-            /* webpackChunkName: "SubwayIcon" */
+            /* webpackChunkName: "mdi/SubwayIcon" */
             "mdi-react/SubwayIcon"
         ),
     ),
     "mdi-summit": React.lazy(() =>
         import(
-            /* webpackChunkName: "SummitIcon" */
+            /* webpackChunkName: "mdi/SummitIcon" */
             "mdi-react/SummitIcon"
         ),
     ),
     "mdi-sunglasses": React.lazy(() =>
         import(
-            /* webpackChunkName: "SunglassesIcon" */
+            /* webpackChunkName: "mdi/SunglassesIcon" */
             "mdi-react/SunglassesIcon"
         ),
     ),
     "mdi-surround-sound-20": React.lazy(() =>
         import(
-            /* webpackChunkName: "SurroundSound20Icon" */
+            /* webpackChunkName: "mdi/SurroundSound20Icon" */
             "mdi-react/SurroundSound20Icon"
         ),
     ),
     "mdi-surround-sound-31": React.lazy(() =>
         import(
-            /* webpackChunkName: "SurroundSound31Icon" */
+            /* webpackChunkName: "mdi/SurroundSound31Icon" */
             "mdi-react/SurroundSound31Icon"
         ),
     ),
     "mdi-surround-sound-51": React.lazy(() =>
         import(
-            /* webpackChunkName: "SurroundSound51Icon" */
+            /* webpackChunkName: "mdi/SurroundSound51Icon" */
             "mdi-react/SurroundSound51Icon"
         ),
     ),
     "mdi-surround-sound-71": React.lazy(() =>
         import(
-            /* webpackChunkName: "SurroundSound71Icon" */
+            /* webpackChunkName: "mdi/SurroundSound71Icon" */
             "mdi-react/SurroundSound71Icon"
         ),
     ),
     "mdi-surround-sound": React.lazy(() =>
         import(
-            /* webpackChunkName: "SurroundSoundIcon" */
+            /* webpackChunkName: "mdi/SurroundSoundIcon" */
             "mdi-react/SurroundSoundIcon"
         ),
     ),
     "mdi-svg": React.lazy(() =>
         import(
-            /* webpackChunkName: "SvgIcon" */
+            /* webpackChunkName: "mdi/SvgIcon" */
             "mdi-react/SvgIcon"
         ),
     ),
     "mdi-swap-horizontal-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "SwapHorizontalVariantIcon" */
+            /* webpackChunkName: "mdi/SwapHorizontalVariantIcon" */
             "mdi-react/SwapHorizontalVariantIcon"
         ),
     ),
     "mdi-swap-horizontal": React.lazy(() =>
         import(
-            /* webpackChunkName: "SwapHorizontalIcon" */
+            /* webpackChunkName: "mdi/SwapHorizontalIcon" */
             "mdi-react/SwapHorizontalIcon"
         ),
     ),
     "mdi-swap-vertical-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "SwapVerticalVariantIcon" */
+            /* webpackChunkName: "mdi/SwapVerticalVariantIcon" */
             "mdi-react/SwapVerticalVariantIcon"
         ),
     ),
     "mdi-swap-vertical": React.lazy(() =>
         import(
-            /* webpackChunkName: "SwapVerticalIcon" */
+            /* webpackChunkName: "mdi/SwapVerticalIcon" */
             "mdi-react/SwapVerticalIcon"
         ),
     ),
     "mdi-swim": React.lazy(() =>
         import(
-            /* webpackChunkName: "SwimIcon" */
+            /* webpackChunkName: "mdi/SwimIcon" */
             "mdi-react/SwimIcon"
         ),
     ),
     "mdi-switch": React.lazy(() =>
         import(
-            /* webpackChunkName: "SwitchIcon" */
+            /* webpackChunkName: "mdi/SwitchIcon" */
             "mdi-react/SwitchIcon"
         ),
     ),
     "mdi-sword-cross": React.lazy(() =>
         import(
-            /* webpackChunkName: "SwordCrossIcon" */
+            /* webpackChunkName: "mdi/SwordCrossIcon" */
             "mdi-react/SwordCrossIcon"
         ),
     ),
     "mdi-sword": React.lazy(() =>
         import(
-            /* webpackChunkName: "SwordIcon" */
+            /* webpackChunkName: "mdi/SwordIcon" */
             "mdi-react/SwordIcon"
         ),
     ),
     "mdi-sync-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "SyncAlertIcon" */
+            /* webpackChunkName: "mdi/SyncAlertIcon" */
             "mdi-react/SyncAlertIcon"
         ),
     ),
     "mdi-sync-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "SyncOffIcon" */
+            /* webpackChunkName: "mdi/SyncOffIcon" */
             "mdi-react/SyncOffIcon"
         ),
     ),
     "mdi-sync": React.lazy(() =>
         import(
-            /* webpackChunkName: "SyncIcon" */
+            /* webpackChunkName: "mdi/SyncIcon" */
             "mdi-react/SyncIcon"
         ),
     ),
     "mdi-tab-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "TabPlusIcon" */
+            /* webpackChunkName: "mdi/TabPlusIcon" */
             "mdi-react/TabPlusIcon"
         ),
     ),
     "mdi-tab-unselected": React.lazy(() =>
         import(
-            /* webpackChunkName: "TabUnselectedIcon" */
+            /* webpackChunkName: "mdi/TabUnselectedIcon" */
             "mdi-react/TabUnselectedIcon"
         ),
     ),
     "mdi-tab": React.lazy(() =>
         import(
-            /* webpackChunkName: "TabIcon" */
+            /* webpackChunkName: "mdi/TabIcon" */
             "mdi-react/TabIcon"
         ),
     ),
     "mdi-table-column-plus-after": React.lazy(() =>
         import(
-            /* webpackChunkName: "TableColumnPlusAfterIcon" */
+            /* webpackChunkName: "mdi/TableColumnPlusAfterIcon" */
             "mdi-react/TableColumnPlusAfterIcon"
         ),
     ),
     "mdi-table-column-plus-before": React.lazy(() =>
         import(
-            /* webpackChunkName: "TableColumnPlusBeforeIcon" */
+            /* webpackChunkName: "mdi/TableColumnPlusBeforeIcon" */
             "mdi-react/TableColumnPlusBeforeIcon"
         ),
     ),
     "mdi-table-column-remove": React.lazy(() =>
         import(
-            /* webpackChunkName: "TableColumnRemoveIcon" */
+            /* webpackChunkName: "mdi/TableColumnRemoveIcon" */
             "mdi-react/TableColumnRemoveIcon"
         ),
     ),
     "mdi-table-column-width": React.lazy(() =>
         import(
-            /* webpackChunkName: "TableColumnWidthIcon" */
+            /* webpackChunkName: "mdi/TableColumnWidthIcon" */
             "mdi-react/TableColumnWidthIcon"
         ),
     ),
     "mdi-table-column": React.lazy(() =>
         import(
-            /* webpackChunkName: "TableColumnIcon" */
+            /* webpackChunkName: "mdi/TableColumnIcon" */
             "mdi-react/TableColumnIcon"
         ),
     ),
     "mdi-table-edit": React.lazy(() =>
         import(
-            /* webpackChunkName: "TableEditIcon" */
+            /* webpackChunkName: "mdi/TableEditIcon" */
             "mdi-react/TableEditIcon"
         ),
     ),
     "mdi-table-large": React.lazy(() =>
         import(
-            /* webpackChunkName: "TableLargeIcon" */
+            /* webpackChunkName: "mdi/TableLargeIcon" */
             "mdi-react/TableLargeIcon"
         ),
     ),
     "mdi-table-merge-cells": React.lazy(() =>
         import(
-            /* webpackChunkName: "TableMergeCellsIcon" */
+            /* webpackChunkName: "mdi/TableMergeCellsIcon" */
             "mdi-react/TableMergeCellsIcon"
         ),
     ),
     "mdi-table-of-contents": React.lazy(() =>
         import(
-            /* webpackChunkName: "TableOfContentsIcon" */
+            /* webpackChunkName: "mdi/TableOfContentsIcon" */
             "mdi-react/TableOfContentsIcon"
         ),
     ),
     "mdi-table-row-height": React.lazy(() =>
         import(
-            /* webpackChunkName: "TableRowHeightIcon" */
+            /* webpackChunkName: "mdi/TableRowHeightIcon" */
             "mdi-react/TableRowHeightIcon"
         ),
     ),
     "mdi-table-row-plus-after": React.lazy(() =>
         import(
-            /* webpackChunkName: "TableRowPlusAfterIcon" */
+            /* webpackChunkName: "mdi/TableRowPlusAfterIcon" */
             "mdi-react/TableRowPlusAfterIcon"
         ),
     ),
     "mdi-table-row-plus-before": React.lazy(() =>
         import(
-            /* webpackChunkName: "TableRowPlusBeforeIcon" */
+            /* webpackChunkName: "mdi/TableRowPlusBeforeIcon" */
             "mdi-react/TableRowPlusBeforeIcon"
         ),
     ),
     "mdi-table-row-remove": React.lazy(() =>
         import(
-            /* webpackChunkName: "TableRowRemoveIcon" */
+            /* webpackChunkName: "mdi/TableRowRemoveIcon" */
             "mdi-react/TableRowRemoveIcon"
         ),
     ),
     "mdi-table-row": React.lazy(() =>
         import(
-            /* webpackChunkName: "TableRowIcon" */
+            /* webpackChunkName: "mdi/TableRowIcon" */
             "mdi-react/TableRowIcon"
         ),
     ),
     "mdi-table-search": React.lazy(() =>
         import(
-            /* webpackChunkName: "TableSearchIcon" */
+            /* webpackChunkName: "mdi/TableSearchIcon" */
             "mdi-react/TableSearchIcon"
         ),
     ),
     "mdi-table-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "TableSettingsIcon" */
+            /* webpackChunkName: "mdi/TableSettingsIcon" */
             "mdi-react/TableSettingsIcon"
         ),
     ),
     "mdi-table": React.lazy(() =>
         import(
-            /* webpackChunkName: "TableIcon" */
+            /* webpackChunkName: "mdi/TableIcon" */
             "mdi-react/TableIcon"
         ),
     ),
     "mdi-tablet-android": React.lazy(() =>
         import(
-            /* webpackChunkName: "TabletAndroidIcon" */
+            /* webpackChunkName: "mdi/TabletAndroidIcon" */
             "mdi-react/TabletAndroidIcon"
         ),
     ),
     "mdi-tablet-cellphone": React.lazy(() =>
         import(
-            /* webpackChunkName: "TabletCellphoneIcon" */
+            /* webpackChunkName: "mdi/TabletCellphoneIcon" */
             "mdi-react/TabletCellphoneIcon"
         ),
     ),
     "mdi-tablet-ipad": React.lazy(() =>
         import(
-            /* webpackChunkName: "TabletIpadIcon" */
+            /* webpackChunkName: "mdi/TabletIpadIcon" */
             "mdi-react/TabletIpadIcon"
         ),
     ),
     "mdi-tablet": React.lazy(() =>
         import(
-            /* webpackChunkName: "TabletIcon" */
+            /* webpackChunkName: "mdi/TabletIcon" */
             "mdi-react/TabletIcon"
         ),
     ),
     "mdi-taco": React.lazy(() =>
         import(
-            /* webpackChunkName: "TacoIcon" */
+            /* webpackChunkName: "mdi/TacoIcon" */
             "mdi-react/TacoIcon"
         ),
     ),
     "mdi-tag-faces": React.lazy(() =>
         import(
-            /* webpackChunkName: "TagFacesIcon" */
+            /* webpackChunkName: "mdi/TagFacesIcon" */
             "mdi-react/TagFacesIcon"
         ),
     ),
     "mdi-tag-heart": React.lazy(() =>
         import(
-            /* webpackChunkName: "TagHeartIcon" */
+            /* webpackChunkName: "mdi/TagHeartIcon" */
             "mdi-react/TagHeartIcon"
         ),
     ),
     "mdi-tag-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "TagMinusIcon" */
+            /* webpackChunkName: "mdi/TagMinusIcon" */
             "mdi-react/TagMinusIcon"
         ),
     ),
     "mdi-tag-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "TagMultipleIcon" */
+            /* webpackChunkName: "mdi/TagMultipleIcon" */
             "mdi-react/TagMultipleIcon"
         ),
     ),
     "mdi-tag-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "TagOutlineIcon" */
+            /* webpackChunkName: "mdi/TagOutlineIcon" */
             "mdi-react/TagOutlineIcon"
         ),
     ),
     "mdi-tag-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "TagPlusIcon" */
+            /* webpackChunkName: "mdi/TagPlusIcon" */
             "mdi-react/TagPlusIcon"
         ),
     ),
     "mdi-tag-remove": React.lazy(() =>
         import(
-            /* webpackChunkName: "TagRemoveIcon" */
+            /* webpackChunkName: "mdi/TagRemoveIcon" */
             "mdi-react/TagRemoveIcon"
         ),
     ),
     "mdi-tag-text-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "TagTextOutlineIcon" */
+            /* webpackChunkName: "mdi/TagTextOutlineIcon" */
             "mdi-react/TagTextOutlineIcon"
         ),
     ),
     "mdi-tag": React.lazy(() =>
         import(
-            /* webpackChunkName: "TagIcon" */
+            /* webpackChunkName: "mdi/TagIcon" */
             "mdi-react/TagIcon"
         ),
     ),
     "mdi-target": React.lazy(() =>
         import(
-            /* webpackChunkName: "TargetIcon" */
+            /* webpackChunkName: "mdi/TargetIcon" */
             "mdi-react/TargetIcon"
         ),
     ),
     "mdi-taxi": React.lazy(() =>
         import(
-            /* webpackChunkName: "TaxiIcon" */
+            /* webpackChunkName: "mdi/TaxiIcon" */
             "mdi-react/TaxiIcon"
         ),
     ),
     "mdi-teach": React.lazy(() =>
         import(
-            /* webpackChunkName: "TeachIcon" */
+            /* webpackChunkName: "mdi/TeachIcon" */
             "mdi-react/TeachIcon"
         ),
     ),
     "mdi-teamviewer": React.lazy(() =>
         import(
-            /* webpackChunkName: "TeamviewerIcon" */
+            /* webpackChunkName: "mdi/TeamviewerIcon" */
             "mdi-react/TeamviewerIcon"
         ),
     ),
     "mdi-telegram": React.lazy(() =>
         import(
-            /* webpackChunkName: "TelegramIcon" */
+            /* webpackChunkName: "mdi/TelegramIcon" */
             "mdi-react/TelegramIcon"
         ),
     ),
     "mdi-television-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "TelevisionBoxIcon" */
+            /* webpackChunkName: "mdi/TelevisionBoxIcon" */
             "mdi-react/TelevisionBoxIcon"
         ),
     ),
     "mdi-television-classic-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "TelevisionClassicOffIcon" */
+            /* webpackChunkName: "mdi/TelevisionClassicOffIcon" */
             "mdi-react/TelevisionClassicOffIcon"
         ),
     ),
     "mdi-television-classic": React.lazy(() =>
         import(
-            /* webpackChunkName: "TelevisionClassicIcon" */
+            /* webpackChunkName: "mdi/TelevisionClassicIcon" */
             "mdi-react/TelevisionClassicIcon"
         ),
     ),
     "mdi-television-guide": React.lazy(() =>
         import(
-            /* webpackChunkName: "TelevisionGuideIcon" */
+            /* webpackChunkName: "mdi/TelevisionGuideIcon" */
             "mdi-react/TelevisionGuideIcon"
         ),
     ),
     "mdi-television-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "TelevisionOffIcon" */
+            /* webpackChunkName: "mdi/TelevisionOffIcon" */
             "mdi-react/TelevisionOffIcon"
         ),
     ),
     "mdi-television": React.lazy(() =>
         import(
-            /* webpackChunkName: "TelevisionIcon" */
+            /* webpackChunkName: "mdi/TelevisionIcon" */
             "mdi-react/TelevisionIcon"
         ),
     ),
     "mdi-temperature-celsius": React.lazy(() =>
         import(
-            /* webpackChunkName: "TemperatureCelsiusIcon" */
+            /* webpackChunkName: "mdi/TemperatureCelsiusIcon" */
             "mdi-react/TemperatureCelsiusIcon"
         ),
     ),
     "mdi-temperature-fahrenheit": React.lazy(() =>
         import(
-            /* webpackChunkName: "TemperatureFahrenheitIcon" */
+            /* webpackChunkName: "mdi/TemperatureFahrenheitIcon" */
             "mdi-react/TemperatureFahrenheitIcon"
         ),
     ),
     "mdi-temperature-kelvin": React.lazy(() =>
         import(
-            /* webpackChunkName: "TemperatureKelvinIcon" */
+            /* webpackChunkName: "mdi/TemperatureKelvinIcon" */
             "mdi-react/TemperatureKelvinIcon"
         ),
     ),
     "mdi-tennis": React.lazy(() =>
         import(
-            /* webpackChunkName: "TennisIcon" */
+            /* webpackChunkName: "mdi/TennisIcon" */
             "mdi-react/TennisIcon"
         ),
     ),
     "mdi-tent": React.lazy(() =>
         import(
-            /* webpackChunkName: "TentIcon" */
+            /* webpackChunkName: "mdi/TentIcon" */
             "mdi-react/TentIcon"
         ),
     ),
     "mdi-terrain": React.lazy(() =>
         import(
-            /* webpackChunkName: "TerrainIcon" */
+            /* webpackChunkName: "mdi/TerrainIcon" */
             "mdi-react/TerrainIcon"
         ),
     ),
     "mdi-test-tube-empty": React.lazy(() =>
         import(
-            /* webpackChunkName: "TestTubeEmptyIcon" */
+            /* webpackChunkName: "mdi/TestTubeEmptyIcon" */
             "mdi-react/TestTubeEmptyIcon"
         ),
     ),
     "mdi-test-tube-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "TestTubeOffIcon" */
+            /* webpackChunkName: "mdi/TestTubeOffIcon" */
             "mdi-react/TestTubeOffIcon"
         ),
     ),
     "mdi-test-tube": React.lazy(() =>
         import(
-            /* webpackChunkName: "TestTubeIcon" */
+            /* webpackChunkName: "mdi/TestTubeIcon" */
             "mdi-react/TestTubeIcon"
         ),
     ),
     "mdi-text-shadow": React.lazy(() =>
         import(
-            /* webpackChunkName: "TextShadowIcon" */
+            /* webpackChunkName: "mdi/TextShadowIcon" */
             "mdi-react/TextShadowIcon"
         ),
     ),
     "mdi-text-short": React.lazy(() =>
         import(
-            /* webpackChunkName: "TextShortIcon" */
+            /* webpackChunkName: "mdi/TextShortIcon" */
             "mdi-react/TextShortIcon"
         ),
     ),
     "mdi-text-subject": React.lazy(() =>
         import(
-            /* webpackChunkName: "TextSubjectIcon" */
+            /* webpackChunkName: "mdi/TextSubjectIcon" */
             "mdi-react/TextSubjectIcon"
         ),
     ),
     "mdi-text-to-speech-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "TextToSpeechOffIcon" */
+            /* webpackChunkName: "mdi/TextToSpeechOffIcon" */
             "mdi-react/TextToSpeechOffIcon"
         ),
     ),
     "mdi-text-to-speech": React.lazy(() =>
         import(
-            /* webpackChunkName: "TextToSpeechIcon" */
+            /* webpackChunkName: "mdi/TextToSpeechIcon" */
             "mdi-react/TextToSpeechIcon"
         ),
     ),
     "mdi-text": React.lazy(() =>
         import(
-            /* webpackChunkName: "TextIcon" */
+            /* webpackChunkName: "mdi/TextIcon" */
             "mdi-react/TextIcon"
         ),
     ),
     "mdi-textbox-password": React.lazy(() =>
         import(
-            /* webpackChunkName: "TextboxPasswordIcon" */
+            /* webpackChunkName: "mdi/TextboxPasswordIcon" */
             "mdi-react/TextboxPasswordIcon"
         ),
     ),
     "mdi-textbox": React.lazy(() =>
         import(
-            /* webpackChunkName: "TextboxIcon" */
+            /* webpackChunkName: "mdi/TextboxIcon" */
             "mdi-react/TextboxIcon"
         ),
     ),
     "mdi-texture": React.lazy(() =>
         import(
-            /* webpackChunkName: "TextureIcon" */
+            /* webpackChunkName: "mdi/TextureIcon" */
             "mdi-react/TextureIcon"
         ),
     ),
     "mdi-theater": React.lazy(() =>
         import(
-            /* webpackChunkName: "TheaterIcon" */
+            /* webpackChunkName: "mdi/TheaterIcon" */
             "mdi-react/TheaterIcon"
         ),
     ),
     "mdi-theme-light-dark": React.lazy(() =>
         import(
-            /* webpackChunkName: "ThemeLightDarkIcon" */
+            /* webpackChunkName: "mdi/ThemeLightDarkIcon" */
             "mdi-react/ThemeLightDarkIcon"
         ),
     ),
     "mdi-thermometer-lines": React.lazy(() =>
         import(
-            /* webpackChunkName: "ThermometerLinesIcon" */
+            /* webpackChunkName: "mdi/ThermometerLinesIcon" */
             "mdi-react/ThermometerLinesIcon"
         ),
     ),
     "mdi-thermometer": React.lazy(() =>
         import(
-            /* webpackChunkName: "ThermometerIcon" */
+            /* webpackChunkName: "mdi/ThermometerIcon" */
             "mdi-react/ThermometerIcon"
         ),
     ),
     "mdi-thermostat-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "ThermostatBoxIcon" */
+            /* webpackChunkName: "mdi/ThermostatBoxIcon" */
             "mdi-react/ThermostatBoxIcon"
         ),
     ),
     "mdi-thermostat": React.lazy(() =>
         import(
-            /* webpackChunkName: "ThermostatIcon" */
+            /* webpackChunkName: "mdi/ThermostatIcon" */
             "mdi-react/ThermostatIcon"
         ),
     ),
     "mdi-thought-bubble-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ThoughtBubbleOutlineIcon" */
+            /* webpackChunkName: "mdi/ThoughtBubbleOutlineIcon" */
             "mdi-react/ThoughtBubbleOutlineIcon"
         ),
     ),
     "mdi-thought-bubble": React.lazy(() =>
         import(
-            /* webpackChunkName: "ThoughtBubbleIcon" */
+            /* webpackChunkName: "mdi/ThoughtBubbleIcon" */
             "mdi-react/ThoughtBubbleIcon"
         ),
     ),
     "mdi-thumb-down-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ThumbDownOutlineIcon" */
+            /* webpackChunkName: "mdi/ThumbDownOutlineIcon" */
             "mdi-react/ThumbDownOutlineIcon"
         ),
     ),
     "mdi-thumb-down": React.lazy(() =>
         import(
-            /* webpackChunkName: "ThumbDownIcon" */
+            /* webpackChunkName: "mdi/ThumbDownIcon" */
             "mdi-react/ThumbDownIcon"
         ),
     ),
     "mdi-thumb-up-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ThumbUpOutlineIcon" */
+            /* webpackChunkName: "mdi/ThumbUpOutlineIcon" */
             "mdi-react/ThumbUpOutlineIcon"
         ),
     ),
     "mdi-thumb-up": React.lazy(() =>
         import(
-            /* webpackChunkName: "ThumbUpIcon" */
+            /* webpackChunkName: "mdi/ThumbUpIcon" */
             "mdi-react/ThumbUpIcon"
         ),
     ),
     "mdi-thumbs-up-down": React.lazy(() =>
         import(
-            /* webpackChunkName: "ThumbsUpDownIcon" */
+            /* webpackChunkName: "mdi/ThumbsUpDownIcon" */
             "mdi-react/ThumbsUpDownIcon"
         ),
     ),
     "mdi-ticket-account": React.lazy(() =>
         import(
-            /* webpackChunkName: "TicketAccountIcon" */
+            /* webpackChunkName: "mdi/TicketAccountIcon" */
             "mdi-react/TicketAccountIcon"
         ),
     ),
     "mdi-ticket-confirmation": React.lazy(() =>
         import(
-            /* webpackChunkName: "TicketConfirmationIcon" */
+            /* webpackChunkName: "mdi/TicketConfirmationIcon" */
             "mdi-react/TicketConfirmationIcon"
         ),
     ),
     "mdi-ticket-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "TicketOutlineIcon" */
+            /* webpackChunkName: "mdi/TicketOutlineIcon" */
             "mdi-react/TicketOutlineIcon"
         ),
     ),
     "mdi-ticket-percent": React.lazy(() =>
         import(
-            /* webpackChunkName: "TicketPercentIcon" */
+            /* webpackChunkName: "mdi/TicketPercentIcon" */
             "mdi-react/TicketPercentIcon"
         ),
     ),
     "mdi-ticket": React.lazy(() =>
         import(
-            /* webpackChunkName: "TicketIcon" */
+            /* webpackChunkName: "mdi/TicketIcon" */
             "mdi-react/TicketIcon"
         ),
     ),
     "mdi-tie": React.lazy(() =>
         import(
-            /* webpackChunkName: "TieIcon" */
+            /* webpackChunkName: "mdi/TieIcon" */
             "mdi-react/TieIcon"
         ),
     ),
     "mdi-tilde": React.lazy(() =>
         import(
-            /* webpackChunkName: "TildeIcon" */
+            /* webpackChunkName: "mdi/TildeIcon" */
             "mdi-react/TildeIcon"
         ),
     ),
     "mdi-timelapse": React.lazy(() =>
         import(
-            /* webpackChunkName: "TimelapseIcon" */
+            /* webpackChunkName: "mdi/TimelapseIcon" */
             "mdi-react/TimelapseIcon"
         ),
     ),
     "mdi-timer-10": React.lazy(() =>
         import(
-            /* webpackChunkName: "Timer10Icon" */
+            /* webpackChunkName: "mdi/Timer10Icon" */
             "mdi-react/Timer10Icon"
         ),
     ),
     "mdi-timer-3": React.lazy(() =>
         import(
-            /* webpackChunkName: "Timer3Icon" */
+            /* webpackChunkName: "mdi/Timer3Icon" */
             "mdi-react/Timer3Icon"
         ),
     ),
     "mdi-timer-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "TimerOffIcon" */
+            /* webpackChunkName: "mdi/TimerOffIcon" */
             "mdi-react/TimerOffIcon"
         ),
     ),
     "mdi-timer-sand-empty": React.lazy(() =>
         import(
-            /* webpackChunkName: "TimerSandEmptyIcon" */
+            /* webpackChunkName: "mdi/TimerSandEmptyIcon" */
             "mdi-react/TimerSandEmptyIcon"
         ),
     ),
     "mdi-timer-sand-full": React.lazy(() =>
         import(
-            /* webpackChunkName: "TimerSandFullIcon" */
+            /* webpackChunkName: "mdi/TimerSandFullIcon" */
             "mdi-react/TimerSandFullIcon"
         ),
     ),
     "mdi-timer-sand": React.lazy(() =>
         import(
-            /* webpackChunkName: "TimerSandIcon" */
+            /* webpackChunkName: "mdi/TimerSandIcon" */
             "mdi-react/TimerSandIcon"
         ),
     ),
     "mdi-timer": React.lazy(() =>
         import(
-            /* webpackChunkName: "TimerIcon" */
+            /* webpackChunkName: "mdi/TimerIcon" */
             "mdi-react/TimerIcon"
         ),
     ),
     "mdi-timetable": React.lazy(() =>
         import(
-            /* webpackChunkName: "TimetableIcon" */
+            /* webpackChunkName: "mdi/TimetableIcon" */
             "mdi-react/TimetableIcon"
         ),
     ),
     "mdi-toggle-switch-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "ToggleSwitchOffIcon" */
+            /* webpackChunkName: "mdi/ToggleSwitchOffIcon" */
             "mdi-react/ToggleSwitchOffIcon"
         ),
     ),
     "mdi-toggle-switch": React.lazy(() =>
         import(
-            /* webpackChunkName: "ToggleSwitchIcon" */
+            /* webpackChunkName: "mdi/ToggleSwitchIcon" */
             "mdi-react/ToggleSwitchIcon"
         ),
     ),
     "mdi-toilet": React.lazy(() =>
         import(
-            /* webpackChunkName: "ToiletIcon" */
+            /* webpackChunkName: "mdi/ToiletIcon" */
             "mdi-react/ToiletIcon"
         ),
     ),
     "mdi-toolbox-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ToolboxOutlineIcon" */
+            /* webpackChunkName: "mdi/ToolboxOutlineIcon" */
             "mdi-react/ToolboxOutlineIcon"
         ),
     ),
     "mdi-toolbox": React.lazy(() =>
         import(
-            /* webpackChunkName: "ToolboxIcon" */
+            /* webpackChunkName: "mdi/ToolboxIcon" */
             "mdi-react/ToolboxIcon"
         ),
     ),
     "mdi-tooltip-edit": React.lazy(() =>
         import(
-            /* webpackChunkName: "TooltipEditIcon" */
+            /* webpackChunkName: "mdi/TooltipEditIcon" */
             "mdi-react/TooltipEditIcon"
         ),
     ),
     "mdi-tooltip-image": React.lazy(() =>
         import(
-            /* webpackChunkName: "TooltipImageIcon" */
+            /* webpackChunkName: "mdi/TooltipImageIcon" */
             "mdi-react/TooltipImageIcon"
         ),
     ),
     "mdi-tooltip-outline-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "TooltipOutlinePlusIcon" */
+            /* webpackChunkName: "mdi/TooltipOutlinePlusIcon" */
             "mdi-react/TooltipOutlinePlusIcon"
         ),
     ),
     "mdi-tooltip-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "TooltipOutlineIcon" */
+            /* webpackChunkName: "mdi/TooltipOutlineIcon" */
             "mdi-react/TooltipOutlineIcon"
         ),
     ),
     "mdi-tooltip-text": React.lazy(() =>
         import(
-            /* webpackChunkName: "TooltipTextIcon" */
+            /* webpackChunkName: "mdi/TooltipTextIcon" */
             "mdi-react/TooltipTextIcon"
         ),
     ),
     "mdi-tooltip": React.lazy(() =>
         import(
-            /* webpackChunkName: "TooltipIcon" */
+            /* webpackChunkName: "mdi/TooltipIcon" */
             "mdi-react/TooltipIcon"
         ),
     ),
     "mdi-tooth-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ToothOutlineIcon" */
+            /* webpackChunkName: "mdi/ToothOutlineIcon" */
             "mdi-react/ToothOutlineIcon"
         ),
     ),
     "mdi-tooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "ToothIcon" */
+            /* webpackChunkName: "mdi/ToothIcon" */
             "mdi-react/ToothIcon"
         ),
     ),
     "mdi-tor": React.lazy(() =>
         import(
-            /* webpackChunkName: "TorIcon" */
+            /* webpackChunkName: "mdi/TorIcon" */
             "mdi-react/TorIcon"
         ),
     ),
     "mdi-tournament": React.lazy(() =>
         import(
-            /* webpackChunkName: "TournamentIcon" */
+            /* webpackChunkName: "mdi/TournamentIcon" */
             "mdi-react/TournamentIcon"
         ),
     ),
     "mdi-tower-beach": React.lazy(() =>
         import(
-            /* webpackChunkName: "TowerBeachIcon" */
+            /* webpackChunkName: "mdi/TowerBeachIcon" */
             "mdi-react/TowerBeachIcon"
         ),
     ),
     "mdi-tower-fire": React.lazy(() =>
         import(
-            /* webpackChunkName: "TowerFireIcon" */
+            /* webpackChunkName: "mdi/TowerFireIcon" */
             "mdi-react/TowerFireIcon"
         ),
     ),
     "mdi-towing": React.lazy(() =>
         import(
-            /* webpackChunkName: "TowingIcon" */
+            /* webpackChunkName: "mdi/TowingIcon" */
             "mdi-react/TowingIcon"
         ),
     ),
     "mdi-track-light": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrackLightIcon" */
+            /* webpackChunkName: "mdi/TrackLightIcon" */
             "mdi-react/TrackLightIcon"
         ),
     ),
     "mdi-trackpad-lock": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrackpadLockIcon" */
+            /* webpackChunkName: "mdi/TrackpadLockIcon" */
             "mdi-react/TrackpadLockIcon"
         ),
     ),
     "mdi-trackpad": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrackpadIcon" */
+            /* webpackChunkName: "mdi/TrackpadIcon" */
             "mdi-react/TrackpadIcon"
         ),
     ),
     "mdi-tractor": React.lazy(() =>
         import(
-            /* webpackChunkName: "TractorIcon" */
+            /* webpackChunkName: "mdi/TractorIcon" */
             "mdi-react/TractorIcon"
         ),
     ),
     "mdi-traffic-light": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrafficLightIcon" */
+            /* webpackChunkName: "mdi/TrafficLightIcon" */
             "mdi-react/TrafficLightIcon"
         ),
     ),
     "mdi-train-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrainVariantIcon" */
+            /* webpackChunkName: "mdi/TrainVariantIcon" */
             "mdi-react/TrainVariantIcon"
         ),
     ),
     "mdi-train": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrainIcon" */
+            /* webpackChunkName: "mdi/TrainIcon" */
             "mdi-react/TrainIcon"
         ),
     ),
     "mdi-tram": React.lazy(() =>
         import(
-            /* webpackChunkName: "TramIcon" */
+            /* webpackChunkName: "mdi/TramIcon" */
             "mdi-react/TramIcon"
         ),
     ),
     "mdi-transcribe-close": React.lazy(() =>
         import(
-            /* webpackChunkName: "TranscribeCloseIcon" */
+            /* webpackChunkName: "mdi/TranscribeCloseIcon" */
             "mdi-react/TranscribeCloseIcon"
         ),
     ),
     "mdi-transcribe": React.lazy(() =>
         import(
-            /* webpackChunkName: "TranscribeIcon" */
+            /* webpackChunkName: "mdi/TranscribeIcon" */
             "mdi-react/TranscribeIcon"
         ),
     ),
     "mdi-transfer": React.lazy(() =>
         import(
-            /* webpackChunkName: "TransferIcon" */
+            /* webpackChunkName: "mdi/TransferIcon" */
             "mdi-react/TransferIcon"
         ),
     ),
     "mdi-transit-transfer": React.lazy(() =>
         import(
-            /* webpackChunkName: "TransitTransferIcon" */
+            /* webpackChunkName: "mdi/TransitTransferIcon" */
             "mdi-react/TransitTransferIcon"
         ),
     ),
     "mdi-transition-masked": React.lazy(() =>
         import(
-            /* webpackChunkName: "TransitionMaskedIcon" */
+            /* webpackChunkName: "mdi/TransitionMaskedIcon" */
             "mdi-react/TransitionMaskedIcon"
         ),
     ),
     "mdi-transition": React.lazy(() =>
         import(
-            /* webpackChunkName: "TransitionIcon" */
+            /* webpackChunkName: "mdi/TransitionIcon" */
             "mdi-react/TransitionIcon"
         ),
     ),
     "mdi-translate": React.lazy(() =>
         import(
-            /* webpackChunkName: "TranslateIcon" */
+            /* webpackChunkName: "mdi/TranslateIcon" */
             "mdi-react/TranslateIcon"
         ),
     ),
     "mdi-treasure-chest": React.lazy(() =>
         import(
-            /* webpackChunkName: "TreasureChestIcon" */
+            /* webpackChunkName: "mdi/TreasureChestIcon" */
             "mdi-react/TreasureChestIcon"
         ),
     ),
     "mdi-tree": React.lazy(() =>
         import(
-            /* webpackChunkName: "TreeIcon" */
+            /* webpackChunkName: "mdi/TreeIcon" */
             "mdi-react/TreeIcon"
         ),
     ),
     "mdi-trello": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrelloIcon" */
+            /* webpackChunkName: "mdi/TrelloIcon" */
             "mdi-react/TrelloIcon"
         ),
     ),
     "mdi-trending-down": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrendingDownIcon" */
+            /* webpackChunkName: "mdi/TrendingDownIcon" */
             "mdi-react/TrendingDownIcon"
         ),
     ),
     "mdi-trending-neutral": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrendingNeutralIcon" */
+            /* webpackChunkName: "mdi/TrendingNeutralIcon" */
             "mdi-react/TrendingNeutralIcon"
         ),
     ),
     "mdi-trending-up": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrendingUpIcon" */
+            /* webpackChunkName: "mdi/TrendingUpIcon" */
             "mdi-react/TrendingUpIcon"
         ),
     ),
     "mdi-triangle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "TriangleOutlineIcon" */
+            /* webpackChunkName: "mdi/TriangleOutlineIcon" */
             "mdi-react/TriangleOutlineIcon"
         ),
     ),
     "mdi-triangle": React.lazy(() =>
         import(
-            /* webpackChunkName: "TriangleIcon" */
+            /* webpackChunkName: "mdi/TriangleIcon" */
             "mdi-react/TriangleIcon"
         ),
     ),
     "mdi-trophy-award": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrophyAwardIcon" */
+            /* webpackChunkName: "mdi/TrophyAwardIcon" */
             "mdi-react/TrophyAwardIcon"
         ),
     ),
     "mdi-trophy-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrophyOutlineIcon" */
+            /* webpackChunkName: "mdi/TrophyOutlineIcon" */
             "mdi-react/TrophyOutlineIcon"
         ),
     ),
     "mdi-trophy-variant-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrophyVariantOutlineIcon" */
+            /* webpackChunkName: "mdi/TrophyVariantOutlineIcon" */
             "mdi-react/TrophyVariantOutlineIcon"
         ),
     ),
     "mdi-trophy-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrophyVariantIcon" */
+            /* webpackChunkName: "mdi/TrophyVariantIcon" */
             "mdi-react/TrophyVariantIcon"
         ),
     ),
     "mdi-trophy": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrophyIcon" */
+            /* webpackChunkName: "mdi/TrophyIcon" */
             "mdi-react/TrophyIcon"
         ),
     ),
     "mdi-truck-delivery": React.lazy(() =>
         import(
-            /* webpackChunkName: "TruckDeliveryIcon" */
+            /* webpackChunkName: "mdi/TruckDeliveryIcon" */
             "mdi-react/TruckDeliveryIcon"
         ),
     ),
     "mdi-truck-fast": React.lazy(() =>
         import(
-            /* webpackChunkName: "TruckFastIcon" */
+            /* webpackChunkName: "mdi/TruckFastIcon" */
             "mdi-react/TruckFastIcon"
         ),
     ),
     "mdi-truck-trailer": React.lazy(() =>
         import(
-            /* webpackChunkName: "TruckTrailerIcon" */
+            /* webpackChunkName: "mdi/TruckTrailerIcon" */
             "mdi-react/TruckTrailerIcon"
         ),
     ),
     "mdi-truck": React.lazy(() =>
         import(
-            /* webpackChunkName: "TruckIcon" */
+            /* webpackChunkName: "mdi/TruckIcon" */
             "mdi-react/TruckIcon"
         ),
     ),
     "mdi-tshirt-crew": React.lazy(() =>
         import(
-            /* webpackChunkName: "TshirtCrewIcon" */
+            /* webpackChunkName: "mdi/TshirtCrewIcon" */
             "mdi-react/TshirtCrewIcon"
         ),
     ),
     "mdi-tshirt-v": React.lazy(() =>
         import(
-            /* webpackChunkName: "TshirtVIcon" */
+            /* webpackChunkName: "mdi/TshirtVIcon" */
             "mdi-react/TshirtVIcon"
         ),
     ),
     "mdi-tumble-dryer": React.lazy(() =>
         import(
-            /* webpackChunkName: "TumbleDryerIcon" */
+            /* webpackChunkName: "mdi/TumbleDryerIcon" */
             "mdi-react/TumbleDryerIcon"
         ),
     ),
     "mdi-tumblr-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "TumblrBoxIcon" */
+            /* webpackChunkName: "mdi/TumblrBoxIcon" */
             "mdi-react/TumblrBoxIcon"
         ),
     ),
     "mdi-tumblr-reblog": React.lazy(() =>
         import(
-            /* webpackChunkName: "TumblrReblogIcon" */
+            /* webpackChunkName: "mdi/TumblrReblogIcon" */
             "mdi-react/TumblrReblogIcon"
         ),
     ),
     "mdi-tumblr": React.lazy(() =>
         import(
-            /* webpackChunkName: "TumblrIcon" */
+            /* webpackChunkName: "mdi/TumblrIcon" */
             "mdi-react/TumblrIcon"
         ),
     ),
     "mdi-tune-vertical": React.lazy(() =>
         import(
-            /* webpackChunkName: "TuneVerticalIcon" */
+            /* webpackChunkName: "mdi/TuneVerticalIcon" */
             "mdi-react/TuneVerticalIcon"
         ),
     ),
     "mdi-tune": React.lazy(() =>
         import(
-            /* webpackChunkName: "TuneIcon" */
+            /* webpackChunkName: "mdi/TuneIcon" */
             "mdi-react/TuneIcon"
         ),
     ),
     "mdi-twitch": React.lazy(() =>
         import(
-            /* webpackChunkName: "TwitchIcon" */
+            /* webpackChunkName: "mdi/TwitchIcon" */
             "mdi-react/TwitchIcon"
         ),
     ),
     "mdi-twitter-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "TwitterBoxIcon" */
+            /* webpackChunkName: "mdi/TwitterBoxIcon" */
             "mdi-react/TwitterBoxIcon"
         ),
     ),
     "mdi-twitter-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "TwitterCircleIcon" */
+            /* webpackChunkName: "mdi/TwitterCircleIcon" */
             "mdi-react/TwitterCircleIcon"
         ),
     ),
     "mdi-twitter-retweet": React.lazy(() =>
         import(
-            /* webpackChunkName: "TwitterRetweetIcon" */
+            /* webpackChunkName: "mdi/TwitterRetweetIcon" */
             "mdi-react/TwitterRetweetIcon"
         ),
     ),
     "mdi-twitter": React.lazy(() =>
         import(
-            /* webpackChunkName: "TwitterIcon" */
+            /* webpackChunkName: "mdi/TwitterIcon" */
             "mdi-react/TwitterIcon"
         ),
     ),
     "mdi-two-factor-authentication": React.lazy(() =>
         import(
-            /* webpackChunkName: "TwoFactorAuthenticationIcon" */
+            /* webpackChunkName: "mdi/TwoFactorAuthenticationIcon" */
             "mdi-react/TwoFactorAuthenticationIcon"
         ),
     ),
     "mdi-uber": React.lazy(() =>
         import(
-            /* webpackChunkName: "UberIcon" */
+            /* webpackChunkName: "mdi/UberIcon" */
             "mdi-react/UberIcon"
         ),
     ),
     "mdi-ubuntu": React.lazy(() =>
         import(
-            /* webpackChunkName: "UbuntuIcon" */
+            /* webpackChunkName: "mdi/UbuntuIcon" */
             "mdi-react/UbuntuIcon"
         ),
     ),
     "mdi-ultra-high-definition": React.lazy(() =>
         import(
-            /* webpackChunkName: "UltraHighDefinitionIcon" */
+            /* webpackChunkName: "mdi/UltraHighDefinitionIcon" */
             "mdi-react/UltraHighDefinitionIcon"
         ),
     ),
     "mdi-umbraco": React.lazy(() =>
         import(
-            /* webpackChunkName: "UmbracoIcon" */
+            /* webpackChunkName: "mdi/UmbracoIcon" */
             "mdi-react/UmbracoIcon"
         ),
     ),
     "mdi-umbrella-closed": React.lazy(() =>
         import(
-            /* webpackChunkName: "UmbrellaClosedIcon" */
+            /* webpackChunkName: "mdi/UmbrellaClosedIcon" */
             "mdi-react/UmbrellaClosedIcon"
         ),
     ),
     "mdi-umbrella-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "UmbrellaOutlineIcon" */
+            /* webpackChunkName: "mdi/UmbrellaOutlineIcon" */
             "mdi-react/UmbrellaOutlineIcon"
         ),
     ),
     "mdi-umbrella": React.lazy(() =>
         import(
-            /* webpackChunkName: "UmbrellaIcon" */
+            /* webpackChunkName: "mdi/UmbrellaIcon" */
             "mdi-react/UmbrellaIcon"
         ),
     ),
     "mdi-undo-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "UndoVariantIcon" */
+            /* webpackChunkName: "mdi/UndoVariantIcon" */
             "mdi-react/UndoVariantIcon"
         ),
     ),
     "mdi-undo": React.lazy(() =>
         import(
-            /* webpackChunkName: "UndoIcon" */
+            /* webpackChunkName: "mdi/UndoIcon" */
             "mdi-react/UndoIcon"
         ),
     ),
     "mdi-unfold-less-horizontal": React.lazy(() =>
         import(
-            /* webpackChunkName: "UnfoldLessHorizontalIcon" */
+            /* webpackChunkName: "mdi/UnfoldLessHorizontalIcon" */
             "mdi-react/UnfoldLessHorizontalIcon"
         ),
     ),
     "mdi-unfold-less-vertical": React.lazy(() =>
         import(
-            /* webpackChunkName: "UnfoldLessVerticalIcon" */
+            /* webpackChunkName: "mdi/UnfoldLessVerticalIcon" */
             "mdi-react/UnfoldLessVerticalIcon"
         ),
     ),
     "mdi-unfold-more-horizontal": React.lazy(() =>
         import(
-            /* webpackChunkName: "UnfoldMoreHorizontalIcon" */
+            /* webpackChunkName: "mdi/UnfoldMoreHorizontalIcon" */
             "mdi-react/UnfoldMoreHorizontalIcon"
         ),
     ),
     "mdi-unfold-more-vertical": React.lazy(() =>
         import(
-            /* webpackChunkName: "UnfoldMoreVerticalIcon" */
+            /* webpackChunkName: "mdi/UnfoldMoreVerticalIcon" */
             "mdi-react/UnfoldMoreVerticalIcon"
         ),
     ),
     "mdi-ungroup": React.lazy(() =>
         import(
-            /* webpackChunkName: "UngroupIcon" */
+            /* webpackChunkName: "mdi/UngroupIcon" */
             "mdi-react/UngroupIcon"
         ),
     ),
     "mdi-unity": React.lazy(() =>
         import(
-            /* webpackChunkName: "UnityIcon" */
+            /* webpackChunkName: "mdi/UnityIcon" */
             "mdi-react/UnityIcon"
         ),
     ),
     "mdi-unreal": React.lazy(() =>
         import(
-            /* webpackChunkName: "UnrealIcon" */
+            /* webpackChunkName: "mdi/UnrealIcon" */
             "mdi-react/UnrealIcon"
         ),
     ),
     "mdi-untappd": React.lazy(() =>
         import(
-            /* webpackChunkName: "UntappdIcon" */
+            /* webpackChunkName: "mdi/UntappdIcon" */
             "mdi-react/UntappdIcon"
         ),
     ),
     "mdi-update": React.lazy(() =>
         import(
-            /* webpackChunkName: "UpdateIcon" */
+            /* webpackChunkName: "mdi/UpdateIcon" */
             "mdi-react/UpdateIcon"
         ),
     ),
     "mdi-upload-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "UploadMultipleIcon" */
+            /* webpackChunkName: "mdi/UploadMultipleIcon" */
             "mdi-react/UploadMultipleIcon"
         ),
     ),
     "mdi-upload-network": React.lazy(() =>
         import(
-            /* webpackChunkName: "UploadNetworkIcon" */
+            /* webpackChunkName: "mdi/UploadNetworkIcon" */
             "mdi-react/UploadNetworkIcon"
         ),
     ),
     "mdi-upload": React.lazy(() =>
         import(
-            /* webpackChunkName: "UploadIcon" */
+            /* webpackChunkName: "mdi/UploadIcon" */
             "mdi-react/UploadIcon"
         ),
     ),
     "mdi-usb": React.lazy(() =>
         import(
-            /* webpackChunkName: "UsbIcon" */
+            /* webpackChunkName: "mdi/UsbIcon" */
             "mdi-react/UsbIcon"
         ),
     ),
     "mdi-van-passenger": React.lazy(() =>
         import(
-            /* webpackChunkName: "VanPassengerIcon" */
+            /* webpackChunkName: "mdi/VanPassengerIcon" */
             "mdi-react/VanPassengerIcon"
         ),
     ),
     "mdi-van-utility": React.lazy(() =>
         import(
-            /* webpackChunkName: "VanUtilityIcon" */
+            /* webpackChunkName: "mdi/VanUtilityIcon" */
             "mdi-react/VanUtilityIcon"
         ),
     ),
     "mdi-vanish": React.lazy(() =>
         import(
-            /* webpackChunkName: "VanishIcon" */
+            /* webpackChunkName: "mdi/VanishIcon" */
             "mdi-react/VanishIcon"
         ),
     ),
     "mdi-vector-arrange-above": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorArrangeAboveIcon" */
+            /* webpackChunkName: "mdi/VectorArrangeAboveIcon" */
             "mdi-react/VectorArrangeAboveIcon"
         ),
     ),
     "mdi-vector-arrange-below": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorArrangeBelowIcon" */
+            /* webpackChunkName: "mdi/VectorArrangeBelowIcon" */
             "mdi-react/VectorArrangeBelowIcon"
         ),
     ),
     "mdi-vector-circle-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorCircleVariantIcon" */
+            /* webpackChunkName: "mdi/VectorCircleVariantIcon" */
             "mdi-react/VectorCircleVariantIcon"
         ),
     ),
     "mdi-vector-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorCircleIcon" */
+            /* webpackChunkName: "mdi/VectorCircleIcon" */
             "mdi-react/VectorCircleIcon"
         ),
     ),
     "mdi-vector-combine": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorCombineIcon" */
+            /* webpackChunkName: "mdi/VectorCombineIcon" */
             "mdi-react/VectorCombineIcon"
         ),
     ),
     "mdi-vector-curve": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorCurveIcon" */
+            /* webpackChunkName: "mdi/VectorCurveIcon" */
             "mdi-react/VectorCurveIcon"
         ),
     ),
     "mdi-vector-difference-ab": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorDifferenceAbIcon" */
+            /* webpackChunkName: "mdi/VectorDifferenceAbIcon" */
             "mdi-react/VectorDifferenceAbIcon"
         ),
     ),
     "mdi-vector-difference-ba": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorDifferenceBaIcon" */
+            /* webpackChunkName: "mdi/VectorDifferenceBaIcon" */
             "mdi-react/VectorDifferenceBaIcon"
         ),
     ),
     "mdi-vector-difference": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorDifferenceIcon" */
+            /* webpackChunkName: "mdi/VectorDifferenceIcon" */
             "mdi-react/VectorDifferenceIcon"
         ),
     ),
     "mdi-vector-ellipse": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorEllipseIcon" */
+            /* webpackChunkName: "mdi/VectorEllipseIcon" */
             "mdi-react/VectorEllipseIcon"
         ),
     ),
     "mdi-vector-intersection": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorIntersectionIcon" */
+            /* webpackChunkName: "mdi/VectorIntersectionIcon" */
             "mdi-react/VectorIntersectionIcon"
         ),
     ),
     "mdi-vector-line": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorLineIcon" */
+            /* webpackChunkName: "mdi/VectorLineIcon" */
             "mdi-react/VectorLineIcon"
         ),
     ),
     "mdi-vector-point": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorPointIcon" */
+            /* webpackChunkName: "mdi/VectorPointIcon" */
             "mdi-react/VectorPointIcon"
         ),
     ),
     "mdi-vector-polygon": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorPolygonIcon" */
+            /* webpackChunkName: "mdi/VectorPolygonIcon" */
             "mdi-react/VectorPolygonIcon"
         ),
     ),
     "mdi-vector-polyline": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorPolylineIcon" */
+            /* webpackChunkName: "mdi/VectorPolylineIcon" */
             "mdi-react/VectorPolylineIcon"
         ),
     ),
     "mdi-vector-radius": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorRadiusIcon" */
+            /* webpackChunkName: "mdi/VectorRadiusIcon" */
             "mdi-react/VectorRadiusIcon"
         ),
     ),
     "mdi-vector-rectangle": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorRectangleIcon" */
+            /* webpackChunkName: "mdi/VectorRectangleIcon" */
             "mdi-react/VectorRectangleIcon"
         ),
     ),
     "mdi-vector-selection": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorSelectionIcon" */
+            /* webpackChunkName: "mdi/VectorSelectionIcon" */
             "mdi-react/VectorSelectionIcon"
         ),
     ),
     "mdi-vector-square": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorSquareIcon" */
+            /* webpackChunkName: "mdi/VectorSquareIcon" */
             "mdi-react/VectorSquareIcon"
         ),
     ),
     "mdi-vector-triangle": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorTriangleIcon" */
+            /* webpackChunkName: "mdi/VectorTriangleIcon" */
             "mdi-react/VectorTriangleIcon"
         ),
     ),
     "mdi-vector-union": React.lazy(() =>
         import(
-            /* webpackChunkName: "VectorUnionIcon" */
+            /* webpackChunkName: "mdi/VectorUnionIcon" */
             "mdi-react/VectorUnionIcon"
         ),
     ),
     "mdi-venmo": React.lazy(() =>
         import(
-            /* webpackChunkName: "VenmoIcon" */
+            /* webpackChunkName: "mdi/VenmoIcon" */
             "mdi-react/VenmoIcon"
         ),
     ),
     "mdi-verified": React.lazy(() =>
         import(
-            /* webpackChunkName: "VerifiedIcon" */
+            /* webpackChunkName: "mdi/VerifiedIcon" */
             "mdi-react/VerifiedIcon"
         ),
     ),
     "mdi-vibrate": React.lazy(() =>
         import(
-            /* webpackChunkName: "VibrateIcon" */
+            /* webpackChunkName: "mdi/VibrateIcon" */
             "mdi-react/VibrateIcon"
         ),
     ),
     "mdi-video-3-d": React.lazy(() =>
         import(
-            /* webpackChunkName: "Video3dIcon" */
+            /* webpackChunkName: "mdi/Video3dIcon" */
             "mdi-react/Video3dIcon"
         ),
     ),
     "mdi-video-4-k-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "Video4kBoxIcon" */
+            /* webpackChunkName: "mdi/Video4kBoxIcon" */
             "mdi-react/Video4kBoxIcon"
         ),
     ),
     "mdi-video-account": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideoAccountIcon" */
+            /* webpackChunkName: "mdi/VideoAccountIcon" */
             "mdi-react/VideoAccountIcon"
         ),
     ),
     "mdi-video-image": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideoImageIcon" */
+            /* webpackChunkName: "mdi/VideoImageIcon" */
             "mdi-react/VideoImageIcon"
         ),
     ),
     "mdi-video-input-antenna": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideoInputAntennaIcon" */
+            /* webpackChunkName: "mdi/VideoInputAntennaIcon" */
             "mdi-react/VideoInputAntennaIcon"
         ),
     ),
     "mdi-video-input-component": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideoInputComponentIcon" */
+            /* webpackChunkName: "mdi/VideoInputComponentIcon" */
             "mdi-react/VideoInputComponentIcon"
         ),
     ),
     "mdi-video-input-hdmi": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideoInputHdmiIcon" */
+            /* webpackChunkName: "mdi/VideoInputHdmiIcon" */
             "mdi-react/VideoInputHdmiIcon"
         ),
     ),
     "mdi-video-input-svideo": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideoInputSvideoIcon" */
+            /* webpackChunkName: "mdi/VideoInputSvideoIcon" */
             "mdi-react/VideoInputSvideoIcon"
         ),
     ),
     "mdi-video-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideoMinusIcon" */
+            /* webpackChunkName: "mdi/VideoMinusIcon" */
             "mdi-react/VideoMinusIcon"
         ),
     ),
     "mdi-video-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideoOffIcon" */
+            /* webpackChunkName: "mdi/VideoOffIcon" */
             "mdi-react/VideoOffIcon"
         ),
     ),
     "mdi-video-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideoPlusIcon" */
+            /* webpackChunkName: "mdi/VideoPlusIcon" */
             "mdi-react/VideoPlusIcon"
         ),
     ),
     "mdi-video-stabilization": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideoStabilizationIcon" */
+            /* webpackChunkName: "mdi/VideoStabilizationIcon" */
             "mdi-react/VideoStabilizationIcon"
         ),
     ),
     "mdi-video-switch": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideoSwitchIcon" */
+            /* webpackChunkName: "mdi/VideoSwitchIcon" */
             "mdi-react/VideoSwitchIcon"
         ),
     ),
     "mdi-video": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideoIcon" */
+            /* webpackChunkName: "mdi/VideoIcon" */
             "mdi-react/VideoIcon"
         ),
     ),
     "mdi-view-agenda": React.lazy(() =>
         import(
-            /* webpackChunkName: "ViewAgendaIcon" */
+            /* webpackChunkName: "mdi/ViewAgendaIcon" */
             "mdi-react/ViewAgendaIcon"
         ),
     ),
     "mdi-view-array": React.lazy(() =>
         import(
-            /* webpackChunkName: "ViewArrayIcon" */
+            /* webpackChunkName: "mdi/ViewArrayIcon" */
             "mdi-react/ViewArrayIcon"
         ),
     ),
     "mdi-view-carousel": React.lazy(() =>
         import(
-            /* webpackChunkName: "ViewCarouselIcon" */
+            /* webpackChunkName: "mdi/ViewCarouselIcon" */
             "mdi-react/ViewCarouselIcon"
         ),
     ),
     "mdi-view-column": React.lazy(() =>
         import(
-            /* webpackChunkName: "ViewColumnIcon" */
+            /* webpackChunkName: "mdi/ViewColumnIcon" */
             "mdi-react/ViewColumnIcon"
         ),
     ),
     "mdi-view-dashboard-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "ViewDashboardVariantIcon" */
+            /* webpackChunkName: "mdi/ViewDashboardVariantIcon" */
             "mdi-react/ViewDashboardVariantIcon"
         ),
     ),
     "mdi-view-dashboard": React.lazy(() =>
         import(
-            /* webpackChunkName: "ViewDashboardIcon" */
+            /* webpackChunkName: "mdi/ViewDashboardIcon" */
             "mdi-react/ViewDashboardIcon"
         ),
     ),
     "mdi-view-day": React.lazy(() =>
         import(
-            /* webpackChunkName: "ViewDayIcon" */
+            /* webpackChunkName: "mdi/ViewDayIcon" */
             "mdi-react/ViewDayIcon"
         ),
     ),
     "mdi-view-grid": React.lazy(() =>
         import(
-            /* webpackChunkName: "ViewGridIcon" */
+            /* webpackChunkName: "mdi/ViewGridIcon" */
             "mdi-react/ViewGridIcon"
         ),
     ),
     "mdi-view-headline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ViewHeadlineIcon" */
+            /* webpackChunkName: "mdi/ViewHeadlineIcon" */
             "mdi-react/ViewHeadlineIcon"
         ),
     ),
     "mdi-view-list": React.lazy(() =>
         import(
-            /* webpackChunkName: "ViewListIcon" */
+            /* webpackChunkName: "mdi/ViewListIcon" */
             "mdi-react/ViewListIcon"
         ),
     ),
     "mdi-view-module": React.lazy(() =>
         import(
-            /* webpackChunkName: "ViewModuleIcon" */
+            /* webpackChunkName: "mdi/ViewModuleIcon" */
             "mdi-react/ViewModuleIcon"
         ),
     ),
     "mdi-view-parallel": React.lazy(() =>
         import(
-            /* webpackChunkName: "ViewParallelIcon" */
+            /* webpackChunkName: "mdi/ViewParallelIcon" */
             "mdi-react/ViewParallelIcon"
         ),
     ),
     "mdi-view-quilt": React.lazy(() =>
         import(
-            /* webpackChunkName: "ViewQuiltIcon" */
+            /* webpackChunkName: "mdi/ViewQuiltIcon" */
             "mdi-react/ViewQuiltIcon"
         ),
     ),
     "mdi-view-sequential": React.lazy(() =>
         import(
-            /* webpackChunkName: "ViewSequentialIcon" */
+            /* webpackChunkName: "mdi/ViewSequentialIcon" */
             "mdi-react/ViewSequentialIcon"
         ),
     ),
     "mdi-view-stream": React.lazy(() =>
         import(
-            /* webpackChunkName: "ViewStreamIcon" */
+            /* webpackChunkName: "mdi/ViewStreamIcon" */
             "mdi-react/ViewStreamIcon"
         ),
     ),
     "mdi-view-week": React.lazy(() =>
         import(
-            /* webpackChunkName: "ViewWeekIcon" */
+            /* webpackChunkName: "mdi/ViewWeekIcon" */
             "mdi-react/ViewWeekIcon"
         ),
     ),
     "mdi-vimeo": React.lazy(() =>
         import(
-            /* webpackChunkName: "VimeoIcon" */
+            /* webpackChunkName: "mdi/VimeoIcon" */
             "mdi-react/VimeoIcon"
         ),
     ),
     "mdi-violin": React.lazy(() =>
         import(
-            /* webpackChunkName: "ViolinIcon" */
+            /* webpackChunkName: "mdi/ViolinIcon" */
             "mdi-react/ViolinIcon"
         ),
     ),
     "mdi-virtual-reality": React.lazy(() =>
         import(
-            /* webpackChunkName: "VirtualRealityIcon" */
+            /* webpackChunkName: "mdi/VirtualRealityIcon" */
             "mdi-react/VirtualRealityIcon"
         ),
     ),
     "mdi-visualstudio": React.lazy(() =>
         import(
-            /* webpackChunkName: "VisualstudioIcon" */
+            /* webpackChunkName: "mdi/VisualstudioIcon" */
             "mdi-react/VisualstudioIcon"
         ),
     ),
     "mdi-vk-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "VkBoxIcon" */
+            /* webpackChunkName: "mdi/VkBoxIcon" */
             "mdi-react/VkBoxIcon"
         ),
     ),
     "mdi-vk-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "VkCircleIcon" */
+            /* webpackChunkName: "mdi/VkCircleIcon" */
             "mdi-react/VkCircleIcon"
         ),
     ),
     "mdi-vk": React.lazy(() =>
         import(
-            /* webpackChunkName: "VkIcon" */
+            /* webpackChunkName: "mdi/VkIcon" */
             "mdi-react/VkIcon"
         ),
     ),
     "mdi-vlc": React.lazy(() =>
         import(
-            /* webpackChunkName: "VlcIcon" */
+            /* webpackChunkName: "mdi/VlcIcon" */
             "mdi-react/VlcIcon"
         ),
     ),
     "mdi-voice": React.lazy(() =>
         import(
-            /* webpackChunkName: "VoiceIcon" */
+            /* webpackChunkName: "mdi/VoiceIcon" */
             "mdi-react/VoiceIcon"
         ),
     ),
     "mdi-voicemail": React.lazy(() =>
         import(
-            /* webpackChunkName: "VoicemailIcon" */
+            /* webpackChunkName: "mdi/VoicemailIcon" */
             "mdi-react/VoicemailIcon"
         ),
     ),
     "mdi-volleyball": React.lazy(() =>
         import(
-            /* webpackChunkName: "VolleyballIcon" */
+            /* webpackChunkName: "mdi/VolleyballIcon" */
             "mdi-react/VolleyballIcon"
         ),
     ),
     "mdi-volume-high": React.lazy(() =>
         import(
-            /* webpackChunkName: "VolumeHighIcon" */
+            /* webpackChunkName: "mdi/VolumeHighIcon" */
             "mdi-react/VolumeHighIcon"
         ),
     ),
     "mdi-volume-low": React.lazy(() =>
         import(
-            /* webpackChunkName: "VolumeLowIcon" */
+            /* webpackChunkName: "mdi/VolumeLowIcon" */
             "mdi-react/VolumeLowIcon"
         ),
     ),
     "mdi-volume-medium": React.lazy(() =>
         import(
-            /* webpackChunkName: "VolumeMediumIcon" */
+            /* webpackChunkName: "mdi/VolumeMediumIcon" */
             "mdi-react/VolumeMediumIcon"
         ),
     ),
     "mdi-volume-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "VolumeMinusIcon" */
+            /* webpackChunkName: "mdi/VolumeMinusIcon" */
             "mdi-react/VolumeMinusIcon"
         ),
     ),
     "mdi-volume-mute": React.lazy(() =>
         import(
-            /* webpackChunkName: "VolumeMuteIcon" */
+            /* webpackChunkName: "mdi/VolumeMuteIcon" */
             "mdi-react/VolumeMuteIcon"
         ),
     ),
     "mdi-volume-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "VolumeOffIcon" */
+            /* webpackChunkName: "mdi/VolumeOffIcon" */
             "mdi-react/VolumeOffIcon"
         ),
     ),
     "mdi-volume-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "VolumePlusIcon" */
+            /* webpackChunkName: "mdi/VolumePlusIcon" */
             "mdi-react/VolumePlusIcon"
         ),
     ),
     "mdi-vpn": React.lazy(() =>
         import(
-            /* webpackChunkName: "VpnIcon" */
+            /* webpackChunkName: "mdi/VpnIcon" */
             "mdi-react/VpnIcon"
         ),
     ),
     "mdi-vuejs": React.lazy(() =>
         import(
-            /* webpackChunkName: "VuejsIcon" */
+            /* webpackChunkName: "mdi/VuejsIcon" */
             "mdi-react/VuejsIcon"
         ),
     ),
     "mdi-walk": React.lazy(() =>
         import(
-            /* webpackChunkName: "WalkIcon" */
+            /* webpackChunkName: "mdi/WalkIcon" */
             "mdi-react/WalkIcon"
         ),
     ),
     "mdi-wall-sconce-flat": React.lazy(() =>
         import(
-            /* webpackChunkName: "WallSconceFlatIcon" */
+            /* webpackChunkName: "mdi/WallSconceFlatIcon" */
             "mdi-react/WallSconceFlatIcon"
         ),
     ),
     "mdi-wall-sconce-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "WallSconceVariantIcon" */
+            /* webpackChunkName: "mdi/WallSconceVariantIcon" */
             "mdi-react/WallSconceVariantIcon"
         ),
     ),
     "mdi-wall-sconce": React.lazy(() =>
         import(
-            /* webpackChunkName: "WallSconceIcon" */
+            /* webpackChunkName: "mdi/WallSconceIcon" */
             "mdi-react/WallSconceIcon"
         ),
     ),
     "mdi-wall": React.lazy(() =>
         import(
-            /* webpackChunkName: "WallIcon" */
+            /* webpackChunkName: "mdi/WallIcon" */
             "mdi-react/WallIcon"
         ),
     ),
     "mdi-wallet-giftcard": React.lazy(() =>
         import(
-            /* webpackChunkName: "WalletGiftcardIcon" */
+            /* webpackChunkName: "mdi/WalletGiftcardIcon" */
             "mdi-react/WalletGiftcardIcon"
         ),
     ),
     "mdi-wallet-membership": React.lazy(() =>
         import(
-            /* webpackChunkName: "WalletMembershipIcon" */
+            /* webpackChunkName: "mdi/WalletMembershipIcon" */
             "mdi-react/WalletMembershipIcon"
         ),
     ),
     "mdi-wallet-travel": React.lazy(() =>
         import(
-            /* webpackChunkName: "WalletTravelIcon" */
+            /* webpackChunkName: "mdi/WalletTravelIcon" */
             "mdi-react/WalletTravelIcon"
         ),
     ),
     "mdi-wallet": React.lazy(() =>
         import(
-            /* webpackChunkName: "WalletIcon" */
+            /* webpackChunkName: "mdi/WalletIcon" */
             "mdi-react/WalletIcon"
         ),
     ),
     "mdi-wan": React.lazy(() =>
         import(
-            /* webpackChunkName: "WanIcon" */
+            /* webpackChunkName: "mdi/WanIcon" */
             "mdi-react/WanIcon"
         ),
     ),
     "mdi-washing-machine": React.lazy(() =>
         import(
-            /* webpackChunkName: "WashingMachineIcon" */
+            /* webpackChunkName: "mdi/WashingMachineIcon" */
             "mdi-react/WashingMachineIcon"
         ),
     ),
     "mdi-watch-export-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "WatchExportVariantIcon" */
+            /* webpackChunkName: "mdi/WatchExportVariantIcon" */
             "mdi-react/WatchExportVariantIcon"
         ),
     ),
     "mdi-watch-export": React.lazy(() =>
         import(
-            /* webpackChunkName: "WatchExportIcon" */
+            /* webpackChunkName: "mdi/WatchExportIcon" */
             "mdi-react/WatchExportIcon"
         ),
     ),
     "mdi-watch-import-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "WatchImportVariantIcon" */
+            /* webpackChunkName: "mdi/WatchImportVariantIcon" */
             "mdi-react/WatchImportVariantIcon"
         ),
     ),
     "mdi-watch-import": React.lazy(() =>
         import(
-            /* webpackChunkName: "WatchImportIcon" */
+            /* webpackChunkName: "mdi/WatchImportIcon" */
             "mdi-react/WatchImportIcon"
         ),
     ),
     "mdi-watch-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "WatchVariantIcon" */
+            /* webpackChunkName: "mdi/WatchVariantIcon" */
             "mdi-react/WatchVariantIcon"
         ),
     ),
     "mdi-watch-vibrate": React.lazy(() =>
         import(
-            /* webpackChunkName: "WatchVibrateIcon" */
+            /* webpackChunkName: "mdi/WatchVibrateIcon" */
             "mdi-react/WatchVibrateIcon"
         ),
     ),
     "mdi-watch": React.lazy(() =>
         import(
-            /* webpackChunkName: "WatchIcon" */
+            /* webpackChunkName: "mdi/WatchIcon" */
             "mdi-react/WatchIcon"
         ),
     ),
     "mdi-water-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "WaterOffIcon" */
+            /* webpackChunkName: "mdi/WaterOffIcon" */
             "mdi-react/WaterOffIcon"
         ),
     ),
     "mdi-water-percent": React.lazy(() =>
         import(
-            /* webpackChunkName: "WaterPercentIcon" */
+            /* webpackChunkName: "mdi/WaterPercentIcon" */
             "mdi-react/WaterPercentIcon"
         ),
     ),
     "mdi-water-pump": React.lazy(() =>
         import(
-            /* webpackChunkName: "WaterPumpIcon" */
+            /* webpackChunkName: "mdi/WaterPumpIcon" */
             "mdi-react/WaterPumpIcon"
         ),
     ),
     "mdi-water": React.lazy(() =>
         import(
-            /* webpackChunkName: "WaterIcon" */
+            /* webpackChunkName: "mdi/WaterIcon" */
             "mdi-react/WaterIcon"
         ),
     ),
     "mdi-watermark": React.lazy(() =>
         import(
-            /* webpackChunkName: "WatermarkIcon" */
+            /* webpackChunkName: "mdi/WatermarkIcon" */
             "mdi-react/WatermarkIcon"
         ),
     ),
     "mdi-waves": React.lazy(() =>
         import(
-            /* webpackChunkName: "WavesIcon" */
+            /* webpackChunkName: "mdi/WavesIcon" */
             "mdi-react/WavesIcon"
         ),
     ),
     "mdi-weather-cloudy": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeatherCloudyIcon" */
+            /* webpackChunkName: "mdi/WeatherCloudyIcon" */
             "mdi-react/WeatherCloudyIcon"
         ),
     ),
     "mdi-weather-fog": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeatherFogIcon" */
+            /* webpackChunkName: "mdi/WeatherFogIcon" */
             "mdi-react/WeatherFogIcon"
         ),
     ),
     "mdi-weather-hail": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeatherHailIcon" */
+            /* webpackChunkName: "mdi/WeatherHailIcon" */
             "mdi-react/WeatherHailIcon"
         ),
     ),
     "mdi-weather-hurricane": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeatherHurricaneIcon" */
+            /* webpackChunkName: "mdi/WeatherHurricaneIcon" */
             "mdi-react/WeatherHurricaneIcon"
         ),
     ),
     "mdi-weather-lightning-rainy": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeatherLightningRainyIcon" */
+            /* webpackChunkName: "mdi/WeatherLightningRainyIcon" */
             "mdi-react/WeatherLightningRainyIcon"
         ),
     ),
     "mdi-weather-lightning": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeatherLightningIcon" */
+            /* webpackChunkName: "mdi/WeatherLightningIcon" */
             "mdi-react/WeatherLightningIcon"
         ),
     ),
     "mdi-weather-night": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeatherNightIcon" */
+            /* webpackChunkName: "mdi/WeatherNightIcon" */
             "mdi-react/WeatherNightIcon"
         ),
     ),
     "mdi-weather-partlycloudy": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeatherPartlycloudyIcon" */
+            /* webpackChunkName: "mdi/WeatherPartlycloudyIcon" */
             "mdi-react/WeatherPartlycloudyIcon"
         ),
     ),
     "mdi-weather-pouring": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeatherPouringIcon" */
+            /* webpackChunkName: "mdi/WeatherPouringIcon" */
             "mdi-react/WeatherPouringIcon"
         ),
     ),
     "mdi-weather-rainy": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeatherRainyIcon" */
+            /* webpackChunkName: "mdi/WeatherRainyIcon" */
             "mdi-react/WeatherRainyIcon"
         ),
     ),
     "mdi-weather-snowy-rainy": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeatherSnowyRainyIcon" */
+            /* webpackChunkName: "mdi/WeatherSnowyRainyIcon" */
             "mdi-react/WeatherSnowyRainyIcon"
         ),
     ),
     "mdi-weather-snowy": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeatherSnowyIcon" */
+            /* webpackChunkName: "mdi/WeatherSnowyIcon" */
             "mdi-react/WeatherSnowyIcon"
         ),
     ),
     "mdi-weather-sunny": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeatherSunnyIcon" */
+            /* webpackChunkName: "mdi/WeatherSunnyIcon" */
             "mdi-react/WeatherSunnyIcon"
         ),
     ),
     "mdi-weather-sunset-down": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeatherSunsetDownIcon" */
+            /* webpackChunkName: "mdi/WeatherSunsetDownIcon" */
             "mdi-react/WeatherSunsetDownIcon"
         ),
     ),
     "mdi-weather-sunset-up": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeatherSunsetUpIcon" */
+            /* webpackChunkName: "mdi/WeatherSunsetUpIcon" */
             "mdi-react/WeatherSunsetUpIcon"
         ),
     ),
     "mdi-weather-sunset": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeatherSunsetIcon" */
+            /* webpackChunkName: "mdi/WeatherSunsetIcon" */
             "mdi-react/WeatherSunsetIcon"
         ),
     ),
     "mdi-weather-windy-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeatherWindyVariantIcon" */
+            /* webpackChunkName: "mdi/WeatherWindyVariantIcon" */
             "mdi-react/WeatherWindyVariantIcon"
         ),
     ),
     "mdi-weather-windy": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeatherWindyIcon" */
+            /* webpackChunkName: "mdi/WeatherWindyIcon" */
             "mdi-react/WeatherWindyIcon"
         ),
     ),
     "mdi-web": React.lazy(() =>
         import(
-            /* webpackChunkName: "WebIcon" */
+            /* webpackChunkName: "mdi/WebIcon" */
             "mdi-react/WebIcon"
         ),
     ),
     "mdi-webcam": React.lazy(() =>
         import(
-            /* webpackChunkName: "WebcamIcon" */
+            /* webpackChunkName: "mdi/WebcamIcon" */
             "mdi-react/WebcamIcon"
         ),
     ),
     "mdi-webhook": React.lazy(() =>
         import(
-            /* webpackChunkName: "WebhookIcon" */
+            /* webpackChunkName: "mdi/WebhookIcon" */
             "mdi-react/WebhookIcon"
         ),
     ),
     "mdi-webpack": React.lazy(() =>
         import(
-            /* webpackChunkName: "WebpackIcon" */
+            /* webpackChunkName: "mdi/WebpackIcon" */
             "mdi-react/WebpackIcon"
         ),
     ),
     "mdi-wechat": React.lazy(() =>
         import(
-            /* webpackChunkName: "WechatIcon" */
+            /* webpackChunkName: "mdi/WechatIcon" */
             "mdi-react/WechatIcon"
         ),
     ),
     "mdi-weight-kilogram": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeightKilogramIcon" */
+            /* webpackChunkName: "mdi/WeightKilogramIcon" */
             "mdi-react/WeightKilogramIcon"
         ),
     ),
     "mdi-weight-pound": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeightPoundIcon" */
+            /* webpackChunkName: "mdi/WeightPoundIcon" */
             "mdi-react/WeightPoundIcon"
         ),
     ),
     "mdi-weight": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeightIcon" */
+            /* webpackChunkName: "mdi/WeightIcon" */
             "mdi-react/WeightIcon"
         ),
     ),
     "mdi-whatsapp": React.lazy(() =>
         import(
-            /* webpackChunkName: "WhatsappIcon" */
+            /* webpackChunkName: "mdi/WhatsappIcon" */
             "mdi-react/WhatsappIcon"
         ),
     ),
     "mdi-wheelchair-accessibility": React.lazy(() =>
         import(
-            /* webpackChunkName: "WheelchairAccessibilityIcon" */
+            /* webpackChunkName: "mdi/WheelchairAccessibilityIcon" */
             "mdi-react/WheelchairAccessibilityIcon"
         ),
     ),
     "mdi-whistle": React.lazy(() =>
         import(
-            /* webpackChunkName: "WhistleIcon" */
+            /* webpackChunkName: "mdi/WhistleIcon" */
             "mdi-react/WhistleIcon"
         ),
     ),
     "mdi-white-balance-auto": React.lazy(() =>
         import(
-            /* webpackChunkName: "WhiteBalanceAutoIcon" */
+            /* webpackChunkName: "mdi/WhiteBalanceAutoIcon" */
             "mdi-react/WhiteBalanceAutoIcon"
         ),
     ),
     "mdi-white-balance-incandescent": React.lazy(() =>
         import(
-            /* webpackChunkName: "WhiteBalanceIncandescentIcon" */
+            /* webpackChunkName: "mdi/WhiteBalanceIncandescentIcon" */
             "mdi-react/WhiteBalanceIncandescentIcon"
         ),
     ),
     "mdi-white-balance-iridescent": React.lazy(() =>
         import(
-            /* webpackChunkName: "WhiteBalanceIridescentIcon" */
+            /* webpackChunkName: "mdi/WhiteBalanceIridescentIcon" */
             "mdi-react/WhiteBalanceIridescentIcon"
         ),
     ),
     "mdi-white-balance-sunny": React.lazy(() =>
         import(
-            /* webpackChunkName: "WhiteBalanceSunnyIcon" */
+            /* webpackChunkName: "mdi/WhiteBalanceSunnyIcon" */
             "mdi-react/WhiteBalanceSunnyIcon"
         ),
     ),
     "mdi-widgets": React.lazy(() =>
         import(
-            /* webpackChunkName: "WidgetsIcon" */
+            /* webpackChunkName: "mdi/WidgetsIcon" */
             "mdi-react/WidgetsIcon"
         ),
     ),
     "mdi-wifi-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiOffIcon" */
+            /* webpackChunkName: "mdi/WifiOffIcon" */
             "mdi-react/WifiOffIcon"
         ),
     ),
     "mdi-wifi-strength-1-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength1AlertIcon" */
+            /* webpackChunkName: "mdi/WifiStrength1AlertIcon" */
             "mdi-react/WifiStrength1AlertIcon"
         ),
     ),
     "mdi-wifi-strength-1-lock": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength1LockIcon" */
+            /* webpackChunkName: "mdi/WifiStrength1LockIcon" */
             "mdi-react/WifiStrength1LockIcon"
         ),
     ),
     "mdi-wifi-strength-1": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength1Icon" */
+            /* webpackChunkName: "mdi/WifiStrength1Icon" */
             "mdi-react/WifiStrength1Icon"
         ),
     ),
     "mdi-wifi-strength-2-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength2AlertIcon" */
+            /* webpackChunkName: "mdi/WifiStrength2AlertIcon" */
             "mdi-react/WifiStrength2AlertIcon"
         ),
     ),
     "mdi-wifi-strength-2-lock": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength2LockIcon" */
+            /* webpackChunkName: "mdi/WifiStrength2LockIcon" */
             "mdi-react/WifiStrength2LockIcon"
         ),
     ),
     "mdi-wifi-strength-2": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength2Icon" */
+            /* webpackChunkName: "mdi/WifiStrength2Icon" */
             "mdi-react/WifiStrength2Icon"
         ),
     ),
     "mdi-wifi-strength-3-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength3AlertIcon" */
+            /* webpackChunkName: "mdi/WifiStrength3AlertIcon" */
             "mdi-react/WifiStrength3AlertIcon"
         ),
     ),
     "mdi-wifi-strength-3-lock": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength3LockIcon" */
+            /* webpackChunkName: "mdi/WifiStrength3LockIcon" */
             "mdi-react/WifiStrength3LockIcon"
         ),
     ),
     "mdi-wifi-strength-3": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength3Icon" */
+            /* webpackChunkName: "mdi/WifiStrength3Icon" */
             "mdi-react/WifiStrength3Icon"
         ),
     ),
     "mdi-wifi-strength-4-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength4AlertIcon" */
+            /* webpackChunkName: "mdi/WifiStrength4AlertIcon" */
             "mdi-react/WifiStrength4AlertIcon"
         ),
     ),
     "mdi-wifi-strength-4-lock": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength4LockIcon" */
+            /* webpackChunkName: "mdi/WifiStrength4LockIcon" */
             "mdi-react/WifiStrength4LockIcon"
         ),
     ),
     "mdi-wifi-strength-4": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength4Icon" */
+            /* webpackChunkName: "mdi/WifiStrength4Icon" */
             "mdi-react/WifiStrength4Icon"
         ),
     ),
     "mdi-wifi-strength-alert-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrengthAlertOutlineIcon" */
+            /* webpackChunkName: "mdi/WifiStrengthAlertOutlineIcon" */
             "mdi-react/WifiStrengthAlertOutlineIcon"
         ),
     ),
     "mdi-wifi-strength-lock-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrengthLockOutlineIcon" */
+            /* webpackChunkName: "mdi/WifiStrengthLockOutlineIcon" */
             "mdi-react/WifiStrengthLockOutlineIcon"
         ),
     ),
     "mdi-wifi-strength-off-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrengthOffOutlineIcon" */
+            /* webpackChunkName: "mdi/WifiStrengthOffOutlineIcon" */
             "mdi-react/WifiStrengthOffOutlineIcon"
         ),
     ),
     "mdi-wifi-strength-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrengthOffIcon" */
+            /* webpackChunkName: "mdi/WifiStrengthOffIcon" */
             "mdi-react/WifiStrengthOffIcon"
         ),
     ),
     "mdi-wifi-strength-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrengthOutlineIcon" */
+            /* webpackChunkName: "mdi/WifiStrengthOutlineIcon" */
             "mdi-react/WifiStrengthOutlineIcon"
         ),
     ),
     "mdi-wifi": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiIcon" */
+            /* webpackChunkName: "mdi/WifiIcon" */
             "mdi-react/WifiIcon"
         ),
     ),
     "mdi-wii": React.lazy(() =>
         import(
-            /* webpackChunkName: "WiiIcon" */
+            /* webpackChunkName: "mdi/WiiIcon" */
             "mdi-react/WiiIcon"
         ),
     ),
     "mdi-wiiu": React.lazy(() =>
         import(
-            /* webpackChunkName: "WiiuIcon" */
+            /* webpackChunkName: "mdi/WiiuIcon" */
             "mdi-react/WiiuIcon"
         ),
     ),
     "mdi-wikipedia": React.lazy(() =>
         import(
-            /* webpackChunkName: "WikipediaIcon" */
+            /* webpackChunkName: "mdi/WikipediaIcon" */
             "mdi-react/WikipediaIcon"
         ),
     ),
     "mdi-window-close": React.lazy(() =>
         import(
-            /* webpackChunkName: "WindowCloseIcon" */
+            /* webpackChunkName: "mdi/WindowCloseIcon" */
             "mdi-react/WindowCloseIcon"
         ),
     ),
     "mdi-window-closed": React.lazy(() =>
         import(
-            /* webpackChunkName: "WindowClosedIcon" */
+            /* webpackChunkName: "mdi/WindowClosedIcon" */
             "mdi-react/WindowClosedIcon"
         ),
     ),
     "mdi-window-maximize": React.lazy(() =>
         import(
-            /* webpackChunkName: "WindowMaximizeIcon" */
+            /* webpackChunkName: "mdi/WindowMaximizeIcon" */
             "mdi-react/WindowMaximizeIcon"
         ),
     ),
     "mdi-window-minimize": React.lazy(() =>
         import(
-            /* webpackChunkName: "WindowMinimizeIcon" */
+            /* webpackChunkName: "mdi/WindowMinimizeIcon" */
             "mdi-react/WindowMinimizeIcon"
         ),
     ),
     "mdi-window-open": React.lazy(() =>
         import(
-            /* webpackChunkName: "WindowOpenIcon" */
+            /* webpackChunkName: "mdi/WindowOpenIcon" */
             "mdi-react/WindowOpenIcon"
         ),
     ),
     "mdi-window-restore": React.lazy(() =>
         import(
-            /* webpackChunkName: "WindowRestoreIcon" */
+            /* webpackChunkName: "mdi/WindowRestoreIcon" */
             "mdi-react/WindowRestoreIcon"
         ),
     ),
     "mdi-windows": React.lazy(() =>
         import(
-            /* webpackChunkName: "WindowsIcon" */
+            /* webpackChunkName: "mdi/WindowsIcon" */
             "mdi-react/WindowsIcon"
         ),
     ),
     "mdi-wordpress": React.lazy(() =>
         import(
-            /* webpackChunkName: "WordpressIcon" */
+            /* webpackChunkName: "mdi/WordpressIcon" */
             "mdi-react/WordpressIcon"
         ),
     ),
     "mdi-worker": React.lazy(() =>
         import(
-            /* webpackChunkName: "WorkerIcon" */
+            /* webpackChunkName: "mdi/WorkerIcon" */
             "mdi-react/WorkerIcon"
         ),
     ),
     "mdi-wrap": React.lazy(() =>
         import(
-            /* webpackChunkName: "WrapIcon" */
+            /* webpackChunkName: "mdi/WrapIcon" */
             "mdi-react/WrapIcon"
         ),
     ),
     "mdi-wrench": React.lazy(() =>
         import(
-            /* webpackChunkName: "WrenchIcon" */
+            /* webpackChunkName: "mdi/WrenchIcon" */
             "mdi-react/WrenchIcon"
         ),
     ),
     "mdi-wunderlist": React.lazy(() =>
         import(
-            /* webpackChunkName: "WunderlistIcon" */
+            /* webpackChunkName: "mdi/WunderlistIcon" */
             "mdi-react/WunderlistIcon"
         ),
     ),
     "mdi-xamarin-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "XamarinOutlineIcon" */
+            /* webpackChunkName: "mdi/XamarinOutlineIcon" */
             "mdi-react/XamarinOutlineIcon"
         ),
     ),
     "mdi-xamarin": React.lazy(() =>
         import(
-            /* webpackChunkName: "XamarinIcon" */
+            /* webpackChunkName: "mdi/XamarinIcon" */
             "mdi-react/XamarinIcon"
         ),
     ),
     "mdi-xaml": React.lazy(() =>
         import(
-            /* webpackChunkName: "XamlIcon" */
+            /* webpackChunkName: "mdi/XamlIcon" */
             "mdi-react/XamlIcon"
         ),
     ),
     "mdi-xbox-controller-battery-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "XboxControllerBatteryAlertIcon" */
+            /* webpackChunkName: "mdi/XboxControllerBatteryAlertIcon" */
             "mdi-react/XboxControllerBatteryAlertIcon"
         ),
     ),
     "mdi-xbox-controller-battery-empty": React.lazy(() =>
         import(
-            /* webpackChunkName: "XboxControllerBatteryEmptyIcon" */
+            /* webpackChunkName: "mdi/XboxControllerBatteryEmptyIcon" */
             "mdi-react/XboxControllerBatteryEmptyIcon"
         ),
     ),
     "mdi-xbox-controller-battery-full": React.lazy(() =>
         import(
-            /* webpackChunkName: "XboxControllerBatteryFullIcon" */
+            /* webpackChunkName: "mdi/XboxControllerBatteryFullIcon" */
             "mdi-react/XboxControllerBatteryFullIcon"
         ),
     ),
     "mdi-xbox-controller-battery-low": React.lazy(() =>
         import(
-            /* webpackChunkName: "XboxControllerBatteryLowIcon" */
+            /* webpackChunkName: "mdi/XboxControllerBatteryLowIcon" */
             "mdi-react/XboxControllerBatteryLowIcon"
         ),
     ),
     "mdi-xbox-controller-battery-medium": React.lazy(() =>
         import(
-            /* webpackChunkName: "XboxControllerBatteryMediumIcon" */
+            /* webpackChunkName: "mdi/XboxControllerBatteryMediumIcon" */
             "mdi-react/XboxControllerBatteryMediumIcon"
         ),
     ),
     "mdi-xbox-controller-battery-unknown": React.lazy(() =>
         import(
-            /* webpackChunkName: "XboxControllerBatteryUnknownIcon" */
+            /* webpackChunkName: "mdi/XboxControllerBatteryUnknownIcon" */
             "mdi-react/XboxControllerBatteryUnknownIcon"
         ),
     ),
     "mdi-xbox-controller-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "XboxControllerOffIcon" */
+            /* webpackChunkName: "mdi/XboxControllerOffIcon" */
             "mdi-react/XboxControllerOffIcon"
         ),
     ),
     "mdi-xbox-controller": React.lazy(() =>
         import(
-            /* webpackChunkName: "XboxControllerIcon" */
+            /* webpackChunkName: "mdi/XboxControllerIcon" */
             "mdi-react/XboxControllerIcon"
         ),
     ),
     "mdi-xbox": React.lazy(() =>
         import(
-            /* webpackChunkName: "XboxIcon" */
+            /* webpackChunkName: "mdi/XboxIcon" */
             "mdi-react/XboxIcon"
         ),
     ),
     "mdi-xda": React.lazy(() =>
         import(
-            /* webpackChunkName: "XdaIcon" */
+            /* webpackChunkName: "mdi/XdaIcon" */
             "mdi-react/XdaIcon"
         ),
     ),
     "mdi-xing-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "XingBoxIcon" */
+            /* webpackChunkName: "mdi/XingBoxIcon" */
             "mdi-react/XingBoxIcon"
         ),
     ),
     "mdi-xing-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "XingCircleIcon" */
+            /* webpackChunkName: "mdi/XingCircleIcon" */
             "mdi-react/XingCircleIcon"
         ),
     ),
     "mdi-xing": React.lazy(() =>
         import(
-            /* webpackChunkName: "XingIcon" */
+            /* webpackChunkName: "mdi/XingIcon" */
             "mdi-react/XingIcon"
         ),
     ),
     "mdi-xml": React.lazy(() =>
         import(
-            /* webpackChunkName: "XmlIcon" */
+            /* webpackChunkName: "mdi/XmlIcon" */
             "mdi-react/XmlIcon"
         ),
     ),
     "mdi-xmpp": React.lazy(() =>
         import(
-            /* webpackChunkName: "XmppIcon" */
+            /* webpackChunkName: "mdi/XmppIcon" */
             "mdi-react/XmppIcon"
         ),
     ),
     "mdi-yammer": React.lazy(() =>
         import(
-            /* webpackChunkName: "YammerIcon" */
+            /* webpackChunkName: "mdi/YammerIcon" */
             "mdi-react/YammerIcon"
         ),
     ),
     "mdi-yeast": React.lazy(() =>
         import(
-            /* webpackChunkName: "YeastIcon" */
+            /* webpackChunkName: "mdi/YeastIcon" */
             "mdi-react/YeastIcon"
         ),
     ),
     "mdi-yelp": React.lazy(() =>
         import(
-            /* webpackChunkName: "YelpIcon" */
+            /* webpackChunkName: "mdi/YelpIcon" */
             "mdi-react/YelpIcon"
         ),
     ),
     "mdi-yin-yang": React.lazy(() =>
         import(
-            /* webpackChunkName: "YinYangIcon" */
+            /* webpackChunkName: "mdi/YinYangIcon" */
             "mdi-react/YinYangIcon"
         ),
     ),
     "mdi-youtube-creator-studio": React.lazy(() =>
         import(
-            /* webpackChunkName: "YoutubeCreatorStudioIcon" */
+            /* webpackChunkName: "mdi/YoutubeCreatorStudioIcon" */
             "mdi-react/YoutubeCreatorStudioIcon"
         ),
     ),
     "mdi-youtube-gaming": React.lazy(() =>
         import(
-            /* webpackChunkName: "YoutubeGamingIcon" */
+            /* webpackChunkName: "mdi/YoutubeGamingIcon" */
             "mdi-react/YoutubeGamingIcon"
         ),
     ),
     "mdi-youtube-tv": React.lazy(() =>
         import(
-            /* webpackChunkName: "YoutubeTvIcon" */
+            /* webpackChunkName: "mdi/YoutubeTvIcon" */
             "mdi-react/YoutubeTvIcon"
         ),
     ),
     "mdi-youtube": React.lazy(() =>
         import(
-            /* webpackChunkName: "YoutubeIcon" */
+            /* webpackChunkName: "mdi/YoutubeIcon" */
             "mdi-react/YoutubeIcon"
         ),
     ),
     "mdi-zip-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "ZipBoxIcon" */
+            /* webpackChunkName: "mdi/ZipBoxIcon" */
             "mdi-react/ZipBoxIcon"
         ),
     ),
     "mdi-user-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserBoxIcon" */
+            /* webpackChunkName: "mdi/UserBoxIcon" */
             "mdi-react/UserBoxIcon"
         ),
     ),
     "mdi-identification-card": React.lazy(() =>
         import(
-            /* webpackChunkName: "IdentificationCardIcon" */
+            /* webpackChunkName: "mdi/IdentificationCardIcon" */
             "mdi-react/IdentificationCardIcon"
         ),
     ),
     "mdi-user-card-details": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserCardDetailsIcon" */
+            /* webpackChunkName: "mdi/UserCardDetailsIcon" */
             "mdi-react/UserCardDetailsIcon"
         ),
     ),
     "mdi-user-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserCheckIcon" */
+            /* webpackChunkName: "mdi/UserCheckIcon" */
             "mdi-react/UserCheckIcon"
         ),
     ),
     "mdi-user-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserCircleIcon" */
+            /* webpackChunkName: "mdi/UserCircleIcon" */
             "mdi-react/UserCircleIcon"
         ),
     ),
     "mdi-user-convert": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserConvertIcon" */
+            /* webpackChunkName: "mdi/UserConvertIcon" */
             "mdi-react/UserConvertIcon"
         ),
     ),
     "mdi-user-edit": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserEditIcon" */
+            /* webpackChunkName: "mdi/UserEditIcon" */
             "mdi-react/UserEditIcon"
         ),
     ),
     "mdi-user-group": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserGroupIcon" */
+            /* webpackChunkName: "mdi/UserGroupIcon" */
             "mdi-react/UserGroupIcon"
         ),
     ),
     "mdi-user-heart": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserHeartIcon" */
+            /* webpackChunkName: "mdi/UserHeartIcon" */
             "mdi-react/UserHeartIcon"
         ),
     ),
     "mdi-user-key": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserKeyIcon" */
+            /* webpackChunkName: "mdi/UserKeyIcon" */
             "mdi-react/UserKeyIcon"
         ),
     ),
     "mdi-user-address": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserAddressIcon" */
+            /* webpackChunkName: "mdi/UserAddressIcon" */
             "mdi-react/UserAddressIcon"
         ),
     ),
     "mdi-account-address": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountAddressIcon" */
+            /* webpackChunkName: "mdi/AccountAddressIcon" */
             "mdi-react/AccountAddressIcon"
         ),
     ),
     "mdi-user-location": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserLocationIcon" */
+            /* webpackChunkName: "mdi/UserLocationIcon" */
             "mdi-react/UserLocationIcon"
         ),
     ),
     "mdi-user-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserMinusIcon" */
+            /* webpackChunkName: "mdi/UserMinusIcon" */
             "mdi-react/UserMinusIcon"
         ),
     ),
     "mdi-user-multiple-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserMultipleCheckIcon" */
+            /* webpackChunkName: "mdi/UserMultipleCheckIcon" */
             "mdi-react/UserMultipleCheckIcon"
         ),
     ),
     "mdi-user-multiple-minus": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserMultipleMinusIcon" */
+            /* webpackChunkName: "mdi/UserMultipleMinusIcon" */
             "mdi-react/UserMultipleMinusIcon"
         ),
     ),
     "mdi-user-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/UserMultipleOutlineIcon" */
             "mdi-react/UserMultipleOutlineIcon"
         ),
     ),
     "mdi-people-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "PeopleOutlineIcon" */
+            /* webpackChunkName: "mdi/PeopleOutlineIcon" */
             "mdi-react/PeopleOutlineIcon"
         ),
     ),
     "mdi-group-add-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "GroupAddOutlineIcon" */
+            /* webpackChunkName: "mdi/GroupAddOutlineIcon" */
             "mdi-react/GroupAddOutlineIcon"
         ),
     ),
     "mdi-user-multiple-plus-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserMultiplePlusOutlineIcon" */
+            /* webpackChunkName: "mdi/UserMultiplePlusOutlineIcon" */
             "mdi-react/UserMultiplePlusOutlineIcon"
         ),
     ),
     "mdi-user-multiple-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserMultiplePlusIcon" */
+            /* webpackChunkName: "mdi/UserMultiplePlusIcon" */
             "mdi-react/UserMultiplePlusIcon"
         ),
     ),
     "mdi-group-add": React.lazy(() =>
         import(
-            /* webpackChunkName: "GroupAddIcon" */
+            /* webpackChunkName: "mdi/GroupAddIcon" */
             "mdi-react/GroupAddIcon"
         ),
     ),
     "mdi-people": React.lazy(() =>
         import(
-            /* webpackChunkName: "PeopleIcon" */
+            /* webpackChunkName: "mdi/PeopleIcon" */
             "mdi-react/PeopleIcon"
         ),
     ),
     "mdi-user-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserMultipleIcon" */
+            /* webpackChunkName: "mdi/UserMultipleIcon" */
             "mdi-react/UserMultipleIcon"
         ),
     ),
     "mdi-user-network": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserNetworkIcon" */
+            /* webpackChunkName: "mdi/UserNetworkIcon" */
             "mdi-react/UserNetworkIcon"
         ),
     ),
     "mdi-user-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserOffIcon" */
+            /* webpackChunkName: "mdi/UserOffIcon" */
             "mdi-react/UserOffIcon"
         ),
     ),
     "mdi-user-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserOutlineIcon" */
+            /* webpackChunkName: "mdi/UserOutlineIcon" */
             "mdi-react/UserOutlineIcon"
         ),
     ),
     "mdi-perm-identity": React.lazy(() =>
         import(
-            /* webpackChunkName: "PermIdentityIcon" */
+            /* webpackChunkName: "mdi/PermIdentityIcon" */
             "mdi-react/PermIdentityIcon"
         ),
     ),
     "mdi-person-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "PersonOutlineIcon" */
+            /* webpackChunkName: "mdi/PersonOutlineIcon" */
             "mdi-react/PersonOutlineIcon"
         ),
     ),
     "mdi-person-add-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "PersonAddOutlineIcon" */
+            /* webpackChunkName: "mdi/PersonAddOutlineIcon" */
             "mdi-react/PersonAddOutlineIcon"
         ),
     ),
     "mdi-register-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "RegisterOutlineIcon" */
+            /* webpackChunkName: "mdi/RegisterOutlineIcon" */
             "mdi-react/RegisterOutlineIcon"
         ),
     ),
     "mdi-user-plus-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserPlusOutlineIcon" */
+            /* webpackChunkName: "mdi/UserPlusOutlineIcon" */
             "mdi-react/UserPlusOutlineIcon"
         ),
     ),
     "mdi-register": React.lazy(() =>
         import(
-            /* webpackChunkName: "RegisterIcon" */
+            /* webpackChunkName: "mdi/RegisterIcon" */
             "mdi-react/RegisterIcon"
         ),
     ),
     "mdi-user-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserPlusIcon" */
+            /* webpackChunkName: "mdi/UserPlusIcon" */
             "mdi-react/UserPlusIcon"
         ),
     ),
     "mdi-person-add": React.lazy(() =>
         import(
-            /* webpackChunkName: "PersonAddIcon" */
+            /* webpackChunkName: "mdi/PersonAddIcon" */
             "mdi-react/PersonAddIcon"
         ),
     ),
     "mdi-user-remove": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserRemoveIcon" */
+            /* webpackChunkName: "mdi/UserRemoveIcon" */
             "mdi-react/UserRemoveIcon"
         ),
     ),
     "mdi-user-search-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserSearchOutlineIcon" */
+            /* webpackChunkName: "mdi/UserSearchOutlineIcon" */
             "mdi-react/UserSearchOutlineIcon"
         ),
     ),
     "mdi-user-search": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserSearchIcon" */
+            /* webpackChunkName: "mdi/UserSearchIcon" */
             "mdi-react/UserSearchIcon"
         ),
     ),
     "mdi-user-settings-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserSettingsVariantIcon" */
+            /* webpackChunkName: "mdi/UserSettingsVariantIcon" */
             "mdi-react/UserSettingsVariantIcon"
         ),
     ),
     "mdi-user-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserSettingsIcon" */
+            /* webpackChunkName: "mdi/UserSettingsIcon" */
             "mdi-react/UserSettingsIcon"
         ),
     ),
     "mdi-user-star": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserStarIcon" */
+            /* webpackChunkName: "mdi/UserStarIcon" */
             "mdi-react/UserStarIcon"
         ),
     ),
     "mdi-user-switch": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserSwitchIcon" */
+            /* webpackChunkName: "mdi/UserSwitchIcon" */
             "mdi-react/UserSwitchIcon"
         ),
     ),
     "mdi-person": React.lazy(() =>
         import(
-            /* webpackChunkName: "PersonIcon" */
+            /* webpackChunkName: "mdi/PersonIcon" */
             "mdi-react/PersonIcon"
         ),
     ),
     "mdi-user": React.lazy(() =>
         import(
-            /* webpackChunkName: "UserIcon" */
+            /* webpackChunkName: "mdi/UserIcon" */
             "mdi-react/UserIcon"
         ),
     ),
     "mdi-ac-unit": React.lazy(() =>
         import(
-            /* webpackChunkName: "AcUnitIcon" */
+            /* webpackChunkName: "mdi/AcUnitIcon" */
             "mdi-react/AcUnitIcon"
         ),
     ),
     "mdi-hot-air-balloon": React.lazy(() =>
         import(
-            /* webpackChunkName: "HotAirBalloonIcon" */
+            /* webpackChunkName: "mdi/HotAirBalloonIcon" */
             "mdi-react/HotAirBalloonIcon"
         ),
     ),
     "mdi-aeroplane-landing": React.lazy(() =>
         import(
-            /* webpackChunkName: "AeroplaneLandingIcon" */
+            /* webpackChunkName: "mdi/AeroplaneLandingIcon" */
             "mdi-react/AeroplaneLandingIcon"
         ),
     ),
     "mdi-flight-land": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlightLandIcon" */
+            /* webpackChunkName: "mdi/FlightLandIcon" */
             "mdi-react/FlightLandIcon"
         ),
     ),
     "mdi-aeroplane-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "AeroplaneOffIcon" */
+            /* webpackChunkName: "mdi/AeroplaneOffIcon" */
             "mdi-react/AeroplaneOffIcon"
         ),
     ),
     "mdi-airplanemode-inactive": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirplanemodeInactiveIcon" */
+            /* webpackChunkName: "mdi/AirplanemodeInactiveIcon" */
             "mdi-react/AirplanemodeInactiveIcon"
         ),
     ),
     "mdi-aeroplane-takeoff": React.lazy(() =>
         import(
-            /* webpackChunkName: "AeroplaneTakeoffIcon" */
+            /* webpackChunkName: "mdi/AeroplaneTakeoffIcon" */
             "mdi-react/AeroplaneTakeoffIcon"
         ),
     ),
     "mdi-flight-takeoff": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlightTakeoffIcon" */
+            /* webpackChunkName: "mdi/FlightTakeoffIcon" */
             "mdi-react/FlightTakeoffIcon"
         ),
     ),
     "mdi-aeroplane": React.lazy(() =>
         import(
-            /* webpackChunkName: "AeroplaneIcon" */
+            /* webpackChunkName: "mdi/AeroplaneIcon" */
             "mdi-react/AeroplaneIcon"
         ),
     ),
     "mdi-airplanemode-active": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirplanemodeActiveIcon" */
+            /* webpackChunkName: "mdi/AirplanemodeActiveIcon" */
             "mdi-react/AirplanemodeActiveIcon"
         ),
     ),
     "mdi-flight": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlightIcon" */
+            /* webpackChunkName: "mdi/FlightIcon" */
             "mdi-react/FlightIcon"
         ),
     ),
     "mdi-local-airport": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalAirportIcon" */
+            /* webpackChunkName: "mdi/LocalAirportIcon" */
             "mdi-react/LocalAirportIcon"
         ),
     ),
     "mdi-alarm-on": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlarmOnIcon" */
+            /* webpackChunkName: "mdi/AlarmOnIcon" */
             "mdi-react/AlarmOnIcon"
         ),
     ),
     "mdi-add-alarm": React.lazy(() =>
         import(
-            /* webpackChunkName: "AddAlarmIcon" */
+            /* webpackChunkName: "mdi/AddAlarmIcon" */
             "mdi-react/AddAlarmIcon"
         ),
     ),
     "mdi-access-alarms": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccessAlarmsIcon" */
+            /* webpackChunkName: "mdi/AccessAlarmsIcon" */
             "mdi-react/AccessAlarmsIcon"
         ),
     ),
     "mdi-vinyl": React.lazy(() =>
         import(
-            /* webpackChunkName: "VinylIcon" */
+            /* webpackChunkName: "mdi/VinylIcon" */
             "mdi-react/VinylIcon"
         ),
     ),
     "mdi-warning-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "WarningBoxIcon" */
+            /* webpackChunkName: "mdi/WarningBoxIcon" */
             "mdi-react/WarningBoxIcon"
         ),
     ),
     "mdi-warning-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "WarningCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/WarningCircleOutlineIcon" */
             "mdi-react/WarningCircleOutlineIcon"
         ),
     ),
     "mdi-error-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ErrorOutlineIcon" */
+            /* webpackChunkName: "mdi/ErrorOutlineIcon" */
             "mdi-react/ErrorOutlineIcon"
         ),
     ),
     "mdi-warning-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "WarningCircleIcon" */
+            /* webpackChunkName: "mdi/WarningCircleIcon" */
             "mdi-react/WarningCircleIcon"
         ),
     ),
     "mdi-error": React.lazy(() =>
         import(
-            /* webpackChunkName: "ErrorIcon" */
+            /* webpackChunkName: "mdi/ErrorIcon" */
             "mdi-react/ErrorIcon"
         ),
     ),
     "mdi-new-releases": React.lazy(() =>
         import(
-            /* webpackChunkName: "NewReleasesIcon" */
+            /* webpackChunkName: "mdi/NewReleasesIcon" */
             "mdi-react/NewReleasesIcon"
         ),
     ),
     "mdi-warning-decagram": React.lazy(() =>
         import(
-            /* webpackChunkName: "WarningDecagramIcon" */
+            /* webpackChunkName: "mdi/WarningDecagramIcon" */
             "mdi-react/WarningDecagramIcon"
         ),
     ),
     "mdi-warning-octagon": React.lazy(() =>
         import(
-            /* webpackChunkName: "WarningOctagonIcon" */
+            /* webpackChunkName: "mdi/WarningOctagonIcon" */
             "mdi-react/WarningOctagonIcon"
         ),
     ),
     "mdi-report": React.lazy(() =>
         import(
-            /* webpackChunkName: "ReportIcon" */
+            /* webpackChunkName: "mdi/ReportIcon" */
             "mdi-react/ReportIcon"
         ),
     ),
     "mdi-warning-octagram": React.lazy(() =>
         import(
-            /* webpackChunkName: "WarningOctagramIcon" */
+            /* webpackChunkName: "mdi/WarningOctagramIcon" */
             "mdi-react/WarningOctagramIcon"
         ),
     ),
     "mdi-warning-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "WarningOutlineIcon" */
+            /* webpackChunkName: "mdi/WarningOutlineIcon" */
             "mdi-react/WarningOutlineIcon"
         ),
     ),
     "mdi-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "WarningIcon" */
+            /* webpackChunkName: "mdi/WarningIcon" */
             "mdi-react/WarningIcon"
         ),
     ),
     "mdi-report-problem": React.lazy(() =>
         import(
-            /* webpackChunkName: "ReportProblemIcon" */
+            /* webpackChunkName: "mdi/ReportProblemIcon" */
             "mdi-react/ReportProblemIcon"
         ),
     ),
     "mdi-amazon-clouddrive": React.lazy(() =>
         import(
-            /* webpackChunkName: "AmazonClouddriveIcon" */
+            /* webpackChunkName: "mdi/AmazonClouddriveIcon" */
             "mdi-react/AmazonClouddriveIcon"
         ),
     ),
     "mdi-adb": React.lazy(() =>
         import(
-            /* webpackChunkName: "AdbIcon" */
+            /* webpackChunkName: "mdi/AdbIcon" */
             "mdi-react/AdbIcon"
         ),
     ),
     "mdi-math-compass-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "MathCompassVariantIcon" */
+            /* webpackChunkName: "mdi/MathCompassVariantIcon" */
             "mdi-react/MathCompassVariantIcon"
         ),
     ),
     "mdi-auto-awesome-motion": React.lazy(() =>
         import(
-            /* webpackChunkName: "AutoAwesomeMotionIcon" */
+            /* webpackChunkName: "mdi/AutoAwesomeMotionIcon" */
             "mdi-react/AutoAwesomeMotionIcon"
         ),
     ),
     "mdi-apple-mobileme": React.lazy(() =>
         import(
-            /* webpackChunkName: "AppleMobilemeIcon" */
+            /* webpackChunkName: "mdi/AppleMobilemeIcon" */
             "mdi-react/AppleMobilemeIcon"
         ),
     ),
     "mdi-web-asset": React.lazy(() =>
         import(
-            /* webpackChunkName: "WebAssetIcon" */
+            /* webpackChunkName: "mdi/WebAssetIcon" */
             "mdi-react/WebAssetIcon"
         ),
     ),
     "mdi-decagram-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "DecagramCheckIcon" */
+            /* webpackChunkName: "mdi/DecagramCheckIcon" */
             "mdi-react/DecagramCheckIcon"
         ),
     ),
     "mdi-approve": React.lazy(() =>
         import(
-            /* webpackChunkName: "ApproveIcon" */
+            /* webpackChunkName: "mdi/ApproveIcon" */
             "mdi-react/ApproveIcon"
         ),
     ),
     "mdi-arrow-compress-all": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowCompressAllIcon" */
+            /* webpackChunkName: "mdi/ArrowCompressAllIcon" */
             "mdi-react/ArrowCompressAllIcon"
         ),
     ),
     "mdi-arrow-compress-down": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowCompressDownIcon" */
+            /* webpackChunkName: "mdi/ArrowCompressDownIcon" */
             "mdi-react/ArrowCompressDownIcon"
         ),
     ),
     "mdi-arrow-compress-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowCompressLeftIcon" */
+            /* webpackChunkName: "mdi/ArrowCompressLeftIcon" */
             "mdi-react/ArrowCompressLeftIcon"
         ),
     ),
     "mdi-arrow-compress-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowCompressRightIcon" */
+            /* webpackChunkName: "mdi/ArrowCompressRightIcon" */
             "mdi-react/ArrowCompressRightIcon"
         ),
     ),
     "mdi-arrow-compress-up": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowCompressUpIcon" */
+            /* webpackChunkName: "mdi/ArrowCompressUpIcon" */
             "mdi-react/ArrowCompressUpIcon"
         ),
     ),
     "mdi-arrow-compress": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowCompressIcon" */
+            /* webpackChunkName: "mdi/ArrowCompressIcon" */
             "mdi-react/ArrowCompressIcon"
         ),
     ),
     "mdi-arrow-drop-down-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowDropDownCircleIcon" */
+            /* webpackChunkName: "mdi/ArrowDropDownCircleIcon" */
             "mdi-react/ArrowDropDownCircleIcon"
         ),
     ),
     "mdi-arrow-downward": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowDownwardIcon" */
+            /* webpackChunkName: "mdi/ArrowDownwardIcon" */
             "mdi-react/ArrowDownwardIcon"
         ),
     ),
     "mdi-arrow-back": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowBackIcon" */
+            /* webpackChunkName: "mdi/ArrowBackIcon" */
             "mdi-react/ArrowBackIcon"
         ),
     ),
     "mdi-arrow-forward": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowForwardIcon" */
+            /* webpackChunkName: "mdi/ArrowForwardIcon" */
             "mdi-react/ArrowForwardIcon"
         ),
     ),
     "mdi-arrow-upward": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowUpwardIcon" */
+            /* webpackChunkName: "mdi/ArrowUpwardIcon" */
             "mdi-react/ArrowUpwardIcon"
         ),
     ),
     "mdi-alternate-email": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlternateEmailIcon" */
+            /* webpackChunkName: "mdi/AlternateEmailIcon" */
             "mdi-react/AlternateEmailIcon"
         ),
     ),
     "mdi-paperclip-horizontal": React.lazy(() =>
         import(
-            /* webpackChunkName: "PaperclipHorizontalIcon" */
+            /* webpackChunkName: "mdi/PaperclipHorizontalIcon" */
             "mdi-react/PaperclipHorizontalIcon"
         ),
     ),
     "mdi-magic": React.lazy(() =>
         import(
-            /* webpackChunkName: "MagicIcon" */
+            /* webpackChunkName: "mdi/MagicIcon" */
             "mdi-react/MagicIcon"
         ),
     ),
     "mdi-wand": React.lazy(() =>
         import(
-            /* webpackChunkName: "WandIcon" */
+            /* webpackChunkName: "mdi/WandIcon" */
             "mdi-react/WandIcon"
         ),
     ),
     "mdi-auto-fix-high": React.lazy(() =>
         import(
-            /* webpackChunkName: "AutoFixHighIcon" */
+            /* webpackChunkName: "mdi/AutoFixHighIcon" */
             "mdi-react/AutoFixHighIcon"
         ),
     ),
     "mdi-child-friendly": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChildFriendlyIcon" */
+            /* webpackChunkName: "mdi/ChildFriendlyIcon" */
             "mdi-react/ChildFriendlyIcon"
         ),
     ),
     "mdi-hamburger-menu-back": React.lazy(() =>
         import(
-            /* webpackChunkName: "HamburgerMenuBackIcon" */
+            /* webpackChunkName: "mdi/HamburgerMenuBackIcon" */
             "mdi-react/HamburgerMenuBackIcon"
         ),
     ),
     "mdi-settings-backup-restore": React.lazy(() =>
         import(
-            /* webpackChunkName: "SettingsBackupRestoreIcon" */
+            /* webpackChunkName: "mdi/SettingsBackupRestoreIcon" */
             "mdi-react/SettingsBackupRestoreIcon"
         ),
     ),
     "mdi-shuttlecock": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShuttlecockIcon" */
+            /* webpackChunkName: "mdi/ShuttlecockIcon" */
             "mdi-react/ShuttlecockIcon"
         ),
     ),
     "mdi-account-balance": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountBalanceIcon" */
+            /* webpackChunkName: "mdi/AccountBalanceIcon" */
             "mdi-react/AccountBalanceIcon"
         ),
     ),
     "mdi-barcode-scanner": React.lazy(() =>
         import(
-            /* webpackChunkName: "BarcodeScannerIcon" */
+            /* webpackChunkName: "mdi/BarcodeScannerIcon" */
             "mdi-react/BarcodeScannerIcon"
         ),
     ),
     "mdi-grain": React.lazy(() =>
         import(
-            /* webpackChunkName: "GrainIcon" */
+            /* webpackChunkName: "mdi/GrainIcon" */
             "mdi-react/GrainIcon"
         ),
     ),
     "mdi-shopping-basket": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShoppingBasketIcon" */
+            /* webpackChunkName: "mdi/ShoppingBasketIcon" */
             "mdi-react/ShoppingBasketIcon"
         ),
     ),
     "mdi-youtube-sports": React.lazy(() =>
         import(
-            /* webpackChunkName: "YoutubeSportsIcon" */
+            /* webpackChunkName: "mdi/YoutubeSportsIcon" */
             "mdi-react/YoutubeSportsIcon"
         ),
     ),
     "mdi-battery-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryWarningIcon" */
+            /* webpackChunkName: "mdi/BatteryWarningIcon" */
             "mdi-react/BatteryWarningIcon"
         ),
     ),
     "mdi-battery-charging-wireless-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingWirelessWarningIcon" */
+            /* webpackChunkName: "mdi/BatteryChargingWirelessWarningIcon" */
             "mdi-react/BatteryChargingWirelessWarningIcon"
         ),
     ),
     "mdi-battery-charging-wireless-empty": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingWirelessEmptyIcon" */
+            /* webpackChunkName: "mdi/BatteryChargingWirelessEmptyIcon" */
             "mdi-react/BatteryChargingWirelessEmptyIcon"
         ),
     ),
     "mdi-battery-charging-wireless-0": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingWireless0Icon" */
+            /* webpackChunkName: "mdi/BatteryChargingWireless0Icon" */
             "mdi-react/BatteryChargingWireless0Icon"
         ),
     ),
     "mdi-battery-charging-wireless-full": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingWirelessFullIcon" */
+            /* webpackChunkName: "mdi/BatteryChargingWirelessFullIcon" */
             "mdi-react/BatteryChargingWirelessFullIcon"
         ),
     ),
     "mdi-battery-charging-wireless-100": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingWireless100Icon" */
+            /* webpackChunkName: "mdi/BatteryChargingWireless100Icon" */
             "mdi-react/BatteryChargingWireless100Icon"
         ),
     ),
     "mdi-battery-charging-full": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryChargingFullIcon" */
+            /* webpackChunkName: "mdi/BatteryChargingFullIcon" */
             "mdi-react/BatteryChargingFullIcon"
         ),
     ),
     "mdi-battery-0": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery0Icon" */
+            /* webpackChunkName: "mdi/Battery0Icon" */
             "mdi-react/Battery0Icon"
         ),
     ),
     "mdi-battery-empty": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryEmptyIcon" */
+            /* webpackChunkName: "mdi/BatteryEmptyIcon" */
             "mdi-react/BatteryEmptyIcon"
         ),
     ),
     "mdi-battery-saver": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatterySaverIcon" */
+            /* webpackChunkName: "mdi/BatterySaverIcon" */
             "mdi-react/BatterySaverIcon"
         ),
     ),
     "mdi-battery-full": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryFullIcon" */
+            /* webpackChunkName: "mdi/BatteryFullIcon" */
             "mdi-react/BatteryFullIcon"
         ),
     ),
     "mdi-battery-std": React.lazy(() =>
         import(
-            /* webpackChunkName: "BatteryStdIcon" */
+            /* webpackChunkName: "mdi/BatteryStdIcon" */
             "mdi-react/BatteryStdIcon"
         ),
     ),
     "mdi-battery-100": React.lazy(() =>
         import(
-            /* webpackChunkName: "Battery100Icon" */
+            /* webpackChunkName: "mdi/Battery100Icon" */
             "mdi-react/Battery100Icon"
         ),
     ),
     "mdi-parasol": React.lazy(() =>
         import(
-            /* webpackChunkName: "ParasolIcon" */
+            /* webpackChunkName: "mdi/ParasolIcon" */
             "mdi-react/ParasolIcon"
         ),
     ),
     "mdi-notifications-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "NotificationsOffIcon" */
+            /* webpackChunkName: "mdi/NotificationsOffIcon" */
             "mdi-react/NotificationsOffIcon"
         ),
     ),
     "mdi-notifications-none": React.lazy(() =>
         import(
-            /* webpackChunkName: "NotificationsNoneIcon" */
+            /* webpackChunkName: "mdi/NotificationsNoneIcon" */
             "mdi-react/NotificationsNoneIcon"
         ),
     ),
     "mdi-add-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "AddAlertIcon" */
+            /* webpackChunkName: "mdi/AddAlertIcon" */
             "mdi-react/AddAlertIcon"
         ),
     ),
     "mdi-notifications-active": React.lazy(() =>
         import(
-            /* webpackChunkName: "NotificationsActiveIcon" */
+            /* webpackChunkName: "mdi/NotificationsActiveIcon" */
             "mdi-react/NotificationsActiveIcon"
         ),
     ),
     "mdi-notifications-paused": React.lazy(() =>
         import(
-            /* webpackChunkName: "NotificationsPausedIcon" */
+            /* webpackChunkName: "mdi/NotificationsPausedIcon" */
             "mdi-react/NotificationsPausedIcon"
         ),
     ),
     "mdi-notifications": React.lazy(() =>
         import(
-            /* webpackChunkName: "NotificationsIcon" */
+            /* webpackChunkName: "mdi/NotificationsIcon" */
             "mdi-react/NotificationsIcon"
         ),
     ),
     "mdi-bicycle": React.lazy(() =>
         import(
-            /* webpackChunkName: "BicycleIcon" */
+            /* webpackChunkName: "mdi/BicycleIcon" */
             "mdi-react/BicycleIcon"
         ),
     ),
     "mdi-cycling": React.lazy(() =>
         import(
-            /* webpackChunkName: "CyclingIcon" */
+            /* webpackChunkName: "mdi/CyclingIcon" */
             "mdi-react/CyclingIcon"
         ),
     ),
     "mdi-directions-bike": React.lazy(() =>
         import(
-            /* webpackChunkName: "DirectionsBikeIcon" */
+            /* webpackChunkName: "mdi/DirectionsBikeIcon" */
             "mdi-react/DirectionsBikeIcon"
         ),
     ),
     "mdi-bluetooth-searching": React.lazy(() =>
         import(
-            /* webpackChunkName: "BluetoothSearchingIcon" */
+            /* webpackChunkName: "mdi/BluetoothSearchingIcon" */
             "mdi-react/BluetoothSearchingIcon"
         ),
     ),
     "mdi-bluetooth-connected": React.lazy(() =>
         import(
-            /* webpackChunkName: "BluetoothConnectedIcon" */
+            /* webpackChunkName: "mdi/BluetoothConnectedIcon" */
             "mdi-react/BluetoothConnectedIcon"
         ),
     ),
     "mdi-bluetooth-disabled": React.lazy(() =>
         import(
-            /* webpackChunkName: "BluetoothDisabledIcon" */
+            /* webpackChunkName: "mdi/BluetoothDisabledIcon" */
             "mdi-react/BluetoothDisabledIcon"
         ),
     ),
     "mdi-settings-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "SettingsBluetoothIcon" */
+            /* webpackChunkName: "mdi/SettingsBluetoothIcon" */
             "mdi-react/SettingsBluetoothIcon"
         ),
     ),
     "mdi-blur-circular": React.lazy(() =>
         import(
-            /* webpackChunkName: "BlurCircularIcon" */
+            /* webpackChunkName: "mdi/BlurCircularIcon" */
             "mdi-react/BlurCircularIcon"
         ),
     ),
     "mdi-blur-on": React.lazy(() =>
         import(
-            /* webpackChunkName: "BlurOnIcon" */
+            /* webpackChunkName: "mdi/BlurOnIcon" */
             "mdi-react/BlurOnIcon"
         ),
     ),
     "mdi-auto-stories": React.lazy(() =>
         import(
-            /* webpackChunkName: "AutoStoriesIcon" */
+            /* webpackChunkName: "mdi/AutoStoriesIcon" */
             "mdi-react/AutoStoriesIcon"
         ),
     ),
     "mdi-import-contacts": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImportContactsIcon" */
+            /* webpackChunkName: "mdi/ImportContactsIcon" */
             "mdi-react/ImportContactsIcon"
         ),
     ),
     "mdi-chrome-reader-mode": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChromeReaderModeIcon" */
+            /* webpackChunkName: "mdi/ChromeReaderModeIcon" */
             "mdi-react/ChromeReaderModeIcon"
         ),
     ),
     "mdi-class": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClassIcon" */
+            /* webpackChunkName: "mdi/ClassIcon" */
             "mdi-react/ClassIcon"
         ),
     ),
     "mdi-bookmark-border": React.lazy(() =>
         import(
-            /* webpackChunkName: "BookmarkBorderIcon" */
+            /* webpackChunkName: "mdi/BookmarkBorderIcon" */
             "mdi-react/BookmarkBorderIcon"
         ),
     ),
     "mdi-turned-in-not": React.lazy(() =>
         import(
-            /* webpackChunkName: "TurnedInNotIcon" */
+            /* webpackChunkName: "mdi/TurnedInNotIcon" */
             "mdi-react/TurnedInNotIcon"
         ),
     ),
     "mdi-turned-in": React.lazy(() =>
         import(
-            /* webpackChunkName: "TurnedInIcon" */
+            /* webpackChunkName: "mdi/TurnedInIcon" */
             "mdi-react/TurnedInIcon"
         ),
     ),
     "mdi-border-colour": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderColourIcon" */
+            /* webpackChunkName: "mdi/BorderColourIcon" */
             "mdi-react/BorderColourIcon"
         ),
     ),
     "mdi-border-clear": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderClearIcon" */
+            /* webpackChunkName: "mdi/BorderClearIcon" */
             "mdi-react/BorderClearIcon"
         ),
     ),
     "mdi-border-outer": React.lazy(() =>
         import(
-            /* webpackChunkName: "BorderOuterIcon" */
+            /* webpackChunkName: "mdi/BorderOuterIcon" */
             "mdi-react/BorderOuterIcon"
         ),
     ),
     "mdi-work": React.lazy(() =>
         import(
-            /* webpackChunkName: "WorkIcon" */
+            /* webpackChunkName: "mdi/WorkIcon" */
             "mdi-react/WorkIcon"
         ),
     ),
     "mdi-brightness-low": React.lazy(() =>
         import(
-            /* webpackChunkName: "BrightnessLowIcon" */
+            /* webpackChunkName: "mdi/BrightnessLowIcon" */
             "mdi-react/BrightnessLowIcon"
         ),
     ),
     "mdi-brightness-medium": React.lazy(() =>
         import(
-            /* webpackChunkName: "BrightnessMediumIcon" */
+            /* webpackChunkName: "mdi/BrightnessMediumIcon" */
             "mdi-react/BrightnessMediumIcon"
         ),
     ),
     "mdi-brightness-high": React.lazy(() =>
         import(
-            /* webpackChunkName: "BrightnessHighIcon" */
+            /* webpackChunkName: "mdi/BrightnessHighIcon" */
             "mdi-react/BrightnessHighIcon"
         ),
     ),
     "mdi-paintbrush": React.lazy(() =>
         import(
-            /* webpackChunkName: "PaintbrushIcon" */
+            /* webpackChunkName: "mdi/PaintbrushIcon" */
             "mdi-react/PaintbrushIcon"
         ),
     ),
     "mdi-bug-report": React.lazy(() =>
         import(
-            /* webpackChunkName: "BugReportIcon" */
+            /* webpackChunkName: "mdi/BugReportIcon" */
             "mdi-react/BugReportIcon"
         ),
     ),
     "mdi-announcement": React.lazy(() =>
         import(
-            /* webpackChunkName: "AnnouncementIcon" */
+            /* webpackChunkName: "mdi/AnnouncementIcon" */
             "mdi-react/AnnouncementIcon"
         ),
     ),
     "mdi-megaphone": React.lazy(() =>
         import(
-            /* webpackChunkName: "MegaphoneIcon" */
+            /* webpackChunkName: "mdi/MegaphoneIcon" */
             "mdi-react/MegaphoneIcon"
         ),
     ),
     "mdi-target-arrow": React.lazy(() =>
         import(
-            /* webpackChunkName: "TargetArrowIcon" */
+            /* webpackChunkName: "mdi/TargetArrowIcon" */
             "mdi-react/TargetArrowIcon"
         ),
     ),
     "mdi-departure-board": React.lazy(() =>
         import(
-            /* webpackChunkName: "DepartureBoardIcon" */
+            /* webpackChunkName: "mdi/DepartureBoardIcon" */
             "mdi-react/DepartureBoardIcon"
         ),
     ),
     "mdi-directions-bus": React.lazy(() =>
         import(
-            /* webpackChunkName: "DirectionsBusIcon" */
+            /* webpackChunkName: "mdi/DirectionsBusIcon" */
             "mdi-react/DirectionsBusIcon"
         ),
     ),
     "mdi-event-available": React.lazy(() =>
         import(
-            /* webpackChunkName: "EventAvailableIcon" */
+            /* webpackChunkName: "mdi/EventAvailableIcon" */
             "mdi-react/EventAvailableIcon"
         ),
     ),
     "mdi-calendar-task": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarTaskIcon" */
+            /* webpackChunkName: "mdi/CalendarTaskIcon" */
             "mdi-react/CalendarTaskIcon"
         ),
     ),
     "mdi-event-clock": React.lazy(() =>
         import(
-            /* webpackChunkName: "EventClockIcon" */
+            /* webpackChunkName: "mdi/EventClockIcon" */
             "mdi-react/EventClockIcon"
         ),
     ),
     "mdi-event-time": React.lazy(() =>
         import(
-            /* webpackChunkName: "EventTimeIcon" */
+            /* webpackChunkName: "mdi/EventTimeIcon" */
             "mdi-react/EventTimeIcon"
         ),
     ),
     "mdi-calendar-time": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarTimeIcon" */
+            /* webpackChunkName: "mdi/CalendarTimeIcon" */
             "mdi-react/CalendarTimeIcon"
         ),
     ),
     "mdi-event-edit": React.lazy(() =>
         import(
-            /* webpackChunkName: "EventEditIcon" */
+            /* webpackChunkName: "mdi/EventEditIcon" */
             "mdi-react/EventEditIcon"
         ),
     ),
     "mdi-event-multiple-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "EventMultipleCheckIcon" */
+            /* webpackChunkName: "mdi/EventMultipleCheckIcon" */
             "mdi-react/EventMultipleCheckIcon"
         ),
     ),
     "mdi-event-multiple": React.lazy(() =>
         import(
-            /* webpackChunkName: "EventMultipleIcon" */
+            /* webpackChunkName: "mdi/EventMultipleIcon" */
             "mdi-react/EventMultipleIcon"
         ),
     ),
     "mdi-event-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "EventPlusIcon" */
+            /* webpackChunkName: "mdi/EventPlusIcon" */
             "mdi-react/EventPlusIcon"
         ),
     ),
     "mdi-calendar-rsvp": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarRsvpIcon" */
+            /* webpackChunkName: "mdi/CalendarRsvpIcon" */
             "mdi-react/CalendarRsvpIcon"
         ),
     ),
     "mdi-event-question": React.lazy(() =>
         import(
-            /* webpackChunkName: "EventQuestionIcon" */
+            /* webpackChunkName: "mdi/EventQuestionIcon" */
             "mdi-react/EventQuestionIcon"
         ),
     ),
     "mdi-date-range": React.lazy(() =>
         import(
-            /* webpackChunkName: "DateRangeIcon" */
+            /* webpackChunkName: "mdi/DateRangeIcon" */
             "mdi-react/DateRangeIcon"
         ),
     ),
     "mdi-calendar-week": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarWeekIcon" */
+            /* webpackChunkName: "mdi/CalendarWeekIcon" */
             "mdi-react/CalendarWeekIcon"
         ),
     ),
     "mdi-event-range": React.lazy(() =>
         import(
-            /* webpackChunkName: "EventRangeIcon" */
+            /* webpackChunkName: "mdi/EventRangeIcon" */
             "mdi-react/EventRangeIcon"
         ),
     ),
     "mdi-event-busy": React.lazy(() =>
         import(
-            /* webpackChunkName: "EventBusyIcon" */
+            /* webpackChunkName: "mdi/EventBusyIcon" */
             "mdi-react/EventBusyIcon"
         ),
     ),
     "mdi-event-note": React.lazy(() =>
         import(
-            /* webpackChunkName: "EventNoteIcon" */
+            /* webpackChunkName: "mdi/EventNoteIcon" */
             "mdi-react/EventNoteIcon"
         ),
     ),
     "mdi-calendar-day": React.lazy(() =>
         import(
-            /* webpackChunkName: "CalendarDayIcon" */
+            /* webpackChunkName: "mdi/CalendarDayIcon" */
             "mdi-react/CalendarDayIcon"
         ),
     ),
     "mdi-event": React.lazy(() =>
         import(
-            /* webpackChunkName: "EventIcon" */
+            /* webpackChunkName: "mdi/EventIcon" */
             "mdi-react/EventIcon"
         ),
     ),
     "mdi-insert-invitation": React.lazy(() =>
         import(
-            /* webpackChunkName: "InsertInvitationIcon" */
+            /* webpackChunkName: "mdi/InsertInvitationIcon" */
             "mdi-react/InsertInvitationIcon"
         ),
     ),
     "mdi-merge-type": React.lazy(() =>
         import(
-            /* webpackChunkName: "MergeTypeIcon" */
+            /* webpackChunkName: "mdi/MergeTypeIcon" */
             "mdi-react/MergeTypeIcon"
         ),
     ),
     "mdi-camera-user": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraUserIcon" */
+            /* webpackChunkName: "mdi/CameraUserIcon" */
             "mdi-react/CameraUserIcon"
         ),
     ),
     "mdi-burst-mode": React.lazy(() =>
         import(
-            /* webpackChunkName: "BurstModeIcon" */
+            /* webpackChunkName: "mdi/BurstModeIcon" */
             "mdi-react/BurstModeIcon"
         ),
     ),
     "mdi-camera-metering-centre": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraMeteringCentreIcon" */
+            /* webpackChunkName: "mdi/CameraMeteringCentreIcon" */
             "mdi-react/CameraMeteringCentreIcon"
         ),
     ),
     "mdi-switch-camera": React.lazy(() =>
         import(
-            /* webpackChunkName: "SwitchCameraIcon" */
+            /* webpackChunkName: "mdi/SwitchCameraIcon" */
             "mdi-react/SwitchCameraIcon"
         ),
     ),
     "mdi-photography": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhotographyIcon" */
+            /* webpackChunkName: "mdi/PhotographyIcon" */
             "mdi-react/PhotographyIcon"
         ),
     ),
     "mdi-camera-alt": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraAltIcon" */
+            /* webpackChunkName: "mdi/CameraAltIcon" */
             "mdi-react/CameraAltIcon"
         ),
     ),
     "mdi-local-see": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalSeeIcon" */
+            /* webpackChunkName: "mdi/LocalSeeIcon" */
             "mdi-react/LocalSeeIcon"
         ),
     ),
     "mdi-photo-camera": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhotoCameraIcon" */
+            /* webpackChunkName: "mdi/PhotoCameraIcon" */
             "mdi-react/PhotoCameraIcon"
         ),
     ),
     "mdi-prohibited": React.lazy(() =>
         import(
-            /* webpackChunkName: "ProhibitedIcon" */
+            /* webpackChunkName: "mdi/ProhibitedIcon" */
             "mdi-react/ProhibitedIcon"
         ),
     ),
     "mdi-ban": React.lazy(() =>
         import(
-            /* webpackChunkName: "BanIcon" */
+            /* webpackChunkName: "mdi/BanIcon" */
             "mdi-react/BanIcon"
         ),
     ),
     "mdi-do-not-disturb-alt": React.lazy(() =>
         import(
-            /* webpackChunkName: "DoNotDisturbAltIcon" */
+            /* webpackChunkName: "mdi/DoNotDisturbAltIcon" */
             "mdi-react/DoNotDisturbAltIcon"
         ),
     ),
     "mdi-local-car-wash": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalCarWashIcon" */
+            /* webpackChunkName: "mdi/LocalCarWashIcon" */
             "mdi-react/LocalCarWashIcon"
         ),
     ),
     "mdi-directions-car": React.lazy(() =>
         import(
-            /* webpackChunkName: "DirectionsCarIcon" */
+            /* webpackChunkName: "mdi/DirectionsCarIcon" */
             "mdi-react/DirectionsCarIcon"
         ),
     ),
     "mdi-drive-eta": React.lazy(() =>
         import(
-            /* webpackChunkName: "DriveEtaIcon" */
+            /* webpackChunkName: "mdi/DriveEtaIcon" */
             "mdi-react/DriveEtaIcon"
         ),
     ),
     "mdi-time-to-leave": React.lazy(() =>
         import(
-            /* webpackChunkName: "TimeToLeaveIcon" */
+            /* webpackChunkName: "mdi/TimeToLeaveIcon" */
             "mdi-react/TimeToLeaveIcon"
         ),
     ),
     "mdi-suit-clubs": React.lazy(() =>
         import(
-            /* webpackChunkName: "SuitClubsIcon" */
+            /* webpackChunkName: "mdi/SuitClubsIcon" */
             "mdi-react/SuitClubsIcon"
         ),
     ),
     "mdi-suit-diamonds": React.lazy(() =>
         import(
-            /* webpackChunkName: "SuitDiamondsIcon" */
+            /* webpackChunkName: "mdi/SuitDiamondsIcon" */
             "mdi-react/SuitDiamondsIcon"
         ),
     ),
     "mdi-suit-hearts": React.lazy(() =>
         import(
-            /* webpackChunkName: "SuitHeartsIcon" */
+            /* webpackChunkName: "mdi/SuitHeartsIcon" */
             "mdi-react/SuitHeartsIcon"
         ),
     ),
     "mdi-suit-spades": React.lazy(() =>
         import(
-            /* webpackChunkName: "SuitSpadesIcon" */
+            /* webpackChunkName: "mdi/SuitSpadesIcon" */
             "mdi-react/SuitSpadesIcon"
         ),
     ),
     "mdi-trolley-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrolleyOffIcon" */
+            /* webpackChunkName: "mdi/TrolleyOffIcon" */
             "mdi-react/TrolleyOffIcon"
         ),
     ),
     "mdi-remove-shopping-cart": React.lazy(() =>
         import(
-            /* webpackChunkName: "RemoveShoppingCartIcon" */
+            /* webpackChunkName: "mdi/RemoveShoppingCartIcon" */
             "mdi-react/RemoveShoppingCartIcon"
         ),
     ),
     "mdi-trolley-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrolleyOutlineIcon" */
+            /* webpackChunkName: "mdi/TrolleyOutlineIcon" */
             "mdi-react/TrolleyOutlineIcon"
         ),
     ),
     "mdi-trolley-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrolleyPlusIcon" */
+            /* webpackChunkName: "mdi/TrolleyPlusIcon" */
             "mdi-react/TrolleyPlusIcon"
         ),
     ),
     "mdi-add-shopping-cart": React.lazy(() =>
         import(
-            /* webpackChunkName: "AddShoppingCartIcon" */
+            /* webpackChunkName: "mdi/AddShoppingCartIcon" */
             "mdi-react/AddShoppingCartIcon"
         ),
     ),
     "mdi-trolley": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrolleyIcon" */
+            /* webpackChunkName: "mdi/TrolleyIcon" */
             "mdi-react/TrolleyIcon"
         ),
     ),
     "mdi-local-grocery-store": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalGroceryStoreIcon" */
+            /* webpackChunkName: "mdi/LocalGroceryStoreIcon" */
             "mdi-react/LocalGroceryStoreIcon"
         ),
     ),
     "mdi-shopping-cart": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShoppingCartIcon" */
+            /* webpackChunkName: "mdi/ShoppingCartIcon" */
             "mdi-react/ShoppingCartIcon"
         ),
     ),
     "mdi-local-atm": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalAtmIcon" */
+            /* webpackChunkName: "mdi/LocalAtmIcon" */
             "mdi-react/LocalAtmIcon"
         ),
     ),
     "mdi-closed-circuit-television": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClosedCircuitTelevisionIcon" */
+            /* webpackChunkName: "mdi/ClosedCircuitTelevisionIcon" */
             "mdi-react/ClosedCircuitTelevisionIcon"
         ),
     ),
     "mdi-security-camera": React.lazy(() =>
         import(
-            /* webpackChunkName: "SecurityCameraIcon" */
+            /* webpackChunkName: "mdi/SecurityCameraIcon" */
             "mdi-react/SecurityCameraIcon"
         ),
     ),
     "mdi-mobile-phone-android": React.lazy(() =>
         import(
-            /* webpackChunkName: "MobilePhoneAndroidIcon" */
+            /* webpackChunkName: "mdi/MobilePhoneAndroidIcon" */
             "mdi-react/MobilePhoneAndroidIcon"
         ),
     ),
     "mdi-smartphone-android": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmartphoneAndroidIcon" */
+            /* webpackChunkName: "mdi/SmartphoneAndroidIcon" */
             "mdi-react/SmartphoneAndroidIcon"
         ),
     ),
     "mdi-mobile-phone-basic": React.lazy(() =>
         import(
-            /* webpackChunkName: "MobilePhoneBasicIcon" */
+            /* webpackChunkName: "mdi/MobilePhoneBasicIcon" */
             "mdi-react/MobilePhoneBasicIcon"
         ),
     ),
     "mdi-mobile-phone-dock": React.lazy(() =>
         import(
-            /* webpackChunkName: "MobilePhoneDockIcon" */
+            /* webpackChunkName: "mdi/MobilePhoneDockIcon" */
             "mdi-react/MobilePhoneDockIcon"
         ),
     ),
     "mdi-smartphone-dock": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmartphoneDockIcon" */
+            /* webpackChunkName: "mdi/SmartphoneDockIcon" */
             "mdi-react/SmartphoneDockIcon"
         ),
     ),
     "mdi-phonelink-erase": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhonelinkEraseIcon" */
+            /* webpackChunkName: "mdi/PhonelinkEraseIcon" */
             "mdi-react/PhonelinkEraseIcon"
         ),
     ),
     "mdi-mobile-phone-erase": React.lazy(() =>
         import(
-            /* webpackChunkName: "MobilePhoneEraseIcon" */
+            /* webpackChunkName: "mdi/MobilePhoneEraseIcon" */
             "mdi-react/MobilePhoneEraseIcon"
         ),
     ),
     "mdi-smartphone-erase": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmartphoneEraseIcon" */
+            /* webpackChunkName: "mdi/SmartphoneEraseIcon" */
             "mdi-react/SmartphoneEraseIcon"
         ),
     ),
     "mdi-mobile-phone-iphone": React.lazy(() =>
         import(
-            /* webpackChunkName: "MobilePhoneIphoneIcon" */
+            /* webpackChunkName: "mdi/MobilePhoneIphoneIcon" */
             "mdi-react/MobilePhoneIphoneIcon"
         ),
     ),
     "mdi-smartphone-iphone": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmartphoneIphoneIcon" */
+            /* webpackChunkName: "mdi/SmartphoneIphoneIcon" */
             "mdi-react/SmartphoneIphoneIcon"
         ),
     ),
     "mdi-mobile-phone-link-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "MobilePhoneLinkOffIcon" */
+            /* webpackChunkName: "mdi/MobilePhoneLinkOffIcon" */
             "mdi-react/MobilePhoneLinkOffIcon"
         ),
     ),
     "mdi-smartphone-link-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmartphoneLinkOffIcon" */
+            /* webpackChunkName: "mdi/SmartphoneLinkOffIcon" */
             "mdi-react/SmartphoneLinkOffIcon"
         ),
     ),
     "mdi-phonelink-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhonelinkOffIcon" */
+            /* webpackChunkName: "mdi/PhonelinkOffIcon" */
             "mdi-react/PhonelinkOffIcon"
         ),
     ),
     "mdi-mobile-phone-link": React.lazy(() =>
         import(
-            /* webpackChunkName: "MobilePhoneLinkIcon" */
+            /* webpackChunkName: "mdi/MobilePhoneLinkIcon" */
             "mdi-react/MobilePhoneLinkIcon"
         ),
     ),
     "mdi-smartphone-link": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmartphoneLinkIcon" */
+            /* webpackChunkName: "mdi/SmartphoneLinkIcon" */
             "mdi-react/SmartphoneLinkIcon"
         ),
     ),
     "mdi-devices": React.lazy(() =>
         import(
-            /* webpackChunkName: "DevicesIcon" */
+            /* webpackChunkName: "mdi/DevicesIcon" */
             "mdi-react/DevicesIcon"
         ),
     ),
     "mdi-phonelink-lock": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhonelinkLockIcon" */
+            /* webpackChunkName: "mdi/PhonelinkLockIcon" */
             "mdi-react/PhonelinkLockIcon"
         ),
     ),
     "mdi-mobile-phone-lock": React.lazy(() =>
         import(
-            /* webpackChunkName: "MobilePhoneLockIcon" */
+            /* webpackChunkName: "mdi/MobilePhoneLockIcon" */
             "mdi-react/MobilePhoneLockIcon"
         ),
     ),
     "mdi-smartphone-lock": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmartphoneLockIcon" */
+            /* webpackChunkName: "mdi/SmartphoneLockIcon" */
             "mdi-react/SmartphoneLockIcon"
         ),
     ),
     "mdi-mobile-phone-message": React.lazy(() =>
         import(
-            /* webpackChunkName: "MobilePhoneMessageIcon" */
+            /* webpackChunkName: "mdi/MobilePhoneMessageIcon" */
             "mdi-react/MobilePhoneMessageIcon"
         ),
     ),
     "mdi-smartphone-message": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmartphoneMessageIcon" */
+            /* webpackChunkName: "mdi/SmartphoneMessageIcon" */
             "mdi-react/SmartphoneMessageIcon"
         ),
     ),
     "mdi-mobile-phone-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "MobilePhoneOffIcon" */
+            /* webpackChunkName: "mdi/MobilePhoneOffIcon" */
             "mdi-react/MobilePhoneOffIcon"
         ),
     ),
     "mdi-smartphone-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmartphoneOffIcon" */
+            /* webpackChunkName: "mdi/SmartphoneOffIcon" */
             "mdi-react/SmartphoneOffIcon"
         ),
     ),
     "mdi-mobile-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "MobileOffIcon" */
+            /* webpackChunkName: "mdi/MobileOffIcon" */
             "mdi-react/MobileOffIcon"
         ),
     ),
     "mdi-phonelink-setup": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhonelinkSetupIcon" */
+            /* webpackChunkName: "mdi/PhonelinkSetupIcon" */
             "mdi-react/PhonelinkSetupIcon"
         ),
     ),
     "mdi-mobile-phone-settings-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "MobilePhoneSettingsVariantIcon" */
+            /* webpackChunkName: "mdi/MobilePhoneSettingsVariantIcon" */
             "mdi-react/MobilePhoneSettingsVariantIcon"
         ),
     ),
     "mdi-smartphone-settings-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmartphoneSettingsVariantIcon" */
+            /* webpackChunkName: "mdi/SmartphoneSettingsVariantIcon" */
             "mdi-react/SmartphoneSettingsVariantIcon"
         ),
     ),
     "mdi-mobile-phone-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "MobilePhoneSettingsIcon" */
+            /* webpackChunkName: "mdi/MobilePhoneSettingsIcon" */
             "mdi-react/MobilePhoneSettingsIcon"
         ),
     ),
     "mdi-smartphone-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmartphoneSettingsIcon" */
+            /* webpackChunkName: "mdi/SmartphoneSettingsIcon" */
             "mdi-react/SmartphoneSettingsIcon"
         ),
     ),
     "mdi-settings-cell": React.lazy(() =>
         import(
-            /* webpackChunkName: "SettingsCellIcon" */
+            /* webpackChunkName: "mdi/SettingsCellIcon" */
             "mdi-react/SettingsCellIcon"
         ),
     ),
     "mdi-phonelink-ring": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhonelinkRingIcon" */
+            /* webpackChunkName: "mdi/PhonelinkRingIcon" */
             "mdi-react/PhonelinkRingIcon"
         ),
     ),
     "mdi-mobile-phone-sound": React.lazy(() =>
         import(
-            /* webpackChunkName: "MobilePhoneSoundIcon" */
+            /* webpackChunkName: "mdi/MobilePhoneSoundIcon" */
             "mdi-react/MobilePhoneSoundIcon"
         ),
     ),
     "mdi-smartphone-sound": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmartphoneSoundIcon" */
+            /* webpackChunkName: "mdi/SmartphoneSoundIcon" */
             "mdi-react/SmartphoneSoundIcon"
         ),
     ),
     "mdi-mobile-phone-text": React.lazy(() =>
         import(
-            /* webpackChunkName: "MobilePhoneTextIcon" */
+            /* webpackChunkName: "mdi/MobilePhoneTextIcon" */
             "mdi-react/MobilePhoneTextIcon"
         ),
     ),
     "mdi-smartphone-text": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmartphoneTextIcon" */
+            /* webpackChunkName: "mdi/SmartphoneTextIcon" */
             "mdi-react/SmartphoneTextIcon"
         ),
     ),
     "mdi-mobile-phone-wireless": React.lazy(() =>
         import(
-            /* webpackChunkName: "MobilePhoneWirelessIcon" */
+            /* webpackChunkName: "mdi/MobilePhoneWirelessIcon" */
             "mdi-react/MobilePhoneWirelessIcon"
         ),
     ),
     "mdi-smartphone-wireless": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmartphoneWirelessIcon" */
+            /* webpackChunkName: "mdi/SmartphoneWirelessIcon" */
             "mdi-react/SmartphoneWirelessIcon"
         ),
     ),
     "mdi-mobile-phone": React.lazy(() =>
         import(
-            /* webpackChunkName: "MobilePhoneIcon" */
+            /* webpackChunkName: "mdi/MobilePhoneIcon" */
             "mdi-react/MobilePhoneIcon"
         ),
     ),
     "mdi-smartphone": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmartphoneIcon" */
+            /* webpackChunkName: "mdi/SmartphoneIcon" */
             "mdi-react/SmartphoneIcon"
         ),
     ),
     "mdi-stay-current-portrait": React.lazy(() =>
         import(
-            /* webpackChunkName: "StayCurrentPortraitIcon" */
+            /* webpackChunkName: "mdi/StayCurrentPortraitIcon" */
             "mdi-react/StayCurrentPortraitIcon"
         ),
     ),
     "mdi-stay-primary-portrait": React.lazy(() =>
         import(
-            /* webpackChunkName: "StayPrimaryPortraitIcon" */
+            /* webpackChunkName: "mdi/StayPrimaryPortraitIcon" */
             "mdi-react/StayPrimaryPortraitIcon"
         ),
     ),
     "mdi-bubble-chart": React.lazy(() =>
         import(
-            /* webpackChunkName: "BubbleChartIcon" */
+            /* webpackChunkName: "mdi/BubbleChartIcon" */
             "mdi-react/BubbleChartIcon"
         ),
     ),
     "mdi-chart-doughnut-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartDoughnutVariantIcon" */
+            /* webpackChunkName: "mdi/ChartDoughnutVariantIcon" */
             "mdi-react/ChartDoughnutVariantIcon"
         ),
     ),
     "mdi-chart-doughnut": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartDoughnutIcon" */
+            /* webpackChunkName: "mdi/ChartDoughnutIcon" */
             "mdi-react/ChartDoughnutIcon"
         ),
     ),
     "mdi-data-usage": React.lazy(() =>
         import(
-            /* webpackChunkName: "DataUsageIcon" */
+            /* webpackChunkName: "mdi/DataUsageIcon" */
             "mdi-react/DataUsageIcon"
         ),
     ),
     "mdi-show-chart": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShowChartIcon" */
+            /* webpackChunkName: "mdi/ShowChartIcon" */
             "mdi-react/ShowChartIcon"
         ),
     ),
     "mdi-tick-all": React.lazy(() =>
         import(
-            /* webpackChunkName: "TickAllIcon" */
+            /* webpackChunkName: "mdi/TickAllIcon" */
             "mdi-react/TickAllIcon"
         ),
     ),
     "mdi-done-all": React.lazy(() =>
         import(
-            /* webpackChunkName: "DoneAllIcon" */
+            /* webpackChunkName: "mdi/DoneAllIcon" */
             "mdi-react/DoneAllIcon"
         ),
     ),
     "mdi-tick-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "TickCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/TickCircleOutlineIcon" */
             "mdi-react/TickCircleOutlineIcon"
         ),
     ),
     "mdi-tick-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "TickCircleIcon" */
+            /* webpackChunkName: "mdi/TickCircleIcon" */
             "mdi-react/TickCircleIcon"
         ),
     ),
     "mdi-done-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "DoneOutlineIcon" */
+            /* webpackChunkName: "mdi/DoneOutlineIcon" */
             "mdi-react/DoneOutlineIcon"
         ),
     ),
     "mdi-tick-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "TickOutlineIcon" */
+            /* webpackChunkName: "mdi/TickOutlineIcon" */
             "mdi-react/TickOutlineIcon"
         ),
     ),
     "mdi-tick": React.lazy(() =>
         import(
-            /* webpackChunkName: "TickIcon" */
+            /* webpackChunkName: "mdi/TickIcon" */
             "mdi-react/TickIcon"
         ),
     ),
     "mdi-done": React.lazy(() =>
         import(
-            /* webpackChunkName: "DoneIcon" */
+            /* webpackChunkName: "mdi/DoneIcon" */
             "mdi-react/DoneIcon"
         ),
     ),
     "mdi-check-box-outline-blank": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckBoxOutlineBlankIcon" */
+            /* webpackChunkName: "mdi/CheckBoxOutlineBlankIcon" */
             "mdi-react/CheckBoxOutlineBlankIcon"
         ),
     ),
     "mdi-check-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckBoxIcon" */
+            /* webpackChunkName: "mdi/CheckBoxIcon" */
             "mdi-react/CheckBoxIcon"
         ),
     ),
     "mdi-chess-horse": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChessHorseIcon" */
+            /* webpackChunkName: "mdi/ChessHorseIcon" */
             "mdi-react/ChessHorseIcon"
         ),
     ),
     "mdi-chess-castle": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChessCastleIcon" */
+            /* webpackChunkName: "mdi/ChessCastleIcon" */
             "mdi-react/ChessCastleIcon"
         ),
     ),
     "mdi-expand-more": React.lazy(() =>
         import(
-            /* webpackChunkName: "ExpandMoreIcon" */
+            /* webpackChunkName: "mdi/ExpandMoreIcon" */
             "mdi-react/ExpandMoreIcon"
         ),
     ),
     "mdi-keyboard-arrow-down": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyboardArrowDownIcon" */
+            /* webpackChunkName: "mdi/KeyboardArrowDownIcon" */
             "mdi-react/KeyboardArrowDownIcon"
         ),
     ),
     "mdi-keyboard-arrow-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyboardArrowLeftIcon" */
+            /* webpackChunkName: "mdi/KeyboardArrowLeftIcon" */
             "mdi-react/KeyboardArrowLeftIcon"
         ),
     ),
     "mdi-navigate-before": React.lazy(() =>
         import(
-            /* webpackChunkName: "NavigateBeforeIcon" */
+            /* webpackChunkName: "mdi/NavigateBeforeIcon" */
             "mdi-react/NavigateBeforeIcon"
         ),
     ),
     "mdi-keyboard-arrow-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyboardArrowRightIcon" */
+            /* webpackChunkName: "mdi/KeyboardArrowRightIcon" */
             "mdi-react/KeyboardArrowRightIcon"
         ),
     ),
     "mdi-navigate-next": React.lazy(() =>
         import(
-            /* webpackChunkName: "NavigateNextIcon" */
+            /* webpackChunkName: "mdi/NavigateNextIcon" */
             "mdi-react/NavigateNextIcon"
         ),
     ),
     "mdi-expand-less": React.lazy(() =>
         import(
-            /* webpackChunkName: "ExpandLessIcon" */
+            /* webpackChunkName: "mdi/ExpandLessIcon" */
             "mdi-react/ExpandLessIcon"
         ),
     ),
     "mdi-keyboard-arrow-up": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyboardArrowUpIcon" */
+            /* webpackChunkName: "mdi/KeyboardArrowUpIcon" */
             "mdi-react/KeyboardArrowUpIcon"
         ),
     ),
     "mdi-chilli-hot": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChilliHotIcon" */
+            /* webpackChunkName: "mdi/ChilliHotIcon" */
             "mdi-react/ChilliHotIcon"
         ),
     ),
     "mdi-chilli-medium": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChilliMediumIcon" */
+            /* webpackChunkName: "mdi/ChilliMediumIcon" */
             "mdi-react/ChilliMediumIcon"
         ),
     ),
     "mdi-chilli-mild": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChilliMildIcon" */
+            /* webpackChunkName: "mdi/ChilliMildIcon" */
             "mdi-react/ChilliMildIcon"
         ),
     ),
     "mdi-lens": React.lazy(() =>
         import(
-            /* webpackChunkName: "LensIcon" */
+            /* webpackChunkName: "mdi/LensIcon" */
             "mdi-react/LensIcon"
         ),
     ),
     "mdi-location-city": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocationCityIcon" */
+            /* webpackChunkName: "mdi/LocationCityIcon" */
             "mdi-react/LocationCityIcon"
         ),
     ),
     "mdi-clipboard-user": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClipboardUserIcon" */
+            /* webpackChunkName: "mdi/ClipboardUserIcon" */
             "mdi-react/ClipboardUserIcon"
         ),
     ),
     "mdi-assignment-ind": React.lazy(() =>
         import(
-            /* webpackChunkName: "AssignmentIndIcon" */
+            /* webpackChunkName: "mdi/AssignmentIndIcon" */
             "mdi-react/AssignmentIndIcon"
         ),
     ),
     "mdi-clipboard-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClipboardWarningIcon" */
+            /* webpackChunkName: "mdi/ClipboardWarningIcon" */
             "mdi-react/ClipboardWarningIcon"
         ),
     ),
     "mdi-assignment-late": React.lazy(() =>
         import(
-            /* webpackChunkName: "AssignmentLateIcon" */
+            /* webpackChunkName: "mdi/AssignmentLateIcon" */
             "mdi-react/AssignmentLateIcon"
         ),
     ),
     "mdi-assignment-returned": React.lazy(() =>
         import(
-            /* webpackChunkName: "AssignmentReturnedIcon" */
+            /* webpackChunkName: "mdi/AssignmentReturnedIcon" */
             "mdi-react/AssignmentReturnedIcon"
         ),
     ),
     "mdi-assignment-return": React.lazy(() =>
         import(
-            /* webpackChunkName: "AssignmentReturnIcon" */
+            /* webpackChunkName: "mdi/AssignmentReturnIcon" */
             "mdi-react/AssignmentReturnIcon"
         ),
     ),
     "mdi-assignment-turned-in": React.lazy(() =>
         import(
-            /* webpackChunkName: "AssignmentTurnedInIcon" */
+            /* webpackChunkName: "mdi/AssignmentTurnedInIcon" */
             "mdi-react/AssignmentTurnedInIcon"
         ),
     ),
     "mdi-assignment": React.lazy(() =>
         import(
-            /* webpackChunkName: "AssignmentIcon" */
+            /* webpackChunkName: "mdi/AssignmentIcon" */
             "mdi-react/AssignmentIcon"
         ),
     ),
     "mdi-clock-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClockWarningIcon" */
+            /* webpackChunkName: "mdi/ClockWarningIcon" */
             "mdi-react/ClockWarningIcon"
         ),
     ),
     "mdi-access-time": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccessTimeIcon" */
+            /* webpackChunkName: "mdi/AccessTimeIcon" */
             "mdi-react/AccessTimeIcon"
         ),
     ),
     "mdi-query-builder": React.lazy(() =>
         import(
-            /* webpackChunkName: "QueryBuilderIcon" */
+            /* webpackChunkName: "mdi/QueryBuilderIcon" */
             "mdi-react/QueryBuilderIcon"
         ),
     ),
     "mdi-schedule": React.lazy(() =>
         import(
-            /* webpackChunkName: "ScheduleIcon" */
+            /* webpackChunkName: "mdi/ScheduleIcon" */
             "mdi-react/ScheduleIcon"
         ),
     ),
     "mdi-watch-later": React.lazy(() =>
         import(
-            /* webpackChunkName: "WatchLaterIcon" */
+            /* webpackChunkName: "mdi/WatchLaterIcon" */
             "mdi-react/WatchLaterIcon"
         ),
     ),
     "mdi-highlight-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "HighlightOffIcon" */
+            /* webpackChunkName: "mdi/HighlightOffIcon" */
             "mdi-react/HighlightOffIcon"
         ),
     ),
     "mdi-remove-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "RemoveCircleIcon" */
+            /* webpackChunkName: "mdi/RemoveCircleIcon" */
             "mdi-react/RemoveCircleIcon"
         ),
     ),
     "mdi-clear": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClearIcon" */
+            /* webpackChunkName: "mdi/ClearIcon" */
             "mdi-react/ClearIcon"
         ),
     ),
     "mdi-cc": React.lazy(() =>
         import(
-            /* webpackChunkName: "CcIcon" */
+            /* webpackChunkName: "mdi/CcIcon" */
             "mdi-react/CcIcon"
         ),
     ),
     "mdi-cloud-json": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloudJsonIcon" */
+            /* webpackChunkName: "mdi/CloudJsonIcon" */
             "mdi-react/CloudJsonIcon"
         ),
     ),
     "mdi-cloud-done": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloudDoneIcon" */
+            /* webpackChunkName: "mdi/CloudDoneIcon" */
             "mdi-react/CloudDoneIcon"
         ),
     ),
     "mdi-cloud-queue": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloudQueueIcon" */
+            /* webpackChunkName: "mdi/CloudQueueIcon" */
             "mdi-react/CloudQueueIcon"
         ),
     ),
     "mdi-cloud-xml": React.lazy(() =>
         import(
-            /* webpackChunkName: "CloudXmlIcon" */
+            /* webpackChunkName: "mdi/CloudXmlIcon" */
             "mdi-react/CloudXmlIcon"
         ),
     ),
     "mdi-backup": React.lazy(() =>
         import(
-            /* webpackChunkName: "BackupIcon" */
+            /* webpackChunkName: "mdi/BackupIcon" */
             "mdi-react/BackupIcon"
         ),
     ),
     "mdi-wb-cloudy": React.lazy(() =>
         import(
-            /* webpackChunkName: "WbCloudyIcon" */
+            /* webpackChunkName: "mdi/WbCloudyIcon" */
             "mdi-react/WbCloudyIcon"
         ),
     ),
     "mdi-luck": React.lazy(() =>
         import(
-            /* webpackChunkName: "LuckIcon" */
+            /* webpackChunkName: "mdi/LuckIcon" */
             "mdi-react/LuckIcon"
         ),
     ),
     "mdi-tea-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "TeaOutlineIcon" */
+            /* webpackChunkName: "mdi/TeaOutlineIcon" */
             "mdi-react/TeaOutlineIcon"
         ),
     ),
     "mdi-cup-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CupOutlineIcon" */
+            /* webpackChunkName: "mdi/CupOutlineIcon" */
             "mdi-react/CupOutlineIcon"
         ),
     ),
     "mdi-tea": React.lazy(() =>
         import(
-            /* webpackChunkName: "TeaIcon" */
+            /* webpackChunkName: "mdi/TeaIcon" */
             "mdi-react/TeaIcon"
         ),
     ),
     "mdi-free-breakfast": React.lazy(() =>
         import(
-            /* webpackChunkName: "FreeBreakfastIcon" */
+            /* webpackChunkName: "mdi/FreeBreakfastIcon" */
             "mdi-react/FreeBreakfastIcon"
         ),
     ),
     "mdi-local-cafe": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalCafeIcon" */
+            /* webpackChunkName: "mdi/LocalCafeIcon" */
             "mdi-react/LocalCafeIcon"
         ),
     ),
     "mdi-manufacturing": React.lazy(() =>
         import(
-            /* webpackChunkName: "ManufacturingIcon" */
+            /* webpackChunkName: "mdi/ManufacturingIcon" */
             "mdi-react/ManufacturingIcon"
         ),
     ),
     "mdi-toll": React.lazy(() =>
         import(
-            /* webpackChunkName: "TollIcon" */
+            /* webpackChunkName: "mdi/TollIcon" */
             "mdi-react/TollIcon"
         ),
     ),
     "mdi-auto-awesome-mosaic": React.lazy(() =>
         import(
-            /* webpackChunkName: "AutoAwesomeMosaicIcon" */
+            /* webpackChunkName: "mdi/AutoAwesomeMosaicIcon" */
             "mdi-react/AutoAwesomeMosaicIcon"
         ),
     ),
     "mdi-colour-helper": React.lazy(() =>
         import(
-            /* webpackChunkName: "ColourHelperIcon" */
+            /* webpackChunkName: "mdi/ColourHelperIcon" */
             "mdi-react/ColourHelperIcon"
         ),
     ),
     "mdi-comment-user-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentUserOutlineIcon" */
+            /* webpackChunkName: "mdi/CommentUserOutlineIcon" */
             "mdi-react/CommentUserOutlineIcon"
         ),
     ),
     "mdi-comment-user": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentUserIcon" */
+            /* webpackChunkName: "mdi/CommentUserIcon" */
             "mdi-react/CommentUserIcon"
         ),
     ),
     "mdi-comment-warning-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentWarningOutlineIcon" */
+            /* webpackChunkName: "mdi/CommentWarningOutlineIcon" */
             "mdi-react/CommentWarningOutlineIcon"
         ),
     ),
     "mdi-comment-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "CommentWarningIcon" */
+            /* webpackChunkName: "mdi/CommentWarningIcon" */
             "mdi-react/CommentWarningIcon"
         ),
     ),
     "mdi-explore": React.lazy(() =>
         import(
-            /* webpackChunkName: "ExploreIcon" */
+            /* webpackChunkName: "mdi/ExploreIcon" */
             "mdi-react/ExploreIcon"
         ),
     ),
     "mdi-terminal-line": React.lazy(() =>
         import(
-            /* webpackChunkName: "TerminalLineIcon" */
+            /* webpackChunkName: "mdi/TerminalLineIcon" */
             "mdi-react/TerminalLineIcon"
         ),
     ),
     "mdi-terminal-network": React.lazy(() =>
         import(
-            /* webpackChunkName: "TerminalNetworkIcon" */
+            /* webpackChunkName: "mdi/TerminalNetworkIcon" */
             "mdi-react/TerminalNetworkIcon"
         ),
     ),
     "mdi-terminal": React.lazy(() =>
         import(
-            /* webpackChunkName: "TerminalIcon" */
+            /* webpackChunkName: "mdi/TerminalIcon" */
             "mdi-react/TerminalIcon"
         ),
     ),
     "mdi-scissors": React.lazy(() =>
         import(
-            /* webpackChunkName: "ScissorsIcon" */
+            /* webpackChunkName: "mdi/ScissorsIcon" */
             "mdi-react/ScissorsIcon"
         ),
     ),
     "mdi-clip": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClipIcon" */
+            /* webpackChunkName: "mdi/ClipIcon" */
             "mdi-react/ClipIcon"
         ),
     ),
     "mdi-auto-awesome": React.lazy(() =>
         import(
-            /* webpackChunkName: "AutoAwesomeIcon" */
+            /* webpackChunkName: "mdi/AutoAwesomeIcon" */
             "mdi-react/AutoAwesomeIcon"
         ),
     ),
     "mdi-payment-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "PaymentSettingsIcon" */
+            /* webpackChunkName: "mdi/PaymentSettingsIcon" */
             "mdi-react/PaymentSettingsIcon"
         ),
     ),
     "mdi-payment": React.lazy(() =>
         import(
-            /* webpackChunkName: "PaymentIcon" */
+            /* webpackChunkName: "mdi/PaymentIcon" */
             "mdi-react/PaymentIcon"
         ),
     ),
     "mdi-crop-54": React.lazy(() =>
         import(
-            /* webpackChunkName: "Crop54Icon" */
+            /* webpackChunkName: "mdi/Crop54Icon" */
             "mdi-react/Crop54Icon"
         ),
     ),
     "mdi-gps-fixed": React.lazy(() =>
         import(
-            /* webpackChunkName: "GpsFixedIcon" */
+            /* webpackChunkName: "mdi/GpsFixedIcon" */
             "mdi-react/GpsFixedIcon"
         ),
     ),
     "mdi-my-location": React.lazy(() =>
         import(
-            /* webpackChunkName: "MyLocationIcon" */
+            /* webpackChunkName: "mdi/MyLocationIcon" */
             "mdi-react/MyLocationIcon"
         ),
     ),
     "mdi-gps-not-fixed": React.lazy(() =>
         import(
-            /* webpackChunkName: "GpsNotFixedIcon" */
+            /* webpackChunkName: "mdi/GpsNotFixedIcon" */
             "mdi-react/GpsNotFixedIcon"
         ),
     ),
     "mdi-location-searching": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocationSearchingIcon" */
+            /* webpackChunkName: "mdi/LocationSearchingIcon" */
             "mdi-react/LocationSearchingIcon"
         ),
     ),
     "mdi-local-drink": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalDrinkIcon" */
+            /* webpackChunkName: "mdi/LocalDrinkIcon" */
             "mdi-react/LocalDrinkIcon"
         ),
     ),
     "mdi-taka": React.lazy(() =>
         import(
-            /* webpackChunkName: "TakaIcon" */
+            /* webpackChunkName: "mdi/TakaIcon" */
             "mdi-react/TakaIcon"
         ),
     ),
     "mdi-bangladeshi-taka": React.lazy(() =>
         import(
-            /* webpackChunkName: "BangladeshiTakaIcon" */
+            /* webpackChunkName: "mdi/BangladeshiTakaIcon" */
             "mdi-react/BangladeshiTakaIcon"
         ),
     ),
     "mdi-franc": React.lazy(() =>
         import(
-            /* webpackChunkName: "FrancIcon" */
+            /* webpackChunkName: "mdi/FrancIcon" */
             "mdi-react/FrancIcon"
         ),
     ),
     "mdi-yuan": React.lazy(() =>
         import(
-            /* webpackChunkName: "YuanIcon" */
+            /* webpackChunkName: "mdi/YuanIcon" */
             "mdi-react/YuanIcon"
         ),
     ),
     "mdi-renminbi": React.lazy(() =>
         import(
-            /* webpackChunkName: "RenminbiIcon" */
+            /* webpackChunkName: "mdi/RenminbiIcon" */
             "mdi-react/RenminbiIcon"
         ),
     ),
     "mdi-xi": React.lazy(() =>
         import(
-            /* webpackChunkName: "XiIcon" */
+            /* webpackChunkName: "mdi/XiIcon" */
             "mdi-react/XiIcon"
         ),
     ),
     "mdi-euro": React.lazy(() =>
         import(
-            /* webpackChunkName: "EuroIcon" */
+            /* webpackChunkName: "mdi/EuroIcon" */
             "mdi-react/EuroIcon"
         ),
     ),
     "mdi-euro-symbol": React.lazy(() =>
         import(
-            /* webpackChunkName: "EuroSymbolIcon" */
+            /* webpackChunkName: "mdi/EuroSymbolIcon" */
             "mdi-react/EuroSymbolIcon"
         ),
     ),
     "mdi-sterling": React.lazy(() =>
         import(
-            /* webpackChunkName: "SterlingIcon" */
+            /* webpackChunkName: "mdi/SterlingIcon" */
             "mdi-react/SterlingIcon"
         ),
     ),
     "mdi-rupee": React.lazy(() =>
         import(
-            /* webpackChunkName: "RupeeIcon" */
+            /* webpackChunkName: "mdi/RupeeIcon" */
             "mdi-react/RupeeIcon"
         ),
     ),
     "mdi-yen": React.lazy(() =>
         import(
-            /* webpackChunkName: "YenIcon" */
+            /* webpackChunkName: "mdi/YenIcon" */
             "mdi-react/YenIcon"
         ),
     ),
     "mdi-won": React.lazy(() =>
         import(
-            /* webpackChunkName: "WonIcon" */
+            /* webpackChunkName: "mdi/WonIcon" */
             "mdi-react/WonIcon"
         ),
     ),
     "mdi-kazakhstani-tenge": React.lazy(() =>
         import(
-            /* webpackChunkName: "KazakhstaniTengeIcon" */
+            /* webpackChunkName: "mdi/KazakhstaniTengeIcon" */
             "mdi-react/KazakhstaniTengeIcon"
         ),
     ),
     "mdi-naira": React.lazy(() =>
         import(
-            /* webpackChunkName: "NairaIcon" */
+            /* webpackChunkName: "mdi/NairaIcon" */
             "mdi-react/NairaIcon"
         ),
     ),
     "mdi-ruble": React.lazy(() =>
         import(
-            /* webpackChunkName: "RubleIcon" */
+            /* webpackChunkName: "mdi/RubleIcon" */
             "mdi-react/RubleIcon"
         ),
     ),
     "mdi-currency-scarab": React.lazy(() =>
         import(
-            /* webpackChunkName: "CurrencyScarabIcon" */
+            /* webpackChunkName: "mdi/CurrencyScarabIcon" */
             "mdi-react/CurrencyScarabIcon"
         ),
     ),
     "mdi-lira": React.lazy(() =>
         import(
-            /* webpackChunkName: "LiraIcon" */
+            /* webpackChunkName: "mdi/LiraIcon" */
             "mdi-react/LiraIcon"
         ),
     ),
     "mdi-money-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "MoneyOffIcon" */
+            /* webpackChunkName: "mdi/MoneyOffIcon" */
             "mdi-react/MoneyOffIcon"
         ),
     ),
     "mdi-attach-money": React.lazy(() =>
         import(
-            /* webpackChunkName: "AttachMoneyIcon" */
+            /* webpackChunkName: "mdi/AttachMoneyIcon" */
             "mdi-react/AttachMoneyIcon"
         ),
     ),
     "mdi-alternating-current": React.lazy(() =>
         import(
-            /* webpackChunkName: "AlternatingCurrentIcon" */
+            /* webpackChunkName: "mdi/AlternatingCurrentIcon" */
             "mdi-react/AlternatingCurrentIcon"
         ),
     ),
     "mdi-direct-current": React.lazy(() =>
         import(
-            /* webpackChunkName: "DirectCurrentIcon" */
+            /* webpackChunkName: "mdi/DirectCurrentIcon" */
             "mdi-react/DirectCurrentIcon"
         ),
     ),
     "mdi-trash-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrashCircleIcon" */
+            /* webpackChunkName: "mdi/TrashCircleIcon" */
             "mdi-react/TrashCircleIcon"
         ),
     ),
     "mdi-bin-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "BinCircleIcon" */
+            /* webpackChunkName: "mdi/BinCircleIcon" */
             "mdi-react/BinCircleIcon"
         ),
     ),
     "mdi-trash-empty": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrashEmptyIcon" */
+            /* webpackChunkName: "mdi/TrashEmptyIcon" */
             "mdi-react/TrashEmptyIcon"
         ),
     ),
     "mdi-bin-empty": React.lazy(() =>
         import(
-            /* webpackChunkName: "BinEmptyIcon" */
+            /* webpackChunkName: "mdi/BinEmptyIcon" */
             "mdi-react/BinEmptyIcon"
         ),
     ),
     "mdi-trash-restore": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrashRestoreIcon" */
+            /* webpackChunkName: "mdi/TrashRestoreIcon" */
             "mdi-react/TrashRestoreIcon"
         ),
     ),
     "mdi-bin-restore": React.lazy(() =>
         import(
-            /* webpackChunkName: "BinRestoreIcon" */
+            /* webpackChunkName: "mdi/BinRestoreIcon" */
             "mdi-react/BinRestoreIcon"
         ),
     ),
     "mdi-restore-from-trash": React.lazy(() =>
         import(
-            /* webpackChunkName: "RestoreFromTrashIcon" */
+            /* webpackChunkName: "mdi/RestoreFromTrashIcon" */
             "mdi-react/RestoreFromTrashIcon"
         ),
     ),
     "mdi-trash-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrashVariantIcon" */
+            /* webpackChunkName: "mdi/TrashVariantIcon" */
             "mdi-react/TrashVariantIcon"
         ),
     ),
     "mdi-bin-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "BinVariantIcon" */
+            /* webpackChunkName: "mdi/BinVariantIcon" */
             "mdi-react/BinVariantIcon"
         ),
     ),
     "mdi-trash": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrashIcon" */
+            /* webpackChunkName: "mdi/TrashIcon" */
             "mdi-react/TrashIcon"
         ),
     ),
     "mdi-bin": React.lazy(() =>
         import(
-            /* webpackChunkName: "BinIcon" */
+            /* webpackChunkName: "mdi/BinIcon" */
             "mdi-react/BinIcon"
         ),
     ),
     "mdi-change-history": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChangeHistoryIcon" */
+            /* webpackChunkName: "mdi/ChangeHistoryIcon" */
             "mdi-react/ChangeHistoryIcon"
         ),
     ),
     "mdi-computer-classic": React.lazy(() =>
         import(
-            /* webpackChunkName: "ComputerClassicIcon" */
+            /* webpackChunkName: "mdi/ComputerClassicIcon" */
             "mdi-react/ComputerClassicIcon"
         ),
     ),
     "mdi-keypad": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeypadIcon" */
+            /* webpackChunkName: "mdi/KeypadIcon" */
             "mdi-react/KeypadIcon"
         ),
     ),
     "mdi-die-1": React.lazy(() =>
         import(
-            /* webpackChunkName: "Die1Icon" */
+            /* webpackChunkName: "mdi/Die1Icon" */
             "mdi-react/Die1Icon"
         ),
     ),
     "mdi-die-2": React.lazy(() =>
         import(
-            /* webpackChunkName: "Die2Icon" */
+            /* webpackChunkName: "mdi/Die2Icon" */
             "mdi-react/Die2Icon"
         ),
     ),
     "mdi-die-3": React.lazy(() =>
         import(
-            /* webpackChunkName: "Die3Icon" */
+            /* webpackChunkName: "mdi/Die3Icon" */
             "mdi-react/Die3Icon"
         ),
     ),
     "mdi-die-4": React.lazy(() =>
         import(
-            /* webpackChunkName: "Die4Icon" */
+            /* webpackChunkName: "mdi/Die4Icon" */
             "mdi-react/Die4Icon"
         ),
     ),
     "mdi-die-5": React.lazy(() =>
         import(
-            /* webpackChunkName: "Die5Icon" */
+            /* webpackChunkName: "mdi/Die5Icon" */
             "mdi-react/Die5Icon"
         ),
     ),
     "mdi-die-6": React.lazy(() =>
         import(
-            /* webpackChunkName: "Die6Icon" */
+            /* webpackChunkName: "mdi/Die6Icon" */
             "mdi-react/Die6Icon"
         ),
     ),
     "mdi-die-d-10": React.lazy(() =>
         import(
-            /* webpackChunkName: "DieD10Icon" */
+            /* webpackChunkName: "mdi/DieD10Icon" */
             "mdi-react/DieD10Icon"
         ),
     ),
     "mdi-die-d-20": React.lazy(() =>
         import(
-            /* webpackChunkName: "DieD20Icon" */
+            /* webpackChunkName: "mdi/DieD20Icon" */
             "mdi-react/DieD20Icon"
         ),
     ),
     "mdi-die-d-4": React.lazy(() =>
         import(
-            /* webpackChunkName: "DieD4Icon" */
+            /* webpackChunkName: "mdi/DieD4Icon" */
             "mdi-react/DieD4Icon"
         ),
     ),
     "mdi-die-d-6": React.lazy(() =>
         import(
-            /* webpackChunkName: "DieD6Icon" */
+            /* webpackChunkName: "mdi/DieD6Icon" */
             "mdi-react/DieD6Icon"
         ),
     ),
     "mdi-die-d-8": React.lazy(() =>
         import(
-            /* webpackChunkName: "DieD8Icon" */
+            /* webpackChunkName: "mdi/DieD8Icon" */
             "mdi-react/DieD8Icon"
         ),
     ),
     "mdi-disk-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "DiskWarningIcon" */
+            /* webpackChunkName: "mdi/DiskWarningIcon" */
             "mdi-react/DiskWarningIcon"
         ),
     ),
     "mdi-disc-full": React.lazy(() =>
         import(
-            /* webpackChunkName: "DiscFullIcon" */
+            /* webpackChunkName: "mdi/DiscFullIcon" */
             "mdi-react/DiscFullIcon"
         ),
     ),
     "mdi-disc-player": React.lazy(() =>
         import(
-            /* webpackChunkName: "DiscPlayerIcon" */
+            /* webpackChunkName: "mdi/DiscPlayerIcon" */
             "mdi-react/DiscPlayerIcon"
         ),
     ),
     "mdi-helix": React.lazy(() =>
         import(
-            /* webpackChunkName: "HelixIcon" */
+            /* webpackChunkName: "mdi/HelixIcon" */
             "mdi-react/HelixIcon"
         ),
     ),
     "mdi-no-entry": React.lazy(() =>
         import(
-            /* webpackChunkName: "NoEntryIcon" */
+            /* webpackChunkName: "mdi/NoEntryIcon" */
             "mdi-react/NoEntryIcon"
         ),
     ),
     "mdi-building": React.lazy(() =>
         import(
-            /* webpackChunkName: "BuildingIcon" */
+            /* webpackChunkName: "mdi/BuildingIcon" */
             "mdi-react/BuildingIcon"
         ),
     ),
     "mdi-company": React.lazy(() =>
         import(
-            /* webpackChunkName: "CompanyIcon" */
+            /* webpackChunkName: "mdi/CompanyIcon" */
             "mdi-react/CompanyIcon"
         ),
     ),
     "mdi-business": React.lazy(() =>
         import(
-            /* webpackChunkName: "BusinessIcon" */
+            /* webpackChunkName: "mdi/BusinessIcon" */
             "mdi-react/BusinessIcon"
         ),
     ),
     "mdi-ellipsis-horizontal-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "EllipsisHorizontalCircleIcon" */
+            /* webpackChunkName: "mdi/EllipsisHorizontalCircleIcon" */
             "mdi-react/EllipsisHorizontalCircleIcon"
         ),
     ),
     "mdi-more-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "MoreCircleIcon" */
+            /* webpackChunkName: "mdi/MoreCircleIcon" */
             "mdi-react/MoreCircleIcon"
         ),
     ),
     "mdi-ellipsis-horizontal": React.lazy(() =>
         import(
-            /* webpackChunkName: "EllipsisHorizontalIcon" */
+            /* webpackChunkName: "mdi/EllipsisHorizontalIcon" */
             "mdi-react/EllipsisHorizontalIcon"
         ),
     ),
     "mdi-more-horiz": React.lazy(() =>
         import(
-            /* webpackChunkName: "MoreHorizIcon" */
+            /* webpackChunkName: "mdi/MoreHorizIcon" */
             "mdi-react/MoreHorizIcon"
         ),
     ),
     "mdi-ellipsis-vertical-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "EllipsisVerticalCircleIcon" */
+            /* webpackChunkName: "mdi/EllipsisVerticalCircleIcon" */
             "mdi-react/EllipsisVerticalCircleIcon"
         ),
     ),
     "mdi-ellipsis-vertical": React.lazy(() =>
         import(
-            /* webpackChunkName: "EllipsisVerticalIcon" */
+            /* webpackChunkName: "mdi/EllipsisVerticalIcon" */
             "mdi-react/EllipsisVerticalIcon"
         ),
     ),
     "mdi-more-vert": React.lazy(() =>
         import(
-            /* webpackChunkName: "MoreVertIcon" */
+            /* webpackChunkName: "mdi/MoreVertIcon" */
             "mdi-react/MoreVertIcon"
         ),
     ),
     "mdi-get-app": React.lazy(() =>
         import(
-            /* webpackChunkName: "GetAppIcon" */
+            /* webpackChunkName: "mdi/GetAppIcon" */
             "mdi-react/GetAppIcon"
         ),
     ),
     "mdi-weights": React.lazy(() =>
         import(
-            /* webpackChunkName: "WeightsIcon" */
+            /* webpackChunkName: "mdi/WeightsIcon" */
             "mdi-react/WeightsIcon"
         ),
     ),
     "mdi-globe": React.lazy(() =>
         import(
-            /* webpackChunkName: "GlobeIcon" */
+            /* webpackChunkName: "mdi/GlobeIcon" */
             "mdi-react/GlobeIcon"
         ),
     ),
     "mdi-public": React.lazy(() =>
         import(
-            /* webpackChunkName: "PublicIcon" */
+            /* webpackChunkName: "mdi/PublicIcon" */
             "mdi-react/PublicIcon"
         ),
     ),
     "mdi-email-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "EmailWarningIcon" */
+            /* webpackChunkName: "mdi/EmailWarningIcon" */
             "mdi-react/EmailWarningIcon"
         ),
     ),
     "mdi-envelope-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "EnvelopeAlertIcon" */
+            /* webpackChunkName: "mdi/EnvelopeAlertIcon" */
             "mdi-react/EnvelopeAlertIcon"
         ),
     ),
     "mdi-envelope-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "EnvelopeWarningIcon" */
+            /* webpackChunkName: "mdi/EnvelopeWarningIcon" */
             "mdi-react/EnvelopeWarningIcon"
         ),
     ),
     "mdi-envelope-open-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "EnvelopeOpenOutlineIcon" */
+            /* webpackChunkName: "mdi/EnvelopeOpenOutlineIcon" */
             "mdi-react/EnvelopeOpenOutlineIcon"
         ),
     ),
     "mdi-drafts": React.lazy(() =>
         import(
-            /* webpackChunkName: "DraftsIcon" */
+            /* webpackChunkName: "mdi/DraftsIcon" */
             "mdi-react/DraftsIcon"
         ),
     ),
     "mdi-envelope-open": React.lazy(() =>
         import(
-            /* webpackChunkName: "EnvelopeOpenIcon" */
+            /* webpackChunkName: "mdi/EnvelopeOpenIcon" */
             "mdi-react/EnvelopeOpenIcon"
         ),
     ),
     "mdi-mail-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "MailOutlineIcon" */
+            /* webpackChunkName: "mdi/MailOutlineIcon" */
             "mdi-react/MailOutlineIcon"
         ),
     ),
     "mdi-envelope-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "EnvelopeOutlineIcon" */
+            /* webpackChunkName: "mdi/EnvelopeOutlineIcon" */
             "mdi-react/EnvelopeOutlineIcon"
         ),
     ),
     "mdi-envelope-secure": React.lazy(() =>
         import(
-            /* webpackChunkName: "EnvelopeSecureIcon" */
+            /* webpackChunkName: "mdi/EnvelopeSecureIcon" */
             "mdi-react/EnvelopeSecureIcon"
         ),
     ),
     "mdi-envelope-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "EnvelopeVariantIcon" */
+            /* webpackChunkName: "mdi/EnvelopeVariantIcon" */
             "mdi-react/EnvelopeVariantIcon"
         ),
     ),
     "mdi-local-post-office": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalPostOfficeIcon" */
+            /* webpackChunkName: "mdi/LocalPostOfficeIcon" */
             "mdi-react/LocalPostOfficeIcon"
         ),
     ),
     "mdi-mail": React.lazy(() =>
         import(
-            /* webpackChunkName: "MailIcon" */
+            /* webpackChunkName: "mdi/MailIcon" */
             "mdi-react/MailIcon"
         ),
     ),
     "mdi-markunread": React.lazy(() =>
         import(
-            /* webpackChunkName: "MarkunreadIcon" */
+            /* webpackChunkName: "mdi/MarkunreadIcon" */
             "mdi-react/MarkunreadIcon"
         ),
     ),
     "mdi-envelope": React.lazy(() =>
         import(
-            /* webpackChunkName: "EnvelopeIcon" */
+            /* webpackChunkName: "mdi/EnvelopeIcon" */
             "mdi-react/EnvelopeIcon"
         ),
     ),
     "mdi-smiley-cool": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmileyCoolIcon" */
+            /* webpackChunkName: "mdi/SmileyCoolIcon" */
             "mdi-react/SmileyCoolIcon"
         ),
     ),
     "mdi-smiley-dead": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmileyDeadIcon" */
+            /* webpackChunkName: "mdi/SmileyDeadIcon" */
             "mdi-react/SmileyDeadIcon"
         ),
     ),
     "mdi-smiley-devil": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmileyDevilIcon" */
+            /* webpackChunkName: "mdi/SmileyDevilIcon" */
             "mdi-react/SmileyDevilIcon"
         ),
     ),
     "mdi-smiley-excited": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmileyExcitedIcon" */
+            /* webpackChunkName: "mdi/SmileyExcitedIcon" */
             "mdi-react/SmileyExcitedIcon"
         ),
     ),
     "mdi-smiley-happy": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmileyHappyIcon" */
+            /* webpackChunkName: "mdi/SmileyHappyIcon" */
             "mdi-react/SmileyHappyIcon"
         ),
     ),
     "mdi-smiley-neutral": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmileyNeutralIcon" */
+            /* webpackChunkName: "mdi/SmileyNeutralIcon" */
             "mdi-react/SmileyNeutralIcon"
         ),
     ),
     "mdi-smiley-poop": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmileyPoopIcon" */
+            /* webpackChunkName: "mdi/SmileyPoopIcon" */
             "mdi-react/SmileyPoopIcon"
         ),
     ),
     "mdi-smiley-sad": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmileySadIcon" */
+            /* webpackChunkName: "mdi/SmileySadIcon" */
             "mdi-react/SmileySadIcon"
         ),
     ),
     "mdi-smiley-tongue": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmileyTongueIcon" */
+            /* webpackChunkName: "mdi/SmileyTongueIcon" */
             "mdi-react/SmileyTongueIcon"
         ),
     ),
     "mdi-smiley": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmileyIcon" */
+            /* webpackChunkName: "mdi/SmileyIcon" */
             "mdi-react/SmileyIcon"
         ),
     ),
     "mdi-insert-emoticon": React.lazy(() =>
         import(
-            /* webpackChunkName: "InsertEmoticonIcon" */
+            /* webpackChunkName: "mdi/InsertEmoticonIcon" */
             "mdi-react/InsertEmoticonIcon"
         ),
     ),
     "mdi-mood": React.lazy(() =>
         import(
-            /* webpackChunkName: "MoodIcon" */
+            /* webpackChunkName: "mdi/MoodIcon" */
             "mdi-react/MoodIcon"
         ),
     ),
     "mdi-sentiment-very-satisfied": React.lazy(() =>
         import(
-            /* webpackChunkName: "SentimentVerySatisfiedIcon" */
+            /* webpackChunkName: "mdi/SentimentVerySatisfiedIcon" */
             "mdi-react/SentimentVerySatisfiedIcon"
         ),
     ),
     "mdi-hide-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "HideOutlineIcon" */
+            /* webpackChunkName: "mdi/HideOutlineIcon" */
             "mdi-react/HideOutlineIcon"
         ),
     ),
     "mdi-visibility-off-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "VisibilityOffOutlineIcon" */
+            /* webpackChunkName: "mdi/VisibilityOffOutlineIcon" */
             "mdi-react/VisibilityOffOutlineIcon"
         ),
     ),
     "mdi-hide": React.lazy(() =>
         import(
-            /* webpackChunkName: "HideIcon" */
+            /* webpackChunkName: "mdi/HideIcon" */
             "mdi-react/HideIcon"
         ),
     ),
     "mdi-visibility-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "VisibilityOffIcon" */
+            /* webpackChunkName: "mdi/VisibilityOffIcon" */
             "mdi-react/VisibilityOffIcon"
         ),
     ),
     "mdi-show-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShowOutlineIcon" */
+            /* webpackChunkName: "mdi/ShowOutlineIcon" */
             "mdi-react/ShowOutlineIcon"
         ),
     ),
     "mdi-visibility-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "VisibilityOutlineIcon" */
+            /* webpackChunkName: "mdi/VisibilityOutlineIcon" */
             "mdi-react/VisibilityOutlineIcon"
         ),
     ),
     "mdi-show": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShowIcon" */
+            /* webpackChunkName: "mdi/ShowIcon" */
             "mdi-react/ShowIcon"
         ),
     ),
     "mdi-visibility": React.lazy(() =>
         import(
-            /* webpackChunkName: "VisibilityIcon" */
+            /* webpackChunkName: "mdi/VisibilityIcon" */
             "mdi-react/VisibilityIcon"
         ),
     ),
     "mdi-remove-red-eye": React.lazy(() =>
         import(
-            /* webpackChunkName: "RemoveRedEyeIcon" */
+            /* webpackChunkName: "mdi/RemoveRedEyeIcon" */
             "mdi-react/RemoveRedEyeIcon"
         ),
     ),
     "mdi-colorize": React.lazy(() =>
         import(
-            /* webpackChunkName: "ColorizeIcon" */
+            /* webpackChunkName: "mdi/ColorizeIcon" */
             "mdi-react/ColorizeIcon"
         ),
     ),
     "mdi-colourise": React.lazy(() =>
         import(
-            /* webpackChunkName: "ColouriseIcon" */
+            /* webpackChunkName: "mdi/ColouriseIcon" */
             "mdi-react/ColouriseIcon"
         ),
     ),
     "mdi-industrial": React.lazy(() =>
         import(
-            /* webpackChunkName: "IndustrialIcon" */
+            /* webpackChunkName: "mdi/IndustrialIcon" */
             "mdi-react/IndustrialIcon"
         ),
     ),
     "mdi-cargo-ship": React.lazy(() =>
         import(
-            /* webpackChunkName: "CargoShipIcon" */
+            /* webpackChunkName: "mdi/CargoShipIcon" */
             "mdi-react/CargoShipIcon"
         ),
     ),
     "mdi-boat": React.lazy(() =>
         import(
-            /* webpackChunkName: "BoatIcon" */
+            /* webpackChunkName: "mdi/BoatIcon" */
             "mdi-react/BoatIcon"
         ),
     ),
     "mdi-ship": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShipIcon" */
+            /* webpackChunkName: "mdi/ShipIcon" */
             "mdi-react/ShipIcon"
         ),
     ),
     "mdi-directions-boat": React.lazy(() =>
         import(
-            /* webpackChunkName: "DirectionsBoatIcon" */
+            /* webpackChunkName: "mdi/DirectionsBoatIcon" */
             "mdi-react/DirectionsBoatIcon"
         ),
     ),
     "mdi-directions-ferry": React.lazy(() =>
         import(
-            /* webpackChunkName: "DirectionsFerryIcon" */
+            /* webpackChunkName: "mdi/DirectionsFerryIcon" */
             "mdi-react/DirectionsFerryIcon"
         ),
     ),
     "mdi-file-user": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileUserIcon" */
+            /* webpackChunkName: "mdi/FileUserIcon" */
             "mdi-react/FileUserIcon"
         ),
     ),
     "mdi-file-report": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileReportIcon" */
+            /* webpackChunkName: "mdi/FileReportIcon" */
             "mdi-react/FileReportIcon"
         ),
     ),
     "mdi-file-csv": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileCsvIcon" */
+            /* webpackChunkName: "mdi/FileCsvIcon" */
             "mdi-react/FileCsvIcon"
         ),
     ),
     "mdi-print-preview": React.lazy(() =>
         import(
-            /* webpackChunkName: "PrintPreviewIcon" */
+            /* webpackChunkName: "mdi/PrintPreviewIcon" */
             "mdi-react/PrintPreviewIcon"
         ),
     ),
     "mdi-find-in-page": React.lazy(() =>
         import(
-            /* webpackChunkName: "FindInPageIcon" */
+            /* webpackChunkName: "mdi/FindInPageIcon" */
             "mdi-react/FindInPageIcon"
         ),
     ),
     "mdi-note-add": React.lazy(() =>
         import(
-            /* webpackChunkName: "NoteAddIcon" */
+            /* webpackChunkName: "mdi/NoteAddIcon" */
             "mdi-react/NoteAddIcon"
         ),
     ),
     "mdi-restore-page": React.lazy(() =>
         import(
-            /* webpackChunkName: "RestorePageIcon" */
+            /* webpackChunkName: "mdi/RestorePageIcon" */
             "mdi-react/RestorePageIcon"
         ),
     ),
     "mdi-subtasks": React.lazy(() =>
         import(
-            /* webpackChunkName: "SubtasksIcon" */
+            /* webpackChunkName: "mdi/SubtasksIcon" */
             "mdi-react/SubtasksIcon"
         ),
     ),
     "mdi-file-revert": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileRevertIcon" */
+            /* webpackChunkName: "mdi/FileRevertIcon" */
             "mdi-react/FileRevertIcon"
         ),
     ),
     "mdi-file-discard": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileDiscardIcon" */
+            /* webpackChunkName: "mdi/FileDiscardIcon" */
             "mdi-react/FileDiscardIcon"
         ),
     ),
     "mdi-insert-drive-file": React.lazy(() =>
         import(
-            /* webpackChunkName: "InsertDriveFileIcon" */
+            /* webpackChunkName: "mdi/InsertDriveFileIcon" */
             "mdi-react/InsertDriveFileIcon"
         ),
     ),
     "mdi-draft": React.lazy(() =>
         import(
-            /* webpackChunkName: "DraftIcon" */
+            /* webpackChunkName: "mdi/DraftIcon" */
             "mdi-react/DraftIcon"
         ),
     ),
     "mdi-camera-roll": React.lazy(() =>
         import(
-            /* webpackChunkName: "CameraRollIcon" */
+            /* webpackChunkName: "mdi/CameraRollIcon" */
             "mdi-react/CameraRollIcon"
         ),
     ),
     "mdi-local-movies": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalMoviesIcon" */
+            /* webpackChunkName: "mdi/LocalMoviesIcon" */
             "mdi-react/LocalMoviesIcon"
         ),
     ),
     "mdi-theaters": React.lazy(() =>
         import(
-            /* webpackChunkName: "TheatersIcon" */
+            /* webpackChunkName: "mdi/TheatersIcon" */
             "mdi-react/TheatersIcon"
         ),
     ),
     "mdi-filter-list": React.lazy(() =>
         import(
-            /* webpackChunkName: "FilterListIcon" */
+            /* webpackChunkName: "mdi/FilterListIcon" */
             "mdi-react/FilterListIcon"
         ),
     ),
     "mdi-chart-finance": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChartFinanceIcon" */
+            /* webpackChunkName: "mdi/ChartFinanceIcon" */
             "mdi-react/ChartFinanceIcon"
         ),
     ),
     "mdi-fire-engine": React.lazy(() =>
         import(
-            /* webpackChunkName: "FireEngineIcon" */
+            /* webpackChunkName: "mdi/FireEngineIcon" */
             "mdi-react/FireEngineIcon"
         ),
     ),
     "mdi-whatshot": React.lazy(() =>
         import(
-            /* webpackChunkName: "WhatshotIcon" */
+            /* webpackChunkName: "mdi/WhatshotIcon" */
             "mdi-react/WhatshotIcon"
         ),
     ),
     "mdi-assistant-photo": React.lazy(() =>
         import(
-            /* webpackChunkName: "AssistantPhotoIcon" */
+            /* webpackChunkName: "mdi/AssistantPhotoIcon" */
             "mdi-react/AssistantPhotoIcon"
         ),
     ),
     "mdi-amp": React.lazy(() =>
         import(
-            /* webpackChunkName: "AmpIcon" */
+            /* webpackChunkName: "mdi/AmpIcon" */
             "mdi-react/AmpIcon"
         ),
     ),
     "mdi-offline-bolt": React.lazy(() =>
         import(
-            /* webpackChunkName: "OfflineBoltIcon" */
+            /* webpackChunkName: "mdi/OfflineBoltIcon" */
             "mdi-react/OfflineBoltIcon"
         ),
     ),
     "mdi-lightning-bolt-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "LightningBoltCircleIcon" */
+            /* webpackChunkName: "mdi/LightningBoltCircleIcon" */
             "mdi-react/LightningBoltCircleIcon"
         ),
     ),
     "mdi-lighning-bolt-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "LighningBoltOutlineIcon" */
+            /* webpackChunkName: "mdi/LighningBoltOutlineIcon" */
             "mdi-react/LighningBoltOutlineIcon"
         ),
     ),
     "mdi-lightning-bolt": React.lazy(() =>
         import(
-            /* webpackChunkName: "LightningBoltIcon" */
+            /* webpackChunkName: "mdi/LightningBoltIcon" */
             "mdi-react/LightningBoltIcon"
         ),
     ),
     "mdi-flash-on": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlashOnIcon" */
+            /* webpackChunkName: "mdi/FlashOnIcon" */
             "mdi-react/FlashOnIcon"
         ),
     ),
     "mdi-electricity": React.lazy(() =>
         import(
-            /* webpackChunkName: "ElectricityIcon" */
+            /* webpackChunkName: "mdi/ElectricityIcon" */
             "mdi-react/ElectricityIcon"
         ),
     ),
     "mdi-torch-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "TorchOffIcon" */
+            /* webpackChunkName: "mdi/TorchOffIcon" */
             "mdi-react/TorchOffIcon"
         ),
     ),
     "mdi-torch": React.lazy(() =>
         import(
-            /* webpackChunkName: "TorchIcon" */
+            /* webpackChunkName: "mdi/TorchIcon" */
             "mdi-react/TorchIcon"
         ),
     ),
     "mdi-local-florist": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalFloristIcon" */
+            /* webpackChunkName: "mdi/LocalFloristIcon" */
             "mdi-react/LocalFloristIcon"
         ),
     ),
     "mdi-folder-user": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderUserIcon" */
+            /* webpackChunkName: "mdi/FolderUserIcon" */
             "mdi-react/FolderUserIcon"
         ),
     ),
     "mdi-folder-shared": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderSharedIcon" */
+            /* webpackChunkName: "mdi/FolderSharedIcon" */
             "mdi-react/FolderSharedIcon"
         ),
     ),
     "mdi-folder-mydrive": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderMydriveIcon" */
+            /* webpackChunkName: "mdi/FolderMydriveIcon" */
             "mdi-react/FolderMydriveIcon"
         ),
     ),
     "mdi-perm-media": React.lazy(() =>
         import(
-            /* webpackChunkName: "PermMediaIcon" */
+            /* webpackChunkName: "mdi/PermMediaIcon" */
             "mdi-react/PermMediaIcon"
         ),
     ),
     "mdi-create-new-folder": React.lazy(() =>
         import(
-            /* webpackChunkName: "CreateNewFolderIcon" */
+            /* webpackChunkName: "mdi/CreateNewFolderIcon" */
             "mdi-react/CreateNewFolderIcon"
         ),
     ),
     "mdi-folder-special": React.lazy(() =>
         import(
-            /* webpackChunkName: "FolderSpecialIcon" */
+            /* webpackChunkName: "mdi/FolderSpecialIcon" */
             "mdi-react/FolderSpecialIcon"
         ),
     ),
     "mdi-format-align-centre": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatAlignCentreIcon" */
+            /* webpackChunkName: "mdi/FormatAlignCentreIcon" */
             "mdi-react/FormatAlignCentreIcon"
         ),
     ),
     "mdi-format-colour-fill": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatColourFillIcon" */
+            /* webpackChunkName: "mdi/FormatColourFillIcon" */
             "mdi-react/FormatColourFillIcon"
         ),
     ),
     "mdi-format-colour-text": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatColourTextIcon" */
+            /* webpackChunkName: "mdi/FormatColourTextIcon" */
             "mdi-react/FormatColourTextIcon"
         ),
     ),
     "mdi-format-float-centre": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatFloatCentreIcon" */
+            /* webpackChunkName: "mdi/FormatFloatCentreIcon" */
             "mdi-react/FormatFloatCentreIcon"
         ),
     ),
     "mdi-format-horizontal-align-centre": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatHorizontalAlignCentreIcon" */
+            /* webpackChunkName: "mdi/FormatHorizontalAlignCentreIcon" */
             "mdi-react/FormatHorizontalAlignCentreIcon"
         ),
     ),
     "mdi-format-list-numbered": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatListNumberedIcon" */
+            /* webpackChunkName: "mdi/FormatListNumberedIcon" */
             "mdi-react/FormatListNumberedIcon"
         ),
     ),
     "mdi-rotate-90-degrees-ccw": React.lazy(() =>
         import(
-            /* webpackChunkName: "Rotate90DegreesCcwIcon" */
+            /* webpackChunkName: "mdi/Rotate90DegreesCcwIcon" */
             "mdi-react/Rotate90DegreesCcwIcon"
         ),
     ),
     "mdi-strikethrough-s": React.lazy(() =>
         import(
-            /* webpackChunkName: "StrikethroughSIcon" */
+            /* webpackChunkName: "mdi/StrikethroughSIcon" */
             "mdi-react/StrikethroughSIcon"
         ),
     ),
     "mdi-format-underlined": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatUnderlinedIcon" */
+            /* webpackChunkName: "mdi/FormatUnderlinedIcon" */
             "mdi-react/FormatUnderlinedIcon"
         ),
     ),
     "mdi-format-vertical-align-centre": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatVerticalAlignCentreIcon" */
+            /* webpackChunkName: "mdi/FormatVerticalAlignCentreIcon" */
             "mdi-react/FormatVerticalAlignCentreIcon"
         ),
     ),
     "mdi-message-group": React.lazy(() =>
         import(
-            /* webpackChunkName: "MessageGroupIcon" */
+            /* webpackChunkName: "mdi/MessageGroupIcon" */
             "mdi-react/MessageGroupIcon"
         ),
     ),
     "mdi-question-answer": React.lazy(() =>
         import(
-            /* webpackChunkName: "QuestionAnswerIcon" */
+            /* webpackChunkName: "mdi/QuestionAnswerIcon" */
             "mdi-react/QuestionAnswerIcon"
         ),
     ),
     "mdi-refrigerator-filled-bottom": React.lazy(() =>
         import(
-            /* webpackChunkName: "RefrigeratorFilledBottomIcon" */
+            /* webpackChunkName: "mdi/RefrigeratorFilledBottomIcon" */
             "mdi-react/RefrigeratorFilledBottomIcon"
         ),
     ),
     "mdi-refrigerator-filled-top": React.lazy(() =>
         import(
-            /* webpackChunkName: "RefrigeratorFilledTopIcon" */
+            /* webpackChunkName: "mdi/RefrigeratorFilledTopIcon" */
             "mdi-react/RefrigeratorFilledTopIcon"
         ),
     ),
     "mdi-refrigerator-filled": React.lazy(() =>
         import(
-            /* webpackChunkName: "RefrigeratorFilledIcon" */
+            /* webpackChunkName: "mdi/RefrigeratorFilledIcon" */
             "mdi-react/RefrigeratorFilledIcon"
         ),
     ),
     "mdi-kitchen": React.lazy(() =>
         import(
-            /* webpackChunkName: "KitchenIcon" */
+            /* webpackChunkName: "mdi/KitchenIcon" */
             "mdi-react/KitchenIcon"
         ),
     ),
     "mdi-refrigerator": React.lazy(() =>
         import(
-            /* webpackChunkName: "RefrigeratorIcon" */
+            /* webpackChunkName: "mdi/RefrigeratorIcon" */
             "mdi-react/RefrigeratorIcon"
         ),
     ),
     "mdi-games": React.lazy(() =>
         import(
-            /* webpackChunkName: "GamesIcon" */
+            /* webpackChunkName: "mdi/GamesIcon" */
             "mdi-react/GamesIcon"
         ),
     ),
     "mdi-garage-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "GarageWarningIcon" */
+            /* webpackChunkName: "mdi/GarageWarningIcon" */
             "mdi-react/GarageWarningIcon"
         ),
     ),
     "mdi-gas-pump": React.lazy(() =>
         import(
-            /* webpackChunkName: "GasPumpIcon" */
+            /* webpackChunkName: "mdi/GasPumpIcon" */
             "mdi-react/GasPumpIcon"
         ),
     ),
     "mdi-petrol-pump": React.lazy(() =>
         import(
-            /* webpackChunkName: "PetrolPumpIcon" */
+            /* webpackChunkName: "mdi/PetrolPumpIcon" */
             "mdi-react/PetrolPumpIcon"
         ),
     ),
     "mdi-petrol-station": React.lazy(() =>
         import(
-            /* webpackChunkName: "PetrolStationIcon" */
+            /* webpackChunkName: "mdi/PetrolStationIcon" */
             "mdi-react/PetrolStationIcon"
         ),
     ),
     "mdi-local-gas-station": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalGasStationIcon" */
+            /* webpackChunkName: "mdi/LocalGasStationIcon" */
             "mdi-react/LocalGasStationIcon"
         ),
     ),
     "mdi-logic-gate-and": React.lazy(() =>
         import(
-            /* webpackChunkName: "LogicGateAndIcon" */
+            /* webpackChunkName: "mdi/LogicGateAndIcon" */
             "mdi-react/LogicGateAndIcon"
         ),
     ),
     "mdi-logic-gate-nand": React.lazy(() =>
         import(
-            /* webpackChunkName: "LogicGateNandIcon" */
+            /* webpackChunkName: "mdi/LogicGateNandIcon" */
             "mdi-react/LogicGateNandIcon"
         ),
     ),
     "mdi-logic-gate-nor": React.lazy(() =>
         import(
-            /* webpackChunkName: "LogicGateNorIcon" */
+            /* webpackChunkName: "mdi/LogicGateNorIcon" */
             "mdi-react/LogicGateNorIcon"
         ),
     ),
     "mdi-logic-gate-not": React.lazy(() =>
         import(
-            /* webpackChunkName: "LogicGateNotIcon" */
+            /* webpackChunkName: "mdi/LogicGateNotIcon" */
             "mdi-react/LogicGateNotIcon"
         ),
     ),
     "mdi-logic-gate-or": React.lazy(() =>
         import(
-            /* webpackChunkName: "LogicGateOrIcon" */
+            /* webpackChunkName: "mdi/LogicGateOrIcon" */
             "mdi-react/LogicGateOrIcon"
         ),
     ),
     "mdi-logic-gate-xnor": React.lazy(() =>
         import(
-            /* webpackChunkName: "LogicGateXnorIcon" */
+            /* webpackChunkName: "mdi/LogicGateXnorIcon" */
             "mdi-react/LogicGateXnorIcon"
         ),
     ),
     "mdi-logic-gate-xor": React.lazy(() =>
         import(
-            /* webpackChunkName: "LogicGateXorIcon" */
+            /* webpackChunkName: "mdi/LogicGateXorIcon" */
             "mdi-react/LogicGateXorIcon"
         ),
     ),
     "mdi-swap-driving-apps-wheel": React.lazy(() =>
         import(
-            /* webpackChunkName: "SwapDrivingAppsWheelIcon" */
+            /* webpackChunkName: "mdi/SwapDrivingAppsWheelIcon" */
             "mdi-react/SwapDrivingAppsWheelIcon"
         ),
     ),
     "mdi-court-hammer": React.lazy(() =>
         import(
-            /* webpackChunkName: "CourtHammerIcon" */
+            /* webpackChunkName: "mdi/CourtHammerIcon" */
             "mdi-react/CourtHammerIcon"
         ),
     ),
     "mdi-interaction-double-tap": React.lazy(() =>
         import(
-            /* webpackChunkName: "InteractionDoubleTapIcon" */
+            /* webpackChunkName: "mdi/InteractionDoubleTapIcon" */
             "mdi-react/InteractionDoubleTapIcon"
         ),
     ),
     "mdi-hand-double-tap": React.lazy(() =>
         import(
-            /* webpackChunkName: "HandDoubleTapIcon" */
+            /* webpackChunkName: "mdi/HandDoubleTapIcon" */
             "mdi-react/HandDoubleTapIcon"
         ),
     ),
     "mdi-interaction-tap": React.lazy(() =>
         import(
-            /* webpackChunkName: "InteractionTapIcon" */
+            /* webpackChunkName: "mdi/InteractionTapIcon" */
             "mdi-react/InteractionTapIcon"
         ),
     ),
     "mdi-hand-tap": React.lazy(() =>
         import(
-            /* webpackChunkName: "HandTapIcon" */
+            /* webpackChunkName: "mdi/HandTapIcon" */
             "mdi-react/HandTapIcon"
         ),
     ),
     "mdi-donate": React.lazy(() =>
         import(
-            /* webpackChunkName: "DonateIcon" */
+            /* webpackChunkName: "mdi/DonateIcon" */
             "mdi-react/DonateIcon"
         ),
     ),
     "mdi-present": React.lazy(() =>
         import(
-            /* webpackChunkName: "PresentIcon" */
+            /* webpackChunkName: "mdi/PresentIcon" */
             "mdi-react/PresentIcon"
         ),
     ),
     "mdi-local-bar": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalBarIcon" */
+            /* webpackChunkName: "mdi/LocalBarIcon" */
             "mdi-react/LocalBarIcon"
         ),
     ),
     "mdi-cocktail": React.lazy(() =>
         import(
-            /* webpackChunkName: "CocktailIcon" */
+            /* webpackChunkName: "mdi/CocktailIcon" */
             "mdi-react/CocktailIcon"
         ),
     ),
     "mdi-martini": React.lazy(() =>
         import(
-            /* webpackChunkName: "MartiniIcon" */
+            /* webpackChunkName: "mdi/MartiniIcon" */
             "mdi-react/MartiniIcon"
         ),
     ),
     "mdi-golf-course": React.lazy(() =>
         import(
-            /* webpackChunkName: "GolfCourseIcon" */
+            /* webpackChunkName: "mdi/GolfCourseIcon" */
             "mdi-react/GolfCourseIcon"
         ),
     ),
     "mdi-cable-car": React.lazy(() =>
         import(
-            /* webpackChunkName: "CableCarIcon" */
+            /* webpackChunkName: "mdi/CableCarIcon" */
             "mdi-react/CableCarIcon"
         ),
     ),
     "mdi-chromecast": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChromecastIcon" */
+            /* webpackChunkName: "mdi/ChromecastIcon" */
             "mdi-react/ChromecastIcon"
         ),
     ),
     "mdi-attach-drive": React.lazy(() =>
         import(
-            /* webpackChunkName: "AttachDriveIcon" */
+            /* webpackChunkName: "mdi/AttachDriveIcon" */
             "mdi-react/AttachDriveIcon"
         ),
     ),
     "mdi-g-translate": React.lazy(() =>
         import(
-            /* webpackChunkName: "GTranslateIcon" */
+            /* webpackChunkName: "mdi/GTranslateIcon" */
             "mdi-react/GTranslateIcon"
         ),
     ),
     "mdi-wallet-product": React.lazy(() =>
         import(
-            /* webpackChunkName: "WalletProductIcon" */
+            /* webpackChunkName: "mdi/WalletProductIcon" */
             "mdi-react/WalletProductIcon"
         ),
     ),
     "mdi-grid-on": React.lazy(() =>
         import(
-            /* webpackChunkName: "GridOnIcon" */
+            /* webpackChunkName: "mdi/GridOnIcon" */
             "mdi-react/GridOnIcon"
         ),
     ),
     "mdi-headset-mic": React.lazy(() =>
         import(
-            /* webpackChunkName: "HeadsetMicIcon" */
+            /* webpackChunkName: "mdi/HeadsetMicIcon" */
             "mdi-react/HeadsetMicIcon"
         ),
     ),
     "mdi-favorite-border": React.lazy(() =>
         import(
-            /* webpackChunkName: "FavoriteBorderIcon" */
+            /* webpackChunkName: "mdi/FavoriteBorderIcon" */
             "mdi-react/FavoriteBorderIcon"
         ),
     ),
     "mdi-favourite-border": React.lazy(() =>
         import(
-            /* webpackChunkName: "FavouriteBorderIcon" */
+            /* webpackChunkName: "mdi/FavouriteBorderIcon" */
             "mdi-react/FavouriteBorderIcon"
         ),
     ),
     "mdi-favorite-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "FavoriteOutlineIcon" */
+            /* webpackChunkName: "mdi/FavoriteOutlineIcon" */
             "mdi-react/FavoriteOutlineIcon"
         ),
     ),
     "mdi-favourite-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "FavouriteOutlineIcon" */
+            /* webpackChunkName: "mdi/FavouriteOutlineIcon" */
             "mdi-react/FavouriteOutlineIcon"
         ),
     ),
     "mdi-favorite": React.lazy(() =>
         import(
-            /* webpackChunkName: "FavoriteIcon" */
+            /* webpackChunkName: "mdi/FavoriteIcon" */
             "mdi-react/FavoriteIcon"
         ),
     ),
     "mdi-favourite": React.lazy(() =>
         import(
-            /* webpackChunkName: "FavouriteIcon" */
+            /* webpackChunkName: "mdi/FavouriteIcon" */
             "mdi-react/FavouriteIcon"
         ),
     ),
     "mdi-help-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "HelpOutlineIcon" */
+            /* webpackChunkName: "mdi/HelpOutlineIcon" */
             "mdi-react/HelpOutlineIcon"
         ),
     ),
     "mdi-question-mark-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "QuestionMarkCircleIcon" */
+            /* webpackChunkName: "mdi/QuestionMarkCircleIcon" */
             "mdi-react/QuestionMarkCircleIcon"
         ),
     ),
     "mdi-question-mark": React.lazy(() =>
         import(
-            /* webpackChunkName: "QuestionMarkIcon" */
+            /* webpackChunkName: "mdi/QuestionMarkIcon" */
             "mdi-react/QuestionMarkIcon"
         ),
     ),
     "mdi-hd-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "HdBoxIcon" */
+            /* webpackChunkName: "mdi/HdBoxIcon" */
             "mdi-react/HdBoxIcon"
         ),
     ),
     "mdi-hd": React.lazy(() =>
         import(
-            /* webpackChunkName: "HdIcon" */
+            /* webpackChunkName: "mdi/HdIcon" */
             "mdi-react/HdIcon"
         ),
     ),
     "mdi-autobahn": React.lazy(() =>
         import(
-            /* webpackChunkName: "AutobahnIcon" */
+            /* webpackChunkName: "mdi/AutobahnIcon" */
             "mdi-react/AutobahnIcon"
         ),
     ),
     "mdi-motorway": React.lazy(() =>
         import(
-            /* webpackChunkName: "MotorwayIcon" */
+            /* webpackChunkName: "mdi/MotorwayIcon" */
             "mdi-react/MotorwayIcon"
         ),
     ),
     "mdi-recent": React.lazy(() =>
         import(
-            /* webpackChunkName: "RecentIcon" */
+            /* webpackChunkName: "mdi/RecentIcon" */
             "mdi-react/RecentIcon"
         ),
     ),
     "mdi-latest": React.lazy(() =>
         import(
-            /* webpackChunkName: "LatestIcon" */
+            /* webpackChunkName: "mdi/LatestIcon" */
             "mdi-react/LatestIcon"
         ),
     ),
     "mdi-clock-arrow": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClockArrowIcon" */
+            /* webpackChunkName: "mdi/ClockArrowIcon" */
             "mdi-react/ClockArrowIcon"
         ),
     ),
     "mdi-counterclockwise": React.lazy(() =>
         import(
-            /* webpackChunkName: "CounterclockwiseIcon" */
+            /* webpackChunkName: "mdi/CounterclockwiseIcon" */
             "mdi-react/CounterclockwiseIcon"
         ),
     ),
     "mdi-home-user": React.lazy(() =>
         import(
-            /* webpackChunkName: "HomeUserIcon" */
+            /* webpackChunkName: "mdi/HomeUserIcon" */
             "mdi-react/HomeUserIcon"
         ),
     ),
     "mdi-home-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "HomeWarningIcon" */
+            /* webpackChunkName: "mdi/HomeWarningIcon" */
             "mdi-react/HomeWarningIcon"
         ),
     ),
     "mdi-house-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "HouseCircleIcon" */
+            /* webpackChunkName: "mdi/HouseCircleIcon" */
             "mdi-react/HouseCircleIcon"
         ),
     ),
     "mdi-family": React.lazy(() =>
         import(
-            /* webpackChunkName: "FamilyIcon" */
+            /* webpackChunkName: "mdi/FamilyIcon" */
             "mdi-react/FamilyIcon"
         ),
     ),
     "mdi-house-map-marker": React.lazy(() =>
         import(
-            /* webpackChunkName: "HouseMapMarkerIcon" */
+            /* webpackChunkName: "mdi/HouseMapMarkerIcon" */
             "mdi-react/HouseMapMarkerIcon"
         ),
     ),
     "mdi-house-modern": React.lazy(() =>
         import(
-            /* webpackChunkName: "HouseModernIcon" */
+            /* webpackChunkName: "mdi/HouseModernIcon" */
             "mdi-react/HouseModernIcon"
         ),
     ),
     "mdi-house-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "HouseOutlineIcon" */
+            /* webpackChunkName: "mdi/HouseOutlineIcon" */
             "mdi-react/HouseOutlineIcon"
         ),
     ),
     "mdi-house-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "HouseVariantIcon" */
+            /* webpackChunkName: "mdi/HouseVariantIcon" */
             "mdi-react/HouseVariantIcon"
         ),
     ),
     "mdi-house": React.lazy(() =>
         import(
-            /* webpackChunkName: "HouseIcon" */
+            /* webpackChunkName: "mdi/HouseIcon" */
             "mdi-react/HouseIcon"
         ),
     ),
     "mdi-local-hospital": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalHospitalIcon" */
+            /* webpackChunkName: "mdi/LocalHospitalIcon" */
             "mdi-react/LocalHospitalIcon"
         ),
     ),
     "mdi-bed": React.lazy(() =>
         import(
-            /* webpackChunkName: "BedIcon" */
+            /* webpackChunkName: "mdi/BedIcon" */
             "mdi-react/BedIcon"
         ),
     ),
     "mdi-local-hotel": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalHotelIcon" */
+            /* webpackChunkName: "mdi/LocalHotelIcon" */
             "mdi-react/LocalHotelIcon"
         ),
     ),
     "mdi-woman": React.lazy(() =>
         import(
-            /* webpackChunkName: "WomanIcon" */
+            /* webpackChunkName: "mdi/WomanIcon" */
             "mdi-react/WomanIcon"
         ),
     ),
     "mdi-wc": React.lazy(() =>
         import(
-            /* webpackChunkName: "WcIcon" */
+            /* webpackChunkName: "mdi/WcIcon" */
             "mdi-react/WcIcon"
         ),
     ),
     "mdi-man-woman": React.lazy(() =>
         import(
-            /* webpackChunkName: "ManWomanIcon" */
+            /* webpackChunkName: "mdi/ManWomanIcon" */
             "mdi-react/ManWomanIcon"
         ),
     ),
     "mdi-man": React.lazy(() =>
         import(
-            /* webpackChunkName: "ManIcon" */
+            /* webpackChunkName: "mdi/ManIcon" */
             "mdi-react/ManIcon"
         ),
     ),
     "mdi-pregnant-woman": React.lazy(() =>
         import(
-            /* webpackChunkName: "PregnantWomanIcon" */
+            /* webpackChunkName: "mdi/PregnantWomanIcon" */
             "mdi-react/PregnantWomanIcon"
         ),
     ),
     "mdi-accessibility": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccessibilityIcon" */
+            /* webpackChunkName: "mdi/AccessibilityIcon" */
             "mdi-react/AccessibilityIcon"
         ),
     ),
     "mdi-photo-album": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhotoAlbumIcon" */
+            /* webpackChunkName: "mdi/PhotoAlbumIcon" */
             "mdi-react/PhotoAlbumIcon"
         ),
     ),
     "mdi-broken-image": React.lazy(() =>
         import(
-            /* webpackChunkName: "BrokenImageIcon" */
+            /* webpackChunkName: "mdi/BrokenImageIcon" */
             "mdi-react/BrokenImageIcon"
         ),
     ),
     "mdi-filter-b-and-w": React.lazy(() =>
         import(
-            /* webpackChunkName: "FilterBAndWIcon" */
+            /* webpackChunkName: "mdi/FilterBAndWIcon" */
             "mdi-react/FilterBAndWIcon"
         ),
     ),
     "mdi-image-filter-centre-focus-weak": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageFilterCentreFocusWeakIcon" */
+            /* webpackChunkName: "mdi/ImageFilterCentreFocusWeakIcon" */
             "mdi-react/ImageFilterCentreFocusWeakIcon"
         ),
     ),
     "mdi-image-filter-centre-focus": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageFilterCentreFocusIcon" */
+            /* webpackChunkName: "mdi/ImageFilterCentreFocusIcon" */
             "mdi-react/ImageFilterCentreFocusIcon"
         ),
     ),
     "mdi-mountain": React.lazy(() =>
         import(
-            /* webpackChunkName: "MountainIcon" */
+            /* webpackChunkName: "mdi/MountainIcon" */
             "mdi-react/MountainIcon"
         ),
     ),
     "mdi-landscape": React.lazy(() =>
         import(
-            /* webpackChunkName: "LandscapeIcon" */
+            /* webpackChunkName: "mdi/LandscapeIcon" */
             "mdi-react/LandscapeIcon"
         ),
     ),
     "mdi-image-multiple-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageMultipleOutlineIcon" */
+            /* webpackChunkName: "mdi/ImageMultipleOutlineIcon" */
             "mdi-react/ImageMultipleOutlineIcon"
         ),
     ),
     "mdi-collections": React.lazy(() =>
         import(
-            /* webpackChunkName: "CollectionsIcon" */
+            /* webpackChunkName: "mdi/CollectionsIcon" */
             "mdi-react/CollectionsIcon"
         ),
     ),
     "mdi-photo-library": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhotoLibraryIcon" */
+            /* webpackChunkName: "mdi/PhotoLibraryIcon" */
             "mdi-react/PhotoLibraryIcon"
         ),
     ),
     "mdi-insert-photo": React.lazy(() =>
         import(
-            /* webpackChunkName: "InsertPhotoIcon" */
+            /* webpackChunkName: "mdi/InsertPhotoIcon" */
             "mdi-react/InsertPhotoIcon"
         ),
     ),
     "mdi-move-to-inbox": React.lazy(() =>
         import(
-            /* webpackChunkName: "MoveToInboxIcon" */
+            /* webpackChunkName: "mdi/MoveToInboxIcon" */
             "mdi-react/MoveToInboxIcon"
         ),
     ),
     "mdi-info-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "InfoOutlineIcon" */
+            /* webpackChunkName: "mdi/InfoOutlineIcon" */
             "mdi-react/InfoOutlineIcon"
         ),
     ),
     "mdi-about-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "AboutOutlineIcon" */
+            /* webpackChunkName: "mdi/AboutOutlineIcon" */
             "mdi-react/AboutOutlineIcon"
         ),
     ),
     "mdi-about": React.lazy(() =>
         import(
-            /* webpackChunkName: "AboutIcon" */
+            /* webpackChunkName: "mdi/AboutIcon" */
             "mdi-react/AboutIcon"
         ),
     ),
     "mdi-invert-colours": React.lazy(() =>
         import(
-            /* webpackChunkName: "InvertColoursIcon" */
+            /* webpackChunkName: "mdi/InvertColoursIcon" */
             "mdi-react/InvertColoursIcon"
         ),
     ),
     "mdi-jewish": React.lazy(() =>
         import(
-            /* webpackChunkName: "JewishIcon" */
+            /* webpackChunkName: "mdi/JewishIcon" */
             "mdi-react/JewishIcon"
         ),
     ),
     "mdi-martial-arts": React.lazy(() =>
         import(
-            /* webpackChunkName: "MartialArtsIcon" */
+            /* webpackChunkName: "mdi/MartialArtsIcon" */
             "mdi-react/MartialArtsIcon"
         ),
     ),
     "mdi-vpn-key": React.lazy(() =>
         import(
-            /* webpackChunkName: "VpnKeyIcon" */
+            /* webpackChunkName: "mdi/VpnKeyIcon" */
             "mdi-react/VpnKeyIcon"
         ),
     ),
     "mdi-keyboard-capslock": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyboardCapslockIcon" */
+            /* webpackChunkName: "mdi/KeyboardCapslockIcon" */
             "mdi-react/KeyboardCapslockIcon"
         ),
     ),
     "mdi-keyboard-hide": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyboardHideIcon" */
+            /* webpackChunkName: "mdi/KeyboardHideIcon" */
             "mdi-react/KeyboardHideIcon"
         ),
     ),
     "mdi-bugfood": React.lazy(() =>
         import(
-            /* webpackChunkName: "BugfoodIcon" */
+            /* webpackChunkName: "mdi/BugfoodIcon" */
             "mdi-react/BugfoodIcon"
         ),
     ),
     "mdi-ladybird": React.lazy(() =>
         import(
-            /* webpackChunkName: "LadybirdIcon" */
+            /* webpackChunkName: "mdi/LadybirdIcon" */
             "mdi-react/LadybirdIcon"
         ),
     ),
     "mdi-computer": React.lazy(() =>
         import(
-            /* webpackChunkName: "ComputerIcon" */
+            /* webpackChunkName: "mdi/ComputerIcon" */
             "mdi-react/ComputerIcon"
         ),
     ),
     "mdi-layers-clear": React.lazy(() =>
         import(
-            /* webpackChunkName: "LayersClearIcon" */
+            /* webpackChunkName: "mdi/LayersClearIcon" */
             "mdi-react/LayersClearIcon"
         ),
     ),
     "mdi-add-to-photos": React.lazy(() =>
         import(
-            /* webpackChunkName: "AddToPhotosIcon" */
+            /* webpackChunkName: "mdi/AddToPhotosIcon" */
             "mdi-react/AddToPhotosIcon"
         ),
     ),
     "mdi-library-add": React.lazy(() =>
         import(
-            /* webpackChunkName: "LibraryAddIcon" */
+            /* webpackChunkName: "mdi/LibraryAddIcon" */
             "mdi-react/LibraryAddIcon"
         ),
     ),
     "mdi-queue": React.lazy(() =>
         import(
-            /* webpackChunkName: "QueueIcon" */
+            /* webpackChunkName: "mdi/QueueIcon" */
             "mdi-react/QueueIcon"
         ),
     ),
     "mdi-local-library": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalLibraryIcon" */
+            /* webpackChunkName: "mdi/LocalLibraryIcon" */
             "mdi-react/LocalLibraryIcon"
         ),
     ),
     "mdi-life-preserver": React.lazy(() =>
         import(
-            /* webpackChunkName: "LifePreserverIcon" */
+            /* webpackChunkName: "mdi/LifePreserverIcon" */
             "mdi-react/LifePreserverIcon"
         ),
     ),
     "mdi-support": React.lazy(() =>
         import(
-            /* webpackChunkName: "SupportIcon" */
+            /* webpackChunkName: "mdi/SupportIcon" */
             "mdi-react/SupportIcon"
         ),
     ),
     "mdi-insert-link": React.lazy(() =>
         import(
-            /* webpackChunkName: "InsertLinkIcon" */
+            /* webpackChunkName: "mdi/InsertLinkIcon" */
             "mdi-react/InsertLinkIcon"
         ),
     ),
     "mdi-tux": React.lazy(() =>
         import(
-            /* webpackChunkName: "TuxIcon" */
+            /* webpackChunkName: "mdi/TuxIcon" */
             "mdi-react/TuxIcon"
         ),
     ),
     "mdi-lock-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "LockWarningIcon" */
+            /* webpackChunkName: "mdi/LockWarningIcon" */
             "mdi-react/LockWarningIcon"
         ),
     ),
     "mdi-enhanced-encryption": React.lazy(() =>
         import(
-            /* webpackChunkName: "EnhancedEncryptionIcon" */
+            /* webpackChunkName: "mdi/EnhancedEncryptionIcon" */
             "mdi-react/EnhancedEncryptionIcon"
         ),
     ),
     "mdi-forgot-password": React.lazy(() =>
         import(
-            /* webpackChunkName: "ForgotPasswordIcon" */
+            /* webpackChunkName: "mdi/ForgotPasswordIcon" */
             "mdi-react/ForgotPasswordIcon"
         ),
     ),
     "mdi-password-reset": React.lazy(() =>
         import(
-            /* webpackChunkName: "PasswordResetIcon" */
+            /* webpackChunkName: "mdi/PasswordResetIcon" */
             "mdi-react/PasswordResetIcon"
         ),
     ),
     "mdi-https": React.lazy(() =>
         import(
-            /* webpackChunkName: "HttpsIcon" */
+            /* webpackChunkName: "mdi/HttpsIcon" */
             "mdi-react/HttpsIcon"
         ),
     ),
     "mdi-rainbow": React.lazy(() =>
         import(
-            /* webpackChunkName: "RainbowIcon" */
+            /* webpackChunkName: "mdi/RainbowIcon" */
             "mdi-react/RainbowIcon"
         ),
     ),
     "mdi-zoom-out-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ZoomOutOutlineIcon" */
+            /* webpackChunkName: "mdi/ZoomOutOutlineIcon" */
             "mdi-react/ZoomOutOutlineIcon"
         ),
     ),
     "mdi-zoom-out": React.lazy(() =>
         import(
-            /* webpackChunkName: "ZoomOutIcon" */
+            /* webpackChunkName: "mdi/ZoomOutIcon" */
             "mdi-react/ZoomOutIcon"
         ),
     ),
     "mdi-zoom-in-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ZoomInOutlineIcon" */
+            /* webpackChunkName: "mdi/ZoomInOutlineIcon" */
             "mdi-react/ZoomInOutlineIcon"
         ),
     ),
     "mdi-zoom-in": React.lazy(() =>
         import(
-            /* webpackChunkName: "ZoomInIcon" */
+            /* webpackChunkName: "mdi/ZoomInIcon" */
             "mdi-react/ZoomInIcon"
         ),
     ),
     "mdi-search": React.lazy(() =>
         import(
-            /* webpackChunkName: "SearchIcon" */
+            /* webpackChunkName: "mdi/SearchIcon" */
             "mdi-react/SearchIcon"
         ),
     ),
     "mdi-markunread-mailbox": React.lazy(() =>
         import(
-            /* webpackChunkName: "MarkunreadMailboxIcon" */
+            /* webpackChunkName: "mdi/MarkunreadMailboxIcon" */
             "mdi-react/MarkunreadMailboxIcon"
         ),
     ),
     "mdi-explore-nearby": React.lazy(() =>
         import(
-            /* webpackChunkName: "ExploreNearbyIcon" */
+            /* webpackChunkName: "mdi/ExploreNearbyIcon" */
             "mdi-react/ExploreNearbyIcon"
         ),
     ),
     "mdi-location-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocationOffIcon" */
+            /* webpackChunkName: "mdi/LocationOffIcon" */
             "mdi-react/LocationOffIcon"
         ),
     ),
     "mdi-add-location": React.lazy(() =>
         import(
-            /* webpackChunkName: "AddLocationIcon" */
+            /* webpackChunkName: "mdi/AddLocationIcon" */
             "mdi-react/AddLocationIcon"
         ),
     ),
     "mdi-location": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocationIcon" */
+            /* webpackChunkName: "mdi/LocationIcon" */
             "mdi-react/LocationIcon"
         ),
     ),
     "mdi-address-marker": React.lazy(() =>
         import(
-            /* webpackChunkName: "AddressMarkerIcon" */
+            /* webpackChunkName: "mdi/AddressMarkerIcon" */
             "mdi-react/AddressMarkerIcon"
         ),
     ),
     "mdi-location-on": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocationOnIcon" */
+            /* webpackChunkName: "mdi/LocationOnIcon" */
             "mdi-react/LocationOnIcon"
         ),
     ),
     "mdi-place": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlaceIcon" */
+            /* webpackChunkName: "mdi/PlaceIcon" */
             "mdi-react/PlaceIcon"
         ),
     ),
     "mdi-room": React.lazy(() =>
         import(
-            /* webpackChunkName: "RoomIcon" */
+            /* webpackChunkName: "mdi/RoomIcon" */
             "mdi-react/RoomIcon"
         ),
     ),
     "mdi-beenhere": React.lazy(() =>
         import(
-            /* webpackChunkName: "BeenhereIcon" */
+            /* webpackChunkName: "mdi/BeenhereIcon" */
             "mdi-react/BeenhereIcon"
         ),
     ),
     "mdi-highlighter": React.lazy(() =>
         import(
-            /* webpackChunkName: "HighlighterIcon" */
+            /* webpackChunkName: "mdi/HighlighterIcon" */
             "mdi-react/HighlighterIcon"
         ),
     ),
     "mdi-first-aid-kit": React.lazy(() =>
         import(
-            /* webpackChunkName: "FirstAidKitIcon" */
+            /* webpackChunkName: "mdi/FirstAidKitIcon" */
             "mdi-react/FirstAidKitIcon"
         ),
     ),
     "mdi-arrow-drop-down": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowDropDownIcon" */
+            /* webpackChunkName: "mdi/ArrowDropDownIcon" */
             "mdi-react/ArrowDropDownIcon"
         ),
     ),
     "mdi-arrow-drop-up": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowDropUpIcon" */
+            /* webpackChunkName: "mdi/ArrowDropUpIcon" */
             "mdi-react/ArrowDropUpIcon"
         ),
     ),
     "mdi-hamburger-menu": React.lazy(() =>
         import(
-            /* webpackChunkName: "HamburgerMenuIcon" */
+            /* webpackChunkName: "mdi/HamburgerMenuIcon" */
             "mdi-react/HamburgerMenuIcon"
         ),
     ),
     "mdi-feedback": React.lazy(() =>
         import(
-            /* webpackChunkName: "FeedbackIcon" */
+            /* webpackChunkName: "mdi/FeedbackIcon" */
             "mdi-react/FeedbackIcon"
         ),
     ),
     "mdi-message-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "MessageWarningIcon" */
+            /* webpackChunkName: "mdi/MessageWarningIcon" */
             "mdi-react/MessageWarningIcon"
         ),
     ),
     "mdi-sms-failed": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmsFailedIcon" */
+            /* webpackChunkName: "mdi/SmsFailedIcon" */
             "mdi-react/SmsFailedIcon"
         ),
     ),
     "mdi-speaker-notes-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "SpeakerNotesOffIcon" */
+            /* webpackChunkName: "mdi/SpeakerNotesOffIcon" */
             "mdi-react/SpeakerNotesOffIcon"
         ),
     ),
     "mdi-speaker-notes": React.lazy(() =>
         import(
-            /* webpackChunkName: "SpeakerNotesIcon" */
+            /* webpackChunkName: "mdi/SpeakerNotesIcon" */
             "mdi-react/SpeakerNotesIcon"
         ),
     ),
     "mdi-rate-review": React.lazy(() =>
         import(
-            /* webpackChunkName: "RateReviewIcon" */
+            /* webpackChunkName: "mdi/RateReviewIcon" */
             "mdi-react/RateReviewIcon"
         ),
     ),
     "mdi-mms": React.lazy(() =>
         import(
-            /* webpackChunkName: "MmsIcon" */
+            /* webpackChunkName: "mdi/MmsIcon" */
             "mdi-react/MmsIcon"
         ),
     ),
     "mdi-chat-bubble-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChatBubbleOutlineIcon" */
+            /* webpackChunkName: "mdi/ChatBubbleOutlineIcon" */
             "mdi-react/ChatBubbleOutlineIcon"
         ),
     ),
     "mdi-sms": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmsIcon" */
+            /* webpackChunkName: "mdi/SmsIcon" */
             "mdi-react/SmsIcon"
         ),
     ),
     "mdi-textsms": React.lazy(() =>
         import(
-            /* webpackChunkName: "TextsmsIcon" */
+            /* webpackChunkName: "mdi/TextsmsIcon" */
             "mdi-react/TextsmsIcon"
         ),
     ),
     "mdi-insert-comment": React.lazy(() =>
         import(
-            /* webpackChunkName: "InsertCommentIcon" */
+            /* webpackChunkName: "mdi/InsertCommentIcon" */
             "mdi-react/InsertCommentIcon"
         ),
     ),
     "mdi-mode-comment": React.lazy(() =>
         import(
-            /* webpackChunkName: "ModeCommentIcon" */
+            /* webpackChunkName: "mdi/ModeCommentIcon" */
             "mdi-react/ModeCommentIcon"
         ),
     ),
     "mdi-chat": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChatIcon" */
+            /* webpackChunkName: "mdi/ChatIcon" */
             "mdi-react/ChatIcon"
         ),
     ),
     "mdi-voice-chat": React.lazy(() =>
         import(
-            /* webpackChunkName: "VoiceChatIcon" */
+            /* webpackChunkName: "mdi/VoiceChatIcon" */
             "mdi-react/VoiceChatIcon"
         ),
     ),
     "mdi-chat-bubble": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChatBubbleIcon" */
+            /* webpackChunkName: "mdi/ChatBubbleIcon" */
             "mdi-react/ChatBubbleIcon"
         ),
     ),
     "mdi-mic-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "MicOffIcon" */
+            /* webpackChunkName: "mdi/MicOffIcon" */
             "mdi-react/MicOffIcon"
         ),
     ),
     "mdi-mic-none": React.lazy(() =>
         import(
-            /* webpackChunkName: "MicNoneIcon" */
+            /* webpackChunkName: "mdi/MicNoneIcon" */
             "mdi-react/MicNoneIcon"
         ),
     ),
     "mdi-settings-voice": React.lazy(() =>
         import(
-            /* webpackChunkName: "SettingsVoiceIcon" */
+            /* webpackChunkName: "mdi/SettingsVoiceIcon" */
             "mdi-react/SettingsVoiceIcon"
         ),
     ),
     "mdi-keyboard-voice": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeyboardVoiceIcon" */
+            /* webpackChunkName: "mdi/KeyboardVoiceIcon" */
             "mdi-react/KeyboardVoiceIcon"
         ),
     ),
     "mdi-checkbox-indeterminate-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CheckboxIndeterminateOutlineIcon" */
+            /* webpackChunkName: "mdi/CheckboxIndeterminateOutlineIcon" */
             "mdi-react/CheckboxIndeterminateOutlineIcon"
         ),
     ),
     "mdi-indeterminate-check-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "IndeterminateCheckBoxIcon" */
+            /* webpackChunkName: "mdi/IndeterminateCheckBoxIcon" */
             "mdi-react/IndeterminateCheckBoxIcon"
         ),
     ),
     "mdi-remove-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "RemoveCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/RemoveCircleOutlineIcon" */
             "mdi-react/RemoveCircleOutlineIcon"
         ),
     ),
     "mdi-do-not-disturb-on": React.lazy(() =>
         import(
-            /* webpackChunkName: "DoNotDisturbOnIcon" */
+            /* webpackChunkName: "mdi/DoNotDisturbOnIcon" */
             "mdi-react/DoNotDisturbOnIcon"
         ),
     ),
     "mdi-remove": React.lazy(() =>
         import(
-            /* webpackChunkName: "RemoveIcon" */
+            /* webpackChunkName: "mdi/RemoveIcon" */
             "mdi-react/RemoveIcon"
         ),
     ),
     "mdi-important-devices": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImportantDevicesIcon" */
+            /* webpackChunkName: "mdi/ImportantDevicesIcon" */
             "mdi-react/ImportantDevicesIcon"
         ),
     ),
     "mdi-desktop-windows": React.lazy(() =>
         import(
-            /* webpackChunkName: "DesktopWindowsIcon" */
+            /* webpackChunkName: "mdi/DesktopWindowsIcon" */
             "mdi-react/DesktopWindowsIcon"
         ),
     ),
     "mdi-motorcycle": React.lazy(() =>
         import(
-            /* webpackChunkName: "MotorcycleIcon" */
+            /* webpackChunkName: "mdi/MotorcycleIcon" */
             "mdi-react/MotorcycleIcon"
         ),
     ),
     "mdi-film-reel": React.lazy(() =>
         import(
-            /* webpackChunkName: "FilmReelIcon" */
+            /* webpackChunkName: "mdi/FilmReelIcon" */
             "mdi-react/FilmReelIcon"
         ),
     ),
     "mdi-slate": React.lazy(() =>
         import(
-            /* webpackChunkName: "SlateIcon" */
+            /* webpackChunkName: "mdi/SlateIcon" */
             "mdi-react/SlateIcon"
         ),
     ),
     "mdi-clapperboard": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClapperboardIcon" */
+            /* webpackChunkName: "mdi/ClapperboardIcon" */
             "mdi-react/ClapperboardIcon"
         ),
     ),
     "mdi-movie-creation": React.lazy(() =>
         import(
-            /* webpackChunkName: "MovieCreationIcon" */
+            /* webpackChunkName: "mdi/MovieCreationIcon" */
             "mdi-react/MovieCreationIcon"
         ),
     ),
     "mdi-network-attached-storage": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetworkAttachedStorageIcon" */
+            /* webpackChunkName: "mdi/NetworkAttachedStorageIcon" */
             "mdi-react/NetworkAttachedStorageIcon"
         ),
     ),
     "mdi-arrow-compass": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowCompassIcon" */
+            /* webpackChunkName: "mdi/ArrowCompassIcon" */
             "mdi-react/ArrowCompassIcon"
         ),
     ),
     "mdi-syringe": React.lazy(() =>
         import(
-            /* webpackChunkName: "SyringeIcon" */
+            /* webpackChunkName: "mdi/SyringeIcon" */
             "mdi-react/SyringeIcon"
         ),
     ),
     "mdi-network-strength-1-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetworkStrength1WarningIcon" */
+            /* webpackChunkName: "mdi/NetworkStrength1WarningIcon" */
             "mdi-react/NetworkStrength1WarningIcon"
         ),
     ),
     "mdi-network-strength-2-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetworkStrength2WarningIcon" */
+            /* webpackChunkName: "mdi/NetworkStrength2WarningIcon" */
             "mdi-react/NetworkStrength2WarningIcon"
         ),
     ),
     "mdi-network-strength-3-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetworkStrength3WarningIcon" */
+            /* webpackChunkName: "mdi/NetworkStrength3WarningIcon" */
             "mdi-react/NetworkStrength3WarningIcon"
         ),
     ),
     "mdi-network-strength-4-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetworkStrength4WarningIcon" */
+            /* webpackChunkName: "mdi/NetworkStrength4WarningIcon" */
             "mdi-react/NetworkStrength4WarningIcon"
         ),
     ),
     "mdi-network-strength-0": React.lazy(() =>
         import(
-            /* webpackChunkName: "NetworkStrength0Icon" */
+            /* webpackChunkName: "mdi/NetworkStrength0Icon" */
             "mdi-react/NetworkStrength0Icon"
         ),
     ),
     "mdi-fiber-new": React.lazy(() =>
         import(
-            /* webpackChunkName: "FiberNewIcon" */
+            /* webpackChunkName: "mdi/FiberNewIcon" */
             "mdi-react/FiberNewIcon"
         ),
     ),
     "mdi-filter-1": React.lazy(() =>
         import(
-            /* webpackChunkName: "Filter1Icon" */
+            /* webpackChunkName: "mdi/Filter1Icon" */
             "mdi-react/Filter1Icon"
         ),
     ),
     "mdi-looks-one": React.lazy(() =>
         import(
-            /* webpackChunkName: "LooksOneIcon" */
+            /* webpackChunkName: "mdi/LooksOneIcon" */
             "mdi-react/LooksOneIcon"
         ),
     ),
     "mdi-filter-2": React.lazy(() =>
         import(
-            /* webpackChunkName: "Filter2Icon" */
+            /* webpackChunkName: "mdi/Filter2Icon" */
             "mdi-react/Filter2Icon"
         ),
     ),
     "mdi-looks-two": React.lazy(() =>
         import(
-            /* webpackChunkName: "LooksTwoIcon" */
+            /* webpackChunkName: "mdi/LooksTwoIcon" */
             "mdi-react/LooksTwoIcon"
         ),
     ),
     "mdi-filter-3": React.lazy(() =>
         import(
-            /* webpackChunkName: "Filter3Icon" */
+            /* webpackChunkName: "mdi/Filter3Icon" */
             "mdi-react/Filter3Icon"
         ),
     ),
     "mdi-looks-3": React.lazy(() =>
         import(
-            /* webpackChunkName: "Looks3Icon" */
+            /* webpackChunkName: "mdi/Looks3Icon" */
             "mdi-react/Looks3Icon"
         ),
     ),
     "mdi-filter-4": React.lazy(() =>
         import(
-            /* webpackChunkName: "Filter4Icon" */
+            /* webpackChunkName: "mdi/Filter4Icon" */
             "mdi-react/Filter4Icon"
         ),
     ),
     "mdi-looks-4": React.lazy(() =>
         import(
-            /* webpackChunkName: "Looks4Icon" */
+            /* webpackChunkName: "mdi/Looks4Icon" */
             "mdi-react/Looks4Icon"
         ),
     ),
     "mdi-filter-5": React.lazy(() =>
         import(
-            /* webpackChunkName: "Filter5Icon" */
+            /* webpackChunkName: "mdi/Filter5Icon" */
             "mdi-react/Filter5Icon"
         ),
     ),
     "mdi-looks-5": React.lazy(() =>
         import(
-            /* webpackChunkName: "Looks5Icon" */
+            /* webpackChunkName: "mdi/Looks5Icon" */
             "mdi-react/Looks5Icon"
         ),
     ),
     "mdi-filter-6": React.lazy(() =>
         import(
-            /* webpackChunkName: "Filter6Icon" */
+            /* webpackChunkName: "mdi/Filter6Icon" */
             "mdi-react/Filter6Icon"
         ),
     ),
     "mdi-looks-6": React.lazy(() =>
         import(
-            /* webpackChunkName: "Looks6Icon" */
+            /* webpackChunkName: "mdi/Looks6Icon" */
             "mdi-react/Looks6Icon"
         ),
     ),
     "mdi-filter-7": React.lazy(() =>
         import(
-            /* webpackChunkName: "Filter7Icon" */
+            /* webpackChunkName: "mdi/Filter7Icon" */
             "mdi-react/Filter7Icon"
         ),
     ),
     "mdi-filter-8": React.lazy(() =>
         import(
-            /* webpackChunkName: "Filter8Icon" */
+            /* webpackChunkName: "mdi/Filter8Icon" */
             "mdi-react/Filter8Icon"
         ),
     ),
     "mdi-filter-9": React.lazy(() =>
         import(
-            /* webpackChunkName: "Filter9Icon" */
+            /* webpackChunkName: "mdi/Filter9Icon" */
             "mdi-react/Filter9Icon"
         ),
     ),
     "mdi-filter-9-plus": React.lazy(() =>
         import(
-            /* webpackChunkName: "Filter9PlusIcon" */
+            /* webpackChunkName: "mdi/Filter9PlusIcon" */
             "mdi-react/Filter9PlusIcon"
         ),
     ),
     "mdi-ok-ru": React.lazy(() =>
         import(
-            /* webpackChunkName: "OkRuIcon" */
+            /* webpackChunkName: "mdi/OkRuIcon" */
             "mdi-react/OkRuIcon"
         ),
     ),
     "mdi-open-in-browser": React.lazy(() =>
         import(
-            /* webpackChunkName: "OpenInBrowserIcon" */
+            /* webpackChunkName: "mdi/OpenInBrowserIcon" */
             "mdi-react/OpenInBrowserIcon"
         ),
     ),
     "mdi-external-link": React.lazy(() =>
         import(
-            /* webpackChunkName: "ExternalLinkIcon" */
+            /* webpackChunkName: "mdi/ExternalLinkIcon" */
             "mdi-react/ExternalLinkIcon"
         ),
     ),
     "mdi-unarchive": React.lazy(() =>
         import(
-            /* webpackChunkName: "UnarchiveIcon" */
+            /* webpackChunkName: "mdi/UnarchiveIcon" */
             "mdi-react/UnarchiveIcon"
         ),
     ),
     "mdi-first-page": React.lazy(() =>
         import(
-            /* webpackChunkName: "FirstPageIcon" */
+            /* webpackChunkName: "mdi/FirstPageIcon" */
             "mdi-react/FirstPageIcon"
         ),
     ),
     "mdi-last-page": React.lazy(() =>
         import(
-            /* webpackChunkName: "LastPageIcon" */
+            /* webpackChunkName: "mdi/LastPageIcon" */
             "mdi-react/LastPageIcon"
         ),
     ),
     "mdi-style": React.lazy(() =>
         import(
-            /* webpackChunkName: "StyleIcon" */
+            /* webpackChunkName: "mdi/StyleIcon" */
             "mdi-react/StyleIcon"
         ),
     ),
     "mdi-color-lens": React.lazy(() =>
         import(
-            /* webpackChunkName: "ColorLensIcon" */
+            /* webpackChunkName: "mdi/ColorLensIcon" */
             "mdi-react/ColorLensIcon"
         ),
     ),
     "mdi-colour-lens": React.lazy(() =>
         import(
-            /* webpackChunkName: "ColourLensIcon" */
+            /* webpackChunkName: "mdi/ColourLensIcon" */
             "mdi-react/ColourLensIcon"
         ),
     ),
     "mdi-attachment-vertical": React.lazy(() =>
         import(
-            /* webpackChunkName: "AttachmentVerticalIcon" */
+            /* webpackChunkName: "mdi/AttachmentVerticalIcon" */
             "mdi-react/AttachmentVerticalIcon"
         ),
     ),
     "mdi-attach-file": React.lazy(() =>
         import(
-            /* webpackChunkName: "AttachFileIcon" */
+            /* webpackChunkName: "mdi/AttachFileIcon" */
             "mdi-react/AttachFileIcon"
         ),
     ),
     "mdi-car-park": React.lazy(() =>
         import(
-            /* webpackChunkName: "CarParkIcon" */
+            /* webpackChunkName: "mdi/CarParkIcon" */
             "mdi-react/CarParkIcon"
         ),
     ),
     "mdi-local-parking": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalParkingIcon" */
+            /* webpackChunkName: "mdi/LocalParkingIcon" */
             "mdi-react/LocalParkingIcon"
         ),
     ),
     "mdi-pause-circle-filled": React.lazy(() =>
         import(
-            /* webpackChunkName: "PauseCircleFilledIcon" */
+            /* webpackChunkName: "mdi/PauseCircleFilledIcon" */
             "mdi-react/PauseCircleFilledIcon"
         ),
     ),
     "mdi-pets": React.lazy(() =>
         import(
-            /* webpackChunkName: "PetsIcon" */
+            /* webpackChunkName: "mdi/PetsIcon" */
             "mdi-react/PetsIcon"
         ),
     ),
     "mdi-edit": React.lazy(() =>
         import(
-            /* webpackChunkName: "EditIcon" */
+            /* webpackChunkName: "mdi/EditIcon" */
             "mdi-react/EditIcon"
         ),
     ),
     "mdi-create": React.lazy(() =>
         import(
-            /* webpackChunkName: "CreateIcon" */
+            /* webpackChunkName: "mdi/CreateIcon" */
             "mdi-react/CreateIcon"
         ),
     ),
     "mdi-mode-edit": React.lazy(() =>
         import(
-            /* webpackChunkName: "ModeEditIcon" */
+            /* webpackChunkName: "mdi/ModeEditIcon" */
             "mdi-react/ModeEditIcon"
         ),
     ),
     "mdi-chemist": React.lazy(() =>
         import(
-            /* webpackChunkName: "ChemistIcon" */
+            /* webpackChunkName: "mdi/ChemistIcon" */
             "mdi-react/ChemistIcon"
         ),
     ),
     "mdi-local-pharmacy": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalPharmacyIcon" */
+            /* webpackChunkName: "mdi/LocalPharmacyIcon" */
             "mdi-react/LocalPharmacyIcon"
         ),
     ),
     "mdi-phone-bluetooth-speaker": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneBluetoothSpeakerIcon" */
+            /* webpackChunkName: "mdi/PhoneBluetoothSpeakerIcon" */
             "mdi-react/PhoneBluetoothSpeakerIcon"
         ),
     ),
     "mdi-telephone-bluetooth": React.lazy(() =>
         import(
-            /* webpackChunkName: "TelephoneBluetoothIcon" */
+            /* webpackChunkName: "mdi/TelephoneBluetoothIcon" */
             "mdi-react/TelephoneBluetoothIcon"
         ),
     ),
     "mdi-phone-forwarded": React.lazy(() =>
         import(
-            /* webpackChunkName: "PhoneForwardedIcon" */
+            /* webpackChunkName: "mdi/PhoneForwardedIcon" */
             "mdi-react/PhoneForwardedIcon"
         ),
     ),
     "mdi-telephone-forward": React.lazy(() =>
         import(
-            /* webpackChunkName: "TelephoneForwardIcon" */
+            /* webpackChunkName: "mdi/TelephoneForwardIcon" */
             "mdi-react/TelephoneForwardIcon"
         ),
     ),
     "mdi-call-end": React.lazy(() =>
         import(
-            /* webpackChunkName: "CallEndIcon" */
+            /* webpackChunkName: "mdi/CallEndIcon" */
             "mdi-react/CallEndIcon"
         ),
     ),
     "mdi-telephone-hangup": React.lazy(() =>
         import(
-            /* webpackChunkName: "TelephoneHangupIcon" */
+            /* webpackChunkName: "mdi/TelephoneHangupIcon" */
             "mdi-react/TelephoneHangupIcon"
         ),
     ),
     "mdi-telephone-in-talk": React.lazy(() =>
         import(
-            /* webpackChunkName: "TelephoneInTalkIcon" */
+            /* webpackChunkName: "mdi/TelephoneInTalkIcon" */
             "mdi-react/TelephoneInTalkIcon"
         ),
     ),
     "mdi-telephone-incoming": React.lazy(() =>
         import(
-            /* webpackChunkName: "TelephoneIncomingIcon" */
+            /* webpackChunkName: "mdi/TelephoneIncomingIcon" */
             "mdi-react/TelephoneIncomingIcon"
         ),
     ),
     "mdi-telephone-locked": React.lazy(() =>
         import(
-            /* webpackChunkName: "TelephoneLockedIcon" */
+            /* webpackChunkName: "mdi/TelephoneLockedIcon" */
             "mdi-react/TelephoneLockedIcon"
         ),
     ),
     "mdi-add-call": React.lazy(() =>
         import(
-            /* webpackChunkName: "AddCallIcon" */
+            /* webpackChunkName: "mdi/AddCallIcon" */
             "mdi-react/AddCallIcon"
         ),
     ),
     "mdi-settings-phone": React.lazy(() =>
         import(
-            /* webpackChunkName: "SettingsPhoneIcon" */
+            /* webpackChunkName: "mdi/SettingsPhoneIcon" */
             "mdi-react/SettingsPhoneIcon"
         ),
     ),
     "mdi-call": React.lazy(() =>
         import(
-            /* webpackChunkName: "CallIcon" */
+            /* webpackChunkName: "mdi/CallIcon" */
             "mdi-react/CallIcon"
         ),
     ),
     "mdi-local-phone": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalPhoneIcon" */
+            /* webpackChunkName: "mdi/LocalPhoneIcon" */
             "mdi-react/LocalPhoneIcon"
         ),
     ),
     "mdi-telephone": React.lazy(() =>
         import(
-            /* webpackChunkName: "TelephoneIcon" */
+            /* webpackChunkName: "mdi/TelephoneIcon" */
             "mdi-react/TelephoneIcon"
         ),
     ),
     "mdi-medicine": React.lazy(() =>
         import(
-            /* webpackChunkName: "MedicineIcon" */
+            /* webpackChunkName: "mdi/MedicineIcon" */
             "mdi-react/MedicineIcon"
         ),
     ),
     "mdi-capsule": React.lazy(() =>
         import(
-            /* webpackChunkName: "CapsuleIcon" */
+            /* webpackChunkName: "mdi/CapsuleIcon" */
             "mdi-react/CapsuleIcon"
         ),
     ),
     "mdi-historic": React.lazy(() =>
         import(
-            /* webpackChunkName: "HistoricIcon" */
+            /* webpackChunkName: "mdi/HistoricIcon" */
             "mdi-react/HistoricIcon"
         ),
     ),
     "mdi-column": React.lazy(() =>
         import(
-            /* webpackChunkName: "ColumnIcon" */
+            /* webpackChunkName: "mdi/ColumnIcon" */
             "mdi-react/ColumnIcon"
         ),
     ),
     "mdi-keep-off-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeepOffOutlineIcon" */
+            /* webpackChunkName: "mdi/KeepOffOutlineIcon" */
             "mdi-react/KeepOffOutlineIcon"
         ),
     ),
     "mdi-keep-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeepOffIcon" */
+            /* webpackChunkName: "mdi/KeepOffIcon" */
             "mdi-react/KeepOffIcon"
         ),
     ),
     "mdi-keep-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeepOutlineIcon" */
+            /* webpackChunkName: "mdi/KeepOutlineIcon" */
             "mdi-react/KeepOutlineIcon"
         ),
     ),
     "mdi-keep": React.lazy(() =>
         import(
-            /* webpackChunkName: "KeepIcon" */
+            /* webpackChunkName: "mdi/KeepIcon" */
             "mdi-react/KeepIcon"
         ),
     ),
     "mdi-gun": React.lazy(() =>
         import(
-            /* webpackChunkName: "GunIcon" */
+            /* webpackChunkName: "mdi/GunIcon" */
             "mdi-react/GunIcon"
         ),
     ),
     "mdi-pizzeria": React.lazy(() =>
         import(
-            /* webpackChunkName: "PizzeriaIcon" */
+            /* webpackChunkName: "mdi/PizzeriaIcon" */
             "mdi-react/PizzeriaIcon"
         ),
     ),
     "mdi-local-pizza": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalPizzaIcon" */
+            /* webpackChunkName: "mdi/LocalPizzaIcon" */
             "mdi-react/LocalPizzaIcon"
         ),
     ),
     "mdi-aeroplane-shield": React.lazy(() =>
         import(
-            /* webpackChunkName: "AeroplaneShieldIcon" */
+            /* webpackChunkName: "mdi/AeroplaneShieldIcon" */
             "mdi-react/AeroplaneShieldIcon"
         ),
     ),
     "mdi-airplane-shield": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirplaneShieldIcon" */
+            /* webpackChunkName: "mdi/AirplaneShieldIcon" */
             "mdi-react/AirplaneShieldIcon"
         ),
     ),
     "mdi-slideshow": React.lazy(() =>
         import(
-            /* webpackChunkName: "SlideshowIcon" */
+            /* webpackChunkName: "mdi/SlideshowIcon" */
             "mdi-react/SlideshowIcon"
         ),
     ),
     "mdi-play-circle-filled": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlayCircleFilledIcon" */
+            /* webpackChunkName: "mdi/PlayCircleFilledIcon" */
             "mdi-react/PlayCircleFilledIcon"
         ),
     ),
     "mdi-media-network": React.lazy(() =>
         import(
-            /* webpackChunkName: "MediaNetworkIcon" */
+            /* webpackChunkName: "mdi/MediaNetworkIcon" */
             "mdi-react/MediaNetworkIcon"
         ),
     ),
     "mdi-play-arrow": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlayArrowIcon" */
+            /* webpackChunkName: "mdi/PlayArrowIcon" */
             "mdi-react/PlayArrowIcon"
         ),
     ),
     "mdi-subscriptions": React.lazy(() =>
         import(
-            /* webpackChunkName: "SubscriptionsIcon" */
+            /* webpackChunkName: "mdi/SubscriptionsIcon" */
             "mdi-react/SubscriptionsIcon"
         ),
     ),
     "mdi-playlist-add-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlaylistAddCheckIcon" */
+            /* webpackChunkName: "mdi/PlaylistAddCheckIcon" */
             "mdi-react/PlaylistAddCheckIcon"
         ),
     ),
     "mdi-playlist-add": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlaylistAddIcon" */
+            /* webpackChunkName: "mdi/PlaylistAddIcon" */
             "mdi-react/PlaylistAddIcon"
         ),
     ),
     "mdi-add-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "AddBoxIcon" */
+            /* webpackChunkName: "mdi/AddBoxIcon" */
             "mdi-react/AddBoxIcon"
         ),
     ),
     "mdi-control-point-duplicate": React.lazy(() =>
         import(
-            /* webpackChunkName: "ControlPointDuplicateIcon" */
+            /* webpackChunkName: "mdi/ControlPointDuplicateIcon" */
             "mdi-react/ControlPointDuplicateIcon"
         ),
     ),
     "mdi-add-circle-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "AddCircleOutlineIcon" */
+            /* webpackChunkName: "mdi/AddCircleOutlineIcon" */
             "mdi-react/AddCircleOutlineIcon"
         ),
     ),
     "mdi-control-point": React.lazy(() =>
         import(
-            /* webpackChunkName: "ControlPointIcon" */
+            /* webpackChunkName: "mdi/ControlPointIcon" */
             "mdi-react/ControlPointIcon"
         ),
     ),
     "mdi-add-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "AddCircleIcon" */
+            /* webpackChunkName: "mdi/AddCircleIcon" */
             "mdi-react/AddCircleIcon"
         ),
     ),
     "mdi-add": React.lazy(() =>
         import(
-            /* webpackChunkName: "AddIcon" */
+            /* webpackChunkName: "mdi/AddIcon" */
             "mdi-react/AddIcon"
         ),
     ),
     "mdi-assessment": React.lazy(() =>
         import(
-            /* webpackChunkName: "AssessmentIcon" */
+            /* webpackChunkName: "mdi/AssessmentIcon" */
             "mdi-react/AssessmentIcon"
         ),
     ),
     "mdi-insert-chart": React.lazy(() =>
         import(
-            /* webpackChunkName: "InsertChartIcon" */
+            /* webpackChunkName: "mdi/InsertChartIcon" */
             "mdi-react/InsertChartIcon"
         ),
     ),
     "mdi-bar-chart": React.lazy(() =>
         import(
-            /* webpackChunkName: "BarChartIcon" */
+            /* webpackChunkName: "mdi/BarChartIcon" */
             "mdi-react/BarChartIcon"
         ),
     ),
     "mdi-hashtag-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "HashtagBoxIcon" */
+            /* webpackChunkName: "mdi/HashtagBoxIcon" */
             "mdi-react/HashtagBoxIcon"
         ),
     ),
     "mdi-hashtag": React.lazy(() =>
         import(
-            /* webpackChunkName: "HashtagIcon" */
+            /* webpackChunkName: "mdi/HashtagIcon" */
             "mdi-react/HashtagIcon"
         ),
     ),
     "mdi-settings-power": React.lazy(() =>
         import(
-            /* webpackChunkName: "SettingsPowerIcon" */
+            /* webpackChunkName: "mdi/SettingsPowerIcon" */
             "mdi-react/SettingsPowerIcon"
         ),
     ),
     "mdi-plug-socket-au": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlugSocketAuIcon" */
+            /* webpackChunkName: "mdi/PlugSocketAuIcon" */
             "mdi-react/PlugSocketAuIcon"
         ),
     ),
     "mdi-power-socket-type-i": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketTypeIIcon" */
+            /* webpackChunkName: "mdi/PowerSocketTypeIIcon" */
             "mdi-react/PowerSocketTypeIIcon"
         ),
     ),
     "mdi-power-socket-cn": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketCnIcon" */
+            /* webpackChunkName: "mdi/PowerSocketCnIcon" */
             "mdi-react/PowerSocketCnIcon"
         ),
     ),
     "mdi-power-socket-ar": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketArIcon" */
+            /* webpackChunkName: "mdi/PowerSocketArIcon" */
             "mdi-react/PowerSocketArIcon"
         ),
     ),
     "mdi-power-socket-nz": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketNzIcon" */
+            /* webpackChunkName: "mdi/PowerSocketNzIcon" */
             "mdi-react/PowerSocketNzIcon"
         ),
     ),
     "mdi-power-socket-pg": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketPgIcon" */
+            /* webpackChunkName: "mdi/PowerSocketPgIcon" */
             "mdi-react/PowerSocketPgIcon"
         ),
     ),
     "mdi-plug-socket-eu": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlugSocketEuIcon" */
+            /* webpackChunkName: "mdi/PlugSocketEuIcon" */
             "mdi-react/PlugSocketEuIcon"
         ),
     ),
     "mdi-plug-socket-uk": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlugSocketUkIcon" */
+            /* webpackChunkName: "mdi/PlugSocketUkIcon" */
             "mdi-react/PlugSocketUkIcon"
         ),
     ),
     "mdi-power-socket-type-g": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketTypeGIcon" */
+            /* webpackChunkName: "mdi/PowerSocketTypeGIcon" */
             "mdi-react/PowerSocketTypeGIcon"
         ),
     ),
     "mdi-power-socket-ie": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketIeIcon" */
+            /* webpackChunkName: "mdi/PowerSocketIeIcon" */
             "mdi-react/PowerSocketIeIcon"
         ),
     ),
     "mdi-power-socket-hk": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketHkIcon" */
+            /* webpackChunkName: "mdi/PowerSocketHkIcon" */
             "mdi-react/PowerSocketHkIcon"
         ),
     ),
     "mdi-power-socket-my": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketMyIcon" */
+            /* webpackChunkName: "mdi/PowerSocketMyIcon" */
             "mdi-react/PowerSocketMyIcon"
         ),
     ),
     "mdi-power-socket-cy": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketCyIcon" */
+            /* webpackChunkName: "mdi/PowerSocketCyIcon" */
             "mdi-react/PowerSocketCyIcon"
         ),
     ),
     "mdi-power-socket-mt": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketMtIcon" */
+            /* webpackChunkName: "mdi/PowerSocketMtIcon" */
             "mdi-react/PowerSocketMtIcon"
         ),
     ),
     "mdi-power-socket-sg": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketSgIcon" */
+            /* webpackChunkName: "mdi/PowerSocketSgIcon" */
             "mdi-react/PowerSocketSgIcon"
         ),
     ),
     "mdi-plug-socket-us": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlugSocketUsIcon" */
+            /* webpackChunkName: "mdi/PlugSocketUsIcon" */
             "mdi-react/PlugSocketUsIcon"
         ),
     ),
     "mdi-power-socket-jp": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketJpIcon" */
+            /* webpackChunkName: "mdi/PowerSocketJpIcon" */
             "mdi-react/PowerSocketJpIcon"
         ),
     ),
     "mdi-power-socket-ca": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketCaIcon" */
+            /* webpackChunkName: "mdi/PowerSocketCaIcon" */
             "mdi-react/PowerSocketCaIcon"
         ),
     ),
     "mdi-power-socket-mx": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketMxIcon" */
+            /* webpackChunkName: "mdi/PowerSocketMxIcon" */
             "mdi-react/PowerSocketMxIcon"
         ),
     ),
     "mdi-power-socket-type-b": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSocketTypeBIcon" */
+            /* webpackChunkName: "mdi/PowerSocketTypeBIcon" */
             "mdi-react/PowerSocketTypeBIcon"
         ),
     ),
     "mdi-plug-socket": React.lazy(() =>
         import(
-            /* webpackChunkName: "PlugSocketIcon" */
+            /* webpackChunkName: "mdi/PlugSocketIcon" */
             "mdi-react/PlugSocketIcon"
         ),
     ),
     "mdi-power-settings-new": React.lazy(() =>
         import(
-            /* webpackChunkName: "PowerSettingsNewIcon" */
+            /* webpackChunkName: "mdi/PowerSettingsNewIcon" */
             "mdi-react/PowerSettingsNewIcon"
         ),
     ),
     "mdi-shutdown": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShutdownIcon" */
+            /* webpackChunkName: "mdi/ShutdownIcon" */
             "mdi-react/ShutdownIcon"
         ),
     ),
     "mdi-printer-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "PrinterWarningIcon" */
+            /* webpackChunkName: "mdi/PrinterWarningIcon" */
             "mdi-react/PrinterWarningIcon"
         ),
     ),
     "mdi-local-printshop": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalPrintshopIcon" */
+            /* webpackChunkName: "mdi/LocalPrintshopIcon" */
             "mdi-react/LocalPrintshopIcon"
         ),
     ),
     "mdi-low-priority": React.lazy(() =>
         import(
-            /* webpackChunkName: "LowPriorityIcon" */
+            /* webpackChunkName: "mdi/LowPriorityIcon" */
             "mdi-react/LowPriorityIcon"
         ),
     ),
     "mdi-extension": React.lazy(() =>
         import(
-            /* webpackChunkName: "ExtensionIcon" */
+            /* webpackChunkName: "mdi/ExtensionIcon" */
             "mdi-react/ExtensionIcon"
         ),
     ),
     "mdi-high-quality": React.lazy(() =>
         import(
-            /* webpackChunkName: "HighQualityIcon" */
+            /* webpackChunkName: "mdi/HighQualityIcon" */
             "mdi-react/HighQualityIcon"
         ),
     ),
     "mdi-bunny": React.lazy(() =>
         import(
-            /* webpackChunkName: "BunnyIcon" */
+            /* webpackChunkName: "mdi/BunnyIcon" */
             "mdi-react/BunnyIcon"
         ),
     ),
     "mdi-track-changes": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrackChangesIcon" */
+            /* webpackChunkName: "mdi/TrackChangesIcon" */
             "mdi-react/TrackChangesIcon"
         ),
     ),
     "mdi-radio-button-unchecked": React.lazy(() =>
         import(
-            /* webpackChunkName: "RadioButtonUncheckedIcon" */
+            /* webpackChunkName: "mdi/RadioButtonUncheckedIcon" */
             "mdi-react/RadioButtonUncheckedIcon"
         ),
     ),
     "mdi-radio-button-checked": React.lazy(() =>
         import(
-            /* webpackChunkName: "RadioButtonCheckedIcon" */
+            /* webpackChunkName: "mdi/RadioButtonCheckedIcon" */
             "mdi-react/RadioButtonCheckedIcon"
         ),
     ),
     "mdi-fiber-manual-record": React.lazy(() =>
         import(
-            /* webpackChunkName: "FiberManualRecordIcon" */
+            /* webpackChunkName: "mdi/FiberManualRecordIcon" */
             "mdi-react/FiberManualRecordIcon"
         ),
     ),
     "mdi-image-aspect-ratio": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImageAspectRatioIcon" */
+            /* webpackChunkName: "mdi/ImageAspectRatioIcon" */
             "mdi-react/ImageAspectRatioIcon"
         ),
     ),
     "mdi-settings-remote": React.lazy(() =>
         import(
-            /* webpackChunkName: "SettingsRemoteIcon" */
+            /* webpackChunkName: "mdi/SettingsRemoteIcon" */
             "mdi-react/SettingsRemoteIcon"
         ),
     ),
     "mdi-repeat-one": React.lazy(() =>
         import(
-            /* webpackChunkName: "RepeatOneIcon" */
+            /* webpackChunkName: "mdi/RepeatOneIcon" */
             "mdi-react/RepeatOneIcon"
         ),
     ),
     "mdi-fast-rewind": React.lazy(() =>
         import(
-            /* webpackChunkName: "FastRewindIcon" */
+            /* webpackChunkName: "mdi/FastRewindIcon" */
             "mdi-react/FastRewindIcon"
         ),
     ),
     "mdi-diamond-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "DiamondOutlineIcon" */
+            /* webpackChunkName: "mdi/DiamondOutlineIcon" */
             "mdi-react/DiamondOutlineIcon"
         ),
     ),
     "mdi-neato": React.lazy(() =>
         import(
-            /* webpackChunkName: "NeatoIcon" */
+            /* webpackChunkName: "mdi/NeatoIcon" */
             "mdi-react/NeatoIcon"
         ),
     ),
     "mdi-roomba": React.lazy(() =>
         import(
-            /* webpackChunkName: "RoombaIcon" */
+            /* webpackChunkName: "mdi/RoombaIcon" */
             "mdi-react/RoombaIcon"
         ),
     ),
     "mdi-arrow-rotate-left": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowRotateLeftIcon" */
+            /* webpackChunkName: "mdi/ArrowRotateLeftIcon" */
             "mdi-react/ArrowRotateLeftIcon"
         ),
     ),
     "mdi-arrow-rotate-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArrowRotateRightIcon" */
+            /* webpackChunkName: "mdi/ArrowRotateRightIcon" */
             "mdi-react/ArrowRotateRightIcon"
         ),
     ),
     "mdi-sign-routes": React.lazy(() =>
         import(
-            /* webpackChunkName: "SignRoutesIcon" */
+            /* webpackChunkName: "mdi/SignRoutesIcon" */
             "mdi-react/SignRoutesIcon"
         ),
     ),
     "mdi-rss-feed": React.lazy(() =>
         import(
-            /* webpackChunkName: "RssFeedIcon" */
+            /* webpackChunkName: "mdi/RssFeedIcon" */
             "mdi-react/RssFeedIcon"
         ),
     ),
     "mdi-directions-run": React.lazy(() =>
         import(
-            /* webpackChunkName: "DirectionsRunIcon" */
+            /* webpackChunkName: "mdi/DirectionsRunIcon" */
             "mdi-react/DirectionsRunIcon"
         ),
     ),
     "mdi-discount": React.lazy(() =>
         import(
-            /* webpackChunkName: "DiscountIcon" */
+            /* webpackChunkName: "mdi/DiscountIcon" */
             "mdi-react/DiscountIcon"
         ),
     ),
     "mdi-graduation-cap": React.lazy(() =>
         import(
-            /* webpackChunkName: "GraduationCapIcon" */
+            /* webpackChunkName: "mdi/GraduationCapIcon" */
             "mdi-react/GraduationCapIcon"
         ),
     ),
     "mdi-screen-lock-rotation": React.lazy(() =>
         import(
-            /* webpackChunkName: "ScreenLockRotationIcon" */
+            /* webpackChunkName: "mdi/ScreenLockRotationIcon" */
             "mdi-react/ScreenLockRotationIcon"
         ),
     ),
     "mdi-sd-card": React.lazy(() =>
         import(
-            /* webpackChunkName: "SdCardIcon" */
+            /* webpackChunkName: "mdi/SdCardIcon" */
             "mdi-react/SdCardIcon"
         ),
     ),
     "mdi-sd-storage": React.lazy(() =>
         import(
-            /* webpackChunkName: "SdStorageIcon" */
+            /* webpackChunkName: "mdi/SdStorageIcon" */
             "mdi-react/SdStorageIcon"
         ),
     ),
     "mdi-airline-seat-flat-angled": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirlineSeatFlatAngledIcon" */
+            /* webpackChunkName: "mdi/AirlineSeatFlatAngledIcon" */
             "mdi-react/AirlineSeatFlatAngledIcon"
         ),
     ),
     "mdi-airline-seat-flat": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirlineSeatFlatIcon" */
+            /* webpackChunkName: "mdi/AirlineSeatFlatIcon" */
             "mdi-react/AirlineSeatFlatIcon"
         ),
     ),
     "mdi-airline-seat-individual-suite": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirlineSeatIndividualSuiteIcon" */
+            /* webpackChunkName: "mdi/AirlineSeatIndividualSuiteIcon" */
             "mdi-react/AirlineSeatIndividualSuiteIcon"
         ),
     ),
     "mdi-airline-seat-legroom-extra": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirlineSeatLegroomExtraIcon" */
+            /* webpackChunkName: "mdi/AirlineSeatLegroomExtraIcon" */
             "mdi-react/AirlineSeatLegroomExtraIcon"
         ),
     ),
     "mdi-airline-seat-legroom-normal": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirlineSeatLegroomNormalIcon" */
+            /* webpackChunkName: "mdi/AirlineSeatLegroomNormalIcon" */
             "mdi-react/AirlineSeatLegroomNormalIcon"
         ),
     ),
     "mdi-airline-seat-legroom-reduced": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirlineSeatLegroomReducedIcon" */
+            /* webpackChunkName: "mdi/AirlineSeatLegroomReducedIcon" */
             "mdi-react/AirlineSeatLegroomReducedIcon"
         ),
     ),
     "mdi-airline-seat-recline-extra": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirlineSeatReclineExtraIcon" */
+            /* webpackChunkName: "mdi/AirlineSeatReclineExtraIcon" */
             "mdi-react/AirlineSeatReclineExtraIcon"
         ),
     ),
     "mdi-airline-seat-recline-normal": React.lazy(() =>
         import(
-            /* webpackChunkName: "AirlineSeatReclineNormalIcon" */
+            /* webpackChunkName: "mdi/AirlineSeatReclineNormalIcon" */
             "mdi-react/AirlineSeatReclineNormalIcon"
         ),
     ),
     "mdi-set-centre-right": React.lazy(() =>
         import(
-            /* webpackChunkName: "SetCentreRightIcon" */
+            /* webpackChunkName: "mdi/SetCentreRightIcon" */
             "mdi-react/SetCentreRightIcon"
         ),
     ),
     "mdi-set-centre": React.lazy(() =>
         import(
-            /* webpackChunkName: "SetCentreIcon" */
+            /* webpackChunkName: "mdi/SetCentreIcon" */
             "mdi-react/SetCentreIcon"
         ),
     ),
     "mdi-set-left-centre": React.lazy(() =>
         import(
-            /* webpackChunkName: "SetLeftCentreIcon" */
+            /* webpackChunkName: "mdi/SetLeftCentreIcon" */
             "mdi-react/SetLeftCentreIcon"
         ),
     ),
     "mdi-gear-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "GearBoxIcon" */
+            /* webpackChunkName: "mdi/GearBoxIcon" */
             "mdi-react/GearBoxIcon"
         ),
     ),
     "mdi-cog-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "CogBoxIcon" */
+            /* webpackChunkName: "mdi/CogBoxIcon" */
             "mdi-react/CogBoxIcon"
         ),
     ),
     "mdi-settings-applications": React.lazy(() =>
         import(
-            /* webpackChunkName: "SettingsApplicationsIcon" */
+            /* webpackChunkName: "mdi/SettingsApplicationsIcon" */
             "mdi-react/SettingsApplicationsIcon"
         ),
     ),
     "mdi-cog-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "CogOutlineIcon" */
+            /* webpackChunkName: "mdi/CogOutlineIcon" */
             "mdi-react/CogOutlineIcon"
         ),
     ),
     "mdi-gear-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "GearOutlineIcon" */
+            /* webpackChunkName: "mdi/GearOutlineIcon" */
             "mdi-react/GearOutlineIcon"
         ),
     ),
     "mdi-cog": React.lazy(() =>
         import(
-            /* webpackChunkName: "CogIcon" */
+            /* webpackChunkName: "mdi/CogIcon" */
             "mdi-react/CogIcon"
         ),
     ),
     "mdi-gear": React.lazy(() =>
         import(
-            /* webpackChunkName: "GearIcon" */
+            /* webpackChunkName: "mdi/GearIcon" */
             "mdi-react/GearIcon"
         ),
     ),
     "mdi-theme": React.lazy(() =>
         import(
-            /* webpackChunkName: "ThemeIcon" */
+            /* webpackChunkName: "mdi/ThemeIcon" */
             "mdi-react/ThemeIcon"
         ),
     ),
     "mdi-category": React.lazy(() =>
         import(
-            /* webpackChunkName: "CategoryIcon" */
+            /* webpackChunkName: "mdi/CategoryIcon" */
             "mdi-react/CategoryIcon"
         ),
     ),
     "mdi-voyager": React.lazy(() =>
         import(
-            /* webpackChunkName: "VoyagerIcon" */
+            /* webpackChunkName: "mdi/VoyagerIcon" */
             "mdi-react/VoyagerIcon"
         ),
     ),
     "mdi-local-mall": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalMallIcon" */
+            /* webpackChunkName: "mdi/LocalMallIcon" */
             "mdi-react/LocalMallIcon"
         ),
     ),
     "mdi-summation": React.lazy(() =>
         import(
-            /* webpackChunkName: "SummationIcon" */
+            /* webpackChunkName: "mdi/SummationIcon" */
             "mdi-react/SummationIcon"
         ),
     ),
     "mdi-signal-cellular-0": React.lazy(() =>
         import(
-            /* webpackChunkName: "SignalCellular0Icon" */
+            /* webpackChunkName: "mdi/SignalCellular0Icon" */
             "mdi-react/SignalCellular0Icon"
         ),
     ),
     "mdi-local-dining": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalDiningIcon" */
+            /* webpackChunkName: "mdi/LocalDiningIcon" */
             "mdi-react/LocalDiningIcon"
         ),
     ),
     "mdi-restaurant-menu": React.lazy(() =>
         import(
-            /* webpackChunkName: "RestaurantMenuIcon" */
+            /* webpackChunkName: "mdi/RestaurantMenuIcon" */
             "mdi-react/RestaurantMenuIcon"
         ),
     ),
     "mdi-local-restaurant": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalRestaurantIcon" */
+            /* webpackChunkName: "mdi/LocalRestaurantIcon" */
             "mdi-react/LocalRestaurantIcon"
         ),
     ),
     "mdi-sim-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "SimWarningIcon" */
+            /* webpackChunkName: "mdi/SimWarningIcon" */
             "mdi-react/SimWarningIcon"
         ),
     ),
     "mdi-sim-card-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "SimCardAlertIcon" */
+            /* webpackChunkName: "mdi/SimCardAlertIcon" */
             "mdi-react/SimCardAlertIcon"
         ),
     ),
     "mdi-signal-cellular-no-sim": React.lazy(() =>
         import(
-            /* webpackChunkName: "SignalCellularNoSimIcon" */
+            /* webpackChunkName: "mdi/SignalCellularNoSimIcon" */
             "mdi-react/SignalCellularNoSimIcon"
         ),
     ),
     "mdi-sim-card": React.lazy(() =>
         import(
-            /* webpackChunkName: "SimCardIcon" */
+            /* webpackChunkName: "mdi/SimCardIcon" */
             "mdi-react/SimCardIcon"
         ),
     ),
     "mdi-workflow": React.lazy(() =>
         import(
-            /* webpackChunkName: "WorkflowIcon" */
+            /* webpackChunkName: "mdi/WorkflowIcon" */
             "mdi-react/WorkflowIcon"
         ),
     ),
     "mdi-flowchart": React.lazy(() =>
         import(
-            /* webpackChunkName: "FlowchartIcon" */
+            /* webpackChunkName: "mdi/FlowchartIcon" */
             "mdi-react/FlowchartIcon"
         ),
     ),
     "mdi-title-backward": React.lazy(() =>
         import(
-            /* webpackChunkName: "TitleBackwardIcon" */
+            /* webpackChunkName: "mdi/TitleBackwardIcon" */
             "mdi-react/TitleBackwardIcon"
         ),
     ),
     "mdi-previous-title": React.lazy(() =>
         import(
-            /* webpackChunkName: "PreviousTitleIcon" */
+            /* webpackChunkName: "mdi/PreviousTitleIcon" */
             "mdi-react/PreviousTitleIcon"
         ),
     ),
     "mdi-title-forward": React.lazy(() =>
         import(
-            /* webpackChunkName: "TitleForwardIcon" */
+            /* webpackChunkName: "mdi/TitleForwardIcon" */
             "mdi-react/TitleForwardIcon"
         ),
     ),
     "mdi-next-title": React.lazy(() =>
         import(
-            /* webpackChunkName: "NextTitleIcon" */
+            /* webpackChunkName: "mdi/NextTitleIcon" */
             "mdi-react/NextTitleIcon"
         ),
     ),
     "mdi-nest-protect": React.lazy(() =>
         import(
-            /* webpackChunkName: "NestProtectIcon" */
+            /* webpackChunkName: "mdi/NestProtectIcon" */
             "mdi-react/NestProtectIcon"
         ),
     ),
     "mdi-no-smoking": React.lazy(() =>
         import(
-            /* webpackChunkName: "NoSmokingIcon" */
+            /* webpackChunkName: "mdi/NoSmokingIcon" */
             "mdi-react/NoSmokingIcon"
         ),
     ),
     "mdi-cigarette-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "CigaretteOffIcon" */
+            /* webpackChunkName: "mdi/CigaretteOffIcon" */
             "mdi-react/CigaretteOffIcon"
         ),
     ),
     "mdi-smoke-free": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmokeFreeIcon" */
+            /* webpackChunkName: "mdi/SmokeFreeIcon" */
             "mdi-react/SmokeFreeIcon"
         ),
     ),
     "mdi-cigarette": React.lazy(() =>
         import(
-            /* webpackChunkName: "CigaretteIcon" */
+            /* webpackChunkName: "mdi/CigaretteIcon" */
             "mdi-react/CigaretteIcon"
         ),
     ),
     "mdi-smoking-area": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmokingAreaIcon" */
+            /* webpackChunkName: "mdi/SmokingAreaIcon" */
             "mdi-react/SmokingAreaIcon"
         ),
     ),
     "mdi-smoking-rooms": React.lazy(() =>
         import(
-            /* webpackChunkName: "SmokingRoomsIcon" */
+            /* webpackChunkName: "mdi/SmokingRoomsIcon" */
             "mdi-react/SmokingRoomsIcon"
         ),
     ),
     "mdi-football-pitch": React.lazy(() =>
         import(
-            /* webpackChunkName: "FootballPitchIcon" */
+            /* webpackChunkName: "mdi/FootballPitchIcon" */
             "mdi-react/FootballPitchIcon"
         ),
     ),
     "mdi-couch": React.lazy(() =>
         import(
-            /* webpackChunkName: "CouchIcon" */
+            /* webpackChunkName: "mdi/CouchIcon" */
             "mdi-react/CouchIcon"
         ),
     ),
     "mdi-sort-by-alpha": React.lazy(() =>
         import(
-            /* webpackChunkName: "SortByAlphaIcon" */
+            /* webpackChunkName: "mdi/SortByAlphaIcon" */
             "mdi-react/SortByAlphaIcon"
         ),
     ),
     "mdi-paint": React.lazy(() =>
         import(
-            /* webpackChunkName: "PaintIcon" */
+            /* webpackChunkName: "mdi/PaintIcon" */
             "mdi-react/PaintIcon"
         ),
     ),
     "mdi-aerosol": React.lazy(() =>
         import(
-            /* webpackChunkName: "AerosolIcon" */
+            /* webpackChunkName: "mdi/AerosolIcon" */
             "mdi-react/AerosolIcon"
         ),
     ),
     "mdi-arena": React.lazy(() =>
         import(
-            /* webpackChunkName: "ArenaIcon" */
+            /* webpackChunkName: "mdi/ArenaIcon" */
             "mdi-react/ArenaIcon"
         ),
     ),
     "mdi-feature-highlight": React.lazy(() =>
         import(
-            /* webpackChunkName: "FeatureHighlightIcon" */
+            /* webpackChunkName: "mdi/FeatureHighlightIcon" */
             "mdi-react/FeatureHighlightIcon"
         ),
     ),
     "mdi-stars": React.lazy(() =>
         import(
-            /* webpackChunkName: "StarsIcon" */
+            /* webpackChunkName: "mdi/StarsIcon" */
             "mdi-react/StarsIcon"
         ),
     ),
     "mdi-star-border": React.lazy(() =>
         import(
-            /* webpackChunkName: "StarBorderIcon" */
+            /* webpackChunkName: "mdi/StarBorderIcon" */
             "mdi-react/StarBorderIcon"
         ),
     ),
     "mdi-grade": React.lazy(() =>
         import(
-            /* webpackChunkName: "GradeIcon" */
+            /* webpackChunkName: "mdi/GradeIcon" */
             "mdi-react/GradeIcon"
         ),
     ),
     "mdi-star-rate": React.lazy(() =>
         import(
-            /* webpackChunkName: "StarRateIcon" */
+            /* webpackChunkName: "mdi/StarRateIcon" */
             "mdi-react/StarRateIcon"
         ),
     ),
     "mdi-search-hands-free-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "SearchHandsFreeOffIcon" */
+            /* webpackChunkName: "mdi/SearchHandsFreeOffIcon" */
             "mdi-react/SearchHandsFreeOffIcon"
         ),
     ),
     "mdi-search-hands-free": React.lazy(() =>
         import(
-            /* webpackChunkName: "SearchHandsFreeIcon" */
+            /* webpackChunkName: "mdi/SearchHandsFreeIcon" */
             "mdi-react/SearchHandsFreeIcon"
         ),
     ),
     "mdi-frame-backward": React.lazy(() =>
         import(
-            /* webpackChunkName: "FrameBackwardIcon" */
+            /* webpackChunkName: "mdi/FrameBackwardIcon" */
             "mdi-react/FrameBackwardIcon"
         ),
     ),
     "mdi-frame-forward": React.lazy(() =>
         import(
-            /* webpackChunkName: "FrameForwardIcon" */
+            /* webpackChunkName: "mdi/FrameForwardIcon" */
             "mdi-react/FrameForwardIcon"
         ),
     ),
     "mdi-local-convenience-store": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalConvenienceStoreIcon" */
+            /* webpackChunkName: "mdi/LocalConvenienceStoreIcon" */
             "mdi-react/LocalConvenienceStoreIcon"
         ),
     ),
     "mdi-shop-24-hour": React.lazy(() =>
         import(
-            /* webpackChunkName: "Shop24HourIcon" */
+            /* webpackChunkName: "mdi/Shop24HourIcon" */
             "mdi-react/Shop24HourIcon"
         ),
     ),
     "mdi-shop": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShopIcon" */
+            /* webpackChunkName: "mdi/ShopIcon" */
             "mdi-react/ShopIcon"
         ),
     ),
     "mdi-store-mall-directory": React.lazy(() =>
         import(
-            /* webpackChunkName: "StoreMallDirectoryIcon" */
+            /* webpackChunkName: "mdi/StoreMallDirectoryIcon" */
             "mdi-react/StoreMallDirectoryIcon"
         ),
     ),
     "mdi-cooker": React.lazy(() =>
         import(
-            /* webpackChunkName: "CookerIcon" */
+            /* webpackChunkName: "mdi/CookerIcon" */
             "mdi-react/CookerIcon"
         ),
     ),
     "mdi-oven": React.lazy(() =>
         import(
-            /* webpackChunkName: "OvenIcon" */
+            /* webpackChunkName: "mdi/OvenIcon" */
             "mdi-react/OvenIcon"
         ),
     ),
     "mdi-metro-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "MetroVariantIcon" */
+            /* webpackChunkName: "mdi/MetroVariantIcon" */
             "mdi-react/MetroVariantIcon"
         ),
     ),
     "mdi-tube-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "TubeVariantIcon" */
+            /* webpackChunkName: "mdi/TubeVariantIcon" */
             "mdi-react/TubeVariantIcon"
         ),
     ),
     "mdi-underground-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "UndergroundVariantIcon" */
+            /* webpackChunkName: "mdi/UndergroundVariantIcon" */
             "mdi-react/UndergroundVariantIcon"
         ),
     ),
     "mdi-directions-subway": React.lazy(() =>
         import(
-            /* webpackChunkName: "DirectionsSubwayIcon" */
+            /* webpackChunkName: "mdi/DirectionsSubwayIcon" */
             "mdi-react/DirectionsSubwayIcon"
         ),
     ),
     "mdi-directions-transit": React.lazy(() =>
         import(
-            /* webpackChunkName: "DirectionsTransitIcon" */
+            /* webpackChunkName: "mdi/DirectionsTransitIcon" */
             "mdi-react/DirectionsTransitIcon"
         ),
     ),
     "mdi-metro": React.lazy(() =>
         import(
-            /* webpackChunkName: "MetroIcon" */
+            /* webpackChunkName: "mdi/MetroIcon" */
             "mdi-react/MetroIcon"
         ),
     ),
     "mdi-tube": React.lazy(() =>
         import(
-            /* webpackChunkName: "TubeIcon" */
+            /* webpackChunkName: "mdi/TubeIcon" */
             "mdi-react/TubeIcon"
         ),
     ),
     "mdi-underground": React.lazy(() =>
         import(
-            /* webpackChunkName: "UndergroundIcon" */
+            /* webpackChunkName: "mdi/UndergroundIcon" */
             "mdi-react/UndergroundIcon"
         ),
     ),
     "mdi-peak": React.lazy(() =>
         import(
-            /* webpackChunkName: "PeakIcon" */
+            /* webpackChunkName: "mdi/PeakIcon" */
             "mdi-react/PeakIcon"
         ),
     ),
     "mdi-stereo": React.lazy(() =>
         import(
-            /* webpackChunkName: "StereoIcon" */
+            /* webpackChunkName: "mdi/StereoIcon" */
             "mdi-react/StereoIcon"
         ),
     ),
     "mdi-swap-calls": React.lazy(() =>
         import(
-            /* webpackChunkName: "SwapCallsIcon" */
+            /* webpackChunkName: "mdi/SwapCallsIcon" */
             "mdi-react/SwapCallsIcon"
         ),
     ),
     "mdi-import-export": React.lazy(() =>
         import(
-            /* webpackChunkName: "ImportExportIcon" */
+            /* webpackChunkName: "mdi/ImportExportIcon" */
             "mdi-react/ImportExportIcon"
         ),
     ),
     "mdi-sync-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "SyncWarningIcon" */
+            /* webpackChunkName: "mdi/SyncWarningIcon" */
             "mdi-react/SyncWarningIcon"
         ),
     ),
     "mdi-sync-problem": React.lazy(() =>
         import(
-            /* webpackChunkName: "SyncProblemIcon" */
+            /* webpackChunkName: "mdi/SyncProblemIcon" */
             "mdi-react/SyncProblemIcon"
         ),
     ),
     "mdi-sync-disabled": React.lazy(() =>
         import(
-            /* webpackChunkName: "SyncDisabledIcon" */
+            /* webpackChunkName: "mdi/SyncDisabledIcon" */
             "mdi-react/SyncDisabledIcon"
         ),
     ),
     "mdi-toc": React.lazy(() =>
         import(
-            /* webpackChunkName: "TocIcon" */
+            /* webpackChunkName: "mdi/TocIcon" */
             "mdi-react/TocIcon"
         ),
     ),
     "mdi-mobile-devices": React.lazy(() =>
         import(
-            /* webpackChunkName: "MobileDevicesIcon" */
+            /* webpackChunkName: "mdi/MobileDevicesIcon" */
             "mdi-react/MobileDevicesIcon"
         ),
     ),
     "mdi-tablet-mac": React.lazy(() =>
         import(
-            /* webpackChunkName: "TabletMacIcon" */
+            /* webpackChunkName: "mdi/TabletMacIcon" */
             "mdi-react/TabletMacIcon"
         ),
     ),
     "mdi-loyalty": React.lazy(() =>
         import(
-            /* webpackChunkName: "LoyaltyIcon" */
+            /* webpackChunkName: "mdi/LoyaltyIcon" */
             "mdi-react/LoyaltyIcon"
         ),
     ),
     "mdi-local-offer": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalOfferIcon" */
+            /* webpackChunkName: "mdi/LocalOfferIcon" */
             "mdi-react/LocalOfferIcon"
         ),
     ),
     "mdi-local-taxi": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalTaxiIcon" */
+            /* webpackChunkName: "mdi/LocalTaxiIcon" */
             "mdi-react/LocalTaxiIcon"
         ),
     ),
     "mdi-teacher": React.lazy(() =>
         import(
-            /* webpackChunkName: "TeacherIcon" */
+            /* webpackChunkName: "mdi/TeacherIcon" */
             "mdi-react/TeacherIcon"
         ),
     ),
     "mdi-teaching": React.lazy(() =>
         import(
-            /* webpackChunkName: "TeachingIcon" */
+            /* webpackChunkName: "mdi/TeachingIcon" */
             "mdi-react/TeachingIcon"
         ),
     ),
     "mdi-tv-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "TvBoxIcon" */
+            /* webpackChunkName: "mdi/TvBoxIcon" */
             "mdi-react/TvBoxIcon"
         ),
     ),
     "mdi-tv-guide": React.lazy(() =>
         import(
-            /* webpackChunkName: "TvGuideIcon" */
+            /* webpackChunkName: "mdi/TvGuideIcon" */
             "mdi-react/TvGuideIcon"
         ),
     ),
     "mdi-tv-classic-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "TvClassicOffIcon" */
+            /* webpackChunkName: "mdi/TvClassicOffIcon" */
             "mdi-react/TvClassicOffIcon"
         ),
     ),
     "mdi-tv-classic": React.lazy(() =>
         import(
-            /* webpackChunkName: "TvClassicIcon" */
+            /* webpackChunkName: "mdi/TvClassicIcon" */
             "mdi-react/TvClassicIcon"
         ),
     ),
     "mdi-tv-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "TvOffIcon" */
+            /* webpackChunkName: "mdi/TvOffIcon" */
             "mdi-react/TvOffIcon"
         ),
     ),
     "mdi-tv": React.lazy(() =>
         import(
-            /* webpackChunkName: "TvIcon" */
+            /* webpackChunkName: "mdi/TvIcon" */
             "mdi-react/TvIcon"
         ),
     ),
     "mdi-temperature-centigrade": React.lazy(() =>
         import(
-            /* webpackChunkName: "TemperatureCentigradeIcon" */
+            /* webpackChunkName: "mdi/TemperatureCentigradeIcon" */
             "mdi-react/TemperatureCentigradeIcon"
         ),
     ),
     "mdi-camping": React.lazy(() =>
         import(
-            /* webpackChunkName: "CampingIcon" */
+            /* webpackChunkName: "mdi/CampingIcon" */
             "mdi-react/CampingIcon"
         ),
     ),
     "mdi-cinema": React.lazy(() =>
         import(
-            /* webpackChunkName: "CinemaIcon" */
+            /* webpackChunkName: "mdi/CinemaIcon" */
             "mdi-react/CinemaIcon"
         ),
     ),
     "mdi-theatre": React.lazy(() =>
         import(
-            /* webpackChunkName: "TheatreIcon" */
+            /* webpackChunkName: "mdi/TheatreIcon" */
             "mdi-react/TheatreIcon"
         ),
     ),
     "mdi-sun-moon-stars": React.lazy(() =>
         import(
-            /* webpackChunkName: "SunMoonStarsIcon" */
+            /* webpackChunkName: "mdi/SunMoonStarsIcon" */
             "mdi-react/SunMoonStarsIcon"
         ),
     ),
     "mdi-nest": React.lazy(() =>
         import(
-            /* webpackChunkName: "NestIcon" */
+            /* webpackChunkName: "mdi/NestIcon" */
             "mdi-react/NestIcon"
         ),
     ),
     "mdi-comic-thought-bubble-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ComicThoughtBubbleOutlineIcon" */
+            /* webpackChunkName: "mdi/ComicThoughtBubbleOutlineIcon" */
             "mdi-react/ComicThoughtBubbleOutlineIcon"
         ),
     ),
     "mdi-comic-bubble": React.lazy(() =>
         import(
-            /* webpackChunkName: "ComicBubbleIcon" */
+            /* webpackChunkName: "mdi/ComicBubbleIcon" */
             "mdi-react/ComicBubbleIcon"
         ),
     ),
     "mdi-dislike-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "DislikeOutlineIcon" */
+            /* webpackChunkName: "mdi/DislikeOutlineIcon" */
             "mdi-react/DislikeOutlineIcon"
         ),
     ),
     "mdi-thumbs-down-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ThumbsDownOutlineIcon" */
+            /* webpackChunkName: "mdi/ThumbsDownOutlineIcon" */
             "mdi-react/ThumbsDownOutlineIcon"
         ),
     ),
     "mdi-dislike": React.lazy(() =>
         import(
-            /* webpackChunkName: "DislikeIcon" */
+            /* webpackChunkName: "mdi/DislikeIcon" */
             "mdi-react/DislikeIcon"
         ),
     ),
     "mdi-thumbs-down": React.lazy(() =>
         import(
-            /* webpackChunkName: "ThumbsDownIcon" */
+            /* webpackChunkName: "mdi/ThumbsDownIcon" */
             "mdi-react/ThumbsDownIcon"
         ),
     ),
     "mdi-like-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "LikeOutlineIcon" */
+            /* webpackChunkName: "mdi/LikeOutlineIcon" */
             "mdi-react/LikeOutlineIcon"
         ),
     ),
     "mdi-thumbs-up-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "ThumbsUpOutlineIcon" */
+            /* webpackChunkName: "mdi/ThumbsUpOutlineIcon" */
             "mdi-react/ThumbsUpOutlineIcon"
         ),
     ),
     "mdi-like": React.lazy(() =>
         import(
-            /* webpackChunkName: "LikeIcon" */
+            /* webpackChunkName: "mdi/LikeIcon" */
             "mdi-react/LikeIcon"
         ),
     ),
     "mdi-thumbs-up": React.lazy(() =>
         import(
-            /* webpackChunkName: "ThumbsUpIcon" */
+            /* webpackChunkName: "mdi/ThumbsUpIcon" */
             "mdi-react/ThumbsUpIcon"
         ),
     ),
     "mdi-like-dislike": React.lazy(() =>
         import(
-            /* webpackChunkName: "LikeDislikeIcon" */
+            /* webpackChunkName: "mdi/LikeDislikeIcon" */
             "mdi-react/LikeDislikeIcon"
         ),
     ),
     "mdi-ticket-user": React.lazy(() =>
         import(
-            /* webpackChunkName: "TicketUserIcon" */
+            /* webpackChunkName: "mdi/TicketUserIcon" */
             "mdi-react/TicketUserIcon"
         ),
     ),
     "mdi-confirmation-number": React.lazy(() =>
         import(
-            /* webpackChunkName: "ConfirmationNumberIcon" */
+            /* webpackChunkName: "mdi/ConfirmationNumberIcon" */
             "mdi-react/ConfirmationNumberIcon"
         ),
     ),
     "mdi-coupon": React.lazy(() =>
         import(
-            /* webpackChunkName: "CouponIcon" */
+            /* webpackChunkName: "mdi/CouponIcon" */
             "mdi-react/CouponIcon"
         ),
     ),
     "mdi-voucher": React.lazy(() =>
         import(
-            /* webpackChunkName: "VoucherIcon" */
+            /* webpackChunkName: "mdi/VoucherIcon" */
             "mdi-react/VoucherIcon"
         ),
     ),
     "mdi-local-activity": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalActivityIcon" */
+            /* webpackChunkName: "mdi/LocalActivityIcon" */
             "mdi-react/LocalActivityIcon"
         ),
     ),
     "mdi-local-play": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalPlayIcon" */
+            /* webpackChunkName: "mdi/LocalPlayIcon" */
             "mdi-react/LocalPlayIcon"
         ),
     ),
     "mdi-local-attraction": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalAttractionIcon" */
+            /* webpackChunkName: "mdi/LocalAttractionIcon" */
             "mdi-react/LocalAttractionIcon"
         ),
     ),
     "mdi-stopwatch-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "StopwatchOffIcon" */
+            /* webpackChunkName: "mdi/StopwatchOffIcon" */
             "mdi-react/StopwatchOffIcon"
         ),
     ),
     "mdi-hourglass-empty": React.lazy(() =>
         import(
-            /* webpackChunkName: "HourglassEmptyIcon" */
+            /* webpackChunkName: "mdi/HourglassEmptyIcon" */
             "mdi-react/HourglassEmptyIcon"
         ),
     ),
     "mdi-hourglass-full": React.lazy(() =>
         import(
-            /* webpackChunkName: "HourglassFullIcon" */
+            /* webpackChunkName: "mdi/HourglassFullIcon" */
             "mdi-react/HourglassFullIcon"
         ),
     ),
     "mdi-hourglass": React.lazy(() =>
         import(
-            /* webpackChunkName: "HourglassIcon" */
+            /* webpackChunkName: "mdi/HourglassIcon" */
             "mdi-react/HourglassIcon"
         ),
     ),
     "mdi-stopwatch": React.lazy(() =>
         import(
-            /* webpackChunkName: "StopwatchIcon" */
+            /* webpackChunkName: "mdi/StopwatchIcon" */
             "mdi-react/StopwatchIcon"
         ),
     ),
     "mdi-bracket": React.lazy(() =>
         import(
-            /* webpackChunkName: "BracketIcon" */
+            /* webpackChunkName: "mdi/BracketIcon" */
             "mdi-react/BracketIcon"
         ),
     ),
     "mdi-auto-towing": React.lazy(() =>
         import(
-            /* webpackChunkName: "AutoTowingIcon" */
+            /* webpackChunkName: "mdi/AutoTowingIcon" */
             "mdi-react/AutoTowingIcon"
         ),
     ),
     "mdi-directions-railway": React.lazy(() =>
         import(
-            /* webpackChunkName: "DirectionsRailwayIcon" */
+            /* webpackChunkName: "mdi/DirectionsRailwayIcon" */
             "mdi-react/DirectionsRailwayIcon"
         ),
     ),
     "mdi-transfer-within-a-station": React.lazy(() =>
         import(
-            /* webpackChunkName: "TransferWithinAStationIcon" */
+            /* webpackChunkName: "mdi/TransferWithinAStationIcon" */
             "mdi-react/TransferWithinAStationIcon"
         ),
     ),
     "mdi-masked-transitions": React.lazy(() =>
         import(
-            /* webpackChunkName: "MaskedTransitionsIcon" */
+            /* webpackChunkName: "mdi/MaskedTransitionsIcon" */
             "mdi-react/MaskedTransitionsIcon"
         ),
     ),
     "mdi-motion": React.lazy(() =>
         import(
-            /* webpackChunkName: "MotionIcon" */
+            /* webpackChunkName: "mdi/MotionIcon" */
             "mdi-react/MotionIcon"
         ),
     ),
     "mdi-language": React.lazy(() =>
         import(
-            /* webpackChunkName: "LanguageIcon" */
+            /* webpackChunkName: "mdi/LanguageIcon" */
             "mdi-react/LanguageIcon"
         ),
     ),
     "mdi-trending-flat": React.lazy(() =>
         import(
-            /* webpackChunkName: "TrendingFlatIcon" */
+            /* webpackChunkName: "mdi/TrendingFlatIcon" */
             "mdi-react/TrendingFlatIcon"
         ),
     ),
     "mdi-achievement-award": React.lazy(() =>
         import(
-            /* webpackChunkName: "AchievementAwardIcon" */
+            /* webpackChunkName: "mdi/AchievementAwardIcon" */
             "mdi-react/AchievementAwardIcon"
         ),
     ),
     "mdi-achievement-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "AchievementOutlineIcon" */
+            /* webpackChunkName: "mdi/AchievementOutlineIcon" */
             "mdi-react/AchievementOutlineIcon"
         ),
     ),
     "mdi-achievement-variant-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "AchievementVariantOutlineIcon" */
+            /* webpackChunkName: "mdi/AchievementVariantOutlineIcon" */
             "mdi-react/AchievementVariantOutlineIcon"
         ),
     ),
     "mdi-achievement-variant": React.lazy(() =>
         import(
-            /* webpackChunkName: "AchievementVariantIcon" */
+            /* webpackChunkName: "mdi/AchievementVariantIcon" */
             "mdi-react/AchievementVariantIcon"
         ),
     ),
     "mdi-achievement": React.lazy(() =>
         import(
-            /* webpackChunkName: "AchievementIcon" */
+            /* webpackChunkName: "mdi/AchievementIcon" */
             "mdi-react/AchievementIcon"
         ),
     ),
     "mdi-lorry-delivery": React.lazy(() =>
         import(
-            /* webpackChunkName: "LorryDeliveryIcon" */
+            /* webpackChunkName: "mdi/LorryDeliveryIcon" */
             "mdi-react/LorryDeliveryIcon"
         ),
     ),
     "mdi-lorry-fast": React.lazy(() =>
         import(
-            /* webpackChunkName: "LorryFastIcon" */
+            /* webpackChunkName: "mdi/LorryFastIcon" */
             "mdi-react/LorryFastIcon"
         ),
     ),
     "mdi-lorry": React.lazy(() =>
         import(
-            /* webpackChunkName: "LorryIcon" */
+            /* webpackChunkName: "mdi/LorryIcon" */
             "mdi-react/LorryIcon"
         ),
     ),
     "mdi-local-shipping": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalShippingIcon" */
+            /* webpackChunkName: "mdi/LocalShippingIcon" */
             "mdi-react/LocalShippingIcon"
         ),
     ),
     "mdi-equaliser-vertical": React.lazy(() =>
         import(
-            /* webpackChunkName: "EqualiserVerticalIcon" */
+            /* webpackChunkName: "mdi/EqualiserVerticalIcon" */
             "mdi-react/EqualiserVerticalIcon"
         ),
     ),
     "mdi-instant-mix": React.lazy(() =>
         import(
-            /* webpackChunkName: "InstantMixIcon" */
+            /* webpackChunkName: "mdi/InstantMixIcon" */
             "mdi-react/InstantMixIcon"
         ),
     ),
     "mdi-mixer-settings": React.lazy(() =>
         import(
-            /* webpackChunkName: "MixerSettingsIcon" */
+            /* webpackChunkName: "mdi/MixerSettingsIcon" */
             "mdi-react/MixerSettingsIcon"
         ),
     ),
     "mdi-equaliser": React.lazy(() =>
         import(
-            /* webpackChunkName: "EqualiserIcon" */
+            /* webpackChunkName: "mdi/EqualiserIcon" */
             "mdi-react/EqualiserIcon"
         ),
     ),
     "mdi-uhd": React.lazy(() =>
         import(
-            /* webpackChunkName: "UhdIcon" */
+            /* webpackChunkName: "mdi/UhdIcon" */
             "mdi-react/UhdIcon"
         ),
     ),
     "mdi-unreal-engine": React.lazy(() =>
         import(
-            /* webpackChunkName: "UnrealEngineIcon" */
+            /* webpackChunkName: "mdi/UnrealEngineIcon" */
             "mdi-react/UnrealEngineIcon"
         ),
     ),
     "mdi-clockwise": React.lazy(() =>
         import(
-            /* webpackChunkName: "ClockwiseIcon" */
+            /* webpackChunkName: "mdi/ClockwiseIcon" */
             "mdi-react/ClockwiseIcon"
         ),
     ),
     "mdi-file-upload": React.lazy(() =>
         import(
-            /* webpackChunkName: "FileUploadIcon" */
+            /* webpackChunkName: "mdi/FileUploadIcon" */
             "mdi-react/FileUploadIcon"
         ),
     ),
     "mdi-van-candy": React.lazy(() =>
         import(
-            /* webpackChunkName: "VanCandyIcon" */
+            /* webpackChunkName: "mdi/VanCandyIcon" */
             "mdi-react/VanCandyIcon"
         ),
     ),
     "mdi-bezier": React.lazy(() =>
         import(
-            /* webpackChunkName: "BezierIcon" */
+            /* webpackChunkName: "mdi/BezierIcon" */
             "mdi-react/BezierIcon"
         ),
     ),
     "mdi-shield-check": React.lazy(() =>
         import(
-            /* webpackChunkName: "ShieldCheckIcon" */
+            /* webpackChunkName: "mdi/ShieldCheckIcon" */
             "mdi-react/ShieldCheckIcon"
         ),
     ),
     "mdi-verified-user": React.lazy(() =>
         import(
-            /* webpackChunkName: "VerifiedUserIcon" */
+            /* webpackChunkName: "mdi/VerifiedUserIcon" */
             "mdi-react/VerifiedUserIcon"
         ),
     ),
     "mdi-vibration": React.lazy(() =>
         import(
-            /* webpackChunkName: "VibrationIcon" */
+            /* webpackChunkName: "mdi/VibrationIcon" */
             "mdi-react/VibrationIcon"
         ),
     ),
     "mdi-video-user": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideoUserIcon" */
+            /* webpackChunkName: "mdi/VideoUserIcon" */
             "mdi-react/VideoUserIcon"
         ),
     ),
     "mdi-settings-input-antenna": React.lazy(() =>
         import(
-            /* webpackChunkName: "SettingsInputAntennaIcon" */
+            /* webpackChunkName: "mdi/SettingsInputAntennaIcon" */
             "mdi-react/SettingsInputAntennaIcon"
         ),
     ),
     "mdi-video-input-composite": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideoInputCompositeIcon" */
+            /* webpackChunkName: "mdi/VideoInputCompositeIcon" */
             "mdi-react/VideoInputCompositeIcon"
         ),
     ),
     "mdi-settings-input-component": React.lazy(() =>
         import(
-            /* webpackChunkName: "SettingsInputComponentIcon" */
+            /* webpackChunkName: "mdi/SettingsInputComponentIcon" */
             "mdi-react/SettingsInputComponentIcon"
         ),
     ),
     "mdi-settings-input-composite": React.lazy(() =>
         import(
-            /* webpackChunkName: "SettingsInputCompositeIcon" */
+            /* webpackChunkName: "mdi/SettingsInputCompositeIcon" */
             "mdi-react/SettingsInputCompositeIcon"
         ),
     ),
     "mdi-video-input-ypbpr": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideoInputYpbprIcon" */
+            /* webpackChunkName: "mdi/VideoInputYpbprIcon" */
             "mdi-react/VideoInputYpbprIcon"
         ),
     ),
     "mdi-rca": React.lazy(() =>
         import(
-            /* webpackChunkName: "RcaIcon" */
+            /* webpackChunkName: "mdi/RcaIcon" */
             "mdi-react/RcaIcon"
         ),
     ),
     "mdi-settings-input-hdmi": React.lazy(() =>
         import(
-            /* webpackChunkName: "SettingsInputHdmiIcon" */
+            /* webpackChunkName: "mdi/SettingsInputHdmiIcon" */
             "mdi-react/SettingsInputHdmiIcon"
         ),
     ),
     "mdi-settings-input-svideo": React.lazy(() =>
         import(
-            /* webpackChunkName: "SettingsInputSvideoIcon" */
+            /* webpackChunkName: "mdi/SettingsInputSvideoIcon" */
             "mdi-react/SettingsInputSvideoIcon"
         ),
     ),
     "mdi-videocam-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideocamOffIcon" */
+            /* webpackChunkName: "mdi/VideocamOffIcon" */
             "mdi-react/VideocamOffIcon"
         ),
     ),
     "mdi-video-call": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideoCallIcon" */
+            /* webpackChunkName: "mdi/VideoCallIcon" */
             "mdi-react/VideoCallIcon"
         ),
     ),
     "mdi-video-stabilisation": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideoStabilisationIcon" */
+            /* webpackChunkName: "mdi/VideoStabilisationIcon" */
             "mdi-react/VideoStabilisationIcon"
         ),
     ),
     "mdi-switch-video": React.lazy(() =>
         import(
-            /* webpackChunkName: "SwitchVideoIcon" */
+            /* webpackChunkName: "mdi/SwitchVideoIcon" */
             "mdi-react/SwitchVideoIcon"
         ),
     ),
     "mdi-videocam": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideocamIcon" */
+            /* webpackChunkName: "mdi/VideocamIcon" */
             "mdi-react/VideocamIcon"
         ),
     ),
     "mdi-vr": React.lazy(() =>
         import(
-            /* webpackChunkName: "VrIcon" */
+            /* webpackChunkName: "mdi/VrIcon" */
             "mdi-react/VrIcon"
         ),
     ),
     "mdi-vkontakte-box": React.lazy(() =>
         import(
-            /* webpackChunkName: "VkontakteBoxIcon" */
+            /* webpackChunkName: "mdi/VkontakteBoxIcon" */
             "mdi-react/VkontakteBoxIcon"
         ),
     ),
     "mdi-vkontakte-circle": React.lazy(() =>
         import(
-            /* webpackChunkName: "VkontakteCircleIcon" */
+            /* webpackChunkName: "mdi/VkontakteCircleIcon" */
             "mdi-react/VkontakteCircleIcon"
         ),
     ),
     "mdi-vkontakte": React.lazy(() =>
         import(
-            /* webpackChunkName: "VkontakteIcon" */
+            /* webpackChunkName: "mdi/VkontakteIcon" */
             "mdi-react/VkontakteIcon"
         ),
     ),
     "mdi-record-voice-over": React.lazy(() =>
         import(
-            /* webpackChunkName: "RecordVoiceOverIcon" */
+            /* webpackChunkName: "mdi/RecordVoiceOverIcon" */
             "mdi-react/RecordVoiceOverIcon"
         ),
     ),
     "mdi-audio": React.lazy(() =>
         import(
-            /* webpackChunkName: "AudioIcon" */
+            /* webpackChunkName: "mdi/AudioIcon" */
             "mdi-react/AudioIcon"
         ),
     ),
     "mdi-speakerphone": React.lazy(() =>
         import(
-            /* webpackChunkName: "SpeakerphoneIcon" */
+            /* webpackChunkName: "mdi/SpeakerphoneIcon" */
             "mdi-react/SpeakerphoneIcon"
         ),
     ),
     "mdi-mute": React.lazy(() =>
         import(
-            /* webpackChunkName: "MuteIcon" */
+            /* webpackChunkName: "mdi/MuteIcon" */
             "mdi-react/MuteIcon"
         ),
     ),
     "mdi-audio-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "AudioOffIcon" */
+            /* webpackChunkName: "mdi/AudioOffIcon" */
             "mdi-react/AudioOffIcon"
         ),
     ),
     "mdi-speakerphone-off": React.lazy(() =>
         import(
-            /* webpackChunkName: "SpeakerphoneOffIcon" */
+            /* webpackChunkName: "mdi/SpeakerphoneOffIcon" */
             "mdi-react/SpeakerphoneOffIcon"
         ),
     ),
     "mdi-directions-walk": React.lazy(() =>
         import(
-            /* webpackChunkName: "DirectionsWalkIcon" */
+            /* webpackChunkName: "mdi/DirectionsWalkIcon" */
             "mdi-react/DirectionsWalkIcon"
         ),
     ),
     "mdi-card-giftcard": React.lazy(() =>
         import(
-            /* webpackChunkName: "CardGiftcardIcon" */
+            /* webpackChunkName: "mdi/CardGiftcardIcon" */
             "mdi-react/CardGiftcardIcon"
         ),
     ),
     "mdi-redeem": React.lazy(() =>
         import(
-            /* webpackChunkName: "RedeemIcon" */
+            /* webpackChunkName: "mdi/RedeemIcon" */
             "mdi-react/RedeemIcon"
         ),
     ),
     "mdi-card-membership": React.lazy(() =>
         import(
-            /* webpackChunkName: "CardMembershipIcon" */
+            /* webpackChunkName: "mdi/CardMembershipIcon" */
             "mdi-react/CardMembershipIcon"
         ),
     ),
     "mdi-card-travel": React.lazy(() =>
         import(
-            /* webpackChunkName: "CardTravelIcon" */
+            /* webpackChunkName: "mdi/CardTravelIcon" */
             "mdi-react/CardTravelIcon"
         ),
     ),
     "mdi-account-balance-wallet": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccountBalanceWalletIcon" */
+            /* webpackChunkName: "mdi/AccountBalanceWalletIcon" */
             "mdi-react/AccountBalanceWalletIcon"
         ),
     ),
     "mdi-laundrette": React.lazy(() =>
         import(
-            /* webpackChunkName: "LaundretteIcon" */
+            /* webpackChunkName: "mdi/LaundretteIcon" */
             "mdi-react/LaundretteIcon"
         ),
     ),
     "mdi-local-laundry-service": React.lazy(() =>
         import(
-            /* webpackChunkName: "LocalLaundryServiceIcon" */
+            /* webpackChunkName: "mdi/LocalLaundryServiceIcon" */
             "mdi-react/LocalLaundryServiceIcon"
         ),
     ),
     "mdi-format-color-reset": React.lazy(() =>
         import(
-            /* webpackChunkName: "FormatColorResetIcon" */
+            /* webpackChunkName: "mdi/FormatColorResetIcon" */
             "mdi-react/FormatColorResetIcon"
         ),
     ),
     "mdi-humidity": React.lazy(() =>
         import(
-            /* webpackChunkName: "HumidityIcon" */
+            /* webpackChunkName: "mdi/HumidityIcon" */
             "mdi-react/HumidityIcon"
         ),
     ),
     "mdi-branding-watermark": React.lazy(() =>
         import(
-            /* webpackChunkName: "BrandingWatermarkIcon" */
+            /* webpackChunkName: "mdi/BrandingWatermarkIcon" */
             "mdi-react/BrandingWatermarkIcon"
         ),
     ),
     "mdi-moon-and-stars": React.lazy(() =>
         import(
-            /* webpackChunkName: "MoonAndStarsIcon" */
+            /* webpackChunkName: "mdi/MoonAndStarsIcon" */
             "mdi-react/MoonAndStarsIcon"
         ),
     ),
     "mdi-night-sky": React.lazy(() =>
         import(
-            /* webpackChunkName: "NightSkyIcon" */
+            /* webpackChunkName: "mdi/NightSkyIcon" */
             "mdi-react/NightSkyIcon"
         ),
     ),
     "mdi-accessible": React.lazy(() =>
         import(
-            /* webpackChunkName: "AccessibleIcon" */
+            /* webpackChunkName: "mdi/AccessibleIcon" */
             "mdi-react/AccessibleIcon"
         ),
     ),
     "mdi-wb-auto": React.lazy(() =>
         import(
-            /* webpackChunkName: "WbAutoIcon" */
+            /* webpackChunkName: "mdi/WbAutoIcon" */
             "mdi-react/WbAutoIcon"
         ),
     ),
     "mdi-wb-incandescent": React.lazy(() =>
         import(
-            /* webpackChunkName: "WbIncandescentIcon" */
+            /* webpackChunkName: "mdi/WbIncandescentIcon" */
             "mdi-react/WbIncandescentIcon"
         ),
     ),
     "mdi-wb-iridescent": React.lazy(() =>
         import(
-            /* webpackChunkName: "WbIridescentIcon" */
+            /* webpackChunkName: "mdi/WbIridescentIcon" */
             "mdi-react/WbIridescentIcon"
         ),
     ),
     "mdi-wb-sunny": React.lazy(() =>
         import(
-            /* webpackChunkName: "WbSunnyIcon" */
+            /* webpackChunkName: "mdi/WbSunnyIcon" */
             "mdi-react/WbSunnyIcon"
         ),
     ),
     "mdi-wifi-strength-1-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength1WarningIcon" */
+            /* webpackChunkName: "mdi/WifiStrength1WarningIcon" */
             "mdi-react/WifiStrength1WarningIcon"
         ),
     ),
     "mdi-wifi-strength-2-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength2WarningIcon" */
+            /* webpackChunkName: "mdi/WifiStrength2WarningIcon" */
             "mdi-react/WifiStrength2WarningIcon"
         ),
     ),
     "mdi-wifi-strength-3-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength3WarningIcon" */
+            /* webpackChunkName: "mdi/WifiStrength3WarningIcon" */
             "mdi-react/WifiStrength3WarningIcon"
         ),
     ),
     "mdi-wifi-strength-4-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength4WarningIcon" */
+            /* webpackChunkName: "mdi/WifiStrength4WarningIcon" */
             "mdi-react/WifiStrength4WarningIcon"
         ),
     ),
     "mdi-wifi-strength-warning-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrengthWarningOutlineIcon" */
+            /* webpackChunkName: "mdi/WifiStrengthWarningOutlineIcon" */
             "mdi-react/WifiStrengthWarningOutlineIcon"
         ),
     ),
     "mdi-wifi-strength-0-alert": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength0AlertIcon" */
+            /* webpackChunkName: "mdi/WifiStrength0AlertIcon" */
             "mdi-react/WifiStrength0AlertIcon"
         ),
     ),
     "mdi-wifi-strength-0-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength0WarningIcon" */
+            /* webpackChunkName: "mdi/WifiStrength0WarningIcon" */
             "mdi-react/WifiStrength0WarningIcon"
         ),
     ),
     "mdi-wifi-strength-0-lock": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength0LockIcon" */
+            /* webpackChunkName: "mdi/WifiStrength0LockIcon" */
             "mdi-react/WifiStrength0LockIcon"
         ),
     ),
     "mdi-wifi-strength-0": React.lazy(() =>
         import(
-            /* webpackChunkName: "WifiStrength0Icon" */
+            /* webpackChunkName: "mdi/WifiStrength0Icon" */
             "mdi-react/WifiStrength0Icon"
         ),
     ),
     "mdi-build": React.lazy(() =>
         import(
-            /* webpackChunkName: "BuildIcon" */
+            /* webpackChunkName: "mdi/BuildIcon" */
             "mdi-react/BuildIcon"
         ),
     ),
     "mdi-microsoft-xamarin-outline": React.lazy(() =>
         import(
-            /* webpackChunkName: "MicrosoftXamarinOutlineIcon" */
+            /* webpackChunkName: "mdi/MicrosoftXamarinOutlineIcon" */
             "mdi-react/MicrosoftXamarinOutlineIcon"
         ),
     ),
     "mdi-microsoft-xamarin": React.lazy(() =>
         import(
-            /* webpackChunkName: "MicrosoftXamarinIcon" */
+            /* webpackChunkName: "mdi/MicrosoftXamarinIcon" */
             "mdi-react/MicrosoftXamarinIcon"
         ),
     ),
     "mdi-xbox-controller-battery-warning": React.lazy(() =>
         import(
-            /* webpackChunkName: "XboxControllerBatteryWarningIcon" */
+            /* webpackChunkName: "mdi/XboxControllerBatteryWarningIcon" */
             "mdi-react/XboxControllerBatteryWarningIcon"
         ),
     ),
     "mdi-video-youtube": React.lazy(() =>
         import(
-            /* webpackChunkName: "VideoYoutubeIcon" */
+            /* webpackChunkName: "mdi/VideoYoutubeIcon" */
             "mdi-react/VideoYoutubeIcon"
         ),
     ),
     "mdi-youtube-play": React.lazy(() =>
         import(
-            /* webpackChunkName: "YoutubePlayIcon" */
+            /* webpackChunkName: "mdi/YoutubePlayIcon" */
             "mdi-react/YoutubePlayIcon"
         ),
     ),
@@ -20929,7 +20928,5 @@ const MDIIcon = ({iconfont, size, ...otherPops}: IProps) => {
 
     return IconComponent ? <IconComponent size={SIZE_MAP[size]} {...otherPops} /> : null;
 };
-
-mapComponents.mdi = MDIIcon;
 
 export default MDIIcon;

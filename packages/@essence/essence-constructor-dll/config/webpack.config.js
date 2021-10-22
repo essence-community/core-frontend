@@ -149,6 +149,7 @@ module.exports = {
             name: "vendor",
             entryOnly: false,
         }),
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new webpack.DefinePlugin({
             "process.env": filteredEnv,
         }),

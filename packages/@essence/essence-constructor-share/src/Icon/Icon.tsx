@@ -1,6 +1,5 @@
 import * as React from "react";
 import FontAwesomeIcon from "./FontAwesomeIcon";
-import MDIIcon from "./MDIIcon";
 
 interface IProps {
     className?: string;
@@ -20,12 +19,11 @@ interface IChildIconProps {
 
 interface IMapComponents {
     fa: React.ComponentType<IChildIconProps>;
-    mdi: React.ComponentType<IChildIconProps>;
+    mdi?: React.ComponentType<IChildIconProps>;
 }
 
-const mapComponents: IMapComponents = {
+export const mapComponents: IMapComponents = {
     fa: FontAwesomeIcon,
-    mdi: MDIIcon,
 };
 
 export class Icon extends React.PureComponent<IProps> {

@@ -33,7 +33,7 @@ export const FieldComboListItem = React.memo((props: IProps) => {
             </span>
             {props.isSelectedValue ? (
                 <span className={classes.menuItemSelectedCheck}>
-                    <Icon iconfontname="mdi" iconfont="check" />
+                    <Icon iconfontname="mdi" iconfont="mdi-check" />
                 </span>
             ) : null}
         </MenuItem>

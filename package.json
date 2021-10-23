@@ -11,7 +11,7 @@
     "start": "yarn workspace @essence-community/constructor-website run start",
     "start-localhost": "yarn workspace @essence-community/constructor-website run start-localhost",
     "start-mock": "yarn workspace @essence-community/constructor-website run start-mock",
-    "build": "yarn workspace @essence-community/constructor-website run build && node utils/cp.js ./packages/@essence/essence-constructor-website/build ./build",
+    "build": "rimraf ./packages/@essence/essence-constructor-website/build && rimraf ./build && yarn workspace @essence-community/constructor-website run build && node utils/cp.js ./packages/@essence/essence-constructor-website/build ./build",
     "rebuild-share:dev": "cd packages/@essence/essence-constructor-share && yarn run build && cd ../essence-constructor-dll && yarn install --force && yarn build:dev && cd ../../.. && yarn install --force --ignore-scripts",
     "rs:d": "yarn rebuild-share:dev",
     "tscheck:website": "yarn workspace @essence-community/constructor-website run tsc",
@@ -47,6 +47,7 @@
     "@testing-library/react": "^10.4.5",
     "@testing-library/user-event": "^12.0.11",
     "@types/jest": "^26.0.4",
+    "@types/rimraf": "^3.0.2",
     "babel-jest": "^26.1.0",
     "babel-preset-react-app": "9.1.2",
     "concurrently": "^5.2.0",
@@ -62,7 +63,8 @@
     "object-assign": "4.1.1",
     "prettier": "^2.0.5",
     "promise": "8.1.0",
-    "raf": "3.4.1"
+    "raf": "3.4.1",
+    "rimraf": "^3.0.2"
   },
   "workspaces": {
     "packages": [

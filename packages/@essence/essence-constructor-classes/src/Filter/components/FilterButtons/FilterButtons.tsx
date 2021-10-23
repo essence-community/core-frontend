@@ -59,7 +59,7 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-reset`,
                 [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
                 handler: "onReset",
-                iconfont: styleTheme === "light" ? "broom" : "eraser",
+                iconfont: styleTheme === "light" ? "mdi-broom" : "mdi-eraser",
                 iconfontname: "mdi",
                 noform: true,
                 onlyicon: true,

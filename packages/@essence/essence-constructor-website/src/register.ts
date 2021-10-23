@@ -1,5 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-unresolved */
+import "./Components/Icon";
 import "@essence-community/constructor-classes/src/FilterExtended";
 import "@essence-community/constructor-classes/src/ButtonGroup";
 import "@essence-community/constructor-classes/src/ButtonGroupDelimiter";

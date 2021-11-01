@@ -159,30 +159,40 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                 tabIndex={0}
                 onKeyDown={handleKeyDown}
             >
-                <PagerErrorBoundary pageStore={pageStore}>
-                    {/* TODO: to make pager as part of content (page) */}
-                    {/* {defaultvalue ? (
+                <React.Suspense
+                    fallback={
+                        <PageLoader
+                            container={null}
+                            isLoading
+                            loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"}
+                        />
+                    }
+                >
+                    <PagerErrorBoundary pageStore={pageStore}>
+                        {/* TODO: to make pager as part of content (page) */}
+                        {/* {defaultvalue ? (
                     content
                 ) : ( */}
-                    <Scrollbars
-                        style={SCROLLABRS_STYLE}
-                        hideTracksWhenNotNeeded
-                        withRequestAnimationFrame
-                        contentProps={{
-                            className: classes.rootPageContent,
-                        }}
-                        pageStore={pageStore}
-                        verticalStyle={VERTICAL_STYLE}
-                        scrollbarsRef={pageStore.setPageScrollEl}
-                    >
-                        {content}
-                    </Scrollbars>
-                    {/* )} */}
-                    <PagerWindowMessage pageStore={pageStore} />
-                    {bc[VAR_RECORD_PAGE_OBJECT_ID] === pageStore.pagerBc[VAR_RECORD_PAGE_OBJECT_ID] ? (
-                        <PagerWindows {...props} />
-                    ) : null}
-                </PagerErrorBoundary>
+                        <Scrollbars
+                            style={SCROLLABRS_STYLE}
+                            hideTracksWhenNotNeeded
+                            withRequestAnimationFrame
+                            contentProps={{
+                                className: classes.rootPageContent,
+                            }}
+                            pageStore={pageStore}
+                            verticalStyle={VERTICAL_STYLE}
+                            scrollbarsRef={pageStore.setPageScrollEl}
+                        >
+                            {content}
+                        </Scrollbars>
+                        {/* )} */}
+                        <PagerWindowMessage pageStore={pageStore} />
+                        {bc[VAR_RECORD_PAGE_OBJECT_ID] === pageStore.pagerBc[VAR_RECORD_PAGE_OBJECT_ID] ? (
+                            <PagerWindows {...props} />
+                        ) : null}
+                    </PagerErrorBoundary>
+                </React.Suspense>
             </div>
         );
     });

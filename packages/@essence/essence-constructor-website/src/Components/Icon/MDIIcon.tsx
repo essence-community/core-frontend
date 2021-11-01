@@ -2185,6 +2185,7 @@ const mapIcon = {
     "mdi-broom": React.lazy(() =>
         import(
             /* webpackChunkName: "mdi/BroomIcon" */
+            /* webpackPrefetch: true */
             "mdi-react/BroomIcon"
         ),
     ),
@@ -3043,6 +3044,7 @@ const mapIcon = {
     "mdi-check": React.lazy(() =>
         import(
             /* webpackChunkName: "mdi/CheckIcon" */
+            /* webpackPrefetch: true */
             "mdi-react/CheckIcon"
         ),
     ),
@@ -5083,6 +5085,7 @@ const mapIcon = {
     "mdi-eraser": React.lazy(() =>
         import(
             /* webpackChunkName: "mdi/EraserIcon" */
+            /* webpackPrefetch: true */
             "mdi-react/EraserIcon"
         ),
     ),

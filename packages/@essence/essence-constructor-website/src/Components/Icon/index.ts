@@ -4,6 +4,7 @@ import * as React from "react";
 mapComponents.mdi = React.lazy(() =>
     import(
         /* webpackChunkName: "MDIIcon" */
+        /* webpackPrefetch: true */
         "./MDIIcon"
     ),
 );

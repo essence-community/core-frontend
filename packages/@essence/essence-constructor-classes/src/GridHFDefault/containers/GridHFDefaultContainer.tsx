@@ -23,7 +23,7 @@ function prepareValue(field: IField) {
         datatype,
         format,
         operator: (datatype && datatypeOperator[datatype as keyof typeof datatypeOperator]) || "like",
-        property: column,
+        property: column.replace("###", "."),
         value: field.value,
     };
 }
@@ -31,12 +31,17 @@ function prepareValue(field: IField) {
 export const GridHFDefaultContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
     const form = React.useContext(FormContext);
+    const column = React.useMemo(
+        () => (bc.column && bc.column.indexOf(".") > -1 ? bc.column.replace(".", "###") : bc.column),
+        [bc.column],
+    );
     const fieldBc = React.useMemo(
         () => ({
             ...bc,
+            column,
             type: "IFIELD",
         }),
-        [bc],
+        [bc, column],
     );
 
     React.useMemo(() => {

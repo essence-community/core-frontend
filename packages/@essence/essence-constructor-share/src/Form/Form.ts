@@ -54,10 +54,28 @@ export class Form implements IForm {
             ...this.initialValues,
             ...this.extraValue,
         };
+        const keysAndFields = [];
 
         for (const [key, field] of this.fields.entries()) {
             if (key.indexOf(".") === -1) {
                 values[key] = field.output(field, this);
+            } else {
+                keysAndFields.push({field, keys: key.split(".")});
+            }
+        }
+        keysAndFields.sort(({keys: a}, {keys: b}) => b.length - a.length);
+        for (const {keys, field} of keysAndFields) {
+            const last = keys.pop() as string;
+            const val = keys.reduce((res, key) => {
+                if (!res[key]) {
+                    res[key] = {};
+                }
+
+                return res[key] as any;
+            }, values);
+
+            if (!val[last]) {
+                val[last] = field.output(field, this);
             }
         }
 

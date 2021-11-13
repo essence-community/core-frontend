@@ -57,6 +57,7 @@ import "@essence-community/constructor-classes/src/GridHeaderDetail";
 import "@essence-community/constructor-classes/src/GridHeaderIcon";
 import "@essence-community/constructor-classes/src/GridHFDate";
 import "@essence-community/constructor-classes/src/GridHFDefault";
+import "@essence-community/constructor-classes/src/GridHFNumber";
 import "@essence-community/constructor-classes/src/FieldTable";
 import "@essence-community/constructor-classes/src/FieldPeriod";
 import "@essence-community/constructor-classes/src/FieldText";

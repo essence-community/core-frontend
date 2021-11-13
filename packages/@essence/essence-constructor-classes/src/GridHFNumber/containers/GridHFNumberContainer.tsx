@@ -22,7 +22,7 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
         () => ({
             eq: {
                 ...bc,
-                [VAR_RECORD_DISPLAYED]: "static:e001f50e66034472a486099ea5f96218",
+                [VAR_RECORD_DISPLAYED]: "static:8e4039d067b24d83af302fa59168e46f",
                 column: `${column}_eq`,
                 type: "IFIELD",
             },

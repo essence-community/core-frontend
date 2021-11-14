@@ -1,2 +1,2 @@
 export {FieldMultiModel} from "./FieldMultiModel";
-export {IFieldMultiModel} from "./FieldMultiModel.types";
+export type {IFieldMultiModel} from "./FieldMultiModel.types";

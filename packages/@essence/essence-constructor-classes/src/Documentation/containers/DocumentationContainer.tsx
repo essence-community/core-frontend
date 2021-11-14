@@ -100,7 +100,7 @@ export const DocumentationContainer: React.FC<IClassProps> = (props) => {
 
                         <div className={classes.item}>
                             <Typography variant="subtitle1">
-                                <ReactMarkdown source={manualDoc} renderers={renderers} />
+                                <ReactMarkdown components={renderers}>{manualDoc}</ReactMarkdown>
                             </Typography>
                         </div>
                     </>
@@ -121,7 +121,7 @@ export const DocumentationContainer: React.FC<IClassProps> = (props) => {
                         </div>
 
                         <div className={classes.item}>
-                            <ReactMarkdown source={autoDoc} renderers={renderers} />
+                            <ReactMarkdown components={renderers}>{autoDoc}</ReactMarkdown>
                         </div>
                     </>
                 ) : null}

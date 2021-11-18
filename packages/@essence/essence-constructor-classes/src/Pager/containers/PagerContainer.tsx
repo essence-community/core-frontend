@@ -159,15 +159,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                 tabIndex={0}
                 onKeyDown={handleKeyDown}
             >
-                <React.Suspense
-                    fallback={
-                        <PageLoader
-                            container={null}
-                            isLoading
-                            loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"}
-                        />
-                    }
-                >
+                <React.Suspense fallback={null}>
                     <PagerErrorBoundary pageStore={pageStore}>
                         {/* TODO: to make pager as part of content (page) */}
                         {/* {defaultvalue ? (

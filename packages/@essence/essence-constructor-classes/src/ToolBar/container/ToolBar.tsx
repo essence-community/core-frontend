@@ -2,54 +2,8 @@ import {IBuilderConfig, IClassProps, mapComponents, toColumnStyleWidth} from "@e
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
 import {Grid, Toolbar as MaterialToolbar} from "@material-ui/core";
 import * as React from "react";
+import {GRID_CONFIGS, GRID_ALIGN_CONFIGS} from "@essence-community/constructor-share/constants/ui";
 
-const GRID_CONFIGS = {
-    hbox: {
-        direction: "row",
-        wrap: "nowrap",
-    },
-    "hbox-wrap": {
-        direction: "row",
-        wrap: "wrap",
-    },
-    vbox: {
-        direction: "column",
-        wrap: "nowrap",
-    },
-    "vbox-wrap": {
-        direction: "column",
-        wrap: "wrap",
-    },
-};
-const GRID_ALIGN_CONFIGS = {
-    "center-hbox": {
-        justify: "center",
-    },
-    "center-hbox-wrap": {
-        justify: "center",
-    },
-    "center-vbox": {
-        alignItems: "center",
-    },
-    "left-hbox": {
-        justify: "flex-start",
-    },
-    "left-hbox-wrap": {
-        justify: "flex-start",
-    },
-    "left-vbox": {
-        alignItems: "flex-start",
-    },
-    "right-hbox": {
-        justify: "flex-end",
-    },
-    "right-hbox-wrap": {
-        justify: "flex-end",
-    },
-    "right-vbox": {
-        alignItems: "flex-end",
-    },
-};
 const calcStyle = (bc: IBuilderConfig) => ({
     height: bc.height,
     maxHeight: bc.maxheight ?? "100%",

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable max-statements */
 import {action, observable, computed} from "mobx";
-import {removeFromStore, print, saveToStore} from "@essence-community/constructor-share/utils";
+import {removeFromStore, print, saveToStore, deepFind} from "@essence-community/constructor-share/utils";
 import {snackbarStore, StoreBaseModel} from "@essence-community/constructor-share/models";
 import {
     VAR_RECORD_PARENT_ID,
@@ -117,7 +117,9 @@ export class FilterModel extends StoreBaseModel {
             const globalValues: Record<string, FieldValue> = {};
 
             setglobal.forEach(({in: keyIn, out}) => {
-                globalValues[out] = values[keyIn || idproperty || out];
+                const [isExist, res] = deepFind(values, keyIn);
+
+                globalValues[out] = isExist ? res : values[keyIn || idproperty || out];
             });
 
             this.pageStore.updateGlobalValues(globalValues);

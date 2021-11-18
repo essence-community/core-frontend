@@ -2,13 +2,14 @@ import {IRecord, ICkId, FieldValue} from "@essence-community/constructor-share/t
 import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 // eslint-disable-next-line import/named
 import {IObservableArray, ObservableMap} from "mobx";
+import {deepFind} from "@essence-community/constructor-share/utils";
 import {IFieldTableModel} from "../stores/FieldTableModel/FieldTableModel.types";
 
 function getValuesFromFields(valueFields: Array<[string, string]>, record: IRecord) {
     const values: IRecord = {};
 
     valueFields.forEach(([fieldName, valueFeild]) => {
-        values[fieldName] = record[valueFeild];
+        values[fieldName] = deepFind(record, valueFeild)[1];
     });
 
     return values;
@@ -30,7 +31,7 @@ export function prepareArrayValues(
                 records.push(getValuesFromFields(valueFields || [], record));
                 break;
             case isValuesFiledsOne:
-                records.push(record[valueField]);
+                records.push(deepFind(record, valueField)[1]);
                 break;
             default:
                 records.push(record[recordId]);

@@ -5,7 +5,7 @@ import {v4} from "uuid";
 import {isEqual} from "lodash";
 import {request} from "../../request";
 import {IPageModel, IRecordsModel, FieldValue, IResponse, IRecord} from "../../types";
-import {i18next, getMasterObject} from "../../utils";
+import {i18next, getMasterObject, deepFind} from "../../utils";
 import {
     VALUE_SELF_FIRST,
     VALUE_SELF_ALWAYSFIRST,
@@ -272,7 +272,7 @@ export function loadRecordsAction(
                         : 0;
 
                     record = records[selectedRecordIndex];
-                    recordIdValue = record ? record[valueField] : undefined;
+                    recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
                     break;
                 case selectedRecordId !== undefined:
                     recordIdValue = selectedRecordId;
@@ -287,7 +287,7 @@ export function loadRecordsAction(
                         : 0;
 
                     record = records[selectedRecordIndex];
-                    recordIdValue = record ? record[valueField] : undefined;
+                    recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
                     break;
                 default:
                     recordIdValue = undefined;

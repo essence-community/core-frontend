@@ -5,25 +5,7 @@ import {
 } from "@essence-community/constructor-share/constants/variables";
 import {Grid} from "@material-ui/core";
 import * as React from "react";
-
-const GRID_CONFIGS = {
-    hbox: {
-        direction: "row",
-        wrap: "nowrap",
-    },
-    "hbox-wrap": {
-        direction: "row",
-        wrap: "wrap",
-    },
-    vbox: {
-        direction: "column",
-        wrap: "nowrap",
-    },
-    "vbox-wrap": {
-        direction: "column",
-        wrap: "wrap",
-    },
-};
+import {GRID_CONFIGS} from "@essence-community/constructor-share/constants/ui";
 
 export const ButtonGroup: React.FC<IClassProps> = (props) => {
     const {bc} = props;
@@ -34,6 +16,7 @@ export const ButtonGroup: React.FC<IClassProps> = (props) => {
                 ...row,
                 onlyicon: bc.onlyicon || row.onlyicon,
             });
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             arr.push({
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${row[VAR_RECORD_PAGE_OBJECT_ID]}_DELIMITER`,

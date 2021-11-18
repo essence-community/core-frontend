@@ -257,6 +257,9 @@ export class Field implements IField {
         if (this.value === undefined && this.isObject) {
             this.value = {};
         }
+        if (this.value === undefined && (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean")) {
+            this.value = 0;
+        }
     }
 
     private getOutput = (output: IFieldOptions["output"]): IField["output"] => {

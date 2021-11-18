@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import {deepChange, i18next, isEmpty} from "@essence-community/constructor-share/utils";
+import {deepChange, deepFind, i18next, isEmpty} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_PARENT_ID,
@@ -159,7 +159,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     }
 
     @computed get selectedRecordValue(): FieldValue {
-        return this.selectedRecord ? this.selectedRecord[this.valueField] : "";
+        return this.selectedRecord ? deepFind(this.selectedRecord, this.valueField)[1] : undefined;
     }
 
     @action
@@ -174,9 +174,12 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
                 Array.isArray(value) &&
                 value.every((valDirty, idx) => {
                     return this.valueFields.every(([fieldName, valueField]) => {
-                        const val = typeof valDirty === "object" && valDirty !== null ? valDirty[fieldName] : valDirty;
+                        const val =
+                            typeof valDirty === "object" && valDirty !== null
+                                ? deepFind(valDirty, fieldName)[1]
+                                : valDirty;
 
-                        return val !== this.selectedEntries[idx]?.[1][valueField];
+                        return val !== deepFind(this.selectedEntries[idx]?.[1], valueField)[1];
                     });
                 })
             ) {
@@ -260,7 +263,11 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             }
 
             this.valueFields.forEach(([fieldName, valueField]) => {
-                deepChange(patchValues, `${parentKey ? `${parentKey}.` : ""}${fieldName}`, record[valueField]);
+                deepChange(
+                    patchValues,
+                    `${parentKey ? `${parentKey}.` : ""}${fieldName}`,
+                    deepFind(record, valueField)[1],
+                );
 
                 if (fieldName === this.bc.column) {
                     column = valueField;
@@ -274,7 +281,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             column = this.recordsStore.recordId || VAR_RECORD_ID;
         }
 
-        const value: FieldValue = record[column];
+        const value: FieldValue = deepFind(record, column)[1];
 
         if (userChange) {
             this.field.onChange(value);

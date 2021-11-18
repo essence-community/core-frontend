@@ -17,6 +17,8 @@ import {FieldComboInput} from "../components/FieldComboInput";
 import {FieldComboModel} from "../store/FieldComboModel";
 import {getFirstValues} from "../utils/getFirstValues";
 
+const CLEAR_VALUE = undefined;
+
 /**
  * How it should work:
  * 1. Value can get from recordsStore
@@ -29,7 +31,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
     const inputRef: React.MutableRefObject<HTMLInputElement | null> = React.useRef(null);
     const listRef: React.MutableRefObject<HTMLInputElement | null> = React.useRef(null);
     const textFieldRef: React.MutableRefObject<HTMLDivElement | null> = React.useRef(null);
-    const field = useField({bc, clearValue: "", disabled, hidden, pageStore});
+    const field = useField({bc, clearValue: CLEAR_VALUE, disabled, hidden, pageStore});
     const [store] = useModel((modelProps) => new FieldComboModel(modelProps), props);
 
     const popoverContent = (popoverProps: IPopoverChildrenProps) => (

@@ -119,7 +119,7 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
 
         btns.forEach((btn) => {
             const contentview =
-                btn.contentview?.startsWith("hbox") && theme.palette.type
+                btn.contentview?.startsWith("hbox") && theme.palette.type === "dark"
                     ? btn.contentview.replace("hbox", "vbox")
                     : btn.contentview;
 

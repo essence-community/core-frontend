@@ -64,6 +64,9 @@ export const deepFind = (obj: IRecord, path: string | string[]): [boolean, IReco
     if (isEmpty(obj) || isEmpty(path)) {
         return [false, undefined];
     }
+    if (typeof path === "string" && Object.prototype.hasOwnProperty.call(obj, path)) {
+        return [true, obj[path]];
+    }
     const paths: any[] = Array.isArray(path) ? path : path.split(".");
     let current: any = obj;
 

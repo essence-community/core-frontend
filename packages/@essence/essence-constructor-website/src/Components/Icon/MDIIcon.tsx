@@ -2186,6 +2186,7 @@ const mapIcon = {
         import(
             /* webpackChunkName: "mdi/BroomIcon" */
             /* webpackPrefetch: true */
+            /* webpackPreload: true */
             "mdi-react/BroomIcon"
         ),
     ),
@@ -3045,6 +3046,7 @@ const mapIcon = {
         import(
             /* webpackChunkName: "mdi/CheckIcon" */
             /* webpackPrefetch: true */
+            /* webpackPreload: true */
             "mdi-react/CheckIcon"
         ),
     ),
@@ -5086,6 +5088,7 @@ const mapIcon = {
         import(
             /* webpackChunkName: "mdi/EraserIcon" */
             /* webpackPrefetch: true */
+            /* webpackPreload: true */
             "mdi-react/EraserIcon"
         ),
     ),

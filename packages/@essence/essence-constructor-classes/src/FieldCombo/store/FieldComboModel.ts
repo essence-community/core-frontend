@@ -9,9 +9,10 @@ import {
     IRecord,
 } from "@essence-community/constructor-share";
 import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "@essence-community/constructor-share/constants";
-import {deepChange, i18next, isEmpty} from "@essence-community/constructor-share/utils";
+import {deepChange, deepFind, i18next, isEmpty, parseMemoize} from "@essence-community/constructor-share/utils";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
-import {IField} from "../../../../essence-constructor-share/lib/Form/types";
+import {IParseReturnType} from "@essence-community/constructor-share/utils/parser";
+import {IField} from "@essence-community/constructor-share/Form/types";
 import {ISuggestion} from "./FieldComboModel.types";
 
 export class FieldComboModel extends StoreBaseModel {
@@ -78,6 +79,8 @@ export class FieldComboModel extends StoreBaseModel {
         return suggestions;
     }
 
+    parserLabel?: IParseReturnType;
+
     constructor(props: IStoreBaseModelProps) {
         super(props);
 
@@ -87,6 +90,12 @@ export class FieldComboModel extends StoreBaseModel {
         this.displayfield = displayfield;
         this.valuefield = valuefield?.[0]?.in || column;
         this.valueLength = minchars;
+
+        if (displayfield) {
+            try {
+                this.parserLabel = parseMemoize(displayfield);
+            } catch (e) {}
+        }
 
         this.recordsStore = new RecordsModel(bc, {
             applicationStore: pageStore.applicationStore,
@@ -243,7 +252,8 @@ export class FieldComboModel extends StoreBaseModel {
     handleSetValueNew = (value: FieldValue, loaded: boolean, isUserSearch: boolean): boolean => {
         const {allownew = ""} = this.bc;
         const stringValue = toString(value);
-        const isNewValue = stringValue.indexOf(allownew) === 0;
+        const isNewValue =
+            stringValue.indexOf(allownew) === 0 && this.suggestions.findIndex((sug) => sug.value === allownew) === -1;
         const stringNewValue = isNewValue ? stringValue.replace(allownew, "") : stringValue;
 
         const suggestion = this.suggestions.find((sug) => sug.value === stringValue);
@@ -347,24 +357,42 @@ export class FieldComboModel extends StoreBaseModel {
     };
 
     getSuggestion = (record: IRecord): ISuggestion => {
-        const label = toString(record[this.displayfield]);
+        const [isExistForm, resForm] = deepFind(record, this.valuefield);
+        const [isExistDisplay, display] = deepFind(record, this.displayfield);
+        const label = isExistDisplay
+            ? toString(display)
+            : (this.parserLabel?.runer({
+                  get: (name: string) => {
+                      return toString(record[name] || "");
+                  },
+              }) as string) || toString(record[this.displayfield]);
 
         return {
             id: record[this.recordsStore.recordId],
             label,
             labelLower: label.toLowerCase(),
-            value: toString(record[this.valuefield]),
+            value: toString(isExistForm ? resForm : record[this.valuefield]),
         };
     };
 
     getSuggestionWithTrans = (record: IRecord): ISuggestion => {
-        const label = i18next.t(toString(record[this.displayfield]), {ns: this.bc.localization});
+        const [isExistForm, resForm] = deepFind(record, this.valuefield);
+        const [isExistDisplay, display] = deepFind(record, this.displayfield);
+        const label = isExistDisplay
+            ? i18next.t(toString(display), {ns: this.bc.localization}) || toString(record[this.displayfield])
+            : (this.parserLabel?.runer({
+                  get: (name: string) => {
+                      return (
+                          i18next.t(toString(record[name]), {ns: this.bc.localization}) || toString(record[name] || "")
+                      );
+                  },
+              }) as string) || toString(record[this.displayfield]);
 
         return {
             id: record[this.recordsStore.recordId],
             label,
             labelLower: label.toLowerCase(),
-            value: toString(record[this.valuefield]),
+            value: toString(isExistForm ? resForm : record[this.valuefield]),
         };
     };
 }

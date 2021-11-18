@@ -2,6 +2,7 @@ import * as React from "react";
 import {FieldValue, IPageModel, IRecord} from "@essence-community/constructor-share/types";
 import {reaction} from "mobx";
 import {FormContext} from "@essence-community/constructor-share/context";
+import {deepFind} from "@essence-community/constructor-share/utils";
 import {IBuilderClassConfig} from "../../types";
 
 interface IFormPanelGlobalsProps {
@@ -18,7 +19,9 @@ export const FormPanelGlobals: React.FC<IFormPanelGlobalsProps> = React.memo(fun
                 const globalValues: Record<string, FieldValue> = {};
 
                 bc.setglobal.forEach(({in: keyIn, out}) => {
-                    globalValues[out] = values[keyIn || bc.idproperty || out];
+                    const [isExist, res] = deepFind(values, keyIn);
+
+                    globalValues[out] = isExist ? res : values[keyIn || bc.idproperty || out];
                 });
 
                 pageStore.updateGlobalValues(globalValues);

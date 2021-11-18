@@ -9,8 +9,8 @@ import {
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {useObserver} from "mobx-react";
 import {TextFieldLabel} from "@essence-community/constructor-share/uicomponents/TextFieldLabel";
-import {IClassProps} from "@essence-community/constructor-share/types";
-import {useField} from "@essence-community/constructor-share/Form";
+import {FieldValue, IClassProps, IRecord} from "@essence-community/constructor-share/types";
+import {IField, IForm, useField} from "@essence-community/constructor-share/Form";
 import {
     useTextFieldProps,
     useFieldSetGlobal,
@@ -27,10 +27,16 @@ const fixBoolean = (value) => {
     return Boolean(value);
 };
 
+const getOutput = (field: IField, form: IForm, value?: IRecord | FieldValue) => {
+    return value || field.value ? 1 : 0;
+};
+
+const CLEAR_VALUE = 0;
+
 export const FieldCheckboxContainer: React.FC<IClassProps> = (props) => {
     const {bc, disabled, readOnly, pageStore} = props;
     const [focused, setFocus] = React.useState<boolean>(false);
-    const field = useField({...props, clearValue: 0});
+    const field = useField({...props, clearValue: CLEAR_VALUE, output: getOutput});
     const textFieldProps = useTextFieldProps({bc, disabled, field, readOnly});
 
     const [trans] = useTranslation("meta");

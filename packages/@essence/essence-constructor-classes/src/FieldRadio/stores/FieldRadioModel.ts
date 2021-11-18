@@ -9,6 +9,8 @@ import {
     IRecord,
     FieldValue,
 } from "@essence-community/constructor-share/types";
+import {IParseReturnType, parseMemoize} from "@essence-community/constructor-share/utils/parser";
+import {deepFind} from "@essence-community/constructor-share/utils";
 import {toString} from "../utils";
 import {ISuggestion} from "../FieldRadio.types";
 
@@ -17,8 +19,16 @@ export class FieldRadioModel extends StoreBaseModel implements IStoreBaseModel {
 
     valuefield: string;
 
+    parserLabel?: IParseReturnType;
+
     constructor({bc, pageStore}: IStoreBaseModelProps) {
         super({bc, pageStore});
+
+        if (this.bc.displayfield) {
+            try {
+                this.parserLabel = parseMemoize(this.bc.displayfield);
+            } catch (e) {}
+        }
 
         const noLoadChilds = Boolean(bc[VAR_RECORD_CL_IS_MASTER]);
 
@@ -40,10 +50,22 @@ export class FieldRadioModel extends StoreBaseModel implements IStoreBaseModel {
         return this.recordsStore.selectedRecord;
     }
 
-    getSuggestion = (record: IRecord): ISuggestion => ({
-        label: toString(record[this.bc.displayfield!]),
-        value: toString(record[this.valuefield]),
-    });
+    getSuggestion = (record: IRecord): ISuggestion => {
+        const [isExistForm, resForm] = deepFind(record, this.valuefield);
+        const [isExistDisplay, display] = deepFind(record, this.bc.displayfield);
+        const label = isExistDisplay
+            ? toString(display)
+            : (this.parserLabel?.runer({
+                  get: (name: string) => {
+                      return toString(record[name] || "");
+                  },
+              }) as string) || toString(record[this.bc.displayfield]);
+
+        return {
+            label,
+            value: isExistForm ? toString(resForm) : toString(record[this.valuefield]),
+        };
+    };
 
     @action
     reloadStoreAction = async () => {

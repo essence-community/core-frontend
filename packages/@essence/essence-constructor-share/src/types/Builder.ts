@@ -22,7 +22,7 @@ export interface IBuilderBaseConfig {
     // Правила для выбора активного элемента
     activerules?: string;
     // Расположение текста: left - слева, center - по центру, right - справа
-    align?: "left" | "right" | "center" | "top";
+    align?: "left" | "right" | "center" | "top" | string;
     // Префикс-метка для нового значения. Пример: "allownew" = "NEW:", на сервер уйдет значение "NEW:введенное значение"
     allownew?: string;
     // Признак автозагрузки сервиса
@@ -64,7 +64,7 @@ export interface IBuilderBaseConfig {
     // Вопрос на подтверждение операции
     confirmquestion?: string;
     // Вид наполнения: hbox: горизонтальное hbox-wrap: горизонтальное с переносом на следующую строку vbox: вертикальное
-    contentview?: "hbox" | "hbox-wrap" | "vbox" | "vbox-wrap";
+    contentview?: "hbox" | "hbox-wrap" | "vbox" | "vbox-wrap" | string;
     // Ширина вложенных полей. Целое число от 1% до 100%. Обязательно добавлять %.
     contentwidth?: string;
     // Подпись для отображения Пример: к деньгам добавляем " руб."

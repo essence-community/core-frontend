@@ -1,5 +1,5 @@
 import * as React from "react";
-import {IBuilderConfig, IPageModel, IBuilderMode} from "@essence-community/constructor-share/types";
+import {IBuilderConfig, IPageModel, IBuilderMode, FieldValue} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_MASTER_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import {
     FormContext,
@@ -7,7 +7,7 @@ import {
     PopoverContext,
     IPopoverContext,
 } from "@essence-community/constructor-share/context";
-import {makeRedirect} from "@essence-community/constructor-share/utils";
+import {makeRedirect, deepFind} from "@essence-community/constructor-share/utils";
 import {reaction} from "mobx";
 import {handers} from "../handlers";
 import {FileInputModel} from "../store/FileInputModel";
@@ -20,6 +20,29 @@ const getHandlerBtn = (bc: IBuilderConfig) => {
     }
 
     return bc.handler;
+};
+
+const setGlobal = (
+    setGlobal: IBuilderConfig["setglobal"],
+    pageStore: IPageModel,
+    recordForm: Record<string, FieldValue> = {},
+    record: Record<string, FieldValue> = {},
+) => {
+    const globalValues: Record<string, FieldValue> = {};
+
+    setGlobal.forEach(({in: keyIn, out}) => {
+        const [isExistForm, resForm] = deepFind(recordForm, keyIn);
+
+        if (isExistForm || Object.prototype.hasOwnProperty.call(recordForm, out)) {
+            globalValues[out] = isExistForm && keyIn ? resForm : record[out];
+        } else {
+            const [isExist, res] = deepFind(record, keyIn);
+
+            globalValues[out] = isExist && keyIn ? res : record[out];
+        }
+    });
+
+    pageStore.updateGlobalValues(globalValues);
 };
 
 interface IUserButtonClickProps {
@@ -48,6 +71,10 @@ export function useButtonClick(
         let promise = null;
         const handlerBtn = getHandlerBtn(bc);
         const defaultHandler = handers[handlerBtn];
+
+        if (bc.setglobal && bc.setglobal.length) {
+            setGlobal(bc.setglobal, pageStore, formCtx?.values, recordCtx);
+        }
 
         if (defaultHandler) {
             promise = defaultHandler({

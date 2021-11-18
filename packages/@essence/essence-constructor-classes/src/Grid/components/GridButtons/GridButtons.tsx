@@ -76,9 +76,15 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
             ...btns.map<IOrderedBuielderConfig>((btn) => {
                 const isAddButton =
                     btn.mode === "1" || btn.handler === "onCreateChildWindowMaster" || btn.handler === "onSimpleAddRow";
+                const contentview =
+                    btn.contentview?.startsWith("hbox") && theme.palette.type === "dark"
+                        ? btn.contentview.replace("hbox", "vbox")
+                        : btn.contentview;
 
                 return {
-                    bc: isAddButton ? {...btn, uitype: "4"} : {...btn, uitype: btn.uitype === "1" ? "11" : btn.uitype},
+                    bc: isAddButton
+                        ? {...btn, contentview, uitype: "4"}
+                        : {...btn, contentview, uitype: btn.uitype === "1" ? "11" : btn.uitype},
                     order: btn[VAR_RECORD_CN_ORDER],
                 };
             }),
@@ -121,7 +127,7 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
         }
 
         return btnsAll.sort(compareOrderedBC);
-    }, [bc, gridBtnsConfig, gridButtons]);
+    }, [bc, gridBtnsConfig, gridButtons, theme]);
 
     React.useEffect(() => {
         if (!isInlineEditing && activeElement.current instanceof HTMLElement) {

@@ -14,9 +14,23 @@ export const PanelWrapper: React.FC<IClassProps> = (props) => {
     const form = React.useContext(FormContext);
     const classes = useStyles();
     const theme = useTheme();
-    const isDarkTheme = theme.palette.type === "dark";
+    const isDarkTheme = React.useMemo(() => theme.palette.type === "dark", [theme]);
     const actions = React.useMemo(
-        () => topbtn.reverse().filter((bc) => !bc[VAR_RECORD_NAME] || bc[VAR_RECORD_NAME]?.indexOf("Override") !== 0),
+        () =>
+            topbtn
+                .reverse()
+                .filter((btnBc) => !btnBc[VAR_RECORD_NAME] || btnBc[VAR_RECORD_NAME]?.indexOf("Override") !== 0)
+                .map((btnBc) => {
+                    const contentview =
+                        btnBc.contentview?.startsWith("hbox") && isDarkTheme
+                            ? btnBc.contentview.replace("hbox", "vbox")
+                            : btnBc.contentview;
+
+                    return {
+                        ...btnBc,
+                        contentview,
+                    };
+                }),
         [topbtn],
     );
 

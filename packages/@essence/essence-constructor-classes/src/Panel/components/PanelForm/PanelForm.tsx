@@ -28,7 +28,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
     const {filters = [], hideactions, topbtn = []} = bc;
     const theme = useTheme<IEssenceTheme>();
     const themeFilterNew = React.useMemo(() => makeTheme(theme), [theme]);
-    const isDarkTheme = theme.palette.type === "dark";
+    const isDarkTheme = React.useMemo(() => theme.palette.type === "dark", [theme]);
     const form = React.useContext(FormContext);
     const isHideActions = React.useMemo(
         () => hideactions || (topbtn.length === 0 && (!isDarkTheme || (isDarkTheme && filters.length === 0))),
@@ -51,12 +51,16 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
                 .filter((bc) => !bc[VAR_RECORD_NAME] || bc[VAR_RECORD_NAME]?.indexOf("Override") !== 0)
                 .map((childBc) => {
                     const isAddButton = childBc.mode === "1";
+                    const contentview =
+                        childBc.contentview?.startsWith("hbox") && isDarkTheme
+                            ? childBc.contentview.replace("hbox", "vbox")
+                            : childBc.contentview;
 
                     return isAddButton
-                        ? {...childBc, uitype: "4"}
-                        : {...childBc, uitype: childBc.uitype === "1" ? "11" : childBc.uitype};
+                        ? {...childBc, contentview, uitype: "4"}
+                        : {...childBc, contentview, uitype: childBc.uitype === "1" ? "11" : childBc.uitype};
                 }) as IBuilderConfig[],
-        [topbtn],
+        [topbtn, isDarkTheme],
     );
 
     const paddingTop = React.useMemo(() => {

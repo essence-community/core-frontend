@@ -23,6 +23,7 @@ function compareOrderedBC(left: IOrderedBuielderConfig, right: IOrderedBuielderC
 export interface IHistoryPanelButtonsProps extends IClassProps {
     store: IStoreBaseModel;
 }
+// eslint-disable-next-line max-lines-per-function
 export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) => {
     const {store, bc, disabled} = props;
     const {btndelete, btnrefresh, btnaudit} = bc;
@@ -117,8 +118,13 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
         );
 
         btns.forEach((btn) => {
+            const contentview =
+                btn.contentview?.startsWith("hbox") && theme.palette.type
+                    ? btn.contentview.replace("hbox", "vbox")
+                    : btn.contentview;
+
             btnsAll.push({
-                bc: onlyIcon ? {...btn, onlyicon: true} : btn,
+                bc: onlyIcon ? {...btn, contentview, onlyicon: true} : {...btn, contentview},
                 disabled,
                 order: btn[VAR_RECORD_CN_ORDER],
             });

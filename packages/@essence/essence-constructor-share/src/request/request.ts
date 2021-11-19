@@ -34,7 +34,9 @@ const checkError = ({responseJSON, query, list}: IRequestCheckError) => {
     }
 
     if (isError) {
-        throw new ResponseError("static:63538aa4bcd748349defdf7510fc9c10", responseJSON, query);
+        throw new ResponseError("static:63538aa4bcd748349defdf7510fc9c10", responseJSON, query, {
+            requestId: responseJSON.metaData?.requestId,
+        });
     }
 };
 
@@ -67,8 +69,8 @@ const checkStatusError = (status: number, query: string, body: any) => {
     const responseJSON: IRequestFaultResponse = {
         [VAR_ERROR_CODE]: json[VAR_ERROR_CODE] || 500,
         [VAR_ERROR_ID]: json[VAR_ERROR_ID] || "",
-        [VAR_ERROR_TEXT]:
-            json[VAR_ERROR_TEXT] || `${typeof body === "object" || Array.isArray(body) ? JSON.stringify(body) : body}`,
+        [VAR_ERROR_TEXT]: json[VAR_ERROR_TEXT] || "",
+        metaData: json.metaData,
         success: false,
     };
 
@@ -76,13 +78,22 @@ const checkStatusError = (status: number, query: string, body: any) => {
 
     if (status === 401) {
         responseJSON[VAR_ERROR_CODE] = 201;
-        throw new ResponseError("static:63538aa4bcd748349defdf7510fc9c10", responseJSON, query);
+        throw new ResponseError("static:63538aa4bcd748349defdf7510fc9c10", responseJSON, query, {
+            extrainfo: `${typeof body === "object" || Array.isArray(body) ? JSON.stringify(body) : body}`,
+            requestId: responseJSON.metaData?.requestId,
+        });
     }
     if (status === 403) {
         responseJSON[VAR_ERROR_CODE] = 403;
-        throw new ResponseError("static:63538aa4bcd748349defdf7510fc9c10", responseJSON, query);
+        throw new ResponseError("static:63538aa4bcd748349defdf7510fc9c10", responseJSON, query, {
+            extrainfo: `${typeof body === "object" || Array.isArray(body) ? JSON.stringify(body) : body}`,
+            requestId: responseJSON.metaData?.requestId,
+        });
     }
-    throw new ResponseError("static:63538aa4bcd748349defdf7510fc9c10", responseJSON, query);
+    throw new ResponseError("static:63538aa4bcd748349defdf7510fc9c10", responseJSON, query, {
+        extrainfo: `${typeof body === "object" || Array.isArray(body) ? JSON.stringify(body) : body}`,
+        requestId: responseJSON.metaData?.requestId,
+    });
 };
 
 // eslint-disable-next-line max-statements

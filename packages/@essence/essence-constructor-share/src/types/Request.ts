@@ -36,7 +36,7 @@ export interface IRequestData {
 
 export interface IRequestBaseResponse {
     success: boolean | "true" | "false";
-    metaData: Record<string, any>;
+    metaData?: Record<string, any>;
 }
 
 export interface IRequestSuccessResponse extends IRequestBaseResponse {
@@ -44,7 +44,7 @@ export interface IRequestSuccessResponse extends IRequestBaseResponse {
     data: IRequestData | IRequestData[];
 }
 
-export interface IRequestFaultResponse {
+export interface IRequestFaultResponse extends IRequestBaseResponse {
     success: false | "false";
     [VAR_ERROR_CODE]: number | string;
     [VAR_ERROR_ID]: string;

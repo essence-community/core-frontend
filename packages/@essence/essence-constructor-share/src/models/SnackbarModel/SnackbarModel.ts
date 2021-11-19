@@ -501,6 +501,15 @@ export class SnackbarModel implements ISnackbarModel {
             // @ts-ignore
             const callback = this[functionName];
 
+            if (error.extrainfo) {
+                this.snackbarOpenAction({
+                    description: error.extrainfo,
+                    status: "debug",
+                    text: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7", {query: error.query}),
+                    title: `Request ${error.requestId || ""}`,
+                });
+            }
+
             if (callback) {
                 return callback({...responseError, query: error.query}, route, applicationStore);
             }
@@ -514,7 +523,7 @@ export class SnackbarModel implements ISnackbarModel {
             {
                 description: errorData?.[VAR_ERROR_TEXT] || errorData?.[VAR_ERROR_CODE] || errorData?.[VAR_ERROR_ID],
                 status: "error",
-                text: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7", errorData.query),
+                text: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7", {query: errorData.query}),
             },
             route,
         );

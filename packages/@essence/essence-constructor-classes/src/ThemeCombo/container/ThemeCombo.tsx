@@ -11,7 +11,7 @@ import {
 } from "@essence-community/constructor-share/constants/variables";
 import * as React from "react";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
-import {IBuilderConfig} from "@essence-community/constructor-share/types";
+import {IBuilderConfig, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {reaction} from "mobx";
 import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
 import {useTheme} from "@material-ui/core";
@@ -39,7 +39,7 @@ const getComponentBc = (bc: IBuilderConfig, defaultTheme?: string): IBuilderConf
 
 export const ThemeCombo: React.FC<IClassProps> = (props) => {
     const {pageStore} = props;
-    const currentTheme = useTheme().palette.type;
+    const currentTheme = useTheme<IEssenceTheme>().essence.codeTheme;
     const form = React.useContext(FormContext);
     const applicationStore = React.useContext(ApplicationContext);
 

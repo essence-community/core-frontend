@@ -1,10 +1,11 @@
 import {makeStyles} from "@material-ui/core";
+import {IEssenceTheme} from "../../types";
 
 export const useStyles = makeStyles(
-    (theme) => ({
+    (theme: IEssenceTheme) => ({
         form: {
             display: "flex",
-            flexDirection: theme.palette.type === "dark" ? "row" : "column",
+            flexDirection: theme.essence.layoutTheme === 2 ? "row" : "column",
         },
     }),
     {name: "UIForm"},

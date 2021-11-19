@@ -7,7 +7,7 @@ import {
     getFromStore,
 } from "@essence-community/constructor-share/utils";
 import {useModel} from "@essence-community/constructor-share/hooks";
-import {IClassProps} from "@essence-community/constructor-share/types";
+import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {Collapse, useTheme, Grid, Typography} from "@material-ui/core";
 import {
     VAR_RECORD_DISPLAYED,
@@ -33,8 +33,8 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
         return undefined;
     }, [pageStore.isActiveRedirect, store.valuesStorageKey]);
     const [trans] = useTranslation("meta");
-    const theme = useTheme();
-    const styleTheme = theme.palette.type;
+    const theme = useTheme<IEssenceTheme>();
+    const layoutTheme = theme.essence.layoutTheme;
     const title = toTranslateText(trans, bc[VAR_RECORD_DISPLAYED]);
     const classes = useStyles();
 
@@ -43,7 +43,7 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
     }, [isAutoLoad, store]);
 
     return useObserver(() => (
-        <Collapse in={store.isOpen} collapsedHeight={title || styleTheme === "light" ? "42px" : "1px"}>
+        <Collapse in={store.isOpen} collapsedHeight={title || layoutTheme === 1 ? "42px" : "1px"}>
             <UIForm
                 onSubmit={store.handleSubmit}
                 placement="filter"
@@ -56,12 +56,12 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                 <Grid
                     spacing={0}
                     container
-                    direction={styleTheme === "dark" ? "row" : "column"}
+                    direction={layoutTheme === 2 ? "row" : "column"}
                     wrap="nowrap"
                     data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                 >
                     {bc.dynamicfilter || bc.hideactions ? null : (
-                        <FilterButtons styleTheme={styleTheme} title={title} store={store} {...props} />
+                        <FilterButtons layoutTheme={layoutTheme} title={title} store={store} {...props} />
                     )}
                     <Grid
                         item
@@ -69,7 +69,7 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                             [classes.baseFilter]: !bc.dynamicfilter,
                         })}
                     >
-                        {!title || (styleTheme === "light" && !bc.dynamicfilter) ? null : (
+                        {!title || (layoutTheme === 1 && !bc.dynamicfilter) ? null : (
                             <div className={classes.dynamicTitle}>
                                 <Typography
                                     variant="body2"

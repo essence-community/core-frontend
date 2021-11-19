@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import * as React from "react";
 import {Grid, Table, useTheme, TableBody} from "@material-ui/core";
-import {IClassProps} from "@essence-community/constructor-share/types";
+import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {VerticalResizer, Pagination, Scrollbars} from "@essence-community/constructor-share/uicomponents";
 import {useObserver} from "mobx-react";
@@ -27,7 +27,7 @@ export const GridTable: React.FC<IGridTableProps> = ({store, children, ...classP
     const [focused, setFocused] = React.useState<boolean>(false);
     const headerRef = React.useRef<HTMLDivElement>(null);
     const scrollElem = React.useRef<any | undefined>(undefined);
-    const theme = useTheme();
+    const theme = useTheme<IEssenceTheme>();
 
     const handleScrollUpdate = React.useCallback(() => {
         scrollElem.current.update();
@@ -159,7 +159,7 @@ export const GridTable: React.FC<IGridTableProps> = ({store, children, ...classP
                     </Scrollbars>
                 </Grid>
                 <Grid item>
-                    {pageSize && theme.palette.type === "dark" ? (
+                    {pageSize && theme.essence.layoutTheme === 2 ? (
                         <Pagination
                             disabled={store.isInlineEditing || classProps.disabled}
                             ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]}

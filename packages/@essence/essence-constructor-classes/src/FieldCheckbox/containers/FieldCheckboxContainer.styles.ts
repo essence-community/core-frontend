@@ -33,7 +33,8 @@ export const useStyles = makeStyles(
                 cursor: "default",
             },
             "&:not($disabled):hover $checkboxRoot": {
-                color: theme.palette.type === "dark" ? theme.palette.primary.light : theme.essence.palette.primary.icon,
+                color:
+                    theme.essence.layoutTheme === 2 ? theme.palette.primary.light : theme.essence.palette.primary.icon,
             },
             // Remove grey highlight
             WebkitTapHighlightColor: "transparent",

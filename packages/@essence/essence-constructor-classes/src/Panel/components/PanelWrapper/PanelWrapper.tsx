@@ -3,7 +3,7 @@ import {Grid, useTheme} from "@material-ui/core";
 import {FormContext} from "@essence-community/constructor-share/context";
 import cn from "clsx";
 import {useObserver} from "mobx-react";
-import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
+import {IClassProps, IBuilderConfig, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_NAME} from "@essence-community/constructor-share/constants";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useStyles} from "./PanelWrapper.styles";
@@ -13,8 +13,8 @@ export const PanelWrapper: React.FC<IClassProps> = (props) => {
     const {topbtn = [], hideactions} = bc;
     const form = React.useContext(FormContext);
     const classes = useStyles();
-    const theme = useTheme();
-    const isDarkTheme = React.useMemo(() => theme.palette.type === "dark", [theme]);
+    const theme = useTheme<IEssenceTheme>();
+    const isDarkTheme = React.useMemo(() => theme.essence.layoutTheme === 2, [theme]);
     const actions = React.useMemo(
         () =>
             topbtn

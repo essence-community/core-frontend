@@ -4,7 +4,7 @@ import {IEssenceTheme} from "@essence-community/constructor-share/types/Theme";
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         actionsBar:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       bottom: 0,
                       position: "sticky",
@@ -15,7 +15,7 @@ export const useStyles = makeStyles(
         },
         contentRoot: {},
         formActions:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       backgroundColor: theme.palette.primary.main,
                       borderRadius: "4px 0 0 4px",
@@ -37,7 +37,7 @@ export const useStyles = makeStyles(
                   },
         formRoot: {
             backgroundColor: theme.palette.background.paper,
-            borderBottomRightRadius: theme.palette.type === "dark" ? 4 : 0,
+            borderBottomRightRadius: theme.essence.layoutTheme === 2 ? 4 : 0,
         },
         formRootEditing: {
             position: "relative",
@@ -45,13 +45,13 @@ export const useStyles = makeStyles(
         },
         panelEditing: {},
         root:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {}
                 : {
                       position: "relative",
                   },
         rootActions:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       "& $contentRoot": {
                           maxWidth: `calc(100% - ${theme.essence.sizing.controlPanelWidth}px)`,

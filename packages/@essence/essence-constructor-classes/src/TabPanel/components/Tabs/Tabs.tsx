@@ -1,5 +1,5 @@
 import * as React from "react";
-import {IClassProps} from "@essence-community/constructor-share/types";
+import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {PanelWidthContext} from "@essence-community/constructor-share/context";
 import {Popover} from "@essence-community/constructor-share/uicomponents";
 import keycode from "keycode";
@@ -30,26 +30,26 @@ const anchorOrigin: IPopoverAnchorOrigin = {
     horizontal: "right",
     vertical: "bottom",
 };
-const transformOrigins: Record<"dark" | "light", IPopoverTransfromOrigin> = {
-    dark: {
-        horizontal: "right",
-        vertical: "top",
-    },
-    light: {
+const transformOrigins: Record<number, IPopoverTransfromOrigin> = {
+    1: {
         horizontal: "right",
         vertical: 1,
     },
+    2: {
+        horizontal: "right",
+        vertical: "top",
+    },
 };
 const TAB_PLUS_WIDTH = {
+    1: 35,
     // Label padding + tab margin
-    dark: 28,
-    light: 35,
+    2: 28,
 };
 const TAB_EMPTY_SPACE = {
-    // Left panel (58) + left indent (4) + empty space (20) + menu (32)
-    dark: 94,
     // Empty space (20) + menu (40)
-    light: 60,
+    1: 60,
+    // Left panel (58) + left indent (4) + empty space (20) + menu (32)
+    2: 94,
 };
 const MIN_WIIDTH = 90;
 const RESIZE_DELAY = 100;
@@ -66,7 +66,7 @@ export const Tabs: React.FC<ITabsProps> = React.memo((props) => {
     const tabsComponentRef = React.useRef<null | HTMLDivElement>(null);
     const panelWidth = React.useContext(PanelWidthContext);
     const [trans] = useTranslation();
-    const theme = useTheme();
+    const theme = useTheme<IEssenceTheme>();
     const classes = useStyles();
     const positonName = `${align}-${contentview}` as TabPanelPosition;
     const positionClassName = classes[positonName];
@@ -114,13 +114,13 @@ export const Tabs: React.FC<ITabsProps> = React.memo((props) => {
         () =>
             debounce(() => {
                 const {current} = tabsComponentRef;
-                const themeType = theme ? theme.palette.type : "light";
+                const layoutTheme = theme ? theme.essence.layoutTheme : 1;
                 const font = `700 13px / 18.59px ${theme.typography.fontFamily}`;
 
                 if (bc.align === "center" && current) {
-                    const additionWidth = TAB_PLUS_WIDTH[themeType];
+                    const additionWidth = TAB_PLUS_WIDTH[layoutTheme];
                     // Empty space
-                    let currentWidth = TAB_EMPTY_SPACE[themeType];
+                    let currentWidth = TAB_EMPTY_SPACE[layoutTheme];
 
                     const currentIndex = store.activeTabs.reduce((lastIndex, tab) => {
                         const labelKey = tab[VAR_RECORD_DISPLAYED];
@@ -199,7 +199,7 @@ export const Tabs: React.FC<ITabsProps> = React.memo((props) => {
                     container={pageStore.pageEl}
                     width="auto"
                     anchorOrigin={anchorOrigin}
-                    transformOrigin={transformOrigins[theme.palette.type]}
+                    transformOrigin={transformOrigins[theme.essence.layoutTheme]}
                     hideOnResize
                     hideOnScroll
                     popoverContent={({onClose}) => <TabPopoverContent {...props} onClose={onClose} store={store} />}

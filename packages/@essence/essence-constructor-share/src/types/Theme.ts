@@ -2,6 +2,8 @@ import {Theme} from "@material-ui/core";
 
 export interface IEssenceTheme extends Theme {
     essence: {
+        layoutTheme: number;
+        codeTheme: string;
         ui: {
             modal: {
                 palette: {

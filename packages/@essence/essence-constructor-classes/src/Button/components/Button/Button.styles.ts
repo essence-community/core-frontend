@@ -12,12 +12,12 @@ export const useStyles = makeStyles(
             },
             "&:hover, &:focus": {
                 backgroundColor:
-                    theme.palette.type === "dark"
+                    theme.essence.layoutTheme === 2
                         ? theme.palette.primary.light
                         : theme.essence.ui.modal.palette.background,
             },
-            color: theme.palette.type === "dark" ? theme.essence.palette.text.light : undefined,
-            fill: theme.palette.type === "dark" ? theme.essence.palette.text.light : undefined,
+            color: theme.essence.layoutTheme === 2 ? theme.essence.palette.text.light : undefined,
+            fill: theme.essence.layoutTheme === 2 ? theme.essence.palette.text.light : undefined,
             justifyContent: "start",
             maxHeight: theme.essence.sizing.gridRowHeight,
         },

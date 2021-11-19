@@ -28,7 +28,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
     const {filters = [], hideactions, topbtn = []} = bc;
     const theme = useTheme<IEssenceTheme>();
     const themeFilterNew = React.useMemo(() => makeTheme(theme), [theme]);
-    const isDarkTheme = React.useMemo(() => theme.palette.type === "dark", [theme]);
+    const isDarkTheme = React.useMemo(() => theme.essence.layoutTheme === 2, [theme]);
     const form = React.useContext(FormContext);
     const isHideActions = React.useMemo(
         () => hideactions || (topbtn.length === 0 && (!isDarkTheme || (isDarkTheme && filters.length === 0))),

@@ -4,13 +4,13 @@ import {IEssenceTheme} from "@essence-community/constructor-share/types";
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         baseFilter:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       minHeight: 42 * 3,
                   }
                 : {},
         dynamicTitle:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       // Dark
                       backgroundColor: theme.palette.common.white,
@@ -38,7 +38,7 @@ export const useStyles = makeStyles(
                       position: "relative",
                   },
         filterFields:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       backgroundColor: theme.palette.common.white,
                       borderTopRightRadius: 4,
@@ -53,7 +53,7 @@ export const useStyles = makeStyles(
             width: "100%",
         },
         titleTypography: {
-            fontSize: theme.palette.type === "dark" ? 30 : 22,
+            fontSize: theme.essence.layoutTheme === 2 ? 30 : 22,
             overflow: "hidden",
             textOverflow: "ellipsis",
             whiteSpace: "nowrap",

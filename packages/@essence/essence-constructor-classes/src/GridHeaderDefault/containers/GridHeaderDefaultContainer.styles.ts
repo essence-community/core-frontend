@@ -14,7 +14,7 @@ export const useStyles = makeStyles(
             visibility: "hidden",
         },
         tableCell:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       "&:hover": {
                           "& $filterIcon": {
@@ -48,7 +48,7 @@ export const useStyles = makeStyles(
                       padding: 0,
                   },
         tableCellActive:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {}
                 : {
                       backgroundColor: theme.essence.palette.grey.light,
@@ -63,7 +63,7 @@ export const useStyles = makeStyles(
             whiteSpace: "nowrap",
         },
         tableSortLabel:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       "&:focus": {
                           color: theme.palette.common.white,

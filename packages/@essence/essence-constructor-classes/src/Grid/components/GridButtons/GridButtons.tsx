@@ -1,5 +1,5 @@
 import * as React from "react";
-import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
+import {IClassProps, IBuilderConfig, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_PARENT_ID,
@@ -30,12 +30,16 @@ function compareOrderedBC(left: IOrderedBuielderConfig, right: IOrderedBuielderC
     return left.order - right.order;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store, ...classProps}) => {
     const {bc} = classProps;
-    const theme = useTheme();
+    const theme = useTheme<IEssenceTheme>();
     const activeElement = React.useRef<Element | null>();
 
-    const gridBtnsConfig = React.useMemo(() => getGridBtnsConfig(bc, theme.palette.type), [bc, theme.palette.type]);
+    const gridBtnsConfig = React.useMemo(() => getGridBtnsConfig(bc, theme.essence.layoutTheme), [
+        bc,
+        theme.essence.layoutTheme,
+    ]);
     const gridButtons = React.useMemo(() => {
         const staticBtns: IOrderedBuielderConfig[] = [];
         const {overrides} = gridBtnsConfig;
@@ -77,7 +81,7 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
                 const isAddButton =
                     btn.mode === "1" || btn.handler === "onCreateChildWindowMaster" || btn.handler === "onSimpleAddRow";
                 const contentview =
-                    btn.contentview?.startsWith("hbox") && theme.palette.type === "dark"
+                    btn.contentview?.startsWith("hbox") && theme.essence.layoutTheme === 2
                         ? btn.contentview.replace("hbox", "vbox")
                         : btn.contentview;
 
@@ -145,7 +149,7 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
                 container
                 spacing={1}
                 alignItems="center"
-                direction={theme.palette.type === "light" ? "row" : "column"}
+                direction={theme.essence.layoutTheme === 1 ? "row" : "column"}
                 className={isInlineEditing ? "hidden" : undefined}
             >
                 {mapComponents(
@@ -157,7 +161,7 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
                     ),
                 )}
 
-                {pageSize && theme.palette.type === "light" ? (
+                {pageSize && theme.essence.layoutTheme === 1 ? (
                     <>
                         <Grid item xs>
                             &nbsp;

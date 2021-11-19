@@ -4,7 +4,7 @@ import {IEssenceTheme} from "@essence-community/constructor-share/types/Theme";
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         actionsBar:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       backgroundColor: theme.palette.primary.main,
                       borderBottomLeftRadius: 4,
@@ -24,7 +24,7 @@ export const useStyles = makeStyles(
             padding: "16px 16px 16px 16px",
         },
         panelEditing:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       position: "relative",
                       zIndex: 3,

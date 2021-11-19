@@ -4,9 +4,10 @@ import openPageTabDark from "./OpenPageTabDark.styles";
 import openPageTabLight from "./OpenPageTabLight.styles";
 
 export const useStyles = makeStyles(
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     (theme: IEssenceTheme) => ({
-        ...(theme.palette.type === "light" ? openPageTabLight(theme) : openPageTabDark(theme)),
+        ...(theme.essence.layoutTheme === 1 ? openPageTabLight(theme) : openPageTabDark(theme)),
         tabDrag: {
             opacity: 0,
         },

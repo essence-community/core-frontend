@@ -34,7 +34,7 @@ export const useStyles = makeStyles(
                 boxShadow: theme.shadows[8],
                 transition: theme.transitions.create("box-shadow"),
             },
-            background: theme.palette.type === "dark" ? theme.palette.primary.main : undefined,
+            background: theme.essence.layoutTheme === 2 ? theme.palette.primary.main : undefined,
         },
         "right-hbox": {
             "& > $content": {
@@ -53,7 +53,7 @@ export const useStyles = makeStyles(
             display: "flex",
             flexWrap: "nowrap",
         },
-        ...(theme.palette.type === "dark" ? darkStyles() : lightStyles(theme)),
+        ...(theme.essence.layoutTheme === 2 ? darkStyles() : lightStyles(theme)),
     }),
     {
         name: "EssenceTabPanel",

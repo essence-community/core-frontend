@@ -4,7 +4,7 @@ import {IEssenceTheme} from "@essence-community/constructor-share/types";
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         tableHead:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       backgroundColor: theme.essence.palette.primary.field,
                       height: theme.essence.sizing.gridRowHeight,
@@ -16,13 +16,13 @@ export const useStyles = makeStyles(
                       width: "100%",
                   },
         tableHeadButton:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {}
                 : {
                       borderBottom: `1px solid ${theme.palette.primary.main}`,
                   },
         tableRow:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {}
                 : {
                       backgroundColor: theme.palette.common.white,

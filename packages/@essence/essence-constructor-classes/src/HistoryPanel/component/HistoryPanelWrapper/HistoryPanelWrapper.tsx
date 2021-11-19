@@ -3,7 +3,7 @@ import {Grid, useTheme} from "@material-ui/core";
 import {FormContext} from "@essence-community/constructor-share/context";
 import cn from "clsx";
 import {useObserver} from "mobx-react";
-import {IClassProps, IStoreBaseModel, IBuilderConfig} from "@essence-community/constructor-share/types";
+import {IClassProps, IStoreBaseModel, IBuilderConfig, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {reaction} from "mobx";
@@ -16,8 +16,8 @@ export const HistoryPanelWrapper: React.FC<IClassProps> = (props) => {
     const {hideactions} = bc;
     const form = React.useContext(FormContext);
     const classes = useStyles();
-    const theme = useTheme();
-    const isDarkTheme = theme.palette.type === "dark";
+    const theme = useTheme<IEssenceTheme>();
+    const isDarkTheme = theme.essence.layoutTheme === 2;
     const [store, setStore] = React.useState<IStoreBaseModel | undefined>(undefined);
     const boxBc = React.useMemo<IBuilderConfig>(() => ({...bc, type: "PANEL.BOX"}), [bc]);
 

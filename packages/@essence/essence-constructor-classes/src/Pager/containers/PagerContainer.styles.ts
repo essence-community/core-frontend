@@ -14,7 +14,7 @@ export const useStyles = makeStyles(
         },
         hidden: {},
         paperTopMargin: {
-            borderRadius: theme.palette.type === "dark" ? 4 : undefined,
+            borderRadius: theme.essence.layoutTheme === 2 ? 4 : undefined,
             marginTop: 20,
         },
         root: {

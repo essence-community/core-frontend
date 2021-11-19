@@ -9,18 +9,18 @@ import {
 import {mergeComponents} from "@essence-community/constructor-share/utils";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 
-const getAddBtnConfig = (bc: IBuilderConfig, styleTheme: string): IBuilderConfig => ({
+const getAddBtnConfig = (bc: IBuilderConfig, layoutTheme: number): IBuilderConfig => ({
     [VAR_RECORD_DISPLAYED]: "static:3a5239ee97d9464c9c4143c18fda9815",
     [VAR_RECORD_NAME]: "Add Document Button",
     [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}_add`,
     [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_add`,
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
     handler: "onAddFileAction",
-    hidden: styleTheme === "light" ? undefined : false,
+    hidden: layoutTheme === 1 ? undefined : false,
     iconfont: "fa-plus",
     iconfontname: "fa",
     mode: "1",
-    onlyicon: styleTheme === "light" ? undefined : true,
+    onlyicon: layoutTheme === 1 ? undefined : true,
     reqsel: false,
     type: "BTN",
     uitype: "4",
@@ -100,9 +100,9 @@ const getBtnRefreshConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     uitype: "11",
 });
 
-export const getFilePanelBtnsConfig = (bc: IBuilderConfig, styleTheme: string) => {
+export const getFilePanelBtnsConfig = (bc: IBuilderConfig, layoutTheme: number) => {
     const {overrides} = mergeComponents(bc.topbtn, {
-        "Override Add Button": getAddBtnConfig(bc, styleTheme),
+        "Override Add Button": getAddBtnConfig(bc, layoutTheme),
         "Override Audit Button": getBtnAuditConfig(bc),
         "Override Cancel Button": getCancelBtnConfig(bc),
         "Override Delete Button": getDeleteButton(bc),

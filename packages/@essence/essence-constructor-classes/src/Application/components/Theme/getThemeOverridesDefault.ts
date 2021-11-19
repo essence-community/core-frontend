@@ -255,7 +255,8 @@ export const getThemeOverridesDefault = (theme: IEssenceTheme): Theme["overrides
             width: "auto",
         },
         track: {
-            backgroundColor: theme.palette.type === "light" ? theme.palette.common.black : theme.palette.secondary.main,
+            backgroundColor:
+                theme.essence.layoutTheme === 1 ? theme.palette.common.black : theme.palette.secondary.main,
         },
     },
     MuiTab: {

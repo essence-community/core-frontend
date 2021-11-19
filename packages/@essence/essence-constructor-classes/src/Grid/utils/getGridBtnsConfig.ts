@@ -72,25 +72,25 @@ const getBtnExcelConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     uitype: "11",
 });
 
-const getSaveBtnConfig = (bc: IBuilderConfig, styleTheme: "light" | "dark"): IBuilderConfig => ({
+const getSaveBtnConfig = (bc: IBuilderConfig, layoutTheme: number): IBuilderConfig => ({
     [VAR_RECORD_CN_ORDER]: 1e6,
     [VAR_RECORD_DISPLAYED]: "static:8a930c6b5dd440429c0f0e867ce98316",
     [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow-save`,
     [VAR_RECORD_PARENT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow`,
     handler: "onSimpleSaveWindow",
-    iconfont: bc.edittype === "inline" && styleTheme === "dark" ? "save" : undefined,
+    iconfont: bc.edittype === "inline" && layoutTheme === 2 ? "save" : undefined,
     type: "BTN",
     uitype: "5",
 });
 
-const getCancelInlineBtnConfig = (bc: IBuilderConfig, styleTheme: "light" | "dark"): IBuilderConfig => ({
+const getCancelInlineBtnConfig = (bc: IBuilderConfig, layoutTheme: number): IBuilderConfig => ({
     [VAR_RECORD_CN_ORDER]: 1e6,
     [VAR_RECORD_DISPLAYED]: "static:64aacc431c4c4640b5f2c45def57cae9",
     [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow-cancel`,
     [VAR_RECORD_PARENT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow`,
     confirmquestion: "static:9b475e25ae8a40b0b158543b84ba8c08",
     handler: "onCloseWindow",
-    iconfont: styleTheme === "dark" ? "times" : undefined,
+    iconfont: layoutTheme === 2 ? "times" : undefined,
     type: "BTN",
     uitype: "6",
 });
@@ -116,16 +116,16 @@ const getDragDropBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     type: "BTN",
 });
 
-export const getGridBtnsConfig = (bc: IBuilderConfig, styleTheme: "light" | "dark"): IGridBtnsConfigType => {
+export const getGridBtnsConfig = (bc: IBuilderConfig, layoutTheme: number): IGridBtnsConfigType => {
     const {components, overrides} = mergeComponents(bc.topbtn, {
         "Override Audit Button": getBtnAuditConfig(bc),
         "Override Cancel Button":
-            bc.edittype === "inline" ? getCancelInlineBtnConfig(bc, styleTheme) : getCancelBtnConfig(bc),
+            bc.edittype === "inline" ? getCancelInlineBtnConfig(bc, layoutTheme) : getCancelBtnConfig(bc),
         "Override Delete Button": getBtnDeleteConfig(bc),
         "Override DragDrop Button": getDragDropBtnConfig(bc),
         "Override Excel Button": getBtnExcelConfig(bc),
         "Override Refresh Button": getBtnRefreshConfig(bc),
-        "Override Save Button": getSaveBtnConfig(bc, styleTheme),
+        "Override Save Button": getSaveBtnConfig(bc, layoutTheme),
     });
     const btnsCollector: IBuilderConfig[] = [];
     const btns: IBuilderConfig[] = [];
@@ -160,7 +160,7 @@ export function getOverrideDragDropButton(bc: IBuilderConfig) {
 export function getOverrideWindowBottomBtn(bc: IBuilderConfig) {
     const {overrides} = mergeComponents(bc.topbtn, {
         "Override Cancel Button": getCancelBtnConfig(bc),
-        "Override Save Button": getSaveBtnConfig(bc, "light"),
+        "Override Save Button": getSaveBtnConfig(bc, 1),
     });
 
     return [overrides["Override Save Button"], overrides["Override Cancel Button"]];

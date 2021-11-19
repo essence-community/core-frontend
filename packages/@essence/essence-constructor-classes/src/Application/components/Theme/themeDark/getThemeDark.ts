@@ -75,6 +75,8 @@ export const getThemeDark = (theme: Theme): IEssenceTheme => ({
     },
     // eslint-disable-next-line sort-keys
     essence: {
+        codeTheme: "dark",
+        layoutTheme: 2,
         palette: {
             common: {
                 black: "#000",

@@ -17,14 +17,14 @@ import {Icon} from "@essence-community/constructor-share/Icon";
 import {IconButton, useTheme} from "@material-ui/core";
 import {useStyles} from "./ButtonCollectorContainer.styles";
 
-const anchorOrigins: Record<"dark" | "light" | "window", IPopoverAnchorOrigin> = {
-    dark: {
-        horizontal: "right",
-        vertical: "center",
-    },
-    light: {
+const anchorOrigins: Record<number | "window", IPopoverAnchorOrigin> = {
+    1: {
         horizontal: "left",
         vertical: "bottom",
+    },
+    2: {
+        horizontal: "right",
+        vertical: "center",
     },
     window: {
         horizontal: "left",
@@ -32,14 +32,14 @@ const anchorOrigins: Record<"dark" | "light" | "window", IPopoverAnchorOrigin> =
     },
 };
 
-const transformOrigins: Record<"dark" | "light" | "window", IPopoverTransfromOrigin> = {
-    dark: {
-        horizontal: -8,
-        vertical: "center",
-    },
-    light: {
+const transformOrigins: Record<number | "window", IPopoverTransfromOrigin> = {
+    1: {
         horizontal: "left",
         vertical: 2,
+    },
+    2: {
+        horizontal: -8,
+        vertical: "center",
     },
     window: {
         horizontal: "left",
@@ -48,14 +48,14 @@ const transformOrigins: Record<"dark" | "light" | "window", IPopoverTransfromOri
 };
 const MAX_HEIGHT = 300;
 
-function getTranformName(theme: IEssenceTheme, position?: string): "dark" | "light" | "window" {
+function getTranformName(theme: IEssenceTheme, position?: string): number | "window" {
     switch (true) {
         case position === "window":
             return "window";
         case position === "theme":
-            return theme.palette.type;
+            return theme.essence.layoutTheme;
         default:
-            return theme.palette.type;
+            return theme.essence.layoutTheme;
     }
 }
 

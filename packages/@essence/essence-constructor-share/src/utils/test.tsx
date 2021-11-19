@@ -18,6 +18,8 @@ import {PageModel, RecordsModel, GlobalRecordsModel} from "../models";
 export {ANIMATION_TIMEOUT} from "../constants";
 
 const themeVars: IEssenceTheme["essence"] = {
+    codeTheme: "light",
+    layoutTheme: 1,
     palette: {
         common: {
             black: "#000",

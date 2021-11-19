@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Grid, Collapse, Typography, useTheme} from "@material-ui/core";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
-import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
+import {IClassProps, IBuilderConfig, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {useTranslation} from "@essence-community/constructor-share/utils";
@@ -17,8 +17,8 @@ export const PanelCollapsible: React.FC<IClassProps> = (props) => {
     const [trans] = useTranslation("meta");
     const form = React.useContext(FormContext);
     const classes = useStyles();
-    const theme = useTheme();
-    const styleTheme = theme.palette.type;
+    const theme = useTheme<IEssenceTheme>();
+    const layoutTheme = theme.essence.layoutTheme;
     const {[VAR_RECORD_DISPLAYED]: title} = bc;
     const boxBc = React.useMemo(() => ({...bc, type: "BOX.NOCOMMONDECORATOR"} as IBuilderConfig), [bc]);
     const handleChangeCollapse = React.useCallback(() => {
@@ -41,7 +41,7 @@ export const PanelCollapsible: React.FC<IClassProps> = (props) => {
             classes={{container: form.editing ? classes.editCollapseContainer : classes.collapseContainer}}
             data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-collapsible`}
         >
-            <Grid container direction="column" spacing={styleTheme === "light" ? 0 : 1}>
+            <Grid container direction="column" spacing={layoutTheme === 1 ? 0 : 1}>
                 <Grid
                     item
                     container
@@ -52,7 +52,7 @@ export const PanelCollapsible: React.FC<IClassProps> = (props) => {
                     {...GRID_CONFIGS.hbox}
                     {...GRID_ALIGN_CONFIGS["left-hbox"]}
                     className={`${classes.baseLabelGrid} ${
-                        !open && styleTheme === "light" ? classes.closedLabelGrid : classes.labelGrid
+                        !open && layoutTheme === 1 ? classes.closedLabelGrid : classes.labelGrid
                     }`}
                 >
                     <Grid

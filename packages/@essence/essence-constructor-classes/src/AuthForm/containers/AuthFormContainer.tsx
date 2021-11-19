@@ -21,11 +21,11 @@ import {makeTheme} from "./AuthFormContainer.overrides";
 
 export const AuthFormContainer: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
     const {pageStore, bc} = props;
-    const theme: IEssenceTheme = useTheme();
+    const theme: IEssenceTheme = useTheme<IEssenceTheme>();
     const themeNew = React.useMemo(() => makeTheme(theme), [theme]);
     const applicationStore = React.useContext(ApplicationContext);
     const history = useHistory();
-    const logo = theme.palette.type === "light" ? lightLogo : darkLogo;
+    const logo = theme.essence.layoutTheme === 1 ? lightLogo : darkLogo;
     const classes = useStyles(props);
 
     const [store] = useModel((options) => new AuthFormModel({...options, applicationStore, history}), props);

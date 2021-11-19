@@ -3,7 +3,7 @@ import cn from "classnames";
 import {useObserver} from "mobx-react";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {toColumnStyleWidth, i18next} from "@essence-community/constructor-share/utils";
-import {IBuilderConfig, IClassProps, IPageModel} from "@essence-community/constructor-share/types";
+import {IBuilderConfig, IClassProps, IEssenceTheme, IPageModel} from "@essence-community/constructor-share/types";
 import {Scrollbars, PageLoader} from "@essence-community/constructor-share/uicomponents";
 import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
 import {Grid, useTheme} from "@material-ui/core";
@@ -63,7 +63,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
     }, [applicationStore, defaultvalue, parentId, props.pageStore]);
 
     const classes = useStyles(props);
-    const theme = useTheme();
+    const theme = useTheme<IEssenceTheme>();
     const {route} = pageStore;
     const form: IForm = React.useMemo(
         () =>
@@ -142,7 +142,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                                         pageStore={pageStore}
                                         bc={childBc}
                                         visible={pageStore.visible}
-                                        elevation={theme.palette.type === "light" ? undefined : DARK_PAPER_ELEVATION}
+                                        elevation={theme.essence.layoutTheme === 1 ? undefined : DARK_PAPER_ELEVATION}
                                     />
                                 </Grid>
                             ),

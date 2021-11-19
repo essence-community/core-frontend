@@ -4,7 +4,7 @@ import {IEssenceTheme} from "@essence-community/constructor-share/types";
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         content: {
-            backgroundColor: theme.palette.type === "dark" ? theme.palette.common.white : undefined,
+            backgroundColor: theme.essence.layoutTheme === 2 ? theme.palette.common.white : undefined,
             paddingBottom: 8,
             paddingLeft: 32,
             paddingRight: 44,

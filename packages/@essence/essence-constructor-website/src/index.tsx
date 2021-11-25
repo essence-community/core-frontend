@@ -6,9 +6,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "mobx-react/batchingForReactDom";
 import "./index.css";
+import {saveSystemComponents} from "@essence-community/constructor-share/components";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "./register";
+
+saveSystemComponents();
 
 ReactDOM.render(<App />, document.getElementById("root"));
 

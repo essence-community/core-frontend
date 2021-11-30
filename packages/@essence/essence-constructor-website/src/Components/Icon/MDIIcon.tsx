@@ -20929,8 +20929,9 @@ const mapIcon = {
 };
 
 const MDIIcon = ({iconfont, size, ...otherPops}: IProps) => {
+    const name = iconfont?.toLowerCase().replace("mdi-", "");
     // @ts-ignore
-    const IconComponent = mapIcon[iconfont];
+    const IconComponent = mapIcon[`mdi-${name}`];
 
     return IconComponent ? <IconComponent size={SIZE_MAP[size]} {...otherPops} /> : null;
 };

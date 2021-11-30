@@ -5,6 +5,7 @@ import {
     VAR_RECORD_ICON_NAME,
     VAR_RECORD_LEAF,
     VAR_RECORD_APP_URL,
+    VAR_RECORD_ICON_FONT,
 } from "@essence-community/constructor-share/constants/variables";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {Grid, Typography} from "@material-ui/core";
@@ -23,7 +24,10 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
     const id = route[VAR_RECORD_ID];
     const [trans] = useTranslation("meta");
     const name = trans(route[VAR_RECORD_ROUTE_NAME]);
-    const iconName = route[VAR_RECORD_ICON_NAME];
+    const icon = React.useMemo(
+        () => ({font: route[VAR_RECORD_ICON_FONT] || "fa", name: route[VAR_RECORD_ICON_NAME] || "file-text"}),
+        [route],
+    );
     const handleClick = () => {
         if (leaf === "true") {
             if (route[VAR_RECORD_APP_URL] !== pagesStore.applicationStore.url) {
@@ -47,7 +51,7 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
     const renderIcon = () => {
         return (
             <Grid item className={classes.iconRoot}>
-                {iconName ? <Icon iconfont={iconName} size="lg" iconfontname="fa" /> : null}
+                <Icon iconfont={icon.name} size="lg" iconfontname={icon.font as "fa" | "mdi"} />
             </Grid>
         );
     };

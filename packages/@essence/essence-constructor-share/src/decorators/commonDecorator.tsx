@@ -24,7 +24,10 @@ export function commonDecorator<Props extends IClassProps>(
         public state: ICommonHOCState = {
             disabled: this.props.bc.disabled === true,
             hidden: this.props.bc.hidden === true,
-            readOnly: this.props.bc.readonly,
+            readOnly:
+                typeof this.props.bc.readonly === "undefined"
+                    ? this.props.pageStore.isReadOnly
+                    : this.props.bc.readonly,
         };
 
         private disposers: IReactionDisposer[] = [];
@@ -179,7 +182,12 @@ export function commonDecorator<Props extends IClassProps>(
                 return parseMemoize(readonlyrules).runer({get: this.getValue});
             }
 
-            return readOnly;
+            return (
+                readOnly ||
+                (typeof this.props.bc.readonly === "undefined"
+                    ? this.props.pageStore.isReadOnly
+                    : this.props.bc.readonly)
+            );
         }
 
         private getReadOnly = () => {
@@ -189,7 +197,21 @@ export function commonDecorator<Props extends IClassProps>(
                 return this.props.readOnly;
             }
 
-            return readOnly || this.state.readOnly;
+            if (
+                typeof this.props.bc.readonly === "boolean" &&
+                !this.props.bc.readonly &&
+                !this.props.bc.readonlyrules
+            ) {
+                return this.props.bc.readonly;
+            }
+
+            return (
+                readOnly ||
+                this.state.readOnly ||
+                (typeof this.props.bc.readonly === "undefined"
+                    ? this.props.pageStore.isReadOnly
+                    : this.props.bc.readonly)
+            );
         };
     }
 

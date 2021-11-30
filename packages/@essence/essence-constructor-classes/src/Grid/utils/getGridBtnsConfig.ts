@@ -91,6 +91,7 @@ const getCancelInlineBtnConfig = (bc: IBuilderConfig, layoutTheme: number): IBui
     confirmquestion: "static:9b475e25ae8a40b0b158543b84ba8c08",
     handler: "onCloseWindow",
     iconfont: layoutTheme === 2 ? "times" : undefined,
+    readonly: false,
     type: "BTN",
     uitype: "6",
 });
@@ -103,6 +104,7 @@ const getCancelBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     confirmquestion: "static:9b475e25ae8a40b0b158543b84ba8c08",
     confirmquestionposition: "top",
     handler: "onCloseWindow",
+    readonly: false,
     type: "BTN",
     uitype: "6",
 });

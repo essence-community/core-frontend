@@ -68,7 +68,10 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
 
     return useObserver(() => {
         const isError = Boolean(!disabled && !field.isValid);
-        const isDisabled = readOnly || disabled || !form.editing;
+        const isDisabled =
+            (readOnly && form.placement === "filter" && typeof bc.readonly === "undefined" ? false : readOnly) ||
+            disabled ||
+            !form.editing;
 
         if (!isEmpty(field.value) && !isDisabled) {
             tips.push(

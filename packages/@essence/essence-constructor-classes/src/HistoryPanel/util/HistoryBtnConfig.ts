@@ -180,6 +180,7 @@ export const getCancelBtnConfig = (bc: IBuilderConfig, layoutTheme: number): IBu
         handler: "onCloseWindow",
         iconfont: layoutTheme === 1 ? "times" : undefined,
         iconsize: "xs",
+        readonly: false,
         type: "BTN",
         uitype: "6",
     } as IBuilderConfig);

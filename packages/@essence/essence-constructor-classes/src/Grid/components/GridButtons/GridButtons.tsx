@@ -50,6 +50,7 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
                     [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_setting`,
                     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
                     onlyicon: true,
+                    readonly: false,
                     type: "GRID_SETTINGS",
                     uitype: "11",
                 },

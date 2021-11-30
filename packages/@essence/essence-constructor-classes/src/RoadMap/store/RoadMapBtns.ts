@@ -68,6 +68,7 @@ export const getCancelBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
     confirmquestion: "static:b03cbbb047ca438f920c799c5f48ecaf",
     handler: "onSimpleCancel",
+    readonly: false,
     type: "BTN",
     uitype: "2",
 });

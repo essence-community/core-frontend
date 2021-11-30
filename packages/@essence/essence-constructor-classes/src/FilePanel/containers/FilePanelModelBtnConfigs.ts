@@ -48,6 +48,7 @@ export const getCancelBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     confirmquestion: "static:9b475e25ae8a40b0b158543b84ba8c08",
     confirmquestionposition: "top",
     handler: "onCloseWindow",
+    readonly: false,
     type: "BTN",
     uitype: "2",
 });
@@ -57,6 +58,7 @@ export const getDownloadBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}-download`,
     [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-download`,
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+    readonly: false,
     type: "BTN",
 });
 

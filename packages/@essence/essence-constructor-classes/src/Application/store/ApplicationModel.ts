@@ -187,6 +187,7 @@ export class ApplicationModel implements IApplicationModel {
             applicationStore: this,
             defaultVisible: true,
             isActiveRedirect: false,
+            isReadOnly: false,
             pageId: "-1",
         });
     }

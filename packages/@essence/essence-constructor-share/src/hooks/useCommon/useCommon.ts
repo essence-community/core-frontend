@@ -20,7 +20,9 @@ export const useCommon = (props: IClassProps): IUseCommonResult => {
 
     const [disabledState, setDisabledState] = useState(bc.disabled === true);
     const [hiddenState, setHiddenState] = useState(bc.hidden === true);
-    const [readOnlyState, setReadOnlyState] = useState(bc.readonly);
+    const [readOnlyState, setReadOnlyState] = useState(
+        typeof bc.readonly === "undefined" ? pageStore.isReadOnly : bc.readonly === true,
+    );
     const isHidden = hidden || hiddenState;
 
     const getValue = useCallback(
@@ -47,7 +49,7 @@ export const useCommon = (props: IClassProps): IUseCommonResult => {
     }, [getValue, hiddenrules]);
 
     useEffect(() => {
-        if (!readOnly && readonlyrules) {
+        if (readonlyrules) {
             if (readOnly) {
                 setReadOnlyState(true);
             }
@@ -56,7 +58,7 @@ export const useCommon = (props: IClassProps): IUseCommonResult => {
                 fireImmediately: true,
             });
         }
-    }, [getValue, readOnly, readonlyrules]);
+    }, [bc, getValue, pageStore, readOnly, readonlyrules]);
 
     return {
         disabled: disabled || disabledState,

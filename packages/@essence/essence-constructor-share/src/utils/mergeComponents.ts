@@ -19,6 +19,8 @@ const DEFAULT_OVERRIDE_FIELD = [
     "modeaction",
     "redirecturl",
     "redirectusequery",
+    "readonly",
+    "readonlyrules",
     "timeout",
     "updatequery",
     "columnsfilter",

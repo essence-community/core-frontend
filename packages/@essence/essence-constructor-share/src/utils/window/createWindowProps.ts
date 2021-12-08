@@ -34,7 +34,7 @@ export function createWindowProps(props: ICreateWindowProps): IBuilderConfig {
 
     if (!windowBc && parentStore) {
         windowBc = getDefaultWindowBc(parentStore.bc);
-    } else {
+    } else if (!windowBc) {
         windowBc = getDefaultWindowBc(btnBc);
     }
 

@@ -8,7 +8,8 @@ import {
     IHandlerOptions,
 } from "@essence-community/constructor-share/types";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
-import {isEmpty} from "@essence-community/constructor-share/utils";
+import {createWindowProps, isEmpty} from "@essence-community/constructor-share/utils";
+import {getWindowBc} from "@essence-community/constructor-share/utils/window/getWindowBc";
 
 export class FormPanelModel extends StoreBaseModel {
     public recordsStore: RecordsModel;
@@ -48,6 +49,18 @@ export class FormPanelModel extends StoreBaseModel {
         bc: IBuilderConfig,
         options: IHandlerOptions = {},
     ): Promise<boolean> => {
+        if (bc.ckwindow && getWindowBc(bc, this.pageStore, this)) {
+            this.pageStore.createWindowAction(
+                createWindowProps({
+                    btnBc: bc,
+                    mode,
+                    pageStore: this.pageStore,
+                    parentStore: this,
+                }),
+            );
+
+            return Promise.resolve(true);
+        }
         switch (mode) {
             case "1":
                 this.addAction();
@@ -258,6 +271,11 @@ export class FormPanelModel extends StoreBaseModel {
         onNextRecord: this.setNextRecord,
         onPrevRecord: this.setPrevRecord,
         onRefresh: async () => {
+            await this.loadRecordsAction();
+
+            return Promise.resolve(true);
+        },
+        onReloadStores: async () => {
             await this.loadRecordsAction();
 
             return Promise.resolve(true);

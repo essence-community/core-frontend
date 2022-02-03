@@ -17,9 +17,10 @@ export interface ICommonHOCState {
 }
 
 export interface ICommonHOCProps extends IClassProps {
-    record?: IRecord;
-    form?: IForm;
-    parentField?: IParentFieldContext;
+    recordContext?: IRecord;
+    formContext?: IForm;
+    parentFieldContext?: IParentFieldContext;
+    originProps: IClassProps;
 }
 
 // eslint-disable-next-line max-lines-per-function
@@ -68,9 +69,9 @@ export function commonDecorator<Props extends IClassProps>(
                 this.handleReadOnly();
             }
             if (
-                prevProps.record !== this.props.record ||
-                prevProps.form !== this.props.form ||
-                prevProps.parentField !== this.props.parentField
+                prevProps.recordContext !== this.props.recordContext ||
+                prevProps.formContext !== this.props.formContext ||
+                prevProps.parentFieldContext !== this.props.parentFieldContext
             ) {
                 const {reqsel, disabledrules, hiddenrules, readonlyrules, disabledemptymaster} = this.props.bc;
 
@@ -96,7 +97,7 @@ export function commonDecorator<Props extends IClassProps>(
         }
 
         public render() {
-            const {disabled, visible} = this.props;
+            const {disabled, visible, originProps} = this.props;
             const hidden = this.props.hidden || this.state.hidden;
 
             if (hidden) {
@@ -105,7 +106,7 @@ export function commonDecorator<Props extends IClassProps>(
 
             return (
                 <WrappedComponent
-                    {...(this.props as any)}
+                    {...(originProps as any)}
                     disabled={disabled || this.state.disabled}
                     hidden={hidden}
                     visible={hidden || visible}
@@ -115,25 +116,25 @@ export function commonDecorator<Props extends IClassProps>(
         }
 
         private getValue = (name: string) => {
-            const {record, form, parentField, pageStore} = this.props;
+            const {recordContext, formContext, parentFieldContext, pageStore} = this.props;
 
             if (name.charAt(0) === "g") {
                 return pageStore.globalValues.get(name);
             }
 
-            if (record) {
-                const [isExistRecord, recValue] = deepFind(record, name);
+            if (recordContext) {
+                const [isExistRecord, recValue] = deepFind(recordContext, name);
 
                 if (isExistRecord) {
                     return recValue;
                 }
             }
 
-            if (form) {
-                const values = form.values;
+            if (formContext) {
+                const values = formContext.values;
 
-                if (parentField) {
-                    const [isExistParent, val] = deepFind(values, `${parentField.key}.${name}`);
+                if (parentFieldContext) {
+                    const [isExistParent, val] = deepFind(values, `${parentFieldContext.key}.${name}`);
 
                     if (isExistParent) {
                         return val;
@@ -253,6 +254,14 @@ export function commonDecorator<Props extends IClassProps>(
         const form = React.useContext(FormContext);
         const parentField = React.useContext(ParentFieldContext);
 
-        return <CommonHOC {...props} originProps={props} record={record} form={form} parentField={parentField} />;
+        return (
+            <CommonHOC
+                {...props}
+                originProps={props}
+                recordContext={record}
+                formContext={form}
+                parentFieldContext={parentField}
+            />
+        );
     };
 }

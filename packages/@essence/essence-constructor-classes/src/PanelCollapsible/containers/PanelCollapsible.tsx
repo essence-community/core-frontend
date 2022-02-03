@@ -12,8 +12,8 @@ import {GRID_CONFIGS, GRID_ALIGN_CONFIGS} from "@essence-community/constructor-s
 import {useStyles} from "./PanelCollapsible.styles";
 
 export const PanelCollapsible: React.FC<IClassProps> = (props) => {
-    const [open, setOpen] = React.useState(true);
     const {children, bc} = props;
+    const [open, setOpen] = React.useState(!bc.collapsed);
     const [trans] = useTranslation("meta");
     const form = React.useContext(FormContext);
     const classes = useStyles();

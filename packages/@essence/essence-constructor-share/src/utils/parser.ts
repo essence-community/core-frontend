@@ -162,10 +162,17 @@ function parseOperations(expression: Expression | Pattern | Super | BlockStateme
                     expression.object.type === "Identifier") &&
                 expression.property.type === "Identifier"
             ) {
+                // @ts-ignore
+                if (!expression.property.originname) {
+                    // @ts-ignore
+                    expression.property.originname = expression.property.name;
+                }
                 expression.property.name =
                     ((values.get
-                        ? values.get(expression.property.name, true)
-                        : values[expression.property.name]) as any) || expression.property.name;
+                        ? // @ts-ignore
+                          values.get(expression.property.originname, true)
+                        : // @ts-ignore
+                          values[expression.property.originname]) as any) || expression.property.originname;
             }
             const property = parseOperations(
                 expression.property,

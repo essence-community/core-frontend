@@ -10,6 +10,7 @@ import {
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {createWindowProps, isEmpty} from "@essence-community/constructor-share/utils";
 import {getWindowBc} from "@essence-community/constructor-share/utils/window/getWindowBc";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "../../../../essence-constructor-share/src/constants/variables";
 
 export class FormPanelModel extends StoreBaseModel {
     public recordsStore: RecordsModel;
@@ -181,6 +182,11 @@ export class FormPanelModel extends StoreBaseModel {
 
     @action
     closeAction = () => {
+        const form = this.pageStore.forms.get(this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
+
+        if (form) {
+            form.update(form.initialValues);
+        }
         this.recordsStore.setFirstRecord();
         this.setEditing(false);
 

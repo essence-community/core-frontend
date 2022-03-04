@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {action, computed, observable} from "mobx";
-import {VALUE_SELF_ALWAYSFIRST} from "@essence-community/constructor-share/constants";
+import {VALUE_SELF_ALWAYSFIRST, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {
     IStoreBaseModelProps,
     IBuilderMode,
@@ -10,7 +10,6 @@ import {
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {createWindowProps, isEmpty} from "@essence-community/constructor-share/utils";
 import {getWindowBc} from "@essence-community/constructor-share/utils/window/getWindowBc";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "../../../../essence-constructor-share/src/constants/variables";
 
 export class FormPanelModel extends StoreBaseModel {
     public recordsStore: RecordsModel;

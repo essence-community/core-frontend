@@ -113,6 +113,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                                 ? CLEAR_VALUE
                                 : value,
                         );
+                        return;
                     }
                     const stringValue = toString(field.value);
                     const suggestion = sugs.find((sug) => sug.value === stringValue);

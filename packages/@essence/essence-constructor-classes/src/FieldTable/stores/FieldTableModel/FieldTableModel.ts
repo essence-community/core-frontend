@@ -10,6 +10,7 @@ import {
     VALUE_SELF_FIRST,
     loggerRoot,
     VAR_RECORD_NAME,
+    VALUE_SELF_ALWAYSFIRST,
 } from "@essence-community/constructor-share/constants";
 import {
     IPageModel,
@@ -293,12 +294,36 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     };
 
     @action
-    reloadStoreAction = () => {
+    reloadStoreAction = async () => {
         loggerInfo(i18next.t("static:58715205c88c4d60aac6bfe2c3bfa516"));
 
-        this.selectedEntries.clear();
+        if (!this.recordsStore.isLoading) {
+            const selectedRecordId = this.recordsStore.selectedRecordValues[this.recordsStore.recordId];
 
-        this.field.clear();
+            const res = await this.recordsStore.loadRecordsAction({
+                selectedRecordId:
+                    selectedRecordId === null || typeof selectedRecordId === "object"
+                        ? undefined
+                        : (selectedRecordId as "string" | "number"),
+            });
+
+            if (selectedRecordId != this.recordsStore.selectedRecordValues[this.recordsStore.recordId]) {
+                this.field.onClear();
+                this.selectedEntries.clear();
+            }
+
+            if (
+                this.recordsStore.recordsState.records.length &&
+                (this.bc.defaultvalue === VALUE_SELF_FIRST || this.bc.defaultvalue === VALUE_SELF_ALWAYSFIRST)
+            ) {
+                const id = this.recordsStore.recordsState.records[0][this.recordsStore.recordId];
+
+                this.recordsStore.setSelectionAction(id);
+                this.handleChangeRecord(this.recordsStore.recordsState.records[0]);
+            }
+
+            return res;
+        }
 
         return Promise.resolve(undefined);
     };

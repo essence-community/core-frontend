@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys */
 /* eslint-disable quote-props */
 export const CODE_GROUP_MAP = {
     "-1": "1*",
@@ -20,6 +21,7 @@ export const CODE_GROUP_MAP = {
     "403": 9,
     "500": "1*",
     "513": 9,
+    "999": 10,
 };
 
 export const GROUP_ACTION_MAP = {
@@ -72,6 +74,11 @@ export const GROUP_ACTION_MAP = {
         DEV: "accessDenied",
         PROD: "accessDenied",
         TEST: "accessDenied",
+    },
+    "10": {
+        DEV: "reinitSession",
+        PROD: "reinitSession",
+        TEST: "reinitSession",
     },
 };
 /* eslint-enable quote-props */

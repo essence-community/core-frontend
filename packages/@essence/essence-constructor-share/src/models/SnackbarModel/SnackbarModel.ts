@@ -618,4 +618,11 @@ export class SnackbarModel implements ISnackbarModel {
             window.location.href = errorData?.[VAR_ERROR_TEXT];
         }
     };
+    
+    @action
+    reinitSessionAction = (errorData: IErrorData, route?: IRouteRecord, applicationStore?: IApplicationModel) => {
+        if (applicationStore) {
+            applicationStore.authStore.checkAuthAction(applicationStore.history);
+        }
+    };
 }

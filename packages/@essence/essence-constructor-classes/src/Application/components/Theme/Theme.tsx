@@ -22,6 +22,20 @@ interface IThemeProps {
     applicationStore: IApplicationModel;
 }
 
+interface IGetThemeTypes {
+    [key: string]: object;
+}
+
+const themList = {
+    dark: getThemeDark,
+    light: getThemeLight,
+};
+
+const overridesList = {
+    dark: getThemeDarkOverrides,
+    light: getThemeLightOverrides,
+};
+
 function getThemeType(): "dark" | "light" | string {
     const settingTheme = settingsStore.settings[VAR_SETTING_THEME] as "dark" | "light" | string | undefined;
     const theme = getFromStore("theme") as "dark" | "light" | string | undefined;
@@ -70,8 +84,8 @@ export const Theme: React.FC<IThemeProps> = (props) => {
     }, []);
 
     const theme = React.useMemo(() => {
-        const getTheme = themeType === "dark" ? getThemeDark : getThemeLight;
-        const getThemeOverrides = themeType === "dark" ? getThemeDarkOverrides : getThemeLightOverrides;
+        const getTheme = themList[themeType] ? themList[themeType] : themList.light;
+        const getThemeOverrides = overridesList[themeType] ? overridesList[themeType] : overridesList.light;
         const themeVariables = getTheme(materialTheme);
         let overrides = getThemeOverrides(themeVariables);
 

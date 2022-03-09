@@ -7,7 +7,7 @@ import * as React from "react";
 import {Notification} from "../components/Notification/Notification";
 import NotificationsReadButton from "../components/NotificationsReadButton/NotificationsReadButton";
 import {getTabsData, mapNotification} from "../components/NotificationsTabs/NotificationsTabs";
-import {NotificationsTab} from "../components/NotificationsTabs/NotificationTab";
+import NotificationsTab from "../components/NotificationsTabs/NotificationTab";
 import {useStyles} from "./NotificationPanel.styles";
 
 const SCROLLBARS_STYLE = {

@@ -8,16 +8,14 @@ import {
     useFieldSetGlobal,
     useDefaultValueQuery,
 } from "@essence-community/constructor-share/hooks";
-import {useTranslation, isEmpty} from "@essence-community/constructor-share/utils";
+import {useTranslation, isEmpty, toString} from "@essence-community/constructor-share/utils";
 import {IPopoverChildrenProps} from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";
 import {useField} from "@essence-community/constructor-share/Form";
 import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "@essence-community/constructor-share/constants";
 import {FieldComboList} from "../components/FieldComboList";
 import {FieldComboInput} from "../components/FieldComboInput";
-import {FieldComboModel} from "../store/FieldComboModel";
+import {CLEAR_VALUE, FieldComboModel} from "../store/FieldComboModel";
 import {getFirstValues} from "../utils/getFirstValues";
-
-const CLEAR_VALUE = undefined;
 
 /**
  * How it should work:
@@ -32,7 +30,8 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
     const listRef: React.MutableRefObject<HTMLInputElement | null> = React.useRef(null);
     const textFieldRef: React.MutableRefObject<HTMLDivElement | null> = React.useRef(null);
     const field = useField({bc, clearValue: CLEAR_VALUE, disabled, hidden, pageStore});
-    const [store] = useModel((modelProps) => new FieldComboModel(modelProps), props);
+    const [store] = useModel((modelProps) => new FieldComboModel(modelProps), {field, ...props});
+    const [focused, setFocused] = React.useState(false);
 
     const popoverContent = (popoverProps: IPopoverChildrenProps) => (
         <FieldComboList
@@ -43,6 +42,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
             onChange={field.onChange}
             listRef={listRef}
             {...popoverProps}
+            focused={focused}
         />
     );
 
@@ -93,25 +93,36 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
     React.useEffect(
         () =>
             reaction(
-                () => store.recordsStore.recordsState,
-                (recordsState) => {
+                () => store.suggestions,
+                (sugs) => {
+                    if (sugs.length === 0) {
+                        return;
+                    }
+                    const recordsState = store.recordsStore.recordsState;
                     const isDefault = Boolean(
-                        ((isEmpty(field.value) && (store.recordsStore.loadCounter <= 1 || bc.records?.length)) ||
-                            ((field.value === VALUE_SELF_FIRST || field.value === VALUE_SELF_ALWAYSFIRST) &&
-                                field.value === bc.defaultvalue)) &&
-                            recordsState.isDefault,
+                        (isEmpty(field.value) && (store.recordsStore.loadCounter <= 1 || bc.records?.length)) ||
+                            field.value === bc.defaultvalue ||
+                            (recordsState.isDefault &&
+                                (field.value === VALUE_SELF_ALWAYSFIRST || field.value === VALUE_SELF_FIRST)),
                     );
-                    const value =
-                        isDefault && recordsState.record ? recordsState.record[store.valuefield] : field.value;
+                    const value = recordsState.record ? recordsState.record[store.valuefield] : field.value;
 
                     if (isDefault) {
-                        field.onChange(recordsState.record ? recordsState.record[store.valuefield] : "");
-                        if (recordsState.record && store.bc.valuefield && store.bc.valuefield.length > 1) {
-                            store.patchForm(field, recordsState.record);
-                        }
+                        field.onChange(
+                            value === VALUE_SELF_ALWAYSFIRST || value === VALUE_SELF_FIRST || isEmpty(value)
+                                ? CLEAR_VALUE
+                                : value,
+                        );
+                        return;
                     }
+                    const stringValue = toString(field.value);
+                    const suggestion = sugs.find((sug) => sug.value === stringValue);
 
-                    store.handleSetValue(value, true, recordsState.status === "search" && recordsState.isUserReload);
+                    if (!suggestion && value !== store.lastValue) {
+                        field.onChange(value);
+                    } else {
+                        store.handleSetValue(field.value, false, false);
+                    }
                 },
             ),
         [bc.defaultvalue, field, store],
@@ -154,6 +165,8 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                 textFieldRef={textFieldRef}
                 field={field}
                 onBlur={handleBlur}
+                focused={focused}
+                setFocused={setFocused}
             />
         </Popover>
     );

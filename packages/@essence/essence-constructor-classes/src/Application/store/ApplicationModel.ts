@@ -32,6 +32,7 @@ import {
     VAR_RECORD_CK_VIEW,
     VAR_SETTING_VIEW_URL,
     VAR_SETTING_URL_APP_NAME,
+    VAR_SETTING_AUTH_URL,
     loggerRoot,
 } from "@essence-community/constructor-share/constants";
 import {i18next, redirectAuth, TFunction} from "@essence-community/constructor-share/utils";
@@ -56,6 +57,8 @@ const TIMEOUT_RECONNECT = 15000;
 const TIMEOUT_LONG_RECONNECT = 300000;
 
 const MAX_RECONNECT = 5;
+
+const RELOAD_FIRST = 500;
 
 const LOGOUT_CODE = 4001;
 
@@ -278,19 +281,36 @@ export class ApplicationModel implements IApplicationModel {
     });
 
     // eslint-disable-next-line max-statements
-    redirectToFirstValidApplication = async (url?: string): Promise<boolean | void> => {
+    redirectToFirstValidApplication = async (url?: string, countReload = 0): Promise<boolean | void> => {
         const children = this.recordsStore.records as any;
 
         if (Array.isArray(children)) {
-            const firstValidApplication = children.find((rec: IBuilderConfig) => {
-                if (isEmpty(rec.activerules)) {
-                    return true;
-                }
+            let firstValidApplication = url
+                ? children.find((rec: IBuilderConfig) => {
+                      if (rec[VAR_RECORD_URL] !== url) {
+                          return false;
+                      }
+                      if (isEmpty(rec.activerules)) {
+                          return true;
+                      }
 
-                return parseMemoize(rec.activerules).runer({
-                    get: this.handleGetValue,
+                      return parseMemoize(rec.activerules).runer({
+                          get: this.handleGetValue,
+                      });
+                  })
+                : null;
+
+            if (!firstValidApplication) {
+                firstValidApplication = children.find((rec: IBuilderConfig) => {
+                    if (isEmpty(rec.activerules)) {
+                        return true;
+                    }
+
+                    return parseMemoize(rec.activerules).runer({
+                        get: this.handleGetValue,
+                    });
                 });
-            });
+            }
 
             if (firstValidApplication && firstValidApplication[VAR_RECORD_URL]) {
                 if (firstValidApplication[VAR_RECORD_URL] !== url) {
@@ -342,10 +362,18 @@ export class ApplicationModel implements IApplicationModel {
         }
 
         if (this.authStore.userInfo.session) {
-            await this.logoutAction();
+            if (MAX_RECONNECT > countReload) {
+                setTimeout(() => this.redirectToFirstValidApplication(url, countReload + 1), RELOAD_FIRST);
+
+                return;
+            } else {
+                await this.logoutAction();
+            }
         }
 
-        if (this.history.location.pathname.indexOf("auth") === -1) {
+        const authUrl = settingsStore.settings[VAR_SETTING_AUTH_URL] || "/auth";
+
+        if (this.history.location.pathname.indexOf(authUrl) === -1) {
             const state = (this.history.location.state || {}) as {backUrl?: string};
             const {backUrl = this.history.location.pathname} = state;
 
@@ -396,7 +424,7 @@ export class ApplicationModel implements IApplicationModel {
             await this.routesStore?.recordsStore.searchAction({appUrl: this.url});
             this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
         } else {
-            await this.redirectToFirstValidApplication();
+            await this.redirectToFirstValidApplication(this.url);
 
             return false;
         }

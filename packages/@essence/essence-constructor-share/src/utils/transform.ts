@@ -1,7 +1,7 @@
 import * as DOMPurify from "dompurify";
 import {TText} from "../types/SnackbarModel";
 import {IRecord} from "../types/Base";
-import {FieldValue} from "../types";
+import {FieldValue, IBuilderConfig} from "../types";
 import {isEmpty} from "./base";
 import {TFunction} from "./I18n";
 
@@ -21,6 +21,20 @@ export const toColumnStyleWidth = (width?: number | string) => {
         flexBasis: width,
         maxWidth: width,
         width,
+    };
+};
+
+ export const toColumnStyleWidthBc = (bc: IBuilderConfig) => {
+    
+    if (!bc.width) {
+        return undefined;
+    }
+
+    return {
+        flexBasis: bc.width,
+        maxWidth: bc.maxwidth || bc.width,
+        width: bc.width,
+        minWidth: bc.minwidth
     };
 };
 

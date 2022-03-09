@@ -124,6 +124,7 @@ export const VAR_SETTING_REMOTE_STORAGE = "use_remote_storage_cache";
 export const VAR_SETTING_REMOTE_STORAGE_LOAD_QUERY = "remote_storage_load_query";
 export const VAR_SETTING_REMOTE_STORAGE_ADD_QUERY = "remote_storage_add_query";
 export const VAR_SETTING_REMOTE_STORAGE_DELETE_QUERY = "remote_storage_delete_query";
+export const VAR_SETTING_TYPE_NOTIFICATION = "type_notification";
 
 // META
 export const META_OUT_RESULT = "out_result";

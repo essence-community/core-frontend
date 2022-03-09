@@ -10,6 +10,14 @@ import {GRID_CONFIGS} from "@essence-community/constructor-share/constants/ui";
 export const ButtonGroup: React.FC<IClassProps> = (props) => {
     const {bc} = props;
     const {contentview = "hbox"} = bc;
+    const contentStyle = React.useMemo(
+        () => ({
+            height: bc.height,
+            maxHeight: bc.maxheight ?? "100%",
+            minHeight: bc.minheight,
+        }),
+        [bc.height, bc.maxheight, bc.minheight],
+    );
     const childs = React.useMemo(() => {
         const temp = (bc.childs || []).reduce((arr: IBuilderConfig[], row: IBuilderConfig) => {
             arr.push({
@@ -35,6 +43,7 @@ export const ButtonGroup: React.FC<IClassProps> = (props) => {
         <Grid
             container
             spacing={1}
+            style={contentStyle}
             justify="flex-start"
             alignItems="center"
             alignContent="center"

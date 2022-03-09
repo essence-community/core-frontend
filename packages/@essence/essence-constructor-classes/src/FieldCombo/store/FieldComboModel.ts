@@ -1,20 +1,14 @@
 /* eslint-disable max-lines */
 import {computed, observable, action} from "mobx";
-import {
-    IStoreBaseModelProps,
-    IRecordsModel,
-    toString,
-    debounce,
-    FieldValue,
-    IRecord,
-} from "@essence-community/constructor-share";
+import {IRecordsModel, toString, debounce, FieldValue, IRecord} from "@essence-community/constructor-share";
 import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "@essence-community/constructor-share/constants";
 import {deepChange, deepFind, i18next, isEmpty, parseMemoize} from "@essence-community/constructor-share/utils";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {IParseReturnType} from "@essence-community/constructor-share/utils/parser";
 import {IField} from "@essence-community/constructor-share/Form/types";
-import {ISuggestion} from "./FieldComboModel.types";
+import {ISuggestion, IFieldComboModelProps} from "./FieldComboModel.types";
 
+export const CLEAR_VALUE = undefined;
 export class FieldComboModel extends StoreBaseModel {
     recordsStore: IRecordsModel;
 
@@ -23,6 +17,8 @@ export class FieldComboModel extends StoreBaseModel {
     valuefield: string;
 
     valueLength: number;
+
+    field: IField;
 
     loadDebounce: (value: string, isUserReload: boolean) => void;
 
@@ -38,7 +34,7 @@ export class FieldComboModel extends StoreBaseModel {
 
     @observable isInputChanged = false;
 
-    @observable lastValue: FieldValue = "";
+    @observable lastValue: FieldValue = CLEAR_VALUE;
 
     // Duplicate from i18next to control suggestions
     @observable language: string = i18next.language;
@@ -81,12 +77,13 @@ export class FieldComboModel extends StoreBaseModel {
 
     parserLabel?: IParseReturnType;
 
-    constructor(props: IStoreBaseModelProps) {
+    constructor(props: IFieldComboModelProps) {
         super(props);
 
-        const {bc, pageStore} = props;
+        const {bc, pageStore, field} = props;
         const {column = "", displayfield = "", valuefield, minchars = 0, querydelay = 0} = bc;
 
+        this.field = field;
         this.displayfield = displayfield;
         this.valuefield = valuefield?.[0]?.in || column;
         this.valueLength = minchars;
@@ -111,16 +108,33 @@ export class FieldComboModel extends StoreBaseModel {
         }, querydelay * 1000);
     }
 
-    reloadStoreAction = (): Promise<IRecord | undefined> => {
+    reloadStoreAction = async (): Promise<IRecord | undefined> => {
         if (!this.recordsStore.isLoading) {
             const selectedRecordId = this.recordsStore.selectedRecordValues[this.recordsStore.recordId];
 
-            return this.recordsStore.loadRecordsAction({
+            const res = await this.recordsStore.loadRecordsAction({
                 selectedRecordId:
                     selectedRecordId === null || typeof selectedRecordId === "object"
                         ? undefined
                         : (selectedRecordId as "string" | "number"),
             });
+
+            if (selectedRecordId != this.recordsStore.selectedRecordValues[this.recordsStore.recordId]) {
+                this.field.onClear();
+            }
+
+            if (
+                this.recordsStore.recordsState.records.length &&
+                (this.bc.defaultvalue === VALUE_SELF_FIRST || this.bc.defaultvalue === VALUE_SELF_ALWAYSFIRST)
+            ) {
+                const id = this.recordsStore.recordsState.records[0][this.recordsStore.recordId];
+
+                this.recordsStore.setSelectionAction(id);
+                this.field.onChange(this.recordsStore.recordsState.records[0][this.valuefield]);
+                this.patchForm(this.field, this.recordsStore.recordsState.records[0]);
+            }
+
+            return res;
         }
 
         return Promise.resolve(undefined);
@@ -150,17 +164,23 @@ export class FieldComboModel extends StoreBaseModel {
     @action
     resetAction = () => {
         this.inputValue = "";
-        this.lastValue = "";
+        this.lastValue = CLEAR_VALUE;
         this.recordsStore.searchAction({}, {reset: true});
         this.recordsStore.setSelectionAction(undefined);
+        if (this.bc.valuefield && this.bc.valuefield.length > 1) {
+            this.patchForm(this.field, {});
+        }
     };
 
     @action
     clearAction = () => {
         this.inputValue = "";
-        this.lastValue = "";
+        this.lastValue = CLEAR_VALUE;
         this.recordsStore.searchAction({}, {noLoad: true, reset: true});
         this.recordsStore.setSelectionAction(undefined);
+        if (this.bc.valuefield && this.bc.valuefield.length > 1) {
+            this.patchForm(this.field, {});
+        }
     };
 
     @action
@@ -292,6 +312,11 @@ export class FieldComboModel extends StoreBaseModel {
 
     @action
     handleSetSuggestionValue = (suggestion: ISuggestion, isUserSearch: boolean): boolean => {
+        if (this.bc.valuefield && this.bc.valuefield.length > 1) {
+            const record = this.recordsStore.records.find((rec) => rec[this.recordsStore.recordId] === suggestion.id);
+
+            this.patchForm(this.field, record || {});
+        }
         if (this.recordsStore.selectedRecordValues[this.recordsStore.recordId] !== suggestion.id) {
             const rec: any = suggestion.id;
 
@@ -308,7 +333,7 @@ export class FieldComboModel extends StoreBaseModel {
     @action
     handleSetValue = (value: FieldValue, loaded: boolean, isUserSearch: boolean) => {
         if ((value === VALUE_SELF_FIRST || value === VALUE_SELF_ALWAYSFIRST) && this.bc.defaultvalue === value) {
-            this.lastValue = "";
+            this.lastValue = CLEAR_VALUE;
         } else {
             this.lastValue = value;
         }

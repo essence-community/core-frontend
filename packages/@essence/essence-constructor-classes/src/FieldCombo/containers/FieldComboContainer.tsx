@@ -22,7 +22,7 @@ import {getFirstValues} from "../utils/getFirstValues";
  * 1. Value can get from recordsStore
  * 2. can be changed from props.value
  */
-// eslint-disable-next-line max-statements
+// eslint-disable-next-line max-statements, max-lines-per-function
 export const FieldComboContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden} = props;
     const {i18n} = useTranslation();
@@ -113,6 +113,8 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                                 ? CLEAR_VALUE
                                 : value,
                         );
+                        store.handleSetValue(value, false, false);
+
                         return;
                     }
                     const stringValue = toString(field.value);

@@ -7,6 +7,7 @@ export interface IDragPos {
 
 export type IOpenTabProps = TabProps & {
     value: string;
+    route?: Record<string, any>;
     pageIndex: number;
     iconfont?: string;
     label?: string;

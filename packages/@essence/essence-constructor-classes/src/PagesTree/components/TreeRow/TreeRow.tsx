@@ -1,4 +1,4 @@
-import {Icon} from "@essence-community/constructor-share";
+import {Icon, settingsStore} from "@essence-community/constructor-share";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_ROUTE_NAME,
@@ -6,6 +6,7 @@ import {
     VAR_RECORD_LEAF,
     VAR_RECORD_APP_URL,
     VAR_RECORD_ICON_FONT,
+    VAR_SETTING_BASE_PATH,
 } from "@essence-community/constructor-share/constants/variables";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {Grid, Typography} from "@material-ui/core";
@@ -28,7 +29,9 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
         () => ({font: route[VAR_RECORD_ICON_FONT] || "fa", name: route[VAR_RECORD_ICON_NAME] || "file-text"}),
         [route],
     );
-    const handleClick = () => {
+    const handleClick = (event) => {
+        event.stopPropagation();
+        event.preventDefault();
         if (leaf === "true") {
             if (route[VAR_RECORD_APP_URL] !== pagesStore.applicationStore.url) {
                 pagesStore.applicationStore.history.push(`/${route[VAR_RECORD_APP_URL]}/${id}`);
@@ -74,21 +77,27 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
         const isFavorite = favorits.get(id);
 
         return (
-            <div className={classes.root} style={{paddingLeft: level * LEFT_PADDING}} onClick={handleClick}>
-                <Grid container wrap="nowrap" spacing={1} alignItems="center" className={classes.rootGrid}>
-                    {leaf === "true" ? renderIcon() : renderFolderIcon()}
-                    <Grid item xs zeroMinWidth>
-                        <Typography
-                            variant="body2"
-                            color="inherit"
-                            noWrap
-                            data-qtip={name}
-                            className={classes.nameTypography}
-                        >
-                            {name}
-                        </Typography>
+            <div style={{paddingLeft: level * LEFT_PADDING}} className={classes.root} onClick={handleClick}>
+                <a
+                    href={`${settingsStore.settings[VAR_SETTING_BASE_PATH]}${route[VAR_RECORD_APP_URL]}/${id}`}
+                    className={classes.link}
+                    onClick={handleClick}
+                >
+                    <Grid container wrap="nowrap" spacing={1} alignItems="center" className={classes.rootGrid}>
+                        {leaf === "true" ? renderIcon() : renderFolderIcon()}
+                        <Grid item xs zeroMinWidth>
+                            <Typography
+                                variant="body2"
+                                color="inherit"
+                                noWrap
+                                data-qtip={name}
+                                className={classes.nameTypography}
+                            >
+                                {name}
+                            </Typography>
+                        </Grid>
                     </Grid>
-                </Grid>
+                </a>
                 {leaf === "true" ? (
                     <div
                         className={clsx(classes.favoriteRoot, {

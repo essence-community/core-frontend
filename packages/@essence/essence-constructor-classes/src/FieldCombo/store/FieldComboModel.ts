@@ -43,10 +43,15 @@ export class FieldComboModel extends StoreBaseModel {
         return this.recordsStore.selectedRecord;
     }
 
+    @computed get preSuggestions(): Array<ISuggestion> {
+        const getSuggestion = this.bc.localization && this.language ? this.getSuggestionWithTrans : this.getSuggestion;
+
+        return this.recordsStore.recordsState.records.map(getSuggestion);
+    }
+
     @computed get suggestions(): Array<ISuggestion> {
         const inputValueLower = this.inputValue.toLowerCase();
-        const getSuggestion = this.bc.localization && this.language ? this.getSuggestionWithTrans : this.getSuggestion;
-        let suggestions: ISuggestion[] = this.recordsStore.recordsState.records.map(getSuggestion);
+        let suggestions: ISuggestion[] = this.preSuggestions;
 
         if (
             this.bc.allownew &&

@@ -80,6 +80,8 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
                 return [fieldKeyName, keyIn];
             });
+        } else {
+            this.valueFields = [[this.bc.column, this.valueField]];
         }
 
         this.recordsStore = new RecordsModel(this.bc, {
@@ -180,7 +182,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
                                 ? deepFind(valDirty, fieldName)[1]
                                 : valDirty;
 
-                        return val !== deepFind(this.selectedEntries[idx]?.[1], valueField)[1];
+                        return val !== deepFind(this.selectedEntries?.[idx]?.[1], valueField)[1];
                     });
                 })
             ) {

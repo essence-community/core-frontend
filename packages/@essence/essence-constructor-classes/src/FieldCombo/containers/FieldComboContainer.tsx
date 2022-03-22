@@ -93,7 +93,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
     React.useEffect(
         () =>
             reaction(
-                () => store.suggestions,
+                () => store.preSuggestions,
                 (sugs) => {
                     if (sugs.length === 0) {
                         return;
@@ -107,7 +107,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                     );
                     const value = recordsState.record ? recordsState.record[store.valuefield] : field.value;
 
-                    if (isDefault) {
+                    if (isDefault && !recordsState.isUserReload) {
                         field.onChange(
                             value === VALUE_SELF_ALWAYSFIRST || value === VALUE_SELF_FIRST || isEmpty(value)
                                 ? CLEAR_VALUE
@@ -120,9 +120,9 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                     const stringValue = toString(field.value);
                     const suggestion = sugs.find((sug) => sug.value === stringValue);
 
-                    if (!suggestion && value !== store.lastValue) {
+                    if (!suggestion && value !== store.lastValue && !recordsState.isUserReload) {
                         field.onChange(value);
-                    } else {
+                    } else if (suggestion && !suggestion.isNew) {
                         store.handleSetValue(field.value, false, false);
                     }
                 },

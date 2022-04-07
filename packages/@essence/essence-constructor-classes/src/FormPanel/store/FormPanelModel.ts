@@ -290,6 +290,7 @@ export class FormPanelModel extends StoreBaseModel {
 
             return Promise.resolve(true);
         },
+        onSaveWindow: this.saveAction,
         // Сохранения данных, приходит из метамодели
         onSimpleSave: this.saveAction,
         onUpdate: this.updateBtnAction,

@@ -79,7 +79,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
     if (bc.btnexcel === "file") {
         const queryStr = {
             action: "file",
-            plugin: [bcBtn.extraplugingate, bc.extraplugingate].join(","),
+            plugin: bcBtn.extraplugingate || bc.extraplugingate,
             query: bc[VAR_RECORD_QUERY_ID] || "",
         };
         const form = document.createElement("form");

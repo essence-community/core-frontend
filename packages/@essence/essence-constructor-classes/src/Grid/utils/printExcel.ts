@@ -21,6 +21,7 @@ import {
 import {request} from "@essence-community/constructor-share/request";
 import {appendInputForm} from "@essence-community/constructor-share/actions/download";
 import {stringify} from "qs";
+import {isEmpty} from "@essence-community/constructor-share/utils/base";
 import {IGridModel} from "../stores/GridModel/GridModel.types";
 
 interface IPrintExcelType {
@@ -79,7 +80,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
     if (bc.btnexcel === "file") {
         const queryStr = {
             action: "file",
-            plugin: bcBtn.extraplugingate || bc.extraplugingate,
+            plugin: [bcBtn.extraplugingate, bc.extraplugingate].filter((val) => !isEmpty(val)).join(","),
             query: bc[VAR_RECORD_QUERY_ID] || "",
         };
         const form = document.createElement("form");
@@ -150,7 +151,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
         // Gate: bc[VAR_RECORD_CK_D_ENDPOINT],
         json,
         list: false,
-        plugin: bcBtn.extraplugingate || bc.extraplugingate,
+        plugin: [bcBtn.extraplugingate, bc.extraplugingate].filter((val) => !isEmpty(val)).join(","),
         query: bc[VAR_RECORD_QUERY_ID] || "",
         session: pageStore.applicationStore.authStore.userInfo.session,
         timeout: bcBtn.timeout ?? 660,

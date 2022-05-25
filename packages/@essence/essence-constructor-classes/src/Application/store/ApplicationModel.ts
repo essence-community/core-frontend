@@ -240,7 +240,9 @@ export class ApplicationModel implements IApplicationModel {
 
         removeFromLocalStore("auth");
 
-        if (this.history.location.pathname.indexOf("auth") === -1) {
+        const authUrl = settingsStore.settings[VAR_SETTING_AUTH_URL] || "/auth";
+
+        if (this.history.location.pathname.indexOf(authUrl) === -1) {
             const state = (this.history.location.state || {}) as {backUrl?: string};
             const {backUrl = this.history.location.pathname} = state;
 

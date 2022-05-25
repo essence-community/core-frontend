@@ -18,6 +18,7 @@ import {
     VAR_CONNECT_GUEST,
     VAR_RECORD_CV_LOGIN,
     VAR_RECORD_CA_ACTIONS,
+    VAR_SETTING_AUTH_URL,
 } from "@essence-community/constructor-share/constants";
 import {IRecord} from "@essence-community/constructor-share/types";
 import {IAuthSession} from "./AuthModel.types";
@@ -58,6 +59,16 @@ export class AuthModel implements IAuthModel {
                     if (response.session === this.userInfo.session) {
                         this.changeUserInfo(response);
                     } else {
+                        if (
+                            history.location.pathname.indexOf(
+                                settingsStore.settings[VAR_SETTING_AUTH_URL] || "/auth",
+                            ) === -1
+                        ) {
+                            const state = (history.location.state || {}) as {backUrl?: string};
+                            const {backUrl = history.location.pathname} = state;
+
+                            history.replace(history.location.pathname, {backUrl});
+                        }
                         this.successLoginAction(response, history);
                     }
                 } else if (!response && session === this.userInfo.session) {

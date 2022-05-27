@@ -500,6 +500,9 @@ export class Field implements IField {
                 }
             }
         }
+        if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
+            val = typeof val === "string" ? Number(val === "true" || val === "1") : Number(val);
+        }
         this.value = val;
     };
 

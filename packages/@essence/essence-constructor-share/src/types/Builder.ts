@@ -255,6 +255,8 @@ export interface IBuilderBaseConfig {
     tabwidth?: string;
     // Выводимое статическое сообщение в виде markdown
     text?: string;
+    // Расчетное поле text
+    textuseparameter?: boolean;
     // Разделитель тысяч
     thousandseparator?: string;
     // Время ожидания выполнения запроса в секундах

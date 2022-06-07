@@ -35,6 +35,10 @@ export class Icon extends React.PureComponent<IProps> {
         const {iconfontname, iconfont, ...otherProps} = this.props;
         const Component = mapComponents[iconfontname];
 
-        return Component && iconfont ? <Component iconfont={iconfont} {...otherProps} /> : null;
+        return Component && iconfont ? (
+            <React.Suspense fallback={null}>
+                <Component iconfont={iconfont} {...otherProps} />
+            </React.Suspense>
+        ) : null;
     }
 }

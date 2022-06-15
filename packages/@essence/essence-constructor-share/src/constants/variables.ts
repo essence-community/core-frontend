@@ -87,6 +87,8 @@ export const VAR_RECORD_CK_ATTR = "ck_attr";
 export const VAR_RECORD_CL_STATIC = "cl_static";
 export const VAR_RECORD_JV_ROWCOLOR = "jv_rowcolor";
 export const VAR_RECORD_NOLOAD = "cl_noload";
+export const VAR_RECORD_JL_EDITING = "jl_editing";
+export const VAR_RECORD_JV_MODE = "jv_mode";
 // DRAG&DROP
 export const VAR_RECORD_PAGE_OBJECT_DRAG = "ck_page_object_drag";
 export const VAR_RECORD_PAGE_OBJECT_DROP = "ck_page_object_drop";

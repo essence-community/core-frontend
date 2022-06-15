@@ -1,6 +1,6 @@
 import * as React from "react";
 import {IBuilderConfig, IPageModel, IBuilderMode, FieldValue} from "@essence-community/constructor-share/types";
-import {VAR_RECORD_MASTER_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
+import {VAR_RECORD_MASTER_ID, VAR_RECORD_PARENT_ID, VAR_RECORD_JL_EDITING, VAR_RECORD_JV_MODE} from "@essence-community/constructor-share/constants";
 import {
     FormContext,
     RecordContext,
@@ -22,12 +22,16 @@ const getHandlerBtn = (bc: IBuilderConfig) => {
     return bc.handler;
 };
 
-const setGlobal = (
-    setGlobal: IBuilderConfig["setglobal"],
-    pageStore: IPageModel,
-    recordForm: Record<string, FieldValue> = {},
-    record: Record<string, FieldValue> = {},
-) => {
+interface ISetGlobal {
+    setGlobal: IBuilderConfig["setglobal"];
+    pageStore: IPageModel;
+    recordForm?: Record<string, FieldValue>;
+    record?: Record<string, FieldValue>;
+    mode: string;
+    editing: boolean;
+}
+
+const setGlobal = ({editing, mode, pageStore, recordForm = {}, record = {}, setGlobal}: ISetGlobal) => {
     const globalValues: Record<string, FieldValue> = {};
 
     setGlobal.forEach(({in: keyIn, out}) => {
@@ -38,7 +42,13 @@ const setGlobal = (
         } else {
             const [isExist, res] = deepFind(record, keyIn);
 
-            globalValues[out] = isExist && keyIn ? res : record[out];
+            if (!isExist && keyIn === VAR_RECORD_JL_EDITING) {
+                globalValues[out] = editing;
+            } else if (!isExist && keyIn === VAR_RECORD_JV_MODE) {
+                globalValues[out] = mode;
+            } else {
+                globalValues[out] = isExist && keyIn ? res : record[out];
+            }
         }
     });
 
@@ -73,7 +83,14 @@ export function useButtonClick(
         const defaultHandler = handers[handlerBtn];
 
         if (bc.setglobal && bc.setglobal.length) {
-            setGlobal(bc.setglobal, pageStore, formCtx?.values, recordCtx);
+            setGlobal({
+                editing: formCtx?.editing,
+                mode: bc.modeaction || bc.mode,
+                pageStore,
+                record: recordCtx,
+                recordForm: formCtx?.values,
+                setGlobal: bc.setglobal,
+            });
         }
 
         if (defaultHandler) {

@@ -4,7 +4,7 @@ import {IBuilderConfig} from "../types";
 import {VAR_RECORD_NAME} from "../constants";
 import {isEmpty} from "./base";
 
-const DEFAULT_OVERRIDE_FIELD = [
+const DEFAULT_OVERRIDE_FIELD: KeyBuilderConfig[] = [
     "confirmquestion",
     "disabled",
     "disabledrules",
@@ -33,8 +33,8 @@ const DEFAULT_OVERRIDE_FIELD = [
 ];
 
 export interface IMergeOptions {
-    exclude?: string[];
-    include?: string[];
+    exclude?: KeyBuilderConfig[];
+    include?: KeyBuilderConfig[];
 }
 
 type KeyBuilderConfig = keyof IBuilderConfig;

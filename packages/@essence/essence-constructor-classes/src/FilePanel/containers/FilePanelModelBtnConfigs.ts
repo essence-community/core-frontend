@@ -103,15 +103,21 @@ const getBtnRefreshConfig = (bc: IBuilderConfig): IBuilderConfig => ({
 });
 
 export const getFilePanelBtnsConfig = (bc: IBuilderConfig, layoutTheme: number) => {
-    const {overrides} = mergeComponents(bc.topbtn, {
-        "Override Add Button": getAddBtnConfig(bc, layoutTheme),
-        "Override Audit Button": getBtnAuditConfig(bc),
-        "Override Cancel Button": getCancelBtnConfig(bc),
-        "Override Delete Button": getDeleteButton(bc),
-        "Override Download Button": getDownloadBtnConfig(bc),
-        "Override Refresh Button": getBtnRefreshConfig(bc),
-        "Override Save Button": getSaveBtnConfig(bc),
-    });
+    const {overrides} = mergeComponents(
+        bc.topbtn,
+        {
+            "Override Add Button": getAddBtnConfig(bc, layoutTheme),
+            "Override Audit Button": getBtnAuditConfig(bc),
+            "Override Cancel Button": getCancelBtnConfig(bc),
+            "Override Delete Button": getDeleteButton(bc),
+            "Override Download Button": getDownloadBtnConfig(bc),
+            "Override Refresh Button": getBtnRefreshConfig(bc),
+            "Override Save Button": getSaveBtnConfig(bc),
+        },
+        {
+            include: ["setglobal"],
+        },
+    );
 
     return overrides;
 };

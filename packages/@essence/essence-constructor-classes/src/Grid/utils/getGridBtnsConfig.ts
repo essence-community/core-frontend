@@ -160,10 +160,16 @@ export function getOverrideDragDropButton(bc: IBuilderConfig) {
 }
 
 export function getOverrideWindowBottomBtn(bc: IBuilderConfig) {
-    const {overrides} = mergeComponents(bc.topbtn, {
-        "Override Cancel Button": getCancelBtnConfig(bc),
-        "Override Save Button": getSaveBtnConfig(bc, 1),
-    });
+    const {overrides} = mergeComponents(
+        bc.topbtn,
+        {
+            "Override Cancel Button": getCancelBtnConfig(bc),
+            "Override Save Button": getSaveBtnConfig(bc, 1),
+        },
+        {
+            include: ["setglobal"],
+        },
+    );
 
     return [overrides["Override Save Button"], overrides["Override Cancel Button"]];
 }

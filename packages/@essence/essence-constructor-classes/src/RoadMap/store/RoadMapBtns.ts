@@ -83,7 +83,7 @@ export const getBtn = (bc: IBuilderConfig, topbtn: IBuilderConfig[]) => {
             "Override Save Button": getSaveBtnConfig(bc),
         },
         {
-            include: [VAR_RECORD_MASTER_ID],
+            include: [VAR_RECORD_MASTER_ID, "setglobal"],
         },
     );
     const btns = [

@@ -55,10 +55,16 @@ export const PanelEditingButtons: React.FC<IClassProps> = (props) => {
     const isDarkTheme = theme.essence.layoutTheme === 2;
     const form = React.useContext(FormContext);
     const [saveBtnBc, cancelBtnBc] = React.useMemo(() => {
-        const {overrides} = mergeComponents(bc.topbtn, {
-            "Override Cancel Button": getCancelBtnConfig(bc, isDarkTheme),
-            "Override Save Button": getSaveBtnConfig(bc, isDarkTheme),
-        });
+        const {overrides} = mergeComponents(
+            bc.topbtn,
+            {
+                "Override Cancel Button": getCancelBtnConfig(bc, isDarkTheme),
+                "Override Save Button": getSaveBtnConfig(bc, isDarkTheme),
+            },
+            {
+                include: ["setglobal"],
+            },
+        );
 
         return [overrides["Override Save Button"], overrides["Override Cancel Button"]];
     }, [bc, isDarkTheme]);

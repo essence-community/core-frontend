@@ -211,6 +211,7 @@ export class RecordsModel implements IRecordsModel {
     loadRecordsAction = action(
         "loadRecordsAction",
         ({selectedRecordId, status = "load", isUserReload}: ILoadRecordsProps = {}) => {
+            this.loadCounter += 1;
             if (!this.bc[VAR_RECORD_QUERY_ID]) {
                 logger(i18next.t("static:0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
 
@@ -228,8 +229,6 @@ export class RecordsModel implements IRecordsModel {
 
                 return Promise.resolve();
             }
-
-            this.loadCounter += 1;
 
             return loadRecordsAction.call(this, {
                 applicationStore: this.applicationStore,

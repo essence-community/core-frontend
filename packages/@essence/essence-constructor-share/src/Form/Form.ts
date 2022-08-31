@@ -2,6 +2,7 @@ import {action, computed, observable, ObservableMap} from "mobx";
 import {IRecord, IBuilderMode, IBuilderConfig} from "../types";
 import {entriesMapSort} from "../utils/transform";
 import {loggerRoot} from "../constants";
+import {IPageModel} from "../types/PageModel";
 import {Field} from "./Field";
 import {IField, IFormProps, IForm, IFormHooks, IRegisterFieldOptions} from "./types";
 
@@ -21,6 +22,7 @@ export class Form implements IForm {
     public placement: string;
 
     public bc?: IBuilderConfig;
+    public pageStore?: IPageModel;
 
     constructor(props: IFormProps) {
         this.hooks = props.hooks;
@@ -29,6 +31,7 @@ export class Form implements IForm {
         this.placement = props.placement;
         this.editing = props.editing;
         this.bc = props.bc;
+        this.pageStore = props.pageStore;
     }
 
     @observable public fields: ObservableMap<string, IField> = observable.map();

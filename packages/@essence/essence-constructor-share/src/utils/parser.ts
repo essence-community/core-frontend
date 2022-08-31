@@ -12,7 +12,7 @@ import {loggerRoot} from "../constants";
 import {i18next} from "./I18n";
 import {isEmpty} from "./base";
 
-interface IGetValue {
+export interface IGetValue {
     get: (key: string) => FieldValue;
 }
 
@@ -22,7 +22,7 @@ export interface IParseReturnType {
     hasError: boolean;
 }
 
-interface IValues {
+export interface IValues {
     get?($key: string, isEmpty?: boolean): FieldValue;
     [$key: string]: FieldValue;
 }

@@ -103,7 +103,9 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                         (isEmpty(field.value) && (store.recordsStore.loadCounter <= 1 || bc.records?.length)) ||
                             field.value === bc.defaultvalue ||
                             (recordsState.isDefault &&
-                                (field.value === VALUE_SELF_ALWAYSFIRST || field.value === VALUE_SELF_FIRST)),
+                                (field.value === VALUE_SELF_ALWAYSFIRST ||
+                                    (field.value === VALUE_SELF_FIRST &&
+                                        (store.recordsStore.loadCounter <= 1 || bc.records?.length)))),
                     );
                     const value = recordsState.record ? recordsState.record[store.valuefield] : field.value;
 

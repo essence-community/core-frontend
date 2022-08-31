@@ -94,9 +94,10 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
                     onValueChange: submitOnChange ? handleValueChange : undefined,
                 },
                 mode,
+                pageStore,
                 placement,
                 values: {
-                    [VAR_RECORD_ID]: null,
+                    [bc?.idproperty ? bc.idproperty : VAR_RECORD_ID]: null,
                     ...initialValues,
                 },
             }),

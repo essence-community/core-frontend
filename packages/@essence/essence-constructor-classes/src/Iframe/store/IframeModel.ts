@@ -1,4 +1,4 @@
-import {computed} from "mobx";
+import {action, computed} from "mobx";
 import {VALUE_SELF_ALWAYSFIRST} from "@essence-community/constructor-share/constants";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {IRecordsModel, IStoreBaseModelProps, IStoreBaseModel} from "@essence-community/constructor-share/types";
@@ -45,5 +45,16 @@ export class IframeModel extends StoreBaseModel implements IStoreBaseModel {
         this.recordsStore = recordsStore;
     }
 
-    reloadStoreAction = () => this.recordsStore.loadRecordsAction({});
+    @action
+    reloadStoreAction = () => {
+        this.recordsStore.selectedRecords.clear();
+
+        return this.recordsStore.loadRecordsAction({});
+    };
+
+    @action
+    clearStoreAction = () => {
+        this.recordsStore.clearChildsStoresAction();
+        this.recordsStore.selectedRecords.clear();
+    };
 }

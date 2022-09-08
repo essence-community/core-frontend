@@ -77,6 +77,9 @@ export class FieldRadioModel extends StoreBaseModel implements IStoreBaseModel {
     };
 
     @action
+    public clearStoreAction = () => this.recordsStore.clearChildsStoresAction();
+
+    @action
     setSelectRecord = (value: FieldValue) => {
         this.recordsStore.setSelectionAction(value, this.valuefield);
     };

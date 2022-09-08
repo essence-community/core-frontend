@@ -131,62 +131,42 @@ export class FilterModel extends StoreBaseModel {
         const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_MASTER_ID] || this.bc[VAR_RECORD_PARENT_ID]);
         const form = this.pageStore.forms.get(this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
 
-        if (this.isOpen) {
-            if (options && !options.redirect && form) {
-                // Reset hidden field for not redirected search
-                form.fields.forEach((field) => {
-                    if (field.hidden) {
-                        field.reset();
-                    }
-                });
-                this.setValues(form.values);
-                this.handleGlobals(form.values);
-            } else {
-                this.setValues(values);
-                this.handleGlobals(values);
-            }
-
-            if (parentStore && parentStore.recordsStore) {
-                await parentStore.recordsStore.searchAction(this.values, {
-                    ...options,
-                    formData: options.formData || form.isExistFile ? form.valuesFile : undefined,
-                });
-            }
-            if (this.bc[VAR_RECORD_CL_IS_MASTER]) {
-                const promises = [];
-
-                this.pageStore.stores.forEach((store: IStoreBaseModel) => {
-                    if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
-                        const promise = store.recordsStore?.searchAction(this.values, {
-                            ...options,
-                            formData: options.formData || form.isExistFile ? form.valuesFile : undefined,
-                        });
-
-                        if (promise) {
-                            promises.push(promise);
-                        }
-                    }
-                });
-                await Promise.all(promises);
-            }
+        if (options && !options.redirect && form) {
+            // Reset hidden field for not redirected search
+            form.fields.forEach((field) => {
+                if (field.hidden) {
+                    field.reset();
+                }
+            });
+            this.setValues(form.values);
+            this.handleGlobals(form.values);
         } else {
-            if (parentStore && parentStore.recordsStore) {
-                await parentStore.recordsStore.loadRecordsAction({});
-            }
-            if (this.bc[VAR_RECORD_CL_IS_MASTER]) {
-                const promises = [];
+            this.setValues(values);
+            this.handleGlobals(values);
+        }
 
-                this.pageStore.stores.forEach((store: IStoreBaseModel) => {
-                    if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
-                        const promise = store.recordsStore?.loadRecordsAction({});
+        if (parentStore && parentStore.recordsStore) {
+            await parentStore.recordsStore.searchAction(this.values, {
+                ...options,
+                formData: options.formData || form.isExistFile ? form.valuesFile : undefined,
+            });
+        }
+        if (this.bc[VAR_RECORD_CL_IS_MASTER]) {
+            const promises = [];
 
-                        if (promise) {
-                            promises.push(promise);
-                        }
+            this.pageStore.stores.forEach((store: IStoreBaseModel) => {
+                if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
+                    const promise = store.recordsStore?.searchAction(this.values, {
+                        ...options,
+                        formData: options.formData || form.isExistFile ? form.valuesFile : undefined,
+                    });
+
+                    if (promise) {
+                        promises.push(promise);
                     }
-                });
-                await Promise.all(promises);
-            }
+                }
+            });
+            await Promise.all(promises);
         }
     };
 

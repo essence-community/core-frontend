@@ -63,6 +63,7 @@ export interface IField {
 
 export interface IForm {
     values: IRecord;
+    valueKey?: FieldValue;
     valuesFile: FormData;
     initialValues: IRecord;
     hooks: IFormHooks;

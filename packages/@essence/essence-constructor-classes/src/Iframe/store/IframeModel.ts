@@ -31,6 +31,10 @@ export class IframeModel extends StoreBaseModel implements IStoreBaseModel {
         return "";
     }
 
+    @computed public get selectedRecord() {
+        return this.recordsStore.selectedRecord;
+    }
+
     constructor(props: IStoreBaseModelProps) {
         super(props);
 

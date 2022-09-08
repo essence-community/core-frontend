@@ -3,6 +3,7 @@
  * We need them because backend send them by REST api
  */
 export const VAR_RECORD_ID = "ck_id";
+export const VAR_RECORD_VALUE_ID = "value_key";
 export const VAR_RECORD_PARENT_ID = "ck_parent";
 export const VAR_RECORD_MASTER_ID = "ck_master";
 export const VAR_RECORD_PAGE_OBJECT_ID = "ck_page_object";

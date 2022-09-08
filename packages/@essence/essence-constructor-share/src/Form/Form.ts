@@ -3,6 +3,8 @@ import {IRecord, IBuilderMode, IBuilderConfig} from "../types";
 import {entriesMapSort} from "../utils/transform";
 import {loggerRoot} from "../constants";
 import {IPageModel} from "../types/PageModel";
+import {FieldValue} from "../types/Base";
+import {VAR_RECORD_ID} from "../constants/variables";
 import {Field} from "./Field";
 import {IField, IFormProps, IForm, IFormHooks, IRegisterFieldOptions} from "./types";
 
@@ -27,6 +29,7 @@ export class Form implements IForm {
     constructor(props: IFormProps) {
         this.hooks = props.hooks;
         this.initialValues = props.values;
+        this.valueKey = this.initialValues?.[this.bc?.idproperty ? this.bc.idproperty : VAR_RECORD_ID];
         this.mode = props.mode || "1";
         this.placement = props.placement;
         this.editing = props.editing;
@@ -51,6 +54,8 @@ export class Form implements IForm {
     @observable public editing: boolean;
 
     @observable public validationCount = 0;
+
+    @observable public valueKey: FieldValue;
 
     @computed get values(): IRecord {
         const values: IRecord = {
@@ -217,6 +222,7 @@ export class Form implements IForm {
     @action
     update = (initialValues: IRecord = {}, isReset = false) => {
         this.initialValues = initialValues;
+        this.valueKey = initialValues[this.bc?.idproperty ? this.bc.idproperty : VAR_RECORD_ID];
 
         for (const [, field] of this.fields) {
             const [isExists, value] = field.input(initialValues, field, this);

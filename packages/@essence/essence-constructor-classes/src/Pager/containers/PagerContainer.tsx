@@ -119,7 +119,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
 
     return useObserver(() => {
         const content = (
-            <div ref={pageStore.setPageInnerElAction}>
+            <div ref={pageStore.setPageInnerElAction} className={classes.rootPageDivContent}>
                 {pageStore.isEdit ? <div className={classes.backdrop} /> : null}
                 <PageLoader
                     pageStore={pageStore}
@@ -127,7 +127,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                     loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"}
                 />
                 <FormContext.Provider value={form}>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} className={classes.rootPageDivContent}>
                         {mapComponents(
                             pageStore.route?.[VAR_RECORD_NOLOAD] === 1 ? bc.childs : pageStore.pageBc,
                             (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (

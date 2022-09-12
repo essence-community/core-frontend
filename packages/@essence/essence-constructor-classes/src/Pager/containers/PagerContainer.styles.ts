@@ -23,7 +23,7 @@ export const useStyles = makeStyles(
             },
             display: "flex",
             flexGrow: 1,
-            height: "inherit",
+            height: "100%",
             outline: process.env.NODE_ENV === "production" ? "none" : undefined,
             position: "relative",
         },
@@ -37,9 +37,14 @@ export const useStyles = makeStyles(
             minWidth: 250,
         },
         rootPageContent: {
+            height: "100%",
             minHeight: "100%",
             padding: theme.spacing(2),
             position: "relative",
+        },
+        rootPageDivContent: {
+            height: "100%",
+            minHeight: "100%",
         },
     }),
     {name: "PagerContainer"},

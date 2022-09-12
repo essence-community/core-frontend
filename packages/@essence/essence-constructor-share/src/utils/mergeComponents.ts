@@ -66,7 +66,7 @@ export function mergeComponents<T extends Record<string, IBuilderConfig>>(
              */
             forOwn(
                 [...DEFAULT_OVERRIDE_FIELD, ...include]
-                    .filter((value) => exclude.indexOf(value) === -1)
+                    .filter((value: KeyBuilderConfig) => exclude.indexOf(value) === -1)
                     .reduce(
                         (obj, value: KeyBuilderConfig) => ({
                             ...obj,

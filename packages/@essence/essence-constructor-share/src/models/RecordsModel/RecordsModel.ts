@@ -129,7 +129,7 @@ export class RecordsModel implements IRecordsModel {
             this.parentStore = options.parentStore;
             this.noLoadChilds = options.noLoadChilds || false;
             this.pageStore = options.pageStore;
-            this.applicationStore = options.applicationStore;
+            this.applicationStore = options.applicationStore || options.pageStore?.applicationStore;
         }
         const {records = []} = bc;
 

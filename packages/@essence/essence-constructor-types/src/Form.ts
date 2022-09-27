@@ -1,0 +1,124 @@
+import type {ObservableMap} from "mobx";
+import type {TFunction} from "i18next";
+import type {IBuilderConfig, IBuilderMode} from "./Builder";
+import type {IPageModel} from "./PageModel";
+
+export interface IRegisterFieldOptions {
+    bc: IBuilderConfig;
+    pageStore: IPageModel;
+    parentFieldKey?: string;
+    isArray?: boolean;
+    isObject?: boolean;
+    isFile?: boolean;
+    clearValue?: unknown;
+    defaultValueFn?: IField["defaultValueFn"];
+    output?: IField["output"];
+    input?: IField["input"];
+}
+
+export interface IField {
+    key: string;
+    parentFieldKey?: string;
+    bc: IBuilderConfig;
+    value: unknown;
+    defaultValue?: unknown;
+    defaultValueFn?: (field: IField, changeFn: IField["onChange"], clearFn: IField["onReset"]) => void;
+    label?: string;
+    isRequired: boolean;
+    rules: string[];
+    isValid: boolean;
+    errors: TError[];
+    form: IForm;
+    registers: number;
+    hidden: boolean;
+    disabled: boolean;
+    error?: TError;
+    isArray?: boolean;
+    isObject?: boolean;
+    isFile?: boolean;
+    input: (initialValues: unknown, field: IField, form: IForm) => [boolean, unknown];
+    output: (field: IField, form: IForm, value?: unknown) => unknown;
+    reset(): void;
+    resetChilds(): void;
+    clear(): void;
+    invalidate(error: TError[] | TError): void;
+    validate(): Promise<void> | void;
+    resetValidation(): void;
+    add(): void;
+    del(idx?: number | string): void;
+    redirect(): void;
+    setExtraRules(extraRules: string[]): void;
+    setDefaultValue(defaultValue: unknown): void;
+    setDefaultValueFn(fn: IField["defaultValueFn"]): void;
+    setDisabled(disabled?: boolean): void;
+    setHidden(hidden?: boolean): void;
+    setValue(value?: unknown): void;
+
+    // Events
+    onChange(value: unknown): void;
+    onReset(): void;
+    onClear(): void;
+}
+
+export interface IForm {
+    values: unknown;
+    valuesFile: FormData;
+    initialValues: unknown;
+    hooks: IFormHooks;
+    mode: IBuilderMode;
+    isValid: boolean;
+    isExistFile: boolean;
+    placement: string;
+    isDirty: boolean;
+    submitting: boolean;
+    fields: ObservableMap<string, IField>;
+    bc?: IBuilderConfig;
+    editing: boolean;
+    isExistRequired: boolean;
+    validationCount: number;
+    submit(): void;
+    reset(): void;
+    clear(): void;
+    update(initialValues?: unknown, isReset?: boolean): void;
+    updateMode(mode: IBuilderMode): void;
+    patch(values: unknown, isExtra?: boolean): void;
+    select(key: string): IField | undefined;
+    registerField(key: string, options: IRegisterFieldOptions): IField;
+    unregisterField(key: string): void;
+    validate(): Promise<void> | void;
+    resetValidation(): void;
+    setEditing(editing: boolean): void;
+    setIsDirty(boolean: true): void;
+
+    // Event
+    onSubmit(event?: React.SyntheticEvent): void;
+}
+
+export interface IFormHooks {
+    onChange?: (form: IForm) => void;
+    onValueChange?: (form: IForm, field: IField) => void;
+    onError?: (form: IForm) => void | Promise<void>;
+    onSuccess?: (form: IForm) => void | Promise<void>;
+    onFilterRedirect?: (form: IForm) => void | Promise<void>;
+    onReset?: (form: IForm) => void;
+}
+
+export interface IFormProps {
+    values: unknown;
+    hooks: IFormHooks;
+    mode?: IBuilderMode;
+    placement: string;
+    editing: boolean;
+    bc?: IBuilderConfig;
+}
+
+export type TError = (trans: TFunction) => string;
+
+export type TValidation = (field: IField, form: IForm, req?: string) => TError | undefined;
+
+export interface IParentFieldContext {
+    key: string;
+    parentFieldKey: string;
+    output?: IRegisterFieldOptions["output"];
+    input?: IRegisterFieldOptions["input"];
+}

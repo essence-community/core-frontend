@@ -11,7 +11,7 @@ import {useField} from "@essence-community/constructor-share/Form";
 import {reaction} from "mobx";
 import {Popover, UIForm} from "@essence-community/constructor-share/uicomponents";
 import {FieldMultiAddrModel} from "../stores/FieldMultiAddrModel";
-import {FieldMultiModel} from "../stores/FieldMultiModel";
+import type {FieldMultiModel} from "../stores/FieldMultiModel";
 import {FieldMultiMoModel} from "../stores/FieldMultiMoModel";
 import {FieldMultiInput} from "../components/FieldMultiInput";
 import {FieldMultiContent} from "../components/FieldMultiContent";

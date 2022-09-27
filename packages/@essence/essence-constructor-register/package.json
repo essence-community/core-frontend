@@ -1,0 +1,26 @@
+{
+  "name": "@essence-community/constructor-register",
+  "version": "1.0.0",
+  "description": "Core module to register all components",
+  "main": "index.ts",
+  "repository": "https://github.com/essence-community/core-frontend",
+  "author": "Oleh Kutsenko",
+  "license": "MIT",
+  "private": false,
+  "engines": {
+    "yarn": ">=1.4.2",
+    "node": ">= 14"
+  },
+  "scripts": {
+    "build": "constructor-package-builder build:tsc",
+    "deploy": "constructor-package-builder deploy",
+    "tscheck": "tsc"
+  },
+  "dependencies": {
+    "@essence-community/constructor-types": "1.0.0",
+    "@types/react": "^17.0.33"
+  },
+  "devDependencies": {
+    "@essence-community/constructor-package-builder": "file:../essence-constructor-package-builder"
+  }
+}

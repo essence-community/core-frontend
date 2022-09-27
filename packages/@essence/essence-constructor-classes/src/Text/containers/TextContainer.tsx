@@ -10,7 +10,7 @@ export const TextContainer: React.FC<IClassProps<IBuilderClassConfig>> = (props)
     const renderers = React.useMemo(() => makeRenderers(pageStore, bc), [bc, pageStore]);
 
     if (bc.text) {
-        return <ReactMarkdown source={bc.text} renderers={renderers} />;
+        return <ReactMarkdown components={renderers}>{bc.text}</ReactMarkdown>;
     }
 
     return null;

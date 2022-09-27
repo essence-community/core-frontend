@@ -63,6 +63,8 @@ module.exports = {
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   appClassesSrc: resolveApp('../essence-constructor-classes/src'),
+  appShareSrc: resolveApp('../../../node_modules/@essence-community/constructor-share'),
+  appSharePackageJson: resolveApp('../../../node_modules/@essence-community/constructor-share/package.json'),
   appTsConfig: resolveApp('tsconfig.json'),
   appJsConfig: resolveApp('jsconfig.json'),
   yarnLockFile: resolveApp('yarn.lock'),

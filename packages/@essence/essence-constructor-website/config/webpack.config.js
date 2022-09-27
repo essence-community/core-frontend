@@ -14,6 +14,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
+const ModuleFederationPlugin = require('webpack').container.ModuleFederationPlugin;
 const paths = require('./paths');
 const modules = require('./modules');
 const getClientEnvironment = require('./env');
@@ -51,6 +52,9 @@ const imageInlineSizeLimit = parseInt(
 
 // style files regexes
 const cssRegex = /\.css$/;
+
+const appPackageJson = require(paths.appPackageJson);
+const appSharePackageJson = require(paths.appSharePackageJson);
 
 const hasJsxRuntime = (() => {
   if (process.env.DISABLE_NEW_JSX_TRANSFORM === 'true') {
@@ -565,6 +569,37 @@ module.exports = function (webpackEnv) {
         resourceRegExp: /^\.\/locale$/,
         contextRegExp: /moment$/,
       }),
+      new ModuleFederationPlugin({
+        name: "essence-core",
+        filename: "essence-core.js",
+        shared: {
+            "react": {
+                singleton: true,
+                requiredVersion: appPackageJson.dependencies["react"],
+                eager: true
+            },
+            "react-dom": {
+                singleton: true,
+                requiredVersion: appPackageJson.dependencies["react-dom"],
+                eager: true
+            },
+            "@essence-community/constructor-share": {
+                singleton: true,
+                requiredVersion: appSharePackageJson.version,
+                eager: true
+            },
+            "mobx": {
+                singleton: true,
+                requiredVersion: appPackageJson.dependencies["mobx"],
+                eager: true
+            },
+            "mobx-react": {
+                singleton: true,
+                requiredVersion: appPackageJson.dependencies["mobx-react"],
+                eager: true
+            }
+         }
+        }),
       // TypeScript type checking
       new ForkTsCheckerWebpackPlugin({
         async: isEnvDevelopment,

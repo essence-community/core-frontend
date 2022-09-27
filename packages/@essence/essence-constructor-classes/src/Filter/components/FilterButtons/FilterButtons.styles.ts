@@ -4,7 +4,7 @@ import {IEssenceTheme} from "@essence-community/constructor-share/types";
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         filterButtons:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       // Dark
                       alignItems: "center",
@@ -37,7 +37,7 @@ export const useStyles = makeStyles(
                       position: "relative",
                   },
         filterButtonsCollapse:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       alignItems: "center",
                       display: "flex",
@@ -47,7 +47,7 @@ export const useStyles = makeStyles(
                 : {},
         filterButtonsCollect: {},
         filterButtonsContainer:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       // Dark
                       alignItems: "center",
@@ -73,7 +73,7 @@ export const useStyles = makeStyles(
                       position: "relative",
                   },
         titleContainer:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {}
                 : {
                       // Light
@@ -83,7 +83,7 @@ export const useStyles = makeStyles(
                   },
         titleTypography: {
             // Dark
-            fontSize: theme.palette.type === "dark" ? 30 : 22,
+            fontSize: theme.essence.layoutTheme === 2 ? 30 : 22,
             overflow: "hidden",
             textOverflow: "ellipsis",
             whiteSpace: "nowrap",

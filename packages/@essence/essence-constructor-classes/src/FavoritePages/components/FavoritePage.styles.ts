@@ -18,6 +18,9 @@ export const useStyles = makeStyles((theme: IEssenceTheme) => ({
         textAlign: "center",
         width: 23,
     },
+    linkMenu: {
+        textDecoration: "none",
+    },
     menuContainer: {
         height: 50,
     },

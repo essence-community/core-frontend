@@ -4,13 +4,14 @@ import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-communit
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {IconButton as MuiIconButton, Fab, useTheme} from "@material-ui/core";
+import {IEssenceTheme} from "@essence-community/constructor-share/types";
 import {getColor} from "../../utils/getColor";
 import {IButtonInternalProps} from "../../Button.types";
 import {useStyles} from "./IconButton.styles";
 
 export const IconButton: React.FC<IButtonInternalProps> = (props) => {
     const [trans] = useTranslation("meta");
-    const theme = useTheme();
+    const theme = useTheme<IEssenceTheme>();
     const classes = useStyles();
     const {bc} = props;
     const {iconfont, iconfontname, iconsize} = bc;
@@ -31,7 +32,7 @@ export const IconButton: React.FC<IButtonInternalProps> = (props) => {
     };
 
     // Fab for add or save
-    if (theme.palette.type === "dark" && isActionButton) {
+    if (theme.essence.layoutTheme === 2 && isActionButton) {
         return (
             <Fab {...buttonProps} color={getColor(bc.uitype)} size="small" type={isSubmit ? "submit" : undefined}>
                 {icon}

@@ -4,5 +4,5 @@ import openPageMenuContextDark from "./OpenPageMenuContextDark.styles";
 import openPageMenuContextLight from "./OpenPageMenuContextLight.styles";
 
 export const useStyles = makeStyles((theme: IEssenceTheme) =>
-    theme.palette.type === "light" ? openPageMenuContextDark(theme) : openPageMenuContextLight(theme),
+    theme.essence.layoutTheme === 1 ? openPageMenuContextDark(theme) : openPageMenuContextLight(theme),
 );

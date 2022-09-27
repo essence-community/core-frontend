@@ -3,7 +3,7 @@ import {Grid, useTheme} from "@material-ui/core";
 import {FormContext} from "@essence-community/constructor-share/context";
 import cn from "clsx";
 import {useObserver} from "mobx-react";
-import {IClassProps} from "@essence-community/constructor-share/types";
+import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {useStyles} from "./PanelWrapper.styles";
 
@@ -14,8 +14,8 @@ export const PanelWrapper: React.FC<IPanelWrapperProps> = (props) => {
     const {children, bc, actionsBar} = props;
     const form = React.useContext(FormContext);
     const classes = useStyles();
-    const theme = useTheme();
-    const isDarkTheme = theme.palette.type === "dark";
+    const theme = useTheme<IEssenceTheme>();
+    const isDarkTheme = theme.essence.layoutTheme === 2;
 
     return useObserver(() => (
         <Grid

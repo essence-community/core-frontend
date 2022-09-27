@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {action, computed, observable} from "mobx";
-import {VALUE_SELF_ALWAYSFIRST} from "@essence-community/constructor-share/constants";
+import {VALUE_SELF_ALWAYSFIRST, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {
     IStoreBaseModelProps,
     IBuilderMode,
@@ -8,7 +8,8 @@ import {
     IHandlerOptions,
 } from "@essence-community/constructor-share/types";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
-import {isEmpty} from "@essence-community/constructor-share/utils";
+import {createWindowProps, isEmpty} from "@essence-community/constructor-share/utils";
+import {getWindowBc} from "@essence-community/constructor-share/utils/window/getWindowBc";
 
 export class FormPanelModel extends StoreBaseModel {
     public recordsStore: RecordsModel;
@@ -48,6 +49,18 @@ export class FormPanelModel extends StoreBaseModel {
         bc: IBuilderConfig,
         options: IHandlerOptions = {},
     ): Promise<boolean> => {
+        if (bc.ckwindow && getWindowBc(bc, this.pageStore, this)) {
+            this.pageStore.createWindowAction(
+                createWindowProps({
+                    btnBc: bc,
+                    mode,
+                    pageStore: this.pageStore,
+                    parentStore: this,
+                }),
+            );
+
+            return Promise.resolve(true);
+        }
         switch (mode) {
             case "1":
                 this.addAction();
@@ -168,6 +181,11 @@ export class FormPanelModel extends StoreBaseModel {
 
     @action
     closeAction = () => {
+        const form = this.pageStore.forms.get(this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
+
+        if (form) {
+            form.update(form.initialValues);
+        }
         this.recordsStore.setFirstRecord();
         this.setEditing(false);
 
@@ -262,11 +280,17 @@ export class FormPanelModel extends StoreBaseModel {
 
             return Promise.resolve(true);
         },
+        onReloadStores: async () => {
+            await this.loadRecordsAction();
+
+            return Promise.resolve(true);
+        },
         onRemove: async (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
             await this.removeRecordAction(mode, btnBc, options);
 
             return Promise.resolve(true);
         },
+        onSaveWindow: this.saveAction,
         // Сохранения данных, приходит из метамодели
         onSimpleSave: this.saveAction,
         onUpdate: this.updateBtnAction,

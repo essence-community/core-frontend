@@ -53,7 +53,6 @@ export class PagesModel implements IPagesModel {
         const activePage = new PageModel({
             applicationStore: this.applicationStore,
             isActiveRedirect,
-            isReadOnly: false,
             pageId,
         });
 

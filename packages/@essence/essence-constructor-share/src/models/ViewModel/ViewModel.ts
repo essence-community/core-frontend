@@ -4,6 +4,7 @@ import {request} from "../../request";
 import {snackbarStore} from "../SnackbarModel";
 import {loadFiles} from "../../utils/browser";
 import {IRecord} from "../../types/Base";
+import {reloadSystemComponents} from "../../components";
 
 interface IView {
     loadingPromise: null | Promise<any>;
@@ -38,10 +39,12 @@ export class ViewModel {
                 const files = (
                     (typeof viewConfig === "string" ? JSON.parse(viewConfig) : viewConfig || {}).files || []
                 ).map((fileName: string) => `${viewUrl}/${fileName}`);
+
                 const viewEssence: IView = {
                     isReady: false,
                     load: () => {
                         if (!viewEssence.loadingPromise) {
+                            reloadSystemComponents();
                             viewEssence.loadingPromise = loadFiles(files);
                         }
 

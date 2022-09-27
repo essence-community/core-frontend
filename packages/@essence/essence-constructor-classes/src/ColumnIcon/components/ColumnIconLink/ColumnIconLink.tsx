@@ -1,5 +1,5 @@
 import * as React from "react";
-import {IClassProps} from "@essence-community/constructor-share/types";
+import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {Popover, Scrollbars} from "@essence-community/constructor-share/uicomponents";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import {mapComponents, mapComponentOne} from "@essence-community/constructor-share/components";
@@ -9,21 +9,21 @@ import {useStyles} from "./ColumnIconLink.styles";
 
 const MAX_HEIGHT = 300;
 
-const transformOrigins: Record<"light" | "dark", IPopoverTransfromOrigin> = {
-    dark: {
-        horizontal: "left",
-        vertical: "top",
-    },
-    light: {
+const transformOrigins: Record<number, IPopoverTransfromOrigin> = {
+    1: {
         horizontal: "left",
         vertical: 2,
+    },
+    2: {
+        horizontal: "left",
+        vertical: "top",
     },
 };
 
 export const ColumnIconLink: React.FC<IClassProps> = (props) => {
     const {pageStore, bc} = props;
     const classes = useStyles();
-    const theme = useTheme();
+    const theme = useTheme<IEssenceTheme>();
     const parentStore = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
     const btnBc = React.useMemo(
         () => ({
@@ -49,7 +49,7 @@ export const ColumnIconLink: React.FC<IClassProps> = (props) => {
             dataPageObjectPopover={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-links`}
             width="auto"
             pageStore={pageStore}
-            transformOrigin={transformOrigins[theme.palette.type]}
+            transformOrigin={transformOrigins[theme.essence.layoutTheme]}
             hideOnScroll
             disableEscapeKeyDown={false}
         >

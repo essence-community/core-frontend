@@ -10,6 +10,7 @@ interface IProps {
     isHighlightedValue: boolean;
     ckPageObject: string;
     onSelect: (event: React.SyntheticEvent, suggestion: ISuggestion) => void;
+    focused?: boolean;
 }
 
 export const FieldComboListItem = React.memo((props: IProps) => {
@@ -26,7 +27,7 @@ export const FieldComboListItem = React.memo((props: IProps) => {
             onClick={handleClick}
             selected={props.isHighlightedValue}
             data-page-object={`${props.ckPageObject}-item-${String(props.suggestion.value)}`}
-            data-qtip={props.suggestion.label}
+            data-qtip={props?.focused ? "" : props.suggestion.label}
         >
             <span className={`${classes.menuItemLabel} ${props.isSelectedValue ? classes.menuItemSelectedLabel : ""}`}>
                 {props.suggestion.label}

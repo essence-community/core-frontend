@@ -27,6 +27,7 @@ interface IProps extends IPopoverChildrenProps {
     inputRef: React.RefObject<HTMLInputElement>;
     listRef: React.MutableRefObject<HTMLInputElement | null>;
     onChange: (value: FieldValue) => void;
+    focused?: boolean;
 }
 
 export const FieldComboList: React.FC<IProps> = (props) => {
@@ -109,6 +110,7 @@ export const FieldComboList: React.FC<IProps> = (props) => {
                                 isSelectedValue={isSelectedValue}
                                 isHighlightedValue={isHighlightedValue}
                                 ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                focused={props?.focused}
                             />
                         );
                     })

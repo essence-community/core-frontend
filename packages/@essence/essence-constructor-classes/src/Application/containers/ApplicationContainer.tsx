@@ -12,6 +12,7 @@ import {
     VAR_RECORD_URL,
     VAR_RECORD_ID,
     VAR_SETTING_URL_APP_NAME,
+    VAR_SETTING_TYPE_NOTIFICATION,
     loggerRoot,
 } from "@essence-community/constructor-share/constants";
 import {useObserver} from "mobx-react";
@@ -154,7 +155,12 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             () => applicationStore.authStore.userInfo.session,
             (session) => {
                 // Reinit ws for new session
-                if (session && !applicationStore.wsClient) {
+                if (
+                    session &&
+                    !applicationStore.wsClient &&
+                    (!settingsStore.settings[VAR_SETTING_TYPE_NOTIFICATION] ||
+                        settingsStore.settings[VAR_SETTING_TYPE_NOTIFICATION] === "ws")
+                ) {
                     applicationStore.initWsClient(session);
                 }
             },
@@ -254,7 +260,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     // Close all windows after change application
     React.useEffect(() => {
         return reaction(
-            () => applicationStore.bc[VAR_RECORD_PAGE_OBJECT_ID],
+            () => applicationStore.url,
             () => {
                 applicationStore.pageStore.windows.clear();
             },

@@ -22,13 +22,14 @@ interface IGridInlineTable extends IClassProps {
 
 export const GridInlineTable: React.FC<IGridInlineTable> = ({gridStore, ...classProps}) => {
     const {bc} = classProps;
-    const theme: IEssenceTheme = useTheme();
+    const theme: IEssenceTheme = useTheme<IEssenceTheme>();
     const formCtx = React.useContext(FormContext);
     const classes = useStyles();
 
     // Duplicate data-qtip from visible column
     const getQtip = (idx: number) => {
         try {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             return gridStore.refs
                 .get("body")

@@ -10,10 +10,10 @@ export const useStyles = makeStyles(
         button: {
             "&:hover": {
                 backgroundColor: theme.palette.primary.light,
-                color: theme.palette.type === "light" ? theme.palette.common.white : theme.essence.palette.grey.light,
+                color: theme.essence.layoutTheme === 1 ? theme.palette.common.white : theme.essence.palette.grey.light,
             },
             backgroundColor: theme.palette.primary.light,
-            color: theme.palette.type === "light" ? theme.palette.common.white : theme.essence.palette.grey.light,
+            color: theme.essence.layoutTheme === 1 ? theme.palette.common.white : theme.essence.palette.grey.light,
             float: "right",
             height: 36,
             marginTop: 30,

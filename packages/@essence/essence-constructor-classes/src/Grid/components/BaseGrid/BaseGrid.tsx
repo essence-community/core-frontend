@@ -31,7 +31,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
     const isHideActions = bc.hideactions === true;
     const [trans] = useTranslation("meta");
     const theme = useTheme<IEssenceTheme>();
-    const isDarkTheme = theme.palette.type === "dark";
+    const isDarkTheme = theme.essence.layoutTheme === 2;
     const firstFilter = bc.filters?.[0];
     const transCvDisplayed = toTranslateText(trans, bc[VAR_RECORD_DISPLAYED]);
     const isFilterActionsPresent = firstFilter && !firstFilter.dynamicfilter;
@@ -159,8 +159,13 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
         );
         const tableComponent = (
             <Grid item xs className={store.isInlineEditing ? "panel-editing-focus" : undefined}>
-                <Grid container spacing={0} direction={theme.palette.type === "light" ? "column" : "row"} wrap="nowrap">
-                    {theme.palette.type === "light" ? actionsComponent : null}
+                <Grid
+                    container
+                    spacing={0}
+                    direction={theme.essence.layoutTheme === 1 ? "column" : "row"}
+                    wrap="nowrap"
+                >
+                    {theme.essence.layoutTheme === 1 ? actionsComponent : null}
                     <Grid
                         item
                         xs

@@ -12,6 +12,10 @@ export default (theme: IEssenceTheme) => ({
         width: 32,
         textAlign: "center",
     },
+    tabLink: {
+        color: "inherit",
+        textDecoration: "none",
+    },
     tabRoot: {
         "& $activeTabWrapper > *:first-child": {
             marginBottom: 0,

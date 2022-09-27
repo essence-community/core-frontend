@@ -4,7 +4,7 @@ import {Grid} from "@material-ui/core";
 import {useTheme} from "@material-ui/core/styles";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
-import {IClassProps, IBuilderMode} from "@essence-community/constructor-share/types";
+import {IClassProps, IBuilderMode, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {getGridBtnsConfig, getModeTitle} from "../../utils";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
@@ -19,13 +19,13 @@ export const GridInlineButtons: React.FC<IGridInlineButtonsProps> = React.memo(f
     ...classProps
 }) {
     const {bc} = classProps;
-    const theme = useTheme();
+    const theme = useTheme<IEssenceTheme>();
     const classes = useStyles();
     const [trans] = useTranslation("meta");
-    const isDarkTheme = theme.palette.type === "dark";
-    const {overrides} = React.useMemo(() => getGridBtnsConfig(gridStore.bc, theme.palette.type), [
+    const isDarkTheme = theme.essence.layoutTheme === 2;
+    const {overrides} = React.useMemo(() => getGridBtnsConfig(gridStore.bc, theme.essence.layoutTheme), [
         gridStore.bc,
-        theme.palette.type,
+        theme.essence.layoutTheme,
     ]);
 
     const saveBtnBc = React.useMemo(

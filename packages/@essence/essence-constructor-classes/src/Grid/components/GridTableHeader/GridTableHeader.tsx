@@ -61,7 +61,14 @@ export const GridTableHeader: React.FC<IGridTableHeaderProps> = (props) => {
         }
 
         return (
-            <UIForm noForm submitOnChange onSubmit={handleSubmit} pageStore={props.pageStore} bc={classProps.bc}>
+            <UIForm
+                noForm
+                submitOnChange
+                onSubmit={handleSubmit}
+                placement="filter"
+                pageStore={props.pageStore}
+                bc={classProps.bc}
+            >
                 <GridColgroup store={store} />
                 {tableHead}
             </UIForm>

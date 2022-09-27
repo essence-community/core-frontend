@@ -9,5 +9,5 @@ export const useStyles = makeStyles((theme: IEssenceTheme) => ({
         flexDirection: "column",
         outline: "none",
     },
-    ...(theme.palette.type === "dark" ? darkStyles() : lightStyles(theme)),
+    ...(theme.essence.layoutTheme === 2 ? darkStyles() : lightStyles(theme)),
 }));

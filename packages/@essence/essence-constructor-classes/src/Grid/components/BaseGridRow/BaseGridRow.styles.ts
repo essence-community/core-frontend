@@ -10,7 +10,7 @@ export const useStyles = makeStyles(
         },
         root: {
             "&$selected":
-                theme.palette.type === "dark"
+                theme.essence.layoutTheme === 2
                     ? {
                           backgroundColor: theme.essence.palette.common.selectedRecord,
                           boxShadow: `inset 0px 0px 0px 2px ${theme.essence.palette.common.selectedRecordBorder}`,
@@ -24,7 +24,7 @@ export const useStyles = makeStyles(
                 boxShadow: `inset -1px -1px 0px 1px ${theme.essence.palette.common.selectedRecordBorder}, inset 1px -1px 0px 1px ${theme.essence.palette.common.selectedRecordBorder}`,
             },
             "&$selectedDetailExpanded":
-                theme.palette.type === "dark"
+                theme.essence.layoutTheme === 2
                     ? {
                           backgroundColor: theme.essence.palette.common.selectedRecord,
                           // eslint-disable-next-line max-len

@@ -1,4 +1,10 @@
+import {
+    VAR_RECORD_APP_URL,
+    VAR_RECORD_ICON_FONT,
+    VAR_SETTING_BASE_PATH,
+} from "@essence-community/constructor-share/constants/variables";
 import {Icon} from "@essence-community/constructor-share/Icon";
+import {settingsStore} from "@essence-community/constructor-share/models";
 import {Tab, Typography} from "@material-ui/core";
 import cn from "classnames";
 import * as React from "react";
@@ -25,6 +31,7 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
         onDragEnterIndex,
         tabDragClassName,
         titleRoutePath,
+        route,
         ...materialTabProps
     } = props;
     const [isDrag, setIsDrag] = React.useState(false);
@@ -42,7 +49,11 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
         }
     };
     const iconNode = iconfont && (
-        <Icon iconfont={iconfont} className={cn(classes.tabIcon, {[classes.activeTabIcon]: selected})} />
+        <Icon
+            iconfont={iconfont}
+            iconfontname={route ? (String(route[VAR_RECORD_ICON_FONT]) as "fa" | "mdi") : "fa"}
+            className={cn(classes.tabIcon, {[classes.activeTabIcon]: selected})}
+        />
     );
 
     const handleMouseMove = React.useCallback((event: MouseEvent) => {
@@ -94,6 +105,12 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
         };
     }, [handleMouseMove, handleMouseUp]);
 
+    const handleUrl = (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        materialTabProps.onChange(event, value);
+    };
+
     return (
         <Tab
             value={value}
@@ -104,9 +121,20 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
             ref={tabRef}
             label={
                 <React.Fragment>
-                    <Typography variant="body2" noWrap color="inherit" className={classes.text}>
-                        {label}
-                    </Typography>
+                    <a
+                        href={
+                            route
+                                ? // eslint-disable-next-line max-len
+                                  `${settingsStore.settings[VAR_SETTING_BASE_PATH]}${route[VAR_RECORD_APP_URL]}/${value}`
+                                : undefined
+                        }
+                        className={classes.tabLink}
+                        onClick={handleUrl}
+                    >
+                        <Typography variant="body2" noWrap color="inherit" className={classes.text}>
+                            {label}
+                        </Typography>
+                    </a>
                     <div onClick={handleClose} className={selected ? classes.activeCloseIcon : classes.closeIcon}>
                         <Icon iconfont="times" />
                     </div>

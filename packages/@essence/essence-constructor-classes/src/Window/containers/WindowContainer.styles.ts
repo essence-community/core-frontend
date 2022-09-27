@@ -4,7 +4,7 @@ import {IEssenceTheme} from "@essence-community/constructor-share/types";
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         addMoreLabelColor:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       color: theme.palette.common.white,
                   }
@@ -34,7 +34,7 @@ export const useStyles = makeStyles(
         },
         form: {},
         iconColor:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       color: theme.palette.common.white,
                   }

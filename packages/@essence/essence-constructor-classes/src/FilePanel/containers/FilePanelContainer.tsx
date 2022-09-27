@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Grid, Paper, useTheme} from "@material-ui/core";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {IClassProps} from "@essence-community/constructor-share/types";
+import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {Scrollbars} from "@essence-community/constructor-share/uicomponents";
 import {useObserver} from "mobx-react";
@@ -14,8 +14,8 @@ import {useStyles} from "./FilePanelContainer.styles";
 
 export const FilePanelContainer: React.FC<IClassProps> = (props) => {
     const {bc, elevation, disabled, readOnly, pageStore, visible} = props;
-    const theme = useTheme();
-    const isDarkTheme = theme.palette.type === "dark";
+    const theme = useTheme<IEssenceTheme>();
+    const isDarkTheme = theme.essence.layoutTheme === 2;
     const classes = useStyles();
     const contentStyle = React.useMemo(
         () => ({
@@ -25,7 +25,10 @@ export const FilePanelContainer: React.FC<IClassProps> = (props) => {
         }),
         [bc.height, bc.maxheight, bc.minheight],
     );
-    const btnsConfig = React.useMemo(() => getFilePanelBtnsConfig(bc, theme.palette.type), [bc, theme.palette.type]);
+    const btnsConfig = React.useMemo(() => getFilePanelBtnsConfig(bc, theme.essence.layoutTheme), [
+        bc,
+        theme.essence.layoutTheme,
+    ]);
     const [store] = useModel((options) => new FilePanelModel(options), {
         ...props,
         btnsConfig,

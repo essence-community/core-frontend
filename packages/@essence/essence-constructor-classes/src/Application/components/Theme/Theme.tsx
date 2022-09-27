@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ThemeProvider, createMuiTheme, useTheme} from "@material-ui/core";
-import {IApplicationModel} from "@essence-community/constructor-share/types";
+import {IApplicationModel, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {
     mergeOverridesDeep,
     isIE,
@@ -22,9 +22,19 @@ interface IThemeProps {
     applicationStore: IApplicationModel;
 }
 
-function getThemeType(): "dark" | "light" {
-    const settingTheme = settingsStore.settings[VAR_SETTING_THEME] as "dark" | "light" | undefined;
-    const theme = getFromStore("theme") as "dark" | "light" | undefined;
+const themList = {
+    dark: getThemeDark,
+    light: getThemeLight,
+};
+
+const overridesList = {
+    dark: getThemeDarkOverrides,
+    light: getThemeLightOverrides,
+};
+
+function getThemeType(): "dark" | "light" | string {
+    const settingTheme = settingsStore.settings[VAR_SETTING_THEME] as "dark" | "light" | string | undefined;
+    const theme = getFromStore("theme") as "dark" | "light" | string | undefined;
 
     if (!theme && settingTheme) {
         return settingTheme;
@@ -35,7 +45,7 @@ function getThemeType(): "dark" | "light" {
 
 export const Theme: React.FC<IThemeProps> = (props) => {
     const {applicationStore} = props;
-    const materialTheme = useTheme();
+    const materialTheme = useTheme<IEssenceTheme>();
     const [themeType, setThemeType] = React.useState(getThemeType);
 
     /*
@@ -47,13 +57,17 @@ export const Theme: React.FC<IThemeProps> = (props) => {
      */
 
     React.useEffect(
-        () => reaction(() => applicationStore.globalValues.get(VAR_SETTING_THEME) as "light" | "dark", setThemeType),
+        () =>
+            reaction(
+                () => applicationStore.globalValues.get(VAR_SETTING_THEME) as "light" | "dark" | string,
+                setThemeType,
+            ),
         [applicationStore.globalValues],
     );
 
     React.useEffect(() => {
         const fn = async () => {
-            const theme = getFromStore("theme") as "dark" | "light" | undefined;
+            const theme = getFromStore("theme") as "dark" | "light" | string | undefined;
 
             if (theme) {
                 setThemeType(theme);
@@ -66,8 +80,8 @@ export const Theme: React.FC<IThemeProps> = (props) => {
     }, []);
 
     const theme = React.useMemo(() => {
-        const getTheme = themeType === "dark" ? getThemeDark : getThemeLight;
-        const getThemeOverrides = themeType === "dark" ? getThemeDarkOverrides : getThemeLightOverrides;
+        const getTheme = themList[themeType] ? themList[themeType] : themList.light;
+        const getThemeOverrides = overridesList[themeType] ? overridesList[themeType] : overridesList.light;
         const themeVariables = getTheme(materialTheme);
         let overrides = getThemeOverrides(themeVariables);
 

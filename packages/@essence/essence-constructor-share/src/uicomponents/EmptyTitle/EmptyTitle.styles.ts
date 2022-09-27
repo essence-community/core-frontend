@@ -3,7 +3,7 @@ import {IEssenceTheme} from "../../types";
 
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) =>
-        theme.palette.type === "dark"
+        theme.essence.layoutTheme === 2
             ? {
                   titleButtons: {
                       alignItems: "center",

@@ -10,5 +10,5 @@ export const useStyles = makeStyles((theme: IEssenceTheme) => ({
     disable: {
         color: theme.essence.palette.grey.arrow,
     },
-    ...(theme.palette.type === "light" ? scrollButtonLight(theme) : scrollButtonDark()),
+    ...(theme.essence.layoutTheme === 1 ? scrollButtonLight(theme) : scrollButtonDark()),
 }));

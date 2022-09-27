@@ -24,7 +24,7 @@ export const useStyles = makeStyles(
             verticalAlign: "middle",
         },
         tableCell:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       "&:first-of-type": {
                           border: "none",

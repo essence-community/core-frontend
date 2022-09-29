@@ -66,7 +66,7 @@ export const TextContainer: React.FC<IClassProps<IBuilderClassConfig>> = (props)
     }, [bc.text, bc.textuseparameter, formContext, pageStore, parentFieldContext, recordContext]);
 
     if (text) {
-        return <ReactMarkdown source={text} renderers={renderers} />;
+        return <ReactMarkdown components={renderers}>{text}</ReactMarkdown>;
     }
 
     return null;

@@ -1,6 +1,11 @@
 import * as React from "react";
 import {IBuilderConfig, IPageModel, IBuilderMode, FieldValue} from "@essence-community/constructor-share/types";
-import {VAR_RECORD_MASTER_ID, VAR_RECORD_PARENT_ID, VAR_RECORD_JL_EDITING, VAR_RECORD_JV_MODE} from "@essence-community/constructor-share/constants";
+import {
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_JL_EDITING,
+    VAR_RECORD_JV_MODE,
+} from "@essence-community/constructor-share/constants";
 import {
     FormContext,
     RecordContext,

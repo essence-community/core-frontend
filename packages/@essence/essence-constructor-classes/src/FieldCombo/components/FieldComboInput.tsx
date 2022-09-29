@@ -164,7 +164,9 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             onKeyDown={isDisabled ? undefined : handleKeyDown}
             onFocus={() => props.setFocused(true)}
             onBlur={(e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-                if (props?.onBlur) props?.onBlur(e);
+                if (props?.onBlur) {
+                    props?.onBlur(e);
+                }
                 props.setFocused(false);
             }}
         />

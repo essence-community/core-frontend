@@ -22,10 +22,6 @@ interface IThemeProps {
     applicationStore: IApplicationModel;
 }
 
-interface IGetThemeTypes {
-    [key: string]: object;
-}
-
 const themList = {
     dark: getThemeDark,
     light: getThemeLight,

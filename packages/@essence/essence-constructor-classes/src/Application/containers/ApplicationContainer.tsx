@@ -157,8 +157,8 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 // Reinit ws for new session
                 if (
                     session &&
-                    !applicationStore.wsClient && 
-                    (!settingsStore.settings[VAR_SETTING_TYPE_NOTIFICATION] || 
+                    !applicationStore.wsClient &&
+                    (!settingsStore.settings[VAR_SETTING_TYPE_NOTIFICATION] ||
                         settingsStore.settings[VAR_SETTING_TYPE_NOTIFICATION] === "ws")
                 ) {
                     applicationStore.initWsClient(session);

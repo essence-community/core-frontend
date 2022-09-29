@@ -24,8 +24,7 @@ export const toColumnStyleWidth = (width?: number | string) => {
     };
 };
 
- export const toColumnStyleWidthBc = (bc: IBuilderConfig) => {
-    
+export const toColumnStyleWidthBc = (bc: IBuilderConfig) => {
     if (!bc.width) {
         return undefined;
     }
@@ -33,8 +32,8 @@ export const toColumnStyleWidth = (width?: number | string) => {
     return {
         flexBasis: bc.width,
         maxWidth: bc.maxwidth || bc.width,
+        minWidth: bc.minwidth,
         width: bc.width,
-        minWidth: bc.minwidth
     };
 };
 

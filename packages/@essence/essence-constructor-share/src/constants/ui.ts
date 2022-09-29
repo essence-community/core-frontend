@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys */
 import {GridProps} from "@material-ui/core";
 
 export const GRID_CONFIGS: Record<"hbox" | "hbox-wrap" | "vbox" | "vbox-wrap", GridProps> = {

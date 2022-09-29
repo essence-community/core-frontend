@@ -8,7 +8,7 @@ import "mobx-react/batchingForReactDom";
 import "./index.css";
 import {saveSystemComponents} from "@essence-community/constructor-share/components";
 import App from "./App";
-import * as serviceWorker from "./serviceWorker";
+// import * as serviceWorker from "./serviceWorker";
 import "./register";
 
 saveSystemComponents();
@@ -20,4 +20,4 @@ ReactDOM.render(<App />, document.getElementById("root"));
  * unregister() to register() below. Note this comes with some pitfalls.
  * Learn more about service workers: https://bit.ly/CRA-PWA
  */
-serviceWorker.unregister();
+// serviceWorker.unregister();

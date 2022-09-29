@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/no-var-requires, no-console */
+/* eslint-disable @typescript-eslint/no-var-requires, no-console */
 const path = require("path");
 const fs = require("fs");
 const documentation = require("documentation");

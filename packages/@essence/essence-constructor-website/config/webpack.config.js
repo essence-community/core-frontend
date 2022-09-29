@@ -570,8 +570,16 @@ module.exports = function (webpackEnv) {
         contextRegExp: /moment$/,
       }),
       new ModuleFederationPlugin({
-        name: "essence-core",
-        filename: "essence-core.js",
+        name: "essence_core",
+        filename: "essence_core.js",
+        exposes: {
+            './react': 'react',
+            './react-dom': 'react-dom',
+            './react-router-dom': 'react-router-dom',
+            './@essence-community/constructor-share': '@essence-community/constructor-share',
+            './mobx': 'mobx',
+            './mobx-react': 'mobx-react',
+        },
         shared: {
             "react": {
                 singleton: true,
@@ -583,6 +591,11 @@ module.exports = function (webpackEnv) {
                 requiredVersion: appPackageJson.dependencies["react-dom"],
                 eager: true
             },
+            "react-router-dom": {
+                singleton: true,
+                requiredVersion: appPackageJson.dependencies["react-router-dom"],
+                eager: true
+            },
             "@essence-community/constructor-share": {
                 singleton: true,
                 requiredVersion: appSharePackageJson.version,
@@ -590,12 +603,12 @@ module.exports = function (webpackEnv) {
             },
             "mobx": {
                 singleton: true,
-                requiredVersion: appPackageJson.dependencies["mobx"],
+                requiredVersion: appSharePackageJson.dependencies["mobx"],
                 eager: true
             },
             "mobx-react": {
                 singleton: true,
-                requiredVersion: appPackageJson.dependencies["mobx-react"],
+                requiredVersion: appSharePackageJson.dependencies["mobx-react"],
                 eager: true
             }
          }

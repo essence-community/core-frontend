@@ -14,6 +14,7 @@
     "build": "rimraf ./packages/@essence/essence-constructor-website/build && rimraf ./build && yarn workspace @essence-community/constructor-website run build && node utils/cp.js ./packages/@essence/essence-constructor-website/build ./build",
     "rebuild-share:dev": "cd packages/@essence/essence-constructor-share && yarn run build && cd ../essence-constructor-dll && yarn install --force && yarn build:dev && cd ../../.. && yarn install --force --ignore-scripts",
     "rs:d": "yarn rebuild-share:dev",
+    "preinstall": "cd packages/@essence/essence-constructor-share && yarn install && yarn run build",
     "tscheck:website": "yarn workspace @essence-community/constructor-website run tsc",
     "tscheck:classes": "yarn workspace @essence-community/constructor-classes run tsc",
     "tscheck:share": "cd packages/@essence/essence-constructor-share && yarn tsc",

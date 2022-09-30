@@ -4,7 +4,7 @@ import cn from "clsx";
 import {useObserver} from "mobx-react";
 import {IField} from "../../Form/types";
 import {IBuilderConfig} from "../../types";
-import {isEmpty, useTranslation, toTranslateTextArray} from "../../utils";
+import {isEmpty, useTranslation, toTranslateTextArray, TFunction} from "../../utils";
 import {Icon} from "../../Icon";
 import {TextFieldLabel} from "../../uicomponents";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "../../constants";
@@ -37,9 +37,9 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
     const form = React.useContext(FormContext);
     const [trans] = useTranslation("meta");
     const {disabled, readOnly, field, bc} = props;
+    const [transValue] = useTranslation(bc.localization || "meta");
     const classes = useStyles();
     const tips: React.ReactNode[] = [];
-
     const handleClick = () => {
         if (bc.redirecturl || bc.redirectusequery) {
             field.redirect();
@@ -50,25 +50,28 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
         tips.push(<div key="currencysign">{bc.currencysign}</div>);
     }
 
-    function getTipText(isError: boolean) {
+    function getTipText(trans: TFunction, transValue: TFunction, isError: boolean) {
         if (isError && field.error) {
-            return field.error;
+            return toTranslateTextArray(trans, field.error);
         }
 
         if ((typeof field.value === "string" && field.value !== "") || typeof field.value === "number") {
-            return String(field.value);
+            return bc.localization ? toTranslateTextArray(transValue, field.value as string) : String(field.value);
         }
 
         if (bc.info !== undefined) {
-            return bc.info;
+            return toTranslateTextArray(trans, bc.info);
         }
 
-        return field.label;
+        return toTranslateTextArray(trans, field.label);
     }
 
     return useObserver(() => {
         const isError = Boolean(!disabled && !field.isValid);
-        const isDisabled = readOnly || disabled || !form.editing;
+        const isDisabled =
+            (readOnly && form.placement === "filter" && typeof bc.readonly === "undefined" ? false : readOnly) ||
+            disabled ||
+            !form.editing;
 
         if (!isEmpty(field.value) && !isDisabled) {
             tips.push(
@@ -101,7 +104,7 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
                 [classes.linkInputRoot]: (bc.redirecturl || bc.redirectusequery) && Boolean(field.value),
             }),
             "data-page-object": bc[VAR_RECORD_PAGE_OBJECT_ID],
-            "data-qtip": toTranslateTextArray(trans, getTipText(isError)),
+            "data-qtip": getTipText(trans, transValue, isError),
             disabled: isDisabled,
             error: isError,
             fullWidth: true,

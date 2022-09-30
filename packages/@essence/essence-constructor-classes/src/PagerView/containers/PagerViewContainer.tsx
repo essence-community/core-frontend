@@ -1,5 +1,5 @@
 import * as React from "react";
-import {IClassProps} from "@essence-community/constructor-share/types";
+import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {Grid, useTheme} from "@material-ui/core";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {toColumnStyleWidth} from "@essence-community/constructor-share/utils";
@@ -9,7 +9,7 @@ const DARK_PAPER_ELEVATION = 8;
 
 export const PagerViewContainer: React.FC<IClassProps> = (props) => {
     const {pageStore} = props;
-    const theme = useTheme();
+    const theme = useTheme<IEssenceTheme>();
 
     return (
         <Grid container spacing={2}>
@@ -20,7 +20,7 @@ export const PagerViewContainer: React.FC<IClassProps> = (props) => {
                         pageStore={pageStore}
                         bc={childBc}
                         visible={pageStore.visible}
-                        elevation={theme.palette.type === "light" ? undefined : DARK_PAPER_ELEVATION}
+                        elevation={theme.essence.layoutTheme === 1 ? undefined : DARK_PAPER_ELEVATION}
                     />
                 </Grid>
             ))}

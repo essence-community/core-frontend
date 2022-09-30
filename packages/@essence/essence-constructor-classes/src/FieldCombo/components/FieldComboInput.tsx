@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import * as React from "react";
 import {useObserver} from "mobx-react";
 import keycode from "keycode";
@@ -19,6 +20,8 @@ interface IProps extends IClassProps {
     textFieldRef: React.RefObject<HTMLDivElement>;
     field: IField;
     onBlur: (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+    focused?: boolean;
+    setFocused?: (focused: boolean) => void;
 }
 
 export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
@@ -44,19 +47,9 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
 
                 store.handleChangeValue(value, !sugValue);
                 field.onChange(newValue);
-                if (store.bc.valuefield && store.bc.valuefield.length > 1) {
-                    const record = store.recordsStore.records.find(
-                        (rec) => rec[store.recordsStore.recordId] === sugValue.id,
-                    );
-
-                    store.patchForm(field, record || {});
-                }
             } else if (isEmpty(value)) {
                 field.onClear();
                 store.handleChangeValue(value);
-                if (store.bc.valuefield && store.bc.valuefield.length > 1) {
-                    store.patchForm(field, {});
-                }
             } else {
                 store.handleChangeValue(value);
             }
@@ -158,13 +151,24 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
         <TextField
             {...textFieldProps}
             data-qtip={
-                textFieldProps["data-qtip"] === String(field.value) ? store.inputValue : textFieldProps["data-qtip"]
+                props.focused
+                    ? ""
+                    : textFieldProps["data-qtip"] === String(field.value)
+                    ? store.inputValue
+                    : textFieldProps["data-qtip"]
             }
             ref={textFieldRef}
             value={store.inputValue}
             onClick={isDisabled ? undefined : handleInputClick}
             onChange={isDisabled ? undefined : handleChange}
             onKeyDown={isDisabled ? undefined : handleKeyDown}
+            onFocus={() => props.setFocused(true)}
+            onBlur={(e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+                if (props?.onBlur) {
+                    props?.onBlur(e);
+                }
+                props.setFocused(false);
+            }}
         />
     ));
 });

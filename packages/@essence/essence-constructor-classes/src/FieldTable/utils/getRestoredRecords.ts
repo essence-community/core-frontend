@@ -1,4 +1,5 @@
 import {IRecord, ICkId, FieldValue} from "@essence-community/constructor-share/types";
+import {deepFind} from "@essence-community/constructor-share/utils";
 import {IFieldTableModel} from "../stores/FieldTableModel/FieldTableModel.types";
 
 export function getRestoredRecords(value: (FieldValue | IRecord)[], store: IFieldTableModel): [ICkId, IRecord][] {
@@ -7,11 +8,12 @@ export function getRestoredRecords(value: (FieldValue | IRecord)[], store: IFiel
         const record = store.recordsStore.records.find((rec) => {
             if (isObject) {
                 return store.valueFields.some(
-                    ([fieldName, valueField]) => rec[fieldName] === (val as IRecord)[valueField],
+                    ([fieldName, valueField]) =>
+                        deepFind(rec, fieldName)[1] === deepFind(val as IRecord, valueField)[1],
                 );
             }
 
-            return rec[store.valueField] === val;
+            return deepFind(rec, store.valueField)[1] === val;
         });
 
         if (record) {

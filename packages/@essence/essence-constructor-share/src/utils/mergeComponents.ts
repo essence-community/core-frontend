@@ -4,7 +4,7 @@ import {IBuilderConfig} from "../types";
 import {VAR_RECORD_NAME} from "../constants";
 import {isEmpty} from "./base";
 
-const DEFAULT_OVERRIDE_FIELD = [
+const DEFAULT_OVERRIDE_FIELD: KeyBuilderConfig[] = [
     "confirmquestion",
     "disabled",
     "disabledrules",
@@ -19,6 +19,8 @@ const DEFAULT_OVERRIDE_FIELD = [
     "modeaction",
     "redirecturl",
     "redirectusequery",
+    "readonly",
+    "readonlyrules",
     "timeout",
     "updatequery",
     "columnsfilter",
@@ -31,8 +33,8 @@ const DEFAULT_OVERRIDE_FIELD = [
 ];
 
 export interface IMergeOptions {
-    exclude?: string[];
-    include?: string[];
+    exclude?: KeyBuilderConfig[];
+    include?: KeyBuilderConfig[];
 }
 
 type KeyBuilderConfig = keyof IBuilderConfig;
@@ -64,7 +66,7 @@ export function mergeComponents<T extends Record<string, IBuilderConfig>>(
              */
             forOwn(
                 [...DEFAULT_OVERRIDE_FIELD, ...include]
-                    .filter((value) => exclude.indexOf(value) === -1)
+                    .filter((value: KeyBuilderConfig) => exclude.indexOf(value) === -1)
                     .reduce(
                         (obj, value: KeyBuilderConfig) => ({
                             ...obj,

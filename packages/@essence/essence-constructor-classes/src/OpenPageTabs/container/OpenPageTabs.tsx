@@ -171,6 +171,7 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
                             key={pageId}
                             pageIndex={index}
                             label={trans(name)}
+                            route={route}
                             iconfont={iconName}
                             value={pageId}
                             titleRoutePath={trans<string>(titleRoutePath)}

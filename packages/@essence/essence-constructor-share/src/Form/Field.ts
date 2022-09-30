@@ -68,6 +68,12 @@ export class Field implements IField {
 
     public clearValue: FieldValue | undefined;
 
+    public getParseValue = (name: string) => {
+        return this.form && name.charAt(0) !== "g"
+            ? this.form.values[name]
+            : this.pageStore.globalValues.get(name) || this.form.values[name];
+    };
+
     @computed get label() {
         return this.bc[VAR_RECORD_DISPLAYED];
     }
@@ -87,7 +93,7 @@ export class Field implements IField {
             return false;
         }
 
-        return Boolean(parseMemoize(this.bc.requiredrules).runer(this.pageStore.globalValues));
+        return Boolean(parseMemoize(this.bc.requiredrules).runer({get: this.getParseValue}));
     }
 
     @computed private get requiredRule(): string | undefined {
@@ -205,6 +211,17 @@ export class Field implements IField {
         } else if (!this.bc.defaultvalue && this.isObject && !options.defaultValueFn) {
             this.defaultValue = {};
         }
+        if (this.bc.defaultvaluerule && !this.defaultValueFn) {
+            this.defaultValueFn = (field: IField, changeFn: IField["onChange"], clearFn: IField["onReset"]) => {
+                const value = parseMemoize(this.bc.defaultvaluerule!).runer({get: this.getParseValue});
+
+                if (isEmpty(value)) {
+                    clearFn();
+                } else {
+                    changeFn(value);
+                }
+            };
+        }
 
         if (this.parentFieldKey) {
             const parentField = this.form.fields.get(this.parentFieldKey);
@@ -256,6 +273,9 @@ export class Field implements IField {
         }
         if (this.value === undefined && this.isObject) {
             this.value = {};
+        }
+        if (this.value === undefined && (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean")) {
+            this.value = 0;
         }
     }
 
@@ -496,6 +516,9 @@ export class Field implements IField {
                     }
                 }
             }
+        }
+        if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
+            val = typeof val === "string" ? Number(val === "true" || val === "1") : Number(val);
         }
         this.value = val;
     };

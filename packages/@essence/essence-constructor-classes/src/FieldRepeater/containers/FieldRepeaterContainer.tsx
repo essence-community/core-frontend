@@ -7,7 +7,7 @@ import {
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_DISPLAYED,
 } from "@essence-community/constructor-share/constants";
-import {useTranslation} from "@essence-community/constructor-share/utils";
+import {isEmpty, parseMemoize, useTranslation} from "@essence-community/constructor-share/utils";
 import {Grid} from "@material-ui/core";
 import {useObserver} from "mobx-react";
 import {useField} from "@essence-community/constructor-share/Form";
@@ -26,15 +26,29 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
         return [...Array(parseInt(bc.minsize || "0", 10))].map(() => ({}));
     }, [bc.minsize]);
     const defaultValueFn = React.useCallback(
-        (field, onChange) => {
-            if (bc.defaultvalue && typeof bc.defaultvalue === "string") {
+        (field, onChange, clearFn) => {
+            if (bc.defaultvaluerule) {
+                const value = parseMemoize(bc.defaultvaluerule!).runer({get: field.getParseValue});
+
+                if (isEmpty(value)) {
+                    clearFn();
+                } else if (typeof value === "string" && value.startsWith("[")) {
+                    const val = JSON.parse(value);
+
+                    onChange(val);
+                } else if (Array.isArray(value)) {
+                    onChange(value);
+                } else {
+                    clearFn();
+                }
+            } else if (bc.defaultvalue && typeof bc.defaultvalue === "string" && bc.defaultvalue.startsWith("[")) {
                 const val = JSON.parse(bc.defaultvalue);
 
                 onChange(Array.isArray(val) ? val : []);
             } else if (Array.isArray(bc.defaultvalue)) {
                 onChange(bc.defaultvalue);
             } else {
-                onChange(clearValue);
+                clearFn();
             }
         },
         [bc.defaultvalue, clearValue],

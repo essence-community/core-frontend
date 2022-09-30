@@ -10,6 +10,7 @@ export const useStyles = makeStyles(
             },
             height: 48,
             overflow: "hidden",
+            zIndex: 3,
         },
         horizontal: {
             paddingTop: 10,

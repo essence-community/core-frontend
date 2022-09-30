@@ -3,7 +3,7 @@ import cn from "classnames";
 import {useObserver} from "mobx-react";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {toColumnStyleWidth, i18next} from "@essence-community/constructor-share/utils";
-import {IBuilderConfig, IClassProps, IPageModel} from "@essence-community/constructor-share/types";
+import {IBuilderConfig, IClassProps, IEssenceTheme, IPageModel} from "@essence-community/constructor-share/types";
 import {Scrollbars, PageLoader} from "@essence-community/constructor-share/uicomponents";
 import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
 import {Grid, useTheme} from "@material-ui/core";
@@ -63,7 +63,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
     }, [applicationStore, defaultvalue, parentId, props.pageStore]);
 
     const classes = useStyles(props);
-    const theme = useTheme();
+    const theme = useTheme<IEssenceTheme>();
     const {route} = pageStore;
     const form: IForm = React.useMemo(
         () =>
@@ -119,7 +119,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
 
     return useObserver(() => {
         const content = (
-            <div ref={pageStore.setPageInnerElAction}>
+            <div ref={pageStore.setPageInnerElAction} className={classes.rootPageDivContent}>
                 {pageStore.isEdit ? <div className={classes.backdrop} /> : null}
                 <PageLoader
                     pageStore={pageStore}
@@ -127,7 +127,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                     loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"}
                 />
                 <FormContext.Provider value={form}>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} className={classes.rootPageDivContent}>
                         {mapComponents(
                             pageStore.route?.[VAR_RECORD_NOLOAD] === 1 ? bc.childs : pageStore.pageBc,
                             (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
@@ -142,7 +142,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                                         pageStore={pageStore}
                                         bc={childBc}
                                         visible={pageStore.visible}
-                                        elevation={theme.palette.type === "light" ? undefined : DARK_PAPER_ELEVATION}
+                                        elevation={theme.essence.layoutTheme === 1 ? undefined : DARK_PAPER_ELEVATION}
                                     />
                                 </Grid>
                             ),
@@ -159,30 +159,32 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                 tabIndex={0}
                 onKeyDown={handleKeyDown}
             >
-                <PagerErrorBoundary pageStore={pageStore}>
-                    {/* TODO: to make pager as part of content (page) */}
-                    {/* {defaultvalue ? (
+                <React.Suspense fallback={null}>
+                    <PagerErrorBoundary pageStore={pageStore}>
+                        {/* TODO: to make pager as part of content (page) */}
+                        {/* {defaultvalue ? (
                     content
                 ) : ( */}
-                    <Scrollbars
-                        style={SCROLLABRS_STYLE}
-                        hideTracksWhenNotNeeded
-                        withRequestAnimationFrame
-                        contentProps={{
-                            className: classes.rootPageContent,
-                        }}
-                        pageStore={pageStore}
-                        verticalStyle={VERTICAL_STYLE}
-                        scrollbarsRef={pageStore.setPageScrollEl}
-                    >
-                        {content}
-                    </Scrollbars>
-                    {/* )} */}
-                    <PagerWindowMessage pageStore={pageStore} />
-                    {bc[VAR_RECORD_PAGE_OBJECT_ID] === pageStore.pagerBc[VAR_RECORD_PAGE_OBJECT_ID] ? (
-                        <PagerWindows {...props} />
-                    ) : null}
-                </PagerErrorBoundary>
+                        <Scrollbars
+                            style={SCROLLABRS_STYLE}
+                            hideTracksWhenNotNeeded
+                            withRequestAnimationFrame
+                            contentProps={{
+                                className: classes.rootPageContent,
+                            }}
+                            pageStore={pageStore}
+                            verticalStyle={VERTICAL_STYLE}
+                            scrollbarsRef={pageStore.setPageScrollEl}
+                        >
+                            {content}
+                        </Scrollbars>
+                        {/* )} */}
+                        <PagerWindowMessage pageStore={pageStore} />
+                        {bc[VAR_RECORD_PAGE_OBJECT_ID] === pageStore.pagerBc[VAR_RECORD_PAGE_OBJECT_ID] ? (
+                            <PagerWindows {...props} />
+                        ) : null}
+                    </PagerErrorBoundary>
+                </React.Suspense>
             </div>
         );
     });

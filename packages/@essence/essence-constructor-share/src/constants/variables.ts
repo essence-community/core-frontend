@@ -3,6 +3,7 @@
  * We need them because backend send them by REST api
  */
 export const VAR_RECORD_ID = "ck_id";
+export const VAR_RECORD_VALUE_ID = "value_key";
 export const VAR_RECORD_PARENT_ID = "ck_parent";
 export const VAR_RECORD_MASTER_ID = "ck_master";
 export const VAR_RECORD_PAGE_OBJECT_ID = "ck_page_object";
@@ -14,6 +15,7 @@ export const VAR_RECORD_ROUTE_NAME = "cv_name";
 export const VAR_RECORD_ROUTE_PAGE_ID = "ck_page";
 export const VAR_RECORD_ROUTE_VISIBLE_MENU = "cl_menu";
 export const VAR_RECORD_ICON_NAME = "cv_icon_name";
+export const VAR_RECORD_ICON_FONT = "cv_icon_font";
 export const VAR_RECORD_LEAF = "leaf";
 export const VAR_RECORD_RES_ERROR = "cv_error";
 export const VAR_RECORD_RES_FORM_ERROR = "jt_form_message";
@@ -86,6 +88,8 @@ export const VAR_RECORD_CK_ATTR = "ck_attr";
 export const VAR_RECORD_CL_STATIC = "cl_static";
 export const VAR_RECORD_JV_ROWCOLOR = "jv_rowcolor";
 export const VAR_RECORD_NOLOAD = "cl_noload";
+export const VAR_RECORD_JL_EDITING = "jl_editing";
+export const VAR_RECORD_JV_MODE = "jv_mode";
 // DRAG&DROP
 export const VAR_RECORD_PAGE_OBJECT_DRAG = "ck_page_object_drag";
 export const VAR_RECORD_PAGE_OBJECT_DROP = "ck_page_object_drop";
@@ -123,6 +127,7 @@ export const VAR_SETTING_REMOTE_STORAGE = "use_remote_storage_cache";
 export const VAR_SETTING_REMOTE_STORAGE_LOAD_QUERY = "remote_storage_load_query";
 export const VAR_SETTING_REMOTE_STORAGE_ADD_QUERY = "remote_storage_add_query";
 export const VAR_SETTING_REMOTE_STORAGE_DELETE_QUERY = "remote_storage_delete_query";
+export const VAR_SETTING_TYPE_NOTIFICATION = "type_notification";
 
 // META
 export const META_OUT_RESULT = "out_result";

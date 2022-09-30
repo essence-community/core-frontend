@@ -22,7 +22,7 @@ export interface IBuilderBaseConfig {
     // Правила для выбора активного элемента
     activerules?: string;
     // Расположение текста: left - слева, center - по центру, right - справа
-    align?: "left" | "right" | "center" | "top";
+    align?: "left" | "right" | "center" | "top" | string;
     // Префикс-метка для нового значения. Пример: "allownew" = "NEW:", на сервер уйдет значение "NEW:введенное значение"
     allownew?: string;
     // Признак автозагрузки сервиса
@@ -64,7 +64,7 @@ export interface IBuilderBaseConfig {
     // Вопрос на подтверждение операции
     confirmquestion?: string;
     // Вид наполнения: hbox: горизонтальное hbox-wrap: горизонтальное с переносом на следующую строку vbox: вертикальное
-    contentview?: "hbox" | "hbox-wrap" | "vbox" | "vbox-wrap";
+    contentview?: "hbox" | "hbox-wrap" | "vbox" | "vbox-wrap" | string;
     // Ширина вложенных полей. Целое число от 1% до 100%. Обязательно добавлять %.
     contentwidth?: string;
     // Подпись для отображения Пример: к деньгам добавляем " руб."
@@ -163,6 +163,8 @@ export interface IBuilderBaseConfig {
     maxsize?: string;
     // Максимальное значение. Для значений с дробной частью использовать только точку
     maxvalue?: string;
+    // Максимальная ширина
+    maxwidth?: string;
     // Количество введенных символов для получения подсказок
     minchars?: number;
     // Минимальная высота
@@ -171,6 +173,8 @@ export interface IBuilderBaseConfig {
     minsize?: string;
     // Минимальное значение
     minvalue?: string;
+    // Минимальная ширина
+    minwidth?: string;
     // Тип операции 1 - Добавление 2 - Редактирование 3 - Удаление 4 - Вызов сервиса из атрибута updatequery 6 - Режим клонирования значений 7 - Режим выгрузки файла 8 - Режим загрузки файла
     mode?: "1" | "2" | "3" | "4" | "6" | "7" | "8";
     // Значение action, передаваемое в json вместо стандартных I,U,D
@@ -251,6 +255,8 @@ export interface IBuilderBaseConfig {
     tabwidth?: string;
     // Выводимое статическое сообщение в виде markdown
     text?: string;
+    // Расчетное поле text
+    textuseparameter?: boolean;
     // Разделитель тысяч
     thousandseparator?: string;
     // Время ожидания выполнения запроса в секундах
@@ -279,7 +285,10 @@ export interface IBuilderBaseConfig {
     winreloadstores?: boolean;
     // Тип окна (влияет на ширину окна): narrow: 500px, default: 800px, wide: 1000px, xwide: 1200px, xlwide: 1600px, fullscreen
     wintype?: "narrow" | "default" | "wide" | "xwide" | "xlwide" | "fullscreen";
+    // возможность скрывать шапку
+    hideheader?: boolean;
 }
+
 // BUILDER_CONFIG_END
 
 export interface IBuilderConfig extends IBuilderBaseConfig {
@@ -330,4 +339,6 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     values?: IRecord;
     // Internal Возможность выделения нескольких значений в GRID и TREEGRID SINGLE - только 1 значение SIMPLE - позволяет выбирать значения одно-за-другим. Каждое нажатие добавляет/удаляет значение. MULTI - позволяет комплексно выбирать значения, с учетом ctrl и shift
     selmode?: "MULTI";
+    // возможность скрывать шапку
+    hideheader?: boolean;
 }

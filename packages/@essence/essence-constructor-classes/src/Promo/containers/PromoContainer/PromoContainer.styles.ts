@@ -1,7 +1,8 @@
 import {makeStyles} from "@material-ui/core";
+import {IEssenceTheme} from "@essence-community/constructor-share/types";
 
 export const useStyles = makeStyles(
-    (theme) => ({
+    (theme: IEssenceTheme) => ({
         darkLine: {
             backgroundColor: theme.palette.primary.main,
             color: "rgb(243,249,255)",

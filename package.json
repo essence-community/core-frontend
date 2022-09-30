@@ -1,25 +1,23 @@
 {
   "name": "app",
-  "version": "2.7.1",
+  "version": "3.0.0",
   "license": "MIT",
   "private": true,
   "engines": {
     "yarn": ">=1.7.0",
-    "node": ">=9.0.0"
+    "node": ">=14.0.0"
   },
   "scripts": {
     "start": "yarn workspace @essence-community/constructor-website run start",
     "start-localhost": "yarn workspace @essence-community/constructor-website run start-localhost",
     "start-mock": "yarn workspace @essence-community/constructor-website run start-mock",
-    "build": "yarn workspace @essence-community/constructor-website run build && node utils/cp.js ./packages/@essence/essence-constructor-website/build ./build",
+    "build": "rimraf ./packages/@essence/essence-constructor-website/build && rimraf ./build && yarn workspace @essence-community/constructor-website run build && node utils/cp.js ./packages/@essence/essence-constructor-website/build ./build",
     "rebuild-share:dev": "cd packages/@essence/essence-constructor-share && yarn run build && cd ../essence-constructor-dll && yarn install --force && yarn build:dev && cd ../../.. && yarn install --force --ignore-scripts",
     "rs:d": "yarn rebuild-share:dev",
     "tscheck:website": "yarn workspace @essence-community/constructor-website run tsc",
     "tscheck:classes": "yarn workspace @essence-community/constructor-classes run tsc",
     "tscheck:share": "cd packages/@essence/essence-constructor-share && yarn tsc",
     "CI": "concurrently \"yarn tscheck:classes\" \"yarn tscheck:share\" \"yarn lint\"",
-    "preinstall": "cd packages/@essence/essence-constructor-share && yarn install && yarn build",
-    "postinstall": "node scripts/postinstall.js",
     "lint": "eslint packages/@essence/essence-constructor-website/src packages/@essence/essence-constructor-classes/src packages/@essence/essence-constructor-share/src --ext ts,tsx",
     "test": "node scripts/test.js --env=jsdom",
     "chrome:mac": "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --remote-debugging-port=9222 --user-data-dir=chrome",
@@ -48,7 +46,6 @@
     "@testing-library/user-event": "^12.0.11",
     "@types/jest": "^26.0.4",
     "babel-jest": "^26.1.0",
-    "babel-preset-react-app": "9.1.2",
     "concurrently": "^5.2.0",
     "copy-dir": "^1.3.0",
     "cross-spawn": "^7.0.3",
@@ -62,12 +59,15 @@
     "object-assign": "4.1.1",
     "prettier": "^2.0.5",
     "promise": "8.1.0",
-    "raf": "3.4.1"
+    "raf": "3.4.1",
+    "rimraf": "^3.0.2"
   },
   "workspaces": {
     "packages": [
       "packages/@essence/essence-constructor-website",
-      "packages/@essence/essence-constructor-classes"
+      "packages/@essence/essence-constructor-classes",
+      "packages/@essence/essence-constructor-types",
+      "packages/@essence/essence-constructor-register"
     ]
   },
   "dependencies": {

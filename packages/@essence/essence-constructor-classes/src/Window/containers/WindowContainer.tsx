@@ -107,70 +107,72 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
             data-page-object={ckPageObject}
             BackdropComponent={Backdrop}
         >
-            <div className={classes.container} onClick={handleBackdropClick}>
-                <Paper
-                    className={cn(classes.paper, {
-                        [classes[`align-${align}` as keyof typeof classes]]: align,
-                        [classes[`winsize-${wintype}` as keyof typeof classes]]: wintype,
-                        [classes.paperFullScreen]: isFulllScreen,
-                    })}
-                >
-                    <UIForm
-                        bc={bc}
-                        onSubmit={noop}
-                        initialValues={store.initialValues}
-                        mode={bc.mode as IBuilderMode}
-                        pageStore={pageStore}
-                        className={classes.form}
+            <React.Suspense fallback={null}>
+                <div className={classes.container} onClick={handleBackdropClick}>
+                    <Paper
+                        className={cn(classes.paper, {
+                            [classes[`align-${align}` as keyof typeof classes]]: align,
+                            [classes[`winsize-${wintype}` as keyof typeof classes]]: wintype,
+                            [classes.paperFullScreen]: isFulllScreen,
+                        })}
                     >
-                        <Focusable className={classes.focusable}>
-                            <DialogTitle disableTypography>{windowTitle}</DialogTitle>
-                            <Scrollbars
-                                autoHeight
-                                autoHeightMax={autoHeightMax}
-                                hideTracksWhenNotNeeded
-                                renderView={renderScrollView}
-                                className={classes.contentScrollableParent}
-                                withRequestAnimationFrame
-                                pageStore={pageStore}
-                            >
-                                <Grid
-                                    container
-                                    direction="column"
-                                    spacing={1}
-                                    className={classes.content}
-                                    wrap="nowrap"
-                                    style={contentStyle}
+                        <UIForm
+                            bc={bc}
+                            onSubmit={noop}
+                            initialValues={store.initialValues}
+                            mode={bc.mode as IBuilderMode}
+                            pageStore={pageStore}
+                            className={classes.form}
+                        >
+                            <Focusable className={classes.focusable}>
+                                <DialogTitle disableTypography>{windowTitle}</DialogTitle>
+                                <Scrollbars
+                                    autoHeight
+                                    autoHeightMax={autoHeightMax}
+                                    hideTracksWhenNotNeeded
+                                    renderView={renderScrollView}
+                                    className={classes.contentScrollableParent}
+                                    withRequestAnimationFrame
+                                    pageStore={pageStore}
                                 >
-                                    {mapComponents(store.childs, (ChildCmp, childBc) => {
-                                        return (
-                                            <Grid
-                                                key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                                item
-                                                style={toColumnStyleWidth(childBc.width)}
-                                            >
-                                                <ChildCmp {...props} bc={childBc} />
-                                            </Grid>
-                                        );
-                                    })}
-                                </Grid>
-                            </Scrollbars>
-                            <WindowButtons
-                                {...props}
-                                checkboxAddMode={checkboxAddMode}
-                                className={classes.dialogButtonActions}
-                            />
-                            <WindowCancel
-                                pageStore={pageStore}
-                                bc={bc}
-                                isOpen={store.cancel}
-                                onAccept={handleCloseAction}
-                                onDecline={store.resetCancelAction}
-                            />
-                        </Focusable>
-                    </UIForm>
-                </Paper>
-            </div>
+                                    <Grid
+                                        container
+                                        direction="column"
+                                        spacing={1}
+                                        className={classes.content}
+                                        wrap="nowrap"
+                                        style={contentStyle}
+                                    >
+                                        {mapComponents(store.childs, (ChildCmp, childBc) => {
+                                            return (
+                                                <Grid
+                                                    key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                                    item
+                                                    style={toColumnStyleWidth(childBc.width)}
+                                                >
+                                                    <ChildCmp {...props} bc={childBc} />
+                                                </Grid>
+                                            );
+                                        })}
+                                    </Grid>
+                                </Scrollbars>
+                                <WindowButtons
+                                    {...props}
+                                    checkboxAddMode={checkboxAddMode}
+                                    className={classes.dialogButtonActions}
+                                />
+                                <WindowCancel
+                                    pageStore={pageStore}
+                                    bc={bc}
+                                    isOpen={store.cancel}
+                                    onAccept={handleCloseAction}
+                                    onDecline={store.resetCancelAction}
+                                />
+                            </Focusable>
+                        </UIForm>
+                    </Paper>
+                </div>
+            </React.Suspense>
         </Modal>
     ));
 };

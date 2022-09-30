@@ -1,5 +1,6 @@
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {IStoreBaseModelProps, IRecordsModel} from "@essence-community/constructor-share/types";
+import {action, computed} from "mobx";
 
 export class DocumentationModel extends StoreBaseModel {
     public recordsStore: IRecordsModel;
@@ -12,4 +13,13 @@ export class DocumentationModel extends StoreBaseModel {
             pageStore: this.pageStore,
         });
     }
+
+    @computed
+    public get selectedRecord() {
+        return this.recordsStore.selectedRecord;
+    }
+    @action
+    public reloadStoreAction = () => this.recordsStore.loadRecordsAction({});
+    @action
+    public clearStoreAction = () => this.recordsStore.clearChildsStoresAction();
 }

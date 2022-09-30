@@ -1,6 +1,6 @@
 import * as React from "react";
 import moment from "moment";
-import {IClassProps} from "@essence-community/constructor-share/types";
+import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {
     IPopoverAnchorOrigin,
     IPopoverTransfromOrigin,
@@ -32,9 +32,9 @@ export const AuditInfoContainer: React.FC<IClassProps> = (props) => {
     const {pageStore, bc} = props;
     const [store] = useModel((options) => new AuditInfoModel({...options, applicationStore: null}), props);
     const classes = useStyles();
-    const theme = useTheme();
+    const theme = useTheme<IEssenceTheme>();
     const [trans] = useTranslation("meta");
-    const isDark = theme.palette.type === "dark";
+    const isDark = theme.essence.layoutTheme === 2;
     const btnBc = React.useMemo(() => ({...bc, handler: "onPopoverOpen", type: "BTN"}), [bc]);
 
     const handleChangeOpen = React.useCallback(

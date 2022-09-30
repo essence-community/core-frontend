@@ -1,4 +1,5 @@
 import {IBuilderConfig, IPageModel, IStoreBaseModel, IBuilderMode} from "../../types";
+import {IRecord} from "../../types/Base";
 import {getWindowBc} from "./getWindowBc";
 import {getDefaultWindowBc as getDefaultWindowBcDefault} from "./getDefaultWindowBc";
 import {getWindowChilds} from "./getWindowChilds";
@@ -6,26 +7,38 @@ import {getWindowChilds} from "./getWindowChilds";
 interface ICreateWindowProps {
     btnBc: IBuilderConfig;
     pageStore: IPageModel;
-    parentStore: IStoreBaseModel;
+    parentStore?: IStoreBaseModel;
     mode: IBuilderMode;
     getDefaultWindowBc?(bc: IBuilderConfig): IBuilderConfig;
+    initValues?: IRecord;
 }
 
 /**
  * Create props for creating a new window
  */
 export function createWindowProps(props: ICreateWindowProps): IBuilderConfig {
-    const {btnBc, pageStore, parentStore, mode, getDefaultWindowBc = getDefaultWindowBcDefault} = props;
+    const {
+        btnBc,
+        pageStore,
+        parentStore,
+        mode,
+        getDefaultWindowBc = getDefaultWindowBcDefault,
+        initValues = {},
+    } = props;
     let windowBc = getWindowBc(btnBc, pageStore, parentStore);
     const isDefaultWindowsBc = !windowBc;
     const values =
-        mode === "1" || !parentStore?.recordsStore?.selectedRecord ? {} : parentStore.recordsStore.selectedRecord;
+        mode === "1" || !parentStore?.recordsStore?.selectedRecord
+            ? initValues || {}
+            : parentStore?.recordsStore?.selectedRecord;
 
-    if (!windowBc) {
+    if (!windowBc && parentStore) {
         windowBc = getDefaultWindowBc(parentStore.bc);
+    } else if (!windowBc) {
+        windowBc = getDefaultWindowBc(btnBc);
     }
 
-    if (!windowBc.childs) {
+    if (windowBc && !windowBc.childs) {
         windowBc = {
             ...windowBc,
             childs: getWindowChilds({

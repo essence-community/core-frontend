@@ -27,7 +27,7 @@ import {getMasterObject} from "../utils/getMasterObject";
 import {TText} from "../types/SnackbarModel";
 import {IForm} from "../Form";
 import {request} from "../request";
-import {RETURN_FORM_DATA, RETURN_FORM_DATA_BREAK} from "../constants/variables";
+import {RETURN_FORM_DATA, RETURN_FORM_DATA_BREAK, VAR_RECORD_VALUE_ID} from "../constants/variables";
 import {setMask} from "./recordsActions";
 
 export interface IConfig {
@@ -167,6 +167,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
                 [VAR_RECORD_CV_ACTION]: ACTIONS_MODE_MAP[modeCheck] || modeCheck,
                 [VAR_RECORD_PAGE_OBJECT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
                 [VAR_RECORD_ROUTE_PAGE_ID]: pageStore.pageId,
+                [VAR_RECORD_VALUE_ID]: form?.valueKey,
             },
         },
         list: false,

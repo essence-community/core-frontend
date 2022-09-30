@@ -5,6 +5,9 @@ import {
     VAR_RECORD_RES_STACK_TRACE,
     VAR_RECORD_ID,
     VAR_RESULT_MESSAGE,
+    VAR_ERROR_CODE,
+    VAR_ERROR_TEXT,
+    VAR_ERROR_ID,
 } from "../constants";
 import {FieldValue, IBuilderMode, ICkId} from "./Base";
 import {MessageTypeStrings} from "./SnackbarModel";
@@ -31,13 +34,33 @@ export interface IRequestData {
     result?: string;
 }
 
-export interface IRequestResponse {
-    success: boolean | string;
+export interface IRequestBaseResponse {
+    success: boolean | "true" | "false";
+    metaData?: Record<string, any>;
+}
+
+export interface IRequestSuccessResponse extends IRequestBaseResponse {
+    success: true | "true";
     data: IRequestData | IRequestData[];
 }
 
+export interface IRequestFaultResponse extends IRequestBaseResponse {
+    success: false | "false";
+    [VAR_ERROR_CODE]: number | string;
+    [VAR_ERROR_ID]: string;
+    [VAR_ERROR_TEXT]: string;
+}
+
+export type IRequestResponse = IRequestSuccessResponse | IRequestFaultResponse;
+
 export interface IRequestCheckError {
     responseJSON: IRequestResponse;
+    query: string;
+    list: boolean;
+}
+
+export interface IRequestCheckSuccessResult {
+    responseJSON: IRequestSuccessResponse;
     query: string;
     list: boolean;
 }

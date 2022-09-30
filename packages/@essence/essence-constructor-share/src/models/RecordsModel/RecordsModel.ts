@@ -21,7 +21,7 @@ import {
     IRecordsSearchOptions,
     IRouteRecord,
 } from "../../types";
-import {i18next, debounce} from "../../utils";
+import {i18next, debounce, deepFind} from "../../utils";
 import {
     loggerRoot,
     VAR_RECORD_ID,
@@ -37,7 +37,7 @@ import {
 import {download} from "../../actions/download";
 import {IRecordFilter} from "../../types/RecordsModel";
 import {filterFilesData, sortFilesData} from "../../utils/filter";
-import {isEmpty} from "../../utils/base";
+import {isDeepEqual, isEmpty} from "../../utils/base";
 import {loadRecordsAction} from "./loadRecordsAction";
 
 interface ILoadRecordsProps {
@@ -129,7 +129,7 @@ export class RecordsModel implements IRecordsModel {
             this.parentStore = options.parentStore;
             this.noLoadChilds = options.noLoadChilds || false;
             this.pageStore = options.pageStore;
-            this.applicationStore = options.applicationStore;
+            this.applicationStore = options.applicationStore || options.pageStore?.applicationStore;
         }
         const {records = []} = bc;
 
@@ -179,7 +179,7 @@ export class RecordsModel implements IRecordsModel {
                 },
                 selectedRecord: undefined,
                 get selectedRecordId() {
-                    return this.selectedRecord ? this.selectedRecord[this.valueField] : undefined;
+                    return this.selectedRecord ? deepFind(this.selectedRecord, this.valueField)[1] : undefined;
                 },
                 selectedRecordIndex: -1,
                 get selectedRecordValues() {
@@ -199,7 +199,7 @@ export class RecordsModel implements IRecordsModel {
             }
             records.forEach((rec) => {
                 if (rec.expanded === "true" || rec.expanded === true) {
-                    this.expansionRecords.set(String(rec[this.valueField]), true);
+                    this.expansionRecords.set(String(deepFind(rec, this.valueField)[1]), true);
                 }
             });
             if (this.bc.querymode === "local") {
@@ -211,6 +211,7 @@ export class RecordsModel implements IRecordsModel {
     loadRecordsAction = action(
         "loadRecordsAction",
         ({selectedRecordId, status = "load", isUserReload}: ILoadRecordsProps = {}) => {
+            this.loadCounter += 1;
             if (!this.bc[VAR_RECORD_QUERY_ID]) {
                 logger(i18next.t("static:0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
 
@@ -228,8 +229,6 @@ export class RecordsModel implements IRecordsModel {
 
                 return Promise.resolve();
             }
-
-            this.loadCounter += 1;
 
             return loadRecordsAction.call(this, {
                 applicationStore: this.applicationStore,
@@ -416,12 +415,13 @@ export class RecordsModel implements IRecordsModel {
         async (values: Record<string, FieldValue>, options: IRecordsSearchOptions = {}): Promise<void | IRecord> => {
             const {filter, reset, noLoad, selectedRecordId, status = "search", isUserReload, formData} = options;
 
-            /*
-             * TODO: реализовать сравнение
-             * if (!isEqual(this.searchValues, values) || !isEqual(this.filter, filter)) {
-             *     this.pageNumber = 0;
-             * }
-             */
+            if (
+                reset ||
+                !isDeepEqual(this.searchValues, values) ||
+                (filter !== undefined && !isDeepEqual(this.filter, filter))
+            ) {
+                this.pageNumber = 0;
+            }
             this.searchValues = values;
 
             if (reset || filter !== undefined) {
@@ -497,11 +497,12 @@ export class RecordsModel implements IRecordsModel {
 
     removeRecordsAction = action("removeRecordsAction", (records: IRecord[], key: string, reload?: boolean) => {
         const ids: Record<ICkId, boolean> = {};
+        const fieldKey = key || this.recordId;
         const selectedRecordId = this.selectedRecord && this.selectedRecord[key];
         const storeRecords = reload ? this.recordsAll : this.recordsState.records;
 
         records.forEach((record) => {
-            const recordId = record[key] as ICkId;
+            const recordId = record[fieldKey] as ICkId;
 
             ids[recordId] = true;
 
@@ -513,7 +514,7 @@ export class RecordsModel implements IRecordsModel {
         this.recordsState = {
             isUserReload: false,
             records: storeRecords.filter((record) => {
-                const recordId = record[key] as ICkId;
+                const recordId = record[fieldKey] as ICkId;
 
                 return !ids[recordId];
             }),

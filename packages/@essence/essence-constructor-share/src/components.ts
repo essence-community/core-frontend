@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {ReactElement} from "react";
 import {VAR_RECORD_CV_VALUE, VAR_RECORD_CV_CV_TYPE, VAR_RECORD_CLASS_ATTRIBUTES, VAR_RECORD_CK_ATTR} from "./constants";
 import {IClassProps, IBuilderConfig} from "./types";
@@ -25,12 +26,27 @@ interface IModules {
 type TResolve = (ChildComp: React.ComponentType<IClassProps>, bc: IBuilderConfig, index: number) => null | ReactElement;
 
 const components: IComponents = {};
+const systemEssenceComponents: IComponents = {};
 const modules: IModules = {};
 
 // @ts-ignore
 window.components = components;
 // @ts-ignore
+window.systemEssenceComponents = systemEssenceComponents;
+// @ts-ignore
 window.modules = modules;
+
+export function saveSystemComponents() {
+    Object.entries(components).forEach(([key, value]) => {
+        systemEssenceComponents[key] = value;
+    });
+}
+
+export function reloadSystemComponents() {
+    Object.entries(systemEssenceComponents).forEach(([key, value]) => {
+        components[key] = value;
+    });
+}
 
 function findClassName(config: any): string {
     const datatypeAttribute = config[VAR_RECORD_CLASS_ATTRIBUTES].find(

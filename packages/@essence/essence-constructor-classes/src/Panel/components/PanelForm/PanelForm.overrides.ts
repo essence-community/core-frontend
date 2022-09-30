@@ -7,7 +7,7 @@ export const makeTheme = (theme: IEssenceTheme): IEssenceTheme => ({
     overrides: mergeOverridesDeep(theme.overrides as IOverrides, {
         EssenceFilterButtons: {
             filterButtons:
-                theme.palette.type === "dark"
+                theme.essence.layoutTheme === 2
                     ? {
                           // Dark
                           background: "none",
@@ -21,7 +21,7 @@ export const makeTheme = (theme: IEssenceTheme): IEssenceTheme => ({
                 minHeight: 0,
             },
             filterButtons:
-                theme.palette.type === "dark"
+                theme.essence.layoutTheme === 2
                     ? {
                           // Dark
                           background: "none",

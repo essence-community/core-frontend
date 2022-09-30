@@ -1,19 +1,14 @@
 /* eslint-disable max-lines */
 import {computed, observable, action} from "mobx";
-import {
-    IStoreBaseModelProps,
-    IRecordsModel,
-    toString,
-    debounce,
-    FieldValue,
-    IRecord,
-} from "@essence-community/constructor-share";
+import {IRecordsModel, toString, debounce, FieldValue, IRecord} from "@essence-community/constructor-share";
 import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "@essence-community/constructor-share/constants";
-import {deepChange, i18next, isEmpty} from "@essence-community/constructor-share/utils";
+import {deepChange, deepFind, i18next, isEmpty, parseMemoize} from "@essence-community/constructor-share/utils";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
-import {IField} from "../../../../essence-constructor-share/lib/Form/types";
-import {ISuggestion} from "./FieldComboModel.types";
+import {IParseReturnType} from "@essence-community/constructor-share/utils/parser";
+import {IField} from "@essence-community/constructor-share/Form/types";
+import {ISuggestion, IFieldComboModelProps} from "./FieldComboModel.types";
 
+export const CLEAR_VALUE = undefined;
 export class FieldComboModel extends StoreBaseModel {
     recordsStore: IRecordsModel;
 
@@ -22,6 +17,8 @@ export class FieldComboModel extends StoreBaseModel {
     valuefield: string;
 
     valueLength: number;
+
+    field: IField;
 
     loadDebounce: (value: string, isUserReload: boolean) => void;
 
@@ -37,7 +34,7 @@ export class FieldComboModel extends StoreBaseModel {
 
     @observable isInputChanged = false;
 
-    @observable lastValue: FieldValue = "";
+    @observable lastValue: FieldValue = CLEAR_VALUE;
 
     // Duplicate from i18next to control suggestions
     @observable language: string = i18next.language;
@@ -46,10 +43,15 @@ export class FieldComboModel extends StoreBaseModel {
         return this.recordsStore.selectedRecord;
     }
 
+    @computed get preSuggestions(): Array<ISuggestion> {
+        const getSuggestion = this.bc.localization && this.language ? this.getSuggestionWithTrans : this.getSuggestion;
+
+        return this.recordsStore.recordsState.records.map(getSuggestion);
+    }
+
     @computed get suggestions(): Array<ISuggestion> {
         const inputValueLower = this.inputValue.toLowerCase();
-        const getSuggestion = this.bc.localization && this.language ? this.getSuggestionWithTrans : this.getSuggestion;
-        let suggestions: ISuggestion[] = this.recordsStore.recordsState.records.map(getSuggestion);
+        let suggestions: ISuggestion[] = this.preSuggestions;
 
         if (
             this.bc.allownew &&
@@ -78,15 +80,24 @@ export class FieldComboModel extends StoreBaseModel {
         return suggestions;
     }
 
-    constructor(props: IStoreBaseModelProps) {
+    parserLabel?: IParseReturnType;
+
+    constructor(props: IFieldComboModelProps) {
         super(props);
 
-        const {bc, pageStore} = props;
+        const {bc, pageStore, field} = props;
         const {column = "", displayfield = "", valuefield, minchars = 0, querydelay = 0} = bc;
 
+        this.field = field;
         this.displayfield = displayfield;
         this.valuefield = valuefield?.[0]?.in || column;
         this.valueLength = minchars;
+
+        if (displayfield) {
+            try {
+                this.parserLabel = parseMemoize(displayfield);
+            } catch (e) {}
+        }
 
         this.recordsStore = new RecordsModel(bc, {
             applicationStore: pageStore.applicationStore,
@@ -102,16 +113,33 @@ export class FieldComboModel extends StoreBaseModel {
         }, querydelay * 1000);
     }
 
-    reloadStoreAction = (): Promise<IRecord | undefined> => {
+    reloadStoreAction = async (): Promise<IRecord | undefined> => {
         if (!this.recordsStore.isLoading) {
             const selectedRecordId = this.recordsStore.selectedRecordValues[this.recordsStore.recordId];
 
-            return this.recordsStore.loadRecordsAction({
+            const res = await this.recordsStore.loadRecordsAction({
                 selectedRecordId:
                     selectedRecordId === null || typeof selectedRecordId === "object"
                         ? undefined
                         : (selectedRecordId as "string" | "number"),
             });
+
+            if (selectedRecordId != this.recordsStore.selectedRecordValues[this.recordsStore.recordId]) {
+                this.field.onClear();
+            }
+
+            if (
+                this.recordsStore.recordsState.records.length &&
+                (this.bc.defaultvalue === VALUE_SELF_FIRST || this.bc.defaultvalue === VALUE_SELF_ALWAYSFIRST)
+            ) {
+                const id = this.recordsStore.recordsState.records[0][this.recordsStore.recordId];
+
+                this.recordsStore.setSelectionAction(id);
+                this.field.onChange(this.recordsStore.recordsState.records[0][this.valuefield]);
+                this.patchForm(this.field, this.recordsStore.recordsState.records[0]);
+            }
+
+            return res;
         }
 
         return Promise.resolve(undefined);
@@ -141,17 +169,23 @@ export class FieldComboModel extends StoreBaseModel {
     @action
     resetAction = () => {
         this.inputValue = "";
-        this.lastValue = "";
+        this.lastValue = CLEAR_VALUE;
         this.recordsStore.searchAction({}, {reset: true});
         this.recordsStore.setSelectionAction(undefined);
+        if (this.bc.valuefield && this.bc.valuefield.length > 1) {
+            this.patchForm(this.field, {});
+        }
     };
 
     @action
     clearAction = () => {
         this.inputValue = "";
-        this.lastValue = "";
+        this.lastValue = CLEAR_VALUE;
         this.recordsStore.searchAction({}, {noLoad: true, reset: true});
         this.recordsStore.setSelectionAction(undefined);
+        if (this.bc.valuefield && this.bc.valuefield.length > 1) {
+            this.patchForm(this.field, {});
+        }
     };
 
     @action
@@ -243,7 +277,8 @@ export class FieldComboModel extends StoreBaseModel {
     handleSetValueNew = (value: FieldValue, loaded: boolean, isUserSearch: boolean): boolean => {
         const {allownew = ""} = this.bc;
         const stringValue = toString(value);
-        const isNewValue = stringValue.indexOf(allownew) === 0;
+        const isNewValue =
+            stringValue.indexOf(allownew) === 0 && this.suggestions.findIndex((sug) => sug.value === allownew) === -1;
         const stringNewValue = isNewValue ? stringValue.replace(allownew, "") : stringValue;
 
         const suggestion = this.suggestions.find((sug) => sug.value === stringValue);
@@ -282,6 +317,11 @@ export class FieldComboModel extends StoreBaseModel {
 
     @action
     handleSetSuggestionValue = (suggestion: ISuggestion, isUserSearch: boolean): boolean => {
+        if (this.bc.valuefield && this.bc.valuefield.length > 1) {
+            const record = this.recordsStore.records.find((rec) => rec[this.recordsStore.recordId] === suggestion.id);
+
+            this.patchForm(this.field, record || {});
+        }
         if (this.recordsStore.selectedRecordValues[this.recordsStore.recordId] !== suggestion.id) {
             const rec: any = suggestion.id;
 
@@ -298,7 +338,7 @@ export class FieldComboModel extends StoreBaseModel {
     @action
     handleSetValue = (value: FieldValue, loaded: boolean, isUserSearch: boolean) => {
         if ((value === VALUE_SELF_FIRST || value === VALUE_SELF_ALWAYSFIRST) && this.bc.defaultvalue === value) {
-            this.lastValue = "";
+            this.lastValue = CLEAR_VALUE;
         } else {
             this.lastValue = value;
         }
@@ -347,24 +387,42 @@ export class FieldComboModel extends StoreBaseModel {
     };
 
     getSuggestion = (record: IRecord): ISuggestion => {
-        const label = toString(record[this.displayfield]);
+        const [isExistForm, resForm] = deepFind(record, this.valuefield);
+        const [isExistDisplay, display] = deepFind(record, this.displayfield);
+        const label = isExistDisplay
+            ? toString(display)
+            : (this.parserLabel?.runer({
+                  get: (name: string) => {
+                      return toString(record[name] || "");
+                  },
+              }) as string) || toString(record[this.displayfield]);
 
         return {
             id: record[this.recordsStore.recordId],
             label,
             labelLower: label.toLowerCase(),
-            value: toString(record[this.valuefield]),
+            value: toString(isExistForm ? resForm : record[this.valuefield]),
         };
     };
 
     getSuggestionWithTrans = (record: IRecord): ISuggestion => {
-        const label = i18next.t(toString(record[this.displayfield]), {ns: this.bc.localization});
+        const [isExistForm, resForm] = deepFind(record, this.valuefield);
+        const [isExistDisplay, display] = deepFind(record, this.displayfield);
+        const label = isExistDisplay
+            ? i18next.t(toString(display), {ns: this.bc.localization}) || toString(record[this.displayfield])
+            : (this.parserLabel?.runer({
+                  get: (name: string) => {
+                      return (
+                          i18next.t(toString(record[name]), {ns: this.bc.localization}) || toString(record[name] || "")
+                      );
+                  },
+              }) as string) || toString(record[this.displayfield]);
 
         return {
             id: record[this.recordsStore.recordId],
             label,
             labelLower: label.toLowerCase(),
-            value: toString(record[this.valuefield]),
+            value: toString(isExistForm ? resForm : record[this.valuefield]),
         };
     };
 }

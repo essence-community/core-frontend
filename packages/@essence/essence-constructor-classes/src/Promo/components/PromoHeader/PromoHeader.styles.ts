@@ -12,5 +12,7 @@ export const useStyles = makeStyles(
             },
         },
     }),
-    {},
+    {
+        name: "EssencePromoHeader",
+    },
 );

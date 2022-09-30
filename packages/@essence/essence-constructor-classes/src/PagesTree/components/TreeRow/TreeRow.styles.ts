@@ -33,6 +33,11 @@ export const useStyles = makeStyles(
             textAlign: "center",
             width: 23,
         },
+        link: {
+            color: theme.essence.palette.common.white,
+            display: "block",
+            textDecoration: "none",
+        },
         nameTypography: {
             fontSize: 15,
         },

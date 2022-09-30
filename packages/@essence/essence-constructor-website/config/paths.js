@@ -55,6 +55,7 @@ const resolveModule = (resolveFn, filePath) => {
 module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
+  rootPath: resolveApp('../../..'),
   appBuild: resolveApp('build'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
@@ -62,12 +63,16 @@ module.exports = {
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   appClassesSrc: resolveApp('../essence-constructor-classes/src'),
+  appShareSrc: resolveApp('../../../node_modules/@essence-community/constructor-share'),
+  appSharePackageJson: resolveApp('../../../node_modules/@essence-community/constructor-share/package.json'),
   appTsConfig: resolveApp('tsconfig.json'),
   appJsConfig: resolveApp('jsconfig.json'),
   yarnLockFile: resolveApp('yarn.lock'),
   testsSetup: resolveModule(resolveApp, 'src/setupTests'),
   proxySetup: resolveApp('src/setupProxy.js'),
   appNodeModules: resolveApp('node_modules'),
+  rootNodeModules: resolveApp('../../../node_modules'),
+  appTsBuildInfoFile: resolveApp('node_modules/.cache/tsconfig.tsbuildinfo'),
   publicUrlOrPath,
 };
 

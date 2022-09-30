@@ -32,6 +32,7 @@ export const getThemeLight = (theme: Theme): IEssenceTheme => ({
             ...theme.palette.text,
             disabled: "#2c3345",
         },
+        type: "light",
     },
     props: {
         // Name of the component ⚛️
@@ -67,6 +68,8 @@ export const getThemeLight = (theme: Theme): IEssenceTheme => ({
     },
     // eslint-disable-next-line sort-keys
     essence: {
+        codeTheme: "light",
+        layoutTheme: 1,
         palette: {
             common: {
                 black: "#000",

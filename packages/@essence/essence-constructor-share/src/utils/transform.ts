@@ -1,7 +1,7 @@
 import * as DOMPurify from "dompurify";
 import {TText} from "../types/SnackbarModel";
 import {IRecord} from "../types/Base";
-import {FieldValue} from "../types";
+import {FieldValue, IBuilderConfig} from "../types";
 import {isEmpty} from "./base";
 import {TFunction} from "./I18n";
 
@@ -21,6 +21,19 @@ export const toColumnStyleWidth = (width?: number | string) => {
         flexBasis: width,
         maxWidth: width,
         width,
+    };
+};
+
+export const toColumnStyleWidthBc = (bc: IBuilderConfig) => {
+    if (!bc.width) {
+        return undefined;
+    }
+
+    return {
+        flexBasis: bc.width,
+        maxWidth: bc.maxwidth || bc.width,
+        minWidth: bc.minwidth,
+        width: bc.width,
     };
 };
 
@@ -63,6 +76,9 @@ export const toTranslateTextArray = (
 export const deepFind = (obj: IRecord, path: string | string[]): [boolean, IRecord | FieldValue] => {
     if (isEmpty(obj) || isEmpty(path)) {
         return [false, undefined];
+    }
+    if (typeof path === "string" && Object.prototype.hasOwnProperty.call(obj, path)) {
+        return [true, obj[path]];
     }
     const paths: any[] = Array.isArray(path) ? path : path.split(".");
     let current: any = obj;

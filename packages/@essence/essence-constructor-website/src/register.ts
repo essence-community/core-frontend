@@ -1,5 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-unresolved */
+import "./Components/Icon";
 import "@essence-community/constructor-classes/src/FilterExtended";
 import "@essence-community/constructor-classes/src/ButtonGroup";
 import "@essence-community/constructor-classes/src/ButtonGroupDelimiter";
@@ -56,6 +57,7 @@ import "@essence-community/constructor-classes/src/GridHeaderDetail";
 import "@essence-community/constructor-classes/src/GridHeaderIcon";
 import "@essence-community/constructor-classes/src/GridHFDate";
 import "@essence-community/constructor-classes/src/GridHFDefault";
+import "@essence-community/constructor-classes/src/GridHFNumber";
 import "@essence-community/constructor-classes/src/FieldTable";
 import "@essence-community/constructor-classes/src/FieldPeriod";
 import "@essence-community/constructor-classes/src/FieldText";
@@ -84,3 +86,5 @@ import "@essence-community/constructor-classes/src/FieldRegexpRepl";
 import "@essence-community/constructor-classes/src/FormNested";
 import "@essence-community/constructor-classes/src/FieldFile";
 import "@essence-community/constructor-classes/src/StaticKeyCloak";
+import "@essence-community/constructor-classes/src/ButtonDynamic";
+import "@essence-community/constructor-classes/src/ModuleFederation";

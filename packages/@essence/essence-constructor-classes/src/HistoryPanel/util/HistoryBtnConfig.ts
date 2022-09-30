@@ -153,7 +153,7 @@ export function getBtnAuditConfig(bc: IBuilderConfig): IBuilderConfig {
     } as IBuilderConfig;
 }
 
-export const getSaveBtnConfig = (bc: IBuilderConfig, styleTheme: "light" | "dark"): IBuilderConfig =>
+export const getSaveBtnConfig = (bc: IBuilderConfig, layoutTheme: number): IBuilderConfig =>
     ({
         [VAR_RECORD_CN_ORDER]: 1e6,
         [VAR_RECORD_DISPLAYED]: "static:8a930c6b5dd440429c0f0e867ce98316",
@@ -162,13 +162,13 @@ export const getSaveBtnConfig = (bc: IBuilderConfig, styleTheme: "light" | "dark
         [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-save`,
         [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
         handler: "onSimpleSave",
-        iconfont: styleTheme === "dark" ? "save" : undefined,
+        iconfont: layoutTheme === 2 ? "save" : undefined,
         iconsize: "xs",
         type: "BTN",
         uitype: "5",
     } as IBuilderConfig);
 
-export const getCancelBtnConfig = (bc: IBuilderConfig, styleTheme: "light" | "dark"): IBuilderConfig =>
+export const getCancelBtnConfig = (bc: IBuilderConfig, layoutTheme: number): IBuilderConfig =>
     ({
         [VAR_RECORD_CN_ORDER]: 1e6,
         [VAR_RECORD_DISPLAYED]: "static:64aacc431c4c4640b5f2c45def57cae9",
@@ -178,24 +178,25 @@ export const getCancelBtnConfig = (bc: IBuilderConfig, styleTheme: "light" | "da
         [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
         confirmquestion: "static:9b475e25ae8a40b0b158543b84ba8c08",
         handler: "onCloseWindow",
-        iconfont: styleTheme === "dark" ? "times" : undefined,
+        iconfont: layoutTheme === 1 ? "times" : undefined,
         iconsize: "xs",
+        readonly: false,
         type: "BTN",
         uitype: "6",
     } as IBuilderConfig);
 
-export const getHistoryPanelBtnsConfig = (bc: IBuilderConfig, styleTheme: "light" | "dark") => {
+export const getHistoryPanelBtnsConfig = (bc: IBuilderConfig, layoutTheme: number) => {
     const {components, overrides} = mergeComponents(bc.topbtn, {
         "Override Add Button": getHistoryAddButtonConfig(bc),
         "Override Audit Button": getBtnAuditConfig(bc),
-        "Override Cancel Button": getCancelBtnConfig(bc, styleTheme),
+        "Override Cancel Button": getCancelBtnConfig(bc, layoutTheme),
         "Override Clone Button": getHistoryCloneButtonConfig(bc),
         "Override Delete Button": getHistoryRemoveButtonConfig(bc),
         "Override Edit Button": getHistoryEditButtonConfig(bc),
         "Override Left Button": getHistoryLeftButtonConfig(bc),
         "Override Refresh Button": getHistoryRefreshButtonConfig(bc),
         "Override Right Button": getHistoryRightButtonConfig(bc),
-        "Override Save Button": getSaveBtnConfig(bc, styleTheme),
+        "Override Save Button": getSaveBtnConfig(bc, layoutTheme),
     });
     const btnsCollector: IBuilderConfig[] = [];
     const btns: IBuilderConfig[] = [];

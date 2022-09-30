@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import {deepChange, i18next, isEmpty} from "@essence-community/constructor-share/utils";
+import {deepChange, deepFind, i18next, isEmpty} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_PARENT_ID,
@@ -10,6 +10,7 @@ import {
     VALUE_SELF_FIRST,
     loggerRoot,
     VAR_RECORD_NAME,
+    VALUE_SELF_ALWAYSFIRST,
 } from "@essence-community/constructor-share/constants";
 import {
     IPageModel,
@@ -79,6 +80,8 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
                 return [fieldKeyName, keyIn];
             });
+        } else {
+            this.valueFields = [[this.bc.column, this.valueField]];
         }
 
         this.recordsStore = new RecordsModel(this.bc, {
@@ -159,7 +162,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     }
 
     @computed get selectedRecordValue(): FieldValue {
-        return this.selectedRecord ? this.selectedRecord[this.valueField] : "";
+        return this.selectedRecord ? deepFind(this.selectedRecord, this.valueField)[1] : undefined;
     }
 
     @action
@@ -174,9 +177,12 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
                 Array.isArray(value) &&
                 value.every((valDirty, idx) => {
                     return this.valueFields.every(([fieldName, valueField]) => {
-                        const val = typeof valDirty === "object" && valDirty !== null ? valDirty[fieldName] : valDirty;
+                        const val =
+                            typeof valDirty === "object" && valDirty !== null
+                                ? deepFind(valDirty, fieldName)[1]
+                                : valDirty;
 
-                        return val !== this.selectedEntries[idx]?.[1][valueField];
+                        return val !== deepFind(this.selectedEntries?.[idx]?.[1], valueField)[1];
                     });
                 })
             ) {
@@ -260,7 +266,11 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             }
 
             this.valueFields.forEach(([fieldName, valueField]) => {
-                deepChange(patchValues, `${parentKey ? `${parentKey}.` : ""}${fieldName}`, record[valueField]);
+                deepChange(
+                    patchValues,
+                    `${parentKey ? `${parentKey}.` : ""}${fieldName}`,
+                    deepFind(record, valueField)[1],
+                );
 
                 if (fieldName === this.bc.column) {
                     column = valueField;
@@ -274,7 +284,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             column = this.recordsStore.recordId || VAR_RECORD_ID;
         }
 
-        const value: FieldValue = record[column];
+        const value: FieldValue = deepFind(record, column)[1];
 
         if (userChange) {
             this.field.onChange(value);
@@ -286,12 +296,36 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     };
 
     @action
-    reloadStoreAction = () => {
+    reloadStoreAction = async () => {
         loggerInfo(i18next.t("static:58715205c88c4d60aac6bfe2c3bfa516"));
 
-        this.selectedEntries.clear();
+        if (!this.recordsStore.isLoading) {
+            const selectedRecordId = this.recordsStore.selectedRecordValues[this.recordsStore.recordId];
 
-        this.field.clear();
+            const res = await this.recordsStore.loadRecordsAction({
+                selectedRecordId:
+                    selectedRecordId === null || typeof selectedRecordId === "object"
+                        ? undefined
+                        : (selectedRecordId as "string" | "number"),
+            });
+
+            if (selectedRecordId != this.recordsStore.selectedRecordValues[this.recordsStore.recordId]) {
+                this.field.onClear();
+                this.selectedEntries.clear();
+            }
+
+            if (
+                this.recordsStore.recordsState.records.length &&
+                (this.bc.defaultvalue === VALUE_SELF_FIRST || this.bc.defaultvalue === VALUE_SELF_ALWAYSFIRST)
+            ) {
+                const id = this.recordsStore.recordsState.records[0][this.recordsStore.recordId];
+
+                this.recordsStore.setSelectionAction(id);
+                this.handleChangeRecord(this.recordsStore.recordsState.records[0]);
+            }
+
+            return res;
+        }
 
         return Promise.resolve(undefined);
     };

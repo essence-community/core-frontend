@@ -16,7 +16,7 @@ export const useStyles = makeStyles(
             outline: "none",
             position: "relative",
         },
-        ...(theme.palette.type === "light" ? tabsLightTheme(theme) : tabsDarkTheme(theme)),
+        ...(theme.essence.layoutTheme === 1 ? tabsLightTheme(theme) : tabsDarkTheme(theme)),
     }),
     {
         name: "EssenceTabPanelTabs",

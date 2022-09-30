@@ -112,10 +112,8 @@ export function getFieldAddrConfig(bc: IBuilderConfig): IBuilderConfig[] {
                 "hidden",
                 "hiddenrules",
                 "getglobaltostore",
-                "reloadfield",
                 "setglobal",
                 "column",
-                "selfclean",
                 "datatype",
             ],
             include: [

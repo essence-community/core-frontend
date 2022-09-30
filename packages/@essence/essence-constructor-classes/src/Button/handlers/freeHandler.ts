@@ -8,6 +8,8 @@ import {
 } from "@essence-community/constructor-share/types";
 import {VAR_RECORD_MASTER_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import {IForm} from "@essence-community/constructor-share/Form";
+import {getWindowBc} from "@essence-community/constructor-share/utils/window/getWindowBc";
+import {createWindowProps} from "@essence-community/constructor-share/utils/window";
 
 interface IFreeHanderOptions {
     applicationStore: IApplicationModel;
@@ -37,8 +39,25 @@ export function freeHandler(options: IFreeHanderOptions) {
 
     const mode = (bc.modeaction || bc.mode) as IBuilderMode;
 
+    if (bc.ckwindow && getWindowBc(bc, this.pageStore)) {
+        pageStore.createWindowAction(
+            createWindowProps({
+                btnBc: bc,
+                initValues: recordsStoreParent?.selectedRecord || form?.values,
+                mode,
+                pageStore: this.pageStore,
+                parentStore: {
+                    bc,
+                    recordsStore,
+                } as any,
+            }),
+        );
+
+        return Promise.resolve(true);
+    }
+
     return recordsStore[bc.mode === "7" ? "downloadAction" : "saveAction"](
-        recordsStoreParent?.selectedRecord || {},
+        recordsStoreParent?.selectedRecord || form?.values || {},
         mode,
         {
             actionBc: bc,

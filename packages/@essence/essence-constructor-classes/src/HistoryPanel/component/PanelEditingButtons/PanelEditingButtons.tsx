@@ -11,7 +11,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {IClassProps, IBuilderMode, IBuilderConfig} from "@essence-community/constructor-share/types";
+import {IClassProps, IBuilderMode, IBuilderConfig, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {getModeTitle} from "@essence-community/constructor-share/utils/getModeTitle";
 import {useObserver} from "mobx-react";
 import {mergeComponents, useTranslation} from "@essence-community/constructor-share/utils";
@@ -50,15 +50,21 @@ const getCancelBtnConfig = (bc: IBuilderConfig, isDarkTheme: boolean): IBuilderC
 export const PanelEditingButtons: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
     const classes = useStyles();
-    const theme = useTheme();
+    const theme = useTheme<IEssenceTheme>();
     const [trans] = useTranslation("meta");
-    const isDarkTheme = theme.palette.type === "dark";
+    const isDarkTheme = theme.essence.layoutTheme === 2;
     const form = React.useContext(FormContext);
     const [saveBtnBc, cancelBtnBc] = React.useMemo(() => {
-        const {overrides} = mergeComponents(bc.topbtn, {
-            "Override Cancel Button": getCancelBtnConfig(bc, isDarkTheme),
-            "Override Save Button": getSaveBtnConfig(bc, isDarkTheme),
-        });
+        const {overrides} = mergeComponents(
+            bc.topbtn,
+            {
+                "Override Cancel Button": getCancelBtnConfig(bc, isDarkTheme),
+                "Override Save Button": getSaveBtnConfig(bc, isDarkTheme),
+            },
+            {
+                include: ["setglobal"],
+            },
+        );
 
         return [overrides["Override Save Button"], overrides["Override Cancel Button"]];
     }, [bc, isDarkTheme]);

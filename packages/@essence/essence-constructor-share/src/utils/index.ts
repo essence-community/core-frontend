@@ -21,5 +21,6 @@ export * from "./bignumber";
 export * from "./window";
 export {getModeTitle} from "./getModeTitle";
 export * from "./preference";
+export * from "./federationModule";
 
 export {animate};

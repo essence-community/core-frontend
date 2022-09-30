@@ -3,6 +3,10 @@ import {makeStyles} from "@material-ui/core/styles";
 import openPageMenuContextDark from "./OpenPageMenuContextDark.styles";
 import openPageMenuContextLight from "./OpenPageMenuContextLight.styles";
 
-export const useStyles = makeStyles((theme: IEssenceTheme) =>
-    theme.essence.layoutTheme === 1 ? openPageMenuContextDark(theme) : openPageMenuContextLight(theme),
+export const useStyles = makeStyles(
+    (theme: IEssenceTheme) =>
+        theme.essence.layoutTheme === 1 ? openPageMenuContextDark(theme) : openPageMenuContextLight(theme),
+    {
+        name: "EssenceOpenPageMenuContext",
+    },
 );

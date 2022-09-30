@@ -1,8 +1,13 @@
 import {makeStyles} from "@material-ui/core";
 
-export const useStyles = makeStyles(() => ({
-    iframe: {
-        border: "none",
-        width: "100%",
+export const useStyles = makeStyles(
+    () => ({
+        iframe: {
+            border: "none",
+            width: "100%",
+        },
+    }),
+    {
+        name: "EssenceIFrame",
     },
-}));
+);

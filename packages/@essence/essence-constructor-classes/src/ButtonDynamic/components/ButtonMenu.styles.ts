@@ -87,5 +87,5 @@ export const useStyles = makeStyles(
                       paddingTop: 0,
                   },
     }),
-    {name: "ButtonDynamic"},
+    {name: "ButtonMenu"},
 );

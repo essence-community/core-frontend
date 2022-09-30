@@ -5,7 +5,7 @@ export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         contentRoot: {},
         editActionsGrid:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       minWidth: theme.essence.sizing.controlPanelWidth,
                       paddingTop: 4,
@@ -32,7 +32,7 @@ export const useStyles = makeStyles(
             position: "relative",
         },
         rootActions:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       "& $contentRoot": {
                           maxWidth: `calc(100% - ${theme.essence.sizing.controlPanelWidth}px)`,
@@ -51,7 +51,7 @@ export const useStyles = makeStyles(
                   }
                 : {},
         tableActions:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       alignSelf: "flex-end",
                       bottom: 0,
@@ -71,7 +71,7 @@ export const useStyles = makeStyles(
                       position: "inherit",
                   },
         tableBodyItem:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       backgroundColor: theme.palette.common.white,
                       flexBasis: 0,

@@ -34,7 +34,7 @@ export const useStyles = makeStyles(
             opacity: 0.7,
             position: "relative",
         },
-        ...(theme.palette.type === "light" ? tabLightStyles(theme) : tabDarkStyles(theme)),
+        ...(theme.essence.layoutTheme === 1 ? tabLightStyles(theme) : tabDarkStyles(theme)),
     }),
     {
         name: "EssenceTabPanelTab",

@@ -1,9 +1,10 @@
+import {IEssenceTheme} from "@essence-community/constructor-share/types";
 import {makeStyles} from "@material-ui/core";
 
 export const useStyles = makeStyles(
-    (theme) => ({
+    (theme: IEssenceTheme) => ({
         label:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       color: theme.palette.common.white,
                       width: 15,

@@ -4,7 +4,7 @@ import {IEssenceTheme} from "@essence-community/constructor-share/types/Theme";
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         actionsBar:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       backgroundColor: theme.palette.primary.main,
                       color: theme.palette.common.white,

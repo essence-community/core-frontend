@@ -1,5 +1,5 @@
 import * as React from "react";
-import {IClassProps, IStoreBaseModel, IBuilderConfig} from "@essence-community/constructor-share/types";
+import {IClassProps, IStoreBaseModel, IBuilderConfig, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_CN_ORDER} from "@essence-community/constructor-share/constants";
 import {reaction} from "mobx";
 import {useTheme, Grid} from "@material-ui/core";
@@ -23,11 +23,12 @@ function compareOrderedBC(left: IOrderedBuielderConfig, right: IOrderedBuielderC
 export interface IHistoryPanelButtonsProps extends IClassProps {
     store: IStoreBaseModel;
 }
+// eslint-disable-next-line max-lines-per-function
 export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) => {
     const {store, bc, disabled} = props;
     const {btndelete, btnrefresh, btnaudit} = bc;
     const form = React.useContext(FormContext);
-    const theme = useTheme();
+    const theme = useTheme<IEssenceTheme>();
     const [selectedRecordIndex, setSelectedRecordIndex] = React.useState<number>(-1);
     const [recordSize, setRecordSize] = React.useState<number>(0);
 
@@ -47,7 +48,10 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
 
         return () => dispossess.forEach((disposses) => disposses());
     }, [store]);
-    const btnOptions = React.useMemo(() => getHistoryPanelBtnsConfig(bc, theme.palette.type), [bc, theme.palette.type]);
+    const btnOptions = React.useMemo(() => getHistoryPanelBtnsConfig(bc, theme.essence.layoutTheme), [
+        bc,
+        theme.essence.layoutTheme,
+    ]);
 
     const staticAll = React.useMemo(() => {
         const btns = [];
@@ -66,7 +70,7 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
 
     const btnBc = React.useMemo(() => {
         const {btns, overrides, btnsCollector} = btnOptions;
-        const onlyIcon = theme.palette.type === "dark" ? true : undefined;
+        const onlyIcon = theme.essence.layoutTheme === 2 ? true : undefined;
         const showStaticBtns = !btnsCollector || btnsCollector.every((btn) => !btn.btncollectorall);
 
         const btnsAll = [
@@ -117,8 +121,13 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
         );
 
         btns.forEach((btn) => {
+            const contentview =
+                btn.contentview?.startsWith("hbox") && theme.essence.layoutTheme === 2
+                    ? btn.contentview.replace("hbox", "vbox")
+                    : btn.contentview;
+
             btnsAll.push({
-                bc: onlyIcon ? {...btn, onlyicon: true} : btn,
+                bc: onlyIcon ? {...btn, contentview, onlyicon: true} : {...btn, contentview},
                 disabled,
                 order: btn[VAR_RECORD_CN_ORDER],
             });
@@ -148,14 +157,23 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
         }
 
         return btnsAll.sort(compareOrderedBC);
-    }, [btnOptions, btndelete, btnrefresh, disabled, recordSize, selectedRecordIndex, staticAll, theme.palette.type]);
+    }, [
+        btnOptions,
+        btndelete,
+        btnrefresh,
+        disabled,
+        recordSize,
+        selectedRecordIndex,
+        staticAll,
+        theme.essence.layoutTheme,
+    ]);
 
     return useObserver(() => (
         <Grid
             container
             alignItems="center"
             spacing={1}
-            direction={theme.palette.type === "dark" ? "column" : "row"}
+            direction={theme.essence.layoutTheme === 2 ? "column" : "row"}
             className={form.editing ? "hidden" : undefined}
         >
             {mapComponents(

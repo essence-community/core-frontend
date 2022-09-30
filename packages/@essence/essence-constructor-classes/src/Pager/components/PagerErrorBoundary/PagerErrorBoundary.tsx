@@ -33,6 +33,16 @@ export class PagerErrorBoundary extends React.Component<IPagerErrorBoundaryProps
             },
             pageStore.route,
         );
+        if (error.stack) {
+            snackbarStore.snackbarOpenAction(
+                {
+                    autoHidden: true,
+                    status: "debug",
+                    text: error.stack,
+                },
+                pageStore.route,
+            );
+        }
     }
 
     render() {

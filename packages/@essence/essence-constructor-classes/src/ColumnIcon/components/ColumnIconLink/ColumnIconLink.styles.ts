@@ -1,7 +1,8 @@
+import {IEssenceTheme} from "@essence-community/constructor-share/types";
 import {makeStyles} from "@material-ui/core";
 
 export const useStyles = makeStyles(
-    (theme) => ({
+    (theme: IEssenceTheme) => ({
         popoverContent: {
             display: "flex",
             flexDirection: "column",
@@ -9,7 +10,7 @@ export const useStyles = makeStyles(
             minWidth: 0,
         },
         popoverRoot:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       backgroundColor: theme.palette.primary.main,
                   }

@@ -111,10 +111,9 @@ export const FieldMarkdownContainer: React.FC<IClassProps> = (props) => {
                             ) : null}
                             {status !== "code" || textFieldProps.disabled ? (
                                 <Grid item xs className={classes.preview} ref={mardownRef}>
-                                    <ReactMarkdown
-                                        source={typeof field.value === "string" ? field.value : ""}
-                                        renderers={renderers}
-                                    />
+                                    <ReactMarkdown components={renderers}>
+                                        {typeof field.value === "string" ? field.value : ""}
+                                    </ReactMarkdown>
                                 </Grid>
                             ) : null}
                         </Grid>

@@ -94,6 +94,7 @@ export const useStyles = makeStyles(
         },
         fullWidth: {
             width: "100%",
+            zIndex: 3,
         },
         tabsContainer: {
             outline: "none",

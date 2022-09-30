@@ -20,7 +20,7 @@ export const useStyles = makeStyles(
         open: {},
         // Save
         "uitype-5":
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       "&:hover": {
                           backgroundColor: theme.palette.primary.light,
@@ -42,11 +42,11 @@ export const useStyles = makeStyles(
         // Grid button
         "uitype-7": {
             "&$open": {
-                backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.main : undefined,
-                borderBottom: theme.palette.type === "dark" ? `1px solid ${theme.palette.common.white}` : undefined,
+                backgroundColor: theme.essence.layoutTheme === 2 ? theme.palette.primary.main : undefined,
+                borderBottom: theme.essence.layoutTheme === 2 ? `1px solid ${theme.palette.common.white}` : undefined,
                 borderColor: theme.palette.primary.main,
                 borderRadius: "4px 4px 0 0",
-                color: theme.palette.type === "dark" ? theme.palette.common.white : theme.palette.primary.main,
+                color: theme.essence.layoutTheme === 2 ? theme.palette.common.white : theme.palette.primary.main,
             },
             height: theme.essence.sizing.gridRowHeight,
             width: theme.essence.sizing.gridRowHeight,

@@ -28,6 +28,8 @@ export interface IBuilderClassConfig {
     hiddenrules?: string;
     // Выводимое статическое сообщение в виде markdown
     text?: string;
+    // Расчетное поле text
+    textuseparameter?: boolean;
     // Признак блокировки объекта при инициализации
     // true-блокирован
     disabled: boolean;

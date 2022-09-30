@@ -5,7 +5,7 @@ export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         iconButtonOpenRoot: {},
         iconButtonRoot:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       "&$iconButtonOpenRoot": {
                           color: theme.essence.palette.common.selectedMenu,
@@ -22,7 +22,7 @@ export const useStyles = makeStyles(
                   },
         iconButtonWindowOpenRoot: {},
         iconButtonWindowRoot:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       "&$iconButtonWindowOpenRoot": {
                           color: theme.essence.palette.common.selectedMenu,
@@ -48,7 +48,7 @@ export const useStyles = makeStyles(
             minWidth: 0,
         },
         popoverRoot:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       backgroundColor: theme.palette.primary.main,
                   }
@@ -71,7 +71,7 @@ export const useStyles = makeStyles(
                   },
 
         popoverWindowRoot:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {}
                 : {
                       "&:before": {

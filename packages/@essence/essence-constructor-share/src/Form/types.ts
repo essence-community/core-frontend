@@ -1,6 +1,7 @@
 import {ObservableMap} from "mobx";
 import {TFunction} from "../utils";
 import {FieldValue, IRecord, IBuilderConfig, IPageModel, IBuilderMode} from "../types";
+import {IGetValue} from "../utils/parser";
 
 export interface IRegisterFieldOptions {
     bc: IBuilderConfig;
@@ -22,6 +23,7 @@ export interface IField {
     value: FieldValue;
     defaultValue?: FieldValue;
     defaultValueFn?: (field: IField, changeFn: IField["onChange"], clearFn: IField["onReset"]) => void;
+    getParseValue: IGetValue["get"];
     label?: string;
     isRequired: boolean;
     rules: string[];
@@ -61,6 +63,7 @@ export interface IField {
 
 export interface IForm {
     values: IRecord;
+    valueKey?: FieldValue;
     valuesFile: FormData;
     initialValues: IRecord;
     hooks: IFormHooks;
@@ -105,6 +108,7 @@ export interface IFormHooks {
 export interface IFormProps {
     values: IRecord;
     hooks: IFormHooks;
+    pageStore?: IPageModel;
     mode?: IBuilderMode;
     placement: string;
     editing: boolean;

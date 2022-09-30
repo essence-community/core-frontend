@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys */
 import {GridProps} from "@material-ui/core";
 
 export const GRID_CONFIGS: Record<"hbox" | "hbox-wrap" | "vbox" | "vbox-wrap", GridProps> = {
@@ -31,19 +32,33 @@ export const GRID_ALIGN_CONFIGS: Record<string, GridProps> = {
     "left-hbox": {
         justify: "flex-start",
     },
+    "left-stretch-hbox": {
+        justify: "flex-start",
+        alignItems: "stretch",
+    },
     "left-hbox-wrap": {
         justify: "flex-start",
     },
     "left-vbox": {
         alignItems: "flex-start",
     },
+    "stretch-vbox": {
+        alignItems: "stretch",
+    },
     "right-hbox": {
         justify: "flex-end",
+    },
+    "right-stretch-hbox": {
+        justify: "flex-end",
+        alignItems: "stretch",
     },
     "right-hbox-wrap": {
         justify: "flex-end",
     },
     "right-vbox": {
         alignItems: "flex-end",
+    },
+    "stretch-hbox": {
+        alignItems: "stretch",
     },
 };

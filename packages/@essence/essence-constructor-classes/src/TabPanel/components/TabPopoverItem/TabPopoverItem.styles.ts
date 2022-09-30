@@ -31,7 +31,7 @@ export const useStyles = makeStyles(
             paddingLeft: theme.spacing(1),
             paddingRight: theme.spacing(1),
         },
-        ...(theme.palette.type === "dark" ? darkStyles(theme) : lightStyles(theme)),
+        ...(theme.essence.layoutTheme === 2 ? darkStyles(theme) : lightStyles(theme)),
     }),
     {
         name: "EssenceTabPanelTabPopoverItem",

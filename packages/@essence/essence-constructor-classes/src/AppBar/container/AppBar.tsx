@@ -25,6 +25,8 @@ const calcStyleHeight = (bc: IBuilderConfig) => ({
 });
 
 const calcStyle = (bc: IBuilderConfig) => ({
+    height: "100%",
+    maxHeight: "100%",
     overflow: bc.width ? "hidden" : "none",
     ...toColumnStyleWidth(bc.width),
 });
@@ -37,36 +39,43 @@ const calcStyle = (bc: IBuilderConfig) => ({
 export const AppBar: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
     const classes = useStyles(props);
     const {bc} = props;
-    const contentStyle = React.useMemo(
+    const contentHeight = React.useMemo(
         () => ({
             height: bc.height,
+            maxHeight: bc.maxheight ?? "100%",
+            minHeight: bc.minheight,
+        }),
+        [bc.height, bc.maxheight, bc.minheight],
+    );
+    const contentStyle = React.useMemo(
+        () => ({
+            ...contentHeight,
             padding: bc.contentview && bc.contentview.startsWith("hbox") ? "0 5px" : undefined,
             ...toColumnStyleWidth(bc.width),
         }),
-        [bc.height, bc.contentview, bc.width],
+        [contentHeight, bc.contentview, bc.width],
     );
 
     return (
         <MaterialAppBar classes={classes} color={colors[bc.uitype]} position={bc.position} style={contentStyle}>
-            <div style={{height: bc.height}}>
-                <Grid
-                    container
-                    justify="flex-start"
-                    alignContent="center"
-                    direction="column"
-                    alignItems="center"
-                    spacing={1}
-                    {...GRID_CONFIGS[bc.contentview]}
-                >
-                    {mapComponents(bc.childs, (Child, childBc) => (
-                        <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} style={calcStyle(childBc)}>
-                            <div style={calcStyleHeight(childBc)}>
-                                <Child {...props} bc={childBc} />
-                            </div>
-                        </Grid>
-                    ))}
-                </Grid>
-            </div>
+            <Grid
+                container
+                style={contentHeight}
+                justify="flex-start"
+                alignContent="center"
+                direction="column"
+                alignItems="center"
+                spacing={0}
+                {...GRID_CONFIGS[bc.contentview]}
+            >
+                {mapComponents(bc.childs, (Child, childBc) => (
+                    <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} style={calcStyle(childBc)}>
+                        <div style={calcStyleHeight(childBc)}>
+                            <Child {...props} bc={childBc} />
+                        </div>
+                    </Grid>
+                ))}
+            </Grid>
         </MaterialAppBar>
     );
 };

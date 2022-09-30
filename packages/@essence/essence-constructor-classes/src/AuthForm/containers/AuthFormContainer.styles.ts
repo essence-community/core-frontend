@@ -1,7 +1,8 @@
+import {IEssenceTheme} from "@essence-community/constructor-share/types";
 import {makeStyles} from "@material-ui/core";
 
 export const useStyles = makeStyles(
-    (theme) => ({
+    (theme: IEssenceTheme) => ({
         form: {
             width: "calc(100% - 104px)",
         },

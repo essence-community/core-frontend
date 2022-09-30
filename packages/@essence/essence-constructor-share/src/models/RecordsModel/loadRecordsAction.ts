@@ -5,7 +5,7 @@ import {v4} from "uuid";
 import {isEqual} from "lodash";
 import {request} from "../../request";
 import {IPageModel, IRecordsModel, FieldValue, IResponse, IRecord} from "../../types";
-import {i18next, getMasterObject} from "../../utils";
+import {i18next, getMasterObject, deepFind} from "../../utils";
 import {
     VALUE_SELF_FIRST,
     VALUE_SELF_ALWAYSFIRST,
@@ -23,6 +23,7 @@ import {
 } from "../../constants";
 import {snackbarStore} from "../SnackbarModel";
 import {isEmpty} from "../../utils/base";
+import {parseMemoize} from "../../utils/parser";
 import {
     IGetFilterData,
     IGetFilterDataOptions,
@@ -178,7 +179,7 @@ export function loadRecordsAction(
         isUserReload = false,
     }: ILoadRecordsAction,
 ): Promise<IRecord | undefined> {
-    const {noglobalmask, defaultvalue} = bc;
+    const {noglobalmask, defaultvalue, defaultvaluerule} = bc;
     const isWaiting = bc[VAR_RECORD_MASTER_ID] || bc.getglobaltostore;
     const {formData} = this;
 
@@ -272,7 +273,7 @@ export function loadRecordsAction(
                         : 0;
 
                     record = records[selectedRecordIndex];
-                    recordIdValue = record ? record[valueField] : undefined;
+                    recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
                     break;
                 case selectedRecordId !== undefined:
                     recordIdValue = selectedRecordId;
@@ -287,7 +288,32 @@ export function loadRecordsAction(
                         : 0;
 
                     record = records[selectedRecordIndex];
-                    recordIdValue = record ? record[valueField] : undefined;
+                    recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
+                    break;
+                case !isEmpty(defaultvalue) &&
+                    defaultvalue !== VALUE_SELF_FIRST &&
+                    defaultvalue !== VALUE_SELF_ALWAYSFIRST &&
+                    this.loadCounter <= 1:
+                    selectedRecordIndex = records.findIndex(
+                        (val) => `${deepFind(val, valueField)[1]}` === `${defaultvalue}`,
+                    );
+                    if (selectedRecordIndex > -1) {
+                        record = records[selectedRecordIndex];
+                        recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
+                    }
+                    break;
+                case !isEmpty(defaultvaluerule) && this.loadCounter <= 1:
+                    const value = parseMemoize(defaultvaluerule!).runer({
+                        get: (name: string) => {
+                            return this.pageStore?.globalValues.get(name);
+                        },
+                    });
+
+                    selectedRecordIndex = records.findIndex((val) => `${deepFind(val, valueField)[1]}` === `${value}`);
+                    if (selectedRecordIndex > -1) {
+                        record = records[selectedRecordIndex];
+                        recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
+                    }
                     break;
                 default:
                     recordIdValue = undefined;

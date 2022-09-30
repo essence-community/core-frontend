@@ -252,6 +252,7 @@ export class SnackbarModel implements ISnackbarModel {
                 const error = response[VAR_RECORD_RES_ERROR];
                 const jtMessage = response[VAR_RESULT_MESSAGE];
                 const formError = response[VAR_RECORD_RES_FORM_ERROR];
+                const stackTrace = response[VAR_RECORD_RES_STACK_TRACE];
                 let isError = false;
                 let isWarn = false;
                 let rec: boolean | IRecord | undefined = false;
@@ -264,8 +265,6 @@ export class SnackbarModel implements ISnackbarModel {
                     isError = this.formError(formError, form, route);
                 }
                 if (isObject(error)) {
-                    const stackTrace = response[VAR_RECORD_RES_STACK_TRACE];
-
                     // eslint-disable-next-line default-param-last
                     forEach(error, (values: string[] = [], code) => {
                         rec =
@@ -325,16 +324,6 @@ export class SnackbarModel implements ISnackbarModel {
                             );
                         }
                     });
-
-                    if (stackTrace) {
-                        this.snackbarOpenAction(
-                            {
-                                status: "debug",
-                                text: stackTrace,
-                            },
-                            route,
-                        );
-                    }
                 }
                 if (isObject(jtMessage)) {
                     forEach(jtMessage, (value: string[][], key: MessageTypeStrings) => {
@@ -355,6 +344,15 @@ export class SnackbarModel implements ISnackbarModel {
                             }
                         }
                     });
+                }
+                if ((isError || isWarn) && stackTrace) {
+                    this.snackbarOpenAction(
+                        {
+                            status: "debug",
+                            text: stackTrace,
+                        },
+                        route,
+                    );
                 }
                 if (!isError && isWarn && warnCallBack) {
                     warnCallBack(warningText);
@@ -501,6 +499,15 @@ export class SnackbarModel implements ISnackbarModel {
             // @ts-ignore
             const callback = this[functionName];
 
+            if (error.extrainfo) {
+                this.snackbarOpenAction({
+                    description: error.extrainfo,
+                    status: "debug",
+                    text: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7", {query: error.query}),
+                    title: `Request ${error.requestId || ""}`,
+                });
+            }
+
             if (callback) {
                 return callback({...responseError, query: error.query}, route, applicationStore);
             }
@@ -514,7 +521,7 @@ export class SnackbarModel implements ISnackbarModel {
             {
                 description: errorData?.[VAR_ERROR_TEXT] || errorData?.[VAR_ERROR_CODE] || errorData?.[VAR_ERROR_ID],
                 status: "error",
-                text: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7", errorData.query),
+                text: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7", {query: errorData.query}),
             },
             route,
         );
@@ -607,6 +614,13 @@ export class SnackbarModel implements ISnackbarModel {
             });
             saveToLocalStore("errorMoveResponse", applicationStore?.history.location.pathname);
             window.location.href = errorData?.[VAR_ERROR_TEXT];
+        }
+    };
+
+    @action
+    reinitSessionAction = (errorData: IErrorData, route?: IRouteRecord, applicationStore?: IApplicationModel) => {
+        if (applicationStore) {
+            applicationStore.authStore.checkAuthAction(applicationStore.history);
         }
     };
 }

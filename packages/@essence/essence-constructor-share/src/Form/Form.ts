@@ -2,6 +2,9 @@ import {action, computed, observable, ObservableMap} from "mobx";
 import {IRecord, IBuilderMode, IBuilderConfig} from "../types";
 import {entriesMapSort} from "../utils/transform";
 import {loggerRoot} from "../constants";
+import {IPageModel} from "../types/PageModel";
+import {FieldValue} from "../types/Base";
+import {VAR_RECORD_ID} from "../constants/variables";
 import {Field} from "./Field";
 import {IField, IFormProps, IForm, IFormHooks, IRegisterFieldOptions} from "./types";
 
@@ -21,14 +24,17 @@ export class Form implements IForm {
     public placement: string;
 
     public bc?: IBuilderConfig;
+    public pageStore?: IPageModel;
 
     constructor(props: IFormProps) {
         this.hooks = props.hooks;
         this.initialValues = props.values;
+        this.valueKey = this.initialValues?.[this.bc?.idproperty ? this.bc.idproperty : VAR_RECORD_ID];
         this.mode = props.mode || "1";
         this.placement = props.placement;
         this.editing = props.editing;
         this.bc = props.bc;
+        this.pageStore = props.pageStore;
     }
 
     @observable public fields: ObservableMap<string, IField> = observable.map();
@@ -49,15 +55,35 @@ export class Form implements IForm {
 
     @observable public validationCount = 0;
 
+    @observable public valueKey: FieldValue;
+
     @computed get values(): IRecord {
         const values: IRecord = {
             ...this.initialValues,
             ...this.extraValue,
         };
+        const keysAndFields = [];
 
         for (const [key, field] of this.fields.entries()) {
             if (key.indexOf(".") === -1) {
                 values[key] = field.output(field, this);
+            } else {
+                keysAndFields.push({field, keys: key.split(".")});
+            }
+        }
+        keysAndFields.sort(({keys: a}, {keys: b}) => b.length - a.length);
+        for (const {keys, field} of keysAndFields) {
+            const last = keys.pop() as string;
+            const val = keys.reduce((res, key) => {
+                if (!res[key]) {
+                    res[key] = {};
+                }
+
+                return res[key] as any;
+            }, values);
+
+            if (!val[last]) {
+                val[last] = field.output(field, this);
             }
         }
 
@@ -196,6 +222,7 @@ export class Form implements IForm {
     @action
     update = (initialValues: IRecord = {}, isReset = false) => {
         this.initialValues = initialValues;
+        this.valueKey = initialValues[this.bc?.idproperty ? this.bc.idproperty : VAR_RECORD_ID];
 
         for (const [, field] of this.fields) {
             const [isExists, value] = field.input(initialValues, field, this);

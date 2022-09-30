@@ -54,7 +54,17 @@ export const FieldSetContainer: React.FC<IClassProps> = (props) => {
             return [true, value.value];
         }
 
-        return field.defaultValue ? [true, field.defaultValue] : [false, undefined];
+        if (field.defaultValue) {
+            return [true, field.defaultValue];
+        }
+
+        if (field.defaultValueFn) {
+            field.defaultValueFn(field, field.onChange, field.onClear);
+
+            return [true, field.value];
+        }
+
+        return [false, undefined];
     }, []);
     const field = useField({bc, clearValue: CLEAR_VALUE, disabled, hidden, isArray: true, output, pageStore});
     const {contentview} = bc;

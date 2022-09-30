@@ -14,7 +14,9 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
     const classes = useStyles();
     const form = React.useContext(FormContext);
     const column = React.useMemo(() => {
-        return bc.column || "TODO: generate uniq column";
+        return bc.column && bc.column.indexOf(".") > -1
+            ? bc.column.replace(".", "###")
+            : bc.column || "TODO: generate uniq column";
     }, [bc.column]);
     const configs = React.useMemo(
         () => ({
@@ -74,7 +76,7 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
                                   datatype: bc.datatype,
                                   format: bc.format,
                                   operator: "le",
-                                  property: column,
+                                  property: column.replace("###", "."),
                                   value: field.value,
                               }
                             : "",
@@ -97,7 +99,7 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
                                   datatype: bc.datatype,
                                   format: bc.format,
                                   operator: "eq",
-                                  property: column,
+                                  property: column.replace("###", "."),
                                   value: field.value,
                               }
                             : "",
@@ -120,7 +122,7 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
                                   datatype: bc.datatype,
                                   format: bc.format,
                                   operator: "ge",
-                                  property: column,
+                                  property: column.replace("###", "."),
                                   value: field.value,
                               }
                             : "",

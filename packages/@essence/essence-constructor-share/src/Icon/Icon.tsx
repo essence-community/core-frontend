@@ -1,6 +1,5 @@
 import * as React from "react";
 import FontAwesomeIcon from "./FontAwesomeIcon";
-import MDIIcon from "./MDIIcon";
 
 interface IProps {
     className?: string;
@@ -20,12 +19,11 @@ interface IChildIconProps {
 
 interface IMapComponents {
     fa: React.ComponentType<IChildIconProps>;
-    mdi: React.ComponentType<IChildIconProps>;
+    mdi?: React.ComponentType<IChildIconProps>;
 }
 
-const mapComponents: IMapComponents = {
+export const mapComponents: IMapComponents = {
     fa: FontAwesomeIcon,
-    mdi: MDIIcon,
 };
 
 export class Icon extends React.PureComponent<IProps> {
@@ -37,6 +35,10 @@ export class Icon extends React.PureComponent<IProps> {
         const {iconfontname, iconfont, ...otherProps} = this.props;
         const Component = mapComponents[iconfontname];
 
-        return Component && iconfont ? <Component iconfont={iconfont} {...otherProps} /> : null;
+        return Component && iconfont ? (
+            <React.Suspense fallback={null}>
+                <Component iconfont={iconfont} {...otherProps} />
+            </React.Suspense>
+        ) : null;
     }
 }

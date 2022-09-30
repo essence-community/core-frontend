@@ -114,21 +114,16 @@ export class PageModel implements IPageModel {
     }
 
     @computed public get isReadOnly(): boolean {
-        if (typeof this.defaultIsReadOnly === "undefined") {
-            const actionEdit = this.route?.[VAR_RECORD_CN_ACTION_EDIT] as any;
+        const actionEdit = this.route?.[VAR_RECORD_CN_ACTION_EDIT] as any;
 
-            if (isEmpty(actionEdit)) {
-                return true;
-            }
-
-            return (
-                (this.applicationStore.authStore.userInfo[VAR_RECORD_CA_ACTIONS] || []).indexOf(
-                    parseInt(actionEdit, 10),
-                ) < 0
-            );
+        if (isEmpty(actionEdit)) {
+            return typeof this.defaultIsReadOnly === "undefined" ? true : this.defaultIsReadOnly;
         }
 
-        return this.defaultIsReadOnly;
+        return (
+            (this.applicationStore.authStore.userInfo[VAR_RECORD_CA_ACTIONS] || []).indexOf(parseInt(actionEdit, 10)) <
+            0
+        );
     }
 
     @computed public get hiddenPage(): boolean {

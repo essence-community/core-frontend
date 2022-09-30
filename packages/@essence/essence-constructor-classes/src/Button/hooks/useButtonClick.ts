@@ -1,13 +1,18 @@
 import * as React from "react";
-import {IBuilderConfig, IPageModel, IBuilderMode} from "@essence-community/constructor-share/types";
-import {VAR_RECORD_MASTER_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
+import {IBuilderConfig, IPageModel, IBuilderMode, FieldValue} from "@essence-community/constructor-share/types";
+import {
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_JL_EDITING,
+    VAR_RECORD_JV_MODE,
+} from "@essence-community/constructor-share/constants";
 import {
     FormContext,
     RecordContext,
     PopoverContext,
     IPopoverContext,
 } from "@essence-community/constructor-share/context";
-import {makeRedirect} from "@essence-community/constructor-share/utils";
+import {makeRedirect, deepFind} from "@essence-community/constructor-share/utils";
 import {reaction} from "mobx";
 import {handers} from "../handlers";
 import {FileInputModel} from "../store/FileInputModel";
@@ -20,6 +25,39 @@ const getHandlerBtn = (bc: IBuilderConfig) => {
     }
 
     return bc.handler;
+};
+
+interface ISetGlobal {
+    setGlobal: IBuilderConfig["setglobal"];
+    pageStore: IPageModel;
+    recordForm?: Record<string, FieldValue>;
+    record?: Record<string, FieldValue>;
+    mode: string;
+    editing: boolean;
+}
+
+const setGlobal = ({editing, mode, pageStore, recordForm = {}, record = {}, setGlobal}: ISetGlobal) => {
+    const globalValues: Record<string, FieldValue> = {};
+
+    setGlobal.forEach(({in: keyIn, out}) => {
+        const [isExistForm, resForm] = deepFind(recordForm, keyIn);
+
+        if (isExistForm || Object.prototype.hasOwnProperty.call(recordForm, out)) {
+            globalValues[out] = isExistForm && keyIn ? resForm : record[out];
+        } else {
+            const [isExist, res] = deepFind(record, keyIn);
+
+            if (!isExist && keyIn === VAR_RECORD_JL_EDITING) {
+                globalValues[out] = editing;
+            } else if (!isExist && keyIn === VAR_RECORD_JV_MODE) {
+                globalValues[out] = mode;
+            } else {
+                globalValues[out] = isExist && keyIn ? res : record[out];
+            }
+        }
+    });
+
+    pageStore.updateGlobalValues(globalValues);
 };
 
 interface IUserButtonClickProps {
@@ -48,6 +86,17 @@ export function useButtonClick(
         let promise = null;
         const handlerBtn = getHandlerBtn(bc);
         const defaultHandler = handers[handlerBtn];
+
+        if (bc.setglobal && bc.setglobal.length) {
+            setGlobal({
+                editing: formCtx?.editing,
+                mode: bc.modeaction || bc.mode,
+                pageStore,
+                record: recordCtx,
+                recordForm: formCtx?.values,
+                setGlobal: bc.setglobal,
+            });
+        }
 
         if (defaultHandler) {
             promise = defaultHandler({

@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys */
 import {IEssenceTheme} from "@essence-community/constructor-share";
 import {makeStyles} from "@material-ui/core/styles";
 
@@ -29,6 +30,10 @@ export const useStyles = makeStyles(
             "& .MuiToolbar-gutters": {
                 paddingLeft: 0,
                 paddingRight: 0,
+            },
+            "& .MuiGrid-spacing-xs-1": {
+                margin: 0,
+                width: "100%",
             },
             "& .MuiToolbar-regular": {
                 minHeight: "100%",

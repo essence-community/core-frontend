@@ -97,7 +97,8 @@ export function getDebugPanelConfig(bc: IBuilderConfig): IBuilderConfig {
         [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}_debug`,
         [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
         defaultvalue: "debug",
-        hiddenrules: "!(499 in gSessCaActions)",
+        hidden: true,
+        hiddenrules: "!(515 in g_sess_ca_actions)",
         type: "NONE",
     };
 }

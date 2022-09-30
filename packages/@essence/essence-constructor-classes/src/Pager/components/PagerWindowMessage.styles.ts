@@ -1,32 +1,37 @@
 import {makeStyles} from "@material-ui/core";
 import {IEssenceTheme} from "@essence-community/constructor-share";
 
-export const useStyles = makeStyles((theme: IEssenceTheme) => ({
-    content: {
-        textAlign: "center",
-    },
-    rootActions: {
-        backgroundColor: theme.essence.ui.modal.palette.background,
-        padding: 6,
-    },
-    rootContent: {
-        padding: 17,
-    },
-    rootDialog: {},
-    rootDialogWidthMd: {
-        "& $content": {
-            maxWidth: 600,
-            minWidth: 150,
+export const useStyles = makeStyles(
+    (theme: IEssenceTheme) => ({
+        content: {
+            textAlign: "center",
         },
-        maxWidth: 700,
-        minWidth: 250,
-    },
-    rootDialogWidthSm: {
-        "& $content": {
-            maxWidth: 150,
-            minWidth: 150,
+        rootActions: {
+            backgroundColor: theme.essence.ui.modal.palette.background,
+            padding: 6,
         },
-        maxWidth: 250,
-        minWidth: 250,
+        rootContent: {
+            padding: 17,
+        },
+        rootDialog: {},
+        rootDialogWidthMd: {
+            "& $content": {
+                maxWidth: 600,
+                minWidth: 150,
+            },
+            maxWidth: 700,
+            minWidth: 250,
+        },
+        rootDialogWidthSm: {
+            "& $content": {
+                maxWidth: 150,
+                minWidth: 150,
+            },
+            maxWidth: 250,
+            minWidth: 250,
+        },
+    }),
+    {
+        name: "EssencePagerWindowMessage",
     },
-}));
+);

@@ -4,7 +4,7 @@ import {IEssenceTheme} from "@essence-community/constructor-share/types/Theme";
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         editModeLabel:
-            theme.palette.type === "dark"
+            theme.essence.layoutTheme === 2
                 ? {
                       color: theme.palette.common.white,
                       width: 15,

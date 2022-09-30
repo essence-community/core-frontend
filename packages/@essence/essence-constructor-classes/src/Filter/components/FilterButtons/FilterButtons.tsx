@@ -14,7 +14,7 @@ import {FilterModel} from "../../store/FilterModel";
 import {useStyles} from "./FilterButtons.styles";
 
 interface IFilterButtonsProps extends IClassProps {
-    styleTheme: "dark" | "light";
+    layoutTheme: number;
     title?: string | JSX.Element;
     store: FilterModel;
 }
@@ -22,7 +22,7 @@ interface IFilterButtonsProps extends IClassProps {
 const GRID_FULL_WIDTH = 12;
 
 export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
-    const {store, styleTheme, bc, title, ...classProps} = props;
+    const {store, layoutTheme, bc, title, ...classProps} = props;
     const classes = useStyles();
     const form = React.useContext(FormContext);
 
@@ -59,7 +59,7 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-reset`,
                 [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
                 handler: "onReset",
-                iconfont: styleTheme === "light" ? "broom" : "eraser",
+                iconfont: layoutTheme === 1 ? "mdi-broom" : "mdi-eraser",
                 iconfontname: "mdi",
                 noform: true,
                 onlyicon: true,
@@ -78,7 +78,7 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
                 uitype: "14",
             } as IBuilderConfig,
         }),
-        [bc, styleTheme],
+        [bc, layoutTheme],
     );
 
     return useObserver(() => {
@@ -87,7 +87,7 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
             {
                 ...btnsFilter.buttonSearchConfig,
                 disabled:
-                    (styleTheme === "dark" && store.isOpen === false) ||
+                    (layoutTheme === 2 && store.isOpen === false) ||
                     (form &&
                         ((!form.isValid && form.validationCount === 0) ||
                             (!store.isOpen && form.isExistRequired && form.validationCount === 0)))
@@ -98,7 +98,7 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
             },
             {
                 ...btnsFilter.buttonResetConfig,
-                disabled: styleTheme === "dark" && store.isOpen === false ? true : false,
+                disabled: layoutTheme === 2 && store.isOpen === false ? true : false,
             },
         ];
         const childsBtns = bc.topbtn
@@ -108,12 +108,12 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
         return (
             <Grid
                 item
-                xs={styleTheme === "light" ? GRID_FULL_WIDTH : false}
+                xs={layoutTheme === 1 ? GRID_FULL_WIDTH : false}
                 className={cn(classes.filterButtons, {
                     [classes.filterButtonsCollect]: bc.topbtn,
                 })}
             >
-                {styleTheme === "dark" ? (
+                {layoutTheme === 2 ? (
                     <Collapse in={store.isOpen} collapsedHeight="42px" className={classes.filterButtonsContainer}>
                         <div className={classes.filterButtonsCollapse}>
                             {mapComponents(childsBtns, (ChildCmp, childBc) => (
@@ -129,7 +129,7 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
                     </div>
                 )}
 
-                {styleTheme === "light" ? (
+                {layoutTheme === 1 ? (
                     <Grid item xs={12} className={classes.titleContainer}>
                         <Typography variant="body2" className={classes.titleTypography} data-qtip={title}>
                             {title}

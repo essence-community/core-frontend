@@ -1,12 +1,22 @@
 import {stringify} from "qs";
 import axios from "axios";
-import {IRequest, IRequestCheckError} from "../types";
+import {IRequest, IRequestCheckError, IRequestCheckSuccessResult} from "../types";
 import {settingsStore} from "../models/SettingsModel";
 import {IRecord} from "../types/Base";
-import {VAR_SETTING_GATE_URL, META_OUT_RESULT, META_PAGE_OBJECT} from "../constants";
+import {
+    VAR_SETTING_GATE_URL,
+    META_OUT_RESULT,
+    META_PAGE_OBJECT,
+    VAR_ERROR_CODE,
+    VAR_ERROR_TEXT,
+    VAR_ERROR_ID,
+    loggerRoot,
+} from "../constants";
 import {ResponseError} from "./error";
+import {checkInterceptor} from "./interceptors";
 
 const MILLISECOND = 1000;
+const logger = loggerRoot.extend("Request");
 
 const checkError = ({responseJSON, query, list}: IRequestCheckError) => {
     let isError = false;
@@ -15,16 +25,22 @@ const checkError = ({responseJSON, query, list}: IRequestCheckError) => {
         isError = true;
     }
 
-    if (list && !Array.isArray(responseJSON.data)) {
+    if (
+        list &&
+        (responseJSON.success === true || responseJSON.success === "true") &&
+        !Array.isArray(responseJSON.data)
+    ) {
         isError = true;
     }
 
     if (isError) {
-        throw new ResponseError("static:63538aa4bcd748349defdf7510fc9c10", responseJSON, query);
+        throw new ResponseError("static:63538aa4bcd748349defdf7510fc9c10", responseJSON, query, {
+            requestId: responseJSON.metaData?.requestId,
+        });
     }
 };
 
-const parseResponse = ({responseJSON, list}: IRequestCheckError) => {
+const parseResponse = ({responseJSON, list}: IRequestCheckSuccessResult) => {
     const {data} = responseJSON;
 
     if (list) {
@@ -41,23 +57,24 @@ const parseResponse = ({responseJSON, list}: IRequestCheckError) => {
 };
 
 // eslint-disable-next-line max-statements
-export const request = async <R = IRecord | IRecord[]>({
-    json,
-    query,
-    action = "dml",
-    [META_PAGE_OBJECT]: pageObjectName = "",
-    session,
-    body,
-    list = true,
-    headers = {},
-    mode,
-    plugin,
-    timeout = 30,
-    gate = settingsStore.settings[VAR_SETTING_GATE_URL],
-    method = "POST",
-    formData,
-    onUploadProgress,
-}: IRequest): Promise<R> => {
+export const request = async <R = IRecord | IRecord[]>(requestParams: IRequest): Promise<R> => {
+    const {
+        json,
+        query,
+        action = "dml",
+        [META_PAGE_OBJECT]: pageObjectName = "",
+        session,
+        body,
+        list = true,
+        headers = {},
+        mode,
+        plugin,
+        timeout = 30,
+        gate = settingsStore.settings[VAR_SETTING_GATE_URL],
+        method = "POST",
+        formData,
+        onUploadProgress,
+    } = requestParams;
     const queryParams = {
         action: query === "Modify" || mode === "8" ? (formData ? "upload" : action) : undefined,
         plugin,
@@ -88,13 +105,20 @@ export const request = async <R = IRecord | IRecord[]>({
         const response = await axios({
             data: formData ? formData : stringify(data),
             headers: {
-                ...headers,
+                ...(headers || {}),
                 "Content-type": formData ? undefined : "application/x-www-form-urlencoded",
             },
             method,
             onUploadProgress,
             timeout: timeout * MILLISECOND,
             url,
+            validateStatus: () => true,
+        });
+
+        await checkInterceptor(requestParams, {
+            data: response.data,
+            headers: response.headers,
+            status: response.status,
         });
 
         responseJSON = response.data;
@@ -104,10 +128,10 @@ export const request = async <R = IRecord | IRecord[]>({
         const response = await fetch(url, {
             body: formData ? formData : stringify(data),
             ...(formData
-                ? {...(Object.keys(headers).length ? {headers} : {})}
+                ? {...(headers && Object.keys(headers).length ? {headers} : {})}
                 : {
                       headers: {
-                          ...headers,
+                          ...(headers || {}),
                           "Content-type": "application/x-www-form-urlencoded",
                       },
                   }),
@@ -117,7 +141,26 @@ export const request = async <R = IRecord | IRecord[]>({
 
         clearTimeout(timeoutId);
 
-        responseJSON = await response.json();
+        const res = await response.text();
+
+        await checkInterceptor(requestParams, {
+            data: res,
+            headers: response.headers,
+            status: response.status,
+        });
+
+        try {
+            responseJSON = JSON.parse(res);
+        } catch (e) {
+            logger(`Parse Error data: \n ${res}`, e);
+            responseJSON = {
+                [VAR_ERROR_CODE]: 500,
+                [VAR_ERROR_ID]: "Parse Error data",
+                [VAR_ERROR_TEXT]: "Parse Error data",
+                metaData: {},
+                success: false,
+            };
+        }
     }
 
     checkError({list, query, responseJSON});

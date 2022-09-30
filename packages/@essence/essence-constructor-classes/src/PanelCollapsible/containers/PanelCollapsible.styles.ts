@@ -4,7 +4,7 @@ import {IEssenceTheme} from "@essence-community/constructor-share/types/Theme";
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         baseLabelGrid:
-            theme.palette.type === "light"
+            theme.essence.layoutTheme === 1
                 ? {
                       "&:focus": {
                           "& $chevronIcon": {
@@ -22,7 +22,7 @@ export const useStyles = makeStyles(
                       },
                   },
         chevronIcon:
-            theme.palette.type === "light"
+            theme.essence.layoutTheme === 1
                 ? {
                       border: "2px solid transparent",
                       borderRadius: 4,
@@ -37,7 +37,7 @@ export const useStyles = makeStyles(
                       margin: "0 15px",
                   },
         closedLabelGrid:
-            theme.palette.type === "light"
+            theme.essence.layoutTheme === 1
                 ? {
                       "&:before": {
                           borderTop: `5px solid ${theme.palette.secondary.light}`,
@@ -61,7 +61,7 @@ export const useStyles = makeStyles(
             width: "100%",
         },
         collapseContent:
-            theme.palette.type === "light"
+            theme.essence.layoutTheme === 1
                 ? {
                       border: `1px solid ${theme.essence.palette.grey.main}`,
                       borderTop: "0 !important",
@@ -78,7 +78,7 @@ export const useStyles = makeStyles(
             zIndex: 4,
         },
         labelBox:
-            theme.palette.type === "light"
+            theme.essence.layoutTheme === 1
                 ? {
                       backgroundColor: theme.palette.common.white,
                       zIndex: 1,
@@ -89,7 +89,7 @@ export const useStyles = makeStyles(
             paddingRight: 10,
         },
         labelGrid:
-            theme.palette.type === "light"
+            theme.essence.layoutTheme === 1
                 ? {
                       "&:before": {
                           borderLeft: `1px solid ${theme.essence.palette.grey.main}`,
@@ -118,13 +118,13 @@ export const useStyles = makeStyles(
                       height: 35,
                   },
         labelParentBox:
-            theme.palette.type === "light"
+            theme.essence.layoutTheme === 1
                 ? {
                       width: `calc(100% - ${theme.spacing(4)}px)`,
                   }
                 : {},
         labelTypography:
-            theme.palette.type === "light"
+            theme.essence.layoutTheme === 1
                 ? {
                       backgroundColor: theme.palette.common.white,
                       fontSize: 16,

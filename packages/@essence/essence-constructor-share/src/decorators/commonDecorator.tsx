@@ -5,8 +5,10 @@ import {VAR_RECORD_MASTER_ID} from "../constants";
 import {IClassProps} from "../types/Class";
 import {parseMemoize} from "../utils/parser";
 import {IRecord} from "../types";
-import {RecordContext} from "../context";
+import {RecordContext, FormContext, ParentFieldContext} from "../context";
 import {isDisabled} from "../hooks/useCommon/isDisabled";
+import {deepFind} from "../utils";
+import {IForm, IParentFieldContext} from "../Form";
 
 export interface ICommonHOCState {
     disabled: boolean;
@@ -14,30 +16,34 @@ export interface ICommonHOCState {
     readOnly?: boolean;
 }
 
+export interface ICommonHOCProps extends IClassProps {
+    recordContext?: IRecord;
+    formContext?: IForm;
+    parentFieldContext?: IParentFieldContext;
+    originProps: IClassProps;
+}
+
 // eslint-disable-next-line max-lines-per-function
 export function commonDecorator<Props extends IClassProps>(
     WrappedComponent: React.ComponentType<Props>,
 ): React.ComponentType<Props> {
-    class CommonHOC extends React.Component<Props, ICommonHOCState> {
-        static contextType = RecordContext;
-
+    class CommonHOC extends React.Component<ICommonHOCProps, ICommonHOCState> {
         public state: ICommonHOCState = {
             disabled: this.props.bc.disabled === true,
             hidden: this.props.bc.hidden === true,
-            readOnly: this.props.bc.readonly,
+            readOnly:
+                typeof this.props.bc.readonly === "undefined"
+                    ? this.props.pageStore.isReadOnly
+                    : this.props.bc.readonly,
         };
 
         private disposers: IReactionDisposer[] = [];
 
         private unmounted = false;
 
-        private prevContext: IRecord;
-
         public componentDidMount() {
             const {bc} = this.props;
             const {reqsel, disabledrules, hiddenrules, readonlyrules, disabledemptymaster} = bc;
-
-            this.prevContext = this.context;
 
             if ((reqsel && bc[VAR_RECORD_MASTER_ID]) || disabledrules || disabledemptymaster) {
                 this.disposers.push(autorun(this.handleDisabled));
@@ -52,7 +58,7 @@ export function commonDecorator<Props extends IClassProps>(
             }
         }
 
-        public componentDidUpdate(prevProps: IClassProps) {
+        public componentDidUpdate(prevProps: ICommonHOCProps) {
             if (prevProps.bc.disabled !== this.props.bc.disabled) {
                 this.handleDisabled();
             }
@@ -62,7 +68,11 @@ export function commonDecorator<Props extends IClassProps>(
             if (prevProps.bc.readonly !== this.props.bc.readonly) {
                 this.handleReadOnly();
             }
-            if (this.prevContext !== this.context) {
+            if (
+                prevProps.recordContext !== this.props.recordContext ||
+                prevProps.formContext !== this.props.formContext ||
+                prevProps.parentFieldContext !== this.props.parentFieldContext
+            ) {
                 const {reqsel, disabledrules, hiddenrules, readonlyrules, disabledemptymaster} = this.props.bc;
 
                 if ((reqsel && this.props.bc[VAR_RECORD_MASTER_ID]) || disabledrules || disabledemptymaster) {
@@ -76,8 +86,6 @@ export function commonDecorator<Props extends IClassProps>(
                 if (readonlyrules) {
                     this.handleReadOnly();
                 }
-
-                this.prevContext = this.context;
             }
         }
 
@@ -89,7 +97,7 @@ export function commonDecorator<Props extends IClassProps>(
         }
 
         public render() {
-            const {disabled, visible} = this.props;
+            const {disabled, visible, originProps} = this.props;
             const hidden = this.props.hidden || this.state.hidden;
 
             if (hidden) {
@@ -98,7 +106,7 @@ export function commonDecorator<Props extends IClassProps>(
 
             return (
                 <WrappedComponent
-                    {...this.props}
+                    {...(originProps as any)}
                     disabled={disabled || this.state.disabled}
                     hidden={hidden}
                     visible={hidden || visible}
@@ -108,10 +116,39 @@ export function commonDecorator<Props extends IClassProps>(
         }
 
         private getValue = (name: string) => {
-            const record = this.context;
-            const {pageStore} = this.props;
+            const {recordContext, formContext, parentFieldContext, pageStore} = this.props;
 
-            return record && name.charAt(0) !== "g" ? record[name] : pageStore.globalValues.get(name);
+            if (name.charAt(0) === "g") {
+                return pageStore.globalValues.get(name);
+            }
+
+            if (recordContext) {
+                const [isExistRecord, recValue] = deepFind(recordContext, name);
+
+                if (isExistRecord) {
+                    return recValue;
+                }
+            }
+
+            if (formContext) {
+                const values = formContext.values;
+
+                if (parentFieldContext) {
+                    const [isExistParent, val] = deepFind(values, `${parentFieldContext.key}.${name}`);
+
+                    if (isExistParent) {
+                        return val;
+                    }
+                }
+
+                const [isExist, val] = deepFind(values, name);
+
+                if (isExist) {
+                    return val;
+                }
+            }
+
+            return undefined;
         };
 
         private handleDisabled = () => {
@@ -179,7 +216,12 @@ export function commonDecorator<Props extends IClassProps>(
                 return parseMemoize(readonlyrules).runer({get: this.getValue});
             }
 
-            return readOnly;
+            return (
+                readOnly ||
+                (typeof this.props.bc.readonly === "undefined"
+                    ? this.props.pageStore.isReadOnly
+                    : this.props.bc.readonly)
+            );
         }
 
         private getReadOnly = () => {
@@ -189,9 +231,37 @@ export function commonDecorator<Props extends IClassProps>(
                 return this.props.readOnly;
             }
 
-            return readOnly || this.state.readOnly;
+            if (
+                typeof this.props.bc.readonly === "boolean" &&
+                !this.props.bc.readonly &&
+                !this.props.bc.readonlyrules
+            ) {
+                return this.props.bc.readonly;
+            }
+
+            return (
+                readOnly ||
+                this.state.readOnly ||
+                (typeof this.props.bc.readonly === "undefined"
+                    ? this.props.pageStore.isReadOnly
+                    : this.props.bc.readonly)
+            );
         };
     }
 
-    return CommonHOC;
+    return (props) => {
+        const record = React.useContext(RecordContext);
+        const form = React.useContext(FormContext);
+        const parentField = React.useContext(ParentFieldContext);
+
+        return (
+            <CommonHOC
+                {...props}
+                originProps={props}
+                recordContext={record}
+                formContext={form}
+                parentFieldContext={parentField}
+            />
+        );
+    };
 }

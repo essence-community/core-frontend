@@ -2,7 +2,7 @@ import React from "react";
 import {reaction} from "mobx";
 import {IBuilderConfig, IPageModel, IStoreBaseModel, IRecord} from "../types";
 import {IField} from "../Form";
-import {isEmpty} from "../utils";
+import {deepFind, isEmpty} from "../utils";
 
 interface IUseFieldSetGlobalProps {
     bc: IBuilderConfig;
@@ -49,13 +49,13 @@ export function useFieldSetGlobal({field, pageStore, bc, store}: IUseFieldSetGlo
                     setglobal.forEach(({in: inKey, out}) => {
                         if (isEmpty(inKey)) {
                             if (valuefield.length === 1) {
-                                values[out] = selectedEntries.map((value) => value[1][valuefield[0].in]);
+                                values[out] = selectedEntries.map((value) => deepFind(value[1], valuefield[0].in)[1]);
                             } else {
                                 values[out] = selectedEntries.map((value) => {
                                     const obj: IRecord = {};
 
                                     valuefield.forEach(({in: keyIn, out}) => {
-                                        obj[out || keyIn] = value[1][keyIn];
+                                        obj[out || keyIn] = deepFind(value[1], keyIn)[1];
                                     });
 
                                     return obj;
@@ -64,8 +64,9 @@ export function useFieldSetGlobal({field, pageStore, bc, store}: IUseFieldSetGlo
                         } else if (inKey) {
                             values[out] = selectedEntries.map((value) => {
                                 const obj: IRecord = {};
+                                const [isExist, res] = deepFind(value[1], inKey);
 
-                                obj[inKey] = value[1][inKey];
+                                obj[inKey] = isExist ? res : value[1][inKey];
 
                                 return obj;
                             });
@@ -88,7 +89,9 @@ export function useFieldSetGlobal({field, pageStore, bc, store}: IUseFieldSetGlo
                     const {out} = keys;
 
                     if (isStoreRecord && store) {
-                        values[out] = selectedRecord?.[keys.in || bc.idproperty || field.key];
+                        const [isExist, res] = deepFind(selectedRecord || {}, keyIn);
+
+                        values[out] = isExist ? res : selectedRecord?.[keys.in || bc.idproperty || field.key];
 
                         if (isEmpty(values[out])) {
                             values[out] = globalValues.has(out) ? null : undefined;

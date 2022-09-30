@@ -19,36 +19,38 @@ import * as React from "react";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {reaction} from "mobx";
-import {ApplicationContext} from "@essence-community/constructor-share/context";
 
-const getComponentBc = (bc: IBuilderConfig, defaultValue?: string): IBuilderConfig => ({
+const getLang = () => getFromStore("lang", settingsStore.settings[VAR_SETTING_LANG]);
+const getComponentBc = (bc: IBuilderConfig): IBuilderConfig => ({
     [VAR_RECORD_DISPLAYED]: "static:4ae012ef02dd4cf4a7eafb422d1db827",
     [VAR_RECORD_OBJECT_ID]: bc[VAR_RECORD_OBJECT_ID],
     [VAR_RECORD_PAGE_OBJECT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PARENT_ID],
     [VAR_RECORD_QUERY_ID]: bc[VAR_RECORD_QUERY_ID] || "MTGetLang",
     autoload: true,
-    column: bc.column || "lang",
+    column: bc.column || "cv_sys_lang",
     datatype: "combo",
-    defaultvalue: defaultValue,
+    defaultvalue: getLang(),
     displayfield: bc.displayfield || "cv_name",
     getglobal: VAR_SETTING_LANG,
+    idproperty: "ck_id",
     noglobalmask: true,
+    querymode: "remote",
+    readonly: false,
     setglobal: [{in: "ck_id", out: VAR_SETTING_LANG}],
     type: "IFIELD",
-    valuefield: bc.valuefield || [{in: "ck_id", out: bc.column || "lang"}],
+    valuefield: bc.valuefield || [{in: "ck_id"}],
 });
-
-const getLang = () => getFromStore("lang", settingsStore.settings[VAR_SETTING_LANG]);
 
 export const LangCombo: React.FC<IClassProps> = (props) => {
     const {pageStore} = props;
-    const applicationStore = React.useContext(ApplicationContext);
-    const [currentLang, setCurrentLang] = React.useState(getLang);
+    const {applicationStore} = pageStore;
+    // eslint-disable-next-line no-unused-vars
+    const [_currentLang, setCurrentLang] = React.useState(getLang);
 
     React.useEffect(() => {
         const fn = async () => {
-            const curLang = getFromStore("lang") as string | undefined;
+            const curLang = getLang();
 
             if (curLang) {
                 setCurrentLang((oldLang) => {
@@ -57,10 +59,11 @@ export const LangCombo: React.FC<IClassProps> = (props) => {
                             applicationStore.updateGlobalValuesAction({
                                 [VAR_SETTING_LANG]: curLang || "",
                             });
+                        } else {
+                            pageStore.updateGlobalValues({
+                                [VAR_SETTING_LANG]: curLang,
+                            });
                         }
-                        pageStore.updateGlobalValues({
-                            [VAR_SETTING_LANG]: curLang,
-                        });
 
                         return curLang;
                     }
@@ -83,16 +86,25 @@ export const LangCombo: React.FC<IClassProps> = (props) => {
                 applicationStore.updateGlobalValuesAction({
                     [VAR_SETTING_LANG]: curLang || "",
                 });
+            } else {
+                pageStore.updateGlobalValues({
+                    [VAR_SETTING_LANG]: curLang,
+                });
             }
+        }
+    }, [applicationStore, pageStore]);
+
+    const bc = React.useMemo(() => getComponentBc(props.bc), [props.bc]);
+
+    React.useEffect(() => {
+        if (!pageStore.globalValues.get(VAR_SETTING_LANG)) {
+            const curLang = getLang();
+
             pageStore.updateGlobalValues({
                 [VAR_SETTING_LANG]: curLang,
             });
         }
-    }, [applicationStore, pageStore]);
 
-    const bc = React.useMemo(() => getComponentBc(props.bc, currentLang), [props.bc, currentLang]);
-
-    React.useEffect(() => {
         return reaction(
             () => pageStore.globalValues.get(VAR_SETTING_LANG),
             (lang: string) => {
@@ -102,15 +114,11 @@ export const LangCombo: React.FC<IClassProps> = (props) => {
                     saveToStore("lang", lang);
                     setCurrentLang(lang);
                     i18next.changeLanguage(lang);
-                } else if (!lang) {
                     if (applicationStore) {
                         applicationStore.updateGlobalValuesAction({
                             [VAR_SETTING_LANG]: curLang || "",
                         });
                     }
-                    pageStore.updateGlobalValues({
-                        [VAR_SETTING_LANG]: curLang,
-                    });
                 }
             },
         );

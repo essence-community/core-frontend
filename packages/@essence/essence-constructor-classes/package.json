@@ -24,12 +24,12 @@
     "qs": "^6.9.4",
     "rc-calendar": "^9.15.11",
     "rc-time-picker": "^3.7.3",
-    "react": "16.13.1",
+    "react": "^16.14.0",
     "react-color": "^2.18.1",
-    "react-dom": "^16.13.1",
+    "react-dom": "^16.14.0",
     "react-markdown": "^7.1.0",
     "react-number-format": "^4.4.1",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.3.0"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.10",

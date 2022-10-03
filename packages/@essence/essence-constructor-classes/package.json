@@ -4,7 +4,10 @@
   "description": "Classes implementation for constructor",
   "main": "src/index.js",
   "repository": "https://github.com/essence-community/core-frontend",
-  "author": "Oleh Kutsenko",
+  "author": [
+    "Oleh Kutsenko",
+    "Ivan Artemov (artemov_is@tehnobear.ru)"
+  ],
   "license": "MIT",
   "private": false,
   "scripts": {

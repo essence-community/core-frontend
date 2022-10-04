@@ -6,7 +6,7 @@ import {
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {settingsStore} from "@essence-community/constructor-share/models";
 import {Tab, Typography} from "@material-ui/core";
-import cn from "classnames";
+import cn from "clsx";
 import * as React from "react";
 import {useStyles} from "./OpenPageTab.styles";
 import {IOpenTabProps} from "./OpenPageTab.types";

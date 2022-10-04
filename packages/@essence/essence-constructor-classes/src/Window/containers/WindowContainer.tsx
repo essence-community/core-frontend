@@ -1,5 +1,5 @@
 import * as React from "react";
-import cn from "classnames";
+import cn from "clsx";
 import {Grid, DialogTitle, Checkbox, FormControlLabel, Modal, Paper, Backdrop} from "@material-ui/core";
 import {toColumnStyleWidth, useTranslation, noop} from "@essence-community/constructor-share/utils";
 import {mapComponents} from "@essence-community/constructor-share/components";

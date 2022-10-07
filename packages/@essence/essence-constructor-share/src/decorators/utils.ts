@@ -1,6 +1,6 @@
 import {IBuilderConfig, IPageModel} from "../types";
 import {VAR_RECORD_MASTER_ID} from "../constants";
-import {getMasterObject} from "../utils";
+import {getMasterObject, isEmpty} from "../utils";
 
 interface ICheckAutoloadPropsType {
     bc: IBuilderConfig;
@@ -19,7 +19,10 @@ export function checkAutoload({bc, pageStore}: ICheckAutoloadPropsType) {
     if (bc[VAR_RECORD_MASTER_ID] && pageStore) {
         const masterValues = getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, bc.getmastervalue);
 
-        return masterValues ? Object.keys(masterValues).length > 0 : false;
+        return masterValues
+            ? Object.keys(masterValues).length > 0 &&
+                  Object.values(masterValues).filter((val) => !isEmpty(val)).length > 0
+            : false;
     }
 
     return false;

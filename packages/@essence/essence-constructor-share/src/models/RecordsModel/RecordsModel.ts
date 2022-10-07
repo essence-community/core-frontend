@@ -21,7 +21,7 @@ import {
     IRecordsSearchOptions,
     IRouteRecord,
 } from "../../types";
-import {i18next, debounce, deepFind} from "../../utils";
+import {i18next, debounce, deepFind, getMasterObject} from "../../utils";
 import {
     loggerRoot,
     VAR_RECORD_ID,
@@ -219,7 +219,7 @@ export class RecordsModel implements IRecordsModel {
                     this.recordsState = {
                         isUserReload: isUserReload ? isUserReload : false,
                         records: [...this.bc.records],
-                        status: "load",
+                        status,
                     };
                 }
 
@@ -228,6 +228,30 @@ export class RecordsModel implements IRecordsModel {
                 }
 
                 return Promise.resolve();
+            }
+
+            if (
+                this.bc[VAR_RECORD_MASTER_ID] &&
+                !this.bc.autoload &&
+                this.bc.reqsel &&
+                this.bc.getmastervalue &&
+                this.bc.getmastervalue?.length > 0
+            ) {
+                const masterValues = getMasterObject(
+                    this.bc[VAR_RECORD_MASTER_ID],
+                    this.pageStore,
+                    this.bc.getmastervalue,
+                );
+
+                if (
+                    masterValues &&
+                    (Object.keys(masterValues).length === 0 ||
+                        Object.values(masterValues).filter((val) => !isEmpty(val)).length === 0)
+                ) {
+                    this.clearRecordsAction();
+
+                    return this.selectedRecord;
+                }
             }
 
             return loadRecordsAction.call(this, {

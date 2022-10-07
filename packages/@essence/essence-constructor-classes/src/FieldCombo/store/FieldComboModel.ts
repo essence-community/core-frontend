@@ -167,22 +167,22 @@ export class FieldComboModel extends StoreBaseModel {
     };
 
     @action
-    resetAction = () => {
+    resetAction = async () => {
         this.inputValue = "";
         this.lastValue = CLEAR_VALUE;
-        this.recordsStore.searchAction({}, {reset: true});
-        this.recordsStore.setSelectionAction(undefined);
+        await this.recordsStore.searchAction({}, {reset: true});
+        await this.recordsStore.setSelectionAction(undefined);
         if (this.bc.valuefield && this.bc.valuefield.length > 1) {
             this.patchForm(this.field, {});
         }
     };
 
     @action
-    clearAction = () => {
+    clearAction = async () => {
         this.inputValue = "";
         this.lastValue = CLEAR_VALUE;
-        this.recordsStore.searchAction({}, {noLoad: true, reset: true});
-        this.recordsStore.setSelectionAction(undefined);
+        await this.recordsStore.searchAction({}, {noLoad: true, reset: true});
+        await this.recordsStore.setSelectionAction(undefined);
         if (this.bc.valuefield && this.bc.valuefield.length > 1) {
             this.patchForm(this.field, {});
         }

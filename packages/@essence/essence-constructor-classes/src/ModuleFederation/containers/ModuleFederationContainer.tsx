@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Grid} from "@material-ui/core";
 import {deepFind, toColumnStyleWidthBc} from "@essence-community/constructor-share/utils/transform";
-import {IClassProps, IPageModel} from "@essence-community/constructor-share/types";
+import {IClassProps, IModuleClassProps, IPageModel} from "@essence-community/constructor-share/types";
 import {loadRemoteModule} from "@essence-community/constructor-share/utils/federationModule";
 import {snackbarStore} from "@essence-community/constructor-share/models";
 import {
@@ -12,7 +12,9 @@ import {
 import {parseMemoize} from "@essence-community/constructor-share/utils";
 import {RecordContext, FormContext, ParentFieldContext} from "@essence-community/constructor-share/context";
 import {reaction} from "mobx";
+import {useModel} from "@essence-community/constructor-share/hooks/useModel";
 import {IBuilderClassConfig} from "../types";
+import {ModuleFederationModel} from "../store/ModuleFederationModel";
 import {useStyles} from "./ModuleFederationContainer.style";
 
 const DEFAULT_PROPS = {};
@@ -44,13 +46,26 @@ const checkValue = (
 };
 
 export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
-    const {bc, disabled, pageStore} = props;
-    const [storeComponent, setStoreComponent] = React.useState(null);
+    const {bc, disabled, hidden, pageStore} = props;
+    const [storeComponent, setStoreComponent] = React.useState<{Component: React.FC<IModuleClassProps>}>(null);
     const [propsComponent, setPropsComponent] = React.useState(DEFAULT_PROPS);
     const recordContext = React.useContext(RecordContext);
     const formContext = React.useContext(FormContext);
     const parentFieldContext = React.useContext(ParentFieldContext);
+    const [store] = useModel((options) => new ModuleFederationModel(options), {
+        applicationStore: pageStore.applicationStore,
+        bc,
+        disabled,
+        hidden,
+        pageStore,
+    });
     const classes = useStyles();
+
+    React.useEffect(() => {
+        store.setFormContext(formContext);
+        store.setParentFieldContext(parentFieldContext);
+        store.setRecordContext(recordContext);
+    }, [formContext, parentFieldContext, recordContext, store]);
 
     const contentStyle = React.useMemo(
         () => ({
@@ -136,12 +151,14 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
     }, [bc, formContext, pageStore, parentFieldContext, recordContext]);
 
     const finalPropsComponent = React.useMemo(
-        () => ({
-            style: contentStyle,
-            ...(props ? props : DEFAULT_PROPS),
-            ...(propsComponent ? propsComponent : DEFAULT_PROPS),
-        }),
-        [contentStyle, props, propsComponent],
+        () =>
+            ({
+                style: contentStyle,
+                ...(props ? props : DEFAULT_PROPS),
+                ...(propsComponent ? propsComponent : DEFAULT_PROPS),
+                dispatchMessage: store.handleEventComponent,
+            } as IModuleClassProps),
+        [contentStyle, props, propsComponent, store],
     );
 
     if (!storeComponent) {

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import * as React from "react";
 import {reaction} from "mobx";
 import {IClassProps, FieldValue} from "@essence-community/constructor-share/types";
@@ -106,7 +107,8 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                                     (field.value === VALUE_SELF_FIRST && store.recordsStore.loadCounter <= 1))),
                     );
                     const value =
-                        ((recordsState.isDefault && isDefault) || !recordsState.isDefault) && recordsState.record
+                        ((recordsState.isDefault && isEmpty(field.value)) || !recordsState.isDefault) &&
+                        recordsState.record
                             ? recordsState.record[store.valuefield]
                             : field.value;
 
@@ -120,7 +122,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
 
                         return;
                     }
-                    const stringValue = toString(field.value);
+                    const stringValue = toString(isEmpty(field.value) ? value : field.value);
                     const suggestion = sugs.find((sug) => sug.value === stringValue);
 
                     if (!suggestion && value !== store.lastValue && !recordsState.isUserReload) {

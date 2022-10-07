@@ -1,3 +1,5 @@
+/* eslint-disable max-statements */
+/* eslint-disable max-lines-per-function */
 import * as React from "react";
 import {IBuilderConfig, IPageModel, IBuilderMode, FieldValue} from "@essence-community/constructor-share/types";
 import {
@@ -38,6 +40,7 @@ interface ISetGlobal {
 
 const setGlobal = ({editing, mode, pageStore, recordForm = {}, record = {}, setGlobal}: ISetGlobal) => {
     const globalValues: Record<string, FieldValue> = {};
+    let isNeedAfter = false;
 
     setGlobal.forEach(({in: keyIn, out}) => {
         const [isExistForm, resForm] = deepFind(recordForm, keyIn);
@@ -49,11 +52,29 @@ const setGlobal = ({editing, mode, pageStore, recordForm = {}, record = {}, setG
 
             if (!isExist && keyIn === VAR_RECORD_JL_EDITING) {
                 globalValues[out] = editing;
+                isNeedAfter = true;
             } else if (!isExist && keyIn === VAR_RECORD_JV_MODE) {
                 globalValues[out] = mode;
+                isNeedAfter = true;
             } else {
                 globalValues[out] = isExist && keyIn ? res : record[out];
             }
+        }
+    });
+
+    pageStore.updateGlobalValues(globalValues);
+
+    return isNeedAfter;
+};
+
+const setGlobalAfter = ({pageStore, setGlobal}: ISetGlobal) => {
+    const globalValues: Record<string, FieldValue> = {};
+
+    setGlobal.forEach(({in: keyIn, out}) => {
+        if (keyIn === VAR_RECORD_JL_EDITING) {
+            globalValues[out] = undefined;
+        } else if (keyIn === VAR_RECORD_JV_MODE) {
+            globalValues[out] = undefined;
         }
     });
 
@@ -86,9 +107,10 @@ export function useButtonClick(
         let promise = null;
         const handlerBtn = getHandlerBtn(bc);
         const defaultHandler = handers[handlerBtn];
+        let isNeedAfter = false;
 
         if (bc.setglobal && bc.setglobal.length) {
-            setGlobal({
+            isNeedAfter = setGlobal({
                 editing: formCtx?.editing,
                 mode: bc.modeaction || bc.mode,
                 pageStore,
@@ -159,6 +181,16 @@ export function useButtonClick(
                                     if (isValid) {
                                         formValidation.current();
                                         formValidation.current = null;
+                                        if (isNeedAfter) {
+                                            setGlobalAfter({
+                                                editing: formCtx?.editing,
+                                                mode: bc.modeaction || bc.mode,
+                                                pageStore,
+                                                record: recordCtx,
+                                                recordForm: formCtx?.values,
+                                                setGlobal: bc.setglobal,
+                                            });
+                                        }
                                     }
                                 },
                                 {
@@ -168,6 +200,16 @@ export function useButtonClick(
                         }
                     } else {
                         setIsDisabled(false);
+                        if (isNeedAfter) {
+                            setGlobalAfter({
+                                editing: formCtx?.editing,
+                                mode: bc.modeaction || bc.mode,
+                                pageStore,
+                                record: recordCtx,
+                                recordForm: formCtx?.values,
+                                setGlobal: bc.setglobal,
+                            });
+                        }
                     }
                 }
 

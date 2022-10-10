@@ -119,7 +119,7 @@ export class ModuleFederationModel extends StoreBaseModel {
         const handle = this.eventHandle[messageType];
 
         if (handle) {
-            return handle.forEach((cfg) => cfg.handle.call(this, id, messageType, data));
+            return handle.forEach((cfg) => cfg.handle.call(this, cfg.config, id, messageType, data));
         }
     };
 

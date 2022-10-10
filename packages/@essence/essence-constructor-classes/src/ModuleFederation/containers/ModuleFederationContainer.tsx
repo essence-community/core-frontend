@@ -156,7 +156,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
                 style: contentStyle,
                 ...(props ? props : DEFAULT_PROPS),
                 ...(propsComponent ? propsComponent : DEFAULT_PROPS),
-                dispatchMessage: store.handleEventComponent,
+                dispatchMessage: (...arg) => store.handleEventComponent(...arg),
             } as IModuleClassProps),
         [contentStyle, props, propsComponent, store],
     );

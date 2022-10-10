@@ -28,7 +28,7 @@ const checkValue = (
     let res = defaultValue;
 
     try {
-        res = typeof val === "string" ? JSON.parse(val) : val;
+        res = typeof val === "string" ? JSON.parse(val) : JSON.parse(JSON.stringify(val));
     } catch (err) {
         res = defaultValue;
         snackbarStore.checkValidResponseAction(

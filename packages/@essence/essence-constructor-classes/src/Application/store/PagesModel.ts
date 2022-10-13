@@ -102,16 +102,18 @@ export class PagesModel implements IPagesModel {
         if (pageId !== this.applicationStore.bc.defaultvalue) {
             const selectedPage = this.pages.find((page) => page.pageId === pageId);
 
-            if (selectedPage) {
-                selectedPage.clearAction();
-                this.pages.remove(selectedPage);
-            }
-
             if (selectedPage === this.activePage) {
                 this.activePage =
                     (this.pages.length &&
-                        this.pages.find((page) => page.pageId !== this.applicationStore.bc.defaultvalue)) ||
+                        this.pages.find(
+                            (page) => page.pageId !== this.applicationStore.bc.defaultvalue && page.pageId !== pageId,
+                        )) ||
                     null;
+            }
+
+            if (selectedPage) {
+                selectedPage.clearAction();
+                this.pages.remove(selectedPage);
             }
 
             saveToStore(

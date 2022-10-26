@@ -151,6 +151,8 @@ export interface IBuilderBaseConfig {
     info?: string;
     // Значение при создании
     initvalue?: string;
+    // Признак сохранения состояния
+    isstate?: boolean;
     // Установка значение из локализационного пакета. Возможные значения: meta, message, static
     localization?: "meta" | "message" | "static";
     // Максимальный размер файла в байтах
@@ -277,6 +279,8 @@ export interface IBuilderBaseConfig {
     updatequery?: string;
     // Наименование параметра из внутреннего сервиса, значение которого будет передано для дальнейшей обработки
     valuefield?: IBuilderAttrGlobalStore[];
+    // Тип значения выводимого значения
+    valuetype?: "auto" | "integer" | "numeric" | "boolean" | "text" | "json" | string;
     // Признак отображения колонки
     visible?: boolean;
     // Ширина поля. Целое число от 1% до 100%. Обязательно добавлять %.

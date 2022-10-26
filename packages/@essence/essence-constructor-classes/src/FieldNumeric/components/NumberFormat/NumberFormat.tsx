@@ -1,6 +1,6 @@
 import * as React from "react";
 import ReactNumberFormat, {NumberFormatValues} from "react-number-format";
-import {getBigNumberInstance} from "@essence-community/constructor-share/utils";
+import {getBigNumberInstance, isEmpty} from "@essence-community/constructor-share/utils";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {InputBaseComponentProps} from "@material-ui/core";
 
@@ -29,9 +29,16 @@ export const NumberFormat: React.FC<INumberFormatProps> = (props) => {
     }, [bc]);
     const handleChange = React.useCallback(
         ({value: valNew}: NumberFormatValues) => {
-            onValueChange(valNew);
+            if (isEmpty(valNew)) {
+                onValueChange(undefined);
+            }
+            if (bc.datatype === "integer" && valNew.length < Number.MAX_SAFE_INTEGER.toString().length) {
+                onValueChange(parseInt(valNew, 10) as any);
+            } else {
+                onValueChange(valNew);
+            }
         },
-        [onValueChange],
+        [bc, onValueChange],
     );
 
     const handleIsAllowed = React.useCallback(

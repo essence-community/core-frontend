@@ -180,3 +180,11 @@ export function mapValueToArray<K, L>(map?: Map<K, L>): L[] {
 
     return arr;
 }
+
+export function transformToBoolean(value: any): boolean {
+    if (typeof value === "string") {
+        return value === "true" || value === "1" || value === "yes" || value === "on";
+    }
+
+    return Boolean(value);
+}

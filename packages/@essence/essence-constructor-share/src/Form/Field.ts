@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import {observable, computed, action} from "mobx";
 import {FieldValue, IBuilderConfig, IPageModel} from "../types";
-import {parseMemoize, makeRedirect, isEmpty} from "../utils";
+import {parseMemoize, makeRedirect, isEmpty, transformToBoolean} from "../utils";
 import {parse} from "../utils/parser";
 import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
 import {deepFind, deepDelete, deepChange} from "../utils/transform";
@@ -194,10 +194,10 @@ export class Field implements IField {
         this.defaultValueFn = options.defaultValueFn;
 
         if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
-            this.defaultValue =
-                typeof this.bc.defaultvalue === "string"
-                    ? Number(this.bc.defaultvalue === "true" || this.bc.defaultvalue === "1")
-                    : Number(this.bc.defaultvalue);
+            this.defaultValue = transformToBoolean(this.bc.defaultvalue);
+            if (this.bc.valuetype === "integer") {
+                this.defaultValue = Number(this.defaultValue);
+            }
         } else if (this.bc.defaultvalue) {
             if (this.isArray && typeof this.bc.defaultvalue === "string") {
                 this.defaultValue = JSON.parse(this.bc.defaultvalue);
@@ -247,10 +247,10 @@ export class Field implements IField {
             if ((this.isArray || this.isObject) && typeof this.bc.initvalue === "string") {
                 this.value = JSON.parse(this.bc.initvalue);
             } else if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
-                this.value =
-                    typeof this.bc.initvalue === "string"
-                        ? Number(this.bc.initvalue === "true" || this.bc.initvalue === "1")
-                        : Number(this.bc.initvalue);
+                this.value = transformToBoolean(this.bc.initvalue);
+                if (this.bc.valuetype === "integer") {
+                    this.value = Number(this.value);
+                }
             } else {
                 this.value = this.bc.initvalue;
             }
@@ -275,7 +275,7 @@ export class Field implements IField {
             this.value = {};
         }
         if (this.value === undefined && (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean")) {
-            this.value = 0;
+            this.value = this.bc.valuetype === "integer" ? 0 : false;
         }
     }
 
@@ -299,7 +299,7 @@ export class Field implements IField {
                     }
                 }
 
-                return Object.values(obj);
+                return field.bc.valuetype === "text" ? JSON.stringify(obj) : Object.values(obj);
             };
         } else if (this.isObject) {
             const keyChild = new RegExp(`^${this.key}\\.([^\\.]+)$`, "u");
@@ -313,11 +313,36 @@ export class Field implements IField {
                     }
                 }
 
-                return obj;
+                return field.bc.valuetype === "text" ? JSON.stringify(obj) : obj;
             };
         }
 
-        return (field, form, value) => value || field.value;
+        return (field, form, value) => {
+            const val = value || field.value;
+
+            if (typeof val === "undefined" || val === null) {
+                return val;
+            }
+            if (field.bc.valuetype === "integer") {
+                return parseInt(val as string, 10);
+            }
+            if (field.bc.valuetype === "numeric") {
+                return parseFloat(val as string);
+            }
+            if (field.bc.valuetype === "text") {
+                return `${val}`;
+            }
+            if (field.bc.valuetype === "json" && typeof val === "string") {
+                try {
+                    return JSON.parse(val);
+                } catch (e) {}
+            }
+            if (field.bc.valuetype === "boolean") {
+                return transformToBoolean(val);
+            }
+
+            return val;
+        };
     };
 
     private getInput = (input: IFieldOptions["input"]): IField["input"] => {
@@ -518,7 +543,11 @@ export class Field implements IField {
             }
         }
         if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
-            val = typeof val === "string" ? Number(val === "true" || val === "1") : Number(val);
+            if (this.bc.valuetype === "boolean") {
+                val = transformToBoolean(val);
+            } else {
+                val = Number(transformToBoolean(val));
+            }
         }
         this.value = val;
     };

@@ -63,6 +63,11 @@ export const FieldTextareaContainer: React.FC<IClassProps> = (props) => {
             InputProps={InputProps}
             inputProps={inputProps}
             onChange={handleChange}
+            value={
+                typeof textFieldProps.value === "object" || Array.isArray(textFieldProps.value)
+                    ? JSON.stringify(textFieldProps.value)
+                    : textFieldProps.value
+            }
             multiline
         />
     );

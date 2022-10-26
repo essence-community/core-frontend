@@ -88,3 +88,4 @@ import "@essence-community/constructor-classes/src/FieldFile";
 import "@essence-community/constructor-classes/src/StaticKeyCloak";
 import "@essence-community/constructor-classes/src/ButtonDynamic";
 import "@essence-community/constructor-classes/src/ModuleFederation";
+import "@essence-community/constructor-classes/src/LayoutPanel";

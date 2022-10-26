@@ -15,6 +15,7 @@ export const useStyles = makeStyles(
             left: 0,
             width: "100% !important",
             zIndex: 2,
+            transform: "none !important",
         },
         item: {
             overflow: "hidden",

@@ -14,8 +14,8 @@ export const useStyles = makeStyles(
             backgroundColor: theme.essence.palette.grey.light,
         },
         icon: {
-            color: theme.essence.codeTheme === "light" ? theme.palette.primary.main : theme.palette.text.primary,
-            fill: theme.essence.codeTheme === "light" ? theme.palette.primary.main : theme.palette.text.primary,
+            color: theme.essence.codeTheme === "dark" ? theme.palette.text.primary : theme.palette.primary.main,
+            fill: theme.essence.codeTheme === "dark" ? theme.palette.text.primary : theme.palette.primary.main,
         },
         label: {
             color: theme.essence.codeTheme === "light" ? theme.palette.primary.main : theme.palette.text.primary,

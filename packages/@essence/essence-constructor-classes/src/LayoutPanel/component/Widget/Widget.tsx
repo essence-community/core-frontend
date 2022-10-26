@@ -1,6 +1,6 @@
 import * as React from "react";
 import cn from "clsx";
-import {Grid} from "@material-ui/core";
+import {Grid, Paper} from "@material-ui/core";
 import {IClassProps, Icon, useTranslation, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share";
 import {useCommon} from "@essence-community/constructor-share/hooks/useCommon/useCommon";
 import {useObserver} from "mobx-react";
@@ -78,90 +78,95 @@ export const Widget: React.FC<IWidgetProps<IChildBuilderConfig, IBuilderClassCon
     ]);
 
     return useObserver(() => (
-        <Grid
-            container
-            item
-            className={cn(classes.root, className)}
-            wrap="wrap"
-            style={style}
-            direction="column"
-            justify="flex-start"
-            alignItems="stretch"
-        >
+        <Paper className={cn(classes.root, "paper-overflow-hidden", className)}>
             <Grid
                 container
                 item
-                className={classes.headerWidget}
-                direction="row"
-                justify="flex-end"
-                alignItems="center"
-                style={{
-                    height: bcParent.layoutpanelconfig?.rowHeight || 30,
-                }}
+                className={cn(classes.root, className)}
+                wrap="wrap"
+                style={style}
+                direction="column"
+                justify="flex-start"
+                alignItems="stretch"
             >
-                <Grid container item xs={true} direction="row" justify="flex-start" alignItems="center">
-                    <Grid item className={classes.label}>
-                        {trans(store.label.get(bc[VAR_RECORD_PAGE_OBJECT_ID]))}
-                    </Grid>
-                </Grid>
-                <Grid item justify="center" alignItems="center">
-                    <Grid container item>
-                        {isFullScreen ? (
-                            <Icon
-                                onClick={handleFullScreen}
-                                className={cn(classes.icon, classes.clickIcon)}
-                                iconfont={
-                                    store.activeFullScreen && store.activeFullScreen.i === bc[VAR_RECORD_PAGE_OBJECT_ID]
-                                        ? "fullscreen-exit"
-                                        : "fullscreen"
-                                }
-                                iconfontname="mdi"
-                            />
-                        ) : null}
-                    </Grid>
-                </Grid>
-                <Grid item justify="center" alignItems="center">
-                    <Grid container item>
-                        {isCollapsible &&
-                        (!store.activeFullScreen ||
-                            (store.activeFullScreen && store.activeFullScreen.i !== bc[VAR_RECORD_PAGE_OBJECT_ID])) ? (
-                            <Icon
-                                onClick={handleCollapse}
-                                className={cn(classes.icon, classes.clickIcon, classes.collapse)}
-                                iconfont={
-                                    store.collapsedLayout.has(bc[VAR_RECORD_PAGE_OBJECT_ID])
-                                        ? "chevron-down"
-                                        : "chevron-up"
-                                }
-                                iconfontname="fa"
-                            />
-                        ) : null}
-                    </Grid>
-                </Grid>
-                <Grid item justify="center" alignItems="center">
-                    <Grid container item>
-                        {isDraggable &&
-                        (!store.activeFullScreen ||
-                            (store.activeFullScreen && store.activeFullScreen.i !== bc[VAR_RECORD_PAGE_OBJECT_ID])) ? (
-                            <Icon
-                                className={cn(classes.icon, classes.moveIcon, draggableHandle)}
-                                iconfont="arrow-all"
-                                iconfontname="mdi"
-                            />
-                        ) : null}
-                    </Grid>
-                </Grid>
-            </Grid>
-            <Grid item xs={true}>
-                <Scrollbars
-                    style={SCROLLABRS_STYLE}
-                    hideTracksWhenNotNeeded
-                    withRequestAnimationFrame
-                    verticalStyle={VERTICAL_STYLE}
+                <Grid
+                    container
+                    item
+                    className={classes.headerWidget}
+                    direction="row"
+                    justify="flex-end"
+                    alignItems="center"
+                    style={{
+                        height: bcParent.layoutpanelconfig?.rowHeight || 30,
+                    }}
                 >
-                    {children}
-                </Scrollbars>
+                    <Grid container item xs={true} direction="row" justify="flex-start" alignItems="center">
+                        <Grid item className={classes.label}>
+                            {trans(store.label.get(bc[VAR_RECORD_PAGE_OBJECT_ID]))}
+                        </Grid>
+                    </Grid>
+                    <Grid item justify="center" alignItems="center">
+                        <Grid container item>
+                            {isFullScreen ? (
+                                <Icon
+                                    onClick={handleFullScreen}
+                                    className={cn(classes.icon, classes.clickIcon)}
+                                    iconfont={
+                                        store.activeFullScreen &&
+                                        store.activeFullScreen.i === bc[VAR_RECORD_PAGE_OBJECT_ID]
+                                            ? "fullscreen-exit"
+                                            : "fullscreen"
+                                    }
+                                    iconfontname="mdi"
+                                />
+                            ) : null}
+                        </Grid>
+                    </Grid>
+                    <Grid item justify="center" alignItems="center">
+                        <Grid container item>
+                            {isCollapsible &&
+                            (!store.activeFullScreen ||
+                                (store.activeFullScreen &&
+                                    store.activeFullScreen.i !== bc[VAR_RECORD_PAGE_OBJECT_ID])) ? (
+                                <Icon
+                                    onClick={handleCollapse}
+                                    className={cn(classes.icon, classes.clickIcon, classes.collapse)}
+                                    iconfont={
+                                        store.collapsedLayout.has(bc[VAR_RECORD_PAGE_OBJECT_ID])
+                                            ? "chevron-down"
+                                            : "chevron-up"
+                                    }
+                                    iconfontname="fa"
+                                />
+                            ) : null}
+                        </Grid>
+                    </Grid>
+                    <Grid item justify="center" alignItems="center">
+                        <Grid container item>
+                            {isDraggable &&
+                            (!store.activeFullScreen ||
+                                (store.activeFullScreen &&
+                                    store.activeFullScreen.i !== bc[VAR_RECORD_PAGE_OBJECT_ID])) ? (
+                                <Icon
+                                    className={cn(classes.icon, classes.moveIcon, draggableHandle)}
+                                    iconfont="arrow-all"
+                                    iconfontname="mdi"
+                                />
+                            ) : null}
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid item xs={true}>
+                    <Scrollbars
+                        style={SCROLLABRS_STYLE}
+                        hideTracksWhenNotNeeded
+                        withRequestAnimationFrame
+                        verticalStyle={VERTICAL_STYLE}
+                    >
+                        {children}
+                    </Scrollbars>
+                </Grid>
             </Grid>
-        </Grid>
+        </Paper>
     ));
 };

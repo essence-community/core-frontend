@@ -11,8 +11,8 @@ export const useStyles = makeStyles(
         draggableHandle: {},
         fullScreen: {
             position: "absolute",
-            top: 0,
-            left: 0,
+            top: "0px !important",
+            left: "0px !important",
             width: "100% !important",
             zIndex: 2,
             transform: "none !important",

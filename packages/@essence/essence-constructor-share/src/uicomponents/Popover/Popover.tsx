@@ -71,7 +71,6 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
     }, [anchorOrigin, container, transformOrigin]);
 
     const handleOpen = React.useCallback(() => {
-        handleCalculateOffset();
         setIsOpen(true);
         onChangeOpen(true);
     }, [onChangeOpen]);

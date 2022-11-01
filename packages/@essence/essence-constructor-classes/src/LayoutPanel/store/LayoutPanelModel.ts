@@ -71,7 +71,9 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
                 (childBc) =>
                     ({
                         ...(childBc.layoutcomponentconfig || {}),
-                        ...(childBc.layoutcomponentconfig.extra ? JSON.parse(childBc.layoutcomponentconfig.extra) : {}),
+                        ...(childBc.layoutcomponentconfig?.extra
+                            ? JSON.parse(childBc.layoutcomponentconfig.extra)
+                            : {}),
                         i: childBc[VAR_RECORD_PAGE_OBJECT_ID],
                     } as any),
             ) || [];

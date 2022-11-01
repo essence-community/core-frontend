@@ -58,7 +58,7 @@ export const LayoutPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
         () =>
             ({
                 ...(bc.layoutpanelconfig || {}),
-                ...(bc.layoutpanelconfig.extra ? JSON.parse(bc.layoutpanelconfig.extra) : {}),
+                ...(bc.layoutpanelconfig?.extra ? JSON.parse(bc.layoutpanelconfig.extra) : {}),
                 draggableHandle: `.${classes.draggableHandle}`,
                 cols: bc.layoutpanelconfig?.cols || 12,
                 compactType: bc.layoutpanelconfig?.compactType || "vertical",

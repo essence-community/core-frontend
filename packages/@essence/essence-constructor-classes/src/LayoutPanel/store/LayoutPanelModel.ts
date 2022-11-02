@@ -152,7 +152,7 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
                             x: 0,
                             y: 0,
                             w: (this.bc as any).layoutpanelconfig?.cols || 12,
-                            h: Number.MAX_SAFE_INTEGER,
+                            h: 100,
                             isResizable: false,
                             isDraggable: false,
                         };

@@ -60,7 +60,7 @@ export const LayoutPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 ...(bc.layoutpanelconfig || {}),
                 ...(bc.layoutpanelconfig?.extra ? JSON.parse(bc.layoutpanelconfig.extra) : {}),
                 draggableHandle: `.${classes.draggableHandle}`,
-                rowHeight: bc.layoutpanelconfig?.rowHeight || 12,
+                rowHeight: bc.layoutpanelconfig?.rowHeight || 30,
                 cols: bc.layoutpanelconfig?.cols || 12,
                 compactType: bc.layoutpanelconfig?.compactType || "vertical",
                 useCSSTransforms:

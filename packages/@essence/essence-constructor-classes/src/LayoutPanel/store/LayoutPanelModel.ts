@@ -31,13 +31,25 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
 
     @computed public get layout() {
         return this.allLayout.map((val) => {
-            if (this.hiddenLayout.has(val.i)) {
+            if (this.hiddenLayout.has(val.i) && !(val.h === 0 && val.w === 0 && val.x === 0 && val.y === 0)) {
                 return {
                     ...val,
                     h: 0,
                     w: 0,
                     x: 0,
                     y: 0,
+                    isResizable: false,
+                    isDraggable: false,
+                };
+            }
+
+            if (this.activeFullScreen && this.activeFullScreen.i === val.i && val.h !== Number.MAX_SAFE_INTEGER) {
+                return {
+                    ...val,
+                    x: 0,
+                    y: 0,
+                    w: (this.bc as any).layoutpanelconfig?.cols || 12,
+                    h: Number.MAX_SAFE_INTEGER,
                     isResizable: false,
                     isDraggable: false,
                 };
@@ -126,6 +138,18 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
     @action
     public handleFullScreen(key: string) {
         if (this.activeFullScreen && this.activeFullScreen.i === key) {
+            this.allLayout = observable.array(
+                this.allLayout.map((val) => {
+                    if (val.i === key) {
+                        return {
+                            ...val,
+                            ...(this.activeFullScreen || {}),
+                        };
+                    }
+
+                    return val;
+                }),
+            );
             this.activeFullScreen = null;
         } else {
             this.activeFullScreen = this.allLayout.find((val) => val.i === key);

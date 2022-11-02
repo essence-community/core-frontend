@@ -96,6 +96,8 @@ export const LayoutPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                         [classes.activeWidget]: store.activeWidget === childBc[VAR_RECORD_PAGE_OBJECT_ID],
                         [classes.fullScreen]:
                             store.activeFullScreen && store.activeFullScreen.i === childBc[VAR_RECORD_PAGE_OBJECT_ID],
+                        [classes.hidden]:
+                            store.activeFullScreen && store.activeFullScreen.i !== childBc[VAR_RECORD_PAGE_OBJECT_ID],
                     })}
                 >
                     <Widget

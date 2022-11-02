@@ -43,18 +43,6 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
                 };
             }
 
-            if (this.activeFullScreen && this.activeFullScreen.i === val.i) {
-                return {
-                    ...val,
-                    x: 0,
-                    y: 0,
-                    w: (this.bc as any).layoutpanelconfig?.cols || 12,
-                    h: Number.MAX_SAFE_INTEGER,
-                    isResizable: false,
-                    isDraggable: false,
-                };
-            }
-
             return val;
         });
     }
@@ -138,18 +126,6 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
     @action
     public handleFullScreen(key: string) {
         if (this.activeFullScreen && this.activeFullScreen.i === key) {
-            this.allLayout = observable.array(
-                this.allLayout.map((val) => {
-                    if (val.i === key) {
-                        return {
-                            ...val,
-                            ...(this.activeFullScreen || {}),
-                        };
-                    }
-
-                    return val;
-                }),
-            );
             this.activeFullScreen = null;
         } else {
             this.activeFullScreen = this.allLayout.find((val) => val.i === key);

@@ -10,7 +10,12 @@ import {
     VAR_RESULT_MESSAGE,
 } from "@essence-community/constructor-share/constants";
 import {parseMemoize} from "@essence-community/constructor-share/utils";
-import {RecordContext, FormContext, ParentFieldContext} from "@essence-community/constructor-share/context";
+import {
+    RecordContext,
+    FormContext,
+    ParentFieldContext,
+    WindowContext,
+} from "@essence-community/constructor-share/context";
 import {reaction} from "mobx";
 import {useModel} from "@essence-community/constructor-share/hooks/useModel";
 import {IBuilderClassConfig} from "../types";
@@ -52,6 +57,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
     const recordContext = React.useContext(RecordContext);
     const formContext = React.useContext(FormContext);
     const parentFieldContext = React.useContext(ParentFieldContext);
+    const windowContext = React.useContext(WindowContext);
     const [store] = useModel((options) => new ModuleFederationModel(options), {
         applicationStore: pageStore.applicationStore,
         bc,
@@ -65,7 +71,8 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
         store.setFormContext(formContext);
         store.setParentFieldContext(parentFieldContext);
         store.setRecordContext(recordContext);
-    }, [formContext, parentFieldContext, recordContext, store]);
+        store.setWindowContext(windowContext);
+    }, [formContext, parentFieldContext, recordContext, store, windowContext]);
 
     const contentStyle = React.useMemo(
         () => ({

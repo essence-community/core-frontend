@@ -13,6 +13,7 @@ import {createWindowProps} from "@essence-community/constructor-share/utils/wind
 import {computed, action} from "mobx";
 import {deepFind, makeRedirect, parseMemoize} from "@essence-community/constructor-share/utils";
 import {IForm, IParentFieldContext} from "@essence-community/constructor-share/Form";
+import {IWindowContext} from "@essence-community/constructor-share/context";
 import {IBuilderClassConfig, IEventConfig} from "../types";
 import {IEventHandles} from "./ModuleFederationModel.types";
 
@@ -28,6 +29,7 @@ export class ModuleFederationModel extends StoreBaseModel {
     private formContext?: IForm;
     private recordContext?: IRecord;
     private parentFieldContext?: IParentFieldContext;
+    private windowContext?: IWindowContext;
 
     setFormContext = (formContext?: IForm) => {
         this.formContext = formContext;
@@ -39,6 +41,10 @@ export class ModuleFederationModel extends StoreBaseModel {
 
     setParentFieldContext = (parentFieldContext?: IParentFieldContext) => {
         this.parentFieldContext = parentFieldContext;
+    };
+
+    setWindowContext = (windowContext?: IWindowContext) => {
+        this.windowContext = windowContext;
     };
 
     constructor(props: IStoreBaseModelProps) {
@@ -157,6 +163,17 @@ export class ModuleFederationModel extends StoreBaseModel {
     };
 
     @action
+    closeWindowAction = (config: IEventConfig): void => {
+        if (this.windowContext) {
+            if (config.isQuestion) {
+                this.windowContext.onQuestionClose();
+            } else {
+                this.windowContext.onClose();
+            }
+        }
+    };
+
+    @action
     redirectAction = (config: IEventConfig, id: string, messageType: string, data?: any): void => {
         let dataPre = data;
 
@@ -184,10 +201,14 @@ export class ModuleFederationModel extends StoreBaseModel {
         }
         const globalValues: Record<string, FieldValue> = {};
 
-        config.setGlobal?.forEach(({in: keyIn, out}) => {
-            const [, resForm] = deepFind(dataPre, keyIn);
+        config.setGlobal?.forEach(({in: keyIn, out, calcIn}) => {
+            if (calcIn) {
+                globalValues[out] = this.calcData(id, messageType, calcIn, data);
+            } else {
+                const [, resForm] = deepFind(dataPre, keyIn);
 
-            globalValues[out] = resForm;
+                globalValues[out] = resForm;
+            }
         });
 
         this.pageStore.updateGlobalValues(globalValues);
@@ -212,6 +233,7 @@ export class ModuleFederationModel extends StoreBaseModel {
     };
 
     handleEvents = {
+        closeWindowAction: this.closeWindowAction,
         createWindowAction: this.createWindowAction,
         errorAction: this.errorAction,
         redirectAction: this.redirectAction,

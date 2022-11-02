@@ -4,13 +4,16 @@ import {IClassProps} from "@essence-community/constructor-share/types";
 import {toColumnStyleWidth} from "@essence-community/constructor-share/utils";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {Grid, Drawer} from "@material-ui/core";
+import {WindowContext} from "@essence-community/constructor-share/context";
+import {WindowCancel} from "../../Window/components/WindowCancel";
 import {useStyles} from "./WindowDrawerContainer.styles";
 
 export const WindowDrawerContainer: React.FC<IClassProps> = (props) => {
     const classes = useStyles(props);
-    const {bc} = props;
+    const {bc, pageStore} = props;
     const {align = "left", width = "5%", height} = bc;
     const [isOpen, setIsOpen] = React.useState(false);
+    const [isOpenCancel, setIsOpenCancel] = React.useState(false);
     const [drawerWidth, setDrawerWidth] = React.useState(width);
     const paperProps = React.useMemo(
         () => ({
@@ -47,46 +50,63 @@ export const WindowDrawerContainer: React.FC<IClassProps> = (props) => {
     }, []);
 
     return (
-        <Drawer
-            anchor={align as "left" | "right"}
-            open={isOpen}
-            onClose={openCloseDrawer}
-            variant="temporary"
-            classes={{paper: classes.drawerPaper}}
-            BackdropProps={{invisible: true}}
-            PaperProps={paperProps}
-            SlideProps={{onExited: handleRemoveWindow}}
+        <WindowContext.Provider
+            value={{
+                onClose: openCloseDrawer,
+                onQuestionClose: () => setIsOpenCancel(true),
+            }}
         >
-            <React.Suspense fallback={null}>
-                <Grid
-                    container
-                    spacing={0}
-                    wrap="nowrap"
-                    direction="row"
-                    alignItems="stretch"
-                    className={classes.container}
-                >
-                    {bc.align === "right" ? sideResizer : null}
-                    <Grid item xs={true} container spacing={1} direction="column" alignItems="stretch">
-                        {mapComponents(bc.childs, (ChildComp, childBc) => (
-                            <Grid
-                                key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                item
-                                xs={childBc.type === "PAGER" || isOneChild ? true : undefined}
-                                style={{
-                                    // Pager has scrollbars, we should pass initial height for this page
-                                    height: childBc.type === "PAGER" ? "100%" : undefined,
-                                    ...toColumnStyleWidth(childBc.width),
-                                    flexBasis: undefined,
-                                }}
-                            >
-                                <ChildComp {...props} bc={childBc} />
-                            </Grid>
-                        ))}
+            <Drawer
+                anchor={align as "left" | "right"}
+                open={isOpen}
+                onClose={openCloseDrawer}
+                variant="temporary"
+                classes={{paper: classes.drawerPaper}}
+                BackdropProps={{invisible: true}}
+                PaperProps={paperProps}
+                SlideProps={{onExited: handleRemoveWindow}}
+            >
+                <React.Suspense fallback={null}>
+                    <Grid
+                        container
+                        spacing={0}
+                        wrap="nowrap"
+                        direction="row"
+                        alignItems="stretch"
+                        className={classes.container}
+                    >
+                        {bc.align === "right" ? sideResizer : null}
+                        <Grid item xs={true} container spacing={1} direction="column" alignItems="stretch">
+                            {mapComponents(bc.childs, (ChildComp, childBc) => (
+                                <Grid
+                                    key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                    item
+                                    xs={childBc.type === "PAGER" || isOneChild ? true : undefined}
+                                    style={{
+                                        // Pager has scrollbars, we should pass initial height for this page
+                                        height: childBc.type === "PAGER" ? "100%" : undefined,
+                                        ...toColumnStyleWidth(childBc.width),
+                                        flexBasis: undefined,
+                                    }}
+                                >
+                                    <ChildComp {...props} bc={childBc} />
+                                </Grid>
+                            ))}
+                        </Grid>
+                        {bc.align === "left" ? sideResizer : null}
                     </Grid>
-                    {bc.align === "left" ? sideResizer : null}
-                </Grid>
-            </React.Suspense>
-        </Drawer>
+                    <WindowCancel
+                        pageStore={pageStore}
+                        bc={bc}
+                        isOpen={isOpenCancel}
+                        onAccept={() => {
+                            setIsOpenCancel(false);
+                            openCloseDrawer();
+                        }}
+                        onDecline={() => setIsOpenCancel(false)}
+                    />
+                </React.Suspense>
+            </Drawer>
+        </WindowContext.Provider>
     );
 };

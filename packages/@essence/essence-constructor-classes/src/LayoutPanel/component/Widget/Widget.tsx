@@ -161,6 +161,7 @@ export const Widget: React.FC<IWidgetProps<IChildBuilderConfig, IBuilderClassCon
                         style={SCROLLABRS_STYLE}
                         hideTracksWhenNotNeeded
                         withRequestAnimationFrame
+                        hideHorizontalScrollbar
                         verticalStyle={VERTICAL_STYLE}
                     >
                         {children}

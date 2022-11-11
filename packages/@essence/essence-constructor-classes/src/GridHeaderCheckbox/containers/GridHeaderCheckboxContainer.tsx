@@ -1,13 +1,16 @@
 import * as React from "react";
 import {Checkbox} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {IClassProps} from "@essence-community/constructor-share/types";
+import {IClassProps, IRecord} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import {useObserver} from "mobx-react";
+import {reaction} from "mobx";
+import {deepFind, isEmpty, mapValueToArray} from "@essence-community/constructor-share/utils";
 import {checkPageSelectedRecords} from "../utils";
 
 export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
-    const store = props.pageStore.stores.get(props.bc[VAR_RECORD_PARENT_ID]);
+    const {bc, pageStore} = props;
+    const store = pageStore.stores.get(props.bc[VAR_RECORD_PARENT_ID]);
 
     const handleChange = () => {
         if (store) {
@@ -36,6 +39,52 @@ export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
 
         return <Icon iconfont="minus-square" size="xs" />;
     };
+
+    React.useEffect(() => {
+        if (bc.setglobal && bc.setglobal.length) {
+            const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
+            let valueFields = [[store?.recordsStore.recordId, store?.recordsStore.recordId]];
+
+            if (bc.valuefield) {
+                valueFields = bc.valuefield.map(({in: keyIn, out}) => {
+                    const fieldKeyName = out || keyIn;
+
+                    return [fieldKeyName, keyIn];
+                });
+            }
+
+            return reaction(
+                () => pageStore.stores.get(bc[VAR_RECORD_PARENT_ID])?.recordsStore?.selectedRecords,
+                (selectedRecords) => {
+                    const values: IRecord = {};
+
+                    bc.setglobal.forEach(({in: keyIn, out}) => {
+                        values[out] = mapValueToArray(selectedRecords).map((value) => {
+                            const obj: IRecord = {};
+
+                            if (isEmpty(keyIn)) {
+                                if (valueFields.length === 1) {
+                                    return deepFind(value, valueFields[0][1])[1];
+                                }
+
+                                valueFields.forEach(([valueFieldName, valueField]) => {
+                                    obj[valueFieldName] = deepFind(value, valueField)[1];
+                                });
+                            } else {
+                                const [isExist, res] = deepFind(value, keyIn);
+
+                                obj[keyIn] = isExist ? res : value[keyIn];
+                            }
+
+                            return obj;
+                        });
+                    });
+
+                    pageStore.updateGlobalValues(values);
+                },
+            );
+        }
+    }, [bc, pageStore]);
 
     return useObserver(() => (
         <Checkbox

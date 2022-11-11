@@ -2,7 +2,7 @@ import * as React from "react";
 import {Checkbox} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {IClassProps, IRecord} from "@essence-community/constructor-share/types";
-import {VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
+import {VAR_RECORD_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import {useObserver} from "mobx-react";
 import {reaction} from "mobx";
 import {deepFind, isEmpty, mapValueToArray} from "@essence-community/constructor-share/utils";
@@ -43,9 +43,14 @@ export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
     React.useEffect(() => {
         if (bc.setglobal && bc.setglobal.length) {
             const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
-            let valueFields = [[store?.recordsStore.recordId, store?.recordsStore.recordId]];
+            let valueFields = [
+                [
+                    store?.recordsStore.recordId || bc.idproperty || VAR_RECORD_ID,
+                    store?.recordsStore.recordId || bc.idproperty || VAR_RECORD_ID,
+                ],
+            ];
 
-            if (bc.valuefield) {
+            if (bc.valuefield && bc.valuefield.length) {
                 valueFields = bc.valuefield.map(({in: keyIn, out}) => {
                     const fieldKeyName = out || keyIn;
 

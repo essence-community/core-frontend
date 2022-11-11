@@ -116,7 +116,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             updatePercentColumnsWidth(this, "");
         }
 
-        if (this.bc.valuefield) {
+        if (this.bc.valuefield && this.bc.valuefield.length) {
             this.valueFields = this.bc.valuefield.map(({in: keyIn, out}) => {
                 const fieldKeyName = out || keyIn;
 

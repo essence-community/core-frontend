@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Checkbox} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {IClassProps, IRecord} from "@essence-community/constructor-share/types";
+import {IClassProps, IRecord, IStoreBaseModel} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import {useObserver} from "mobx-react";
 import {reaction} from "mobx";
@@ -10,7 +10,17 @@ import {checkPageSelectedRecords} from "../utils";
 
 export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
-    const store = pageStore.stores.get(props.bc[VAR_RECORD_PARENT_ID]);
+    const [store, setStore] = React.useState<IStoreBaseModel>(null);
+
+    React.useEffect(() => {
+        return reaction(
+            () => pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]),
+            (val) => setStore(val),
+            {
+                fireImmediately: true,
+            },
+        );
+    }, [pageStore, bc]);
 
     const handleChange = () => {
         if (store) {
@@ -41,12 +51,11 @@ export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
     };
 
     React.useEffect(() => {
-        if (bc.setglobal && bc.setglobal.length) {
-            const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
+        if (store && bc.setglobal && bc.setglobal.length) {
             let valueFields = [
                 [
-                    store?.recordsStore.recordId || bc.idproperty || VAR_RECORD_ID,
-                    store?.recordsStore.recordId || bc.idproperty || VAR_RECORD_ID,
+                    store.recordsStore.recordId || bc.idproperty || VAR_RECORD_ID,
+                    store.recordsStore.recordId || bc.idproperty || VAR_RECORD_ID,
                 ],
             ];
 
@@ -59,37 +68,39 @@ export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
             }
 
             return reaction(
-                () => pageStore.stores.get(bc[VAR_RECORD_PARENT_ID])?.recordsStore?.selectedRecords,
+                () => mapValueToArray(store.recordsStore.selectedRecords) as IRecord[],
                 (selectedRecords) => {
                     const values: IRecord = {};
 
                     bc.setglobal.forEach(({in: keyIn, out}) => {
-                        values[out] = mapValueToArray(selectedRecords).map((value) => {
-                            const obj: IRecord = {};
+                        values[out] = selectedRecords.length
+                            ? selectedRecords.map((value) => {
+                                  const obj: IRecord = {};
 
-                            if (isEmpty(keyIn)) {
-                                if (valueFields.length === 1) {
-                                    return deepFind(value, valueFields[0][1])[1];
-                                }
+                                  if (isEmpty(keyIn)) {
+                                      if (valueFields.length === 1) {
+                                          return deepFind(value, valueFields[0][1])[1];
+                                      }
 
-                                valueFields.forEach(([valueFieldName, valueField]) => {
-                                    obj[valueFieldName] = deepFind(value, valueField)[1];
-                                });
-                            } else {
-                                const [isExist, res] = deepFind(value, keyIn);
+                                      valueFields.forEach(([valueFieldName, valueField]) => {
+                                          obj[valueFieldName] = deepFind(value, valueField)[1];
+                                      });
+                                  } else {
+                                      const [isExist, res] = deepFind(value, keyIn);
 
-                                obj[keyIn] = isExist ? res : value[keyIn];
-                            }
+                                      obj[keyIn] = isExist ? res : value[keyIn];
+                                  }
 
-                            return obj;
-                        });
+                                  return obj;
+                              })
+                            : undefined;
                     });
 
                     pageStore.updateGlobalValues(values);
                 },
             );
         }
-    }, [bc, pageStore]);
+    }, [store, bc, pageStore]);
 
     return useObserver(() => (
         <Checkbox

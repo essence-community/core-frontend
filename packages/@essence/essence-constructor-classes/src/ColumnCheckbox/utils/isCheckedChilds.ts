@@ -15,7 +15,9 @@ export function isCheckedChilds(
     }
 
     return records.every((record: IRecord) => {
-        if (record[VAR_RECORD_LEAF] === "true") {
+        const leaf = record[VAR_RECORD_LEAF];
+
+        if (typeof leaf === "boolean" ? leaf : leaf === "true") {
             return Boolean(recordsStore.selectedRecords.get(record[recordId] as ICkId));
         }
 

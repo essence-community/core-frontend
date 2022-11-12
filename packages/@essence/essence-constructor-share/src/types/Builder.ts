@@ -27,6 +27,8 @@ export interface IBuilderBaseConfig {
     allownew?: string;
     // Признак автозагрузки сервиса
     autoload?: boolean;
+    // Расчет автоперезагрузки стора
+    autoloadrule?: string;
     // Наименование параметра, определяющего уникальность возвращаемых данных.  Если этот столбец есть в filter и заполнен, то сработает автовыбор первой записи
     autoselectidentity?: string;
     // Отображение кнопки "Информация" (true/false)
@@ -331,6 +333,8 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     detail?: IBuilderConfig[];
     // Служебный параметр для передачи статических значений
     records?: Record<string, FieldValue>[];
+    // Выставление статических значений
+    recordsrule?: string;
     // Служебный параметр не править
     type: string;
     // Признак Только чтение

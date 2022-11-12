@@ -9,7 +9,9 @@ export function checkIsPageSelectedRecords(
     if (bc.type === "TREEGRID") {
         return records.every(
             (record) =>
-                record[VAR_RECORD_LEAF] === "false" ||
+                (typeof record[VAR_RECORD_LEAF] === "boolean"
+                    ? !record[VAR_RECORD_LEAF]
+                    : record[VAR_RECORD_LEAF] === "false") ||
                 Boolean(recordsStore.selectedRecords.get(record[recordsStore.recordId] as ICkId)),
         );
     }

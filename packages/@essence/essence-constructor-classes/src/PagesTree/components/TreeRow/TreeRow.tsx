@@ -32,7 +32,7 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
     const handleClick = (event) => {
         event.stopPropagation();
         event.preventDefault();
-        if (leaf === "true") {
+        if (typeof leaf === "boolean" ? leaf : leaf === "true") {
             if (route[VAR_RECORD_APP_URL] !== pagesStore.applicationStore.url) {
                 pagesStore.applicationStore.history.push(`/${route[VAR_RECORD_APP_URL]}/${id}`);
             } else {
@@ -46,7 +46,7 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
     const handleToggleFavorite = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         event.stopPropagation();
 
-        if (leaf === "true") {
+        if (typeof leaf === "boolean" ? leaf : leaf === "true") {
             routesStore.setFavoritsAction(id);
         }
     };
@@ -84,7 +84,7 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
                     onClick={handleClick}
                 >
                     <Grid container wrap="nowrap" spacing={1} alignItems="center" className={classes.rootGrid}>
-                        {leaf === "true" ? renderIcon() : renderFolderIcon()}
+                        {typeof leaf === "boolean" ? leaf : leaf === "true" ? renderIcon() : renderFolderIcon()}
                         <Grid item xs zeroMinWidth>
                             <Typography
                                 variant="body2"
@@ -98,7 +98,9 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
                         </Grid>
                     </Grid>
                 </a>
-                {leaf === "true" ? (
+                {typeof leaf === "boolean" ? (
+                    leaf
+                ) : leaf === "true" ? (
                     <div
                         className={clsx(classes.favoriteRoot, {
                             [classes.favoriteSelected]: isFavorite,

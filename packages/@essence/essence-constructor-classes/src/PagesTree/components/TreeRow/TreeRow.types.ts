@@ -13,7 +13,7 @@ export interface IRoute extends IRecord {
     [VAR_RECORD_ID]: string;
     [VAR_RECORD_ROUTE_NAME]: string;
     [VAR_RECORD_ICON_NAME]: string | undefined;
-    [VAR_RECORD_LEAF]: "true" | "false";
+    [VAR_RECORD_LEAF]: "true" | "false" | boolean;
 }
 
 export interface ITreeRowProps {

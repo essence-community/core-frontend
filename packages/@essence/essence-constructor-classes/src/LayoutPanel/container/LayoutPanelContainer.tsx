@@ -65,10 +65,10 @@ export const LayoutPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 compactType: bc.layoutpanelconfig?.compactType || "vertical",
                 useCSSTransforms:
                     bc.layoutpanelconfig && typeof bc.layoutpanelconfig.useCSSTransforms === "undefined"
-                        ? true
+                        ? false
                         : bc.layoutpanelconfig
                         ? bc.layoutpanelconfig.useCSSTransforms
-                        : true,
+                        : false,
                 onLayoutChange: (newLayout) => {
                     store.setLayout(newLayout);
                 },

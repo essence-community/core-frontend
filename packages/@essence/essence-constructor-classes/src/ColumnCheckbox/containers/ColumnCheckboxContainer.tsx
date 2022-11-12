@@ -21,7 +21,7 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
             const leaf = record[VAR_RECORD_LEAF];
             const ckId = record[store.recordsStore.recordId] as ICkId;
 
-            if (store.bc.type === "TREEGRID" && leaf === "false") {
+            if (store.bc.type === "TREEGRID" && (typeof leaf === "boolean" ? leaf : leaf === "true")) {
                 return isCheckedChilds(store.recordsStore, ckId, record, store.recordsStore.recordId);
             }
 
@@ -32,8 +32,9 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
     };
     const getIconFont = () => {
         const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
+        const leaf = record[VAR_RECORD_LEAF];
 
-        if (store?.bc.type !== "TREEGRID" || record[VAR_RECORD_LEAF] !== "false") {
+        if (store?.bc.type !== "TREEGRID" || (typeof leaf === "boolean" ? leaf : leaf === "true")) {
             return "square-o";
         }
 

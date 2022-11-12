@@ -12,7 +12,8 @@ const LEAF_ICON_WIDTH = 30;
 export const ColumnTreeContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled} = props;
     const record = React.useContext(RecordContext) || {};
-    const isLeaf = record[VAR_RECORD_LEAF] === "true";
+    const leaf = record[VAR_RECORD_LEAF];
+    const isLeaf = typeof leaf === "boolean" ? leaf : leaf === "true";
     const addPadding = isLeaf ? LEAF_ICON_WIDTH : 0;
     const [isExist, val] = deepFind(record, props.bc.column);
     const value = isExist ? val : undefined;

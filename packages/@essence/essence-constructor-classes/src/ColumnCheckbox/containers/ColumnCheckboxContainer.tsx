@@ -34,7 +34,7 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
         const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
         const leaf = record[VAR_RECORD_LEAF];
 
-        if (store?.bc.type !== "TREEGRID" || (typeof leaf === "boolean" ? leaf : leaf === "true")) {
+        if (store?.bc.type !== "TREEGRID" || (typeof leaf === "boolean" ? leaf : leaf !== "false")) {
             return "square-o";
         }
 

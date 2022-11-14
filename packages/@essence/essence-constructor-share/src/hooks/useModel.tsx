@@ -143,7 +143,7 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
     }, [store, bc, pageStore, record, form, parentField]);
 
     React.useEffect(() => {
-        if (bc.readonlyrules && store.recordsStore) {
+        if (bc.recordsrule && store.recordsStore) {
             return reaction(
                 () => {
                     const getValue = (name: string) => {
@@ -180,7 +180,7 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
                         return [];
                     };
 
-                    return parseMemoize(bc.autoloadrule!).runer({get: getValue}) as any;
+                    return parseMemoize(bc.recordsrule!).runer({get: getValue}) as any;
                 },
                 (val: IRecord[]) => {
                     store.recordsStore?.clearRecordsAction();

@@ -184,7 +184,7 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
                 },
                 (val: IRecord[]) => {
                     store.recordsStore?.clearRecordsAction();
-                    store.recordsStore?.setRecordsAction(val);
+                    store.recordsStore?.setRecordsAction(Array.isArray(val) ? val : []);
                 },
                 {
                     fireImmediately: true,

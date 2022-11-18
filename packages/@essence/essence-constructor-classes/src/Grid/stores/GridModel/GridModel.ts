@@ -306,7 +306,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             this.recordsStore.setSelectionsAction([record], this.recordsStore.recordId, "append");
         }
 
-        if (!isEmpty(record[VAR_RECORD_LEAF])) {
+        if (!isEmpty(record[VAR_RECORD_LEAF]) && (isEmpty(bcBtn.selecttree) || bcBtn.selecttree)) {
             setGridSelections({gridStore: this, isSelected, maxSize, parentId: ckId});
             setGridSelectionsTop({
                 ckChild: parentId,

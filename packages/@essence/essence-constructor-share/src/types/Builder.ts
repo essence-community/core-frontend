@@ -241,6 +241,8 @@ export interface IBuilderBaseConfig {
     resizable?: boolean;
     // Отображение корня
     rootvisible?: boolean;
+    // При выборе родителя выбирать все дочерние элементы и родителя
+    selecttree?: boolean;
     // Наименование глобальной переменной. Должно начинаться с g
     setglobal?: IBuilderAttrGlobal[];
     // Наименование глобалки в которую добавляется выбранная строка.

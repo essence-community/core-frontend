@@ -142,6 +142,7 @@ export const VAR_RESULT_MESSAGE = "jt_message";
 // FORM
 export const RETURN_FORM_DATA = "jt_return_form_data";
 export const RETURN_FORM_DATA_BREAK = "jt_return_form_data_break";
+export const RETURN_GLOBAL_VALUE = "jt_return_global_value";
 
 // SELF
 export const VALUE_SELF_FIRST = "##first##";

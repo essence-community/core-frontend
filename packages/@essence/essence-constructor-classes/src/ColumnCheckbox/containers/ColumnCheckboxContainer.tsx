@@ -5,7 +5,7 @@ import {VAR_RECORD_PARENT_ID, VAR_RECORD_LEAF} from "@essence-community/construc
 import {Checkbox} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {useObserver} from "mobx-react";
-import {parseMemoize} from "@essence-community/constructor-share/utils";
+import {parseMemoize, isEmpty} from "@essence-community/constructor-share/utils";
 import {isCheckedChilds} from "../utils/isCheckedChilds";
 import {isMinusChecked} from "../utils/isMinusChecked";
 
@@ -38,7 +38,7 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
             return "square-o";
         }
 
-        if (store && store.recordsStore) {
+        if (store && store.recordsStore && (isEmpty(bc.selecttree) || bc.selecttree)) {
             return isMinusChecked(
                 store.recordsStore,
                 record[store.recordsStore.recordId] as ICkId,

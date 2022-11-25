@@ -299,7 +299,7 @@ export class Field implements IField {
                     }
                 }
 
-                return field.bc.valuetype === "text" ? JSON.stringify(obj) : Object.values(obj);
+                return field.bc.valuetype === "text" ? JSON.stringify(Object.values(obj)) : Object.values(obj);
             };
         } else if (this.isObject) {
             const keyChild = new RegExp(`^${this.key}\\.([^\\.]+)$`, "u");

@@ -383,6 +383,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
         if (record) {
             this.recordsStore.setRecordsAction([record]);
+            this.recordsStore.setSelectionAction(record[this.recordsStore.recordId]);
             this.handleChangeRecord(record, true);
         }
 

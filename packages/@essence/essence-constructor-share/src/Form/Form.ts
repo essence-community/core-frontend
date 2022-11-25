@@ -66,7 +66,7 @@ export class Form implements IForm {
 
         for (const [key, field] of this.fields.entries()) {
             if (key.indexOf(".") === -1) {
-                values[key] = field.output(field, this);
+                values[key] = field.output(field, this, field.value);
             } else {
                 keysAndFields.push({field, keys: key.split(".")});
             }
@@ -82,9 +82,7 @@ export class Form implements IForm {
                 return res[key] as any;
             }, values);
 
-            if (!val[last]) {
-                val[last] = field.output(field, this);
-            }
+            val[last] = field.output(field, this, field.value);
         }
 
         return values;

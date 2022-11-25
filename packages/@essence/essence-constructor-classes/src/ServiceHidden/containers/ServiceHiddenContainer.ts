@@ -2,7 +2,7 @@ import * as React from "react";
 import {FieldValue, IClassProps, IRecord} from "@essence-community/constructor-share/types";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {useModel} from "@essence-community/constructor-share/hooks";
-import {autorun, reaction} from "mobx";
+import {reaction} from "mobx";
 import {deepChange, deepFind, isEmpty} from "@essence-community/constructor-share/utils";
 import {useField} from "@essence-community/constructor-share/Form/useField";
 import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
@@ -12,7 +12,7 @@ const CLEAR_VALUE = undefined;
 
 export const ServiceHiddenContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
-    const {setglobal, valuefield, idproperty, getglobaltostore, disabled, hidden} = bc;
+    const {setglobal, valuefield, idproperty, disabled, hidden} = bc;
     const applicationStore = React.useContext(ApplicationContext);
     const [store] = useModel((options) => new ServiceHiddenModel({...options, applicationStore}), props);
     const field = useField({bc, clearValue: CLEAR_VALUE, disabled, hidden, pageStore});
@@ -35,10 +35,8 @@ export const ServiceHiddenContainer: React.FC<IClassProps> = (props) => {
             };
 
             rows.push(
-                autorun(() => {
-                    const [record = {}] = store.recordsStore.records;
-
-                    calcRecord(record);
+                reaction(() => store.selectedRecord, calcRecord, {
+                    fireImmediately: true,
                 }),
             );
             rows.push(calcRecord);
@@ -88,32 +86,15 @@ export const ServiceHiddenContainer: React.FC<IClassProps> = (props) => {
                             field.onChange(value);
                         }
                     },
+                    {
+                        fireImmediately: true,
+                    },
                 ),
             );
         }
 
         return () => rows.forEach((cb) => cb());
     }, [setglobal, pageStore, store, bc.column, idproperty, valuefield, field]);
-
-    /*
-     * Listen to new values in the getglobaltostore
-     * For input field can be a lot of requests. Avoid to use text field for this component
-     */
-    React.useEffect(() => {
-        if (getglobaltostore) {
-            const dispose = reaction(
-                () => getglobaltostore.map(({in: keyIn}) => pageStore.globalValues.get(keyIn)).join(":"),
-                store.reloadStoreAction,
-                {
-                    delay: 300,
-                },
-            );
-
-            return dispose;
-        }
-
-        return undefined;
-    }, [getglobaltostore, pageStore, store]);
 
     return null;
 };

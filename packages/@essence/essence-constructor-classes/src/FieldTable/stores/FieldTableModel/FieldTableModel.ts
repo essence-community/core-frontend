@@ -199,18 +199,23 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
                 this.selectedEntries.replace(getRestoredRecords(value, this));
             }
         } else {
-            await this.recordsStore.searchAction(
-                {},
-                value !== VALUE_SELF_FIRST
-                    ? {
-                          filter: [{operator: "eq", property: this.valueField, value}],
-                          selectedRecordId: value as string,
-                      }
-                    : {},
+            const find = this.recordsStore.recordsState.records.find(
+                (rec) => rec[this.valueField] === value || rec[this.recordsStore.recordId] === value,
             );
 
-            if (this.recordsStore.selectedRecord) {
-                this.handleChangeRecord(this.recordsStore.selectedRecord);
+            if (!find) {
+                await this.recordsStore.searchAction(
+                    {},
+                    value !== VALUE_SELF_FIRST
+                        ? {
+                              filter: [{operator: "eq", property: this.valueField, value}],
+                              selectedRecordId: value as string,
+                          }
+                        : {},
+                );
+                if (this.recordsStore.selectedRecord) {
+                    this.handleChangeRecord(this.recordsStore.selectedRecord);
+                }
             }
         }
         this.setRecordToGlobal();

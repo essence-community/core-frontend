@@ -278,7 +278,9 @@ export class FieldComboModel extends StoreBaseModel {
         const {allownew = ""} = this.bc;
         const stringValue = toString(value);
         const isNewValue =
-            stringValue.indexOf(allownew) === 0 && this.suggestions.findIndex((sug) => sug.value === allownew) === -1;
+            allownew &&
+            stringValue.indexOf(allownew) === 0 &&
+            this.preSuggestions.findIndex((sug) => sug.value === allownew) === -1;
         const stringNewValue = isNewValue ? stringValue.replace(allownew, "") : stringValue;
 
         const suggestion = this.suggestions.find((sug) => sug.value === stringValue);
@@ -293,7 +295,7 @@ export class FieldComboModel extends StoreBaseModel {
             // Load only necessary data while minchars more then 0
             if (this.valueLength) {
                 if (toString(stringNewValue).length >= this.valueLength) {
-                    this.recordsStore.searchAction({[this.valuefield]: value}, {isUserReload: false});
+                    this.recordsStore.searchAction({[this.valuefield]: stringNewValue}, {isUserReload: false});
                 } else if (isEmpty(value)) {
                     /*
                      * Check click "Clear" button

@@ -124,12 +124,16 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                     }
                     const stringValue = toString(isEmpty(field.value) ? value : field.value);
                     const suggestion = sugs.find((sug) => sug.value === stringValue);
+                    const isNewValue =
+                        bc.allownew &&
+                        stringValue.indexOf(bc.allownew) === 0 &&
+                        sugs.findIndex((sug) => sug.value === bc.allownew) === -1;
 
                     if (!suggestion && value !== store.lastValue && !recordsState.isUserReload) {
                         field.onChange(value);
                     } else if (suggestion && !suggestion.isNew) {
                         store.handleSetValue(field.value, false, false);
-                    } else if (!suggestion && bc.pagesize) {
+                    } else if (!suggestion && bc.pagesize && !isNewValue) {
                         store.recordsStore.searchAction({[store.valuefield]: value}, {isUserReload: false});
                     }
                 },

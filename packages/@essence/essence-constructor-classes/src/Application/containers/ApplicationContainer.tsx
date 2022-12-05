@@ -123,6 +123,10 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             [VAR_SETTING_URL_APP_NAME]: `${appName}`,
         });
 
+        if (!applicationStore.isApplicationReady) {
+            return;
+        }
+
         if (applicationStore.url !== appName) {
             applicationStore.reloadApplication(appName, ckId, filter);
         }
@@ -131,7 +135,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     }, [appName, applicationStore]);
 
     React.useEffect(() => {
-        if (appNameRef.current !== applicationStore.url) {
+        if (!applicationStore.isApplicationReady || appNameRef.current !== applicationStore.url) {
             return;
         }
         if (ckId) {

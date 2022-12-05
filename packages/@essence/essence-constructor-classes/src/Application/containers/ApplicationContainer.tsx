@@ -4,7 +4,7 @@ import {settingsStore, snackbarStore} from "@essence-community/constructor-share
 import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {PageLoader} from "@essence-community/constructor-share/uicomponents";
-import {useTranslation, TFunction} from "@essence-community/constructor-share/utils";
+import {useTranslation, TFunction, isEmpty} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_SETTING_PROJECT_LOADER,
@@ -79,6 +79,8 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
          * @description Загрузка начального состоянии приложения
          */
         const loadApplication = async () => {
+            const oldUrl = applicationStore.url;
+
             await applicationStore.authStore.checkAuthAction(history);
             const isSuccess = await applicationStore.loadApplicationAction();
 
@@ -98,6 +100,8 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 } else if (pagesStore.pages.length) {
                     pagesStore.setPageAction(pagesStore.pages[0].pageId, false);
                 }
+            } else if (isEmpty(oldUrl) && applicationStore.bc.defaultvalue) {
+                applicationStore.pagesStore.setPageAction(applicationStore.bc.defaultvalue, false);
             }
         };
 

@@ -38,7 +38,14 @@ import {IForm} from "../../Form";
 import {RecordsModelLite} from "../RecordsModelLite/RecordsModelLite";
 import {IRecordsModelLite} from "../../types/RecordsModel";
 import {saveToLocalStore} from "../../utils/storage";
-import {MAX_OPENED_SNACKBARS, CODE_ACCESS_DENIEND, GROUP_ACTION_MAP, CODE_GROUP_MAP} from "./SnackbarModel.contants";
+import {
+    MAX_OPENED_SNACKBARS,
+    CODE_ACCESS_DENIEND,
+    GROUP_ACTION_MAP,
+    CODE_GROUP_MAP,
+    MAX_DEBUG_SNACKBARS,
+    MAX_SNACKBARS,
+} from "./SnackbarModel.contants";
 
 /**
  * @class SnackbarModel
@@ -162,6 +169,23 @@ export class SnackbarModel implements ISnackbarModel {
         }
 
         this.snackbarsAll.unshift(snackbarProps);
+
+        let debugCount = 0;
+
+        this.snackbarsAll = this.snackbarsAll.filter((msg) => {
+            if (msg.status === "debug") {
+                if (debugCount > MAX_DEBUG_SNACKBARS) {
+                    return false;
+                }
+                debugCount = +1;
+            }
+
+            return true;
+        });
+
+        if (this.snackbarsAll.length > MAX_SNACKBARS) {
+            this.snackbarsAll = this.snackbarsAll.slice(0, MAX_SNACKBARS);
+        }
 
         return snackbarProps;
     };

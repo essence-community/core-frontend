@@ -86,3 +86,5 @@ export const GROUP_ACTION_MAP = {
 export const CREATE_AT_FORMAT = "DD.MM.YYYY, HH:mm";
 export const MAX_OPENED_SNACKBARS = 5;
 export const CODE_ACCESS_DENIEND = "513";
+export const MAX_SNACKBARS = 200;
+export const MAX_DEBUG_SNACKBARS = 50;

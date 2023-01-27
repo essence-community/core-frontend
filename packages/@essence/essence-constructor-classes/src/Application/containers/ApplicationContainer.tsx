@@ -81,7 +81,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
         const loadApplication = async () => {
             const oldUrl = applicationStore.url;
 
-            await applicationStore.authStore.checkAuthAction(history);
+            await applicationStore.authStore.checkAuthAction(history, undefined, undefined, true);
             const isSuccess = await applicationStore.loadApplicationAction();
 
             // Contrinue for found application, else redirect to other application in loadApplicationAction

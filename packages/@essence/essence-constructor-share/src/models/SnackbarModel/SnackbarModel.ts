@@ -644,7 +644,7 @@ export class SnackbarModel implements ISnackbarModel {
     @action
     reinitSessionAction = (errorData: IErrorData, route?: IRouteRecord, applicationStore?: IApplicationModel) => {
         if (applicationStore) {
-            applicationStore.authStore.checkAuthAction(applicationStore.history);
+            applicationStore.authStore.checkAuthAction(applicationStore.history, undefined, undefined, true);
         }
     };
 }

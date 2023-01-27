@@ -122,15 +122,13 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
 
     // Change url for application
     React.useEffect(() => {
+        if (!applicationStore.isApplicationReady) {
+            return;
+        }
         appNameRef.current = appName;
         applicationStore.updateGlobalValuesAction({
             [VAR_SETTING_URL_APP_NAME]: `${appName}`,
         });
-
-        if (!applicationStore.isApplicationReady) {
-            return;
-        }
-
         if (applicationStore.url !== appName) {
             applicationStore.reloadApplication(appName, ckId, filter);
         }

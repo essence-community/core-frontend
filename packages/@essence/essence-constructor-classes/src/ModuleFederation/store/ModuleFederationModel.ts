@@ -14,8 +14,11 @@ import {computed, action} from "mobx";
 import {deepFind, makeRedirect, parseMemoize} from "@essence-community/constructor-share/utils";
 import {IForm, IParentFieldContext} from "@essence-community/constructor-share/Form";
 import {IWindowContext} from "@essence-community/constructor-share/context";
+import {loggerRoot} from "@essence-community/constructor-share/constants";
 import {IBuilderClassConfig, IEventConfig} from "../types";
 import {IEventHandles} from "./ModuleFederationModel.types";
+
+const logger = loggerRoot.extend("ModuleFederationModel");
 
 export class ModuleFederationModel extends StoreBaseModel {
     recordsStore: IRecordsModel;
@@ -124,6 +127,7 @@ export class ModuleFederationModel extends StoreBaseModel {
     handleEventComponent = (id: string, messageType: string, data?: any): void => {
         const handle = this.eventHandle[messageType];
 
+        logger("MF CallBack id: %s, messageType: %s, data: %j", id, messageType, data);
         if (handle) {
             return handle.forEach((cfg) => cfg.handle.call(this, cfg.config, id, messageType, data));
         }

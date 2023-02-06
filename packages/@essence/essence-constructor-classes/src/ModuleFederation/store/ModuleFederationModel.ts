@@ -236,7 +236,7 @@ export class ModuleFederationModel extends StoreBaseModel {
         if (config.errorrule) {
             error = this.calcData(id, messageType, config.errorrule, data);
         }
-        if (error) {
+        if (typeof error === "string") {
             snackbarStore.snackbarOpenAction(
                 {
                     status: "error",
@@ -244,6 +244,10 @@ export class ModuleFederationModel extends StoreBaseModel {
                 },
                 this.pageStore.route,
             );
+        }
+
+        if (typeof error === "object") {
+            snackbarStore.checkValidResponseAction(error);
         }
     };
 

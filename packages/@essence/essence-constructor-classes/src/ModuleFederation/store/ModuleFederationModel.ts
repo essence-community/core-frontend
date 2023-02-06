@@ -124,12 +124,23 @@ export class ModuleFederationModel extends StoreBaseModel {
     };
 
     @action
+    checkRule = (config: IEventConfig, id: string, messageType: string, data?: any): boolean => {
+        if (config.checkrule) {
+            return this.calcData(id, messageType, config.datarule, data);
+        }
+
+        return true;
+    };
+
+    @action
     handleEventComponent = (id: string, messageType: string, data?: any): void => {
         const handle = this.eventHandle[messageType];
 
         logger("MF CallBack id: %s, messageType: %s, data: %j", id, messageType, data);
         if (handle) {
-            return handle.forEach((cfg) => cfg.handle.call(this, cfg.config, id, messageType, data));
+            return handle
+                .filter((cfg) => this.checkRule(cfg.config, id, messageType, data))
+                .forEach((cfg) => cfg.handle.call(this, cfg.config, id, messageType, data));
         }
     };
 

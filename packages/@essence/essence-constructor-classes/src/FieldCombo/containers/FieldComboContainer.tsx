@@ -133,7 +133,13 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                         field.onChange(value);
                     } else if (suggestion && !suggestion.isNew) {
                         store.handleSetValue(field.value, false, false);
-                    } else if (!suggestion && bc.pagesize && !isNewValue && !recordsState.isUserReload) {
+                    } else if (
+                        !isEmpty(value) &&
+                        !suggestion &&
+                        bc.pagesize &&
+                        !isNewValue &&
+                        !recordsState.isUserReload
+                    ) {
                         store.recordsStore.searchAction({[store.valuefield]: value}, {isUserReload: false});
                     }
                 },

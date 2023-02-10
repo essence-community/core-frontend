@@ -76,6 +76,40 @@ export class ModuleFederationModel extends StoreBaseModel {
         });
     }
 
+    getValue = (name: string) => {
+        if (name.charAt(0) === "g") {
+            return this.pageStore.globalValues.get(name);
+        }
+
+        if (this.recordContext) {
+            const [isExistRecord, recValue] = deepFind(this.recordContext, name);
+
+            if (isExistRecord) {
+                return recValue;
+            }
+        }
+
+        if (this.formContext) {
+            const values = this.formContext.values;
+
+            if (this.parentFieldContext) {
+                const [isExistParent, val] = deepFind(values, `${this.parentFieldContext.key}.${name}`);
+
+                if (isExistParent) {
+                    return val;
+                }
+            }
+
+            const [isExist, val] = deepFind(values, name);
+
+            if (isExist) {
+                return val;
+            }
+        }
+
+        return undefined;
+    };
+
     calcData = (id: string, messageType: string, code: string, data: any) => {
         const getValue = (name: string) => {
             if (name === "jt_data") {
@@ -87,37 +121,8 @@ export class ModuleFederationModel extends StoreBaseModel {
             if (name === "jv_message_type") {
                 return messageType;
             }
-            if (name.charAt(0) === "g") {
-                return this.pageStore.globalValues.get(name);
-            }
 
-            if (this.recordContext) {
-                const [isExistRecord, recValue] = deepFind(this.recordContext, name);
-
-                if (isExistRecord) {
-                    return recValue;
-                }
-            }
-
-            if (this.formContext) {
-                const values = this.formContext.values;
-
-                if (this.parentFieldContext) {
-                    const [isExistParent, val] = deepFind(values, `${this.parentFieldContext.key}.${name}`);
-
-                    if (isExistParent) {
-                        return val;
-                    }
-                }
-
-                const [isExist, val] = deepFind(values, name);
-
-                if (isExist) {
-                    return val;
-                }
-            }
-
-            return undefined;
+            return this.getValue(name);
         };
 
         return parseMemoize(code).runer({get: getValue}) as any;

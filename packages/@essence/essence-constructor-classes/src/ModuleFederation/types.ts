@@ -12,6 +12,8 @@ export interface IEventConfig extends Record<string, any> {
 
 export interface IBuilderClassConfig extends IBuilderConfig {
     mfconfig?: IConfigMF;
+    mfconfigfail?: IConfigMF;
+    mfconfigrule?: IConfigMF;
     mfcomponentconfig?: Record<string, any>;
     mfcomponentconfigrule?: string;
     mfeventconfig?: IEventConfig[];

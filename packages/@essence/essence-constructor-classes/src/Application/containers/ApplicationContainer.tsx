@@ -151,8 +151,8 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             if (pageId && pagesStore.activePage.pageId !== pageId) {
                 pagesStore.setPageAction(String(pageId), false);
             }
-        } else if (applicationStore.bc.defaultvalue) {
-            applicationStore.pagesStore.setPageAction(applicationStore.bc.defaultvalue, false);
+        } else if (applicationStore.defaultValue) {
+            applicationStore.pagesStore.setPageAction(applicationStore.defaultValue, false);
         }
     }, [ckId, applicationStore]);
 

@@ -99,14 +99,14 @@ export class PagesModel implements IPagesModel {
 
     removePageAction = action("removePageAction", (pageId: string) => {
         // Don't close default page. This is hidden page and need to display start screen
-        if (pageId !== this.applicationStore.bc.defaultvalue) {
+        if (pageId !== this.applicationStore.defaultValue) {
             const selectedPage = this.pages.find((page) => page.pageId === pageId);
 
             if (selectedPage === this.activePage) {
                 this.activePage =
                     (this.pages.length &&
                         this.pages.find(
-                            (page) => page.pageId !== this.applicationStore.bc.defaultvalue && page.pageId !== pageId,
+                            (page) => page.pageId !== this.applicationStore.defaultValue && page.pageId !== pageId,
                         )) ||
                     null;
             }

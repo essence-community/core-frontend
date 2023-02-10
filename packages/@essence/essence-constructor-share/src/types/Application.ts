@@ -30,6 +30,7 @@ export interface IApplicationModel extends IStoreBaseModel {
     pagesStore: IPagesModel;
     history: History;
     url: string;
+    defaultValue: string;
     updateGlobalValuesAction(values: Record<string, string>): void;
     setSesssionAction(userInfo: IAuthSession): Promise<void>;
     logoutAction(): void;

@@ -7,6 +7,7 @@ import {
 } from "@essence-community/constructor-share/constants/variables";
 import {IPagesModel} from "@essence-community/constructor-share/types/PagesModel";
 import {IRoutesModel} from "@essence-community/constructor-share/types/RoutesModel";
+import {IPageModel} from "@essence-community/constructor-share/types";
 import {PagesTreeModel} from "../../stores/PagesTreeModel";
 
 export interface IRoute extends IRecord {
@@ -21,6 +22,7 @@ export interface ITreeRowProps {
     pagesStore: IPagesModel;
     routesStore: IRoutesModel;
     treeModel: PagesTreeModel;
+    pageStore: IPageModel;
     level: number;
     isOpen: boolean;
 }

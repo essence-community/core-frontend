@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 /* eslint-disable max-lines */
 import {action, observable, ObservableMap, computed} from "mobx";
 import {v4} from "uuid";
@@ -29,7 +30,7 @@ import {
     IApplicationModel,
     IRecord,
 } from "../../types";
-import {noop, isEmpty, parseMemoize, i18next, findClassNames} from "../../utils";
+import {noop, isEmpty, parseMemoize, i18next, findClassNames, deepFind} from "../../utils";
 import {RecordsModel} from "../RecordsModel";
 import {snackbarStore} from "../SnackbarModel";
 import {loadComponentsFromModules} from "../../components";
@@ -104,6 +105,7 @@ export class PageModel implements IPageModel {
         const {routesStore} = this.applicationStore;
 
         return (
+            (this.recordsStore.selectedRecordValues?.route as IRouteRecord) ||
             (routesStore &&
                 routesStore.recordsStore.recordsState.records.find(
                     (record: Record<string, FieldValue>) => record[VAR_RECORD_ID] === this.pageId,
@@ -304,7 +306,7 @@ export class PageModel implements IPageModel {
             await this.recordsStore.searchAction({[VAR_RECORD_ROUTE_PAGE_ID]: pageId});
 
             if (this.recordsStore.selectedRecord) {
-                const {children} = this.recordsStore.selectedRecordValues;
+                const {children, route} = this.recordsStore.selectedRecordValues;
                 const pageBc = Array.isArray(children) ? children : [];
 
                 const classNames = findClassNames(pageBc);
@@ -314,6 +316,28 @@ export class PageModel implements IPageModel {
 
                 if (globalValue) {
                     this.updateGlobalValues(globalValue);
+                }
+
+                if (route && (route as any).activerules) {
+                    const getValue = (name: string) => {
+                        if (name.charAt(0) === "g") {
+                            return this.globalValues.get(name);
+                        }
+
+                        if (route) {
+                            const [isExistRecord, recValue] = deepFind(route as any, name);
+
+                            if (isExistRecord) {
+                                return recValue;
+                            }
+                        }
+
+                        return undefined;
+                    };
+
+                    if (!parseMemoize((route as any).activerules).runer({get: getValue})) {
+                        this.applicationStore.pagesStore.removePageAction((route as any)[VAR_RECORD_ID]);
+                    }
                 }
 
                 this.pageBc = pageBc;

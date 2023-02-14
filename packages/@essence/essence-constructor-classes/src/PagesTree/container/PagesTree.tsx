@@ -12,8 +12,8 @@ const SCROLLBARS_STYLE = {
 };
 
 const UITYPES = {
-    1: "uitype-1" as "uitype-1",
-    3: "uitype-3" as "uitype-3",
+    1: "uitype-1" as const,
+    3: "uitype-3" as const,
 };
 
 export const PagesTree: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
@@ -26,7 +26,14 @@ export const PagesTree: React.FC<IClassProps<IBuilderClassConfig>> = (props) => 
     return (
         <Scrollbars withRequestAnimationFrame style={SCROLLBARS_STYLE} className={classes[UITYPES[bc.uitype]]}>
             {routesStore ? (
-                <TreeRows parent={null} treeModel={store} routesStore={routesStore} pagesStore={pagesStore} level={0} />
+                <TreeRows
+                    parent={null}
+                    pageStore={pageStore}
+                    treeModel={store}
+                    routesStore={routesStore}
+                    pagesStore={pagesStore}
+                    level={0}
+                />
             ) : null}
         </Scrollbars>
     );

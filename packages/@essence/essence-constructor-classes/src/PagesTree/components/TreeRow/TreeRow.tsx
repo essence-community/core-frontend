@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import {Icon, settingsStore} from "@essence-community/constructor-share";
 import {
     VAR_RECORD_ID,
@@ -7,12 +8,15 @@ import {
     VAR_RECORD_APP_URL,
     VAR_RECORD_ICON_FONT,
     VAR_SETTING_BASE_PATH,
+    VAR_RECORD_ROUTE_VISIBLE_MENU,
+    VAR_RECORD_PAGE_REDIRECT,
 } from "@essence-community/constructor-share/constants/variables";
-import {useTranslation} from "@essence-community/constructor-share/utils";
+import {deepFind, makeRedirect, parseMemoize, useTranslation} from "@essence-community/constructor-share/utils";
 import {Grid, Typography} from "@material-ui/core";
 import clsx from "clsx";
 import {useObserver} from "mobx-react";
 import * as React from "react";
+import {reaction} from "mobx";
 import {useStyles} from "./TreeRow.styles";
 import {ITreeRowProps} from "./TreeRow.types";
 
@@ -20,7 +24,7 @@ const LEFT_PADDING = 30;
 
 export const TreeRow: React.FC<ITreeRowProps> = (props) => {
     const classes = useStyles(props);
-    const {pagesStore, routesStore, route, isOpen, level, treeModel} = props;
+    const {pageStore, pagesStore, routesStore, route, isOpen, level, treeModel} = props;
     const leaf = route[VAR_RECORD_LEAF];
     const id = route[VAR_RECORD_ID];
     const [trans] = useTranslation("meta");
@@ -29,10 +33,72 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
         () => ({font: route[VAR_RECORD_ICON_FONT] || "fa", name: route[VAR_RECORD_ICON_NAME] || "file-text"}),
         [route],
     );
+
+    React.useEffect(() => {
+        const dispatcher = [];
+
+        if (route.activerules || (typeof leaf === "boolean" ? !leaf : leaf !== "true")) {
+            const getValue = (name: string) => {
+                if (name.charAt(0) === "g") {
+                    return pageStore.globalValues.get(name);
+                }
+
+                if (route) {
+                    const [isExistRecord, recValue] = deepFind(route, name);
+
+                    if (isExistRecord) {
+                        return recValue;
+                    }
+                }
+
+                return undefined;
+            };
+
+            dispatcher.push(
+                reaction(
+                    () => {
+                        let result = false;
+
+                        if (route.activerules) {
+                            result = !(parseMemoize(route.activerules).runer({get: getValue}) as boolean);
+                        }
+                        if (!result && typeof leaf === "boolean" ? !leaf : leaf !== "true") {
+                            result =
+                                routesStore.recordsStore.records.filter(
+                                    (record) =>
+                                        record[routesStore.recordsStore.recordParentId] === id &&
+                                        !treeModel.hiddenRecords.get(record[VAR_RECORD_ID] as any) &&
+                                        record[VAR_RECORD_ROUTE_VISIBLE_MENU],
+                                ).length === 0;
+                        }
+
+                        return result;
+                    },
+                    (isHidden) => treeModel.setHiddenAction(id, isHidden),
+                    {
+                        fireImmediately: true,
+                    },
+                ),
+            );
+        }
+
+        return dispatcher.forEach((fn) => fn());
+    }, [id, leaf, pageStore, route, routesStore, treeModel]);
+
     const handleClick = (event) => {
         event.stopPropagation();
         event.preventDefault();
+
         if (typeof leaf === "boolean" ? leaf : leaf === "true") {
+            if (route[VAR_RECORD_PAGE_REDIRECT] || route.redirecturl) {
+                makeRedirect(
+                    {...route, redirecturl: route[VAR_RECORD_PAGE_REDIRECT] || route.redirecturl} as any,
+                    pageStore,
+                    route,
+                );
+
+                return;
+            }
             if (route[VAR_RECORD_APP_URL] !== pagesStore.applicationStore.url) {
                 pagesStore.applicationStore.history.push(`/${route[VAR_RECORD_APP_URL]}/${id}`);
             } else {
@@ -75,6 +141,10 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
     return useObserver(() => {
         const {favorits} = routesStore;
         const isFavorite = favorits.get(id);
+
+        if (treeModel.hiddenRecords.get(id)) {
+            return null;
+        }
 
         return (
             <div style={{paddingLeft: level * LEFT_PADDING}} className={classes.root} onClick={handleClick}>

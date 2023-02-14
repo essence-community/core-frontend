@@ -23,6 +23,7 @@ export const VAR_RECORD_RES_ERROR = "cv_error";
 export const VAR_RECORD_RES_FORM_ERROR = "jt_form_message";
 export const VAR_RECORD_RES_STACK_TRACE = "cv_stack_trace";
 export const VAR_RECORD_URL = "cv_url";
+export const VAR_RECORD_IS_NOT_BLANC = "cl_not_blanc";
 export const VAR_RECORD_APP_URL = "cv_app_url";
 export const VAR_RECORD_GLOBAL_VALUE = "global_value";
 export const VAR_RECORD_CK_REGION = "ck_region";

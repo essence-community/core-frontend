@@ -14,6 +14,7 @@ import {
     VAR_RECORD_CN_ACTION_EDIT,
     VAR_RECORD_ROUTE_NAME,
     VAR_RECORD_NOLOAD,
+    VAR_RECORD_PAGE_REDIRECT,
 } from "../../constants";
 import {
     IBuilderConfig,
@@ -30,7 +31,7 @@ import {
     IApplicationModel,
     IRecord,
 } from "../../types";
-import {noop, isEmpty, parseMemoize, i18next, findClassNames, deepFind} from "../../utils";
+import {noop, isEmpty, parseMemoize, i18next, findClassNames, deepFind, makeRedirect} from "../../utils";
 import {RecordsModel} from "../RecordsModel";
 import {snackbarStore} from "../SnackbarModel";
 import {loadComponentsFromModules} from "../../components";
@@ -306,7 +307,8 @@ export class PageModel implements IPageModel {
             await this.recordsStore.searchAction({[VAR_RECORD_ROUTE_PAGE_ID]: pageId});
 
             if (this.recordsStore.selectedRecord) {
-                const {children, route} = this.recordsStore.selectedRecordValues;
+                const {children, route: preRoute} = this.recordsStore.selectedRecordValues;
+                const route = preRoute as IBuilderConfig;
                 const pageBc = Array.isArray(children) ? children : [];
 
                 const classNames = findClassNames(pageBc);
@@ -318,7 +320,7 @@ export class PageModel implements IPageModel {
                     this.updateGlobalValues(globalValue);
                 }
 
-                if (route && (route as any).activerules) {
+                if (route && route.activerules) {
                     const getValue = (name: string) => {
                         if (name.charAt(0) === "g") {
                             return this.globalValues.get(name);
@@ -338,6 +340,15 @@ export class PageModel implements IPageModel {
                     if (!parseMemoize((route as any).activerules).runer({get: getValue})) {
                         this.applicationStore.pagesStore.removePageAction((route as any)[VAR_RECORD_ID]);
                     }
+                }
+
+                if (route && (route.redirecturl || (route as any)[VAR_RECORD_PAGE_REDIRECT])) {
+                    makeRedirect(
+                        {...route, redirecturl: (route as any)[VAR_RECORD_PAGE_REDIRECT] || route.redirecturl} as any,
+                        this,
+                        route as any,
+                        true,
+                    );
                 }
 
                 this.pageBc = pageBc;

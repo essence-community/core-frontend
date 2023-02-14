@@ -275,7 +275,7 @@ export function makeRedirect(bc: IBuilderConfig, pageStore: IPageModel, record: 
     if (redirecturl) {
         if (redirecturl.indexOf("redirect/") === 0) {
             redirectToApplication(pageStore, values, redirecturl.replace("redirect/", ""));
-        } else if (redirecturl.indexOf("/") >= 0) {
+        } else if (redirecturl.indexOf("/") >= 0 || redirecturl[0] === "`") {
             redirectToUrl({noBlank, pageStore, record, redirecturl, values});
         } else {
             pageStore.applicationStore.redirectToAction(redirecturl, values);

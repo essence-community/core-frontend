@@ -198,7 +198,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     React.useEffect(() => {
         return reaction(
             () => applicationStore.pagesStore.activePage,
-            (activePage) => {
+            async (activePage) => {
                 const route = activePage && activePage.route;
                 let pageId: FieldValue = "";
                 let routeUrl: FieldValue = "";
@@ -223,14 +223,6 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                     url = `/${applicationStore.url}/${routeUrl}`;
                 }
 
-                if (url && history.location.pathname !== url) {
-                    if (routeUrl === applicationStore.defaultValue) {
-                        history.replace(url);
-                    } else {
-                        history.push(url);
-                    }
-                }
-
                 if (
                     pageId &&
                     (!activePage ||
@@ -238,7 +230,15 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                             activePage.route?.[VAR_RECORD_URL] !== pageId &&
                             activePage.route?.[VAR_RECORD_ID] !== pageId))
                 ) {
-                    applicationStore.pagesStore.setPageAction(String(pageId), false);
+                    await applicationStore.pagesStore.setPageAction(String(pageId), false);
+                }
+
+                if (url && history.location.pathname !== url) {
+                    if (routeUrl === applicationStore.defaultValue) {
+                        history.replace(url);
+                    } else {
+                        history.push(url);
+                    }
                 }
             },
         );

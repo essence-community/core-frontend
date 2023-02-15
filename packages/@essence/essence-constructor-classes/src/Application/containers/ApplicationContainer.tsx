@@ -100,8 +100,8 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 } else if (pagesStore.pages.length) {
                     pagesStore.setPageAction(pagesStore.pages[0].pageId, false);
                 }
-            } else if (isEmpty(oldUrl) && applicationStore.bc.defaultvalue) {
-                applicationStore.pagesStore.setPageAction(applicationStore.bc.defaultvalue, false);
+            } else if (isEmpty(oldUrl) && applicationStore.defaultValue) {
+                applicationStore.pagesStore.setPageAction(applicationStore.defaultValue, false);
             }
         };
 

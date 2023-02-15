@@ -5,6 +5,8 @@ import {
     STORE_LAST_CV_LOGIN_KEY,
     VAR_RECORD_ROUTE_VISIBLE_MENU,
     VAR_RECORD_CV_LOGIN,
+    VAR_RECORD_URL,
+    VAR_RECORD_ID,
 } from "@essence-community/constructor-share/constants";
 import {PageModel} from "@essence-community/constructor-share/models";
 import {GlobalRecordsModel} from "@essence-community/constructor-share/models/GlobalRecordsModel";
@@ -80,7 +82,12 @@ export class PagesModel implements IPagesModel {
                 return false;
             }
 
-            let activePage = this.pages.find((page) => page.pageId === pageId);
+            let activePage = this.pages.find(
+                (page) =>
+                    page.pageId === pageId ||
+                    page.route?.[VAR_RECORD_URL] === pageId ||
+                    page.route?.[VAR_RECORD_ID] === pageId,
+            );
 
             if (activePage) {
                 this.activePage = activePage;
@@ -90,7 +97,7 @@ export class PagesModel implements IPagesModel {
 
             saveToStore(
                 this.storeKey,
-                this.pages.map((page) => page.pageId),
+                this.pages.map((page) => page.route?.[VAR_RECORD_ID] || page.pageId),
             );
 
             return activePage;
@@ -101,15 +108,27 @@ export class PagesModel implements IPagesModel {
         // Don't close default page. This is hidden page and need to display start screen
         if (
             pageId !== this.applicationStore.defaultValue ||
-            this.pages.filter((page) => page.pageId !== this.applicationStore.defaultValue).length > 0
+            this.pages.filter(
+                (page) =>
+                    page.pageId !== this.applicationStore.defaultValue &&
+                    page.route?.[VAR_RECORD_URL] !== this.applicationStore.defaultValue,
+            ).length > 0
         ) {
-            const selectedPage = this.pages.find((page) => page.pageId === pageId);
+            const selectedPage = this.pages.find(
+                (page) =>
+                    page.pageId === pageId ||
+                    page.route?.[VAR_RECORD_URL] === pageId ||
+                    page.route?.[VAR_RECORD_ID] === pageId,
+            );
 
             if (selectedPage === this.activePage) {
                 this.activePage =
                     (this.pages.length &&
                         this.pages.find(
-                            (page) => page.pageId !== this.applicationStore.defaultValue && page.pageId !== pageId,
+                            (page) =>
+                                page.pageId !== this.applicationStore.defaultValue &&
+                                page.route?.[VAR_RECORD_URL] !== pageId &&
+                                page.pageId !== pageId,
                         )) ||
                     null;
             }
@@ -121,7 +140,7 @@ export class PagesModel implements IPagesModel {
 
             saveToStore(
                 this.storeKey,
-                this.pages.map((page) => page.pageId),
+                this.pages.map((page) => page.route?.[VAR_RECORD_ID] || page.pageId),
             );
         }
     });
@@ -136,7 +155,7 @@ export class PagesModel implements IPagesModel {
         this.activePage = this.pages[0] || null;
         saveToStore(
             this.storeKey,
-            this.pages.map((page) => page.pageId),
+            this.pages.map((page) => page.route?.[VAR_RECORD_URL] || page.pageId),
         );
     });
 
@@ -161,7 +180,7 @@ export class PagesModel implements IPagesModel {
 
         saveToStore(
             this.storeKey,
-            this.pages.map((page) => page.pageId),
+            this.pages.map((page) => page.route?.[VAR_RECORD_ID] || page.pageId),
         );
     });
 
@@ -212,7 +231,7 @@ export class PagesModel implements IPagesModel {
 
         saveToStore(
             this.storeKey,
-            this.pages.map((page) => page.pageId),
+            this.pages.map((page) => page.route?.[VAR_RECORD_ID] || page.pageId),
         );
     };
 }

@@ -230,7 +230,13 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                     }
                 }
 
-                if (pageId && (!activePage || activePage.pageId !== pageId)) {
+                if (
+                    pageId &&
+                    (!activePage ||
+                        (activePage.pageId !== pageId &&
+                            activePage.route?.[VAR_RECORD_URL] !== pageId &&
+                            activePage.route?.[VAR_RECORD_ID] !== pageId))
+                ) {
                     applicationStore.pagesStore.setPageAction(String(pageId), false);
                 }
             },

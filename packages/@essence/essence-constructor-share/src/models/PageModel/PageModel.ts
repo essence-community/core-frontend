@@ -15,6 +15,7 @@ import {
     VAR_RECORD_ROUTE_NAME,
     VAR_RECORD_NOLOAD,
     VAR_RECORD_PAGE_REDIRECT,
+    VAR_RECORD_PAGE_MULTI,
 } from "../../constants";
 import {
     IBuilderConfig,
@@ -127,6 +128,12 @@ export class PageModel implements IPageModel {
             (this.applicationStore.authStore.userInfo[VAR_RECORD_CA_ACTIONS] || []).indexOf(parseInt(actionEdit, 10)) <
             0
         );
+    }
+
+    @computed public get isMulti(): boolean {
+        const isMulti = this.route?.[VAR_RECORD_PAGE_MULTI] as any;
+
+        return isMulti || false;
     }
 
     @computed public get hiddenPage(): boolean {

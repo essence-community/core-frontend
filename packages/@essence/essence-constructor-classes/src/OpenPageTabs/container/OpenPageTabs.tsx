@@ -1,4 +1,4 @@
-import {IClassProps, ApplicationContext, IRouteRecord} from "@essence-community/constructor-share";
+import {IClassProps, ApplicationContext, IRouteRecord, IPageModel} from "@essence-community/constructor-share";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_ROUTE_NAME,
@@ -53,7 +53,7 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
     const {pagesStore} = applicationStore;
     const [isOpenMenu, setIsOpenMenu] = React.useState(false);
     const [dragHtml, setDragHtml] = React.useState("");
-    const [menuPageValue, setMenuPageValue] = React.useState("");
+    const [menuPageValue, setMenuPageValue] = React.useState(null);
     const [menuPosition, setMenuPosition] = React.useState({
         left: 0,
         top: 0,
@@ -61,10 +61,10 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
     const dragIndexRef = React.useRef<undefined | number>();
     const hoverIndexRef = React.useRef<undefined | number>();
     const dragEventRef = React.useRef<typeof INITIAL_DRAG>(INITIAL_DRAG);
-    const handleChangePage = (event: React.ChangeEvent, value: string) => {
+    const handleChangePage = (event: React.ChangeEvent, value: IPageModel) => {
         pagesStore.setPageAction(value, false);
     };
-    const handleContextMenu = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, value: string) => {
+    const handleContextMenu = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, value: IPageModel) => {
         event.preventDefault();
         setIsOpenMenu(true);
         setMenuPageValue(value);
@@ -173,7 +173,7 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
                             label={trans(name)}
                             route={route}
                             iconfont={iconName}
-                            value={pageId}
+                            value={page}
                             titleRoutePath={trans<string>(titleRoutePath)}
                             onClose={pagesStore.removePageAction}
                             onContextMenuCustom={handleContextMenu}

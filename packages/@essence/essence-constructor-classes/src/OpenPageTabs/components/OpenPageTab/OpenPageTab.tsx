@@ -7,6 +7,7 @@ import {Icon} from "@essence-community/constructor-share/Icon";
 import {settingsStore} from "@essence-community/constructor-share/models";
 import {Tab, Typography} from "@material-ui/core";
 import cn from "clsx";
+import {useObserver} from "mobx-react";
 import * as React from "react";
 import {useStyles} from "./OpenPageTab.styles";
 import {IOpenTabProps} from "./OpenPageTab.types";
@@ -32,6 +33,7 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
         tabDragClassName,
         titleRoutePath,
         route,
+        pagesStore,
         ...materialTabProps
     } = props;
     const [isDrag, setIsDrag] = React.useState(false);
@@ -111,7 +113,7 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
         materialTabProps.onChange(event, value);
     };
 
-    return (
+    return useObserver(() => (
         <Tab
             value={value}
             icon={iconNode}
@@ -119,6 +121,7 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
             data-page-object={`tab-${value}`}
             component="div"
             ref={tabRef}
+            selected={value === pagesStore.activePage}
             label={
                 <React.Fragment>
                     <a
@@ -151,5 +154,5 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
             onMouseDown={handleMouseDown}
             onMouseOver={handleMouseOver}
         />
-    );
+    ));
 });

@@ -1,5 +1,6 @@
 import {TabProps} from "@material-ui/core/Tab";
 import {IPageModel} from "@essence-community/constructor-share/types";
+import {IPagesModel} from "@essence-community/constructor-share/types/PagesModel";
 
 export interface IDragPos {
     posX: number;
@@ -9,6 +10,7 @@ export interface IDragPos {
 export type IOpenTabProps = TabProps & {
     value: IPageModel;
     route?: Record<string, any>;
+    pagesStore: IPagesModel;
     pageIndex: number;
     iconfont?: string;
     label?: string;

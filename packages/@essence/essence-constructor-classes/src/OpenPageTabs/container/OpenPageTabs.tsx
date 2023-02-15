@@ -173,6 +173,7 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
                             label={trans(name)}
                             route={route}
                             iconfont={iconName}
+                            pagesStore={applicationStore.pagesStore}
                             value={page}
                             titleRoutePath={trans<string>(titleRoutePath)}
                             onClose={pagesStore.removePageAction}

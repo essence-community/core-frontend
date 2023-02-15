@@ -148,7 +148,11 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             );
             const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
-            if (pageId && pagesStore.activePage.pageId !== pageId) {
+            if (
+                pageId &&
+                pagesStore.activePage.pageId !== pageId &&
+                pagesStore.activePage.route?.[VAR_RECORD_URL] !== pageId
+            ) {
                 pagesStore.setPageAction(String(pageId), false);
             }
         } else if (applicationStore.defaultValue) {

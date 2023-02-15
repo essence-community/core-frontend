@@ -1,10 +1,5 @@
-import {
-    VAR_RECORD_APP_URL,
-    VAR_RECORD_ICON_FONT,
-    VAR_SETTING_BASE_PATH,
-} from "@essence-community/constructor-share/constants/variables";
+import {VAR_RECORD_ICON_FONT} from "@essence-community/constructor-share/constants/variables";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {settingsStore} from "@essence-community/constructor-share/models";
 import {Tab, Typography} from "@material-ui/core";
 import cn from "clsx";
 import {useObserver} from "mobx-react";
@@ -107,12 +102,6 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
         };
     }, [handleMouseMove, handleMouseUp]);
 
-    const handleUrl = (event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        materialTabProps.onChange(event, value);
-    };
-
     return useObserver(() => (
         <Tab
             value={value}
@@ -124,20 +113,9 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
             selected={value === pagesStore.activePage}
             label={
                 <React.Fragment>
-                    <a
-                        href={
-                            route
-                                ? // eslint-disable-next-line max-len
-                                  `${settingsStore.settings[VAR_SETTING_BASE_PATH]}${route[VAR_RECORD_APP_URL]}/${value}`
-                                : undefined
-                        }
-                        className={classes.tabLink}
-                        onClick={handleUrl}
-                    >
-                        <Typography variant="body2" noWrap color="inherit" className={classes.text}>
-                            {label}
-                        </Typography>
-                    </a>
+                    <Typography variant="body2" noWrap color="inherit" className={classes.text}>
+                        {label}
+                    </Typography>
                     <div onClick={handleClose} className={selected ? classes.activeCloseIcon : classes.closeIcon}>
                         <Icon iconfont="times" />
                     </div>

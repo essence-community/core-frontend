@@ -1,5 +1,5 @@
 /* eslint-disable max-lines-per-function */
-import {Icon, settingsStore} from "@essence-community/constructor-share";
+import {Icon, IRecord, settingsStore} from "@essence-community/constructor-share";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_ROUTE_NAME,
@@ -25,7 +25,8 @@ const LEFT_PADDING = 30;
 export const TreeRow: React.FC<ITreeRowProps> = (props) => {
     const classes = useStyles(props);
     const {pageStore, pagesStore, routesStore, route, isOpen, level, treeModel} = props;
-    const leaf = route[VAR_RECORD_LEAF];
+    const leaf =
+        typeof route[VAR_RECORD_LEAF] === "boolean" ? route[VAR_RECORD_LEAF] : route[VAR_RECORD_LEAF] === "true";
     const id = route[VAR_RECORD_ID];
     const [trans] = useTranslation("meta");
     const name = trans(route[VAR_RECORD_ROUTE_NAME]);
@@ -37,7 +38,7 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
     React.useEffect(() => {
         const dispatcher = [];
 
-        if (route.activerules || (typeof leaf === "boolean" ? !leaf : leaf !== "true")) {
+        if (route.activerules || !leaf) {
             const getValue = (name: string) => {
                 if (name.charAt(0) === "g") {
                     return pageStore.globalValues.get(name);
@@ -54,26 +55,32 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
                 return undefined;
             };
 
+            const recursiveCheckHidden = (record: IRecord) => {
+                let result = record[VAR_RECORD_ROUTE_VISIBLE_MENU];
+                const isLeaf =
+                    typeof record[VAR_RECORD_LEAF] === "boolean"
+                        ? record[VAR_RECORD_LEAF]
+                        : record[VAR_RECORD_LEAF] === "true";
+
+                if (result && record.activerules) {
+                    result = parseMemoize(record.activerules).runer({get: getValue});
+                }
+
+                if (result && !isLeaf) {
+                    result =
+                        routesStore.recordsStore.records.filter(
+                            (recordChild) =>
+                                recordChild[routesStore.recordsStore.recordParentId] === record[VAR_RECORD_ID] &&
+                                recursiveCheckHidden(recordChild),
+                        ).length > 0;
+                }
+
+                return result;
+            };
+
             dispatcher.push(
                 reaction(
-                    () => {
-                        let result = false;
-
-                        if (route.activerules) {
-                            result = !(parseMemoize(route.activerules).runer({get: getValue}) as boolean);
-                        }
-                        if (!result && typeof leaf === "boolean" ? !leaf : leaf !== "true") {
-                            result =
-                                routesStore.recordsStore.records.filter(
-                                    (record) =>
-                                        record[routesStore.recordsStore.recordParentId] === id &&
-                                        !treeModel.hiddenRecords.get(record[VAR_RECORD_ID] as any) &&
-                                        record[VAR_RECORD_ROUTE_VISIBLE_MENU],
-                                ).length === 0;
-                        }
-
-                        return result;
-                    },
+                    () => !recursiveCheckHidden(route),
                     (isHidden) => treeModel.setHiddenAction(id, isHidden),
                     {
                         fireImmediately: true,
@@ -89,7 +96,7 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
         event.stopPropagation();
         event.preventDefault();
 
-        if (typeof leaf === "boolean" ? leaf : leaf === "true") {
+        if (leaf) {
             if (route[VAR_RECORD_PAGE_REDIRECT] || route.redirecturl) {
                 makeRedirect(
                     {...route, redirecturl: route[VAR_RECORD_PAGE_REDIRECT] || route.redirecturl} as any,
@@ -112,7 +119,7 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
     const handleToggleFavorite = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         event.stopPropagation();
 
-        if (typeof leaf === "boolean" ? leaf : leaf === "true") {
+        if (leaf) {
             routesStore.setFavoritsAction(id);
         }
     };
@@ -140,21 +147,28 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
 
     return useObserver(() => {
         const {favorits} = routesStore;
+        const {hiddenRecords} = treeModel;
         const isFavorite = favorits.get(id);
 
-        if (treeModel.hiddenRecords.get(id)) {
+        if (hiddenRecords.get(id)) {
             return null;
         }
 
         return (
-            <div style={{paddingLeft: level * LEFT_PADDING}} className={classes.root} onClick={handleClick}>
+            <div
+                style={{paddingLeft: level * LEFT_PADDING}}
+                className={clsx(classes.root, {
+                    [classes.selected]: pagesStore.activePage.route?.[VAR_RECORD_ID] === id,
+                })}
+                onClick={handleClick}
+            >
                 <a
                     href={`${settingsStore.settings[VAR_SETTING_BASE_PATH]}${route[VAR_RECORD_APP_URL]}/${id}`}
                     className={classes.link}
                     onClick={handleClick}
                 >
                     <Grid container wrap="nowrap" spacing={1} alignItems="center" className={classes.rootGrid}>
-                        {typeof leaf === "boolean" ? leaf : leaf === "true" ? renderIcon() : renderFolderIcon()}
+                        {leaf ? renderIcon() : renderFolderIcon()}
                         <Grid item xs zeroMinWidth>
                             <Typography
                                 variant="body2"
@@ -168,9 +182,7 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
                         </Grid>
                     </Grid>
                 </a>
-                {typeof leaf === "boolean" ? (
-                    leaf
-                ) : leaf === "true" ? (
+                {leaf ? (
                     <div
                         className={clsx(classes.favoriteRoot, {
                             [classes.favoriteSelected]: isFavorite,

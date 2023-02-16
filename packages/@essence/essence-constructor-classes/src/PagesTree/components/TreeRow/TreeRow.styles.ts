@@ -58,6 +58,9 @@ export const useStyles = makeStyles(
             minHeight: 42,
             padding: "0 10px",
         },
+        selected: {
+            backgroundColor: theme.essence.palette.common.selectedMenu,
+        },
     }),
     {
         name: "EssencePagesTreeTreeRow",

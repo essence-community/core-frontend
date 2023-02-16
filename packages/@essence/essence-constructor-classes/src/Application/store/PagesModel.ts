@@ -3,7 +3,6 @@ import {action, observable, IObservableArray, ObservableMap, computed} from "mob
 import {
     STORE_PAGES_IDS_KEY,
     STORE_LAST_CV_LOGIN_KEY,
-    VAR_RECORD_ROUTE_VISIBLE_MENU,
     VAR_RECORD_CV_LOGIN,
     VAR_RECORD_URL,
     VAR_RECORD_ID,
@@ -33,7 +32,9 @@ export class PagesModel implements IPagesModel {
     @observable pages: IObservableArray<IPageModel> = observable.array();
 
     @computed get visiblePages() {
-        return this.pages.filter(({route}) => route && route[VAR_RECORD_ROUTE_VISIBLE_MENU]);
+        // Отображаем всегда все
+        // return this.pages.filter(({route}) => route && route[VAR_RECORD_ROUTE_VISIBLE_MENU]);
+        return this.pages;
     }
 
     @computed get storeKey() {

@@ -39,7 +39,7 @@ const checkValue = (
 };
 
 export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
-    const {bc, disabled, hidden, pageStore} = props;
+    const {bc, disabled, hidden, readOnly, pageStore} = props;
     const [storeComponent, setStoreComponent] = React.useState<{Component: React.FC<IModuleClassProps>}>(null);
     const [propsComponent, setPropsComponent] = React.useState(DEFAULT_PROPS);
     const [mfConfig, setMfConfig] = React.useState<IConfigMF>(null);
@@ -208,7 +208,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
             <Grid item xs={12} alignItems="stretch" zeroMinWidth>
                 <storeComponent.Component {...finalPropsComponent} />
             </Grid>
-            <div className={disabled ? classes.disabled : ""}></div>
+            <div className={disabled || readOnly ? classes.disabled : ""}></div>
         </Grid>
     );
 };

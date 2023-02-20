@@ -167,9 +167,16 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
                     className={classes.link}
                     onClick={handleClick}
                 >
-                    <Grid container wrap="nowrap" spacing={1} alignItems="center" className={classes.rootGrid}>
+                    <Grid
+                        container
+                        wrap="nowrap"
+                        justify="center"
+                        spacing={1}
+                        alignItems="center"
+                        className={classes.rootGrid}
+                    >
                         {leaf ? renderIcon() : renderFolderIcon()}
-                        <Grid item xs zeroMinWidth>
+                        <Grid item xs zeroMinWidth alignItems="center">
                             <Typography
                                 variant="body2"
                                 color="inherit"

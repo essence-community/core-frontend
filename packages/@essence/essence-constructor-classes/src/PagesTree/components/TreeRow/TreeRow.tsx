@@ -158,7 +158,7 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
             <div
                 style={{paddingLeft: level * LEFT_PADDING}}
                 className={clsx(classes.root, {
-                    [classes.selected]: pagesStore.activePage.route?.[VAR_RECORD_ID] === id,
+                    [classes.selected]: pagesStore.activePage && pagesStore.activePage.route?.[VAR_RECORD_ID] === id,
                 })}
                 onClick={handleClick}
             >

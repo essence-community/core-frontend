@@ -55,16 +55,22 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
     valueField: string;
 
+    @observable
     field: IField;
 
     form: IForm;
 
     builderConfigs: IBuilderConfig[];
 
+    @computed
+    get gridId() {
+        return `grid_${this.field.parentFieldKey || ""}_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
+    }
+
     constructor(props: IFieldTableModelProps) {
         super(props);
 
-        const gridId = `grid_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
+        const gridId = this.gridId;
 
         this.field = props.field;
         this.form = props.form;
@@ -235,7 +241,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
     @action
     clearAction = () => {
-        const gridStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
+        const gridStore = this.pageStore.stores.get(this.gridId);
 
         if (gridStore && gridStore.recordsStore) {
             gridStore.recordsStore.clearRecordsAction();
@@ -355,7 +361,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
     @action
     handleSelectArrayAction = (mode: IBuilderMode, btnBc: IBuilderConfig, {popoverCtx}: IHandlerOptions) => {
-        const gridStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
+        const gridStore = this.pageStore.stores.get(this.gridId);
 
         if (gridStore && gridStore.recordsStore) {
             this.field.onChange(
@@ -398,7 +404,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
     @action
     handleCloseAction = (mode: IBuilderMode, btnBc: IBuilderConfig, {popoverCtx}: IHandlerOptions) => {
-        const recordsStore = this.pageStore.stores.get(`grid_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`)?.recordsStore;
+        const recordsStore = this.pageStore.stores.get(this.gridId)?.recordsStore;
 
         if (recordsStore && this.bc.collectionvalues === "array") {
             this.recordsStore.setSelectionsAction(this.selectedEntries.map(([, rec]) => rec));

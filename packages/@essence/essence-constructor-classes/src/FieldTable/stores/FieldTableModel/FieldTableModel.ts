@@ -63,7 +63,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     builderConfigs: IBuilderConfig[];
 
     @computed
-    get gridId() {
+    get gridId(): string {
         return `grid_${this.field.parentFieldKey || ""}_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
     }
 
@@ -158,7 +158,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     @observable selectedEntries: IObservableArray<[ICkId, IRecord]> = observable.array([], {deep: false});
 
     @computed get recordsGridStore(): IRecordsModel | undefined {
-        const gridStore = this.pageStore.stores.get(this.gridBc[VAR_RECORD_PAGE_OBJECT_ID]);
+        const gridStore = this.pageStore.stores.get(this.gridId);
 
         return gridStore && gridStore.recordsStore;
     }

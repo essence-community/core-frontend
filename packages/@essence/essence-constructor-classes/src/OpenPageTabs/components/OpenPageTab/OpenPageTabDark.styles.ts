@@ -77,8 +77,8 @@ export default (theme: IEssenceTheme) => ({
         top: 0,
         right: 0,
         position: "absolute",
-        color: theme.essence.palette.grey.light,
-        fill: theme.essence.palette.grey.light,
+        color: theme.palette.primary.main,
+        fill: theme.palette.primary.main,
     },
     activeTabIcon: {
         color: theme.essence.palette.grey.light,

@@ -4,11 +4,12 @@ import {
     VAR_RECORD_ROUTE_NAME,
     VAR_RECORD_ICON_NAME,
 } from "@essence-community/constructor-share/constants/variables";
-import {Tabs} from "@material-ui/core";
+import {Tabs, Tab} from "@material-ui/core";
 import {useObserver} from "mobx-react";
 import * as React from "react";
-import {useTranslation} from "@essence-community/constructor-share/utils";
+import {noop, useTranslation} from "@essence-community/constructor-share/utils";
 import ReactDOM from "react-dom";
+import cn from "clsx";
 import {OpenPageMenuContext} from "../components/OpenPageMenuContext/OpenPageMenuContext";
 import {OpenPageTab} from "../components/OpenPageTab/OpenPageTab";
 import {ScrollButton} from "../components/ScrollButton/ScrollButton";
@@ -148,7 +149,7 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
     return useObserver(() => (
         <React.Fragment>
             <Tabs
-                value={pagesStore.activePage ? pagesStore.activePage : false}
+                value={pagesStore.activePage}
                 classes={{
                     flexContainer: classes.tabsFlexContainer,
                     root: classes.tabsRoot,
@@ -186,7 +187,18 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
                         />
                     );
                 })}
-                <div className={classes.emtySpace} onMouseOver={handleTabsDragEnter} />
+                <Tab
+                    value={null}
+                    fullWidth
+                    component="div"
+                    classes={{root: cn(classes.emptySpace, classes[`emptySpace${orientation}`])}}
+                    onChange={noop}
+                    disableFocusRipple
+                    disableTouchRipple
+                    disabled
+                    disableRipple
+                    onMouseOver={handleTabsDragEnter}
+                />
             </Tabs>
             <OpenPageMenuContext
                 open={isOpenMenu}

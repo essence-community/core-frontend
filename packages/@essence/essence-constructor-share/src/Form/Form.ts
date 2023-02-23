@@ -1,6 +1,8 @@
+/* eslint-disable max-statements */
 import {action, computed, observable, ObservableMap} from "mobx";
+import merge from "lodash/merge";
 import {IRecord, IBuilderMode, IBuilderConfig} from "../types";
-import {entriesMapSort} from "../utils/transform";
+import {cloneDeepElementary, entriesMapSort} from "../utils/transform";
 import {loggerRoot} from "../constants";
 import {IPageModel} from "../types/PageModel";
 import {FieldValue} from "../types/Base";
@@ -58,15 +60,30 @@ export class Form implements IForm {
     @observable public valueKey: FieldValue;
 
     @computed get values(): IRecord {
-        const values: IRecord = {
-            ...this.initialValues,
-            ...this.extraValue,
-        };
+        const extraValue = cloneDeepElementary(this.extraValue);
+        const values: IRecord = merge(cloneDeepElementary(this.initialValues), extraValue);
         const keysAndFields = [];
 
         for (const [key, field] of this.fields.entries()) {
             if (key.indexOf(".") === -1) {
-                values[key] = field.output(field, this, field.value);
+                const value = field.output(field, this, field.value);
+
+                values[key] = value;
+                if (typeof value === "object") {
+                    if (field.isArray) {
+                        let lastExtraValue =
+                            typeof extraValue[key] === "object" && !Array.isArray(extraValue[key])
+                                ? Object.values(extraValue[key] as any)
+                                : (extraValue[key] as any[]);
+
+                        if (lastExtraValue && lastExtraValue.length > (value as any[]).length) {
+                            lastExtraValue = lastExtraValue.slice(0, (value as any[]).length);
+                        }
+                        values[key] = merge(lastExtraValue || [], cloneDeepElementary(value));
+                    } else if (field.isObject) {
+                        values[key] = merge(extraValue[key] || {}, cloneDeepElementary(value));
+                    }
+                }
             } else {
                 keysAndFields.push({field, keys: key.split(".")});
             }
@@ -83,9 +100,26 @@ export class Form implements IForm {
             }, values);
 
             val[last] = field.output(field, this, field.value);
+            if (typeof val[last] === "object") {
+                const isArray = Array.isArray(val[last]);
+                const extra = keys.reduce((res, key) => {
+                    if (!res[key]) {
+                        res[key] = {};
+                    }
+
+                    return res[key] as any;
+                }, extraValue);
+                const lastExtra = extra[last];
+
+                if (isArray && lastExtra && !Array.isArray(lastExtra) && typeof lastExtra === "object") {
+                    val[last] = merge(Object.values(lastExtra), cloneDeepElementary(val[last]));
+                } else if (lastExtra) {
+                    val[last] = merge(lastExtra, cloneDeepElementary(val[last]));
+                }
+            }
         }
 
-        return values;
+        return cloneDeepElementary(values);
     }
     @computed get valuesFile(): FormData {
         const formData = new FormData();
@@ -179,6 +213,7 @@ export class Form implements IForm {
 
             if (field.registers <= 0) {
                 this[field.isFile ? "fieldsFile" : "fields"].delete(key);
+                field.clearExtra();
             }
         }
     };
@@ -242,8 +277,17 @@ export class Form implements IForm {
     };
 
     @action
-    patch = (values: IRecord, isExtra = false) => {
-        Object.entries(values).forEach(([key, value]) => {
+    patch = (values: IRecord, isExtra = false, isReset = false) => {
+        if (isExtra) {
+            this.extraValue = isReset
+                ? cloneDeepElementary(values)
+                : merge(cloneDeepElementary(this.extraValue), cloneDeepElementary(values));
+
+            this.setIsDirty(false);
+
+            return;
+        }
+        Object.entries(values).forEach(([key]) => {
             const field = this.fields.get(key);
 
             if (field) {
@@ -254,8 +298,6 @@ export class Form implements IForm {
                 } else {
                     field.clear();
                 }
-            } else if (isExtra) {
-                this.extraValue[key] = value;
             } else {
                 loggerForm(`Can not update field ${key}. Field should be added from class`);
             }
@@ -266,17 +308,20 @@ export class Form implements IForm {
 
     @action
     clear = () => {
+        this.extraValue = {};
         for (const field of this.fields.values()) {
             field.clear();
         }
         for (const field of this.fieldsFile.values()) {
             field.clear();
         }
+
         this.setIsDirty(false);
     };
 
     @action
     reset = () => {
+        this.extraValue = {};
         for (const field of this.fields.values()) {
             field.reset();
         }

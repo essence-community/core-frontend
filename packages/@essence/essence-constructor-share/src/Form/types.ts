@@ -42,6 +42,7 @@ export interface IField {
     reset(): void;
     resetChilds(): void;
     clear(): void;
+    clearExtra(): void;
     invalidate(error: TError[] | TError): void;
     validate(): Promise<void> | void;
     resetValidation(): void;
@@ -63,6 +64,7 @@ export interface IField {
 
 export interface IForm {
     values: IRecord;
+    extraValue: IRecord;
     valueKey?: FieldValue;
     valuesFile: FormData;
     initialValues: IRecord;
@@ -83,7 +85,7 @@ export interface IForm {
     clear(): void;
     update(initialValues?: IRecord, isReset?: boolean): void;
     updateMode(mode: IBuilderMode): void;
-    patch(values: IRecord, isExtra?: boolean): void;
+    patch(values: IRecord, isExtra?: boolean, isExtraReset?: boolean): void;
     select(key: string): IField | undefined;
     registerField(key: string, options: IRegisterFieldOptions): IField;
     unregisterField(key: string): void;

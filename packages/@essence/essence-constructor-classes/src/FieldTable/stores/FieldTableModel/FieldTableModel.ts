@@ -64,17 +64,18 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
     @computed
     get gridId(): string {
-        return `grid_${this.field.parentFieldKey || ""}_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
+        return `grid_${
+            this.field.parentFieldKey ? this.field.key.slice(this.field.parentFieldKey.length).split(".")[0] : ""
+        }_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
     }
 
     constructor(props: IFieldTableModelProps) {
         super(props);
 
-        const gridId = this.gridId;
-
         this.field = props.field;
         this.form = props.form;
         this.valueField = this.bc.valuefield?.[0]?.in || this.bc.idproperty || VAR_RECORD_ID;
+        const gridId = this.gridId;
 
         if (this.bc.valuefield && this.bc.valuefield.length) {
             this.valueFields = this.bc.valuefield.map(({in: keyIn, out}) => {
@@ -263,7 +264,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         this.recordsStore.clearRecordsAction();
     };
 
-    handleChangeRecord = (record: IRecord, userChange = false) => {
+    handleChangeRecord = (record: IRecord, userChange = false, isSilentClear = false) => {
         let column = "";
 
         if (this.valueFields && this.valueFields.length > 1) {
@@ -299,8 +300,10 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
         if (userChange) {
             this.field.onChange(value);
-        } else if (isEmpty(value)) {
+        } else if (isEmpty(value) && !isSilentClear) {
             this.field.onClear();
+        } else if (isEmpty(value) && isSilentClear) {
+            this.field.clear();
         } else if (this.field.value !== value) {
             this.field.onChange(value);
         }
@@ -345,6 +348,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     clearStoreAction = () => {
         this.recordsGridStore && this.recordsGridStore.clearChildsStoresAction();
         this.selectedEntries.clear();
+        this.handleChangeRecord({}, false, true);
         this.field.clear();
     };
 

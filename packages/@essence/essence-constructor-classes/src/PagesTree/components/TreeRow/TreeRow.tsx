@@ -176,7 +176,7 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
                         className={classes.rootGrid}
                     >
                         {leaf ? renderIcon() : renderFolderIcon()}
-                        <Grid item xs zeroMinWidth alignItems="center">
+                        <Grid item xs zeroMinWidth>
                             <Typography
                                 variant="body2"
                                 color="inherit"

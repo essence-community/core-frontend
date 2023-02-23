@@ -87,7 +87,7 @@ export const deepFind = (obj: IRecord, path: string | string[]): [boolean, IReco
         if (typeof current === "string" && (current.trim().charAt(0) === "[" || current.trim().charAt(0) === "{")) {
             current = JSON.parse(current);
         }
-        if (!Array.isArray(current) && typeof current !== "object") {
+        if (typeof current !== "object") {
             return [false, undefined];
         }
 
@@ -110,6 +110,10 @@ export const deepFind = (obj: IRecord, path: string | string[]): [boolean, IReco
     return [true, current];
 };
 
+export const cloneDeepElementary = (val: any) => {
+    return typeof val === "object" ? JSON.parse(JSON.stringify(val)) : val;
+};
+
 export const deepChange = (obj: IRecord, path: string, value: IRecord | FieldValue): boolean => {
     if (isEmpty(path) || isEmpty(obj)) {
         return false;
@@ -118,13 +122,14 @@ export const deepChange = (obj: IRecord, path: string, value: IRecord | FieldVal
     const last = paths.pop();
     let current: any = obj;
 
-    if (paths.length && !Array.isArray(current[paths[0]]) && typeof current[paths[0]] !== "object") {
-        current[paths[0]] = /[0-9]+/.test(paths[0]) ? [] : {};
+    if (paths.length && typeof current[paths[0]] !== "object") {
+        current[paths[0]] = {};
     }
     for (const val of paths) {
-        current = current[val];
-        if (!Array.isArray(current) && typeof current !== "object") {
-            current[val] = /[0-9]+/.test(val) ? [] : {};
+        if (typeof current[val] !== "object") {
+            current[val] = {};
+            current = current[val];
+        } else {
             current = current[val];
         }
     }
@@ -148,7 +153,7 @@ export const deepDelete = (obj: IRecord, path: string): IRecord => {
 
     if (Array.isArray(current)) {
         current.splice(end, 1);
-    } else {
+    } else if (current) {
         delete current[end];
     }
 

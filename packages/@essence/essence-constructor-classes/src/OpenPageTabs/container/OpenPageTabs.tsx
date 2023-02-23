@@ -148,7 +148,7 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
     return useObserver(() => (
         <React.Fragment>
             <Tabs
-                value={pagesStore.activePage ? pagesStore.activePage : null}
+                value={pagesStore.activePage ? pagesStore.activePage : false}
                 classes={{
                     flexContainer: classes.tabsFlexContainer,
                     root: classes.tabsRoot,

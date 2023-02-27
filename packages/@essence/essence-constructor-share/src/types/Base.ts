@@ -14,7 +14,7 @@ export type ICkId = number | string;
  */
 export type IBuilderMode = "1" | "2" | "3" | "4" | "6" | "7" | "8";
 export type FValue = number | string | undefined | null | boolean;
-export type FieldValue = number | string | Record<string, FValue> | undefined | null | boolean | FValue[];
+export type FieldValue = FValue | Record<string, FValue> | FValue[];
 
 export interface IFormOptions {
     filter?: IRecordFilter[];

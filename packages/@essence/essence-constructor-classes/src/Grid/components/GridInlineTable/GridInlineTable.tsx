@@ -10,12 +10,6 @@ import {GridColgroup} from "../GridColgroup";
 import {checkEditable} from "../../utils";
 import {useStyles} from "./GridInlineTable.styles";
 
-const WIDTH_MAP = {
-    action: 30,
-    detail: 30,
-    icon: 30,
-};
-
 interface IGridInlineTable extends IClassProps {
     gridStore: IGridModel;
 }
@@ -64,7 +58,11 @@ export const GridInlineTable: React.FC<IGridInlineTable> = ({gridStore, ...class
                                     <td
                                         key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
                                         className={classes.tableCell}
-                                        style={{width: WIDTH_MAP[childBc.datatype as keyof typeof WIDTH_MAP]}}
+                                        style={{
+                                            maxWidth: childBc.maxwidth,
+                                            minWidth: childBc.minwidth,
+                                            width: childBc.width,
+                                        }}
                                         data-page-object={`${childBc[VAR_RECORD_PAGE_OBJECT_ID]}-cell`}
                                         data-qtip={isEditable || isNew ? undefined : getQtip(idx)}
                                     >

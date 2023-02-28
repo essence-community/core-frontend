@@ -61,7 +61,7 @@ export class AuditInfoModel extends StoreBaseModel {
                         route: this.pageStore.route,
                     })
                 ) {
-                    const username = response[this.bc.idproperty];
+                    const username = response[this.bc.idproperty || VAR_RECORD_ID];
 
                     this.auditInfo.user = typeof username === "string" ? username : "";
                 }

@@ -210,6 +210,9 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
     }
 
     setState(state: any) {
+        if (this.pageStore.isMulti) {
+            return;
+        }
         saveToStore(this.bc[VAR_RECORD_PAGE_OBJECT_ID], state);
     }
 }

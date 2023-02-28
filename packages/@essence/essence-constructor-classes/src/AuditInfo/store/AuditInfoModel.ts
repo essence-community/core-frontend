@@ -9,6 +9,7 @@ import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_ID,
+    VAR_RECORD_PARENT_ID,
 } from "@essence-community/constructor-share/constants";
 import {request} from "@essence-community/constructor-share/request";
 import {IPageModel, IResponse, IRecord} from "@essence-community/constructor-share/types";
@@ -29,7 +30,7 @@ export class AuditInfoModel extends StoreBaseModel {
     };
 
     loadAuditInfoAction = async (pageStore: IPageModel) => {
-        const masterId = this.bc[VAR_RECORD_MASTER_ID];
+        const masterId = this.bc[VAR_RECORD_MASTER_ID] || this.bc[VAR_RECORD_PARENT_ID];
         const store = masterId ? pageStore.stores.get(masterId) : undefined;
         const selectedRecord = store?.recordsStore?.selectedRecord;
 

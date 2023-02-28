@@ -7,6 +7,7 @@ import {
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_NAME,
     VAR_RECORD_CN_ORDER,
+    VAR_RECORD_QUERY_ID,
 } from "@essence-community/constructor-share/constants";
 import {mergeComponents} from "@essence-community/constructor-share/utils";
 
@@ -186,18 +187,34 @@ export const getCancelBtnConfig = (bc: IBuilderConfig, layoutTheme: number): IBu
     } as IBuilderConfig);
 
 export const getHistoryPanelBtnsConfig = (bc: IBuilderConfig, layoutTheme: number) => {
-    const {components, overrides} = mergeComponents(bc.topbtn, {
-        "Override Add Button": getHistoryAddButtonConfig(bc),
-        "Override Audit Button": getBtnAuditConfig(bc),
-        "Override Cancel Button": getCancelBtnConfig(bc, layoutTheme),
-        "Override Clone Button": getHistoryCloneButtonConfig(bc),
-        "Override Delete Button": getHistoryRemoveButtonConfig(bc),
-        "Override Edit Button": getHistoryEditButtonConfig(bc),
-        "Override Left Button": getHistoryLeftButtonConfig(bc),
-        "Override Refresh Button": getHistoryRefreshButtonConfig(bc),
-        "Override Right Button": getHistoryRightButtonConfig(bc),
-        "Override Save Button": getSaveBtnConfig(bc, layoutTheme),
+    const topBtn = bc.topbtn?.map((bcBtn) => {
+        if (bcBtn.type === "AUDIT_INFO") {
+            return {
+                ...bcBtn,
+                [VAR_RECORD_NAME]: "Override Audit Button",
+            };
+        }
+
+        return bcBtn;
     });
+    const {components, overrides} = mergeComponents(
+        topBtn,
+        {
+            "Override Add Button": getHistoryAddButtonConfig(bc),
+            "Override Audit Button": getBtnAuditConfig(bc),
+            "Override Cancel Button": getCancelBtnConfig(bc, layoutTheme),
+            "Override Clone Button": getHistoryCloneButtonConfig(bc),
+            "Override Delete Button": getHistoryRemoveButtonConfig(bc),
+            "Override Edit Button": getHistoryEditButtonConfig(bc),
+            "Override Left Button": getHistoryLeftButtonConfig(bc),
+            "Override Refresh Button": getHistoryRefreshButtonConfig(bc),
+            "Override Right Button": getHistoryRightButtonConfig(bc),
+            "Override Save Button": getSaveBtnConfig(bc, layoutTheme),
+        },
+        {
+            include: ["valuefield", "idproperty", VAR_RECORD_QUERY_ID],
+        },
+    );
     const btnsCollector: IBuilderConfig[] = [];
     const btns: IBuilderConfig[] = [];
 

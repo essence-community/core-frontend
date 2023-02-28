@@ -4,18 +4,28 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     META_PAGE_OBJECT,
     VAR_RECORD_CT_CHANGE,
-    VAR_RECORD_CV_USERNAME,
-    VAR_RECORD_CN_USER,
     VAR_RECORD_CK_USER,
+    VAR_RECORD_CN_USER,
     VAR_RECORD_MASTER_ID,
+    VAR_RECORD_QUERY_ID,
+    VAR_RECORD_ID,
 } from "@essence-community/constructor-share/constants";
 import {request} from "@essence-community/constructor-share/request";
 import {IPageModel, IResponse, IRecord} from "@essence-community/constructor-share/types";
 
 export class AuditInfoModel extends StoreBaseModel {
+    private userKey = VAR_RECORD_CK_USER;
+    private dateKey = VAR_RECORD_CT_CHANGE;
+    constructor(props) {
+        super(props);
+        if (this.bc.valuefield && this.bc.valuefield.length) {
+            this.userKey = this.bc.valuefield.find(({out}) => out === "user")?.in || VAR_RECORD_CK_USER;
+            this.dateKey = this.bc.valuefield.find(({out}) => out === "change")?.in || VAR_RECORD_CT_CHANGE;
+        }
+    }
     @observable auditInfo = {
-        [VAR_RECORD_CT_CHANGE]: "",
-        [VAR_RECORD_CV_USERNAME]: "",
+        date: "",
+        user: "",
     };
 
     loadAuditInfoAction = async (pageStore: IPageModel) => {
@@ -24,24 +34,25 @@ export class AuditInfoModel extends StoreBaseModel {
         const selectedRecord = store?.recordsStore?.selectedRecord;
 
         if (selectedRecord) {
-            const dateChange = selectedRecord[VAR_RECORD_CT_CHANGE];
+            const dateChange = selectedRecord[this.dateKey];
 
-            this.auditInfo[VAR_RECORD_CT_CHANGE] = typeof dateChange === "string" ? dateChange : "";
-            this.auditInfo[VAR_RECORD_CV_USERNAME] = "";
+            this.auditInfo.date = typeof dateChange === "string" ? dateChange : "";
+            this.auditInfo.user = "";
 
             try {
                 const response = await request<IRecord>({
                     [META_PAGE_OBJECT]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
                     json: {
                         filter: {
-                            [VAR_RECORD_CN_USER]:
-                                selectedRecord[VAR_RECORD_CN_USER] || selectedRecord[VAR_RECORD_CK_USER],
+                            [this.bc.idproperty || VAR_RECORD_ID]:
+                                selectedRecord[this.userKey] || selectedRecord[VAR_RECORD_CN_USER],
                         },
                     },
                     list: false,
                     plugin: this.bc.extraplugingate,
-                    query: "GetUserInfo",
+                    query: this.bc[VAR_RECORD_QUERY_ID] || "GetUserInfo",
                     session: this.pageStore.applicationStore.authStore.userInfo.session,
+                    timeout: this.bc.timeout,
                 });
 
                 if (
@@ -50,9 +61,9 @@ export class AuditInfoModel extends StoreBaseModel {
                         route: this.pageStore.route,
                     })
                 ) {
-                    const username = response[VAR_RECORD_CV_USERNAME];
+                    const username = response[this.bc.idproperty];
 
-                    this.auditInfo[VAR_RECORD_CV_USERNAME] = typeof username === "string" ? username : "";
+                    this.auditInfo.user = typeof username === "string" ? username : "";
                 }
             } catch (error) {
                 snackbarStore.checkExceptResponse(error, this.pageStore.route, this.pageStore.applicationStore);
@@ -61,7 +72,7 @@ export class AuditInfoModel extends StoreBaseModel {
     };
 
     clearStoreAction = action("clearStoreAction", () => {
-        this.auditInfo[VAR_RECORD_CT_CHANGE] = "";
-        this.auditInfo[VAR_RECORD_CV_USERNAME] = "";
+        this.auditInfo.date = "";
+        this.auditInfo.user = "";
     });
 }

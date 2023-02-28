@@ -5,6 +5,7 @@ import {
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_NAME,
     VAR_RECORD_MASTER_ID,
+    VAR_RECORD_QUERY_ID,
 } from "@essence-community/constructor-share/constants";
 import {mergeComponents} from "@essence-community/constructor-share/utils";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
@@ -103,8 +104,18 @@ const getBtnRefreshConfig = (bc: IBuilderConfig): IBuilderConfig => ({
 });
 
 export const getFilePanelBtnsConfig = (bc: IBuilderConfig, layoutTheme: number) => {
+    const topBtn = bc.topbtn?.map((bcBtn) => {
+        if (bcBtn.type === "AUDIT_INFO") {
+            return {
+                ...bcBtn,
+                [VAR_RECORD_NAME]: "Override Audit Button",
+            };
+        }
+
+        return bcBtn;
+    });
     const {overrides} = mergeComponents(
-        bc.topbtn,
+        topBtn,
         {
             "Override Add Button": getAddBtnConfig(bc, layoutTheme),
             "Override Audit Button": getBtnAuditConfig(bc),
@@ -115,7 +126,7 @@ export const getFilePanelBtnsConfig = (bc: IBuilderConfig, layoutTheme: number) 
             "Override Save Button": getSaveBtnConfig(bc),
         },
         {
-            include: ["setglobal"],
+            include: ["setglobal", "valuefield", "idproperty", VAR_RECORD_QUERY_ID],
         },
     );
 

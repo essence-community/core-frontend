@@ -6,7 +6,7 @@ export function setWidthForZeroWidthCol(gridStore: IGridModel, zerowWidthColArr:
     const percentColumns: IPercentColumnsType[] = [];
 
     gridStore.columnsWidth.forEach((colWidth, colId) => {
-        if (typeof colWidth === "string") {
+        if (typeof colWidth === "string" && colWidth.indexOf("px") === -1) {
             percentColumns.push({
                 id: colId,
                 width: parseInt(colWidth, 10),

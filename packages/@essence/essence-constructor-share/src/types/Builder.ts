@@ -27,6 +27,8 @@ export interface IBuilderBaseConfig {
     allownew?: string;
     // Признак автозагрузки сервиса
     autoload?: boolean;
+    // Расчет автоперезагрузки стора
+    autoloadrule?: string;
     // Наименование параметра, определяющего уникальность возвращаемых данных.  Если этот столбец есть в filter и заполнен, то сработает автовыбор первой записи
     autoselectidentity?: string;
     // Отображение кнопки "Информация" (true/false)
@@ -151,6 +153,8 @@ export interface IBuilderBaseConfig {
     info?: string;
     // Значение при создании
     initvalue?: string;
+    // Признак сохранения состояния
+    isstate?: boolean;
     // Установка значение из локализационного пакета. Возможные значения: meta, message, static
     localization?: "meta" | "message" | "static";
     // Максимальный размер файла в байтах
@@ -237,6 +241,8 @@ export interface IBuilderBaseConfig {
     resizable?: boolean;
     // Отображение корня
     rootvisible?: boolean;
+    // При выборе родителя выбирать все дочерние элементы и родителя
+    selecttree?: boolean;
     // Наименование глобальной переменной. Должно начинаться с g
     setglobal?: IBuilderAttrGlobal[];
     // Наименование глобалки в которую добавляется выбранная строка.
@@ -277,6 +283,8 @@ export interface IBuilderBaseConfig {
     updatequery?: string;
     // Наименование параметра из внутреннего сервиса, значение которого будет передано для дальнейшей обработки
     valuefield?: IBuilderAttrGlobalStore[];
+    // Тип значения выводимого значения
+    valuetype?: "auto" | "integer" | "numeric" | "boolean" | "text" | "json" | string;
     // Признак отображения колонки
     visible?: boolean;
     // Ширина поля. Целое число от 1% до 100%. Обязательно добавлять %.
@@ -327,6 +335,8 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     detail?: IBuilderConfig[];
     // Служебный параметр для передачи статических значений
     records?: Record<string, FieldValue>[];
+    // Выставление статических значений
+    recordsrule?: string;
     // Служебный параметр не править
     type: string;
     // Признак Только чтение

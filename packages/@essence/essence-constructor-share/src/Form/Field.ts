@@ -1,10 +1,11 @@
+/* eslint-disable max-statements */
 /* eslint-disable max-lines */
 import {observable, computed, action} from "mobx";
 import {FieldValue, IBuilderConfig, IPageModel} from "../types";
-import {parseMemoize, makeRedirect, isEmpty} from "../utils";
+import {parseMemoize, makeRedirect, isEmpty, transformToBoolean} from "../utils";
 import {parse} from "../utils/parser";
 import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
-import {deepFind, deepDelete, deepChange} from "../utils/transform";
+import {deepFind, deepChange, cloneDeepElementary, deepDelete} from "../utils/transform";
 import {IField, IForm, IRegisterFieldOptions, TError} from "./types";
 import {validations} from "./validations";
 
@@ -194,10 +195,10 @@ export class Field implements IField {
         this.defaultValueFn = options.defaultValueFn;
 
         if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
-            this.defaultValue =
-                typeof this.bc.defaultvalue === "string"
-                    ? Number(this.bc.defaultvalue === "true" || this.bc.defaultvalue === "1")
-                    : Number(this.bc.defaultvalue);
+            this.defaultValue = transformToBoolean(this.bc.defaultvalue);
+            if (this.bc.valuetype === "integer") {
+                this.defaultValue = Number(this.defaultValue);
+            }
         } else if (this.bc.defaultvalue) {
             if (this.isArray && typeof this.bc.defaultvalue === "string") {
                 this.defaultValue = JSON.parse(this.bc.defaultvalue);
@@ -247,10 +248,10 @@ export class Field implements IField {
             if ((this.isArray || this.isObject) && typeof this.bc.initvalue === "string") {
                 this.value = JSON.parse(this.bc.initvalue);
             } else if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
-                this.value =
-                    typeof this.bc.initvalue === "string"
-                        ? Number(this.bc.initvalue === "true" || this.bc.initvalue === "1")
-                        : Number(this.bc.initvalue);
+                this.value = transformToBoolean(this.bc.initvalue);
+                if (this.bc.valuetype === "integer") {
+                    this.value = Number(this.value);
+                }
             } else {
                 this.value = this.bc.initvalue;
             }
@@ -275,11 +276,11 @@ export class Field implements IField {
             this.value = {};
         }
         if (this.value === undefined && (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean")) {
-            this.value = 0;
+            this.value = this.bc.valuetype === "integer" ? 0 : false;
         }
     }
 
-    private getOutput = (output: IFieldOptions["output"]): IField["output"] => {
+    private getOutput = (output?: IFieldOptions["output"]): IField["output"] => {
         if (output) {
             return output;
         } else if (this.isArray) {
@@ -299,7 +300,7 @@ export class Field implements IField {
                     }
                 }
 
-                return Object.values(obj);
+                return field.bc.valuetype === "text" ? JSON.stringify(Object.values(obj)) : Object.values(obj);
             };
         } else if (this.isObject) {
             const keyChild = new RegExp(`^${this.key}\\.([^\\.]+)$`, "u");
@@ -313,14 +314,39 @@ export class Field implements IField {
                     }
                 }
 
-                return obj;
+                return field.bc.valuetype === "text" ? JSON.stringify(obj) : obj;
             };
         }
 
-        return (field, form, value) => value || field.value;
+        return (field, form, value) => {
+            const val = value || field.value;
+
+            if (typeof val === "undefined" || val === null) {
+                return val;
+            }
+            if (field.bc.valuetype === "integer") {
+                return parseInt(val as string, 10);
+            }
+            if (field.bc.valuetype === "numeric") {
+                return parseFloat(val as string);
+            }
+            if (field.bc.valuetype === "text") {
+                return `${val}`;
+            }
+            if (field.bc.valuetype === "json" && typeof val === "string") {
+                try {
+                    return JSON.parse(val);
+                } catch (e) {}
+            }
+            if (field.bc.valuetype === "boolean") {
+                return transformToBoolean(val);
+            }
+
+            return val;
+        };
     };
 
-    private getInput = (input: IFieldOptions["input"]): IField["input"] => {
+    private getInput = (input?: IFieldOptions["input"]): IField["input"] => {
         if (input) {
             return input;
         } else if (this.key.indexOf(".") > 0) {
@@ -358,7 +384,7 @@ export class Field implements IField {
 
         this.resetChilds();
         this.execChangeHooks();
-        if (this.isObject) {
+        if (this.isObject || this.isArray) {
             const newValues = this.form.values;
 
             deepChange(newValues, this.key, this.value);
@@ -465,18 +491,85 @@ export class Field implements IField {
     };
 
     @action
-    add = () => {
-        if (this.isArray) {
-            this.onChange(Array.isArray(this.value) ? [...this.value, {}] : [{}]);
+    clearExtra = () => {
+        if (this.bc.valuefield) {
+            let parentKey = "";
+
+            if (this.key.indexOf(".") > -1) {
+                const arrKey = this.key.split(".");
+
+                parentKey = arrKey.slice(0, arrKey.length - 1).join(".");
+            }
+
+            const fieldParent = this.parentFieldKey ? this.form.fields.get(this.parentFieldKey) : null;
+
+            if (!fieldParent || !fieldParent.isArray) {
+                this.bc.valuefield.forEach(({out}) => {
+                    if (out) {
+                        this.form.patch(
+                            deepDelete(
+                                cloneDeepElementary(this.form.extraValue),
+                                `${parentKey ? `${parentKey}.` : ""}${out}`,
+                            ),
+                            true,
+                            true,
+                        );
+                    }
+                });
+            }
         }
     };
 
     @action
-    del = (index?: string | number) => {
-        if (this.isArray && index) {
-            const newValues = this.form.values;
+    add = () => {
+        if (this.isArray) {
+            let value = this.getOutput()(this, this.form, this.value);
 
-            this.form.update(deepDelete(newValues, `${this.key}.${index}`), false);
+            if (value && this.bc.valuetype === "text") {
+                value = JSON.parse(value as string);
+            }
+            this.onChange(Array.isArray(value) ? [...value, {}] : [{}]);
+        }
+    };
+
+    @action
+    del = (ind?: string | number) => {
+        const index = typeof ind === "string" ? parseInt(ind, 10) : ind || 0;
+
+        if (this.isArray && index >= 0) {
+            const extraValue = cloneDeepElementary(this.form.extraValue);
+            const [isExist, valueExtraOrigin] = deepFind(extraValue, this.key);
+
+            if (isExist && typeof valueExtraOrigin === "object") {
+                let valueExtra = valueExtraOrigin as any[];
+                const isNotArray = !Array.isArray(valueExtraOrigin);
+
+                if (isNotArray) {
+                    valueExtra = Object.values(valueExtraOrigin as any);
+                }
+                valueExtra.splice(index, 1);
+                deepChange(
+                    extraValue,
+                    this.key,
+                    isNotArray
+                        ? valueExtra.reduce((res, val, i) => {
+                              res[i] = val;
+
+                              return res;
+                          }, {})
+                        : valueExtra,
+                );
+
+                this.form.patch(extraValue, true, true);
+            }
+
+            let value = this.getOutput()(this, this.form, this.value);
+
+            if (value && this.bc.valuetype === "text") {
+                value = JSON.parse(value as string);
+            }
+            (value as any[]).splice(index, 1);
+            this.onChange(value);
         }
     };
 
@@ -518,7 +611,14 @@ export class Field implements IField {
             }
         }
         if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
-            val = typeof val === "string" ? Number(val === "true" || val === "1") : Number(val);
+            if (this.bc.valuetype === "boolean") {
+                val = transformToBoolean(val);
+            } else {
+                val = Number(transformToBoolean(val));
+            }
+        }
+        if (val === this.clearValue) {
+            this.clearExtra();
         }
         this.value = val;
     };

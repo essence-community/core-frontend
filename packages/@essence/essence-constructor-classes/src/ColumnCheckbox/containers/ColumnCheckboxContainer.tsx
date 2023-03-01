@@ -5,7 +5,7 @@ import {VAR_RECORD_PARENT_ID, VAR_RECORD_LEAF} from "@essence-community/construc
 import {Checkbox} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {useObserver} from "mobx-react";
-import {parseMemoize} from "@essence-community/constructor-share/utils";
+import {parseMemoize, isEmpty} from "@essence-community/constructor-share/utils";
 import {isCheckedChilds} from "../utils/isCheckedChilds";
 import {isMinusChecked} from "../utils/isMinusChecked";
 
@@ -21,7 +21,7 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
             const leaf = record[VAR_RECORD_LEAF];
             const ckId = record[store.recordsStore.recordId] as ICkId;
 
-            if (store.bc.type === "TREEGRID" && leaf === "false") {
+            if (store.bc.type === "TREEGRID" && (typeof leaf === "boolean" ? leaf : leaf === "true")) {
                 return isCheckedChilds(store.recordsStore, ckId, record, store.recordsStore.recordId);
             }
 
@@ -32,12 +32,13 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
     };
     const getIconFont = () => {
         const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
+        const leaf = record[VAR_RECORD_LEAF];
 
-        if (store?.bc.type !== "TREEGRID" || record[VAR_RECORD_LEAF] !== "false") {
+        if (store?.bc.type !== "TREEGRID" || (typeof leaf === "boolean" ? leaf : leaf !== "false")) {
             return "square-o";
         }
 
-        if (store && store.recordsStore) {
+        if (store && store.recordsStore && (isEmpty(bc.selecttree) || bc.selecttree)) {
             return isMinusChecked(
                 store.recordsStore,
                 record[store.recordsStore.recordId] as ICkId,

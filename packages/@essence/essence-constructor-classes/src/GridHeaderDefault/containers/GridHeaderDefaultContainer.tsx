@@ -104,7 +104,7 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
                     {isTreeGrid || !bc.btnfilter ? null : (
                         <GridHeaderFilter {...props} classNameIcon={classes.filterIcon} />
                     )}
-                    <GridHeaderResizer store={store} ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]} />
+                    <GridHeaderResizer store={store} bc={bc} ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]} />
                 </div>
             </TableCell>
         );

@@ -11,13 +11,13 @@ export interface IPagesModel {
     applicationStore: IApplicationModel;
     globalRecordsStore: IGlobalRecordsModel;
     loadActivePage(pageId: string, autoset: boolean, isActiveRedirect: boolean): Promise<IPageModel>;
-    reloadPageAction(pageId: string): void;
-    setPageAction(pageId: string, isActiveRedirect: boolean): Promise<false | IPageModel>;
-    removePageAction(pageId: string): void;
-    removePageOtherAction(ckPageLost: string): void;
+    reloadPageAction(pageId: string | IPageModel): void;
+    setPageAction(pageId: string | IPageModel, isActiveRedirect: boolean): Promise<false | IPageModel>;
+    removePageAction(pageId: string | IPageModel): void;
+    removePageOtherAction(ckPageLost: string | IPageModel): void;
     removeAllPagesAction(): void;
-    removeAllPagesRightAction(pageId: string): void;
-    openCloseExpansionAction(ckId: string): void;
+    removeAllPagesRightAction(pageId: string | IPageModel): void;
+    openCloseExpansionAction(ckId: string | IPageModel): void;
     restorePagesAction(login: string): void;
     movePages(dragIndex: number, hoverIndex: number): void;
 }

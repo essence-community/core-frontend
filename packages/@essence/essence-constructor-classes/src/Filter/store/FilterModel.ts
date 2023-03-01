@@ -38,7 +38,7 @@ export class FilterModel extends StoreBaseModel {
     constructor(props: IStoreBaseModelProps) {
         super(props);
 
-        if (this.bc.filtervaluessave && this.pageStore.pageId) {
+        if (this.bc.filtervaluessave && this.pageStore.pageId && !this.pageStore.isMulti) {
             this.valuesStorageKey = `${this.pageStore.pageId}_filter_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
         }
 

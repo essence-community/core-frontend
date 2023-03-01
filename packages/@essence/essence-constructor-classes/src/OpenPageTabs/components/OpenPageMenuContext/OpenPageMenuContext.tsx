@@ -1,5 +1,5 @@
 import {List, ListItem, Popover} from "@material-ui/core";
-import cn from "classnames";
+import cn from "clsx";
 import {useObserver} from "mobx-react";
 import * as React from "react";
 import {useTranslation} from "@essence-community/constructor-share/utils";

@@ -13,7 +13,13 @@ import {useObserver} from "mobx-react";
 import {useField} from "@essence-community/constructor-share/Form";
 import {reaction} from "mobx";
 import {IParentFieldContext} from "@essence-community/constructor-share/Form/types";
-import {useModel, useFieldDisabled} from "@essence-community/constructor-share/hooks";
+import {
+    useModel,
+    useFieldDisabled,
+    useFieldGetGlobal,
+    useDefaultValueQuery,
+    useFieldSetGlobal,
+} from "@essence-community/constructor-share/hooks";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {Group} from "../components/Group";
 import {FieldRepeaterModel} from "../Store/FieldRepeaterModel";
@@ -51,7 +57,7 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
                 clearFn();
             }
         },
-        [bc.defaultvalue, clearValue],
+        [bc],
     );
 
     const field = useField({
@@ -63,6 +69,10 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
         isArray: true,
         pageStore,
     });
+
+    useFieldGetGlobal({bc, field, pageStore});
+    useFieldSetGlobal({bc, field, pageStore});
+    useDefaultValueQuery({bc, field, pageStore});
     const applicationStore = React.useContext(ApplicationContext);
     const [trans] = useTranslation("meta");
     const [store, , storeName] = useModel((options) => new FieldRepeaterModel(options), {

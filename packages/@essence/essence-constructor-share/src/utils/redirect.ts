@@ -16,7 +16,7 @@ import {request} from "../request";
 import {attachGlobalStore} from "../models/RecordsModel/loadRecordsAction";
 import {setMask} from "../actions/recordsActions";
 import {settingsStore} from "../models/SettingsModel";
-import {VAR_SETTING_AUTH_URL} from "../constants/variables";
+import {VAR_RECORD_IS_NOT_BLANC, VAR_SETTING_AUTH_URL} from "../constants/variables";
 import {parseMemoize} from "./parser";
 import {getMasterObject} from "./getMasterObject";
 
@@ -52,6 +52,7 @@ interface IRedirectUseQueryProps {
     pageStore: IPageModel;
     values: IRecord;
     record: IRecord;
+    noBlank?: boolean;
 }
 
 interface IRedirectToUrlProps {
@@ -59,6 +60,7 @@ interface IRedirectToUrlProps {
     pageStore: IPageModel;
     values: IRecord;
     record: IRecord;
+    noBlank?: boolean;
 }
 
 export function prepareUrl(url: string, pageStore: IPageModel, record: Record<string, FieldValue> = {}) {
@@ -115,19 +117,21 @@ function redirectToApplication(pageStore: IPageModel, values: IRecord, redirectU
     pageStore.applicationStore.history.push(`/${parts.join("/")}`);
 }
 
-function redirectToUrl({redirecturl, values, pageStore, record}: IRedirectToUrlProps) {
+function redirectToUrl({noBlank, redirecturl, values, pageStore, record}: IRedirectToUrlProps) {
     const url = choiceUrl(redirecturl, pageStore.globalValues, record);
 
     if (url) {
         if (url.indexOf("redirect/") === 0) {
             redirectToApplication(pageStore, values, url.replace("redirect/", ""));
+        } else if (noBlank) {
+            document.location.href = prepareUrl(url, pageStore, record);
         } else {
             window.open(prepareUrl(url, pageStore, record));
         }
     }
 }
 
-async function redirectUseQuery({bc, query, pageStore, values, record}: IRedirectUseQueryProps) {
+async function redirectUseQuery({bc, noBlank, query, pageStore, values, record}: IRedirectUseQueryProps) {
     try {
         const json = {
             filter: values,
@@ -153,9 +157,14 @@ async function redirectUseQuery({bc, query, pageStore, values, record}: IRedirec
             route: pageStore.route,
         });
         const url = res[VAR_RECORD_URL];
+        const isNotBlank = res[VAR_RECORD_IS_NOT_BLANC] || noBlank;
 
         if (isValid && url) {
-            window.open(prepareUrl(url, pageStore, record));
+            if (isNotBlank) {
+                document.location.href = prepareUrl(url, pageStore, record);
+            } else {
+                window.open(prepareUrl(url, pageStore, record));
+            }
         }
 
         return isValid;
@@ -257,7 +266,7 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
     return url;
 }
 
-export function makeRedirect(bc: IBuilderConfig, pageStore: IPageModel, record: IRecord = {}): void {
+export function makeRedirect(bc: IBuilderConfig, pageStore: IPageModel, record: IRecord = {}, noBlank = false): void {
     const {redirecturl, redirectusequery, columnsfilter} = bc;
     const {globalValues} = pageStore;
 
@@ -266,8 +275,8 @@ export function makeRedirect(bc: IBuilderConfig, pageStore: IPageModel, record: 
     if (redirecturl) {
         if (redirecturl.indexOf("redirect/") === 0) {
             redirectToApplication(pageStore, values, redirecturl.replace("redirect/", ""));
-        } else if (redirecturl.indexOf("/") >= 0) {
-            redirectToUrl({pageStore, record, redirecturl, values});
+        } else if (redirecturl.indexOf("/") >= 0 || redirecturl[0] === "`") {
+            redirectToUrl({noBlank, pageStore, record, redirecturl, values});
         } else {
             pageStore.applicationStore.redirectToAction(redirecturl, values);
         }
@@ -276,6 +285,7 @@ export function makeRedirect(bc: IBuilderConfig, pageStore: IPageModel, record: 
     if (redirectusequery) {
         redirectUseQuery({
             bc,
+            noBlank,
             pageStore,
             query: redirectusequery,
             record,

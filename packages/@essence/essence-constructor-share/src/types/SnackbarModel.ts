@@ -37,6 +37,7 @@ export interface ISnackbar {
     title?: TText;
     description?: string;
     code?: string;
+    originData?: any;
 }
 
 export interface IErrorData {

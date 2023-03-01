@@ -1,6 +1,6 @@
 import * as React from "react";
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core";
-import {observable} from "mobx";
+import {IObservableArray, observable} from "mobx";
 import {createMemoryHistory} from "history";
 import {
     IBuilderConfig,
@@ -11,6 +11,10 @@ import {
     IPagesModel,
     IPageModel,
     IClassProps,
+    ICkId,
+    IRecord,
+    IRecordsModel,
+    StoreBaseModelNameType,
 } from "../types";
 import {VAR_RECORD_NAME, VAR_RECORD_OBJECT_ID, VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_PARENT_ID} from "../constants";
 import {PageModel, RecordsModel, GlobalRecordsModel} from "../models";
@@ -140,6 +144,17 @@ const createEmptyPagesStore = (applicationStore: IApplicationModel): IPagesModel
 });
 
 class ApplicationModelMock implements IApplicationModel {
+    defaultValue: string;
+    name?: StoreBaseModelNameType | undefined;
+    hidden?: boolean | undefined;
+    disabled?: boolean | undefined;
+    recordsStore?: IRecordsModel | undefined;
+    selectedRecord?: IRecord | undefined;
+    selectedEntries?: IObservableArray<[ICkId, IRecord]> | undefined;
+    editing?: boolean | undefined;
+    clearAction?: (() => void) | undefined;
+    afterSelected?: (() => void) | undefined;
+    handleNextStepAction?: (() => void) | undefined;
     applicationStore = null;
 
     authStore = createEmptyAuthStore(this);

@@ -32,6 +32,8 @@ export class PageModelAbstract implements IPageModel {
         type: "NONE",
     };
 
+    public isMulti = false;
+
     public stores: ObservableMap<string, IStoreBaseModel> = observable.map();
 
     public globalValues: ObservableMap<string, FieldValue> = observable.map();

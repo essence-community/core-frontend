@@ -48,7 +48,7 @@ import {
     getRecordsEnabled,
     checkIsPageSelectedRecords,
 } from "../../utils";
-import {WIDTH_MAP, GRID_ROW_HEIGHT, GRID_ROWS_COUNT, TABLE_CELL_MIN_WIDTH} from "../../constants";
+import {GRID_ROW_HEIGHT, GRID_ROWS_COUNT, TABLE_CELL_MIN_WIDTH} from "../../constants";
 import {
     getOverrideExcelButton,
     getOverrideWindowBottomBtn,
@@ -100,8 +100,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
         const columnsWithZeroWidth: string[] = [];
 
-        this.gridColumns.forEach(({[VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject, datatype, width}) => {
-            const colWidth = (datatype && WIDTH_MAP[datatype as keyof typeof WIDTH_MAP]) || width;
+        this.gridColumns.forEach(({[VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject, width}) => {
+            const colWidth = width;
 
             if (colWidth) {
                 this.columnsWidth.set(ckPageObject, colWidth);
@@ -116,7 +116,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             updatePercentColumnsWidth(this, "");
         }
 
-        if (this.bc.valuefield) {
+        if (this.bc.valuefield && this.bc.valuefield.length) {
             this.valueFields = this.bc.valuefield.map(({in: keyIn, out}) => {
                 const fieldKeyName = out || keyIn;
 
@@ -306,7 +306,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             this.recordsStore.setSelectionsAction([record], this.recordsStore.recordId, "append");
         }
 
-        if (!isEmpty(record[VAR_RECORD_LEAF])) {
+        if (!isEmpty(record[VAR_RECORD_LEAF]) && (isEmpty(bcBtn.selecttree) || bcBtn.selecttree)) {
             setGridSelections({gridStore: this, isSelected, maxSize, parentId: ckId});
             setGridSelectionsTop({
                 ckChild: parentId,

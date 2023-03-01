@@ -1,5 +1,5 @@
 import * as React from "react";
-import cn from "classnames";
+import cn from "clsx";
 import {useObserver} from "mobx-react";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {toColumnStyleWidth, i18next} from "@essence-community/constructor-share/utils";

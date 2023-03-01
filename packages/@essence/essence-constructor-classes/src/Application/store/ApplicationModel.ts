@@ -427,6 +427,7 @@ export class ApplicationModel implements IApplicationModel {
             this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
         } else {
             await this.redirectToFirstValidApplication(this.url);
+            this.isApplicationReady = true;
 
             return false;
         }

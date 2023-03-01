@@ -8,7 +8,7 @@ import {useStyles} from "./TreeRows.styles";
 import {ITreeRowsProps} from "./TreeRows.types";
 
 export const TreeRows: React.FC<ITreeRowsProps> = (props) => {
-    const {parent, routesStore, pagesStore, level, treeModel} = props;
+    const {parent, pageStore, routesStore, pagesStore, level, treeModel} = props;
     const classes = useStyles(props);
 
     return useObserver(() => {
@@ -16,8 +16,14 @@ export const TreeRows: React.FC<ITreeRowsProps> = (props) => {
 
         const records = routesStore.recordsStore.records.filter(
             (record) =>
-                record[routesStore.recordsStore.recordParentId] === parent && record[VAR_RECORD_ROUTE_VISIBLE_MENU],
+                !treeModel.hiddenRecords.get(record[VAR_RECORD_ID] as any) &&
+                record[routesStore.recordsStore.recordParentId] === parent &&
+                record[VAR_RECORD_ROUTE_VISIBLE_MENU],
         );
+
+        if (!records.length) {
+            return null;
+        }
 
         return (
             <Collapse
@@ -34,6 +40,7 @@ export const TreeRows: React.FC<ITreeRowsProps> = (props) => {
                         <React.Fragment key={id}>
                             <TreeRow
                                 route={record}
+                                pageStore={pageStore}
                                 routesStore={routesStore}
                                 treeModel={treeModel}
                                 level={level}
@@ -43,6 +50,7 @@ export const TreeRows: React.FC<ITreeRowsProps> = (props) => {
                             <TreeRows
                                 level={level + 1}
                                 parent={id}
+                                pageStore={pageStore}
                                 routesStore={routesStore}
                                 pagesStore={pagesStore}
                                 treeModel={treeModel}

@@ -53,7 +53,9 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
 
     const handleSave = () => {
         if (parentStore) {
-            saveToStore(`${parentStore.bc[VAR_RECORD_PAGE_OBJECT_ID]}_visibility`, visibility);
+            if (!pageStore.isMulti) {
+                saveToStore(`${parentStore.bc[VAR_RECORD_PAGE_OBJECT_ID]}_visibility`, visibility);
+            }
             parentStore.setGridColumns(
                 parentStore.gridColumnsInitial.filter((column) => visibility[column[VAR_RECORD_PAGE_OBJECT_ID]]),
             );

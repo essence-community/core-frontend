@@ -13,7 +13,9 @@ export function checkPageSelectedRecords(store: IStoreBaseModel, bc: IBuilderCon
 
     if (store.bc.type === "TREEGRID") {
         return records.every((record) => {
-            if (record[VAR_RECORD_LEAF] === "false") {
+            const leaf = record[VAR_RECORD_LEAF];
+
+            if (typeof leaf === "boolean" ? !leaf : leaf === "false") {
                 return true;
             }
 

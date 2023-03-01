@@ -10,6 +10,9 @@ const STORE_NAME = "PAGES_TREE_MENU";
 export class PagesTreeModel extends StoreBaseModel {
     expansionRecords: ObservableMap<string, boolean> = observable.map();
 
+    @observable
+    public hiddenRecords: ObservableMap<string, boolean> = observable.map();
+
     recordsStore: IRecordsModel;
 
     private storeName: string;
@@ -31,6 +34,11 @@ export class PagesTreeModel extends StoreBaseModel {
             }
         }
     }
+
+    @action
+    setHiddenAction = (ckId: string, isHidden: boolean) => {
+        this.hiddenRecords.set(ckId, isHidden);
+    };
 
     @action
     openCloseExpansionAction = (ckId: string, isExpanded = !this.expansionRecords.get(ckId)) => {

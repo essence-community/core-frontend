@@ -1,4 +1,6 @@
 import {TabProps} from "@material-ui/core/Tab";
+import {IPageModel} from "@essence-community/constructor-share/types";
+import {IPagesModel} from "@essence-community/constructor-share/types/PagesModel";
 
 export interface IDragPos {
     posX: number;
@@ -6,8 +8,9 @@ export interface IDragPos {
 }
 
 export type IOpenTabProps = TabProps & {
-    value: string;
+    value: IPageModel;
     route?: Record<string, any>;
+    pagesStore: IPagesModel;
     pageIndex: number;
     iconfont?: string;
     label?: string;
@@ -18,5 +21,5 @@ export type IOpenTabProps = TabProps & {
     onDragStartIndex: (index: number, dragPos: IDragPos, element: HTMLDivElement | null) => void;
     onDragEnterIndex: (index: number) => void;
     onClose?: (value: string) => void;
-    onContextMenuCustom: (event: React.MouseEvent<HTMLDivElement, MouseEvent>, value: string) => void;
+    onContextMenuCustom: (event: React.MouseEvent<HTMLDivElement, MouseEvent>, value: IPageModel) => void;
 };

@@ -8,6 +8,7 @@ export default (theme: IEssenceTheme) => ({
     },
     tabIcon: {
         color: theme.palette.secondary.main,
+        fill: theme.palette.secondary.main,
         fontSize: 20,
         padding: "0 4px",
         width: 32,
@@ -57,14 +58,17 @@ export default (theme: IEssenceTheme) => ({
         right: 0,
         position: "absolute",
         color: theme.palette.primary.main,
+        fill: theme.palette.primary.main,
     },
     closeIcon: {
         top: 0,
         right: 0,
         position: "absolute",
         color: theme.palette.primary.main,
+        fill: theme.palette.primary.main,
     },
     activeTabIcon: {
         color: theme.palette.secondary.main,
+        fill: theme.palette.secondary.main,
     },
 });

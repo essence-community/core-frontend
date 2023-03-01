@@ -19,7 +19,7 @@ export interface ILoginOptions {
 export interface IAuthModel {
     userInfo: Partial<IAuthSession>;
     applicationStore: IApplicationModel;
-    checkAuthAction(history: History, session?: string, connectGuest?: string): Promise<void>;
+    checkAuthAction(history: History, session?: string, connectGuest?: string, isNotRedirect?: boolean): Promise<void>;
     loginAction(options: ILoginOptions): Promise<void>;
     successLoginAction(response: IAuthSession, history: History): void;
     changeUserInfo(userInfo: Partial<IAuthSession>): void;

@@ -42,6 +42,7 @@ export class AuthModel implements IAuthModel {
         history: History,
         session: string = this.userInfo.session,
         connectGuest: string = settingsStore.settings[VAR_SETTING_AUTO_CONNECT_GUEST],
+        isNotRedirect = false,
     ) =>
         request({
             action: "sql",
@@ -60,6 +61,7 @@ export class AuthModel implements IAuthModel {
                         this.changeUserInfo(response);
                     } else {
                         if (
+                            !isNotRedirect &&
                             history.location.pathname.indexOf(
                                 settingsStore.settings[VAR_SETTING_AUTH_URL] || "/auth",
                             ) === -1
@@ -69,7 +71,7 @@ export class AuthModel implements IAuthModel {
 
                             history.replace(history.location.pathname, {backUrl});
                         }
-                        this.successLoginAction(response, history);
+                        this.successLoginAction(response, history, undefined, isNotRedirect);
                     }
                 } else if (!response && session === this.userInfo.session) {
                     return this.logoutAction();
@@ -112,6 +114,7 @@ export class AuthModel implements IAuthModel {
         response: IAuthSession,
         history: History,
         isReloadApplications = false,
+        isNotRedirect = false,
     ): Promise<void> => {
         const {redirecturl = "/"} = this.applicationStore.bc;
         const state = (history.location.state || {}) as {backUrl?: string};
@@ -129,6 +132,10 @@ export class AuthModel implements IAuthModel {
 
         if (isReloadApplications) {
             await this.applicationStore.loadApplictionConfigs();
+        }
+
+        if (isNotRedirect) {
+            return;
         }
 
         history.push(backUrl.indexOf("/") === 0 ? backUrl : `/${backUrl}`, {backUrl: undefined});

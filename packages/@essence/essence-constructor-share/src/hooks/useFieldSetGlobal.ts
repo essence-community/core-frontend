@@ -89,7 +89,7 @@ export function useFieldSetGlobal({field, pageStore, bc, store}: IUseFieldSetGlo
                     const {out} = keys;
 
                     if (isStoreRecord && store) {
-                        const [isExist, res] = deepFind(selectedRecord || {}, keyIn);
+                        const [isExist, res] = deepFind(selectedRecord || field.form.values, keyIn);
 
                         values[out] = isExist ? res : selectedRecord?.[keys.in || bc.idproperty || field.key];
 
@@ -97,7 +97,9 @@ export function useFieldSetGlobal({field, pageStore, bc, store}: IUseFieldSetGlo
                             values[out] = globalValues.has(out) ? null : undefined;
                         }
                     } else if (field.form.select(keyIn)) {
-                        values[out] = field.form.select(keyIn)?.value;
+                        const fieldFound = field.form.select(keyIn)!;
+
+                        values[out] = fieldFound.output(fieldFound, fieldFound.form, fieldFound.value);
                     } else if (globalValues.has(out)) {
                         values[out] = null;
                     }

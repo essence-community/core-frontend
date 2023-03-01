@@ -7,6 +7,7 @@ export default (theme: IEssenceTheme) => ({
     },
     tabIcon: {
         color: theme.palette.primary.main,
+        fill: theme.palette.primary.main,
         fontSize: 20,
         padding: "0 4px",
         width: 32,
@@ -42,6 +43,17 @@ export default (theme: IEssenceTheme) => ({
         color: theme.palette.primary.main,
     },
     activeTab: {
+        "& > $tabWrapper > $tabIcon": {
+            color: theme.essence.palette.grey.light,
+            fill: theme.essence.palette.grey.light,
+        },
+        "& > $tabWrapper > $tabIcon::before": {
+            color: theme.essence.palette.grey.light,
+            fill: theme.essence.palette.grey.light,
+        },
+        "& > $tabWrapper": {
+            color: theme.essence.palette.common.white,
+        },
         borderBottom: "none",
         backgroundColor: theme.palette.primary.main,
         height: theme.essence.sizing.appBarHeight,
@@ -59,14 +71,17 @@ export default (theme: IEssenceTheme) => ({
         right: 0,
         position: "absolute",
         color: theme.essence.palette.grey.light,
+        fill: theme.essence.palette.grey.light,
     },
     closeIcon: {
         top: 0,
         right: 0,
         position: "absolute",
         color: theme.palette.primary.main,
+        fill: theme.palette.primary.main,
     },
     activeTabIcon: {
         color: theme.essence.palette.grey.light,
+        fill: theme.essence.palette.grey.light,
     },
 });

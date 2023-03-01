@@ -15,7 +15,9 @@ export const ColumnTreeIcon: React.FC<IColumnTreeIconProps> = (props) => {
     const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
 
     return useObserver(() => {
-        if (record[VAR_RECORD_LEAF] === "true") {
+        const leaf = record[VAR_RECORD_LEAF];
+
+        if (typeof leaf === "boolean" ? leaf : leaf === "true") {
             return <Icon iconfont="file-o" />;
         }
 

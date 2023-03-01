@@ -11,8 +11,8 @@ export function getWindowBc(
     let windowBc = undefined;
     let {ckwindow} = btnBc;
 
-    if (ckwindow && ckwindow.indexOf("\x22") > -1) {
-        ckwindow = choiceWindow(ckwindow, pageStore, parentStore?.recordsStore);
+    if (ckwindow) {
+        ckwindow = choiceWindow(ckwindow, pageStore, btnBc, parentStore, parentStore?.recordsStore);
     }
 
     if (btnBc.childwindow) {

@@ -14,6 +14,8 @@ export const VAR_RECORD_NAME = "cv_name";
 export const VAR_RECORD_ROUTE_NAME = "cv_name";
 export const VAR_RECORD_ROUTE_PAGE_ID = "ck_page";
 export const VAR_RECORD_ROUTE_VISIBLE_MENU = "cl_menu";
+export const VAR_RECORD_PAGE_MULTI = "cl_multi";
+export const VAR_RECORD_PAGE_REDIRECT = "cv_redirect_url";
 export const VAR_RECORD_ICON_NAME = "cv_icon_name";
 export const VAR_RECORD_ICON_FONT = "cv_icon_font";
 export const VAR_RECORD_LEAF = "leaf";
@@ -21,6 +23,7 @@ export const VAR_RECORD_RES_ERROR = "cv_error";
 export const VAR_RECORD_RES_FORM_ERROR = "jt_form_message";
 export const VAR_RECORD_RES_STACK_TRACE = "cv_stack_trace";
 export const VAR_RECORD_URL = "cv_url";
+export const VAR_RECORD_IS_NOT_BLANC = "cl_not_blanc";
 export const VAR_RECORD_APP_URL = "cv_app_url";
 export const VAR_RECORD_GLOBAL_VALUE = "global_value";
 export const VAR_RECORD_CK_REGION = "ck_region";
@@ -123,7 +126,7 @@ export const VAR_SETTING_ENABLE_QUEST_LOGIN = "g_sys_enable_guest_login";
 export const VAR_SETTING_AUTO_CONNECT_GUEST = "auto_connect_guest";
 export const VAR_SETTING_ANONYMOUS_ACTION = "g_sys_anonymous_action";
 export const VAR_SETTING_URL_APP_NAME = "g_sys_url_app_name";
-export const VAR_SETTING_REMOTE_STORAGE = "use_remote_storage_cache";
+export const VAR_SETTING_REMOTE_TYPE_STORAGE = "remote_storage_type";
 export const VAR_SETTING_REMOTE_STORAGE_LOAD_QUERY = "remote_storage_load_query";
 export const VAR_SETTING_REMOTE_STORAGE_ADD_QUERY = "remote_storage_add_query";
 export const VAR_SETTING_REMOTE_STORAGE_DELETE_QUERY = "remote_storage_delete_query";
@@ -142,6 +145,7 @@ export const VAR_RESULT_MESSAGE = "jt_message";
 // FORM
 export const RETURN_FORM_DATA = "jt_return_form_data";
 export const RETURN_FORM_DATA_BREAK = "jt_return_form_data_break";
+export const RETURN_GLOBAL_VALUE = "jt_return_global_value";
 
 // SELF
 export const VALUE_SELF_FIRST = "##first##";

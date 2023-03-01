@@ -68,6 +68,7 @@ export interface IPageModel {
     visible: boolean;
     recordsStore: IRecordsModel;
     titleRoutePath: string;
+    isMulti: boolean;
     updateGlobalValues(values: Record<string, FieldValue>): void;
     openQuestionWindow(questionWindow: TText[], saveCallBack: PageModelSaveCallback): void;
     handleQuestionAccept(): void;

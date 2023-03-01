@@ -9,6 +9,11 @@ export interface IPopoverContext {
     onClose: () => void;
 }
 
+export interface IWindowContext {
+    onClose: () => void;
+    onQuestionClose: () => void;
+}
+
 export const ParentFieldContext = React.createContext<IParentFieldContext | undefined>(undefined);
 export const FormContext = React.createContext<IForm>(
     new Form({editing: true, hooks: {}, placement: "default", values: {}}),
@@ -25,4 +30,8 @@ export const PopoverContext = React.createContext<IPopoverContext>({
     onClose: noop,
     onOpen: noop,
     open: false,
+});
+export const WindowContext = React.createContext<IWindowContext>({
+    onClose: noop,
+    onQuestionClose: noop,
 });

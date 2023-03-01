@@ -25,6 +25,11 @@ export const useStyles = makeStyles(
             width: 23,
         },
         iconRoot: {
+            "& > svg": {
+                fill: theme.essence.palette.common.white,
+                height: 23,
+                width: 23,
+            },
             "&:empty": {
                 display: "block",
             },
@@ -50,6 +55,7 @@ export const useStyles = makeStyles(
             },
             color: theme.essence.palette.common.white,
             cursor: "pointer",
+            fill: theme.essence.palette.common.white,
             position: "relative",
         },
         rootGrid: {
@@ -57,6 +63,9 @@ export const useStyles = makeStyles(
             marginTop: 0,
             minHeight: 42,
             padding: "0 10px",
+        },
+        selected: {
+            backgroundColor: theme.essence.palette.common.selectedMenu,
         },
     }),
     {

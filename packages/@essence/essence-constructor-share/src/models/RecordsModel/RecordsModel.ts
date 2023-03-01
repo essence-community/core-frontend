@@ -21,7 +21,7 @@ import {
     IRecordsSearchOptions,
     IRouteRecord,
 } from "../../types";
-import {i18next, debounce, deepFind} from "../../utils";
+import {i18next, debounce, deepFind, getMasterObject, parseMemoize} from "../../utils";
 import {
     loggerRoot,
     VAR_RECORD_ID,
@@ -191,20 +191,17 @@ export class RecordsModel implements IRecordsModel {
         );
 
         if (records.length) {
-            if (this.bc.defaultvalue === VALUE_SELF_ALWAYSFIRST || this.bc.defaultvalue === VALUE_SELF_FIRST) {
-                this.selectedRecordIndex = this.isTree
-                    ? records.findIndex((val) => isEmpty(val[this.recordParentId]))
-                    : 0;
-                this.selectedRecord = records[this.selectedRecordIndex];
+            if (this.bc.querymode === "local") {
+                this.localFilter();
             }
-            records.forEach((rec) => {
+            if (this.bc.defaultvalue || this.bc.defaultvaluerule) {
+                this.setLocalDefaultValue();
+            }
+            this.recordsState.records.forEach((rec) => {
                 if (rec.expanded === "true" || rec.expanded === true) {
                     this.expansionRecords.set(String(deepFind(rec, this.valueField)[1]), true);
                 }
             });
-            if (this.bc.querymode === "local") {
-                this.localFilter();
-            }
         }
     }
 
@@ -219,7 +216,7 @@ export class RecordsModel implements IRecordsModel {
                     this.recordsState = {
                         isUserReload: isUserReload ? isUserReload : false,
                         records: [...this.bc.records],
-                        status: "load",
+                        status,
                     };
                 }
 
@@ -227,7 +224,33 @@ export class RecordsModel implements IRecordsModel {
                     this.localFilter();
                 }
 
+                this.setLocalDefaultValue();
+
                 return Promise.resolve();
+            }
+
+            if (
+                this.bc[VAR_RECORD_MASTER_ID] &&
+                !this.bc.autoload &&
+                this.bc.reqsel &&
+                this.bc.getmastervalue &&
+                this.bc.getmastervalue?.length > 0
+            ) {
+                const masterValues = getMasterObject(
+                    this.bc[VAR_RECORD_MASTER_ID],
+                    this.pageStore,
+                    this.bc.getmastervalue,
+                );
+
+                if (
+                    masterValues &&
+                    (Object.keys(masterValues).length === 0 ||
+                        Object.values(masterValues).filter((val) => !isEmpty(val)).length === 0)
+                ) {
+                    this.clearRecordsAction();
+
+                    return this.selectedRecord;
+                }
             }
 
             return loadRecordsAction.call(this, {
@@ -348,6 +371,7 @@ export class RecordsModel implements IRecordsModel {
             records: [],
             status: "clear",
         };
+        this.setSelectionsAction([]);
         this.setSelectionAction();
     });
 
@@ -444,6 +468,77 @@ export class RecordsModel implements IRecordsModel {
             return res;
         },
     );
+
+    @action
+    setLocalDefaultValue = () => {
+        const {defaultvaluerule, defaultvalue} = this.bc;
+        const valueField = this.valueField;
+        const records = this.recordsState.records;
+        let isDefault: "##alwaysfirst##" | "##first##" | undefined = undefined;
+        let recordIdValue = undefined;
+        let record = undefined;
+        let selectedRecordIndex = 0;
+        let findOldSelectedRecordIndex = -1;
+
+        if (this.selectedRecordId !== undefined) {
+            findOldSelectedRecordIndex = records.findIndex(
+                (val) => `${val[this.recordId]} === ${this.selectedRecordId}`,
+            );
+        }
+
+        switch (true) {
+            case defaultvalue === VALUE_SELF_ALWAYSFIRST:
+                isDefault = VALUE_SELF_ALWAYSFIRST;
+                selectedRecordIndex = this.isTree ? records.findIndex((val) => isEmpty(val[this.recordParentId])) : 0;
+
+                record = records[selectedRecordIndex];
+                recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
+                break;
+            case this.selectedRecordId !== undefined &&
+                (findOldSelectedRecordIndex > -1 ||
+                    (findOldSelectedRecordIndex === -1 && isEmpty(defaultvalue) && isEmpty(defaultvaluerule))):
+                recordIdValue = this.selectedRecordId;
+                break;
+            case defaultvalue === VALUE_SELF_FIRST:
+                isDefault = VALUE_SELF_FIRST;
+                selectedRecordIndex = this.isTree ? records.findIndex((val) => isEmpty(val[this.recordParentId])) : 0;
+
+                record = records[selectedRecordIndex];
+                recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
+                break;
+            case !isEmpty(defaultvalue) && defaultvalue !== VALUE_SELF_FIRST && defaultvalue !== VALUE_SELF_ALWAYSFIRST:
+                selectedRecordIndex = records.findIndex((val) => `${deepFind(val, valueField)[1]} === ${defaultvalue}`);
+                if (selectedRecordIndex > -1) {
+                    record = records[selectedRecordIndex];
+                    recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
+                }
+                break;
+            case !isEmpty(defaultvaluerule):
+                const value = parseMemoize(defaultvaluerule!).runer({
+                    get: (name: string) => {
+                        return this.pageStore?.globalValues.get(name);
+                    },
+                });
+
+                selectedRecordIndex = records.findIndex((val) => `${deepFind(val, valueField)[1]} === ${value}`);
+                if (selectedRecordIndex > -1) {
+                    record = records[selectedRecordIndex];
+                    recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
+                }
+                break;
+            default:
+                recordIdValue = undefined;
+        }
+
+        this.recordsState = {
+            ...this.recordsState,
+            defaultValueSet: isDefault && recordIdValue !== undefined ? isDefault : undefined,
+            isDefault,
+            record: record,
+        };
+
+        return this.setSelectionAction(recordIdValue, valueField);
+    };
 
     @action
     localFilter = (): void => {
@@ -613,6 +708,14 @@ export class RecordsModel implements IRecordsModel {
             records,
             status: "set",
         };
+
+        if (this.bc.querymode === "local") {
+            this.localFilter();
+        }
+
+        if (this.bc.defaultvalue || this.bc.defaultvaluerule) {
+            this.setLocalDefaultValue();
+        }
 
         return true;
     };

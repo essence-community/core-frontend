@@ -1,5 +1,5 @@
 import {settingsStore} from "../models/SettingsModel";
-import {VAR_SETTING_GATE_URL, VAR_SETTING_REMOTE_STORAGE} from "../constants/variables";
+import {VAR_SETTING_GATE_URL, VAR_SETTING_REMOTE_TYPE_STORAGE} from "../constants/variables";
 import {IStorage} from "../types/Storage";
 import {LocalStorage} from "./LocalStorage";
 import {RemoteStorage} from "./RemoteStorage";
@@ -11,8 +11,13 @@ const localStore: IStorage = new LocalStorage();
 let store: IStorage = localStore;
 let callbackLoaded: CallBackLoadedType[] = [];
 
+export const TypeStorage: Record<string, any> = {
+    local: LocalStorage,
+    remote: RemoteStorage,
+};
+
 function makeKey(key: string): string {
-    return `${settingsStore.settings[VAR_SETTING_GATE_URL]}_${key}`;
+    return `${settingsStore.settings[VAR_SETTING_GATE_URL]}_${key}`.replace("/", "_");
 }
 
 export function saveToLocalStore<T>(key: string, value: T) {
@@ -76,7 +81,9 @@ export function remListenLoaded(fnDel: CallBackLoadedType) {
 }
 
 export async function initStorage() {
-    store = settingsStore.settings[VAR_SETTING_REMOTE_STORAGE] === "true" ? new RemoteStorage() : localStore;
+    const storeClass = TypeStorage[settingsStore.settings[VAR_SETTING_REMOTE_TYPE_STORAGE]];
+
+    store = storeClass ? new storeClass() : localStore;
 
     await store.load();
 

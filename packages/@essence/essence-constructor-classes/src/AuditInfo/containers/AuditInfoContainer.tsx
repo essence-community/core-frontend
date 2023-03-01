@@ -6,11 +6,7 @@ import {
     IPopoverTransfromOrigin,
 } from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";
 import {CardContent, Typography, useTheme} from "@material-ui/core";
-import {
-    VAR_RECORD_CT_CHANGE,
-    VAR_RECORD_CV_USERNAME,
-    VAR_RECORD_PAGE_OBJECT_ID,
-} from "@essence-community/constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {Popover} from "@essence-community/constructor-share/uicomponents";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {useTranslation} from "@essence-community/constructor-share/utils";
@@ -52,10 +48,10 @@ export const AuditInfoContainer: React.FC<IClassProps> = (props) => {
                 <CardContent>
                     <Typography variant="body2">
                         {trans("static:a51733f718974db891606a516a906d4a")}:{" "}
-                        {moment(store.auditInfo[VAR_RECORD_CT_CHANGE]).format("DD.MM.YYYY HH:mm:ss")}
+                        {moment(store.auditInfo.date).format("DD.MM.YYYY HH:mm:ss")}
                     </Typography>
                     <Typography variant="body2">
-                        {trans("static:359b72856d284d1baf5ff9e14e8293c9")}: {store.auditInfo[VAR_RECORD_CV_USERNAME]}
+                        {trans("static:359b72856d284d1baf5ff9e14e8293c9")}: {store.auditInfo.user}
                     </Typography>
                 </CardContent>
             }

@@ -1,10 +1,13 @@
 {
   "name": "@essence-community/constructor-share",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Share package for building modules",
   "main": "index.js",
   "repository": "https://github.com/essence-community/core-frontend",
-  "author": "Oleh Kutsenko",
+  "author": [
+    "Oleh Kutsenko",
+    "Ivan Artemov (artemov_is@tehnobear.ru)"
+  ],
   "license": "MIT",
   "private": false,
   "engines": {
@@ -41,13 +44,14 @@
     "moment": "2.27.0",
     "p-limit": "^3.0.2",
     "qs": "^6.9.4",
-    "react": "16.13.1",
+    "react": "^16.14.0",
     "react-custom-scrollbars": "4.2.1",
-    "react-dom": "16.13.1",
+    "react-dom": "^16.14.0",
     "react-fontawesome": "^1.7.1",
     "react-i18next": "^11.7.0",
     "react-input-mask": "^2.0.4",
     "react-linkify": "^1.0.0-alpha",
+    "react-router-dom": "5.3.0",
     "request": "^2.88.2",
     "uuid": "^8.2.0"
   },

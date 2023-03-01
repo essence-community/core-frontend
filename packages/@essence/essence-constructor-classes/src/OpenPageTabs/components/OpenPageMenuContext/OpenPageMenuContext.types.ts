@@ -1,3 +1,6 @@
+import {IPageModel} from "@essence-community/constructor-share/types";
+import {IPagesModel} from "@essence-community/constructor-share/types/PagesModel";
+
 export interface IPopoverPosition {
     left: number;
     top: number;
@@ -6,8 +9,8 @@ export interface IPopoverPosition {
 export interface IOpenPageMenuContextProps {
     open: boolean;
     position: IPopoverPosition;
-    value?: string;
-    pagesStore: any;
+    value?: IPageModel;
+    pagesStore: IPagesModel;
     onCloseMenu: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
     onClose: (value: string) => void;
 }

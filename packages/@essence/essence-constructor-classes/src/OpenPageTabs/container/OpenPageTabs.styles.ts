@@ -9,9 +9,15 @@ export const useStyles = makeStyles(
             position: "fixed",
             zIndex: theme.zIndex.drawer + 100,
         },
-        emtySpace: {
+        emptySpace: {
+            cursor: "auto",
             flex: 1,
         },
+        emptySpacehorizontal: {
+            maxWidth: "100%",
+            width: "100%",
+        },
+        emptySpacevertical: {},
         scroller: {
             height: "100%",
             overflow: "hidden",

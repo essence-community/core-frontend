@@ -1,10 +1,13 @@
 {
   "name": "@essence-community/constructor-dll",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Dll vendor",
   "main": "index.js",
   "repository": "https://github.com/essence-community/core-frontend",
-  "author": "Oleh Kutsenko",
+  "author": [
+    "Oleh Kutsenko",
+    "Ivan Artemov (artemov_is@tehnobear.ru)"
+  ],
   "license": "MIT",
   "private": false,
   "scripts": {
@@ -24,9 +27,10 @@
     "fs-extra": "^9.0.1",
     "mobx": "^5.15.7",
     "mobx-react": "^6.3.1",
-    "react": "16.13.1",
+    "react": "^16.14.0",
     "react-dev-utils": "^11.0.4",
-    "react-dom": "16.13.1",
+    "react-dom": "^16.14.0",
+    "react-router-dom": "5.3.0",
     "terser-webpack-plugin": "^3.0.6",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12"

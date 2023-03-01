@@ -74,7 +74,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
     const handleRecordsLoad = React.useCallback(() => {
         store.recordsStore.records.forEach((rec) => {
             if (
-                rec.expanded === "true" &&
+                (rec.expanded === "true" || rec.expanded === true) &&
                 !store.recordsStore.expansionRecords.has(rec[store.recordsStore.recordId] as ICkId)
             ) {
                 store.openCloseExpansionAction(rec[store.recordsStore.recordId] as ICkId, true);

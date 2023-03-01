@@ -1,56 +1,67 @@
+/* eslint-disable max-lines-per-function */
 import * as React from "react";
 import {Grid} from "@material-ui/core";
-import {deepFind, toColumnStyleWidthBc} from "@essence-community/constructor-share/utils/transform";
-import {IClassProps, IPageModel} from "@essence-community/constructor-share/types";
+import {toColumnStyleWidthBc} from "@essence-community/constructor-share/utils/transform";
+import {IClassProps, IModuleClassProps} from "@essence-community/constructor-share/types";
 import {loadRemoteModule} from "@essence-community/constructor-share/utils/federationModule";
 import {snackbarStore} from "@essence-community/constructor-share/models";
+import {VAR_RECORD_NAME} from "@essence-community/constructor-share/constants";
+import {noop, parseMemoize} from "@essence-community/constructor-share/utils";
 import {
-    VAR_RECORD_NAME,
-    VAR_RECORD_RES_STACK_TRACE,
-    VAR_RESULT_MESSAGE,
-} from "@essence-community/constructor-share/constants";
-import {parseMemoize} from "@essence-community/constructor-share/utils";
-import {RecordContext, FormContext, ParentFieldContext} from "@essence-community/constructor-share/context";
+    RecordContext,
+    FormContext,
+    ParentFieldContext,
+    WindowContext,
+} from "@essence-community/constructor-share/context";
 import {reaction} from "mobx";
-import {IBuilderClassConfig} from "../types";
+import {useModel} from "@essence-community/constructor-share/hooks/useModel";
+import {IBuilderClassConfig, IConfigMF} from "../types";
+import {ModuleFederationModel} from "../store/ModuleFederationModel";
 import {useStyles} from "./ModuleFederationContainer.style";
 
 const DEFAULT_PROPS = {};
 
 const checkValue = (
-    bc: IBuilderClassConfig,
-    pageStore: IPageModel,
     val: string | Record<string, any>,
     defaultValue = DEFAULT_PROPS,
+    errorCalcBack: (err: Error) => void = noop,
 ) => {
     let res = defaultValue;
 
     try {
-        res = typeof val === "string" ? JSON.parse(val) : val;
+        res = typeof val === "string" ? JSON.parse(val) : JSON.parse(JSON.stringify(val));
     } catch (err) {
         res = defaultValue;
-        snackbarStore.checkValidResponseAction(
-            {
-                [VAR_RECORD_RES_STACK_TRACE]: err.stack,
-                [VAR_RESULT_MESSAGE]: {
-                    error: [[`Component ${bc[VAR_RECORD_NAME]}: Module Federation load config error`]],
-                },
-            } as any,
-            {applicationStore: pageStore.applicationStore},
-        );
+        errorCalcBack(err);
     }
 
     return res;
 };
 
 export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
-    const {bc, disabled, pageStore} = props;
-    const [storeComponent, setStoreComponent] = React.useState(null);
+    const {bc, disabled, hidden, readOnly, pageStore} = props;
+    const [storeComponent, setStoreComponent] = React.useState<{Component: React.FC<IModuleClassProps>}>(null);
     const [propsComponent, setPropsComponent] = React.useState(DEFAULT_PROPS);
+    const [mfConfig, setMfConfig] = React.useState<IConfigMF>(null);
     const recordContext = React.useContext(RecordContext);
     const formContext = React.useContext(FormContext);
     const parentFieldContext = React.useContext(ParentFieldContext);
+    const windowContext = React.useContext(WindowContext);
+    const [store] = useModel((options) => new ModuleFederationModel(options), {
+        applicationStore: pageStore.applicationStore,
+        bc,
+        disabled,
+        hidden,
+        pageStore,
+    });
     const classes = useStyles();
+
+    React.useEffect(() => {
+        store.setFormContext(formContext);
+        store.setParentFieldContext(parentFieldContext);
+        store.setRecordContext(recordContext);
+        store.setWindowContext(windowContext);
+    }, [formContext, parentFieldContext, recordContext, store, windowContext]);
 
     const contentStyle = React.useMemo(
         () => ({
@@ -63,85 +74,129 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
     );
 
     React.useEffect(() => {
-        if (bc.mfconfig) {
-            loadRemoteModule(bc.mfconfig).then(
-                (comp) => {
-                    setStoreComponent({Component: comp[bc.mfconfig.className || "default"]});
+        const getError = (err: Error) => {
+            snackbarStore.snackbarOpenAction(
+                {
+                    status: "error",
+                    text: `Component name ${bc[VAR_RECORD_NAME]}: Module Federation config parse error`,
                 },
-                (err: Error) => {
-                    snackbarStore.checkValidResponseAction(
-                        {
-                            [VAR_RECORD_RES_STACK_TRACE]: err.stack,
-                            [VAR_RESULT_MESSAGE]: {
-                                error: [[`Component ${bc[VAR_RECORD_NAME]}: Module Federation load error`]],
-                            },
-                        } as any,
-                        {applicationStore: pageStore.applicationStore},
-                    );
+                pageStore.route,
+            );
+
+            snackbarStore.snackbarOpenAction(
+                {
+                    status: "debug",
+                    text: err.stack,
+                },
+                pageStore.route,
+            );
+        };
+
+        if (bc.mfconfig) {
+            setMfConfig((oldValue) => checkValue(bc.mfconfig, oldValue, getError) as IConfigMF);
+        }
+        if (bc.mfconfigrule) {
+            return reaction(
+                () => parseMemoize(bc.mfconfigrule).runer({get: store.getValue}),
+                (val) => {
+                    setMfConfig((oldValue) => checkValue(val, oldValue, getError) as IConfigMF);
+                },
+                {
+                    fireImmediately: true,
                 },
             );
         }
-    }, [bc, pageStore.applicationStore]);
+    }, [bc, pageStore, store, formContext, parentFieldContext, recordContext]);
+
     React.useEffect(() => {
+        const getError = (err: Error) => {
+            snackbarStore.snackbarOpenAction(
+                {
+                    status: "error",
+                    text: `Component ${bc[VAR_RECORD_NAME]}: Module Federation load error`,
+                },
+                pageStore.route,
+            );
+
+            snackbarStore.snackbarOpenAction(
+                {
+                    status: "debug",
+                    text: err.stack,
+                },
+                pageStore.route,
+            );
+        };
+
+        const loadFail = (err: Error) => {
+            if (bc.mfconfigfail) {
+                return loadRemoteModule(bc.mfconfigfail).then(
+                    (comp) => {
+                        setStoreComponent({Component: comp[bc.mfconfigfail.className || "default"]});
+                    },
+                    () => {
+                        getError(err);
+                    },
+                );
+            }
+            getError(err);
+        };
+
+        if (mfConfig) {
+            loadRemoteModule(mfConfig).then(
+                (comp) => {
+                    setStoreComponent({Component: comp[mfConfig.className || "default"]});
+                },
+                (err: Error) => {
+                    return loadFail(err);
+                },
+            );
+        }
+    }, [bc, mfConfig, pageStore]);
+    React.useEffect(() => {
+        const getError = (err: Error) => {
+            snackbarStore.snackbarOpenAction(
+                {
+                    status: "error",
+                    text: `Component name ${bc[VAR_RECORD_NAME]}: Module Federation load component config error`,
+                },
+                pageStore.route,
+            );
+
+            snackbarStore.snackbarOpenAction(
+                {
+                    status: "debug",
+                    text: err.stack,
+                },
+                pageStore.route,
+            );
+        };
+
         if (bc.mfcomponentconfig) {
-            setPropsComponent((oldValue) => checkValue(bc, pageStore, bc.mfcomponentconfig, oldValue));
+            setPropsComponent((oldValue) => checkValue(bc.mfcomponentconfig, oldValue, getError));
         }
 
         if (bc.mfcomponentconfigrule) {
-            const getValue = (name: string) => {
-                if (name.charAt(0) === "g") {
-                    return pageStore.globalValues.get(name);
-                }
-
-                if (recordContext) {
-                    const [isExistRecord, recValue] = deepFind(recordContext, name);
-
-                    if (isExistRecord) {
-                        return recValue;
-                    }
-                }
-
-                if (formContext) {
-                    const values = formContext.values;
-
-                    if (parentFieldContext) {
-                        const [isExistParent, val] = deepFind(values, `${parentFieldContext.key}.${name}`);
-
-                        if (isExistParent) {
-                            return val;
-                        }
-                    }
-
-                    const [isExist, val] = deepFind(values, name);
-
-                    if (isExist) {
-                        return val;
-                    }
-                }
-
-                return undefined;
-            };
-
-            setPropsComponent((oldValue) =>
-                checkValue(bc, pageStore, parseMemoize(bc.mfcomponentconfigrule).runer({get: getValue}), oldValue),
-            );
-
             return reaction(
-                () => parseMemoize(bc.mfcomponentconfigrule).runer({get: getValue}),
+                () => parseMemoize(bc.mfcomponentconfigrule).runer({get: store.getValue}),
                 (val) => {
-                    setPropsComponent((oldValue) => checkValue(bc, pageStore, val, oldValue));
+                    setPropsComponent((oldValue) => checkValue(val, oldValue, getError));
+                },
+                {
+                    fireImmediately: true,
                 },
             );
         }
-    }, [bc, formContext, pageStore, parentFieldContext, recordContext]);
+    }, [bc, pageStore, store, formContext, parentFieldContext, recordContext]);
 
     const finalPropsComponent = React.useMemo(
-        () => ({
-            style: contentStyle,
-            ...(props ? props : DEFAULT_PROPS),
-            ...(propsComponent ? propsComponent : DEFAULT_PROPS),
-        }),
-        [contentStyle, props, propsComponent],
+        () =>
+            ({
+                style: contentStyle,
+                ...(props ? props : DEFAULT_PROPS),
+                ...(propsComponent ? propsComponent : DEFAULT_PROPS),
+                dispatchMessage: (...arg) => store.handleEventComponent(...arg),
+            } as IModuleClassProps),
+        [contentStyle, props, propsComponent, store],
     );
 
     if (!storeComponent) {
@@ -153,7 +208,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
             <Grid item xs={12} alignItems="stretch" zeroMinWidth>
                 <storeComponent.Component {...finalPropsComponent} />
             </Grid>
-            <div className={disabled ? classes.disabled : ""}></div>
+            <div className={disabled || readOnly ? classes.disabled : ""}></div>
         </Grid>
     );
 };

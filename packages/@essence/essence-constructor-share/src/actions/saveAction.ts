@@ -27,7 +27,12 @@ import {getMasterObject} from "../utils/getMasterObject";
 import {TText} from "../types/SnackbarModel";
 import {IForm} from "../Form";
 import {request} from "../request";
-import {RETURN_FORM_DATA, RETURN_FORM_DATA_BREAK, VAR_RECORD_VALUE_ID} from "../constants/variables";
+import {
+    RETURN_FORM_DATA,
+    RETURN_FORM_DATA_BREAK,
+    RETURN_GLOBAL_VALUE,
+    VAR_RECORD_VALUE_ID,
+} from "../constants/variables";
 import {setMask} from "./recordsActions";
 
 export interface IConfig {
@@ -215,17 +220,21 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
                     }
                     let result = response;
 
-                    if (
-                        form &&
-                        typeof response === "object" &&
-                        (response[RETURN_FORM_DATA] || response[RETURN_FORM_DATA_BREAK])
-                    ) {
-                        form.update({
-                            ...form.values,
-                            ...(response[RETURN_FORM_DATA] || response[RETURN_FORM_DATA_BREAK]),
-                        });
-                        if (response[RETURN_FORM_DATA_BREAK]) {
-                            result = false;
+                    if (typeof response === "object") {
+                        if (typeof response[RETURN_GLOBAL_VALUE] === "object") {
+                            pageStore.updateGlobalValues(response[RETURN_GLOBAL_VALUE]);
+                        }
+                        if (
+                            form &&
+                            typeof (response[RETURN_FORM_DATA] || response[RETURN_FORM_DATA_BREAK]) === "object"
+                        ) {
+                            form.update({
+                                ...form.values,
+                                ...(response[RETURN_FORM_DATA] || response[RETURN_FORM_DATA_BREAK]),
+                            });
+                            if (response[RETURN_FORM_DATA_BREAK]) {
+                                result = false;
+                            }
                         }
                     }
                     if (check === 1 && noReload) {

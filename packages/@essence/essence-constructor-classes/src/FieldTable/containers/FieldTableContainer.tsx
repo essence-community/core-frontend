@@ -1,6 +1,5 @@
 import * as React from "react";
 import {isEmpty} from "@essence-community/constructor-share/utils";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
 import {
@@ -52,7 +51,7 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
     // Check for grid store
     React.useEffect(() => {
         return reaction(
-            () => pageStore.stores.get(store.gridBc[VAR_RECORD_PAGE_OBJECT_ID])?.recordsStore,
+            () => pageStore.stores.get(store.gridId)?.recordsStore,
             (recordsStore) => {
                 if (recordsStore) {
                     store.restoreSelectedAction(recordsStore);

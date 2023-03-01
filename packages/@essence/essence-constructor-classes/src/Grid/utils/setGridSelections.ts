@@ -14,7 +14,11 @@ export function setGridSelections({gridStore, isSelected, parentId, maxSize}: IS
         const recordId = record[gridStore.recordsStore.recordId] as string | number;
 
         if (record[gridStore.recordsStore.recordParentId] === parentId) {
-            if (record[VAR_RECORD_LEAF] === "false") {
+            if (
+                typeof record[VAR_RECORD_LEAF] === "boolean"
+                    ? !record[VAR_RECORD_LEAF]
+                    : record[VAR_RECORD_LEAF] === "false"
+            ) {
                 setGridSelections({
                     gridStore,
                     isSelected,

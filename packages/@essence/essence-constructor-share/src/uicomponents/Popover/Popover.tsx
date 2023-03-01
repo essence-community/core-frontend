@@ -42,17 +42,6 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
         onChangeOpen(false);
     }, [onChangeOpen]);
 
-    const handleOpen = React.useCallback(() => {
-        setIsOpen(true);
-        onChangeOpen(true);
-    }, [onChangeOpen]);
-
-    const popoverCtx = React.useMemo(() => ({onClose: handleClose, onOpen: handleOpen, open: isOpen}), [
-        handleClose,
-        handleOpen,
-        isOpen,
-    ]);
-
     const handleCalculateOffset = React.useCallback(() => {
         const {current: rootElement} = rootRef;
         let newPosition: IOffset = getAbsoluteOffsetFromGivenElement(rootElement, container);
@@ -80,6 +69,17 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
             return prevStyle;
         });
     }, [anchorOrigin, container, transformOrigin]);
+
+    const handleOpen = React.useCallback(() => {
+        setIsOpen(true);
+        onChangeOpen(true);
+    }, [onChangeOpen]);
+
+    const popoverCtx = React.useMemo(() => ({onClose: handleClose, onOpen: handleOpen, open: isOpen}), [
+        handleClose,
+        handleOpen,
+        isOpen,
+    ]);
 
     const handleEntering = () => {
         handleCalculateOffset();

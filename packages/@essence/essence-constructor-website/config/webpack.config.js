@@ -583,17 +583,17 @@ module.exports = function (webpackEnv) {
         shared: {
             "react": {
                 singleton: true,
-                requiredVersion: appPackageJson.dependencies["react"],
+                requiredVersion: appSharePackageJson.dependencies["react"],
                 eager: true
             },
             "react-dom": {
                 singleton: true,
-                requiredVersion: appPackageJson.dependencies["react-dom"],
+                requiredVersion: appSharePackageJson.dependencies["react-dom"],
                 eager: true
             },
             "react-router-dom": {
                 singleton: true,
-                requiredVersion: appPackageJson.dependencies["react-router-dom"],
+                requiredVersion: appSharePackageJson.dependencies["react-router-dom"],
                 eager: true
             },
             "@essence-community/constructor-share": {

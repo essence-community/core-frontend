@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useTranslation, toTranslateText} from "@essence-community/constructor-share/utils";
+import {useTranslation, toTranslateText, transformToBoolean} from "@essence-community/constructor-share/utils";
 import cn from "clsx";
 import {Checkbox, FormLabel} from "@material-ui/core";
 import {
@@ -17,26 +17,22 @@ import {
     useFieldGetGlobal,
     useDefaultValueQuery,
 } from "@essence-community/constructor-share/hooks";
+import {IBuilderClassConfig} from "../types";
 import {useStyles} from "./FieldCheckboxContainer.styles";
 
-const fixBoolean = (value) => {
-    if (typeof value === "string") {
-        return value === "true" || value === "1" || value === "yes" || value === "on";
+const getOutput = (field: IField, form: IForm, value?: IRecord | FieldValue) => {
+    if (value || field.value) {
+        return field.bc.valuetype === "integer" ? 1 : true;
     }
 
-    return Boolean(value);
+    return field.bc.valuetype === "integer" ? 0 : false;
 };
 
-const getOutput = (field: IField, form: IForm, value?: IRecord | FieldValue) => {
-    return value || field.value ? 1 : 0;
-};
-
-const CLEAR_VALUE = 0;
-
-export const FieldCheckboxContainer: React.FC<IClassProps> = (props) => {
+export const FieldCheckboxContainer: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
     const {bc, disabled, readOnly, pageStore} = props;
     const [focused, setFocus] = React.useState<boolean>(false);
-    const field = useField({...props, clearValue: CLEAR_VALUE, output: getOutput});
+    const clearValue = React.useMemo(() => (bc.valuetype === "integer" ? 0 : false), [bc]);
+    const field = useField({...props, clearValue, output: getOutput});
     const textFieldProps = useTextFieldProps({bc, disabled, field, readOnly});
 
     const [trans] = useTranslation("meta");
@@ -50,9 +46,9 @@ export const FieldCheckboxContainer: React.FC<IClassProps> = (props) => {
     }, []);
     const onChange = React.useCallback(
         (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-            field.onChange(Number(checked));
+            field.onChange(bc.valuetype === "integer" ? Number(checked) : checked);
         },
-        [field],
+        [field, bc],
     );
 
     useFieldSetGlobal({bc, field, pageStore});
@@ -95,7 +91,7 @@ export const FieldCheckboxContainer: React.FC<IClassProps> = (props) => {
                     )}
                 </FormLabel>
                 <Checkbox
-                    checked={fixBoolean(field.value)}
+                    checked={transformToBoolean(field.value)}
                     onChange={onChange}
                     className={classes.checkboxRoot}
                     disabled={textFieldProps.disabled}

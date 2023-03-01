@@ -6,6 +6,7 @@ export const useStyles = makeStyles(
         highlight: {
             ...theme.typography.body1,
             color: "red",
+            fill: "red",
             position: "absolute",
             right: 0,
             top: -5,
@@ -13,6 +14,7 @@ export const useStyles = makeStyles(
         highlightFab: {
             ...theme.typography.body1,
             color: "red",
+            fill: "red",
             position: "absolute",
             right: 8,
             top: 0,
@@ -27,6 +29,7 @@ export const useStyles = makeStyles(
                       },
                       backgroundColor: theme.palette.primary.light,
                       color: theme.palette.common.white,
+                      fill: theme.palette.common.white,
                       minWidth: 42,
                   }
                 : {},
@@ -37,6 +40,7 @@ export const useStyles = makeStyles(
             },
             backgroundColor: theme.palette.common.white,
             color: theme.palette.primary.main,
+            fill: theme.palette.primary.main,
             minWidth: 42,
         },
         // Grid button
@@ -47,6 +51,7 @@ export const useStyles = makeStyles(
                 borderColor: theme.palette.primary.main,
                 borderRadius: "4px 4px 0 0",
                 color: theme.essence.layoutTheme === 2 ? theme.palette.common.white : theme.palette.primary.main,
+                fill: theme.essence.layoutTheme === 2 ? theme.palette.common.white : theme.palette.primary.main,
             },
             height: theme.essence.sizing.gridRowHeight,
             width: theme.essence.sizing.gridRowHeight,

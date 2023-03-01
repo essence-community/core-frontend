@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 /* eslint-disable max-lines-per-function */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable max-lines */
@@ -264,6 +265,18 @@ export function loadRecordsAction(
             let recordIdValue = undefined;
             let record = undefined;
             let selectedRecordIndex = 0;
+            let findOldSelectedRecordIndex = -1;
+
+            if (selectedRecordId !== undefined) {
+                findOldSelectedRecordIndex = records.findIndex(
+                    (val) => `${val[this.recordId]} === ${selectedRecordId}`,
+                );
+            }
+            if (this.selectedRecordId !== undefined) {
+                findOldSelectedRecordIndex = records.findIndex(
+                    (val) => `${val[this.recordId]} === ${this.selectedRecordId}`,
+                );
+            }
 
             switch (true) {
                 case defaultvalue === VALUE_SELF_ALWAYSFIRST:
@@ -275,10 +288,14 @@ export function loadRecordsAction(
                     record = records[selectedRecordIndex];
                     recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
                     break;
-                case selectedRecordId !== undefined:
+                case selectedRecordId !== undefined &&
+                    (findOldSelectedRecordIndex > -1 ||
+                        (findOldSelectedRecordIndex === -1 && isEmpty(defaultvalue) && isEmpty(defaultvaluerule))):
                     recordIdValue = selectedRecordId;
                     break;
-                case this.selectedRecordId !== undefined:
+                case this.selectedRecordId !== undefined &&
+                    (findOldSelectedRecordIndex > -1 ||
+                        (findOldSelectedRecordIndex === -1 && isEmpty(defaultvalue) && isEmpty(defaultvaluerule))):
                     recordIdValue = this.selectedRecordId;
                     break;
                 case defaultvalue === VALUE_SELF_FIRST:
@@ -292,24 +309,23 @@ export function loadRecordsAction(
                     break;
                 case !isEmpty(defaultvalue) &&
                     defaultvalue !== VALUE_SELF_FIRST &&
-                    defaultvalue !== VALUE_SELF_ALWAYSFIRST &&
-                    this.loadCounter <= 1:
+                    defaultvalue !== VALUE_SELF_ALWAYSFIRST:
                     selectedRecordIndex = records.findIndex(
-                        (val) => `${deepFind(val, valueField)[1]}` === `${defaultvalue}`,
+                        (val) => `${deepFind(val, valueField)[1]} === ${defaultvalue}`,
                     );
                     if (selectedRecordIndex > -1) {
                         record = records[selectedRecordIndex];
                         recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
                     }
                     break;
-                case !isEmpty(defaultvaluerule) && this.loadCounter <= 1:
+                case !isEmpty(defaultvaluerule):
                     const value = parseMemoize(defaultvaluerule!).runer({
                         get: (name: string) => {
                             return this.pageStore?.globalValues.get(name);
                         },
                     });
 
-                    selectedRecordIndex = records.findIndex((val) => `${deepFind(val, valueField)[1]}` === `${value}`);
+                    selectedRecordIndex = records.findIndex((val) => `${deepFind(val, valueField)[1]} === ${value}`);
                     if (selectedRecordIndex > -1) {
                         record = records[selectedRecordIndex];
                         recordIdValue = record ? deepFind(record, valueField)[1] : undefined;

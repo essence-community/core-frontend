@@ -4,8 +4,17 @@
 import * as lodash from "lodash";
 /* eslint-disable @typescript-eslint/no-use-before-define, no-use-before-define */
 import * as esprima from "esprima";
-// eslint-disable-next-line import/no-extraneous-dependencies, import/extensions, import/no-unresolved
-import {Expression, Property, Pattern, Super, LogicalExpression, UnaryExpression, BlockStatement} from "estree";
+import {
+    Expression,
+    Property,
+    Pattern,
+    Super,
+    LogicalExpression,
+    UnaryExpression,
+    BlockStatement,
+    Literal,
+    // eslint-disable-next-line import/no-extraneous-dependencies, import/extensions, import/no-unresolved
+} from "estree";
 import memoize from "memoizee";
 import {FieldValue} from "../types";
 import {loggerRoot} from "../constants";
@@ -90,17 +99,26 @@ function parseOperations(expression: Expression | Pattern | Super | BlockStateme
         case "SequenceExpression":
             return expression.expressions.map((exp: Expression) => parseOperations(exp, values));
         case "Literal":
-            // @ts-ignore
-            if (expression.isMember) {
-                const value = values.get ? values.get(expression.value as any, true) : values[expression.value as any];
+            const liteValue = expression as Literal;
+
+            if (
+                // @ts-ignore
+                expression.isMember &&
+                (typeof liteValue.raw === "undefined" ||
+                    (liteValue.raw &&
+                        // eslint-disable-next-line quotes
+                        !(liteValue.raw.startsWith('"') && liteValue.raw.endsWith('"')) &&
+                        !(liteValue.raw.startsWith("'") && liteValue.raw.endsWith("'"))))
+            ) {
+                const value = values.get ? values.get(liteValue.value as any, true) : values[liteValue.value as any];
 
                 return typeof value === "undefined"
                     ? // @ts-ignore
-                      expression.value || value
+                      liteValue.value || value
                     : value;
             }
 
-            return expression.value;
+            return liteValue.value;
         case "Identifier":
             // @ts-ignore
             if (!expression.isMember && expression.name === "undefined") {

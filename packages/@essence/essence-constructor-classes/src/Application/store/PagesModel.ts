@@ -3,8 +3,9 @@ import {action, observable, IObservableArray, ObservableMap, computed} from "mob
 import {
     STORE_PAGES_IDS_KEY,
     STORE_LAST_CV_LOGIN_KEY,
-    VAR_RECORD_ROUTE_VISIBLE_MENU,
     VAR_RECORD_CV_LOGIN,
+    VAR_RECORD_URL,
+    VAR_RECORD_ID,
 } from "@essence-community/constructor-share/constants";
 import {PageModel} from "@essence-community/constructor-share/models";
 import {GlobalRecordsModel} from "@essence-community/constructor-share/models/GlobalRecordsModel";
@@ -31,7 +32,9 @@ export class PagesModel implements IPagesModel {
     @observable pages: IObservableArray<IPageModel> = observable.array();
 
     @computed get visiblePages() {
-        return this.pages.filter(({route}) => route && route[VAR_RECORD_ROUTE_VISIBLE_MENU]);
+        // Отображаем всегда все
+        // return this.pages.filter(({route}) => route && route[VAR_RECORD_ROUTE_VISIBLE_MENU]);
+        return this.pages;
     }
 
     @computed get storeKey() {
@@ -49,6 +52,7 @@ export class PagesModel implements IPagesModel {
         });
     }
 
+    @action
     loadActivePage = (pageId: string, autoset = true, isActiveRedirect = false): Promise<IPageModel> => {
         const activePage = new PageModel({
             applicationStore: this.applicationStore,
@@ -65,84 +69,104 @@ export class PagesModel implements IPagesModel {
         return activePage.loadConfigAction(pageId).then(() => activePage);
     };
 
-    reloadPageAction = (pageId: string) => {
-        const activePage = this.pages.find((page) => page.pageId === pageId);
+    @action
+    reloadPageAction = (pageId: string | IPageModel) => {
+        const activePage = this.pages.find((page) => page.pageId === pageId || page === pageId);
 
         if (activePage) {
             activePage.reloadPageAction();
         }
     };
 
-    setPageAction = action(
-        "setPageAction",
-        async (pageId: string, isActiveRedirect = false): Promise<false | IPageModel> => {
-            if (pageId === "-1") {
-                return false;
-            }
+    @action
+    setPageAction = async (pageId: string | IPageModel, isActiveRedirect = false): Promise<false | IPageModel> => {
+        if (pageId === "-1") {
+            return false;
+        }
 
-            let activePage = this.pages.find((page) => page.pageId === pageId);
+        let activePage = this.pages.find(
+            (page) =>
+                page === pageId ||
+                (!page.isMulti &&
+                    (page.pageId === pageId ||
+                        page.route?.[VAR_RECORD_URL] === pageId ||
+                        page.route?.[VAR_RECORD_ID] === pageId)),
+        );
 
-            if (activePage) {
-                this.activePage = activePage;
-            } else {
-                activePage = await this.loadActivePage(pageId, true, isActiveRedirect);
-            }
+        if (activePage) {
+            this.activePage = activePage;
+        } else if (typeof pageId === "string") {
+            activePage = await this.loadActivePage(pageId, true, isActiveRedirect);
+        }
 
-            saveToStore(
-                this.storeKey,
-                this.pages.map((page) => page.pageId),
+        this.saveToStore();
+
+        return activePage;
+    };
+
+    @action
+    removePageAction = (pageId: string | IPageModel) => {
+        // Don't close default page. This is hidden page and need to display start screen
+        if (
+            pageId !== this.applicationStore.defaultValue ||
+            this.pages.filter(
+                (page) =>
+                    page.pageId !== this.applicationStore.defaultValue &&
+                    page.route?.[VAR_RECORD_URL] !== this.applicationStore.defaultValue,
+            ).length > 0
+        ) {
+            const selectedPage = this.pages.find(
+                (page) =>
+                    page === pageId ||
+                    page.pageId === pageId ||
+                    page.route?.[VAR_RECORD_URL] === pageId ||
+                    page.route?.[VAR_RECORD_ID] === pageId,
             );
 
-            return activePage;
-        },
-    );
-
-    removePageAction = action("removePageAction", (pageId: string) => {
-        // Don't close default page. This is hidden page and need to display start screen
-        if (pageId !== this.applicationStore.bc.defaultvalue) {
-            const selectedPage = this.pages.find((page) => page.pageId === pageId);
+            if (selectedPage === this.activePage) {
+                this.activePage =
+                    (this.pages.length &&
+                        this.pages.find(
+                            (page) =>
+                                page !== pageId &&
+                                page.pageId !== this.applicationStore.defaultValue &&
+                                page.route?.[VAR_RECORD_URL] !== pageId &&
+                                page.pageId !== pageId,
+                        )) ||
+                    null;
+            }
 
             if (selectedPage) {
                 selectedPage.clearAction();
                 this.pages.remove(selectedPage);
             }
 
-            if (selectedPage === this.activePage) {
-                this.activePage =
-                    (this.pages.length &&
-                        this.pages.find((page) => page.pageId !== this.applicationStore.bc.defaultvalue)) ||
-                    null;
-            }
-
-            saveToStore(
-                this.storeKey,
-                this.pages.map((page) => page.pageId),
-            );
+            this.saveToStore();
         }
-    });
+    };
 
-    removePageOtherAction = action("removePageOtherAction", (pageIdLost: string) => {
+    @action
+    removePageOtherAction = (pageIdLost: string | IPageModel) => {
         this.pages.slice().forEach((page) => {
-            if (page.pageId !== pageIdLost) {
+            if (page.pageId !== pageIdLost && page !== pageIdLost) {
                 this.pages.remove(page);
             }
         });
 
         this.activePage = this.pages[0] || null;
-        saveToStore(
-            this.storeKey,
-            this.pages.map((page) => page.pageId),
-        );
-    });
+        this.saveToStore();
+    };
 
-    removeAllPagesAction = action("removeAllPagesAction", () => {
+    @action
+    removeAllPagesAction = () => {
         this.activePage = null;
         this.pages.clear();
         removeFromStore(this.storeKey);
-    });
+    };
 
-    removeAllPagesRightAction = action("removeAllPagesRightAction", (pageId: string) => {
-        const pageIndex = this.pages.findIndex((page) => page.pageId === pageId);
+    @action
+    removeAllPagesRightAction = (pageId: string | IPageModel) => {
+        const pageIndex = this.pages.findIndex((page) => page.pageId === pageId || page === pageId);
 
         this.pages.slice(pageIndex + 1).forEach((page) => {
             this.pages.remove(page);
@@ -154,17 +178,16 @@ export class PagesModel implements IPagesModel {
             this.activePage = this.pages[0] || null;
         }
 
-        saveToStore(
-            this.storeKey,
-            this.pages.map((page) => page.pageId),
-        );
-    });
+        this.saveToStore();
+    };
 
-    openCloseExpansionAction = action("openCloseExpansionAction", (ckId: string) => {
+    @action
+    openCloseExpansionAction = (ckId: string) => {
         this.expansionRecords.set(ckId, !this.expansionRecords.get(ckId));
-    });
+    };
 
-    restorePagesAction = action("restorePagesAction", (login: string) => {
+    @action
+    restorePagesAction = (login: string) => {
         const pagesIds = getFromStore(this.storeKey, []);
         const lastCvLogin = getFromStore(STORE_LAST_CV_LOGIN_KEY);
         const promise = Promise.resolve();
@@ -197,17 +220,22 @@ export class PagesModel implements IPagesModel {
         if (login) {
             saveToStore(STORE_LAST_CV_LOGIN_KEY, login);
         }
-    });
+    };
 
+    @action
     movePages = (dragVisibleIndex: number, hoverVisibleIndex: number) => {
         const dragIndex = this.pages.findIndex((page) => page === this.visiblePages[dragVisibleIndex]);
         const hoverIndex = this.pages.findIndex((page) => page === this.visiblePages[hoverVisibleIndex]);
 
         this.pages.replace(changePagePosition(this.pages, dragIndex, hoverIndex));
 
+        this.saveToStore();
+    };
+
+    saveToStore = () => {
         saveToStore(
             this.storeKey,
-            this.pages.map((page) => page.pageId),
+            this.pages.filter((page) => !page.isMulti).map((page) => page.route?.[VAR_RECORD_ID] || page.pageId),
         );
     };
 }

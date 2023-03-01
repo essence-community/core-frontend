@@ -16,8 +16,11 @@ export const getAbsoluteOffsetFromGivenElement = (el: null | HTMLElement, relati
     }
 
     while (currentEl && currentEl !== relativeEl && !isNaN(currentEl.offsetLeft) && !isNaN(currentEl.offsetTop)) {
-        _x += currentEl.offsetLeft - currentEl.scrollLeft + currentEl.clientLeft;
-        _y += currentEl.offsetTop - currentEl.scrollTop + currentEl.clientTop;
+        const style = window.getComputedStyle(currentEl);
+        const matrix = new WebKitCSSMatrix(style.transform);
+
+        _x += (matrix.m41 || currentEl.offsetLeft) - currentEl.scrollLeft + currentEl.clientLeft;
+        _y += (matrix.m42 || currentEl.offsetTop) - currentEl.scrollTop + currentEl.clientTop;
         currentEl = currentEl.offsetParent instanceof HTMLElement ? currentEl.offsetParent : null;
     }
 

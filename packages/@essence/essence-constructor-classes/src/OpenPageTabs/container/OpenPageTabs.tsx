@@ -1,14 +1,15 @@
-import {IClassProps, ApplicationContext, IRouteRecord} from "@essence-community/constructor-share";
+import {IClassProps, ApplicationContext, IRouteRecord, IPageModel} from "@essence-community/constructor-share";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_ROUTE_NAME,
     VAR_RECORD_ICON_NAME,
 } from "@essence-community/constructor-share/constants/variables";
-import {Tabs} from "@material-ui/core";
+import {Tabs, Tab} from "@material-ui/core";
 import {useObserver} from "mobx-react";
 import * as React from "react";
-import {useTranslation} from "@essence-community/constructor-share/utils";
+import {noop, useTranslation} from "@essence-community/constructor-share/utils";
 import ReactDOM from "react-dom";
+import cn from "clsx";
 import {OpenPageMenuContext} from "../components/OpenPageMenuContext/OpenPageMenuContext";
 import {OpenPageTab} from "../components/OpenPageTab/OpenPageTab";
 import {ScrollButton} from "../components/ScrollButton/ScrollButton";
@@ -53,7 +54,7 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
     const {pagesStore} = applicationStore;
     const [isOpenMenu, setIsOpenMenu] = React.useState(false);
     const [dragHtml, setDragHtml] = React.useState("");
-    const [menuPageValue, setMenuPageValue] = React.useState("");
+    const [menuPageValue, setMenuPageValue] = React.useState(null);
     const [menuPosition, setMenuPosition] = React.useState({
         left: 0,
         top: 0,
@@ -61,10 +62,10 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
     const dragIndexRef = React.useRef<undefined | number>();
     const hoverIndexRef = React.useRef<undefined | number>();
     const dragEventRef = React.useRef<typeof INITIAL_DRAG>(INITIAL_DRAG);
-    const handleChangePage = (event: React.ChangeEvent, value: string) => {
+    const handleChangePage = (event: React.ChangeEvent, value: IPageModel) => {
         pagesStore.setPageAction(value, false);
     };
-    const handleContextMenu = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, value: string) => {
+    const handleContextMenu = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, value: IPageModel) => {
         event.preventDefault();
         setIsOpenMenu(true);
         setMenuPageValue(value);
@@ -148,7 +149,7 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
     return useObserver(() => (
         <React.Fragment>
             <Tabs
-                value={pagesStore.activePage ? pagesStore.activePage.pageId : false}
+                value={pagesStore.activePage}
                 classes={{
                     flexContainer: classes.tabsFlexContainer,
                     root: classes.tabsRoot,
@@ -173,7 +174,8 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
                             label={trans(name)}
                             route={route}
                             iconfont={iconName}
-                            value={pageId}
+                            pagesStore={applicationStore.pagesStore}
+                            value={page}
                             titleRoutePath={trans<string>(titleRoutePath)}
                             onClose={pagesStore.removePageAction}
                             onContextMenuCustom={handleContextMenu}
@@ -185,7 +187,18 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
                         />
                     );
                 })}
-                <div className={classes.emtySpace} onMouseOver={handleTabsDragEnter} />
+                <Tab
+                    value={null}
+                    fullWidth
+                    component="div"
+                    classes={{root: cn(classes.emptySpace, classes[`emptySpace${orientation}`])}}
+                    onChange={noop}
+                    disableFocusRipple
+                    disableTouchRipple
+                    disabled
+                    disableRipple
+                    onMouseOver={handleTabsDragEnter}
+                />
             </Tabs>
             <OpenPageMenuContext
                 open={isOpenMenu}

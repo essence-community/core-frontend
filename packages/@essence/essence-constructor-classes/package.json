@@ -1,10 +1,13 @@
 {
   "name": "@essence-community/constructor-classes",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Classes implementation for constructor",
   "main": "src/index.js",
   "repository": "https://github.com/essence-community/core-frontend",
-  "author": "Oleh Kutsenko",
+  "author": [
+    "Oleh Kutsenko",
+    "Ivan Artemov (artemov_is@tehnobear.ru)"
+  ],
   "license": "MIT",
   "private": false,
   "scripts": {
@@ -13,7 +16,8 @@
   "dependencies": {
     "@essence-community/constructor-share": "file:../essence-constructor-share/lib/",
     "@material-ui/core": "^4.11.3",
-    "classnames": "^2.2.6",
+    "@monaco-editor/loader": "^1.3.2",
+    "@monaco-editor/react": "4.4.6",
     "clsx": "^1.1.1",
     "history": "^5.0.0",
     "keycode": "^2.2.0",
@@ -21,24 +25,26 @@
     "mobx": "^5.15.7",
     "mobx-react": "^6.3.1",
     "moment": "2.27.0",
+    "monaco-editor": "0.34.1",
     "qs": "^6.9.4",
     "rc-calendar": "^9.15.11",
     "rc-time-picker": "^3.7.3",
-    "react": "16.13.1",
+    "react": "^16.14.0",
     "react-color": "^2.18.1",
-    "react-dom": "^16.13.1",
+    "react-dom": "^16.14.0",
+    "react-grid-layout": "^1.3.4",
     "react-markdown": "^7.1.0",
     "react-number-format": "^4.4.1",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.3.0"
   },
   "devDependencies": {
-    "@types/classnames": "^2.2.10",
     "@types/enzyme": "^3.10.5",
     "@types/mime": "^2.0.2",
     "@types/qs": "^6.9.3",
     "@types/react": "16.9.43",
     "@types/react-color": "^3.0.4",
     "@types/react-dom": "^16.9.8",
+    "@types/react-grid-layout": "^1.3.2",
     "@types/react-router-dom": "^5.1.5",
     "documentation": "^13.2.5",
     "enzyme": "^3.11.0",

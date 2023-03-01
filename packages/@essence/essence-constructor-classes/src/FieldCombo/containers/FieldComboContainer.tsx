@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import * as React from "react";
 import {reaction} from "mobx";
 import {IClassProps, FieldValue} from "@essence-community/constructor-share/types";
@@ -106,8 +107,9 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                                     (field.value === VALUE_SELF_FIRST && store.recordsStore.loadCounter <= 1))),
                     );
                     const value =
-                        ((recordsState.isDefault && isDefault) || !recordsState.isDefault) && recordsState.record
-                            ? recordsState.record[store.valuefield]
+                        ((recordsState.isDefault && isDefault) || !recordsState.isDefault) &&
+                        store.recordsStore.selectedRecord
+                            ? store.recordsStore.selectedRecord[store.valuefield]
                             : field.value;
 
                     if (isDefault && !recordsState.isUserReload) {
@@ -120,13 +122,25 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
 
                         return;
                     }
-                    const stringValue = toString(field.value);
+                    const stringValue = toString(isEmpty(field.value) ? value : field.value);
                     const suggestion = sugs.find((sug) => sug.value === stringValue);
+                    const isNewValue =
+                        bc.allownew &&
+                        stringValue.indexOf(bc.allownew) === 0 &&
+                        sugs.findIndex((sug) => sug.value === bc.allownew) === -1;
 
                     if (!suggestion && value !== store.lastValue && !recordsState.isUserReload) {
                         field.onChange(value);
                     } else if (suggestion && !suggestion.isNew) {
                         store.handleSetValue(field.value, false, false);
+                    } else if (
+                        !isEmpty(value) &&
+                        !suggestion &&
+                        bc.pagesize &&
+                        !isNewValue &&
+                        !recordsState.isUserReload
+                    ) {
+                        store.recordsStore.searchAction({[store.valuefield]: value}, {isUserReload: false});
                     }
                 },
             ),

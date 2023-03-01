@@ -4,6 +4,8 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_CN_ORDER,
+    VAR_RECORD_NAME,
+    VAR_RECORD_QUERY_ID,
 } from "@essence-community/constructor-share/constants";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {mergeComponents} from "@essence-community/constructor-share/utils";
@@ -119,16 +121,32 @@ const getDragDropBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
 });
 
 export const getGridBtnsConfig = (bc: IBuilderConfig, layoutTheme: number): IGridBtnsConfigType => {
-    const {components, overrides} = mergeComponents(bc.topbtn, {
-        "Override Audit Button": getBtnAuditConfig(bc),
-        "Override Cancel Button":
-            bc.edittype === "inline" ? getCancelInlineBtnConfig(bc, layoutTheme) : getCancelBtnConfig(bc),
-        "Override Delete Button": getBtnDeleteConfig(bc),
-        "Override DragDrop Button": getDragDropBtnConfig(bc),
-        "Override Excel Button": getBtnExcelConfig(bc),
-        "Override Refresh Button": getBtnRefreshConfig(bc),
-        "Override Save Button": getSaveBtnConfig(bc, layoutTheme),
+    const topBtn = bc.topbtn?.map((bcBtn) => {
+        if (bcBtn.type === "AUDIT_INFO") {
+            return {
+                ...bcBtn,
+                [VAR_RECORD_NAME]: "Override Audit Button",
+            };
+        }
+
+        return bcBtn;
     });
+    const {components, overrides} = mergeComponents(
+        topBtn,
+        {
+            "Override Audit Button": getBtnAuditConfig(bc),
+            "Override Cancel Button":
+                bc.edittype === "inline" ? getCancelInlineBtnConfig(bc, layoutTheme) : getCancelBtnConfig(bc),
+            "Override Delete Button": getBtnDeleteConfig(bc),
+            "Override DragDrop Button": getDragDropBtnConfig(bc),
+            "Override Excel Button": getBtnExcelConfig(bc),
+            "Override Refresh Button": getBtnRefreshConfig(bc),
+            "Override Save Button": getSaveBtnConfig(bc, layoutTheme),
+        },
+        {
+            include: ["valuefield", "idproperty", VAR_RECORD_QUERY_ID],
+        },
+    );
     const btnsCollector: IBuilderConfig[] = [];
     const btns: IBuilderConfig[] = [];
 

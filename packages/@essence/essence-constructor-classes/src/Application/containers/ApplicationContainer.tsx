@@ -4,7 +4,7 @@ import {settingsStore, snackbarStore} from "@essence-community/constructor-share
 import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {PageLoader} from "@essence-community/constructor-share/uicomponents";
-import {useTranslation, TFunction} from "@essence-community/constructor-share/utils";
+import {useTranslation, TFunction, isEmpty} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_SETTING_PROJECT_LOADER,
@@ -79,7 +79,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
          * @description Загрузка начального состоянии приложения
          */
         const loadApplication = async () => {
-            await applicationStore.authStore.checkAuthAction(history);
+            const oldUrl = applicationStore.url;
+
+            await applicationStore.authStore.checkAuthAction(history, undefined, undefined, true);
             const isSuccess = await applicationStore.loadApplicationAction();
 
             // Contrinue for found application, else redirect to other application in loadApplicationAction
@@ -98,6 +100,8 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 } else if (pagesStore.pages.length) {
                     pagesStore.setPageAction(pagesStore.pages[0].pageId, false);
                 }
+            } else if (isEmpty(oldUrl) && applicationStore.defaultValue) {
+                applicationStore.pagesStore.setPageAction(applicationStore.defaultValue, false);
             }
         };
 
@@ -118,11 +122,13 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
 
     // Change url for application
     React.useEffect(() => {
+        if (!applicationStore.isApplicationReady) {
+            return;
+        }
         appNameRef.current = appName;
         applicationStore.updateGlobalValuesAction({
             [VAR_SETTING_URL_APP_NAME]: `${appName}`,
         });
-
         if (applicationStore.url !== appName) {
             applicationStore.reloadApplication(appName, ckId, filter);
         }
@@ -131,7 +137,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     }, [appName, applicationStore]);
 
     React.useEffect(() => {
-        if (appNameRef.current !== applicationStore.url) {
+        if (!applicationStore.isApplicationReady || appNameRef.current !== applicationStore.url) {
             return;
         }
         if (ckId) {
@@ -141,12 +147,19 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 (route: IRecord) => route[VAR_RECORD_ID] === ckId || route[VAR_RECORD_URL] === ckId,
             );
             const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
+            const pageUrl = pageConfig && pageConfig[VAR_RECORD_URL];
 
-            if (pageId && pagesStore.activePage.pageId !== pageId) {
+            if (
+                pageId &&
+                (!pagesStore.activePage ||
+                    (pagesStore.activePage &&
+                        pagesStore.activePage.pageId !== pageId &&
+                        pagesStore.activePage.pageId !== pageUrl))
+            ) {
                 pagesStore.setPageAction(String(pageId), false);
             }
-        } else if (applicationStore.bc.defaultvalue) {
-            applicationStore.pagesStore.setPageAction(applicationStore.bc.defaultvalue, false);
+        } else if (applicationStore.defaultValue) {
+            applicationStore.pagesStore.setPageAction(applicationStore.defaultValue, false);
         }
     }, [ckId, applicationStore]);
 
@@ -191,7 +204,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     React.useEffect(() => {
         return reaction(
             () => applicationStore.pagesStore.activePage,
-            (activePage) => {
+            async (activePage) => {
                 const route = activePage && activePage.route;
                 let pageId: FieldValue = "";
                 let routeUrl: FieldValue = "";
@@ -216,16 +229,22 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                     url = `/${applicationStore.url}/${routeUrl}`;
                 }
 
+                if (
+                    pageId &&
+                    (!activePage ||
+                        (activePage.pageId !== pageId &&
+                            activePage.route?.[VAR_RECORD_URL] !== pageId &&
+                            activePage.route?.[VAR_RECORD_ID] !== pageId))
+                ) {
+                    await applicationStore.pagesStore.setPageAction(String(pageId), false);
+                }
+
                 if (url && history.location.pathname !== url) {
                     if (routeUrl === applicationStore.defaultValue) {
                         history.replace(url);
                     } else {
                         history.push(url);
                     }
-                }
-
-                if (pageId && (!activePage || activePage.pageId !== pageId)) {
-                    applicationStore.pagesStore.setPageAction(String(pageId), false);
                 }
             },
         );

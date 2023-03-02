@@ -416,12 +416,21 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
     setColumnsWidth = (ckId: ICkId, width: number) => {
         let newWidth = width;
+        const column = this.gridColumns.find((column) => column[VAR_RECORD_PAGE_OBJECT_ID] === ckId);
+        const minSize =
+            column.minwidth && column.minwidth.indexOf("px") > -1
+                ? parseInt(column.minwidth, 10)
+                : TABLE_CELL_MIN_WIDTH;
+        const maxSize = column.maxsize && column.maxsize.indexOf("px") > -1 ? parseInt(column.maxsize, 10) : undefined;
 
         if (ckId) {
-            if (newWidth < TABLE_CELL_MIN_WIDTH) {
-                newWidth = TABLE_CELL_MIN_WIDTH;
+            if (newWidth < minSize) {
+                newWidth = minSize;
             }
 
+            if (maxSize && newWidth > maxSize) {
+                newWidth = maxSize;
+            }
             this.columnsWidth.set(ckId, newWidth);
             updatePercentColumnsWidth(this, ckId);
         }

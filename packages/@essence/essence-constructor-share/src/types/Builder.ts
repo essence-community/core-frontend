@@ -2,6 +2,7 @@
 import {VAR_RECORD_CK_VIEW} from "../constants/variables";
 import {IRecord, FieldValue} from "./Base";
 import {IRecordsOrder} from "./RecordsModel";
+import {HandlerType} from "./StoreBaseModel";
 
 export interface IBuilderAttrGlobal {
     in?: string;
@@ -130,7 +131,7 @@ export interface IBuilderBaseConfig {
     // Наименование параметра из мастера, который будет передан в json в виде "master": {"наименование_параметра":"значение"}
     getmastervalue?: IBuilderAttrGlobalStore[];
     // Обработчик в ExtJS onCreateChildWindowMaster - для вызова окна при создании onRowCreateChildWindowMaster - для вызова окна при редактировании onSimpleSaveWindow - сохранение данных по кнопке для модального окна onCloseWindow - закрытие модального окна onCloseWindowSilent - закрытие модального окна без сообщения onPrintHandleOnline - Онлайн печать onPrintHandleOffline - Отложенная печать free - общий обработчик для передачи данных в сервис
-    handler?: string;
+    handler?: string | HandlerType;
     // Статическая высота в пикселях (px)
     height?: string;
     // Признак скрытия объекта при инициализации true-скрыт

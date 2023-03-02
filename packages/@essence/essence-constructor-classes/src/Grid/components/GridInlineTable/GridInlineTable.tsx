@@ -61,7 +61,7 @@ export const GridInlineTable: React.FC<IGridInlineTable> = ({gridStore, ...class
                                         style={{
                                             maxWidth: childBc.maxwidth,
                                             minWidth: childBc.minwidth,
-                                            width: childBc.width,
+                                            width: gridStore.columnsWidth.get(childBc[VAR_RECORD_PAGE_OBJECT_ID]),
                                         }}
                                         data-page-object={`${childBc[VAR_RECORD_PAGE_OBJECT_ID]}-cell`}
                                         data-qtip={isEditable || isNew ? undefined : getQtip(idx)}

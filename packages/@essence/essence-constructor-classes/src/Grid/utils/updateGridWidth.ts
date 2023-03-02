@@ -12,6 +12,10 @@ export function updateGridWidth(gridStore: IGridModel) {
 
     const calcGridWidth = gridStore.gridColumns.reduce<number>((sum, column, index) => {
         let columnWidth = gridStore.columnsWidth.get(column[VAR_RECORD_PAGE_OBJECT_ID]);
+        const minSize =
+            column.minwidth && column.minwidth.indexOf("px") > -1
+                ? parseInt(column.minwidth, 10)
+                : TABLE_CELL_MIN_WIDTH;
 
         if (typeof columnWidth === "string" && columnWidth.indexOf("px") === -1) {
             const cellEl = tableHeaderNode?.querySelector("tr")?.children?.[index];
@@ -19,11 +23,11 @@ export function updateGridWidth(gridStore: IGridModel) {
             if (cellEl instanceof HTMLElement) {
                 columnWidth = cellEl.offsetWidth;
             } else {
-                columnWidth = TABLE_CELL_MIN_WIDTH;
+                columnWidth = minSize;
             }
 
-            if (columnWidth < TABLE_CELL_MIN_WIDTH) {
-                columnWidth = TABLE_CELL_MIN_WIDTH;
+            if (columnWidth < minSize) {
+                columnWidth = minSize;
             }
         } else if (typeof columnWidth === "string" && columnWidth.indexOf("px") > -1) {
             columnWidth = parseInt(columnWidth, 10);
@@ -32,7 +36,7 @@ export function updateGridWidth(gridStore: IGridModel) {
             staticCols += 1;
         }
 
-        return sum + ((columnWidth as number) || TABLE_CELL_MIN_WIDTH);
+        return sum + ((columnWidth as number) || minSize);
     }, 0);
     const isAllSet = staticCols === gridStore.gridColumns.length;
 

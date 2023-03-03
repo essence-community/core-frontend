@@ -65,14 +65,14 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     @computed
     get gridId(): string {
         return `grid_${
-            this.field.parentFieldKey ? this.field.key.slice(this.field.parentFieldKey.length).split(".")[0] : ""
+            this.field.parentFieldKey ? this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0] : ""
         }_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
     }
 
     @computed
     get currentId(): string {
         return `field_${
-            this.field.parentFieldKey ? this.field.key.slice(this.field.parentFieldKey.length).split(".")[0] : ""
+            this.field.parentFieldKey ? this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0] : ""
         }_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
     }
 

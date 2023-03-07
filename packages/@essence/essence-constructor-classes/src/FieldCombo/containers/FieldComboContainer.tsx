@@ -145,7 +145,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                     }
                 },
             ),
-        [bc.defaultvalue, field, store],
+        [bc, field, store],
     );
 
     React.useEffect(() => {

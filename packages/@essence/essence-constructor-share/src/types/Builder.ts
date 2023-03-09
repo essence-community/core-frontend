@@ -272,6 +272,8 @@ export interface IBuilderBaseConfig {
     tipmsg?: string;
     // Заголовок
     title?: string;
+    // Расчетный заголовок
+    titlerules?: string;
     // Отступ от верха в пикселях
     top?: number;
     // Формат возвращаемого значения с сервиса. Значения: "URL", "HTML". Допускаются условия с учетом глобальных переменных.

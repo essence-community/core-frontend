@@ -1,9 +1,15 @@
-import {VAR_RECORD_ICON_FONT} from "@essence-community/constructor-share/constants/variables";
+import {
+    VAR_RECORD_ICON_FONT,
+    VAR_RECORD_ICON_NAME,
+    VAR_RECORD_ROUTE_NAME,
+} from "@essence-community/constructor-share/constants/variables";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {Tab, Typography} from "@material-ui/core";
 import cn from "clsx";
 import {useObserver} from "mobx-react";
 import * as React from "react";
+import {reaction} from "mobx";
+import {parseMemoize, useTranslation} from "@essence-community/constructor-share/utils";
 import {useStyles} from "./OpenPageTab.styles";
 import {IOpenTabProps} from "./OpenPageTab.types";
 
@@ -16,10 +22,8 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
     const classes = useStyles(props);
     const {
         value,
-        iconfont,
         orientation,
         selected,
-        label,
         onClose,
         onContextMenuCustom,
         pageIndex,
@@ -34,6 +38,9 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
     const [isDrag, setIsDrag] = React.useState(false);
     const dragPosRef = React.useRef<typeof INITIAL_DRAG_POS>(INITIAL_DRAG_POS);
     const tabRef = React.useRef<HTMLDivElement | null>(null);
+    const [label, setLabel] = React.useState("");
+    const iconName: string = route ? String(route[VAR_RECORD_ICON_NAME]) : "";
+    const [trans] = useTranslation("meta");
     const handleClickContext = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         onContextMenuCustom(event, props.value);
     };
@@ -45,9 +52,27 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
             onClose(props.value);
         }
     };
-    const iconNode = iconfont && (
+
+    React.useEffect(() => {
+        if (route[VAR_RECORD_ROUTE_NAME]) {
+            setLabel(trans(String(route[VAR_RECORD_ROUTE_NAME])));
+        }
+        if (route.titlerules) {
+            return reaction(
+                () =>
+                    parseMemoize(route.titlerules as string).runer({
+                        get: (name: string) => value.globalValues.get(name) as string,
+                    }) as string,
+                setLabel,
+                {
+                    fireImmediately: true,
+                },
+            );
+        }
+    }, [route, trans, value]);
+    const iconNode = iconName && (
         <Icon
-            iconfont={iconfont}
+            iconfont={iconName}
             iconfontname={route ? (String(route[VAR_RECORD_ICON_FONT]) as "fa" | "mdi") : "fa"}
             className={cn(classes.tabIcon, {[classes.activeTabIcon]: selected})}
         />

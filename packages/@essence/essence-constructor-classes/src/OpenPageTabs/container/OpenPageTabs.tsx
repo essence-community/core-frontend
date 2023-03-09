@@ -164,16 +164,12 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
             >
                 {pagesStore.visiblePages.map((page, index) => {
                     const {route, pageId, titleRoutePath} = page;
-                    const name: string = route ? String(route[VAR_RECORD_ROUTE_NAME]) : "";
-                    const iconName: string = route ? String(route[VAR_RECORD_ICON_NAME]) : "";
 
                     return (
                         <OpenPageTab
                             key={pageId}
                             pageIndex={index}
-                            label={trans(name)}
                             route={route}
-                            iconfont={iconName}
                             pagesStore={applicationStore.pagesStore}
                             value={page}
                             titleRoutePath={trans<string>(titleRoutePath)}

@@ -125,7 +125,7 @@ export class AuthModel implements IAuthModel {
         }
 
         this.userInfo = response;
-        this.applicationStore.setSesssionAction(response);
+        this.applicationStore.setSessionAction(response);
         await loadStore(this.userInfo.session);
         // TODO: сделать проверку на bc, что бы не сохранять пользователя при репортах
         saveToLocalStore("auth", response);
@@ -164,7 +164,7 @@ export class AuthModel implements IAuthModel {
         }
 
         this.userInfo = DEFAULT_USER_INFO;
-        this.applicationStore.setSesssionAction(cleanedValues);
+        this.applicationStore.setSessionAction(cleanedValues);
 
         removeFromLocalStore("auth");
 

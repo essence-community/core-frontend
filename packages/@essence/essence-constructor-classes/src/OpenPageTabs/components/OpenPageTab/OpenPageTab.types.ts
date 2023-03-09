@@ -12,8 +12,6 @@ export type IOpenTabProps = TabProps & {
     route?: Record<string, any>;
     pagesStore: IPagesModel;
     pageIndex: number;
-    iconfont?: string;
-    label?: string;
     orientation: "horizontal" | "vertical";
     selected?: boolean;
     tabDragClassName: string;

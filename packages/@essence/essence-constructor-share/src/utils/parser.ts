@@ -1,3 +1,4 @@
+import * as moment from "moment";
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable max-lines-per-function */
 /* eslint-disable sort-keys */
@@ -16,6 +17,7 @@ import {
     // eslint-disable-next-line import/no-extraneous-dependencies, import/extensions, import/no-unresolved
 } from "estree";
 import memoize from "memoizee";
+import QueryString from "qs";
 import {FieldValue} from "../types";
 import {loggerRoot} from "../constants";
 import {i18next} from "./I18n";
@@ -83,6 +85,9 @@ const utils = {
     Array,
     encodeURIComponent,
     decodeURIComponent,
+    i18next,
+    moment,
+    QueryString,
 };
 
 type utilsKey = keyof typeof utils;

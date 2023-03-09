@@ -16,6 +16,8 @@ import {
     VAR_RECORD_NOLOAD,
     VAR_RECORD_PAGE_REDIRECT,
     VAR_RECORD_PAGE_MULTI,
+    VAR_RECORD_TREE_PATH,
+    VAR_RECORD_NAME,
 } from "../../constants";
 import {
     IBuilderConfig,
@@ -150,6 +152,12 @@ export class PageModel implements IPageModel {
 
         if (!routesStore || !this.route) {
             return "";
+        }
+
+        if (this.route[VAR_RECORD_TREE_PATH]) {
+            return (this.route[VAR_RECORD_TREE_PATH] as {[VAR_RECORD_ID]: string; [VAR_RECORD_NAME]: string}[])
+                .map((val) => `$t(${val[VAR_RECORD_NAME]})`)
+                .join(" - ");
         }
 
         const {recordsStore} = routesStore;

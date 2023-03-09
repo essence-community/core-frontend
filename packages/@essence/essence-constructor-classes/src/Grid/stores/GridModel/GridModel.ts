@@ -402,9 +402,12 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     @action
     setAllSelectedRecords = (all: boolean, bcBtn: IBuilderConfig, records: IRecord[]) => {
         const maxSize = bcBtn.maxselected && parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues);
-        const selRecords = [];
+        let selRecords = [];
 
         if (all) {
+            if (this.bc.pagesize) {
+                selRecords = [...mapValueToArray(this.recordsStore.selectedRecords)];
+            }
             records.forEach((record) => {
                 if (!maxSize || maxSize > this.recordsStore.selectedRecords.size) {
                     selRecords.push(record);

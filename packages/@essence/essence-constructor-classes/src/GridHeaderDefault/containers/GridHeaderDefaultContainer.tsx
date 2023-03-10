@@ -76,6 +76,7 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
         const [{direction, property}] = store.recordsStore.order;
         const lowerDirection = direction === "ASC" ? "asc" : "desc";
         const isSortable = property === bc.order?.[0].property || property === bc.column;
+        const isFilterAble = typeof bc.btnfilter === "undefined" || bc.btnfilter;
         const isTreeGrid = store.bc.type === "TREEGRID";
 
         return (
@@ -90,7 +91,7 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
             >
                 <div className={classes.tableCellContent}>
                     <TableSortLabel
-                        disabled={props.disabled}
+                        disabled={props.disabled || !(typeof bc.sortable === "undefined" || bc.sortable)}
                         active={isSortable}
                         direction={lowerDirection}
                         className={cn(classes.tableSortLabel, {
@@ -101,7 +102,7 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
                     >
                         <span className={classes.tableCellEllipsis}>{transCvDisplayed}</span>
                     </TableSortLabel>
-                    {isTreeGrid || !bc.btnfilter ? null : (
+                    {isTreeGrid || !isFilterAble ? null : (
                         <GridHeaderFilter {...props} classNameIcon={classes.filterIcon} />
                     )}
                     <GridHeaderResizer store={store} bc={bc} ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]} />

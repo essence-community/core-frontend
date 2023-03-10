@@ -250,6 +250,8 @@ export interface IBuilderBaseConfig {
     setrecordtoglobal?: string;
     // Пропуск проверки формы на ошибки
     skipvalidation?: boolean;
+    // Возможность сортировки
+    sortable?: boolean;
     // Признак отображения сплиттера (true/false)
     splitter?: boolean;
     // Наименование шага

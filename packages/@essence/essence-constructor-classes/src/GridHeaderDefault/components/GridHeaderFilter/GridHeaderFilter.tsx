@@ -40,11 +40,12 @@ export const GridHeaderFilter: React.FC<IGridHeaderFilterProps> = ({classNameIco
             format: bc.format,
             type: "GRID_HEADER_FILTER",
             valuefield: bc.valuefield,
+            valuetype: bc.valuetype,
         }),
         [bc],
     );
 
-    if (bc.datatype === "boolean" || bc.datatype === "checkbox") {
+    if (bc.datatype === "checkbox") {
         return null;
     }
 

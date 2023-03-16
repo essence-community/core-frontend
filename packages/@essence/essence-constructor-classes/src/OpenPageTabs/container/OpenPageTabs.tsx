@@ -165,9 +165,15 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
                 {pagesStore.visiblePages.map((page, index) => {
                     const {route, pageId, titleRoutePath} = page;
 
+                    let id = route?.[VAR_RECORD_ID] || pageId;
+
+                    if (page.isMulti) {
+                        id = `${id}_${index}`;
+                    }
+
                     return (
                         <OpenPageTab
-                            key={pageId}
+                            key={`${id}`}
                             pageIndex={index}
                             route={route}
                             pagesStore={applicationStore.pagesStore}

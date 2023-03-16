@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
 import {ObservableMap, observable} from "mobx";
+import {v4} from "uuid";
 import {
     IApplicationModel,
     IBuilderMode,
@@ -79,6 +80,8 @@ export class PageModelAbstract implements IPageModel {
     public recordsStore: IRecordsModel;
 
     public titleRoutePath = "";
+
+    public uniqueId = v4();
 
     public fireScrollEvent = () => {};
 

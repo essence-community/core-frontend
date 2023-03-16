@@ -48,6 +48,7 @@ export interface IPageModel {
     forms: ObservableMap<string, IForm>;
     globalValues: ObservableMap<string, FieldValue>;
     pageId: string;
+    uniqueId: string;
     showQuestionWindow: boolean;
     questionWindow?: TText[];
     saveCallBack: PageModelSaveCallback | null;

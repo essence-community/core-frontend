@@ -96,6 +96,8 @@ export class PageModel implements IPageModel {
 
     @observable public isLoading = false;
 
+    public uniqueId: string;
+
     @computed public get pagerBc(): IBuilderConfig {
         return {
             [VAR_RECORD_PAGE_OBJECT_ID]: this.pageId,
@@ -192,6 +194,7 @@ export class PageModel implements IPageModel {
 
     constructor({pageId, isActiveRedirect, isReadOnly, applicationStore, defaultVisible = false}: IPageModelProps) {
         this.pageId = pageId;
+        this.uniqueId = v4();
         this.isActiveRedirect = isActiveRedirect;
         this.applicationStore = applicationStore;
 

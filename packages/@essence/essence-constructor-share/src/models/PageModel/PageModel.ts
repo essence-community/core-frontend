@@ -353,7 +353,7 @@ export class PageModel implements IPageModel {
                     };
 
                     if (!parseMemoize((route as any).activerules).runer({get: getValue})) {
-                        this.applicationStore.pagesStore.removePageAction((route as any)[VAR_RECORD_ID]);
+                        this.applicationStore.pagesStore.removePageAction(this);
                     }
                 }
 

@@ -30,7 +30,7 @@ export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
         return reaction(
             () => store.recordsStore.recordsState.records,
             (records) => {
-                const isTree = store.bc.type !== "TREEGRID";
+                const isTree = store.bc.type === "TREEGRID";
 
                 records.forEach((record) => {
                     const leaf = record[VAR_RECORD_LEAF];

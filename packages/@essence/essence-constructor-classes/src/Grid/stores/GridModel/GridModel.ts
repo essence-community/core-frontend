@@ -293,12 +293,11 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     };
 
     @action
-    toggleSelectedRecordAction = (record: IRecord, bcBtn?: IBuilderConfig, isSelectedDefault?: boolean) => {
+    toggleSelectedRecordAction = (record: IRecord, bcBtn?: IBuilderConfig) => {
         const ckId = record[this.recordsStore.recordId] as string | number;
         const parentId = record[this.recordsStore.recordParentId] as string | number;
         const maxSize = bcBtn?.maxselected && parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues);
-        const isSelected =
-            isSelectedDefault === undefined ? Boolean(this.recordsStore.selectedRecords.get(ckId)) : isSelectedDefault;
+        const isSelected = this.recordsStore.selectedRecords.has(ckId);
 
         if (isSelected) {
             this.recordsStore.setSelectionsAction([record], this.recordsStore.recordId, "delete");
@@ -311,13 +310,15 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             setGridSelectionsTop({
                 ckChild: parentId,
                 gridStore: this,
-                isSelected: !this.recordsStore.records
-                    .filter((rec) => rec[this.recordsStore.recordParentId] === parentId)
-                    .some((rec) => {
-                        const recordId = rec[this.recordsStore.recordId];
+                isSelected:
+                    isSelected &&
+                    !this.recordsStore.records
+                        .filter((rec) => rec[this.recordsStore.recordParentId] === parentId)
+                        .some((rec) => {
+                            const recordId = rec[this.recordsStore.recordId];
 
-                        return this.recordsStore.selectedRecords.has(recordId as string | number);
-                    }),
+                            return this.recordsStore.selectedRecords.has(recordId as string | number);
+                        }),
                 maxSize,
             });
         }
@@ -631,7 +632,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         },
         onToggleSelectedRecord: (mode: IBuilderMode, bc: IBuilderConfig, {record}: IHandlerOptions) => {
             if (record) {
-                this.toggleSelectedRecordAction(record, bc, record.checked as boolean | undefined);
+                this.toggleSelectedRecordAction(record, bc);
             }
 
             return Promise.resolve(true);

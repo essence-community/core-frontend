@@ -18,9 +18,9 @@ export function isMinusChecked(
         const leaf = record[VAR_RECORD_LEAF];
 
         if (typeof leaf === "boolean" ? leaf : leaf === "true") {
-            return Boolean(recordsStore.selectedRecords.get(record[recordId] as ICkId));
+            return !recordsStore.selectedRecords.has(record[recordId] as ICkId);
         }
 
-        return isMinusChecked(recordsStore, record[recordId] as ICkId, record);
+        return isMinusChecked(recordsStore, record[recordId] as ICkId, record, recordId);
     });
 }

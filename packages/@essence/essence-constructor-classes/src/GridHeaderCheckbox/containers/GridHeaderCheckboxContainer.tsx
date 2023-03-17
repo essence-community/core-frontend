@@ -2,7 +2,7 @@ import * as React from "react";
 import {Checkbox} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {IClassProps, IRecord, IStoreBaseModel} from "@essence-community/constructor-share/types";
-import {VAR_RECORD_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
+import {VAR_RECORD_ID, VAR_RECORD_LEAF, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import {useObserver} from "mobx-react";
 import {reaction} from "mobx";
 import {deepFind, isEmpty, mapValueToArray} from "@essence-community/constructor-share/utils";
@@ -21,6 +21,34 @@ export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
             },
         );
     }, [pageStore, bc]);
+
+    React.useEffect(() => {
+        if (!store) {
+            return;
+        }
+
+        return reaction(
+            () => store.recordsStore.recordsState.records,
+            (records) => {
+                const isTree = store.bc.type !== "TREEGRID";
+
+                records.forEach((record) => {
+                    const leaf = record[VAR_RECORD_LEAF];
+
+                    if (
+                        record[bc.column || "checked"] &&
+                        (!isTree || (isTree && (typeof leaf === "boolean" ? leaf : leaf === "true"))) &&
+                        store.handlers.onToggleSelectedRecord
+                    ) {
+                        store.handlers.onToggleSelectedRecord("1", bc, {record});
+                    }
+                });
+            },
+            {
+                fireImmediately: true,
+            },
+        );
+    }, [store, bc]);
 
     const handleChange = () => {
         if (store) {

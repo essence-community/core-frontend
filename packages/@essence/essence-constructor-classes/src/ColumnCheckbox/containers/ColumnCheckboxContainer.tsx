@@ -35,7 +35,7 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
         const leaf = record[VAR_RECORD_LEAF];
 
         if (store?.bc.type !== "TREEGRID" || (typeof leaf === "boolean" ? leaf : leaf !== "false")) {
-            return "square-o";
+            return "check-square";
         }
 
         if (store && store.recordsStore && (isEmpty(bc.selecttree) || bc.selecttree)) {
@@ -46,10 +46,10 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
                 store.recordsStore.recordId,
             )
                 ? "minus-square"
-                : "square-o";
+                : "check-square";
         }
 
-        return "square-o";
+        return "check-square";
     };
     const handleChange = () => {
         const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
@@ -77,8 +77,8 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
                 disabled={readOnly || disabled || isDisabledCheck}
                 onClick={handlePrevent}
                 onChange={handleChange}
-                icon={<Icon iconfont={getIconFont()} size="xs" />}
-                checkedIcon={<Icon iconfont="check-square" size="xs" />}
+                icon={<Icon iconfont="square-o" size="xs" />}
+                checkedIcon={<Icon iconfont={getIconFont()} size="xs" />}
                 disableRipple
             />
         );

@@ -1,10 +1,17 @@
+/* eslint-disable max-statements */
 import * as React from "react";
 import {IClassProps, FieldValue, IPageModel, IRecord} from "@essence-community/constructor-share/types";
 import {settingsStore, snackbarStore} from "@essence-community/constructor-share/models";
 import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {PageLoader} from "@essence-community/constructor-share/uicomponents";
-import {useTranslation, TFunction, isEmpty} from "@essence-community/constructor-share/utils";
+import {
+    useTranslation,
+    TFunction,
+    isEmpty,
+    encodePathUrl,
+    decodePathUrl,
+} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_SETTING_PROJECT_LOADER,
@@ -96,7 +103,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 if (typeof pageId === "string") {
                     applicationStore.handleSetPage(pageId, filter);
                 } else if (ckId !== undefined) {
-                    pagesStore.setPageAction(ckId, false);
+                    pagesStore.setPageAction(ckId, false, decodePathUrl(filter, null));
                 } else if (pagesStore.pages.length) {
                     pagesStore.setPageAction(pagesStore.pages[0].pageId, false);
                 }
@@ -156,12 +163,12 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                         pagesStore.activePage.pageId !== pageId &&
                         pagesStore.activePage.pageId !== pageUrl))
             ) {
-                pagesStore.setPageAction(String(pageId), false);
+                pagesStore.setPageAction(String(pageId), false, decodePathUrl(filter, null));
             }
         } else if (applicationStore.defaultValue) {
             applicationStore.pagesStore.setPageAction(applicationStore.defaultValue, false);
         }
-    }, [ckId, applicationStore]);
+    }, [ckId, applicationStore, filter]);
 
     React.useEffect(() => {
         const dispose = reaction(
@@ -208,6 +215,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 const route = activePage && activePage.route;
                 let pageId: FieldValue = "";
                 let routeUrl: FieldValue = "";
+                let filter: FieldValue = "";
                 let url = "";
 
                 if (!applicationStore.isApplicationReady || appNameRef.current !== applicationStore.url) {
@@ -220,13 +228,16 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                         route[VAR_RECORD_CL_STATIC] && route[VAR_RECORD_URL]
                             ? route[VAR_RECORD_URL]
                             : route[VAR_RECORD_ID];
+                    if (activePage.isMulti && activePage.initParamPage) {
+                        filter = `/${encodePathUrl(activePage.initParamPage)}`;
+                    }
                 } else if (applicationStore.authStore.userInfo.session) {
                     pageId = applicationStore.defaultValue;
                     routeUrl = applicationStore.defaultValue;
                 }
 
                 if (routeUrl) {
-                    url = `/${applicationStore.url}/${routeUrl}`;
+                    url = `/${applicationStore.url}/${routeUrl}${filter}`;
                 }
 
                 if (
@@ -236,7 +247,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                             activePage.route?.[VAR_RECORD_URL] !== pageId &&
                             activePage.route?.[VAR_RECORD_ID] !== pageId))
                 ) {
-                    await applicationStore.pagesStore.setPageAction(String(pageId), false);
+                    await applicationStore.pagesStore.setPageAction(String(pageId), false, decodePathUrl(filter, null));
                 }
 
                 if (url && history.location.pathname !== url) {

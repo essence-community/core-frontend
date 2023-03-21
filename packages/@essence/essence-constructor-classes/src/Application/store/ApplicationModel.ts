@@ -35,7 +35,7 @@ import {
     VAR_SETTING_AUTH_URL,
     loggerRoot,
 } from "@essence-community/constructor-share/constants";
-import {i18next, redirectAuth, TFunction} from "@essence-community/constructor-share/utils";
+import {decodePathUrl, i18next, redirectAuth, TFunction} from "@essence-community/constructor-share/utils";
 import {parseMemoize} from "@essence-community/constructor-share/utils/parser";
 import {
     snackbarStore,
@@ -277,7 +277,7 @@ export class ApplicationModel implements IApplicationModel {
         const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
         if (pageId) {
-            const page = await this.pagesStore.setPageAction(pageId as string, true);
+            const page = await this.pagesStore.setPageAction(pageId as string, true, params);
 
             // Log
             if (page) {
@@ -668,9 +668,9 @@ export class ApplicationModel implements IApplicationModel {
         if (filter) {
             try {
                 // Convert to string: encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({})))))
-                const data = decodeURIComponent(escape(window.atob(decodeURIComponent(filter))));
+                const data = decodePathUrl(filter);
 
-                await this.redirectToAction(pageId, JSON.parse(data));
+                await this.redirectToAction(pageId, data);
             } catch (err) {
                 logger(err);
                 await this.pagesStore.setPageAction(pageId, false);

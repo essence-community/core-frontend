@@ -96,29 +96,25 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         this.initialHeight = getGridHeight(this.bc);
 
         this.valueFields = [[this.recordsStore.recordId, this.recordsStore.recordId]];
-        this.gridColumnsInitial = getGridColumns(this.bc);
+        this.gridColumnsInitial = observable.array(getGridColumns(this.bc));
+        const visibility = getFromStore<Record<string, boolean>>(`${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_visibility`);
+
+        if (visibility) {
+            Object.entries(visibility).forEach(([ckId, visible]) => {
+                const obj = this.gridColumnsInitial.find((col) => col[VAR_RECORD_PAGE_OBJECT_ID] === ckId);
+
+                if (obj) {
+                    obj.visible = visible;
+                }
+            });
+        }
+
         this.gridColumnsInitial.forEach((val) => {
             this.visibleAndHidden.set(val[VAR_RECORD_PAGE_OBJECT_ID], {
                 hidden: val.hidden,
                 visible: val.visible,
             });
         });
-
-        const visibility = getFromStore<Record<string, boolean>>(`${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_visibility`);
-
-        if (visibility) {
-            Object.entries(visibility).forEach(([ckId, visible]) => {
-                if (!this.visibleAndHidden.has(ckId)) {
-                    return;
-                }
-                const old = {
-                    ...this.visibleAndHidden.get(ckId),
-                    visible,
-                };
-
-                this.visibleAndHidden.set(ckId, old);
-            });
-        }
 
         const columnsWithZeroWidth: string[] = [];
 

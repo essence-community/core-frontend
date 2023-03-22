@@ -108,6 +108,9 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
         if (visibility) {
             Object.entries(visibility).forEach(([ckId, visible]) => {
+                if (!this.visibleAndHidden.has(ckId)) {
+                    return;
+                }
                 const old = {
                     ...this.visibleAndHidden.get(ckId),
                     visible,

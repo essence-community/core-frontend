@@ -10,7 +10,7 @@ import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {reaction} from "mobx";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {Scrollbars} from "@essence-community/constructor-share/uicomponents";
-import {useTranslation, saveToStore} from "@essence-community/constructor-share/utils";
+import {useTranslation, saveToStore, entriesMapSort} from "@essence-community/constructor-share/utils";
 import {useObserver} from "mobx-react";
 import {IGridModel} from "../stores/GridModel/GridModel.types";
 
@@ -56,9 +56,10 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
             if (!pageStore.isMulti) {
                 saveToStore(`${parentStore.bc[VAR_RECORD_PAGE_OBJECT_ID]}_visibility`, visibility);
             }
-            parentStore.setGridColumns(
-                parentStore.gridColumnsInitial.filter((column) => visibility[column[VAR_RECORD_PAGE_OBJECT_ID]]),
-            );
+
+            Object.entries(visibility).forEach(([ckID, visible]) => {
+                parentStore.setVisibleColumn(ckID, visible);
+            });
         }
 
         handleClose();
@@ -72,8 +73,10 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
                     if (isOpenSettings) {
                         const newVisibility: Record<string, boolean> = {};
 
-                        parentStore.gridColumns.forEach((column) => {
-                            newVisibility[column[VAR_RECORD_PAGE_OBJECT_ID]] = true;
+                        entriesMapSort(parentStore.visibleAndHidden).forEach(([ckId, obj]) => {
+                            if (obj.visible && !obj.hidden) {
+                                newVisibility[ckId] = true;
+                            }
                         });
 
                         setVisibility(newVisibility);
@@ -101,10 +104,11 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
                     <Scrollbars autoHeight autoHeightMax={300} autoHeightMin={38}>
                         <Grid container direction="column" spacing={0} style={{width: "100%"}}>
                             {parentStore.gridColumnsInitial.map((column) => {
-                                const {visible, hiddenrules} = column;
+                                const {visibleable} = column;
                                 const displayed = column[VAR_RECORD_DISPLAYED];
+                                const obj = parentStore.visibleAndHidden.get(column[VAR_RECORD_PAGE_OBJECT_ID]);
 
-                                if (!visible || hiddenrules === "true") {
+                                if (!visibleable || obj.hidden) {
                                     return null;
                                 }
 

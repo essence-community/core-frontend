@@ -43,6 +43,13 @@ export interface IGridModel extends IStoreBaseModel {
 
     // Observable
     gridColumns: IBuilderConfig[];
+    visibleAndHidden: ObservableMap<
+        ICkId,
+        {
+            visible: boolean;
+            hidden: boolean;
+        }
+    >;
     columnsWidth: ObservableMap<ICkId, number | string>;
     isEdit: boolean;
     minHeight: number;
@@ -56,11 +63,12 @@ export interface IGridModel extends IStoreBaseModel {
     // Actions
     expandSelectedAction(): void;
     openCloseExpansionAction(ckId: ICkId, isExpanded?: boolean): void;
-    setGridColumns(gridColumns: IBuilderConfig[]): void;
     addRefAction(ckId: ICkId, node: HTMLElement | null): void;
     setHeightAction(height: number): void;
     setScrollTopAction(scrollTop: number): void;
     applyFiltersAction(): Promise<boolean>;
+    setVisibleColumn(ckId: string, val: boolean);
+    setHiddenColumn(ckId: string, val: boolean);
 
     // Other
     handleDoubleClick(options: IHandlerOptions): void;

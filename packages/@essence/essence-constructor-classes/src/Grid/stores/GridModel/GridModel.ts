@@ -73,6 +73,15 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
     initialHeight: number | undefined;
 
+    @observable
+    visibleAndHidden: ObservableMap<
+        ICkId,
+        {
+            visible: boolean;
+            hidden: boolean;
+        }
+    > = observable.map();
+
     constructor(props: IStoreBaseModelProps) {
         super(props);
 
@@ -88,14 +97,24 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
         this.valueFields = [[this.recordsStore.recordId, this.recordsStore.recordId]];
         this.gridColumnsInitial = getGridColumns(this.bc);
-        this.gridColumns = this.gridColumnsInitial;
+        this.gridColumnsInitial.forEach((val) => {
+            this.visibleAndHidden.set(val[VAR_RECORD_PAGE_OBJECT_ID], {
+                hidden: val.hidden,
+                visible: val.visible,
+            });
+        });
 
         const visibility = getFromStore<Record<string, boolean>>(`${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_visibility`);
 
         if (visibility) {
-            this.gridColumns = this.gridColumnsInitial.filter(
-                (column) => visibility[column[VAR_RECORD_PAGE_OBJECT_ID]],
-            );
+            Object.entries(visibility).forEach(([ckId, visible]) => {
+                const old = {
+                    ...this.visibleAndHidden.get(ckId),
+                    visible,
+                };
+
+                this.visibleAndHidden.set(ckId, old);
+            });
         }
 
         const columnsWithZeroWidth: string[] = [];
@@ -140,9 +159,17 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
     @observable public scrollTop = 0;
 
-    @observable public gridColumns: IBuilderConfig[] = observable.array([], {deep: false});
+    @computed
+    public get gridColumns(): IBuilderConfig[] {
+        return this.gridColumnsInitial.filter((col) => {
+            const obj = this.visibleAndHidden.get(col[VAR_RECORD_PAGE_OBJECT_ID]);
 
-    @computed public get selectedRecord() {
+            return obj.visible && !obj.hidden;
+        });
+    }
+
+    @computed
+    public get selectedRecord(): IRecord {
         return this.recordsStore.selectedRecord;
     }
 
@@ -219,32 +246,31 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         return Promise.resolve(true);
     };
 
-    updateBtnAction = action(
-        "updateBtnAction",
-        async (mode: IBuilderMode, bc: IBuilderConfig, {files, form}: IHandlerOptions) => {
-            const result = await this.recordsStore[mode === "7" ? "downloadAction" : "saveAction"](
-                this.recordsStore.selectedRecord || {},
-                (bc.modeaction as IBuilderMode) || mode,
-                {
-                    actionBc: bc,
-                    files,
-                    form,
-                    query: bc.updatequery || "Modify",
-                },
-            );
+    @action
+    updateBtnAction = async (mode: IBuilderMode, bc: IBuilderConfig, {files, form}: IHandlerOptions) => {
+        const result = await this.recordsStore[mode === "7" ? "downloadAction" : "saveAction"](
+            this.recordsStore.selectedRecord || {},
+            (bc.modeaction as IBuilderMode) || mode,
+            {
+                actionBc: bc,
+                files,
+                form,
+                query: bc.updatequery || "Modify",
+            },
+        );
 
-            await this.scrollToRecordAction({});
+        await this.scrollToRecordAction({});
 
-            return Boolean(result);
-        },
-    );
+        return Boolean(result);
+    };
 
     /**
      * Форма сохранения:
      * 1. values - все значения
      * 2. config - конфиг сохранения, берется из кнопки и передаваемых параметров
      */
-    saveAction = action("saveAction", async (values: IRecord, mode: IBuilderMode, config: IGridSaveConfigType) => {
+    @action
+    saveAction = async (values: IRecord, mode: IBuilderMode, config: IGridSaveConfigType) => {
         const {actionBc, files, form} = config;
         const isDownload = mode === "7" || actionBc.mode === "7";
         const gridValues = getGridValues({gridStore: this, mode, values});
@@ -259,7 +285,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         await this.scrollToRecordAction({});
 
         return result;
-    });
+    };
 
     @action
     reloadStoreAction = (checkParent: boolean) => {
@@ -462,23 +488,35 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         return Promise.resolve(true);
     };
 
-    setHeightAction = action("setHeightAction", (height: number) => {
+    @action
+    setHeightAction = (height: number) => {
         this.height = height;
-    });
+    };
 
-    setMinHeightAction = action("setMinHeightAction", (minHeight: number) => {
+    @action
+    setMinHeightAction = (minHeight: number) => {
         this.minHeight = minHeight;
-    });
+    };
 
-    setGridColumns = action("setGridColumns", (gridColumns: IBuilderConfig[]) => {
-        const visibility = getFromStore<Record<string, boolean>>(`${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_visibility`);
+    @action
+    setHiddenColumn = (ckId: string, val: boolean) => {
+        const old = {
+            ...this.visibleAndHidden.get(ckId),
+            hidden: val,
+        };
 
-        if (visibility) {
-            this.gridColumns = gridColumns.filter((column) => visibility[column[VAR_RECORD_PAGE_OBJECT_ID]]);
-        } else {
-            this.gridColumns = gridColumns;
-        }
-    });
+        this.visibleAndHidden.set(ckId, old);
+    };
+
+    @action
+    setVisibleColumn = (ckId: string, val: boolean) => {
+        const old = {
+            ...this.visibleAndHidden.get(ckId),
+            visible: val,
+        };
+
+        this.visibleAndHidden.set(ckId, old);
+    };
 
     setRecordToGlobal = () => {
         if (this.bc.setrecordtoglobal) {

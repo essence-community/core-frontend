@@ -3,7 +3,6 @@ import {IClassProps, ICkId, IEssenceTheme} from "@essence-community/constructor-
 import {isEmpty, useTranslation, toTranslateText} from "@essence-community/constructor-share/utils";
 import {reaction} from "mobx";
 import cn from "clsx";
-import {parse} from "@essence-community/constructor-share/utils/parser";
 import {Grid, useTheme, ThemeProvider} from "@material-ui/core";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {mapComponents} from "@essence-community/constructor-share/components";
@@ -14,6 +13,7 @@ import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {GridTable} from "../GridTable";
 import {GridWarning} from "../GridWarning";
 import {GridButtons} from "../GridButtons";
+import {ColumnCheckHidden} from "../ColumnCheckHidden";
 import {useStyles} from "./BaseGrid.styles";
 import {makeTheme} from "./BaseGrid.overrides";
 
@@ -56,12 +56,6 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
         }
     }, [handleUpdateGridWidth, isVisible]);
 
-    const handleChangeVisibleColumns = React.useCallback(() => {
-        return store.gridColumnsInitial.filter(
-            (column) => !(column.hiddenrules && parse(column.hiddenrules).runer(pageStore.globalValues)),
-        );
-    }, [pageStore, store]);
-
     const handlePageVisible = React.useCallback(
         (pageVisible: boolean) => {
             if (pageVisible && visible === undefined) {
@@ -101,7 +95,6 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
             }),
             reaction(() => pageStore.visible, handlePageVisible),
             reaction(() => store.gridColumns, handleUpdateGridWidth),
-            reaction(handleChangeVisibleColumns, store.setGridColumns, {fireImmediately: true}),
         ];
 
         return () => {
@@ -109,15 +102,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
 
             disposers.forEach((disposer) => disposer());
         };
-    }, [
-        handleChangeVisibleColumns,
-        handlePageVisible,
-        handleRecordsLoad,
-        handleUpdateGridWidth,
-        handleUpdateWidth,
-        pageStore.visible,
-        store,
-    ]);
+    }, [handlePageVisible, handleRecordsLoad, handleUpdateGridWidth, handleUpdateWidth, pageStore.visible, store]);
 
     const setRefGridContent = (node: HTMLElement | null) => store.addRefAction("grid-content", node);
     const setRefGridInlineButton = (node: HTMLElement | null) => store.addRefAction("grid-inline-button", node);
@@ -206,6 +191,9 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
                 <Grid item className={classes.maxWidth}>
                     <EmptyTitle title={transCvDisplayed} filters={bc.filters} />
                 </Grid>
+                {store.gridColumnsInitial.map((col) => (
+                    <ColumnCheckHidden key={col[VAR_RECORD_PAGE_OBJECT_ID]} bc={col} store={store} />
+                ))}
                 {tableComponent}
             </Grid>
         );

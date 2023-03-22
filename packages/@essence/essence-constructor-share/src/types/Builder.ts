@@ -292,6 +292,10 @@ export interface IBuilderBaseConfig {
     valuetype?: "auto" | "integer" | "numeric" | "boolean" | "text" | "json" | string;
     // Признак отображения колонки
     visible?: boolean;
+    // Признак возможности влиять на отображение
+    visibleable?: boolean;
+    // Рассчитываемый признак отображения
+    visiblerule?: string;
     // Ширина поля. Целое число от 1% до 100%. Обязательно добавлять %.
     width?: string;
     // Обновления связанных сторов (таблиц, панелей) при закрытии модального окна

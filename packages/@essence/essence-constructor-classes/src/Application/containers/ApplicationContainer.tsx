@@ -105,7 +105,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 } else if (ckId !== undefined) {
                     pagesStore.setPageAction(ckId, false, decodePathUrl(filter, null));
                 } else if (pagesStore.pages.length) {
-                    pagesStore.setPageAction(pagesStore.pages[0].pageId, false);
+                    pagesStore.setPageAction(pagesStore.pages[0], false);
                 } else if (applicationStore.defaultValue) {
                     pagesStore.setPageAction(applicationStore.defaultValue, false);
                 }
@@ -245,9 +245,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 if (
                     pageId &&
                     (!activePage ||
-                        (activePage.pageId !== pageId &&
-                            activePage.route?.[VAR_RECORD_URL] !== pageId &&
-                            activePage.route?.[VAR_RECORD_ID] !== pageId))
+                        (activePage.route?.[VAR_RECORD_URL] !== pageId && activePage.route?.[VAR_RECORD_ID] !== pageId))
                 ) {
                     await applicationStore.pagesStore.setPageAction(String(pageId), false, decodePathUrl(filter, null));
                 }

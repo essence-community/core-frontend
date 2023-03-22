@@ -63,10 +63,11 @@ const RELOAD_FIRST = 500;
 const LOGOUT_CODE = 4001;
 
 export const CLOSE_CODE = 4002;
+const FIND_SYMBOL = new RegExp("[\\`\\~/\\.\\\\\\!\\-#%\\?&\\^\\(\\)\\[\\]\\;\\:\"\\'\\+\\*]+", "g");
 
 const prepareUserGlobals = (userInfo: Partial<IAuthSession>) => {
     return Object.entries(userInfo).reduce((acc: IRecord, [key, value]) => {
-        acc[`g_sess_${key}`] = value;
+        acc[`g_sess_${key.replace(FIND_SYMBOL, "_")}`] = value;
 
         return acc;
     }, {});

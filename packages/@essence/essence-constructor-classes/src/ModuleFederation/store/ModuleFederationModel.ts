@@ -10,7 +10,7 @@ import {
     FieldValue,
 } from "@essence-community/constructor-share/types";
 import {createWindowProps} from "@essence-community/constructor-share/utils/window";
-import {computed, action} from "mobx";
+import {computed, action, observable} from "mobx";
 import {deepFind, makeRedirect, parseMemoize} from "@essence-community/constructor-share/utils";
 import {IForm, IParentFieldContext} from "@essence-community/constructor-share/Form";
 import {IWindowContext} from "@essence-community/constructor-share/context";
@@ -33,6 +33,9 @@ export class ModuleFederationModel extends StoreBaseModel {
     private recordContext?: IRecord;
     private parentFieldContext?: IParentFieldContext;
     private windowContext?: IWindowContext;
+
+    @observable
+    public isFullScreen = false;
 
     setFormContext = (formContext?: IForm) => {
         this.formContext = formContext;
@@ -164,6 +167,11 @@ export class ModuleFederationModel extends StoreBaseModel {
     };
 
     @action
+    showFullScreen = (): void => {
+        this.isFullScreen = !this.isFullScreen;
+    };
+
+    @action
     createWindowAction = (config: IEventConfig, id: string, messageType: string, data?: any): void => {
         let dataPre = data;
 
@@ -263,6 +271,7 @@ export class ModuleFederationModel extends StoreBaseModel {
         redirectAction: this.redirectAction,
         saveAction: this.saveAction,
         setGlobalAction: this.setGlobalAction,
+        showFullScreen: this.showFullScreen,
     };
 
     @action

@@ -15,6 +15,8 @@ import {
 } from "@essence-community/constructor-share/context";
 import {reaction} from "mobx";
 import {useModel} from "@essence-community/constructor-share/hooks/useModel";
+import {useObserver} from "mobx-react";
+import cn from "clsx";
 import {IBuilderClassConfig, IConfigMF} from "../types";
 import {ModuleFederationModel} from "../store/ModuleFederationModel";
 import {useStyles} from "./ModuleFederationContainer.style";
@@ -39,7 +41,7 @@ const checkValue = (
 };
 
 export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
-    const {bc, disabled, hidden, readOnly, pageStore} = props;
+    const {bc, disabled, hidden, pageStore} = props;
     const [storeComponent, setStoreComponent] = React.useState<{Component: React.FC<IModuleClassProps>}>(null);
     const [propsComponent, setPropsComponent] = React.useState(DEFAULT_PROPS);
     const [mfConfig, setMfConfig] = React.useState<IConfigMF>(null);
@@ -199,16 +201,24 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
         [contentStyle, props, propsComponent, store],
     );
 
-    if (!storeComponent) {
-        return null;
-    }
+    return useObserver(() => {
+        if (!storeComponent) {
+            return null;
+        }
 
-    return (
-        <Grid container item spacing={0} alignItems="stretch" style={contentStyle}>
-            <Grid item xs={12} alignItems="stretch" zeroMinWidth>
-                <storeComponent.Component {...finalPropsComponent} />
+        return (
+            <Grid
+                container
+                item
+                spacing={0}
+                alignItems="stretch"
+                style={contentStyle}
+                className={cn({[classes.fullScreen]: store.isFullScreen})}
+            >
+                <Grid item xs={12} alignItems="stretch" zeroMinWidth>
+                    <storeComponent.Component {...finalPropsComponent} />
+                </Grid>
             </Grid>
-            <div className={disabled || readOnly ? classes.disabled : ""}></div>
-        </Grid>
-    );
+        );
+    });
 };

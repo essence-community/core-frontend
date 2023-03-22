@@ -167,7 +167,14 @@ export class ModuleFederationModel extends StoreBaseModel {
     };
 
     @action
-    showFullScreen = (): void => {
+    showFullScreen = (config: IEventConfig, id: string, messageType: string, data?: any): void => {
+        if (config.datarule) {
+            const dataPre = this.calcData(id, messageType, config.datarule, data);
+
+            this.isFullScreen = dataPre;
+
+            return;
+        }
         this.isFullScreen = !this.isFullScreen;
     };
 

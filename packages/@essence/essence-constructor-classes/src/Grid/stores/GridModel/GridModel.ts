@@ -48,7 +48,7 @@ import {
     getRecordsEnabled,
     checkIsPageSelectedRecords,
 } from "../../utils";
-import {GRID_ROW_HEIGHT, GRID_ROWS_COUNT, TABLE_CELL_MIN_WIDTH} from "../../constants";
+import {GRID_ROW_HEIGHT, GRID_ROWS_COUNT, TABLE_CELL_MIN_WIDTH, WIDTH_MAP} from "../../constants";
 import {
     getOverrideExcelButton,
     getOverrideWindowBottomBtn,
@@ -118,8 +118,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
         const columnsWithZeroWidth: string[] = [];
 
-        this.gridColumns.forEach(({[VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject, width}) => {
-            const colWidth = width;
+        this.gridColumns.forEach(({[VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject, width, datatype}) => {
+            const colWidth = width || (datatype && WIDTH_MAP[datatype]);
 
             if (colWidth) {
                 this.columnsWidth.set(ckPageObject, colWidth);

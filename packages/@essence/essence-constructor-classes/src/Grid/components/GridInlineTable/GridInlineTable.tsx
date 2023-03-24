@@ -8,7 +8,6 @@ import {getComponentByBc} from "@essence-community/constructor-share";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {GridColgroup} from "../GridColgroup";
 import {checkEditable} from "../../utils";
-import {WIDTH_MAP} from "../../constants";
 import {useStyles} from "./GridInlineTable.styles";
 
 interface IGridInlineTable extends IClassProps {
@@ -62,9 +61,7 @@ export const GridInlineTable: React.FC<IGridInlineTable> = ({gridStore, ...class
                                         style={{
                                             maxWidth: childBc.maxwidth,
                                             minWidth: childBc.minwidth,
-                                            width:
-                                                gridStore.columnsWidth.get(childBc[VAR_RECORD_PAGE_OBJECT_ID]) ||
-                                                (childBc.datatype && WIDTH_MAP[childBc.datatype]),
+                                            width: gridStore.columnsWidth.get(childBc[VAR_RECORD_PAGE_OBJECT_ID]),
                                         }}
                                         data-page-object={`${childBc[VAR_RECORD_PAGE_OBJECT_ID]}-cell`}
                                         data-qtip={isEditable || isNew ? undefined : getQtip(idx)}

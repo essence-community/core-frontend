@@ -48,14 +48,15 @@ import {
     getRecordsEnabled,
     checkIsPageSelectedRecords,
 } from "../../utils";
-import {GRID_ROW_HEIGHT, GRID_ROWS_COUNT, TABLE_CELL_MIN_WIDTH, WIDTH_MAP} from "../../constants";
+import {GRID_ROW_HEIGHT, GRID_ROWS_COUNT, TABLE_CELL_MIN_WIDTH} from "../../constants";
 import {
     getOverrideExcelButton,
     getOverrideWindowBottomBtn,
     getOverrideDragDropButton,
 } from "../../utils/getGridBtnsConfig";
 import {IHanderOptions} from "../../../Button/handlers/hander.types";
-import {updatePercentColumnsWidth, setWidthForZeroWidthCol} from "./actions";
+import {resetGridWidth} from "../../utils/resetGridWidth";
+import {updatePercentColumnsWidth} from "./actions";
 import {IGridSaveConfigType} from "./GridModel.types";
 
 const logger = loggerRoot.extend("GridModel");
@@ -116,23 +117,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             });
         });
 
-        const columnsWithZeroWidth: string[] = [];
-
-        this.gridColumns.forEach(({[VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject, width, datatype}) => {
-            const colWidth = width || (datatype && WIDTH_MAP[datatype]);
-
-            if (colWidth) {
-                this.columnsWidth.set(ckPageObject, colWidth);
-            } else if (columnsWithZeroWidth.indexOf(ckPageObject) === -1) {
-                columnsWithZeroWidth.push(ckPageObject);
-            }
-        });
-
-        if (columnsWithZeroWidth.length > 0) {
-            setWidthForZeroWidthCol(this, columnsWithZeroWidth);
-        } else {
-            updatePercentColumnsWidth(this, "");
-        }
+        resetGridWidth(this);
 
         if (this.bc.valuefield && this.bc.valuefield.length) {
             this.valueFields = this.bc.valuefield.map(({in: keyIn, out}) => {

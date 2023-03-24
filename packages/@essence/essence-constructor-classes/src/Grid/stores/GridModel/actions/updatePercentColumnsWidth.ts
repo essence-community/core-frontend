@@ -7,7 +7,7 @@ export function updatePercentColumnsWidth(gridStore: IGridModel, ckId: ICkId) {
     const percentColumns: IPercentColumnsType[] = [];
 
     gridStore.columnsWidth.forEach((colWidth, colId) => {
-        if (colId !== ckId && typeof colWidth === "string" && colWidth.indexOf("px") === -1) {
+        if (colId !== ckId && typeof colWidth === "string" && colWidth.indexOf("%") > -1) {
             percentColumns.push({
                 id: colId,
                 width: parseInt(colWidth, 10),

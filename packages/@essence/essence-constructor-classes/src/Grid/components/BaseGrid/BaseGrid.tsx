@@ -14,6 +14,7 @@ import {GridTable} from "../GridTable";
 import {GridWarning} from "../GridWarning";
 import {GridButtons} from "../GridButtons";
 import {ColumnCheckHidden} from "../ColumnCheckHidden";
+import {resetGridWidth} from "../../utils/resetGridWidth";
 import {useStyles} from "./BaseGrid.styles";
 import {makeTheme} from "./BaseGrid.overrides";
 
@@ -58,11 +59,12 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
 
     const handlePageVisible = React.useCallback(
         (pageVisible: boolean) => {
+            resetGridWidth(store);
             if (pageVisible && visible === undefined) {
                 handleUpdateGridWidth();
             }
         },
-        [handleUpdateGridWidth, visible],
+        [handleUpdateGridWidth, store, visible],
     );
 
     const handleRecordsLoad = React.useCallback(() => {
@@ -94,7 +96,9 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
                 name: "BuilderBaseGrid.records.update",
             }),
             reaction(() => pageStore.visible, handlePageVisible),
-            reaction(() => store.gridColumns, handleUpdateGridWidth),
+            reaction(() => store.gridColumns, handleUpdateGridWidth, {
+                fireImmediately: true,
+            }),
         ];
 
         return () => {

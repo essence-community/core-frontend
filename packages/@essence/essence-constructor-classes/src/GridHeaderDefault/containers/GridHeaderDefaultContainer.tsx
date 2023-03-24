@@ -76,8 +76,9 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
         const [{direction, property}] = store.recordsStore.order;
         const lowerDirection = direction === "ASC" ? "asc" : "desc";
         const isSortable = property === bc.order?.[0].property || property === bc.column;
+        const isTreeGrid = store.bc.type === "TREEGRID";
         const isFilterAble =
-            (typeof store.bc.btnfilter === "undefined" || store.bc.btnfilter) &&
+            ((typeof store.bc.btnfilter === "undefined" && !isTreeGrid) || store.bc.btnfilter) &&
             (typeof bc.btnfilter === "undefined" || bc.btnfilter);
 
         return (

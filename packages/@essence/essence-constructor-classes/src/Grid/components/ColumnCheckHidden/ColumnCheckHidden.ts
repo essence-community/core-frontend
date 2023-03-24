@@ -24,7 +24,7 @@ export const ColumnCheckHidden: React.FC<IColumnCheckHidden> = ({store, bc}) => 
         const t = store.visibleAndHidden.get(bc[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (t.hidden !== isHidden) {
-            store.setVisibleColumn(bc[VAR_RECORD_PAGE_OBJECT_ID], isHidden);
+            store.setHiddenColumn(bc[VAR_RECORD_PAGE_OBJECT_ID], isHidden);
         }
     }, [bc, isHidden, store]);
 

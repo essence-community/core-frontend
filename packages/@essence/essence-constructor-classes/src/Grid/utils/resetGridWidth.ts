@@ -17,9 +17,8 @@ export function resetGridWidth(gridStore: IGridModel) {
         }
     });
 
-    if (columnsWithZeroWidth.length > 0) {
+    if (columnsWithZeroWidth.length) {
         setWidthForZeroWidthCol(gridStore, columnsWithZeroWidth);
-    } else {
-        updatePercentColumnsWidth(gridStore, "");
     }
+    updatePercentColumnsWidth(gridStore, "");
 }

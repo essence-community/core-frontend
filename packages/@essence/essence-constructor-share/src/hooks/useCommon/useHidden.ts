@@ -17,7 +17,9 @@ export function useHidden({bc, pageStore}: IHiddenProps): boolean {
     React.useEffect(() => {
         setHidden(hidden);
         if (hiddenrules) {
-            return reaction(() => Boolean(parseMemoize(hiddenrules).runer({get: getValue})), setHidden);
+            return reaction(() => Boolean(parseMemoize(hiddenrules).runer({get: getValue})), setHidden, {
+                fireImmediately: true,
+            });
         }
     }, [getValue, hidden, hiddenrules]);
 

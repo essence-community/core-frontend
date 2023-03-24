@@ -30,7 +30,7 @@ export function useDisable(props: IDisabledProps): boolean {
                     fireImmediately: true,
                 },
             ),
-        [getValue, disabled],
+        [getValue, disabled, props],
     );
 
     return res;

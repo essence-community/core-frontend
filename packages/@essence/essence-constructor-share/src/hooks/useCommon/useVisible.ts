@@ -17,7 +17,9 @@ export function useVisible({bc, pageStore}: IVisibleProps): boolean {
     React.useEffect(() => {
         setVisible(visible);
         if (visiblerule) {
-            return reaction(() => Boolean(parseMemoize(visiblerule).runer({get: getValue})), setVisible);
+            return reaction(() => Boolean(parseMemoize(visiblerule).runer({get: getValue})), setVisible, {
+                fireImmediately: true,
+            });
         }
     }, [getValue, visible, visiblerule]);
 

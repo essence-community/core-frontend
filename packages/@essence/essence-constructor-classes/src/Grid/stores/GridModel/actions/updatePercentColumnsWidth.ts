@@ -26,7 +26,7 @@ export function updatePercentColumnsWidth(gridStore: IGridModel, ckId: ICkId) {
                 newWidth = 0;
             }
             gridStore.columnsWidth.set(col.id, `${newWidth}%`);
-            newSum += newSum;
+            newSum += newWidth;
         });
         if (newSum !== MAX_PERCENT_COLUMN_WIDTH) {
             updatePercentColumnsWidth(gridStore, ckId);

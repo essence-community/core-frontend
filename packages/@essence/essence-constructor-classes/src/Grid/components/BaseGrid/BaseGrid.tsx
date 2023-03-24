@@ -41,6 +41,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
     let marginTop = 0;
 
     const handleUpdateGridWidth = React.useCallback(() => {
+        resetGridWidth(store);
         // UBCOM-7903 При переходе между страницамии не сразу отображается
         requestAnimationFrame(() => {
             updateGridWidth(store);
@@ -59,12 +60,11 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
 
     const handlePageVisible = React.useCallback(
         (pageVisible: boolean) => {
-            resetGridWidth(store);
             if (pageVisible && visible === undefined) {
                 handleUpdateGridWidth();
             }
         },
-        [handleUpdateGridWidth, store, visible],
+        [handleUpdateGridWidth, visible],
     );
 
     const handleRecordsLoad = React.useCallback(() => {

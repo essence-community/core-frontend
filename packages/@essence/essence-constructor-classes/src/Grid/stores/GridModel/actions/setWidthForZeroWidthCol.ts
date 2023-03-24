@@ -21,6 +21,8 @@ export function setWidthForZeroWidthCol(gridStore: IGridModel, zerowWidthColArr:
             const width = (MAX_PERCENT_COLUMN_WIDTH - sumWidth) / zerowWidthColArr.length;
 
             zerowWidthColArr.forEach((id) => gridStore.columnsWidth.set(id, `${width}%`));
+        } else {
+            zerowWidthColArr.forEach((id) => gridStore.columnsWidth.set(id, "0%"));
         }
     }
 }

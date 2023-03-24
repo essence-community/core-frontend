@@ -17,13 +17,19 @@ export function updatePercentColumnsWidth(gridStore: IGridModel, ckId: ICkId) {
 
     if (percentColumns.length > 0) {
         const sumWidth = percentColumns.reduce((sum, col) => sum + col.width, 0);
+        let newSum = 0;
 
-        if (sumWidth < MAX_PERCENT_COLUMN_WIDTH) {
-            percentColumns.forEach((col) => {
-                const newWidth = col.width + (MAX_PERCENT_COLUMN_WIDTH - sumWidth) / percentColumns.length;
+        percentColumns.forEach((col) => {
+            let newWidth = col.width + (MAX_PERCENT_COLUMN_WIDTH - sumWidth) / percentColumns.length;
 
-                gridStore.columnsWidth.set(col.id, `${newWidth}%`);
-            });
+            if (newWidth < 0) {
+                newWidth = 0;
+            }
+            gridStore.columnsWidth.set(col.id, `${newWidth}%`);
+            newSum += newSum;
+        });
+        if (newSum !== MAX_PERCENT_COLUMN_WIDTH) {
+            updatePercentColumnsWidth(gridStore, ckId);
         }
     }
 }

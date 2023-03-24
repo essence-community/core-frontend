@@ -21,11 +21,19 @@ export const ColumnCheckHidden: React.FC<IColumnCheckHidden> = ({store, bc}) => 
     });
 
     React.useEffect(() => {
-        store.setHiddenColumn(bc[VAR_RECORD_PAGE_OBJECT_ID], isHidden);
+        const t = store.visibleAndHidden.get(bc[VAR_RECORD_PAGE_OBJECT_ID]);
+
+        if (t.hidden !== isHidden) {
+            store.setVisibleColumn(bc[VAR_RECORD_PAGE_OBJECT_ID], isHidden);
+        }
     }, [bc, isHidden, store]);
 
     React.useEffect(() => {
-        store.setVisibleColumn(bc[VAR_RECORD_PAGE_OBJECT_ID], isVisible);
+        const t = store.visibleAndHidden.get(bc[VAR_RECORD_PAGE_OBJECT_ID]);
+
+        if (t.visible !== isVisible) {
+            store.setVisibleColumn(bc[VAR_RECORD_PAGE_OBJECT_ID], isVisible);
+        }
     }, [bc, isVisible, store]);
 
     return null;

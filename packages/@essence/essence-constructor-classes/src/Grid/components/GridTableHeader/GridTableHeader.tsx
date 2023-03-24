@@ -16,6 +16,7 @@ interface IGridTableHeaderProps extends IClassProps {
 export const GridTableHeader: React.FC<IGridTableHeaderProps> = (props) => {
     const {store, ...classProps} = props;
     const isTreeGrid = classProps.bc.type === "TREEGRID";
+    const isFilterAble = (typeof classProps.bc.btnfilter === "undefined" && !isTreeGrid) || classProps.bc.btnfilter;
     const classes = useStyles();
 
     const handleSubmit = async (data: IRecord) => {
@@ -51,7 +52,7 @@ export const GridTableHeader: React.FC<IGridTableHeaderProps> = (props) => {
             </TableHead>
         );
 
-        if (isTreeGrid) {
+        if (!isFilterAble) {
             return (
                 <React.Fragment>
                     <GridColgroup store={store} />

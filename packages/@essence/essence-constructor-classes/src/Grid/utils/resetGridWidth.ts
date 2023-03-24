@@ -6,6 +6,7 @@ import {IGridModel} from "../stores/GridModel/GridModel.types";
 export function resetGridWidth(gridStore: IGridModel) {
     const columnsWithZeroWidth: string[] = [];
 
+    gridStore.columnsWidth.clear();
     gridStore.gridColumns.forEach(({[VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject, width, datatype}) => {
         const colWidth = width || (datatype && WIDTH_MAP[datatype]);
 

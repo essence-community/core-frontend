@@ -13,13 +13,17 @@ import {
     toTranslateTextArray,
     useTranslation,
 } from "@essence-community/constructor-share/utils";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_SETTING_PROJECT_LOADER} from "@essence-community/constructor-share/constants";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_SETTING_PROJECT_LOADER,
+    VAR_RECORD_DISPLAYED,
+} from "@essence-community/constructor-share/constants";
 import {commonDecorator} from "@essence-community/constructor-share/decorators";
 import loader from "@monaco-editor/loader";
 // eslint-disable-next-line import/no-unresolved
 import * as monaco from "monaco-editor";
 import {settingsStore} from "@essence-community/constructor-share/models";
-import {PageLoader} from "@essence-community/constructor-share/uicomponents";
+import {PageLoader, TextFieldLabel} from "@essence-community/constructor-share/uicomponents";
 import {IMonacoBuilderClassConfig} from "../MonacoEditor.types";
 import {useEditorParams} from "../hooks/useEditorParams";
 import {useStyles} from "./MonacoEditor.styles";
@@ -52,7 +56,7 @@ export const MonacoEditorContainer: React.FC<IClassProps<IMonacoBuilderClassConf
             return toTranslateTextArray(trans, field.error);
         }
 
-        return toTranslateTextArray(trans, field.label);
+        return undefined;
     };
 
     useFieldSetGlobal({bc, field, pageStore});
@@ -63,6 +67,7 @@ export const MonacoEditorContainer: React.FC<IClassProps<IMonacoBuilderClassConf
 
     return useObserver(() => {
         const isError = Boolean(!disabled && !field.isValid);
+        const displayed = bc[VAR_RECORD_DISPLAYED];
         const isDisabled =
             (readOnly && field.form.placement === "filter" && typeof bc.readonly === "undefined" ? false : readOnly) ||
             disabled ||
@@ -73,7 +78,17 @@ export const MonacoEditorContainer: React.FC<IClassProps<IMonacoBuilderClassConf
         };
 
         return (
-            <Grid container item spacing={0} alignItems="stretch" style={contentStyle} {...contentProps}>
+            <Grid container item spacing={0} direction="row" wrap="wrap" style={contentStyle} {...contentProps}>
+                {displayed || field.isRequired || bc.info ? (
+                    <Grid item>
+                        <TextFieldLabel
+                            bc={bc}
+                            info={bc.info && trans(bc.info)}
+                            error={!field.isValid}
+                            isRequired={field.isRequired}
+                        />
+                    </Grid>
+                ) : null}
                 <Grid item xs={12} alignItems="stretch" zeroMinWidth>
                     <Editor
                         {...editorProps}

@@ -10,16 +10,24 @@ export const ColumnIconContainer: React.FC<IClassProps> = (props) => {
     const record = React.useContext(RecordContext);
 
     const iconBc: IBuilderConfig = React.useMemo(() => {
-        const children = bc.childs;
+        const first = bc.childs?.[0] || (({} as any) as IBuilderConfig);
         const btnBc: IBuilderConfig = {
             contentview: "menu",
             ...bc,
             hidden: false,
             hiddenrules: undefined,
-            ...(children ? children[0] : {}),
+            ...first,
             iconsize: "xs",
             onlyicon: true,
-            type: bc[VAR_RECORD_QUERY_ID] || children?.[0][VAR_RECORD_QUERY_ID] ? "BTN_DYNAMIC" : "BTN",
+            type:
+                bc[VAR_RECORD_QUERY_ID] ||
+                first[VAR_RECORD_QUERY_ID] ||
+                bc.records ||
+                bc.recordsrule ||
+                first.records ||
+                first.recordsrule
+                    ? "BTN_DYNAMIC"
+                    : "BTN",
             uitype: "7",
         };
 

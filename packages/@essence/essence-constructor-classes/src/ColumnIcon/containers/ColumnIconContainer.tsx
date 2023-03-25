@@ -2,6 +2,7 @@ import * as React from "react";
 import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {RecordContext} from "@essence-community/constructor-share/context";
+import {VAR_RECORD_QUERY_ID} from "@essence-community/constructor-share/constants/variables";
 import {ColumnIconLink} from "../components/ColumnIconLink";
 
 export const ColumnIconContainer: React.FC<IClassProps> = (props) => {
@@ -9,11 +10,16 @@ export const ColumnIconContainer: React.FC<IClassProps> = (props) => {
     const record = React.useContext(RecordContext);
 
     const iconBc: IBuilderConfig = React.useMemo(() => {
+        const children = bc.childs;
         const btnBc: IBuilderConfig = {
+            contentview: "menu",
             ...bc,
+            hidden: false,
+            hiddenrules: undefined,
+            ...(children ? children[0] : {}),
             iconsize: "xs",
             onlyicon: true,
-            type: "BTN",
+            type: bc[VAR_RECORD_QUERY_ID] || children?.[0][VAR_RECORD_QUERY_ID] ? "BTN_DYNAMIC" : "BTN",
             uitype: "7",
         };
 

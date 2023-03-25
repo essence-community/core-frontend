@@ -20,6 +20,14 @@ export const GRID_CONFIGS: Record<"hbox" | "hbox-wrap" | "vbox" | "vbox-wrap", G
     },
 };
 export const GRID_ALIGN_CONFIGS: Record<string, GridProps> = {
+    "center-center-hbox": {
+        justify: "center",
+        alignItems: "center",
+    },
+    "center-center-vbox": {
+        justify: "center",
+        alignItems: "center",
+    },
     "center-hbox": {
         justify: "center",
     },
@@ -42,6 +50,10 @@ export const GRID_ALIGN_CONFIGS: Record<string, GridProps> = {
     "left-vbox": {
         alignItems: "flex-start",
     },
+    "left-stretch-vbox": {
+        justify: "flex-start",
+        alignItems: "stretch",
+    },
     "stretch-vbox": {
         alignItems: "stretch",
     },
@@ -57,6 +69,10 @@ export const GRID_ALIGN_CONFIGS: Record<string, GridProps> = {
     },
     "right-vbox": {
         alignItems: "flex-end",
+    },
+    "right-stretch-vbox": {
+        justify: "flex-end",
+        alignItems: "stretch",
     },
     "stretch-hbox": {
         alignItems: "stretch",

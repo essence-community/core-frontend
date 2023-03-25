@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Grid} from "@material-ui/core";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {toColumnStyleWidth} from "@essence-community/constructor-share/utils/transform";
+import {toColumnStyleWidthBc} from "@essence-community/constructor-share/utils/transform";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {GRID_CONFIGS, GRID_ALIGN_CONFIGS} from "@essence-community/constructor-share/constants/ui";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
@@ -19,8 +19,9 @@ export const BoxContainer: React.FC<IClassProps> = (props) => {
             height: bc.height,
             maxHeight: bc.maxheight ?? "100%",
             minHeight: bc.minheight,
+            ...toColumnStyleWidthBc(bc),
         }),
-        [bc.height, bc.maxheight, bc.minheight],
+        [bc],
     );
 
     return (
@@ -40,7 +41,12 @@ export const BoxContainer: React.FC<IClassProps> = (props) => {
                           key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
                           xs={isRow ? true : MAX_PANEL_WIDTH}
                           zeroMinWidth
-                          style={toColumnStyleWidth(childBc.width)}
+                          style={{
+                              height: childBc.height,
+                              maxHeight: childBc.maxheight ?? "100%",
+                              minHeight: childBc.minheight,
+                              ...toColumnStyleWidthBc(childBc),
+                          }}
                       >
                           <Child {...props} bc={childBc} />
                       </Grid>

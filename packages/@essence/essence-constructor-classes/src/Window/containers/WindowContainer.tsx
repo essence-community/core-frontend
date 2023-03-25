@@ -1,12 +1,12 @@
 import * as React from "react";
 import cn from "clsx";
 import {Grid, DialogTitle, Checkbox, FormControlLabel, Modal, Paper, Backdrop} from "@material-ui/core";
-import {toColumnStyleWidth, useTranslation, noop} from "@essence-community/constructor-share/utils";
-import {mapComponents} from "@essence-community/constructor-share/components";
+import {toColumnStyleWidthBc, useTranslation, noop} from "@essence-community/constructor-share/utils";
+import {mapComponentOne, mapComponents} from "@essence-community/constructor-share/components";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {UIForm, Focusable, Scrollbars} from "@essence-community/constructor-share/uicomponents";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
-import {IClassProps, IBuilderMode} from "@essence-community/constructor-share/types";
+import {IClassProps, IBuilderMode, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {useObserver} from "mobx-react";
 import {WindowContext} from "@essence-community/constructor-share/context";
@@ -35,15 +35,11 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
     const [trans] = useTranslation("meta");
     const classes = useStyles();
-    const contentStyle = React.useMemo(
-        () => ({
-            height: bc.height,
-            maxHeight: bc.maxheight,
-            minHeight: bc.minheight,
-        }),
-        [bc.height, bc.maxheight, bc.minheight],
-    );
     const [store] = useModel((options) => new WindowModel(options), props);
+    const boxBc = React.useMemo(
+        () => ({align: "stretch", contentview: "vbox", ...bc, type: "BOX.NOCOMMONDECORATOR"} as IBuilderConfig),
+        [bc],
+    );
     const {
         [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
         checkaddmore,
@@ -141,27 +137,32 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
                                         className={classes.contentScrollableParent}
                                         withRequestAnimationFrame
                                         pageStore={pageStore}
+                                        contentProps={{
+                                            style: {
+                                                height: "100%",
+                                            },
+                                        }}
                                     >
-                                        <Grid
-                                            container
-                                            direction="column"
-                                            spacing={1}
-                                            className={classes.content}
-                                            wrap="nowrap"
-                                            style={contentStyle}
-                                        >
-                                            {mapComponents(store.childs, (ChildCmp, childBc) => {
-                                                return (
-                                                    <Grid
-                                                        key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                                        item
-                                                        style={toColumnStyleWidth(childBc.width)}
-                                                    >
-                                                        <ChildCmp {...props} bc={childBc} />
-                                                    </Grid>
-                                                );
-                                            })}
-                                        </Grid>
+                                        {mapComponentOne(boxBc, (ChildBox, childBoxBc) => (
+                                            <ChildBox {...props} bc={childBoxBc}>
+                                                {mapComponents(store.childs, (ChildCmp, childBc) => {
+                                                    return (
+                                                        <Grid
+                                                            key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                                            item
+                                                            style={{
+                                                                height: childBc.height,
+                                                                maxHeight: childBc.maxheight ?? "100%",
+                                                                minHeight: childBc.minheight,
+                                                                ...toColumnStyleWidthBc(childBc),
+                                                            }}
+                                                        >
+                                                            <ChildCmp {...props} bc={childBc} />
+                                                        </Grid>
+                                                    );
+                                                })}
+                                            </ChildBox>
+                                        ))}
                                     </Scrollbars>
                                     <WindowButtons
                                         {...props}

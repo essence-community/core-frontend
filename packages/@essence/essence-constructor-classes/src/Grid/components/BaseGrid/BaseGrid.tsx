@@ -40,8 +40,11 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
     const themeFilterNew = React.useMemo(() => makeTheme(theme), [theme]);
     let marginTop = 0;
 
-    const handleUpdateGridWidth = React.useCallback(() => {
+    const handleResetGridWidth = React.useCallback(() => {
         resetGridWidth(store);
+    }, [store]);
+
+    const handleUpdateGridWidth = React.useCallback(() => {
         // UBCOM-7903 При переходе между страницамии не сразу отображается
         requestAnimationFrame(() => {
             updateGridWidth(store);
@@ -96,9 +99,16 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
                 name: "BuilderBaseGrid.records.update",
             }),
             reaction(() => pageStore.visible, handlePageVisible),
-            reaction(() => store.gridColumns, handleUpdateGridWidth, {
-                fireImmediately: true,
-            }),
+            reaction(
+                () => store.gridColumns,
+                () => {
+                    handleResetGridWidth();
+                    handleUpdateGridWidth();
+                },
+                {
+                    fireImmediately: true,
+                },
+            ),
         ];
 
         return () => {

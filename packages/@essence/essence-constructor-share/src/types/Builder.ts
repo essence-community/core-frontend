@@ -136,8 +136,12 @@ export interface IBuilderBaseConfig {
     height?: string;
     // Признак скрытия объекта при инициализации true-скрыт
     hidden?: boolean;
+    // Скрытие шапки
+    hiddenheader?: boolean;
     // Правила отображения объекта. Если правило вернет true, то объект скрывается. Синтаксис: == - равно != - не равно '>' - больше '<' - меньше '&&' - и '||' - или Пример: gck_mo>1   // если глобальная переменная gck_mo больше 1, то поле скроется
     hiddenrules?: string;
+    // Скрытие шапки таблицы
+    hiddentableheader?: boolean;
     // Признак скрытия всех кнопок (true/false)
     hideactions?: boolean;
     // Иконка (например, fa-plus)
@@ -302,8 +306,6 @@ export interface IBuilderBaseConfig {
     winreloadstores?: boolean;
     // Тип окна (влияет на ширину окна): narrow: 500px, default: 800px, wide: 1000px, xwide: 1200px, xlwide: 1600px, fullscreen
     wintype?: "narrow" | "default" | "wide" | "xwide" | "xlwide" | "fullscreen";
-    // возможность скрывать шапку
-    hideheader?: boolean;
 }
 
 // BUILDER_CONFIG_END
@@ -358,6 +360,4 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     values?: IRecord;
     // Internal Возможность выделения нескольких значений в GRID и TREEGRID SINGLE - только 1 значение SIMPLE - позволяет выбирать значения одно-за-другим. Каждое нажатие добавляет/удаляет значение. MULTI - позволяет комплексно выбирать значения, с учетом ctrl и shift
     selmode?: "MULTI";
-    // возможность скрывать шапку
-    hideheader?: boolean;
 }

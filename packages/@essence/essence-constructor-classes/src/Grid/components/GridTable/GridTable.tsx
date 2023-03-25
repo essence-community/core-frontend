@@ -107,17 +107,19 @@ export const GridTable: React.FC<IGridTableProps> = ({store, children, ...classP
 
         return (
             <Grid container spacing={0} direction="column" justify="space-between">
-                <Grid item xs zeroMinWidth className={classes.headerItem}>
-                    <div className={classes.headerScroll} ref={headerRef}>
-                        <Table
-                            data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-table-header`}
-                            ref={setRefTableHeader}
-                            className={classes.tableHeader}
-                        >
-                            <GridTableHeader {...classProps} store={store} />
-                        </Table>
-                    </div>
-                </Grid>
+                {bc.hiddentableheader ? null : (
+                    <Grid item xs zeroMinWidth className={classes.headerItem}>
+                        <div className={classes.headerScroll} ref={headerRef}>
+                            <Table
+                                data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-table-header`}
+                                ref={setRefTableHeader}
+                                className={classes.tableHeader}
+                            >
+                                <GridTableHeader {...classProps} store={store} />
+                            </Table>
+                        </div>
+                    </Grid>
+                )}
                 <Grid item xs zeroMinWidth>
                     <Scrollbars
                         autoHeight={true}

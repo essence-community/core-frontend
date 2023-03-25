@@ -132,16 +132,21 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
             }
         }
 
-        const actionsComponent = isHideActions ? null : (
-            <Grid
-                style={{marginTop}}
-                item
-                className={store.isInlineEditing ? classes.editActionsGrid : classes.tableActions}
-            >
-                <GridButtons isInlineEditing={store.isInlineEditing} {...classProps} store={store} />
-                <div ref={setRefGridInlineButton} />
-            </Grid>
-        );
+        const actionsComponent =
+            isHideActions || bc.hiddenheader ? (
+                <Grid style={{marginTop}} item className={theme.essence.layoutTheme === 2 && classes.tableActions}>
+                    <div ref={setRefGridInlineButton} />
+                </Grid>
+            ) : (
+                <Grid
+                    style={{marginTop}}
+                    item
+                    className={store.isInlineEditing ? classes.editActionsGrid : classes.tableActions}
+                >
+                    <GridButtons isInlineEditing={store.isInlineEditing} {...classProps} store={store} />
+                    <div ref={setRefGridInlineButton} />
+                </Grid>
+            );
         const filterComponent = (
             <ThemeProvider theme={themeFilterNew}>
                 <Grid item xs={!isDarkTheme}>
@@ -189,9 +194,11 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
                 <Grid container direction="row" className={classNameRoot} wrap="nowrap">
                     {actionsComponent}
                     <Grid item container direction="column" className={classes.contentRoot}>
-                        <Grid item className={classes.maxWidth}>
-                            <EmptyTitle title={transCvDisplayed} filters={bc.filters} hideactions />
-                        </Grid>
+                        {bc.hiddenheader ? null : (
+                            <Grid item className={classes.maxWidth}>
+                                <EmptyTitle title={transCvDisplayed} filters={bc.filters} hideactions />
+                            </Grid>
+                        )}
                         {filterComponent}
                         {tableComponent}
                     </Grid>
@@ -202,9 +209,11 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
         return (
             <Grid container direction="column" className={classNameRoot} wrap="nowrap">
                 {filterComponent}
-                <Grid item className={classes.maxWidth}>
-                    <EmptyTitle title={transCvDisplayed} filters={bc.filters} />
-                </Grid>
+                {bc.hiddenheader ? null : (
+                    <Grid item className={classes.maxWidth}>
+                        <EmptyTitle title={transCvDisplayed} filters={bc.filters} />
+                    </Grid>
+                )}
                 {store.gridColumnsInitial.map((col) => (
                     <ColumnCheckHidden key={col[VAR_RECORD_PAGE_OBJECT_ID]} bc={col} store={store} />
                 ))}

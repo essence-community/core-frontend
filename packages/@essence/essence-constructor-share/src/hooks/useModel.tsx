@@ -6,7 +6,7 @@ import {v4} from "uuid";
 import {reaction} from "mobx";
 import {IBuilderConfig, IPageModel, IStoreBaseModel} from "../types";
 import {checkAutoload} from "../decorators/utils";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
+import {loggerRoot, VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
 import {parseMemoize} from "../utils/parser";
 import {IRecord} from "../types/Base";
 import {useGetValue} from "./useCommon/useGetValue";
@@ -19,6 +19,8 @@ interface IUseModelProps {
 }
 
 const AUTO_LOAD_KEY = "__autoload__";
+
+const logger = loggerRoot.extend("useModel");
 
 /**
  * isAutoLoad moved to useMemo to pass this value immediately
@@ -115,9 +117,20 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
 
                     return parseMemoize(bc.recordsrule!).runer({get: getValue}) as any;
                 },
-                (val: IRecord[]) => {
+                (val: IRecord[] | string) => {
+                    let rec = val;
+
+                    if (typeof val === "string" && val.startsWith("[") && val.endsWith("]")) {
+                        try {
+                            rec = JSON.parse(val);
+                        } catch (e) {
+                            logger(val);
+                            logger(e);
+                            rec = [];
+                        }
+                    }
                     store.recordsStore?.clearRecordsAction();
-                    store.recordsStore?.setRecordsAction(Array.isArray(val) ? val : []);
+                    store.recordsStore?.setRecordsAction(Array.isArray(rec) ? rec : []);
                 },
                 {
                     fireImmediately: true,
@@ -132,7 +145,7 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
                 () => store.recordsStore?.recordsState.records,
                 (val: IRecord[]) => {
                     pageStore.updateGlobalValues({
-                        [bc.saverecordstoglobal as string]: val,
+                        [bc.saverecordstoglobal as string]: val ? JSON.parse(JSON.stringify(val)) : undefined,
                     });
                 },
                 {

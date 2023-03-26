@@ -246,6 +246,8 @@ export interface IBuilderBaseConfig {
     resizable?: boolean;
     // Отображение корня
     rootvisible?: boolean;
+    // Сохраняем все строки в глобальную переменную
+    saverecordstoglobal?: string;
     // При выборе родителя выбирать все дочерние элементы и родителя
     selecttree?: boolean;
     // Наименование глобальной переменной. Должно начинаться с g

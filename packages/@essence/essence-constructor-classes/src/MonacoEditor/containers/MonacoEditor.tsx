@@ -26,13 +26,11 @@ import {settingsStore} from "@essence-community/constructor-share/models";
 import {PageLoader, TextFieldLabel} from "@essence-community/constructor-share/uicomponents";
 import {IMonacoBuilderClassConfig} from "../MonacoEditor.types";
 import {useEditorParams} from "../hooks/useEditorParams";
-import {useStyles} from "./MonacoEditor.styles";
 
 loader.config({monaco});
 
 export const MonacoEditorContainer: React.FC<IClassProps<IMonacoBuilderClassConfig>> = (props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
-    const classes = useStyles(props);
     const field = useField({bc, clearValue: "", disabled, hidden, pageStore});
     const [trans] = useTranslation("meta");
     const handleChange: OnChange = React.useCallback(
@@ -101,11 +99,14 @@ export const MonacoEditorContainer: React.FC<IClassProps<IMonacoBuilderClassConf
                                 }
                             />
                         }
+                        options={{
+                            ...(editorProps.options || {}),
+                            readOnly: isDisabled,
+                        }}
                         value={field.value as string}
                         onChange={handleChange}
                     />
                 </Grid>
-                <div className={isDisabled || readOnly ? classes.disabled : ""}></div>
             </Grid>
         );
     });

@@ -7,10 +7,9 @@ import {reaction} from "mobx";
 import {IBuilderConfig, IPageModel, IStoreBaseModel} from "../types";
 import {checkAutoload} from "../decorators/utils";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
-import {FormContext, ParentFieldContext, RecordContext} from "../context";
-import {deepFind} from "../utils";
 import {parseMemoize} from "../utils/parser";
 import {IRecord} from "../types/Base";
+import {useGetValue} from "./useCommon/useGetValue";
 
 interface IUseModelProps {
     bc: IBuilderConfig;
@@ -31,9 +30,7 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
 ): [IModel, boolean, string] {
     const {bc, pageStore, hidden, disabled} = props;
     const pageObjectId = bc[VAR_RECORD_PAGE_OBJECT_ID];
-    const form = React.useContext(FormContext);
-    const record = React.useContext(RecordContext);
-    const parentField = React.useContext(ParentFieldContext);
+    const getValueGlobal = useGetValue({pageStore});
     const [store] = React.useState<IModel>(() => createModel(props));
     // const [isAutoLoad, setIsAutoload] = React.useState(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -85,43 +82,9 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
                     result[AUTO_LOAD_KEY] = checkAutoload({bc, pageStore});
 
                     const getValue = (name: string) => {
-                        if (name.charAt(0) === "g") {
-                            return pageStore.globalValues.get(name);
-                        }
+                        result[name] = getValueGlobal(name);
 
-                        if (record) {
-                            const [isExistRecord, recValue] = deepFind(record, name);
-
-                            if (isExistRecord) {
-                                result[name] = recValue;
-
-                                return recValue;
-                            }
-                        }
-
-                        if (form) {
-                            const values = form.values;
-
-                            if (parentField) {
-                                const [isExistParent, val] = deepFind(values, `${parentField.key}.${name}`);
-
-                                if (isExistParent) {
-                                    result[name] = val;
-
-                                    return val;
-                                }
-                            }
-
-                            const [isExist, val] = deepFind(values, name);
-
-                            if (isExist) {
-                                result[name] = val;
-
-                                return val;
-                            }
-                        }
-
-                        return undefined;
+                        return result[name];
                     };
 
                     const isAutoloadRule = parseMemoize(bc.autoloadrule!).runer({get: getValue});
@@ -140,44 +103,14 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
                 },
             );
         }
-    }, [store, bc, pageStore, record, form, parentField]);
+    }, [store, bc, pageStore, getValueGlobal]);
 
     React.useEffect(() => {
         if (bc.recordsrule && store.recordsStore) {
             return reaction(
                 () => {
                     const getValue = (name: string) => {
-                        if (name.charAt(0) === "g") {
-                            return pageStore.globalValues.get(name);
-                        }
-
-                        if (record) {
-                            const [isExistRecord, recValue] = deepFind(record, name);
-
-                            if (isExistRecord) {
-                                return recValue;
-                            }
-                        }
-
-                        if (form) {
-                            const values = form.values;
-
-                            if (parentField) {
-                                const [isExistParent, val] = deepFind(values, `${parentField.key}.${name}`);
-
-                                if (isExistParent) {
-                                    return val;
-                                }
-                            }
-
-                            const [isExist, val] = deepFind(values, name);
-
-                            if (isExist) {
-                                return val;
-                            }
-                        }
-
-                        return [];
+                        return getValueGlobal(name) || [];
                     };
 
                     return parseMemoize(bc.recordsrule!).runer({get: getValue}) as any;
@@ -191,7 +124,30 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
                 },
             );
         }
-    }, [store, bc, pageStore, record, form, parentField]);
+    }, [store, bc, pageStore, getValueGlobal]);
+
+    React.useEffect(() => {
+        if (bc.saverecordstoglobal && store.recordsStore) {
+            const fn = reaction(
+                () => store.recordsStore?.recordsState.records,
+                (val: IRecord[]) => {
+                    pageStore.updateGlobalValues({
+                        [bc.saverecordstoglobal as string]: val,
+                    });
+                },
+                {
+                    fireImmediately: true,
+                },
+            );
+
+            return () => {
+                fn();
+                pageStore.updateGlobalValues({
+                    [bc.saverecordstoglobal as string]: undefined,
+                });
+            };
+        }
+    }, [store, bc, pageStore]);
 
     return [store, isAutoLoad, storeName];
 }

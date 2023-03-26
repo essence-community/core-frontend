@@ -7,16 +7,12 @@ import {loadRemoteModule} from "@essence-community/constructor-share/utils/feder
 import {snackbarStore} from "@essence-community/constructor-share/models";
 import {VAR_RECORD_NAME} from "@essence-community/constructor-share/constants";
 import {noop, parseMemoize} from "@essence-community/constructor-share/utils";
-import {
-    RecordContext,
-    FormContext,
-    ParentFieldContext,
-    WindowContext,
-} from "@essence-community/constructor-share/context";
+import {WindowContext} from "@essence-community/constructor-share/context";
 import {reaction} from "mobx";
 import {useModel} from "@essence-community/constructor-share/hooks/useModel";
 import {useObserver} from "mobx-react";
 import cn from "clsx";
+import {useGetValue} from "@essence-community/constructor-share/hooks/useCommon/useGetValue";
 import {IBuilderClassConfig, IConfigMF} from "../types";
 import {ModuleFederationModel} from "../store/ModuleFederationModel";
 import {useStyles} from "./ModuleFederationContainer.style";
@@ -45,25 +41,22 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
     const [storeComponent, setStoreComponent] = React.useState<{Component: React.FC<IModuleClassProps>}>(null);
     const [propsComponent, setPropsComponent] = React.useState(DEFAULT_PROPS);
     const [mfConfig, setMfConfig] = React.useState<IConfigMF>(null);
-    const recordContext = React.useContext(RecordContext);
-    const formContext = React.useContext(FormContext);
-    const parentFieldContext = React.useContext(ParentFieldContext);
+    const getValue = useGetValue({pageStore});
     const windowContext = React.useContext(WindowContext);
     const [store] = useModel((options) => new ModuleFederationModel(options), {
         applicationStore: pageStore.applicationStore,
         bc,
         disabled,
+        getValue,
         hidden,
         pageStore,
     });
     const classes = useStyles();
 
     React.useEffect(() => {
-        store.setFormContext(formContext);
-        store.setParentFieldContext(parentFieldContext);
-        store.setRecordContext(recordContext);
+        store.setGetValue(getValue);
         store.setWindowContext(windowContext);
-    }, [formContext, parentFieldContext, recordContext, store, windowContext]);
+    }, [getValue, store, windowContext]);
 
     const contentStyle = React.useMemo(
         () => ({
@@ -108,7 +101,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
                 },
             );
         }
-    }, [bc, pageStore, store, formContext, parentFieldContext, recordContext]);
+    }, [bc, pageStore, store]);
 
     React.useEffect(() => {
         const getError = (err: Error) => {
@@ -188,7 +181,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
                 },
             );
         }
-    }, [bc, pageStore, store, formContext, parentFieldContext, recordContext]);
+    }, [bc, pageStore, store]);
 
     const finalPropsComponent = React.useMemo(
         () =>

@@ -199,7 +199,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     defaultHandlerBtnAction = (mode: IBuilderMode, btnBc: IBuilderConfig, {record}: IHandlerOptions) => {
         if (record) {
             if (
-                this.recordsStore.records.findIndex(
+                this.recordsStore.records.find(
                     (rec) => rec[this.recordsStore.recordId] === record[this.recordsStore.recordId],
                 )
             ) {

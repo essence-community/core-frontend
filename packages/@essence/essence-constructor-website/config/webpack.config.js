@@ -12,6 +12,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
+const MonacoEditorWebpackPlugin = require('monaco-editor-webpack-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const ModuleFederationPlugin = require('webpack').container.ModuleFederationPlugin;
@@ -659,6 +660,11 @@ module.exports = function (webpackEnv) {
         // logger: {
         //   infrastructure: 'silent',
         // },
+      }),
+      new MonacoEditorWebpackPlugin({
+        publicPath: `${paths.publicUrlOrPath}/vs`,
+        filename: '[name].worker.js',
+        languages: ['javascript','typescript','css','html','json'],
       }),
     ].filter(Boolean),
     // Turn off performance processing because we utilize

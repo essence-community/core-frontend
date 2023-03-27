@@ -71,7 +71,7 @@ export class FormPanelModel extends StoreBaseModel {
             case "3":
             case "4":
                 await this.recordsStore.saveAction(
-                    options.form?.values || this.selectedRecord,
+                    options.form?.values || this.selectedRecord || options.record,
                     (bc.modeaction || mode) as IBuilderMode,
                     {
                         ...options,
@@ -85,7 +85,7 @@ export class FormPanelModel extends StoreBaseModel {
                 break;
             case "7":
                 await this.recordsStore.downloadAction(
-                    options.form?.values || this.selectedRecord,
+                    options.form?.values || this.selectedRecord || options.record,
                     (bc.modeaction || mode) as IBuilderMode,
                     {
                         ...options,
@@ -96,7 +96,7 @@ export class FormPanelModel extends StoreBaseModel {
                 break;
             case "8":
                 await this.recordsStore.saveAction(
-                    options.form?.values || this.selectedRecord,
+                    options.form?.values || this.selectedRecord || options.record,
                     (bc.modeaction || mode) as IBuilderMode,
                     {
                         ...options,

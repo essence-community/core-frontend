@@ -196,7 +196,10 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     };
 
     @action
-    defaultHandlerBtnAction = (mode: IBuilderMode, btnBc: IBuilderConfig) => {
+    defaultHandlerBtnAction = (mode: IBuilderMode, btnBc: IBuilderConfig, {record}: IHandlerOptions) => {
+        if (record && !this.recordsStore.selectedRecord) {
+            this.recordsStore.setSelectionAction(record[this.recordsStore.recordId]);
+        }
         if (!this.isInlineEditing) {
             this.pageStore.createWindowAction(
                 createWindowProps({
@@ -231,9 +234,9 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     };
 
     @action
-    updateBtnAction = async (mode: IBuilderMode, bc: IBuilderConfig, {files, form}: IHandlerOptions) => {
+    updateBtnAction = async (mode: IBuilderMode, bc: IBuilderConfig, {files, form, record}: IHandlerOptions) => {
         const result = await this.recordsStore[mode === "7" ? "downloadAction" : "saveAction"](
-            this.recordsStore.selectedRecord || {},
+            this.recordsStore.selectedRecord || record || {},
             (bc.modeaction as IBuilderMode) || mode,
             {
                 actionBc: bc,
@@ -242,6 +245,10 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                 query: bc.updatequery || "Modify",
             },
         );
+
+        if (record && !this.recordsStore.selectedRecord) {
+            this.recordsStore.setSelectionAction(record[this.recordsStore.recordId]);
+        }
 
         await this.scrollToRecordAction({});
 
@@ -367,7 +374,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     @action
     handleNextStepAction = () => {
         if (!this.hidden && !this.disabled) {
-            this.defaultHandlerBtnAction("1", this.bc);
+            this.defaultHandlerBtnAction("1", this.bc, {});
         }
     };
 
@@ -587,8 +594,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         /**
          * Для вызова окна при создании
          */
-        onCreateChildWindowMaster: (mode: IBuilderMode, bc: IBuilderConfig) => {
-            return this.defaultHandlerBtnAction("1", getBtnBcWithCkWindow(this.bc, bc));
+        onCreateChildWindowMaster: (mode: IBuilderMode, bc: IBuilderConfig, options) => {
+            return this.defaultHandlerBtnAction("1", getBtnBcWithCkWindow(this.bc, bc), options);
         },
         onOpenSettings: () => {
             this.isOpenSettings = true;
@@ -611,8 +618,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         /**
          * Для вызова окна при редактировании
          */
-        onRowCreateChildWindowMaster: (mode: IBuilderMode, bc: IBuilderConfig) => {
-            return this.defaultHandlerBtnAction("2", getBtnBcWithCkWindow(this.bc, bc));
+        onRowCreateChildWindowMaster: (mode: IBuilderMode, bc: IBuilderConfig, options) => {
+            return this.defaultHandlerBtnAction("2", getBtnBcWithCkWindow(this.bc, bc), options);
         },
         onSaveWindow: async (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHanderOptions) => {
             if (!options.form) {
@@ -633,7 +640,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
             return Promise.resolve(true);
         },
-        onSimpleAddRow: (mode: IBuilderMode, bc: IBuilderConfig) => this.handlers.onCreateChildWindowMaster(mode, bc),
+        onSimpleAddRow: (mode: IBuilderMode, bc: IBuilderConfig, options) =>
+            this.handlers.onCreateChildWindowMaster(mode, bc, options),
         onToggleAllSelectedRecords: (mode: IBuilderMode, bc: IBuilderConfig) => {
             const records = getRecordsEnabled(bc, this.recordsStore, this.pageStore);
 

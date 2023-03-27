@@ -197,8 +197,14 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
     @action
     defaultHandlerBtnAction = (mode: IBuilderMode, btnBc: IBuilderConfig, {record}: IHandlerOptions) => {
-        if (record && !this.recordsStore.selectedRecord) {
-            this.recordsStore.setSelectionAction(record[this.recordsStore.recordId]);
+        if (record) {
+            if (
+                this.recordsStore.records.findIndex(
+                    (record) => record[this.recordsStore.recordId] === record[this.recordsStore.recordId],
+                )
+            ) {
+                this.recordsStore.setSelectionAction(record[this.recordsStore.recordId]);
+            }
         }
         if (!this.isInlineEditing) {
             this.pageStore.createWindowAction(
@@ -235,6 +241,15 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
     @action
     updateBtnAction = async (mode: IBuilderMode, bc: IBuilderConfig, {files, form, record}: IHandlerOptions) => {
+        if (record) {
+            if (
+                this.recordsStore.records.findIndex(
+                    (record) => record[this.recordsStore.recordId] === record[this.recordsStore.recordId],
+                )
+            ) {
+                this.recordsStore.setSelectionAction(record[this.recordsStore.recordId]);
+            }
+        }
         const result = await this.recordsStore[mode === "7" ? "downloadAction" : "saveAction"](
             this.recordsStore.selectedRecord || record || {},
             (bc.modeaction as IBuilderMode) || mode,
@@ -245,10 +260,6 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                 query: bc.updatequery || "Modify",
             },
         );
-
-        if (record && !this.recordsStore.selectedRecord) {
-            this.recordsStore.setSelectionAction(record[this.recordsStore.recordId]);
-        }
 
         await this.scrollToRecordAction({});
 

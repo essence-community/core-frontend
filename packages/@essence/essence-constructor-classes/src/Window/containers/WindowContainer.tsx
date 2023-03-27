@@ -37,7 +37,7 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
     const classes = useStyles();
     const [store] = useModel((options) => new WindowModel(options), props);
     const boxBc = React.useMemo(
-        () => ({align: "stretch", contentview: "vbox", ...bc, type: "BOX.NOCOMMONDECORATOR"} as IBuilderConfig),
+        () => ({align: "left-stretch", contentview: "vbox", ...bc, type: "BOX.NOCOMMONDECORATOR"} as IBuilderConfig),
         [bc],
     );
     const {

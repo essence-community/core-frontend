@@ -31,7 +31,7 @@ export const BoxContainer: React.FC<IClassProps> = (props) => {
             style={contentStyle}
             {...((contentview && GRID_CONFIGS[contentview]) || GRID_CONFIGS.vbox)}
             {...((contentview && align && GRID_ALIGN_CONFIGS[`${align}-${contentview}`]) ||
-                GRID_ALIGN_CONFIGS["left-vbox"])}
+                GRID_ALIGN_CONFIGS["left-stretch-vbox"])}
         >
             {children
                 ? children

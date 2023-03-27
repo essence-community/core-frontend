@@ -200,7 +200,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         if (record) {
             if (
                 this.recordsStore.records.findIndex(
-                    (record) => record[this.recordsStore.recordId] === record[this.recordsStore.recordId],
+                    (rec) => rec[this.recordsStore.recordId] === record[this.recordsStore.recordId],
                 )
             ) {
                 this.recordsStore.setSelectionAction(record[this.recordsStore.recordId]);
@@ -243,8 +243,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     updateBtnAction = async (mode: IBuilderMode, bc: IBuilderConfig, {files, form, record}: IHandlerOptions) => {
         if (record) {
             if (
-                this.recordsStore.records.findIndex(
-                    (record) => record[this.recordsStore.recordId] === record[this.recordsStore.recordId],
+                this.recordsStore.records.find(
+                    (rec) => rec[this.recordsStore.recordId] === record[this.recordsStore.recordId],
                 )
             ) {
                 this.recordsStore.setSelectionAction(record[this.recordsStore.recordId]);

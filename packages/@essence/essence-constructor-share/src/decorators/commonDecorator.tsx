@@ -106,16 +106,10 @@ export function commonDecorator<Props extends IClassProps>(
             );
         }
 
-        private getValue = (name: string) => {
-            const {getValue} = this.props;
-
-            return getValue(name) || undefined;
-        };
-
         private handleDisabled = () => {
             const disabled = isDisabled({
                 bc: this.props.bc,
-                getValue: this.getValue,
+                getValue: this.props.getValue,
                 pageStore: this.props.pageStore,
             });
 
@@ -163,7 +157,7 @@ export function commonDecorator<Props extends IClassProps>(
             const {hiddenrules} = this.props.bc;
 
             if (hiddenrules) {
-                return parseMemoize(hiddenrules).runer({get: this.getValue});
+                return parseMemoize(hiddenrules).runer({get: this.props.getValue});
             }
 
             return hidden;
@@ -174,7 +168,7 @@ export function commonDecorator<Props extends IClassProps>(
             const {readonlyrules} = this.props.bc;
 
             if (!readOnly && readonlyrules) {
-                return parseMemoize(readonlyrules).runer({get: this.getValue});
+                return parseMemoize(readonlyrules).runer({get: this.props.getValue});
             }
 
             return (

@@ -51,7 +51,7 @@ export const PanelDynamicContainer: React.FC<IWithEditing> = (props) => {
             style={contentStyle}
             {...((contentview && GRID_CONFIGS[contentview]) || GRID_CONFIGS.vbox)}
             {...((contentview && align && GRID_ALIGN_CONFIGS[`${align}-${contentview}`]) ||
-                GRID_ALIGN_CONFIGS["left-hbox"])}
+                GRID_ALIGN_CONFIGS["left-vbox"])}
         >
             {isLoadedModule
                 ? mapComponents(store.children, (Child, childBc, idx) => (

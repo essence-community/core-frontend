@@ -87,7 +87,7 @@ export function useButtonClick(
     const handleMode = (data: IData = {}) => {
         let promise = null;
         const handlerBtn = getHandlerBtn(bc);
-        const defaultHandler = handers[handlerBtn];
+        const defaultHandler = typeof handlerBtn === "string" ? handers[handlerBtn] : undefined;
 
         if (bc.setglobal && bc.setglobal.length) {
             setGlobal({
@@ -108,6 +108,13 @@ export function useButtonClick(
                 pageStore,
                 popoverCtx,
             });
+        } else if (typeof handlerBtn === "function") {
+            promise = handlerBtn(bc.mode as IBuilderMode, bc, {
+                form: formCtx,
+                popoverCtx,
+                record: recordCtx,
+                ...data,
+            });
         } else {
             for (const ckPageObjectMain of [bc[VAR_RECORD_MASTER_ID], bc[VAR_RECORD_PARENT_ID]]) {
                 if (ckPageObjectMain) {
@@ -116,9 +123,9 @@ export function useButtonClick(
                     if (
                         builderStore &&
                         builderStore.handlers &&
-                        typeof builderStore.handlers[handlerBtn] === "function"
+                        typeof builderStore.handlers[handlerBtn as string] === "function"
                     ) {
-                        promise = builderStore.handlers[handlerBtn](bc.mode as IBuilderMode, bc, {
+                        promise = builderStore.handlers[handlerBtn as string](bc.mode as IBuilderMode, bc, {
                             form: formCtx,
                             popoverCtx,
                             record: recordCtx,
@@ -131,10 +138,10 @@ export function useButtonClick(
 
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
-                    if (builderStore && typeof builderStore[handlerBtn] === "function") {
+                    if (builderStore && typeof builderStore[handlerBtn as string] === "function") {
                         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         // @ts-ignore
-                        promise = builderStore[handlerBtn](bc.mode, bc, {
+                        promise = builderStore[handlerBtn as string](bc.mode, bc, {
                             form: formCtx,
                             popoverCtx,
                             record: recordCtx,

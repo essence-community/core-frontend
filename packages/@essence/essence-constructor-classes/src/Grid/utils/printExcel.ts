@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /* eslint-disable max-statements */
 import {i18next, getMasterObject, prepareUrl} from "@essence-community/constructor-share/utils";
 import {snackbarStore, settingsStore} from "@essence-community/constructor-share/models";
@@ -54,10 +55,11 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
         [VAR_RECORD_CV_DESCRIPTION]: (description && i18next.t(description)) || "",
         [VAR_RECORD_DISPLAYED]: (displayed && i18next.t(displayed)) || "",
         columns: (columns || [])
-            .filter(
-                (obj) =>
-                    obj.datatype !== "icon" && obj.datatype !== "checkbox" && obj.visible && obj.hiddenrules !== "true",
-            )
+            .filter((col) => {
+                const obj = gridStore.visibleAndHidden.get(col[VAR_RECORD_PAGE_OBJECT_ID]);
+
+                return col.datatype !== "icon" && col.datatype !== "checkbox" && obj.visible;
+            })
             .map((val) => ({
                 [VAR_RECORD_CV_DESCRIPTION]: val[VAR_RECORD_CV_DESCRIPTION] || "",
                 [VAR_RECORD_DISPLAYED]: i18next.t(val[VAR_RECORD_DISPLAYED]) || "",

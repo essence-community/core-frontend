@@ -2,6 +2,7 @@
 import {VAR_RECORD_CK_VIEW} from "../constants/variables";
 import {IRecord, FieldValue} from "./Base";
 import {IRecordsOrder} from "./RecordsModel";
+import {HandlerType} from "./StoreBaseModel";
 
 export interface IBuilderAttrGlobal {
     in?: string;
@@ -130,13 +131,17 @@ export interface IBuilderBaseConfig {
     // Наименование параметра из мастера, который будет передан в json в виде "master": {"наименование_параметра":"значение"}
     getmastervalue?: IBuilderAttrGlobalStore[];
     // Обработчик в ExtJS onCreateChildWindowMaster - для вызова окна при создании onRowCreateChildWindowMaster - для вызова окна при редактировании onSimpleSaveWindow - сохранение данных по кнопке для модального окна onCloseWindow - закрытие модального окна onCloseWindowSilent - закрытие модального окна без сообщения onPrintHandleOnline - Онлайн печать onPrintHandleOffline - Отложенная печать free - общий обработчик для передачи данных в сервис
-    handler?: string;
+    handler?: string | HandlerType;
     // Статическая высота в пикселях (px)
     height?: string;
     // Признак скрытия объекта при инициализации true-скрыт
     hidden?: boolean;
+    // Скрытие шапки
+    hiddenheader?: boolean;
     // Правила отображения объекта. Если правило вернет true, то объект скрывается. Синтаксис: == - равно != - не равно '>' - больше '<' - меньше '&&' - и '||' - или Пример: gck_mo>1   // если глобальная переменная gck_mo больше 1, то поле скроется
     hiddenrules?: string;
+    // Скрытие шапки таблицы
+    hiddentableheader?: boolean;
     // Признак скрытия всех кнопок (true/false)
     hideactions?: boolean;
     // Иконка (например, fa-plus)
@@ -241,6 +246,8 @@ export interface IBuilderBaseConfig {
     resizable?: boolean;
     // Отображение корня
     rootvisible?: boolean;
+    // Сохраняем все строки в глобальную переменную
+    saverecordstoglobal?: string;
     // При выборе родителя выбирать все дочерние элементы и родителя
     selecttree?: boolean;
     // Наименование глобальной переменной. Должно начинаться с g
@@ -249,6 +256,8 @@ export interface IBuilderBaseConfig {
     setrecordtoglobal?: string;
     // Пропуск проверки формы на ошибки
     skipvalidation?: boolean;
+    // Возможность сортировки
+    sortable?: boolean;
     // Признак отображения сплиттера (true/false)
     splitter?: boolean;
     // Наименование шага
@@ -271,6 +280,8 @@ export interface IBuilderBaseConfig {
     tipmsg?: string;
     // Заголовок
     title?: string;
+    // Расчетный заголовок
+    titlerules?: string;
     // Отступ от верха в пикселях
     top?: number;
     // Формат возвращаемого значения с сервиса. Значения: "URL", "HTML". Допускаются условия с учетом глобальных переменных.
@@ -287,14 +298,16 @@ export interface IBuilderBaseConfig {
     valuetype?: "auto" | "integer" | "numeric" | "boolean" | "text" | "json" | string;
     // Признак отображения колонки
     visible?: boolean;
+    // Признак возможности влиять на отображение
+    visibleable?: boolean;
+    // Рассчитываемый признак отображения
+    visiblerule?: string;
     // Ширина поля. Целое число от 1% до 100%. Обязательно добавлять %.
     width?: string;
     // Обновления связанных сторов (таблиц, панелей) при закрытии модального окна
     winreloadstores?: boolean;
     // Тип окна (влияет на ширину окна): narrow: 500px, default: 800px, wide: 1000px, xwide: 1200px, xlwide: 1600px, fullscreen
     wintype?: "narrow" | "default" | "wide" | "xwide" | "xlwide" | "fullscreen";
-    // возможность скрывать шапку
-    hideheader?: boolean;
 }
 
 // BUILDER_CONFIG_END
@@ -349,6 +362,4 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     values?: IRecord;
     // Internal Возможность выделения нескольких значений в GRID и TREEGRID SINGLE - только 1 значение SIMPLE - позволяет выбирать значения одно-за-другим. Каждое нажатие добавляет/удаляет значение. MULTI - позволяет комплексно выбирать значения, с учетом ctrl и shift
     selmode?: "MULTI";
-    // возможность скрывать шапку
-    hideheader?: boolean;
 }

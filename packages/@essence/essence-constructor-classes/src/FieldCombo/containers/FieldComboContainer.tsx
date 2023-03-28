@@ -138,13 +138,14 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                         !suggestion &&
                         bc.pagesize &&
                         !isNewValue &&
-                        !recordsState.isUserReload
+                        !recordsState.isUserReload &&
+                        store.recordsStore.searchValues?.[store.valuefield] != value
                     ) {
                         store.recordsStore.searchAction({[store.valuefield]: value}, {isUserReload: false});
                     }
                 },
             ),
-        [bc.defaultvalue, field, store],
+        [bc, field, store],
     );
 
     React.useEffect(() => {

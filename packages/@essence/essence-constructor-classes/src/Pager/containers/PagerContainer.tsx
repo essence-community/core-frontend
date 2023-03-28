@@ -10,7 +10,6 @@ import {Grid, useTheme} from "@material-ui/core";
 import {settingsStore, PageModel, snackbarStore} from "@essence-community/constructor-share/models";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
-    VAR_RECORD_ROUTE_VISIBLE_MENU,
     VAR_SETTING_PROJECT_LOADER,
     VAR_RECORD_PARENT_ID,
     loggerRoot,
@@ -64,7 +63,6 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
 
     const classes = useStyles(props);
     const theme = useTheme<IEssenceTheme>();
-    const {route} = pageStore;
     const form: IForm = React.useMemo(
         () =>
             new Form({
@@ -76,17 +74,6 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
             }),
         [],
     );
-
-    // TODO: need to ferify it
-    React.useEffect(() => {
-        if (route && !route[VAR_RECORD_ROUTE_VISIBLE_MENU] && defaultvalue !== pageStore.pageId) {
-            setTimeout(() => {
-                if (applicationStore) {
-                    applicationStore.pagesStore.removePageAction(pageStore.pageId);
-                }
-            });
-        }
-    }, [applicationStore, pageStore.pageId, route, defaultvalue]);
 
     React.useEffect(() => {
         return () => {

@@ -8,5 +8,5 @@ export const useStyles = makeStyles(
             width: theme.essence.sizing.gridRowHeight,
         },
     }),
-    {name: "EssenceGridHFDateContainer"},
+    {name: "EssenceGridHFNumberContainer"},
 );

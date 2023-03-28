@@ -5,6 +5,7 @@ import {
     toColumnStyleWidth,
     IBuilderConfig,
     GRID_CONFIGS,
+    GRID_ALIGN_CONFIGS,
 } from "@essence-community/constructor-share";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
 import {AppBar as MaterialAppBar, Grid, AppBarProps as MUIAppBarProps} from "@material-ui/core";
@@ -67,6 +68,8 @@ export const AppBar: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
                 alignItems="center"
                 spacing={0}
                 {...GRID_CONFIGS[bc.contentview]}
+                {...((bc.contentview && bc.align && GRID_ALIGN_CONFIGS[`${bc.align}-${bc.contentview}`]) ||
+                    GRID_ALIGN_CONFIGS["center-hbox"])}
             >
                 {mapComponents(bc.childs, (Child, childBc) => (
                     <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} style={calcStyle(childBc)}>

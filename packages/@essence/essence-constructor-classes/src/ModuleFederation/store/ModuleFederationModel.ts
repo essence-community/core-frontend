@@ -2,21 +2,19 @@
 import {StoreBaseModel, RecordsModel, snackbarStore} from "@essence-community/constructor-share/models";
 import {
     IRecordsModel,
-    IStoreBaseModelProps,
     IBuilderMode,
     IBuilderConfig,
     IHandlerOptions,
-    IRecord,
     FieldValue,
 } from "@essence-community/constructor-share/types";
 import {createWindowProps} from "@essence-community/constructor-share/utils/window";
-import {computed, action} from "mobx";
+import {computed, action, observable} from "mobx";
 import {deepFind, makeRedirect, parseMemoize} from "@essence-community/constructor-share/utils";
-import {IForm, IParentFieldContext} from "@essence-community/constructor-share/Form";
 import {IWindowContext} from "@essence-community/constructor-share/context";
 import {loggerRoot} from "@essence-community/constructor-share/constants";
+import {IGetValue} from "@essence-community/constructor-share/utils/parser";
 import {IBuilderClassConfig, IEventConfig} from "../types";
-import {IEventHandles} from "./ModuleFederationModel.types";
+import {IEventHandles, IModuleFederationModelProps} from "./ModuleFederationModel.types";
 
 const logger = loggerRoot.extend("ModuleFederationModel");
 
@@ -29,29 +27,24 @@ export class ModuleFederationModel extends StoreBaseModel {
 
     private eventHandle: IEventHandles = {};
 
-    private formContext?: IForm;
-    private recordContext?: IRecord;
-    private parentFieldContext?: IParentFieldContext;
+    public getValue: IGetValue["get"];
     private windowContext?: IWindowContext;
 
-    setFormContext = (formContext?: IForm) => {
-        this.formContext = formContext;
+    @observable
+    public isFullScreen = false;
+
+    setGetValue = (getValue: IGetValue["get"]): void => {
+        this.getValue = getValue;
     };
 
-    setRecordContext = (recordContext?: IRecord) => {
-        this.recordContext = recordContext;
-    };
-
-    setParentFieldContext = (parentFieldContext?: IParentFieldContext) => {
-        this.parentFieldContext = parentFieldContext;
-    };
-
-    setWindowContext = (windowContext?: IWindowContext) => {
+    setWindowContext = (windowContext?: IWindowContext): void => {
         this.windowContext = windowContext;
     };
 
-    constructor(props: IStoreBaseModelProps) {
+    constructor(props: IModuleFederationModelProps) {
         super(props);
+
+        this.getValue = props.getValue;
 
         this.recordsStore = new RecordsModel(props.bc, {
             applicationStore: props.applicationStore,
@@ -75,40 +68,6 @@ export class ModuleFederationModel extends StoreBaseModel {
             }
         });
     }
-
-    getValue = (name: string) => {
-        if (name.charAt(0) === "g") {
-            return this.pageStore.globalValues.get(name);
-        }
-
-        if (this.recordContext) {
-            const [isExistRecord, recValue] = deepFind(this.recordContext, name);
-
-            if (isExistRecord) {
-                return recValue;
-            }
-        }
-
-        if (this.formContext) {
-            const values = this.formContext.values;
-
-            if (this.parentFieldContext) {
-                const [isExistParent, val] = deepFind(values, `${this.parentFieldContext.key}.${name}`);
-
-                if (isExistParent) {
-                    return val;
-                }
-            }
-
-            const [isExist, val] = deepFind(values, name);
-
-            if (isExist) {
-                return val;
-            }
-        }
-
-        return undefined;
-    };
 
     calcData = (id: string, messageType: string, code: string, data: any) => {
         const getValue = (name: string) => {
@@ -161,6 +120,18 @@ export class ModuleFederationModel extends StoreBaseModel {
             actionBc: this.bc,
             query: config.query,
         });
+    };
+
+    @action
+    showFullScreen = (config: IEventConfig, id: string, messageType: string, data?: any): void => {
+        if (config.datarule) {
+            const dataPre = this.calcData(id, messageType, config.datarule, data);
+
+            this.isFullScreen = dataPre;
+
+            return;
+        }
+        this.isFullScreen = !this.isFullScreen;
     };
 
     @action
@@ -263,6 +234,7 @@ export class ModuleFederationModel extends StoreBaseModel {
         redirectAction: this.redirectAction,
         saveAction: this.saveAction,
         setGlobalAction: this.setGlobalAction,
+        showFullScreen: this.showFullScreen,
     };
 
     @action

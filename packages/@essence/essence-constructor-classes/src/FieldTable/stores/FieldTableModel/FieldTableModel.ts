@@ -65,7 +65,14 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     @computed
     get gridId(): string {
         return `grid_${
-            this.field.parentFieldKey ? this.field.key.slice(this.field.parentFieldKey.length).split(".")[0] : ""
+            this.field.parentFieldKey ? this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0] : ""
+        }_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
+    }
+
+    @computed
+    get currentId(): string {
+        return `field_${
+            this.field.parentFieldKey ? this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0] : ""
         }_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
     }
 
@@ -104,8 +111,11 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
                 [VAR_RECORD_MASTER_ID]: gridId,
                 [VAR_RECORD_NAME]: "select",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `btnok_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
-                [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
-                handler: this.bc.collectionvalues === "array" ? "onSelectArrayAction" : "onSelectAction",
+                [VAR_RECORD_PARENT_ID]: this.currentId,
+                handler:
+                    this.bc.collectionvalues === "array"
+                        ? this.handlers.onSelectArrayAction
+                        : this.handlers.onSelectAction,
                 iconfont: "fa-check",
                 iconfontname: "fa",
                 onlyicon: true,
@@ -118,7 +128,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
                 [VAR_RECORD_DISPLAYED]: "static:64aacc431c4c4640b5f2c45def57cae9",
                 [VAR_RECORD_NAME]: "close",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `btnban_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
-                [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+                [VAR_RECORD_PARENT_ID]: this.currentId,
                 handler: "onCloseAction",
                 iconfont: "fa-ban",
                 iconfontname: "fa",
@@ -134,7 +144,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             ...this.bc,
             [VAR_RECORD_DISPLAYED]: undefined,
             [VAR_RECORD_PAGE_OBJECT_ID]: gridId,
-            [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+            [VAR_RECORD_PARENT_ID]: this.currentId,
             columns: this.bc.columns?.map((column) => ({...column, [VAR_RECORD_PARENT_ID]: gridId})),
             datatype: undefined,
             disabled: undefined,

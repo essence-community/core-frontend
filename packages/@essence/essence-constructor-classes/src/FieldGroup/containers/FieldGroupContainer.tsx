@@ -2,11 +2,16 @@ import * as React from "react";
 import cn from "clsx";
 import {reaction} from "mobx";
 import {Grid} from "@material-ui/core";
-import {toColumnStyleWidth, isEmpty, useTranslation} from "@essence-community/constructor-share/utils";
+import {toColumnStyleWidthBc, isEmpty, useTranslation} from "@essence-community/constructor-share/utils";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {parseMemoize} from "@essence-community/constructor-share/utils/parser";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+    GRID_CONFIGS,
+    GRID_ALIGN_CONFIGS,
+} from "@essence-community/constructor-share/constants";
 import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
 import {FormContext} from "@essence-community/constructor-share/context";
@@ -17,6 +22,7 @@ import {useStyles} from "./FieldGroupContainer.styles";
 const renderSuccess = (bc: IBuilderConfig) => {
     return bc.reqcount || bc.reqcountrules ? <Icon iconfont="check" /> : null;
 };
+const MAX_PANEL_WIDTH = 12;
 
 export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden} = props;
@@ -26,8 +32,8 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
     const form = React.useContext(FormContext);
     const field = useField({bc, disabled, hidden, pageStore});
     const [trans] = useTranslation("meta");
-    const isRow = bc.contentview === "hbox";
     const inFilter = form.placement === "filter";
+    const isRow = bc.contentview === "hbox";
     const displayed = bc[VAR_RECORD_DISPLAYED];
 
     /**
@@ -115,8 +121,9 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
                     [classes.filterRoot]: inFilter,
                     [classes.panelRoot]: !inFilter,
                 })}
-                direction={isRow ? "row" : "column"}
-                wrap={isRow ? "nowrap" : "wrap"}
+                {...((bc.contentview && GRID_CONFIGS[bc.contentview]) || GRID_CONFIGS.hbox)}
+                {...((bc.contentview && bc.align && GRID_ALIGN_CONFIGS[`${bc.align}-${bc.contentview}`]) ||
+                    GRID_ALIGN_CONFIGS["left-hbox"])}
                 data-qtip={field.isValid ? "" : trans("static:a5a5d7213d1f4f77861ed40549ee9c57")}
             >
                 <Grid container className={classes.label} wrap="nowrap" justify="space-between">
@@ -143,10 +150,15 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
                 {mapComponents(bc.childs, (ChildCmp, child) => (
                     <Grid
                         item
-                        xs={12}
+                        xs={isRow ? true : MAX_PANEL_WIDTH}
                         key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                         className={classes.child}
-                        style={toColumnStyleWidth(child.width)}
+                        style={{
+                            height: child.height,
+                            maxHeight: child.maxheight ?? "100%",
+                            minHeight: child.minheight,
+                            ...toColumnStyleWidthBc(child),
+                        }}
                     >
                         <ChildCmp {...props} bc={child} />
                     </Grid>

@@ -36,7 +36,7 @@
   integrity sha512-kBJtf7PH6aWwZ6fka3zQ0p6SBYzx4fl1LoZXE2RrnYST9Xljm7WfKJrU4g/Xr3Beg72MLrp1AWNUmuYJTL7Cow==
 
 "@essence-community/constructor-package-builder@file:../essence-constructor-package-builder":
-  version "3.0.1"
+  version "3.0.2"
   dependencies:
     cross-spawn "^7.0.3"
     fs-extra "^9.0.1"

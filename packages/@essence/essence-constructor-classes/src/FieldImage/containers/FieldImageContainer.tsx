@@ -6,6 +6,7 @@ import {IClassProps} from "@essence-community/constructor-share/types";
 import {FormContext} from "@essence-community/constructor-share";
 import {useField} from "@essence-community/constructor-share/Form";
 import {useObserver} from "mobx-react";
+import {useGetValue} from "@essence-community/constructor-share/hooks/useCommon/useGetValue";
 import {useStyles} from "./FieldImageContainer.styles";
 
 export const FieldImageContainer: React.FC<IClassProps> = (props) => {
@@ -15,18 +16,7 @@ export const FieldImageContainer: React.FC<IClassProps> = (props) => {
     const [trans] = useTranslation("meta");
     const classes = useStyles();
 
-    const getValue = React.useCallback(
-        (name: string) => {
-            const {globalValues} = pageStore;
-
-            if (name.charAt(0) === "g") {
-                return globalValues.get(name);
-            }
-
-            return form.select(name)?.value;
-        },
-        [form, pageStore],
-    );
+    const getValue = useGetValue({pageStore});
 
     const getSrc = React.useCallback(
         (value: string) => {

@@ -35,7 +35,7 @@ import {
     VAR_SETTING_AUTH_URL,
     loggerRoot,
 } from "@essence-community/constructor-share/constants";
-import {i18next, redirectAuth, TFunction} from "@essence-community/constructor-share/utils";
+import {decodePathUrl, i18next, redirectAuth, TFunction} from "@essence-community/constructor-share/utils";
 import {parseMemoize} from "@essence-community/constructor-share/utils/parser";
 import {
     snackbarStore,
@@ -63,10 +63,11 @@ const RELOAD_FIRST = 500;
 const LOGOUT_CODE = 4001;
 
 export const CLOSE_CODE = 4002;
+const FIND_SYMBOL = new RegExp("[\\`\\~/\\.\\\\\\!\\-#%\\?&\\^\\(\\)\\[\\]\\;\\:\"\\'\\+\\*]+", "g");
 
 const prepareUserGlobals = (userInfo: Partial<IAuthSession>) => {
     return Object.entries(userInfo).reduce((acc: IRecord, [key, value]) => {
-        acc[`g_sess_${key}`] = value;
+        acc[`g_sess_${key.replace(FIND_SYMBOL, "_")}`] = value;
 
         return acc;
     }, {});
@@ -193,6 +194,8 @@ export class ApplicationModel implements IApplicationModel {
             isReadOnly: false,
             pageId: "-1",
         });
+        this.pageStore.globalValues.merge(settingsStore.globals);
+        this.pageStore.globalValues.merge(prepareUserGlobals(this.authStore.userInfo));
     }
 
     handleGetValue = (name: string) => {
@@ -209,7 +212,8 @@ export class ApplicationModel implements IApplicationModel {
         return this.globalValues.get(name);
     };
 
-    updateGlobalValuesAction = action("updateGlobalValues", (values: Record<string, string>): void => {
+    @action
+    updateGlobalValuesAction = (values: Record<string, string>): void => {
         Object.keys(values).forEach((key: string) => {
             const value = values[key];
             const oldValue = this.globalValues.get(key);
@@ -219,18 +223,20 @@ export class ApplicationModel implements IApplicationModel {
                 this.pageStore.globalValues.set(key, value);
             }
         });
-    });
+    };
 
-    setSesssionAction = action("setSesssionAction", (userInfo: IAuthSession) => {
+    @action
+    setSessionAction = (userInfo: IAuthSession) => {
         const newGlobals = prepareUserGlobals(userInfo);
 
         this.globalValues.merge(newGlobals);
         this.pageStore.globalValues.merge(newGlobals);
 
         return Promise.resolve();
-    });
+    };
 
-    logoutAction = action("logoutAction", async () => {
+    @action
+    logoutAction = async () => {
         if (this.isLogoutProcess) {
             return true;
         }
@@ -261,17 +267,18 @@ export class ApplicationModel implements IApplicationModel {
         this.isLogoutProcess = false;
 
         return true;
-    });
+    };
 
+    @action
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-    redirectToAction = action("redirectToAction", async (redirectPageId: string, params: Record<string, any>) => {
+    redirectToAction = async (redirectPageId: string, params: Record<string, any>) => {
         const pageConfig = this.routesStore?.recordsStore.records.find(
             (route: IRecord) => route[VAR_RECORD_ID] === redirectPageId || route[VAR_RECORD_URL] === redirectPageId,
         );
         const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
         if (pageId) {
-            const page = await this.pagesStore.setPageAction(pageId as string, true);
+            const page = await this.pagesStore.setPageAction(pageId as string, true, params);
 
             // Log
             if (page) {
@@ -280,8 +287,9 @@ export class ApplicationModel implements IApplicationModel {
                 await redirectToPage(page, params);
             }
         }
-    });
+    };
 
+    @action
     // eslint-disable-next-line max-statements
     redirectToFirstValidApplication = async (url?: string, countReload = 0): Promise<boolean | void> => {
         const children = this.recordsStore.records as any;
@@ -387,6 +395,7 @@ export class ApplicationModel implements IApplicationModel {
         }
     };
 
+    @action
     loadApplictionConfigs = (): Promise<void> =>
         this.recordsStore.loadRecordsAction({}).then(() => {
             const records = this.recordsStore.records;
@@ -394,7 +403,8 @@ export class ApplicationModel implements IApplicationModel {
             this.recordsStore.setRecordsAction([...records, ...pages]);
         });
 
-    loadApplicationAction = action("loadApplicationAction", async () => {
+    @action
+    loadApplicationAction = async () => {
         await Promise.all<Promise<any> | false>([
             this.recordsStore.recordsState.status === "init" && this.loadApplictionConfigs(),
             settingsStore.settings.module_available === "true" &&
@@ -435,20 +445,18 @@ export class ApplicationModel implements IApplicationModel {
         this.isApplicationReady = true;
 
         return true;
-    });
+    };
 
-    blockApplicationAction = action(
-        "blockApplicationAction",
-        (type: string, text: string | ((trans: TFunction) => string) = "") => {
-            if (this.isBlock && type === "unblock") {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                window.location.reload(true);
-            }
-            this.isBlock = type === "block";
-            this.blockText = text;
-        },
-    );
+    @action
+    blockApplicationAction = (type: string, text: string | ((trans: TFunction) => string) = "") => {
+        if (this.isBlock && type === "unblock") {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            window.location.reload(true);
+        }
+        this.isBlock = type === "block";
+        this.blockText = text;
+    };
 
     initWsClient = (session: string) => {
         let wsClient: WebSocket | null = null;
@@ -562,13 +570,15 @@ export class ApplicationModel implements IApplicationModel {
         });
     };
 
-    reloadUserInfoAction = action("reloadUserInfo", (authValues: IAuthSession) => {
+    @action
+    reloadUserInfoAction = (authValues: IAuthSession) => {
         this.authStore.userInfo = authValues;
         this.globalValues.merge(authValues);
         saveToStore("auth", authValues);
-    });
+    };
 
-    reloadPageObjectAction = action("reloadPageObject", (pageId: string, ckPageObject: string) => {
+    @action
+    reloadPageObjectAction = (pageId: string, ckPageObject: string) => {
         const findedPage = this.pagesStore.pages.find((page) => page.pageId === pageId);
 
         if (findedPage) {
@@ -578,13 +588,14 @@ export class ApplicationModel implements IApplicationModel {
                 store.reloadStoreAction();
             }
         }
-    });
+    };
 
     reloadStoreAction = () => Promise.resolve({});
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     clearStoreAction = () => {};
 
+    @action
     reloadApplication = async (appName: string, routerPageId?: string, filter?: string) => {
         await this.handleChangeUrl(appName);
         const routes = this.routesStore ? this.routesStore.recordsStore.records : [];
@@ -617,6 +628,7 @@ export class ApplicationModel implements IApplicationModel {
         return Promise.resolve(false);
     };
 
+    @action
     handleChangeUrl = async (url: string) => {
         this.isApplicationReady = false;
         if (this.bc[VAR_RECORD_PAGE_OBJECT_ID] !== "none") {
@@ -657,9 +669,9 @@ export class ApplicationModel implements IApplicationModel {
         if (filter) {
             try {
                 // Convert to string: encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({})))))
-                const data = decodeURIComponent(escape(window.atob(decodeURIComponent(filter))));
+                const data = decodePathUrl(filter);
 
-                await this.redirectToAction(pageId, JSON.parse(data));
+                await this.redirectToAction(pageId, data);
             } catch (err) {
                 logger(err);
                 await this.pagesStore.setPageAction(pageId, false);

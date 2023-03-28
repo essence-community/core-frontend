@@ -16,6 +16,8 @@ import {
     VAR_RECORD_NOLOAD,
     VAR_RECORD_PAGE_REDIRECT,
     VAR_RECORD_PAGE_MULTI,
+    VAR_RECORD_TREE_PATH,
+    VAR_RECORD_NAME,
 } from "../../constants";
 import {
     IBuilderConfig,
@@ -39,6 +41,7 @@ import {loadComponentsFromModules} from "../../components";
 import {TText} from "../../types/SnackbarModel";
 import {IField, IForm} from "../../Form";
 import {IScrollEl} from "../../types/PageModel";
+import {orderedObject} from "../../utils/base";
 import {getNextComponent} from "./PageModel.utils";
 
 const logger = loggerRoot.extend("PageModel");
@@ -76,6 +79,8 @@ export class PageModel implements IPageModel {
 
     private defaultIsReadOnly: boolean | undefined;
 
+    public initParamPage?: Record<string, any>;
+
     @observable public pageBc: IBuilderConfig[] = observable.array([], {deep: false});
 
     @observable public fieldValueMaster: PageModelFieldValues = observable.map();
@@ -93,6 +98,8 @@ export class PageModel implements IPageModel {
     @observable questionWindow?: TText[] = undefined;
 
     @observable public isLoading = false;
+
+    public uniqueId: string;
 
     @computed public get pagerBc(): IBuilderConfig {
         return {
@@ -152,6 +159,12 @@ export class PageModel implements IPageModel {
             return "";
         }
 
+        if (this.route[VAR_RECORD_TREE_PATH]) {
+            return (this.route[VAR_RECORD_TREE_PATH] as {[VAR_RECORD_ID]: string; [VAR_RECORD_NAME]: string}[])
+                .map((val) => `$t(${val[VAR_RECORD_NAME]})`)
+                .join(" - ");
+        }
+
         const {recordsStore} = routesStore;
         const {recordId} = recordsStore;
 
@@ -182,8 +195,22 @@ export class PageModel implements IPageModel {
         return Array.from(this.stores.values()).filter((store) => store.editing === true).length > 0;
     }
 
-    constructor({pageId, isActiveRedirect, isReadOnly, applicationStore, defaultVisible = false}: IPageModelProps) {
+    constructor({
+        pageId,
+        isActiveRedirect,
+        isReadOnly,
+        applicationStore,
+        defaultVisible = false,
+        initParamPage,
+    }: IPageModelProps) {
         this.pageId = pageId;
+        this.uniqueId = v4();
+        this.initParamPage = initParamPage;
+        if (this.initParamPage === null) {
+            this.initParamPage = undefined;
+        } else if (typeof this.initParamPage === "object") {
+            this.initParamPage = orderedObject(this.initParamPage);
+        }
         this.isActiveRedirect = isActiveRedirect;
         this.applicationStore = applicationStore;
 
@@ -203,6 +230,16 @@ export class PageModel implements IPageModel {
         this.defaultIsReadOnly = isReadOnly;
     }
 
+    setInitParams(params?: Record<string, any>): void {
+        this.initParamPage = params;
+        if (this.initParamPage === null) {
+            this.initParamPage = undefined;
+        } else if (typeof this.initParamPage === "object") {
+            this.initParamPage = orderedObject(this.initParamPage);
+        }
+    }
+
+    @action
     updateGlobalValues = (values: Record<string, FieldValue>) => {
         Object.entries(values).forEach(([key, value]) => {
             const oldValue = this.globalValues.get(key);
@@ -301,7 +338,7 @@ export class PageModel implements IPageModel {
     };
 
     @action
-    loadConfigAction = action("loadConfigAction", async (pageId: string) => {
+    loadConfigAction = async (pageId: string) => {
         this.pageId = pageId;
 
         if (this.route?.[VAR_RECORD_NOLOAD] === 1) {
@@ -345,7 +382,7 @@ export class PageModel implements IPageModel {
                     };
 
                     if (!parseMemoize((route as any).activerules).runer({get: getValue})) {
-                        this.applicationStore.pagesStore.removePageAction((route as any)[VAR_RECORD_ID]);
+                        this.applicationStore.pagesStore.removePageAction(this);
                     }
                 }
 
@@ -370,11 +407,12 @@ export class PageModel implements IPageModel {
         this.setLoadingAction(false);
 
         return this.recordsStore.selectedRecord;
-    });
+    };
 
-    setPageElAction = action("setPageElAction", (pageEl: HTMLDivElement | null) => {
+    @action
+    setPageElAction = (pageEl: HTMLDivElement | null) => {
         this.pageEl = pageEl;
-    });
+    };
 
     @action
     setPageScrollEl = (pageScrollEl: IScrollEl | null) => {
@@ -385,9 +423,10 @@ export class PageModel implements IPageModel {
         this.pageInnerEl = pageInnerEl;
     };
 
-    resetStepAction = action("resetStepAction", () => {
+    @action
+    resetStepAction = () => {
         this.currentStep = "";
-    });
+    };
 
     handleNextStep = (stepnamenext: string) => {
         const {lastChildBc: nextStepComponent} = getNextComponent(stepnamenext, this.pageBc, noop);
@@ -411,7 +450,8 @@ export class PageModel implements IPageModel {
         return false;
     };
 
-    nextStepAction = action("nextStepAction", (mode: IBuilderMode, bc: IBuilderConfig) => {
+    @action
+    nextStepAction = (mode: IBuilderMode, bc: IBuilderConfig) => {
         const canNextStep = mode === "1" && (!bc.stepname || bc.stepname === this.currentStep);
         const stepnamenext = this.getNextStepName(bc.stepnamenext);
 
@@ -431,7 +471,7 @@ export class PageModel implements IPageModel {
         } else {
             this.resetStepAction();
         }
-    });
+    };
 
     getNextStepName = (stepnamenext?: string): undefined | string => {
         if (isEmpty(stepnamenext) || stepnamenext === undefined) {
@@ -452,11 +492,12 @@ export class PageModel implements IPageModel {
         return stepNames.split(":")[isStepNameTurnFirst ? 0 : 1];
     };
 
-    setLoadingAction = action("setLoadingAction", (isLoading: boolean) => {
+    @action
+    setLoadingAction = (isLoading: boolean) => {
         this.loadingCount = Math.max(0, this.loadingCount + (isLoading ? 1 : -1));
 
         this.isLoading = this.loadingCount !== 0;
-    });
+    };
 
     scrollToRecordAction = (params: Record<string, FieldValue>) => {
         this.stores.forEach((store) => {
@@ -503,6 +544,7 @@ export class PageModel implements IPageModel {
         }
     };
 
+    @action
     addToMastersAction = (masterId: string, field: IField) => {
         if (!this.masters[masterId]) {
             this.masters[masterId] = [];
@@ -511,6 +553,7 @@ export class PageModel implements IPageModel {
         this.masters[masterId].push(field);
     };
 
+    @action
     removeFromMastersAction = (masterId?: string, field?: IField) => {
         if (masterId && field && this.masters[masterId]) {
             this.masters[masterId] = this.masters[masterId].filter((masterBc) => masterBc !== field);

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
 import {ObservableMap, observable} from "mobx";
+import {v4} from "uuid";
 import {
     IApplicationModel,
     IBuilderMode,
@@ -18,6 +19,8 @@ import {IForm} from "../../Form";
 import {TScrollEvent, IScrollEl} from "../../types/PageModel";
 
 export class PageModelAbstract implements IPageModel {
+    public initParamPage?: Record<string, any> | undefined;
+
     public questionWindow?: TText[] | undefined;
     public pageScrollEl: IScrollEl | null;
     public currentStep?: string | undefined;
@@ -79,6 +82,12 @@ export class PageModelAbstract implements IPageModel {
     public recordsStore: IRecordsModel;
 
     public titleRoutePath = "";
+
+    public uniqueId = v4();
+
+    public setInitParams(params: Record<string, any> | undefined): void {
+        this.initParamPage = params;
+    }
 
     public fireScrollEvent = () => {};
 

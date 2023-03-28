@@ -23,17 +23,15 @@ import {commonDecorator} from "@essence-community/constructor-share/decorators";
 import loader from "@monaco-editor/loader";
 // eslint-disable-next-line import/no-unresolved
 import * as monaco from "monaco-editor";
-import {PageLoader} from "@essence-community/constructor-share/uicomponents";
+import {PageLoader, TextFieldLabel} from "@essence-community/constructor-share/uicomponents";
 import {settingsStore} from "@essence-community/constructor-share/models";
 import {IMonacoDiffBuilderClassConfig} from "../MonacoEditor.types";
 import {useEditorParams} from "../hooks/useEditorParams";
-import {useStyles} from "./MonacoEditor.styles";
 
 loader.config({monaco});
 
 export const MonacoDiffEditorContainer: React.FC<IClassProps<IMonacoDiffBuilderClassConfig>> = (props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
-    const classes = useStyles(props);
     const fieldLeft = useField({bc: bc.childs[0], clearValue: "", disabled, hidden, pageStore});
     const fieldRight = useField({
         bc: bc.childs[1],
@@ -76,11 +74,11 @@ export const MonacoDiffEditorContainer: React.FC<IClassProps<IMonacoDiffBuilderC
             return toTranslateTextArray(trans, fieldRight.error);
         }
 
-        if (isEmpty(fieldRight.label) || isEmpty(fieldLeft.label)) {
-            return toTranslateTextArray(trans, bc[VAR_RECORD_DISPLAYED]);
+        if (isError && fieldLeft.error) {
+            return toTranslateTextArray(trans, fieldLeft.error);
         }
 
-        return toTranslateTextArray(trans, `${fieldRight.label} <> ${fieldLeft.label}`);
+        return undefined;
     };
 
     useFieldSetGlobal({bc, field: fieldRight, pageStore});
@@ -94,7 +92,7 @@ export const MonacoDiffEditorContainer: React.FC<IClassProps<IMonacoDiffBuilderC
     const editorProps = useEditorParams(props);
 
     return useObserver(() => {
-        const isError = Boolean(!disabled && !fieldRight.isValid);
+        const isError = Boolean(!disabled && !fieldRight.isValid && !fieldLeft.isValid);
         const isDisabled =
             (readOnly && fieldRight.form.placement === "filter" && typeof bc.readonly === "undefined"
                 ? false
@@ -111,7 +109,15 @@ export const MonacoDiffEditorContainer: React.FC<IClassProps<IMonacoDiffBuilderC
         }
 
         return (
-            <Grid container item spacing={0} alignItems="stretch" style={contentStyle} {...contentProps}>
+            <Grid container item spacing={0} direction="row" wrap="wrap" style={contentStyle} {...contentProps}>
+                <Grid item>
+                    <TextFieldLabel
+                        bc={bc}
+                        info={bc.info && trans(bc.info)}
+                        error={!fieldLeft.isValid && !fieldRight.isValid}
+                        isRequired={fieldRight.isRequired}
+                    />
+                </Grid>
                 <Grid item xs={12} alignItems="stretch" zeroMinWidth>
                     <DiffEditor
                         {...editorProps}
@@ -124,12 +130,15 @@ export const MonacoDiffEditorContainer: React.FC<IClassProps<IMonacoDiffBuilderC
                                 }
                             />
                         }
+                        options={{
+                            ...(editorProps.options || {}),
+                            readOnly: isDisabled,
+                        }}
                         original={fieldLeft.value as string}
                         modified={fieldRight.value as string}
                         onMount={onMount}
                     />
                 </Grid>
-                <div className={isDisabled || readOnly ? classes.disabled : ""}></div>
             </Grid>
         );
     });

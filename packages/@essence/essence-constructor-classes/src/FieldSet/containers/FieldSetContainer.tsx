@@ -1,11 +1,11 @@
 import * as React from "react";
 import {useField, IField, IForm} from "@essence-community/constructor-share/Form";
 import {Grid} from "@material-ui/core";
-import {mapComponents} from "@essence-community/constructor-share/components";
+import {mapComponents, mapComponentOne} from "@essence-community/constructor-share/components";
 import {ParentFieldContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
-import {toColumnStyleWidth, entriesMapSort} from "@essence-community/constructor-share/utils/transform";
-import {IClassProps, IRecord, FieldValue} from "@essence-community/constructor-share/types";
+import {toColumnStyleWidthBc, entriesMapSort} from "@essence-community/constructor-share/utils/transform";
+import {IClassProps, IRecord, FieldValue, IBuilderConfig} from "@essence-community/constructor-share/types";
 
 const MAX_PANEL_WIDTH = 12;
 const CLEAR_VALUE: FieldValue[] = [];
@@ -67,6 +67,7 @@ export const FieldSetContainer: React.FC<IClassProps> = (props) => {
         return [false, undefined];
     }, []);
     const field = useField({bc, clearValue: CLEAR_VALUE, disabled, hidden, isArray: true, output, pageStore});
+    const boxBc = React.useMemo(() => ({...bc, type: "BOX.NOCOMMONDECORATOR"} as IBuilderConfig), [bc]);
     const {contentview} = bc;
     const isRow = contentview === "hbox";
     const parentContext = React.useMemo(
@@ -80,18 +81,27 @@ export const FieldSetContainer: React.FC<IClassProps> = (props) => {
         [bc, inputChild, field, outputChild],
     );
 
-    return (
-        <Grid container spacing={1} direction={isRow ? "row" : "column"} wrap={isRow ? "nowrap" : "wrap"}>
+    return mapComponentOne(boxBc, (ChildBox, childBoxBc) => (
+        <ChildBox {...props} bc={childBoxBc}>
             {mapComponents(bc.childs, (ChildComp, child, index) => (
                 <ParentFieldContext.Provider
                     key={child[VAR_RECORD_PAGE_OBJECT_ID] ? child[VAR_RECORD_PAGE_OBJECT_ID] : `child_${index}`}
                     value={parentContext[index]}
                 >
-                    <Grid item xs={isRow ? true : MAX_PANEL_WIDTH} style={toColumnStyleWidth(child.width)}>
+                    <Grid
+                        item
+                        xs={isRow ? true : MAX_PANEL_WIDTH}
+                        style={{
+                            height: child.height,
+                            maxHeight: child.maxheight ?? "100%",
+                            minHeight: child.minheight,
+                            ...toColumnStyleWidthBc(child),
+                        }}
+                    >
                         <ChildComp {...props} bc={child} />
                     </Grid>
                 </ParentFieldContext.Provider>
             ))}
-        </Grid>
-    );
+        </ChildBox>
+    ));
 };

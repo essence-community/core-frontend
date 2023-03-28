@@ -14,6 +14,11 @@ export function setGridSelections({gridStore, isSelected, parentId, maxSize}: IS
         const recordId = record[gridStore.recordsStore.recordId] as string | number;
 
         if (record[gridStore.recordsStore.recordParentId] === parentId) {
+            if (isSelected) {
+                gridStore.recordsStore.selectedRecords.delete(recordId);
+            } else if (!maxSize || maxSize > gridStore.recordsStore.selectedRecords.size) {
+                gridStore.recordsStore.selectedRecords.set(recordId, record);
+            }
             if (
                 typeof record[VAR_RECORD_LEAF] === "boolean"
                     ? !record[VAR_RECORD_LEAF]
@@ -25,12 +30,6 @@ export function setGridSelections({gridStore, isSelected, parentId, maxSize}: IS
                     maxSize,
                     parentId: recordId,
                 });
-            }
-
-            if (isSelected) {
-                gridStore.recordsStore.selectedRecords.delete(recordId);
-            } else if (!maxSize || maxSize > gridStore.recordsStore.selectedRecords.size) {
-                gridStore.recordsStore.selectedRecords.set(recordId, record);
             }
         }
     });

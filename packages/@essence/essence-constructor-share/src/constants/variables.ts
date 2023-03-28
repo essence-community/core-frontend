@@ -18,6 +18,7 @@ export const VAR_RECORD_PAGE_MULTI = "cl_multi";
 export const VAR_RECORD_PAGE_REDIRECT = "cv_redirect_url";
 export const VAR_RECORD_ICON_NAME = "cv_icon_name";
 export const VAR_RECORD_ICON_FONT = "cv_icon_font";
+export const VAR_RECORD_TREE_PATH = "cct_tree_path";
 export const VAR_RECORD_LEAF = "leaf";
 export const VAR_RECORD_RES_ERROR = "cv_error";
 export const VAR_RECORD_RES_FORM_ERROR = "jt_form_message";

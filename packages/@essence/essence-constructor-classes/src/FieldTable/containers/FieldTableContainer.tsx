@@ -33,6 +33,12 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
         store.setField(field);
     }, [store, field]);
 
+    React.useEffect(() => {
+        const name = pageStore.addStore(store, store.currentId, true);
+
+        return () => pageStore.removeStore(name, store);
+    }, [store, pageStore]);
+
     useFieldGetGlobal({bc, field, pageStore, store});
     useFieldSetGlobal({bc, field, pageStore, store});
     useDefaultValueQuery({bc, field, pageStore});

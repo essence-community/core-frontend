@@ -19,6 +19,7 @@ import {settingsStore} from "../models/SettingsModel";
 import {VAR_RECORD_IS_NOT_BLANC, VAR_SETTING_AUTH_URL} from "../constants/variables";
 import {parseMemoize} from "./parser";
 import {getMasterObject} from "./getMasterObject";
+import {encodePathUrl} from "./base";
 
 interface IGetQueryParams {
     columnsName?: IBuilderConfig["columnsfilter"];
@@ -111,7 +112,7 @@ function redirectToApplication(pageStore: IPageModel, values: IRecord, redirectU
     const parts = redirectUrl.split("/").filter(Boolean);
 
     if (Object.keys(values).length > 0) {
-        parts.push(encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(values))))));
+        parts.push(encodePathUrl(values));
     }
 
     pageStore.applicationStore.history.push(`/${parts.join("/")}`);

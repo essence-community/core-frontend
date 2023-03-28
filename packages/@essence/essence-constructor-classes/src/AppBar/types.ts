@@ -1,6 +1,6 @@
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 
-export interface IBuilderClassConfig {
+export interface IBuilderClassConfig extends IBuilderConfig {
     // Ширина поля. Целое число от 1% до 100%. Обязательно добавлять %.
     width?: string;
     maxheight?: string;

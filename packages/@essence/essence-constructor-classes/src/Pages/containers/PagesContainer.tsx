@@ -16,7 +16,12 @@ export const PagesContainer: React.FC<IClassProps> = (props) => {
 
         const content = applicationStore.pagesStore.pages.map((page: IPageModel) =>
             mapComponentOne(page.pagerBc, (ChildCmp) => (
-                <ChildCmp key={page.pageId} pageStore={page} visible bc={{childs: bc.childs, ...page.pagerBc}} />
+                <ChildCmp
+                    key={page.isMulti ? page.uniqueId : page.pageId}
+                    pageStore={page}
+                    visible
+                    bc={{childs: bc.childs, ...page.pagerBc}}
+                />
             )),
         );
 

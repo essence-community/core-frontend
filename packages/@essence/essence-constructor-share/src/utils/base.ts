@@ -32,3 +32,31 @@ export function isDeepEqual(objOld?: any, objNew?: any): boolean {
 
     return true;
 }
+
+export function decodePathUrl<T = any>(filter: string, elseErrorValue?: T): T | undefined {
+    if (!filter) {
+        return undefined;
+    }
+    try {
+        return JSON.parse(decodeURIComponent(escape(window.atob(decodeURIComponent(filter)))));
+    } catch (err) {
+        if (typeof elseErrorValue !== "undefined") {
+            return elseErrorValue;
+        } else {
+            throw err;
+        }
+    }
+}
+export function encodePathUrl<T = any>(filter: T): string {
+    return encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(filter)))));
+}
+
+export function orderedObject(unordered: Record<string, any>): Record<string, any> {
+    return Object.keys(unordered)
+        .sort()
+        .reduce((obj, key) => {
+            obj[key] = unordered[key];
+
+            return obj;
+        }, {} as Record<string, any>);
+}

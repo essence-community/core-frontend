@@ -141,6 +141,7 @@ export function getFieldMoConfig(bc: IBuilderConfig): IBuilderConfig[] {
                 "datatype",
             ],
             include: [
+                VAR_RECORD_QUERY_ID,
                 "defaultvalue",
                 "defaultvaluequery",
                 "pagesize",

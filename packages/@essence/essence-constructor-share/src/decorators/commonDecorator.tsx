@@ -3,12 +3,9 @@ import {autorun, IReactionDisposer} from "mobx";
 import * as React from "react";
 import {VAR_RECORD_MASTER_ID} from "../constants";
 import {IClassProps} from "../types/Class";
-import {parseMemoize} from "../utils/parser";
-import {IRecord} from "../types";
-import {RecordContext, FormContext, ParentFieldContext} from "../context";
+import {parseMemoize, IGetValue} from "../utils/parser";
 import {isDisabled} from "../hooks/useCommon/isDisabled";
-import {deepFind} from "../utils";
-import {IForm, IParentFieldContext} from "../Form";
+import {useGetValue} from "../hooks/useCommon/useGetValue";
 
 export interface ICommonHOCState {
     disabled: boolean;
@@ -17,9 +14,7 @@ export interface ICommonHOCState {
 }
 
 export interface ICommonHOCProps extends IClassProps {
-    recordContext?: IRecord;
-    formContext?: IForm;
-    parentFieldContext?: IParentFieldContext;
+    getValue: IGetValue["get"];
     originProps: IClassProps;
 }
 
@@ -68,11 +63,7 @@ export function commonDecorator<Props extends IClassProps>(
             if (prevProps.bc.readonly !== this.props.bc.readonly) {
                 this.handleReadOnly();
             }
-            if (
-                prevProps.recordContext !== this.props.recordContext ||
-                prevProps.formContext !== this.props.formContext ||
-                prevProps.parentFieldContext !== this.props.parentFieldContext
-            ) {
+            if (prevProps.getValue !== this.props.getValue) {
                 const {reqsel, disabledrules, hiddenrules, readonlyrules, disabledemptymaster} = this.props.bc;
 
                 if ((reqsel && this.props.bc[VAR_RECORD_MASTER_ID]) || disabledrules || disabledemptymaster) {
@@ -115,46 +106,10 @@ export function commonDecorator<Props extends IClassProps>(
             );
         }
 
-        private getValue = (name: string) => {
-            const {recordContext, formContext, parentFieldContext, pageStore} = this.props;
-
-            if (name.charAt(0) === "g") {
-                return pageStore.globalValues.get(name);
-            }
-
-            if (recordContext) {
-                const [isExistRecord, recValue] = deepFind(recordContext, name);
-
-                if (isExistRecord) {
-                    return recValue;
-                }
-            }
-
-            if (formContext) {
-                const values = formContext.values;
-
-                if (parentFieldContext) {
-                    const [isExistParent, val] = deepFind(values, `${parentFieldContext.key}.${name}`);
-
-                    if (isExistParent) {
-                        return val;
-                    }
-                }
-
-                const [isExist, val] = deepFind(values, name);
-
-                if (isExist) {
-                    return val;
-                }
-            }
-
-            return undefined;
-        };
-
         private handleDisabled = () => {
             const disabled = isDisabled({
                 bc: this.props.bc,
-                getValue: this.getValue,
+                getValue: this.props.getValue,
                 pageStore: this.props.pageStore,
             });
 
@@ -202,7 +157,7 @@ export function commonDecorator<Props extends IClassProps>(
             const {hiddenrules} = this.props.bc;
 
             if (hiddenrules) {
-                return parseMemoize(hiddenrules).runer({get: this.getValue});
+                return parseMemoize(hiddenrules).runer({get: this.props.getValue});
             }
 
             return hidden;
@@ -213,7 +168,7 @@ export function commonDecorator<Props extends IClassProps>(
             const {readonlyrules} = this.props.bc;
 
             if (!readOnly && readonlyrules) {
-                return parseMemoize(readonlyrules).runer({get: this.getValue});
+                return parseMemoize(readonlyrules).runer({get: this.props.getValue});
             }
 
             return (
@@ -250,18 +205,8 @@ export function commonDecorator<Props extends IClassProps>(
     }
 
     return (props) => {
-        const record = React.useContext(RecordContext);
-        const form = React.useContext(FormContext);
-        const parentField = React.useContext(ParentFieldContext);
+        const getValue = useGetValue({pageStore: props.pageStore});
 
-        return (
-            <CommonHOC
-                {...props}
-                originProps={props}
-                recordContext={record}
-                formContext={form}
-                parentFieldContext={parentField}
-            />
-        );
+        return <CommonHOC {...props} originProps={props} getValue={getValue} />;
     };
 }

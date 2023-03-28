@@ -2,6 +2,12 @@ import * as React from "react";
 import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {RecordContext} from "@essence-community/constructor-share/context";
+import {
+    VAR_RECORD_QUERY_ID,
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_MASTER_ID,
+} from "@essence-community/constructor-share/constants/variables";
 import {ColumnIconLink} from "../components/ColumnIconLink";
 
 export const ColumnIconContainer: React.FC<IClassProps> = (props) => {
@@ -9,11 +15,27 @@ export const ColumnIconContainer: React.FC<IClassProps> = (props) => {
     const record = React.useContext(RecordContext);
 
     const iconBc: IBuilderConfig = React.useMemo(() => {
+        const first = bc.childs?.[0] || (({} as any) as IBuilderConfig);
         const btnBc: IBuilderConfig = {
+            contentview: "menu",
             ...bc,
+            hidden: false,
+            hiddenrules: undefined,
+            ...first,
+            [VAR_RECORD_MASTER_ID]: bc[VAR_RECORD_MASTER_ID],
+            [VAR_RECORD_PAGE_OBJECT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+            [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PARENT_ID],
             iconsize: "xs",
             onlyicon: true,
-            type: "BTN",
+            type:
+                bc[VAR_RECORD_QUERY_ID] ||
+                first[VAR_RECORD_QUERY_ID] ||
+                bc.records ||
+                bc.recordsrule ||
+                first.records ||
+                first.recordsrule
+                    ? "BTN_DYNAMIC"
+                    : "BTN",
             uitype: "7",
         };
 

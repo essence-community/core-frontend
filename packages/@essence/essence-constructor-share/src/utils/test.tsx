@@ -215,7 +215,7 @@ class ApplicationModelMock implements IApplicationModel {
 
     routesStore = createEmptyRoutesStore();
 
-    setSesssionAction = () => Promise.resolve();
+    setSessionAction = () => Promise.resolve();
 
     updateGlobalValuesAction = () => undefined;
 

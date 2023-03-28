@@ -186,6 +186,19 @@ export function mapValueToArray<K, L>(map?: Map<K, L>): L[] {
     return arr;
 }
 
+export function mapKeyToArray<K, L>(map?: Map<K, L>): K[] {
+    if (!map) {
+        return [];
+    }
+    const arr: K[] = [];
+
+    for (const value of map.keys()) {
+        arr.push(value);
+    }
+
+    return arr;
+}
+
 export function transformToBoolean(value: any): boolean {
     if (typeof value === "string") {
         return value === "true" || value === "1" || value === "yes" || value === "on";

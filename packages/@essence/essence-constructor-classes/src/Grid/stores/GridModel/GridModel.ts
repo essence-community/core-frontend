@@ -55,7 +55,8 @@ import {
     getOverrideDragDropButton,
 } from "../../utils/getGridBtnsConfig";
 import {IHanderOptions} from "../../../Button/handlers/hander.types";
-import {updatePercentColumnsWidth, setWidthForZeroWidthCol} from "./actions";
+import {resetGridWidth} from "../../utils/resetGridWidth";
+import {updatePercentColumnsWidth} from "./actions";
 import {IGridSaveConfigType} from "./GridModel.types";
 
 const logger = loggerRoot.extend("GridModel");
@@ -73,6 +74,15 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
     initialHeight: number | undefined;
 
+    @observable
+    visibleAndHidden: ObservableMap<
+        ICkId,
+        {
+            visible: boolean;
+            hidden: boolean;
+        }
+    > = observable.map();
+
     constructor(props: IStoreBaseModelProps) {
         super(props);
 
@@ -87,34 +97,27 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         this.initialHeight = getGridHeight(this.bc);
 
         this.valueFields = [[this.recordsStore.recordId, this.recordsStore.recordId]];
-        this.gridColumnsInitial = getGridColumns(this.bc);
-        this.gridColumns = this.gridColumnsInitial;
-
+        this.gridColumnsInitial = observable.array(getGridColumns(this.bc));
         const visibility = getFromStore<Record<string, boolean>>(`${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_visibility`);
 
         if (visibility) {
-            this.gridColumns = this.gridColumnsInitial.filter(
-                (column) => visibility[column[VAR_RECORD_PAGE_OBJECT_ID]],
-            );
+            Object.entries(visibility).forEach(([ckId, visible]) => {
+                const obj = this.gridColumnsInitial.find((col) => col[VAR_RECORD_PAGE_OBJECT_ID] === ckId);
+
+                if (obj) {
+                    obj.visible = visible;
+                }
+            });
         }
 
-        const columnsWithZeroWidth: string[] = [];
-
-        this.gridColumns.forEach(({[VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject, width}) => {
-            const colWidth = width;
-
-            if (colWidth) {
-                this.columnsWidth.set(ckPageObject, colWidth);
-            } else if (columnsWithZeroWidth.indexOf(ckPageObject) === -1) {
-                columnsWithZeroWidth.push(ckPageObject);
-            }
+        this.gridColumnsInitial.forEach((val) => {
+            this.visibleAndHidden.set(val[VAR_RECORD_PAGE_OBJECT_ID], {
+                hidden: val.hidden,
+                visible: val.visible,
+            });
         });
 
-        if (columnsWithZeroWidth.length > 0) {
-            setWidthForZeroWidthCol(this, columnsWithZeroWidth);
-        } else {
-            updatePercentColumnsWidth(this, "");
-        }
+        resetGridWidth(this);
 
         if (this.bc.valuefield && this.bc.valuefield.length) {
             this.valueFields = this.bc.valuefield.map(({in: keyIn, out}) => {
@@ -140,9 +143,17 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
     @observable public scrollTop = 0;
 
-    @observable public gridColumns: IBuilderConfig[] = observable.array([], {deep: false});
+    @computed
+    public get gridColumns(): IBuilderConfig[] {
+        return this.gridColumnsInitial.filter((col) => {
+            const obj = this.visibleAndHidden.get(col[VAR_RECORD_PAGE_OBJECT_ID]);
 
-    @computed public get selectedRecord() {
+            return obj.visible && !obj.hidden;
+        });
+    }
+
+    @computed
+    public get selectedRecord(): IRecord {
         return this.recordsStore.selectedRecord;
     }
 
@@ -185,7 +196,16 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     };
 
     @action
-    defaultHandlerBtnAction = (mode: IBuilderMode, btnBc: IBuilderConfig) => {
+    defaultHandlerBtnAction = (mode: IBuilderMode, btnBc: IBuilderConfig, {record}: IHandlerOptions) => {
+        if (record) {
+            if (
+                this.recordsStore.records.find(
+                    (rec) => rec[this.recordsStore.recordId] === record[this.recordsStore.recordId],
+                )
+            ) {
+                this.recordsStore.setSelectionAction(record[this.recordsStore.recordId]);
+            }
+        }
         if (!this.isInlineEditing) {
             this.pageStore.createWindowAction(
                 createWindowProps({
@@ -219,32 +239,40 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         return Promise.resolve(true);
     };
 
-    updateBtnAction = action(
-        "updateBtnAction",
-        async (mode: IBuilderMode, bc: IBuilderConfig, {files, form}: IHandlerOptions) => {
-            const result = await this.recordsStore[mode === "7" ? "downloadAction" : "saveAction"](
-                this.recordsStore.selectedRecord || {},
-                (bc.modeaction as IBuilderMode) || mode,
-                {
-                    actionBc: bc,
-                    files,
-                    form,
-                    query: bc.updatequery || "Modify",
-                },
-            );
+    @action
+    updateBtnAction = async (mode: IBuilderMode, bc: IBuilderConfig, {files, form, record}: IHandlerOptions) => {
+        if (record) {
+            if (
+                this.recordsStore.records.find(
+                    (rec) => rec[this.recordsStore.recordId] === record[this.recordsStore.recordId],
+                )
+            ) {
+                this.recordsStore.setSelectionAction(record[this.recordsStore.recordId]);
+            }
+        }
+        const result = await this.recordsStore[mode === "7" ? "downloadAction" : "saveAction"](
+            this.recordsStore.selectedRecord || record || {},
+            (bc.modeaction as IBuilderMode) || mode,
+            {
+                actionBc: bc,
+                files,
+                form,
+                query: bc.updatequery || "Modify",
+            },
+        );
 
-            await this.scrollToRecordAction({});
+        await this.scrollToRecordAction({});
 
-            return Boolean(result);
-        },
-    );
+        return Boolean(result);
+    };
 
     /**
      * Форма сохранения:
      * 1. values - все значения
      * 2. config - конфиг сохранения, берется из кнопки и передаваемых параметров
      */
-    saveAction = action("saveAction", async (values: IRecord, mode: IBuilderMode, config: IGridSaveConfigType) => {
+    @action
+    saveAction = async (values: IRecord, mode: IBuilderMode, config: IGridSaveConfigType) => {
         const {actionBc, files, form} = config;
         const isDownload = mode === "7" || actionBc.mode === "7";
         const gridValues = getGridValues({gridStore: this, mode, values});
@@ -259,7 +287,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         await this.scrollToRecordAction({});
 
         return result;
-    });
+    };
 
     @action
     reloadStoreAction = (checkParent: boolean) => {
@@ -293,12 +321,11 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     };
 
     @action
-    toggleSelectedRecordAction = (record: IRecord, bcBtn?: IBuilderConfig, isSelectedDefault?: boolean) => {
+    toggleSelectedRecordAction = (record: IRecord, bcBtn?: IBuilderConfig) => {
         const ckId = record[this.recordsStore.recordId] as string | number;
         const parentId = record[this.recordsStore.recordParentId] as string | number;
         const maxSize = bcBtn?.maxselected && parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues);
-        const isSelected =
-            isSelectedDefault === undefined ? Boolean(this.recordsStore.selectedRecords.get(ckId)) : isSelectedDefault;
+        const isSelected = this.recordsStore.selectedRecords.has(ckId);
 
         if (isSelected) {
             this.recordsStore.setSelectionsAction([record], this.recordsStore.recordId, "delete");
@@ -311,13 +338,15 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             setGridSelectionsTop({
                 ckChild: parentId,
                 gridStore: this,
-                isSelected: !this.recordsStore.records
-                    .filter((rec) => rec[this.recordsStore.recordParentId] === parentId)
-                    .some((rec) => {
-                        const recordId = rec[this.recordsStore.recordId];
+                isSelected:
+                    isSelected &&
+                    !this.recordsStore.records
+                        .filter((rec) => rec[this.recordsStore.recordParentId] === parentId)
+                        .some((rec) => {
+                            const recordId = rec[this.recordsStore.recordId];
 
-                        return this.recordsStore.selectedRecords.has(recordId as string | number);
-                    }),
+                            return this.recordsStore.selectedRecords.has(recordId as string | number);
+                        }),
                 maxSize,
             });
         }
@@ -356,7 +385,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     @action
     handleNextStepAction = () => {
         if (!this.hidden && !this.disabled) {
-            this.defaultHandlerBtnAction("1", this.bc);
+            this.defaultHandlerBtnAction("1", this.bc, {});
         }
     };
 
@@ -402,9 +431,12 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     @action
     setAllSelectedRecords = (all: boolean, bcBtn: IBuilderConfig, records: IRecord[]) => {
         const maxSize = bcBtn.maxselected && parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues);
-        const selRecords = [];
+        let selRecords = [];
 
         if (all) {
+            if (this.bc.pagesize) {
+                selRecords = [...mapValueToArray(this.recordsStore.selectedRecords)];
+            }
             records.forEach((record) => {
                 if (!maxSize || maxSize > this.recordsStore.selectedRecords.size) {
                     selRecords.push(record);
@@ -458,23 +490,35 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         return Promise.resolve(true);
     };
 
-    setHeightAction = action("setHeightAction", (height: number) => {
+    @action
+    setHeightAction = (height: number) => {
         this.height = height;
-    });
+    };
 
-    setMinHeightAction = action("setMinHeightAction", (minHeight: number) => {
+    @action
+    setMinHeightAction = (minHeight: number) => {
         this.minHeight = minHeight;
-    });
+    };
 
-    setGridColumns = action("setGridColumns", (gridColumns: IBuilderConfig[]) => {
-        const visibility = getFromStore<Record<string, boolean>>(`${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_visibility`);
+    @action
+    setHiddenColumn = (ckId: string, val: boolean) => {
+        const old = {
+            ...this.visibleAndHidden.get(ckId),
+            hidden: val,
+        };
 
-        if (visibility) {
-            this.gridColumns = gridColumns.filter((column) => visibility[column[VAR_RECORD_PAGE_OBJECT_ID]]);
-        } else {
-            this.gridColumns = gridColumns;
-        }
-    });
+        this.visibleAndHidden.set(ckId, old);
+    };
+
+    @action
+    setVisibleColumn = (ckId: string, val: boolean) => {
+        const old = {
+            ...this.visibleAndHidden.get(ckId),
+            visible: val,
+        };
+
+        this.visibleAndHidden.set(ckId, old);
+    };
 
     setRecordToGlobal = () => {
         if (this.bc.setrecordtoglobal) {
@@ -561,8 +605,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         /**
          * Для вызова окна при создании
          */
-        onCreateChildWindowMaster: (mode: IBuilderMode, bc: IBuilderConfig) => {
-            return this.defaultHandlerBtnAction("1", getBtnBcWithCkWindow(this.bc, bc));
+        onCreateChildWindowMaster: (mode: IBuilderMode, bc: IBuilderConfig, options) => {
+            return this.defaultHandlerBtnAction("1", getBtnBcWithCkWindow(this.bc, bc), options);
         },
         onOpenSettings: () => {
             this.isOpenSettings = true;
@@ -585,8 +629,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         /**
          * Для вызова окна при редактировании
          */
-        onRowCreateChildWindowMaster: (mode: IBuilderMode, bc: IBuilderConfig) => {
-            return this.defaultHandlerBtnAction("2", getBtnBcWithCkWindow(this.bc, bc));
+        onRowCreateChildWindowMaster: (mode: IBuilderMode, bc: IBuilderConfig, options) => {
+            return this.defaultHandlerBtnAction("2", getBtnBcWithCkWindow(this.bc, bc), options);
         },
         onSaveWindow: async (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHanderOptions) => {
             if (!options.form) {
@@ -607,7 +651,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
             return Promise.resolve(true);
         },
-        onSimpleAddRow: (mode: IBuilderMode, bc: IBuilderConfig) => this.handlers.onCreateChildWindowMaster(mode, bc),
+        onSimpleAddRow: (mode: IBuilderMode, bc: IBuilderConfig, options) =>
+            this.handlers.onCreateChildWindowMaster(mode, bc, options),
         onToggleAllSelectedRecords: (mode: IBuilderMode, bc: IBuilderConfig) => {
             const records = getRecordsEnabled(bc, this.recordsStore, this.pageStore);
 
@@ -628,7 +673,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         },
         onToggleSelectedRecord: (mode: IBuilderMode, bc: IBuilderConfig, {record}: IHandlerOptions) => {
             if (record) {
-                this.toggleSelectedRecordAction(record, bc, record.checked as boolean | undefined);
+                this.toggleSelectedRecordAction(record, bc);
             }
 
             return Promise.resolve(true);

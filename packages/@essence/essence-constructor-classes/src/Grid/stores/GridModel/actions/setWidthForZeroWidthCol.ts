@@ -6,7 +6,7 @@ export function setWidthForZeroWidthCol(gridStore: IGridModel, zerowWidthColArr:
     const percentColumns: IPercentColumnsType[] = [];
 
     gridStore.columnsWidth.forEach((colWidth, colId) => {
-        if (typeof colWidth === "string" && colWidth.indexOf("px") === -1) {
+        if (typeof colWidth === "string" && colWidth.indexOf("%") > -1) {
             percentColumns.push({
                 id: colId,
                 width: parseInt(colWidth, 10),
@@ -21,6 +21,8 @@ export function setWidthForZeroWidthCol(gridStore: IGridModel, zerowWidthColArr:
             const width = (MAX_PERCENT_COLUMN_WIDTH - sumWidth) / zerowWidthColArr.length;
 
             zerowWidthColArr.forEach((id) => gridStore.columnsWidth.set(id, `${width}%`));
+        } else {
+            zerowWidthColArr.forEach((id) => gridStore.columnsWidth.set(id, "0%"));
         }
     }
 }

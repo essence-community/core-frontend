@@ -1,15 +1,6 @@
 /* eslint-disable max-lines-per-function */
-import {
-    deepFind,
-    FormContext,
-    ParentFieldContext,
-    parseMemoize,
-    RecordContext,
-    isEmpty,
-    noop,
-    snackbarStore,
-    VAR_RECORD_NAME,
-} from "@essence-community/constructor-share";
+import {parseMemoize, isEmpty, noop, snackbarStore, VAR_RECORD_NAME} from "@essence-community/constructor-share";
+import {useGetValue} from "@essence-community/constructor-share/hooks/useCommon/useGetValue";
 import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {useTheme} from "@material-ui/core";
 import {reaction} from "mobx";
@@ -40,46 +31,8 @@ export const useEditorParams = (props: IClassProps<IMonacoBuilderClassConfig>) =
     const [language, setLanguage] = React.useState<string>(undefined);
     const [line, setLine] = React.useState<number>(undefined);
     const [options, setOptions] = React.useState<Record<string, any>>(undefined);
-    const recordContext = React.useContext(RecordContext);
-    const formContext = React.useContext(FormContext);
-    const parentFieldContext = React.useContext(ParentFieldContext);
 
-    const getValue = React.useCallback(
-        (name: string) => {
-            if (name.charAt(0) === "g") {
-                return pageStore.globalValues.get(name);
-            }
-
-            if (recordContext) {
-                const [isExistRecord, recValue] = deepFind(recordContext, name);
-
-                if (isExistRecord) {
-                    return recValue;
-                }
-            }
-
-            if (formContext) {
-                const values = formContext.values;
-
-                if (parentFieldContext) {
-                    const [isExistParent, val] = deepFind(values, `${parentFieldContext.key}.${name}`);
-
-                    if (isExistParent) {
-                        return val;
-                    }
-                }
-
-                const [isExist, val] = deepFind(values, name);
-
-                if (isExist) {
-                    return val;
-                }
-            }
-
-            return undefined;
-        },
-        [formContext, pageStore.globalValues, parentFieldContext, recordContext],
-    );
+    const getValue = useGetValue({pageStore});
 
     React.useEffect(() => {
         if (bc.monacotheme) {

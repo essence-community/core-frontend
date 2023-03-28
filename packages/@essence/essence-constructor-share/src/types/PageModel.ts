@@ -18,6 +18,7 @@ export interface IPageModelProps {
     isReadOnly?: boolean;
     applicationStore: IApplicationModel;
     defaultVisible?: boolean;
+    initParamPage?: Record<string, any>;
 }
 
 export interface INextComponentReturn {
@@ -48,6 +49,7 @@ export interface IPageModel {
     forms: ObservableMap<string, IForm>;
     globalValues: ObservableMap<string, FieldValue>;
     pageId: string;
+    uniqueId: string;
     showQuestionWindow: boolean;
     questionWindow?: TText[];
     saveCallBack: PageModelSaveCallback | null;
@@ -69,6 +71,7 @@ export interface IPageModel {
     recordsStore: IRecordsModel;
     titleRoutePath: string;
     isMulti: boolean;
+    initParamPage?: Record<string, any>;
     updateGlobalValues(values: Record<string, FieldValue>): void;
     openQuestionWindow(questionWindow: TText[], saveCallBack: PageModelSaveCallback): void;
     handleQuestionAccept(): void;
@@ -102,6 +105,7 @@ export interface IPageModel {
     closeWindowAction(ckPageObject: string): void;
     addForm(name: string, form: IForm): void;
     removeForm(name: string): void;
+    setInitParams(params: IPageModel["initParamPage"]): void;
 }
 
 export type IPageModelConstructor = new (props: PageModelParamsType) => IPageModel;

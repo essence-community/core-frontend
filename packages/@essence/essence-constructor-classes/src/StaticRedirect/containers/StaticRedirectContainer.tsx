@@ -2,7 +2,7 @@ import * as React from "react";
 import {Grid, Button} from "@material-ui/core";
 import {IClassProps, IRecord} from "@essence-community/constructor-share/types";
 import {loggerRoot} from "@essence-community/constructor-share/constants";
-import {useTranslation, getPreference} from "@essence-community/constructor-share/utils";
+import {useTranslation, getPreference, decodePathUrl, encodePathUrl} from "@essence-community/constructor-share/utils";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {useParams, useHistory} from "react-router-dom";
 import {redirectAuth} from "@essence-community/constructor-share/utils/redirect";
@@ -49,8 +49,7 @@ export const StaticRedirectContainer: React.FC<IClassProps> = () => {
     const classes = useStyles();
     const handleGetParams = (): IStateParams | undefined => {
         try {
-            const data = decodeURIComponent(escape(window.atob(decodeURIComponent(b64))));
-            const params = JSON.parse(data);
+            const params = decodePathUrl(b64);
 
             if (!params.page) {
                 logger(trans("static:1764da1153734ec8b4fc4cf48cc78c88"));
@@ -70,8 +69,7 @@ export const StaticRedirectContainer: React.FC<IClassProps> = () => {
     const isAuthorized = Boolean(applicationStore?.authStore.userInfo.session);
     const handleClick = React.useCallback(() => {
         if (params && isAuthorized) {
-            const filter =
-                params.filter && encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(params.filter)))));
+            const filter = params.filter && encodePathUrl(params.filter);
 
             history.replace(`/${params.app || "pages"}/${params.page}${filter ? `/${filter}` : ""}`);
         } else if (params) {

@@ -135,6 +135,10 @@ function waitForStores(page: IPageModel) {
 export async function redirectToPage(pageStore: IPageModel, params: Record<string, FieldValue>) {
     const formFilters: IForm[] = [];
 
+    if (pageStore.isMulti) {
+        pageStore.setInitParams(params);
+    }
+
     pageStore.isActiveRedirect = true;
 
     for (const form of pageStore.forms.values()) {

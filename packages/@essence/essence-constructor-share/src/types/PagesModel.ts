@@ -12,7 +12,11 @@ export interface IPagesModel {
     globalRecordsStore: IGlobalRecordsModel;
     loadActivePage(pageId: string, autoset: boolean, isActiveRedirect: boolean): Promise<IPageModel>;
     reloadPageAction(pageId: string | IPageModel): void;
-    setPageAction(pageId: string | IPageModel, isActiveRedirect: boolean): Promise<false | IPageModel>;
+    setPageAction(
+        pageId: string | IPageModel,
+        isActiveRedirect: boolean,
+        initParams?: Record<string, any>,
+    ): Promise<false | IPageModel>;
     removePageAction(pageId: string | IPageModel): void;
     removePageOtherAction(ckPageLost: string | IPageModel): void;
     removeAllPagesAction(): void;

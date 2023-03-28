@@ -1,7 +1,7 @@
 {
   "name": "@essence-community/constructor-scripts",
-  "version": "3.0.1",
-  "apiversion": "3.0.1",
+  "version": "3.0.2",
+  "apiversion": "3.0.2",
   "description": "Scripts for constructor",
   "main": "index.js",
   "repository": "https://github.com/essence-community/core-frontend",

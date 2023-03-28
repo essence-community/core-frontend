@@ -10,6 +10,7 @@ type CallBackLoadedType = () => Promise<void>;
 const localStore: IStorage = new LocalStorage();
 let store: IStorage = localStore;
 let callbackLoaded: CallBackLoadedType[] = [];
+const FIND_SYMBOL = new RegExp("[/#=&?]+", "g");
 
 export const TypeStorage: Record<string, any> = {
     local: LocalStorage,
@@ -17,7 +18,7 @@ export const TypeStorage: Record<string, any> = {
 };
 
 function makeKey(key: string): string {
-    return `${settingsStore.settings[VAR_SETTING_GATE_URL]}_${key}`.replace("/", "_");
+    return `${settingsStore.settings[VAR_SETTING_GATE_URL]}_${key}`.replace(FIND_SYMBOL, "_");
 }
 
 export function saveToLocalStore<T>(key: string, value: T) {

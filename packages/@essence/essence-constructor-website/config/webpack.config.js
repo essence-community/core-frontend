@@ -260,6 +260,41 @@ module.exports = function (webpackEnv) {
         // This is only used in production mode
         new CssMinimizerPlugin(),
       ],
+      splitChunks: {
+        chunks: 'all',
+        maxInitialRequests: Infinity,
+        minSize: 0,
+        cacheGroups: {
+            monacoVendor: {
+                test: /[\\/]node_modules[\\/](monaco-editor)[\\/]/,
+                name: "monacoVendor"
+            },
+            reactVendor: {
+                test: /[\\/]node_modules[\\/](react|react-.*?)[\\/]/,
+                name: "reactVendor"
+            },
+            utilityVendor: {
+                test: /[\\/]node_modules[\\/](lodash|moment|moment-timezone)[\\/]/,
+                name: "utilityVendor"
+            },
+            materialUiVendor: {
+                test: /[\\/]node_modules[\\/](\@material-ui)[\\/]/,
+                name: "materialUiVendor"
+            },
+            vendor: {
+                test: /[\\/]node_modules[\\/](!react)(!monaco-editor)(!react-.*?)(!\@material-ui)(!lodash)(!moment)(!moment-timezone)[\\/]/,
+                name(module) {
+                    // get the name. E.g. node_modules/packageName/not/this/part.js
+                    // or node_modules/packageName
+                    const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+
+                    // npm package names are URL-safe, but some servers don't like @ symbols
+                    return `${packageName.replace('@', '_')}Vendor`;
+                },
+            },
+        },
+      },
+      runtimeChunk: true,
     },
     resolve: {
       // This allows you to set a fallback for where webpack should look for modules.

@@ -263,35 +263,40 @@ module.exports = function (webpackEnv) {
       splitChunks: {
         chunks: 'all',
         maxInitialRequests: Infinity,
-        minSize: 0,
+        minSize: 30000,
+        maxSize: Infinity,
+        minChunks: 1,
+        automaticNameDelimiter: "-",
         cacheGroups: {
             monacoVendor: {
                 test: /[\\/]node_modules[\\/](monaco-editor)[\\/]/,
-                name: "monacoVendor"
+                name: "vendor-monaco-editor",
             },
             reactVendor: {
-                test: /[\\/]node_modules[\\/](react|react-.*?)[\\/]/,
-                name: "reactVendor"
+                test: /[\\/]node_modules[\\/](react|react-.+?)[\\/]/,
+                name: "vendor-react",
             },
             utilityVendor: {
                 test: /[\\/]node_modules[\\/](lodash|moment|moment-timezone)[\\/]/,
-                name: "utilityVendor"
+                name: "vendor-utility",
             },
             materialUiVendor: {
                 test: /[\\/]node_modules[\\/](\@material-ui)[\\/]/,
-                name: "materialUiVendor"
+                name: "vendor-material-ui",
+            },
+            shareVendor: {
+                test: /[\\/]\@essence-community[\\/]constructor-share[\\/]/,
+                name: "share-essence",
             },
             vendor: {
-                test: /[\\/]node_modules[\\/](!react)(!monaco-editor)(!react-.*?)(!\@material-ui)(!lodash)(!moment)(!moment-timezone)[\\/]/,
-                name(module) {
-                    // get the name. E.g. node_modules/packageName/not/this/part.js
-                    // or node_modules/packageName
-                    const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-
-                    // npm package names are URL-safe, but some servers don't like @ symbols
-                    return `${packageName.replace('@', '_')}Vendor`;
+                test: /[\\/]node_modules[\\/](?!(\@essence-community|mdi-react|\@material-ui|lodash|moment|moment-timezone|react|react-.+?|monaco-editor)).*?([\\/]|$)/,
+                priority: -10,
+                name(module, chunks, cacheGroupKey) {
+                    const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)?.[1] || module.identifier().match(/.*[\\/]node_modules[\\/](.*?)([\\/]|$)/)?.[1];
+                    return `${cacheGroupKey}-${packageName.replace('@', '')}`;
                 },
             },
+            default: false
         },
       },
       runtimeChunk: true,

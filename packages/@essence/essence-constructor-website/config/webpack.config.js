@@ -269,34 +269,40 @@ module.exports = function (webpackEnv) {
         automaticNameDelimiter: "-",
         cacheGroups: {
             monacoVendor: {
-                test: /[\\/]node_modules[\\/](monaco-editor)[\\/]/,
+                test: /[\\/]node_modules[\\/]([\@]?monaco.*?)[\\/]/,
                 name: "vendor-monaco-editor",
+                enforce: true,
             },
             reactVendor: {
-                test: /[\\/]node_modules[\\/](react|react-.+?)[\\/]/,
+                test: /[\\/]node_modules[\\/](react.*?|rc-.+?)[\\/]/,
                 name: "vendor-react",
+                enforce: true,
             },
             utilityVendor: {
-                test: /[\\/]node_modules[\\/](lodash|moment|moment-timezone)[\\/]/,
+                test: /[\\/]node_modules[\\/](lodash.*|to-.+|micromark-.+|moment|moment-timezone)[\\/]/,
                 name: "vendor-utility",
+                enforce: true,
             },
             materialUiVendor: {
-                test: /[\\/]node_modules[\\/](\@material-ui)[\\/]/,
+                test: /[\\/]node_modules[\\/]([\@]?material-.+)[\\/]/,
                 name: "vendor-material-ui",
+                enforce: true,
             },
             shareVendor: {
                 test: /[\\/]\@essence-community[\\/]constructor-share[\\/]/,
                 name: "share-essence",
+                enforce: true,
             },
             vendor: {
-                test: /[\\/]node_modules[\\/](?!(\@essence-community|mdi-react|\@material-ui|lodash|moment|moment-timezone|react|react-.+?|monaco-editor)).*?([\\/]|$)/,
-                priority: -10,
-                name(module, chunks, cacheGroupKey) {
-                    const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)?.[1] || module.identifier().match(/.*[\\/]node_modules[\\/](.*?)([\\/]|$)/)?.[1];
-                    return `${cacheGroupKey}-${packageName.replace('@', '')}`;
-                },
+                test: /[\\/]node_modules[\\/](?!(\@essence-community|mdi-react|[\@]?material-.+|lodash.*?|to-.+|micromark-.+|moment|moment-timezone|react.*?|rc-.+?|[\@]?monaco.*?)).*?([\\/]|$)/,
+                priority: 1,
+                name: "vendor",
+                enforce: true,
             },
-            default: false
+            default: {
+                priority: -20,
+                reuseExistingChunk: true,
+            },
         },
       },
       runtimeChunk: true,

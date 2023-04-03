@@ -48,6 +48,7 @@ export interface IGridModel extends IStoreBaseModel {
         {
             visible: boolean;
             hidden: boolean;
+            visibleStore?: boolean;
         }
     >;
     columnsWidth: ObservableMap<ICkId, number | string>;
@@ -68,6 +69,7 @@ export interface IGridModel extends IStoreBaseModel {
     setScrollTopAction(scrollTop: number): void;
     applyFiltersAction(): Promise<boolean>;
     setVisibleColumn(ckId: string, val: boolean);
+    setVisibleStoreColumn(ckId: string, val: boolean);
     setHiddenColumn(ckId: string, val: boolean);
 
     // Other

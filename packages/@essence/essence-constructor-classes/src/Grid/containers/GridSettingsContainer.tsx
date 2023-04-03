@@ -58,11 +58,7 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
             }
 
             Object.entries(visibility).forEach(([ckID, visible]) => {
-                const t = parentStore.visibleAndHidden.get(ckID);
-
-                if (t.visible !== visible) {
-                    parentStore.setVisibleColumn(ckID, visible);
-                }
+                parentStore.setVisibleStoreColumn(ckID, visible);
             });
         }
 
@@ -78,7 +74,10 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
                         const newVisibility: Record<string, boolean> = {};
 
                         entriesMapSort(parentStore.visibleAndHidden).forEach(([ckId, obj]) => {
-                            if (obj.visible && !obj.hidden) {
+                            if (
+                                !obj.hidden &&
+                                (typeof obj.visibleStore === "boolean" ? obj.visibleStore : obj.visible)
+                            ) {
                                 newVisibility[ckId] = true;
                             }
                         });

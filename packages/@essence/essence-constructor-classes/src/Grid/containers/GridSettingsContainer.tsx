@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import * as React from "react";
 import {Dialog, DialogTitle, Grid, DialogContent, Switch, DialogActions, Button} from "@material-ui/core";
 import {
@@ -10,12 +11,14 @@ import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {reaction} from "mobx";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {Scrollbars} from "@essence-community/constructor-share/uicomponents";
-import {useTranslation, saveToStore, entriesMapSort} from "@essence-community/constructor-share/utils";
+import {useTranslation, saveToStore} from "@essence-community/constructor-share/utils";
 import {useObserver} from "mobx-react";
 import {IGridModel} from "../stores/GridModel/GridModel.types";
+import {useStyles} from "./GridSettingsContainer.styles";
 
 export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
+    const classes = useStyles(props);
     const parentStore = useObserver(() => pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]) as IGridModel | undefined);
     const [trans] = useTranslation("meta");
     const [visibility, setVisibility] = React.useState<Record<string, boolean>>({});
@@ -65,6 +68,24 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
         handleClose();
     };
 
+    const handleReset = () => {
+        if (parentStore) {
+            const newVisibility: Record<string, boolean> = {};
+
+            parentStore.gridColumnsInitial.forEach((column) => {
+                if (column.visibleable) {
+                    const obj = parentStore.visibleAndHidden.get(column[VAR_RECORD_PAGE_OBJECT_ID]);
+
+                    if (!obj.hidden) {
+                        newVisibility[column[VAR_RECORD_PAGE_OBJECT_ID]] = obj.visible;
+                    }
+                }
+            });
+
+            setVisibility(newVisibility);
+        }
+    };
+
     React.useEffect(() => {
         if (parentStore) {
             return reaction(
@@ -73,12 +94,14 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
                     if (isOpenSettings) {
                         const newVisibility: Record<string, boolean> = {};
 
-                        entriesMapSort(parentStore.visibleAndHidden).forEach(([ckId, obj]) => {
-                            if (
-                                !obj.hidden &&
-                                (typeof obj.visibleStore === "boolean" ? obj.visibleStore : obj.visible)
-                            ) {
-                                newVisibility[ckId] = true;
+                        parentStore.gridColumnsInitial.forEach((column) => {
+                            if (column.visibleable) {
+                                const obj = parentStore.visibleAndHidden.get(column[VAR_RECORD_PAGE_OBJECT_ID]);
+
+                                if (!obj.hidden) {
+                                    newVisibility[column[VAR_RECORD_PAGE_OBJECT_ID]] =
+                                        typeof obj.visibleStore === "boolean" ? obj.visibleStore : obj.visible;
+                                }
                             }
                         });
 
@@ -102,7 +125,24 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
                 <ChildCmp {...props} bc={childBc} />
             ))}
             <Dialog open={isOpen} maxWidth="sm" fullWidth container={pageStore.pageEl} style={{position: "absolute"}}>
-                <DialogTitle disableTypography>{trans("static:017af47503474ec58542b9db53bdeeff")}</DialogTitle>
+                <DialogTitle disableTypography>
+                    <Grid container direction="row" wrap="nowrap" spacing={0} style={{width: "100%"}}>
+                        <Grid item xs>
+                            {trans("static:017af47503474ec58542b9db53bdeeff")}
+                        </Grid>
+                        <Grid
+                            container
+                            item
+                            onClick={handleReset}
+                            className={classes.btnReset}
+                            justify="center"
+                            alignItems="center"
+                            data-qtip={trans("static:4a37974505a94f0cbfccfe99ff23ac1b")}
+                        >
+                            <Grid item>{trans("static:108e06f7f86d4f588fc773cce968365a")}</Grid>
+                        </Grid>
+                    </Grid>
+                </DialogTitle>
                 <DialogContent>
                     <Scrollbars autoHeight autoHeightMax={300} autoHeightMin={38}>
                         <Grid container direction="column" spacing={0} style={{width: "100%"}}>

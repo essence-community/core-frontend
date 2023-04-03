@@ -11,7 +11,7 @@ import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {reaction} from "mobx";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {Scrollbars} from "@essence-community/constructor-share/uicomponents";
-import {useTranslation, saveToStore} from "@essence-community/constructor-share/utils";
+import {useTranslation, saveToStore, removeFromStore} from "@essence-community/constructor-share/utils";
 import {useObserver} from "mobx-react";
 import {IGridModel} from "../stores/GridModel/GridModel.types";
 import {useStyles} from "./GridSettingsContainer.styles";
@@ -23,6 +23,7 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
     const [trans] = useTranslation("meta");
     const [visibility, setVisibility] = React.useState<Record<string, boolean>>({});
     const [isOpen, setIsOpen] = React.useState(false);
+    const [isReset, setReset] = React.useState(false);
 
     const btnBc = React.useMemo(
         () => ({
@@ -48,6 +49,8 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
     const handleChangeVisibility = (event: React.SyntheticEvent<HTMLInputElement>) => {
         const {name, checked} = event.currentTarget;
 
+        setReset(false);
+
         setVisibility((prevVisibility) => ({
             ...prevVisibility,
             [name]: checked,
@@ -56,8 +59,12 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
 
     const handleSave = () => {
         if (parentStore) {
-            if (!pageStore.isMulti) {
+            if (!pageStore.isMulti && !isReset) {
                 saveToStore(`${parentStore.bc[VAR_RECORD_PAGE_OBJECT_ID]}_visibility`, visibility);
+            }
+
+            if (!pageStore.isMulti && isReset) {
+                removeFromStore(`${parentStore.bc[VAR_RECORD_PAGE_OBJECT_ID]}_visibility`);
             }
 
             Object.entries(visibility).forEach(([ckID, visible]) => {
@@ -83,6 +90,7 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
             });
 
             setVisibility(newVisibility);
+            setReset(true);
         }
     };
 

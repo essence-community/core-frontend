@@ -13,6 +13,11 @@ export const useStyles = makeStyles(
         filterIcon: {
             visibility: "hidden",
         },
+        filterSelect: {
+            "& $filterIcon": {
+                visibility: "visible",
+            },
+        },
         tableCell:
             theme.essence.layoutTheme === 2
                 ? {

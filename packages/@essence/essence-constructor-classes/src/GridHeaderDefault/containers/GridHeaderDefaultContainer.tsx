@@ -71,22 +71,20 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
     };
 
     React.useEffect(() => {
-        if (!formContext) {
+        if (!formContext || !bc.column) {
             return;
         }
 
         return reaction(
             () =>
-                Object.values(formContext.values).findIndex((val: any) =>
-                    typeof val === "object" ? val.property === bc.column : false,
+                Object.values(formContext?.values || {}).findIndex((val: any) =>
+                    typeof val === "object" ? val?.property === bc.column : false,
                 ) > -1,
             setFilter,
             {
                 fireImmediately: true,
             },
         );
-
-        return;
     }, [formContext, bc]);
 
     return useObserver(() => {

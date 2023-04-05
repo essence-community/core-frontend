@@ -22,7 +22,7 @@ export const FieldComputedContainer: React.FC<IClassProps> = (props) => {
     const classes = useStyles();
     const [parser, setParser] = React.useState(makeParser);
     const [values, setValues] = React.useState<Record<string, FieldValue>>({});
-    const result = parser.runer(values);
+    const result = parser.runer({get: (name) => values[name]});
     const field = useField({bc, disabled, hidden, pageStore});
 
     const handleChangeSource = React.useCallback(
@@ -66,9 +66,13 @@ export const FieldComputedContainer: React.FC<IClassProps> = (props) => {
             () => field.value,
             (value?: string) => {
                 if (value) {
-                    setParser(parse(String(value), true));
+                    const tParser = parse(String(value), true);
+
+                    setValues({});
+                    setParser(tParser);
                 } else {
                     setParser(makeParser());
+                    setValues({});
                 }
             },
             {fireImmediately: true},
@@ -112,8 +116,8 @@ export const FieldComputedContainer: React.FC<IClassProps> = (props) => {
                                     {trans("static:a363461339754846881b1f84b6706851")}
                                 </Typography>
                             </Grid>
-                            {parser.variables.map((variable) => (
-                                <Grid item key={variable}>
+                            {parser.variables.map((variable, index) => (
+                                <Grid item key={index}>
                                     <TextField
                                         name={variable}
                                         value={values[variable]}

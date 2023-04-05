@@ -67,7 +67,7 @@ const operators: any = {
             try {
                 value = JSON.parse(value);
             } catch (err) {
-                logger.warn("Parsed error %s", value, err);
+                logger("Parsed error %s", value, err);
             }
         }
 
@@ -176,7 +176,7 @@ function parseOperations(expression: Expression | Pattern | Super | BlockStateme
                 try {
                     res = JSON.parse(res);
                 } catch (e) {
-                    logger.info(e);
+                    logger(e);
                 }
             }
             if (

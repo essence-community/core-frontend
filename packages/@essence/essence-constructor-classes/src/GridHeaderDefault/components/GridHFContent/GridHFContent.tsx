@@ -7,9 +7,11 @@ import {useStyles} from "./GridHFContent.styles";
 
 export const GridHFContent: React.FC<IClassProps> = (props) => {
     const classes = useStyles();
-    const Component =
-        getComponent(`${props.bc.type}.${props.bc.datatype?.toUpperCase()}`) ||
-        getComponent(`${props.bc.type}.DEFAULT`);
+    const {bc} = props;
+    const Component = React.useMemo(
+        () => getComponent(`${bc.type}.${bc.datatype?.toUpperCase()}`) || getComponent(`${bc.type}.DEFAULT`),
+        [bc],
+    );
 
     if (Component) {
         return (

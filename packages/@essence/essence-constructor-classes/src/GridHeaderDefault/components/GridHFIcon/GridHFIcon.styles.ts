@@ -11,10 +11,6 @@ export const useStyles = makeStyles(
                 pointerEvents: "none",
                 visibility: "hidden",
             },
-            "&$popoverWrapperFilled": {
-                backgroundColor: theme.essence.palette.common.selectedRecord,
-                visibility: "visible",
-            },
             "&$popoverWrapperOpen": {
                 backgroundColor: theme.essence.palette.common.selectedRecord,
                 visibility: "visible",
@@ -29,7 +25,6 @@ export const useStyles = makeStyles(
             padding: theme.spacing(0, 0.5),
         },
         popoverWrapperDisabled: {},
-        popoverWrapperFilled: {},
         popoverWrapperOpen: {},
     }),
     {name: "EssenceGridHFIcon"},

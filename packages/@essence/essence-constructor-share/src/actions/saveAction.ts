@@ -31,6 +31,7 @@ import {
     RETURN_FORM_DATA,
     RETURN_FORM_DATA_BREAK,
     RETURN_GLOBAL_VALUE,
+    VAR_RECORD_JL_EDITING,
     VAR_RECORD_VALUE_ID,
 } from "../constants/variables";
 import {setMask} from "./recordsActions";
@@ -154,6 +155,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
             globalValues: pageStore.globalValues,
             values: filter(values),
         });
+        delete filteredValues[VAR_RECORD_JL_EDITING];
         modeCheck = isEmpty(filteredValues[recordId]) && /^\d+$/u.test(mode) ? "1" : mode;
     }
 

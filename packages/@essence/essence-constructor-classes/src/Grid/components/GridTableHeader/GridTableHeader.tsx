@@ -20,7 +20,7 @@ export const GridTableHeader: React.FC<IGridTableHeaderProps> = (props) => {
     const classes = useStyles();
 
     const handleSubmit = async (data: IRecord) => {
-        const filter = Object.values(data).filter((value) => Boolean(value)) as IRecordFilter[];
+        const filter = Object.values(data).filter((value) => typeof value === "object") as IRecordFilter[];
         const isValid = await store.applyFiltersAction();
 
         await store.recordsStore.searchAction(store.recordsStore.searchValues, {filter, noLoad: !isValid});

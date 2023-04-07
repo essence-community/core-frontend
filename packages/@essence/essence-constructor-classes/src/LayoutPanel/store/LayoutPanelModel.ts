@@ -5,7 +5,7 @@ import {StoreBaseModel} from "@essence-community/constructor-share/models";
 import {IStoreBaseModelProps, IStoreBaseModel} from "@essence-community/constructor-share/types";
 import {Layout} from "react-grid-layout";
 import {saveToStore, getFromStore} from "@essence-community/constructor-share/utils/storage";
-import {EventEmitter} from "eventemitter3";
+import {IResizeEventContext} from "@essence-community/constructor-share/context";
 import {IChildBuilderConfig, ILayout} from "../types";
 
 export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel {
@@ -36,7 +36,7 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
         return this.allLayout;
     }
 
-    public emitter = new EventEmitter();
+    public emitter?: IResizeEventContext;
 
     constructor(props: IStoreBaseModelProps) {
         super(props);
@@ -59,6 +59,10 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
         if (this.bc.isstate) {
             this.loadState();
         }
+    }
+
+    setEmitter(emitter: IResizeEventContext) {
+        this.emitter = emitter;
     }
 
     @action
@@ -130,7 +134,7 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
     public setLayout(allLayout: Layout[]): void {
         this.allLayout = observable.array(allLayout);
         requestAnimationFrame(() => {
-            this.emitter.emit("resize");
+            this.emitter?.emit("resize");
         });
     }
 

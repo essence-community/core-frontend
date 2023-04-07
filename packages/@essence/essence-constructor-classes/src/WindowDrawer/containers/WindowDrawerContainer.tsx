@@ -3,6 +3,7 @@ import {mapComponents, SideResizer} from "@essence-community/constructor-share";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {toColumnStyleWidth} from "@essence-community/constructor-share/utils";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {useResizerEE} from "@essence-community/constructor-share/hooks";
 import {Grid, Drawer} from "@material-ui/core";
 import {WindowContext} from "@essence-community/constructor-share/context";
 import {WindowCancel} from "../../Window/components/WindowCancel";
@@ -15,6 +16,7 @@ export const WindowDrawerContainer: React.FC<IClassProps> = (props) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [isOpenCancel, setIsOpenCancel] = React.useState(false);
     const [drawerWidth, setDrawerWidth] = React.useState(width);
+    const emitter = useResizerEE();
     const paperProps = React.useMemo(
         () => ({
             style: {
@@ -24,9 +26,15 @@ export const WindowDrawerContainer: React.FC<IClassProps> = (props) => {
         }),
         [drawerWidth, height],
     );
-    const handleResizeWidth = React.useCallback((value: string) => {
-        setDrawerWidth(value);
-    }, []);
+    const handleResizeWidth = React.useCallback(
+        (value: string) => {
+            setDrawerWidth(value);
+            requestAnimationFrame(() => {
+                emitter.emit("resize");
+            });
+        },
+        [emitter],
+    );
     const openCloseDrawer = () => {
         setIsOpen(false);
     };

@@ -5,7 +5,7 @@ import {mapComponents} from "@essence-community/constructor-share/components";
 import {toColumnStyleWidth, i18next} from "@essence-community/constructor-share/utils";
 import {IBuilderConfig, IClassProps, IEssenceTheme, IPageModel} from "@essence-community/constructor-share/types";
 import {Scrollbars, PageLoader} from "@essence-community/constructor-share/uicomponents";
-import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
+import {ApplicationContext, FormContext, ResizeContext} from "@essence-community/constructor-share/context";
 import {Grid, useTheme} from "@material-ui/core";
 import {settingsStore, PageModel, snackbarStore} from "@essence-community/constructor-share/models";
 import {
@@ -17,6 +17,8 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {reaction} from "mobx";
 import {IForm, Form} from "@essence-community/constructor-share/Form";
+
+import {useResizerEE} from "@essence-community/constructor-share/hooks";
 import {PagerWindows} from "../components/PagerWindows";
 import {focusPageElement} from "../utils/focusPageElement";
 import {PagerWindowMessage} from "../components/PagerWindowMessage";
@@ -39,6 +41,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
     const {bc} = props;
     const {[VAR_RECORD_PARENT_ID]: parentId, defaultvalue} = bc;
     const applicationStore = React.useContext(ApplicationContext);
+    const emitter = useResizerEE(true);
     /**
      * We are making a new pageStore when we get defaultvalue.
      * It means that we want to make custom page and getting them from server by bc.ck_query
@@ -147,30 +150,32 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                 onKeyDown={handleKeyDown}
             >
                 <React.Suspense fallback={null}>
-                    <PagerErrorBoundary pageStore={pageStore}>
-                        {/* TODO: to make pager as part of content (page) */}
-                        {/* {defaultvalue ? (
+                    <ResizeContext.Provider value={emitter}>
+                        <PagerErrorBoundary pageStore={pageStore}>
+                            {/* TODO: to make pager as part of content (page) */}
+                            {/* {defaultvalue ? (
                     content
                 ) : ( */}
-                        <Scrollbars
-                            style={SCROLLABRS_STYLE}
-                            hideTracksWhenNotNeeded
-                            withRequestAnimationFrame
-                            contentProps={{
-                                className: classes.rootPageContent,
-                            }}
-                            pageStore={pageStore}
-                            verticalStyle={VERTICAL_STYLE}
-                            scrollbarsRef={pageStore.setPageScrollEl}
-                        >
-                            {content}
-                        </Scrollbars>
-                        {/* )} */}
-                        <PagerWindowMessage pageStore={pageStore} />
-                        {bc[VAR_RECORD_PAGE_OBJECT_ID] === pageStore.pagerBc[VAR_RECORD_PAGE_OBJECT_ID] ? (
-                            <PagerWindows {...props} />
-                        ) : null}
-                    </PagerErrorBoundary>
+                            <Scrollbars
+                                style={SCROLLABRS_STYLE}
+                                hideTracksWhenNotNeeded
+                                withRequestAnimationFrame
+                                contentProps={{
+                                    className: classes.rootPageContent,
+                                }}
+                                pageStore={pageStore}
+                                verticalStyle={VERTICAL_STYLE}
+                                scrollbarsRef={pageStore.setPageScrollEl}
+                            >
+                                {content}
+                            </Scrollbars>
+                            {/* )} */}
+                            <PagerWindowMessage pageStore={pageStore} />
+                            {bc[VAR_RECORD_PAGE_OBJECT_ID] === pageStore.pagerBc[VAR_RECORD_PAGE_OBJECT_ID] ? (
+                                <PagerWindows {...props} />
+                            ) : null}
+                        </PagerErrorBoundary>
+                    </ResizeContext.Provider>
                 </React.Suspense>
             </div>
         );

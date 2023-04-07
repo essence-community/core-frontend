@@ -5,6 +5,7 @@ import {Grid} from "@material-ui/core";
 import {debounce} from "../../utils";
 import {getCoords} from "../../utils/html/getCoords";
 import {HorizontalSizerIcon} from "../../icons";
+import {useResizerEE} from "../../hooks/useResizerEE";
 import {getWidth} from "./getWidth";
 import {useStyles} from "./HorizontalResizer.styles";
 
@@ -43,6 +44,7 @@ export const HorizontalResizer: React.FC<IHorizontalResizerProps> = (props) => {
     const lineRef = React.useRef<HTMLDivElement>(null);
     const newWidth = React.useRef<number | undefined>(undefined);
     const classes = useStyles();
+    const emitter = useResizerEE();
 
     const [down, setDown] = React.useState(false);
     const [over, setOver] = React.useState(false);
@@ -107,6 +109,9 @@ export const HorizontalResizer: React.FC<IHorizontalResizerProps> = (props) => {
 
         if (item.id && newWidth.current !== undefined) {
             onChange(item.id, newWidth.current);
+            requestAnimationFrame(() => {
+                emitter.emit("resize");
+            });
         }
 
         newWidth.current = undefined;
@@ -114,7 +119,7 @@ export const HorizontalResizer: React.FC<IHorizontalResizerProps> = (props) => {
         if (document.body) {
             document.body.classList.remove("cursor-hidden");
         }
-    }, [handleMouseMove, onChange]);
+    }, [handleMouseMove, onChange, emitter]);
 
     const handleMouseDown = React.useCallback(
         (event: React.MouseEvent<HTMLDivElement>) => {

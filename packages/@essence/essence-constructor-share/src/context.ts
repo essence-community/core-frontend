@@ -15,9 +15,10 @@ export interface IWindowContext {
 }
 
 export interface IResizeEventContext {
-    once: (event: "resize", callback: () => void, context?: any) => void;
-    on: (event: "resize", callback: () => void, context?: any) => void;
-    removeListener: (event: "resize", callback: () => void, context?: any) => void;
+    once(event: "resize", callback: () => void, context?: any): void;
+    on(event: "resize", callback: () => void, context?: any): void;
+    removeListener(event: "resize", callback: () => void, context?: any): void;
+    emit(event: "resize"): void;
 }
 
 export const ParentFieldContext = React.createContext<IParentFieldContext | undefined>(undefined);

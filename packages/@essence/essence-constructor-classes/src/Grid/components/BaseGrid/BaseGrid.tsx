@@ -8,7 +8,7 @@ import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-communit
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {EmptyTitle} from "@essence-community/constructor-share/uicomponents";
 import {useObserver} from "mobx-react";
-import {ResizeContext} from "@essence-community/constructor-share/context";
+import {useResizerEE} from "@essence-community/constructor-share/hooks";
 import {updateGridWidth} from "../../utils";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {GridTable} from "../GridTable";
@@ -40,7 +40,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
     const classNameRoot = cn(classes.root, isHideActions ? undefined : classes.rootActions);
     const themeFilterNew = React.useMemo(() => makeTheme(theme), [theme]);
     let marginTop = 0;
-    const resizeContext = React.useContext(ResizeContext);
+    const emitter = useResizerEE();
 
     const handleResetGridWidth = React.useCallback(() => {
         resetGridWidth(store);
@@ -54,14 +54,14 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
     }, [store]);
 
     React.useEffect(() => {
-        if (resizeContext) {
-            resizeContext.on("resize", handleUpdateGridWidth);
+        if (emitter) {
+            emitter.on("resize", handleUpdateGridWidth);
 
             return () => {
-                resizeContext.removeListener("resize", handleUpdateGridWidth);
+                emitter.removeListener("resize", handleUpdateGridWidth);
             };
         }
-    }, [handleUpdateGridWidth, resizeContext]);
+    }, [handleUpdateGridWidth, emitter]);
 
     const isVisible = React.useMemo(() => {
         return visible !== false && pageStore.visible;

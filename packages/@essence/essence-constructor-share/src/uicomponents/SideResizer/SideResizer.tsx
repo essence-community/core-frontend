@@ -2,6 +2,7 @@ import * as React from "react";
 import {createPortal} from "react-dom";
 import cn from "clsx";
 import {HorizontalSizerIcon} from "../../icons";
+import {useResizerEE} from "../../hooks/useResizerEE";
 import {useStyles} from "./SideResizer.styles";
 
 interface ISideResizerProps {
@@ -20,6 +21,7 @@ export const SideResizer: React.FC<ISideResizerProps> = React.memo((props) => {
     const [over, setOver] = React.useState(false);
     const [pos, setPos] = React.useState<React.CSSProperties>({});
     const isShowResizer = over || down;
+    const emitter = useResizerEE();
 
     const handleMouseMove = React.useCallback(
         (event: MouseEvent) => {
@@ -51,9 +53,12 @@ export const SideResizer: React.FC<ISideResizerProps> = React.memo((props) => {
                 }
 
                 onChangeWidth(newWidth);
+                requestAnimationFrame(() => {
+                    emitter.emit("resize");
+                });
             }
         },
-        [anchor, maxDrawerWidth, minDrawerWidth, onChangeWidth, point],
+        [anchor, maxDrawerWidth, minDrawerWidth, onChangeWidth, point, emitter],
     );
 
     const handleMouseEnter = React.useCallback(

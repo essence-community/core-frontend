@@ -2,7 +2,7 @@
 import * as React from "react";
 import {IClassProps, FieldValue, IPageModel, IRecord} from "@essence-community/constructor-share/types";
 import {settingsStore, snackbarStore} from "@essence-community/constructor-share/models";
-import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
+import {ApplicationContext, FormContext, ResizeContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {PageLoader} from "@essence-community/constructor-share/uicomponents";
 import {
@@ -22,6 +22,8 @@ import {
     VAR_SETTING_TYPE_NOTIFICATION,
     loggerRoot,
 } from "@essence-community/constructor-share/constants";
+
+import {useResizerEE} from "@essence-community/constructor-share/hooks";
 import {useObserver} from "mobx-react";
 import {reaction, observe} from "mobx";
 import {useParams, useHistory, useRouteMatch} from "react-router-dom";
@@ -60,6 +62,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     const appNameRef = React.useRef(appName);
     const applicationStore = React.useMemo(() => new ApplicationModel(history, appNameRef.current), [history]);
     const [trans] = useTranslation("meta");
+    const emitter = useResizerEE(true);
     const onFormChange = React.useCallback(
         (form: IForm) => {
             logger(trans("static:f9c3bf3691864f4d87a46a9ba367a855"), form.values);
@@ -309,36 +312,40 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
 
     return useObserver(() => (
         <ApplicationContext.Provider value={applicationStore}>
-            <FormContext.Provider value={form}>
-                <Theme applicationStore={applicationStore}>
-                    {applicationStore.isApplicationReady && applicationStore.bc ? (
-                        <>
-                            {mapComponents(applicationStore.bc.childs, (ChildComponent, childBc) => (
-                                <ChildComponent
-                                    pageStore={applicationStore.pageStore}
-                                    key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                    bc={childBc}
-                                    visible
-                                />
-                            ))}
-                            <ApplicationWindows pageStore={applicationStore.pageStore} />
-                            <Block applicationStore={applicationStore} />
-                        </>
-                    ) : (
-                        <PageLoader
-                            container={null}
-                            isLoading
-                            loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"}
+            <ResizeContext.Provider value={emitter}>
+                <FormContext.Provider value={form}>
+                    <Theme applicationStore={applicationStore}>
+                        {applicationStore.isApplicationReady && applicationStore.bc ? (
+                            <>
+                                {mapComponents(applicationStore.bc.childs, (ChildComponent, childBc) => (
+                                    <ChildComponent
+                                        pageStore={applicationStore.pageStore}
+                                        key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                        bc={childBc}
+                                        visible
+                                    />
+                                ))}
+                                <ApplicationWindows pageStore={applicationStore.pageStore} />
+                                <Block applicationStore={applicationStore} />
+                            </>
+                        ) : (
+                            <PageLoader
+                                container={null}
+                                isLoading
+                                loaderType={
+                                    settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"
+                                }
+                            />
+                        )}
+                        <Snackbar
+                            snackbars={snackbarStore.snackbars}
+                            onClose={snackbarStore.snackbarCloseAction}
+                            onSetCloseble={snackbarStore.setClosebleAction}
                         />
-                    )}
-                    <Snackbar
-                        snackbars={snackbarStore.snackbars}
-                        onClose={snackbarStore.snackbarCloseAction}
-                        onSetCloseble={snackbarStore.setClosebleAction}
-                    />
-                    <CssBaseline />
-                </Theme>
-            </FormContext.Provider>
+                        <CssBaseline />
+                    </Theme>
+                </FormContext.Provider>
+            </ResizeContext.Provider>
         </ApplicationContext.Provider>
     ));
 };

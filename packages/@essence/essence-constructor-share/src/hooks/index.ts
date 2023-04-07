@@ -5,3 +5,4 @@ export {useFieldDisabled} from "./useFieldDisabled";
 export {useModel} from "./useModel";
 export {useDefaultValueQuery} from "./useDefaultValueQuery";
 export {useCommon} from "./useCommon";
+export {useResizerEE} from "./useResizerEE";

@@ -34,6 +34,7 @@ export const PanelWidthContext = React.createContext<number | undefined>(undefin
 export const ProjectContext = React.createContext<IProjectModel | undefined>(undefined);
 export const RecordContext = React.createContext<IRecord | undefined>(undefined);
 export const ResizeContext = React.createContext<IResizeEventContext>({
+    emit: noop,
     on: noop,
     once: noop,
     removeListener: noop,

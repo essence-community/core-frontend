@@ -6,6 +6,7 @@ import {PopoverContext, RecordContext} from "@essence-community/constructor-shar
 import {reaction} from "mobx";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react";
+import {Skeleton} from "@material-ui/lab";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {useGridDnd} from "../../hooks/useGridDnd";
 import {useStyles} from "./BaseGridRow.styles";
@@ -106,15 +107,25 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
                 children
             ) : (
                 <RecordContext.Provider value={record}>
-                    {mapComponents(store.gridColumns, (ChildCmp, childBc, index) => (
-                        <ChildCmp
-                            key={`${childBc[VAR_RECORD_PAGE_OBJECT_ID]}-col-${
-                                record[store.recordsStore.recordId]
-                            }_${index}`}
-                            {...classProps}
-                            bc={childBc}
-                        />
-                    ))}
+                    {mapComponents(store.gridColumns, (ChildCmp, childBc, index) =>
+                        store.recordsStore.isLoading ? (
+                            <td
+                                key={`${childBc[VAR_RECORD_PAGE_OBJECT_ID] || index}-col-${
+                                    record[store.recordsStore.recordId] || index
+                                }`}
+                            >
+                                <Skeleton variant="text" animation={false} />
+                            </td>
+                        ) : (
+                            <ChildCmp
+                                key={`${childBc[VAR_RECORD_PAGE_OBJECT_ID] || index}-col-${
+                                    record[store.recordsStore.recordId] || index
+                                }`}
+                                {...classProps}
+                                bc={childBc}
+                            />
+                        ),
+                    )}
                 </RecordContext.Provider>
             )}
         </tr>

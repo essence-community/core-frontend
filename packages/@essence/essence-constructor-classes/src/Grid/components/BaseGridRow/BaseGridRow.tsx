@@ -30,7 +30,7 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
         return bc.selmode === "MULTI" || bc.collectionvalues === "array"
             ? store.recordsStore.selectedRecords.has(record[store.recordsStore.recordId] as ICkId)
             : store.recordsStore.selectedRecordId === record[store.recordsStore.recordId];
-    }, [bc.selmode, record, store]);
+    }, [bc, record, store]);
 
     const handleShiftSelect = React.useCallback(() => {
         const lastSelectedRecord = store.recordsStore.selectedRecordIndex;
@@ -70,7 +70,7 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
                 store.recordsStore.setSelectionAction(record[store.recordsStore.recordId]);
             }
         },
-        [bc.selmode, handleCtrlSelect, handleShiftSelect, props.disabled, record, store],
+        [bc, handleCtrlSelect, handleShiftSelect, props.disabled, record, store],
     );
 
     React.useEffect(() => {

@@ -3,7 +3,6 @@ import {createPortal} from "react-dom";
 import cn from "clsx";
 import {VerticalSizerIcon} from "../../icons";
 import {getCoords} from "../../utils/html/getCoords";
-import {useResizerEE} from "../../hooks/useResizerEE";
 import {useStyles} from "./VerticalResizer.styles";
 import {IVerticalResizerProps} from "./VerticalResizer.types";
 
@@ -21,7 +20,6 @@ export const VerticalResizer: React.FC<IVerticalResizerProps> = (props) => {
     const [over, setOver] = React.useState<boolean>(false);
     const [startOffset, setStartOffset] = React.useState<number>(0);
     const resizerRef = React.useRef<SVGSVGElement | null>(null);
-    const emitter = useResizerEE();
 
     const handleChangeHeight = React.useCallback(
         (event: MouseEvent) => {
@@ -36,11 +34,8 @@ export const VerticalResizer: React.FC<IVerticalResizerProps> = (props) => {
             }
 
             onChangeHeight(newHeight);
-            requestAnimationFrame(() => {
-                emitter.emit("resize");
-            });
         },
-        [initialHeight, maxHeight, minHeight, onChangeHeight, startOffset, emitter],
+        [initialHeight, maxHeight, minHeight, onChangeHeight, startOffset],
     );
 
     const setCursorPosition = React.useCallback((clientX: number, clientY: number) => {

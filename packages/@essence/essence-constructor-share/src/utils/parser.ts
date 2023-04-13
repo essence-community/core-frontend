@@ -51,6 +51,12 @@ const operators: any = {
         parseOperations(left, values) && parseOperations(right, values),
     "+": ({left, right}: LogicalExpression, values: IValues) =>
         parseOperations(left, values) + parseOperations(right, values),
+    "-": ({left, right}: LogicalExpression, values: IValues) =>
+        parseOperations(left, values) - parseOperations(right, values),
+    "*": ({left, right}: LogicalExpression, values: IValues) =>
+        parseOperations(left, values) * parseOperations(right, values),
+    "/": ({left, right}: LogicalExpression, values: IValues) =>
+        parseOperations(left, values) / parseOperations(right, values),
     "<": ({left, right}: LogicalExpression, values: IValues) =>
         parseOperations(left, values) < parseOperations(right, values),
     "==": ({left, right}: LogicalExpression, values: IValues) =>
@@ -264,6 +270,38 @@ function parseOperations(expression: Expression | Pattern | Super | BlockStateme
                         return values.get ? values.get(key, true) : values[key];
                     },
                 });
+        case "BlockStatement":
+            const paramsBlock = {} as Record<string, any>;
+            let result = "";
+            const paramGetBlock = {
+                get: (key: string) => {
+                    if (Object.prototype.hasOwnProperty.call(paramsBlock, key)) {
+                        return paramsBlock[key];
+                    }
+
+                    return values.get ? values.get(key, true) : values[key];
+                },
+            };
+
+            expression.body.forEach((ext) => {
+                switch (ext.type) {
+                    case "VariableDeclaration":
+                        ext.declarations.forEach((extVar) => {
+                            paramsBlock[
+                                parseOperations(extVar.id, paramGetBlock) || (extVar.id as any).name
+                            ] = extVar.init ? parseOperations(extVar.init, paramGetBlock) : undefined;
+                        });
+                        break;
+                    case "ReturnStatement":
+                        result = ext.argument ? parseOperations(ext.argument, paramsBlock) : "";
+                        break;
+                    default:
+                        parseOperations(ext as any, paramGetBlock);
+                        break;
+                }
+            });
+
+            return result;
         default:
             logger("expression not found: ", expression);
 

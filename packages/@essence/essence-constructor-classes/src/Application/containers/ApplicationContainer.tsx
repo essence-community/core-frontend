@@ -211,7 +211,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 applicationStore.pageStore.addStore(applicationStore, change.newValue[VAR_RECORD_PAGE_OBJECT_ID]);
             }
         });
-    }, []);
+    }, [applicationStore]);
 
     React.useEffect(() => {
         return reaction(

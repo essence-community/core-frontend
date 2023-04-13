@@ -4,7 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-const resolve = require('resolve');
+const { exec } = require("child_process");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
@@ -22,6 +22,7 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const createEnvironmentHash = require('./webpack/persistentCache/createEnvironmentHash');
 
@@ -54,7 +55,6 @@ const imageInlineSizeLimit = parseInt(
 // style files regexes
 const cssRegex = /\.css$/;
 
-const appPackageJson = require(paths.appPackageJson);
 const appSharePackageJson = require(paths.appSharePackageJson);
 
 const hasJsxRuntime = (() => {
@@ -69,6 +69,24 @@ const hasJsxRuntime = (() => {
     return false;
   }
 })();
+
+if (!process.env.REACT_APP_COMMIT_ID || process.env.REACT_APP_COMMIT_ID === 'DEV') {
+    exec('git log -n 1 --pretty="format:%h"', (err, stdout) => {
+        if (err) {
+            return;
+        }
+        process.env.REACT_APP_COMMIT_ID = `${stdout.trim()}`;
+    });
+}
+
+if (!process.env.REACT_APP_BRANCH_DATE_TIME || process.env.REACT_APP_BRANCH_DATE_TIME === "no-valid") {
+    exec('git log -n 1 --pretty="format:%ai"', (err, stdout) => {
+        if (err) {
+            return;
+        }
+        process.env.REACT_APP_BRANCH_DATE_TIME = `${stdout.trim()}`;
+    });
+}
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -711,6 +729,22 @@ module.exports = function (webpackEnv) {
         publicPath: `${paths.publicUrlOrPath}/vs`,
         filename: '[name].worker.js',
         languages: ['javascript','typescript','css','html','json'],
+      }),
+      new CopyWebpackPlugin({
+        patterns: [{
+            from: path.join(paths.appSrc, "version.json"),
+            to: path.join(paths.appBuild, "version.json"),
+            transform() {
+                const COMMIT_ID = process.env.REACT_APP_COMMIT_ID || "";
+                const BRANCH_NAME = process.env.REACT_APP_BRANCH_NAME || "";
+                const BRANCH_DATE_TIME = process.env.REACT_APP_BRANCH_DATE_TIME || "";
+                return JSON.stringify({
+                    version: BRANCH_NAME,
+                    commit: COMMIT_ID,
+                    date: BRANCH_DATE_TIME,
+                }, null, true);
+            },
+        }],
       }),
     ].filter(Boolean),
     // Turn off performance processing because we utilize

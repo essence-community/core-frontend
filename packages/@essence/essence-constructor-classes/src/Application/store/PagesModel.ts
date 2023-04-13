@@ -106,6 +106,9 @@ export class PagesModel implements IPagesModel {
         );
 
         if (activePage) {
+            if (initParams) {
+                activePage.setInitParams(initParams);
+            }
             this.activePage = activePage;
         } else if (typeof pageId === "string") {
             activePage = await this.loadActivePage(pageId, true, isActiveRedirect, initParams);

@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/named
-import {action, observable, IObservableArray, ObservableMap, computed, when} from "mobx";
+import {action, observable, IObservableArray, ObservableMap, computed} from "mobx";
 import {
     STORE_PAGES_IDS_KEY,
     STORE_LAST_CV_LOGIN_KEY,
@@ -7,7 +7,7 @@ import {
     VAR_RECORD_URL,
     VAR_RECORD_ID,
 } from "@essence-community/constructor-share/constants";
-import {PageModel, redirectToPage} from "@essence-community/constructor-share/models";
+import {PageModel} from "@essence-community/constructor-share/models";
 import {GlobalRecordsModel} from "@essence-community/constructor-share/models/GlobalRecordsModel";
 
 import {
@@ -106,7 +106,7 @@ export class PagesModel implements IPagesModel {
         );
 
         if (activePage) {
-            if (initParams) {
+            if (activePage.isMulti && initParams) {
                 activePage.setInitParams(initParams);
             }
             this.activePage = activePage;
@@ -231,17 +231,7 @@ export class PagesModel implements IPagesModel {
                     });
 
                     this.pages.push(page);
-                    if (!filter) {
-                        promise.then(() => page.loadConfigAction(pageId));
-                    } else {
-                        promise.then(() =>
-                            page.loadConfigAction(pageId).then(async () => {
-                                await when(() => !page.isLoading);
-
-                                await redirectToPage(page, filter);
-                            }),
-                        );
-                    }
+                    promise.then(() => page.loadConfigAction(pageId));
                 }
             });
         } else if (login) {

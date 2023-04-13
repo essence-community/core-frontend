@@ -43,6 +43,7 @@ import {IField, IForm} from "../../Form";
 import {IScrollEl} from "../../types/PageModel";
 import {orderedObject} from "../../utils/base";
 import {getNextComponent} from "./PageModel.utils";
+import {redirectToPage} from "./PageModelRedirect";
 
 const logger = loggerRoot.extend("PageModel");
 
@@ -405,6 +406,10 @@ export class PageModel implements IPageModel {
         }
 
         this.setLoadingAction(false);
+
+        if (this.initParamPage) {
+            await redirectToPage(this, this.initParamPage);
+        }
 
         return this.recordsStore.selectedRecord;
     };

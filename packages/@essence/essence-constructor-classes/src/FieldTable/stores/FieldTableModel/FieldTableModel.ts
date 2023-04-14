@@ -145,11 +145,27 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             [VAR_RECORD_DISPLAYED]: undefined,
             [VAR_RECORD_PAGE_OBJECT_ID]: gridId,
             [VAR_RECORD_PARENT_ID]: this.currentId,
-            columns: this.bc.columns?.map((column) => ({...column, [VAR_RECORD_PARENT_ID]: gridId})),
+            columns: this.bc.columns?.map((column) => ({
+                ...column,
+                [VAR_RECORD_PAGE_OBJECT_ID]: `${column[VAR_RECORD_PAGE_OBJECT_ID]}_${
+                    this.field.parentFieldKey
+                        ? this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0]
+                        : ""
+                }`,
+                [VAR_RECORD_PARENT_ID]: gridId,
+            })),
             datatype: undefined,
             disabled: undefined,
             disabledrules: undefined,
-            filters: this.bc.filters?.map((column) => ({...column, [VAR_RECORD_PARENT_ID]: gridId})),
+            filters: this.bc.filters?.map((column) => ({
+                ...column,
+                [VAR_RECORD_PAGE_OBJECT_ID]: `${column[VAR_RECORD_PAGE_OBJECT_ID]}_${
+                    this.field.parentFieldKey
+                        ? this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0]
+                        : ""
+                }`,
+                [VAR_RECORD_PARENT_ID]: gridId,
+            })),
             getglobal: undefined,
             height:
                 this.bc.pickerheight === undefined && this.bc.pagesize !== undefined

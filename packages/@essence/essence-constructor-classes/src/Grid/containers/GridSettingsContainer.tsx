@@ -68,7 +68,11 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
             }
 
             Object.entries(visibility).forEach(([ckID, visible]) => {
-                parentStore.setVisibleStoreColumn(ckID, visible);
+                if (isReset) {
+                    parentStore.setVisibleStoreColumn(ckID);
+                } else {
+                    parentStore.setVisibleStoreColumn(ckID, visible);
+                }
             });
         }
 

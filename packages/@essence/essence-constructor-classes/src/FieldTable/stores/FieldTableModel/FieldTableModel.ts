@@ -145,25 +145,25 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             [VAR_RECORD_DISPLAYED]: undefined,
             [VAR_RECORD_PAGE_OBJECT_ID]: gridId,
             [VAR_RECORD_PARENT_ID]: this.currentId,
-            columns: this.bc.columns?.map((column) => ({
-                ...column,
-                [VAR_RECORD_PAGE_OBJECT_ID]: `${column[VAR_RECORD_PAGE_OBJECT_ID]}_${
-                    this.field.parentFieldKey
-                        ? this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0]
-                        : ""
-                }`,
+            columns: this.bc.columns?.map((childBc) => ({
+                ...childBc,
+                [VAR_RECORD_PAGE_OBJECT_ID]: this.field.parentFieldKey
+                    ? `${childBc[VAR_RECORD_PAGE_OBJECT_ID]}_${
+                          this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0]
+                      }`
+                    : childBc[VAR_RECORD_PAGE_OBJECT_ID],
                 [VAR_RECORD_PARENT_ID]: gridId,
             })),
             datatype: undefined,
             disabled: undefined,
             disabledrules: undefined,
-            filters: this.bc.filters?.map((column) => ({
-                ...column,
-                [VAR_RECORD_PAGE_OBJECT_ID]: `${column[VAR_RECORD_PAGE_OBJECT_ID]}_${
-                    this.field.parentFieldKey
-                        ? this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0]
-                        : ""
-                }`,
+            filters: this.bc.filters?.map((childBc) => ({
+                ...childBc,
+                [VAR_RECORD_PAGE_OBJECT_ID]: this.field.parentFieldKey
+                    ? `${childBc[VAR_RECORD_PAGE_OBJECT_ID]}_${
+                          this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0]
+                      }`
+                    : childBc[VAR_RECORD_PAGE_OBJECT_ID],
                 [VAR_RECORD_PARENT_ID]: gridId,
             })),
             getglobal: undefined,

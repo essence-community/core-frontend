@@ -4,7 +4,7 @@ import debounce from "lodash/debounce";
 import cn from "clsx";
 import {reaction} from "mobx";
 import {Form} from "../../Form/Form";
-import {FormContext} from "../../context";
+import {FormContext, ParentFieldContext} from "../../context";
 import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID} from "../../constants";
 import {IForm} from "../../Form";
 import {parseMemoize} from "../../utils/parser";
@@ -154,21 +154,23 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
 
     return (
         <FormContext.Provider value={form}>
-            {noForm ? (
-                children
-            ) : (
-                <form
-                    action=""
-                    onSubmit={form.onSubmit}
-                    className={cn(classes.form, props.className)}
-                    autoComplete="off"
-                    data-page-object={bc && `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-form`}
-                    style={props.style}
-                    ref={rootFormRef}
-                >
-                    {children}
-                </form>
-            )}
+            <ParentFieldContext.Provider value={undefined}>
+                {noForm ? (
+                    children
+                ) : (
+                    <form
+                        action=""
+                        onSubmit={form.onSubmit}
+                        className={cn(classes.form, props.className)}
+                        autoComplete="off"
+                        data-page-object={bc && `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-form`}
+                        style={props.style}
+                        ref={rootFormRef}
+                    >
+                        {children}
+                    </form>
+                )}
+            </ParentFieldContext.Provider>
         </FormContext.Provider>
     );
 };

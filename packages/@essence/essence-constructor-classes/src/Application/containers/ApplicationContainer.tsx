@@ -2,7 +2,12 @@
 import * as React from "react";
 import {IClassProps, FieldValue, IPageModel, IRecord} from "@essence-community/constructor-share/types";
 import {settingsStore, snackbarStore} from "@essence-community/constructor-share/models";
-import {ApplicationContext, FormContext, ResizeContext} from "@essence-community/constructor-share/context";
+import {
+    ApplicationContext,
+    FormContext,
+    ParentFieldContext,
+    ResizeContext,
+} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {PageLoader} from "@essence-community/constructor-share/uicomponents";
 import {
@@ -314,36 +319,38 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
         <ApplicationContext.Provider value={applicationStore}>
             <ResizeContext.Provider value={emitter}>
                 <FormContext.Provider value={form}>
-                    <Theme applicationStore={applicationStore}>
-                        {applicationStore.isApplicationReady && applicationStore.bc ? (
-                            <>
-                                {mapComponents(applicationStore.bc.childs, (ChildComponent, childBc) => (
-                                    <ChildComponent
-                                        pageStore={applicationStore.pageStore}
-                                        key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                        bc={childBc}
-                                        visible
-                                    />
-                                ))}
-                                <ApplicationWindows pageStore={applicationStore.pageStore} />
-                                <Block applicationStore={applicationStore} />
-                            </>
-                        ) : (
-                            <PageLoader
-                                container={null}
-                                isLoading
-                                loaderType={
-                                    settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"
-                                }
+                    <ParentFieldContext.Provider value={undefined}>
+                        <Theme applicationStore={applicationStore}>
+                            {applicationStore.isApplicationReady && applicationStore.bc ? (
+                                <>
+                                    {mapComponents(applicationStore.bc.childs, (ChildComponent, childBc) => (
+                                        <ChildComponent
+                                            pageStore={applicationStore.pageStore}
+                                            key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                            bc={childBc}
+                                            visible
+                                        />
+                                    ))}
+                                    <ApplicationWindows pageStore={applicationStore.pageStore} />
+                                    <Block applicationStore={applicationStore} />
+                                </>
+                            ) : (
+                                <PageLoader
+                                    container={null}
+                                    isLoading
+                                    loaderType={
+                                        settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"
+                                    }
+                                />
+                            )}
+                            <Snackbar
+                                snackbars={snackbarStore.snackbars}
+                                onClose={snackbarStore.snackbarCloseAction}
+                                onSetCloseble={snackbarStore.setClosebleAction}
                             />
-                        )}
-                        <Snackbar
-                            snackbars={snackbarStore.snackbars}
-                            onClose={snackbarStore.snackbarCloseAction}
-                            onSetCloseble={snackbarStore.setClosebleAction}
-                        />
-                        <CssBaseline />
-                    </Theme>
+                            <CssBaseline />
+                        </Theme>
+                    </ParentFieldContext.Provider>
                 </FormContext.Provider>
             </ResizeContext.Provider>
         </ApplicationContext.Provider>

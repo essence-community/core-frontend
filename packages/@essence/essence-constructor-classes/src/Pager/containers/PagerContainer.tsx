@@ -5,7 +5,12 @@ import {mapComponents} from "@essence-community/constructor-share/components";
 import {toColumnStyleWidth, i18next} from "@essence-community/constructor-share/utils";
 import {IBuilderConfig, IClassProps, IEssenceTheme, IPageModel} from "@essence-community/constructor-share/types";
 import {Scrollbars, PageLoader} from "@essence-community/constructor-share/uicomponents";
-import {ApplicationContext, FormContext, ResizeContext} from "@essence-community/constructor-share/context";
+import {
+    ApplicationContext,
+    FormContext,
+    ParentFieldContext,
+    ResizeContext,
+} from "@essence-community/constructor-share/context";
 import {Grid, useTheme} from "@material-ui/core";
 import {settingsStore, PageModel, snackbarStore} from "@essence-community/constructor-share/models";
 import {
@@ -117,27 +122,31 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                     loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"}
                 />
                 <FormContext.Provider value={form}>
-                    <Grid container spacing={2} className={classes.rootPageDivContent}>
-                        {mapComponents(
-                            pageStore.route?.[VAR_RECORD_NOLOAD] === 1 ? bc.childs : pageStore.pageBc,
-                            (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                                <Grid
-                                    key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                    item
-                                    xs={12}
-                                    style={toColumnStyleWidth(childBc.width)}
-                                >
-                                    <ChildComponent
-                                        readOnly={pageStore.isReadOnly}
-                                        pageStore={pageStore}
-                                        bc={childBc}
-                                        visible={pageStore.visible}
-                                        elevation={theme.essence.layoutTheme === 1 ? undefined : DARK_PAPER_ELEVATION}
-                                    />
-                                </Grid>
-                            ),
-                        )}
-                    </Grid>
+                    <ParentFieldContext.Provider value={undefined}>
+                        <Grid container spacing={2} className={classes.rootPageDivContent}>
+                            {mapComponents(
+                                pageStore.route?.[VAR_RECORD_NOLOAD] === 1 ? bc.childs : pageStore.pageBc,
+                                (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
+                                    <Grid
+                                        key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                        item
+                                        xs={12}
+                                        style={toColumnStyleWidth(childBc.width)}
+                                    >
+                                        <ChildComponent
+                                            readOnly={pageStore.isReadOnly}
+                                            pageStore={pageStore}
+                                            bc={childBc}
+                                            visible={pageStore.visible}
+                                            elevation={
+                                                theme.essence.layoutTheme === 1 ? undefined : DARK_PAPER_ELEVATION
+                                            }
+                                        />
+                                    </Grid>
+                                ),
+                            )}
+                        </Grid>
+                    </ParentFieldContext.Provider>
                 </FormContext.Provider>
             </div>
         );

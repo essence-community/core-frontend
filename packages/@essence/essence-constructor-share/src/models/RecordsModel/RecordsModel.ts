@@ -38,6 +38,7 @@ import {download} from "../../actions/download";
 import {IRecordFilter} from "../../types/RecordsModel";
 import {filterFilesData, sortFilesData} from "../../utils/filter";
 import {isDeepEqual, isEmpty} from "../../utils/base";
+import {IGetValue} from "../../utils/parser";
 import {loadRecordsAction} from "./loadRecordsAction";
 
 interface ILoadRecordsProps {
@@ -205,90 +206,88 @@ export class RecordsModel implements IRecordsModel {
         }
     }
 
-    loadRecordsAction = action(
-        "loadRecordsAction",
-        ({selectedRecordId, status = "load", isUserReload}: ILoadRecordsProps = {}) => {
-            this.loadCounter += 1;
-            if (!this.bc[VAR_RECORD_QUERY_ID]) {
-                logger(i18next.t("static:0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
+    getValue: IGetValue["get"] = (key: string) => {
+        return this.pageStore?.globalStores.get(key);
+    };
 
-                if (this.bc.records) {
-                    this.recordsState = {
-                        isUserReload: isUserReload ? isUserReload : false,
-                        records: [...this.bc.records],
-                        status,
-                    };
-                }
+    setGetValue = (getValue: IGetValue["get"]): void => {
+        this.getValue = getValue;
+    };
 
-                if (this.bc.querymode === "local") {
-                    this.localFilter();
-                }
+    @action
+    loadRecordsAction = ({selectedRecordId, status = "load", isUserReload}: ILoadRecordsProps = {}) => {
+        this.loadCounter += 1;
+        if (!this.bc[VAR_RECORD_QUERY_ID]) {
+            logger(i18next.t("static:0d43efb6fc3546bbba80c8ac24ab3031"), this.bc);
 
-                this.setLocalDefaultValue();
-
-                return Promise.resolve();
+            if (this.bc.records) {
+                this.recordsState = {
+                    isUserReload: isUserReload ? isUserReload : false,
+                    records: [...this.bc.records],
+                    status,
+                };
             }
+
+            if (this.bc.querymode === "local") {
+                this.localFilter();
+            }
+
+            this.setLocalDefaultValue();
+
+            return Promise.resolve();
+        }
+
+        if (
+            this.bc[VAR_RECORD_MASTER_ID] &&
+            !this.bc.autoload &&
+            this.bc.reqsel &&
+            this.bc.getmastervalue &&
+            this.bc.getmastervalue?.length > 0
+        ) {
+            const masterValues = getMasterObject(this.bc[VAR_RECORD_MASTER_ID], this.pageStore, this.bc.getmastervalue);
 
             if (
-                this.bc[VAR_RECORD_MASTER_ID] &&
-                !this.bc.autoload &&
-                this.bc.reqsel &&
-                this.bc.getmastervalue &&
-                this.bc.getmastervalue?.length > 0
+                masterValues &&
+                (Object.keys(masterValues).length === 0 ||
+                    Object.values(masterValues).filter((val) => !isEmpty(val)).length === 0)
             ) {
-                const masterValues = getMasterObject(
-                    this.bc[VAR_RECORD_MASTER_ID],
-                    this.pageStore,
-                    this.bc.getmastervalue,
-                );
+                this.clearRecordsAction();
 
-                if (
-                    masterValues &&
-                    (Object.keys(masterValues).length === 0 ||
-                        Object.values(masterValues).filter((val) => !isEmpty(val)).length === 0)
-                ) {
-                    this.clearRecordsAction();
-
-                    return this.selectedRecord;
-                }
+                return this.selectedRecord;
             }
+        }
 
-            return loadRecordsAction.call(this, {
-                applicationStore: this.applicationStore,
-                bc: this.bc,
-                isUserReload,
-                recordId: this.recordId,
-                selectedRecordId,
-                status,
-            });
-        },
-    );
+        return loadRecordsAction.call(this, {
+            applicationStore: this.applicationStore,
+            bc: this.bc,
+            isUserReload,
+            recordId: this.recordId,
+            selectedRecordId,
+            status,
+        });
+    };
 
-    setSelectionAction = action(
-        "setSelectionAction",
-        async (ckId?: FieldValue, key = this.recordId): Promise<number> => {
-            const oldSelectedRecord = this.selectedRecord;
-            const stringCkId = ckId === undefined ? "" : String(ckId);
+    @action
+    setSelectionAction = async (ckId?: FieldValue, key = this.recordId): Promise<number> => {
+        const oldSelectedRecord = this.selectedRecord;
+        const stringCkId = ckId === undefined ? "" : String(ckId);
 
-            this.selectedRecordIndex = this.recordsState.records.findIndex(
-                (record) => String(record[key]) === stringCkId,
-            );
-            this.selectedRecord = this.recordsState.records[this.selectedRecordIndex];
+        this.selectedRecordIndex = this.recordsState.records.findIndex((record) => String(record[key]) === stringCkId);
+        this.selectedRecord = this.recordsState.records[this.selectedRecordIndex];
 
-            if (this.parentStore && this.parentStore.afterSelected) {
-                await this.parentStore.afterSelected();
+        if (this.parentStore && this.parentStore.afterSelected) {
+            await this.parentStore.afterSelected();
+        }
+
+        this.setRecordToGlobal();
+        setTimeout(() => {
+            if (this.selectedRecord !== oldSelectedRecord && !this.noLoadChilds) {
+                this.reloadChildStoresAction(oldSelectedRecord);
             }
+        });
 
-            this.setRecordToGlobal();
-            setTimeout(() => {
-                if (this.selectedRecord !== oldSelectedRecord && !this.noLoadChilds) {
-                    this.reloadChildStoresAction(oldSelectedRecord);
-                }
-            });
-
-            return this.selectedRecordIndex;
-        },
-    );
+        return this.selectedRecordIndex;
+    };
 
     @action
     setSelectionsAction = async (records: IRecord[], key = this.recordId, isMode = "default"): Promise<number> => {
@@ -328,7 +327,8 @@ export class RecordsModel implements IRecordsModel {
 
     debounceReloadChildStoresAction = debounce(() => this.reloadChildStoresAction(), WAIT_MULTI_SELECT);
 
-    reloadChildStoresAction = action("reloadChildsStoresAction", async (oldSelectedRecord?: IRecord) => {
+    @action
+    reloadChildStoresAction = async (oldSelectedRecord?: IRecord): Promise<boolean> => {
         if (!this.pageStore) {
             return false;
         }
@@ -362,9 +362,10 @@ export class RecordsModel implements IRecordsModel {
         }
 
         return true;
-    });
+    };
 
-    clearRecordsAction = action("clearRecordsAction", () => {
+    @action
+    clearRecordsAction = (): void => {
         this.recordsAll = [];
         this.recordsState = {
             isUserReload: false,
@@ -373,9 +374,10 @@ export class RecordsModel implements IRecordsModel {
         };
         this.setSelectionsAction([]);
         this.setSelectionAction();
-    });
+    };
 
-    clearChildsStoresAction = action("clearChildsStoresAction", () => {
+    @action
+    clearChildsStoresAction = (): void => {
         this.selectedRecordIndex = -1;
         this.selectedRecord = undefined;
         this.setRecordToGlobal();
@@ -396,36 +398,41 @@ export class RecordsModel implements IRecordsModel {
                 }
             });
         }
-    });
+    };
 
-    setPageNumberAction = action("setPageNumberAction", (pageNumber: number) => {
+    @action
+    setPageNumberAction = (pageNumber: number): void => {
         this.pageNumber = pageNumber;
         this.loadRecordsAction();
-    });
+    };
 
-    setFirstRecord = action("setFirstRecord", () => {
+    @action
+    setFirstRecord = (): void => {
         const newRecord = this.recordsState.records[0] || {};
 
         this.setSelectionAction(newRecord[this.recordId]);
-    });
+    };
 
-    setPrevRecord = action("setPrevRecord", () => {
+    @action
+    setPrevRecord = (): void => {
         const newRecord = this.recordsState.records[this.selectedRecordIndex - 1] || {};
 
         this.setSelectionAction(newRecord[this.recordId]);
-    });
+    };
 
-    setNextRecord = action("setNextRecord", () => {
+    @action
+    setNextRecord = (): void => {
         const newRecord = this.recordsState.records[this.selectedRecordIndex + 1] || {};
 
         this.setSelectionAction(newRecord[this.recordId]);
-    });
+    };
 
-    setLastRecord = action("setLastRecord", () => {
+    @action
+    setLastRecord = (): void => {
         const newRecord = this.recordsState.records[this.recordsState.records.length - 1] || {};
 
         this.setSelectionAction(newRecord[this.recordId]);
-    });
+    };
 
     @action
     setOrderAction = (order: IRecordsOrder[]): Promise<void> => {
@@ -434,43 +441,44 @@ export class RecordsModel implements IRecordsModel {
         return this.loadRecordsAction();
     };
 
-    searchAction = action(
-        "searchAction",
-        async (values: Record<string, FieldValue>, options: IRecordsSearchOptions = {}): Promise<void | IRecord> => {
-            const {filter, reset, noLoad, selectedRecordId, status = "search", isUserReload, formData} = options;
+    @action
+    searchAction = async (
+        values: Record<string, FieldValue>,
+        options: IRecordsSearchOptions = {},
+    ): Promise<void | IRecord> => {
+        const {filter, reset, noLoad, selectedRecordId, status = "search", isUserReload, formData} = options;
 
-            if (
-                reset ||
-                !isDeepEqual(this.searchValues, values) ||
-                (filter !== undefined && !isDeepEqual(this.filter, filter))
-            ) {
-                this.pageNumber = 0;
-            }
-            this.searchValues = values;
+        if (
+            reset ||
+            !isDeepEqual(this.searchValues, values) ||
+            (filter !== undefined && !isDeepEqual(this.filter, filter))
+        ) {
+            this.pageNumber = 0;
+        }
+        this.searchValues = values;
 
-            if (reset || filter !== undefined) {
-                this.filter = filter;
-            }
+        if (reset || filter !== undefined) {
+            this.filter = filter;
+        }
 
-            if (reset || formData !== undefined) {
-                this.formData = formData;
-            }
+        if (reset || formData !== undefined) {
+            this.formData = formData;
+        }
 
-            if (reset) {
-                this.clearRecordsAction();
-            }
-            let res = null;
+        if (reset) {
+            this.clearRecordsAction();
+        }
+        let res = null;
 
-            if (!noLoad) {
-                res = await this.loadRecordsAction({isUserReload, selectedRecordId, status});
-            }
+        if (!noLoad) {
+            res = await this.loadRecordsAction({isUserReload, selectedRecordId, status});
+        }
 
-            return res;
-        },
-    );
+        return res;
+    };
 
     @action
-    setLocalDefaultValue = () => {
+    setLocalDefaultValue = (): Promise<number> => {
         const {defaultvaluerule, defaultvalue} = this.bc;
         const valueField = this.valueField;
         const records = this.recordsState.records;
@@ -561,16 +569,18 @@ export class RecordsModel implements IRecordsModel {
         };
     };
 
-    setSearchValuesAction = action("setSearchValuesAction", (values: Record<string, FieldValue>) => {
+    @action
+    setSearchValuesAction = (values: Record<string, FieldValue>): void => {
         this.searchValues = values;
-    });
+    };
 
     @action
     setFormDataAction = (formData: FormData): void => {
         this.formData = formData;
     };
 
-    sortRecordsAction = action("sortRecordsAction", () => {
+    @action
+    sortRecordsAction = (): void => {
         const records = [...this.recordsState.records];
 
         records.sort(sortFilesData(this.order));
@@ -580,17 +590,19 @@ export class RecordsModel implements IRecordsModel {
             records,
             status: "sort",
         };
-    });
+    };
 
-    addRecordsAction = action("addRecordsAction", (records: IRecord[]) => {
+    @action
+    addRecordsAction = (records: IRecord[]): void => {
         this.recordsState = {
             isUserReload: false,
             records: this.recordsState.records.concat(records),
             status: "add",
         };
-    });
+    };
 
-    removeRecordsAction = action("removeRecordsAction", (records: IRecord[], key: string, reload?: boolean) => {
+    @action
+    removeRecordsAction = (records: IRecord[], key: string, reload?: boolean): void => {
         const ids: Record<ICkId, boolean> = {};
         const fieldKey = key || this.recordId;
         const selectedRecordId = this.selectedRecord && this.selectedRecord[key];
@@ -615,7 +627,7 @@ export class RecordsModel implements IRecordsModel {
             }),
             status: "remove",
         };
-    });
+    };
 
     setRecordToGlobal = (): void => {
         if (this.bc.setrecordtoglobal && this.pageStore) {
@@ -625,9 +637,10 @@ export class RecordsModel implements IRecordsModel {
         }
     };
 
-    setLoadingAction = action("setLoadingAction", (isLoading: boolean) => {
+    @action
+    setLoadingAction = (isLoading: boolean): void => {
         this.isLoading = isLoading;
-    });
+    };
 
     @action
     saveAction = async (
@@ -681,7 +694,7 @@ export class RecordsModel implements IRecordsModel {
         mode: IBuilderMode,
         options: ISaveActionOptions,
     ): Promise<boolean> => {
-        return download(values, mode, {
+        return download.call(this, values, mode, {
             actionBc: options.actionBc,
             bc: this.bc,
             files: options.files,
@@ -702,7 +715,7 @@ export class RecordsModel implements IRecordsModel {
     };
 
     @action
-    setRecordsAction = (records: IRecord[]) => {
+    setRecordsAction = (records: IRecord[]): boolean => {
         this.recordsState = {
             isUserReload: false,
             records,

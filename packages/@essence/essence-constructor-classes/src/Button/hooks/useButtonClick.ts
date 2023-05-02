@@ -16,6 +16,8 @@ import {
 } from "@essence-community/constructor-share/context";
 import {makeRedirect, deepFind} from "@essence-community/constructor-share/utils";
 import {reaction} from "mobx";
+import {useGetValue} from "@essence-community/constructor-share/hooks/useCommon/useGetValue";
+import {IGetValue, parseMemoize} from "@essence-community/constructor-share/utils/parser";
 import {handers} from "../handlers";
 import {FileInputModel} from "../store/FileInputModel";
 
@@ -36,26 +38,26 @@ interface ISetGlobal {
     record?: Record<string, FieldValue>;
     mode: string;
     editing: boolean;
+    getValue: IGetValue["get"];
 }
 
-const setGlobal = ({editing, mode, pageStore, recordForm = {}, record = {}, setGlobal}: ISetGlobal) => {
+const setGlobal = ({editing, mode, pageStore, recordForm = {}, record = {}, setGlobal, getValue}: ISetGlobal) => {
     const globalValues: Record<string, FieldValue> = {};
 
     setGlobal.forEach(({in: keyIn, out}) => {
         const [isExistForm, resForm] = deepFind(recordForm, keyIn);
+        const [isExistRecord, res] = deepFind(record, keyIn);
 
-        if (isExistForm || Object.prototype.hasOwnProperty.call(recordForm, out)) {
-            globalValues[out] = isExistForm && keyIn ? resForm : record[out];
+        if (isExistForm) {
+            globalValues[out] = resForm;
+        } else if (isExistRecord) {
+            globalValues[out] = res;
+        } else if (keyIn === VAR_RECORD_JL_EDITING) {
+            globalValues[out] = editing;
+        } else if (keyIn === VAR_RECORD_JV_MODE) {
+            globalValues[out] = mode;
         } else {
-            const [isExist, res] = deepFind(record, keyIn);
-
-            if (!isExist && keyIn === VAR_RECORD_JL_EDITING) {
-                globalValues[out] = editing;
-            } else if (!isExist && keyIn === VAR_RECORD_JV_MODE) {
-                globalValues[out] = mode;
-            } else {
-                globalValues[out] = isExist && keyIn ? res : record[out];
-            }
+            globalValues[out] = parseMemoize(keyIn).runer({get: getValue});
         }
     });
 
@@ -78,6 +80,7 @@ export function useButtonClick(
 ): [() => Promise<void | boolean>, boolean, IPopoverContext] {
     const {pageStore, bc, disabled, fileInputStore} = props;
     const [isDisabled, setIsDisabled] = React.useState(false);
+    const getValueGlobal = useGetValue({pageStore});
     const isMountedRef = React.useRef(false);
     const formValidation = React.useRef(null);
     const formCtx = React.useContext(FormContext);
@@ -92,6 +95,7 @@ export function useButtonClick(
         if (bc.setglobal && bc.setglobal.length) {
             setGlobal({
                 editing: formCtx?.editing,
+                getValue: getValueGlobal,
                 mode: bc.modeaction || bc.mode,
                 pageStore,
                 record: recordCtx,

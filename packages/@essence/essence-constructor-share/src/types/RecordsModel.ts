@@ -1,5 +1,6 @@
 import {ObservableMap} from "mobx";
 import {IForm} from "../Form";
+import {IGetValue} from "../utils/parser";
 import {IBuilderMode, ICkId, IRecord, FieldValue} from "./Base";
 import {IBuilderConfig} from "./Builder";
 import {IPageModel} from "./PageModel";
@@ -120,6 +121,8 @@ export interface IRecordsModel {
     expansionRecords: ObservableMap<ICkId, boolean>;
     selectedRecords: ObservableMap<ICkId, IRecord>;
     recordsTree: Record<string, IRecord[]>;
+    getValue: IGetValue["get"];
+    setGetValue: (getValue: IGetValue["get"]) => void;
     loadRecordsAction: (props: ILoadRecordsProps) => Promise<undefined | IRecord>;
     clearRecordsAction: () => void;
     localFilter: () => void;

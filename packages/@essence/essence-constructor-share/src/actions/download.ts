@@ -10,7 +10,7 @@ import {
     VAR_RECORD_ROUTE_PAGE_ID,
     VAR_SETTING_GATE_URL,
 } from "../constants";
-import {IRecord, IBuilderMode, IPageModel, IBuilderConfig} from "../types";
+import {IRecord, IBuilderMode, IPageModel, IBuilderConfig, IRecordsModel} from "../types";
 import {getMasterObject, isEmpty} from "../utils";
 import {settingsStore} from "../models/SettingsModel";
 import {IForm} from "../Form";
@@ -67,7 +67,12 @@ export const appendInputForm = ({form, name, type = "text", value, files}: IInpu
 };
 
 // eslint-disable-next-line max-statements
-export function download(values: IRecord | Array<IRecord>, mode: IBuilderMode, config: IDownloadOptions) {
+export function download(
+    this: IRecordsModel,
+    values: IRecord | Array<IRecord>,
+    mode: IBuilderMode,
+    config: IDownloadOptions,
+) {
     const {
         actionBc,
         recordId = VAR_RECORD_ID,
@@ -102,10 +107,16 @@ export function download(values: IRecord | Array<IRecord>, mode: IBuilderMode, c
     if (pageStore) {
         if (Array.isArray(values)) {
             filteredValues = values.map((item: IRecord) =>
-                attachGlobalValues({getglobaltostore, globalValues: pageStore.globalValues, values: filter(item)}),
+                attachGlobalValues({
+                    getValue: this.getValue,
+                    getglobaltostore,
+                    globalValues: pageStore.globalValues,
+                    values: filter(item),
+                }),
             );
         } else {
             filteredValues = attachGlobalValues({
+                getValue: this.getValue,
                 getglobaltostore,
                 globalValues: pageStore.globalValues,
                 values: filter(values),

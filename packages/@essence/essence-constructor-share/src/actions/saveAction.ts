@@ -34,6 +34,7 @@ import {
     VAR_RECORD_JL_EDITING,
     VAR_RECORD_VALUE_ID,
 } from "../constants/variables";
+import {IGetValue, parseMemoize} from "../utils/parser";
 import {setMask} from "./recordsActions";
 
 export interface IConfig {
@@ -53,6 +54,7 @@ interface IAttachGlobalValues {
     globalValues: ObservableMap;
     getglobaltostore?: IBuilderConfig["getglobaltostore"];
     values: IRecord;
+    getValue: IGetValue["get"];
 }
 
 const logger = loggerRoot.extend("saveAction");
@@ -83,7 +85,7 @@ const findReloadAction = (recordsStore: IRecordsModel, bc: IBuilderConfig) => {
     return (props: ILoadRecordsProps) => recordsStore.loadRecordsAction(props);
 };
 
-export const attachGlobalValues = ({globalValues, getglobaltostore, values}: IAttachGlobalValues) => {
+export const attachGlobalValues = ({getValue, globalValues, getglobaltostore, values}: IAttachGlobalValues) => {
     if (getglobaltostore?.length) {
         const newValues = {...values};
 
@@ -91,7 +93,11 @@ export const attachGlobalValues = ({globalValues, getglobaltostore, values}: IAt
             const name = out || keyIn;
 
             if (typeof newValues[name] === "undefined") {
-                newValues[name] = toJS(globalValues.get(keyIn));
+                if (out) {
+                    newValues[name] = parseMemoize(keyIn).runer({get: getValue});
+                } else {
+                    newValues[name] = toJS(globalValues.get(keyIn));
+                }
             }
         });
 
@@ -144,6 +150,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
     if (Array.isArray(values)) {
         filteredValues = values.map((item: IRecord) =>
             attachGlobalValues({
+                getValue: this.getValue,
                 getglobaltostore: getGlobalToStore,
                 globalValues: pageStore.globalValues,
                 values: filter(item),
@@ -151,6 +158,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
         );
     } else if (!(values instanceof FormData)) {
         filteredValues = attachGlobalValues({
+            getValue: this.getValue,
             getglobaltostore: getGlobalToStore,
             globalValues: pageStore.globalValues,
             values: filter(values),

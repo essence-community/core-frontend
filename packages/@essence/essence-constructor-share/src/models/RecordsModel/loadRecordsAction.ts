@@ -4,6 +4,7 @@
 /* eslint-disable max-lines */
 import {v4} from "uuid";
 import {isEqual} from "lodash";
+import {toJS} from "mobx";
 import {request} from "../../request";
 import {IPageModel, IRecordsModel, FieldValue, IResponse, IRecord} from "../../types";
 import {i18next, getMasterObject, deepFind} from "../../utils";
@@ -83,13 +84,17 @@ export function getFilterData({
     };
 }
 
-export function attachGlobalStore({bc, json, globalValues}: IAttachGlobalStore): void {
+export function attachGlobalStore({bc, json, getValue, globalValues}: IAttachGlobalStore): void {
     if (bc.getglobaltostore && globalValues) {
         bc.getglobaltostore.forEach(({in: keyIn, out}) => {
             const name = out || keyIn;
 
             if (typeof json.filter[name] === "undefined") {
-                json.filter[name] = globalValues.get(keyIn);
+                if (out) {
+                    json.filter[name] = parseMemoize(keyIn).runer({get: getValue});
+                } else {
+                    json.filter[name] = toJS(globalValues.get(keyIn));
+                }
             }
         });
     }
@@ -162,7 +167,7 @@ export function prepareRequst(
         master,
     };
 
-    attachGlobalStore({bc, globalValues, json});
+    attachGlobalStore({bc, getValue: recordsStore.getValue, globalValues, json});
 
     setMask(true, noglobalmask, recordsStore.pageStore);
 

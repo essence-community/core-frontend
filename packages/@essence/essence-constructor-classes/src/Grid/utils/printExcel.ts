@@ -49,7 +49,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
         master: getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, getmastervalue),
     };
 
-    attachGlobalStore({bc, globalValues, json});
+    attachGlobalStore({bc, getValue: recordsStore.getValue, globalValues, json});
 
     const jsonbc = {
         [VAR_RECORD_CV_DESCRIPTION]: (description && i18next.t(description)) || "",

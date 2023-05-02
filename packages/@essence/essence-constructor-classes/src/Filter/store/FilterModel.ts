@@ -75,6 +75,7 @@ export class FilterModel extends StoreBaseModel {
 
     handlePrint = async (isOnline: boolean, bcBtn: IBuilderConfig): Promise<boolean> => {
         const form = this.pageStore.forms.get(this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
+        const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_MASTER_ID] || this.bc[VAR_RECORD_PARENT_ID]);
 
         if (form) {
             form.validate();
@@ -95,6 +96,7 @@ export class FilterModel extends StoreBaseModel {
                     snackbarStore,
                     timeout: bcBtn.timeout || this.bc.timeout,
                     values: attachGlobalValues({
+                        getValue: parentStore.recordsStore?.getValue,
                         getglobaltostore: bcBtn.getglobaltostore,
                         globalValues: this.pageStore.globalValues,
                         values,

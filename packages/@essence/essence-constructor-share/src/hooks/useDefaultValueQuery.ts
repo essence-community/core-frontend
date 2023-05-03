@@ -26,7 +26,13 @@ export function useDefaultValueQuery(props: IDefaultValueQueryProps) {
                     master: getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, bc.getmastervalue),
                 };
 
-                attachGlobalStore({bc, globalValues: pageStore.globalValues, json});
+                attachGlobalStore({
+                    bc,
+                    getValue: (name: string) =>
+                        pageStore.globalValues.has(name) ? pageStore.globalValues.get(name) : field.form.values[name],
+                    globalValues: pageStore.globalValues,
+                    json,
+                });
                 request({
                     [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
                     action: "dml",

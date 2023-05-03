@@ -139,7 +139,13 @@ async function redirectUseQuery({bc, noBlank, query, pageStore, values, record}:
             master: getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, bc.getmastervalue),
         };
 
-        attachGlobalStore({bc, globalValues: pageStore.globalValues, json});
+        attachGlobalStore({
+            bc,
+            getValue: (name: string) =>
+                pageStore.globalValues.has(name) ? pageStore.globalValues.get(name) : record[name],
+            globalValues: pageStore.globalValues,
+            json,
+        });
         setMask(bc.noglobalmask, pageStore, true);
         const res: any = await request({
             [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],

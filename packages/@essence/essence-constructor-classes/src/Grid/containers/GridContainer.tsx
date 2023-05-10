@@ -7,6 +7,7 @@ import {GridModel} from "../stores/GridModel";
 import {VirtualizedGrid} from "../components/VirtualizedGrid";
 import {TreeGridRootRow} from "../components/TreeGridRootRow";
 import {BaseGrid} from "../components/BaseGrid";
+import {useGetGlobalGrid} from "../hooks/useGetGlobalGrid";
 
 export const GridContainer: React.FC<IClassProps> = (props) => {
     const {elevation = 0, bc, disabled, pageStore, readOnly, visible} = props;
@@ -74,6 +75,8 @@ export const GridContainer: React.FC<IClassProps> = (props) => {
         return resBc;
     }, [bc, pageStore]);
     const [store] = useModel((options) => new GridModel(options), {...props, bc: gridBc});
+
+    useGetGlobalGrid({store});
 
     return (
         <Paper

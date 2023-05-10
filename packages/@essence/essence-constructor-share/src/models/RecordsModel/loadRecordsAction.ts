@@ -303,6 +303,18 @@ export function loadRecordsAction(
                         (findOldSelectedRecordIndex === -1 && isEmpty(defaultvalue) && isEmpty(defaultvaluerule))):
                     recordIdValue = this.selectedRecordId;
                     break;
+                case !isEmpty(this.bc.getglobal):
+                    const recordIdValueGetGlobal = parseMemoize(this.bc.getglobal!).runer({get: this.getValue});
+
+                    const foundRec = records.find(
+                        (rec) => `${recordIdValueGetGlobal}` === `${deepFind(rec, valueField)[1]}`,
+                    );
+
+                    if (foundRec) {
+                        recordIdValue = deepFind(foundRec, valueField)[1];
+                        record = foundRec;
+                    }
+                    break;
                 case defaultvalue === VALUE_SELF_FIRST:
                     isDefault = VALUE_SELF_FIRST;
                     selectedRecordIndex = this.isTree

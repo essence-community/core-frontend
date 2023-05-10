@@ -71,6 +71,7 @@ export interface IGridModel extends IStoreBaseModel {
     setVisibleColumn(ckId: ICkId, val: boolean);
     setVisibleStoreColumn(ckId: ICkId, val?: boolean);
     setHiddenColumn(ckId: ICkId, val: boolean);
+    scrollToRecordAction(rec: Record<string, any>);
 
     // Other
     handleDoubleClick(options: IHandlerOptions): void;

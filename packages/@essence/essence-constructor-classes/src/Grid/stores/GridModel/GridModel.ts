@@ -217,6 +217,14 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                                   bottombtn: getOverrideWindowBottomBtn(this.bc),
                               };
                     },
+                    initValues:
+                        this.bc.type === "TREEGRID"
+                            ? {
+                                  [this.recordsStore.recordParentId]: this.recordsStore.selectedRecord
+                                      ? this.recordsStore.selectedRecordId
+                                      : undefined,
+                              }
+                            : {},
                     mode,
                     pageStore: this.pageStore,
                     parentStore: this,

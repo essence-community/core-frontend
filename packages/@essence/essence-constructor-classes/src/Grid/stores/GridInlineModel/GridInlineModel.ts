@@ -35,7 +35,7 @@ export class GridInlineModel extends StoreBaseModel {
 
                 if (btnBc.skipvalidation || form.isValid) {
                     let success: string | boolean = false;
-                    const modeAction = (btnBc.modeaction || btnBc.mode || this.bc.mode || mode) as IBuilderMode;
+                    const modeAction = (this.bc.mode || mode) as IBuilderMode;
 
                     if (this.mainStore?.handlers?.onSaveWindow) {
                         success = await this.mainStore.handlers.onSaveWindow(modeAction, btnBc, options);

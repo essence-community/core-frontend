@@ -13,7 +13,7 @@ export const useStyles = makeStyles(
             position: "absolute",
             right: 0,
             top: 0,
-            zIndex: 2,
+            zIndex: theme.zIndex.appBar,
         },
     }),
     {name: "ModuleFederationContainer"},

@@ -5,6 +5,7 @@ import {
     toTranslateText,
     toColumnStyleWidth,
     getFromStore,
+    isEmpty,
 } from "@essence-community/constructor-share/utils";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
@@ -18,6 +19,7 @@ import {
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react";
+import {reaction} from "mobx";
 import {FilterModel} from "../store/FilterModel";
 import {FilterButtons} from "../components/FilterButtons";
 import {useStyles} from "./FilterContainer.styles";
@@ -39,8 +41,18 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
     const classes = useStyles();
 
     React.useEffect(() => {
-        store.handleAutoload(isAutoLoad);
-    }, [isAutoLoad, store]);
+        return reaction(
+            () => !isEmpty(pageStore.forms.get(bc[VAR_RECORD_PAGE_OBJECT_ID])),
+            (isExist) => {
+                if (isExist) {
+                    store.handleAutoload(isAutoLoad);
+                }
+            },
+            {
+                fireImmediately: true,
+            },
+        );
+    }, [bc, isAutoLoad, pageStore, store]);
 
     return useObserver(() => (
         <Collapse in={store.isOpen} collapsedHeight={title || layoutTheme === 1 ? "42px" : "1px"}>

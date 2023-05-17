@@ -175,9 +175,8 @@ export class FilterModel extends StoreBaseModel {
     @action
     handleAutoload = async (isAutoload: boolean) => {
         const form = this.pageStore.forms.get(this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
-        const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_PARENT_ID]);
 
-        if (form && parentStore) {
+        if (form) {
             await awaitFormFilter(this.pageStore, form, false);
             await form.validate();
 

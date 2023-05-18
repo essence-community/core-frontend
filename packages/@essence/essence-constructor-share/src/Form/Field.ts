@@ -488,6 +488,7 @@ export class Field implements IField {
     @action
     clear = () => {
         this.setValue(this.clearValue);
+        this.clearExtra();
     };
 
     @action
@@ -617,9 +618,7 @@ export class Field implements IField {
                 val = Number(transformToBoolean(val));
             }
         }
-        if (val === this.clearValue) {
-            this.clearExtra();
-        }
+
         this.value = val;
     };
 

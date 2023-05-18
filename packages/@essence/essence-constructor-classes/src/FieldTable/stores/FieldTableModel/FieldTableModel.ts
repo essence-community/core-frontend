@@ -292,9 +292,9 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
     handleChangeRecord = (record: IRecord, userChange = false, isSilentClear = false) => {
         let column = "";
+        const patchValues: IRecord = {};
 
         if (this.valueFields && this.valueFields.length > 1) {
-            const patchValues: IRecord = {};
             let parentKey = "";
 
             if (this.field.key.indexOf(".") > -1) {
@@ -314,8 +314,6 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
                     column = valueField;
                 }
             });
-
-            this.form.patch(patchValues, true);
         } else if (this.valueFields && this.valueFields.length) {
             column = this.valueField;
         } else {
@@ -326,12 +324,14 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
         if (userChange) {
             this.field.onChange(value);
+            this.form.patch(patchValues, true);
         } else if (isEmpty(value) && !isSilentClear) {
             this.field.onClear();
         } else if (isEmpty(value) && isSilentClear) {
             this.field.clear();
         } else if (this.field.value !== value) {
             this.field.onChange(value);
+            this.form.patch(patchValues, true);
         }
     };
 

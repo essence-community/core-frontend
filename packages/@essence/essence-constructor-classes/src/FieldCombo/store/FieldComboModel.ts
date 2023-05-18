@@ -319,15 +319,15 @@ export class FieldComboModel extends StoreBaseModel {
 
     @action
     handleSetSuggestionValue = (suggestion: ISuggestion, isUserSearch: boolean): boolean => {
-        if (this.bc.valuefield && this.bc.valuefield.length > 1) {
-            const record = this.recordsStore.records.find((rec) => rec[this.recordsStore.recordId] === suggestion.id);
-
-            this.patchForm(this.field, record || {});
-        }
         if (this.recordsStore.selectedRecordValues[this.recordsStore.recordId] !== suggestion.id) {
             const rec: any = suggestion.id;
 
             this.recordsStore.setSelectionAction(rec, this.recordsStore.recordId);
+        }
+        if (this.bc.valuefield && this.bc.valuefield.length > 1) {
+            const record = this.recordsStore.records.find((rec) => rec[this.recordsStore.recordId] === suggestion.id);
+
+            this.patchForm(this.field, record || {});
         }
 
         if (!isUserSearch) {

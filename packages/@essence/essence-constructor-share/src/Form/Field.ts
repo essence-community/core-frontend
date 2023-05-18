@@ -505,18 +505,16 @@ export class Field implements IField {
             const fieldParent = this.parentFieldKey ? this.form.fields.get(this.parentFieldKey) : null;
 
             if (!fieldParent || !fieldParent.isArray) {
+                let extraValue = cloneDeepElementary(this.form.extraValue);
+
                 this.bc.valuefield.forEach(({out}) => {
                     if (out) {
-                        this.form.patch(
-                            deepDelete(
-                                cloneDeepElementary(this.form.extraValue),
-                                `${parentKey ? `${parentKey}.` : ""}${out}`,
-                            ),
-                            true,
-                            true,
-                        );
+                        extraValue = deepDelete(extraValue, `${parentKey ? `${parentKey}.` : ""}${out}`);
+                    } else {
+                        extraValue = deepDelete(extraValue, this.key);
                     }
                 });
+                this.form.patch(extraValue, true, true);
             }
         }
     };

@@ -163,7 +163,7 @@ export class RecordsModel implements IRecordsModel {
                 },
                 recordsAll: records,
                 get recordsCount() {
-                    return this.records.length ? this.records[0][VAR_RECORD_JN_TOTAL_CNT] || 0 : 0;
+                    return this.records.length ? this.records[0][VAR_RECORD_JN_TOTAL_CNT] || this.records.length : 0;
                 },
                 get recordsTree() {
                     return this.records.reduce((acc: Record<string, IRecord[]>, record: IRecord) => {

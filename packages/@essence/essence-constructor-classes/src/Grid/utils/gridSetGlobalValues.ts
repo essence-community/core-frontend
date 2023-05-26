@@ -1,5 +1,6 @@
 import {mapValueToArray, isEmpty, deepFind} from "@essence-community/constructor-share/utils";
 import {IRecord} from "@essence-community/constructor-share/types";
+import {VAR_RECORD_JN_TOTAL_CNT} from "@essence-community/constructor-share/constants/variables";
 import {IGridModel} from "../stores/GridModel/GridModel.types";
 
 export function gridSetGlobalValues(gridStore: IGridModel) {
@@ -26,6 +27,8 @@ export function gridSetGlobalValues(gridStore: IGridModel) {
                     valueFields.forEach(([valueFieldName, valueField]) => {
                         obj[valueFieldName] = deepFind(value, valueField)[1];
                     });
+                } else if (keyIn === VAR_RECORD_JN_TOTAL_CNT) {
+                    obj[keyIn] = gridStore.recordsStore.recordsCount;
                 } else {
                     const [isExist, res] = deepFind(value, keyIn);
 
@@ -37,8 +40,11 @@ export function gridSetGlobalValues(gridStore: IGridModel) {
         } else {
             const [isExist, res] = deepFind(selectedRecord, keyIn);
 
-            values[out] = isExist ? res : selectedRecord[keyIn || recordId];
-
+            if (keyIn === VAR_RECORD_JN_TOTAL_CNT) {
+                values[out] = gridStore.recordsStore.recordsCount;
+            } else {
+                values[out] = isExist ? res : selectedRecord[keyIn || recordId];
+            }
             if (isEmpty(values[out])) {
                 values[out] = globalValues.has(out) ? null : undefined;
             }

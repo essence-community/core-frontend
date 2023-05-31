@@ -4,7 +4,7 @@ import {request} from "../request";
 import {IPageModel} from "../types/PageModel";
 import {ISnackbarModel} from "../types/SnackbarModel";
 import {FieldValue, IRecord, IResponse, IApplicationModel, IBuilderConfig} from "../types";
-import {VAR_RECORD_MASTER_ID, VAR_SETTING_GATE_URL} from "../constants/variables";
+import {META_PAGE_ID, VAR_RECORD_MASTER_ID, VAR_SETTING_GATE_URL} from "../constants/variables";
 import {
     VAR_RECORD_URL,
     VAR_RECORD_ID,
@@ -57,6 +57,7 @@ export const print = async ({
 
     setMask(true, bcBtn.noglobalmask, pageStore);
     const result: any = await request({
+        [META_PAGE_ID]: bc[VAR_RECORD_ROUTE_PAGE_ID],
         [META_PAGE_OBJECT]: bc[VAR_RECORD_PARENT_ID],
         action: "dml",
         json: {

@@ -136,6 +136,7 @@ export const VAR_SETTING_TYPE_NOTIFICATION = "type_notification";
 // META
 export const META_OUT_RESULT = "out_result";
 export const META_PAGE_OBJECT = "page_object";
+export const META_PAGE_ID = "page_id";
 export const VAR_META_JN_FETCH = "jn_fetch";
 export const VAR_META_JN_OFFSET = "jn_offset";
 export const VAR_META_JL_FILTER = "jl_filter";

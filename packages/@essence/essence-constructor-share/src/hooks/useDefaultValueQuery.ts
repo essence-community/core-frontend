@@ -3,7 +3,7 @@ import {IField} from "../Form/types";
 import {request} from "../request";
 import {snackbarStore} from "../models/SnackbarModel";
 import {IRecord, IPageModel, IBuilderConfig} from "../types";
-import {VAR_RECORD_MASTER_ID, VAR_RECORD_PAGE_OBJECT_ID, META_PAGE_OBJECT} from "../constants";
+import {VAR_RECORD_MASTER_ID, VAR_RECORD_PAGE_OBJECT_ID, META_PAGE_OBJECT, META_PAGE_ID} from "../constants";
 import {getMasterObject} from "../utils";
 import {attachGlobalStore} from "../models/RecordsModel/loadRecordsAction";
 import {VAR_RECORD_CV_VALUE} from "../constants/variables";
@@ -34,6 +34,7 @@ export function useDefaultValueQuery(props: IDefaultValueQueryProps) {
                     json,
                 });
                 request({
+                    [META_PAGE_ID]: pageStore.pageId,
                     [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
                     action: "dml",
                     json,

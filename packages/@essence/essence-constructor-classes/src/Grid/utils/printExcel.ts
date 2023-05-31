@@ -9,9 +9,11 @@ import {
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_CV_DESCRIPTION,
     META_PAGE_OBJECT,
+    META_PAGE_ID,
     VAR_RECORD_CV_URL_RESPONSE,
     VAR_RECORD_URL,
     VAR_SETTING_GATE_URL,
+    VAR_RECORD_ROUTE_PAGE_ID,
 } from "@essence-community/constructor-share/constants";
 import {IBuilderConfig, IRecordsModel, IRecord} from "@essence-community/constructor-share/types";
 import {
@@ -147,6 +149,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
     setMask(true, false, pageStore);
 
     return request({
+        [META_PAGE_ID]: pageStore.pageId || bc[VAR_RECORD_ROUTE_PAGE_ID],
         [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
         body,
         formData: recordsStore.formData,

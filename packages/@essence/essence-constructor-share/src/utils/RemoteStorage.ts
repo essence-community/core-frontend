@@ -8,6 +8,7 @@ import {
     VAR_SETTING_REMOTE_STORAGE_ADD_QUERY,
     VAR_RECORD_CV_ACTION,
     VAR_SETTING_REMOTE_STORAGE_DELETE_QUERY,
+    META_PAGE_ID,
 } from "../constants/variables";
 import {request} from "../request/request";
 import {IRecord} from "../types/Base";
@@ -95,6 +96,7 @@ export class RemoteStorage implements IStorage {
         this.session = session;
         if (!isEmpty(session)) {
             return request({
+                [META_PAGE_ID]: "application",
                 [META_PAGE_OBJECT]: "user_cache",
                 action: "sql",
                 list: true,

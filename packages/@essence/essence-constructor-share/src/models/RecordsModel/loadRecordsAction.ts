@@ -22,6 +22,8 @@ import {
     VAR_META_JL_FILTER,
     VAR_META_JL_SORT,
     VAR_RECORD_JN_TOTAL_CNT,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    META_PAGE_ID,
 } from "../../constants";
 import {snackbarStore} from "../SnackbarModel";
 import {isEmpty} from "../../utils/base";
@@ -214,6 +216,7 @@ export function loadRecordsAction(
             const {json} = prepareRequst(this, {applicationStore, bc, recordId, selectedRecordId, status});
 
             return request<IResponse[]>({
+                [META_PAGE_ID]: this.pageStore?.pageId || bc[VAR_RECORD_ROUTE_PAGE_ID],
                 [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
                 formData,
                 json,

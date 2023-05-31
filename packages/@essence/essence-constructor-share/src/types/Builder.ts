@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import {VAR_RECORD_CK_VIEW} from "../constants/variables";
+import {VAR_RECORD_CK_VIEW, VAR_RECORD_ROUTE_PAGE_ID} from "../constants/variables";
 import {IRecord, FieldValue} from "./Base";
 import {IRecordsOrder} from "./RecordsModel";
 import {HandlerType} from "./StoreBaseModel";
@@ -324,6 +324,7 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     cv_name?: string;
     ck_object?: string;
     cn_order?: number;
+    [VAR_RECORD_ROUTE_PAGE_ID]?: string;
     [VAR_RECORD_CK_VIEW]?: string;
     // Определяет класс в качестве мастера
     cl_is_master?: boolean;

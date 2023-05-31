@@ -1,4 +1,5 @@
 import {
+    META_PAGE_ID,
     META_PAGE_OBJECT,
     VAR_RECORD_RES_ERROR,
     VAR_RECORD_RES_FORM_ERROR,
@@ -18,6 +19,7 @@ export interface IRequest {
     body?: Record<string, FieldValue>;
     session?: string;
     json?: Record<string, FieldValue>;
+    [META_PAGE_ID]?: string;
     [META_PAGE_OBJECT]?: string;
     list?: boolean;
     mode?: IBuilderMode;

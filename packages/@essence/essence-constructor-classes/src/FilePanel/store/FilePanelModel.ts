@@ -8,6 +8,8 @@ import {
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_NAME,
     META_PAGE_OBJECT,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    META_PAGE_ID,
 } from "@essence-community/constructor-share/constants";
 import {RecordsModel, StoreBaseModel} from "@essence-community/constructor-share/models";
 import {
@@ -72,6 +74,7 @@ export class FilePanelModel extends StoreBaseModel {
         const btnBc = this.btnsConfig["Override Download Button"];
 
         const url = {
+            [META_PAGE_ID]: this.pageStore.pageId || this.bc[VAR_RECORD_ROUTE_PAGE_ID],
             [META_PAGE_OBJECT]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
             action: "file",
             json: JSON.stringify({

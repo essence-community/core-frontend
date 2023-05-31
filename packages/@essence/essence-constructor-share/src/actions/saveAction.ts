@@ -11,6 +11,7 @@ import {
     ACTIONS_MODE_MAP,
     VAR_RECORD_CV_ACTION,
     META_PAGE_OBJECT,
+    META_PAGE_ID,
 } from "../constants";
 import {ProgressModel, snackbarStore} from "../models";
 import {
@@ -170,6 +171,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
     setMask(bc.noglobalmask, pageStore, true);
 
     return request({
+        [META_PAGE_ID]: pageStore.pageId,
         [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
         action,
         formData: formDataValue,

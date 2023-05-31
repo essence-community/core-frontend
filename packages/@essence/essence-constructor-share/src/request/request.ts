@@ -11,6 +11,7 @@ import {
     VAR_ERROR_TEXT,
     VAR_ERROR_ID,
     loggerRoot,
+    META_PAGE_ID,
 } from "../constants";
 import {ResponseError} from "./error";
 import {checkInterceptor} from "./interceptors";
@@ -62,6 +63,7 @@ export const request = async <R = IRecord | IRecord[]>(requestParams: IRequest):
         json,
         query,
         action = "dml",
+        [META_PAGE_ID]: pageIdName = "",
         [META_PAGE_OBJECT]: pageObjectName = "",
         session,
         body,
@@ -82,6 +84,7 @@ export const request = async <R = IRecord | IRecord[]>(requestParams: IRequest):
     };
     const data = {
         [META_OUT_RESULT]: "",
+        [META_PAGE_ID]: pageIdName,
         [META_PAGE_OBJECT]: pageObjectName.replace(
             // eslint-disable-next-line prefer-named-capture-group, no-useless-escape
             /^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[\)\}]?.*?$/giu,

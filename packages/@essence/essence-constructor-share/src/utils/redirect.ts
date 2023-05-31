@@ -16,7 +16,7 @@ import {request} from "../request";
 import {attachGlobalStore} from "../models/RecordsModel/loadRecordsAction";
 import {setMask} from "../actions/recordsActions";
 import {settingsStore} from "../models/SettingsModel";
-import {VAR_RECORD_IS_NOT_BLANC, VAR_SETTING_AUTH_URL} from "../constants/variables";
+import {META_PAGE_ID, VAR_RECORD_IS_NOT_BLANC, VAR_RECORD_ROUTE_PAGE_ID, VAR_SETTING_AUTH_URL} from "../constants/variables";
 import {parseMemoize} from "./parser";
 import {getMasterObject} from "./getMasterObject";
 import {encodePathUrl} from "./base";
@@ -148,6 +148,7 @@ async function redirectUseQuery({bc, noBlank, query, pageStore, values, record}:
         });
         setMask(bc.noglobalmask, pageStore, true);
         const res: any = await request({
+            [META_PAGE_ID]: pageStore.pageId || bc[VAR_RECORD_ROUTE_PAGE_ID],
             [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
             action: "dml",
             json,

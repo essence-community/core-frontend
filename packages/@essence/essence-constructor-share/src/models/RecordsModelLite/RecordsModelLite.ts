@@ -7,6 +7,8 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_ERROR_CODE,
     VAR_ERROR_TEXT,
+    META_PAGE_ID,
+    VAR_RECORD_ROUTE_PAGE_ID,
 } from "../../constants/variables";
 import {IRecord} from "../../types/Base";
 import {loggerRoot} from "../../constants/base";
@@ -41,6 +43,7 @@ export class RecordsModelLite implements IRecordsModelLite {
         this.isLoading = true;
 
         return request({
+            [META_PAGE_ID]: this.bc[VAR_RECORD_ROUTE_PAGE_ID],
             [META_PAGE_OBJECT]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
             action: "sql",
             list: true,

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {makeRedirectUrl, getQueryParams, Translation, deepFind} from "@essence-community/constructor-share/utils";
+import {makeRedirectUrl, getQueryParams, Translation, deepFind, makeRedirect} from "@essence-community/constructor-share/utils";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {RecordContext} from "@essence-community/constructor-share/context";
 import {toString} from "../utils";
@@ -27,15 +27,9 @@ export const ColumnTextContainer: React.FC<IClassProps> = (props) => {
     );
 
     const handleRedirect = (event: React.SyntheticEvent) => {
-        const queryValues = bc.columnsfilter
-            ? getQueryParams({columnsName: bc.columnsfilter, globalValues: pageStore.globalValues, record})
-            : {};
-
         event.preventDefault();
 
-        if (bc.redirecturl) {
-            pageStore.applicationStore.redirectToAction(bc.redirecturl, queryValues);
-        }
+        makeRedirect(bc, pageStore, record, true);
     };
 
     if (typeof value !== "string") {

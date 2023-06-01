@@ -16,7 +16,12 @@ import {request} from "../request";
 import {attachGlobalStore} from "../models/RecordsModel/loadRecordsAction";
 import {setMask} from "../actions/recordsActions";
 import {settingsStore} from "../models/SettingsModel";
-import {META_PAGE_ID, VAR_RECORD_IS_NOT_BLANC, VAR_RECORD_ROUTE_PAGE_ID, VAR_SETTING_AUTH_URL} from "../constants/variables";
+import {
+    META_PAGE_ID,
+    VAR_RECORD_IS_NOT_BLANC,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    VAR_SETTING_AUTH_URL,
+} from "../constants/variables";
 import {parseMemoize} from "./parser";
 import {getMasterObject} from "./getMasterObject";
 import {encodePathUrl} from "./base";
@@ -44,6 +49,7 @@ interface IMakeRedirectUrlProps {
 
 interface IMakeRedirectUrlReturn {
     blank: boolean;
+    local: boolean;
     pathname?: string;
 }
 
@@ -230,8 +236,10 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
 
     const url: IMakeRedirectUrlReturn = {
         blank: false,
+        local: true,
         pathname:
-            redirecturl.indexOf("?") > -1 && redirecturl.indexOf("\x22") > -1
+            redirecturl &&
+            ((redirecturl.indexOf("?") > -1 && redirecturl.indexOf("\x22")) || redirecturl.startsWith("`"))
                 ? choiceUrl(redirecturl, globalValues, record)
                 : redirecturl,
     };
@@ -269,6 +277,13 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
         url.pathname = `${url.pathname.replace("_blank", "")}${
             Object.keys(queryParams).length ? `?${qs.stringify(queryParams)}` : ""
         }`;
+    }
+
+    if (url.pathname.indexOf("\\") < 0) {
+        const queryParams = columnsName ? getQueryParams({columnsName, globalValues, record}) : {};
+
+        url.local = true;
+        url.pathname = `${url.pathname}/${encodePathUrl(queryParams)}`;
     }
 
     return url;

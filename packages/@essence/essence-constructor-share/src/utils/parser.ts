@@ -21,7 +21,7 @@ import QueryString from "qs";
 import {FieldValue} from "../types";
 import {loggerRoot} from "../constants";
 import {i18next} from "./I18n";
-import {isEmpty} from "./base";
+import {decodePathUrl, encodePathUrl, isEmpty} from "./base";
 
 export interface IGetValue {
     get: (key: string) => FieldValue;
@@ -94,6 +94,8 @@ const utils = {
     i18next,
     moment,
     QueryString,
+    encodePathUrl,
+    decodePathUrl,
 };
 
 type utilsKey = keyof typeof utils;

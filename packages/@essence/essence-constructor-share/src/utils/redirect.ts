@@ -21,6 +21,8 @@ import {
     VAR_RECORD_IS_NOT_BLANC,
     VAR_RECORD_ROUTE_PAGE_ID,
     VAR_SETTING_AUTH_URL,
+    VAR_SETTING_BASE_PATH,
+    VAR_SETTING_BASE_URL,
 } from "../constants/variables";
 import {parseMemoize} from "./parser";
 import {getMasterObject} from "./getMasterObject";
@@ -44,12 +46,11 @@ interface IMakeRedirectUrlProps {
     redirecturl: string;
     columnsName?: IBuilderConfig["columnsfilter"];
     record?: IRecord;
-    globalValues: ObservableMap<string, FieldValue>;
+    pageStore: IPageModel;
 }
 
 interface IMakeRedirectUrlReturn {
     blank: boolean;
-    local: boolean;
     pathname?: string;
 }
 
@@ -232,11 +233,11 @@ export function getQueryParams({columnsName, record = {}, globalValues}: IGetQue
  * @returns {Object} url
  */
 export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlReturn {
-    const {redirecturl, columnsName, record = {}, globalValues, authData} = props;
+    const {redirecturl, columnsName, record = {}, pageStore, authData} = props;
+    const {globalValues} = pageStore;
 
     const url: IMakeRedirectUrlReturn = {
         blank: false,
-        local: true,
         pathname:
             redirecturl &&
             ((redirecturl.indexOf("?") > -1 && redirecturl.indexOf("\x22")) || redirecturl.startsWith("`"))
@@ -270,20 +271,23 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
         return "";
     });
 
-    if (url.pathname && url.pathname.indexOf("_blank") > -1) {
+    if (url.pathname && (url.pathname.indexOf("\\") < 0 || url.pathname.startsWith("redirect"))) {
+        const queryParams = columnsName ? getQueryParams({columnsName, globalValues, record}) : {};
+
+        url.pathname = `${settingsStore.settings[VAR_SETTING_BASE_URL]}${
+            settingsStore.settings[VAR_SETTING_BASE_PATH]
+        }${
+            url.pathname.startsWith("redirect")
+                ? url.pathname.replace("redirect", "")
+                : `${pageStore.applicationStore.url}/${url.pathname}`
+        }/${encodePathUrl(queryParams)}`;
+    } else if (url.pathname && url.pathname.indexOf("_blank") > -1) {
         const queryParams = columnsName ? getQueryParams({columnsName, globalValues, record}) : {};
 
         url.blank = true;
         url.pathname = `${url.pathname.replace("_blank", "")}${
             Object.keys(queryParams).length ? `?${qs.stringify(queryParams)}` : ""
         }`;
-    }
-
-    if (url.pathname.indexOf("\\") < 0) {
-        const queryParams = columnsName ? getQueryParams({columnsName, globalValues, record}) : {};
-
-        url.local = true;
-        url.pathname = `${url.pathname}/${encodePathUrl(queryParams)}`;
     }
 
     return url;

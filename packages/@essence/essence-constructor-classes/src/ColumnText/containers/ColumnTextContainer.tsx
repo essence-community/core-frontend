@@ -1,5 +1,5 @@
 import * as React from "react";
-import {makeRedirectUrl, getQueryParams, Translation, deepFind, makeRedirect} from "@essence-community/constructor-share/utils";
+import {makeRedirectUrl, Translation, deepFind, makeRedirect} from "@essence-community/constructor-share/utils";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {RecordContext} from "@essence-community/constructor-share/context";
 import {toString} from "../utils";
@@ -18,12 +18,12 @@ export const ColumnTextContainer: React.FC<IClassProps> = (props) => {
                       authData: pageStore.applicationStore.authStore.userInfo,
                       bc,
                       columnsName: bc.columnsfilter,
-                      globalValues: pageStore.globalValues,
+                      pageStore,
                       record,
                       redirecturl: bc.redirecturl,
                   })
                 : undefined,
-        [bc, pageStore.applicationStore.authStore.userInfo, pageStore.globalValues, record],
+        [bc, pageStore, record],
     );
 
     const handleRedirect = (event: React.SyntheticEvent) => {
@@ -37,7 +37,7 @@ export const ColumnTextContainer: React.FC<IClassProps> = (props) => {
     }
 
     const getRenderValue = (localizedValue: string, qtip: string = localizedValue) => {
-        if (redirectUrl) {
+        if (redirectUrl?.pathname) {
             return (
                 <a
                     className={classes.root}

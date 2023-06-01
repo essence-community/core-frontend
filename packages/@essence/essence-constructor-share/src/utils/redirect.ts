@@ -277,16 +277,21 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
 export function makeRedirect(bc: IBuilderConfig, pageStore: IPageModel, record: IRecord = {}, noBlank = false): void {
     const {redirecturl, redirectusequery, columnsfilter} = bc;
     const {globalValues} = pageStore;
-
+    let redirectUrl = redirecturl;
     const values: IRecord = getQueryParams({columnsName: columnsfilter, globalValues, record});
 
-    if (redirecturl) {
-        if (redirecturl.indexOf("redirect/") === 0) {
-            redirectToApplication(pageStore, values, redirecturl.replace("redirect/", ""));
-        } else if (redirecturl.indexOf("/") >= 0 || redirecturl[0] === "`") {
-            redirectToUrl({noBlank, pageStore, record, redirecturl, values});
-        } else {
-            pageStore.applicationStore.redirectToAction(redirecturl, values);
+    if (redirectUrl) {
+        if (redirectUrl.startsWith("`") && redirectUrl.endsWith("`")) {
+            redirectUrl = choiceUrl(redirectUrl, pageStore.globalValues, record);
+        }
+        if (redirectUrl) {
+            if (redirectUrl.indexOf("redirect/") === 0) {
+                redirectToApplication(pageStore, values, redirectUrl.replace("redirect/", ""));
+            } else if (redirectUrl.indexOf("/") >= 0 || redirectUrl[0] === "`") {
+                redirectToUrl({noBlank, pageStore, record, redirecturl: redirectUrl, values});
+            } else {
+                pageStore.applicationStore.redirectToAction(redirectUrl, values);
+            }
         }
     }
 

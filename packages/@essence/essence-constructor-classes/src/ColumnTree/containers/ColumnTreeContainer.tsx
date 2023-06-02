@@ -21,14 +21,11 @@ export const ColumnTreeContainer: React.FC<IClassProps> = (props) => {
     const classes = useStyles(props);
     const redirectUrl = React.useMemo(
         () =>
-            bc.redirecturl
+            bc.redirecturl || bc.redirectusequery
                 ? makeRedirectUrl({
-                      authData: pageStore.applicationStore.authStore.userInfo,
                       bc,
-                      columnsName: bc.columnsfilter,
                       pageStore,
                       record,
-                      redirecturl: bc.redirecturl,
                   })
                 : undefined,
         [bc, pageStore, record],
@@ -36,10 +33,10 @@ export const ColumnTreeContainer: React.FC<IClassProps> = (props) => {
     const handleRedirect = (event: React.SyntheticEvent) => {
         event.preventDefault();
 
-        makeRedirect(bc, pageStore, record, true);
+        makeRedirect(bc, pageStore, record, !redirectUrl.blank);
     };
     const getRenderValue = (localizedValue: string, qtip: string = localizedValue) => {
-        if (redirectUrl?.pathname) {
+        if (redirectUrl?.isRedirect) {
             return (
                 <a
                     className={classes.root}

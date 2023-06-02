@@ -41,15 +41,13 @@ interface IRedirectAuthParam {
 }
 
 interface IMakeRedirectUrlProps {
-    authData: Partial<IAuthSession>;
     bc: IBuilderConfig;
-    redirecturl: string;
-    columnsName?: IBuilderConfig["columnsfilter"];
     record?: IRecord;
     pageStore: IPageModel;
 }
 
 interface IMakeRedirectUrlReturn {
+    isRedirect: boolean;
     blank: boolean;
     pathname?: string;
 }
@@ -233,11 +231,13 @@ export function getQueryParams({columnsName, record = {}, globalValues}: IGetQue
  * @returns {Object} url
  */
 export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlReturn {
-    const {redirecturl, columnsName, record = {}, pageStore, authData} = props;
+    const {bc, record = {}, pageStore} = props;
+    const {redirectusequery, redirecturl, columnsfilter} = bc;
     const {globalValues} = pageStore;
 
     const url: IMakeRedirectUrlReturn = {
         blank: false,
+        isRedirect: false,
         pathname:
             redirecturl &&
             ((redirecturl.indexOf("?") > -1 && redirecturl.indexOf("\x22")) || redirecturl.startsWith("`"))
@@ -246,14 +246,20 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
     };
 
     if (!url.pathname) {
+        if (redirectusequery) {
+            url.isRedirect = true;
+        }
+
         return url;
     }
+
+    url.isRedirect = true;
 
     // eslint-disable-next-line require-unicode-regexp,  prefer-named-capture-group
     url.pathname = url.pathname.replace(/{([^}]+)}/g, (match, pattern: string): string => {
         if (pattern.indexOf(SESSION_PREFIX) === 0) {
             const sessKey: string = pattern.substring(SESSION_PREFIX.length);
-            const value = authData[sessKey as keyof IAuthSession];
+            const value = pageStore.applicationStore.authStore.userInfo[sessKey as keyof IAuthSession];
 
             return String(value);
         }
@@ -270,10 +276,9 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
 
         return "";
     });
+    const queryParams = columnsfilter ? getQueryParams({columnsName: columnsfilter, globalValues, record}) : {};
 
     if (url.pathname && (url.pathname.indexOf("\\") < 0 || url.pathname.startsWith("redirect"))) {
-        const queryParams = columnsName ? getQueryParams({columnsName, globalValues, record}) : {};
-
         url.pathname = `${settingsStore.settings[VAR_SETTING_BASE_URL]}${
             settingsStore.settings[VAR_SETTING_BASE_PATH]
         }${
@@ -282,8 +287,6 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
                 : `${pageStore.applicationStore.url}/${url.pathname}`
         }/${encodePathUrl(queryParams)}`;
     } else if (url.pathname && url.pathname.indexOf("_blank") > -1) {
-        const queryParams = columnsName ? getQueryParams({columnsName, globalValues, record}) : {};
-
         url.blank = true;
         url.pathname = `${url.pathname.replace("_blank", "")}${
             Object.keys(queryParams).length ? `?${qs.stringify(queryParams)}` : ""

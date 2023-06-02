@@ -13,14 +13,11 @@ export const ColumnTextContainer: React.FC<IClassProps> = (props) => {
     const classes = useStyles();
     const redirectUrl = React.useMemo(
         () =>
-            bc.redirecturl
+            bc.redirecturl || bc.redirectusequery
                 ? makeRedirectUrl({
-                      authData: pageStore.applicationStore.authStore.userInfo,
                       bc,
-                      columnsName: bc.columnsfilter,
                       pageStore,
                       record,
-                      redirecturl: bc.redirecturl,
                   })
                 : undefined,
         [bc, pageStore, record],
@@ -29,7 +26,7 @@ export const ColumnTextContainer: React.FC<IClassProps> = (props) => {
     const handleRedirect = (event: React.SyntheticEvent) => {
         event.preventDefault();
 
-        makeRedirect(bc, pageStore, record, true);
+        makeRedirect(bc, pageStore, record, !redirectUrl.blank);
     };
 
     if (typeof value !== "string") {
@@ -37,14 +34,14 @@ export const ColumnTextContainer: React.FC<IClassProps> = (props) => {
     }
 
     const getRenderValue = (localizedValue: string, qtip: string = localizedValue) => {
-        if (redirectUrl?.pathname) {
+        if (redirectUrl?.isRedirect) {
             return (
                 <a
                     className={classes.root}
                     href={redirectUrl.pathname}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={redirectUrl.blank ? undefined : handleRedirect}
+                    onClick={handleRedirect}
                     data-qtip={localizedValue}
                 >
                     {localizedValue}

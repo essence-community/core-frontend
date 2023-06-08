@@ -23,7 +23,7 @@ export const BoxContainer: React.FC<IClassProps> = (props) => {
         }),
         [bc],
     );
-    const [childs, sizeChilds] = React.useMemo(
+    const [childs, sizeChild] = React.useMemo(
         () => [
             (bc.childs || []).map((childBc, index) => ({
                 ...childBc,
@@ -44,7 +44,7 @@ export const BoxContainer: React.FC<IClassProps> = (props) => {
                 };
 
                 return res;
-            }, []),
+            }, {}),
         ],
         [bc],
     );
@@ -66,7 +66,7 @@ export const BoxContainer: React.FC<IClassProps> = (props) => {
                           key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
                           xs={isRow ? true : MAX_PANEL_WIDTH}
                           zeroMinWidth
-                          style={sizeChilds[childBc[VAR_RECORD_PAGE_OBJECT_ID]]}
+                          style={sizeChild[childBc[VAR_RECORD_PAGE_OBJECT_ID]]}
                       >
                           <Child {...props} bc={childBc} />
                       </Grid>

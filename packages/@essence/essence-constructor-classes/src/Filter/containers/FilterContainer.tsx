@@ -54,7 +54,7 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
         );
     }, [bc, isAutoLoad, pageStore, store]);
 
-    const [childs, sizeChilds] = React.useMemo(
+    const [childs, sizeChild] = React.useMemo(
         () => [
             (bc.childs || []).map((childBc, index) => ({
                 ...childBc,
@@ -75,7 +75,7 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                 };
 
                 return res;
-            }, []),
+            }, {}),
         ],
         [bc],
     );
@@ -134,7 +134,7 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                                         item
                                         key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                                         xs={12}
-                                        style={sizeChilds[child[VAR_RECORD_PAGE_OBJECT_ID]]}
+                                        style={sizeChild[child[VAR_RECORD_PAGE_OBJECT_ID]]}
                                     >
                                         <ChildComp
                                             {...props}

@@ -95,7 +95,7 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
         store.closeAction("1", bc, {});
     }, [bc, store]);
 
-    const [childs, sizeChilds] = React.useMemo(
+    const [childs, sizeChild] = React.useMemo(
         () => [
             (store.childs || []).map((childBc, index) => ({
                 ...childBc,
@@ -116,7 +116,7 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
                 };
 
                 return res;
-            }, []),
+            }, {}),
         ],
         [store],
     );
@@ -176,7 +176,7 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
                                                         <Grid
                                                             key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
                                                             item
-                                                            style={sizeChilds[childBc[VAR_RECORD_PAGE_OBJECT_ID]]}
+                                                            style={sizeChild[childBc[VAR_RECORD_PAGE_OBJECT_ID]]}
                                                         >
                                                             <ChildCmp {...props} bc={childBc} />
                                                         </Grid>

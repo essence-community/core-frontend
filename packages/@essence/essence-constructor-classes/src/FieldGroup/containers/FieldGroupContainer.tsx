@@ -108,7 +108,7 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
 
         return undefined;
     }, [bc.reqcountrules, handleChangeReqCount, handleRegCountRules]);
-    const [childs, sizeChilds] = React.useMemo(
+    const [childs, sizeChild] = React.useMemo(
         () => [
             (bc.childs || []).map((childBc, index) => ({
                 ...childBc,
@@ -129,7 +129,7 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
                 };
 
                 return res;
-            }, []),
+            }, {}),
         ],
         [bc],
     );
@@ -179,7 +179,7 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
                         xs={isRow ? true : MAX_PANEL_WIDTH}
                         key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                         className={classes.child}
-                        style={sizeChilds[child[VAR_RECORD_PAGE_OBJECT_ID]]}
+                        style={sizeChild[child[VAR_RECORD_PAGE_OBJECT_ID]]}
                     >
                         <ChildCmp {...props} bc={child} />
                     </Grid>

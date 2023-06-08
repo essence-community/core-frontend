@@ -35,7 +35,7 @@ export const FilterExtended = (props: IClassProps) => {
         }
     };
 
-    const [childs, sizeChilds] = React.useMemo(
+    const [childs, sizeChild] = React.useMemo(
         () => [
             (bc.childs || []).map((childBc, index) => ({
                 ...childBc,
@@ -56,7 +56,7 @@ export const FilterExtended = (props: IClassProps) => {
                 };
 
                 return res;
-            }, []),
+            }, {}),
         ],
         [bc],
     );
@@ -104,7 +104,7 @@ export const FilterExtended = (props: IClassProps) => {
                                 item
                                 key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
                                 xs={12}
-                                style={sizeChilds[childBc[VAR_RECORD_PAGE_OBJECT_ID]]}
+                                style={sizeChild[childBc[VAR_RECORD_PAGE_OBJECT_ID]]}
                             >
                                 <Child {...props} bc={childBc} />
                             </Grid>

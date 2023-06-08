@@ -32,7 +32,7 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
         [bc, deleteLabel, idx, storeName],
     );
 
-    const [childs, sizeChilds] = React.useMemo(
+    const [childs, sizeChild] = React.useMemo(
         () => [
             (bc.childs || []).map((childBc, index) => ({
                 ...childBc,
@@ -53,7 +53,7 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
                 };
 
                 return res;
-            }, []),
+            }, {}),
         ],
         [bc],
     );
@@ -73,7 +73,7 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
                         item
                         key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]}
                         xs
-                        style={sizeChilds[bcChild[VAR_RECORD_PAGE_OBJECT_ID]]}
+                        style={sizeChild[bcChild[VAR_RECORD_PAGE_OBJECT_ID]]}
                     >
                         <ChildCmp {...fieldProps} bc={bcChild} />
                     </Grid>

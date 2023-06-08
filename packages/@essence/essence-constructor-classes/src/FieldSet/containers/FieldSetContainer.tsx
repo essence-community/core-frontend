@@ -81,7 +81,7 @@ export const FieldSetContainer: React.FC<IClassProps> = (props) => {
         [bc, inputChild, field, outputChild],
     );
 
-    const [childs, sizeChilds] = React.useMemo(
+    const [childs, sizeChild] = React.useMemo(
         () => [
             (bc.childs || []).map((childBc, index) => ({
                 ...childBc,
@@ -102,7 +102,7 @@ export const FieldSetContainer: React.FC<IClassProps> = (props) => {
                 };
 
                 return res;
-            }, []),
+            }, {}),
         ],
         [bc],
     );
@@ -114,7 +114,7 @@ export const FieldSetContainer: React.FC<IClassProps> = (props) => {
                     key={child[VAR_RECORD_PAGE_OBJECT_ID] ? child[VAR_RECORD_PAGE_OBJECT_ID] : `child_${index}`}
                     value={parentContext[index]}
                 >
-                    <Grid item xs={isRow ? true : MAX_PANEL_WIDTH} style={sizeChilds[child[VAR_RECORD_PAGE_OBJECT_ID]]}>
+                    <Grid item xs={isRow ? true : MAX_PANEL_WIDTH} style={sizeChild[child[VAR_RECORD_PAGE_OBJECT_ID]]}>
                         <ChildComp {...props} bc={child} />
                     </Grid>
                 </ParentFieldContext.Provider>

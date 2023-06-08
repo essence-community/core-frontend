@@ -95,6 +95,32 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
         store.closeAction("1", bc, {});
     }, [bc, store]);
 
+    const [childs, sizeChilds] = React.useMemo(
+        () => [
+            (store.childs || []).map((childBc, index) => ({
+                ...childBc,
+                [VAR_RECORD_PAGE_OBJECT_ID]: childBc[VAR_RECORD_PAGE_OBJECT_ID] || `${index}`,
+                height: childBc.height ? "100%" : undefined,
+                maxheight: childBc.maxheight ? "100%" : undefined,
+                maxwidth: childBc.maxwidth ? "100%" : undefined,
+                minheight: childBc.minheight ? "100%" : undefined,
+                minwidth: childBc.minwidth ? "100%" : undefined,
+                width: childBc.width ? "100%" : undefined,
+            })),
+            (store.childs || []).reduce((res, childBc, index) => {
+                res[childBc[VAR_RECORD_PAGE_OBJECT_ID] || index] = {
+                    height: childBc.height,
+                    maxHeight: childBc.maxheight ?? "100%",
+                    minHeight: childBc.minheight,
+                    ...toColumnStyleWidthBc(childBc),
+                };
+
+                return res;
+            }, []),
+        ],
+        [store],
+    );
+
     return useObserver(() => (
         <WindowContext.Provider
             value={{
@@ -145,17 +171,12 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
                                     >
                                         {mapComponentOne(boxBc, (ChildBox, childBoxBc) => (
                                             <ChildBox {...props} bc={childBoxBc}>
-                                                {mapComponents(store.childs, (ChildCmp, childBc) => {
+                                                {mapComponents(childs, (ChildCmp, childBc) => {
                                                     return (
                                                         <Grid
                                                             key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
                                                             item
-                                                            style={{
-                                                                height: childBc.height,
-                                                                maxHeight: childBc.maxheight ?? "100%",
-                                                                minHeight: childBc.minheight,
-                                                                ...toColumnStyleWidthBc(childBc),
-                                                            }}
+                                                            style={sizeChilds[childBc[VAR_RECORD_PAGE_OBJECT_ID]]}
                                                         >
                                                             <ChildCmp {...props} bc={childBc} />
                                                         </Grid>

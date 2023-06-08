@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Grid} from "@material-ui/core";
-import {mapComponents, IBuilderConfig, toColumnStyleWidth} from "@essence-community/constructor-share";
+import {mapComponents, IBuilderConfig, toColumnStyleWidthBc} from "@essence-community/constructor-share";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_MASTER_ID,
@@ -32,6 +32,32 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
         [bc, deleteLabel, idx, storeName],
     );
 
+    const [childs, sizeChilds] = React.useMemo(
+        () => [
+            (bc.childs || []).map((childBc, index) => ({
+                ...childBc,
+                [VAR_RECORD_PAGE_OBJECT_ID]: childBc[VAR_RECORD_PAGE_OBJECT_ID] || `${index}`,
+                height: childBc.height ? "100%" : undefined,
+                maxheight: childBc.maxheight ? "100%" : undefined,
+                maxwidth: childBc.maxwidth ? "100%" : undefined,
+                minheight: childBc.minheight ? "100%" : undefined,
+                minwidth: childBc.minwidth ? "100%" : undefined,
+                width: childBc.width ? "100%" : undefined,
+            })),
+            (bc.childs || []).reduce((res, childBc, index) => {
+                res[childBc[VAR_RECORD_PAGE_OBJECT_ID] || index] = {
+                    height: childBc.height,
+                    maxHeight: childBc.maxheight ?? "100%",
+                    minHeight: childBc.minheight,
+                    ...toColumnStyleWidthBc(childBc),
+                };
+
+                return res;
+            }, []),
+        ],
+        [bc],
+    );
+
     return (
         <Grid container spacing={1}>
             <Grid
@@ -42,8 +68,13 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
                 {...GRID_ALIGN_CONFIGS[`${align}-${contentview}`]}
                 spacing={1}
             >
-                {mapComponents(bc.childs, (ChildCmp, bcChild) => (
-                    <Grid item key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]} xs style={toColumnStyleWidth(bcChild.width)}>
+                {mapComponents(childs, (ChildCmp, bcChild) => (
+                    <Grid
+                        item
+                        key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]}
+                        xs
+                        style={sizeChilds[bcChild[VAR_RECORD_PAGE_OBJECT_ID]]}
+                    >
                         <ChildCmp {...fieldProps} bc={bcChild} />
                     </Grid>
                 ))}

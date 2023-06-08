@@ -3,9 +3,9 @@ import cn from "clsx";
 import {
     useTranslation,
     toTranslateText,
-    toColumnStyleWidth,
     getFromStore,
     isEmpty,
+    toColumnStyleWidthBc,
 } from "@essence-community/constructor-share/utils";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
@@ -53,6 +53,32 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
             },
         );
     }, [bc, isAutoLoad, pageStore, store]);
+
+    const [childs, sizeChilds] = React.useMemo(
+        () => [
+            (bc.childs || []).map((childBc, index) => ({
+                ...childBc,
+                [VAR_RECORD_PAGE_OBJECT_ID]: childBc[VAR_RECORD_PAGE_OBJECT_ID] || `${index}`,
+                height: childBc.height ? "100%" : undefined,
+                maxheight: childBc.maxheight ? "100%" : undefined,
+                maxwidth: childBc.maxwidth ? "100%" : undefined,
+                minheight: childBc.minheight ? "100%" : undefined,
+                minwidth: childBc.minwidth ? "100%" : undefined,
+                width: childBc.width ? "100%" : undefined,
+            })),
+            (bc.childs || []).reduce((res, childBc, index) => {
+                res[childBc[VAR_RECORD_PAGE_OBJECT_ID] || index] = {
+                    height: childBc.height,
+                    maxHeight: childBc.maxheight ?? "100%",
+                    minHeight: childBc.minheight,
+                    ...toColumnStyleWidthBc(childBc),
+                };
+
+                return res;
+            }, []),
+        ],
+        [bc],
+    );
 
     return useObserver(() => (
         <Collapse in={store.isOpen} collapsedHeight={title || layoutTheme === 1 ? "42px" : "1px"}>
@@ -103,12 +129,12 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                                     GRID_ALIGN_CONFIGS[`${bc.align}-${bc.contentview}`]) ||
                                     GRID_ALIGN_CONFIGS["left-hbox"])}
                             >
-                                {mapComponents(bc.childs, (ChildComp, child) => (
+                                {mapComponents(childs, (ChildComp, child) => (
                                     <Grid
                                         item
                                         key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                                         xs={12}
-                                        style={toColumnStyleWidth(child.width)}
+                                        style={sizeChilds[child[VAR_RECORD_PAGE_OBJECT_ID]]}
                                     >
                                         <ChildComp
                                             {...props}

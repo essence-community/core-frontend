@@ -81,23 +81,40 @@ export const FieldSetContainer: React.FC<IClassProps> = (props) => {
         [bc, inputChild, field, outputChild],
     );
 
+    const [childs, sizeChilds] = React.useMemo(
+        () => [
+            (bc.childs || []).map((childBc, index) => ({
+                ...childBc,
+                [VAR_RECORD_PAGE_OBJECT_ID]: childBc[VAR_RECORD_PAGE_OBJECT_ID] || `${index}`,
+                height: childBc.height ? "100%" : undefined,
+                maxheight: childBc.maxheight ? "100%" : undefined,
+                maxwidth: childBc.maxwidth ? "100%" : undefined,
+                minheight: childBc.minheight ? "100%" : undefined,
+                minwidth: childBc.minwidth ? "100%" : undefined,
+                width: childBc.width ? "100%" : undefined,
+            })),
+            (bc.childs || []).reduce((res, childBc, index) => {
+                res[childBc[VAR_RECORD_PAGE_OBJECT_ID] || index] = {
+                    height: childBc.height,
+                    maxHeight: childBc.maxheight ?? "100%",
+                    minHeight: childBc.minheight,
+                    ...toColumnStyleWidthBc(childBc),
+                };
+
+                return res;
+            }, []),
+        ],
+        [bc],
+    );
+
     return mapComponentOne(boxBc, (ChildBox, childBoxBc) => (
         <ChildBox {...props} bc={childBoxBc}>
-            {mapComponents(bc.childs, (ChildComp, child, index) => (
+            {mapComponents(childs, (ChildComp, child, index) => (
                 <ParentFieldContext.Provider
                     key={child[VAR_RECORD_PAGE_OBJECT_ID] ? child[VAR_RECORD_PAGE_OBJECT_ID] : `child_${index}`}
                     value={parentContext[index]}
                 >
-                    <Grid
-                        item
-                        xs={isRow ? true : MAX_PANEL_WIDTH}
-                        style={{
-                            height: child.height,
-                            maxHeight: child.maxheight ?? "100%",
-                            minHeight: child.minheight,
-                            ...toColumnStyleWidthBc(child),
-                        }}
-                    >
+                    <Grid item xs={isRow ? true : MAX_PANEL_WIDTH} style={sizeChilds[child[VAR_RECORD_PAGE_OBJECT_ID]]}>
                         <ChildComp {...props} bc={child} />
                     </Grid>
                 </ParentFieldContext.Provider>

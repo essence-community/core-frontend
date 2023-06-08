@@ -11,7 +11,7 @@ const MAX_PANEL_WIDTH = 12;
 
 export const BoxContainer: React.FC<IClassProps> = (props) => {
     const {children, bc} = props;
-    const {childs, contentview, align} = bc;
+    const {contentview, align} = bc;
     const gridSpacing = DEFAULT_SPACING;
     const isRow = contentview === "hbox" || contentview === "hbox-wrap";
     const contentStyle = React.useMemo(
@@ -21,6 +21,31 @@ export const BoxContainer: React.FC<IClassProps> = (props) => {
             minHeight: bc.minheight,
             ...toColumnStyleWidthBc(bc),
         }),
+        [bc],
+    );
+    const [childs, sizeChilds] = React.useMemo(
+        () => [
+            (bc.childs || []).map((childBc, index) => ({
+                ...childBc,
+                [VAR_RECORD_PAGE_OBJECT_ID]: childBc[VAR_RECORD_PAGE_OBJECT_ID] || `${index}`,
+                height: childBc.height ? "100%" : undefined,
+                maxheight: childBc.maxheight ? "100%" : undefined,
+                maxwidth: childBc.maxwidth ? "100%" : undefined,
+                minheight: childBc.minheight ? "100%" : undefined,
+                minwidth: childBc.minwidth ? "100%" : undefined,
+                width: childBc.width ? "100%" : undefined,
+            })),
+            (bc.childs || []).reduce((res, childBc, index) => {
+                res[childBc[VAR_RECORD_PAGE_OBJECT_ID] || index] = {
+                    height: childBc.height,
+                    maxHeight: childBc.maxheight ?? "100%",
+                    minHeight: childBc.minheight,
+                    ...toColumnStyleWidthBc(childBc),
+                };
+
+                return res;
+            }, []),
+        ],
         [bc],
     );
 
@@ -41,12 +66,7 @@ export const BoxContainer: React.FC<IClassProps> = (props) => {
                           key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
                           xs={isRow ? true : MAX_PANEL_WIDTH}
                           zeroMinWidth
-                          style={{
-                              height: childBc.height,
-                              maxHeight: childBc.maxheight ?? "100%",
-                              minHeight: childBc.minheight,
-                              ...toColumnStyleWidthBc(childBc),
-                          }}
+                          style={sizeChilds[childBc[VAR_RECORD_PAGE_OBJECT_ID]]}
                       >
                           <Child {...props} bc={childBc} />
                       </Grid>

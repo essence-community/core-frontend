@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import * as React from "react";
 import cn from "clsx";
 import {reaction} from "mobx";
@@ -107,6 +108,31 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
 
         return undefined;
     }, [bc.reqcountrules, handleChangeReqCount, handleRegCountRules]);
+    const [childs, sizeChilds] = React.useMemo(
+        () => [
+            (bc.childs || []).map((childBc, index) => ({
+                ...childBc,
+                [VAR_RECORD_PAGE_OBJECT_ID]: childBc[VAR_RECORD_PAGE_OBJECT_ID] || `${index}`,
+                height: childBc.height ? "100%" : undefined,
+                maxheight: childBc.maxheight ? "100%" : undefined,
+                maxwidth: childBc.maxwidth ? "100%" : undefined,
+                minheight: childBc.minheight ? "100%" : undefined,
+                minwidth: childBc.minwidth ? "100%" : undefined,
+                width: childBc.width ? "100%" : undefined,
+            })),
+            (bc.childs || []).reduce((res, childBc, index) => {
+                res[childBc[VAR_RECORD_PAGE_OBJECT_ID] || index] = {
+                    height: childBc.height,
+                    maxHeight: childBc.maxheight ?? "100%",
+                    minHeight: childBc.minheight,
+                    ...toColumnStyleWidthBc(childBc),
+                };
+
+                return res;
+            }, []),
+        ],
+        [bc],
+    );
 
     return useObserver(() => {
         const status =
@@ -147,18 +173,13 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
                         &nbsp;
                     </Grid>
                 </Grid>
-                {mapComponents(bc.childs, (ChildCmp, child) => (
+                {mapComponents(childs, (ChildCmp, child) => (
                     <Grid
                         item
                         xs={isRow ? true : MAX_PANEL_WIDTH}
                         key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                         className={classes.child}
-                        style={{
-                            height: child.height,
-                            maxHeight: child.maxheight ?? "100%",
-                            minHeight: child.minheight,
-                            ...toColumnStyleWidthBc(child),
-                        }}
+                        style={sizeChilds[child[VAR_RECORD_PAGE_OBJECT_ID]]}
                     >
                         <ChildCmp {...props} bc={child} />
                     </Grid>

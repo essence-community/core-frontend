@@ -82,11 +82,11 @@ export const Panel: React.FC<IPanelProps> = (props) => {
                             const isAddResizer = isResizeEnable && !isLast;
                             const style = isResizeEnable
                                 ? {
-                                      ...sizeChild[childBc[VAR_RECORD_PAGE_OBJECT_ID]],
+                                      ...sizeChild[child[VAR_RECORD_PAGE_OBJECT_ID]],
                                       flexBasis: "auto",
                                       maxWidth: `${childWidthData.width}%`,
                                   }
-                                : sizeChild[childBc[VAR_RECORD_PAGE_OBJECT_ID]];
+                                : sizeChild[child[VAR_RECORD_PAGE_OBJECT_ID]];
 
                             const childComponnt = <ChildComp {...props} bc={child} />;
 

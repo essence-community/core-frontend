@@ -48,7 +48,7 @@ export const ColumnTreeContainer: React.FC<IClassProps> = (props) => {
                     href={redirectUrl.pathname}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={redirectUrl.blank ? undefined : handleRedirect}
+                    onClick={handleRedirect}
                     data-qtip={localizedValue}
                 >
                     {localizedValue}

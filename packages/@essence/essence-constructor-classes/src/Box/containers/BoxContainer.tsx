@@ -5,6 +5,7 @@ import {toColumnStyleWidthBc} from "@essence-community/constructor-share/utils/t
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {GRID_CONFIGS, GRID_ALIGN_CONFIGS} from "@essence-community/constructor-share/constants/ui";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {useSizeChild} from "@essence-community/constructor-share/hooks";
 
 const DEFAULT_SPACING = 1;
 const MAX_PANEL_WIDTH = 12;
@@ -23,31 +24,7 @@ export const BoxContainer: React.FC<IClassProps> = (props) => {
         }),
         [bc],
     );
-    const [childs, sizeChild] = React.useMemo(
-        () => [
-            (bc.childs || []).map((childBc, index) => ({
-                ...childBc,
-                [VAR_RECORD_PAGE_OBJECT_ID]: childBc[VAR_RECORD_PAGE_OBJECT_ID] || `${index}`,
-                height: childBc.height ? "100%" : undefined,
-                maxheight: childBc.maxheight ? "100%" : undefined,
-                maxwidth: childBc.maxwidth ? "100%" : undefined,
-                minheight: childBc.minheight ? "100%" : undefined,
-                minwidth: childBc.minwidth ? "100%" : undefined,
-                width: childBc.width ? "100%" : undefined,
-            })),
-            (bc.childs || []).reduce((res, childBc, index) => {
-                res[childBc[VAR_RECORD_PAGE_OBJECT_ID] || index] = {
-                    height: childBc.height,
-                    maxHeight: childBc.maxheight ?? "100%",
-                    minHeight: childBc.minheight,
-                    ...toColumnStyleWidthBc(childBc),
-                };
-
-                return res;
-            }, {}),
-        ],
-        [bc],
-    );
+    const [childs, sizeChild] = useSizeChild(bc.childs);
 
     return (
         <Grid

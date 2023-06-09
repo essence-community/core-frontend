@@ -2,8 +2,15 @@ import * as React from "react";
 import {Collapse, Grid, Typography} from "@material-ui/core";
 import clsx from "clsx";
 import {useObserver} from "mobx-react";
-import {mapComponents, IBuilderConfig, IClassProps, Icon, FormContext} from "@essence-community/constructor-share";
-import {useTranslation, toColumnStyleWidthBc} from "@essence-community/constructor-share/utils";
+import {
+    mapComponents,
+    IBuilderConfig,
+    IClassProps,
+    Icon,
+    FormContext,
+    useSizeChild,
+} from "@essence-community/constructor-share";
+import {useTranslation} from "@essence-community/constructor-share/utils";
 import {findColumns} from "@essence-community/constructor-share/utils/findColumns";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -35,31 +42,7 @@ export const FilterExtended = (props: IClassProps) => {
         }
     };
 
-    const [childs, sizeChild] = React.useMemo(
-        () => [
-            (bc.childs || []).map((childBc, index) => ({
-                ...childBc,
-                [VAR_RECORD_PAGE_OBJECT_ID]: childBc[VAR_RECORD_PAGE_OBJECT_ID] || `${index}`,
-                height: childBc.height ? "100%" : undefined,
-                maxheight: childBc.maxheight ? "100%" : undefined,
-                maxwidth: childBc.maxwidth ? "100%" : undefined,
-                minheight: childBc.minheight ? "100%" : undefined,
-                minwidth: childBc.minwidth ? "100%" : undefined,
-                width: childBc.width ? "100%" : undefined,
-            })),
-            (bc.childs || []).reduce((res, childBc, index) => {
-                res[childBc[VAR_RECORD_PAGE_OBJECT_ID] || index] = {
-                    height: childBc.height,
-                    maxHeight: childBc.maxheight ?? "100%",
-                    minHeight: childBc.minheight,
-                    ...toColumnStyleWidthBc(childBc),
-                };
-
-                return res;
-            }, {}),
-        ],
-        [bc],
-    );
+    const [childs, sizeChild] = useSizeChild(bc.childs);
 
     return useObserver(() => (
         <Collapse in={isOpen} collapsedHeight="30px" data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-collapsible`}>

@@ -1,13 +1,13 @@
 import * as React from "react";
 import cn from "clsx";
 import {Grid, DialogTitle, Checkbox, FormControlLabel, Modal, Paper, Backdrop} from "@material-ui/core";
-import {toColumnStyleWidthBc, useTranslation, noop} from "@essence-community/constructor-share/utils";
+import {useTranslation, noop} from "@essence-community/constructor-share/utils";
 import {mapComponentOne, mapComponents} from "@essence-community/constructor-share/components";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {UIForm, Focusable, Scrollbars} from "@essence-community/constructor-share/uicomponents";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {IClassProps, IBuilderMode, IBuilderConfig} from "@essence-community/constructor-share/types";
-import {useModel} from "@essence-community/constructor-share/hooks";
+import {useModel, useSizeChild} from "@essence-community/constructor-share/hooks";
 import {useObserver} from "mobx-react";
 import {WindowContext} from "@essence-community/constructor-share/context";
 import {getModeTitle} from "../utils";
@@ -95,31 +95,7 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
         store.closeAction("1", bc, {});
     }, [bc, store]);
 
-    const [childs, sizeChild] = React.useMemo(
-        () => [
-            (store.childs || []).map((childBc, index) => ({
-                ...childBc,
-                [VAR_RECORD_PAGE_OBJECT_ID]: childBc[VAR_RECORD_PAGE_OBJECT_ID] || `${index}`,
-                height: childBc.height ? "100%" : undefined,
-                maxheight: childBc.maxheight ? "100%" : undefined,
-                maxwidth: childBc.maxwidth ? "100%" : undefined,
-                minheight: childBc.minheight ? "100%" : undefined,
-                minwidth: childBc.minwidth ? "100%" : undefined,
-                width: childBc.width ? "100%" : undefined,
-            })),
-            (store.childs || []).reduce((res, childBc, index) => {
-                res[childBc[VAR_RECORD_PAGE_OBJECT_ID] || index] = {
-                    height: childBc.height,
-                    maxHeight: childBc.maxheight ?? "100%",
-                    minHeight: childBc.minheight,
-                    ...toColumnStyleWidthBc(childBc),
-                };
-
-                return res;
-            }, {}),
-        ],
-        [store],
-    );
+    const [childs, sizeChild] = useSizeChild(store.childs);
 
     return useObserver(() => (
         <WindowContext.Provider

@@ -3,7 +3,7 @@ import * as React from "react";
 import cn from "clsx";
 import {reaction} from "mobx";
 import {Grid} from "@material-ui/core";
-import {toColumnStyleWidthBc, isEmpty, useTranslation} from "@essence-community/constructor-share/utils";
+import {isEmpty, useTranslation} from "@essence-community/constructor-share/utils";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {parseMemoize} from "@essence-community/constructor-share/utils/parser";
@@ -17,6 +17,7 @@ import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/
 import {useField} from "@essence-community/constructor-share/Form";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {useObserver} from "mobx-react";
+import {useSizeChild} from "@essence-community/constructor-share/hooks";
 import {getColumns, isIncorrect, getTip} from "../utils";
 import {useStyles} from "./FieldGroupContainer.styles";
 
@@ -108,31 +109,7 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
 
         return undefined;
     }, [bc.reqcountrules, handleChangeReqCount, handleRegCountRules]);
-    const [childs, sizeChild] = React.useMemo(
-        () => [
-            (bc.childs || []).map((childBc, index) => ({
-                ...childBc,
-                [VAR_RECORD_PAGE_OBJECT_ID]: childBc[VAR_RECORD_PAGE_OBJECT_ID] || `${index}`,
-                height: childBc.height ? "100%" : undefined,
-                maxheight: childBc.maxheight ? "100%" : undefined,
-                maxwidth: childBc.maxwidth ? "100%" : undefined,
-                minheight: childBc.minheight ? "100%" : undefined,
-                minwidth: childBc.minwidth ? "100%" : undefined,
-                width: childBc.width ? "100%" : undefined,
-            })),
-            (bc.childs || []).reduce((res, childBc, index) => {
-                res[childBc[VAR_RECORD_PAGE_OBJECT_ID] || index] = {
-                    height: childBc.height,
-                    maxHeight: childBc.maxheight ?? "100%",
-                    minHeight: childBc.minheight,
-                    ...toColumnStyleWidthBc(childBc),
-                };
-
-                return res;
-            }, {}),
-        ],
-        [bc],
-    );
+    const [childs, sizeChild] = useSizeChild(bc.childs);
 
     return useObserver(() => {
         const status =

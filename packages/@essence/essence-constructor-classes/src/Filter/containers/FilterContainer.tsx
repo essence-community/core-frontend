@@ -1,13 +1,7 @@
 import * as React from "react";
 import cn from "clsx";
-import {
-    useTranslation,
-    toTranslateText,
-    getFromStore,
-    isEmpty,
-    toColumnStyleWidthBc,
-} from "@essence-community/constructor-share/utils";
-import {useModel} from "@essence-community/constructor-share/hooks";
+import {useTranslation, toTranslateText, getFromStore, isEmpty} from "@essence-community/constructor-share/utils";
+import {useModel, useSizeChild} from "@essence-community/constructor-share/hooks";
 import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {Collapse, useTheme, Grid, Typography} from "@material-ui/core";
 import {
@@ -54,31 +48,7 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
         );
     }, [bc, isAutoLoad, pageStore, store]);
 
-    const [childs, sizeChild] = React.useMemo(
-        () => [
-            (bc.childs || []).map((childBc, index) => ({
-                ...childBc,
-                [VAR_RECORD_PAGE_OBJECT_ID]: childBc[VAR_RECORD_PAGE_OBJECT_ID] || `${index}`,
-                height: childBc.height ? "100%" : undefined,
-                maxheight: childBc.maxheight ? "100%" : undefined,
-                maxwidth: childBc.maxwidth ? "100%" : undefined,
-                minheight: childBc.minheight ? "100%" : undefined,
-                minwidth: childBc.minwidth ? "100%" : undefined,
-                width: childBc.width ? "100%" : undefined,
-            })),
-            (bc.childs || []).reduce((res, childBc, index) => {
-                res[childBc[VAR_RECORD_PAGE_OBJECT_ID] || index] = {
-                    height: childBc.height,
-                    maxHeight: childBc.maxheight ?? "100%",
-                    minHeight: childBc.minheight,
-                    ...toColumnStyleWidthBc(childBc),
-                };
-
-                return res;
-            }, {}),
-        ],
-        [bc],
-    );
+    const [childs, sizeChild] = useSizeChild(bc.childs);
 
     return useObserver(() => (
         <Collapse in={store.isOpen} collapsedHeight={title || layoutTheme === 1 ? "42px" : "1px"}>

@@ -4,8 +4,9 @@ import {Grid} from "@material-ui/core";
 import {mapComponents, mapComponentOne} from "@essence-community/constructor-share/components";
 import {ParentFieldContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
-import {toColumnStyleWidthBc, entriesMapSort} from "@essence-community/constructor-share/utils/transform";
+import {entriesMapSort} from "@essence-community/constructor-share/utils/transform";
 import {IClassProps, IRecord, FieldValue, IBuilderConfig} from "@essence-community/constructor-share/types";
+import {useSizeChild} from "@essence-community/constructor-share/hooks";
 
 const MAX_PANEL_WIDTH = 12;
 const CLEAR_VALUE: FieldValue[] = [];
@@ -81,31 +82,7 @@ export const FieldSetContainer: React.FC<IClassProps> = (props) => {
         [bc, inputChild, field, outputChild],
     );
 
-    const [childs, sizeChild] = React.useMemo(
-        () => [
-            (bc.childs || []).map((childBc, index) => ({
-                ...childBc,
-                [VAR_RECORD_PAGE_OBJECT_ID]: childBc[VAR_RECORD_PAGE_OBJECT_ID] || `${index}`,
-                height: childBc.height ? "100%" : undefined,
-                maxheight: childBc.maxheight ? "100%" : undefined,
-                maxwidth: childBc.maxwidth ? "100%" : undefined,
-                minheight: childBc.minheight ? "100%" : undefined,
-                minwidth: childBc.minwidth ? "100%" : undefined,
-                width: childBc.width ? "100%" : undefined,
-            })),
-            (bc.childs || []).reduce((res, childBc, index) => {
-                res[childBc[VAR_RECORD_PAGE_OBJECT_ID] || index] = {
-                    height: childBc.height,
-                    maxHeight: childBc.maxheight ?? "100%",
-                    minHeight: childBc.minheight,
-                    ...toColumnStyleWidthBc(childBc),
-                };
-
-                return res;
-            }, {}),
-        ],
-        [bc],
-    );
+    const [childs, sizeChild] = useSizeChild(bc.childs);
 
     return mapComponentOne(boxBc, (ChildBox, childBoxBc) => (
         <ChildBox {...props} bc={childBoxBc}>

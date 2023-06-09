@@ -33,7 +33,12 @@ export const ColumnTreeContainer: React.FC<IClassProps> = (props) => {
     const handleRedirect = (event: React.SyntheticEvent) => {
         event.preventDefault();
 
-        makeRedirect(bc, pageStore, record, !redirectUrl.blank);
+        makeRedirect(
+            redirectUrl.blank ? {...bc, redirecturl: bc.redirecturl?.replace("_blank", "")} : bc,
+            pageStore,
+            record,
+            !redirectUrl.blank,
+        );
     };
     const getRenderValue = (localizedValue: string, qtip: string = localizedValue) => {
         if (redirectUrl?.isRedirect) {

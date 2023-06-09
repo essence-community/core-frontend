@@ -26,7 +26,12 @@ export const ColumnTextContainer: React.FC<IClassProps> = (props) => {
     const handleRedirect = (event: React.SyntheticEvent) => {
         event.preventDefault();
 
-        makeRedirect(bc, pageStore, record, !redirectUrl.blank);
+        makeRedirect(
+            redirectUrl.blank ? {...bc, redirecturl: bc.redirecturl?.replace("_blank", "")} : bc,
+            pageStore,
+            record,
+            !redirectUrl.blank,
+        );
     };
 
     if (typeof value !== "string") {

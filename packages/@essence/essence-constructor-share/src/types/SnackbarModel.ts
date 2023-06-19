@@ -56,7 +56,7 @@ export interface IOptionCheck {
 
 export interface ISnackbarModel {
     snackbars: IObservableArray<ISnackbar>;
-    snackbarsAll: ISnackbar[];
+    snackbarsAll: IObservableArray<ISnackbar>;
     recordsStore: IRecordsModelLite;
     snackbarsCount: number;
     activeStatus: SnackbarStatus;

@@ -58,7 +58,7 @@ export class SnackbarModel implements ISnackbarModel {
     @observable
     snackbars: IObservableArray<ISnackbar> = observable.array([]);
     @observable
-    snackbarsAll: Array<ISnackbar> = [];
+    snackbarsAll: IObservableArray<ISnackbar> = observable.array([]);
 
     recordsStore: IRecordsModelLite;
 
@@ -102,20 +102,24 @@ export class SnackbarModel implements ISnackbarModel {
 
     deleteAllSnackbarAction = action("deleteAllSnackbarAction", () => {
         if (this.activeStatus === "all") {
-            this.snackbarsAll = this.snackbarsAll.filter((snackbar) => snackbar.status === "debug");
+            this.snackbarsAll = observable.array(this.snackbarsAll.filter((snackbar) => snackbar.status === "debug"));
         } else if (this.activeStatus === "notification") {
-            this.snackbarsAll = this.snackbarsAll.filter(
-                (snackbar) =>
-                    snackbar.pageName !== i18next.t("static:2ff612aa52314ddea65a5d303c867eb8") &&
-                    snackbar.status !== this.activeStatus,
+            this.snackbarsAll = observable.array(
+                this.snackbarsAll.filter(
+                    (snackbar) =>
+                        snackbar.pageName !== i18next.t("static:2ff612aa52314ddea65a5d303c867eb8") &&
+                        snackbar.status !== this.activeStatus,
+                ),
             );
         } else {
-            this.snackbarsAll = this.snackbarsAll.filter((snackbar) => snackbar.status !== this.activeStatus);
+            this.snackbarsAll = observable.array(
+                this.snackbarsAll.filter((snackbar) => snackbar.status !== this.activeStatus),
+            );
         }
     });
 
     deleteSnackbarAction = action("deleteSnackbarAction", (snackbarId: string) => {
-        this.snackbarsAll = this.snackbarsAll.filter((snakebar) => snakebar.id !== snackbarId);
+        this.snackbarsAll = observable.array(this.snackbarsAll.filter((snakebar) => snakebar.id !== snackbarId));
     });
 
     readSnackbarAction = action("readSnackbarAction", (snackbarId: string) => {
@@ -159,7 +163,7 @@ export class SnackbarModel implements ISnackbarModel {
         };
 
         if (snackbar.hiddenTimeout !== 0) {
-            const openedSnackbars = this.snackbars.filter((snack) => snack.open !== false);
+            const openedSnackbars = observable.array(this.snackbars.filter((snack) => snack.open !== false));
 
             if (openedSnackbars.length >= MAX_OPENED_SNACKBARS) {
                 openedSnackbars[openedSnackbars.length - 1].open = false;
@@ -172,19 +176,21 @@ export class SnackbarModel implements ISnackbarModel {
 
         let debugCount = 0;
 
-        this.snackbarsAll = this.snackbarsAll.filter((msg) => {
-            if (msg.status === "debug") {
-                if (debugCount > MAX_DEBUG_SNACKBARS) {
-                    return false;
+        this.snackbarsAll = observable.array(
+            this.snackbarsAll.filter((msg) => {
+                if (msg.status === "debug") {
+                    if (debugCount > MAX_DEBUG_SNACKBARS) {
+                        return false;
+                    }
+                    debugCount = +1;
                 }
-                debugCount = +1;
-            }
 
-            return true;
-        });
+                return true;
+            }),
+        );
 
         if (this.snackbarsAll.length > MAX_SNACKBARS) {
-            this.snackbarsAll = this.snackbarsAll.slice(0, MAX_SNACKBARS);
+            this.snackbarsAll = observable.array(this.snackbarsAll.slice(0, MAX_SNACKBARS));
         }
 
         return snackbarProps;

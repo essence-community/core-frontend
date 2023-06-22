@@ -90,7 +90,10 @@ export class FieldComboModel extends StoreBaseModel {
 
         this.field = field;
         this.displayfield = displayfield;
-        this.valuefield = valuefield?.[0]?.in || column;
+        this.valuefield =
+            valuefield?.reduce((res, val) => (res ? res : !val.out || val.out === column ? val.in : res), "") ||
+            valuefield?.[0]?.in ||
+            column;
         this.valueLength = minchars;
 
         if (displayfield) {

@@ -24,6 +24,7 @@ import {useObserver} from "mobx-react";
 import {FieldRadioModel} from "../stores/FieldRadioModel";
 import {getFirstValues} from "../utils";
 import {ISuggestion} from "../FieldRadio.types";
+import {VALUE_SELF_ALWAYSFIRST} from "../../../../essence-constructor-share/src/constants/variables";
 import {useStyles} from "./FieldRadioContainer.styles";
 
 // eslint-disable-next-line max-lines-per-function, max-statements
@@ -31,8 +32,8 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden, visible, readOnly} = props;
     const {getgloballist} = bc;
     const [focused, setFocused] = React.useState(false);
-    const [store] = useModel((options) => new FieldRadioModel(options), props);
     const field = useField({bc, disabled, hidden, pageStore});
+    const [store] = useModel((options) => new FieldRadioModel(options), {...props, field});
     const classes = useStyles();
     const [trans] = useTranslation("meta");
     const textFieldProps = useTextFieldProps({bc, disabled, field, readOnly});
@@ -41,7 +42,7 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
 
     const handleReactValue = React.useCallback(
         (value: FieldValue) => {
-            if (!store.recordsStore.isLoading && value === VALUE_SELF_FIRST) {
+            if (!store.recordsStore.isLoading && (value === VALUE_SELF_FIRST || value === VALUE_SELF_ALWAYSFIRST)) {
                 const val = getFirstValues(store.recordsStore);
 
                 field.onChange(val);
@@ -54,7 +55,10 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
     const handleChangeSuggestions = React.useCallback(() => {
         const {recordsState} = store.recordsStore;
 
-        if (recordsState.defaultValueSet && field.value === VALUE_SELF_FIRST) {
+        if (
+            recordsState.defaultValueSet &&
+            (field.value === VALUE_SELF_FIRST || field.value === VALUE_SELF_ALWAYSFIRST)
+        ) {
             const val = getFirstValues(store.recordsStore);
 
             field.onChange(val);
@@ -85,12 +89,15 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
         return undefined;
     }, [getgloballist, pageStore.globalValues, store.recordsStore]);
 
-    const handleChange = React.useCallback((event: React.SyntheticEvent<HTMLInputElement>) => {
-        const {value} = event.currentTarget;
+    const handleChange = React.useCallback(
+        (event: React.SyntheticEvent<HTMLInputElement>) => {
+            const {value} = event.currentTarget;
 
-        store.setSelectRecord(value);
-        field.onChange(value);
-    }, []);
+            store.setSelectRecord(value);
+            field.onChange(value);
+        },
+        [field, store],
+    );
 
     const handleFocus = React.useCallback(() => {
         setFocused(true);

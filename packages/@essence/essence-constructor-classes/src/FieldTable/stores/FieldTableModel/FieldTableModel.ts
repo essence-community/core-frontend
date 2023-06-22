@@ -85,15 +85,20 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         const gridId = this.gridId;
 
         if (this.bc.valuefield && this.bc.valuefield.length) {
+            let valueField = "";
+
             this.valueFields = this.bc.valuefield.map(({in: keyIn, out}) => {
                 const fieldKeyName = out || keyIn;
 
-                if (fieldKeyName === this.bc.column) {
-                    this.valueField = keyIn;
+                if (!valueField && (fieldKeyName === this.bc.column || !out)) {
+                    valueField = keyIn;
                 }
 
                 return [fieldKeyName, keyIn];
             });
+            if (valueField) {
+                this.valueField = valueField;
+            }
         } else {
             this.valueFields = [[this.bc.column, this.valueField]];
         }

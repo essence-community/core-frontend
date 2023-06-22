@@ -4,6 +4,7 @@ import cn from "clsx";
 import {Grid, Radio, RadioGroup, FormLabel} from "@material-ui/core";
 import {toColumnStyleWidth, useTranslation} from "@essence-community/constructor-share/utils";
 import {
+    VALUE_SELF_ALWAYSFIRST,
     VALUE_SELF_FIRST,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
@@ -24,7 +25,6 @@ import {useObserver} from "mobx-react";
 import {FieldRadioModel} from "../stores/FieldRadioModel";
 import {getFirstValues} from "../utils";
 import {ISuggestion} from "../FieldRadio.types";
-import {VALUE_SELF_ALWAYSFIRST} from "../../../../essence-constructor-share/src/constants/variables";
 import {useStyles} from "./FieldRadioContainer.styles";
 
 // eslint-disable-next-line max-lines-per-function, max-statements

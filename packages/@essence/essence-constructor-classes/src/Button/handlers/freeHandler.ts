@@ -39,13 +39,13 @@ export function freeHandler(options: IFreeHanderOptions) {
 
     const mode = (bc.modeaction || bc.mode) as IBuilderMode;
 
-    if (bc.ckwindow && getWindowBc(bc, this.pageStore)) {
+    if (bc.ckwindow && getWindowBc(bc, pageStore)) {
         pageStore.createWindowAction(
             createWindowProps({
                 btnBc: bc,
                 initValues: recordsStoreParent?.selectedRecord || form?.values,
                 mode,
-                pageStore: this.pageStore,
+                pageStore,
                 parentStore: {
                     bc,
                     recordsStore,

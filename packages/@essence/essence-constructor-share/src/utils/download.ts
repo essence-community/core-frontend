@@ -1,10 +1,18 @@
+/* eslint-disable max-statements */
 import axios from "axios";
 import {setMask} from "../models/RecordsModel/loadRecordsAction";
 import {request} from "../request";
 import {IPageModel} from "../types/PageModel";
 import {ISnackbarModel} from "../types/SnackbarModel";
-import {FieldValue, IRecord, IResponse, IApplicationModel, IBuilderConfig} from "../types";
-import {META_PAGE_ID, VAR_RECORD_MASTER_ID, VAR_SETTING_GATE_URL} from "../constants/variables";
+import {FieldValue, IRecord, IResponse, IApplicationModel, IBuilderConfig, IRequestFaultResponse} from "../types";
+import {
+    META_PAGE_ID,
+    VAR_ERROR_CODE,
+    VAR_ERROR_ID,
+    VAR_ERROR_TEXT,
+    VAR_RECORD_MASTER_ID,
+    VAR_SETTING_GATE_URL,
+} from "../constants/variables";
 import {
     VAR_RECORD_URL,
     VAR_RECORD_ID,
@@ -16,6 +24,7 @@ import {
     META_PAGE_OBJECT,
 } from "../constants";
 import {settingsStore} from "../models/SettingsModel";
+import {snackbarStore} from "../models";
 import {getMasterObject} from "./getMasterObject";
 import {prepareUrl} from "./redirect";
 
@@ -93,31 +102,12 @@ export const print = async ({
     return isValid;
 };
 
-export const downloadFile = (
-    name: string,
-    queryParams: string,
-    gate: string = settingsStore.settings[VAR_SETTING_GATE_URL],
-) => {
-    const form = document.createElement("form");
-
-    form.setAttribute("method", "post");
-    form.setAttribute("name", name);
-    form.setAttribute("action", `${gate}?${queryParams}`);
-    if (document.body) {
-        document.body.appendChild(form);
-    }
-    form.submit();
-    if (document.body) {
-        document.body.removeChild(form);
-    }
-};
-
 const createLink = (blobURL: string, filename: string, expotType: string) => {
     const tempLink = document.createElement("a");
 
     tempLink.style.display = "none";
     tempLink.href = blobURL;
-    tempLink.setAttribute("download", `${filename || ""}.${expotType}`);
+    tempLink.setAttribute("download", `${filename || ""}${expotType ? `.${expotType}` : ""}`);
 
     if (typeof tempLink.download === "undefined") {
         tempLink.setAttribute("target", "_blank");

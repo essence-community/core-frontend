@@ -175,3 +175,5 @@ export const VAR_ERROR_CODE = "err_code";
 
 // Session
 export const SESSION_PREFIX = "sess_";
+
+export const MILLISECOND = 1000;

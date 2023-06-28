@@ -1,6 +1,6 @@
 import {IClassProps, IRecord} from "@essence-community/constructor-share/types";
 import {ButtonBase, TextField} from "@material-ui/core";
-import {useTranslation, downloadFile, toTranslateText} from "@essence-community/constructor-share/utils";
+import {useTranslation, toTranslateText} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_CV_FILENAME,
@@ -27,9 +27,15 @@ export const FileRecord: React.FC<IFileRecordProps> = (props) => {
     const [trans] = useTranslation("meta");
 
     const handleDownloadFile = React.useCallback(() => {
-        const queryParams = store.getDownloadQueryParams(record[VAR_RECORD_ID]);
-
-        downloadFile(record[VAR_RECORD_CV_FILENAME] as string, queryParams);
+        store.recordsStore.downloadAction(
+            record,
+            (store.btnsConfig["Override Download Button"].modeaction ||
+                store.btnsConfig["Override Download Button"].mode) as any,
+            {
+                actionBc: store.btnsConfig["Override Download Button"],
+                query: store.btnsConfig["Override Download Button"].updatequery,
+            },
+        );
     }, [record, store]);
 
     const handleClickClearButton = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

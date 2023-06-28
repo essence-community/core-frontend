@@ -14,6 +14,8 @@ import {
     VAR_RECORD_URL,
     VAR_SETTING_GATE_URL,
     VAR_RECORD_ROUTE_PAGE_ID,
+    META_OUT_RESULT,
+    MILLISECOND,
 } from "@essence-community/constructor-share/constants";
 import {IBuilderConfig, IRecordsModel, IRecord} from "@essence-community/constructor-share/types";
 import {
@@ -22,7 +24,7 @@ import {
     setMask,
 } from "@essence-community/constructor-share/models/RecordsModel/loadRecordsAction";
 import {request} from "@essence-community/constructor-share/request";
-import {appendInputForm} from "@essence-community/constructor-share/actions/download";
+import {appendInputForm, downloadXhr} from "@essence-community/constructor-share/actions/download";
 import {stringify} from "qs";
 import {isEmpty} from "@essence-community/constructor-share/utils/base";
 import {IGridModel} from "../stores/GridModel/GridModel.types";
@@ -40,6 +42,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
     const {globalValues} = pageStore;
     const displayed = bc[VAR_RECORD_DISPLAYED];
     const description = bc[VAR_RECORD_CV_DESCRIPTION];
+    const timeout = bcBtn.timeout || bc.timeout || 30;
     const json = {
         filter: getFilterData({
             filter: recordsStore.filter,
@@ -87,6 +90,48 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
             plugin: [bcBtn.extraplugingate, bc.extraplugingate].filter((val) => !isEmpty(val)).join(","),
             query: bc[VAR_RECORD_QUERY_ID] || "",
         };
+
+        if (typeof URL.createObjectURL === "function") {
+            const formData = recordsStore.formData;
+            const data = {
+                ...body,
+                [META_OUT_RESULT]: "",
+                [META_PAGE_ID]: pageStore?.pageId,
+                [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID].replace(
+                    // eslint-disable-next-line prefer-named-capture-group, no-useless-escape
+                    /^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[\)\}]?.*?$/giu,
+                    "$1",
+                ),
+                json: JSON.stringify(json),
+                session: pageStore?.applicationStore.authStore.userInfo.session || "",
+            };
+
+            if (formData) {
+                Object.entries(data).forEach(([key, val]) => {
+                    formData.append(key, val || "");
+                });
+            }
+
+            return downloadXhr(
+                {
+                    data: formData ? formData : stringify(data),
+                    method: "POST",
+                    ...(formData
+                        ? {}
+                        : {
+                              headers: {
+                                  "Content-type": "application/x-www-form-urlencoded",
+                              },
+                          }),
+                    timeout: timeout * MILLISECOND,
+                    url: `${settingsStore.settings[VAR_SETTING_GATE_URL]}?${stringify(queryStr)}`,
+                    validateStatus: () => true,
+                },
+                pageStore,
+                false,
+            ).then(() => true);
+        }
+
         const form = document.createElement("form");
 
         form.setAttribute("method", "post");
@@ -118,6 +163,11 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
             form,
             name: "page_object",
             value: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        });
+        appendInputForm({
+            form,
+            name: META_PAGE_ID,
+            value: pageStore?.pageId,
         });
         appendInputForm({
             form,

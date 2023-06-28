@@ -12,11 +12,11 @@ import {
     VAR_ERROR_ID,
     loggerRoot,
     META_PAGE_ID,
+    MILLISECOND,
 } from "../constants";
 import {ResponseError} from "./error";
 import {checkInterceptor} from "./interceptors";
 
-const MILLISECOND = 1000;
 const logger = loggerRoot.extend("Request");
 
 const checkError = ({responseJSON, query, list}: IRequestCheckError) => {

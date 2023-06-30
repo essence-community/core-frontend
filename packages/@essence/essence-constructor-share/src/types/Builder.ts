@@ -20,6 +20,7 @@ export interface IBuilderAttrGlobalStore {
 
 // BUILDER_CONFIG_START
 export interface IBuilderBaseConfig {
+    actiongate?: "sql" | "dml" | "auth" | "file" | "upload" | "getfile";
     // Правила для выбора активного элемента
     activerules?: string;
     // Расположение текста: left - слева, center - по центру, right - справа

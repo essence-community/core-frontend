@@ -218,6 +218,7 @@ export function loadRecordsAction(
             return request<IResponse[]>({
                 [META_PAGE_ID]: this.pageStore?.pageId || bc[VAR_RECORD_ROUTE_PAGE_ID],
                 [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+                action: this.bc.actiongate,
                 formData,
                 json,
                 list: true,

@@ -183,7 +183,7 @@ export function download(
     const masterKey = bc[VAR_RECORD_MASTER_ID];
     const {extraplugingate, getglobaltostore, getmastervalue} = actionBc;
     const queryStr = {
-        action: "file",
+        action: actionBc.actiongate || "file",
         plugin: extraplugingate || bc.extraplugingate,
         query,
     };

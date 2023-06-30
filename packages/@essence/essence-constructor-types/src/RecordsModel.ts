@@ -53,7 +53,7 @@ export interface ILoadRecordsProps {
 }
 
 export interface ISaveActionOptions {
-    action?: "dml" | "upload";
+    action?: IBuilderConfig["actiongate"];
     actionBc: IBuilderConfig;
     query?: string;
     noReload?: boolean;

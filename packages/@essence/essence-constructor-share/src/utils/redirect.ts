@@ -155,7 +155,6 @@ async function redirectUseQuery({bc, noBlank, query, pageStore, values, record}:
         const res: any = await request({
             [META_PAGE_ID]: pageStore.pageId || bc[VAR_RECORD_ROUTE_PAGE_ID],
             [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-            action: "dml",
             json,
             list: false,
             plugin: bc.extraplugingate,

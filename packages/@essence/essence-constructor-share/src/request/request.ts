@@ -62,14 +62,17 @@ export const request = async <R = IRecord | IRecord[]>(requestParams: IRequest):
     const {
         json,
         query,
-        action = "dml",
+        action = query === "Modify" || requestParams.mode === "8"
+            ? requestParams.formData
+                ? "upload"
+                : "dml"
+            : undefined,
         [META_PAGE_ID]: pageIdName = "",
         [META_PAGE_OBJECT]: pageObjectName = "",
         session,
         body,
         list = true,
         headers = {},
-        mode,
         plugin,
         timeout = 30,
         gate = settingsStore.settings[VAR_SETTING_GATE_URL],
@@ -78,7 +81,7 @@ export const request = async <R = IRecord | IRecord[]>(requestParams: IRequest):
         onUploadProgress,
     } = requestParams;
     const queryParams = {
-        action: query === "Modify" || mode === "8" ? (formData ? "upload" : action) : undefined,
+        action,
         plugin,
         query,
     };

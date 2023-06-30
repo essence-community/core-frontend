@@ -40,7 +40,7 @@ import {setMask} from "./recordsActions";
 
 export interface IConfig {
     actionBc: IBuilderConfig;
-    action?: "dml" | "upload";
+    action?: IBuilderConfig["actiongate"];
     query?: string;
     [VAR_RECORD_CL_WARNING]?: number;
     bc: IBuilderConfig;
@@ -112,7 +112,7 @@ export const attachGlobalValues = ({getValue, globalValues, getglobaltostore, va
 export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mode: IBuilderMode, config: IConfig) {
     const {
         actionBc,
-        action,
+        action = config.actionBc.actiongate,
         [VAR_RECORD_CL_WARNING]: warningStatus = 0,
         query = "Modify",
         bc,

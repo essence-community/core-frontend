@@ -46,6 +46,7 @@ export class AuditInfoModel extends StoreBaseModel {
                 const response = await request<IRecord>({
                     [META_PAGE_ID]: this.pageStore.pageId || this.bc[VAR_RECORD_ROUTE_PAGE_ID],
                     [META_PAGE_OBJECT]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+                    action: this.bc.actiongate,
                     json: {
                         filter: {
                             [this.bc.idproperty || VAR_RECORD_ID]:

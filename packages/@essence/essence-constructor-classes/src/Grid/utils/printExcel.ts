@@ -86,8 +86,10 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
 
     if (bc.btnexcel === "file") {
         const queryStr = {
-            action: "file",
-            plugin: [bcBtn.extraplugingate, bc.extraplugingate].filter((val) => !isEmpty(val)).join(","),
+            action: bcBtn.actiongate || "file",
+            plugin: [...(bcBtn.extraplugingate?.split(",") || []), bc.extraplugingate?.split(",") || []]
+                .filter((val) => !isEmpty(val))
+                .join(","),
             query: bc[VAR_RECORD_QUERY_ID] || "",
         };
 
@@ -201,12 +203,15 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
     return request({
         [META_PAGE_ID]: pageStore.pageId || bc[VAR_RECORD_ROUTE_PAGE_ID],
         [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        action: bcBtn.actiongate,
         body,
         formData: recordsStore.formData,
         // Gate: bc[VAR_RECORD_CK_D_ENDPOINT],
         json,
         list: false,
-        plugin: [bcBtn.extraplugingate, bc.extraplugingate].filter((val) => !isEmpty(val)).join(","),
+        plugin: [...(bcBtn.extraplugingate?.split(",") || []), bc.extraplugingate?.split(",") || []]
+            .filter((val) => !isEmpty(val))
+            .join(","),
         query: bc[VAR_RECORD_QUERY_ID] || "",
         session: pageStore.applicationStore.authStore.userInfo.session,
         timeout: bcBtn.timeout ?? 660,

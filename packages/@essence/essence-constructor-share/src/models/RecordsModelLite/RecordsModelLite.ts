@@ -45,7 +45,6 @@ export class RecordsModelLite implements IRecordsModelLite {
         return request({
             [META_PAGE_ID]: this.bc[VAR_RECORD_ROUTE_PAGE_ID],
             [META_PAGE_OBJECT]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
-            action: "sql",
             list: true,
             query: this.bc[VAR_RECORD_QUERY_ID]!,
         })

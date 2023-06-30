@@ -36,7 +36,6 @@ export function useDefaultValueQuery(props: IDefaultValueQueryProps) {
                 request({
                     [META_PAGE_ID]: pageStore.pageId,
                     [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-                    action: "dml",
                     json,
                     list: false,
                     query: defaultvaluequery,

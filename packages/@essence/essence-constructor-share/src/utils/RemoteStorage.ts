@@ -31,7 +31,6 @@ export class RemoteStorage implements IStorage {
         if (!isEmpty(this.session)) {
             request({
                 [META_PAGE_OBJECT]: "user_cache",
-                action: "dml",
                 json: {
                     data: {
                         [VAR_RECORD_CV_VALUE]: value,
@@ -61,7 +60,6 @@ export class RemoteStorage implements IStorage {
         if (!isEmpty(this.session)) {
             request({
                 [META_PAGE_OBJECT]: "user_cache",
-                action: "dml",
                 json: {
                     data: {
                         [VAR_RECORD_ID]: key,
@@ -98,7 +96,6 @@ export class RemoteStorage implements IStorage {
             return request({
                 [META_PAGE_ID]: "application",
                 [META_PAGE_OBJECT]: "user_cache",
-                action: "sql",
                 list: true,
                 query: settingsStore.settings[VAR_SETTING_REMOTE_STORAGE_LOAD_QUERY],
                 session,

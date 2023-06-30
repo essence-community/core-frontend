@@ -4,15 +4,8 @@ import {setMask} from "../models/RecordsModel/loadRecordsAction";
 import {request} from "../request";
 import {IPageModel} from "../types/PageModel";
 import {ISnackbarModel} from "../types/SnackbarModel";
-import {FieldValue, IRecord, IResponse, IApplicationModel, IBuilderConfig, IRequestFaultResponse} from "../types";
-import {
-    META_PAGE_ID,
-    VAR_ERROR_CODE,
-    VAR_ERROR_ID,
-    VAR_ERROR_TEXT,
-    VAR_RECORD_MASTER_ID,
-    VAR_SETTING_GATE_URL,
-} from "../constants/variables";
+import {FieldValue, IRecord, IResponse, IApplicationModel, IBuilderConfig} from "../types";
+import {META_PAGE_ID, VAR_RECORD_MASTER_ID} from "../constants/variables";
 import {
     VAR_RECORD_URL,
     VAR_RECORD_ID,
@@ -23,8 +16,6 @@ import {
     VAR_RECORD_CV_ACTION,
     META_PAGE_OBJECT,
 } from "../constants";
-import {settingsStore} from "../models/SettingsModel";
-import {snackbarStore} from "../models";
 import {getMasterObject} from "./getMasterObject";
 import {prepareUrl} from "./redirect";
 
@@ -68,7 +59,7 @@ export const print = async ({
     const result: any = await request({
         [META_PAGE_ID]: bc[VAR_RECORD_ROUTE_PAGE_ID],
         [META_PAGE_OBJECT]: bc[VAR_RECORD_PARENT_ID],
-        action: "dml",
+        action: bcBtn.actiongate,
         json: {
             data: values,
             master: getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, getMasterValue),

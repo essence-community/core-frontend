@@ -5,6 +5,7 @@ import {VAR_RECORD_NAME} from "../constants";
 import {isEmpty} from "./base";
 
 const DEFAULT_OVERRIDE_FIELD: KeyBuilderConfig[] = [
+    "actiongate",
     "confirmquestion",
     "disabled",
     "disabledrules",

@@ -155,13 +155,14 @@ export class WindowModel extends StoreBaseModel {
                     form: options.form,
                 });
             }
-            const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_PARENT_ID]);
 
-            this.closeAction(modeAction, btnBc, options);
-
-            // TODO: ХАК для того что бы file panel перезапустилась
-            if (success && parentStore) {
-                parentStore.reloadStoreAction();
+            if (success) {
+                if (this.addMore) {
+                    this.pageStore.resetStepAction();
+                    this.initialValues = {};
+                } else {
+                    this.closeAction(modeAction, btnBc, options);
+                }
             }
 
             return Boolean(success);

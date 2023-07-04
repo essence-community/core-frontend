@@ -70,26 +70,6 @@ export class FilePanelModel extends StoreBaseModel {
             query: btnBc.updatequery,
         });
 
-    getDownloadQueryParams = (fileId: FieldValue) => {
-        const btnBc = this.btnsConfig["Override Download Button"];
-
-        const url = {
-            [META_PAGE_ID]: this.pageStore.pageId || this.bc[VAR_RECORD_ROUTE_PAGE_ID],
-            [META_PAGE_OBJECT]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
-            action: "file",
-            json: JSON.stringify({
-                filter: {
-                    [VAR_RECORD_ID]: fileId,
-                },
-            }),
-            plugin: btnBc.extraplugingate || this.bc.extraplugingate,
-            query: btnBc.updatequery,
-            session: this.pageStore.applicationStore.authStore.userInfo.session,
-        };
-
-        return stringify(url);
-    };
-
     @action
     reloadStoreAction = () => this.recordsStore.loadRecordsAction();
 

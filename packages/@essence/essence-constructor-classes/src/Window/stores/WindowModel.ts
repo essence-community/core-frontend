@@ -143,11 +143,18 @@ export class WindowModel extends StoreBaseModel {
 
         if (btnBc.skipvalidation || options.form.isValid) {
             const modeAction = (btnBc.modeaction || btnBc.mode || this.bc.mode || mode) as IBuilderMode;
-            const success = await this.recordsStore.saveAction(options.form.values, modeAction, {
-                actionBc: btnBc,
-                files: options.files,
-                form: options.form,
-            });
+            let success: string | boolean = false;
+
+            if (this.mainStore?.handlers?.onSaveWindow) {
+                success = await this.mainStore.handlers.onSaveWindow(modeAction, btnBc, options);
+            } else {
+                success = await this.recordsStore.saveAction(options.form.values, modeAction, {
+                    actionBc: btnBc,
+                    // TODO: check new api of records store
+                    files: options.files,
+                    form: options.form,
+                });
+            }
             const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_PARENT_ID]);
 
             this.closeAction(modeAction, btnBc, options);

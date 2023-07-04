@@ -18,6 +18,7 @@ import {
     IBuilderMode,
     FieldValue,
     IHandlerOptions,
+    IRecord,
 } from "@essence-community/constructor-share/types";
 
 export interface IFilePanelModelProps extends IStoreBaseModelProps {
@@ -35,7 +36,6 @@ export class FilePanelModel extends StoreBaseModel {
         this.btnsConfig = btnsConfig;
         this.childwindow = {
             [VAR_RECORD_DISPLAYED]: "static:6a4c7f4488164e7e8fabd46e0cc01ccc",
-            [VAR_RECORD_MASTER_ID]: this.bc[VAR_RECORD_MASTER_ID],
             [VAR_RECORD_NAME]: "",
             [VAR_RECORD_PAGE_OBJECT_ID]: `${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_gridwindow`,
             [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
@@ -93,6 +93,21 @@ export class FilePanelModel extends StoreBaseModel {
     @action
     reloadStoreAction = () => this.recordsStore.loadRecordsAction();
 
+    @action
+    saveAction = async (values: IRecord, mode: IBuilderMode, actionBc: IBuilderConfig, config: IHandlerOptions) => {
+        const {files, form} = config;
+        const isDownload = mode === "7" || actionBc.mode === "7";
+
+        const result = await this.recordsStore[isDownload ? "downloadAction" : "saveAction"](values, mode, {
+            actionBc,
+            files,
+            form,
+            query: actionBc.updatequery,
+        });
+
+        return result;
+    };
+
     handlers = {
         onAddFileAction: (mode: IBuilderMode, btnBc: IBuilderConfig) => {
             this.addFileAction(mode, btnBc);
@@ -108,6 +123,15 @@ export class FilePanelModel extends StoreBaseModel {
             await this.reloadStoreAction();
 
             return Promise.resolve(true);
+        },
+        onSaveWindow: async (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
+            if (!options.form) {
+                return Promise.resolve(false);
+            }
+
+            const res = await this.saveAction(options.form.values, mode, btnBc, options);
+
+            return Boolean(res);
         },
     };
 }

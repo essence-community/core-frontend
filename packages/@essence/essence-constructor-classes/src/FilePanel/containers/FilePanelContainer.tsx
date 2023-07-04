@@ -46,7 +46,7 @@ export const FilePanelContainer: React.FC<IClassProps> = (props) => {
             className={classes.actionsContent}
             alignItems="center"
             spacing={1}
-            direction={isDarkTheme ? "column-reverse" : "row"}
+            direction={isDarkTheme ? "column" : "row"}
         >
             {mapComponents(btns, (ChildCmp, childBc) => (
                 <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
@@ -73,7 +73,7 @@ export const FilePanelContainer: React.FC<IClassProps> = (props) => {
                 >
                     <Grid className={classes.contentPanel} container direction="row" spacing={1}>
                         {store.recordsStore.records.map((record) => (
-                            <Grid item xs={6} key={record[VAR_RECORD_ID] as string}>
+                            <Grid item xs={4} key={record[VAR_RECORD_ID] as string}>
                                 <FileRecord
                                     pageStore={pageStore}
                                     bc={bc}

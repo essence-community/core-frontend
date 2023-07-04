@@ -55,21 +55,25 @@ export const getCancelBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
 });
 
 export const getDownloadBtnConfig = (bc: IBuilderConfig): IBuilderConfig => ({
-    [VAR_RECORD_DISPLAYED]: "static:02260da507494f2f9956ba9e0f37b1f1",
+    [VAR_RECORD_DISPLAYED]: "meta:6e59eaefe0b24e9eaf5e0c01c9b4b9a9",
     [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}-download`,
     [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-download`,
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-    readonly: false,
+    iconfont: "file-o",
+    iconfontname: "fa",
+    iconsize: "lg",
+    onlyicon: true,
     type: "BTN",
 });
 
 const getDeleteButton = (bc: IBuilderConfig): IBuilderConfig => ({
     [VAR_RECORD_DISPLAYED]: "static:f7e324760ede4c88b4f11f0af26c9e97",
-    [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}-cancel`,
-    [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-cancel`,
+    [VAR_RECORD_OBJECT_ID]: `${bc[VAR_RECORD_OBJECT_ID]}-delete`,
+    [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-delete`,
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+    actiongate: "dml",
     handler: "onDeleteRecord",
-    iconfont: "times",
+    iconfont: "trash-o",
     iconfontname: "fa",
     onlyicon: true,
     type: "BTN",

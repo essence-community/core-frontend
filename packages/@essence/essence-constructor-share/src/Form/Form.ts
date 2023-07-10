@@ -183,6 +183,7 @@ export class Form implements IForm {
             field = new Field({
                 bc: options.bc,
                 clearValue: options.clearValue,
+                defaultCopyValueFn: options.defaultCopyValueFn,
                 defaultValueFn: options.defaultValueFn,
                 form: this,
                 input: options.input,

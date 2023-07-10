@@ -6,7 +6,7 @@ import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {PopoverContext} from "@essence-community/constructor-share/context";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {IFieldTableModel} from "../../stores/FieldTableModel/FieldTableModel.types";
 import {getDisplayText} from "../../utils";
@@ -20,13 +20,19 @@ interface IFieldTableInputProps {
     store: IFieldTableModel;
 }
 
-export const FieldTableInput: React.FC<IFieldTableInputProps> = (props) => {
+export const FieldTableInput: React.FC<IFieldTableInputProps> = observer((props) => {
     const {bc, disabled, field, store, readOnly} = props;
     const classes = useStyles();
     const [trans] = useTranslation("meta");
     const {onOpen} = React.useContext(PopoverContext);
     const inputRef = React.useRef<HTMLInputElement>(null);
     const isDisabled = useFieldDisabled({disabled, form: field.form, readOnly});
+    const displayValue = getDisplayText(store, trans);
+    const popoverContext = React.useContext(PopoverContext);
+
+    React.useEffect(() => {
+        field.setDefaultCopyValueFn(() => displayValue);
+    }, [store, field, displayValue]);
 
     const handleFocusButton = React.useCallback(() => {
         if (inputRef.current) {
@@ -55,17 +61,17 @@ export const FieldTableInput: React.FC<IFieldTableInputProps> = (props) => {
         ],
     });
 
-    return useObserver(() => {
-        const displayValue = getDisplayText(store, trans);
-
-        return (
-            <TextField
-                {...textFieldProps}
-                ref={inputRef}
-                value={displayValue}
-                inputProps={{...textFieldProps.inputProps, onClick: isDisabled ? undefined : onOpen}}
-                data-qtip={textFieldProps["data-qtip"] === field.value ? displayValue : textFieldProps["data-qtip"]}
-            />
-        );
-    });
-};
+    return (
+        <TextField
+            {...textFieldProps}
+            ref={inputRef}
+            value={displayValue}
+            inputProps={{
+                ...textFieldProps.inputProps,
+                ...(popoverContext.open ? {readOnly: true} : undefined),
+                onClick: isDisabled ? undefined : onOpen,
+            }}
+            data-qtip={textFieldProps["data-qtip"] === field.value ? displayValue : textFieldProps["data-qtip"]}
+        />
+    );
+});

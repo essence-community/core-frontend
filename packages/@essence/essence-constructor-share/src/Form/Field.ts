@@ -6,6 +6,8 @@ import {parseMemoize, makeRedirect, isEmpty, transformToBoolean} from "../utils"
 import {parse} from "../utils/parser";
 import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
 import {deepFind, deepChange, cloneDeepElementary, deepDelete} from "../utils/transform";
+import {copyToClipboard} from "../utils/copyToClipboard";
+import {snackbarStore} from "../models";
 import {IField, IForm, IRegisterFieldOptions, TError} from "./types";
 import {validations} from "./validations";
 
@@ -18,6 +20,7 @@ export interface IFieldOptions {
     output?: IRegisterFieldOptions["output"];
     input?: IRegisterFieldOptions["input"];
     defaultValueFn?: IField["defaultValueFn"];
+    defaultCopyValueFn?: IField["defaultCopyValueFn"];
     isArray?: boolean;
     isObject?: boolean;
     isFile?: boolean;
@@ -54,6 +57,8 @@ export class Field implements IField {
     public defaultValue: IField["defaultValue"];
 
     public defaultValueFn: IField["defaultValueFn"];
+
+    public defaultCopyValueFn?: IField["defaultCopyValueFn"];
 
     public isArray: boolean;
 
@@ -193,6 +198,7 @@ export class Field implements IField {
         this.input = this.getInput(options.input);
         this.output = this.getOutput(options.output);
         this.defaultValueFn = options.defaultValueFn;
+        this.defaultCopyValueFn = options.defaultCopyValueFn;
 
         if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
             this.defaultValue = transformToBoolean(this.bc.defaultvalue);
@@ -420,6 +426,21 @@ export class Field implements IField {
     };
 
     @action
+    onCopy = (): void => {
+        const value = typeof this.defaultCopyValueFn === "function" ? this.defaultCopyValueFn(this) : this.value;
+
+        copyToClipboard(value).catch(() => {
+            snackbarStore.snackbarOpenAction(
+                {
+                    status: "error",
+                    text: "static:17f3610bc821435ba8f08bca96c588ab",
+                },
+                this.pageStore.route,
+            );
+        });
+    };
+
+    @action
     validate = () => {
         if (this.disabled || this.hidden) {
             this.errors = [];
@@ -461,6 +482,10 @@ export class Field implements IField {
 
     setDefaultValue = (defaultValue: FieldValue) => {
         this.defaultValue = defaultValue;
+    };
+
+    public setDefaultCopyValueFn = (defaultCopyValueFn: IField["defaultCopyValueFn"]) => {
+        this.defaultCopyValueFn = defaultCopyValueFn;
     };
 
     public setDefaultValueFn = (defaultValueFn: IField["defaultValueFn"]) => {

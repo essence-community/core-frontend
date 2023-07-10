@@ -12,6 +12,7 @@ export interface IRegisterFieldOptions {
     isFile?: boolean;
     clearValue?: FieldValue;
     defaultValueFn?: IField["defaultValueFn"];
+    defaultCopyValueFn?: IField["defaultCopyValueFn"];
     output?: IField["output"];
     input?: IField["input"];
 }
@@ -23,6 +24,7 @@ export interface IField {
     value: FieldValue;
     defaultValue?: FieldValue;
     defaultValueFn?: (field: IField, changeFn: IField["onChange"], clearFn: IField["onReset"]) => void;
+    defaultCopyValueFn?: (field: IField) => string;
     getParseValue: IGetValue["get"];
     label?: string;
     isRequired: boolean;
@@ -51,6 +53,7 @@ export interface IField {
     redirect(): void;
     setExtraRules(extraRules: string[]): void;
     setDefaultValue(defaultValue: FieldValue): void;
+    setDefaultCopyValueFn(fn: IField["defaultCopyValueFn"]): void;
     setDefaultValueFn(fn: IField["defaultValueFn"]): void;
     setDisabled(disabled?: boolean): void;
     setHidden(hidden?: boolean): void;
@@ -60,6 +63,7 @@ export interface IField {
     onChange(value: FieldValue): void;
     onReset(): void;
     onClear(): void;
+    onCopy(): void;
 }
 
 export interface IForm {

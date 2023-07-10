@@ -27,6 +27,8 @@ export interface IBuilderBaseConfig {
     align?: "left" | "right" | "center" | "top" | string;
     // Префикс-метка для нового значения. Пример: "allownew" = "NEW:", на сервер уйдет значение "NEW:введенное значение"
     allownew?: string;
+    // Признак автофокуса поля
+    autofocus?: boolean;
     // Признак автозагрузки сервиса
     autoload?: boolean;
     // Расчет автоперезагрузки стора
@@ -87,6 +89,8 @@ export interface IBuilderBaseConfig {
     defaultvaluerule?: string;
     // Сервис для запроса значения по умолчанию
     defaultvaluequery?: string;
+    // Признак отключения кнопки "Очистить" у полей
+    disableclear?: boolean;
     // Признак блокировки объекта при инициализации true-блокирован
     disabled?: boolean;
     // Признак блокировки, если мастер вернул пустое значение
@@ -113,6 +117,8 @@ export interface IBuilderBaseConfig {
     editmodepanel?: boolean;
     // Режим добавления/редактирования: inline - в строке; modalwindow - в модальном окне
     edittype?: "inline" | "modalwindow";
+    // Включить возможность копировать из поля
+    enableclipboard?: boolean;
     // Дополнительные плагины для шлюза
     extraplugingate?: string;
     // Вариант выбора файлов для загрузки. multi - несколько файлов, single - по одному.

@@ -3,6 +3,11 @@ import {IEssenceTheme} from "../../types";
 
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
+        actionButton: {
+            height: theme.essence.sizing.gridRowHeight,
+            visibility: "hidden",
+            width: theme.essence.sizing.gridRowHeight,
+        },
         clearButton: {
             height: theme.essence.sizing.gridRowHeight,
             visibility: "hidden",

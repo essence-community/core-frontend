@@ -50,7 +50,7 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
         tips.push(<div key="currencysign">{bc.currencysign}</div>);
     }
 
-    function getTipText(trans: TFunction, transValue: TFunction, isError: boolean) {
+    const getTipText = (trans: TFunction, transValue: TFunction, isError: boolean) => {
         if (isError && field.error) {
             return toTranslateTextArray(trans, field.error);
         }
@@ -64,7 +64,23 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
         }
 
         return toTranslateTextArray(trans, field.label);
-    }
+    };
+
+    const handleCopy = React.useCallback(
+        (event: React.MouseEvent<HTMLButtonElement>) => {
+            event.stopPropagation();
+            field.onCopy();
+        },
+        [field],
+    );
+
+    const handleClear = React.useCallback(
+        (event: React.MouseEvent<HTMLButtonElement>) => {
+            event.stopPropagation();
+            field.onClear();
+        },
+        [field],
+    );
 
     return useObserver(() => {
         const isError = Boolean(!disabled && !field.isValid);
@@ -73,13 +89,29 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
             disabled ||
             !form.editing;
 
-        if (!isEmpty(field.value) && !isDisabled) {
+        if (!isEmpty(field.value) && bc.enableclipboard) {
+            tips.push(
+                <IconButton
+                    color="secondary"
+                    key="copy-value"
+                    data-qtip={trans("static:b736e477d32c4c499522f02f62e18e90")}
+                    className={classes.actionButton}
+                    onClick={handleCopy}
+                    tabIndex={-1}
+                >
+                    <Icon iconfont="copy" size="xs" />
+                </IconButton>,
+            );
+        }
+
+        if (!isEmpty(field.value) && !isDisabled && !bc.disableclear) {
             tips.push(
                 <IconButton
                     color="secondary"
                     key="clear-value"
-                    className={classes.clearButton}
-                    onClick={field.onClear}
+                    data-qtip={trans("static:cda88d85fb7e4a88932dc232d7604bfb")}
+                    className={classes.actionButton}
+                    onClick={handleClear}
                     tabIndex={-1}
                 >
                     <Icon iconfont="times" size="xs" />
@@ -100,6 +132,7 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
                 endAdornment: tips.length ? <InputAdornment position="end">{tips}</InputAdornment> : null,
                 type: inputTypes[bc.datatype || "text"],
             },
+            autoFocus: bc.autofocus,
             className: cn(classes.inputRoot, {
                 [classes.linkInputRoot]: (bc.redirecturl || bc.redirectusequery) && Boolean(field.value),
             }),

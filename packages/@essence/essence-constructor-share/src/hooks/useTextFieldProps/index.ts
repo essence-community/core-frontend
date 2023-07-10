@@ -1,2 +1,2 @@
 export {useTextFieldProps} from "./useTextFieldProps";
-export {ITextFieldExtendProps} from "./useTextFieldProps.types";
+export type {ITextFieldExtendProps} from "./useTextFieldProps.types";

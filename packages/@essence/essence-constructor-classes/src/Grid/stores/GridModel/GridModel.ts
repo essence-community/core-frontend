@@ -320,7 +320,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     toggleSelectedRecordAction = (record: IRecord, bcBtn?: IBuilderConfig) => {
         const ckId = record[this.recordsStore.recordId] as string | number;
         const parentId = record[this.recordsStore.recordParentId] as string | number;
-        const maxSize = bcBtn?.maxselected && parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues);
+        const maxSize =
+            bcBtn?.maxselected && (parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues) as number);
         const isSelected = this.recordsStore.selectedRecords.has(ckId);
 
         if (isSelected) {
@@ -426,7 +427,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
     @action
     setAllSelectedRecords = (all: boolean, bcBtn: IBuilderConfig, records: IRecord[]) => {
-        const maxSize = bcBtn.maxselected && parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues);
+        const maxSize =
+            bcBtn.maxselected && (parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues) as number);
         let selRecords = [];
 
         if (all) {

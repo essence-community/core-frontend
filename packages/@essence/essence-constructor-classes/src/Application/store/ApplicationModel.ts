@@ -139,7 +139,7 @@ export class ApplicationModel implements IApplicationModel {
         if (this.bc.defaultvaluerule) {
             defaultValue = parseMemoize(this.bc.defaultvaluerule).runer({
                 get: this.handleGetValue,
-            });
+            }) as string;
         }
 
         return defaultValue;

@@ -32,7 +32,7 @@ export const ColumnContainer: React.FC<IClassProps> = (props) => {
         if (bc.stylerules) {
             return {
                 width,
-                ...parseMemoize(bc.stylerules).runer(record),
+                ...(parseMemoize(bc.stylerules).runer(record) as React.CSSProperties),
             };
         }
 

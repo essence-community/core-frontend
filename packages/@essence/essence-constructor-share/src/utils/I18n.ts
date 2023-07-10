@@ -1,4 +1,5 @@
-import i18next, {BackendModule, ReadCallback, Services, InitOptions, TFunction, WithT} from "i18next";
+import i18next, {BackendModule, ReadCallback, Services, InitOptions} from "i18next";
+import type {TFunction, WithT} from "i18next";
 import {initReactI18next, withTranslation, useTranslation, Translation} from "react-i18next";
 import Backend from "i18next-chained-backend";
 import LocalStorageBackend from "i18next-localstorage-backend";

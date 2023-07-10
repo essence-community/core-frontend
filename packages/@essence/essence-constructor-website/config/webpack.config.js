@@ -55,7 +55,7 @@ const imageInlineSizeLimit = parseInt(
 // style files regexes
 const cssRegex = /\.css$/;
 
-const appSharePackageJson = require(paths.appSharePackageJson);
+const appPackageJson = require(paths.appPackageJson);
 
 const hasJsxRuntime = (() => {
   if (process.env.DISABLE_NEW_JSX_TRANSFORM === 'true') {
@@ -350,8 +350,8 @@ module.exports = function (webpackEnv) {
           'scheduler/tracing': 'scheduler/tracing-profiling',
         }),
         ...(modules.webpackAliases || {}),
-        '@essence/essence-constructor-classes': '@essence-community/constructor-classes',
-        '@essence/essence-constructor-share': '@essence-community/constructor-share'
+        '@essence-community/constructor-classes': path.resolve(paths.rootNodeModules, '@essence-community/constructor-classes'),
+        '@essence-community/constructor-share': path.resolve(paths.rootNodeModules, '@essence-community/constructor-share/src'),
       },
       plugins: [
         // Prevents users from importing files from outside of src/ (or node_modules/).
@@ -359,14 +359,14 @@ module.exports = function (webpackEnv) {
         // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
         // please link the files into your node_modules/ and let module-resolution kick in.
         // Make sure your source files are compiled, as they will not be processed in any way.
-        new ModuleScopePlugin(paths.appSrc, [
-          paths.appPackageJson,
-          reactRefreshRuntimeEntry,
-          reactRefreshWebpackPluginRuntimeEntry,
-          babelRuntimeEntry,
-          babelRuntimeEntryHelpers,
-          babelRuntimeRegenerator,
-        ]),
+        // new ModuleScopePlugin(paths.appSrc, [
+        //   paths.appPackageJson,
+        //   reactRefreshRuntimeEntry,
+        //   reactRefreshWebpackPluginRuntimeEntry,
+        //   babelRuntimeEntry,
+        //   babelRuntimeEntryHelpers,
+        //   babelRuntimeRegenerator,
+        // ]),
       ],
     },
     module: {
@@ -438,7 +438,7 @@ module.exports = function (webpackEnv) {
             // The preset includes JSX, Flow, TypeScript, and some ESnext features.
             {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
-              include: [paths.appSrc, paths.appClassesSrc],
+              include: [paths.appSrc, paths.appClassesSrc, paths.appShareSrc],
               loader: require.resolve('babel-loader'),
               options: {
                 customize: require.resolve(
@@ -648,32 +648,32 @@ module.exports = function (webpackEnv) {
         shared: {
             "react": {
                 singleton: true,
-                requiredVersion: appSharePackageJson.dependencies["react"],
+                requiredVersion: appPackageJson.dependencies["react"],
                 eager: true
             },
             "react-dom": {
                 singleton: true,
-                requiredVersion: appSharePackageJson.dependencies["react-dom"],
+                requiredVersion: appPackageJson.dependencies["react-dom"],
                 eager: true
             },
             "react-router-dom": {
                 singleton: true,
-                requiredVersion: appSharePackageJson.dependencies["react-router-dom"],
+                requiredVersion: appPackageJson.dependencies["react-router-dom"],
                 eager: true
             },
             "@essence-community/constructor-share": {
                 singleton: true,
-                requiredVersion: appSharePackageJson.version,
+                requiredVersion: appPackageJson.dependencies["@essence-community/constructor-share"],
                 eager: true
             },
             "mobx": {
                 singleton: true,
-                requiredVersion: appSharePackageJson.dependencies["mobx"],
+                requiredVersion: appPackageJson.dependencies["mobx"],
                 eager: true
             },
             "mobx-react": {
                 singleton: true,
-                requiredVersion: appSharePackageJson.dependencies["mobx-react"],
+                requiredVersion: appPackageJson.dependencies["mobx-react"],
                 eager: true
             }
          }

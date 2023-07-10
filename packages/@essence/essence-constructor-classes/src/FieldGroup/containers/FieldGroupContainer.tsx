@@ -86,7 +86,7 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
 
     const handleRegCountRules = React.useCallback((): number => {
         if (bc.reqcountrules) {
-            return parseMemoize(bc.reqcountrules).runer(pageStore.globalValues);
+            return parseMemoize(bc.reqcountrules).runer(pageStore.globalValues) as number;
         }
 
         return 0;

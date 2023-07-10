@@ -1,19 +1,33 @@
 {
     "compilerOptions": {
-        "outDir": "./lib",
-        "declaration": true,
-        "noImplicitAny": true,
-        "lib": ["dom", "es2019"],
         "target": "es5",
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
+        "allowJs": true,
         "skipLibCheck": true,
-        "jsx": "react",
         "esModuleInterop": true,
-        "strictNullChecks": true,
-        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": false,
+        "forceConsistentCasingInFileNames": true,
         "downlevelIteration": true,
-        "typeRoots": ["src/typings"],
-        "types": ["node"]
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": false,
+        "jsx": "react",
+        "experimentalDecorators": true,
+        "declaration": true,
+        "outDir": "lib"
     },
-    "include": ["src/**/*.ts", "src/**/*.tsx"],
-    "exclude": ["**/__tests__/**"]
+    "include": [
+        "src/**/*.tsx",
+        "src/**/*.ts"
+    ],
+    "exclude": [
+        "**/node_modules/**",
+        "**/__tests__/**"
+    ]
 }

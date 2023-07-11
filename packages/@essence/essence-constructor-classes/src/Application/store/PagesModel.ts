@@ -109,6 +109,9 @@ export class PagesModel implements IPagesModel {
             if (activePage.isMulti && initParams) {
                 activePage.setInitParams(initParams);
             }
+            if (activePage.loadingCount < 1) {
+                await activePage.loadConfigAction(activePage.pageId);
+            }
             this.activePage = activePage;
         } else if (typeof pageId === "string") {
             activePage = await this.loadActivePage(pageId, true, isActiveRedirect, initParams);
@@ -205,7 +208,6 @@ export class PagesModel implements IPagesModel {
     restorePagesAction = (login: string) => {
         const pagesIds = getFromStore<string[] | IStoreOpenPage[]>(this.storeKey, []);
         const lastCvLogin = getFromStore(STORE_LAST_CV_LOGIN_KEY);
-        const promise = Promise.resolve();
 
         if (login === lastCvLogin && pagesIds) {
             pagesIds.forEach((val) => {
@@ -231,7 +233,6 @@ export class PagesModel implements IPagesModel {
                     });
 
                     this.pages.push(page);
-                    promise.then(() => page.loadConfigAction(pageId));
                 }
             });
         } else if (login) {

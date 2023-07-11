@@ -16,14 +16,18 @@ async function loadRemoteEntry(options: ILoadRemoteModuleOptions): Promise<void>
     if (moduleMap[options.remoteEntry]) {
         return;
     }
+
     if (options.remoteCssEntry && options.remoteCssEntry.length) {
         await Promise.all(
             options.remoteCssEntry.map(
                 (opt) =>
                     new Promise<void>((resolve, reject) => {
+                        const remoteEntry = new URL(opt.remoteEntry);
+
+                        remoteEntry.searchParams.append("t", `${new Date().getTime()}`);
                         const linkTag = document.createElement("link");
 
-                        linkTag.href = opt.remoteEntry;
+                        linkTag.href = remoteEntry.toString();
                         linkTag.rel = "stylesheet";
                         linkTag.type = "text/css";
 
@@ -38,9 +42,12 @@ async function loadRemoteEntry(options: ILoadRemoteModuleOptions): Promise<void>
         );
     }
     await new Promise<void>((resolve, reject) => {
+        const remoteEntry = new URL(options.remoteEntry);
+
+        remoteEntry.searchParams.append("t", `${new Date().getTime()}`);
         const script = document.createElement("script");
 
-        script.src = options.remoteEntry;
+        script.src = remoteEntry.toString();
 
         script.onerror = reject;
 

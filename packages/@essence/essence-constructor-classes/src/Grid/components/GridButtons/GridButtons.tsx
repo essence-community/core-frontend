@@ -175,6 +175,9 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
                         <Grid item>
                             <Pagination
                                 disabled={classProps.disabled || isInlineEditing}
+                                pageSizeRange={store.recordsStore.pageSizeRange}
+                                pageSize={store.recordsStore.pageSize}
+                                onChangePageSize={store.recordsStore.setPageSize}
                                 count={recordsCount}
                                 rowsPerPage={pageSize}
                                 page={pageNumber}

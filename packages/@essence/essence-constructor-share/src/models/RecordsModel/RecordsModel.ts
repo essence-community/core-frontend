@@ -77,7 +77,10 @@ export class RecordsModel implements IRecordsModel {
 
     jsonMaster: Record<string, FieldValue> | Record<string, FieldValue>[];
 
+    @observable
     pageSize: number | undefined;
+
+    pageSizeRange?: number[];
 
     bc: IBuilderConfig;
 
@@ -120,6 +123,13 @@ export class RecordsModel implements IRecordsModel {
     constructor(bc: IBuilderConfig, options?: IOptions) {
         this.bc = bc;
         this.pageSize = bc.pagesize;
+        if (this.pageSize && bc.pagesizerange && bc.pagesizerange.length) {
+            this.pageSizeRange = [...bc.pagesizerange];
+            if (this.pageSizeRange.indexOf(this.pageSize) < 0) {
+                this.pageSizeRange.unshift(this.pageSize);
+                this.pageSizeRange.sort((a, b) => a - b);
+            }
+        }
         this.recordId = bc.idproperty || VAR_RECORD_ID;
         this.recordParentId = bc.idpropertyparent || VAR_RECORD_PARENT_ID;
         this.valueField = this.recordId;
@@ -212,6 +222,12 @@ export class RecordsModel implements IRecordsModel {
 
     setGetValue = (getValue: IGetValue["get"]): void => {
         this.getValue = getValue;
+    };
+
+    @action
+    setPageSize = (pageSize: number) => {
+        this.pageSize = pageSize;
+        this.loadRecordsAction();
     };
 
     @action

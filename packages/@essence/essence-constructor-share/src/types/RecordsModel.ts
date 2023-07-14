@@ -106,6 +106,7 @@ export interface IRecordsModel {
     order: IRecordsOrder[];
     jsonMaster: IRecord | Record<string, FieldValue>[];
     pageSize?: number;
+    pageSizeRange?: number[];
     bc: IBuilderConfig;
     searchValues: IRecord;
     pageStore: IPageModel | null;
@@ -123,6 +124,7 @@ export interface IRecordsModel {
     recordsTree: Record<string, IRecord[]>;
     getValue: IGetValue["get"];
     setGetValue: (getValue: IGetValue["get"]) => void;
+    setPageSize: (pageSize: number) => void;
     loadRecordsAction: (props: ILoadRecordsProps) => Promise<undefined | IRecord>;
     clearRecordsAction: () => void;
     localFilter: () => void;

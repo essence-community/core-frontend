@@ -116,13 +116,16 @@ export const FieldComboList: React.FC<IProps> = (props) => {
                     })
                 )}
                 {store.recordsStore.isLoading ? (
-                    <MenuItem disableRipple classes={{root: classes.paginationMenuItem}}/>
+                    <MenuItem disableRipple classes={{root: classes.paginationMenuItem}} />
                 ) : null}
             </Scrollbars>
             {store.recordsStore.pageSize ? (
                 <MenuItem component="div" disableRipple classes={{root: classes.paginationMenuItem}}>
                     <Pagination
                         count={store.recordsStore.recordsCount}
+                        pageSizeRange={store.recordsStore.pageSizeRange}
+                        pageSize={store.recordsStore.pageSize}
+                        onChangePageSize={store.recordsStore.setPageSize}
                         rowsPerPage={store.recordsStore.pageSize}
                         page={store.recordsStore.pageNumber}
                         onChangePage={store.recordsStore.setPageNumberAction}

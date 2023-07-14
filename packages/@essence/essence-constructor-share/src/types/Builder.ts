@@ -205,6 +205,8 @@ export interface IBuilderBaseConfig {
     order?: IRecordsOrder[];
     // Количество выводимых строк (включает пагинатор)
     pagesize?: number;
+    // Диапазоны page size
+    pagesizerange?: number[];
     // Высота выпадающей таблицы/списка. По умолчанию 390
     pickerheight?: string;
     // Ширина выпадающей таблицы/списка

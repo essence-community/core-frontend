@@ -164,6 +164,9 @@ export const GridTable: React.FC<IGridTableProps> = ({store, children, ...classP
                     {pageSize && theme.essence.layoutTheme === 2 ? (
                         <Pagination
                             disabled={store.isInlineEditing || classProps.disabled}
+                            pageSizeRange={store.recordsStore.pageSizeRange}
+                            pageSize={store.recordsStore.pageSize}
+                            onChangePageSize={store.recordsStore.setPageSize}
                             ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                             count={recordsCount}
                             rowsPerPage={pageSize}

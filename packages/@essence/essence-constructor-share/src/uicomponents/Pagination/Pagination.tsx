@@ -1,6 +1,6 @@
 import * as React from "react";
 import cn from "clsx";
-import {IconButton, Typography} from "@material-ui/core";
+import {Button, Divider, IconButton, Typography} from "@material-ui/core";
 import {useTranslation} from "../../utils/I18n";
 import {Icon} from "../../Icon";
 import {useStyles} from "./Pagination.styles";
@@ -8,15 +8,19 @@ import {useStyles} from "./Pagination.styles";
 interface IPaginationProps {
     disabled?: boolean;
     onChangePage: (pageNumber: number) => void;
+    onChangePageSize: (pageSize: number) => void;
+    pageSizeRange?: number[];
+    pageSize?: number;
     page: number;
     count: number;
     rowsPerPage: number;
     ckPageObject: string;
     className?: string;
+    classNameRange?: string;
 }
 
 export const Pagination: React.FC<IPaginationProps> = (props) => {
-    const {count, page, rowsPerPage, ckPageObject, disabled} = props;
+    const {count, page, pageSize, pageSizeRange, onChangePageSize, rowsPerPage, ckPageObject, disabled} = props;
     const pages = Math.ceil(props.count / props.rowsPerPage);
     const classes = useStyles(props);
 
@@ -38,8 +42,32 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
         props.onChangePage(Math.max(0, Math.ceil(props.count / props.rowsPerPage) - 1));
     };
 
+    const handlePageSize = React.useCallback((val) => () => onChangePageSize(val), [onChangePageSize]);
+
     return (
         <div className={cn(classes.root, props.className)}>
+            {pageSizeRange ? (
+                <div className={cn(classes.rootRange, props.classNameRange)}>
+                    {pageSizeRange.map((val) => (
+                        <Typography
+                            onClick={handlePageSize(val)}
+                            key={val}
+                            variant="body2"
+                            data-qtip={trans("static:1263a569a9ab4918bff62835deabd944")}
+                            classes={{
+                                root: cn(
+                                    classes.typoRoot,
+                                    classes.typoRootRange,
+                                    val === pageSize && classes.typoRootRangeSelect,
+                                ),
+                            }}
+                            data-page-object={`${ckPageObject}-page-range-${val}`}
+                        >
+                            {val}
+                        </Typography>
+                    ))}
+                </div>
+            ) : null}
             <IconButton
                 data-qtip={trans("static:23264e86a9cd446f83cee0eb86c20bd9")}
                 color="primary"
@@ -69,7 +97,10 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
                 classes={{root: classes.typoRoot}}
                 data-page-object={`${ckPageObject}-current-page`}
             >
-                {trans("static:3dd42493c346447897d017af3668d998", {currentpage: pages > 0 ? props.page + 1 : 0, pages})}
+                {trans("static:3dd42493c346447897d017af3668d998", {
+                    currentpage: pages > 0 ? props.page + 1 : 0,
+                    pages,
+                })}
             </Typography>
 
             <IconButton

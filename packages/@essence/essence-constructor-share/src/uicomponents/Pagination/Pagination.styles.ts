@@ -14,11 +14,22 @@ export const useStyles = makeStyles(
         root: {
             display: "flex",
         },
+        rootRange: {
+            display: "flex",
+            overflow: "hidden",
+        },
         typoRoot: {
             alignItems: "center",
             display: "flex",
             fontSize: 16,
             margin: "0 5px",
+        },
+        typoRootRange: {
+            cursor: "pointer",
+            textDecoration: "underline",
+        },
+        typoRootRangeSelect: {
+            color: theme.essence.palette.common.selectedMenu,
         },
     }),
     {name: "EssencePagination"},

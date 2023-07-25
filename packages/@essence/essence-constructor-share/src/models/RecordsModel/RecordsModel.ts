@@ -227,6 +227,7 @@ export class RecordsModel implements IRecordsModel {
     @action
     setPageSize = (pageSize: number) => {
         this.pageSize = pageSize;
+        this.pageNumber = 0;
         this.loadRecordsAction();
     };
 

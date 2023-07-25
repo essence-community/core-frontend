@@ -122,6 +122,7 @@ export const FieldComboList: React.FC<IProps> = (props) => {
             {store.recordsStore.pageSize ? (
                 <MenuItem component="div" disableRipple classes={{root: classes.paginationMenuItem}}>
                     <Pagination
+                        pageStore={store.pageStore}
                         count={store.recordsStore.recordsCount}
                         pageSizeRange={store.recordsStore.pageSizeRange}
                         pageSize={store.recordsStore.pageSize}

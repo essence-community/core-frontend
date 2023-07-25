@@ -163,6 +163,7 @@ export const GridTable: React.FC<IGridTableProps> = ({store, children, ...classP
                 <Grid item>
                     {pageSize && theme.essence.layoutTheme === 2 ? (
                         <Pagination
+                            pageStore={store.pageStore}
                             disabled={store.isInlineEditing || classProps.disabled}
                             pageSizeRange={store.recordsStore.pageSizeRange}
                             pageSize={store.recordsStore.pageSize}

@@ -1,11 +1,16 @@
 import * as React from "react";
 import cn from "clsx";
-import {Button, Divider, IconButton, Typography} from "@material-ui/core";
+import {IconButton, Typography} from "@material-ui/core";
 import {useTranslation} from "../../utils/I18n";
 import {Icon} from "../../Icon";
+import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_PARENT_ID} from "../../constants/variables";
+import {IBuilderConfig, IPageModel} from "../../types";
+import {UIForm} from "../UIForm";
+import {mapComponentOne} from "../../components";
 import {useStyles} from "./Pagination.styles";
 
 interface IPaginationProps {
+    pageStore: IPageModel;
     disabled?: boolean;
     onChangePage: (pageNumber: number) => void;
     onChangePageSize: (pageSize: number) => void;
@@ -19,8 +24,36 @@ interface IPaginationProps {
     classNameRange?: string;
 }
 
+const getComponentBc = (ckPageObject: string, pageSizeRange?: number[]): IBuilderConfig => ({
+    [VAR_RECORD_PAGE_OBJECT_ID]: `${ckPageObject}_Pagination`,
+    [VAR_RECORD_PARENT_ID]: "",
+    autoload: true,
+    column: "pageSize",
+    datatype: "combo",
+    disableclear: true,
+    displayfield: "ck_id",
+    idproperty: "ck_id",
+    info: "static:1263a569a9ab4918bff62835deabd944",
+    noglobalmask: true,
+    querymode: "remote",
+    readonly: false,
+    records: pageSizeRange?.map((val) => ({ck_id: `${val}`})),
+    type: "IFIELD",
+    valuefield: [{in: "ck_id"}],
+});
+
 export const Pagination: React.FC<IPaginationProps> = (props) => {
-    const {count, page, pageSize, pageSizeRange, onChangePageSize, rowsPerPage, ckPageObject, disabled} = props;
+    const {
+        count,
+        page,
+        pageSize,
+        pageStore,
+        pageSizeRange,
+        onChangePageSize,
+        rowsPerPage,
+        ckPageObject,
+        disabled,
+    } = props;
     const pages = Math.ceil(props.count / props.rowsPerPage);
     const classes = useStyles(props);
 
@@ -42,32 +75,14 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
         props.onChangePage(Math.max(0, Math.ceil(props.count / props.rowsPerPage) - 1));
     };
 
-    const handlePageSize = React.useCallback((val) => () => onChangePageSize(val), [onChangePageSize]);
+    const handlePageSize = React.useCallback((val) => onChangePageSize(parseInt(val.pageSize, 10)), [onChangePageSize]);
+    const bcPageSizeRange = React.useMemo(() => getComponentBc(ckPageObject, pageSizeRange), [
+        ckPageObject,
+        pageSizeRange,
+    ]);
 
     return (
         <div className={cn(classes.root, props.className)}>
-            {pageSizeRange ? (
-                <div className={cn(classes.rootRange, props.classNameRange)}>
-                    {pageSizeRange.map((val) => (
-                        <Typography
-                            onClick={handlePageSize(val)}
-                            key={val}
-                            variant="body2"
-                            data-qtip={trans("static:1263a569a9ab4918bff62835deabd944")}
-                            classes={{
-                                root: cn(
-                                    classes.typoRoot,
-                                    classes.typoRootRange,
-                                    val === pageSize && classes.typoRootRangeSelect,
-                                ),
-                            }}
-                            data-page-object={`${ckPageObject}-page-range-${val}`}
-                        >
-                            {val}
-                        </Typography>
-                    ))}
-                </div>
-            ) : null}
             <IconButton
                 data-qtip={trans("static:23264e86a9cd446f83cee0eb86c20bd9")}
                 color="primary"
@@ -127,6 +142,15 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
             >
                 <Icon iconfont="angle-double-right" />
             </IconButton>
+            {pageSizeRange && pageSizeRange.length ? (
+                <div className={classes.comboBox}>
+                    <UIForm pageStore={pageStore} initialValues={{pageSize}} submitOnChange onSubmit={handlePageSize}>
+                        {mapComponentOne(bcPageSizeRange, (Comp) => (
+                            <Comp pageStore={pageStore} visible bc={bcPageSizeRange} />
+                        ))}
+                    </UIForm>
+                </div>
+            ) : null}
         </div>
     );
 };

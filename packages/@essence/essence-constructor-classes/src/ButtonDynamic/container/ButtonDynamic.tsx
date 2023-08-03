@@ -18,8 +18,8 @@ export const ButtonDynamic: React.FC<IClassProps> = (props) => {
     const {contentview = "hbox", align = "left"} = bc;
 
     const recordCtx = React.useContext(RecordContext);
-    const [btnsConfig, setBtnsConfig] = React.useState<IChildren[]>(null);
-    const [btnsMenuConfig, setBtnsMenuConfig] = React.useState<IChildren[]>(null);
+    const [btnsConfig, setBtnsConfig] = React.useState<IChildren[]>([]);
+    const [btnsMenuConfig, setBtnsMenuConfig] = React.useState<IChildren[]>([]);
     const [store] = useModel((modelProps) => new DynamicButtonModel(modelProps), {
         bc,
         disabled,
@@ -52,9 +52,19 @@ export const ButtonDynamic: React.FC<IClassProps> = (props) => {
                                 rec,
                             })),
                         );
+                    } else if (contentview === "menu") {
+                        setBtnsConfig(
+                            tmpBtns.map(({bc: bcBtn, rec}) => ({
+                                bc: {...bcBtn, uitype: "8"},
+                                rec,
+                            })),
+                        );
                     } else {
                         setBtnsConfig(tmpBtns);
                     }
+                },
+                {
+                    fireImmediately: true,
                 },
             ),
         [bc.maxsize, contentview, recordCtx, store],

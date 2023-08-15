@@ -2,8 +2,11 @@ import * as DOMPurify from "dompurify";
 import {TText} from "../types/SnackbarModel";
 import {IRecord} from "../types/Base";
 import {FieldValue, IBuilderConfig} from "../types";
+import {loggerRoot} from "../constants";
 import {isEmpty} from "./base";
 import {TFunction} from "./I18n";
+
+const logger = loggerRoot("transform");
 
 /**
  * Преобразование bc.width в width для material-grid
@@ -85,7 +88,11 @@ export const deepFind = (obj: IRecord, path: string | string[]): [boolean, IReco
 
     for (const [idx, val] of paths.entries()) {
         if (typeof current === "string" && (current.trim().charAt(0) === "[" || current.trim().charAt(0) === "{")) {
-            current = JSON.parse(current);
+            try {
+                current = JSON.parse(current);
+            } catch (e) {
+                logger(e);
+            }
         }
         if (typeof current !== "object") {
             return [false, undefined];

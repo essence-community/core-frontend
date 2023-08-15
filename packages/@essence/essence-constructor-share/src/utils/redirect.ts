@@ -102,7 +102,10 @@ function choiceUrl(
     globalValues: ObservableMap<string, FieldValue>,
     record: IRecord,
 ): string | undefined {
-    const getValue = (name: string) => (record && name.charAt(0) !== "g" ? record[name] : globalValues.get(name));
+    const getValue = (name: string) =>
+        typeof name === "string" && name.charAt(0) === "g"
+            ? globalValues.get(name)
+            : (typeof record === "object" ? record : {})[name];
     const renerProc = parseMemoize(pathname);
     const url = renerProc.hasError ? pathname : renerProc.runer({get: getValue});
 

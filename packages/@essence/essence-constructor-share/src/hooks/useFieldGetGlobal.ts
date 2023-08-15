@@ -29,7 +29,7 @@ export function useFieldGetGlobal({field, pageStore, bc, store}: IUseFieldGetGlo
                     let value: FieldValue = val || "";
 
                     if (!isExists || field.form.mode !== "2") {
-                        if (name.charAt(0) === "g") {
+                        if (typeof name === "string" && name.charAt(0) === "g") {
                             value = globalValues.has(name) ? globalValues.get(name) : "";
                         } else if (store) {
                             value = store.selectedRecord ? store.selectedRecord[name] : "";

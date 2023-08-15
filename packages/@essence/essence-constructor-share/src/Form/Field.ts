@@ -75,9 +75,9 @@ export class Field implements IField {
     public clearValue: FieldValue | undefined;
 
     public getParseValue = (name: string) => {
-        return this.form && name.charAt(0) !== "g"
-            ? this.form.values[name]
-            : this.pageStore.globalValues.get(name) || this.form.values[name];
+        return typeof name === "string" && name.charAt(0) === "g"
+            ? this.pageStore.globalValues.get(name) || this.form?.values[name]
+            : this.form?.values[name];
     };
 
     @computed get label() {

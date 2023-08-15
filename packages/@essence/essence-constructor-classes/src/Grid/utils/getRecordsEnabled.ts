@@ -9,7 +9,9 @@ export function getRecordsEnabled(bc: IBuilderConfig, recordsStore: IRecordsMode
             (record) =>
                 !runer({
                     get: (name: string) =>
-                        record && name.charAt(0) !== "g" ? record[name] : pageStore.globalValues.get(name),
+                        typeof name === "string" && name.charAt(0) === "g"
+                            ? pageStore.globalValues.get(name)
+                            : (typeof record === "object" ? record : {})[name],
                 }),
         );
     }

@@ -35,7 +35,9 @@ export function choiceWindow(
             return name;
         }
 
-        return record && name.charAt(0) !== "g" ? record[name] : globalValues.get(name);
+        return typeof name === "string" && name.charAt(0) === "g"
+            ? globalValues.get(name)
+            : (typeof record === "object" ? record : {})[name];
     };
 
     return String(parseMemoize(ckwindow).runer({get: getValue}));

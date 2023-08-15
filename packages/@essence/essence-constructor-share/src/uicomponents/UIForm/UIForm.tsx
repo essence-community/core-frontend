@@ -107,7 +107,9 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
 
     const getValue = React.useCallback(
         (name: string) => {
-            return form && name.charAt(0) !== "g" ? form.values[name] : pageStore.globalValues.get(name);
+            return typeof name === "string" && name.charAt(0) === "g"
+                ? pageStore.globalValues.get(name)
+                : form?.values[name];
         },
         [pageStore, form],
     );

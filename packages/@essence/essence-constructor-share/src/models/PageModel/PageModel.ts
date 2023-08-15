@@ -367,7 +367,7 @@ export class PageModel implements IPageModel {
 
                 if (route && route.activerules) {
                     const getValue = (name: string) => {
-                        if (name.charAt(0) === "g") {
+                        if (typeof name === "string" && name.charAt(0) === "g") {
                             return this.globalValues.get(name);
                         }
 

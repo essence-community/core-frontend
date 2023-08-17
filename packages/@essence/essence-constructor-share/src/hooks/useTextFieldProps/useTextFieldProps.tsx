@@ -110,7 +110,7 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
                     color="secondary"
                     key="clear-value"
                     data-qtip={trans("static:cda88d85fb7e4a88932dc232d7604bfb")}
-                    className={classes.actionButton}
+                    className={classes.clearButton}
                     onClick={handleClear}
                     tabIndex={-1}
                 >

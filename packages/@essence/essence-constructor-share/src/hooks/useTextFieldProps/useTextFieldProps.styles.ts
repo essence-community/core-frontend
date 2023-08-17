@@ -5,7 +5,6 @@ export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         actionButton: {
             height: theme.essence.sizing.gridRowHeight,
-            visibility: "hidden",
             width: theme.essence.sizing.gridRowHeight,
         },
         clearButton: {

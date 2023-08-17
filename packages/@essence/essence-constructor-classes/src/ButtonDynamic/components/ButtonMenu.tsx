@@ -14,7 +14,7 @@ import {observer} from "mobx-react";
 import {IChildren, DynamicButtonModel} from "../store/DynamicButtonModel";
 import {useStyles} from "./ButtonMenu.styles";
 
-const anchorOrigins: Record<number | "window", IPopoverAnchorOrigin> = {
+const anchorOrigins: Record<number | "window" | "left" | "right", IPopoverAnchorOrigin> = {
     1: {
         horizontal: "left",
         vertical: "bottom",
@@ -23,13 +23,21 @@ const anchorOrigins: Record<number | "window", IPopoverAnchorOrigin> = {
         horizontal: "right",
         vertical: "center",
     },
+    left: {
+        horizontal: "right",
+        vertical: "top",
+    },
+    right: {
+        horizontal: "right",
+        vertical: "top",
+    },
     window: {
         horizontal: "left",
         vertical: "top",
     },
 };
 
-const transformOrigins: Record<number | "window", IPopoverTransfromOrigin> = {
+const transformOrigins: Record<number | "window" | "left" | "right", IPopoverTransfromOrigin> = {
     1: {
         horizontal: "left",
         vertical: 2,
@@ -38,6 +46,14 @@ const transformOrigins: Record<number | "window", IPopoverTransfromOrigin> = {
         horizontal: -8,
         vertical: "center",
     },
+    left: {
+        horizontal: "right",
+        vertical: "top",
+    },
+    right: {
+        horizontal: "left",
+        vertical: "top",
+    },
     window: {
         horizontal: "left",
         vertical: "bottom",
@@ -45,10 +61,14 @@ const transformOrigins: Record<number | "window", IPopoverTransfromOrigin> = {
 };
 const MAX_HEIGHT = 300;
 
-function getTranformName(theme: IEssenceTheme, position?: string): number | "window" {
+function getTranformName(theme: IEssenceTheme, position?: string): number | "window" | "left" | "right" {
     switch (true) {
         case position === "window":
             return "window";
+        case position === "left":
+            return "left";
+        case position === "right":
+            return "right";
         case position === "theme":
             return theme.essence.layoutTheme;
         default:

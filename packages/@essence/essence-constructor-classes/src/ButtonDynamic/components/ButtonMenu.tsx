@@ -28,7 +28,7 @@ const anchorOrigins: Record<number | "window" | "left" | "right", IPopoverAnchor
         vertical: "top",
     },
     right: {
-        horizontal: "right",
+        horizontal: "left",
         vertical: "top",
     },
     window: {
@@ -47,11 +47,11 @@ const transformOrigins: Record<number | "window" | "left" | "right", IPopoverTra
         vertical: "center",
     },
     left: {
-        horizontal: "right",
+        horizontal: "left",
         vertical: "top",
     },
     right: {
-        horizontal: "left",
+        horizontal: "right",
         vertical: "top",
     },
     window: {

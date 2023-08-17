@@ -71,7 +71,7 @@ export const ButtonDynamic: React.FC<IClassProps> = (props) => {
     );
 
     if (contentview === "menu") {
-        return <ButtonMenu {...props} btns={btnsConfig}></ButtonMenu>;
+        return <ButtonMenu {...props} store={store} btns={btnsConfig}></ButtonMenu>;
     }
 
     return (
@@ -96,7 +96,7 @@ export const ButtonDynamic: React.FC<IClassProps> = (props) => {
                 : null}
             {btnsMenuConfig && btnsMenuConfig.length ? (
                 <Grid item xs={true}>
-                    <ButtonMenu {...props} btns={btnsMenuConfig}></ButtonMenu>
+                    <ButtonMenu {...props} store={store} btns={btnsMenuConfig}></ButtonMenu>
                 </Grid>
             ) : null}
         </Grid>

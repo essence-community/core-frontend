@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys */
 import {makeStyles} from "@material-ui/core";
 import {IEssenceTheme} from "@essence-community/constructor-share/types";
 
@@ -69,7 +70,52 @@ export const useStyles = makeStyles(
                       borderTop: "none",
                       paddingTop: 2,
                   },
-
+        popoverRight:
+            theme.essence.layoutTheme === 2
+                ? {}
+                : {
+                      "&:before": {
+                          backgroundColor: theme.palette.primary.main,
+                          // eslint-disable-next-line quotes
+                          content: '""',
+                          height: "calc( 100% - 31px )",
+                          width: 2,
+                          left: 0,
+                          right: "auto",
+                          position: "absolute",
+                          top: 31,
+                      },
+                      border: `2px solid ${theme.palette.primary.main}`,
+                      borderLeft: "none",
+                      borderRadius: "0 4px 4px 4px",
+                      borderTop: `2px solid ${theme.palette.primary.main}`,
+                      boxShadow: "none",
+                      paddingLeft: 2,
+                      paddingTop: 0,
+                  },
+        popoverLeft:
+            theme.essence.layoutTheme === 2
+                ? {}
+                : {
+                      "&:before": {
+                          backgroundColor: theme.palette.primary.main,
+                          // eslint-disable-next-line quotes
+                          content: '""',
+                          height: "calc( 100% - 31px )",
+                          width: 2,
+                          position: "absolute",
+                          right: 0,
+                          top: 31,
+                          left: "auto",
+                      },
+                      border: `2px solid ${theme.palette.primary.main}`,
+                      borderRight: "none",
+                      borderRadius: "0 4px 4px 4px",
+                      borderTop: `2px solid ${theme.palette.primary.main}`,
+                      boxShadow: "none",
+                      paddingRight: 2,
+                      paddingTop: 0,
+                  },
         popoverWindowRoot:
             theme.essence.layoutTheme === 2
                 ? {}

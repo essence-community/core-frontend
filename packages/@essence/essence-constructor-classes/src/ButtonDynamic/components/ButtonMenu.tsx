@@ -24,11 +24,11 @@ const anchorOrigins: Record<number | "window" | "left" | "right", IPopoverAnchor
         vertical: "center",
     },
     left: {
-        horizontal: "right",
+        horizontal: "left",
         vertical: "top",
     },
     right: {
-        horizontal: "left",
+        horizontal: "right",
         vertical: "top",
     },
     window: {
@@ -36,7 +36,6 @@ const anchorOrigins: Record<number | "window" | "left" | "right", IPopoverAnchor
         vertical: "top",
     },
 };
-
 const transformOrigins: Record<number | "window" | "left" | "right", IPopoverTransfromOrigin> = {
     1: {
         horizontal: "left",
@@ -47,11 +46,11 @@ const transformOrigins: Record<number | "window" | "left" | "right", IPopoverTra
         vertical: "center",
     },
     left: {
-        horizontal: "left",
+        horizontal: "right",
         vertical: "top",
     },
     right: {
-        horizontal: "right",
+        horizontal: "left",
         vertical: "top",
     },
     window: {
@@ -110,7 +109,11 @@ export const ButtonMenu: React.FC<IButtonMenuClass> = observer((props) => {
                 );
             }}
             container={pageStore.pageEl}
-            paperClassName={cn(classes.popoverRoot, {[classes.popoverWindowRoot]: tranformName === "window"})}
+            paperClassName={cn(classes.popoverRoot, {
+                [classes.popoverWindowRoot]: tranformName === "window",
+                [classes.popoverLeft]: tranformName === "left",
+                [classes.popoverRight]: tranformName === "right",
+            })}
             width="auto"
             pageStore={pageStore}
             hideOnScroll

@@ -18,6 +18,7 @@ import {
     VAR_RECORD_PAGE_MULTI,
     VAR_RECORD_TREE_PATH,
     VAR_RECORD_NAME,
+    VAR_RECORD_URL,
 } from "../../constants";
 import {
     IBuilderConfig,
@@ -118,7 +119,8 @@ export class PageModel implements IPageModel {
             (this.recordsStore.selectedRecordValues?.route as IRouteRecord) ||
             (routesStore &&
                 routesStore.recordsStore.recordsState.records.find(
-                    (record: Record<string, FieldValue>) => record[VAR_RECORD_ID] === this.pageId,
+                    (record: Record<string, FieldValue>) =>
+                        record[VAR_RECORD_ID] === this.pageId || record[VAR_RECORD_URL] === this.pageId,
                 )) || {
                 [VAR_RECORD_ID]: this.pageId,
             }
@@ -227,6 +229,16 @@ export class PageModel implements IPageModel {
         );
 
         this.globalValues = observable.map(applicationStore.globalValues);
+        if (this.initParamPage) {
+            const obj = {};
+
+            Object.entries(this.initParamPage).forEach(([key, val]) => {
+                if (typeof key === "string" && key.charAt(0) === "g") {
+                    obj[key] = val;
+                }
+            });
+            this.globalValues.merge(obj);
+        }
         this.defaultVisible = defaultVisible;
         this.defaultIsReadOnly = isReadOnly;
     }

@@ -1,12 +1,14 @@
 {
     "type": "APPLICATION",
-    "childs": [{
-        "type": "STATIC.FRAME",
-        "ck_page_object": "frame"
-    }],
+    "childs": [
+        {
+            "type": "STATIC.FRAME",
+            "ck_page_object": "frame"
+        }
+    ],
     "ck_page_object": "mock",
     "ck_id": "frame",
     "ck_view": "system",
-    "ck_url": "frame",
+    "cv_url": "frame",
     "activerules": ""
 }

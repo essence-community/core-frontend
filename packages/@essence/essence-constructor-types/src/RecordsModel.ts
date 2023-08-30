@@ -119,7 +119,7 @@ export interface IRecordsModel {
     removeSelectedRecordAction: (options: ISaveActionOptions) => Promise<boolean>;
     downloadAction: (values: IRecord | IRecord[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<boolean>;
     reloadChildStoresAction: (oldSelect?: IRecord) => Promise<boolean>;
-    setSelectionAction: (ckId: FieldValue, key?: string) => Promise<number>;
+    setSelectionAction: (ckId?: FieldValue, key?: string) => Promise<number>;
     setSelectionsAction: (
         records: IRecord[],
         key?: string,

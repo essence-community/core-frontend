@@ -62,7 +62,7 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_button`,
             },
             bc: this.bc,
-            noReload: true,
+            noReload: this.bc.reloadmaster ? false : true,
             pageStore: this.pageStore,
             query: this.bc.updatequery,
             recordId: this.recordId,
@@ -70,11 +70,23 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
 
     @action
     private applySaveAction = (fromStore: IStoreBaseModel, toStore: IStoreBaseModel, recs: IRecord[]) => {
-        fromStore.recordsStore!.removeRecordsAction(recs, this.bc.column!);
-        toStore.recordsStore!.addRecordsAction(recs);
-
-        toStore.recordsStore!.sortRecordsAction();
-        fromStore.clearStoreAction();
+        if (fromStore.bc.winreloadstores) {
+            fromStore.clearStoreAction();
+            fromStore.recordsStore!.loadRecordsAction({});
+        } else {
+            fromStore.recordsStore!.setSelectionsAction([]);
+            fromStore.recordsStore!.setSelectionAction();
+            fromStore.recordsStore!.removeRecordsAction(recs, this.bc.column!);
+        }
+        if (toStore.bc.winreloadstores) {
+            toStore.clearStoreAction();
+            toStore.recordsStore!.loadRecordsAction({});
+        } else {
+            toStore.recordsStore!.setSelectionsAction([]);
+            toStore.recordsStore!.setSelectionAction();
+            toStore.recordsStore!.addRecordsAction(recs);
+            toStore.recordsStore!.sortRecordsAction();
+        }
     };
 
     @action

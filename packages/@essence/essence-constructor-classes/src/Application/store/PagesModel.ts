@@ -109,7 +109,7 @@ export class PagesModel implements IPagesModel {
             if (activePage.isMulti && initParams) {
                 activePage.setInitParams(initParams);
             }
-            if (activePage.loadingCount < 1) {
+            if (!activePage.isLoaded) {
                 await activePage.loadConfigAction(activePage.pageId);
             }
             this.activePage = activePage;

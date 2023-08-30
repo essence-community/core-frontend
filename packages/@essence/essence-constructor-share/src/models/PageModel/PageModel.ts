@@ -101,6 +101,8 @@ export class PageModel implements IPageModel {
 
     @observable public isLoading = false;
 
+    @observable public isLoaded = false;
+
     public uniqueId: string;
 
     @computed public get pagerBc(): IBuilderConfig {
@@ -422,6 +424,8 @@ export class PageModel implements IPageModel {
         if (this.initParamPage) {
             await redirectToPage(this, this.initParamPage);
         }
+
+        this.isLoaded = true;
 
         return this.recordsStore.selectedRecord;
     };

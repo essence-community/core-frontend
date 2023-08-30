@@ -61,6 +61,7 @@ export interface IPageModel {
     isReadOnly: boolean;
     currentStep?: string;
     isLoading: boolean;
+    isLoaded: boolean;
     loadingCount: number;
     hiddenPage: boolean;
     isActiveRedirect: boolean;

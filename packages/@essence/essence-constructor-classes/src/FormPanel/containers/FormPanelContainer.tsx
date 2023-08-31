@@ -45,7 +45,7 @@ export const FormPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = (p
                       <Child key={childBc.ck_page_object} {...props} bc={childBc} />
                   ))}
             <FormPanelGlobals bc={bc} pageStore={pageStore} />
-            {store.editing
+            {bc.editable && store.editing
                 ? createPortal(<div className={classes.mask} onWheel={handleOnWheel}></div>, pageStore.pageEl)
                 : null}
         </UIForm>

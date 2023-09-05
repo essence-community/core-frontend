@@ -217,7 +217,7 @@ export class RecordsModel implements IRecordsModel {
     }
 
     getValue: IGetValue["get"] = (key: string) => {
-        return this.pageStore?.globalStores.get(key);
+        return this.pageStore?.globalValues.get(key);
     };
 
     setGetValue = (getValue: IGetValue["get"]): void => {

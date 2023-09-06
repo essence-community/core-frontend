@@ -7,6 +7,7 @@ import {reaction} from "mobx";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react";
 import {Skeleton} from "@material-ui/lab";
+import {isEmpty} from "@essence-community/constructor-share/utils";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {useGridDnd} from "../../hooks/useGridDnd";
 import {useStyles} from "./BaseGridRow.styles";
@@ -26,6 +27,10 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
     const classes = useStyles();
     const dndProps = useGridDnd({record, store});
 
+    const isCheckBoxColumn = React.useMemo(
+        () => !isEmpty(bc.columns?.find((col) => col.datatype?.toLocaleUpperCase() === "CHECKBOX")),
+        [bc],
+    );
     const isSelected = React.useCallback(() => {
         return bc.selmode === "MULTI" || bc.collectionvalues === "array"
             ? store.recordsStore.selectedRecords.has(record[store.recordsStore.recordId] as ICkId)
@@ -56,7 +61,13 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
 
     const handleClick = React.useCallback(
         (event: React.MouseEvent<HTMLTableRowElement>) => {
-            if (bc.selmode === "MULTI" && !props.disabled) {
+            if (props.disabled) {
+                return;
+            }
+            if (isCheckBoxColumn) {
+                handleCtrlSelect();
+                store.recordsStore.setSelectionAction(record[store.recordsStore.recordId]);
+            } else if (bc.selmode === "MULTI" || bc.collectionvalues === "array") {
                 if (event.shiftKey) {
                     handleShiftSelect();
                 } else if (event.metaKey || event.ctrlKey) {
@@ -66,11 +77,11 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
                     store.recordsStore.selectedRecords.set(record[store.recordsStore.recordId] as ICkId, record);
                     store.recordsStore.setSelectionAction(record[store.recordsStore.recordId]);
                 }
-            } else if (!props.disabled) {
+            } else {
                 store.recordsStore.setSelectionAction(record[store.recordsStore.recordId]);
             }
         },
-        [bc, handleCtrlSelect, handleShiftSelect, props.disabled, record, store],
+        [bc, handleCtrlSelect, handleShiftSelect, isCheckBoxColumn, props.disabled, record, store.recordsStore],
     );
 
     React.useEffect(() => {

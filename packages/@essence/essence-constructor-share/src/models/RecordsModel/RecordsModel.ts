@@ -120,6 +120,8 @@ export class RecordsModel implements IRecordsModel {
 
     recordParentId = VAR_RECORD_PARENT_ID;
 
+    abort?: () => void;
+
     constructor(bc: IBuilderConfig, options?: IOptions) {
         this.bc = bc;
         this.pageSize = bc.pagesize;
@@ -274,11 +276,23 @@ export class RecordsModel implements IRecordsModel {
             }
         }
 
+        this.abort?.();
+
         return loadRecordsAction.call(this, {
             applicationStore: this.applicationStore,
             bc: this.bc,
             isUserReload,
             recordId: this.recordId,
+            registerAbortCallback: (fn) => {
+                this.abort = () => {
+                    try {
+                        fn();
+                    } catch (e) {
+                        logger(e);
+                    }
+                    this.abort = undefined;
+                };
+            },
             selectedRecordId,
             status,
         });

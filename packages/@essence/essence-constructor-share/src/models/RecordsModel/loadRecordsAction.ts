@@ -185,6 +185,7 @@ export function loadRecordsAction(
         status,
         recordId = VAR_RECORD_ID,
         isUserReload = false,
+        registerAbortCallback,
     }: ILoadRecordsAction,
 ): Promise<IRecord | undefined> {
     const {noglobalmask, defaultvalue, defaultvaluerule} = bc;
@@ -224,6 +225,7 @@ export function loadRecordsAction(
                 list: true,
                 plugin: bc.extraplugingate,
                 query: bc[VAR_RECORD_QUERY_ID] || "",
+                registerAbortCallback,
                 session: applicationStore ? applicationStore.authStore.userInfo.session : "",
                 timeout: bc.timeout,
             });

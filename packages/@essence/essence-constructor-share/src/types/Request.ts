@@ -30,6 +30,7 @@ export interface IRequest {
     method?: "POST";
     headers?: Record<string, string>;
     onUploadProgress?: (progressEvent: ProgressEvent) => void;
+    registerAbortCallback?: (abortCallback: () => void) => void;
 }
 
 export interface IRequestData {

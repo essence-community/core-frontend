@@ -5,6 +5,7 @@ import {snackbarStore} from "../SnackbarModel";
 import {loadFiles} from "../../utils/browser";
 import {IRecord} from "../../types/Base";
 import {reloadSystemComponents} from "../../components";
+import {isEmpty} from "../../utils/base";
 
 interface IView {
     loadingPromise: null | Promise<any>;
@@ -28,7 +29,7 @@ export class ViewModel {
             json: {
                 filter: {
                     [VAR_RECORD_CL_AVAILABLE]: 1,
-                    [VAR_RECORD_ID]: view,
+                    [VAR_RECORD_ID]: isEmpty(view) ? "system" : view,
                 },
             },
             list: true,

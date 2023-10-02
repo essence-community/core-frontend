@@ -418,7 +418,8 @@
     "defaultvalue": "home",
     "ck_page_object": "mock",
     "ck_id": "safe",
-    "cv_url": "safe",
+    "ck_url": "safe",
+    "ck_view": "system",
     "cv_description": "Приложение - Safe",
     "cv_helper_color": "yellow"
 }

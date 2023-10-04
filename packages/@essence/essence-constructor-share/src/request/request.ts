@@ -16,6 +16,7 @@ import {
 } from "../constants";
 import {ResponseError} from "./error";
 import {checkInterceptor} from "./interceptors";
+import cacheQueryStorage, {cacheType} from "./cacheQueryStorage";
 
 const logger = loggerRoot.extend("Request");
 
@@ -105,73 +106,82 @@ export const request = async <R = IRecord | IRecord[]>(requestParams: IRequest):
         });
     }
     const url = `${gate}?${stringify(queryParams)}`;
-    let responseJSON: any = undefined;
+    let responseJSON: any = await cacheQueryStorage.getResponse(gate, query.toUpperCase(), data).catch((err) => {
+        logger(err);
 
-    // fallback to xhr for upload progress
-    if (onUploadProgress) {
-        const response = await axios({
-            cancelToken: registerAbortCallback ? new axios.CancelToken(registerAbortCallback) : undefined,
-            data: formData ? formData : stringify(data),
-            headers: {
-                ...(headers || {}),
-                "Content-type": formData ? undefined : "application/x-www-form-urlencoded",
-            },
-            method,
-            onUploadProgress,
-            timeout: timeout * MILLISECOND,
-            url,
-            validateStatus: () => true,
-        });
+        return Promise.resolve();
+    });
 
-        await checkInterceptor(requestParams, {
-            data: response.data,
-            headers: response.headers,
-            status: response.status,
-        });
+    if (!responseJSON) {
+        // fallback to xhr for upload progress
+        if (onUploadProgress) {
+            const response = await axios({
+                cancelToken: registerAbortCallback ? new axios.CancelToken(registerAbortCallback) : undefined,
+                data: formData ? formData : stringify(data),
+                headers: {
+                    ...(headers || {}),
+                    "Content-type": formData ? undefined : "application/x-www-form-urlencoded",
+                },
+                method,
+                onUploadProgress,
+                timeout: timeout * MILLISECOND,
+                url,
+                validateStatus: () => true,
+            });
 
-        responseJSON = response.data;
-    } else {
-        const controller = window.AbortController ? new window.AbortController() : undefined;
-        const timeoutId = window.setTimeout(() => controller?.abort(), timeout * MILLISECOND);
+            await checkInterceptor(requestParams, {
+                data: response.data,
+                headers: response.headers,
+                status: response.status,
+            });
 
-        if (registerAbortCallback) {
-            registerAbortCallback(controller?.abort);
+            responseJSON = response.data;
+        } else {
+            const controller = window.AbortController ? new window.AbortController() : undefined;
+            const timeoutId = window.setTimeout(() => controller?.abort(), timeout * MILLISECOND);
+
+            if (registerAbortCallback) {
+                registerAbortCallback(controller?.abort);
+            }
+            const response = await fetch(url, {
+                body: formData ? formData : stringify(data),
+                ...(formData
+                    ? {...(headers && Object.keys(headers).length ? {headers} : {})}
+                    : {
+                          headers: {
+                              ...(headers || {}),
+                              "Content-type": "application/x-www-form-urlencoded",
+                          },
+                      }),
+                method,
+                signal: controller?.signal,
+            });
+
+            clearTimeout(timeoutId);
+
+            const res = await response.text();
+
+            await checkInterceptor(requestParams, {
+                data: res,
+                headers: response.headers,
+                status: response.status,
+            });
+
+            try {
+                responseJSON = JSON.parse(res);
+            } catch (e) {
+                logger(`Parse Error data: \n ${res}`, e);
+                responseJSON = {
+                    [VAR_ERROR_CODE]: 500,
+                    [VAR_ERROR_ID]: "Parse Error data",
+                    [VAR_ERROR_TEXT]: "Parse Error data",
+                    metaData: {},
+                    success: false,
+                };
+            }
         }
-        const response = await fetch(url, {
-            body: formData ? formData : stringify(data),
-            ...(formData
-                ? {...(headers && Object.keys(headers).length ? {headers} : {})}
-                : {
-                      headers: {
-                          ...(headers || {}),
-                          "Content-type": "application/x-www-form-urlencoded",
-                      },
-                  }),
-            method,
-            signal: controller?.signal,
-        });
-
-        clearTimeout(timeoutId);
-
-        const res = await response.text();
-
-        await checkInterceptor(requestParams, {
-            data: res,
-            headers: response.headers,
-            status: response.status,
-        });
-
-        try {
-            responseJSON = JSON.parse(res);
-        } catch (e) {
-            logger(`Parse Error data: \n ${res}`, e);
-            responseJSON = {
-                [VAR_ERROR_CODE]: 500,
-                [VAR_ERROR_ID]: "Parse Error data",
-                [VAR_ERROR_TEXT]: "Parse Error data",
-                metaData: {},
-                success: false,
-            };
+        if (cacheType.indexOf(responseJSON?.metaData?.cache as string) > -1) {
+            cacheQueryStorage.setResponse(gate, query.toUpperCase(), data, responseJSON).catch((err) => logger(err));
         }
     }
 

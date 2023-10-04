@@ -16,13 +16,13 @@ interface ICacheQuery {
 }
 
 class DisableCache implements ICacheQuery {
-    load(key?: string): Promise<void> {
+    async load(key?: string): Promise<void> {
         return;
     }
-    getResponse(url: string, query: string, data: Record<string, any>): Promise<any> {
+    async getResponse(url: string, query: string, data: Record<string, any>): Promise<any> {
         return;
     }
-    setResponse(url: string, query: string, data: Record<string, any>, response: any): Promise<void> {
+    async setResponse(url: string, query: string, data: Record<string, any>, response: any): Promise<void> {
         return;
     }
 }

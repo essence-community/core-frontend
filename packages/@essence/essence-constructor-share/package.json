@@ -30,7 +30,7 @@
         "bignumber.js": "9.0.0",
         "clsx": "^1.1.1",
         "crypto-js": "^4.1.1",
-        "debug": "4.1.1",
+        "debug": "4.3.1",
         "dompurify": "^2.0.12",
         "esprima": "^4.0.1",
         "eventemitter3": "5.0.0",

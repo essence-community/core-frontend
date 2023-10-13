@@ -7,7 +7,8 @@ import {reaction} from "mobx";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react";
 import {Skeleton} from "@material-ui/lab";
-import {isEmpty} from "@essence-community/constructor-share/utils";
+import {deepFind, isEmpty, parseMemoize} from "@essence-community/constructor-share/utils";
+import {useGetValue} from "@essence-community/constructor-share/hooks/useCommon/useGetValue";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {useGridDnd} from "../../hooks/useGridDnd";
 import {useStyles} from "./BaseGridRow.styles";
@@ -26,11 +27,13 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
     const popoverCtx = React.useContext(PopoverContext);
     const classes = useStyles();
     const dndProps = useGridDnd({record, store});
+    const getValue = useGetValue({pageStore: store.pageStore});
 
-    const isCheckBoxColumn = React.useMemo(
-        () => !isEmpty(bc.columns?.find((col) => col.datatype?.toLocaleUpperCase() === "CHECKBOX")),
-        [bc],
-    );
+    const [isCheckBoxColumn, checkBc] = React.useMemo(() => {
+        const checkBc = bc.columns?.find((col) => col.datatype?.toLocaleUpperCase() === "CHECKBOX");
+
+        return [!isEmpty(checkBc), checkBc];
+    }, [bc]);
     const isSelected = React.useCallback(() => {
         return bc.selmode === "MULTI" || bc.collectionvalues === "array"
             ? store.recordsStore.selectedRecords.has(record[store.recordsStore.recordId] as ICkId)
@@ -65,7 +68,19 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
                 return;
             }
             if (isCheckBoxColumn) {
-                handleCtrlSelect();
+                if (
+                    !checkBc.disabled &&
+                    (isEmpty(checkBc.disabledrules) ||
+                        !parseMemoize(checkBc.disabledrules).runer({
+                            get: (name: string) => {
+                                const [isExists, value] = deepFind(record, name);
+
+                                return isExists ? value : getValue(name);
+                            },
+                        }))
+                ) {
+                    handleCtrlSelect();
+                }
                 store.recordsStore.setSelectionAction(record[store.recordsStore.recordId]);
             } else if (bc.selmode === "MULTI" || bc.collectionvalues === "array") {
                 if (event.shiftKey) {
@@ -81,7 +96,17 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
                 store.recordsStore.setSelectionAction(record[store.recordsStore.recordId]);
             }
         },
-        [bc, handleCtrlSelect, handleShiftSelect, isCheckBoxColumn, props.disabled, record, store.recordsStore],
+        [
+            bc,
+            checkBc,
+            getValue,
+            handleCtrlSelect,
+            handleShiftSelect,
+            isCheckBoxColumn,
+            props.disabled,
+            record,
+            store.recordsStore,
+        ],
     );
 
     React.useEffect(() => {

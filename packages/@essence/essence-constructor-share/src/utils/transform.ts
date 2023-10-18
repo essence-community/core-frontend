@@ -6,7 +6,7 @@ import {loggerRoot} from "../constants";
 import {isEmpty} from "./base";
 import {TFunction} from "./I18n";
 
-const logger = loggerRoot("transform");
+const logger = loggerRoot.extend("transform");
 
 /**
  * Преобразование bc.width в width для material-grid

@@ -38,7 +38,11 @@ export class PagesModel implements IPagesModel {
     @computed get visiblePages() {
         // Отображаем всегда все
         return this.pages.filter(
-            ({route}) => !route || (route && !route[VAR_RECORD_PAGE_MULTI] && route[VAR_RECORD_ROUTE_VISIBLE_MENU]),
+            ({route}) =>
+                !route ||
+                (route &&
+                    ((!route[VAR_RECORD_PAGE_MULTI] && route[VAR_RECORD_ROUTE_VISIBLE_MENU]) ||
+                        route[VAR_RECORD_PAGE_MULTI])),
         );
     }
 

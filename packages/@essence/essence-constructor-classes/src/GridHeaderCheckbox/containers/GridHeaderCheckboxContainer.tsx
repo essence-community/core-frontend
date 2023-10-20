@@ -55,13 +55,16 @@ export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
         );
     }, [store, bc]);
 
-    const handleChange = () => {
+    const handleChange = (event: React.SyntheticEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
         if (store) {
             store.invokeHandler("onToggleAllSelectedRecords", ["1", props.bc, {}]);
         }
     };
 
     const handlePrevent = (event: React.SyntheticEvent) => {
+        event.preventDefault();
         event.stopPropagation();
     };
 

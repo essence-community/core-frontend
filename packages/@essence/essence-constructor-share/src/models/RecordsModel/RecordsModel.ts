@@ -112,7 +112,7 @@ export class RecordsModel implements IRecordsModel {
     @observable
     expansionRecords: ObservableMap<string, boolean>;
     @observable
-    selectedRecords: ObservableMap<string, IRecord>;
+    selectedRecords: ObservableMap<ICkId, IRecord>;
 
     recordsTree: Record<string, IRecord[]>;
 
@@ -332,15 +332,15 @@ export class RecordsModel implements IRecordsModel {
             this.selectedRecords.clear();
 
             records.forEach((rec) => {
-                this.selectedRecords.set(String(rec[key]), rec);
+                this.selectedRecords.set(rec[key] as ICkId, rec);
             });
         } else if (isMode === "append") {
             records.forEach((rec) => {
-                this.selectedRecords.set(String(rec[key]), rec);
+                this.selectedRecords.set(rec[key] as ICkId, rec);
             });
         } else if (isMode === "delete") {
             records.forEach((rec) => {
-                this.selectedRecords.delete(String(rec[key]));
+                this.selectedRecords.delete(rec[key] as ICkId);
             });
         }
 

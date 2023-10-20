@@ -54,13 +54,16 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
     }, [record, store]);
 
     const handleCtrlSelect = React.useCallback(() => {
+        const maxSize =
+            checkBc?.maxselected && (parseMemoize(checkBc.maxselected).runer(store.pageStore.globalValues) as number);
+
         if (isSelected()) {
-            store.recordsStore.selectedRecords.delete(record[store.recordsStore.recordId] as ICkId);
-        } else {
-            store.recordsStore.selectedRecords.set(record[store.recordsStore.recordId] as ICkId, record);
+            store.recordsStore.setSelectionsAction([record], store.recordsStore.recordId, "delete");
+        } else if (!maxSize || maxSize > store.recordsStore.selectedRecords.size) {
+            store.recordsStore.setSelectionsAction([record], store.recordsStore.recordId, "append");
         }
         store.recordsStore.setSelectionAction(record[store.recordsStore.recordId]);
-    }, [isSelected, record, store]);
+    }, [checkBc, isSelected, record, store]);
 
     const handleClick = React.useCallback(
         (event: React.MouseEvent<HTMLTableRowElement>) => {

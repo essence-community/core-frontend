@@ -51,7 +51,9 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
 
         return "check-square";
     };
-    const handleChange = () => {
+    const handleChange = (event: React.SyntheticEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
         const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
 
         if (store) {
@@ -59,6 +61,7 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
         }
     };
     const handlePrevent = (event: React.SyntheticEvent) => {
+        event.preventDefault();
         event.stopPropagation();
     };
 
@@ -67,7 +70,8 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
         const checked = isChecked();
         const isDisabledCheck =
             !checked && bc.maxselected && store && store.recordsStore
-                ? store.recordsStore.selectedRecords.size >= parseMemoize(bc.maxselected).runer(pageStore.globalValues)
+                ? (store.recordsStore.selectedRecords.size as any) >=
+                  parseMemoize(bc.maxselected).runer(pageStore.globalValues)
                 : false;
 
         return (

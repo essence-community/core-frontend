@@ -6,6 +6,8 @@ import {
     VAR_RECORD_CV_LOGIN,
     VAR_RECORD_URL,
     VAR_RECORD_ID,
+    VAR_RECORD_ROUTE_VISIBLE_MENU,
+    VAR_RECORD_PAGE_MULTI,
 } from "@essence-community/constructor-share/constants";
 import {PageModel} from "@essence-community/constructor-share/models";
 import {GlobalRecordsModel} from "@essence-community/constructor-share/models/GlobalRecordsModel";
@@ -35,8 +37,9 @@ export class PagesModel implements IPagesModel {
 
     @computed get visiblePages() {
         // Отображаем всегда все
-        // return this.pages.filter(({route}) => route && route[VAR_RECORD_ROUTE_VISIBLE_MENU]);
-        return this.pages;
+        return this.pages.filter(
+            ({route}) => !route || (route && !route[VAR_RECORD_PAGE_MULTI] && route[VAR_RECORD_ROUTE_VISIBLE_MENU]),
+        );
     }
 
     @computed get storeKey() {

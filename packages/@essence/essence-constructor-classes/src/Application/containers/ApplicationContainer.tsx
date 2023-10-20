@@ -104,7 +104,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 const {routesStore, pagesStore} = applicationStore;
                 const routes = routesStore ? routesStore.recordsStore.records : [];
                 const pageConfig = routes.find(
-                    (route: IRecord) => route[VAR_RECORD_ID] === ckId || route[VAR_RECORD_URL] === ckId,
+                    (route: IRecord) => ckId && (route[VAR_RECORD_ID] === ckId || route[VAR_RECORD_URL] === ckId),
                 );
                 const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
@@ -157,8 +157,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
         if (!applicationStore.isApplicationReady || appNameRef.current !== applicationStore.url) {
             return;
         }
+        const {routesStore, pagesStore} = applicationStore;
+
         if (ckId) {
-            const {routesStore, pagesStore} = applicationStore;
             const routes = routesStore ? routesStore.recordsStore.records : [];
             const pageConfig = routes.find(
                 (route: IRecord) => route[VAR_RECORD_ID] === ckId || route[VAR_RECORD_URL] === ckId,
@@ -175,8 +176,10 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             ) {
                 pagesStore.setPageAction(String(pageId), false, decodePathUrl(filter, null));
             }
+        } else if (pagesStore.pages.length) {
+            pagesStore.setPageAction(pagesStore.pages[0], false);
         } else if (applicationStore.defaultValue) {
-            applicationStore.pagesStore.setPageAction(applicationStore.defaultValue, false);
+            pagesStore.setPageAction(applicationStore.defaultValue, false);
         }
     }, [ckId, applicationStore, filter]);
 
@@ -222,7 +225,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
         return reaction(
             () => applicationStore.pagesStore.activePage,
             async (activePage) => {
-                const route = activePage && activePage.route;
+                let route = activePage && activePage.route;
                 let pageId: FieldValue = "";
                 let routeUrl: FieldValue = "";
                 let filter: FieldValue = "";
@@ -239,6 +242,23 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                             ? route[VAR_RECORD_URL]
                             : route[VAR_RECORD_ID];
                     if (activePage.isMulti && activePage.initParamPage) {
+                        filter = `/${encodePathUrl(activePage.initParamPage)}`;
+                    }
+                } else if (
+                    !route &&
+                    applicationStore.pagesStore.pages.length &&
+                    applicationStore.pagesStore.pages[0].route
+                ) {
+                    route = applicationStore.pagesStore.pages[0].route;
+                    pageId = route[VAR_RECORD_ID];
+                    routeUrl =
+                        route[VAR_RECORD_CL_STATIC] && route[VAR_RECORD_URL]
+                            ? route[VAR_RECORD_URL]
+                            : route[VAR_RECORD_ID];
+                    if (
+                        applicationStore.pagesStore.pages[0].isMulti &&
+                        applicationStore.pagesStore.pages[0].initParamPage
+                    ) {
                         filter = `/${encodePathUrl(activePage.initParamPage)}`;
                     }
                 } else if (applicationStore.authStore.userInfo.session) {

@@ -54,15 +54,15 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
     const handleChange = (event: React.SyntheticEvent) => {
         event.preventDefault();
         event.stopPropagation();
+    };
+    const handlePrevent = (event: React.SyntheticEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
         const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
 
         if (store) {
             store.invokeHandler("onToggleSelectedRecord", ["1", bc, {record: {...record, checked: isChecked()}}]);
         }
-    };
-    const handlePrevent = (event: React.SyntheticEvent) => {
-        event.preventDefault();
-        event.stopPropagation();
     };
 
     return useObserver(() => {

@@ -69,6 +69,7 @@ export const print = async ({
                 ...reloadPageObject,
             },
         },
+        list: false,
         plugin: bcBtn.extraplugingate || bc.extraplugingate,
         query: bcBtn.updatequery || "Modify",
         session: applicationStore.authStore.userInfo.session,

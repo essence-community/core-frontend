@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import * as React from "react";
 import cn from "clsx";
 import {IClassProps, IRecord, ICkId} from "@essence-community/constructor-share/types";
@@ -34,6 +35,23 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
 
         return [!isEmpty(checkBc), checkBc];
     }, [bc]);
+    const isDisabledCheckBox = React.useMemo(() => {
+        if (isCheckBoxColumn) {
+            let res = checkBc.disabled;
+
+            if (!isEmpty(checkBc.disabledrules)) {
+                res = parseMemoize(checkBc.disabledrules).runer({
+                    get: (name: string) => {
+                        const [isExists, value] = deepFind(record, name);
+
+                        return isExists ? value : getValue(name);
+                    },
+                }) as boolean;
+            }
+
+            return res;
+        }
+    }, [isCheckBoxColumn, checkBc, getValue, record]);
     const isSelected = React.useCallback(() => {
         return bc.selmode === "MULTI" || bc.collectionvalues === "array"
             ? store.recordsStore.selectedRecords.has(record[store.recordsStore.recordId] as ICkId)
@@ -71,18 +89,8 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
                 return;
             }
             if (isCheckBoxColumn) {
-                if (
-                    !checkBc.disabled &&
-                    (isEmpty(checkBc.disabledrules) ||
-                        !parseMemoize(checkBc.disabledrules).runer({
-                            get: (name: string) => {
-                                const [isExists, value] = deepFind(record, name);
-
-                                return isExists ? value : getValue(name);
-                            },
-                        }))
-                ) {
-                    handleCtrlSelect();
+                if (!isDisabledCheckBox) {
+                    store.toggleSelectedRecordAction(record, checkBc);
                 }
                 store.recordsStore.setSelectionAction(record[store.recordsStore.recordId]);
             } else if (bc.selmode === "MULTI" || bc.collectionvalues === "array") {
@@ -102,13 +110,13 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
         [
             bc,
             checkBc,
-            getValue,
             handleCtrlSelect,
             handleShiftSelect,
             isCheckBoxColumn,
+            isDisabledCheckBox,
             props.disabled,
             record,
-            store.recordsStore,
+            store,
         ],
     );
 

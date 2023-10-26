@@ -66,14 +66,13 @@ export const FieldTableContainer: React.FC<IClassProps> = (props) => {
         );
     }, [pageStore.stores, store]);
 
-    React.useEffect(() => {
-        changeValue(field.value);
-
-        return reaction(() => field.value, changeValue, {
-            fireImmediately: true,
-        });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [changeValue]);
+    React.useEffect(
+        () =>
+            reaction(() => field.value, changeValue, {
+                fireImmediately: true,
+            }),
+        [changeValue, field],
+    );
 
     return (
         <Popover

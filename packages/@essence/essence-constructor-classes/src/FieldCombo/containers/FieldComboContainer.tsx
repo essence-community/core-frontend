@@ -93,7 +93,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
             handleReactValue(field.value);
         }
 
-        return reaction(() => field.value, handleReactValue);
+        return reaction(() => field.value, handleReactValue, {fireImmediately: true});
     }, [field, handleReactValue, store]);
     React.useEffect(
         () =>

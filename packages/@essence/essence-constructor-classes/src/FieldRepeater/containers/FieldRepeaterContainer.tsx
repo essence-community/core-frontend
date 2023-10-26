@@ -136,12 +136,6 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
 
     React.useEffect(() => {
         if (field) {
-            setParentContext(
-                Array.isArray(field.value)
-                    ? field.value.map((value, idx) => ({key: `${field.key}.${idx}`, parentFieldKey: field.key}))
-                    : [],
-            );
-
             return reaction(
                 () => field.value,
                 (val) =>
@@ -150,6 +144,7 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
                             ? val.map((value, idx) => ({key: `${field.key}.${idx}`, parentFieldKey: field.key}))
                             : [],
                     ),
+                {fireImmediately: true},
             );
         }
 
@@ -160,8 +155,8 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
         const value = (Array.isArray(field.value) ? field.value : []) as FieldValue[];
         const maxSize = bc.maxsize && /[g_]/u.test(bc.maxsize) ? pageStore.globalValues.get(bc.maxsize) : bc.maxsize;
         const minSize = bc.minsize && /[g_]/u.test(bc.minsize) ? pageStore.globalValues.get(bc.minsize) : bc.minsize;
-        const isHiddenAdd = (maxSize && maxSize <= value.length) || hidden;
-        const isDisabledDel = (minSize && minSize >= value.length) || isDisabled;
+        const isHiddenAdd = (maxSize && parseInt(maxSize as string, 10) <= value.length) || hidden;
+        const isDisabledDel = (minSize && parseInt(minSize as string, 10) >= value.length) || isDisabled;
 
         return (
             <Group error={Boolean(!isDisabled && !field.isValid)} isRow={false} bc={props.bc}>

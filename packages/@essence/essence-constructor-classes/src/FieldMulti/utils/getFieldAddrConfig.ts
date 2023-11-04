@@ -124,11 +124,13 @@ export function getFieldAddrConfig(bc: IBuilderConfig): IBuilderConfig[] {
                 "hidden",
                 "hiddenrules",
                 "getglobaltostore",
+                "getmastervalue",
                 "setglobal",
                 "column",
                 "datatype",
             ],
             include: [
+                VAR_RECORD_DISPLAYED,
                 VAR_RECORD_QUERY_ID,
                 "defaultvalue",
                 "defaultvaluequery",

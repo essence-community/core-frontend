@@ -41,6 +41,13 @@ export class DynamicButtonModel extends StoreBaseModel {
         };
     }
     @computed get btns(): IChildren[] {
+        if (this.bc.childs && this.bc.childs.length) {
+            return this.bc.childs.map((child) => ({
+                bc: {...child, [VAR_RECORD_PARENT_ID]: this.bc[VAR_RECORD_PARENT_ID]},
+                rec: child as any,
+            }));
+        }
+
         return this.recordsStore.records.map((rec, index) => {
             const btnBc = {
                 ...this.bc,

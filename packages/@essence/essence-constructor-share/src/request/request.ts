@@ -141,7 +141,7 @@ export const request = async <R = IRecord | IRecord[]>(requestParams: IRequest):
             const timeoutId = window.setTimeout(() => controller?.abort(), timeout * MILLISECOND);
 
             if (registerAbortCallback) {
-                registerAbortCallback(controller?.abort);
+                registerAbortCallback(() => controller?.abort());
             }
             const response = await fetch(url, {
                 body: formData ? formData : stringify(data),

@@ -521,6 +521,9 @@ export class SnackbarModel implements ISnackbarModel {
     checkExceptResponse = action(
         "checkExceptResponse",
         (error: Record<string, any>, route?: IRouteRecord, applicationStore?: IApplicationModel | null) => {
+            if (error.message?.indexOf("aborted") > -1) {
+                return;
+            }
             const responseError = error.responseError || {};
             const errCode = responseError[VAR_ERROR_CODE] as keyof typeof CODE_GROUP_MAP;
             const groupCode = CODE_GROUP_MAP[errCode] as keyof typeof GROUP_ACTION_MAP;

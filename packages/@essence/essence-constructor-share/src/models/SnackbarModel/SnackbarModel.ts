@@ -622,7 +622,7 @@ export class SnackbarModel implements ISnackbarModel {
         "invalidSessionAction",
         (_error: Error, route?: IRouteRecord, applicationStore?: IApplicationModel) => {
             this.snackbarOpenAction(
-                {status: "error", text: (trans) => trans("static:5bf781f61f9c44b8b23c76aec75e5d10")},
+                {status: "info", text: (trans) => trans("static:5bf781f61f9c44b8b23c76aec75e5d10")},
                 route,
             );
 

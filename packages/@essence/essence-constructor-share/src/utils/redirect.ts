@@ -280,7 +280,12 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
     });
     const queryParams = columnsfilter ? getQueryParams({columnsName: columnsfilter, globalValues, record}) : {};
 
-    if (url.pathname && (url.pathname.indexOf("\\") < 0 || url.pathname.startsWith("redirect"))) {
+    if (
+        url.pathname &&
+        !url.pathname.startsWith("http:") &&
+        !url.pathname.startsWith("https:") &&
+        (url.pathname.indexOf("\\") < 0 || url.pathname.startsWith("redirect"))
+    ) {
         url.pathname = `${settingsStore.settings[VAR_SETTING_BASE_URL]}${
             settingsStore.settings[VAR_SETTING_BASE_PATH]
         }${
@@ -288,7 +293,9 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
                 ? url.pathname.replace("redirect", "")
                 : `${pageStore.applicationStore.url}/${url.pathname}`
         }/${encodePathUrl(queryParams)}`;
-    } else if (url.pathname && url.pathname.indexOf("_blank") > -1) {
+    }
+
+    if (url.pathname && url.pathname.indexOf("_blank") > -1) {
         url.blank = true;
         url.pathname = `${url.pathname.replace("_blank", "")}${
             Object.keys(queryParams).length ? `?${qs.stringify(queryParams)}` : ""

@@ -655,8 +655,8 @@ export class ApplicationModel implements IApplicationModel {
             await this.routesStore?.recordsStore.searchAction({appUrl: url});
 
             this.pagesStore.pages.clear();
+            this.url = url;
             this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
-            this.isApplicationReady = true;
         } else {
             await this.redirectToFirstValidApplication(url);
         }

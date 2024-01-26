@@ -154,7 +154,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     }, [appName, applicationStore]);
 
     React.useEffect(() => {
-        if (!applicationStore.isApplicationReady || appNameRef.current !== applicationStore.url) {
+        if (!applicationStore.isApplicationReady || appName !== applicationStore.url) {
             return;
         }
         const {routesStore, pagesStore} = applicationStore;
@@ -181,7 +181,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
         } else if (applicationStore.defaultValue) {
             pagesStore.setPageAction(applicationStore.defaultValue, false);
         }
-    }, [ckId, applicationStore, filter]);
+    }, [appName, ckId, applicationStore, filter]);
 
     React.useEffect(() => {
         const dispose = reaction(

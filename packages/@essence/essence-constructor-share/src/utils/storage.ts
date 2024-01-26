@@ -48,7 +48,7 @@ export function getFromStore<T = ValueType>(key: string, defaultValue?: T): T | 
 
     if (value) {
         try {
-            return JSON.parse(value);
+            return typeof value === "string" ? JSON.parse(value) : value;
         } catch (error) {
             return defaultValue;
         }

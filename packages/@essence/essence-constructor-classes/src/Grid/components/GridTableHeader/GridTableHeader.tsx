@@ -66,7 +66,7 @@ export const GridTableHeader: React.FC<IGridTableHeaderProps> = (props) => {
                 noForm
                 submitOnChange
                 onSubmit={handleSubmit}
-                placement="filter"
+                placement="filter_grid"
                 pageStore={props.pageStore}
                 bc={classProps.bc}
             >

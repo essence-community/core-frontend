@@ -421,11 +421,11 @@ export class PageModel implements IPageModel {
 
         this.setLoadingAction(false);
 
-        if (this.initParamPage) {
+        this.isLoaded = true;
+
+        if (this.initParamPage && !this.isActiveRedirect) {
             await redirectToPage(this, this.initParamPage);
         }
-
-        this.isLoaded = true;
 
         return this.recordsStore.selectedRecord;
     };

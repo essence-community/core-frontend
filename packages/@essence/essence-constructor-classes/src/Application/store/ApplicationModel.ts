@@ -364,6 +364,7 @@ export class ApplicationModel implements IApplicationModel {
                     await this.routesStore?.recordsStore.searchAction({appUrl: url || this.url});
 
                     this.pagesStore.pages.clear();
+                    this.url = url || this.url;
                     this.pagesStore.restorePagesAction(this.authStore.userInfo[VAR_RECORD_CV_LOGIN] || "");
 
                     return;

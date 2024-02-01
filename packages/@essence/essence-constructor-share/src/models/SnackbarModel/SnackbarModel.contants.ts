@@ -18,6 +18,7 @@ export const CODE_GROUP_MAP = {
     "300": 6,
     "301": "1*",
     "302": 8,
+    "401": 11,
     "403": 9,
     "500": "1*",
     "513": 9,
@@ -79,6 +80,11 @@ export const GROUP_ACTION_MAP = {
         DEV: "reinitSession",
         PROD: "reinitSession",
         TEST: "reinitSession",
+    },
+    "11": {
+        DEV: "unauthorized",
+        PROD: "unauthorized",
+        TEST: "unauthorized",
     },
 };
 /* eslint-enable quote-props */

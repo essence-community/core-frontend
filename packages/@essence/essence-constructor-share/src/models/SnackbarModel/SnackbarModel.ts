@@ -618,6 +618,19 @@ export class SnackbarModel implements ISnackbarModel {
         },
     );
 
+    @action
+    unauthorizedAction = (_error: Error, route?: Record<string, FieldValue>, applicationStore?: IApplicationModel) => {
+        this.snackbarOpenAction(
+            {status: "error", text: (trans) => trans("static:1d5ca35298f346cab823812e2b57e155")},
+            route,
+        );
+        const recordId = route ? route[VAR_RECORD_ID] : undefined;
+
+        if (applicationStore && typeof recordId === "string") {
+            applicationStore.pagesStore.removePageAction(recordId);
+        }
+    };
+
     invalidSessionAction = action(
         "invalidSessionAction",
         (_error: Error, route?: IRouteRecord, applicationStore?: IApplicationModel) => {

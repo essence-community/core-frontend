@@ -18,10 +18,10 @@
     "tscheck": "tsc"
   },
   "dependencies": {
-    "@types/history": "^4.7.9",
+    "@types/history": "^5.0.0",
     "@types/i18next": "^13.0.0"
   },
   "devDependencies": {
-    "typescript": "^4.4.4"
+    "typescript": "^5.3.3"
   }
 }

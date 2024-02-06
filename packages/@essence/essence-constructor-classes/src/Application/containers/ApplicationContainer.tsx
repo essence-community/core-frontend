@@ -35,7 +35,7 @@ import {useParams, useHistory, useRouteMatch} from "react-router-dom";
 import {IForm, Form} from "@essence-community/constructor-share/Form";
 import {CssBaseline} from "@material-ui/core";
 import {ApplicationModel, CLOSE_CODE} from "../store/ApplicationModel";
-import {renderGlobalValuelsInfo} from "../utils/renderGlobalValuelsInfo";
+import {renderGlobalValuesInfo} from "../utils/renderGlobalValuesInfo";
 import {ApplicationWindows} from "../components/ApplicationWindows";
 import {Block} from "../components/Block";
 import {useHistoryListen} from "../hooks";
@@ -294,7 +294,10 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             () => applicationStore.globalValues.toJSON(),
             (globalValues) => {
                 applicationStore.pagesStore.pages.forEach((page: IPageModel) => {
-                    page.updateGlobalValues(globalValues);
+                    page.updateGlobalValues(globalValues.reduce((res, [key, value]) => {
+                        res[key] = value;
+                        return res;
+                    }, {}));
                 });
             },
         );
@@ -302,13 +305,13 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
 
     React.useEffect(() => {
         return reaction(
-            () => applicationStore.globalValues.toJS(),
+            () => applicationStore.globalValues.toJSON(),
             (globalValues) =>
                 snackbarStore.snackbarOpenAction({
                     autoHidden: true,
                     hiddenTimeout: 0,
                     status: "debug",
-                    text: renderGlobalValuelsInfo(globalValues),
+                    text: renderGlobalValuesInfo(globalValues),
                     title: globalTitle,
                 }),
             {fireImmediately: true},

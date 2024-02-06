@@ -27,7 +27,7 @@ import {useResizerEE} from "@essence-community/constructor-share/hooks";
 import {PagerWindows} from "../components/PagerWindows";
 import {focusPageElement} from "../utils/focusPageElement";
 import {PagerWindowMessage} from "../components/PagerWindowMessage";
-import {renderGlobalValuelsInfo} from "../../Application/utils/renderGlobalValuelsInfo";
+import {renderGlobalValuesInfo} from "../../Application/utils/renderGlobalValuesInfo";
 import {PagerErrorBoundary} from "../components/PagerErrorBoundary";
 import {useStyles} from "./PagerContainer.styles";
 
@@ -92,13 +92,13 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
 
     React.useEffect(() => {
         return reaction(
-            () => pageStore.globalValues.toJS(),
+            () => pageStore.globalValues.toJSON(),
             (globalValues) => {
                 snackbarStore.snackbarOpenAction({
                     autoHidden: true,
                     hiddenTimeout: 0,
                     status: "debug",
-                    text: renderGlobalValuelsInfo(globalValues),
+                    text: renderGlobalValuesInfo(globalValues),
                     title: `${i18next.t("static:dcfb61366b054c6e95ae83593cfb9cd9")}: ${i18next.t(
                         pageStore.pageId || "",
                     )}`,

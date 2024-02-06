@@ -1,10 +1,10 @@
 import React from "react";
 import {FieldValue} from "@essence-community/constructor-share";
 
-export const renderGlobalValuelsInfo = (globalValues: Map<string, FieldValue>) => {
+export const renderGlobalValuesInfo = (globalValues: [string, FieldValue][]) => {
     const blocks: JSX.Element[] = [];
 
-    globalValues.forEach((value: FieldValue, key: string) => {
+    globalValues.forEach(([key, value]) => {
         blocks.push(
             <div key={key} className="debug-info">
                 <span className="debug-info-key">{key}</span>:{" "}

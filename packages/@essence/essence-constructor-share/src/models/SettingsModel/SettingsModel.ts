@@ -1,4 +1,4 @@
-import {observable, computed, action} from "mobx";
+import {observable, computed, action, makeObservable} from "mobx";
 import {
     VAR_SETTING_VALUE,
     VAR_RECORD_ID,
@@ -12,6 +12,9 @@ import {loggerRoot} from "../../constants/base";
 const logger = loggerRoot.extend("SettingsModel");
 
 export class SettingsModel {
+    constructor() {
+        makeObservable(this);
+    }
     @observable
     settings: Record<string, string> = {};
 

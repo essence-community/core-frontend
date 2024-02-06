@@ -1,4 +1,4 @@
-import {action, observable, ObservableMap} from "mobx";
+import {action, makeObservable, observable, ObservableMap} from "mobx";
 import {getFromStore, saveToStore, STORE_FAVORITS_KEY} from "@essence-community/constructor-share";
 import {IBuilderConfig, IRoutesModel, IApplicationModel, IOptions} from "@essence-community/constructor-share/types";
 import {RecordsModel} from "@essence-community/constructor-share/models";
@@ -13,6 +13,7 @@ export class RoutesModel implements IRoutesModel {
 
     constructor(bc: IBuilderConfig, applicationStore: IApplicationModel, options?: IRoutesModelOptions) {
         this.recordsStore = new RecordsModel(bc, {...options, applicationStore, pageStore: null});
+        makeObservable(this);
     }
 
     setFavoritsAction = action("setFavoritsAction", (ckId: string) => {

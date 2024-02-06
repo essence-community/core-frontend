@@ -5,6 +5,7 @@ import {useTranslation, toTranslateText} from "../../utils";
 import {TText} from "../../types/SnackbarModel";
 
 interface ISnackbarContentTextProps {
+    children?: React.ReactNode;
     text?: TText;
     title?: TText;
     description?: string;

@@ -3,7 +3,7 @@ import FontAwesomeIcon from "./FontAwesomeIcon";
 
 interface IProps {
     className?: string;
-    iconfontname: "fa" | "mdi";
+    iconfontname?: "fa" | "mdi";
     iconfont: string;
     color?: string;
     size?: "xs" | "lg" | "1x" | "2x" | "3x" | "4x" | "5x";
@@ -26,19 +26,13 @@ export const mapComponents: IMapComponents = {
     fa: FontAwesomeIcon,
 };
 
-export class Icon extends React.PureComponent<IProps> {
-    public static defaultProps = {
-        iconfontname: "fa",
-    };
+export const Icon: React.FC<IProps> = (props) => {
+    const {iconfontname = "fa", iconfont, ...otherProps} = props;
+    const Component = React.useMemo(() => mapComponents[iconfontname], [iconfontname]);
 
-    public render() {
-        const {iconfontname, iconfont, ...otherProps} = this.props;
-        const Component = mapComponents[iconfontname];
-
-        return Component && iconfont ? (
-            <React.Suspense fallback={null}>
-                <Component iconfont={iconfont} {...otherProps} />
-            </React.Suspense>
-        ) : null;
-    }
-}
+    return Component && iconfont ? (
+        <React.Suspense fallback={null}>
+            <Component iconfont={iconfont} {...otherProps} />
+        </React.Suspense>
+    ) : null;
+};

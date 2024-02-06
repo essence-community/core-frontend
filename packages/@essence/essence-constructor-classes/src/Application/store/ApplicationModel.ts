@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import {computed, action, observable, when, ObservableMap} from "mobx";
+import {computed, action, observable, when, ObservableMap, makeObservable} from "mobx";
 import {
     removeFromLocalStore,
     saveToStore,
@@ -196,6 +196,7 @@ export class ApplicationModel implements IApplicationModel {
         });
         this.pageStore.globalValues.merge(settingsStore.globals);
         this.pageStore.globalValues.merge(prepareUserGlobals(this.authStore.userInfo));
+        makeObservable(this);
     }
 
     handleGetValue = (name: string) => {

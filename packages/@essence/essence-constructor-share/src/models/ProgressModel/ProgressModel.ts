@@ -1,4 +1,4 @@
-import {action, observable} from "mobx";
+import {action, makeObservable, observable} from "mobx";
 import {IPageModel, ISnackbar, IProgressModel} from "../../types";
 import {snackbarStore} from "../SnackbarModel";
 import {toTranslateText} from "../../utils";
@@ -27,6 +27,7 @@ export class ProgressModel implements IProgressModel {
             },
             pageStore.route,
         );
+        makeObservable(this);
     }
 
     @action

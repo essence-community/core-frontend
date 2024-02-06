@@ -4,7 +4,7 @@
 /* eslint-disable max-lines */
 import {v4} from "uuid";
 import {isEqual} from "lodash";
-import {toJS} from "mobx";
+import { toJS, runInAction } from 'mobx';
 import {request} from "../../request";
 import {IPageModel, IRecordsModel, FieldValue, IResponse, IRecord} from "../../types";
 import {i18next, getMasterObject, deepFind} from "../../utils";
@@ -113,8 +113,10 @@ export function checkPageNumber(
     master: Record<string, FieldValue> | Record<string, FieldValue>[] = {},
 ) {
     if (!isEqual(master, recordsStore.jsonMaster)) {
-        recordsStore.jsonMaster = master;
-        recordsStore.pageNumber = 0;
+        runInAction(() => {
+            recordsStore.jsonMaster = master;
+            recordsStore.pageNumber = 0;
+        });
     }
 }
 
@@ -358,7 +360,8 @@ export function loadRecordsAction(
                     recordIdValue = undefined;
             }
 
-            this.recordsState = {
+            runInAction(() => {
+this.recordsState = {
                 defaultValueSet: isDefault && recordIdValue !== undefined ? isDefault : undefined,
                 isDefault,
                 isUserReload,
@@ -368,6 +371,8 @@ export function loadRecordsAction(
                 status,
             };
             this.recordsAll = this.recordsState.records;
+            })
+
 
             if (this.bc.querymode === "local") {
                 this.localFilter();

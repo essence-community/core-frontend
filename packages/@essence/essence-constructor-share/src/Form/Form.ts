@@ -1,5 +1,5 @@
 /* eslint-disable max-statements */
-import {action, computed, observable, ObservableMap} from "mobx";
+import {action, computed, makeObservable, observable, ObservableMap} from "mobx";
 import merge from "lodash/merge";
 import {IRecord, IBuilderMode, IBuilderConfig} from "../types";
 import {cloneDeepElementary, entriesMapSort} from "../utils/transform";
@@ -37,6 +37,7 @@ export class Form implements IForm {
         this.editing = props.editing;
         this.bc = props.bc;
         this.pageStore = props.pageStore;
+        makeObservable(this);
     }
 
     @observable public fields: ObservableMap<string, IField> = observable.map();

@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 // eslint-disable-next-line import/named
-import {observable, computed, action, IObservableArray} from "mobx";
+import {observable, computed, action, IObservableArray, makeObservable} from "mobx";
 import {v4} from "uuid";
 import {isObject, forEach, get} from "lodash";
 import {
@@ -98,6 +98,7 @@ export class SnackbarModel implements ISnackbarModel {
         };
 
         this.recordsStore = new RecordsModelLite(bc);
+        makeObservable(this);
     }
 
     deleteAllSnackbarAction = action("deleteAllSnackbarAction", () => {
@@ -566,7 +567,7 @@ export class SnackbarModel implements ISnackbarModel {
                 code: errorData?.[VAR_ERROR_CODE] || errorData?.[VAR_ERROR_ID] || "",
                 description: errorData?.[VAR_ERROR_TEXT] || "",
                 status: "error",
-                text: (trans) => trans("static:4fdb3577f24440ceb8c717adf68bac48", errorData),
+                text: (trans) => trans("static:4fdb3577f24440ceb8c717adf68bac48"),
             },
             route,
         );
@@ -577,7 +578,7 @@ export class SnackbarModel implements ISnackbarModel {
             {
                 description: errorData?.[VAR_ERROR_CODE] || errorData?.[VAR_ERROR_ID],
                 status: "error",
-                text: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7", errorData),
+                text: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7"),
             },
             route,
         );

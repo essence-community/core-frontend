@@ -340,7 +340,7 @@ export const GridHFText: React.FC<IClassProps> = (props) => {
                         />
                     </Grid>
                     <Grid item xs zeroMinWidth>
-                        {mapComponentOne(configs.notLikeEnable, (ChildCmp, childBc) => (
+                        {mapComponentOne(configs.notLike, (ChildCmp, childBc) => (
                             <ChildCmp {...props} bc={childBc} />
                         ))}
                     </Grid>

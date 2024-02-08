@@ -63,7 +63,11 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
             .filter((col) => {
                 const obj = gridStore.visibleAndHidden.get(col[VAR_RECORD_PAGE_OBJECT_ID]);
 
-                return col.datatype !== "icon" && col.datatype !== "checkbox" && obj.visible;
+                return (
+                    col.datatype !== "icon" &&
+                    col.datatype !== "checkbox" &&
+                    (typeof obj.visibleStore === "boolean" ? obj.visibleStore : obj.visible)
+                );
             })
             .map((val) => ({
                 [VAR_RECORD_CV_DESCRIPTION]: val[VAR_RECORD_CV_DESCRIPTION] || "",

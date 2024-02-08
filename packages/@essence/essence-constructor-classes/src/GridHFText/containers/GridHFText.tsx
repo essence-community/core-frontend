@@ -33,20 +33,22 @@ export const GridHFText: React.FC<IClassProps> = (props) => {
                 column: `${column}_eq_enable`,
                 datatype: "checkbox",
                 type: "IFIELD",
+                valuetype: "boolean",
             },
             like: {
                 ...bc,
                 [VAR_RECORD_DISPLAYED]: "static:ad5617f1592240b6be5bc1d681c071ff",
-                column: `${column}_ge`,
+                column: `${column}_l`,
                 datatype: "text",
                 type: "IFIELD",
             },
             likeEnable: {
                 ...bc,
                 [VAR_RECORD_DISPLAYED]: undefined,
-                column: `${column}_ge_enable`,
+                column: `${column}_l_enable`,
                 datatype: "checkbox",
                 type: "IFIELD",
+                valuetype: "boolean",
             },
             ne: {
                 ...bc,
@@ -61,6 +63,7 @@ export const GridHFText: React.FC<IClassProps> = (props) => {
                 column: `${column}_ne_enable`,
                 datatype: "checkbox",
                 type: "IFIELD",
+                valuetype: "boolean",
             },
             notLike: {
                 ...bc,
@@ -75,6 +78,7 @@ export const GridHFText: React.FC<IClassProps> = (props) => {
                 column: `${column}_nl_enable`,
                 datatype: "checkbox",
                 type: "IFIELD",
+                valuetype: "boolean",
             },
         }),
         [bc, column],
@@ -224,7 +228,7 @@ export const GridHFText: React.FC<IClassProps> = (props) => {
     React.useEffect(
         () =>
             reaction(
-                () => form.select(configs.notLikeEnable.column)?.value,
+                () => form.select(configs.notLike.column)?.value,
                 () => {
                     fields.eqEnable.onChange(false);
                     fields.likeEnable.onChange(false);
@@ -232,7 +236,7 @@ export const GridHFText: React.FC<IClassProps> = (props) => {
                     fields.notLikeEnable.onChange(true);
                 },
             ),
-        [configs.notLikeEnable, fields, form],
+        [configs.notLike, fields, form],
     );
 
     const handleChangeCheckLike = (event: React.SyntheticEvent) => {

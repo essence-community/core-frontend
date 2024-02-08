@@ -26,6 +26,7 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
                 [VAR_RECORD_DISPLAYED]: "static:8e4039d067b24d83af302fa59168e46f",
                 column: `${column}_eq`,
                 type: "IFIELD",
+                valuetype: "boolean",
             },
             eqEnable: {
                 ...bc,
@@ -46,6 +47,7 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
                 column: `${column}_ne_enable`,
                 datatype: "checkbox",
                 type: "IFIELD",
+                valuetype: "boolean",
             },
             ge: {
                 ...bc,
@@ -59,6 +61,7 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
                 column: `${column}_ge_enable`,
                 datatype: "checkbox",
                 type: "IFIELD",
+                valuetype: "boolean",
             },
             gt: {
                 ...bc,
@@ -72,6 +75,7 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
                 column: `${column}_gt_enable`,
                 datatype: "checkbox",
                 type: "IFIELD",
+                valuetype: "boolean",
             },
             le: {
                 ...bc,
@@ -85,6 +89,7 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
                 column: `${column}_le_enable`,
                 datatype: "checkbox",
                 type: "IFIELD",
+                valuetype: "boolean",
             },
             lt: {
                 ...bc,
@@ -98,6 +103,7 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
                 column: `${column}_lt_enable`,
                 datatype: "checkbox",
                 type: "IFIELD",
+                valuetype: "boolean",
             },
         }),
         [bc, column],

@@ -32,6 +32,7 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
                 column: `${column}_en_enable`,
                 datatype: "checkbox",
                 type: "IFIELD",
+                valuetype: "boolean",
             },
             eq: {
                 ...bc,
@@ -45,6 +46,7 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
                 column: `${column}_eq_enable`,
                 datatype: "checkbox",
                 type: "IFIELD",
+                valuetype: "boolean",
             },
             ne: {
                 ...bc,
@@ -58,6 +60,7 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
                 column: `${column}_ne_enable`,
                 datatype: "checkbox",
                 type: "IFIELD",
+                valuetype: "boolean",
             },
             st: {
                 ...bc,
@@ -71,6 +74,7 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
                 column: `${column}_st_enable`,
                 datatype: "checkbox",
                 type: "IFIELD",
+                valuetype: "boolean",
             },
         }),
         [bc, column],

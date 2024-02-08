@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys */
 import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
@@ -30,6 +31,19 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
                 ...bc,
                 [VAR_RECORD_DISPLAYED]: undefined,
                 column: `${column}_eq_enable`,
+                datatype: "checkbox",
+                type: "IFIELD",
+            },
+            ne: {
+                ...bc,
+                [VAR_RECORD_DISPLAYED]: "static:9baf4c2c21d04afeac62bf945ca651ce",
+                column: `${column}_ne`,
+                type: "IFIELD",
+            },
+            neEnable: {
+                ...bc,
+                [VAR_RECORD_DISPLAYED]: undefined,
+                column: `${column}_ne_enable`,
                 datatype: "checkbox",
                 type: "IFIELD",
             },
@@ -112,6 +126,29 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
                 form.select(configs.eqEnable.column) ||
                 form.registerField(configs.eqEnable.column, {
                     bc: configs.eqEnable,
+                    output: () => undefined,
+                    pageStore,
+                }),
+            ne:
+                form.select(configs.ne.column) ||
+                form.registerField(configs.ne.column, {
+                    bc: configs.ne,
+                    output: (field, frm) =>
+                        frm.select(configs.neEnable.column)?.value && field.value
+                            ? {
+                                  datatype: bc.datatype,
+                                  format: bc.format,
+                                  operator: "ne",
+                                  property: column.replace("###", "."),
+                                  value: field.value,
+                              }
+                            : "",
+                    pageStore,
+                }),
+            neEnable:
+                form.select(configs.neEnable.column) ||
+                form.registerField(configs.neEnable.column, {
+                    bc: configs.neEnable,
                     output: () => undefined,
                     pageStore,
                 }),
@@ -219,6 +256,7 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
                     fields.leEnable.onChange(true);
                     fields.ltEnable.onChange(false);
                     fields.eqEnable.onChange(false);
+                    fields.neEnable.onChange(false);
                 },
             ),
         [configs.le, fields, form],
@@ -232,6 +270,7 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
                     fields.ltEnable.onChange(true);
                     fields.leEnable.onChange(false);
                     fields.eqEnable.onChange(false);
+                    fields.neEnable.onChange(false);
                 },
             ),
         [configs.lt, fields, form],
@@ -245,6 +284,7 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
                     fields.geEnable.onChange(true);
                     fields.gtEnable.onChange(false);
                     fields.eqEnable.onChange(false);
+                    fields.neEnable.onChange(false);
                 },
             ),
         [configs.ge, fields, form],
@@ -258,6 +298,7 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
                     fields.gtEnable.onChange(true);
                     fields.geEnable.onChange(false);
                     fields.eqEnable.onChange(false);
+                    fields.neEnable.onChange(false);
                 },
             ),
         [configs.gt, fields, form],
@@ -273,14 +314,32 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
                     fields.gtEnable.onChange(false);
                     fields.leEnable.onChange(false);
                     fields.ltEnable.onChange(false);
+                    fields.neEnable.onChange(false);
                 },
             ),
         [configs.eq, fields, form],
     );
 
+    React.useEffect(
+        () =>
+            reaction(
+                () => form.select(configs.ne.column)?.value,
+                () => {
+                    fields.neEnable.onChange(true);
+                    fields.geEnable.onChange(false);
+                    fields.gtEnable.onChange(false);
+                    fields.leEnable.onChange(false);
+                    fields.ltEnable.onChange(false);
+                    fields.eqEnable.onChange(false);
+                },
+            ),
+        [configs.ne, fields, form],
+    );
+
     const handleChangeCheckLe = (event: React.SyntheticEvent) => {
         fields.ltEnable.onChange(false);
         fields.eqEnable.onChange(false);
+        fields.neEnable.onChange(false);
         fields.leEnable.onChange(!fields.leEnable.value);
 
         return form.onSubmit(event);
@@ -289,6 +348,7 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
     const handleChangeCheckLt = (event: React.SyntheticEvent) => {
         fields.leEnable.onChange(false);
         fields.eqEnable.onChange(false);
+        fields.neEnable.onChange(false);
         fields.ltEnable.onChange(!fields.ltEnable.value);
 
         return form.onSubmit(event);
@@ -297,6 +357,7 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
     const handleChangeCheckGe = (event: React.SyntheticEvent) => {
         fields.gtEnable.onChange(false);
         fields.eqEnable.onChange(false);
+        fields.neEnable.onChange(false);
         fields.geEnable.onChange(!fields.geEnable.value);
 
         return form.onSubmit(event);
@@ -305,6 +366,7 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
     const handleChangeCheckGt = (event: React.SyntheticEvent) => {
         fields.geEnable.onChange(false);
         fields.eqEnable.onChange(false);
+        fields.neEnable.onChange(false);
         fields.gtEnable.onChange(!fields.gtEnable.value);
 
         return form.onSubmit(event);
@@ -315,7 +377,19 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
         fields.ltEnable.onChange(false);
         fields.geEnable.onChange(false);
         fields.gtEnable.onChange(false);
+        fields.neEnable.onChange(false);
         fields.eqEnable.onChange(!fields.eqEnable.value);
+
+        return form.onSubmit(event);
+    };
+
+    const handleChangeCheckNe = (event: React.SyntheticEvent) => {
+        fields.leEnable.onChange(false);
+        fields.ltEnable.onChange(false);
+        fields.geEnable.onChange(false);
+        fields.gtEnable.onChange(false);
+        fields.eqEnable.onChange(false);
+        fields.neEnable.onChange(!fields.neEnable.value);
 
         return form.onSubmit(event);
     };
@@ -405,6 +479,25 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
                     </Grid>
                     <Grid item xs zeroMinWidth>
                         {mapComponentOne(configs.eq, (ChildCmp, childBc) => (
+                            <ChildCmp {...props} bc={childBc} />
+                        ))}
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <Divider />
+
+            <Grid item>
+                <Grid container spacing={1} wrap="nowrap" alignItems="center">
+                    <Grid item>
+                        <Checkbox
+                            checked={Boolean(fields.neEnable.value)}
+                            onChange={handleChangeCheckNe}
+                            className={classes.checkBoxSize}
+                        />
+                    </Grid>
+                    <Grid item xs zeroMinWidth>
+                        {mapComponentOne(configs.ne, (ChildCmp, childBc) => (
                             <ChildCmp {...props} bc={childBc} />
                         ))}
                     </Grid>

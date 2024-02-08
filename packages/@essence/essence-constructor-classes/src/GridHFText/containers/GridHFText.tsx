@@ -48,6 +48,34 @@ export const GridHFText: React.FC<IClassProps> = (props) => {
                 datatype: "checkbox",
                 type: "IFIELD",
             },
+            ne: {
+                ...bc,
+                [VAR_RECORD_DISPLAYED]: "static:9baf4c2c21d04afeac62bf945ca651ce",
+                column: `${column}_ne`,
+                datatype: "text",
+                type: "IFIELD",
+            },
+            neEnable: {
+                ...bc,
+                [VAR_RECORD_DISPLAYED]: undefined,
+                column: `${column}_ne_enable`,
+                datatype: "checkbox",
+                type: "IFIELD",
+            },
+            notLike: {
+                ...bc,
+                [VAR_RECORD_DISPLAYED]: "static:fc5dea49bf684ec7bd9d9f58133cd89a",
+                column: `${column}_nl`,
+                datatype: "text",
+                type: "IFIELD",
+            },
+            notLikeEnable: {
+                ...bc,
+                [VAR_RECORD_DISPLAYED]: undefined,
+                column: `${column}_nl_enable`,
+                datatype: "checkbox",
+                type: "IFIELD",
+            },
         }),
         [bc, column],
     );
@@ -101,6 +129,52 @@ export const GridHFText: React.FC<IClassProps> = (props) => {
                     output: () => undefined,
                     pageStore,
                 }),
+            ne:
+                form.select(configs.ne.column) ||
+                form.registerField(configs.ne.column, {
+                    bc: configs.ne,
+                    output: (field, frm) =>
+                        frm.select(configs.neEnable.column)?.value && field.value
+                            ? {
+                                  datatype: bc.datatype,
+                                  format: bc.format,
+                                  operator: "ne",
+                                  property: column.replace("###", "."),
+                                  value: field.value,
+                              }
+                            : "",
+                    pageStore,
+                }),
+            neEnable:
+                form.select(configs.neEnable.column) ||
+                form.registerField(configs.neEnable.column, {
+                    bc: configs.neEnable,
+                    output: () => undefined,
+                    pageStore,
+                }),
+            notLike:
+                form.select(configs.notLike.column) ||
+                form.registerField(configs.notLike.column, {
+                    bc: configs.notLike,
+                    output: (field, frm) =>
+                        frm.select(configs.notLikeEnable.column)?.value && field.value
+                            ? {
+                                  datatype: bc.datatype,
+                                  format: bc.format,
+                                  operator: "not like",
+                                  property: column.replace("###", "."),
+                                  value: field.value,
+                              }
+                            : "",
+                    pageStore,
+                }),
+            notLikeEnable:
+                form.select(configs.notLikeEnable.column) ||
+                form.registerField(configs.notLikeEnable.column, {
+                    bc: configs.notLikeEnable,
+                    output: () => undefined,
+                    pageStore,
+                }),
         }),
         [bc, column, configs, form, pageStore],
     );
@@ -112,6 +186,8 @@ export const GridHFText: React.FC<IClassProps> = (props) => {
                 () => {
                     fields.likeEnable.onChange(true);
                     fields.eqEnable.onChange(false);
+                    fields.neEnable.onChange(false);
+                    fields.notLikeEnable.onChange(false);
                 },
             ),
         [configs.like, fields, form],
@@ -124,13 +200,45 @@ export const GridHFText: React.FC<IClassProps> = (props) => {
                 () => {
                     fields.eqEnable.onChange(true);
                     fields.likeEnable.onChange(false);
+                    fields.neEnable.onChange(false);
+                    fields.notLikeEnable.onChange(false);
                 },
             ),
         [configs.eq, fields, form],
     );
 
+    React.useEffect(
+        () =>
+            reaction(
+                () => form.select(configs.ne.column)?.value,
+                () => {
+                    fields.eqEnable.onChange(false);
+                    fields.likeEnable.onChange(false);
+                    fields.neEnable.onChange(true);
+                    fields.notLikeEnable.onChange(false);
+                },
+            ),
+        [configs.ne, fields, form],
+    );
+
+    React.useEffect(
+        () =>
+            reaction(
+                () => form.select(configs.notLikeEnable.column)?.value,
+                () => {
+                    fields.eqEnable.onChange(false);
+                    fields.likeEnable.onChange(false);
+                    fields.neEnable.onChange(false);
+                    fields.notLikeEnable.onChange(true);
+                },
+            ),
+        [configs.notLikeEnable, fields, form],
+    );
+
     const handleChangeCheckLike = (event: React.SyntheticEvent) => {
         fields.eqEnable.onChange(false);
+        fields.neEnable.onChange(false);
+        fields.notLikeEnable.onChange(false);
         fields.likeEnable.onChange(!fields.likeEnable.value);
 
         return form.onSubmit(event);
@@ -138,7 +246,27 @@ export const GridHFText: React.FC<IClassProps> = (props) => {
 
     const handleChangeCheckEq = (event: React.SyntheticEvent) => {
         fields.likeEnable.onChange(false);
+        fields.neEnable.onChange(false);
+        fields.notLikeEnable.onChange(false);
         fields.eqEnable.onChange(!fields.eqEnable.value);
+
+        return form.onSubmit(event);
+    };
+
+    const handleChangeCheckNotLike = (event: React.SyntheticEvent) => {
+        fields.eqEnable.onChange(false);
+        fields.neEnable.onChange(false);
+        fields.likeEnable.onChange(false);
+        fields.notLikeEnable.onChange(!fields.notLikeEnable.value);
+
+        return form.onSubmit(event);
+    };
+
+    const handleChangeCheckNe = (event: React.SyntheticEvent) => {
+        fields.eqEnable.onChange(false);
+        fields.likeEnable.onChange(false);
+        fields.notLikeEnable.onChange(false);
+        fields.neEnable.onChange(!fields.neEnable.value);
 
         return form.onSubmit(event);
     };
@@ -175,6 +303,44 @@ export const GridHFText: React.FC<IClassProps> = (props) => {
                     </Grid>
                     <Grid item xs zeroMinWidth>
                         {mapComponentOne(configs.like, (ChildCmp, childBc) => (
+                            <ChildCmp {...props} bc={childBc} />
+                        ))}
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <Divider />
+
+            <Grid item>
+                <Grid container spacing={1} wrap="nowrap" alignItems="center">
+                    <Grid item>
+                        <Checkbox
+                            checked={Boolean(fields.neEnable.value)}
+                            onChange={handleChangeCheckNe}
+                            className={classes.checkBoxSize}
+                        />
+                    </Grid>
+                    <Grid item xs zeroMinWidth>
+                        {mapComponentOne(configs.ne, (ChildCmp, childBc) => (
+                            <ChildCmp {...props} bc={childBc} />
+                        ))}
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <Divider />
+
+            <Grid item>
+                <Grid container spacing={1} wrap="nowrap" alignItems="center">
+                    <Grid item>
+                        <Checkbox
+                            checked={Boolean(fields.notLikeEnable.value)}
+                            onChange={handleChangeCheckNotLike}
+                            className={classes.checkBoxSize}
+                        />
+                    </Grid>
+                    <Grid item xs zeroMinWidth>
+                        {mapComponentOne(configs.notLikeEnable, (ChildCmp, childBc) => (
                             <ChildCmp {...props} bc={childBc} />
                         ))}
                     </Grid>

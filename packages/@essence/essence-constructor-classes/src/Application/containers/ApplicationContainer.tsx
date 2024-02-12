@@ -343,14 +343,17 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                         <Theme applicationStore={applicationStore}>
                             {applicationStore.isApplicationReady && applicationStore.bc ? (
                                 <>
-                                    {mapComponents(applicationStore.bc.childs, (ChildComponent, childBc) => (
-                                        <ChildComponent
-                                            pageStore={applicationStore.pageStore}
-                                            key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                            bc={childBc}
-                                            visible
-                                        />
-                                    ))}
+                                    {mapComponents(
+                                        applicationStore.bc.childs?.filter((childBc) => childBc.type !== "WIN"),
+                                        (ChildComponent, childBc) => (
+                                            <ChildComponent
+                                                pageStore={applicationStore.pageStore}
+                                                key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                                bc={childBc}
+                                                visible
+                                            />
+                                        ),
+                                    )}
                                     <ApplicationWindows pageStore={applicationStore.pageStore} />
                                     <Block applicationStore={applicationStore} />
                                 </>

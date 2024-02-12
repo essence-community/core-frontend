@@ -125,7 +125,9 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                     <ParentFieldContext.Provider value={undefined}>
                         <Grid container spacing={2} className={classes.rootPageDivContent}>
                             {mapComponents(
-                                pageStore.route?.[VAR_RECORD_NOLOAD] === 1 ? bc.childs : pageStore.pageBc,
+                                (pageStore.route?.[VAR_RECORD_NOLOAD] === 1 ? bc.childs : pageStore.pageBc)?.filter(
+                                    (childBc) => childBc.type !== "WIN",
+                                ),
                                 (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
                                     <Grid
                                         key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}

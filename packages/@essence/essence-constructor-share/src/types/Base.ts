@@ -12,7 +12,7 @@ export type ICkId = number | string;
  * 7 - Download файла
  * 8 - Upload файла
  */
-export type IBuilderMode = "1" | "2" | "3" | "4" | "6" | "7" | "8" | string;
+export type IBuilderMode = "1" | "2" | "3" | "4" | "6" | "7" | "8";
 
 export type FieldValue = number | string | Record<string, any> | undefined | null | boolean | any[];
 

@@ -1,5 +1,9 @@
 import {action, observable, ObservableMap, computed} from "mobx";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+    VAR_RECORD_NAME,
+} from "@essence-community/constructor-share/constants";
 import {StoreBaseModel} from "@essence-community/constructor-share/models";
 import {IBuilderConfig, IStoreBaseModelProps} from "@essence-community/constructor-share/types";
 
@@ -59,38 +63,51 @@ export class TabPanelModel extends StoreBaseModel {
         this.tabValue = this.bc.childs && this.bc.childs.length ? this.bc.childs[0][VAR_RECORD_PAGE_OBJECT_ID] : null;
     }
 
-    changeTabAction = action("changeTabAction", (tabValue: string) => {
+    @action
+    changeTabAction = (tabValue: string): void => {
         this.tabValue = tabValue;
         this.openedTabs.set(this.tabValue, true);
-    });
+        const tab = this.tabBc.childs.find((child) => child[VAR_RECORD_PAGE_OBJECT_ID] === tabValue);
 
-    setActiveTab = action("setActiveTab", (tabValue: string) => {
-        if (this.tabBc.childs && this.tabBc.childs.find((child) => child[VAR_RECORD_PAGE_OBJECT_ID] === tabValue)) {
-            this.tabValue = tabValue;
-            this.openedTabs.set(this.tabValue, true);
+        if (tab && this.bc.setglobal?.length) {
+            const global = {};
+
+            this.bc.setglobal.forEach(({out}) => {
+                global[out] = tab.ckobject || tab[VAR_RECORD_NAME];
+            });
+            this.pageStore.updateGlobalValues(global);
         }
-    });
+    };
 
-    setFirstActiveTab = action("setFirstActiveTab", () => {
+    @action
+    setActiveTab = (tabValue: string): void => {
+        if (this.tabBc.childs && this.tabBc.childs.find((child) => child[VAR_RECORD_PAGE_OBJECT_ID] === tabValue)) {
+            this.changeTabAction(tabValue);
+        }
+    };
+
+    @action
+    setFirstActiveTab = (): void => {
         if (!this.tabValue || this.tabStatus[this.tabValue].hidden) {
             const tab =
                 this.tabBc.childs &&
                 this.tabBc.childs.find((child) => !this.tabStatus[child[VAR_RECORD_PAGE_OBJECT_ID]].hidden);
 
             if (tab) {
-                this.tabValue = tab[VAR_RECORD_PAGE_OBJECT_ID];
-                this.openedTabs.set(this.tabValue, true);
+                this.changeTabAction(tab[VAR_RECORD_PAGE_OBJECT_ID]);
             }
         }
-    });
+    };
 
-    setOpenedTab = action("setOpenedTab", (tabValue: string, isActive: boolean) => {
+    @action
+    setOpenedTab = (tabValue: string, isActive: boolean): void => {
         if (tabValue === this.tabValue || !isActive) {
             this.openedTabs.set(tabValue, isActive);
         }
-    });
+    };
 
-    setTabStatus = (tabValue: string, status: ITabStatusType) => {
+    @action
+    setTabStatus = (tabValue: string, status: ITabStatusType): void => {
         const oldStatus = this.tabStatus[tabValue];
 
         if (oldStatus.hidden !== status.hidden || oldStatus.disabled !== status.disabled) {
@@ -101,7 +118,8 @@ export class TabPanelModel extends StoreBaseModel {
         }
     };
 
-    setHiddenTabsIndex = (hiddenTabsIndex: number) => {
+    @action
+    setHiddenTabsIndex = (hiddenTabsIndex: number): void => {
         const hiddenTabFirst = this.activeTabs[hiddenTabsIndex];
 
         if (hiddenTabsIndex === 0) {
@@ -119,7 +137,8 @@ export class TabPanelModel extends StoreBaseModel {
         }
     };
 
-    resetOpenedTabs = () => {
+    @action
+    resetOpenedTabs = (): void => {
         this.openedTabs.clear();
 
         if (this.tabValue) {

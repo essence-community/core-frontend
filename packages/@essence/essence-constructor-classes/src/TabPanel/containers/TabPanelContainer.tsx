@@ -10,6 +10,7 @@ import {Paper} from "@material-ui/core";
 import {TabPanelModel} from "../store/TabPanelModel";
 import {Tabs} from "../components/Tabs";
 import {TabPanelPosition} from "../TabPanel.types";
+import {useGetGlobal} from "../hooks/useGetGlobal";
 import {useStyles} from "./TabPanelContainer.styles";
 
 export const TabPanelContainer: React.FC<IClassProps> = (props) => {
@@ -19,6 +20,8 @@ export const TabPanelContainer: React.FC<IClassProps> = (props) => {
     const classes = useStyles();
     const [store] = useModel((options) => new TabPanelModel({...options, applicationStore}), props);
     const positonName = `${align}-${contentview}` as TabPanelPosition;
+
+    useGetGlobal({store});
 
     return useObserver(() =>
         hidden ? null : (

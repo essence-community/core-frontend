@@ -51,6 +51,8 @@ export interface IBuilderBaseConfig {
     btnsettings?: boolean;
     // Признак "Добавить еще". Если не заполнен = false
     checkaddmore?: boolean;
+    // Уникальный идентификатор
+    ckobject?: string;
     // Идентификатор для поиска окна в мастере
     ckwindow?: string;
     // Свернута ли панель при инициализации  true = свернута

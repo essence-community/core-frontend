@@ -291,12 +291,16 @@ export class RoadMapModel extends StoreBaseModel {
                 } as IRecord;
             });
 
-            this.recordStore.saveAction(values as any, (btnBc.modeaction || btnBc.mode || mode) as IBuilderMode, {
-                actionBc: btnBc,
-                files,
-                form,
-                query: btnBc.updatequery,
-            });
+            return this.recordStore.saveAction(
+                values as any,
+                (btnBc.modeaction || btnBc.mode || mode) as IBuilderMode,
+                {
+                    actionBc: btnBc,
+                    files,
+                    form,
+                    query: btnBc.updatequery,
+                },
+            );
         }
     };
 

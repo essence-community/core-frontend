@@ -27,7 +27,7 @@ import {
     VAR_SETTING_TYPE_NOTIFICATION,
     loggerRoot,
 } from "@essence-community/constructor-share/constants";
-
+import {parse} from "qs";
 import {useResizerEE} from "@essence-community/constructor-share/hooks";
 import {useObserver} from "mobx-react";
 import {reaction, observe} from "mobx";
@@ -63,7 +63,15 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     const history = useHistory();
     const match = useRouteMatch<any>("/:appNameDefault");
     const appNameDefault = match?.params.appNameDefault ?? "";
-    const {ckId, appName = appNameDefault, filter = ""} = useParams<IUrlParams>();
+    const {
+        ckId,
+        appName = appNameDefault,
+        filter = history.location.search && history.location.search.slice(1)
+            ? encodeURIComponent(
+                  btoa(unescape(encodeURIComponent(JSON.stringify(parse(history.location.search.slice(1)))))),
+              )
+            : "",
+    } = useParams<IUrlParams>();
     const appNameRef = React.useRef(appName);
     const applicationStore = React.useMemo(() => new ApplicationModel(history, appNameRef.current), [history]);
     const [trans] = useTranslation("meta");

@@ -13,10 +13,12 @@ import {afterNotRequired} from "./afterNotRequired";
 import {beforeNotRequired} from "./beforeNotRequired";
 import {reqcount} from "./reqcount";
 import {requiredFile} from "./requiredFile";
+import {check} from "./check";
 
 export const validations: Record<string, TValidation> = {
     after_not_required: afterNotRequired,
     before_not_required: beforeNotRequired,
+    check: check,
     "date-1": date1,
     "date-2": date2,
     "date-3": date3,

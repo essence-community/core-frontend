@@ -114,6 +114,14 @@ export class Field implements IField {
         return undefined;
     }
 
+    @computed private get checkRule(): string | undefined {
+        if (this.bc.check) {
+            return "check";
+        }
+
+        return undefined;
+    }
+
     @computed private get regexRule(): string | undefined {
         if (this.bc.regexp) {
             return `regex:/^${this.bc.regexp}$/`;
@@ -171,6 +179,7 @@ export class Field implements IField {
             ...this.valueSizeRules,
             this.dateRule,
             ...this.extraRules,
+            this.checkRule,
         ];
 
         return rules.filter((rule?: string): boolean => Boolean(rule)) as string[];

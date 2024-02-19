@@ -49,6 +49,8 @@ export interface IBuilderBaseConfig {
     btnrefresh?: boolean;
     // Отображение кнопки "Настройки" (true/false)
     btnsettings?: boolean;
+    // Проверка данных и вывод ошибки
+    check?: string;
     // Признак "Добавить еще". Если не заполнен = false
     checkaddmore?: boolean;
     // Уникальный идентификатор

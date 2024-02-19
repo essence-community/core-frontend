@@ -3,6 +3,7 @@ import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/co
 import {Grid, Toolbar as MaterialToolbar} from "@material-ui/core";
 import * as React from "react";
 import {GRID_CONFIGS, GRID_ALIGN_CONFIGS} from "@essence-community/constructor-share/constants/ui";
+import {useStyles} from "./ToolBar.styles";
 
 const calcStyle = (bc: IBuilderConfig) => ({
     height: bc.height,
@@ -15,6 +16,7 @@ const calcStyle = (bc: IBuilderConfig) => ({
 export const ToolBar: React.FC<IClassProps> = (props) => {
     const {bc} = props;
     const {contentview, align} = bc;
+    const classes = useStyles(props);
     const contentStyle = React.useMemo(
         () => ({
             height: bc.height,
@@ -26,7 +28,14 @@ export const ToolBar: React.FC<IClassProps> = (props) => {
     );
 
     return (
-        <MaterialToolbar>
+        <MaterialToolbar
+            disableGutters
+            style={contentStyle}
+            variant="dense"
+            classes={{
+                dense: classes.dense,
+            }}
+        >
             <Grid
                 container
                 spacing={1}

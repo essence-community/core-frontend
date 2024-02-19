@@ -59,6 +59,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                 isActiveRedirect: false,
                 isReadOnly: false,
                 pageId: defaultvalue,
+                parentPage: props.pageStore,
             });
 
             newPageStore.loadConfigAction(defaultvalue);

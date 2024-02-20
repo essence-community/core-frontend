@@ -23,14 +23,18 @@ export class AuthFormModel extends StoreBaseModel {
         this.history = props.history;
     }
 
-    handleLogin = async (form?: IForm, skipValidation?: boolean) => {
+    handleLogin = async (form?: IForm, skipValidation?: boolean, query = "Login") => {
         if (form) {
             const authStore = this.applicationStore && this.applicationStore.authStore;
 
             await form.validate();
 
             if ((skipValidation || form.isValid) && authStore) {
-                authStore.loginAction({authValues: form.values as Record<string, string>, history: this.history});
+                authStore.loginAction({
+                    authValues: form.values as Record<string, string>,
+                    history: this.history,
+                    query,
+                });
 
                 return true;
             }
@@ -47,7 +51,7 @@ export class AuthFormModel extends StoreBaseModel {
         onLogin: async (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
             const {form} = options;
 
-            return this.handleLogin(form, btnBc.skipvalidation);
+            return this.handleLogin(form, btnBc.skipvalidation, btnBc.updatequery);
         },
         onLoginGuest: () => {
             const authStore = this.applicationStore && this.applicationStore.authStore;

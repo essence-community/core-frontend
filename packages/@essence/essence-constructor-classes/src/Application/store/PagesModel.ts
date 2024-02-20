@@ -75,7 +75,13 @@ export class PagesModel implements IPagesModel {
             pageId,
         });
 
-        this.pages.push(activePage);
+        if (this.activePage) {
+            const indexActive = this.pages.indexOf(this.activePage);
+
+            this.pages.splice(indexActive + 1, 0, activePage);
+        } else {
+            this.pages.push(activePage);
+        }
 
         if (autoset) {
             this.activePage = activePage;
@@ -149,16 +155,15 @@ export class PagesModel implements IPagesModel {
             );
 
             if (selectedPage === this.activePage) {
-                this.activePage =
-                    (this.pages.length &&
-                        this.pages.find(
-                            (page) =>
-                                page !== pageId &&
-                                page.pageId !== this.applicationStore.defaultValue &&
-                                page.route?.[VAR_RECORD_URL] !== pageId &&
-                                page.pageId !== pageId,
-                        )) ||
-                    null;
+                const indexActive = this.pages.indexOf(this.activePage);
+                const newPage =
+                    this.pages.length > 1 ? this.pages[indexActive > 0 ? indexActive - 1 : indexActive + 1] : null;
+
+                if (newPage) {
+                    this.setPageAction(newPage);
+                } else {
+                    this.activePage = null;
+                }
             }
 
             if (selectedPage) {
@@ -178,7 +183,13 @@ export class PagesModel implements IPagesModel {
             }
         });
 
-        this.activePage = this.pages[0] || null;
+        const newPage = this.pages[0] || null;
+
+        if (newPage) {
+            this.setPageAction(newPage);
+        } else {
+            this.activePage = null;
+        }
         this.saveToStore();
     };
 
@@ -200,7 +211,13 @@ export class PagesModel implements IPagesModel {
         const activePage = this.pages.find((page) => page === this.activePage);
 
         if (!activePage) {
-            this.activePage = this.pages[0] || null;
+            const newPage = this.pages[pageIndex] || this.pages[0];
+
+            if (newPage) {
+                this.setPageAction(newPage);
+            } else {
+                this.activePage = null;
+            }
         }
 
         this.saveToStore();

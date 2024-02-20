@@ -151,7 +151,7 @@ export class PagesModel implements IPagesModel {
         }
 
         if (selectedPage === this.activePage) {
-            const newPage = this.pages.length ? this.pages[indexActive] : null;
+            const newPage = this.pages.length ? this.pages[indexActive > 0 ? indexActive - 1 : indexActive] : null;
 
             if (newPage) {
                 this.setPageAction(newPage);

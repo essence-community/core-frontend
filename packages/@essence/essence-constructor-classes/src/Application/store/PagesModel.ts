@@ -191,13 +191,14 @@ export class PagesModel implements IPagesModel {
 
     @action
     removeAllPagesAction = (): void => {
+        this.pages.clear();
         if (this.applicationStore.defaultValue) {
             this.setPageAction(this.applicationStore.defaultValue);
         } else {
             this.activePage = null;
         }
-        this.pages.clear();
         removeFromStore(this.storeKey);
+        this.saveToStore();
     };
 
     @action

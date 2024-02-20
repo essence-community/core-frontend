@@ -136,47 +136,41 @@ export class PagesModel implements IPagesModel {
     };
 
     @action
-    removePageAction = (pageId: string | IPageModel) => {
-        // Don't close default page. This is hidden page and need to display start screen
-        if (
-            pageId !== this.applicationStore.defaultValue ||
-            this.pages.filter(
-                (page) =>
-                    page.pageId !== this.applicationStore.defaultValue &&
-                    page.route?.[VAR_RECORD_URL] !== this.applicationStore.defaultValue,
-            ).length > 0
-        ) {
-            const selectedPage = this.pages.find(
-                (page) =>
-                    page === pageId ||
-                    page.pageId === pageId ||
-                    page.route?.[VAR_RECORD_URL] === pageId ||
-                    page.route?.[VAR_RECORD_ID] === pageId,
-            );
+    removePageAction = (pageId: string | IPageModel): void => {
+        const selectedPage = this.pages.find(
+            (page) =>
+                page === pageId ||
+                page.pageId === pageId ||
+                page.route?.[VAR_RECORD_URL] === pageId ||
+                page.route?.[VAR_RECORD_ID] === pageId,
+        );
+        const indexActive = this.pages.indexOf(this.activePage);
 
-            if (selectedPage === this.activePage) {
-                const indexActive = this.pages.indexOf(this.activePage);
-                const newPage =
-                    this.pages.length > 1 ? this.pages[indexActive > 0 ? indexActive - 1 : indexActive + 1] : null;
-
-                if (newPage) {
-                    this.setPageAction(newPage);
-                } else {
-                    this.activePage = null;
-                }
-            }
-
-            if (selectedPage) {
-                selectedPage.clearAction();
-                this.pages.remove(selectedPage);
-            }
-
-            this.saveToStore();
+        if (selectedPage) {
+            this.pages.remove(selectedPage);
         }
+
+        if (selectedPage === this.activePage) {
+            const newPage = this.pages.length ? this.pages[indexActive] : null;
+
+            if (newPage) {
+                this.setPageAction(newPage);
+            } else if (this.applicationStore.defaultValue) {
+                this.setPageAction(this.applicationStore.defaultValue);
+            } else {
+                this.activePage = null;
+            }
+        }
+
+        if (selectedPage) {
+            selectedPage.clearAction();
+        }
+
+        this.saveToStore();
     };
 
     @action
-    removePageOtherAction = (pageIdLost: string | IPageModel) => {
+    removePageOtherAction = (pageIdLost: string | IPageModel): void => {
         this.pages.slice().forEach((page) => {
             if (page.pageId !== pageIdLost && page !== pageIdLost) {
                 this.pages.remove(page);
@@ -187,6 +181,8 @@ export class PagesModel implements IPagesModel {
 
         if (newPage) {
             this.setPageAction(newPage);
+        } else if (this.applicationStore.defaultValue) {
+            this.setPageAction(this.applicationStore.defaultValue);
         } else {
             this.activePage = null;
         }
@@ -194,14 +190,18 @@ export class PagesModel implements IPagesModel {
     };
 
     @action
-    removeAllPagesAction = () => {
-        this.activePage = null;
+    removeAllPagesAction = (): void => {
+        if (this.applicationStore.defaultValue) {
+            this.setPageAction(this.applicationStore.defaultValue);
+        } else {
+            this.activePage = null;
+        }
         this.pages.clear();
         removeFromStore(this.storeKey);
     };
 
     @action
-    removeAllPagesRightAction = (pageId: string | IPageModel) => {
+    removeAllPagesRightAction = (pageId: string | IPageModel): void => {
         const pageIndex = this.pages.findIndex((page) => page.pageId === pageId || page === pageId);
 
         this.pages.slice(pageIndex + 1).forEach((page) => {
@@ -215,6 +215,8 @@ export class PagesModel implements IPagesModel {
 
             if (newPage) {
                 this.setPageAction(newPage);
+            } else if (this.applicationStore.defaultValue) {
+                this.setPageAction(this.applicationStore.defaultValue);
             } else {
                 this.activePage = null;
             }
@@ -224,12 +226,12 @@ export class PagesModel implements IPagesModel {
     };
 
     @action
-    openCloseExpansionAction = (ckId: string) => {
+    openCloseExpansionAction = (ckId: string): void => {
         this.expansionRecords.set(ckId, !this.expansionRecords.get(ckId));
     };
 
     @action
-    restorePagesAction = (login: string) => {
+    restorePagesAction = (login: string): void => {
         const pagesIds = getFromStore<string[] | IStoreOpenPage[]>(this.storeKey, []);
         const lastCvLogin = getFromStore(STORE_LAST_CV_LOGIN_KEY);
 
@@ -274,7 +276,7 @@ export class PagesModel implements IPagesModel {
     };
 
     @action
-    movePages = (dragVisibleIndex: number, hoverVisibleIndex: number) => {
+    movePages = (dragVisibleIndex: number, hoverVisibleIndex: number): void => {
         const dragIndex = this.pages.findIndex((page) => page === this.visiblePages[dragVisibleIndex]);
         const hoverIndex = this.pages.findIndex((page) => page === this.visiblePages[hoverVisibleIndex]);
 
@@ -283,7 +285,7 @@ export class PagesModel implements IPagesModel {
         this.saveToStore();
     };
 
-    saveToStore = () => {
+    saveToStore = (): void => {
         saveToStore(
             this.storeKey,
             this.pages

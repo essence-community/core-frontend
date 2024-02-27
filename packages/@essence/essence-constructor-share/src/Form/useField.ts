@@ -75,6 +75,14 @@ export const useField = ({
                     if (isEmpty(value)) {
                         store.clearStoreAction();
                         store.clearAction && store.clearAction();
+                        if (store.recordsStore) {
+                            store.recordsStore.recordsAll = [];
+                            store.recordsStore.recordsState = {
+                                isUserReload: false,
+                                records: [],
+                                status: "clear",
+                            };
+                        }
                     } else {
                         store.reloadStoreAction();
                     }

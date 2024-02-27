@@ -41,7 +41,17 @@ const loggerInfo = loggerRoot.extend("FieldTableModel");
 const clearChildStores = ({pageStore, bc}: {pageStore: IPageModel; bc: IBuilderConfig}) => {
     pageStore.stores.forEach((store) => {
         if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === bc[VAR_RECORD_PAGE_OBJECT_ID]) {
+            store.clearStoreAction();
             store.clearAction && store.clearAction();
+
+            if (store.recordsStore) {
+                store.recordsStore.recordsAll = [];
+                store.recordsStore.recordsState = {
+                    isUserReload: false,
+                    records: [],
+                    status: "clear",
+                };
+            }
         }
     });
 };

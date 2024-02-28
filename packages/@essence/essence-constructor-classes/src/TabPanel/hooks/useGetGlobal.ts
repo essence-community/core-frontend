@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_NAME, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {reaction} from "mobx";
 import {useGetValue} from "@essence-community/constructor-share/hooks/useCommon/useGetValue";

@@ -61,6 +61,18 @@ export class TabPanelModel extends StoreBaseModel {
         });
 
         this.tabValue = this.bc.childs && this.bc.childs.length ? this.bc.childs[0][VAR_RECORD_PAGE_OBJECT_ID] : null;
+
+        const tab =
+            this.tabValue && this.tabBc.childs.find((child) => child[VAR_RECORD_PAGE_OBJECT_ID] === this.tabValue);
+
+        if (tab && this.bc.setglobal?.length) {
+            const global = {};
+
+            this.bc.setglobal.forEach(({out}) => {
+                global[out] = tab.ckobject || tab[VAR_RECORD_NAME];
+            });
+            this.pageStore.updateGlobalValues(global);
+        }
     }
 
     @action

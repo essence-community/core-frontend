@@ -70,6 +70,17 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
         return props.pageStore;
     }, [applicationStore, defaultvalue, parentId, props.pageStore]);
 
+    React.useEffect(() => {
+        if (pageStore != props.pageStore) {
+            return reaction(
+                () => props.pageStore.globalValues.toJSON(),
+                (globalValues) => {
+                    pageStore.updateGlobalValues(globalValues);
+                },
+            );
+        }
+    }, [pageStore, props.pageStore]);
+
     const classes = useStyles(props);
     const theme = useTheme<IEssenceTheme>();
     const form: IForm = React.useMemo(

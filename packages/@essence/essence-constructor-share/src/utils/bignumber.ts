@@ -1,5 +1,6 @@
 import BigNumberBase from "bignumber.js";
 import {IBuilderConfig} from "../types";
+import {isEmpty} from "./base";
 
 interface IGetBigNumberInstanceResult {
     BigNumber: typeof BigNumberBase;
@@ -25,8 +26,8 @@ export function getBigNumberInstance(bc: IBuilderConfig): IGetBigNumberInstanceR
             decimalSeparator: bc.decimalseparator || ",",
             fractionGroupSeparator: " ",
             fractionGroupSize: 0,
-            groupSeparator: typeof bc.thousandseparator === "string" ? bc.thousandseparator : " ",
-            groupSize: 3,
+            groupSeparator: typeof bc.thousandseparator === "string" ? bc.thousandseparator : "",
+            groupSize: isEmpty(bc.thousandseparator) ? 0 : 3,
             secondaryGroupSize: 0,
             suffix: bc.currencysign || "",
         },

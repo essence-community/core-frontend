@@ -1,27 +1,27 @@
 {
-  "name": "@essence-community/create-constructor-module",
-  "version": "3.0.2",
-  "description": "Build module",
-  "main": "index.js",
-  "repository": "https://github.com/essence-community/core-frontend",
-  "author": [
-    "Oleh Kutsenko",
-    "Ivan Artemov (artemov_is@tehnobear.ru)"
-  ],
-  "license": "MIT",
-  "private": false,
-  "files": [
-    "index.js",
-    "eslintrc",
-    "prettierrc"
-  ],
-  "bin": {
-    "create-constructor-module": "./index.js"
-  },
-  "dependencies": {
-    "chalk": "^4.1.0",
-    "commander": "^5.1.0",
-    "cross-spawn": "^7.0.3",
-    "fs-extra": "^9.0.1"
-  }
+    "name": "@essence-community/create-constructor-module",
+    "version": "3.0.3",
+    "description": "Build module",
+    "main": "index.js",
+    "repository": "https://github.com/essence-community/core-frontend",
+    "author": [
+        "Oleh Kutsenko",
+        "Ivan Artemov (artemov_is@tehnobear.ru)"
+    ],
+    "license": "MIT",
+    "private": false,
+    "files": [
+        "index.js",
+        "eslintrc",
+        "prettierrc"
+    ],
+    "bin": {
+        "create-constructor-module": "./index.js"
+    },
+    "dependencies": {
+        "chalk": "^4.1.0",
+        "commander": "^5.1.0",
+        "cross-spawn": "^7.0.3",
+        "fs-extra": "^9.0.1"
+    }
 }

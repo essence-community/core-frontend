@@ -1,10 +1,10 @@
 {
     "name": "app",
-    "version": "3.0.2",
+    "version": "3.0.3",
     "license": "MIT",
     "private": true,
     "engines": {
-        "yarn": ">=1.7.0",
+        "yarn": ">=1.19.0",
         "node": ">=14.0.0"
     },
     "scripts": {
@@ -27,7 +27,7 @@
     },
     "lint-staged": {
         "*.{js,jsx,ts,tsx}": [
-            "eslint",
+            "eslint --fix",
             "git add"
         ]
     },

@@ -1,24 +1,37 @@
 {
     "compilerOptions": {
-      "target": "es5",
-      "lib": [
-        "dom",
-        "dom.iterable",
-        "esnext"
-      ],
-      "allowJs": true,
-      "skipLibCheck": true,
-      "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true,
-      "strict": false,
-      "forceConsistentCasingInFileNames": true,
-      "module": "esnext",
-      "moduleResolution": "node",
-      "resolveJsonModule": true,
-      "isolatedModules": false,
-      "noEmit": true,
-      "jsx": "react",
-      "experimentalDecorators": true
+        "target": "es5",
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": false,
+        "forceConsistentCasingInFileNames": true,
+        "downlevelIteration": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": false,
+        "noEmit": true,
+        "jsx": "react",
+        "experimentalDecorators": true,
+        "paths": {
+            "@essence-community/constructor-share/*": [
+                "../essence-constructor-share/src/*"
+            ]
+        }
     },
-    "include": ["src/**/*.tsx", "src/**/*.ts"]
-  }
+    "include": [
+        "src/**/*.tsx",
+        "src/**/*.ts",
+        "../essence-constructor-share/src"
+    ],
+    "exclude": [
+        "**/__tests__/**"
+    ]
+}

@@ -34,6 +34,10 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
     const [store] = useModel((modelProps) => new FieldComboModel(modelProps), {field, ...props});
     const [focused, setFocused] = React.useState(false);
 
+    React.useEffect(() => {
+        field.setDefaultCopyValueFn(() => store.inputValue);
+    }, [field, store]);
+
     const popoverContent = (popoverProps: IPopoverChildrenProps) => (
         <FieldComboList
             store={store}
@@ -89,7 +93,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
             handleReactValue(field.value);
         }
 
-        return reaction(() => field.value, handleReactValue);
+        return reaction(() => field.value, handleReactValue, {fireImmediately: true});
     }, [field, handleReactValue, store]);
     React.useEffect(
         () =>

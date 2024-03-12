@@ -21,7 +21,7 @@ export const FieldImageContainer: React.FC<IClassProps> = (props) => {
     const getSrc = React.useCallback(
         (value: string) => {
             if (value.indexOf("${") >= 0) {
-                const path = parseMemoize(`\`${value}\``).runer({get: getValue});
+                const path = parseMemoize(`\`${value}\``).runer({get: getValue}) as string;
 
                 return path.indexOf("http") === 0 ? path : `${window.location.origin}${path}`;
             }

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {makeRedirectUrl, getQueryParams, Translation, deepFind} from "@essence-community/constructor-share/utils";
+import {makeRedirectUrl, Translation, deepFind, makeRedirect} from "@essence-community/constructor-share/utils";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {RecordContext} from "@essence-community/constructor-share/context";
 import {toString} from "../utils";
@@ -13,29 +13,25 @@ export const ColumnTextContainer: React.FC<IClassProps> = (props) => {
     const classes = useStyles();
     const redirectUrl = React.useMemo(
         () =>
-            bc.redirecturl
+            bc.redirecturl || bc.redirectusequery
                 ? makeRedirectUrl({
-                      authData: pageStore.applicationStore.authStore.userInfo,
                       bc,
-                      columnsName: bc.columnsfilter,
-                      globalValues: pageStore.globalValues,
+                      pageStore,
                       record,
-                      redirecturl: bc.redirecturl,
                   })
                 : undefined,
-        [bc, pageStore.applicationStore.authStore.userInfo, pageStore.globalValues, record],
+        [bc, pageStore, record],
     );
 
     const handleRedirect = (event: React.SyntheticEvent) => {
-        const queryValues = bc.columnsfilter
-            ? getQueryParams({columnsName: bc.columnsfilter, globalValues: pageStore.globalValues, record})
-            : {};
-
         event.preventDefault();
 
-        if (bc.redirecturl) {
-            pageStore.applicationStore.redirectToAction(bc.redirecturl, queryValues);
-        }
+        makeRedirect(
+            redirectUrl.blank ? {...bc, redirecturl: bc.redirecturl?.replace("_blank", "")} : bc,
+            pageStore,
+            record,
+            !redirectUrl.blank,
+        );
     };
 
     if (typeof value !== "string") {
@@ -43,14 +39,14 @@ export const ColumnTextContainer: React.FC<IClassProps> = (props) => {
     }
 
     const getRenderValue = (localizedValue: string, qtip: string = localizedValue) => {
-        if (redirectUrl) {
+        if (redirectUrl?.isRedirect) {
             return (
                 <a
                     className={classes.root}
                     href={redirectUrl.pathname}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={redirectUrl.blank ? undefined : handleRedirect}
+                    onClick={handleRedirect}
                     data-qtip={localizedValue}
                 >
                     {localizedValue}

@@ -10,9 +10,14 @@ import {
     FieldValue,
 } from "@essence-community/constructor-share/types";
 import {IParseReturnType, parseMemoize} from "@essence-community/constructor-share/utils/parser";
-import {deepFind} from "@essence-community/constructor-share/utils";
+import {deepChange, deepFind} from "@essence-community/constructor-share/utils";
+import {IField} from "@essence-community/constructor-share/Form";
 import {toString} from "../utils";
 import {ISuggestion} from "../FieldRadio.types";
+
+interface IFieldRadioModelProps extends IStoreBaseModelProps {
+    field: IField;
+}
 
 export class FieldRadioModel extends StoreBaseModel implements IStoreBaseModel {
     recordsStore: IRecordsModel;
@@ -21,8 +26,11 @@ export class FieldRadioModel extends StoreBaseModel implements IStoreBaseModel {
 
     parserLabel?: IParseReturnType;
 
-    constructor({bc, pageStore}: IStoreBaseModelProps) {
+    field: IField;
+
+    constructor({bc, pageStore, field}: IFieldRadioModelProps) {
         super({bc, pageStore});
+        this.field = field;
 
         if (this.bc.displayfield) {
             try {
@@ -32,7 +40,14 @@ export class FieldRadioModel extends StoreBaseModel implements IStoreBaseModel {
 
         const noLoadChilds = Boolean(bc[VAR_RECORD_CL_IS_MASTER]);
 
-        this.valuefield = this.bc.valuefield?.[0]?.in || bc.idproperty || VAR_RECORD_ID;
+        this.valuefield =
+            this.bc.valuefield?.reduce(
+                (res, val) => (res ? res : !val.out || val.out === this.bc.column ? val.in : res),
+                "",
+            ) ||
+            this.bc.valuefield?.[0]?.in ||
+            bc.idproperty ||
+            VAR_RECORD_ID;
 
         this.recordsStore = new RecordsModel(bc, {
             applicationStore: pageStore.applicationStore,
@@ -80,7 +95,29 @@ export class FieldRadioModel extends StoreBaseModel implements IStoreBaseModel {
     public clearStoreAction = () => this.recordsStore.clearChildsStoresAction();
 
     @action
-    setSelectRecord = (value: FieldValue) => {
-        this.recordsStore.setSelectionAction(value, this.valuefield);
+    setSelectRecord = async (value: FieldValue) => {
+        await this.recordsStore.setSelectionAction(value, this.valuefield);
+        if (this.bc.valuefield && this.bc.valuefield.length > 1) {
+            const patchValues: IRecord = {};
+            let parentKey = "";
+
+            if (this.field.key.indexOf(".") > -1) {
+                const arrKey = this.field.key.split(".");
+
+                parentKey = arrKey.slice(0, arrKey.length - 1).join(".");
+            }
+
+            this.bc.valuefield.forEach(({in: fieldName, out}) => {
+                const valueField = out || this.bc.column;
+
+                deepChange(
+                    patchValues,
+                    `${parentKey ? `${parentKey}.` : ""}${valueField}`,
+                    deepFind(this.recordsStore.selectedRecord, fieldName)[1],
+                );
+            });
+
+            this.field.form.patch(patchValues, true);
+        }
     };
 }

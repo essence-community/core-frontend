@@ -4,8 +4,9 @@ import {Grid} from "@material-ui/core";
 import {mapComponents, mapComponentOne} from "@essence-community/constructor-share/components";
 import {ParentFieldContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
-import {toColumnStyleWidthBc, entriesMapSort} from "@essence-community/constructor-share/utils/transform";
+import {entriesMapSort} from "@essence-community/constructor-share/utils/transform";
 import {IClassProps, IRecord, FieldValue, IBuilderConfig} from "@essence-community/constructor-share/types";
+import {useSizeChild} from "@essence-community/constructor-share/hooks";
 
 const MAX_PANEL_WIDTH = 12;
 const CLEAR_VALUE: FieldValue[] = [];
@@ -81,23 +82,16 @@ export const FieldSetContainer: React.FC<IClassProps> = (props) => {
         [bc, inputChild, field, outputChild],
     );
 
+    const [childs, sizeChild] = useSizeChild(bc.childs);
+
     return mapComponentOne(boxBc, (ChildBox, childBoxBc) => (
         <ChildBox {...props} bc={childBoxBc}>
-            {mapComponents(bc.childs, (ChildComp, child, index) => (
+            {mapComponents(childs, (ChildComp, child, index) => (
                 <ParentFieldContext.Provider
                     key={child[VAR_RECORD_PAGE_OBJECT_ID] ? child[VAR_RECORD_PAGE_OBJECT_ID] : `child_${index}`}
                     value={parentContext[index]}
                 >
-                    <Grid
-                        item
-                        xs={isRow ? true : MAX_PANEL_WIDTH}
-                        style={{
-                            height: child.height,
-                            maxHeight: child.maxheight ?? "100%",
-                            minHeight: child.minheight,
-                            ...toColumnStyleWidthBc(child),
-                        }}
-                    >
+                    <Grid item xs={isRow ? true : MAX_PANEL_WIDTH} style={sizeChild[child[VAR_RECORD_PAGE_OBJECT_ID]]}>
                         <ChildComp {...props} bc={child} />
                     </Grid>
                 </ParentFieldContext.Provider>

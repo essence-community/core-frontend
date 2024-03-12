@@ -107,10 +107,10 @@ export const MonacoEditorContainer: React.FC<IClassProps<IMonacoBuilderClassConf
             const workerProps = editorProps?.options?.worker;
 
             if (workerProps.javascript) {
-                if (workerProps.javascript.extraLib) {
-                    Object.entries(workerProps.javascript.extraLib).forEach(([key, value]) => {
-                        monaco.monaco.languages.typescript.javascriptDefaults.addExtraLib(value as string, key);
-                        monaco.monaco.languages.typescript.typescriptDefaults.addExtraLib(value as string, key);
+                if (Array.isArray(workerProps.javascript.extraLib)) {
+                    workerProps.javascript.extraLib.forEach(({value, file}) => {
+                        monaco.monaco.languages.typescript.javascriptDefaults.addExtraLib(value as string, file);
+                        monaco.monaco.languages.typescript.typescriptDefaults.addExtraLib(value as string, file);
                     });
                 }
                 if (workerProps.javascript.addedGlobal) {
@@ -140,10 +140,10 @@ export const MonacoEditorContainer: React.FC<IClassProps<IMonacoBuilderClassConf
             }
 
             if (workerProps.typescript) {
-                if (workerProps.typescript.extraLib) {
-                    Object.entries(workerProps.typescript.extraLib).forEach(([key, value]) => {
-                        monaco.monaco.languages.typescript.javascriptDefaults.addExtraLib(value as string, key);
-                        monaco.monaco.languages.typescript.typescriptDefaults.addExtraLib(value as string, key);
+                if (Array.isArray(workerProps.typescript.extraLib)) {
+                    workerProps.typescript.extraLib.forEach(({file, value}) => {
+                        monaco.monaco.languages.typescript.javascriptDefaults.addExtraLib(value as string, file);
+                        monaco.monaco.languages.typescript.typescriptDefaults.addExtraLib(value as string, file);
                     });
                 }
                 if (workerProps.javascript.addedGlobal) {

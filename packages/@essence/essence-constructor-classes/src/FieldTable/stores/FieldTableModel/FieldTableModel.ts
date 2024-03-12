@@ -41,7 +41,17 @@ const loggerInfo = loggerRoot.extend("FieldTableModel");
 const clearChildStores = ({pageStore, bc}: {pageStore: IPageModel; bc: IBuilderConfig}) => {
     pageStore.stores.forEach((store) => {
         if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === bc[VAR_RECORD_PAGE_OBJECT_ID]) {
+            store.clearStoreAction();
             store.clearAction && store.clearAction();
+
+            if (store.recordsStore) {
+                store.recordsStore.recordsAll = [];
+                store.recordsStore.recordsState = {
+                    isUserReload: false,
+                    records: [],
+                    status: "clear",
+                };
+            }
         }
     });
 };
@@ -85,15 +95,20 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         const gridId = this.gridId;
 
         if (this.bc.valuefield && this.bc.valuefield.length) {
+            let valueField = "";
+
             this.valueFields = this.bc.valuefield.map(({in: keyIn, out}) => {
                 const fieldKeyName = out || keyIn;
 
-                if (fieldKeyName === this.bc.column) {
-                    this.valueField = keyIn;
+                if (!valueField && (fieldKeyName === this.bc.column || !out)) {
+                    valueField = keyIn;
                 }
 
                 return [fieldKeyName, keyIn];
             });
+            if (valueField) {
+                this.valueField = valueField;
+            }
         } else {
             this.valueFields = [[this.bc.column, this.valueField]];
         }
@@ -145,11 +160,27 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             [VAR_RECORD_DISPLAYED]: undefined,
             [VAR_RECORD_PAGE_OBJECT_ID]: gridId,
             [VAR_RECORD_PARENT_ID]: this.currentId,
-            columns: this.bc.columns?.map((column) => ({...column, [VAR_RECORD_PARENT_ID]: gridId})),
+            columns: this.bc.columns?.map((childBc) => ({
+                ...childBc,
+                [VAR_RECORD_PAGE_OBJECT_ID]: this.field.parentFieldKey
+                    ? `${childBc[VAR_RECORD_PAGE_OBJECT_ID]}_${
+                          this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0]
+                      }`
+                    : childBc[VAR_RECORD_PAGE_OBJECT_ID],
+                [VAR_RECORD_PARENT_ID]: gridId,
+            })),
             datatype: undefined,
             disabled: undefined,
             disabledrules: undefined,
-            filters: this.bc.filters?.map((column) => ({...column, [VAR_RECORD_PARENT_ID]: gridId})),
+            filters: this.bc.filters?.map((childBc) => ({
+                ...childBc,
+                [VAR_RECORD_PAGE_OBJECT_ID]: this.field.parentFieldKey
+                    ? `${childBc[VAR_RECORD_PAGE_OBJECT_ID]}_${
+                          this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0]
+                      }`
+                    : childBc[VAR_RECORD_PAGE_OBJECT_ID],
+                [VAR_RECORD_PARENT_ID]: gridId,
+            })),
             getglobal: undefined,
             height:
                 this.bc.pickerheight === undefined && this.bc.pagesize !== undefined
@@ -276,9 +307,9 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
     handleChangeRecord = (record: IRecord, userChange = false, isSilentClear = false) => {
         let column = "";
+        const patchValues: IRecord = {};
 
         if (this.valueFields && this.valueFields.length > 1) {
-            const patchValues: IRecord = {};
             let parentKey = "";
 
             if (this.field.key.indexOf(".") > -1) {
@@ -298,8 +329,6 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
                     column = valueField;
                 }
             });
-
-            this.form.patch(patchValues, true);
         } else if (this.valueFields && this.valueFields.length) {
             column = this.valueField;
         } else {
@@ -310,12 +339,14 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
         if (userChange) {
             this.field.onChange(value);
+            this.form.patch(patchValues, true);
         } else if (isEmpty(value) && !isSilentClear) {
             this.field.onClear();
         } else if (isEmpty(value) && isSilentClear) {
             this.field.clear();
         } else if (this.field.value !== value) {
             this.field.onChange(value);
+            this.form.patch(patchValues, true);
         }
     };
 

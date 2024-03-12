@@ -2,7 +2,12 @@
 import * as React from "react";
 import {IClassProps, FieldValue, IPageModel, IRecord} from "@essence-community/constructor-share/types";
 import {settingsStore, snackbarStore} from "@essence-community/constructor-share/models";
-import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
+import {
+    ApplicationContext,
+    FormContext,
+    ParentFieldContext,
+    ResizeContext,
+} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {PageLoader} from "@essence-community/constructor-share/uicomponents";
 import {
@@ -22,6 +27,8 @@ import {
     VAR_SETTING_TYPE_NOTIFICATION,
     loggerRoot,
 } from "@essence-community/constructor-share/constants";
+import {parse} from "qs";
+import {useResizerEE} from "@essence-community/constructor-share/hooks";
 import {useObserver} from "mobx-react";
 import {reaction, observe} from "mobx";
 import {useParams, useHistory, useRouteMatch} from "react-router-dom";
@@ -56,10 +63,19 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     const history = useHistory();
     const match = useRouteMatch<any>("/:appNameDefault");
     const appNameDefault = match?.params.appNameDefault ?? "";
-    const {ckId, appName = appNameDefault, filter = ""} = useParams<IUrlParams>();
+    const {
+        ckId,
+        appName = appNameDefault,
+        filter = history.location.search && history.location.search.slice(1)
+            ? encodeURIComponent(
+                  btoa(unescape(encodeURIComponent(JSON.stringify(parse(history.location.search.slice(1)))))),
+              )
+            : "",
+    } = useParams<IUrlParams>();
     const appNameRef = React.useRef(appName);
     const applicationStore = React.useMemo(() => new ApplicationModel(history, appNameRef.current), [history]);
     const [trans] = useTranslation("meta");
+    const emitter = useResizerEE(true);
     const onFormChange = React.useCallback(
         (form: IForm) => {
             logger(trans("static:f9c3bf3691864f4d87a46a9ba367a855"), form.values);
@@ -96,7 +112,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 const {routesStore, pagesStore} = applicationStore;
                 const routes = routesStore ? routesStore.recordsStore.records : [];
                 const pageConfig = routes.find(
-                    (route: IRecord) => route[VAR_RECORD_ID] === ckId || route[VAR_RECORD_URL] === ckId,
+                    (route: IRecord) => ckId && (route[VAR_RECORD_ID] === ckId || route[VAR_RECORD_URL] === ckId),
                 );
                 const pageId = pageConfig && pageConfig[VAR_RECORD_ID];
 
@@ -149,8 +165,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
         if (!applicationStore.isApplicationReady || appNameRef.current !== applicationStore.url) {
             return;
         }
+        const {routesStore, pagesStore} = applicationStore;
+
         if (ckId) {
-            const {routesStore, pagesStore} = applicationStore;
             const routes = routesStore ? routesStore.recordsStore.records : [];
             const pageConfig = routes.find(
                 (route: IRecord) => route[VAR_RECORD_ID] === ckId || route[VAR_RECORD_URL] === ckId,
@@ -167,8 +184,10 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             ) {
                 pagesStore.setPageAction(String(pageId), false, decodePathUrl(filter, null));
             }
+        } else if (pagesStore.pages.length) {
+            pagesStore.setPageAction(pagesStore.pages[0], false);
         } else if (applicationStore.defaultValue) {
-            applicationStore.pagesStore.setPageAction(applicationStore.defaultValue, false);
+            pagesStore.setPageAction(applicationStore.defaultValue, false);
         }
     }, [ckId, applicationStore, filter]);
 
@@ -208,13 +227,13 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 applicationStore.pageStore.addStore(applicationStore, change.newValue[VAR_RECORD_PAGE_OBJECT_ID]);
             }
         });
-    }, []);
+    }, [applicationStore]);
 
     React.useEffect(() => {
         return reaction(
             () => applicationStore.pagesStore.activePage,
             async (activePage) => {
-                const route = activePage && activePage.route;
+                let route = activePage && activePage.route;
                 let pageId: FieldValue = "";
                 let routeUrl: FieldValue = "";
                 let filter: FieldValue = "";
@@ -231,6 +250,23 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                             ? route[VAR_RECORD_URL]
                             : route[VAR_RECORD_ID];
                     if (activePage.isMulti && activePage.initParamPage) {
+                        filter = `/${encodePathUrl(activePage.initParamPage)}`;
+                    }
+                } else if (
+                    !route &&
+                    applicationStore.pagesStore.pages.length &&
+                    applicationStore.pagesStore.pages[0].route
+                ) {
+                    route = applicationStore.pagesStore.pages[0].route;
+                    pageId = route[VAR_RECORD_ID];
+                    routeUrl =
+                        route[VAR_RECORD_CL_STATIC] && route[VAR_RECORD_URL]
+                            ? route[VAR_RECORD_URL]
+                            : route[VAR_RECORD_ID];
+                    if (
+                        applicationStore.pagesStore.pages[0].isMulti &&
+                        applicationStore.pagesStore.pages[0].initParamPage
+                    ) {
                         filter = `/${encodePathUrl(activePage.initParamPage)}`;
                     }
                 } else if (applicationStore.authStore.userInfo.session) {
@@ -309,36 +345,45 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
 
     return useObserver(() => (
         <ApplicationContext.Provider value={applicationStore}>
-            <FormContext.Provider value={form}>
-                <Theme applicationStore={applicationStore}>
-                    {applicationStore.isApplicationReady && applicationStore.bc ? (
-                        <>
-                            {mapComponents(applicationStore.bc.childs, (ChildComponent, childBc) => (
-                                <ChildComponent
-                                    pageStore={applicationStore.pageStore}
-                                    key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                    bc={childBc}
-                                    visible
+            <ResizeContext.Provider value={emitter}>
+                <FormContext.Provider value={form}>
+                    <ParentFieldContext.Provider value={undefined}>
+                        <Theme applicationStore={applicationStore}>
+                            {applicationStore.isApplicationReady && applicationStore.bc ? (
+                                <>
+                                    {mapComponents(
+                                        applicationStore.bc.childs?.filter((childBc) => childBc.type !== "WIN"),
+                                        (ChildComponent, childBc) => (
+                                            <ChildComponent
+                                                pageStore={applicationStore.pageStore}
+                                                key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                                bc={childBc}
+                                                visible
+                                            />
+                                        ),
+                                    )}
+                                    <ApplicationWindows pageStore={applicationStore.pageStore} />
+                                    <Block applicationStore={applicationStore} />
+                                </>
+                            ) : (
+                                <PageLoader
+                                    container={null}
+                                    isLoading
+                                    loaderType={
+                                        settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"
+                                    }
                                 />
-                            ))}
-                            <ApplicationWindows pageStore={applicationStore.pageStore} />
-                            <Block applicationStore={applicationStore} />
-                        </>
-                    ) : (
-                        <PageLoader
-                            container={null}
-                            isLoading
-                            loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"}
-                        />
-                    )}
-                    <Snackbar
-                        snackbars={snackbarStore.snackbars}
-                        onClose={snackbarStore.snackbarCloseAction}
-                        onSetCloseble={snackbarStore.setClosebleAction}
-                    />
-                    <CssBaseline />
-                </Theme>
-            </FormContext.Provider>
+                            )}
+                            <Snackbar
+                                snackbars={snackbarStore.snackbars}
+                                onClose={snackbarStore.snackbarCloseAction}
+                                onSetCloseble={snackbarStore.setClosebleAction}
+                            />
+                            <CssBaseline />
+                        </Theme>
+                    </ParentFieldContext.Provider>
+                </FormContext.Provider>
+            </ResizeContext.Provider>
         </ApplicationContext.Provider>
     ));
 };

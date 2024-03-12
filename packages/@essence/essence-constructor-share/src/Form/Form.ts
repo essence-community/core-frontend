@@ -6,7 +6,7 @@ import {cloneDeepElementary, entriesMapSort} from "../utils/transform";
 import {loggerRoot} from "../constants";
 import {IPageModel} from "../types/PageModel";
 import {FieldValue} from "../types/Base";
-import {VAR_RECORD_ID} from "../constants/variables";
+import {VAR_RECORD_ID, VAR_RECORD_JL_EDITING} from "../constants/variables";
 import {Field} from "./Field";
 import {IField, IFormProps, IForm, IFormHooks, IRegisterFieldOptions} from "./types";
 
@@ -119,6 +119,8 @@ export class Form implements IForm {
             }
         }
 
+        values[VAR_RECORD_JL_EDITING] = this.editing;
+
         return cloneDeepElementary(values);
     }
     @computed get valuesFile(): FormData {
@@ -181,6 +183,7 @@ export class Form implements IForm {
             field = new Field({
                 bc: options.bc,
                 clearValue: options.clearValue,
+                defaultCopyValueFn: options.defaultCopyValueFn,
                 defaultValueFn: options.defaultValueFn,
                 form: this,
                 input: options.input,

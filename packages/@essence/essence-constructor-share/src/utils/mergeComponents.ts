@@ -5,6 +5,7 @@ import {VAR_RECORD_NAME} from "../constants";
 import {isEmpty} from "./base";
 
 const DEFAULT_OVERRIDE_FIELD: KeyBuilderConfig[] = [
+    "actiongate",
     "confirmquestion",
     "disabled",
     "disabledrules",
@@ -46,8 +47,9 @@ export function mergeComponents<T extends Record<string, IBuilderConfig>>(
         exclude: [],
         include: [],
     },
-): {components: IBuilderConfig[]; overrides: T} {
+): {components: IBuilderConfig[]; overrides: T; overridesOrigin: Record<string, IBuilderConfig>} {
     const {exclude = [], include = []} = options;
+    const overridesOrigin = {} as Record<string, IBuilderConfig>;
     const components = bcComponents.filter((component) => {
         const name = component[VAR_RECORD_NAME];
 
@@ -59,6 +61,8 @@ export function mergeComponents<T extends Record<string, IBuilderConfig>>(
 
         if (name && name in overrides) {
             const overrideComponent = overrides[name];
+
+            overridesOrigin[name] = component;
 
             /*
              * Определяем что нужно наследовать, не все параметры правильно ложатся
@@ -83,5 +87,5 @@ export function mergeComponents<T extends Record<string, IBuilderConfig>>(
         }
     });
 
-    return {components, overrides};
+    return {components, overrides, overridesOrigin};
 }

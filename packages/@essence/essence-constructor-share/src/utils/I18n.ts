@@ -1,4 +1,5 @@
-import i18next, {BackendModule, ReadCallback, Services, InitOptions, TFunction, WithT} from "i18next";
+import i18next, {BackendModule, ReadCallback, Services, InitOptions} from "i18next";
+import type {TFunction, WithT} from "i18next";
 import {initReactI18next, withTranslation, useTranslation, Translation} from "react-i18next";
 import Backend from "i18next-chained-backend";
 import LocalStorageBackend from "i18next-localstorage-backend";
@@ -29,6 +30,7 @@ class I18nBackend implements BackendModule {
     create(): void {}
 
     read(languages: string, namespaces: string, callback: ReadCallback) {
+        callback(null, {});
         request({
             json: {
                 filter: {
@@ -41,15 +43,15 @@ class I18nBackend implements BackendModule {
         })
             .then((res: any) => {
                 if (snackbarStore.checkValidResponseAction(res) && res) {
-                    callback(null, res);
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    this.services.resourceStore.addResourceBundle(languages, namespaces, res);
 
                     return;
                 }
-                callback(null, {});
             })
             .catch((error) => {
                 snackbarStore.checkExceptResponse(error);
-                callback(null, {});
             });
     }
 }

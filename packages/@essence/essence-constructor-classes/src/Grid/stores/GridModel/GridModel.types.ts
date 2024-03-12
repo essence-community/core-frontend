@@ -48,6 +48,7 @@ export interface IGridModel extends IStoreBaseModel {
         {
             visible: boolean;
             hidden: boolean;
+            visibleStore?: boolean;
         }
     >;
     columnsWidth: ObservableMap<ICkId, number | string>;
@@ -67,8 +68,11 @@ export interface IGridModel extends IStoreBaseModel {
     setHeightAction(height: number): void;
     setScrollTopAction(scrollTop: number): void;
     applyFiltersAction(): Promise<boolean>;
-    setVisibleColumn(ckId: string, val: boolean);
-    setHiddenColumn(ckId: string, val: boolean);
+    setVisibleColumn(ckId: ICkId, val: boolean);
+    setVisibleStoreColumn(ckId: ICkId, val?: boolean);
+    setHiddenColumn(ckId: ICkId, val: boolean);
+    scrollToRecordAction(rec: Record<string, any>);
+    toggleSelectedRecordAction(record: IRecord, bcBtn?: IBuilderConfig);
 
     // Other
     handleDoubleClick(options: IHandlerOptions): void;

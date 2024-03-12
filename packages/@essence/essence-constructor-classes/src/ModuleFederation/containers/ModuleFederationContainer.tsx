@@ -92,7 +92,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
         }
         if (bc.mfconfigrule) {
             return reaction(
-                () => parseMemoize(bc.mfconfigrule).runer({get: store.getValue}),
+                () => parseMemoize(bc.mfconfigrule).runer({get: store.getValue}) as string | Record<string, any>,
                 (val) => {
                     setMfConfig((oldValue) => checkValue(val, oldValue, getError) as IConfigMF);
                 },
@@ -172,7 +172,8 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
 
         if (bc.mfcomponentconfigrule) {
             return reaction(
-                () => parseMemoize(bc.mfcomponentconfigrule).runer({get: store.getValue}),
+                () =>
+                    parseMemoize(bc.mfcomponentconfigrule).runer({get: store.getValue}) as string | Record<string, any>,
                 (val) => {
                     setPropsComponent((oldValue) => checkValue(val, oldValue, getError));
                 },

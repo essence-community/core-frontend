@@ -1,5 +1,6 @@
 import {ObservableMap} from "mobx";
 import {IForm} from "../Form";
+import {IGetValue} from "../utils/parser";
 import {IBuilderMode, ICkId, IRecord, FieldValue} from "./Base";
 import {IBuilderConfig} from "./Builder";
 import {IPageModel} from "./PageModel";
@@ -61,7 +62,7 @@ export interface ILoadRecordsProps {
 }
 
 export interface ISaveActionOptions {
-    action?: "dml" | "upload";
+    action?: IBuilderConfig["actiongate"];
     actionBc: IBuilderConfig;
     query?: string;
     noReload?: boolean;
@@ -105,6 +106,7 @@ export interface IRecordsModel {
     order: IRecordsOrder[];
     jsonMaster: IRecord | Record<string, FieldValue>[];
     pageSize?: number;
+    pageSizeRange?: number[];
     bc: IBuilderConfig;
     searchValues: IRecord;
     pageStore: IPageModel | null;
@@ -120,6 +122,9 @@ export interface IRecordsModel {
     expansionRecords: ObservableMap<ICkId, boolean>;
     selectedRecords: ObservableMap<ICkId, IRecord>;
     recordsTree: Record<string, IRecord[]>;
+    getValue: IGetValue["get"];
+    setGetValue: (getValue: IGetValue["get"]) => void;
+    setPageSize: (pageSize: number) => void;
     loadRecordsAction: (props: ILoadRecordsProps) => Promise<undefined | IRecord>;
     clearRecordsAction: () => void;
     localFilter: () => void;
@@ -127,7 +132,7 @@ export interface IRecordsModel {
     removeSelectedRecordAction: (options: ISaveActionOptions) => Promise<boolean>;
     downloadAction: (values: IRecord | IRecord[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<boolean>;
     reloadChildStoresAction: (oldSelect?: IRecord) => Promise<boolean>;
-    setSelectionAction: (ckId: FieldValue, key?: string) => Promise<number>;
+    setSelectionAction: (ckId?: FieldValue, key?: string) => Promise<number>;
     setSelectionsAction: (
         records: IRecord[],
         key?: string,

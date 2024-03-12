@@ -1,6 +1,16 @@
 {
     "extends": "@essence-community/eslint-config-react",
     "rules": {
-        "no-undef-init": "off"
+        "import/extensions": "off",
+        "import/no-unresolved": "off",
+        "no-unused-vars": "off",
+        "no-undef-init": "off",
+        "curly": "off",
+        "prettier/prettier": [
+        "error",
+        {
+            "endOfLine": "auto"
+        }
+        ]
     }
 }

@@ -1,6 +1,6 @@
 import {IClassProps, IRecord} from "@essence-community/constructor-share/types";
 import {ButtonBase, TextField} from "@material-ui/core";
-import {useTranslation, downloadFile, toTranslateText} from "@essence-community/constructor-share/utils";
+import {useTranslation, toTranslateText} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_CV_FILENAME,
@@ -8,6 +8,7 @@ import {
     VAR_RECORD_CD_DATE,
     VAR_RECORD_CV_NUMBER,
     VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
 } from "@essence-community/constructor-share/constants";
 import moment from "moment";
 import React from "react";
@@ -26,10 +27,17 @@ export const FileRecord: React.FC<IFileRecordProps> = (props) => {
     const classes = useStyles();
     const [trans] = useTranslation("meta");
 
+    const initDownBc = store.btnsConfig["Override Download Button"];
     const handleDownloadFile = React.useCallback(() => {
-        const queryParams = store.getDownloadQueryParams(record[VAR_RECORD_ID]);
-
-        downloadFile(record[VAR_RECORD_CV_FILENAME] as string, queryParams);
+        store.recordsStore.downloadAction(
+            record,
+            (initDownBc.modeaction ||
+                initDownBc.mode) as any,
+            {
+                actionBc: initDownBc,
+                query: initDownBc.updatequery,
+            },
+        );
     }, [record, store]);
 
     const handleClickClearButton = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -54,11 +62,15 @@ export const FileRecord: React.FC<IFileRecordProps> = (props) => {
         return <span>{toTranslateText(trans, labelString)}</span>;
     }, [record, trans]);
 
+    const displayed = initDownBc[VAR_RECORD_DISPLAYED];
+    const qtip = initDownBc.tipmsg || displayed;
+
     const startAdornment = (
-        <ButtonBase className={classes.adornment} disabled disableRipple>
-            <Icon iconfont="file" iconfontname="fa" size="lg" />
+        <ButtonBase className={classes.adornment} onClick={handleDownloadFile} data-qtip={qtip ? trans(qtip) : ""}>
+            <Icon iconfont={initDownBc.iconfont} iconfontname={initDownBc.iconfontname as "fa" | "mdi"} size={initDownBc.iconsize} />
         </ButtonBase>
     );
+
     const initalDelBc = store.btnsConfig["Override Delete Button"];
     const delBc = {
         confirmquestion: `${toTranslateText(trans, "static:b711be91555b46bab25971b7da959653")} "${
@@ -66,7 +78,7 @@ export const FileRecord: React.FC<IFileRecordProps> = (props) => {
         }"?`,
         ...initalDelBc,
         // eslint-disable-next-line sort-keys
-        [VAR_RECORD_PAGE_OBJECT_ID]: `${initalDelBc[VAR_RECORD_PAGE_OBJECT_ID]}-remove-${record[VAR_RECORD_ID]}`,
+        [VAR_RECORD_PAGE_OBJECT_ID]: `${initalDelBc[VAR_RECORD_PAGE_OBJECT_ID]}-${record[VAR_RECORD_ID]}`,
     };
 
     return (
@@ -75,7 +87,6 @@ export const FileRecord: React.FC<IFileRecordProps> = (props) => {
             value={record[VAR_RECORD_CV_FILENAME]}
             disabled
             fullWidth
-            data-qtip={record[VAR_RECORD_CV_FILENAME]}
             data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-record-${record[VAR_RECORD_ID]}`}
             className={classes.inputRoot}
             InputProps={{
@@ -102,7 +113,6 @@ export const FileRecord: React.FC<IFileRecordProps> = (props) => {
                     shrink: classes.srinkedDocLabel,
                 },
             }}
-            onClick={handleDownloadFile}
         />
     );
 };

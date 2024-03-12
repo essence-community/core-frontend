@@ -119,7 +119,7 @@ export const useEditorParams = (props: IClassProps<IMonacoBuilderClassConfig>) =
         }
         if (bc.monacooptionsrule) {
             return reaction(
-                () => parseMemoize(bc.monacooptionsrule).runer({get: getValue}),
+                () => parseMemoize(bc.monacooptionsrule).runer({get: getValue}) as string | Record<string, any>,
                 (val) => {
                     setOptions((oldValue) => checkValue(val, oldValue, getError));
                 },

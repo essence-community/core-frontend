@@ -13,6 +13,7 @@ interface IUseFieldProps {
     isArray?: boolean;
     isObject?: boolean;
     isFile?: boolean;
+    defaultCopyValueFn?: IField["defaultCopyValueFn"];
     defaultValueFn?: IField["defaultValueFn"];
     output?: IRegisterFieldOptions["output"];
     input?: IRegisterFieldOptions["input"];
@@ -26,6 +27,7 @@ export const useField = ({
     pageStore,
     output,
     input,
+    defaultCopyValueFn,
     defaultValueFn,
     isArray,
     isObject,
@@ -49,6 +51,7 @@ export const useField = ({
         return form.registerField(key, {
             bc,
             clearValue,
+            defaultCopyValueFn,
             defaultValueFn,
             input: input || parentField?.input,
             isArray,
@@ -72,6 +75,14 @@ export const useField = ({
                     if (isEmpty(value)) {
                         store.clearStoreAction();
                         store.clearAction && store.clearAction();
+                        if (store.recordsStore) {
+                            store.recordsStore.recordsAll = [];
+                            store.recordsStore.recordsState = {
+                                isUserReload: false,
+                                records: [],
+                                status: "clear",
+                            };
+                        }
                     } else {
                         store.reloadStoreAction();
                     }

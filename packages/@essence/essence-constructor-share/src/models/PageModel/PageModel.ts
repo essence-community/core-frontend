@@ -18,6 +18,7 @@ import {
     VAR_RECORD_PAGE_MULTI,
     VAR_RECORD_TREE_PATH,
     VAR_RECORD_NAME,
+    VAR_RECORD_URL,
 } from "../../constants";
 import {
     IBuilderConfig,
@@ -43,6 +44,7 @@ import {IField, IForm} from "../../Form";
 import {IScrollEl} from "../../types/PageModel";
 import {orderedObject} from "../../utils/base";
 import {getNextComponent} from "./PageModel.utils";
+import {redirectToPage} from "./PageModelRedirect";
 
 const logger = loggerRoot.extend("PageModel");
 
@@ -99,6 +101,8 @@ export class PageModel implements IPageModel {
 
     @observable public isLoading = false;
 
+    @observable public isLoaded = false;
+
     public uniqueId: string;
 
     @computed public get pagerBc(): IBuilderConfig {
@@ -117,7 +121,8 @@ export class PageModel implements IPageModel {
             (this.recordsStore.selectedRecordValues?.route as IRouteRecord) ||
             (routesStore &&
                 routesStore.recordsStore.recordsState.records.find(
-                    (record: Record<string, FieldValue>) => record[VAR_RECORD_ID] === this.pageId,
+                    (record: Record<string, FieldValue>) =>
+                        record[VAR_RECORD_ID] === this.pageId || record[VAR_RECORD_URL] === this.pageId,
                 )) || {
                 [VAR_RECORD_ID]: this.pageId,
             }
@@ -202,10 +207,16 @@ export class PageModel implements IPageModel {
         applicationStore,
         defaultVisible = false,
         initParamPage,
+        parentPage,
     }: IPageModelProps) {
         this.pageId = pageId;
         this.uniqueId = v4();
         this.initParamPage = initParamPage;
+        if (parentPage) {
+            this.windows = parentPage.windows;
+            this.createWindowAction = parentPage.createWindowAction;
+            this.closeWindowAction = parentPage.closeWindowAction;
+        }
         if (this.initParamPage === null) {
             this.initParamPage = undefined;
         } else if (typeof this.initParamPage === "object") {
@@ -226,6 +237,16 @@ export class PageModel implements IPageModel {
         );
 
         this.globalValues = observable.map(applicationStore.globalValues);
+        if (this.initParamPage) {
+            const obj = {};
+
+            Object.entries(this.initParamPage).forEach(([key, val]) => {
+                if (typeof key === "string" && key.charAt(0) === "g") {
+                    obj[key] = val;
+                }
+            });
+            this.globalValues.merge(obj);
+        }
         this.defaultVisible = defaultVisible;
         this.defaultIsReadOnly = isReadOnly;
     }
@@ -366,7 +387,7 @@ export class PageModel implements IPageModel {
 
                 if (route && route.activerules) {
                     const getValue = (name: string) => {
-                        if (name.charAt(0) === "g") {
+                        if (typeof name === "string" && name.charAt(0) === "g") {
                             return this.globalValues.get(name);
                         }
 
@@ -405,6 +426,12 @@ export class PageModel implements IPageModel {
         }
 
         this.setLoadingAction(false);
+
+        this.isLoaded = true;
+
+        if (this.initParamPage && !this.isActiveRedirect) {
+            await redirectToPage(this, this.initParamPage);
+        }
 
         return this.recordsStore.selectedRecord;
     };

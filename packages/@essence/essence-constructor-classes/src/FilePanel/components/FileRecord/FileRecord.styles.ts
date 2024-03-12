@@ -5,9 +5,9 @@ export const useStyles = makeStyles(
     // eslint-disable-next-line no-unused-vars
     (theme: IEssenceTheme) => ({
         adornment: {
-            height: 30,
-            width: 50,
+            width: 36,
             zIndex: 100,
+            cursor: "pointer"
         },
         clearButton: {
             visibility: "hidden",
@@ -23,7 +23,7 @@ export const useStyles = makeStyles(
             },
         },
         srinkedDocLabel: {
-            paddingLeft: 46,
+            paddingLeft: 36,
         },
     }),
     {name: "EssenceFileRecord"},

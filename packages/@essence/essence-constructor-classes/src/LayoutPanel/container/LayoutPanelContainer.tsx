@@ -7,6 +7,7 @@ import RGL, {WidthProvider} from "react-grid-layout";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {useModel} from "@essence-community/constructor-share/hooks/useModel";
+import {useResizerEE} from "@essence-community/constructor-share/hooks";
 import {useObserver} from "mobx-react";
 import {reaction} from "mobx";
 import {IBuilderClassConfig} from "../types";
@@ -23,6 +24,11 @@ export const LayoutPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     const {bc} = props;
     const classes = useStyles(props);
     const [store] = useModel((options) => new LayoutPanelModel(options), props);
+    const emitter = useResizerEE();
+
+    React.useEffect(() => {
+        store.setEmitter(emitter);
+    }, [emitter, store]);
 
     const contentStyle = React.useMemo(
         () => ({

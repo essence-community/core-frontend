@@ -9,9 +9,13 @@ import {
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_CV_DESCRIPTION,
     META_PAGE_OBJECT,
+    META_PAGE_ID,
     VAR_RECORD_CV_URL_RESPONSE,
     VAR_RECORD_URL,
     VAR_SETTING_GATE_URL,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    META_OUT_RESULT,
+    MILLISECOND,
 } from "@essence-community/constructor-share/constants";
 import {IBuilderConfig, IRecordsModel, IRecord} from "@essence-community/constructor-share/types";
 import {
@@ -20,7 +24,7 @@ import {
     setMask,
 } from "@essence-community/constructor-share/models/RecordsModel/loadRecordsAction";
 import {request} from "@essence-community/constructor-share/request";
-import {appendInputForm} from "@essence-community/constructor-share/actions/download";
+import {appendInputForm, downloadXhr} from "@essence-community/constructor-share/actions/download";
 import {stringify} from "qs";
 import {isEmpty} from "@essence-community/constructor-share/utils/base";
 import {IGridModel} from "../stores/GridModel/GridModel.types";
@@ -38,6 +42,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
     const {globalValues} = pageStore;
     const displayed = bc[VAR_RECORD_DISPLAYED];
     const description = bc[VAR_RECORD_CV_DESCRIPTION];
+    const timeout = bcBtn.timeout || bc.timeout || 30;
     const json = {
         filter: getFilterData({
             filter: recordsStore.filter,
@@ -49,7 +54,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
         master: getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, getmastervalue),
     };
 
-    attachGlobalStore({bc, globalValues, json});
+    attachGlobalStore({bc, getValue: recordsStore.getValue, globalValues, json});
 
     const jsonbc = {
         [VAR_RECORD_CV_DESCRIPTION]: (description && i18next.t(description)) || "",
@@ -58,7 +63,11 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
             .filter((col) => {
                 const obj = gridStore.visibleAndHidden.get(col[VAR_RECORD_PAGE_OBJECT_ID]);
 
-                return col.datatype !== "icon" && col.datatype !== "checkbox" && obj.visible;
+                return (
+                    col.datatype !== "icon" &&
+                    col.datatype !== "checkbox" &&
+                    (typeof obj.visibleStore === "boolean" ? obj.visibleStore : obj.visible)
+                );
             })
             .map((val) => ({
                 [VAR_RECORD_CV_DESCRIPTION]: val[VAR_RECORD_CV_DESCRIPTION] || "",
@@ -81,10 +90,54 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
 
     if (bc.btnexcel === "file") {
         const queryStr = {
-            action: "file",
-            plugin: [bcBtn.extraplugingate, bc.extraplugingate].filter((val) => !isEmpty(val)).join(","),
+            action: bcBtn.actiongate || "file",
+            plugin: [...(bcBtn.extraplugingate?.split(",") || []), bc.extraplugingate?.split(",") || []]
+                .filter((val) => !isEmpty(val))
+                .join(","),
             query: bc[VAR_RECORD_QUERY_ID] || "",
         };
+
+        if (typeof URL.createObjectURL === "function") {
+            const formData = recordsStore.formData;
+            const data = {
+                ...body,
+                [META_OUT_RESULT]: "",
+                [META_PAGE_ID]: pageStore?.pageId,
+                [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID].replace(
+                    // eslint-disable-next-line prefer-named-capture-group, no-useless-escape
+                    /^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[\)\}]?.*?$/giu,
+                    "$1",
+                ),
+                json: JSON.stringify(json),
+                session: pageStore?.applicationStore.authStore.userInfo.session || "",
+            };
+
+            if (formData) {
+                Object.entries(data).forEach(([key, val]) => {
+                    formData.append(key, val || "");
+                });
+            }
+
+            return downloadXhr(
+                {
+                    data: formData ? formData : stringify(data),
+                    method: "POST",
+                    ...(formData
+                        ? {}
+                        : {
+                              headers: {
+                                  "Content-type": "application/x-www-form-urlencoded",
+                              },
+                          }),
+                    timeout: timeout * MILLISECOND,
+                    url: `${settingsStore.settings[VAR_SETTING_GATE_URL]}?${stringify(queryStr)}`,
+                    validateStatus: () => true,
+                },
+                pageStore,
+                false,
+            ).then(() => true);
+        }
+
         const form = document.createElement("form");
 
         form.setAttribute("method", "post");
@@ -119,6 +172,11 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
         });
         appendInputForm({
             form,
+            name: META_PAGE_ID,
+            value: pageStore?.pageId,
+        });
+        appendInputForm({
+            form,
             name: "session",
             value: pageStore?.applicationStore.authStore.userInfo.session || "",
         });
@@ -147,13 +205,17 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
     setMask(true, false, pageStore);
 
     return request({
+        [META_PAGE_ID]: pageStore.pageId || bc[VAR_RECORD_ROUTE_PAGE_ID],
         [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+        action: bcBtn.actiongate,
         body,
         formData: recordsStore.formData,
         // Gate: bc[VAR_RECORD_CK_D_ENDPOINT],
         json,
         list: false,
-        plugin: [bcBtn.extraplugingate, bc.extraplugingate].filter((val) => !isEmpty(val)).join(","),
+        plugin: [...(bcBtn.extraplugingate?.split(",") || []), bc.extraplugingate?.split(",") || []]
+            .filter((val) => !isEmpty(val))
+            .join(","),
         query: bc[VAR_RECORD_QUERY_ID] || "",
         session: pageStore.applicationStore.authStore.userInfo.session,
         timeout: bcBtn.timeout ?? 660,

@@ -15,9 +15,9 @@ export function setGridSelections({gridStore, isSelected, parentId, maxSize}: IS
 
         if (record[gridStore.recordsStore.recordParentId] === parentId) {
             if (isSelected) {
-                gridStore.recordsStore.selectedRecords.delete(recordId);
+                gridStore.recordsStore.setSelectionsAction([record], gridStore.recordsStore.recordId, "delete");
             } else if (!maxSize || maxSize > gridStore.recordsStore.selectedRecords.size) {
-                gridStore.recordsStore.selectedRecords.set(recordId, record);
+                gridStore.recordsStore.setSelectionsAction([record], gridStore.recordsStore.recordId, "append");
             }
             if (
                 typeof record[VAR_RECORD_LEAF] === "boolean"

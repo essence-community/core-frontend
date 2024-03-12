@@ -19,6 +19,7 @@ export interface IPageModelProps {
     applicationStore: IApplicationModel;
     defaultVisible?: boolean;
     initParamPage?: Record<string, any>;
+    parentPage?: IPageModel;
 }
 
 export interface INextComponentReturn {
@@ -61,6 +62,7 @@ export interface IPageModel {
     isReadOnly: boolean;
     currentStep?: string;
     isLoading: boolean;
+    isLoaded: boolean;
     loadingCount: number;
     hiddenPage: boolean;
     isActiveRedirect: boolean;

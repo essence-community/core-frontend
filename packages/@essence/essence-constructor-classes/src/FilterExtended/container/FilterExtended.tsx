@@ -2,8 +2,15 @@ import * as React from "react";
 import {Collapse, Grid, Typography} from "@material-ui/core";
 import clsx from "clsx";
 import {useObserver} from "mobx-react";
-import {mapComponents, IBuilderConfig, IClassProps, Icon, FormContext} from "@essence-community/constructor-share";
-import {useTranslation, toColumnStyleWidth} from "@essence-community/constructor-share/utils";
+import {
+    mapComponents,
+    IBuilderConfig,
+    IClassProps,
+    Icon,
+    FormContext,
+    useSizeChild,
+} from "@essence-community/constructor-share";
+import {useTranslation} from "@essence-community/constructor-share/utils";
 import {findColumns} from "@essence-community/constructor-share/utils/findColumns";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -34,6 +41,8 @@ export const FilterExtended = (props: IClassProps) => {
             });
         }
     };
+
+    const [childs, sizeChild] = useSizeChild(bc.childs);
 
     return useObserver(() => (
         <Collapse in={isOpen} collapsedHeight="30px" data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-collapsible`}>
@@ -73,19 +82,16 @@ export const FilterExtended = (props: IClassProps) => {
                         {...((bc.contentview && bc.align && GRID_ALIGN_CONFIGS[`${bc.align}-${bc.contentview}`]) ||
                             GRID_ALIGN_CONFIGS["left-hbox"])}
                     >
-                        {mapComponents(
-                            props.bc.childs,
-                            (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                                <Grid
-                                    item
-                                    key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                    xs={12}
-                                    style={toColumnStyleWidth(childBc.width)}
-                                >
-                                    <Child {...props} bc={childBc} />
-                                </Grid>
-                            ),
-                        )}
+                        {mapComponents(childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
+                            <Grid
+                                item
+                                key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                xs={12}
+                                style={sizeChild[childBc[VAR_RECORD_PAGE_OBJECT_ID]]}
+                            >
+                                <Child {...props} bc={childBc} />
+                            </Grid>
+                        ))}
                     </Grid>
                 </Grid>
             </Grid>

@@ -346,7 +346,7 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     // Interanal
     confirmquestionposition?: "right" | "top";
     // Internal
-    iconsize?: "xs";
+    iconsize?: "xs" | "lg" | "1x" | "2x" | "3x" | "4x" | "5x";
     // Internal values for window store or etc.
     values?: unknown;
     // Internal Возможность выделения нескольких значений в GRID и TREEGRID SINGLE - только 1 значение SIMPLE - позволяет выбирать значения одно-за-другим. Каждое нажатие добавляет/удаляет значение. MULTI - позволяет комплексно выбирать значения, с учетом ctrl и shift

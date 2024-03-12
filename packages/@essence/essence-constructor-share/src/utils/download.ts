@@ -1,10 +1,11 @@
+/* eslint-disable max-statements */
 import axios from "axios";
 import {setMask} from "../models/RecordsModel/loadRecordsAction";
 import {request} from "../request";
 import {IPageModel} from "../types/PageModel";
 import {ISnackbarModel} from "../types/SnackbarModel";
 import {FieldValue, IRecord, IResponse, IApplicationModel, IBuilderConfig} from "../types";
-import {VAR_RECORD_MASTER_ID, VAR_SETTING_GATE_URL} from "../constants/variables";
+import {META_PAGE_ID, VAR_RECORD_MASTER_ID} from "../constants/variables";
 import {
     VAR_RECORD_URL,
     VAR_RECORD_ID,
@@ -15,7 +16,6 @@ import {
     VAR_RECORD_CV_ACTION,
     META_PAGE_OBJECT,
 } from "../constants";
-import {settingsStore} from "../models/SettingsModel";
 import {getMasterObject} from "./getMasterObject";
 import {prepareUrl} from "./redirect";
 
@@ -57,8 +57,9 @@ export const print = async ({
 
     setMask(true, bcBtn.noglobalmask, pageStore);
     const result: any = await request({
+        [META_PAGE_ID]: bc[VAR_RECORD_ROUTE_PAGE_ID],
         [META_PAGE_OBJECT]: bc[VAR_RECORD_PARENT_ID],
-        action: "dml",
+        action: bcBtn.actiongate,
         json: {
             data: values,
             master: getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, getMasterValue),
@@ -68,6 +69,7 @@ export const print = async ({
                 ...reloadPageObject,
             },
         },
+        list: false,
         plugin: bcBtn.extraplugingate || bc.extraplugingate,
         query: bcBtn.updatequery || "Modify",
         session: applicationStore.authStore.userInfo.session,
@@ -92,31 +94,12 @@ export const print = async ({
     return isValid;
 };
 
-export const downloadFile = (
-    name: string,
-    queryParams: string,
-    gate: string = settingsStore.settings[VAR_SETTING_GATE_URL],
-) => {
-    const form = document.createElement("form");
-
-    form.setAttribute("method", "post");
-    form.setAttribute("name", name);
-    form.setAttribute("action", `${gate}?${queryParams}`);
-    if (document.body) {
-        document.body.appendChild(form);
-    }
-    form.submit();
-    if (document.body) {
-        document.body.removeChild(form);
-    }
-};
-
 const createLink = (blobURL: string, filename: string, expotType: string) => {
     const tempLink = document.createElement("a");
 
     tempLink.style.display = "none";
     tempLink.href = blobURL;
-    tempLink.setAttribute("download", `${filename || ""}.${expotType}`);
+    tempLink.setAttribute("download", `${filename || ""}${expotType ? `.${expotType}` : ""}`);
 
     if (typeof tempLink.download === "undefined") {
         tempLink.setAttribute("target", "_blank");

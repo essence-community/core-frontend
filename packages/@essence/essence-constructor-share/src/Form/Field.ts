@@ -6,6 +6,8 @@ import {parseMemoize, makeRedirect, isEmpty, transformToBoolean} from "../utils"
 import {parse} from "../utils/parser";
 import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
 import {deepFind, deepChange, cloneDeepElementary, deepDelete} from "../utils/transform";
+import {copyToClipboard} from "../utils/copyToClipboard";
+import {snackbarStore} from "../models";
 import {IField, IForm, IRegisterFieldOptions, TError} from "./types";
 import {validations} from "./validations";
 
@@ -18,6 +20,7 @@ export interface IFieldOptions {
     output?: IRegisterFieldOptions["output"];
     input?: IRegisterFieldOptions["input"];
     defaultValueFn?: IField["defaultValueFn"];
+    defaultCopyValueFn?: IField["defaultCopyValueFn"];
     isArray?: boolean;
     isObject?: boolean;
     isFile?: boolean;
@@ -55,6 +58,8 @@ export class Field implements IField {
 
     public defaultValueFn: IField["defaultValueFn"];
 
+    public defaultCopyValueFn?: IField["defaultCopyValueFn"];
+
     public isArray: boolean;
 
     public isObject: boolean;
@@ -70,9 +75,9 @@ export class Field implements IField {
     public clearValue: FieldValue | undefined;
 
     public getParseValue = (name: string) => {
-        return this.form && name.charAt(0) !== "g"
-            ? this.form.values[name]
-            : this.pageStore.globalValues.get(name) || this.form.values[name];
+        return typeof name === "string" && name.charAt(0) === "g"
+            ? this.pageStore.globalValues.get(name) || this.form?.values[name]
+            : this.form?.values[name];
     };
 
     @computed get label() {
@@ -104,6 +109,14 @@ export class Field implements IField {
             }
 
             return this.bc.datatype === "checkbox" || this.bc.datatype === "boolean" ? "required-checkbox" : "required";
+        }
+
+        return undefined;
+    }
+
+    @computed private get checkRule(): string | undefined {
+        if (this.bc.check) {
+            return "check";
         }
 
         return undefined;
@@ -166,6 +179,7 @@ export class Field implements IField {
             ...this.valueSizeRules,
             this.dateRule,
             ...this.extraRules,
+            this.checkRule,
         ];
 
         return rules.filter((rule?: string): boolean => Boolean(rule)) as string[];
@@ -193,6 +207,7 @@ export class Field implements IField {
         this.input = this.getInput(options.input);
         this.output = this.getOutput(options.output);
         this.defaultValueFn = options.defaultValueFn;
+        this.defaultCopyValueFn = options.defaultCopyValueFn;
 
         if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
             this.defaultValue = transformToBoolean(this.bc.defaultvalue);
@@ -420,6 +435,21 @@ export class Field implements IField {
     };
 
     @action
+    onCopy = (): void => {
+        const value = typeof this.defaultCopyValueFn === "function" ? this.defaultCopyValueFn(this) : this.value;
+
+        copyToClipboard(value).catch(() => {
+            snackbarStore.snackbarOpenAction(
+                {
+                    status: "error",
+                    text: "static:17f3610bc821435ba8f08bca96c588ab",
+                },
+                this.pageStore.route,
+            );
+        });
+    };
+
+    @action
     validate = () => {
         if (this.disabled || this.hidden) {
             this.errors = [];
@@ -463,6 +493,10 @@ export class Field implements IField {
         this.defaultValue = defaultValue;
     };
 
+    public setDefaultCopyValueFn = (defaultCopyValueFn: IField["defaultCopyValueFn"]) => {
+        this.defaultCopyValueFn = defaultCopyValueFn;
+    };
+
     public setDefaultValueFn = (defaultValueFn: IField["defaultValueFn"]) => {
         this.defaultValueFn = defaultValueFn;
     };
@@ -488,6 +522,7 @@ export class Field implements IField {
     @action
     clear = () => {
         this.setValue(this.clearValue);
+        this.clearExtra();
     };
 
     @action
@@ -504,18 +539,16 @@ export class Field implements IField {
             const fieldParent = this.parentFieldKey ? this.form.fields.get(this.parentFieldKey) : null;
 
             if (!fieldParent || !fieldParent.isArray) {
+                let extraValue = cloneDeepElementary(this.form.extraValue);
+
                 this.bc.valuefield.forEach(({out}) => {
                     if (out) {
-                        this.form.patch(
-                            deepDelete(
-                                cloneDeepElementary(this.form.extraValue),
-                                `${parentKey ? `${parentKey}.` : ""}${out}`,
-                            ),
-                            true,
-                            true,
-                        );
+                        extraValue = deepDelete(extraValue, `${parentKey ? `${parentKey}.` : ""}${out}`);
+                    } else {
+                        extraValue = deepDelete(extraValue, this.key);
                     }
                 });
+                this.form.patch(extraValue, true, true);
             }
         }
     };
@@ -617,9 +650,7 @@ export class Field implements IField {
                 val = Number(transformToBoolean(val));
             }
         }
-        if (val === this.clearValue) {
-            this.clearExtra();
-        }
+
         this.value = val;
     };
 

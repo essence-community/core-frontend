@@ -18,9 +18,9 @@ export function setGridSelectionsTop({gridStore, isSelected, ckChild, maxSize}: 
 
         if (record[gridStore.recordsStore.recordId] === ckChild) {
             if (isSelected) {
-                gridStore.recordsStore.selectedRecords.delete(ckChild);
+                gridStore.recordsStore.setSelectionsAction([record], gridStore.recordsStore.recordId, "delete");
             } else if (!maxSize || maxSize > gridStore.recordsStore.selectedRecords.size) {
-                gridStore.recordsStore.selectedRecords.set(ckChild, record);
+                gridStore.recordsStore.setSelectionsAction([record], gridStore.recordsStore.recordId, "append");
             }
 
             setGridSelectionsTop({

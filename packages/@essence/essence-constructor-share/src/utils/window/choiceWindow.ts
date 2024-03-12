@@ -25,8 +25,20 @@ export function choiceWindow(
             );
         }
 
-        if (bc && bc.childwindow) {
+        if (!windowBc && bc && bc.childwindow) {
             windowBc = bc.childwindow.find(
+                (childwindow) => (childwindow.ckwindow || childwindow[VAR_RECORD_PAGE_OBJECT_ID]) === name,
+            );
+        }
+
+        if (!windowBc && pageStore?.pageBc) {
+            windowBc = pageStore.pageBc.find(
+                (childwindow) => (childwindow.ckwindow || childwindow[VAR_RECORD_PAGE_OBJECT_ID]) === name,
+            );
+        }
+
+        if (!windowBc && pageStore?.applicationStore?.bc?.childs) {
+            windowBc = pageStore.applicationStore.bc.childs.find(
                 (childwindow) => (childwindow.ckwindow || childwindow[VAR_RECORD_PAGE_OBJECT_ID]) === name,
             );
         }
@@ -35,7 +47,9 @@ export function choiceWindow(
             return name;
         }
 
-        return record && name.charAt(0) !== "g" ? record[name] : globalValues.get(name);
+        return typeof name === "string" && name.charAt(0) === "g"
+            ? globalValues.get(name)
+            : (typeof record === "object" ? record : {})[name];
     };
 
     return String(parseMemoize(ckwindow).runer({get: getValue}));

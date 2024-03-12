@@ -5,6 +5,7 @@ import {Popover, Confirm} from "@essence-community/constructor-share/uicomponent
 import {IPopoverProps} from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";
 import {useTheme} from "@material-ui/core";
 import {IPopoverContext} from "@essence-community/constructor-share/context";
+import {useTranslation} from "@essence-community/constructor-share/utils/I18n";
 import {ButtonConfirmEsc} from "../ButtonConfirmEsc";
 import {getButtonComponent} from "../../utils/getButtonComponent";
 
@@ -49,9 +50,11 @@ export const ButtonConfirm: React.FC<IButtonConfirmProps> = React.memo(function 
     const {pageStore, bc, disabled, onClick, popoverCtx} = props;
     const {mode, confirmquestion, confirmquestionposition = "right"} = bc;
     const theme = useTheme<IEssenceTheme>();
+    const [trans] = useTranslation("meta");
+    const confirmQuestion = trans(confirmquestion, confirmquestion);
     const Component = getButtonComponent(bc, theme);
 
-    if (mode === "4" || mode === "7" || confirmquestion) {
+    if (typeof confirmquestion === "string" ? confirmQuestion !== "false" : mode === "4" || mode === "7") {
         return (
             <Popover
                 width={250}

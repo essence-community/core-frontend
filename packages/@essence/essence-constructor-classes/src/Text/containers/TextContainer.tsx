@@ -18,10 +18,10 @@ export const TextContainer: React.FC<IClassProps<IBuilderClassConfig>> = (props)
         if (bc.textuseparameter && bc.text) {
             const preText = `\`${bc.text.replace(/`/g, "\\`")}\``;
 
-            setText(parseMemoize(preText).runer({get: getValue}));
+            setText(parseMemoize(preText).runer({get: getValue}) as string);
 
             return reaction(
-                () => parseMemoize(preText).runer({get: getValue}),
+                () => parseMemoize(preText).runer({get: getValue}) as string,
                 (val) => {
                     setText(val);
                 },

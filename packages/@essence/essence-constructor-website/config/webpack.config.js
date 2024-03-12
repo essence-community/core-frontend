@@ -4,7 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-const resolve = require('resolve');
+const { exec } = require("child_process");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
@@ -22,6 +22,7 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const createEnvironmentHash = require('./webpack/persistentCache/createEnvironmentHash');
 
@@ -55,7 +56,6 @@ const imageInlineSizeLimit = parseInt(
 const cssRegex = /\.css$/;
 
 const appPackageJson = require(paths.appPackageJson);
-const appSharePackageJson = require(paths.appSharePackageJson);
 
 const hasJsxRuntime = (() => {
   if (process.env.DISABLE_NEW_JSX_TRANSFORM === 'true') {
@@ -69,6 +69,24 @@ const hasJsxRuntime = (() => {
     return false;
   }
 })();
+
+if (!process.env.REACT_APP_COMMIT_ID || process.env.REACT_APP_COMMIT_ID === 'DEV') {
+    exec('git log -n 1 --pretty="format:%h"', (err, stdout) => {
+        if (err) {
+            return;
+        }
+        process.env.REACT_APP_COMMIT_ID = `${stdout.trim()}`;
+    });
+}
+
+if (!process.env.REACT_APP_BRANCH_DATE_TIME || process.env.REACT_APP_BRANCH_DATE_TIME === "no-valid") {
+    exec('git log -n 1 --pretty="format:%ai"', (err, stdout) => {
+        if (err) {
+            return;
+        }
+        process.env.REACT_APP_BRANCH_DATE_TIME = `${stdout.trim()}`;
+    });
+}
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -260,41 +278,52 @@ module.exports = function (webpackEnv) {
         // This is only used in production mode
         new CssMinimizerPlugin(),
       ],
-      splitChunks: {
+      splitChunks: isEnvDevelopment ? false : {
         chunks: 'all',
         maxInitialRequests: Infinity,
-        minSize: 0,
+        minSize: 30000,
+        maxSize: Infinity,
+        minChunks: 1,
+        automaticNameDelimiter: "-",
         cacheGroups: {
             monacoVendor: {
-                test: /[\\/]node_modules[\\/](monaco-editor)[\\/]/,
-                name: "monacoVendor"
+                test: /[\\/]node_modules[\\/]([\@]?monaco.*?)[\\/]/,
+                name: "vendor-monaco-editor",
+                enforce: true,
             },
             reactVendor: {
-                test: /[\\/]node_modules[\\/](react|react-.*?)[\\/]/,
-                name: "reactVendor"
+                test: /[\\/]node_modules[\\/](react.*?|rc-.+?)[\\/]/,
+                name: "vendor-react",
+                enforce: true,
             },
             utilityVendor: {
-                test: /[\\/]node_modules[\\/](lodash|moment|moment-timezone)[\\/]/,
-                name: "utilityVendor"
+                test: /[\\/]node_modules[\\/](lodash.*|to-.+|micromark-.+|moment|moment-timezone)[\\/]/,
+                name: "vendor-utility",
+                enforce: true,
             },
             materialUiVendor: {
-                test: /[\\/]node_modules[\\/](\@material-ui)[\\/]/,
-                name: "materialUiVendor"
+                test: /[\\/]node_modules[\\/]([\@]?material-.+)[\\/]/,
+                name: "vendor-material-ui",
+                enforce: true,
+            },
+            shareVendor: {
+                test: /[\\/]\@essence-community[\\/]constructor-share[\\/]/,
+                name: "share-essence",
+                enforce: true,
             },
             vendor: {
-                test: /[\\/]node_modules[\\/](!react)(!monaco-editor)(!react-.*?)(!\@material-ui)(!lodash)(!moment)(!moment-timezone)[\\/]/,
-                name(module) {
-                    // get the name. E.g. node_modules/packageName/not/this/part.js
-                    // or node_modules/packageName
-                    const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-
-                    // npm package names are URL-safe, but some servers don't like @ symbols
-                    return `${packageName.replace('@', '_')}Vendor`;
-                },
+                test: /[\\/]node_modules[\\/](?!(\@essence-community|mdi-react|[\@]?material-.+|lodash.*?|to-.+|micromark-.+|moment|moment-timezone|react.*?|rc-.+?|[\@]?monaco.*?)).*?([\\/]|$)/,
+                priority: 1,
+                name: "vendor",
+                enforce: true,
+            },
+            default: {
+                priority: -20,
+                reuseExistingChunk: true,
             },
         },
       },
-      runtimeChunk: true,
+      runtimeChunk: isEnvDevelopment ? false : true,
     },
     resolve: {
       // This allows you to set a fallback for where webpack should look for modules.
@@ -321,8 +350,8 @@ module.exports = function (webpackEnv) {
           'scheduler/tracing': 'scheduler/tracing-profiling',
         }),
         ...(modules.webpackAliases || {}),
-        '@essence/essence-constructor-classes': '@essence-community/constructor-classes',
-        '@essence/essence-constructor-share': '@essence-community/constructor-share'
+        '@essence-community/constructor-classes': path.resolve(paths.rootNodeModules, '@essence-community/constructor-classes'),
+        '@essence-community/constructor-share': path.resolve(paths.rootNodeModules, '@essence-community/constructor-share/src'),
       },
       plugins: [
         // Prevents users from importing files from outside of src/ (or node_modules/).
@@ -330,14 +359,14 @@ module.exports = function (webpackEnv) {
         // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
         // please link the files into your node_modules/ and let module-resolution kick in.
         // Make sure your source files are compiled, as they will not be processed in any way.
-        new ModuleScopePlugin(paths.appSrc, [
-          paths.appPackageJson,
-          reactRefreshRuntimeEntry,
-          reactRefreshWebpackPluginRuntimeEntry,
-          babelRuntimeEntry,
-          babelRuntimeEntryHelpers,
-          babelRuntimeRegenerator,
-        ]),
+        // new ModuleScopePlugin(paths.appSrc, [
+        //   paths.appPackageJson,
+        //   reactRefreshRuntimeEntry,
+        //   reactRefreshWebpackPluginRuntimeEntry,
+        //   babelRuntimeEntry,
+        //   babelRuntimeEntryHelpers,
+        //   babelRuntimeRegenerator,
+        // ]),
       ],
     },
     module: {
@@ -409,7 +438,7 @@ module.exports = function (webpackEnv) {
             // The preset includes JSX, Flow, TypeScript, and some ESnext features.
             {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
-              include: [paths.appSrc, paths.appClassesSrc],
+              include: [paths.appSrc, paths.appClassesSrc, paths.appShareSrc],
               loader: require.resolve('babel-loader'),
               options: {
                 customize: require.resolve(
@@ -619,32 +648,32 @@ module.exports = function (webpackEnv) {
         shared: {
             "react": {
                 singleton: true,
-                requiredVersion: appSharePackageJson.dependencies["react"],
+                requiredVersion: appPackageJson.dependencies["react"],
                 eager: true
             },
             "react-dom": {
                 singleton: true,
-                requiredVersion: appSharePackageJson.dependencies["react-dom"],
+                requiredVersion: appPackageJson.dependencies["react-dom"],
                 eager: true
             },
             "react-router-dom": {
                 singleton: true,
-                requiredVersion: appSharePackageJson.dependencies["react-router-dom"],
+                requiredVersion: appPackageJson.dependencies["react-router-dom"],
                 eager: true
             },
             "@essence-community/constructor-share": {
                 singleton: true,
-                requiredVersion: appSharePackageJson.version,
+                requiredVersion: appPackageJson.dependencies["@essence-community/constructor-share"],
                 eager: true
             },
             "mobx": {
                 singleton: true,
-                requiredVersion: appSharePackageJson.dependencies["mobx"],
+                requiredVersion: appPackageJson.dependencies["mobx"],
                 eager: true
             },
             "mobx-react": {
                 singleton: true,
-                requiredVersion: appSharePackageJson.dependencies["mobx-react"],
+                requiredVersion: appPackageJson.dependencies["mobx-react"],
                 eager: true
             }
          }
@@ -700,6 +729,22 @@ module.exports = function (webpackEnv) {
         publicPath: `${paths.publicUrlOrPath}/vs`,
         filename: '[name].worker.js',
         languages: ['javascript','typescript','css','html','json'],
+      }),
+      new CopyWebpackPlugin({
+        patterns: [{
+            from: path.join(paths.appSrc, "version.json"),
+            to: path.join(paths.appBuild, "version.json"),
+            transform() {
+                const COMMIT_ID = process.env.REACT_APP_COMMIT_ID || "";
+                const BRANCH_NAME = process.env.REACT_APP_BRANCH_NAME || "";
+                const BRANCH_DATE_TIME = process.env.REACT_APP_BRANCH_DATE_TIME || "";
+                return JSON.stringify({
+                    version: BRANCH_NAME,
+                    commit: COMMIT_ID,
+                    date: BRANCH_DATE_TIME,
+                }, null, true);
+            },
+        }],
       }),
     ].filter(Boolean),
     // Turn off performance processing because we utilize

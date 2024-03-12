@@ -1,6 +1,6 @@
 import {IBuilderConfig, IBuilderAttrGlobal} from "@essence-community/constructor-share/types";
 
-export interface IBuilderClassConfig {
+export interface IBuilderClassConfig extends IBuilderConfig {
     // Расположение текста:
     // left - слева,
     // center - по центру,

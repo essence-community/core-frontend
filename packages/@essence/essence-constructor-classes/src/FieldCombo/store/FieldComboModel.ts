@@ -90,7 +90,10 @@ export class FieldComboModel extends StoreBaseModel {
 
         this.field = field;
         this.displayfield = displayfield;
-        this.valuefield = valuefield?.[0]?.in || column;
+        this.valuefield =
+            valuefield?.reduce((res, val) => (res ? res : !val.out || val.out === column ? val.in : res), "") ||
+            valuefield?.[0]?.in ||
+            column;
         this.valueLength = minchars;
 
         if (displayfield) {
@@ -171,7 +174,7 @@ export class FieldComboModel extends StoreBaseModel {
         this.inputValue = "";
         this.lastValue = CLEAR_VALUE;
         await this.recordsStore.searchAction({}, {reset: true});
-        await this.recordsStore.setSelectionAction(undefined);
+        await this.recordsStore.setSelectionAction();
         if (this.bc.valuefield && this.bc.valuefield.length > 1) {
             this.patchForm(this.field, {});
         }
@@ -182,7 +185,7 @@ export class FieldComboModel extends StoreBaseModel {
         this.inputValue = "";
         this.lastValue = CLEAR_VALUE;
         await this.recordsStore.searchAction({}, {noLoad: true, reset: true});
-        await this.recordsStore.setSelectionAction(undefined);
+        await this.recordsStore.setSelectionAction();
         if (this.bc.valuefield && this.bc.valuefield.length > 1) {
             this.patchForm(this.field, {});
         }
@@ -319,15 +322,15 @@ export class FieldComboModel extends StoreBaseModel {
 
     @action
     handleSetSuggestionValue = (suggestion: ISuggestion, isUserSearch: boolean): boolean => {
-        if (this.bc.valuefield && this.bc.valuefield.length > 1) {
-            const record = this.recordsStore.records.find((rec) => rec[this.recordsStore.recordId] === suggestion.id);
-
-            this.patchForm(this.field, record || {});
-        }
         if (this.recordsStore.selectedRecordValues[this.recordsStore.recordId] !== suggestion.id) {
             const rec: any = suggestion.id;
 
             this.recordsStore.setSelectionAction(rec, this.recordsStore.recordId);
+        }
+        if (this.bc.valuefield && this.bc.valuefield.length > 1) {
+            const record = this.recordsStore.records.find((rec) => rec[this.recordsStore.recordId] === suggestion.id);
+
+            this.patchForm(this.field, record || {});
         }
 
         if (!isUserSearch) {

@@ -4,11 +4,13 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_CN_ORDER,
+    VAR_RECORD_JN_TOTAL_CNT,
 } from "@essence-community/constructor-share/constants";
 import {Grid, useTheme} from "@material-ui/core";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react";
 import {Pagination} from "@essence-community/constructor-share/uicomponents/Pagination";
+import {RecordContext} from "@essence-community/constructor-share/context";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {getGridBtnsConfig} from "../../utils";
 
@@ -144,6 +146,7 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
 
     return useObserver(() => {
         const {pageSize, recordsCount, pageNumber} = store.recordsStore;
+        const record = {...(store.selectedRecord || {}), [VAR_RECORD_JN_TOTAL_CNT]: recordsCount};
 
         return (
             <Grid
@@ -153,14 +156,16 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
                 direction={theme.essence.layoutTheme === 1 ? "row" : "column"}
                 className={isInlineEditing ? "hidden" : undefined}
             >
-                {mapComponents(
-                    btnsFinal.map((config) => config.bc),
-                    (ChildCmp, childBc) => (
-                        <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
-                            <ChildCmp {...classProps} bc={childBc} />
-                        </Grid>
-                    ),
-                )}
+                <RecordContext.Provider value={record}>
+                    {mapComponents(
+                        btnsFinal.map((config) => config.bc),
+                        (ChildCmp, childBc) => (
+                            <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                                <ChildCmp {...classProps} bc={childBc} />
+                            </Grid>
+                        ),
+                    )}
+                </RecordContext.Provider>
 
                 {pageSize && theme.essence.layoutTheme === 1 ? (
                     <>
@@ -169,7 +174,11 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
                         </Grid>
                         <Grid item>
                             <Pagination
+                                pageStore={store.pageStore}
                                 disabled={classProps.disabled || isInlineEditing}
+                                pageSizeRange={store.recordsStore.pageSizeRange}
+                                pageSize={store.recordsStore.pageSize}
+                                onChangePageSize={store.recordsStore.setPageSize}
                                 count={recordsCount}
                                 rowsPerPage={pageSize}
                                 page={pageNumber}

@@ -57,7 +57,7 @@ import {
 import {IHanderOptions} from "../../../Button/handlers/hander.types";
 import {resetGridWidth} from "../../utils/resetGridWidth";
 import {updatePercentColumnsWidth} from "./actions";
-import {IGridSaveConfigType} from "./GridModel.types";
+import {IGridModel, IGridSaveConfigType} from "./GridModel.types";
 
 const logger = loggerRoot.extend("GridModel");
 
@@ -75,13 +75,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     initialHeight: number | undefined;
 
     @observable
-    visibleAndHidden: ObservableMap<
-        ICkId,
-        {
-            visible: boolean;
-            hidden: boolean;
-        }
-    > = observable.map();
+    visibleAndHidden: IGridModel["visibleAndHidden"] = observable.map();
 
     constructor(props: IStoreBaseModelProps) {
         super(props);
@@ -98,22 +92,16 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
         this.valueFields = [[this.recordsStore.recordId, this.recordsStore.recordId]];
         this.gridColumnsInitial = observable.array(getGridColumns(this.bc));
-        const visibility = getFromStore<Record<string, boolean>>(`${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_visibility`);
-
-        if (visibility) {
-            Object.entries(visibility).forEach(([ckId, visible]) => {
-                const obj = this.gridColumnsInitial.find((col) => col[VAR_RECORD_PAGE_OBJECT_ID] === ckId);
-
-                if (obj) {
-                    obj.visible = visible;
-                }
-            });
-        }
+        const visibility = getFromStore<Record<string, boolean>>(
+            `${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}_visibility`,
+            {},
+        );
 
         this.gridColumnsInitial.forEach((val) => {
             this.visibleAndHidden.set(val[VAR_RECORD_PAGE_OBJECT_ID], {
                 hidden: val.hidden,
                 visible: val.visible,
+                visibleStore: visibility[val[VAR_RECORD_PAGE_OBJECT_ID]],
             });
         });
 
@@ -148,7 +136,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         return this.gridColumnsInitial.filter((col) => {
             const obj = this.visibleAndHidden.get(col[VAR_RECORD_PAGE_OBJECT_ID]);
 
-            return obj.visible && !obj.hidden;
+            return !obj.hidden && (typeof obj.visibleStore === "boolean" ? obj.visibleStore : obj.visible);
         });
     }
 
@@ -229,6 +217,14 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                                   bottombtn: getOverrideWindowBottomBtn(this.bc),
                               };
                     },
+                    initValues:
+                        this.bc.type === "TREEGRID"
+                            ? {
+                                  [this.recordsStore.recordParentId]: this.recordsStore.selectedRecord
+                                      ? this.recordsStore.selectedRecordId
+                                      : undefined,
+                              }
+                            : {},
                     mode,
                     pageStore: this.pageStore,
                     parentStore: this,
@@ -324,7 +320,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     toggleSelectedRecordAction = (record: IRecord, bcBtn?: IBuilderConfig) => {
         const ckId = record[this.recordsStore.recordId] as string | number;
         const parentId = record[this.recordsStore.recordParentId] as string | number;
-        const maxSize = bcBtn?.maxselected && parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues);
+        const maxSize =
+            bcBtn?.maxselected && (parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues) as number);
         const isSelected = this.recordsStore.selectedRecords.has(ckId);
 
         if (isSelected) {
@@ -430,7 +427,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
     @action
     setAllSelectedRecords = (all: boolean, bcBtn: IBuilderConfig, records: IRecord[]) => {
-        const maxSize = bcBtn.maxselected && parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues);
+        const maxSize =
+            bcBtn.maxselected && (parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues) as number);
         let selRecords = [];
 
         if (all) {
@@ -479,6 +477,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
         this.setRecordToGlobal();
 
+        this.scrollToRecordAction({});
+
         return undefined;
     };
 
@@ -515,6 +515,16 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         const old = {
             ...this.visibleAndHidden.get(ckId),
             visible: val,
+        };
+
+        this.visibleAndHidden.set(ckId, old);
+    };
+
+    @action
+    setVisibleStoreColumn = (ckId: string, val?: boolean) => {
+        const old = {
+            ...this.visibleAndHidden.get(ckId),
+            visibleStore: val,
         };
 
         this.visibleAndHidden.set(ckId, old);

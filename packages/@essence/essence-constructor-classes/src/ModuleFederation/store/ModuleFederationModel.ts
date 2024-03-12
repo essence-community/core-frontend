@@ -109,7 +109,7 @@ export class ModuleFederationModel extends StoreBaseModel {
     };
 
     @action
-    saveAction = (config: IEventConfig, id: string, messageType: string, data?: any): void => {
+    saveMfAction = (config: IEventConfig, id: string, messageType: string, data?: any): void => {
         let dataPre = data;
 
         if (config.datarule) {
@@ -232,7 +232,7 @@ export class ModuleFederationModel extends StoreBaseModel {
         createWindowAction: this.createWindowAction,
         errorAction: this.errorAction,
         redirectAction: this.redirectAction,
-        saveAction: this.saveAction,
+        saveAction: this.saveMfAction,
         setGlobalAction: this.setGlobalAction,
         showFullScreen: this.showFullScreen,
     };
@@ -248,23 +248,33 @@ export class ModuleFederationModel extends StoreBaseModel {
         bc: IBuilderConfig,
         options: IHandlerOptions = {},
     ): Promise<boolean> => {
+        let result = true;
+
         switch (mode) {
             case "7":
-                await this.recordsStore.downloadAction(this.selectedRecord!, (bc.modeaction || mode) as IBuilderMode, {
-                    ...options,
-                    actionBc: bc,
-                    query: bc.updatequery,
-                });
+                result = await this.recordsStore.downloadAction(
+                    this.selectedRecord!,
+                    (bc.modeaction || mode) as IBuilderMode,
+                    {
+                        ...options,
+                        actionBc: bc,
+                        query: bc.updatequery,
+                    },
+                );
                 break;
             default:
-                await this.recordsStore.saveAction(this.selectedRecord!, (bc.modeaction || mode) as IBuilderMode, {
-                    ...options,
-                    actionBc: bc,
-                    query: bc.updatequery,
-                });
+                result = await this.recordsStore.saveAction(
+                    this.selectedRecord!,
+                    (bc.modeaction || mode) as IBuilderMode,
+                    {
+                        ...options,
+                        actionBc: bc,
+                        query: bc.updatequery,
+                    },
+                );
         }
 
-        return Promise.resolve(true);
+        return Promise.resolve(result);
     };
 
     handlers = {

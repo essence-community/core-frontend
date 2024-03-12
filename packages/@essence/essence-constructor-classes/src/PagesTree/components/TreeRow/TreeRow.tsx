@@ -40,7 +40,7 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
 
         if (route.activerules || !leaf) {
             const getValue = (name: string) => {
-                if (name.charAt(0) === "g") {
+                if (typeof name === "string" && name.charAt(0) === "g") {
                     return pageStore.globalValues.get(name);
                 }
 
@@ -63,7 +63,7 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
                         : record[VAR_RECORD_LEAF] === "true";
 
                 if (result && record.activerules) {
-                    result = parseMemoize(record.activerules).runer({get: getValue});
+                    result = parseMemoize(record.activerules as string).runer({get: getValue}) as boolean;
                 }
 
                 if (result && !isLeaf) {

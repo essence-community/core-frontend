@@ -9,6 +9,8 @@ import {
     VAR_RECORD_PARENT_ID,
 } from "@essence-community/constructor-share/constants";
 import {useObserver} from "mobx-react";
+import {FormContext} from "@essence-community/constructor-share/context";
+import {reaction} from "mobx";
 import {GridHeaderResizer} from "../components/GridHeaderResizer";
 import {GridHeaderFilter} from "../components/GridHeaderFilter";
 import {useStyles} from "./GridHeaderDefaultContainer.styles";
@@ -19,6 +21,8 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
     const displayed = bc[VAR_RECORD_DISPLAYED];
     const transCvDisplayed = displayed && trans(displayed);
     const classes = useStyles();
+    const formContext = React.useContext(FormContext);
+    const [isFilter, setFilter] = React.useState(false);
     const handleSort = async () => {
         const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
         const column = bc.order?.[0].property || bc.column;
@@ -66,6 +70,23 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
         }
     };
 
+    React.useEffect(() => {
+        if (!formContext || !bc.column) {
+            return;
+        }
+
+        return reaction(
+            () =>
+                Object.values(formContext?.values || {}).findIndex((val: any) =>
+                    typeof val === "object" ? val?.property === bc.column : false,
+                ) > -1,
+            setFilter,
+            {
+                fireImmediately: true,
+            },
+        );
+    }, [formContext, bc]);
+
     return useObserver(() => {
         const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
 
@@ -87,6 +108,7 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
                 sortDirection={isSortable ? lowerDirection : false}
                 className={cn(classes.tableCell, {
                     [classes.tableCellActive]: isSortable,
+                    [classes.filterSelect]: isFilter,
                 })}
                 padding="none"
                 data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}

@@ -16,14 +16,16 @@ export const getRegionFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     column: "ck_region",
     datatype: "combo",
     displayfield: "cv_region",
+    idproperty: "ck_region",
     minchars: 4,
     noglobalmask: true,
     querydelay: 1,
     querymode: "remote",
     queryparam: "cv_region",
     required: true,
-    setglobal: [{out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`}],
+    setglobal: [{in: "ck_region", out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`}],
     type: "IFIELD",
+    valuefield: [{in: "ck_region"}],
 });
 
 export const getAreaFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
@@ -37,6 +39,8 @@ export const getAreaFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     disabledrules: `!g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`,
     displayfield: "cv_area",
     getglobaltostore: [{in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`, out: "ck_region"}],
+    getmastervalue: [{in: "ck_region", out: "ck_region"}],
+    idproperty: "ck_area",
     minchars: 4,
     noglobalmask: true,
     querydelay: 1,
@@ -44,10 +48,11 @@ export const getAreaFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     queryparam: "cv_area",
     required: true,
     setglobal: [
-        {out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area`},
-        {out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`},
+        {in: "ck_area", out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area`},
+        {in: "ck_area", out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`},
     ],
     type: "IFIELD",
+    valuefield: [{in: "ck_area"}],
 });
 
 export const getStreetFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
@@ -64,13 +69,16 @@ export const getStreetFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
         {in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area`, out: "ck_area"},
         {in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`, out: "ck_region"},
     ],
+    getmastervalue: [{in: "ck_area", out: "ck_area"}],
+    idproperty: "ck_street",
     minchars: 4,
     noglobalmask: true,
     querydelay: 1,
     querymode: "remote",
     queryparam: "cv_street",
-    setglobal: [{out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_street`}],
+    setglobal: [{in: "ck_street", out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_street`}],
     type: "IFIELD",
+    valuefield: [{in: "ck_street"}],
 });
 
 export const getHouseFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
@@ -88,13 +96,16 @@ export const getHouseFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
         {in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`, out: "ck_region"},
         {in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_street`, out: "ck_street"},
     ],
+    getmastervalue: [{in: "ck_street", out: "ck_street"}],
+    idproperty: "ck_house",
     minchars: 1,
     noglobalmask: true,
     querydelay: 1,
     querymode: "remote",
     queryparam: "cv_house",
-    setglobal: [{out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`}],
+    setglobal: [{in: "ck_house", out: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`}],
     type: "IFIELD",
+    valuefield: [{in: "ck_house"}],
 });
 
 export const getMoFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
@@ -104,10 +115,17 @@ export const getMoFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
     [VAR_RECORD_QUERY_ID]: "MOShowMOsByAddress",
     autoload: false,
+    autoloadrule: `!isEmpty(g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master)`,
     column: "ck_id",
     datatype: "combo",
     disabledrules: `!g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area`,
     displayfield: "cv_name",
+    getglobaltostore: [
+        {in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_area`, out: "ck_area"},
+        {in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_region`, out: "ck_region"},
+        {in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_street`, out: "ck_street"},
+        {in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`, out: "ck_master"},
+    ],
     getmastervalue: [{in: `g_${bc[VAR_RECORD_PAGE_OBJECT_ID]}_ck_master`, out: "ck_id"}],
     idproperty: "ck_id",
     minchars: 0,
@@ -117,6 +135,7 @@ export const getMoFieldConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     queryparam: "cv_name",
     required: true,
     type: "IFIELD",
+    valuefield: [{in: "ck_id"}],
 });
 
 export function getFieldMoConfig(bc: IBuilderConfig): IBuilderConfig[] {
@@ -136,11 +155,13 @@ export function getFieldMoConfig(bc: IBuilderConfig): IBuilderConfig[] {
                 "hidden",
                 "hiddenrules",
                 "getglobaltostore",
+                "getmastervalue",
                 "setglobal",
                 "column",
                 "datatype",
             ],
             include: [
+                VAR_RECORD_DISPLAYED,
                 VAR_RECORD_QUERY_ID,
                 "defaultvalue",
                 "defaultvaluequery",

@@ -58,7 +58,7 @@ export class SnackbarModel implements ISnackbarModel {
     @observable
     snackbars: IObservableArray<ISnackbar> = observable.array([]);
     @observable
-    snackbarsAll: Array<ISnackbar> = [];
+    snackbarsAll: IObservableArray<ISnackbar> = observable.array([]);
 
     recordsStore: IRecordsModelLite;
 
@@ -102,20 +102,24 @@ export class SnackbarModel implements ISnackbarModel {
 
     deleteAllSnackbarAction = action("deleteAllSnackbarAction", () => {
         if (this.activeStatus === "all") {
-            this.snackbarsAll = this.snackbarsAll.filter((snackbar) => snackbar.status === "debug");
+            this.snackbarsAll = observable.array(this.snackbarsAll.filter((snackbar) => snackbar.status === "debug"));
         } else if (this.activeStatus === "notification") {
-            this.snackbarsAll = this.snackbarsAll.filter(
-                (snackbar) =>
-                    snackbar.pageName !== i18next.t("static:2ff612aa52314ddea65a5d303c867eb8") &&
-                    snackbar.status !== this.activeStatus,
+            this.snackbarsAll = observable.array(
+                this.snackbarsAll.filter(
+                    (snackbar) =>
+                        snackbar.pageName !== i18next.t("static:2ff612aa52314ddea65a5d303c867eb8") &&
+                        snackbar.status !== this.activeStatus,
+                ),
             );
         } else {
-            this.snackbarsAll = this.snackbarsAll.filter((snackbar) => snackbar.status !== this.activeStatus);
+            this.snackbarsAll = observable.array(
+                this.snackbarsAll.filter((snackbar) => snackbar.status !== this.activeStatus),
+            );
         }
     });
 
     deleteSnackbarAction = action("deleteSnackbarAction", (snackbarId: string) => {
-        this.snackbarsAll = this.snackbarsAll.filter((snakebar) => snakebar.id !== snackbarId);
+        this.snackbarsAll = observable.array(this.snackbarsAll.filter((snakebar) => snakebar.id !== snackbarId));
     });
 
     readSnackbarAction = action("readSnackbarAction", (snackbarId: string) => {
@@ -159,7 +163,7 @@ export class SnackbarModel implements ISnackbarModel {
         };
 
         if (snackbar.hiddenTimeout !== 0) {
-            const openedSnackbars = this.snackbars.filter((snack) => snack.open !== false);
+            const openedSnackbars = observable.array(this.snackbars.filter((snack) => snack.open !== false));
 
             if (openedSnackbars.length >= MAX_OPENED_SNACKBARS) {
                 openedSnackbars[openedSnackbars.length - 1].open = false;
@@ -172,19 +176,21 @@ export class SnackbarModel implements ISnackbarModel {
 
         let debugCount = 0;
 
-        this.snackbarsAll = this.snackbarsAll.filter((msg) => {
-            if (msg.status === "debug") {
-                if (debugCount > MAX_DEBUG_SNACKBARS) {
-                    return false;
+        this.snackbarsAll = observable.array(
+            this.snackbarsAll.filter((msg) => {
+                if (msg.status === "debug") {
+                    if (debugCount > MAX_DEBUG_SNACKBARS) {
+                        return false;
+                    }
+                    debugCount = +1;
                 }
-                debugCount = +1;
-            }
 
-            return true;
-        });
+                return true;
+            }),
+        );
 
         if (this.snackbarsAll.length > MAX_SNACKBARS) {
-            this.snackbarsAll = this.snackbarsAll.slice(0, MAX_SNACKBARS);
+            this.snackbarsAll = observable.array(this.snackbarsAll.slice(0, MAX_SNACKBARS));
         }
 
         return snackbarProps;
@@ -515,6 +521,9 @@ export class SnackbarModel implements ISnackbarModel {
     checkExceptResponse = action(
         "checkExceptResponse",
         (error: Record<string, any>, route?: IRouteRecord, applicationStore?: IApplicationModel | null) => {
+            if (error.message?.indexOf("aborted") > -1) {
+                return;
+            }
             const responseError = error.responseError || {};
             const errCode = responseError[VAR_ERROR_CODE] as keyof typeof CODE_GROUP_MAP;
             const groupCode = CODE_GROUP_MAP[errCode] as keyof typeof GROUP_ACTION_MAP;
@@ -609,11 +618,24 @@ export class SnackbarModel implements ISnackbarModel {
         },
     );
 
+    @action
+    unauthorizedAction = (_error: Error, route?: Record<string, FieldValue>, applicationStore?: IApplicationModel) => {
+        this.snackbarOpenAction(
+            {status: "error", text: (trans) => trans("static:1d5ca35298f346cab823812e2b57e155")},
+            route,
+        );
+        const recordId = route ? route[VAR_RECORD_ID] : undefined;
+
+        if (applicationStore && typeof recordId === "string") {
+            applicationStore.pagesStore.removePageAction(recordId);
+        }
+    };
+
     invalidSessionAction = action(
         "invalidSessionAction",
         (_error: Error, route?: IRouteRecord, applicationStore?: IApplicationModel) => {
             this.snackbarOpenAction(
-                {status: "error", text: (trans) => trans("static:5bf781f61f9c44b8b23c76aec75e5d10")},
+                {status: "info", text: (trans) => trans("static:5bf781f61f9c44b8b23c76aec75e5d10")},
                 route,
             );
 

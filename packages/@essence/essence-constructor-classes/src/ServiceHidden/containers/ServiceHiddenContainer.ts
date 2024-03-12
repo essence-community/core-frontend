@@ -59,14 +59,16 @@ export const ServiceHiddenContainer: React.FC<IClassProps> = (props) => {
                                 parentKey = arrKey.slice(0, arrKey.length - 1).join(".");
                             }
 
-                            valuefield.forEach(({in: fieldName, out: valueField = bc.column}) => {
+                            valuefield.forEach(({in: fieldName, out}) => {
+                                const valueField = out || bc.column;
+
                                 deepChange(
                                     patchValues,
                                     `${parentKey ? `${parentKey}.` : ""}${valueField}`,
                                     deepFind(record, fieldName)[1],
                                 );
 
-                                if (valueField === bc.column) {
+                                if (!column && (valueField === bc.column || !out)) {
                                     column = fieldName;
                                 }
                             });

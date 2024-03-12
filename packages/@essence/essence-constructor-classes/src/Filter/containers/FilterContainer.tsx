@@ -1,12 +1,7 @@
 import * as React from "react";
 import cn from "clsx";
-import {
-    useTranslation,
-    toTranslateText,
-    toColumnStyleWidth,
-    getFromStore,
-} from "@essence-community/constructor-share/utils";
-import {useModel} from "@essence-community/constructor-share/hooks";
+import {useTranslation, toTranslateText, getFromStore, isEmpty} from "@essence-community/constructor-share/utils";
+import {useModel, useSizeChild} from "@essence-community/constructor-share/hooks";
 import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {Collapse, useTheme, Grid, Typography} from "@material-ui/core";
 import {
@@ -18,6 +13,7 @@ import {
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react";
+import {reaction} from "mobx";
 import {FilterModel} from "../store/FilterModel";
 import {FilterButtons} from "../components/FilterButtons";
 import {useStyles} from "./FilterContainer.styles";
@@ -39,8 +35,20 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
     const classes = useStyles();
 
     React.useEffect(() => {
-        store.handleAutoload(isAutoLoad);
-    }, [isAutoLoad, store]);
+        return reaction(
+            () => !isEmpty(pageStore.forms.get(bc[VAR_RECORD_PAGE_OBJECT_ID])),
+            (isExist) => {
+                if (isExist) {
+                    store.handleAutoload(isAutoLoad);
+                }
+            },
+            {
+                fireImmediately: true,
+            },
+        );
+    }, [bc, isAutoLoad, pageStore, store]);
+
+    const [childs, sizeChild] = useSizeChild(bc.childs);
 
     return useObserver(() => (
         <Collapse in={store.isOpen} collapsedHeight={title || layoutTheme === 1 ? "42px" : "1px"}>
@@ -91,12 +99,12 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                                     GRID_ALIGN_CONFIGS[`${bc.align}-${bc.contentview}`]) ||
                                     GRID_ALIGN_CONFIGS["left-hbox"])}
                             >
-                                {mapComponents(bc.childs, (ChildComp, child) => (
+                                {mapComponents(childs, (ChildComp, child) => (
                                     <Grid
                                         item
                                         key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                                         xs={12}
-                                        style={toColumnStyleWidth(child.width)}
+                                        style={sizeChild[child[VAR_RECORD_PAGE_OBJECT_ID]]}
                                     >
                                         <ChildComp
                                             {...props}

@@ -53,7 +53,7 @@ export interface ILoadRecordsProps {
 }
 
 export interface ISaveActionOptions {
-    action?: "dml" | "upload";
+    action?: IBuilderConfig["actiongate"];
     actionBc: IBuilderConfig;
     query?: string;
     noReload?: boolean;
@@ -119,7 +119,7 @@ export interface IRecordsModel {
     removeSelectedRecordAction: (options: ISaveActionOptions) => Promise<boolean>;
     downloadAction: (values: IRecord | IRecord[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<boolean>;
     reloadChildStoresAction: (oldSelect?: IRecord) => Promise<boolean>;
-    setSelectionAction: (ckId: FieldValue, key?: string) => Promise<number>;
+    setSelectionAction: (ckId?: FieldValue, key?: string) => Promise<number>;
     setSelectionsAction: (
         records: IRecord[],
         key?: string,

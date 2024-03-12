@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import * as React from "react";
 import cn from "clsx";
 import {Grid, Paper} from "@material-ui/core";
@@ -22,7 +23,7 @@ const VERTICAL_STYLE = {zIndex: 3};
 const SCROLLABRS_STYLE = {height: "100%", paddingRight: 10, width: "100%"};
 
 export const Widget: React.FC<IWidgetProps<IChildBuilderConfig, IBuilderClassConfig>> = (props) => {
-    const {bc, bcParent, store, children, className, draggableHandle, style} = props;
+    const {bc, bcParent, store, children, className, draggableHandle, style, pageStore} = props;
     const classes = useStyles(props);
     const {hidden} = useCommon(props);
     const [trans] = useTranslation();
@@ -163,6 +164,7 @@ export const Widget: React.FC<IWidgetProps<IChildBuilderConfig, IBuilderClassCon
                         withRequestAnimationFrame
                         hideHorizontalScrollbar
                         verticalStyle={VERTICAL_STYLE}
+                        pageStore={pageStore}
                     >
                         {children}
                     </Scrollbars>

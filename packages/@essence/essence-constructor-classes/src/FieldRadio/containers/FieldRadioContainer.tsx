@@ -4,6 +4,7 @@ import cn from "clsx";
 import {Grid, Radio, RadioGroup, FormLabel} from "@material-ui/core";
 import {toColumnStyleWidth, useTranslation} from "@essence-community/constructor-share/utils";
 import {
+    VALUE_SELF_ALWAYSFIRST,
     VALUE_SELF_FIRST,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
@@ -31,8 +32,8 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden, visible, readOnly} = props;
     const {getgloballist} = bc;
     const [focused, setFocused] = React.useState(false);
-    const [store] = useModel((options) => new FieldRadioModel(options), props);
     const field = useField({bc, disabled, hidden, pageStore});
+    const [store] = useModel((options) => new FieldRadioModel(options), {...props, field});
     const classes = useStyles();
     const [trans] = useTranslation("meta");
     const textFieldProps = useTextFieldProps({bc, disabled, field, readOnly});
@@ -41,7 +42,7 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
 
     const handleReactValue = React.useCallback(
         (value: FieldValue) => {
-            if (!store.recordsStore.isLoading && value === VALUE_SELF_FIRST) {
+            if (!store.recordsStore.isLoading && (value === VALUE_SELF_FIRST || value === VALUE_SELF_ALWAYSFIRST)) {
                 const val = getFirstValues(store.recordsStore);
 
                 field.onChange(val);
@@ -54,7 +55,10 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
     const handleChangeSuggestions = React.useCallback(() => {
         const {recordsState} = store.recordsStore;
 
-        if (recordsState.defaultValueSet && field.value === VALUE_SELF_FIRST) {
+        if (
+            recordsState.defaultValueSet &&
+            (field.value === VALUE_SELF_FIRST || field.value === VALUE_SELF_ALWAYSFIRST)
+        ) {
             const val = getFirstValues(store.recordsStore);
 
             field.onChange(val);
@@ -66,8 +70,14 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
     useFieldSetGlobal({bc, field, pageStore, store});
     useDefaultValueQuery({bc, field, pageStore});
 
-    React.useEffect(() => reaction(() => field.value, handleReactValue), [field, handleReactValue]);
-    React.useEffect(() => reaction(() => store.suggestions, handleChangeSuggestions), [handleChangeSuggestions, store]);
+    React.useEffect(() => reaction(() => field.value, handleReactValue, {fireImmediately: true}), [
+        field,
+        handleReactValue,
+    ]);
+    React.useEffect(() => reaction(() => store.suggestions, handleChangeSuggestions, {fireImmediately: true}), [
+        handleChangeSuggestions,
+        store,
+    ]);
 
     React.useEffect(() => {
         if (getgloballist) {
@@ -85,12 +95,15 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
         return undefined;
     }, [getgloballist, pageStore.globalValues, store.recordsStore]);
 
-    const handleChange = React.useCallback((event: React.SyntheticEvent<HTMLInputElement>) => {
-        const {value} = event.currentTarget;
+    const handleChange = React.useCallback(
+        (event: React.SyntheticEvent<HTMLInputElement>) => {
+            const {value} = event.currentTarget;
 
-        store.setSelectRecord(value);
-        field.onChange(value);
-    }, []);
+            store.setSelectRecord(value);
+            field.onChange(value);
+        },
+        [field, store],
+    );
 
     const handleFocus = React.useCallback(() => {
         setFocused(true);

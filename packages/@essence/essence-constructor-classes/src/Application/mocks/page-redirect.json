@@ -1,12 +1,14 @@
 {
     "type": "APPLICATION",
-    "childs": [{
-        "type": "STATIC.REDIRECT",
-        "ck_page_object": "redirect"
-    }],
+    "childs": [
+        {
+            "type": "STATIC.REDIRECT",
+            "ck_page_object": "redirect"
+        }
+    ],
     "ck_page_object": "mock",
     "ck_id": "redirect",
     "ck_view": "system",
-    "ck_url": "redirect",
+    "cv_url": "redirect",
     "activerules": ""
 }

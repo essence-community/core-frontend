@@ -1,6 +1,14 @@
 import {ObservableMap} from "mobx";
-import {FieldValue, IBuilderConfig, RecordsStateStatusType, IRecordsOrder, IApplicationModel} from "../../types";
+import {
+    FieldValue,
+    IBuilderConfig,
+    RecordsStateStatusType,
+    IRecordsOrder,
+    IApplicationModel,
+    IRequest,
+} from "../../types";
 import {VAR_META_JN_FETCH, VAR_META_JN_OFFSET, VAR_META_JL_FILTER, VAR_META_JL_SORT} from "../../constants";
+import {IGetValue} from "../../utils/parser";
 
 export interface IJson {
     filter: Record<string, FieldValue>;
@@ -29,6 +37,7 @@ export interface IAttachGlobalStore {
     bc: IBuilderConfig;
     json: IJson;
     globalValues?: ObservableMap<string, FieldValue>;
+    getValue: IGetValue["get"];
 }
 
 export interface ILoadRecordsAction {
@@ -38,4 +47,5 @@ export interface ILoadRecordsAction {
     selectedRecordId?: string;
     isUserReload?: boolean;
     status: RecordsStateStatusType;
+    registerAbortCallback?: IRequest["registerAbortCallback"];
 }

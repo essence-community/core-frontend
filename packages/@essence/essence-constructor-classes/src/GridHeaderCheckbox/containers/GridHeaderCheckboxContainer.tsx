@@ -1,8 +1,13 @@
 import * as React from "react";
-import {Checkbox} from "@material-ui/core";
+import {Checkbox, TableCell} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {IClassProps, IRecord, IStoreBaseModel} from "@essence-community/constructor-share/types";
-import {VAR_RECORD_ID, VAR_RECORD_LEAF, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_LEAF,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_PARENT_ID,
+} from "@essence-community/constructor-share/constants";
 import {useObserver} from "mobx-react";
 import {reaction} from "mobx";
 import {deepFind, isEmpty, mapValueToArray} from "@essence-community/constructor-share/utils";
@@ -50,14 +55,17 @@ export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
         );
     }, [store, bc]);
 
-    const handleChange = () => {
-        if (store) {
-            store.invokeHandler("onToggleAllSelectedRecords", ["1", props.bc, {}]);
-        }
+    const handleChange = (event: React.SyntheticEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
     };
 
     const handlePrevent = (event: React.SyntheticEvent) => {
+        event.preventDefault();
         event.stopPropagation();
+        if (store) {
+            store.invokeHandler("onToggleAllSelectedRecords", ["1", props.bc, {}]);
+        }
     };
 
     const getChekedIcon = () => {
@@ -131,14 +139,16 @@ export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
     }, [store, bc, pageStore]);
 
     return useObserver(() => (
-        <Checkbox
-            color="primary"
-            checked={store?.recordsStore?.selectedRecords.size !== 0}
-            disabled={props.readOnly || props.disabled || props.bc.disabled}
-            onClick={handlePrevent}
-            onChange={handleChange}
-            icon={<Icon iconfont="square-o" size="xs" />}
-            checkedIcon={getChekedIcon()}
-        />
+        <TableCell padding="none" data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}>
+            <Checkbox
+                color="primary"
+                checked={store?.recordsStore?.selectedRecords.size !== 0}
+                disabled={props.readOnly || props.disabled || props.bc.disabled}
+                onClick={handlePrevent}
+                onChange={handleChange}
+                icon={<Icon iconfont="square-o" size="xs" />}
+                checkedIcon={getChekedIcon()}
+            />
+        </TableCell>
     ));
 };

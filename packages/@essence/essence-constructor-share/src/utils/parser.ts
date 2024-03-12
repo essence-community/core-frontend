@@ -21,7 +21,7 @@ import QueryString from "qs";
 import {FieldValue} from "../types";
 import {loggerRoot} from "../constants";
 import {i18next} from "./I18n";
-import {isEmpty} from "./base";
+import {decodePathUrl, encodePathUrl, isEmpty} from "./base";
 
 export interface IGetValue {
     get: (key: string) => FieldValue;
@@ -51,6 +51,12 @@ const operators: any = {
         parseOperations(left, values) && parseOperations(right, values),
     "+": ({left, right}: LogicalExpression, values: IValues) =>
         parseOperations(left, values) + parseOperations(right, values),
+    "-": ({left, right}: LogicalExpression, values: IValues) =>
+        parseOperations(left, values) - parseOperations(right, values),
+    "*": ({left, right}: LogicalExpression, values: IValues) =>
+        parseOperations(left, values) * parseOperations(right, values),
+    "/": ({left, right}: LogicalExpression, values: IValues) =>
+        parseOperations(left, values) / parseOperations(right, values),
     "<": ({left, right}: LogicalExpression, values: IValues) =>
         parseOperations(left, values) < parseOperations(right, values),
     "==": ({left, right}: LogicalExpression, values: IValues) =>
@@ -67,7 +73,7 @@ const operators: any = {
             try {
                 value = JSON.parse(value);
             } catch (err) {
-                logger.warn("Parsed error %s", value, err);
+                logger("Parsed error %s", value, err);
             }
         }
 
@@ -88,6 +94,8 @@ const utils = {
     i18next,
     moment,
     QueryString,
+    encodePathUrl,
+    decodePathUrl,
 };
 
 type utilsKey = keyof typeof utils;
@@ -176,7 +184,7 @@ function parseOperations(expression: Expression | Pattern | Super | BlockStateme
                 try {
                     res = JSON.parse(res);
                 } catch (e) {
-                    logger.info(e);
+                    logger(e);
                 }
             }
             if (
@@ -264,6 +272,38 @@ function parseOperations(expression: Expression | Pattern | Super | BlockStateme
                         return values.get ? values.get(key, true) : values[key];
                     },
                 });
+        case "BlockStatement":
+            const paramsBlock = {} as Record<string, any>;
+            let result = "";
+            const paramGetBlock = {
+                get: (key: string) => {
+                    if (Object.prototype.hasOwnProperty.call(paramsBlock, key)) {
+                        return paramsBlock[key];
+                    }
+
+                    return values.get ? values.get(key, true) : values[key];
+                },
+            };
+
+            expression.body.forEach((ext) => {
+                switch (ext.type) {
+                    case "VariableDeclaration":
+                        ext.declarations.forEach((extVar) => {
+                            paramsBlock[
+                                parseOperations(extVar.id, paramGetBlock) || (extVar.id as any).name
+                            ] = extVar.init ? parseOperations(extVar.init, paramGetBlock) : undefined;
+                        });
+                        break;
+                    case "ReturnStatement":
+                        result = ext.argument ? parseOperations(ext.argument, paramsBlock) : "";
+                        break;
+                    default:
+                        parseOperations(ext as any, paramGetBlock);
+                        break;
+                }
+            });
+
+            return result;
         default:
             logger("expression not found: ", expression);
 

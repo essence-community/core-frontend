@@ -1,3 +1,7 @@
+import {VAR_SETTING_BASE_URL} from "../constants";
+import {settingsStore} from "../models";
+import {isEmpty} from "./base";
+
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 type Scope = unknown;
 type Factory = () => any;
@@ -16,31 +20,48 @@ async function loadRemoteEntry(options: ILoadRemoteModuleOptions): Promise<void>
     if (moduleMap[options.remoteEntry]) {
         return;
     }
+    if (isEmpty(options.remoteEntry)) {
+        return Promise.reject(new Error("remoteEntry is empty"));
+    }
+    const baseUrl = settingsStore.settings[VAR_SETTING_BASE_URL];
+
     if (options.remoteCssEntry && options.remoteCssEntry.length) {
         await Promise.all(
-            options.remoteCssEntry.map(
-                (opt) =>
-                    new Promise<void>((resolve, reject) => {
-                        const linkTag = document.createElement("link");
+            options.remoteCssEntry
+                .filter((opt) => !isEmpty(opt.remoteEntry))
+                .map(
+                    (opt) =>
+                        new Promise<void>((resolve, reject) => {
+                            const remoteEntry = new URL(
+                                opt.remoteEntry.startsWith("http") ? opt.remoteEntry : `${baseUrl}${opt.remoteEntry}`,
+                            );
 
-                        linkTag.href = opt.remoteEntry;
-                        linkTag.rel = "stylesheet";
-                        linkTag.type = "text/css";
+                            remoteEntry.searchParams.append("t", `${new Date().getTime()}`);
+                            const linkTag = document.createElement("link");
 
-                        linkTag.onload = () => resolve();
-                        linkTag.onerror = reject;
-                        // @ts-ignore
-                        linkTag.onreadystatechange = () => resolve();
+                            linkTag.href = remoteEntry.toString();
+                            linkTag.rel = "stylesheet";
+                            linkTag.type = "text/css";
 
-                        document.body.append(linkTag);
-                    }),
-            ),
+                            linkTag.onload = () => resolve();
+                            linkTag.onerror = reject;
+                            // @ts-ignore
+                            linkTag.onreadystatechange = () => resolve();
+
+                            document.body.append(linkTag);
+                        }),
+                ),
         );
     }
     await new Promise<void>((resolve, reject) => {
+        const remoteEntry = new URL(
+            options.remoteEntry.startsWith("http") ? options.remoteEntry : `${baseUrl}${options.remoteEntry}`,
+        );
+
+        remoteEntry.searchParams.append("t", `${new Date().getTime()}`);
         const script = document.createElement("script");
 
-        script.src = options.remoteEntry;
+        script.src = remoteEntry.toString();
 
         script.onerror = reject;
 

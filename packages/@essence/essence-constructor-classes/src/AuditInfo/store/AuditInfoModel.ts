@@ -2,6 +2,7 @@ import {action, observable} from "mobx";
 import {snackbarStore, StoreBaseModel} from "@essence-community/constructor-share/models";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
+    META_PAGE_ID,
     META_PAGE_OBJECT,
     VAR_RECORD_CT_CHANGE,
     VAR_RECORD_CK_USER,
@@ -10,6 +11,7 @@ import {
     VAR_RECORD_QUERY_ID,
     VAR_RECORD_ID,
     VAR_RECORD_PARENT_ID,
+    VAR_RECORD_ROUTE_PAGE_ID,
 } from "@essence-community/constructor-share/constants";
 import {request} from "@essence-community/constructor-share/request";
 import {IPageModel, IResponse, IRecord} from "@essence-community/constructor-share/types";
@@ -42,7 +44,9 @@ export class AuditInfoModel extends StoreBaseModel {
 
             try {
                 const response = await request<IRecord>({
+                    [META_PAGE_ID]: this.pageStore.pageId || this.bc[VAR_RECORD_ROUTE_PAGE_ID],
                     [META_PAGE_OBJECT]: this.bc[VAR_RECORD_PAGE_OBJECT_ID],
+                    action: this.bc.actiongate,
                     json: {
                         filter: {
                             [this.bc.idproperty || VAR_RECORD_ID]:

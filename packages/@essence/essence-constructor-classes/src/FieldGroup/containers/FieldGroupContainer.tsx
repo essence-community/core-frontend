@@ -1,8 +1,9 @@
+/* eslint-disable max-lines-per-function */
 import * as React from "react";
 import cn from "clsx";
 import {reaction} from "mobx";
 import {Grid} from "@material-ui/core";
-import {toColumnStyleWidthBc, isEmpty, useTranslation} from "@essence-community/constructor-share/utils";
+import {isEmpty, useTranslation} from "@essence-community/constructor-share/utils";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {parseMemoize} from "@essence-community/constructor-share/utils/parser";
@@ -16,6 +17,7 @@ import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/
 import {useField} from "@essence-community/constructor-share/Form";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {useObserver} from "mobx-react";
+import {useSizeChild} from "@essence-community/constructor-share/hooks";
 import {getColumns, isIncorrect, getTip} from "../utils";
 import {useStyles} from "./FieldGroupContainer.styles";
 
@@ -84,7 +86,7 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
 
     const handleRegCountRules = React.useCallback((): number => {
         if (bc.reqcountrules) {
-            return parseMemoize(bc.reqcountrules).runer(pageStore.globalValues);
+            return parseMemoize(bc.reqcountrules).runer(pageStore.globalValues) as number;
         }
 
         return 0;
@@ -107,6 +109,7 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
 
         return undefined;
     }, [bc.reqcountrules, handleChangeReqCount, handleRegCountRules]);
+    const [childs, sizeChild] = useSizeChild(bc.childs);
 
     return useObserver(() => {
         const status =
@@ -147,18 +150,13 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
                         &nbsp;
                     </Grid>
                 </Grid>
-                {mapComponents(bc.childs, (ChildCmp, child) => (
+                {mapComponents(childs, (ChildCmp, child) => (
                     <Grid
                         item
                         xs={isRow ? true : MAX_PANEL_WIDTH}
                         key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                         className={classes.child}
-                        style={{
-                            height: child.height,
-                            maxHeight: child.maxheight ?? "100%",
-                            minHeight: child.minheight,
-                            ...toColumnStyleWidthBc(child),
-                        }}
+                        style={sizeChild[child[VAR_RECORD_PAGE_OBJECT_ID]]}
                     >
                         <ChildCmp {...props} bc={child} />
                     </Grid>

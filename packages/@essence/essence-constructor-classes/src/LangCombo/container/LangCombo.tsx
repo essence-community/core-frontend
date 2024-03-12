@@ -21,7 +21,7 @@ import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {reaction} from "mobx";
 
 const getLang = () => getFromStore("lang", settingsStore.settings[VAR_SETTING_LANG]);
-const getComponentBc = (bc: IBuilderConfig): IBuilderConfig => ({
+const getComponentBc = (bc: IBuilderConfig, lang = getLang()): IBuilderConfig => ({
     [VAR_RECORD_DISPLAYED]: "static:4ae012ef02dd4cf4a7eafb422d1db827",
     [VAR_RECORD_OBJECT_ID]: bc[VAR_RECORD_OBJECT_ID],
     [VAR_RECORD_PAGE_OBJECT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
@@ -30,10 +30,10 @@ const getComponentBc = (bc: IBuilderConfig): IBuilderConfig => ({
     autoload: true,
     column: bc.column || "cv_sys_lang",
     datatype: "combo",
-    defaultvalue: getLang(),
+    defaultvalue: lang,
     displayfield: bc.displayfield || "cv_name",
-    getglobal: VAR_SETTING_LANG,
     idproperty: "ck_id",
+    initvalue: lang,
     noglobalmask: true,
     querymode: "remote",
     readonly: false,
@@ -46,11 +46,12 @@ export const LangCombo: React.FC<IClassProps> = (props) => {
     const {pageStore} = props;
     const {applicationStore} = pageStore;
     // eslint-disable-next-line no-unused-vars
-    const [_currentLang, setCurrentLang] = React.useState(getLang);
+    const [, setCurrentLang] = React.useState(getLang);
+    const bc = React.useMemo(() => getComponentBc(props.bc), [props.bc]);
 
     React.useEffect(() => {
         const fn = async () => {
-            const curLang = getLang();
+            const curLang = bc.initvalue;
 
             if (curLang) {
                 setCurrentLang((oldLang) => {
@@ -76,10 +77,10 @@ export const LangCombo: React.FC<IClassProps> = (props) => {
         addListenLoaded(fn);
 
         return () => remListenLoaded(fn);
-    }, []);
+    }, [applicationStore, bc.initvalue, pageStore]);
 
     React.useEffect(() => {
-        const curLang = getLang();
+        const curLang = bc.initvalue;
 
         if (settingsStore.settings[VAR_SETTING_LANG] !== curLang) {
             if (applicationStore) {
@@ -92,13 +93,11 @@ export const LangCombo: React.FC<IClassProps> = (props) => {
                 });
             }
         }
-    }, [applicationStore, pageStore]);
-
-    const bc = React.useMemo(() => getComponentBc(props.bc), [props.bc]);
+    }, [applicationStore, bc.initvalue, pageStore]);
 
     React.useEffect(() => {
         if (!pageStore.globalValues.get(VAR_SETTING_LANG)) {
-            const curLang = getLang();
+            const curLang = bc.initvalue;
 
             pageStore.updateGlobalValues({
                 [VAR_SETTING_LANG]: curLang,
@@ -121,8 +120,11 @@ export const LangCombo: React.FC<IClassProps> = (props) => {
                     }
                 }
             },
+            {
+                fireImmediately: true,
+            },
         );
-    }, [applicationStore, pageStore]);
+    }, [applicationStore, bc.initvalue, pageStore]);
 
     return (
         <>

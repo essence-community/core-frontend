@@ -2,9 +2,10 @@ import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {RecordContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_LEAF} from "@essence-community/constructor-share/constants";
-import {Translation, deepFind} from "@essence-community/constructor-share/utils";
+import {Translation, deepFind, makeRedirect, makeRedirectUrl} from "@essence-community/constructor-share/utils";
 import {ColumnTreeSchevron} from "../components/ColumnTreeSchevron";
 import {ColumnTreeIcon} from "../components/ColumnTreeIcon";
+import {useStyles} from "./ColumnTreeContainer.styles";
 
 const NESTING_SPACING = 16;
 const LEAF_ICON_WIDTH = 30;
@@ -16,7 +17,51 @@ export const ColumnTreeContainer: React.FC<IClassProps> = (props) => {
     const isLeaf = typeof leaf === "boolean" ? leaf : leaf === "true";
     const addPadding = isLeaf ? LEAF_ICON_WIDTH : 0;
     const [isExist, val] = deepFind(record, props.bc.column);
-    const value = isExist ? val : undefined;
+    const value = isExist ? String(val) : undefined;
+    const classes = useStyles(props);
+    const redirectUrl = React.useMemo(
+        () =>
+            bc.redirecturl || bc.redirectusequery
+                ? makeRedirectUrl({
+                      bc,
+                      pageStore,
+                      record,
+                  })
+                : undefined,
+        [bc, pageStore, record],
+    );
+    const handleRedirect = (event: React.SyntheticEvent) => {
+        event.preventDefault();
+
+        makeRedirect(
+            redirectUrl.blank ? {...bc, redirecturl: bc.redirecturl?.replace("_blank", "")} : bc,
+            pageStore,
+            record,
+            !redirectUrl.blank,
+        );
+    };
+    const getRenderValue = (localizedValue: string, qtip: string = localizedValue) => {
+        if (redirectUrl?.isRedirect) {
+            return (
+                <a
+                    className={classes.root}
+                    href={redirectUrl.pathname}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={handleRedirect}
+                    data-qtip={localizedValue}
+                >
+                    {localizedValue}
+                </a>
+            );
+        }
+
+        return (
+            <span className={classes.root} data-qtip={qtip}>
+                {localizedValue}
+            </span>
+        );
+    };
 
     return (
         <span
@@ -30,14 +75,21 @@ export const ColumnTreeContainer: React.FC<IClassProps> = (props) => {
                 <Translation ns={bc.localization}>
                     {(trans) => {
                         const valueTrans = trans(
-                            record.type === "root" ? "static:e3e33760864d44f88a9ecfe8f5da7a0b" : String(value),
+                            record.type === "root" ? "static:e3e33760864d44f88a9ecfe8f5da7a0b" : value,
+                            value,
                         );
 
-                        return <span data-qtip={valueTrans}>{valueTrans}</span>;
+                        return record.type === "root" ? (
+                            <span className={classes.root} data-qtip={valueTrans}>
+                                {valueTrans}
+                            </span>
+                        ) : (
+                            getRenderValue(valueTrans)
+                        );
                     }}
                 </Translation>
             ) : (
-                <span data-qtip={value}>{value}</span>
+                getRenderValue(value)
             )}
         </span>
     );

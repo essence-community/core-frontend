@@ -76,6 +76,12 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
     }, [isAutoLoad, store]);
 
     React.useEffect(() => {
+        if (store.recordsStore) {
+            store.recordsStore.setGetValue(getValueGlobal);
+        }
+    }, [store, getValueGlobal]);
+
+    React.useEffect(() => {
         if (bc.autoloadrule && store.recordsStore) {
             return reaction(
                 () => {

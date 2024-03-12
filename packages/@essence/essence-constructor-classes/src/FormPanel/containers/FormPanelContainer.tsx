@@ -4,8 +4,9 @@ import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/
 import {UIForm} from "@essence-community/constructor-share/uicomponents/UIForm";
 import {useModel} from "@essence-community/constructor-share/hooks/useModel";
 import {useObserver} from "mobx-react";
-import {noop} from "@essence-community/constructor-share/utils";
+import {isEmpty, noop} from "@essence-community/constructor-share/utils";
 import {createPortal} from "react-dom";
+import {reaction} from "mobx";
 import {FormPanelModel} from "../store/FormPanelModel";
 import {FormPanelGlobals} from "../components/FormPanelGlobals";
 import {IBuilderClassConfig} from "../types";
@@ -29,6 +30,22 @@ export const FormPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = (p
         [pageStore],
     );
 
+    React.useEffect(
+        () =>
+            reaction(
+                () => store.selectedRecord,
+                (val) => {
+                    if (isEmpty(val)) {
+                        store.clearStoreAction();
+                    }
+                },
+                {
+                    fireImmediately: true,
+                },
+            ),
+        [store],
+    );
+
     return useObserver(() => (
         <UIForm
             onSubmit={noop}
@@ -45,7 +62,7 @@ export const FormPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = (p
                       <Child key={childBc.ck_page_object} {...props} bc={childBc} />
                   ))}
             <FormPanelGlobals bc={bc} pageStore={pageStore} />
-            {store.editing
+            {bc.editable && store.editing
                 ? createPortal(<div className={classes.mask} onWheel={handleOnWheel}></div>, pageStore.pageEl)
                 : null}
         </UIForm>

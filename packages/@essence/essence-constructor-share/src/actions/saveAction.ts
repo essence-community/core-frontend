@@ -11,6 +11,7 @@ import {
     ACTIONS_MODE_MAP,
     VAR_RECORD_CV_ACTION,
     META_PAGE_OBJECT,
+    META_PAGE_ID,
 } from "../constants";
 import {ProgressModel, snackbarStore} from "../models";
 import {
@@ -31,13 +32,15 @@ import {
     RETURN_FORM_DATA,
     RETURN_FORM_DATA_BREAK,
     RETURN_GLOBAL_VALUE,
+    VAR_RECORD_JL_EDITING,
     VAR_RECORD_VALUE_ID,
 } from "../constants/variables";
+import {IGetValue, parseMemoize} from "../utils/parser";
 import {setMask} from "./recordsActions";
 
 export interface IConfig {
     actionBc: IBuilderConfig;
-    action?: "dml" | "upload";
+    action?: IBuilderConfig["actiongate"];
     query?: string;
     [VAR_RECORD_CL_WARNING]?: number;
     bc: IBuilderConfig;
@@ -52,6 +55,7 @@ interface IAttachGlobalValues {
     globalValues: ObservableMap;
     getglobaltostore?: IBuilderConfig["getglobaltostore"];
     values: IRecord;
+    getValue: IGetValue["get"];
 }
 
 const logger = loggerRoot.extend("saveAction");
@@ -82,7 +86,7 @@ const findReloadAction = (recordsStore: IRecordsModel, bc: IBuilderConfig) => {
     return (props: ILoadRecordsProps) => recordsStore.loadRecordsAction(props);
 };
 
-export const attachGlobalValues = ({globalValues, getglobaltostore, values}: IAttachGlobalValues) => {
+export const attachGlobalValues = ({getValue, globalValues, getglobaltostore, values}: IAttachGlobalValues) => {
     if (getglobaltostore?.length) {
         const newValues = {...values};
 
@@ -90,7 +94,11 @@ export const attachGlobalValues = ({globalValues, getglobaltostore, values}: IAt
             const name = out || keyIn;
 
             if (typeof newValues[name] === "undefined") {
-                newValues[name] = toJS(globalValues.get(keyIn));
+                if (out) {
+                    newValues[name] = parseMemoize(keyIn).runer({get: getValue});
+                } else {
+                    newValues[name] = toJS(globalValues.get(keyIn));
+                }
             }
         });
 
@@ -104,7 +112,7 @@ export const attachGlobalValues = ({globalValues, getglobaltostore, values}: IAt
 export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mode: IBuilderMode, config: IConfig) {
     const {
         actionBc,
-        action,
+        action = config.actionBc.actiongate,
         [VAR_RECORD_CL_WARNING]: warningStatus = 0,
         query = "Modify",
         bc,
@@ -143,6 +151,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
     if (Array.isArray(values)) {
         filteredValues = values.map((item: IRecord) =>
             attachGlobalValues({
+                getValue: this.getValue,
                 getglobaltostore: getGlobalToStore,
                 globalValues: pageStore.globalValues,
                 values: filter(item),
@@ -150,16 +159,19 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
         );
     } else if (!(values instanceof FormData)) {
         filteredValues = attachGlobalValues({
+            getValue: this.getValue,
             getglobaltostore: getGlobalToStore,
             globalValues: pageStore.globalValues,
             values: filter(values),
         });
+        delete filteredValues[VAR_RECORD_JL_EDITING];
         modeCheck = isEmpty(filteredValues[recordId]) && /^\d+$/u.test(mode) ? "1" : mode;
     }
 
     setMask(bc.noglobalmask, pageStore, true);
 
     return request({
+        [META_PAGE_ID]: pageStore.pageId,
         [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
         action,
         formData: formDataValue,

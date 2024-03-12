@@ -85,6 +85,8 @@ export class PageModelAbstract implements IPageModel {
 
     public uniqueId = v4();
 
+    public isLoaded = true;
+
     public setInitParams(params: Record<string, any> | undefined): void {
         this.initParamPage = params;
     }

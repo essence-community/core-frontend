@@ -1,4 +1,4 @@
-import debug from "debug/dist/debug";
+import debug from "debug";
 
 export const loggerRoot = debug("essence:constructor");
 export const QUERY_ELEMENT = [

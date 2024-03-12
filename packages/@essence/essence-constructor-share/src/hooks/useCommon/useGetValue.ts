@@ -15,7 +15,7 @@ export function useGetValue(props: IDisabledProps) {
 
     const getValue = React.useCallback(
         (name: string) => {
-            if (name.charAt(0) === "g") {
+            if (typeof name === "string" && name.charAt(0) === "g") {
                 return pageStore.globalValues.get(name);
             }
 

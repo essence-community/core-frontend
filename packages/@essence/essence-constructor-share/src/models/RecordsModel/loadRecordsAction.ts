@@ -4,6 +4,7 @@
 /* eslint-disable max-lines */
 import {v4} from "uuid";
 import {isEqual} from "lodash";
+import {toJS} from "mobx";
 import {request} from "../../request";
 import {IPageModel, IRecordsModel, FieldValue, IResponse, IRecord} from "../../types";
 import {i18next, getMasterObject, deepFind} from "../../utils";
@@ -21,6 +22,8 @@ import {
     VAR_META_JL_FILTER,
     VAR_META_JL_SORT,
     VAR_RECORD_JN_TOTAL_CNT,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    META_PAGE_ID,
 } from "../../constants";
 import {snackbarStore} from "../SnackbarModel";
 import {isEmpty} from "../../utils/base";
@@ -83,13 +86,17 @@ export function getFilterData({
     };
 }
 
-export function attachGlobalStore({bc, json, globalValues}: IAttachGlobalStore): void {
+export function attachGlobalStore({bc, json, getValue, globalValues}: IAttachGlobalStore): void {
     if (bc.getglobaltostore && globalValues) {
         bc.getglobaltostore.forEach(({in: keyIn, out}) => {
             const name = out || keyIn;
 
             if (typeof json.filter[name] === "undefined") {
-                json.filter[name] = globalValues.get(keyIn);
+                if (out) {
+                    json.filter[name] = parseMemoize(keyIn).runer({get: getValue});
+                } else {
+                    json.filter[name] = toJS(globalValues.get(keyIn));
+                }
             }
         });
     }
@@ -162,7 +169,7 @@ export function prepareRequst(
         master,
     };
 
-    attachGlobalStore({bc, globalValues, json});
+    attachGlobalStore({bc, getValue: recordsStore.getValue, globalValues, json});
 
     setMask(true, noglobalmask, recordsStore.pageStore);
 
@@ -178,6 +185,7 @@ export function loadRecordsAction(
         status,
         recordId = VAR_RECORD_ID,
         isUserReload = false,
+        registerAbortCallback,
     }: ILoadRecordsAction,
 ): Promise<IRecord | undefined> {
     const {noglobalmask, defaultvalue, defaultvaluerule} = bc;
@@ -209,12 +217,15 @@ export function loadRecordsAction(
             const {json} = prepareRequst(this, {applicationStore, bc, recordId, selectedRecordId, status});
 
             return request<IResponse[]>({
+                [META_PAGE_ID]: this.pageStore?.pageId || bc[VAR_RECORD_ROUTE_PAGE_ID],
                 [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
+                action: this.bc.actiongate,
                 formData,
                 json,
                 list: true,
                 plugin: bc.extraplugingate,
                 query: bc[VAR_RECORD_QUERY_ID] || "",
+                registerAbortCallback,
                 session: applicationStore ? applicationStore.authStore.userInfo.session : "",
                 timeout: bc.timeout,
             });
@@ -266,6 +277,11 @@ export function loadRecordsAction(
             let record = undefined;
             let selectedRecordIndex = 0;
             let findOldSelectedRecordIndex = -1;
+            const recordIdValueGetGlobal =
+                !isEmpty(this.bc.getglobal) && parseMemoize(this.bc.getglobal).runer({get: this.getValue});
+            const foundGetGlobalRec =
+                !isEmpty(recordIdValueGetGlobal) &&
+                records.find((rec) => `${recordIdValueGetGlobal}` === `${deepFind(rec, valueField)[1]}`);
 
             if (selectedRecordId !== undefined) {
                 findOldSelectedRecordIndex = records.findIndex(
@@ -297,6 +313,10 @@ export function loadRecordsAction(
                     (findOldSelectedRecordIndex > -1 ||
                         (findOldSelectedRecordIndex === -1 && isEmpty(defaultvalue) && isEmpty(defaultvaluerule))):
                     recordIdValue = this.selectedRecordId;
+                    break;
+                case !isEmpty(foundGetGlobalRec):
+                    recordIdValue = deepFind(foundGetGlobalRec, valueField)[1];
+                    record = foundGetGlobalRec;
                     break;
                 case defaultvalue === VALUE_SELF_FIRST:
                     isDefault = VALUE_SELF_FIRST;

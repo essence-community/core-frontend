@@ -5,11 +5,14 @@ import {StoreBaseModel} from "@essence-community/constructor-share/models";
 import {IStoreBaseModelProps, IStoreBaseModel} from "@essence-community/constructor-share/types";
 import {Layout} from "react-grid-layout";
 import {saveToStore, getFromStore} from "@essence-community/constructor-share/utils/storage";
+import {IResizeEventContext} from "@essence-community/constructor-share/context";
 import {IChildBuilderConfig, ILayout} from "../types";
 
 export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel {
     @observable
     public allLayout: Layout[] = observable.array();
+    @observable
+    public oldAllLayout: Layout[] = observable.array();
 
     @observable
     public hiddenLayout: ObservableMap<string, Layout> = observable.map();
@@ -32,6 +35,8 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
     @computed public get layout() {
         return this.allLayout;
     }
+
+    public emitter?: IResizeEventContext;
 
     constructor(props: IStoreBaseModelProps) {
         super(props);
@@ -56,8 +61,12 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
         }
     }
 
+    setEmitter(emitter: IResizeEventContext) {
+        this.emitter = emitter;
+    }
+
     @action
-    loadState() {
+    loadState(): void {
         const state = getFromStore<any>(this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (!state) {
@@ -79,7 +88,7 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
     }
 
     @action
-    public setHiddenComponent(key: string, hidden: boolean) {
+    public setHiddenComponent(key: string, hidden: boolean): void {
         if (hidden) {
             this.hiddenLayout.set(
                 key,
@@ -122,27 +131,20 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
     }
 
     @action
-    public setLayout(allLayout: Layout[]) {
+    public setLayout(allLayout: Layout[]): void {
         this.allLayout = observable.array(allLayout);
+        requestAnimationFrame(() => {
+            this.emitter?.emit("resize");
+        });
     }
 
     @action
-    public handleFullScreen(key: string) {
+    public handleFullScreen(key: string): void {
         if (this.activeFullScreen && this.activeFullScreen.i === key) {
-            this.allLayout = observable.array(
-                this.allLayout.map((val) => {
-                    if (val.i === key) {
-                        return {
-                            ...val,
-                            ...(this.activeFullScreen || {}),
-                        };
-                    }
-
-                    return val;
-                }),
-            );
+            this.allLayout = observable.array([...this.oldAllLayout]);
             this.activeFullScreen = null;
         } else {
+            this.oldAllLayout = observable.array([...this.allLayout]);
             this.activeFullScreen = this.allLayout.find((val) => val.i === key);
             this.allLayout = observable.array(
                 this.allLayout.map((val) => {
@@ -165,11 +167,11 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
     }
 
     @action
-    public handleActive(key: string) {
+    public handleActive(key: string): void {
         this.activeWidget = key;
     }
     @action
-    public handleCollapse(key: string) {
+    public handleCollapse(key: string): void {
         if (this.collapsedLayout.has(key)) {
             this.allLayout = observable.array(
                 this.allLayout.map((val) => {
@@ -209,7 +211,7 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
         }
     }
 
-    setState(state: any) {
+    setState(state: any): void {
         if (this.pageStore.isMulti) {
             return;
         }

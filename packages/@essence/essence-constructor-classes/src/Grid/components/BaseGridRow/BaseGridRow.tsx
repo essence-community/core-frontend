@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import * as React from "react";
 import cn from "clsx";
 import {IClassProps, IRecord, ICkId} from "@essence-community/constructor-share/types";
@@ -6,6 +7,9 @@ import {PopoverContext, RecordContext} from "@essence-community/constructor-shar
 import {reaction} from "mobx";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react";
+import {Skeleton} from "@material-ui/lab";
+import {deepFind, isEmpty, parseMemoize} from "@essence-community/constructor-share/utils";
+import {useGetValue} from "@essence-community/constructor-share/hooks/useCommon/useGetValue";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {useGridDnd} from "../../hooks/useGridDnd";
 import {useStyles} from "./BaseGridRow.styles";
@@ -24,12 +28,58 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
     const popoverCtx = React.useContext(PopoverContext);
     const classes = useStyles();
     const dndProps = useGridDnd({record, store});
+    const getValue = useGetValue({pageStore: store.pageStore});
+    const [isDisabledCheckBox, setDisabledCheckBox] = React.useState<boolean>(
+        classProps.readOnly || classProps.disabled,
+    );
 
+    const [isCheckBoxColumn, checkBc] = React.useMemo(() => {
+        const checkBc = bc.columns?.find((col) => col.datatype?.toLocaleUpperCase() === "CHECKBOX");
+
+        return [!isEmpty(checkBc), checkBc];
+    }, [bc]);
+
+    React.useEffect(() => {
+        if (isCheckBoxColumn) {
+            return reaction(
+                () => {
+                    let res = checkBc.disabled;
+                    let readOnly = typeof checkBc.readonly === "undefined" ? classProps.readOnly : checkBc.readonly;
+
+                    if (!isEmpty(checkBc.disabledrules)) {
+                        res = parseMemoize(checkBc.disabledrules).runer({
+                            get: (name: string) => {
+                                const [isExists, value] = deepFind(record, name);
+
+                                return isExists ? value : getValue(name);
+                            },
+                        }) as boolean;
+                    }
+
+                    if (!isEmpty(checkBc.readonlyrules)) {
+                        readOnly = parseMemoize(checkBc.readonlyrules).runer({
+                            get: (name: string) => {
+                                const [isExists, value] = deepFind(record, name);
+
+                                return isExists ? value : getValue(name);
+                            },
+                        }) as boolean;
+                    }
+
+                    return readOnly || res;
+                },
+                setDisabledCheckBox,
+                {
+                    fireImmediately: true,
+                },
+            );
+        }
+    }, [isCheckBoxColumn, checkBc, getValue, record, classProps]);
     const isSelected = React.useCallback(() => {
         return bc.selmode === "MULTI" || bc.collectionvalues === "array"
             ? store.recordsStore.selectedRecords.has(record[store.recordsStore.recordId] as ICkId)
             : store.recordsStore.selectedRecordId === record[store.recordsStore.recordId];
-    }, [bc.selmode, record, store]);
+    }, [bc, record, store]);
 
     const handleShiftSelect = React.useCallback(() => {
         const lastSelectedRecord = store.recordsStore.selectedRecordIndex;
@@ -45,17 +95,28 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
     }, [record, store]);
 
     const handleCtrlSelect = React.useCallback(() => {
+        const maxSize =
+            checkBc?.maxselected && (parseMemoize(checkBc.maxselected).runer(store.pageStore.globalValues) as number);
+
         if (isSelected()) {
-            store.recordsStore.selectedRecords.delete(record[store.recordsStore.recordId] as ICkId);
-        } else {
-            store.recordsStore.selectedRecords.set(record[store.recordsStore.recordId] as ICkId, record);
+            store.recordsStore.setSelectionsAction([record], store.recordsStore.recordId, "delete");
+        } else if (!maxSize || maxSize > store.recordsStore.selectedRecords.size) {
+            store.recordsStore.setSelectionsAction([record], store.recordsStore.recordId, "append");
         }
         store.recordsStore.setSelectionAction(record[store.recordsStore.recordId]);
-    }, [isSelected, record, store]);
+    }, [checkBc, isSelected, record, store]);
 
     const handleClick = React.useCallback(
         (event: React.MouseEvent<HTMLTableRowElement>) => {
-            if (bc.selmode === "MULTI" && !props.disabled) {
+            if (props.disabled) {
+                return;
+            }
+            if (isCheckBoxColumn) {
+                if (!isDisabledCheckBox) {
+                    store.toggleSelectedRecordAction(record, checkBc);
+                }
+                store.recordsStore.setSelectionAction(record[store.recordsStore.recordId]);
+            } else if (bc.selmode === "MULTI" || bc.collectionvalues === "array") {
                 if (event.shiftKey) {
                     handleShiftSelect();
                 } else if (event.metaKey || event.ctrlKey) {
@@ -65,11 +126,21 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
                     store.recordsStore.selectedRecords.set(record[store.recordsStore.recordId] as ICkId, record);
                     store.recordsStore.setSelectionAction(record[store.recordsStore.recordId]);
                 }
-            } else if (!props.disabled) {
+            } else {
                 store.recordsStore.setSelectionAction(record[store.recordsStore.recordId]);
             }
         },
-        [bc.selmode, handleCtrlSelect, handleShiftSelect, props.disabled, record, store],
+        [
+            bc,
+            checkBc,
+            handleCtrlSelect,
+            handleShiftSelect,
+            isCheckBoxColumn,
+            isDisabledCheckBox,
+            props.disabled,
+            record,
+            store,
+        ],
     );
 
     React.useEffect(() => {
@@ -106,15 +177,25 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
                 children
             ) : (
                 <RecordContext.Provider value={record}>
-                    {mapComponents(store.gridColumns, (ChildCmp, childBc, index) => (
-                        <ChildCmp
-                            key={`${childBc[VAR_RECORD_PAGE_OBJECT_ID]}-col-${
-                                record[store.recordsStore.recordId]
-                            }_${index}`}
-                            {...classProps}
-                            bc={childBc}
-                        />
-                    ))}
+                    {mapComponents(store.gridColumns, (ChildCmp, childBc, index) =>
+                        store.recordsStore.isLoading ? (
+                            <td
+                                key={`${childBc[VAR_RECORD_PAGE_OBJECT_ID] || index}-col-${
+                                    record[store.recordsStore.recordId] || index
+                                }`}
+                            >
+                                <Skeleton variant="text" animation={false} />
+                            </td>
+                        ) : (
+                            <ChildCmp
+                                key={`${childBc[VAR_RECORD_PAGE_OBJECT_ID] || index}-col-${
+                                    record[store.recordsStore.recordId] || index
+                                }`}
+                                {...classProps}
+                                bc={childBc}
+                            />
+                        ),
+                    )}
                 </RecordContext.Provider>
             )}
         </tr>

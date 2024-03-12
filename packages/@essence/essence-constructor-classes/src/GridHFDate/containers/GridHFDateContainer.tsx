@@ -32,6 +32,7 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
                 column: `${column}_en_enable`,
                 datatype: "checkbox",
                 type: "IFIELD",
+                valuetype: "boolean",
             },
             eq: {
                 ...bc,
@@ -45,6 +46,21 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
                 column: `${column}_eq_enable`,
                 datatype: "checkbox",
                 type: "IFIELD",
+                valuetype: "boolean",
+            },
+            ne: {
+                ...bc,
+                [VAR_RECORD_DISPLAYED]: "static:9baf4c2c21d04afeac62bf945ca651ce",
+                column: `${column}_ne`,
+                type: "IFIELD",
+            },
+            neEnable: {
+                ...bc,
+                [VAR_RECORD_DISPLAYED]: undefined,
+                column: `${column}_ne_enable`,
+                datatype: "checkbox",
+                type: "IFIELD",
+                valuetype: "boolean",
             },
             st: {
                 ...bc,
@@ -58,6 +74,7 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
                 column: `${column}_st_enable`,
                 datatype: "checkbox",
                 type: "IFIELD",
+                valuetype: "boolean",
             },
         }),
         [bc, column],
@@ -112,6 +129,29 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
                     output: () => undefined,
                     pageStore,
                 }),
+            ne:
+                form.select(configs.ne.column) ||
+                form.registerField(configs.ne.column, {
+                    bc: configs.ne,
+                    output: (field, frm) =>
+                        frm.select(configs.eqEnable.column)?.value && field.value
+                            ? {
+                                  datatype: bc.datatype,
+                                  format: bc.format,
+                                  operator: "ne",
+                                  property: column.replace("###", "."),
+                                  value: field.value,
+                              }
+                            : "",
+                    pageStore,
+                }),
+            neEnable:
+                form.select(configs.neEnable.column) ||
+                form.registerField(configs.neEnable.column, {
+                    bc: configs.neEnable,
+                    output: () => undefined,
+                    pageStore,
+                }),
             st:
                 form.select(configs.st.column) ||
                 form.registerField(configs.st.column, {
@@ -146,6 +186,7 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
                 () => {
                     fields.stEnable.onChange(true);
                     fields.eqEnable.onChange(false);
+                    fields.neEnable.onChange(false);
                 },
             ),
         [configs.st, fields, form],
@@ -157,6 +198,7 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
             () => {
                 fields.enEnable.onChange(true);
                 fields.eqEnable.onChange(false);
+                fields.neEnable.onChange(false);
             },
         );
     }, [configs.en, fields, form]);
@@ -168,14 +210,30 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
                 () => {
                     fields.stEnable.onChange(false);
                     fields.enEnable.onChange(false);
+                    fields.neEnable.onChange(false);
                     fields.eqEnable.onChange(true);
                 },
             ),
         [configs.eq, fields, form],
     );
 
+    React.useEffect(
+        () =>
+            reaction(
+                () => form.select(configs.ne.column)?.value,
+                () => {
+                    fields.stEnable.onChange(false);
+                    fields.enEnable.onChange(false);
+                    fields.neEnable.onChange(true);
+                    fields.eqEnable.onChange(false);
+                },
+            ),
+        [configs.ne, fields, form],
+    );
+
     const handleChangeCheckSt = (event: React.SyntheticEvent) => {
         fields.eqEnable.onChange(false);
+        fields.neEnable.onChange(false);
         fields.stEnable.onChange(!fields.stEnable.value);
 
         return form.onSubmit(event);
@@ -183,6 +241,7 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
 
     const handleChangeCheckEn = (event: React.SyntheticEvent) => {
         fields.eqEnable.onChange(false);
+        fields.neEnable.onChange(false);
         fields.enEnable.onChange(!fields.enEnable.value);
 
         return form.onSubmit(event);
@@ -191,7 +250,17 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
     const handleChangeCheckEq = (event: React.SyntheticEvent) => {
         fields.enEnable.onChange(false);
         fields.stEnable.onChange(false);
+        fields.neEnable.onChange(false);
         fields.eqEnable.onChange(!fields.eqEnable.value);
+
+        return form.onSubmit(event);
+    };
+
+    const handleChangeCheckNe = (event: React.SyntheticEvent) => {
+        fields.enEnable.onChange(false);
+        fields.stEnable.onChange(false);
+        fields.eqEnable.onChange(false);
+        fields.neEnable.onChange(!fields.neEnable.value);
 
         return form.onSubmit(event);
     };
@@ -245,6 +314,25 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
                     </Grid>
                     <Grid item xs zeroMinWidth>
                         {mapComponentOne(configs.eq, (ChildCmp, childBc) => (
+                            <ChildCmp {...props} bc={childBc} />
+                        ))}
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <Divider />
+
+            <Grid item>
+                <Grid container spacing={1} wrap="nowrap" alignItems="center">
+                    <Grid item>
+                        <Checkbox
+                            checked={Boolean(fields.neEnable.value)}
+                            onChange={handleChangeCheckNe}
+                            className={classes.checkBoxSize}
+                        />
+                    </Grid>
+                    <Grid item xs zeroMinWidth>
+                        {mapComponentOne(configs.ne, (ChildCmp, childBc) => (
                             <ChildCmp {...props} bc={childBc} />
                         ))}
                     </Grid>

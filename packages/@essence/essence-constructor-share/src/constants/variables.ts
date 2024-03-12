@@ -136,12 +136,14 @@ export const VAR_SETTING_TYPE_NOTIFICATION = "type_notification";
 // META
 export const META_OUT_RESULT = "out_result";
 export const META_PAGE_OBJECT = "page_object";
+export const META_PAGE_ID = "page_id";
 export const VAR_META_JN_FETCH = "jn_fetch";
 export const VAR_META_JN_OFFSET = "jn_offset";
 export const VAR_META_JL_FILTER = "jl_filter";
 export const VAR_META_JL_SORT = "jl_sort";
 export const VAR_CONNECT_GUEST = "connect_guest";
 export const VAR_RESULT_MESSAGE = "jt_message";
+export const VAR_CACHE_DATE = "cache_date";
 
 // FORM
 export const RETURN_FORM_DATA = "jt_return_form_data";
@@ -174,3 +176,5 @@ export const VAR_ERROR_CODE = "err_code";
 
 // Session
 export const SESSION_PREFIX = "sess_";
+
+export const MILLISECOND = 1000;

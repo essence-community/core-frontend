@@ -135,32 +135,7 @@ export class WindowModel extends StoreBaseModel {
      */
     @action
     saveFileAction = async (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
-        if (!options.form) {
-            return false;
-        }
-
-        await options.form.validate();
-
-        if (btnBc.skipvalidation || options.form.isValid) {
-            const modeAction = (btnBc.modeaction || btnBc.mode || this.bc.mode || mode) as IBuilderMode;
-            const success = await this.recordsStore.saveAction(options.form.values, modeAction, {
-                actionBc: btnBc,
-                files: options.files,
-                form: options.form,
-            });
-            const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_PARENT_ID]);
-
-            this.closeAction(modeAction, btnBc, options);
-
-            // TODO: ХАК для того что бы file panel перезапустилась
-            if (success && parentStore) {
-                parentStore.reloadStoreAction();
-            }
-
-            return Boolean(success);
-        }
-
-        return false;
+        return this.saveAction(mode, btnBc, options);
     };
 
     onPrintExcel = async (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {

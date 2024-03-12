@@ -16,7 +16,14 @@ import {request} from "../request";
 import {attachGlobalStore} from "../models/RecordsModel/loadRecordsAction";
 import {setMask} from "../actions/recordsActions";
 import {settingsStore} from "../models/SettingsModel";
-import {VAR_RECORD_IS_NOT_BLANC, VAR_SETTING_AUTH_URL} from "../constants/variables";
+import {
+    META_PAGE_ID,
+    VAR_RECORD_IS_NOT_BLANC,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    VAR_SETTING_AUTH_URL,
+    VAR_SETTING_BASE_PATH,
+    VAR_SETTING_BASE_URL,
+} from "../constants/variables";
 import {parseMemoize} from "./parser";
 import {getMasterObject} from "./getMasterObject";
 import {encodePathUrl} from "./base";
@@ -34,15 +41,13 @@ interface IRedirectAuthParam {
 }
 
 interface IMakeRedirectUrlProps {
-    authData: Partial<IAuthSession>;
     bc: IBuilderConfig;
-    redirecturl: string;
-    columnsName?: IBuilderConfig["columnsfilter"];
     record?: IRecord;
-    globalValues: ObservableMap<string, FieldValue>;
+    pageStore: IPageModel;
 }
 
 interface IMakeRedirectUrlReturn {
+    isRedirect: boolean;
     blank: boolean;
     pathname?: string;
 }
@@ -97,7 +102,10 @@ function choiceUrl(
     globalValues: ObservableMap<string, FieldValue>,
     record: IRecord,
 ): string | undefined {
-    const getValue = (name: string) => (record && name.charAt(0) !== "g" ? record[name] : globalValues.get(name));
+    const getValue = (name: string) =>
+        typeof name === "string" && name.charAt(0) === "g"
+            ? globalValues.get(name)
+            : (typeof record === "object" ? record : {})[name];
     const renerProc = parseMemoize(pathname);
     const url = renerProc.hasError ? pathname : renerProc.runer({get: getValue});
 
@@ -139,11 +147,17 @@ async function redirectUseQuery({bc, noBlank, query, pageStore, values, record}:
             master: getMasterObject(bc[VAR_RECORD_MASTER_ID], pageStore, bc.getmastervalue),
         };
 
-        attachGlobalStore({bc, globalValues: pageStore.globalValues, json});
+        attachGlobalStore({
+            bc,
+            getValue: (name: string) =>
+                pageStore.globalValues.has(name) ? pageStore.globalValues.get(name) : record[name],
+            globalValues: pageStore.globalValues,
+            json,
+        });
         setMask(bc.noglobalmask, pageStore, true);
         const res: any = await request({
+            [META_PAGE_ID]: pageStore.pageId || bc[VAR_RECORD_ROUTE_PAGE_ID],
             [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
-            action: "dml",
             json,
             list: false,
             plugin: bc.extraplugingate,
@@ -219,25 +233,35 @@ export function getQueryParams({columnsName, record = {}, globalValues}: IGetQue
  * @returns {Object} url
  */
 export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlReturn {
-    const {redirecturl, columnsName, record = {}, globalValues, authData} = props;
+    const {bc, record = {}, pageStore} = props;
+    const {redirectusequery, redirecturl, columnsfilter} = bc;
+    const {globalValues} = pageStore;
 
     const url: IMakeRedirectUrlReturn = {
         blank: false,
+        isRedirect: false,
         pathname:
-            redirecturl.indexOf("?") > -1 && redirecturl.indexOf("\x22") > -1
+            redirecturl &&
+            ((redirecturl.indexOf("?") > -1 && redirecturl.indexOf("\x22")) || redirecturl.startsWith("`"))
                 ? choiceUrl(redirecturl, globalValues, record)
                 : redirecturl,
     };
 
     if (!url.pathname) {
+        if (redirectusequery) {
+            url.isRedirect = true;
+        }
+
         return url;
     }
+
+    url.isRedirect = true;
 
     // eslint-disable-next-line require-unicode-regexp,  prefer-named-capture-group
     url.pathname = url.pathname.replace(/{([^}]+)}/g, (match, pattern: string): string => {
         if (pattern.indexOf(SESSION_PREFIX) === 0) {
             const sessKey: string = pattern.substring(SESSION_PREFIX.length);
-            const value = authData[sessKey as keyof IAuthSession];
+            const value = pageStore.applicationStore.authStore.userInfo[sessKey as keyof IAuthSession];
 
             return String(value);
         }
@@ -254,10 +278,24 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
 
         return "";
     });
+    const queryParams = columnsfilter ? getQueryParams({columnsName: columnsfilter, globalValues, record}) : {};
+
+    if (
+        url.pathname &&
+        !url.pathname.startsWith("http:") &&
+        !url.pathname.startsWith("https:") &&
+        (url.pathname.indexOf("\\") < 0 || url.pathname.startsWith("redirect"))
+    ) {
+        url.pathname = `${settingsStore.settings[VAR_SETTING_BASE_URL]}${
+            settingsStore.settings[VAR_SETTING_BASE_PATH]
+        }${
+            url.pathname.startsWith("redirect")
+                ? url.pathname.replace("redirect", "")
+                : `${pageStore.applicationStore.url}/${url.pathname}`
+        }/${encodePathUrl(queryParams)}`;
+    }
 
     if (url.pathname && url.pathname.indexOf("_blank") > -1) {
-        const queryParams = columnsName ? getQueryParams({columnsName, globalValues, record}) : {};
-
         url.blank = true;
         url.pathname = `${url.pathname.replace("_blank", "")}${
             Object.keys(queryParams).length ? `?${qs.stringify(queryParams)}` : ""
@@ -270,16 +308,21 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
 export function makeRedirect(bc: IBuilderConfig, pageStore: IPageModel, record: IRecord = {}, noBlank = false): void {
     const {redirecturl, redirectusequery, columnsfilter} = bc;
     const {globalValues} = pageStore;
-
+    let redirectUrl = redirecturl;
     const values: IRecord = getQueryParams({columnsName: columnsfilter, globalValues, record});
 
-    if (redirecturl) {
-        if (redirecturl.indexOf("redirect/") === 0) {
-            redirectToApplication(pageStore, values, redirecturl.replace("redirect/", ""));
-        } else if (redirecturl.indexOf("/") >= 0 || redirecturl[0] === "`") {
-            redirectToUrl({noBlank, pageStore, record, redirecturl, values});
-        } else {
-            pageStore.applicationStore.redirectToAction(redirecturl, values);
+    if (redirectUrl) {
+        if (redirectUrl.startsWith("`") && redirectUrl.endsWith("`")) {
+            redirectUrl = choiceUrl(redirectUrl, pageStore.globalValues, record);
+        }
+        if (redirectUrl) {
+            if (redirectUrl.indexOf("redirect/") === 0) {
+                redirectToApplication(pageStore, values, redirectUrl.replace("redirect/", ""));
+            } else if (redirectUrl.indexOf("/") >= 0 || redirectUrl[0] === "`") {
+                redirectToUrl({noBlank, pageStore, record, redirecturl: redirectUrl, values});
+            } else {
+                pageStore.applicationStore.redirectToAction(redirectUrl, values);
+            }
         }
     }
 

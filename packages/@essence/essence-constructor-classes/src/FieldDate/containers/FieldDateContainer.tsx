@@ -171,6 +171,10 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
     }, [dateConfig, field]);
 
     React.useEffect(() => {
+        field.setDefaultCopyValueFn(() => formatValue);
+    }, [field, formatValue]);
+
+    React.useEffect(() => {
         if (defaultvalue === "sysdate") {
             field.setDefaultValueFn((field, onChange) => {
                 onChange(moment().format(dateConfig.serverFormat));

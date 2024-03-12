@@ -5,13 +5,14 @@ import {toColumnStyleWidthBc} from "@essence-community/constructor-share/utils/t
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {GRID_CONFIGS, GRID_ALIGN_CONFIGS} from "@essence-community/constructor-share/constants/ui";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {useSizeChild} from "@essence-community/constructor-share/hooks";
 
 const DEFAULT_SPACING = 1;
 const MAX_PANEL_WIDTH = 12;
 
 export const BoxContainer: React.FC<IClassProps> = (props) => {
     const {children, bc} = props;
-    const {childs, contentview, align} = bc;
+    const {contentview, align} = bc;
     const gridSpacing = DEFAULT_SPACING;
     const isRow = contentview === "hbox" || contentview === "hbox-wrap";
     const contentStyle = React.useMemo(
@@ -23,6 +24,7 @@ export const BoxContainer: React.FC<IClassProps> = (props) => {
         }),
         [bc],
     );
+    const [childs, sizeChild] = useSizeChild(bc.childs);
 
     return (
         <Grid
@@ -41,12 +43,7 @@ export const BoxContainer: React.FC<IClassProps> = (props) => {
                           key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
                           xs={isRow ? true : MAX_PANEL_WIDTH}
                           zeroMinWidth
-                          style={{
-                              height: childBc.height,
-                              maxHeight: childBc.maxheight ?? "100%",
-                              minHeight: childBc.minheight,
-                              ...toColumnStyleWidthBc(childBc),
-                          }}
+                          style={sizeChild[childBc[VAR_RECORD_PAGE_OBJECT_ID]]}
                       >
                           <Child {...props} bc={childBc} />
                       </Grid>

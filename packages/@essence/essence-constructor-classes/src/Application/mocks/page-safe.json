@@ -314,7 +314,7 @@
                     "noglobalmask": "true",
                     "ck_page_object": "F12171784E0044CFABBEAA93726CFD7B",
                     "cv_description": "About IFrame",
-                    "getmastervalue": [{"in": "ck_id"}],
+                    "getmastervalue": [{ "in": "ck_id" }],
                     "cv_helper_color": "yellow",
                     "getglobaltostore": "g_sys_front_branch_date_time,g_sys_front_branch_name,g_sys_front_commit_id,g_sys_lang"
                 }
@@ -419,6 +419,7 @@
     "ck_page_object": "mock",
     "ck_id": "safe",
     "ck_url": "safe",
+    "ck_view": "system",
     "cv_description": "Приложение - Safe",
     "cv_helper_color": "yellow"
 }

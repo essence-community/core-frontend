@@ -65,6 +65,7 @@ export const FieldCssMeasureContainer: React.FC<IClassProps> = (props) => {
                 (value) => {
                     setValueState(parseValue(value));
                 },
+                {fireImmediately: true},
             ),
         [field],
     );

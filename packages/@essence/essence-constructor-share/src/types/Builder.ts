@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import {VAR_RECORD_CK_VIEW} from "../constants/variables";
+import {VAR_RECORD_CK_VIEW, VAR_RECORD_ROUTE_PAGE_ID} from "../constants/variables";
 import {IRecord, FieldValue} from "./Base";
 import {IRecordsOrder} from "./RecordsModel";
 import {HandlerType} from "./StoreBaseModel";
@@ -20,12 +20,15 @@ export interface IBuilderAttrGlobalStore {
 
 // BUILDER_CONFIG_START
 export interface IBuilderBaseConfig {
+    actiongate?: "sql" | "dml" | "auth" | "file" | "upload" | "getfile";
     // Правила для выбора активного элемента
     activerules?: string;
     // Расположение текста: left - слева, center - по центру, right - справа
     align?: "left" | "right" | "center" | "top" | string;
     // Префикс-метка для нового значения. Пример: "allownew" = "NEW:", на сервер уйдет значение "NEW:введенное значение"
     allownew?: string;
+    // Признак автофокуса поля
+    autofocus?: boolean;
     // Признак автозагрузки сервиса
     autoload?: boolean;
     // Расчет автоперезагрузки стора
@@ -46,8 +49,12 @@ export interface IBuilderBaseConfig {
     btnrefresh?: boolean;
     // Отображение кнопки "Настройки" (true/false)
     btnsettings?: boolean;
+    // Проверка данных и вывод ошибки
+    check?: string;
     // Признак "Добавить еще". Если не заполнен = false
     checkaddmore?: boolean;
+    // Уникальный идентификатор
+    ckobject?: string;
     // Идентификатор для поиска окна в мастере
     ckwindow?: string;
     // Свернута ли панель при инициализации  true = свернута
@@ -86,6 +93,8 @@ export interface IBuilderBaseConfig {
     defaultvaluerule?: string;
     // Сервис для запроса значения по умолчанию
     defaultvaluequery?: string;
+    // Признак отключения кнопки "Очистить" у полей
+    disableclear?: boolean;
     // Признак блокировки объекта при инициализации true-блокирован
     disabled?: boolean;
     // Признак блокировки, если мастер вернул пустое значение
@@ -112,6 +121,8 @@ export interface IBuilderBaseConfig {
     editmodepanel?: boolean;
     // Режим добавления/редактирования: inline - в строке; modalwindow - в модальном окне
     edittype?: "inline" | "modalwindow";
+    // Включить возможность копировать из поля
+    enableclipboard?: boolean;
     // Дополнительные плагины для шлюза
     extraplugingate?: string;
     // Вариант выбора файлов для загрузки. multi - несколько файлов, single - по одному.
@@ -198,6 +209,8 @@ export interface IBuilderBaseConfig {
     order?: IRecordsOrder[];
     // Количество выводимых строк (включает пагинатор)
     pagesize?: number;
+    // Диапазоны page size
+    pagesizerange?: number[];
     // Высота выпадающей таблицы/списка. По умолчанию 390
     pickerheight?: string;
     // Ширина выпадающей таблицы/списка
@@ -324,6 +337,7 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     cv_name?: string;
     ck_object?: string;
     cn_order?: number;
+    [VAR_RECORD_ROUTE_PAGE_ID]?: string;
     [VAR_RECORD_CK_VIEW]?: string;
     // Определяет класс в качестве мастера
     cl_is_master?: boolean;
@@ -357,7 +371,7 @@ export interface IBuilderConfig extends IBuilderBaseConfig {
     // Interanal
     confirmquestionposition?: "right" | "top";
     // Internal
-    iconsize?: "xs";
+    iconsize?: "xs" | "lg" | "1x" | "2x" | "3x" | "4x" | "5x";
     // Internal values for window store or etc.
     values?: IRecord;
     // Internal Возможность выделения нескольких значений в GRID и TREEGRID SINGLE - только 1 значение SIMPLE - позволяет выбирать значения одно-за-другим. Каждое нажатие добавляет/удаляет значение. MULTI - позволяет комплексно выбирать значения, с учетом ctrl и shift

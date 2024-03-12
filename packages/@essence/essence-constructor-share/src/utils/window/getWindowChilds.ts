@@ -40,6 +40,7 @@ export function getWindowChilds({windowBc, pageStore, values, autobuild}: IGetWi
             edittype: windowBc.edittype,
             ...(field.required ? {required: field.required} : {}),
             ...(windowBc.edittype === "inline" ? {width: "100%"} : {}),
+            datatype: fieldProps.type === "COLUMN" && fieldProps.datatype === "tree" ? "text" : fieldProps.datatype,
             type: fieldProps.type === "COLUMN" ? "IFIELD" : fieldProps.type,
         };
     });

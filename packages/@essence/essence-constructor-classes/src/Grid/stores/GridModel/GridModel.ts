@@ -477,8 +477,6 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
         this.setRecordToGlobal();
 
-        this.scrollToRecordAction({});
-
         return undefined;
     };
 

@@ -285,26 +285,32 @@ export class Form implements IForm {
             this.extraValue = isReset
                 ? cloneDeepElementary(values)
                 : merge(cloneDeepElementary(this.extraValue), cloneDeepElementary(values));
-
-            this.setIsDirty(false);
-
-            return;
         }
-        Object.entries(values).forEach(([key]) => {
-            const field = this.fields.get(key);
+        Object.keys(values)
+            .sort((a, b) => {
+                const res = b.length - a.length;
 
-            if (field) {
-                const [isExists, value] = field.input(values, field, this);
-
-                if (isExists) {
-                    field.value = value;
-                } else {
-                    field.clear();
+                if (res == 0) {
+                    return b.localeCompare(a);
                 }
-            } else {
-                loggerForm(`Can not update field ${key}. Field should be added from class`);
-            }
-        });
+
+                return res;
+            })
+            .forEach((key) => {
+                const field = this.fields.get(key);
+
+                if (field) {
+                    const [isExists, value] = field.input(values, field, this);
+
+                    if (isExists) {
+                        field.value = value;
+                    } else {
+                        field.clear();
+                    }
+                } else {
+                    loggerForm(`Can not update field ${key}. Field should be added from class`);
+                }
+            });
 
         this.setIsDirty(false);
     };

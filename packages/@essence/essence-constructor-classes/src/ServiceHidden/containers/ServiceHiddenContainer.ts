@@ -22,6 +22,11 @@ export const ServiceHiddenContainer: React.FC<IClassProps> = (props) => {
                 bc.defaultvalue === VALUE_SELF_ALWAYSFIRST || bc.defaultvalue === VALUE_SELF_FIRST
                     ? undefined
                     : bc.defaultvalue,
+            defaultvaluelocalization:
+                bc.defaultvaluelocalization === VALUE_SELF_ALWAYSFIRST ||
+                bc.defaultvaluelocalization === VALUE_SELF_FIRST
+                    ? undefined
+                    : bc.defaultvaluelocalization,
         }),
         [bc],
     );

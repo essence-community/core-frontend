@@ -4,8 +4,11 @@ import {useObserver} from "mobx-react";
 import keycode from "keycode";
 import {IconButton, TextField} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {isEmpty} from "@essence-community/constructor-share/utils";
+import {
+    DEFAULT_CLIPBOARD_PASTE_SEPARATE_REGEX,
+    VAR_RECORD_PAGE_OBJECT_ID,
+} from "@essence-community/constructor-share/constants";
+import {isEmpty, toString} from "@essence-community/constructor-share/utils";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {PopoverContext} from "@essence-community/constructor-share/context";
 import {IField} from "@essence-community/constructor-share/Form";
@@ -117,6 +120,76 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
         [props.inputRef],
     );
 
+    const onChangeValue = React.useCallback(
+        (text: string) => {
+            const typePaste = bc.clipboardpastetype || "single";
+            const regSeparated = new RegExp(
+                bc.clipboardpasteseparateregex || DEFAULT_CLIPBOARD_PASTE_SEPARATE_REGEX,
+                "g",
+            );
+            const fieldValue = bc.clipboardpastefield || "value";
+            let value = undefined;
+
+            switch (typePaste) {
+                case "single":
+                    if (fieldValue === "value") {
+                        value = text;
+                    } else if (fieldValue === "display") {
+                        value = store.suggestions.find((val) => val.label === text)?.value;
+                    } else {
+                        value =
+                            store.suggestions.find((record) => toString(record.value) === text)?.value ||
+                            store.suggestions.find((val) => val.label === text)?.value;
+                    }
+                    break;
+                case "array":
+                case "singleandarray":
+                    const arr = text.split(regSeparated).filter((val) => !isEmpty(val));
+
+                    if (fieldValue === "value") {
+                        value = typePaste === "singleandarray" && arr.length === 1 ? arr[0] : (arr as any);
+                    } else if (fieldValue === "display") {
+                        value = store.suggestions.filter((val) => arr.indexOf(val.label) > -1).map((val) => val.value);
+                    } else {
+                        value = store.suggestions
+                            .filter((record) => arr.indexOf(toString(record.value)) > -1)
+                            .map((val) => val.value);
+                        if ((value as any[]).length === 0) {
+                            value = store.suggestions
+                                .filter((val) => arr.indexOf(val.label) > -1)
+                                .map((val) => val.value);
+                        }
+                    }
+                    value = typePaste === "singleandarray" && value.length === 1 ? value[0] : (value as any);
+                    break;
+            }
+            if (isEmpty(value)) {
+                field.onClear();
+            } else {
+                field.onChange(value);
+            }
+        },
+        [bc, field, store],
+    );
+
+    const onPaste = React.useCallback(
+        (event: React.ClipboardEvent<HTMLInputElement>) => {
+            event.stopPropagation();
+            event.preventDefault();
+            onChangeValue(event.clipboardData.getData("text"));
+        },
+        [onChangeValue],
+    );
+
+    const onDrop = React.useCallback(
+        (event: React.DragEvent<HTMLInputElement>) => {
+            event.stopPropagation();
+            event.preventDefault();
+            onChangeValue(event.dataTransfer.getData("text"));
+        },
+        [onChangeValue],
+    );
+
     const chevron = popoverCtx.open ? (
         <IconButton
             key={`${props.bc[VAR_RECORD_PAGE_OBJECT_ID]}-open`}
@@ -169,6 +242,8 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
                 }
                 props.setFocused(false);
             }}
+            onPaste={onPaste}
+            onDrop={onDrop}
         />
     ));
 });

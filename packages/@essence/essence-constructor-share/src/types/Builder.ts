@@ -57,12 +57,18 @@ export interface IBuilderBaseConfig {
     ckobject?: string;
     // Идентификатор для поиска окна в мастере
     ckwindow?: string;
+    // Реакция на копирование значения
+    clipboardpastefield?: "display" | "value" | "displayandvalue";
+    // Регулярное выражения для разделения строк
+    clipboardpasteseparateregex?: string;
+    // Преобразование значений при копировании
+    clipboardpastetype?: "single" | "array" | "singleandarray";
     // Свернута ли панель при инициализации  true = свернута
     collapsed?: boolean;
     // Признак возможности сворачивания панели true/false
     collapsible?: boolean;
     // Тип  сбора значений: object - виде объекта array - массив строк
-    collectionvalues?: "object" | "array";
+    collectionvalues?: "object" | "array" | "objectandarray";
     // Наименование параметра для отображения данных и передачи в Modify
     column?: string;
     // Наименование параметра - конца периода

@@ -1,5 +1,12 @@
 /* eslint-disable max-lines */
-import {deepChange, deepFind, i18next, isEmpty} from "@essence-community/constructor-share/utils";
+import {
+    deepChange,
+    deepFind,
+    i18next,
+    isEmpty,
+    parseMemoize,
+    toString,
+} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_ID,
     VAR_RECORD_PARENT_ID,
@@ -476,5 +483,22 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         onDoubleClick: this.handleDbSelectAction,
         onSelectAction: this.handleSelectAction,
         onSelectArrayAction: this.handleSelectArrayAction,
+    };
+
+    getLabel = (record: IRecord): string => {
+        const [isExistDisplay, display] = deepFind(record, this.bc.displayfield);
+        const label = isExistDisplay
+            ? this.bc.localization
+                ? i18next.t(toString(display), {ns: this.bc.localization})
+                : toString(display)
+            : (parseMemoize(this.bc.displayfield).runer({
+                  get: (name: string) => {
+                      return this.bc.localization
+                          ? i18next.t(toString(record[name] || ""), {ns: this.bc.localization})
+                          : toString(record[name] || "");
+                  },
+              }) as string) || toString(record[this.bc.displayfield]);
+
+        return label;
     };
 }

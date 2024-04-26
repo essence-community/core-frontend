@@ -35,25 +35,6 @@ const FIELD_ICON_SIZE = 30;
 const FIELD_LABEL_RIGHT = 5;
 
 function getDisplayTextArray(field: IField, trans: TFunction): string {
-    if (
-        (field.bc.collectionvalues === "array" || field.bc.collectionvalues === "objectandarray") &&
-        Array.isArray(field.value)
-    ) {
-        const selCount = (field.value as any[]).length ?? 0;
-
-        return selCount
-            ? `${declension(selCount, [
-                  trans("static:e28e56d7b12e4ea2b7663b3e66473b9e"),
-                  trans("static:783922ac8cf84a5eac8d1b17c77de544"),
-                  trans("static:783922ac8cf84a5eac8d1b17c77de544"),
-              ])}  ${selCount} ${declension(selCount, [
-                  trans("static:0cd9a67ed46d4d70959182cc6260b221"),
-                  trans("static:87acd17f8ae243798e97549a5761cfaf"),
-                  trans("static:2485088fda3d4d9cb5de9c25534cdf23"),
-              ])}`
-            : "";
-    }
-
     const selCount = (field.value as any[]).length ?? 0;
 
     return selCount

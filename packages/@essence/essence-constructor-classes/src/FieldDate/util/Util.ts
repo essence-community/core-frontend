@@ -35,9 +35,7 @@ export const dateMap = (trans: TFunction): Record<string | number, IDateConfig> 
         mode: "year",
         serverFormat: "YYYY-01-01T00:00:00",
         serverFormatEnd: (value: string) =>
-            moment(value, "YYYY-MM-DDTHH:mm:ss")
-                .endOf("year")
-                .format("YYYY-MM-DDTHH:mm:ss"),
+            moment(value, "YYYY-MM-DDTHH:mm:ss").endOf("year").format("YYYY-MM-DDTHH:mm:ss"),
         serverFormatIn: "YYYY-MM-DDTHH:mm:ss",
     },
     2: {
@@ -49,9 +47,7 @@ export const dateMap = (trans: TFunction): Record<string | number, IDateConfig> 
         invalidTextValidation: trans("static:6b6305d16db148d986e782a66c4318da"),
         serverFormat: "YYYY-MM-01T00:00:00",
         serverFormatEnd: (value: string) =>
-            moment(value, "YYYY-MM-DDTHH:mm:ss")
-                .endOf("month")
-                .format("YYYY-MM-DDTHH:mm:ss"),
+            moment(value, "YYYY-MM-DDTHH:mm:ss").endOf("month").format("YYYY-MM-DDTHH:mm:ss"),
         serverFormatIn: "YYYY-MM-DDTHH:mm:ss",
     },
     3: {
@@ -64,9 +60,7 @@ export const dateMap = (trans: TFunction): Record<string | number, IDateConfig> 
         invalidTextValidation: trans("static:77050515e7b2462e95429b9df33a7958"),
         serverFormat: "YYYY-MM-DDT00:00:00",
         serverFormatEnd: (value: string) =>
-            moment(value, "YYYY-MM-DDTHH:mm:ss")
-                .endOf("day")
-                .format("YYYY-MM-DDTHH:mm:ss"),
+            moment(value, "YYYY-MM-DDTHH:mm:ss").endOf("day").format("YYYY-MM-DDTHH:mm:ss"),
         serverFormatIn: "YYYY-MM-DDTHH:mm:ss",
     },
     4: {
@@ -79,9 +73,7 @@ export const dateMap = (trans: TFunction): Record<string | number, IDateConfig> 
         invalidTextValidation: trans("static:1583ea7e4b054c759818771219303c3c"),
         serverFormat: "YYYY-MM-DDTHH:00:00",
         serverFormatEnd: (value: string) =>
-            moment(value, "YYYY-MM-DDTHH:mm:ss")
-                .endOf("hour")
-                .format("YYYY-MM-DDTHH:mm:ss"),
+            moment(value, "YYYY-MM-DDTHH:mm:ss").endOf("hour").format("YYYY-MM-DDTHH:mm:ss"),
         serverFormatIn: "YYYY-MM-DDTHH:mm:ss",
         withTime: true,
     },
@@ -95,9 +87,7 @@ export const dateMap = (trans: TFunction): Record<string | number, IDateConfig> 
         invalidTextValidation: trans("static:a1fadf8d7e73453b8a1ed526f3d1103e"),
         serverFormat: "YYYY-MM-DDTHH:mm:00",
         serverFormatEnd: (value: string) =>
-            moment(value, "YYYY-MM-DDTHH:mm:ss")
-                .endOf("minute")
-                .format("YYYY-MM-DDTHH:mm:ss"),
+            moment(value, "YYYY-MM-DDTHH:mm:ss").endOf("minute").format("YYYY-MM-DDTHH:mm:ss"),
         serverFormatIn: "YYYY-MM-DDTHH:mm:ss",
         withTime: true,
     },
@@ -111,9 +101,7 @@ export const dateMap = (trans: TFunction): Record<string | number, IDateConfig> 
         invalidTextValidation: trans("static:5f09f8f54f174ecfb6befd64ca4c3423"),
         serverFormat: "YYYY-MM-DDTHH:mm:ss",
         serverFormatEnd: (value: string) =>
-            moment(value, "YYYY-MM-DDTHH:mm:ss")
-                .endOf("second")
-                .format("YYYY-MM-DDTHH:mm:ss"),
+            moment(value, "YYYY-MM-DDTHH:mm:ss").endOf("second").format("YYYY-MM-DDTHH:mm:ss"),
         serverFormatIn: "YYYY-MM-DDTHH:mm:ss",
         withTime: true,
     },
@@ -128,9 +116,7 @@ export const dateMap = (trans: TFunction): Record<string | number, IDateConfig> 
         serverFormat: "YYYY-MM-DDTHH:mm:ss",
 
         serverFormatEnd: (value: string) =>
-            moment(value, "YYYY-MM-DDTHH:mm:ss")
-                .endOf("day")
-                .format("YYYY-MM-DDTHH:mm:ss"),
+            moment(value, "YYYY-MM-DDTHH:mm:ss").endOf("day").format("YYYY-MM-DDTHH:mm:ss"),
         serverFormatIn: "YYYY-MM-DDTHH:mm:ss",
     },
 });

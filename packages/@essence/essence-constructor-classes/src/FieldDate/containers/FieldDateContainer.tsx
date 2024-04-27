@@ -134,12 +134,16 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
 
             switch (typePaste) {
                 case "object":
-                    try {
-                        field.onChange(moment(text).format(dateConfig.serverFormat));
-                    } catch (e) {
-                        try {
-                            field.onChange(moment(text, dateConfig.format).format(dateConfig.serverFormat));
-                        } catch (e) {}
+                    let date = moment(text, dateConfig.format);
+
+                    if (!date.isValid()) {
+                        date = moment(text, dateConfig.serverFormat);
+                    }
+                    if (!date.isValid()) {
+                        date = moment(text);
+                    }
+                    if (date.isValid()) {
+                        field.onChange(date.format(dateConfig.serverFormat));
                     }
                     break;
                 case "array":
@@ -148,17 +152,20 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
                         .split(regSeparated)
                         .filter((val) => !isEmpty(val))
                         .map((val) => {
-                            try {
-                                return moment(val).format(dateConfig.serverFormat);
-                            } catch (e) {
-                                try {
-                                    return moment(val, dateConfig.format).format(dateConfig.serverFormat);
-                                } catch (e) {
-                                    return undefined;
-                                }
+                            let date = moment(text, dateConfig.format);
+
+                            if (!date.isValid()) {
+                                date = moment(val, dateConfig.serverFormat);
                             }
+
+                            if (!date.isValid()) {
+                                date = moment(val);
+                            }
+
+                            return date;
                         })
-                        .filter((val) => !isEmpty(val));
+                        .filter((date) => date.isValid())
+                        .map((date) => date.format(dateConfig.serverFormat));
 
                     field.onChange(typePaste === "objectandarray" && arr.length === 1 ? arr[0] : (arr as any));
                     break;

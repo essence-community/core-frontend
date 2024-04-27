@@ -61,8 +61,6 @@ export interface IBuilderBaseConfig {
     clipboardpastefield?: "display" | "value" | "displayandvalue";
     // Регулярное выражения для разделения строк
     clipboardpasteseparateregex?: string;
-    // Преобразование значений при копировании
-    clipboardpastetype?: "single" | "array" | "singleandarray";
     // Свернута ли панель при инициализации  true = свернута
     collapsed?: boolean;
     // Признак возможности сворачивания панели true/false

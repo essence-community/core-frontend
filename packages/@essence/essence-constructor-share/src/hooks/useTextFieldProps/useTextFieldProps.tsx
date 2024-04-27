@@ -69,21 +69,21 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
 
     const onChangeValue = React.useCallback(
         (text: string) => {
-            const typePaste = bc.clipboardpastetype || "single";
+            const typePaste = bc.collectionvalues || "object";
             const regSeparated = new RegExp(
                 bc.clipboardpasteseparateregex || DEFAULT_CLIPBOARD_PASTE_SEPARATE_REGEX,
                 "g",
             );
 
             switch (typePaste) {
-                case "single":
+                case "object":
                     field.onChange(text);
                     break;
                 case "array":
-                case "singleandarray":
+                case "objectandarray":
                     const arr = text.split(regSeparated).filter((val) => !isEmpty(val));
 
-                    field.onChange(typePaste === "singleandarray" && arr.length === 1 ? arr[0] : (arr as any));
+                    field.onChange(typePaste === "objectandarray" && arr.length === 1 ? arr[0] : (arr as any));
                     break;
             }
         },

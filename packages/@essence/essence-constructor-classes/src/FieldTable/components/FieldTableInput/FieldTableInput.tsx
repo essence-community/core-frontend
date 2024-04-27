@@ -39,7 +39,7 @@ export const FieldTableInput: React.FC<IFieldTableInputProps> = observer((props)
 
     const onChangeValue = React.useCallback(
         (text: string) => {
-            const typePaste = bc.clipboardpastetype || "single";
+            const typePaste = bc.collectionvalues || "object";
             const regSeparated = new RegExp(
                 bc.clipboardpasteseparateregex || DEFAULT_CLIPBOARD_PASTE_SEPARATE_REGEX,
                 "g",
@@ -48,7 +48,7 @@ export const FieldTableInput: React.FC<IFieldTableInputProps> = observer((props)
             let value = undefined;
 
             switch (typePaste) {
-                case "single":
+                case "object":
                     if (fieldValue === "value") {
                         value = text;
                     } else if (fieldValue === "display") {
@@ -61,11 +61,11 @@ export const FieldTableInput: React.FC<IFieldTableInputProps> = observer((props)
                     }
                     break;
                 case "array":
-                case "singleandarray":
+                case "objectandarray":
                     const arr = text.split(regSeparated).filter((val) => !isEmpty(val));
 
                     if (fieldValue === "value") {
-                        value = typePaste === "singleandarray" && arr.length === 1 ? arr[0] : (arr as any);
+                        value = arr as any;
                     } else if (fieldValue === "display") {
                         value = store.recordsStore.recordsAll
                             .map(store.getLabel)
@@ -80,7 +80,7 @@ export const FieldTableInput: React.FC<IFieldTableInputProps> = observer((props)
                                 .filter((val) => arr.indexOf(val) > -1);
                         }
                     }
-                    value = typePaste === "singleandarray" && value.length === 1 ? value[0] : (value as any);
+                    value = typePaste === "objectandarray" && value.length === 1 ? value[0] : (value as any);
                     break;
             }
 

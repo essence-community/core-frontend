@@ -10,10 +10,13 @@ import {
     useFieldDisabled,
     useDefaultValueQuery,
 } from "@essence-community/constructor-share/hooks";
-import {VAR_RECORD_CT_DATE} from "@essence-community/constructor-share/constants";
+import {
+    DEFAULT_CLIPBOARD_PASTE_SEPARATE_REGEX,
+    VAR_RECORD_CT_DATE,
+} from "@essence-community/constructor-share/constants";
 import {TextFieldMask} from "@essence-community/constructor-share/uicomponents";
 import {TextField, IconButton} from "@material-ui/core";
-import {useTranslation} from "@essence-community/constructor-share/utils";
+import {isEmpty, useTranslation} from "@essence-community/constructor-share/utils";
 import moment from "moment";
 import {reaction} from "mobx";
 import {Icon} from "@essence-community/constructor-share/Icon";
@@ -121,6 +124,67 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
     );
     const inputProps = useTextFieldProps({bc: props.bc, disabled: props.disabled, field, tips: [calendarIcon]});
 
+    const onChangeValue = React.useCallback(
+        (text: string) => {
+            const typePaste = bc.collectionvalues || "object";
+            const regSeparated = new RegExp(
+                bc.clipboardpasteseparateregex || DEFAULT_CLIPBOARD_PASTE_SEPARATE_REGEX,
+                "g",
+            );
+
+            switch (typePaste) {
+                case "object":
+                    try {
+                        field.onChange(moment(text).format(dateConfig.serverFormat));
+                    } catch (e) {
+                        try {
+                            field.onChange(moment(text, dateConfig.format).format(dateConfig.serverFormat));
+                        } catch (e) {}
+                    }
+                    break;
+                case "array":
+                case "objectandarray":
+                    const arr = text
+                        .split(regSeparated)
+                        .filter((val) => !isEmpty(val))
+                        .map((val) => {
+                            try {
+                                return moment(val).format(dateConfig.serverFormat);
+                            } catch (e) {
+                                try {
+                                    return moment(val, dateConfig.format).format(dateConfig.serverFormat);
+                                } catch (e) {
+                                    return undefined;
+                                }
+                            }
+                        })
+                        .filter((val) => !isEmpty(val));
+
+                    field.onChange(typePaste === "objectandarray" && arr.length === 1 ? arr[0] : (arr as any));
+                    break;
+            }
+        },
+        [bc, dateConfig, field],
+    );
+
+    const onPaste = React.useCallback(
+        (event: React.ClipboardEvent<HTMLInputElement>) => {
+            event.stopPropagation();
+            event.preventDefault();
+            onChangeValue(event.clipboardData.getData("text"));
+        },
+        [onChangeValue],
+    );
+
+    const onDrop = React.useCallback(
+        (event: React.DragEvent<HTMLInputElement>) => {
+            event.stopPropagation();
+            event.preventDefault();
+            onChangeValue(event.dataTransfer.getData("text"));
+        },
+        [onChangeValue],
+    );
+
     const textField = React.useMemo(() => {
         inputProps.inputRef = inputElement;
         inputProps.value = formatValue;
@@ -129,14 +193,16 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
             ...inputProps.InputLabelProps,
             shrink: formatValue ? true : false,
         };
+        inputProps.onDrop = onDrop;
+        inputProps.onPaste = onPaste;
         if (dateConfig.inputMask) {
             return () => (
-                <TextFieldMask textFieldProps={inputProps} imask={dateConfig.inputMask!} onChange={handleChange} />
+                <TextFieldMask textFieldProps={inputProps} imask={dateConfig.inputMask} onChange={handleChange} />
             );
         }
 
         return () => <TextField {...inputProps} onChange={handleChange} />;
-    }, [dateConfig.inputMask, formatValue, handleChange, inputProps]);
+    }, [dateConfig.inputMask, formatValue, handleChange, inputProps, onDrop, onPaste]);
 
     const className = React.useMemo(() => {
         if (bc.format === "4") {

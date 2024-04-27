@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import * as React from "react";
 import {IconButton, TextField} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
@@ -76,6 +77,8 @@ export const FieldFileContainer: React.FC<IClassProps> = (props) => {
 
     const handleDropFile = useCallback(
         (event: React.DragEvent<HTMLDivElement>) => {
+            event.stopPropagation();
+            event.preventDefault();
             const files = event.dataTransfer.files ? Array.from(event.dataTransfer.files) : [];
             const {current} = inputRef;
 
@@ -87,8 +90,25 @@ export const FieldFileContainer: React.FC<IClassProps> = (props) => {
                 }
             }
             setDrag(false);
+        },
+        [inputRef, fileInputStore],
+    );
+
+    const handlePaste = useCallback(
+        (event: React.ClipboardEvent<HTMLInputElement>) => {
             event.stopPropagation();
             event.preventDefault();
+            const files = event.clipboardData.files ? Array.from(event.clipboardData.files) : [];
+            const {current} = inputRef;
+
+            if (files.length > 0) {
+                fileInputStore.fileChooseAwait(files as any);
+
+                if (current) {
+                    current.value = "";
+                }
+            }
+            setDrag(false);
         },
         [inputRef, fileInputStore],
     );
@@ -124,10 +144,13 @@ export const FieldFileContainer: React.FC<IClassProps> = (props) => {
                 {...textFieldProps}
                 inputProps={{
                     ...textFieldProps.inputProps,
+                    readOnly: true,
                     value: field.value ? (field.value as File[]).map((file) => file.name).join(";") : "",
                 }}
                 onChange={handleFilter}
                 onClick={handleChangeFileChoose}
+                onDrop={handleDropFile}
+                onPaste={handlePaste}
             />
             <input
                 type="file"

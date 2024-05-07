@@ -192,7 +192,7 @@ export function loadRecordsAction(
     const isWaiting = bc[VAR_RECORD_MASTER_ID] || bc.getglobaltostore;
     const {formData} = this;
 
-    this.isLoading = true;
+    this.setLoadingAction(true);
 
     // Should be logic for wainting unfinished master request
     return Promise.resolve()
@@ -381,9 +381,10 @@ export function loadRecordsAction(
             return this.setSelectionAction(recordIdValue, valueField);
         })
         .then(() => {
-            setMask(false, noglobalmask, this.pageStore);
-            this.isLoading = false;
-
             return this.selectedRecord;
+        })
+        .finally(() => {
+            setMask(false, noglobalmask, this.pageStore);
+            this.setLoadingAction(false);
         });
 }

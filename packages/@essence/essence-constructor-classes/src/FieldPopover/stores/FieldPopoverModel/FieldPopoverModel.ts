@@ -119,12 +119,15 @@ export class FieldPopoverModel extends StoreBaseModel implements IFieldPopoverMo
             this.valueFields = [[this.bc.column, this.valueField]];
         }
 
-        this.recordsStore = new RecordsModel(this.bc, {
-            applicationStore: this.pageStore.applicationStore,
-            noLoadChilds: true,
-            pageStore: this.pageStore,
-            valueField: this.valueField,
-        });
+        this.recordsStore = new RecordsModel(
+            {...this.bc, defaultvalue: VALUE_SELF_ALWAYSFIRST},
+            {
+                applicationStore: this.pageStore.applicationStore,
+                noLoadChilds: true,
+                pageStore: this.pageStore,
+                valueField: this.valueField,
+            },
+        );
 
         this.builderConfigs = [
             {

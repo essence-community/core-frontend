@@ -13,11 +13,11 @@ import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
-    VAR_RECORD_JN_TOTAL_CNT,
     VALUE_SELF_FIRST,
     loggerRoot,
     VAR_RECORD_NAME,
     VALUE_SELF_ALWAYSFIRST,
+    VAR_RECORD_QUERY_ID,
 } from "@essence-community/constructor-share/constants";
 import {
     IPageModel,
@@ -26,24 +26,23 @@ import {
     IRecord,
     IStoreBaseModelProps,
     FieldValue,
-    ICkId,
     IHandlerOptions,
     IBuilderMode,
+    IStoreBaseModel,
 } from "@essence-community/constructor-share/types";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 // eslint-disable-next-line import/named
-import {computed, observable, action, IObservableArray} from "mobx";
+import {computed, observable, action} from "mobx";
 import {IField, IForm} from "@essence-community/constructor-share/Form";
-import {prepareArrayValues, getRestoredRecords, getRestoreValue} from "../../utils";
-import {IFieldTableModel} from "./FieldTableModel.types";
+import {IFieldPopoverModel} from "./FieldPopoverModel.types";
 
-interface IFieldTableModelProps extends IStoreBaseModelProps {
+interface IFieldPopoverModelProps extends IStoreBaseModelProps {
     field: IField;
     form: IForm;
 }
 
 const HEIGHT_GRID = "210px";
-const loggerInfo = loggerRoot.extend("FieldTableModel");
+const loggerInfo = loggerRoot.extend("FieldPopoverModel");
 
 const clearChildStores = ({pageStore, bc}: {pageStore: IPageModel; bc: IBuilderConfig}) => {
     pageStore.stores.forEach((store) => {
@@ -63,10 +62,10 @@ const clearChildStores = ({pageStore, bc}: {pageStore: IPageModel; bc: IBuilderC
     });
 };
 
-export class FieldTableModel extends StoreBaseModel implements IFieldTableModel {
+export class FieldPopoverModel extends StoreBaseModel implements IFieldPopoverModel {
     recordsStore: IRecordsModel;
 
-    gridBc: IBuilderConfig;
+    childBc: IBuilderConfig;
 
     valueFields: Array<[string, string]>;
 
@@ -80,8 +79,8 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     builderConfigs: IBuilderConfig[];
 
     @computed
-    get gridId(): string {
-        return `grid_${
+    get childId(): string {
+        return `popover_${
             this.field.parentFieldKey ? this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0] : ""
         }_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
     }
@@ -93,13 +92,13 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         }_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
     }
 
-    constructor(props: IFieldTableModelProps) {
+    constructor(props: IFieldPopoverModelProps) {
         super(props);
 
         this.field = props.field;
         this.form = props.form;
         this.valueField = this.bc.valuefield?.[0]?.in || this.bc.idproperty || VAR_RECORD_ID;
-        const gridId = this.gridId;
+        const childId = this.childId;
 
         if (this.bc.valuefield && this.bc.valuefield.length) {
             let valueField = "";
@@ -130,14 +129,11 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         this.builderConfigs = [
             {
                 [VAR_RECORD_DISPLAYED]: "static:147bb56012624451971b35b1a4ef55e6",
-                [VAR_RECORD_MASTER_ID]: gridId,
-                [VAR_RECORD_NAME]: "select",
+                [VAR_RECORD_MASTER_ID]: childId,
+                [VAR_RECORD_NAME]: "Override Save Button",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `btnok_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
                 [VAR_RECORD_PARENT_ID]: this.currentId,
-                handler:
-                    this.bc.collectionvalues === "array"
-                        ? this.handlers.onSelectArrayAction
-                        : this.handlers.onSelectAction,
+                handler: this.handleSelectAction,
                 iconfont: "fa-check",
                 iconfontname: "fa",
                 onlyicon: true,
@@ -148,10 +144,11 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             },
             {
                 [VAR_RECORD_DISPLAYED]: "static:64aacc431c4c4640b5f2c45def57cae9",
-                [VAR_RECORD_NAME]: "close",
+                [VAR_RECORD_NAME]: "Override Cancel Button",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `btnban_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
                 [VAR_RECORD_PARENT_ID]: this.currentId,
-                handler: "onCloseAction",
+                confirmquestion: "false",
+                handler: this.handleCloseAction,
                 iconfont: "fa-ban",
                 iconfontname: "fa",
                 onlyicon: true,
@@ -162,37 +159,29 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         ];
 
         // Блокировка происходит на уровне поля
-        this.gridBc = {
+        this.childBc = {
             ...this.bc,
             [VAR_RECORD_DISPLAYED]: undefined,
-            [VAR_RECORD_PAGE_OBJECT_ID]: gridId,
+            [VAR_RECORD_PAGE_OBJECT_ID]: childId,
             [VAR_RECORD_PARENT_ID]: this.currentId,
-            columns: this.bc.columns?.map((childBc) => ({
+            [VAR_RECORD_QUERY_ID]: undefined,
+            childs: this.bc.childs?.map((childBc) => ({
                 ...childBc,
                 [VAR_RECORD_PAGE_OBJECT_ID]: this.field.parentFieldKey
                     ? `${childBc[VAR_RECORD_PAGE_OBJECT_ID]}_${
                           this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0]
                       }`
                     : childBc[VAR_RECORD_PAGE_OBJECT_ID],
-                [VAR_RECORD_PARENT_ID]: gridId,
+                [VAR_RECORD_PARENT_ID]: childId,
             })),
             datatype: undefined,
             disabled: undefined,
             disabledrules: undefined,
-            filters: this.bc.filters?.map((childBc) => ({
-                ...childBc,
-                [VAR_RECORD_PAGE_OBJECT_ID]: this.field.parentFieldKey
-                    ? `${childBc[VAR_RECORD_PAGE_OBJECT_ID]}_${
-                          this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0]
-                      }`
-                    : childBc[VAR_RECORD_PAGE_OBJECT_ID],
-                [VAR_RECORD_PARENT_ID]: gridId,
-            })),
+            editable: true,
+            editing: true,
+            editmodepanel: true,
             getglobal: undefined,
-            height:
-                this.bc.pickerheight === undefined && this.bc.pagesize !== undefined
-                    ? undefined
-                    : this.bc.pickerheight ?? HEIGHT_GRID,
+            height: this.bc.pickerheight === undefined ? undefined : this.bc.pickerheight ?? HEIGHT_GRID,
             hidden: undefined,
             hiddenrules: undefined,
             readonly: false,
@@ -200,16 +189,18 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             setglobal: undefined,
             setrecordtoglobal: undefined,
             topbtn: this.builderConfigs,
-            type: this.bc.datatype === "tree" ? "TREEGRID" : "GRID",
+            type: "PANEL",
         };
     }
 
-    @observable selectedEntries: IObservableArray<[ICkId, IRecord]> = observable.array([], {deep: false});
+    @computed get panelStore(): IStoreBaseModel | undefined {
+        const panelStore = this.pageStore.stores.get(this.childId);
 
-    @computed get recordsGridStore(): IRecordsModel | undefined {
-        const gridStore = this.pageStore.stores.get(this.gridId);
+        return panelStore;
+    }
 
-        return gridStore && gridStore.recordsStore;
+    @computed get recordsPanelStore(): IRecordsModel | undefined {
+        return this.pageStore?.recordsStore;
     }
 
     @computed get selectedRecord(): IRecord | undefined {
@@ -221,90 +212,40 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     }
 
     @action
-    setField = (field: IField) => {
+    setField = (field: IField): void => {
         this.field = field;
     };
 
     @action
-    setDefaultRecordAction = async (value?: FieldValue) => {
-        if (this.bc.collectionvalues === "array") {
-            if (
-                Array.isArray(value) &&
-                value.every((valDirty, idx) => {
-                    return this.valueFields.every(([fieldName, valueField]) => {
-                        const val =
-                            typeof valDirty === "object" && valDirty !== null
-                                ? deepFind(valDirty, fieldName)[1]
-                                : valDirty;
+    restoreSelectedAction = (form: IForm): void => {
+        form.update(this.selectedRecord || {});
+    };
 
-                        return val !== deepFind(this.selectedEntries?.[idx]?.[1], valueField)[1];
-                    });
-                })
-            ) {
-                await this.recordsStore.searchAction(
-                    {},
-                    {
-                        filter: this.valueFields.map(([fieldName, valueField]) => ({
-                            operator: "in",
-                            property: valueField,
-                            value: getRestoreValue(value, fieldName),
-                        })),
-                    },
-                );
-                this.selectedEntries.replace(getRestoredRecords(value, this));
-            }
-        } else {
-            const find = this.recordsStore.recordsState.records.find(
-                (rec) => rec[this.valueField] === value || rec[this.recordsStore.recordId] === value,
+    @action
+    setDefaultRecordAction = async (value?: FieldValue): Promise<void> => {
+        const find = this.recordsStore.recordsState.records.find(
+            (rec) => rec[this.valueField] === value || rec[this.recordsStore.recordId] === value,
+        );
+
+        if (!find) {
+            await this.recordsStore.searchAction(
+                {},
+                value !== VALUE_SELF_FIRST
+                    ? {
+                          filter: [{operator: "eq", property: this.valueField, value}],
+                          selectedRecordId: value as string,
+                      }
+                    : {},
             );
-
-            if (!find) {
-                await this.recordsStore.searchAction(
-                    {},
-                    value !== VALUE_SELF_FIRST
-                        ? {
-                              filter: [{operator: "eq", property: this.valueField, value}],
-                              selectedRecordId: value as string,
-                          }
-                        : {},
-                );
-                if (this.recordsStore.selectedRecord) {
-                    this.handleChangeRecord(this.recordsStore.selectedRecord);
-                }
+            if (this.recordsStore.selectedRecord) {
+                this.handleChangeRecord(this.recordsStore.selectedRecord);
             }
-        }
-        this.setRecordToGlobal();
-    };
-
-    @action
-    setRecordToGlobal = () => {
-        if (this.bc.setrecordtoglobal) {
-            this.pageStore.updateGlobalValues({
-                [this.bc.setrecordtoglobal]:
-                    this.bc.collectionvalues === "array"
-                        ? this.selectedEntries.map((val) => val[1])
-                        : this.recordsStore.selectedRecord || null,
-            });
         }
     };
 
     @action
-    clearAction = () => {
-        const gridStore = this.pageStore.stores.get(this.gridId);
-
-        if (gridStore && gridStore.recordsStore) {
-            gridStore.recordsStore.clearRecordsAction();
-
-            if (this.bc.collectionvalues === "array") {
-                gridStore.recordsStore.selectedRecords.clear();
-            }
-        }
-
-        if (this.bc.collectionvalues === "array") {
-            this.selectedEntries.clear();
-        }
-
-        this.setRecordToGlobal();
+    clearAction = (): void => {
+        this.recordsPanelStore?.clearRecordsAction();
 
         clearChildStores({bc: this.bc, pageStore: this.pageStore});
         // CORE-186 handleChangeRecord({}) не нужно вызывать, очистка полей происходит с помощью BuilderField
@@ -312,7 +253,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         this.recordsStore.clearRecordsAction();
     };
 
-    handleChangeRecord = (record: IRecord, userChange = false, isSilentClear = false) => {
+    handleChangeRecord = (record: IRecord, userChange = false, isSilentClear = false): void => {
         let column = "";
         const patchValues: IRecord = {};
 
@@ -358,7 +299,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     };
 
     @action
-    reloadStoreAction = async () => {
+    reloadStoreAction = async (): Promise<IRecord | undefined> => {
         loggerInfo(i18next.t("static:58715205c88c4d60aac6bfe2c3bfa516"));
 
         if (!this.recordsStore.isLoading) {
@@ -377,7 +318,6 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
                 this.bc.defaultvalue !== VALUE_SELF_ALWAYSFIRST
             ) {
                 this.field.onClear();
-                this.selectedEntries.clear();
             }
 
             if (
@@ -397,61 +337,26 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     };
 
     @action
-    clearStoreAction = () => {
-        this.recordsGridStore && this.recordsGridStore.clearChildsStoresAction();
-        this.selectedEntries.clear();
+    clearStoreAction = (): void => {
+        this.recordsPanelStore?.clearChildsStoresAction();
         this.handleChangeRecord({}, false, true);
         this.field.clear();
     };
 
     @action
-    restoreSelectedAction = (recordsStore: IRecordsModel) => {
-        recordsStore.setSelectionsAction(this.selectedEntries.map(([, rec]) => rec));
+    handleSelectAction = (
+        mode: IBuilderMode,
+        btnBc: IBuilderConfig,
+        {popoverCtx, form}: IHandlerOptions,
+    ): Promise<boolean> => {
+        const record = form.values;
 
-        if (this.bc.collectionvalues === "array") {
-            recordsStore.setRecordsAction(
-                this.selectedEntries.map((args) => ({...args[1], [VAR_RECORD_JN_TOTAL_CNT]: 1})),
-            );
-        }
-    };
+        form.validate();
 
-    @action
-    handleSelectArrayAction = (mode: IBuilderMode, btnBc: IBuilderConfig, {popoverCtx}: IHandlerOptions) => {
-        const gridStore = this.pageStore.stores.get(this.gridId);
-
-        if (gridStore && gridStore.recordsStore) {
-            this.field.onChange(
-                prepareArrayValues(this, gridStore.recordsStore.selectedRecords, this.recordsStore.recordId),
-            );
-            this.selectedEntries.clear();
-            gridStore.recordsStore.selectedRecords.forEach((value, key) => {
-                this.selectedEntries.push([key, value]);
-            });
-            this.recordsStore.setRecordsAction(this.selectedEntries.map(([, rec]) => rec));
-            this.recordsStore.setSelectionsAction(this.selectedEntries.map(([, rec]) => rec));
-            this.setRecordToGlobal();
-        }
-
-        if (popoverCtx) {
-            popoverCtx.onClose();
-        }
-
-        return Promise.resolve(true);
-    };
-
-    @action
-    handleSelectAction = (mode: IBuilderMode, btnBc: IBuilderConfig, {popoverCtx}: IHandlerOptions) => {
-        const record = this.recordsGridStore && this.recordsGridStore.selectedRecord;
-
-        if (record) {
+        if (form.isValid && record) {
             this.recordsStore.setRecordsAction([record]);
             this.recordsStore.setSelectionAction(record[this.recordsStore.recordId]);
             this.handleChangeRecord(record, true);
-        }
-
-        this.setRecordToGlobal();
-
-        if (popoverCtx) {
             popoverCtx.onClose();
         }
 
@@ -459,34 +364,21 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     };
 
     @action
-    handleCloseAction = (mode: IBuilderMode, btnBc: IBuilderConfig, {popoverCtx}: IHandlerOptions) => {
-        const recordsStore = this.pageStore.stores.get(this.gridId)?.recordsStore;
-
-        if (recordsStore && this.bc.collectionvalues === "array") {
-            this.recordsStore.setSelectionsAction(this.selectedEntries.map(([, rec]) => rec));
-        }
-
+    handleCloseAction = (
+        mode: IBuilderMode,
+        btnBc: IBuilderConfig,
+        {popoverCtx}: IHandlerOptions,
+    ): Promise<boolean> => {
         if (popoverCtx) {
             popoverCtx.onClose();
         }
 
         return Promise.resolve(true);
-    };
-
-    handleDbSelectAction = (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
-        if (this.bc.collectionvalues === "array") {
-            // Skip db click for array
-            return Promise.resolve(true);
-        }
-
-        return this.handleSelectAction(mode, btnBc, options);
     };
 
     handlers = {
         onCloseAction: this.handleCloseAction,
-        onDoubleClick: this.handleDbSelectAction,
         onSelectAction: this.handleSelectAction,
-        onSelectArrayAction: this.handleSelectArrayAction,
     };
 
     getLabel = (record: IRecord): string => {

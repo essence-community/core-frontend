@@ -73,7 +73,7 @@ export class FilterModel extends StoreBaseModel {
         }
     };
 
-    handlePrint = async (isOnline: boolean, bcBtn: IBuilderConfig): Promise<boolean> => {
+    handlePrint = async (isOnline: boolean, bcBtn: IBuilderConfig, options: IHandlerOptions): Promise<boolean> => {
         const form = this.pageStore.forms.get(this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
         const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_MASTER_ID] || this.bc[VAR_RECORD_PARENT_ID]);
 
@@ -105,6 +105,7 @@ export class FilterModel extends StoreBaseModel {
 
                 if (isValidPrint) {
                     form.submit();
+                    options.windowCtx?.onClose();
                 }
             }
         }
@@ -261,11 +262,13 @@ export class FilterModel extends StoreBaseModel {
          * Offline print. Result will be after delay.
          * Should be WebSocket notifictio after complete
          */
-        onPrintHandleOffline: (mode: IBuilderMode, btnBc: IBuilderConfig) => this.handlePrint(false, btnBc),
+        onPrintHandleOffline: (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) =>
+            this.handlePrint(false, btnBc, options),
         /**
          * Offline Print
          */
-        onPrintHandleOnline: (mode: IBuilderMode, btnBc: IBuilderConfig) => this.handlePrint(true, btnBc),
+        onPrintHandleOnline: (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) =>
+            this.handlePrint(true, btnBc, options),
         onReset: (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
             const {form} = options;
 

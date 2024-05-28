@@ -1,5 +1,5 @@
 import {IApplicationModel, IPageModel, IBuilderConfig} from "@essence-community/constructor-share/types";
-import {IPopoverContext} from "@essence-community/constructor-share/context";
+import {IPopoverContext, IWindowContext} from "@essence-community/constructor-share/context";
 import {IForm} from "@essence-community/constructor-share/Form";
 
 export interface IHanderOptions {
@@ -8,6 +8,7 @@ export interface IHanderOptions {
     bc: IBuilderConfig;
     files?: File[];
     form?: IForm;
-    popoverCtx: IPopoverContext;
+    popoverCtx?: IPopoverContext;
+    windowCtx?: IWindowContext;
 }
 export type Handler = Record<string, (options: IHanderOptions) => void>;

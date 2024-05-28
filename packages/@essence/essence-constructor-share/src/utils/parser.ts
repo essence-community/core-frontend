@@ -22,6 +22,7 @@ import {FieldValue} from "../types";
 import {loggerRoot} from "../constants";
 import {i18next} from "./I18n";
 import {decodePathUrl, encodePathUrl, isEmpty} from "./base";
+import {getBigNumberInstance} from "./bignumber";
 
 export interface IGetValue {
     get: (key: string) => FieldValue;
@@ -82,8 +83,12 @@ const operators: any = {
     "||": ({left, right}: LogicalExpression, values: IValues) =>
         parseOperations(left, values) || parseOperations(right, values),
 };
+const conf = getBigNumberInstance({
+    decimalprecision: -1,
+} as any);
 
 const utils = {
+    BigNumber: conf.BigNumber,
     JSON,
     isEmpty,
     lodash,

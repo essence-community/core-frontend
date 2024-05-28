@@ -13,6 +13,7 @@ import {
     RecordContext,
     PopoverContext,
     IPopoverContext,
+    WindowContext,
 } from "@essence-community/constructor-share/context";
 import {makeRedirect, deepFind} from "@essence-community/constructor-share/utils";
 import {reaction} from "mobx";
@@ -86,6 +87,7 @@ export function useButtonClick(
     const formCtx = React.useContext(FormContext);
     const recordCtx = React.useContext(RecordContext);
     const popoverCtx = React.useContext(PopoverContext);
+    const windowCtx = React.useContext(WindowContext);
 
     const handleMode = (data: IData = {}) => {
         let promise = null;
@@ -111,12 +113,14 @@ export function useButtonClick(
                 files: data.files,
                 pageStore,
                 popoverCtx,
+                windowCtx,
             });
         } else if (typeof handlerBtn === "function") {
             promise = handlerBtn(bc.mode as IBuilderMode, bc, {
                 form: formCtx,
                 popoverCtx,
                 record: recordCtx,
+                windowCtx,
                 ...data,
             });
         } else {
@@ -133,6 +137,7 @@ export function useButtonClick(
                             form: formCtx,
                             popoverCtx,
                             record: recordCtx,
+                            windowCtx,
                             ...data,
                         });
                         break;
@@ -149,6 +154,7 @@ export function useButtonClick(
                             form: formCtx,
                             popoverCtx,
                             record: recordCtx,
+                            windowCtx,
                             ...data,
                         });
                         break;

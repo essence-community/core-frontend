@@ -88,7 +88,14 @@ const conf = getBigNumberInstance({
 } as any);
 
 (conf.BigNumber as any).from = function (val: any, conf: any) {
-    return new conf.BigNumber(val, conf);
+    if (isEmpty(val)) {
+        return "";
+    }
+    try {
+        return new conf.BigNumber(val, conf);
+    } catch (e) {
+        return "";
+    }
 };
 
 const utils = {

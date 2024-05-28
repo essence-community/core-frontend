@@ -87,6 +87,10 @@ const conf = getBigNumberInstance({
     decimalprecision: -1,
 } as any);
 
+(conf.BigNumber as any).from = function (val: any, conf: any) {
+    return new conf.BigNumber(val, conf);
+};
+
 const utils = {
     BigNumber: conf.BigNumber,
     JSON,

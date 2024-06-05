@@ -521,7 +521,9 @@ export class PageModel implements IPageModel {
 
     @action
     setLoadingAction = (isLoading: boolean) => {
-        this.isLoading = isLoading;
+        this.loadingCount = Math.max(0, this.loadingCount + (isLoading ? 1 : -1));
+
+        this.isLoading = this.loadingCount !== 0;
     };
 
     scrollToRecordAction = (params: Record<string, FieldValue>) => {

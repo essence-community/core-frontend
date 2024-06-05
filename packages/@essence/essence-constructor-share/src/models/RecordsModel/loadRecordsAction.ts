@@ -7,7 +7,7 @@ import {isEqual} from "lodash";
 import {toJS} from "mobx";
 import {request} from "../../request";
 import {IPageModel, IRecordsModel, FieldValue, IResponse, IRecord} from "../../types";
-import {i18next, getMasterObject, deepFind} from "../../utils";
+import {i18next, getMasterObject, deepFind, setMask} from "../../utils";
 import {
     VALUE_SELF_FIRST,
     VALUE_SELF_ALWAYSFIRST,
@@ -99,12 +99,6 @@ export function attachGlobalStore({bc, json, getValue, globalValues}: IAttachGlo
                 }
             }
         });
-    }
-}
-
-export function setMask(isLoading: boolean, noglobalmask?: boolean, pageStore?: IPageModel | null) {
-    if (!noglobalmask && pageStore) {
-        pageStore.setLoadingAction(isLoading);
     }
 }
 

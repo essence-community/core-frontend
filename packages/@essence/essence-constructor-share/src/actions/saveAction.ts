@@ -23,7 +23,7 @@ import {
     IRecord,
     IProgressModel,
 } from "../types";
-import {isEmpty, i18next} from "../utils";
+import {isEmpty, i18next, setMask} from "../utils";
 import {getMasterObject} from "../utils/getMasterObject";
 import {TText} from "../types/SnackbarModel";
 import {IForm} from "../Form";
@@ -36,7 +36,6 @@ import {
     VAR_RECORD_VALUE_ID,
 } from "../constants/variables";
 import {IGetValue, parseMemoize} from "../utils/parser";
-import {setMask} from "./recordsActions";
 
 export interface IConfig {
     actionBc: IBuilderConfig;
@@ -168,7 +167,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
         modeCheck = isEmpty(filteredValues[recordId]) && /^\d+$/u.test(mode) ? "1" : mode;
     }
 
-    setMask(bc.noglobalmask, pageStore, true);
+    setMask(true, bc.noglobalmask, pageStore);
 
     return request({
         [META_PAGE_ID]: pageStore.pageId,
@@ -203,7 +202,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
                         form,
                         route: pageStore.route,
                         warnCallBack: (warningText: TText[]) => {
-                            setMask(bc.noglobalmask, pageStore, false);
+                            setMask(false, bc.noglobalmask, pageStore);
 
                             pageStore.openQuestionWindow(warningText, (warningStatusNew) => {
                                 if (warningStatusNew === 0) {
@@ -286,7 +285,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
             return false;
         })
         .then((res: boolean) => {
-            setMask(bc.noglobalmask, pageStore, false);
+            setMask(false, bc.noglobalmask, pageStore);
 
             return res;
         });

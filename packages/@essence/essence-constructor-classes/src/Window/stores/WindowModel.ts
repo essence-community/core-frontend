@@ -55,8 +55,9 @@ export class WindowModel extends StoreBaseModel {
     @action
     closeAction = (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
         this.pageStore.closeWindowAction(this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
+        const isCloseReload = [btnBc.closereload, this.bc.closereload, true].find((val) => typeof val === "boolean");
 
-        if (this.mainStore && this.mainStore.handlers.onReloadStores) {
+        if (isCloseReload && this.mainStore && this.mainStore.handlers.onReloadStores) {
             // TODO: call winReloadStores for gridStore
             this.mainStore.handlers.onReloadStores(mode, btnBc, options);
         }

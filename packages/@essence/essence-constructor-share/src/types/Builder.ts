@@ -61,6 +61,8 @@ export interface IBuilderBaseConfig {
     clipboardpastefield?: "display" | "value" | "displayandvalue";
     // Регулярное выражения для разделения строк
     clipboardpasteseparateregex?: string;
+    // Перезагружать при закрытие окна
+    closereload?: boolean;
     // Свернута ли панель при инициализации  true = свернута
     collapsed?: boolean;
     // Признак возможности сворачивания панели true/false

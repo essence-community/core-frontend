@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-statements */
 import {action, computed, observable, ObservableMap} from "mobx";
 import merge from "lodash/merge";
@@ -208,7 +209,7 @@ export class Form implements IForm {
     };
 
     @action
-    unregisterField = (key: string) => {
+    unregisterField = (key: string): void => {
         const field = this.fields.get(key) || this.fieldsFile.get(key);
 
         if (field) {
@@ -222,13 +223,10 @@ export class Form implements IForm {
     };
 
     @action
-    validate = () => {
-        for (const field of this.fields.values()) {
-            field.validate();
-        }
-        for (const field of this.fieldsFile.values()) {
-            field.validate();
-        }
+    validate = async (): Promise<void> => {
+        const fields = [...this.fields.values(), ...this.fieldsFile.values()];
+
+        await Promise.all(fields.map((field) => field.validate()));
 
         if (this.isValid) {
             this.validationCount += 1;
@@ -238,13 +236,13 @@ export class Form implements IForm {
     };
 
     @action
-    onSubmit = async (event?: React.SyntheticEvent) => {
+    onSubmit = async (event?: React.SyntheticEvent): Promise<void> => {
         if (event) {
             event.preventDefault();
             event.stopPropagation();
         }
 
-        this.validate();
+        await this.validate();
 
         if (this.isValid) {
             await this.submit();
@@ -256,7 +254,7 @@ export class Form implements IForm {
     };
 
     @action
-    update = (initialValues: IRecord = {}, isReset = false) => {
+    update = (initialValues: IRecord = {}, isReset = false): void => {
         this.initialValues = initialValues;
         this.valueKey = initialValues[this.bc?.idproperty ? this.bc.idproperty : VAR_RECORD_ID];
 
@@ -275,12 +273,12 @@ export class Form implements IForm {
         this.setIsDirty(false);
     };
 
-    updateMode = (mode: IBuilderMode) => {
+    updateMode = (mode: IBuilderMode): void => {
         this.mode = mode;
     };
 
     @action
-    patch = (values: IRecord, isExtra = false, isReset = false) => {
+    patch = (values: IRecord, isExtra = false, isReset = false): void => {
         if (isExtra) {
             this.extraValue = isReset
                 ? cloneDeepElementary(values)
@@ -316,7 +314,7 @@ export class Form implements IForm {
     };
 
     @action
-    clear = () => {
+    clear = (): void => {
         this.extraValue = {};
         for (const field of this.fields.values()) {
             field.clear();
@@ -329,7 +327,7 @@ export class Form implements IForm {
     };
 
     @action
-    reset = () => {
+    reset = (): void => {
         this.extraValue = {};
         for (const field of this.fields.values()) {
             field.reset();
@@ -342,7 +340,7 @@ export class Form implements IForm {
     };
 
     @action
-    resetValidation = () => {
+    resetValidation = (): void => {
         for (const field of this.fields.values()) {
             field.resetValidation();
         }
@@ -352,13 +350,13 @@ export class Form implements IForm {
     };
 
     @action
-    setEditing = (editing: boolean) => {
+    setEditing = (editing: boolean): void => {
         this.editing = editing;
         this.resetValidation();
     };
 
     @action
-    setIsDirty = (isDirty: boolean) => {
+    setIsDirty = (isDirty: boolean): void => {
         this.isDirty = isDirty;
     };
 
@@ -374,18 +372,18 @@ export class Form implements IForm {
         this.submitting = false;
     };
 
-    select = (key: string) => {
+    select = (key: string): IField | null => {
         return this.fields.get(key);
     };
 
     // Alias to select
     $ = this.select;
 
-    has = (key: string) => {
+    has = (key: string): boolean => {
         return this.fields.has(key);
     };
 
-    onFilterRedirect = async () => {
+    onFilterRedirect = async (): Promise<void> => {
         if (this.hooks.onFilterRedirect) {
             await this.hooks.onFilterRedirect(this);
         }

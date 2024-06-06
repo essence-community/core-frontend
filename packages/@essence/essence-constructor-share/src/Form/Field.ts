@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-statements */
 /* eslint-disable max-lines */
 import {observable, computed, action} from "mobx";
@@ -74,13 +75,13 @@ export class Field implements IField {
 
     public clearValue: FieldValue | undefined;
 
-    public getParseValue = (name: string) => {
+    public getParseValue = (name: string): any => {
         return typeof name === "string" && name.charAt(0) === "g"
             ? this.pageStore.globalValues.get(name) || this.form?.values[name]
             : this.form?.values[name];
     };
 
-    @computed get label() {
+    @computed get label(): string | undefined {
         return this.bc[VAR_RECORD_DISPLAYED];
     }
 
@@ -274,14 +275,14 @@ export class Field implements IField {
 
         if (
             this.value === undefined &&
-            this.form.mode === "1" &&
+            (this.form.mode === "1" || this.bc.notisempty) &&
             this.form.editing &&
             (this.defaultValue !== undefined || this.defaultValueFn !== undefined)
         ) {
             if (this.defaultValue !== undefined) {
                 this.value = this.defaultValue;
             } else {
-                this.defaultValueFn!(this, this.onChange, this.onClear);
+                this.defaultValueFn?.(this, this.onChange, this.onClear);
             }
         }
         if (this.value === undefined && (this.isArray || this.isFile)) {
@@ -390,7 +391,7 @@ export class Field implements IField {
     };
 
     @action
-    onChange = (value: FieldValue) => {
+    onChange = (value: FieldValue): void => {
         this.setValue(value);
 
         if (!this.isValid) {
@@ -419,7 +420,7 @@ export class Field implements IField {
     };
 
     @action
-    onReset = () => {
+    onReset = (): void => {
         if (this.defaultValue === undefined && this.defaultValueFn === undefined) {
             this.onClear();
         } else if (this.defaultValueFn) {
@@ -430,7 +431,16 @@ export class Field implements IField {
     };
 
     @action
-    onClear = () => {
+    onClear = (): void => {
+        if (this.bc.notisempty && (this.defaultValue !== undefined || this.defaultValueFn !== undefined)) {
+            if (this.defaultValueFn) {
+                this.defaultValueFn(this, this.onChange, this.onClear);
+            } else {
+                this.onChange(this.defaultValue);
+            }
+
+            return;
+        }
         this.onChange(this.clearValue);
     };
 
@@ -450,7 +460,7 @@ export class Field implements IField {
     };
 
     @action
-    validate = () => {
+    validate = async (): Promise<void> => {
         if (this.disabled || this.hidden) {
             this.errors = [];
         } else {
@@ -475,29 +485,29 @@ export class Field implements IField {
     };
 
     @action
-    resetValidation = () => {
+    resetValidation = (): void => {
         this.errors = [];
     };
 
     @action
-    invalidate = (errors: TError[] | TError) => {
+    invalidate = (errors: TError[] | TError): void => {
         this.errors = Array.isArray(errors) ? errors : [errors];
     };
 
     @action
-    setExtraRules = (extraRules: string[]) => {
+    setExtraRules = (extraRules: string[]): void => {
         this.extraRules = extraRules;
     };
 
-    setDefaultValue = (defaultValue: FieldValue) => {
+    setDefaultValue = (defaultValue: FieldValue): void => {
         this.defaultValue = defaultValue;
     };
 
-    public setDefaultCopyValueFn = (defaultCopyValueFn: IField["defaultCopyValueFn"]) => {
+    public setDefaultCopyValueFn = (defaultCopyValueFn: IField["defaultCopyValueFn"]): void => {
         this.defaultCopyValueFn = defaultCopyValueFn;
     };
 
-    public setDefaultValueFn = (defaultValueFn: IField["defaultValueFn"]) => {
+    public setDefaultValueFn = (defaultValueFn: IField["defaultValueFn"]): void => {
         this.defaultValueFn = defaultValueFn;
     };
 
@@ -506,7 +516,7 @@ export class Field implements IField {
      * Can be call deaultquery
      */
     @action
-    reset = () => {
+    reset = (): void => {
         if (this.defaultValue === undefined && this.defaultValueFn === undefined) {
             this.clear();
         } else if (this.defaultValueFn) {
@@ -520,13 +530,22 @@ export class Field implements IField {
      * Clear value of the field to empty value
      */
     @action
-    clear = () => {
+    clear = (): void => {
+        if (this.bc.notisempty && (this.defaultValue !== undefined || this.defaultValueFn !== undefined)) {
+            if (this.defaultValueFn) {
+                this.defaultValueFn(this, this.setValue, this.clear);
+            } else {
+                this.setValue(this.defaultValue);
+            }
+
+            return;
+        }
         this.setValue(this.clearValue);
         this.clearExtra();
     };
 
     @action
-    clearExtra = () => {
+    clearExtra = (): void => {
         if (this.bc.valuefield) {
             let parentKey = "";
 
@@ -554,7 +573,7 @@ export class Field implements IField {
     };
 
     @action
-    add = () => {
+    add = (): void => {
         if (this.isArray) {
             let value = this.getOutput()(this, this.form, this.value);
 
@@ -566,7 +585,7 @@ export class Field implements IField {
     };
 
     @action
-    del = (ind?: string | number) => {
+    del = (ind?: string | number): void => {
         const index = typeof ind === "string" ? parseInt(ind, 10) : ind || 0;
 
         if (this.isArray && index >= 0) {
@@ -607,22 +626,22 @@ export class Field implements IField {
     };
 
     @action
-    redirect = () => {
+    redirect = (): void => {
         makeRedirect(this.bc, this.pageStore, this.form.values);
     };
 
     @action
-    setDisabled = (disabled = false) => {
+    setDisabled = (disabled = false): void => {
         this.disabled = disabled;
     };
 
     @action
-    setHidden = (hidden = false) => {
+    setHidden = (hidden = false): void => {
         this.hidden = hidden;
     };
 
     @action
-    setValue = (value: FieldValue) => {
+    setValue = (value: FieldValue): void => {
         let val = value;
 
         if (this.isObject || this.isArray) {
@@ -655,7 +674,7 @@ export class Field implements IField {
     };
 
     @action
-    resetChilds = () => {
+    resetChilds = (): void => {
         const ckPageObject = this.bc[VAR_RECORD_PAGE_OBJECT_ID];
         const childs: Array<IField> = this.pageStore.masters[ckPageObject];
 

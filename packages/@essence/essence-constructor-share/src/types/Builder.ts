@@ -209,6 +209,8 @@ export interface IBuilderBaseConfig {
     noform?: boolean;
     // Признак отключения глобального лоадера при загрузке сервиса
     noglobalmask?: boolean;
+    // 	При очистке выставлять defaultvalue если заполнен
+    notisempty?: boolean;
     // Отображается только иконка кнопки (true/false)
     onlyicon?: boolean;
     // Сортировка модели

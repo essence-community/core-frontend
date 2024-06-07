@@ -275,7 +275,7 @@ export class Field implements IField {
 
         if (
             this.value === undefined &&
-            (this.form.mode === "1" || this.bc.notisempty) &&
+            (this.form.mode === "1" || this.bc.defaultisclear) &&
             this.form.editing &&
             (this.defaultValue !== undefined || this.defaultValueFn !== undefined)
         ) {
@@ -432,7 +432,7 @@ export class Field implements IField {
 
     @action
     onClear = (): void => {
-        if (this.bc.notisempty && (this.defaultValue !== undefined || this.defaultValueFn !== undefined)) {
+        if (this.bc.defaultisclear && (this.defaultValue !== undefined || this.defaultValueFn !== undefined)) {
             if (this.defaultValueFn) {
                 this.defaultValueFn(this, this.onChange, this.onClear);
             } else {
@@ -531,7 +531,7 @@ export class Field implements IField {
      */
     @action
     clear = (): void => {
-        if (this.bc.notisempty && (this.defaultValue !== undefined || this.defaultValueFn !== undefined)) {
+        if (this.bc.defaultisclear && (this.defaultValue !== undefined || this.defaultValueFn !== undefined)) {
             if (this.defaultValueFn) {
                 this.defaultValueFn(this, this.setValue, this.clear);
             } else {

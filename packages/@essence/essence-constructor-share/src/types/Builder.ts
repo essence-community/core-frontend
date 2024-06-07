@@ -91,6 +91,8 @@ export interface IBuilderBaseConfig {
     decimalprecision?: number;
     // Разделитель дробного остатка
     decimalseparator?: string;
+    // 	При очистке выставлять defaultvalue если заполнен
+    defaultisclear?: boolean;
     // Значение по умолчанию CheckBox: true/false DateField: sysdate - текущее время или дата в формате ISO 8601 2005-08-09T18:31:42 для выбора первой записи указать значение "##first##"  для выбора первой записи всегда - указать значение "##alwaysfirst##"
     defaultvalue?: string;
     // Значение по умолчанию из словаря локализации
@@ -209,8 +211,6 @@ export interface IBuilderBaseConfig {
     noform?: boolean;
     // Признак отключения глобального лоадера при загрузке сервиса
     noglobalmask?: boolean;
-    // 	При очистке выставлять defaultvalue если заполнен
-    notisempty?: boolean;
     // Отображается только иконка кнопки (true/false)
     onlyicon?: boolean;
     // Сортировка модели

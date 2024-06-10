@@ -6,8 +6,8 @@ import {v4} from "uuid";
 import {isEqual} from "lodash";
 import {toJS} from "mobx";
 import {request} from "../../request";
-import {IPageModel, IRecordsModel, FieldValue, IResponse, IRecord} from "../../types";
-import {i18next, getMasterObject, deepFind, setMask} from "../../utils";
+import {IRecordsModel, FieldValue, IResponse, IRecord} from "../../types";
+import {i18next, getMasterObject, deepFind, setMask, toString} from "../../utils";
 import {
     VALUE_SELF_FIRST,
     VALUE_SELF_ALWAYSFIRST,
@@ -275,16 +275,16 @@ export function loadRecordsAction(
                 !isEmpty(this.bc.getglobal) && parseMemoize(this.bc.getglobal).runer({get: this.getValue});
             const foundGetGlobalRec =
                 !isEmpty(recordIdValueGetGlobal) &&
-                records.find((rec) => `${recordIdValueGetGlobal}` === `${deepFind(rec, valueField)[1]}`);
+                records.find((rec) => toString(recordIdValueGetGlobal) === toString(deepFind(rec, valueField)[1]));
 
             if (selectedRecordId !== undefined) {
                 findOldSelectedRecordIndex = records.findIndex(
-                    (val) => `${val[this.recordId]} === ${selectedRecordId}`,
+                    (val) => toString(val[this.recordId]) === toString(selectedRecordId),
                 );
             }
             if (this.selectedRecordId !== undefined) {
                 findOldSelectedRecordIndex = records.findIndex(
-                    (val) => `${val[this.recordId]} === ${this.selectedRecordId}`,
+                    (val) => toString(val[this.recordId]) === toString(this.selectedRecordId),
                 );
             }
 
@@ -325,7 +325,7 @@ export function loadRecordsAction(
                     defaultvalue !== VALUE_SELF_FIRST &&
                     defaultvalue !== VALUE_SELF_ALWAYSFIRST:
                     selectedRecordIndex = records.findIndex(
-                        (val) => `${deepFind(val, valueField)[1]} === ${defaultvalue}`,
+                        (val) => toString(deepFind(val, valueField)[1]) === toString(defaultvalue),
                     );
                     if (selectedRecordIndex > -1) {
                         record = records[selectedRecordIndex];
@@ -339,7 +339,9 @@ export function loadRecordsAction(
                         },
                     });
 
-                    selectedRecordIndex = records.findIndex((val) => `${deepFind(val, valueField)[1]} === ${value}`);
+                    selectedRecordIndex = records.findIndex(
+                        (val) => toString(deepFind(val, valueField)[1]) === toString(value),
+                    );
                     if (selectedRecordIndex > -1) {
                         record = records[selectedRecordIndex];
                         recordIdValue = record ? deepFind(record, valueField)[1] : undefined;

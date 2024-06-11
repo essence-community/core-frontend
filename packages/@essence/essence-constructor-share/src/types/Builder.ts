@@ -31,8 +31,10 @@ export interface IBuilderBaseConfig {
     autofocus?: boolean;
     // Признак автозагрузки сервиса
     autoload?: boolean;
-    // Расчет автоперезагрузки стора
+    // Расчет автозагрузки стора со сбросом
     autoloadrule?: string;
+    // Расчет автоперезагрузки стора
+    autoreloadrule?: string;
     // Наименование параметра, определяющего уникальность возвращаемых данных.  Если этот столбец есть в filter и заполнен, то сработает автовыбор первой записи
     autoselectidentity?: string;
     // Отображение кнопки "Информация" (true/false)

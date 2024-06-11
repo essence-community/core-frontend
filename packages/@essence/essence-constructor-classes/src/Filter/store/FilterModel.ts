@@ -280,7 +280,7 @@ export class FilterModel extends StoreBaseModel {
             );
 
             if (parentStore && parentStore.recordsStore) {
-                await parentStore.recordsStore.loadRecordsAction({});
+                await parentStore.recordsStore.loadRecordsAction();
             }
 
             if (this.bc[VAR_RECORD_CL_IS_MASTER]) {
@@ -288,7 +288,7 @@ export class FilterModel extends StoreBaseModel {
 
                 this.pageStore.stores.forEach((store: IStoreBaseModel) => {
                     if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === this.bc[VAR_RECORD_PAGE_OBJECT_ID]) {
-                        const promise = store.recordsStore?.loadRecordsAction({});
+                        const promise = store.recordsStore?.loadRecordsAction();
 
                         if (promise) {
                             promises.push(promise);

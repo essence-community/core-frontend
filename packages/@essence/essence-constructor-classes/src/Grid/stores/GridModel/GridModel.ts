@@ -302,7 +302,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             return Promise.resolve(undefined);
         }
 
-        return this.recordsStore.loadRecordsAction({});
+        return this.recordsStore.loadRecordsAction();
     };
 
     @action
@@ -630,7 +630,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             const isFilterValid = await this.applyFiltersAction();
 
             if (isFilterValid) {
-                await this.loadRecordsAction({});
+                await this.loadRecordsAction();
             }
 
             return Promise.resolve(true);

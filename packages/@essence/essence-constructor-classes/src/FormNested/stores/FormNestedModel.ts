@@ -18,7 +18,7 @@ export class FormNestedModel extends StoreBaseModel {
         });
     }
 
-    reloadStoreAction = () => this.recordsStore.loadRecordsAction({});
+    reloadStoreAction = () => this.recordsStore.loadRecordsAction();
 
     clearStoreAction = () => this.recordsStore.clearChildsStoresAction();
 }

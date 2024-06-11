@@ -83,33 +83,57 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
 
     React.useEffect(() => {
         if (bc.autoloadrule && store.recordsStore) {
-            return reaction(
-                () => {
-                    const result = {} as Record<string, any>;
+            const disposers = [];
+            const getVal = (rule: string) => {
+                const result = {} as Record<string, any>;
 
-                    result[AUTO_LOAD_KEY] = checkAutoload({bc, pageStore});
+                result[AUTO_LOAD_KEY] = checkAutoload({bc, pageStore});
 
-                    const getValue = (name: string) => {
-                        result[name] = getValueGlobal(name);
+                const getValue = (name: string) => {
+                    result[name] = getValueGlobal(name);
 
-                        return result[name];
-                    };
+                    return result[name];
+                };
 
-                    const isAutoloadRule = parseMemoize(bc.autoloadrule!).runer({get: getValue});
+                const isAutoloadRule = parseMemoize(rule).runer({get: getValue});
 
-                    result[AUTO_LOAD_KEY] = result[AUTO_LOAD_KEY] && isAutoloadRule;
+                result[AUTO_LOAD_KEY] = result[AUTO_LOAD_KEY] && isAutoloadRule;
 
-                    return result;
-                },
-                (val) => {
-                    if (val[AUTO_LOAD_KEY]) {
-                        store.recordsStore?.searchAction({}, {reset: true});
-                    }
-                },
-                {
-                    fireImmediately: true,
-                },
-            );
+                return result;
+            };
+
+            if (bc.autoloadrule) {
+                disposers.push(
+                    reaction(
+                        () => getVal(bc.autoloadrule),
+                        (val) => {
+                            if (val[AUTO_LOAD_KEY]) {
+                                store.recordsStore?.searchAction({}, {reset: true});
+                            }
+                        },
+                        {
+                            fireImmediately: true,
+                        },
+                    ),
+                );
+            }
+            if (bc.autoreloadrule) {
+                disposers.push(
+                    reaction(
+                        () => getVal(bc.autoreloadrule),
+                        (val) => {
+                            if (val[AUTO_LOAD_KEY]) {
+                                store.recordsStore?.loadRecordsAction();
+                            }
+                        },
+                        {
+                            fireImmediately: true,
+                        },
+                    ),
+                );
+            }
+
+            return disposers.forEach((fn) => fn());
         }
     }, [store, bc, pageStore, getValueGlobal]);
 

@@ -81,6 +81,12 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
             : store.recordsStore.selectedRecordId === record[store.recordsStore.recordId];
     }, [bc, record, store]);
 
+    const isSelectedExcludeCheckBox = React.useCallback(() => {
+        return !isCheckBoxColumn && (bc.selmode === "MULTI" || bc.collectionvalues === "array")
+            ? store.recordsStore.selectedRecords.has(record[store.recordsStore.recordId] as ICkId)
+            : store.recordsStore.selectedRecordId === record[store.recordsStore.recordId];
+    }, [isCheckBoxColumn, bc, record, store]);
+
     const handleShiftSelect = React.useCallback(() => {
         const lastSelectedRecord = store.recordsStore.selectedRecordIndex;
         const index = store.recordsStore.records.findIndex((rec) => rec === record);
@@ -144,8 +150,8 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
     );
 
     React.useEffect(() => {
-        return reaction(isSelected, setSelected, {fireImmediately: true});
-    }, [isSelected]);
+        return reaction(isSelectedExcludeCheckBox, setSelected, {fireImmediately: true});
+    }, [isSelectedExcludeCheckBox]);
 
     const className = cn(
         classes.root,

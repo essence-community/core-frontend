@@ -88,7 +88,7 @@ export interface IRecordsModelLite {
     bc: IBuilderConfig;
     isLoading: boolean;
     recordId: string;
-    loadRecordsAction: (props: ILoadRecordsProps) => Promise<void>;
+    loadRecordsAction: (props?: ILoadRecordsProps) => Promise<void>;
 }
 
 export interface IRecordsModel {

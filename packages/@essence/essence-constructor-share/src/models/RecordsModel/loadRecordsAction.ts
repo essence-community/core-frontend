@@ -270,6 +270,7 @@ export function loadRecordsAction(
             let recordIdValue = undefined;
             let record = undefined;
             let selectedRecordIndex = 0;
+            let findNewSelectedRecordIndex = -1;
             let findOldSelectedRecordIndex = -1;
             const recordIdValueGetGlobal =
                 !isEmpty(this.bc.getglobal) && parseMemoize(this.bc.getglobal).runer({get: this.getValue});
@@ -278,7 +279,7 @@ export function loadRecordsAction(
                 records.find((rec) => toString(recordIdValueGetGlobal) === toString(deepFind(rec, valueField)[1]));
 
             if (selectedRecordId !== undefined) {
-                findOldSelectedRecordIndex = records.findIndex(
+                findNewSelectedRecordIndex = records.findIndex(
                     (val) => toString(val[this.recordId]) === toString(selectedRecordId),
                 );
             }
@@ -299,14 +300,16 @@ export function loadRecordsAction(
                     recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
                     break;
                 case selectedRecordId !== undefined &&
-                    (findOldSelectedRecordIndex > -1 ||
-                        (findOldSelectedRecordIndex === -1 && isEmpty(defaultvalue) && isEmpty(defaultvaluerule))):
+                    (findNewSelectedRecordIndex > -1 ||
+                        (findNewSelectedRecordIndex === -1 && isEmpty(defaultvalue) && isEmpty(defaultvaluerule))):
                     recordIdValue = selectedRecordId;
+                    record = records[findNewSelectedRecordIndex];
                     break;
                 case this.selectedRecordId !== undefined &&
                     (findOldSelectedRecordIndex > -1 ||
                         (findOldSelectedRecordIndex === -1 && isEmpty(defaultvalue) && isEmpty(defaultvaluerule))):
                     recordIdValue = this.selectedRecordId;
+                    record = records[findOldSelectedRecordIndex];
                     break;
                 case !isEmpty(foundGetGlobalRec):
                     recordIdValue = deepFind(foundGetGlobalRec, valueField)[1];

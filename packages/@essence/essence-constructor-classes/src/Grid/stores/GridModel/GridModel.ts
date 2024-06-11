@@ -393,7 +393,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         this.isAuditOpen = !this.isAuditOpen;
     };
 
-    loadRecordsAction = (props: ILoadRecordsProps) => this.recordsStore.loadRecordsAction(props);
+    loadRecordsAction = (props?: ILoadRecordsProps) => this.recordsStore.loadRecordsAction(props);
 
     onPrintExcel = (values: IRecord, bcBtn: IBuilderConfig): Promise<boolean> => {
         if (isEmpty(this.bc[VAR_RECORD_QUERY_ID])) {

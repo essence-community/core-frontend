@@ -299,15 +299,16 @@ export function loadRecordsAction(
                     record = records[selectedRecordIndex];
                     recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
                     break;
-                case selectedRecordId !== undefined &&
-                    (findNewSelectedRecordIndex > -1 ||
-                        (findNewSelectedRecordIndex === -1 && isEmpty(defaultvalue) && isEmpty(defaultvaluerule))):
+                case selectedRecordId !== undefined && findNewSelectedRecordIndex > -1:
                     recordIdValue = selectedRecordId;
                     record = records[findNewSelectedRecordIndex];
                     break;
                 case this.selectedRecordId !== undefined &&
                     (findOldSelectedRecordIndex > -1 ||
-                        (findOldSelectedRecordIndex === -1 && isEmpty(defaultvalue) && isEmpty(defaultvaluerule))):
+                        (findOldSelectedRecordIndex === -1 &&
+                            isEmpty(foundGetGlobalRec) &&
+                            isEmpty(defaultvalue) &&
+                            isEmpty(defaultvaluerule))):
                     recordIdValue = this.selectedRecordId;
                     record = records[findOldSelectedRecordIndex];
                     break;

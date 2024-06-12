@@ -272,11 +272,12 @@ export function loadRecordsAction(
             let selectedRecordIndex = 0;
             let findNewSelectedRecordIndex = -1;
             let findOldSelectedRecordIndex = -1;
-            const recordIdValueGetGlobal =
-                !isEmpty(this.bc.getglobal) && parseMemoize(this.bc.getglobal).runer({get: this.getValue});
-            const foundGetGlobalRec =
-                !isEmpty(recordIdValueGetGlobal) &&
-                records.find((rec) => toString(recordIdValueGetGlobal) === toString(deepFind(rec, valueField)[1]));
+            const recordIdValueGetGlobal = isEmpty(this.bc.getglobal)
+                ? undefined
+                : parseMemoize(this.bc.getglobal).runer({get: this.getValue});
+            const foundGetGlobalRec = isEmpty(recordIdValueGetGlobal)
+                ? undefined
+                : records.find((rec) => toString(recordIdValueGetGlobal) === toString(deepFind(rec, valueField)[1]));
 
             if (selectedRecordId !== undefined) {
                 findNewSelectedRecordIndex = records.findIndex(

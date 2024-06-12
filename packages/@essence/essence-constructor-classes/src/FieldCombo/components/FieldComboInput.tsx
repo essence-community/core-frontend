@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 /* eslint-disable max-lines-per-function */
 import * as React from "react";
 import {useObserver} from "mobx-react";
@@ -45,7 +46,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             const {value} = event.target;
 
             if (bc.allownew) {
-                const sugValue = props.store.suggestions.find((sug: ISuggestion) => sug.label === value);
+                const sugValue = store.suggestions.find((sug: ISuggestion) => sug.label === value);
                 const newValue = sugValue ? sugValue.value : `${bc.allownew}${value}`;
 
                 store.handleChangeValue(value, !sugValue);
@@ -62,7 +63,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
                 popoverCtx.onOpen();
             }
         },
-        [bc.allownew, popoverCtx, props.store.suggestions, store, field],
+        [bc.allownew, popoverCtx, store, field],
     );
 
     const handleKeyDown = React.useCallback(
@@ -163,8 +164,20 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
                     value = typePaste === "objectandarray" && value.length === 1 ? value[0] : (value as any);
                     break;
             }
-            if (isEmpty(value)) {
+            if (isEmpty(value) && Array.isArray(value)) {
                 field.onClear();
+            } else if (isEmpty(value)) {
+                store.handleChangeValue(value);
+                field.onClear();
+            } else if (bc.allownew && !Array.isArray(value)) {
+                const sugValue = store.suggestions.find((sug: ISuggestion) => sug.label === value);
+                const newValue = sugValue ? sugValue.value : `${bc.allownew}${value}`;
+
+                store.handleChangeValue(value, !sugValue);
+                field.onChange(newValue);
+            } else if (!Array.isArray(value)) {
+                store.handleChangeValue(value);
+                field.onChange(value);
             } else {
                 field.onChange(value);
             }

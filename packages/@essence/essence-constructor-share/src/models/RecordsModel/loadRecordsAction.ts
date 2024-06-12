@@ -266,6 +266,11 @@ export function loadRecordsAction(
         .then((records: Record<string, FieldValue>[]) => {
             const valueField = status === "attach" ? recordId : this.valueField;
             const beforeSelectedRecord = this.selectedRecord;
+            const defaultValue = isEmpty(defaultvaluerule)
+                ? defaultvalue
+                : parseMemoize(defaultvaluerule).runer({
+                      get: this.getValue,
+                  });
             let isDefault: "##alwaysfirst##" | "##first##" | undefined = undefined;
             let recordIdValue = undefined;
             let record = undefined;
@@ -291,7 +296,7 @@ export function loadRecordsAction(
             }
 
             switch (true) {
-                case defaultvalue === VALUE_SELF_ALWAYSFIRST:
+                case defaultValue === VALUE_SELF_ALWAYSFIRST:
                     isDefault = VALUE_SELF_ALWAYSFIRST;
                     selectedRecordIndex = this.isTree
                         ? records.findIndex((val) => isEmpty(val[this.recordParentId]))
@@ -306,10 +311,7 @@ export function loadRecordsAction(
                     break;
                 case this.selectedRecordId !== undefined &&
                     (findOldSelectedRecordIndex > -1 ||
-                        (findOldSelectedRecordIndex === -1 &&
-                            isEmpty(foundGetGlobalRec) &&
-                            isEmpty(defaultvalue) &&
-                            isEmpty(defaultvaluerule))):
+                        (findOldSelectedRecordIndex === -1 && isEmpty(foundGetGlobalRec) && isEmpty(defaultValue))):
                     recordIdValue = this.selectedRecordId;
                     record = records[findOldSelectedRecordIndex];
                     break;
@@ -317,7 +319,7 @@ export function loadRecordsAction(
                     recordIdValue = deepFind(foundGetGlobalRec, valueField)[1];
                     record = foundGetGlobalRec;
                     break;
-                case defaultvalue === VALUE_SELF_FIRST:
+                case defaultValue === VALUE_SELF_FIRST:
                     isDefault = VALUE_SELF_FIRST;
                     selectedRecordIndex = this.isTree
                         ? records.findIndex((val) => isEmpty(val[this.recordParentId]))
@@ -326,26 +328,11 @@ export function loadRecordsAction(
                     record = records[selectedRecordIndex];
                     recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
                     break;
-                case !isEmpty(defaultvalue) &&
-                    defaultvalue !== VALUE_SELF_FIRST &&
-                    defaultvalue !== VALUE_SELF_ALWAYSFIRST:
+                case !isEmpty(defaultValue) &&
+                    defaultValue !== VALUE_SELF_FIRST &&
+                    defaultValue !== VALUE_SELF_ALWAYSFIRST:
                     selectedRecordIndex = records.findIndex(
-                        (val) => toString(deepFind(val, valueField)[1]) === toString(defaultvalue),
-                    );
-                    if (selectedRecordIndex > -1) {
-                        record = records[selectedRecordIndex];
-                        recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
-                    }
-                    break;
-                case !isEmpty(defaultvaluerule):
-                    const value = parseMemoize(defaultvaluerule!).runer({
-                        get: (name: string) => {
-                            return this.pageStore?.globalValues.get(name);
-                        },
-                    });
-
-                    selectedRecordIndex = records.findIndex(
-                        (val) => toString(deepFind(val, valueField)[1]) === toString(value),
+                        (val) => toString(deepFind(val, valueField)[1]) === toString(defaultValue),
                     );
                     if (selectedRecordIndex > -1) {
                         record = records[selectedRecordIndex];

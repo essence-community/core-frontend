@@ -84,7 +84,7 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
     React.useEffect(() => {
         if (bc.autoloadrule && store.recordsStore) {
             const disposers = [];
-            const getVal = (rule: string) => {
+            const getFn = (rule: string) => () => {
                 const result = {} as Record<string, any>;
 
                 result[AUTO_LOAD_KEY] = checkAutoload({bc, pageStore});
@@ -105,7 +105,7 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
             if (bc.autoloadrule) {
                 disposers.push(
                     reaction(
-                        () => getVal(bc.autoloadrule),
+                        getFn(bc.autoloadrule),
                         (val) => {
                             if (val[AUTO_LOAD_KEY]) {
                                 store.recordsStore?.searchAction({}, {reset: true});
@@ -120,7 +120,7 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
             if (bc.autoreloadrule) {
                 disposers.push(
                     reaction(
-                        () => getVal(bc.autoreloadrule),
+                        getFn(bc.autoreloadrule),
                         (val) => {
                             if (val[AUTO_LOAD_KEY]) {
                                 store.recordsStore?.loadRecordsAction();
@@ -133,7 +133,7 @@ export function useModel<IModel extends IStoreBaseModel, P extends IUseModelProp
                 );
             }
 
-            return disposers.forEach((fn) => fn());
+            return () => disposers.forEach((fn) => fn());
         }
     }, [store, bc, pageStore, getValueGlobal]);
 

@@ -135,7 +135,7 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
     const handleClear = React.useCallback(
         (event: React.MouseEvent<HTMLButtonElement>) => {
             event.stopPropagation();
-            field.onClear();
+            field.onClear(true);
         },
         [field],
     );

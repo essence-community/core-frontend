@@ -431,7 +431,7 @@ export class Field implements IField {
     };
 
     @action
-    onClear = (): void => {
+    onClear = (isClearGetGlobal?: boolean): void => {
         if (this.bc.defaultisclear && (this.defaultValue !== undefined || this.defaultValueFn !== undefined)) {
             if (this.defaultValueFn) {
                 this.defaultValueFn(this, this.onChange, this.onClear);
@@ -440,6 +440,19 @@ export class Field implements IField {
             }
 
             return;
+        }
+        if (isClearGetGlobal && this.bc.getglobal) {
+            const updateGlobal = {};
+
+            parseMemoize(this.bc.getglobal).runer({
+                get: (name) => {
+                    if (this.pageStore.globalValues.has(name) || (name && name.charAt(0) === "g")) {
+                        updateGlobal[name] = null;
+                    }
+                },
+            });
+
+            this.pageStore.updateGlobalValues(updateGlobal);
         }
         this.onChange(this.clearValue);
     };

@@ -71,10 +71,10 @@ export const filter = (values: IRecord) => {
     return filteredValues;
 };
 
-const findReloadAction = (recordsStore: IRecordsModel, bc: IBuilderConfig) => {
+const findReloadAction = (recordsStore: IRecordsModel, bc: IBuilderConfig, actionBc: IBuilderConfig) => {
     const masterId = bc[VAR_RECORD_MASTER_ID];
 
-    if (bc.reloadmaster && recordsStore.pageStore && masterId) {
+    if ((bc.reloadmaster || actionBc.reloadmaster) && recordsStore.pageStore && masterId) {
         const masterStore = recordsStore.pageStore.stores.get(masterId);
 
         if (masterStore && masterStore.reloadStoreAction) {
@@ -251,7 +251,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
                     if (check === 1 && noReload) {
                         resolve(result);
                     } else if (check === 1) {
-                        const loadRecordsAction = findReloadAction(this, bc);
+                        const loadRecordsAction = findReloadAction(this, bc, actionBc);
                         const isAttach =
                             !bc.refreshallrecords &&
                             (mode === "1" || mode === "2" || mode === "4") &&

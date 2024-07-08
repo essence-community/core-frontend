@@ -63,6 +63,7 @@ export function freeHandler(options: IFreeHanderOptions) {
             actionBc: bc,
             files,
             form,
+            noReload: bc.reloadmaster ? undefined : true,
             query: bc.updatequery || "Modify",
         },
     );

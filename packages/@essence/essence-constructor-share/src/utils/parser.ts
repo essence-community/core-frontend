@@ -22,6 +22,7 @@ import {FieldValue} from "../types";
 import {loggerRoot} from "../constants";
 import {i18next} from "./I18n";
 import {decodePathUrl, encodePathUrl, isEmpty} from "./base";
+import {BigNumberBase} from "./bignumber";
 
 export interface IGetValue {
     get: (key: string) => FieldValue;
@@ -82,8 +83,24 @@ const operators: any = {
     "||": ({left, right}: LogicalExpression, values: IValues) =>
         parseOperations(left, values) || parseOperations(right, values),
 };
+const BigNumber = BigNumberBase;
+
+// @ts-ignore
+BigNumber.from = function (val: any, conf: any) {
+    if (isEmpty(val)) {
+        return "";
+    }
+    try {
+        return new BigNumber(val, conf);
+    } catch (e) {
+        return "";
+    }
+};
+// @ts-ignore
+BigNumber.prototype.from = BigNumber.from;
 
 const utils = {
+    BigNumber,
     JSON,
     isEmpty,
     lodash,

@@ -62,7 +62,7 @@ export const PanelEditingButtons: React.FC<IClassProps> = (props) => {
                 "Override Save Button": getSaveBtnConfig(bc, isDarkTheme),
             },
             {
-                include: ["setglobal"],
+                include: ["setglobal", VAR_RECORD_DISPLAYED],
             },
         );
 

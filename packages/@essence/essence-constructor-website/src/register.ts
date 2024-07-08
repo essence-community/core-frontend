@@ -92,3 +92,4 @@ import "@essence-community/constructor-classes/src/ButtonDynamic";
 import "@essence-community/constructor-classes/src/ModuleFederation";
 import "@essence-community/constructor-classes/src/LayoutPanel";
 import "@essence-community/constructor-classes/src/MonacoEditor";
+import "@essence-community/constructor-classes/src/FieldPopover";

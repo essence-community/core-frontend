@@ -24,3 +24,4 @@ export const ACTIONS_MODE_MAP = {
     7: "I",
     8: "I",
 };
+export const DEFAULT_CLIPBOARD_PASTE_SEPARATE_REGEX = "[;, \t\r\n]+";

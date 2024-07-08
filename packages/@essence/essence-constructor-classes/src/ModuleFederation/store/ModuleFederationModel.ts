@@ -238,7 +238,7 @@ export class ModuleFederationModel extends StoreBaseModel {
     };
 
     @action
-    reloadStoreAction = () => this.recordsStore.loadRecordsAction({});
+    reloadStoreAction = () => this.recordsStore.loadRecordsAction();
     @action
     clearStoreAction = () => this.recordsStore.clearChildsStoresAction();
 

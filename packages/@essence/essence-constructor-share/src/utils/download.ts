@@ -1,6 +1,5 @@
 /* eslint-disable max-statements */
 import axios from "axios";
-import {setMask} from "../models/RecordsModel/loadRecordsAction";
 import {request} from "../request";
 import {IPageModel} from "../types/PageModel";
 import {ISnackbarModel} from "../types/SnackbarModel";
@@ -18,6 +17,7 @@ import {
 } from "../constants";
 import {getMasterObject} from "./getMasterObject";
 import {prepareUrl} from "./redirect";
+import {setMask} from "./mask";
 
 interface IReloadPageObject {
     [VAR_RECORD_ROUTE_PAGE_ID]: string;
@@ -50,7 +50,7 @@ export const print = async ({
     pageStore,
     reloadPageObject,
     timeout,
-}: IPrint) => {
+}: IPrint): Promise<number | boolean> => {
     values[VAR_RECORD_ID] = null;
     values[VAR_RECORD_CL_ONLINE] = Number(isOnline);
     const getMasterValue = bcBtn.getmastervalue || bc.getmastervalue;
@@ -74,12 +74,15 @@ export const print = async ({
         query: bcBtn.updatequery || "Modify",
         session: applicationStore.authStore.userInfo.session,
         timeout,
-    }).catch((error) => {
-        snackbarStore.checkExceptResponse(error, pageStore.route, pageStore.applicationStore);
-    });
+    })
+        .catch((error) => {
+            snackbarStore.checkExceptResponse(error, pageStore.route, pageStore.applicationStore);
+        })
+        .finally(() => {
+            setMask(false, bcBtn.noglobalmask, pageStore);
+        });
     const res: IResult = result;
 
-    setMask(false, bcBtn.noglobalmask, pageStore);
     const isValid = snackbarStore.checkValidResponseAction(res, {
         applicationStore,
         route: pageStore.route,

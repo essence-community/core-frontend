@@ -121,8 +121,8 @@ export class ApplicationModel implements IApplicationModel {
             children.find((rec: IBuilderConfig) => {
                 return (
                     rec[VAR_RECORD_URL] === this.url &&
-                    ((isEmpty(rec.activerules) && parseMemoize(rec.activerules).runer({get: this.handleGetValue})) ||
-                        true)
+                    ((!isEmpty(rec.activerules) && parseMemoize(rec.activerules).runer({get: this.handleGetValue})) ||
+                        isEmpty(rec.activerules))
                 );
             }) || NONE_BC;
 

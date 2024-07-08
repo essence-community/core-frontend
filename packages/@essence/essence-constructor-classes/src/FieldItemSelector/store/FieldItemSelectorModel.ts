@@ -72,7 +72,7 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
     private applySaveAction = (fromStore: IStoreBaseModel, toStore: IStoreBaseModel, recs: IRecord[]) => {
         if (fromStore.bc.winreloadstores) {
             fromStore.clearStoreAction();
-            fromStore.recordsStore!.loadRecordsAction({});
+            fromStore.recordsStore!.loadRecordsAction();
         } else {
             fromStore.recordsStore!.setSelectionsAction([]);
             fromStore.recordsStore!.setSelectionAction();
@@ -80,7 +80,7 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
         }
         if (toStore.bc.winreloadstores) {
             toStore.clearStoreAction();
-            toStore.recordsStore!.loadRecordsAction({});
+            toStore.recordsStore!.loadRecordsAction();
         } else {
             toStore.recordsStore!.setSelectionsAction([]);
             toStore.recordsStore!.setSelectionAction();

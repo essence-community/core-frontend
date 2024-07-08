@@ -5,7 +5,10 @@ import {IBuilderConfig, IPageModel, FieldValue} from "../types";
 import {FormContext, ParentFieldContext} from "../context";
 import {VAR_RECORD_MASTER_ID, VAR_RECORD_CL_IS_MASTER, VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
 import {isEmpty} from "../utils/base";
+import {debounce} from "../utils";
 import {IField, IRegisterFieldOptions} from "./types";
+
+const CHANGE_TIMEOUT = 500;
 
 interface IUseFieldProps {
     bc: IBuilderConfig;
@@ -65,7 +68,7 @@ export const useField = ({
     }, [form, key]);
 
     const handleReactValue = useCallback(
-        (value: FieldValue) => {
+        debounce((value: FieldValue) => {
             const ckPageObject = bc[VAR_RECORD_PAGE_OBJECT_ID];
 
             pageStore.addFieldValueMaster(ckPageObject, value);
@@ -88,7 +91,7 @@ export const useField = ({
                     }
                 }
             });
-        },
+        }, CHANGE_TIMEOUT),
         [bc, pageStore],
     );
 

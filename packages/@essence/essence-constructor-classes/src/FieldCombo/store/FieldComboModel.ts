@@ -127,13 +127,18 @@ export class FieldComboModel extends StoreBaseModel {
                         : (selectedRecordId as "string" | "number"),
             });
 
-            if (selectedRecordId != this.recordsStore.selectedRecordValues[this.recordsStore.recordId]) {
+            if (
+                selectedRecordId != this.recordsStore.selectedRecordValues[this.recordsStore.recordId] &&
+                this.bc.defaultvalue !== VALUE_SELF_FIRST &&
+                this.bc.defaultvalue !== VALUE_SELF_ALWAYSFIRST
+            ) {
                 this.field.onClear();
             }
 
             if (
                 this.recordsStore.recordsState.records.length &&
-                (this.bc.defaultvalue === VALUE_SELF_FIRST || this.bc.defaultvalue === VALUE_SELF_ALWAYSFIRST)
+                ((this.bc.defaultvalue === VALUE_SELF_FIRST && !this.recordsStore.selectedRecord) ||
+                    this.bc.defaultvalue === VALUE_SELF_ALWAYSFIRST)
             ) {
                 const id = this.recordsStore.recordsState.records[0][this.recordsStore.recordId];
 

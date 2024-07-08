@@ -62,7 +62,7 @@ export interface IField {
     // Events
     onChange(value: FieldValue): void;
     onReset(): void;
-    onClear(): void;
+    onClear(isClearGetGlobal?: boolean): void;
     onCopy(): void;
 }
 

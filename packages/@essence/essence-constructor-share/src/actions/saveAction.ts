@@ -23,7 +23,7 @@ import {
     IRecord,
     IProgressModel,
 } from "../types";
-import {isEmpty, i18next} from "../utils";
+import {isEmpty, i18next, setMask} from "../utils";
 import {getMasterObject} from "../utils/getMasterObject";
 import {TText} from "../types/SnackbarModel";
 import {IForm} from "../Form";
@@ -36,7 +36,6 @@ import {
     VAR_RECORD_VALUE_ID,
 } from "../constants/variables";
 import {IGetValue, parseMemoize} from "../utils/parser";
-import {setMask} from "./recordsActions";
 
 export interface IConfig {
     actionBc: IBuilderConfig;
@@ -72,10 +71,10 @@ export const filter = (values: IRecord) => {
     return filteredValues;
 };
 
-const findReloadAction = (recordsStore: IRecordsModel, bc: IBuilderConfig) => {
+const findReloadAction = (recordsStore: IRecordsModel, bc: IBuilderConfig, actionBc: IBuilderConfig) => {
     const masterId = bc[VAR_RECORD_MASTER_ID];
 
-    if (bc.reloadmaster && recordsStore.pageStore && masterId) {
+    if ((bc.reloadmaster || actionBc.reloadmaster) && recordsStore.pageStore && masterId) {
         const masterStore = recordsStore.pageStore.stores.get(masterId);
 
         if (masterStore && masterStore.reloadStoreAction) {
@@ -168,7 +167,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
         modeCheck = isEmpty(filteredValues[recordId]) && /^\d+$/u.test(mode) ? "1" : mode;
     }
 
-    setMask(bc.noglobalmask, pageStore, true);
+    setMask(true, bc.noglobalmask, pageStore);
 
     return request({
         [META_PAGE_ID]: pageStore.pageId,
@@ -203,7 +202,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
                         form,
                         route: pageStore.route,
                         warnCallBack: (warningText: TText[]) => {
-                            setMask(bc.noglobalmask, pageStore, false);
+                            setMask(false, bc.noglobalmask, pageStore);
 
                             pageStore.openQuestionWindow(warningText, (warningStatusNew) => {
                                 if (warningStatusNew === 0) {
@@ -252,7 +251,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
                     if (check === 1 && noReload) {
                         resolve(result);
                     } else if (check === 1) {
-                        const loadRecordsAction = findReloadAction(this, bc);
+                        const loadRecordsAction = findReloadAction(this, bc, actionBc);
                         const isAttach =
                             !bc.refreshallrecords &&
                             (mode === "1" || mode === "2" || mode === "4") &&
@@ -286,7 +285,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
             return false;
         })
         .then((res: boolean) => {
-            setMask(bc.noglobalmask, pageStore, false);
+            setMask(false, bc.noglobalmask, pageStore);
 
             return res;
         });

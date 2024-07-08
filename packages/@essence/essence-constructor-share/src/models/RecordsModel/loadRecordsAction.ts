@@ -6,8 +6,8 @@ import {v4} from "uuid";
 import {isEqual} from "lodash";
 import {toJS} from "mobx";
 import {request} from "../../request";
-import {IPageModel, IRecordsModel, FieldValue, IResponse, IRecord} from "../../types";
-import {i18next, getMasterObject, deepFind} from "../../utils";
+import {IRecordsModel, FieldValue, IResponse, IRecord} from "../../types";
+import {i18next, getMasterObject, deepFind, setMask, toString} from "../../utils";
 import {
     VALUE_SELF_FIRST,
     VALUE_SELF_ALWAYSFIRST,
@@ -102,12 +102,6 @@ export function attachGlobalStore({bc, json, getValue, globalValues}: IAttachGlo
     }
 }
 
-export function setMask(isLoading: boolean, noglobalmask?: boolean, pageStore?: IPageModel | null) {
-    if (!noglobalmask && pageStore) {
-        pageStore.setLoadingAction(isLoading);
-    }
-}
-
 export function checkPageNumber(
     recordsStore: IRecordsModel,
     master: Record<string, FieldValue> | Record<string, FieldValue>[] = {},
@@ -192,7 +186,7 @@ export function loadRecordsAction(
     const isWaiting = bc[VAR_RECORD_MASTER_ID] || bc.getglobaltostore;
     const {formData} = this;
 
-    this.isLoading = true;
+    this.setLoadingAction(true);
 
     // Should be logic for wainting unfinished master request
     return Promise.resolve()
@@ -272,30 +266,37 @@ export function loadRecordsAction(
         .then((records: Record<string, FieldValue>[]) => {
             const valueField = status === "attach" ? recordId : this.valueField;
             const beforeSelectedRecord = this.selectedRecord;
+            const defaultValue = isEmpty(defaultvaluerule)
+                ? defaultvalue
+                : parseMemoize(defaultvaluerule).runer({
+                      get: this.getValue,
+                  });
             let isDefault: "##alwaysfirst##" | "##first##" | undefined = undefined;
             let recordIdValue = undefined;
             let record = undefined;
             let selectedRecordIndex = 0;
+            let findNewSelectedRecordIndex = -1;
             let findOldSelectedRecordIndex = -1;
-            const recordIdValueGetGlobal =
-                !isEmpty(this.bc.getglobal) && parseMemoize(this.bc.getglobal).runer({get: this.getValue});
-            const foundGetGlobalRec =
-                !isEmpty(recordIdValueGetGlobal) &&
-                records.find((rec) => `${recordIdValueGetGlobal}` === `${deepFind(rec, valueField)[1]}`);
+            const recordIdValueGetGlobal = isEmpty(this.bc.getglobal)
+                ? undefined
+                : parseMemoize(this.bc.getglobal).runer({get: this.getValue});
+            const foundGetGlobalRec = isEmpty(recordIdValueGetGlobal)
+                ? undefined
+                : records.find((rec) => toString(recordIdValueGetGlobal) === toString(deepFind(rec, valueField)[1]));
 
             if (selectedRecordId !== undefined) {
-                findOldSelectedRecordIndex = records.findIndex(
-                    (val) => `${val[this.recordId]} === ${selectedRecordId}`,
+                findNewSelectedRecordIndex = records.findIndex(
+                    (val) => toString(val[this.recordId]) === toString(selectedRecordId),
                 );
             }
             if (this.selectedRecordId !== undefined) {
                 findOldSelectedRecordIndex = records.findIndex(
-                    (val) => `${val[this.recordId]} === ${this.selectedRecordId}`,
+                    (val) => toString(val[this.recordId]) === toString(this.selectedRecordId),
                 );
             }
 
             switch (true) {
-                case defaultvalue === VALUE_SELF_ALWAYSFIRST:
+                case defaultValue === VALUE_SELF_ALWAYSFIRST:
                     isDefault = VALUE_SELF_ALWAYSFIRST;
                     selectedRecordIndex = this.isTree
                         ? records.findIndex((val) => isEmpty(val[this.recordParentId]))
@@ -304,21 +305,21 @@ export function loadRecordsAction(
                     record = records[selectedRecordIndex];
                     recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
                     break;
-                case selectedRecordId !== undefined &&
-                    (findOldSelectedRecordIndex > -1 ||
-                        (findOldSelectedRecordIndex === -1 && isEmpty(defaultvalue) && isEmpty(defaultvaluerule))):
+                case selectedRecordId !== undefined && findNewSelectedRecordIndex > -1:
                     recordIdValue = selectedRecordId;
+                    record = records[findNewSelectedRecordIndex];
                     break;
                 case this.selectedRecordId !== undefined &&
                     (findOldSelectedRecordIndex > -1 ||
-                        (findOldSelectedRecordIndex === -1 && isEmpty(defaultvalue) && isEmpty(defaultvaluerule))):
+                        (findOldSelectedRecordIndex === -1 && isEmpty(foundGetGlobalRec) && isEmpty(defaultValue))):
                     recordIdValue = this.selectedRecordId;
+                    record = records[findOldSelectedRecordIndex];
                     break;
                 case !isEmpty(foundGetGlobalRec):
                     recordIdValue = deepFind(foundGetGlobalRec, valueField)[1];
                     record = foundGetGlobalRec;
                     break;
-                case defaultvalue === VALUE_SELF_FIRST:
+                case defaultValue === VALUE_SELF_FIRST:
                     isDefault = VALUE_SELF_FIRST;
                     selectedRecordIndex = this.isTree
                         ? records.findIndex((val) => isEmpty(val[this.recordParentId]))
@@ -327,25 +328,12 @@ export function loadRecordsAction(
                     record = records[selectedRecordIndex];
                     recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
                     break;
-                case !isEmpty(defaultvalue) &&
-                    defaultvalue !== VALUE_SELF_FIRST &&
-                    defaultvalue !== VALUE_SELF_ALWAYSFIRST:
+                case !isEmpty(defaultValue) &&
+                    defaultValue !== VALUE_SELF_FIRST &&
+                    defaultValue !== VALUE_SELF_ALWAYSFIRST:
                     selectedRecordIndex = records.findIndex(
-                        (val) => `${deepFind(val, valueField)[1]} === ${defaultvalue}`,
+                        (val) => toString(deepFind(val, valueField)[1]) === toString(defaultValue),
                     );
-                    if (selectedRecordIndex > -1) {
-                        record = records[selectedRecordIndex];
-                        recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
-                    }
-                    break;
-                case !isEmpty(defaultvaluerule):
-                    const value = parseMemoize(defaultvaluerule!).runer({
-                        get: (name: string) => {
-                            return this.pageStore?.globalValues.get(name);
-                        },
-                    });
-
-                    selectedRecordIndex = records.findIndex((val) => `${deepFind(val, valueField)[1]} === ${value}`);
                     if (selectedRecordIndex > -1) {
                         record = records[selectedRecordIndex];
                         recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
@@ -381,9 +369,10 @@ export function loadRecordsAction(
             return this.setSelectionAction(recordIdValue, valueField);
         })
         .then(() => {
-            setMask(false, noglobalmask, this.pageStore);
-            this.isLoading = false;
-
             return this.selectedRecord;
+        })
+        .finally(() => {
+            setMask(false, noglobalmask, this.pageStore);
+            this.setLoadingAction(false);
         });
 }

@@ -76,7 +76,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
 
                 field.onChange(val);
                 store.handleSetValue(val, false, false);
-            } else {
+            } else if (value !== VALUE_SELF_FIRST && value !== VALUE_SELF_ALWAYSFIRST) {
                 store.handleSetValue(value, false, false);
             }
         },
@@ -112,8 +112,8 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
                     );
                     const value =
                         ((recordsState.isDefault && isDefault) || !recordsState.isDefault) &&
-                        store.recordsStore.selectedRecord
-                            ? store.recordsStore.selectedRecord[store.valuefield]
+                        (recordsState.record || store.recordsStore.selectedRecord)
+                            ? (recordsState.record || store.recordsStore.selectedRecord)[store.valuefield]
                             : field.value;
 
                     if (isDefault && !recordsState.isUserReload) {

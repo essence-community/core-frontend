@@ -85,7 +85,7 @@ export class FieldRadioModel extends StoreBaseModel implements IStoreBaseModel {
     @action
     reloadStoreAction = async () => {
         if (!this.recordsStore.isLoading) {
-            await this.recordsStore.loadRecordsAction({});
+            await this.recordsStore.loadRecordsAction();
         }
 
         return undefined;

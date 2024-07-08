@@ -3,7 +3,7 @@ import animate from "./animate";
 export * from "./functions";
 export {isIE, getAbsoluteOffsetFromGivenElement, loadJS, loadCSS, loadFiles} from "./browser";
 export {declension} from "./formatter";
-export {getMask} from "./mask";
+export {getMask, setMask} from "./mask";
 export * from "./storage";
 export * from "./transform";
 export * from "./validations";

@@ -53,7 +53,7 @@ export class IframeModel extends StoreBaseModel implements IStoreBaseModel {
     reloadStoreAction = () => {
         this.recordsStore.selectedRecords.clear();
 
-        return this.recordsStore.loadRecordsAction({});
+        return this.recordsStore.loadRecordsAction();
     };
 
     @action

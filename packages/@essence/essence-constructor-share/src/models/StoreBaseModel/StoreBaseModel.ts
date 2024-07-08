@@ -9,9 +9,19 @@ import {
     IRecord,
     IBuilderMode,
     IHandlerOptions,
+    IRecordsModel,
 } from "../../types";
-import {VAR_RECORD_ID, loggerRoot} from "../../constants";
-import {i18next} from "../../utils";
+import {
+    VAR_RECORD_ID,
+    VAR_RECORD_MASTER_ID,
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_PARENT_ID,
+    VAR_RECORD_ROUTE_PAGE_ID,
+    loggerRoot,
+} from "../../constants";
+import {i18next, print} from "../../utils";
+import {snackbarStore} from "..";
+import {attachGlobalValues} from "../../actions/saveAction";
 
 const logger = loggerRoot.extend("StoreBaseModel");
 
@@ -41,6 +51,8 @@ export class StoreBaseModel implements IStoreBaseModel {
 
     public editing?: boolean;
 
+    public recordsStore?: IRecordsModel;
+
     constructor({bc, pageStore, applicationStore, disabled, hidden}: IStoreBaseModelProps) {
         this.bc = bc;
         this.pageStore = pageStore;
@@ -67,4 +79,48 @@ export class StoreBaseModel implements IStoreBaseModel {
 
         return Promise.resolve(false);
     };
+
+    handlePrint = async (isOnline: boolean, bcBtn: IBuilderConfig, options: IHandlerOptions): Promise<boolean> => {
+        const form = options.form;
+        const parentStore = this.pageStore.stores.get(this.bc[VAR_RECORD_MASTER_ID]);
+
+        if (form) {
+            form.validate();
+
+            const values = bcBtn.skipvalidation || form.isValid ? form.values : undefined;
+
+            if (values) {
+                const isValidPrint = await print({
+                    applicationStore: this.pageStore.applicationStore,
+                    bc: this.bc,
+                    bcBtn,
+                    isOnline,
+                    pageStore: this.pageStore,
+                    reloadPageObject: {
+                        [VAR_RECORD_PAGE_OBJECT_ID]: this.bc[VAR_RECORD_MASTER_ID] || this.bc[VAR_RECORD_PARENT_ID],
+                        [VAR_RECORD_ROUTE_PAGE_ID]: this.pageStore.pageId,
+                    },
+                    snackbarStore,
+                    timeout: bcBtn.timeout || this.bc.timeout,
+                    values: attachGlobalValues({
+                        getValue: parentStore?.recordsStore?.getValue || this.recordsStore?.getValue,
+                        getglobaltostore: bcBtn.getglobaltostore,
+                        globalValues: this.pageStore.globalValues,
+                        values,
+                    }),
+                });
+
+                if (isValidPrint) {
+                    form.submit();
+                    options.windowCtx?.onClose();
+                }
+            }
+        }
+
+        return Promise.resolve(true);
+    };
+    onPrintHandleOffline = (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) =>
+        this.handlePrint(false, btnBc, options);
+    onPrintHandleOnline = (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) =>
+        this.handlePrint(true, btnBc, options);
 }

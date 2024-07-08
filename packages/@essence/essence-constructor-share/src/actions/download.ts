@@ -23,10 +23,10 @@ import {
     loggerRoot,
 } from "../constants";
 import {IRecord, IBuilderMode, IPageModel, IBuilderConfig, IRecordsModel} from "../types";
-import {getMasterObject, isEmpty} from "../utils";
+import {getMasterObject, isEmpty, setMask} from "../utils";
 import {settingsStore} from "../models/SettingsModel";
 import {IForm} from "../Form";
-import {setMask, snackbarStore} from "../models";
+import {snackbarStore} from "../models";
 import {filter, attachGlobalValues} from "./saveAction";
 
 const logger = loggerRoot.extend("download");
@@ -121,7 +121,10 @@ export function downloadXhr(config: AxiosRequestConfig, pageStore?: IPageModel |
                 const result = JSON.parse(enc.decode(arr));
 
                 if (result.success) {
-                    snackbarStore.checkValidResponseAction(result.data?.[0] || {}, {applicationStore: pageStore?.applicationStore, route: pageStore?.route});
+                    snackbarStore.checkValidResponseAction(result.data?.[0] || {}, {
+                        applicationStore: pageStore?.applicationStore,
+                        route: pageStore?.route,
+                    });
                 } else {
                     snackbarStore.checkExceptResponse(responseJSON, pageStore?.route, pageStore?.applicationStore);
                 }
@@ -131,9 +134,14 @@ export function downloadXhr(config: AxiosRequestConfig, pageStore?: IPageModel |
                 let filename = "";
 
                 if (contentDisposition.indexOf("filename") > -1) {
-                    const FIND_NAME = new RegExp("filename\\*?=(?<check>UTF-8'')?\\\"?(?<filename>[^\\\"$]+)\\\"?", "gi");
+                    const FIND_NAME = new RegExp(
+                        "filename\\*?=(?<check>UTF-8'')?\\\"?(?<filename>[^\\\"$]+)\\\"?",
+                        "gi",
+                    );
 
-                    filename = decodeURIComponent(FIND_NAME.exec(contentDisposition)?.groups?.filename as string || "");
+                    filename = decodeURIComponent(
+                        (FIND_NAME.exec(contentDisposition)?.groups?.filename as string) || "",
+                    );
                 }
                 const tempLink = document.createElement("a");
 
@@ -217,7 +225,7 @@ export function download(
                 getValue: this.getValue,
                 getglobaltostore,
                 globalValues: pageStore.globalValues,
-                values: filter(modeBtn === "1" ? {} as any : values),
+                values: filter(modeBtn === "1" ? ({} as any) : values),
             });
         }
     }
@@ -256,7 +264,7 @@ export function download(
             }
             files.forEach((file) => {
                 bodyFormData?.append("upload_file", file, file.name);
-            })
+            });
         }
 
         if (bodyFormData) {

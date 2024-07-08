@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys */
 import * as React from "react";
 import {Grid, Paper, useTheme} from "@material-ui/core";
 import {getComponent} from "@essence-community/constructor-share/components";
@@ -12,8 +13,7 @@ import {getFilePanelBtnsConfig} from "./FilePanelModelBtnConfigs";
 import {useStyles} from "./FilePanelContainer.styles";
 
 export const FilePanelContainer: React.FC<IClassProps> = (props) => {
-    const { bc, elevation, disabled, readOnly, pageStore, visible } = props;
-    const { pagesize } = bc;
+    const {bc, elevation, disabled, readOnly, pageStore, visible} = props;
     const theme = useTheme<IEssenceTheme>();
     const classes = useStyles();
     const contentStyle = React.useMemo(
@@ -40,8 +40,16 @@ export const FilePanelContainer: React.FC<IClassProps> = (props) => {
         [btnsConfig, bc],
     );
 
-    const PanelWrapper = React.useMemo(() => getComponent('PANEL.PANELFORM'), []);
-    const BCPanel = React.useMemo(() => ({ ...props.bc, contentview: 'vbox', align: 'stretch', topbtn: btns.reverse() }), [props.bc]);
+    const PanelWrapper = React.useMemo(() => getComponent("PANEL.PANELFORM"), []);
+    const BCPanel = React.useMemo(
+        () => ({
+            ...props.bc,
+            contentview: "vbox",
+            align: "stretch",
+            topbtn: theme.essence.layoutTheme === 2 ? btns : btns.reverse(),
+        }),
+        [btns, props.bc, theme.essence.layoutTheme],
+    );
 
     return useObserver(() => (
         <Paper elevation={elevation} className="paper-overflow-hidden" data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}>
@@ -68,27 +76,28 @@ export const FilePanelContainer: React.FC<IClassProps> = (props) => {
                                         />
                                     </Grid>
                                 ))}
-
                             </Grid>
                         </Scrollbars>
                     </Grid>
-                    {store.recordsStore.pageSize ? <Grid container item justify="center" alignItems="center">
-                        <Grid item>
-                         <Pagination
-                            pageStore={store.pageStore}
-                            disabled={props.disabled}
-                            pageSizeRange={store.recordsStore.pageSizeRange}
-                            pageSize={store.recordsStore.pageSize}
-                            onChangePageSize={store.recordsStore.setPageSize}
-                            ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]}
-                            count={store.recordsStore.recordsCount}
-                            rowsPerPage={store.recordsStore.pageSize}
-                            page={store.recordsStore.pageNumber}
-                            onChangePage={store.recordsStore.setPageNumberAction}
-                        //className={classes.pagination}
-                            />
+                    {store.recordsStore.pageSize ? (
+                        <Grid container item justify="center" alignItems="center">
+                            <Grid item>
+                                <Pagination
+                                    pageStore={store.pageStore}
+                                    disabled={props.disabled}
+                                    pageSizeRange={store.recordsStore.pageSizeRange}
+                                    pageSize={store.recordsStore.pageSize}
+                                    onChangePageSize={store.recordsStore.setPageSize}
+                                    ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                    count={store.recordsStore.recordsCount}
+                                    rowsPerPage={store.recordsStore.pageSize}
+                                    page={store.recordsStore.pageNumber}
+                                    onChangePage={store.recordsStore.setPageNumberAction}
+                                    // className={classes.pagination}
+                                />
+                            </Grid>
                         </Grid>
-                    </Grid> : null}
+                    ) : null}
                 </Grid>
             </PanelWrapper>
         </Paper>

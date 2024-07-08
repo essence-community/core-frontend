@@ -535,6 +535,7 @@ export class SnackbarModel implements ISnackbarModel {
             if (error.extrainfo) {
                 this.snackbarOpenAction({
                     description: error.extrainfo,
+                    hiddenTimeout: 0,
                     status: "debug",
                     text: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7", {query: error.query}),
                     title: `Request ${error.requestId || ""}`,

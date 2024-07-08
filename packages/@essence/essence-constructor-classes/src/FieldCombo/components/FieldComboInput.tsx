@@ -1,11 +1,15 @@
+/* eslint-disable max-statements */
 /* eslint-disable max-lines-per-function */
 import * as React from "react";
 import {useObserver} from "mobx-react";
 import keycode from "keycode";
 import {IconButton, TextField} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {isEmpty} from "@essence-community/constructor-share/utils";
+import {
+    DEFAULT_CLIPBOARD_PASTE_SEPARATE_REGEX,
+    VAR_RECORD_PAGE_OBJECT_ID,
+} from "@essence-community/constructor-share/constants";
+import {isEmpty, toString} from "@essence-community/constructor-share/utils";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {PopoverContext} from "@essence-community/constructor-share/context";
 import {IField} from "@essence-community/constructor-share/Form";
@@ -42,7 +46,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             const {value} = event.target;
 
             if (bc.allownew) {
-                const sugValue = props.store.suggestions.find((sug: ISuggestion) => sug.label === value);
+                const sugValue = store.suggestions.find((sug: ISuggestion) => sug.label === value);
                 const newValue = sugValue ? sugValue.value : `${bc.allownew}${value}`;
 
                 store.handleChangeValue(value, !sugValue);
@@ -59,7 +63,7 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
                 popoverCtx.onOpen();
             }
         },
-        [bc.allownew, popoverCtx, props.store.suggestions, store, field],
+        [bc.allownew, popoverCtx, store, field],
     );
 
     const handleKeyDown = React.useCallback(
@@ -117,6 +121,88 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
         [props.inputRef],
     );
 
+    const onChangeValue = React.useCallback(
+        (text: string) => {
+            const typePaste = bc.collectionvalues || "object";
+            const regSeparated = new RegExp(
+                bc.clipboardpasteseparateregex || DEFAULT_CLIPBOARD_PASTE_SEPARATE_REGEX,
+                "g",
+            );
+            const fieldValue = bc.clipboardpastefield || "value";
+            let value = undefined;
+
+            switch (typePaste) {
+                case "object":
+                    if (fieldValue === "value") {
+                        value = text;
+                    } else if (fieldValue === "display") {
+                        value = store.suggestions.find((val) => val.label === text)?.value;
+                    } else {
+                        value =
+                            store.suggestions.find((record) => toString(record.value) === text)?.value ||
+                            store.suggestions.find((val) => val.label === text)?.value;
+                    }
+                    break;
+                case "array":
+                case "objectandarray":
+                    const arr = text.split(regSeparated).filter((val) => !isEmpty(val));
+
+                    if (fieldValue === "value") {
+                        value = arr as any;
+                    } else if (fieldValue === "display") {
+                        value = store.suggestions.filter((val) => arr.indexOf(val.label) > -1).map((val) => val.value);
+                    } else {
+                        value = store.suggestions
+                            .filter((record) => arr.indexOf(toString(record.value)) > -1)
+                            .map((val) => val.value);
+                        if ((value as any[]).length === 0) {
+                            value = store.suggestions
+                                .filter((val) => arr.indexOf(val.label) > -1)
+                                .map((val) => val.value);
+                        }
+                    }
+                    value = typePaste === "objectandarray" && value.length === 1 ? value[0] : (value as any);
+                    break;
+            }
+            if (isEmpty(value) && Array.isArray(value)) {
+                field.onClear();
+            } else if (isEmpty(value)) {
+                store.handleChangeValue(value);
+                field.onClear();
+            } else if (bc.allownew && !Array.isArray(value)) {
+                const sugValue = store.suggestions.find((sug: ISuggestion) => sug.label === value);
+                const newValue = sugValue ? sugValue.value : `${bc.allownew}${value}`;
+
+                store.handleChangeValue(value, !sugValue);
+                field.onChange(newValue);
+            } else if (!Array.isArray(value)) {
+                store.handleChangeValue(value);
+                field.onChange(value);
+            } else {
+                field.onChange(value);
+            }
+        },
+        [bc, field, store],
+    );
+
+    const onPaste = React.useCallback(
+        (event: React.ClipboardEvent<HTMLInputElement>) => {
+            event.stopPropagation();
+            event.preventDefault();
+            onChangeValue(event.clipboardData.getData("text"));
+        },
+        [onChangeValue],
+    );
+
+    const onDrop = React.useCallback(
+        (event: React.DragEvent<HTMLInputElement>) => {
+            event.stopPropagation();
+            event.preventDefault();
+            onChangeValue(event.dataTransfer.getData("text"));
+        },
+        [onChangeValue],
+    );
+
     const chevron = popoverCtx.open ? (
         <IconButton
             key={`${props.bc[VAR_RECORD_PAGE_OBJECT_ID]}-open`}
@@ -169,6 +255,8 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
                 }
                 props.setFocused(false);
             }}
+            onPaste={onPaste}
+            onDrop={onDrop}
         />
     ));
 });

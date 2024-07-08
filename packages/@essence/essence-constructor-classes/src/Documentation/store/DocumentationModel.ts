@@ -19,7 +19,7 @@ export class DocumentationModel extends StoreBaseModel {
         return this.recordsStore.selectedRecord;
     }
     @action
-    public reloadStoreAction = () => this.recordsStore.loadRecordsAction({});
+    public reloadStoreAction = () => this.recordsStore.loadRecordsAction();
     @action
     public clearStoreAction = () => this.recordsStore.clearChildsStoresAction();
 }

@@ -88,7 +88,7 @@ export interface IRecordsModelLite {
     bc: IBuilderConfig;
     isLoading: boolean;
     recordId: string;
-    loadRecordsAction: (props: ILoadRecordsProps) => Promise<void>;
+    loadRecordsAction: (props?: ILoadRecordsProps) => Promise<void>;
 }
 
 export interface IRecordsModel {
@@ -125,7 +125,7 @@ export interface IRecordsModel {
     getValue: IGetValue["get"];
     setGetValue: (getValue: IGetValue["get"]) => void;
     setPageSize: (pageSize: number) => void;
-    loadRecordsAction: (props: ILoadRecordsProps) => Promise<undefined | IRecord>;
+    loadRecordsAction: (props?: ILoadRecordsProps) => Promise<undefined | IRecord>;
     clearRecordsAction: () => void;
     localFilter: () => void;
     saveAction: (values: IRecord | IRecord[], mode: IBuilderMode, options: ISaveActionOptions) => Promise<boolean>;

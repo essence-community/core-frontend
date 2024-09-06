@@ -211,6 +211,8 @@ export interface IBuilderBaseConfig {
     modeaction?: string;
     // Не обращать внимание на form
     noform?: boolean;
+    // Открывать ссылки в том же окне
+    noblank?: boolean;
     // Признак отключения глобального лоадера при загрузке сервиса
     noglobalmask?: boolean;
     // Отображается только иконка кнопки (true/false)

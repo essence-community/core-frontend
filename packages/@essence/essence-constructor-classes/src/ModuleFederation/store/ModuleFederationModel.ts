@@ -180,6 +180,7 @@ export class ModuleFederationModel extends StoreBaseModel {
             },
             this.pageStore,
             dataPre,
+            config.noBlank,
         );
     };
 

@@ -108,12 +108,18 @@ export class WindowModel extends StoreBaseModel {
             if (this.mainStore?.handlers?.onSaveWindow) {
                 success = await this.mainStore.handlers.onSaveWindow(modeAction, btnBc, options);
             } else {
-                success = await this.recordsStore.saveAction(options.form.values, modeAction, {
-                    actionBc: btnBc,
-                    // TODO: check new api of records store
-                    files: options.files,
-                    form: options.form,
-                });
+                const isDownload = mode === "7" || btnBc.mode === "7";
+
+                success = await this.recordsStore[isDownload ? "downloadAction" : "saveAction"](
+                    options.form.values,
+                    modeAction,
+                    {
+                        actionBc: btnBc,
+                        // TODO: check new api of records store
+                        files: options.files,
+                        form: options.form,
+                    },
+                );
             }
 
             if (success) {

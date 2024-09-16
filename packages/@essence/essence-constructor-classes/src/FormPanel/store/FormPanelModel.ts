@@ -163,7 +163,8 @@ export class FormPanelModel extends StoreBaseModel {
             return false;
         }
 
-        const result = await this.recordsStore.saveAction(
+        const isDownload = mode === "7" || btnBc.mode === "7";
+        const result = await this.recordsStore[isDownload ? "downloadAction" : "saveAction"](
             form.values,
             (btnBc.modeaction || this.mode) as IBuilderMode,
             {

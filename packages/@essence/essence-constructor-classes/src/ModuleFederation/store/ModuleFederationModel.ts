@@ -115,8 +115,9 @@ export class ModuleFederationModel extends StoreBaseModel {
         if (config.datarule) {
             dataPre = this.calcData(id, messageType, config.datarule, data);
         }
+        const isDownload = config.mode === "7";
 
-        this.recordsStore.saveAction(dataPre, config.mode, {
+        this.recordsStore[isDownload ? "downloadAction" : "saveAction"](dataPre, config.mode, {
             actionBc: this.bc,
             query: config.query,
         });

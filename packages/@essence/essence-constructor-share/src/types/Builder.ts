@@ -59,6 +59,8 @@ export interface IBuilderBaseConfig {
     ckobject?: string;
     // Идентификатор для поиска окна в мастере
     ckwindow?: string;
+    // Включаем override вставки
+    clipboardpasteenabled?: boolean;
     // Реакция на копирование значения
     clipboardpastefield?: "display" | "value" | "displayandvalue";
     // Регулярное выражения для разделения строк

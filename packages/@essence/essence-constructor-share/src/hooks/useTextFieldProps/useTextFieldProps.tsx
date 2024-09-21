@@ -92,20 +92,26 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
 
     const onPaste = React.useCallback(
         (event: React.ClipboardEvent<HTMLInputElement>) => {
+            if (!bc.clipboardpasteenabled) {
+                return;
+            }
             event.stopPropagation();
             event.preventDefault();
             onChangeValue(event.clipboardData.getData("text"));
         },
-        [onChangeValue],
+        [bc.clipboardpasteenabled, onChangeValue],
     );
 
     const onDrop = React.useCallback(
         (event: React.DragEvent<HTMLInputElement>) => {
+            if (!bc.clipboardpasteenabled) {
+                return;
+            }
             event.stopPropagation();
             event.preventDefault();
             onChangeValue(event.dataTransfer.getData("text"));
         },
-        [onChangeValue],
+        [bc.clipboardpasteenabled, onChangeValue],
     );
 
     const getTipText = (trans: TFunction, transValue: TFunction, isError: boolean) => {

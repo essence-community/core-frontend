@@ -645,11 +645,17 @@ export class Field implements IField {
 
     @action
     setDisabled = (disabled = false): void => {
+        if (disabled) {
+            this.resetValidation();
+        }
         this.disabled = disabled;
     };
 
     @action
     setHidden = (hidden = false): void => {
+        if (hidden) {
+            this.resetValidation();
+        }
         this.hidden = hidden;
     };
 

@@ -127,8 +127,11 @@ export const useField = ({
 
     useEffect(() => {
         field.setDisabled(disabled);
+    }, [field, disabled]);
+
+    useEffect(() => {
         field.setHidden(hidden);
-    }, [field, disabled, hidden]);
+    }, [field, hidden]);
 
     useEffect(() => {
         return () => {

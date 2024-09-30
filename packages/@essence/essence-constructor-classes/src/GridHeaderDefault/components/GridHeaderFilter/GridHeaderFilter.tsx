@@ -38,6 +38,7 @@ export const GridHeaderFilter: React.FC<IGridHeaderFilterProps> = ({classNameIco
             datatype: bc.datatype,
             displayfield: bc.displayfield,
             format: bc.format,
+            readonly: false,
             type: "GRID_HEADER_FILTER",
             valuefield: bc.valuefield,
             valuetype: bc.valuetype,

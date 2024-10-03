@@ -24,6 +24,7 @@ const getValue = (value: string, valueType?: string) => {
 
     return value;
 };
+const OPERATOR = ["null", "not null"];
 
 // eslint-disable-next-line max-lines-per-function
 export const GridHFBooleanContainer: React.FC<IClassProps> = (props) => {
@@ -49,6 +50,8 @@ export const GridHFBooleanContainer: React.FC<IClassProps> = (props) => {
                 records: [
                     {name: "static:dacf7ab025c344cb81b700cfcc50e403", value: "1"},
                     {name: "static:f0e9877df106481eb257c2c04f8eb039", value: "0"},
+                    {name: "static:bac3b02e620a4d9189b03dc8ef7dd845", value: "null"},
+                    {name: "static:8001cb3d99fb41cdb4af7ed7f34ac6ef", value: "not null"},
                 ] as any,
                 type: "IFIELD",
                 valuefield: [{in: "value"}],
@@ -76,9 +79,12 @@ export const GridHFBooleanContainer: React.FC<IClassProps> = (props) => {
                             ? {
                                   datatype: bc.valuetype || bc.datatype,
                                   format: bc.format,
-                                  operator: "eq",
+                                  operator: OPERATOR.indexOf(field.value) > -1 ? field.value : "eq",
                                   property: column.replace("###", "."),
-                                  value: getValue(field.value, field.bc.valuetype),
+                                  value:
+                                      OPERATOR.indexOf(field.value) > -1
+                                          ? undefined
+                                          : getValue(field.value, field.bc.valuetype),
                               }
                             : undefined,
                     pageStore,

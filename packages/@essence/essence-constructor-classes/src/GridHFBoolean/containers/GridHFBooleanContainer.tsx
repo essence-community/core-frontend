@@ -102,8 +102,6 @@ export const GridHFBooleanContainer: React.FC<IClassProps> = (props) => {
 
     const handleChangeCheck = (event: React.SyntheticEvent) => {
         fields.filterEnable.onChange(!fields.filterEnable.value);
-
-        return form.onSubmit(event);
     };
 
     React.useEffect(

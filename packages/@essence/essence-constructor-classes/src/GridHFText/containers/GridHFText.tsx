@@ -280,38 +280,26 @@ export const GridHFText: React.FC<IClassProps> = (props) => {
 
     const handleChangeCheckLike = (event: React.SyntheticEvent) => {
         fields.likeEnable.onChange(!fields.likeEnable.value);
-
-        return form.onSubmit(event);
     };
 
     const handleChangeCheckEq = (event: React.SyntheticEvent) => {
         fields.eqEnable.onChange(!fields.eqEnable.value);
-
-        return form.onSubmit(event);
     };
 
     const handleChangeCheckNotLike = (event: React.SyntheticEvent) => {
         fields.notLikeEnable.onChange(!fields.notLikeEnable.value);
-
-        return form.onSubmit(event);
     };
 
     const handleChangeCheckNe = (event: React.SyntheticEvent) => {
         fields.neEnable.onChange(!fields.neEnable.value);
-
-        return form.onSubmit(event);
     };
 
     const handleChangeCheckNull = (event: React.SyntheticEvent) => {
         fields.nullEnable.onChange(!fields.nullEnable.value);
-
-        return form.onSubmit(event);
     };
 
     const handleChangeCheckNotNull = (event: React.SyntheticEvent) => {
         fields.notNullEnable.onChange(!fields.notNullEnable.value);
-
-        return form.onSubmit(event);
     };
 
     return useObserver(() => (

@@ -374,50 +374,34 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
 
     const handleChangeCheckLe = (event: React.SyntheticEvent) => {
         fields.leEnable.onChange(!fields.leEnable.value);
-
-        return form.onSubmit(event);
     };
 
     const handleChangeCheckLt = (event: React.SyntheticEvent) => {
         fields.ltEnable.onChange(!fields.ltEnable.value);
-
-        return form.onSubmit(event);
     };
 
     const handleChangeCheckGe = (event: React.SyntheticEvent) => {
         fields.geEnable.onChange(!fields.geEnable.value);
-
-        return form.onSubmit(event);
     };
 
     const handleChangeCheckGt = (event: React.SyntheticEvent) => {
         fields.gtEnable.onChange(!fields.gtEnable.value);
-
-        return form.onSubmit(event);
     };
 
     const handleChangeCheckEq = (event: React.SyntheticEvent) => {
         fields.eqEnable.onChange(!fields.eqEnable.value);
-
-        return form.onSubmit(event);
     };
 
     const handleChangeCheckNe = (event: React.SyntheticEvent) => {
         fields.neEnable.onChange(!fields.neEnable.value);
-
-        return form.onSubmit(event);
     };
 
     const handleChangeCheckNull = (event: React.SyntheticEvent) => {
         fields.nullEnable.onChange(!fields.nullEnable.value);
-
-        return form.onSubmit(event);
     };
 
     const handleChangeCheckNotNull = (event: React.SyntheticEvent) => {
         fields.notNullEnable.onChange(!fields.notNullEnable.value);
-
-        return form.onSubmit(event);
     };
 
     return useObserver(() => (

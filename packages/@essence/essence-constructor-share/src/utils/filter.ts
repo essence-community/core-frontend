@@ -15,7 +15,7 @@ const formatStr: Record<string, unitOfTime.StartOf> = {
     5: "minute",
     6: "second",
 };
-
+const NULL_OPERATOR = ["null", "is null", "notnull", "not null", "is not null"];
 const isNullAndUndefined = (val: FieldValue) => typeof val === "undefined" || val == null;
 const {BigNumber} = getBigNumberInstance({
     decimalprecision: -1,
@@ -101,11 +101,11 @@ export function filterFilesData(jlFilter: IRecordFilter[]) {
                 const value = item.value;
                 const valueRecord = obj[nmColumn];
 
-                if (isNullAndUndefined(valueRecord)) {
+                if (isNullAndUndefined(valueRecord) && NULL_OPERATOR.indexOf(operator) < 0) {
                     return false;
                 }
 
-                if (isNullAndUndefined(value)) {
+                if (isNullAndUndefined(value) && NULL_OPERATOR.indexOf(operator) < 0) {
                     return true;
                 }
 

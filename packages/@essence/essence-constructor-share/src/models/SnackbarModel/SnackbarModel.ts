@@ -33,7 +33,7 @@ import {
     VAR_RESULT_MESSAGE,
 } from "../../constants";
 import {IRouteRecord} from "../../types/RoutesModel";
-import {TText, IOptionCheck, MessageType, MessageTypeStrings} from "../../types/SnackbarModel";
+import {TText, IOptionCheck, MessageType, MessageTypeStrings, IMessage} from "../../types/SnackbarModel";
 import {IForm} from "../../Form";
 import {RecordsModelLite} from "../RecordsModelLite/RecordsModelLite";
 import {IRecordsModelLite} from "../../types/RecordsModel";
@@ -216,38 +216,89 @@ export class SnackbarModel implements ISnackbarModel {
     forMessage = (
         messageType: SnackbarStatus,
         route?: Record<string, FieldValue>,
-        message: string[][] = [],
+        message: string[][] | IMessage[] = [],
         isSnack = true,
     ) => {
-        const textArr: TText[] = [];
+        const textArr: IMessage[] = [];
 
-        forEach(message, ([message, ...values]) => {
-            const text = (trans: TFunction) =>
-                typeof message === "string"
-                    ? trans(message, {
-                          defaultValue: message,
-                          ns: "message",
-                      })
-                          // eslint-disable-next-line require-unicode-regexp, prefer-named-capture-group
-                          .replace(/{(\d+)}/g, (match, pattern) =>
-                              values.length
-                                  ? trans(values[pattern], {
-                                        defaultValue: values[pattern],
-                                        ns: "message",
-                                    })
-                                  : "",
-                          )
-                    : "";
+        forEach(message, (value) => {
+            if (Array.isArray(value)) {
+                const [message, ...values] = value;
+                const text = (trans: TFunction) =>
+                    typeof message === "string"
+                        ? trans(message, {
+                              defaultValue: message,
+                              ns: "message",
+                          })
+                              // eslint-disable-next-line require-unicode-regexp, prefer-named-capture-group
+                              .replace(/{(\d+)}/g, (match, pattern) =>
+                                  values.length
+                                      ? trans(values[pattern], {
+                                            defaultValue: values[pattern],
+                                            ns: "message",
+                                        })
+                                      : "",
+                              )
+                        : "";
 
-            textArr.push(message);
-            if (isSnack) {
-                this.snackbarOpenAction(
-                    {
-                        status: messageType,
-                        text,
-                    },
-                    route,
-                );
+                textArr.push({text: message});
+                if (isSnack) {
+                    this.snackbarOpenAction(
+                        {
+                            status: messageType,
+                            text,
+                        },
+                        route,
+                    );
+                }
+            } else if (typeof value === "object") {
+                const msg = value as IMessage;
+
+                msg.text = (trans: TFunction) =>
+                    typeof msg.text === "string"
+                        ? trans(msg.text, {
+                              defaultValue: msg.text,
+                              ns: "message",
+                          })
+                              // eslint-disable-next-line require-unicode-regexp, prefer-named-capture-group
+                              .replace(/{(\d+)}/g, (match, pattern) =>
+                                  msg.args && msg.args.length
+                                      ? trans(msg.args[pattern], {
+                                            defaultValue: msg.args[pattern],
+                                            ns: "message",
+                                        })
+                                      : "",
+                              )
+                        : "";
+                msg.description =
+                    typeof msg.description === "string"
+                        ? (trans: TFunction) =>
+                              trans(msg.description as string, {
+                                  defaultValue: msg.description,
+                                  ns: "message",
+                              })
+                        : msg.description;
+                msg.title =
+                    typeof msg.title === "string"
+                        ? (trans: TFunction) =>
+                              trans(msg.title as string, {
+                                  defaultValue: msg.title,
+                                  ns: "message",
+                              })
+                        : msg.title;
+
+                textArr.push(msg);
+                if (isSnack) {
+                    this.snackbarOpenAction(
+                        {
+                            description: msg.description as any,
+                            status: messageType,
+                            text: msg.text,
+                            title: msg.title,
+                        },
+                        route,
+                    );
+                }
             }
         });
 
@@ -356,7 +407,7 @@ export class SnackbarModel implements ISnackbarModel {
                     });
                 }
                 if (isObject(jtMessage)) {
-                    forEach(jtMessage, (value: string[][], key: MessageTypeStrings) => {
+                    forEach(jtMessage, (value: string[][] | IMessage[], key: MessageTypeStrings) => {
                         if (key in MessageType) {
                             const textArr = this.forMessage(key, route, value);
 
@@ -365,12 +416,12 @@ export class SnackbarModel implements ISnackbarModel {
                             }
                             if (key === "warning") {
                                 isWarn = true;
-                                warningText = textArr;
+                                warningText = textArr.map((val) => val.text);
                             }
                             if (key === "block" || key === "unblock") {
                                 const [text] = textArr;
 
-                                applicationStore?.blockApplicationAction(key, text);
+                                applicationStore?.blockApplicationAction(key, text.text);
                             }
                         }
                     });
@@ -405,7 +456,7 @@ export class SnackbarModel implements ISnackbarModel {
         let isError = false;
 
         // eslint-disable-next-line default-param-last
-        forEach(formError, (errors: Record<string, string[] | string[][]> = {}, fieldName: string) => {
+        forEach(formError, (errors: Record<string, string[] | string[][] | IMessage[]> = {}, fieldName: string) => {
             const field = form?.select(fieldName);
             const fieldError: any[] = [];
 
@@ -414,15 +465,17 @@ export class SnackbarModel implements ISnackbarModel {
                 if (code in MessageType) {
                     const arrText = this.forMessage(code as SnackbarStatus, route, values as string[][], false);
 
-                    forEach(arrText, (text) => {
+                    forEach(arrText, (msg) => {
                         if (code === "error") {
                             isError = true;
-                            fieldError.push(text);
+                            fieldError.push(msg.text);
                         } else {
                             this.snackbarOpenAction(
                                 {
+                                    description: msg.description as any,
                                     status: code as SnackbarStatus,
-                                    text,
+                                    text: msg.text,
+                                    title: msg.title,
                                 },
                                 route,
                             );

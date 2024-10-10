@@ -79,3 +79,10 @@ export interface ISnackbarModel {
         applicationStore?: IApplicationModel,
     ) => boolean;
 }
+
+export interface IMessage {
+    title?: TText | string;
+    text?: TText | string;
+    args?: string[];
+    description?: TText | string;
+}

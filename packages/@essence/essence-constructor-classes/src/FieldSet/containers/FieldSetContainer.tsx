@@ -15,8 +15,15 @@ export const FieldSetContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled, hidden} = props;
     const parentField = React.useContext(ParentFieldContext);
     const output = React.useMemo(() => {
-        return (field: IField, form: IForm) => {
-            const obj: IRecord = {};
+        return (field: IField, form: IForm, value) => {
+            const val = value || field.value;
+            const obj: Record<string, any> = Array.isArray(val)
+                ? val.reduce((res, rec, index) => {
+                      res[index] = rec;
+
+                      return res;
+                  }, {})
+                : {};
             const keyChild = new RegExp(`^${field.key}\\.(\\d+)\\.([^\\.]+)$`, "u");
 
             entriesMapSort(form.fields).forEach(([key, fieldChild]) => {

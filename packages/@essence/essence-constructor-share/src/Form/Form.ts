@@ -199,6 +199,7 @@ export class Form implements IForm {
                 output: options.output,
                 pageStore: options.pageStore,
                 parentFieldKey: options.parentFieldKey,
+                parentPrefix: options.parentPrefix,
             });
 
             this[keyStore].set(key, field);

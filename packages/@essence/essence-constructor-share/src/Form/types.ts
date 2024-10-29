@@ -7,6 +7,7 @@ export interface IRegisterFieldOptions {
     bc: IBuilderConfig;
     pageStore: IPageModel;
     parentFieldKey?: string;
+    parentPrefix?: string;
     isArray?: boolean;
     isObject?: boolean;
     isFile?: boolean;
@@ -20,6 +21,7 @@ export interface IRegisterFieldOptions {
 export interface IField {
     key: string;
     parentFieldKey?: string;
+    parentPrefix?: string;
     bc: IBuilderConfig;
     value: FieldValue;
     defaultValue?: FieldValue;

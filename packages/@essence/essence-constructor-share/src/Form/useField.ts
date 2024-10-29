@@ -63,6 +63,7 @@ export const useField = ({
             output: output || parentField?.output,
             pageStore,
             parentFieldKey: parentField?.parentFieldKey,
+            parentPrefix: parentField?.key,
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [form, key]);

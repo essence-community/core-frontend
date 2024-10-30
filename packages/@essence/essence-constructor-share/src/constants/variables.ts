@@ -132,6 +132,7 @@ export const VAR_SETTING_REMOTE_STORAGE_LOAD_QUERY = "remote_storage_load_query"
 export const VAR_SETTING_REMOTE_STORAGE_ADD_QUERY = "remote_storage_add_query";
 export const VAR_SETTING_REMOTE_STORAGE_DELETE_QUERY = "remote_storage_delete_query";
 export const VAR_SETTING_TYPE_NOTIFICATION = "type_notification";
+export const VAR_SETTING_GRID_TO_EXCEL_PLUGIN = "grid_to_excel_plugin";
 
 // META
 export const META_OUT_RESULT = "out_result";

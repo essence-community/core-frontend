@@ -7,7 +7,7 @@ import {
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_DISPLAYED,
 } from "@essence-community/constructor-share/constants";
-import {isEmpty, parseMemoize, useTranslation} from "@essence-community/constructor-share/utils";
+import {deepFind, isEmpty, parseMemoize, useTranslation} from "@essence-community/constructor-share/utils";
 import {Grid} from "@material-ui/core";
 import {useObserver} from "mobx-react";
 import {useField} from "@essence-community/constructor-share/Form";
@@ -24,7 +24,6 @@ import {mapComponents} from "@essence-community/constructor-share/components";
 import {Group} from "../components/Group";
 import {FieldRepeaterModel} from "../Store/FieldRepeaterModel";
 import {RepeaterGroup} from "../components/RepeaterGroup";
-import {deepFind} from "../../../../essence-constructor-share/src/utils/transform";
 
 // eslint-disable-next-line max-lines-per-function
 export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {

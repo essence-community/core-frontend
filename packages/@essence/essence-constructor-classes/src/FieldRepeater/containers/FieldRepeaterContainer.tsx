@@ -24,6 +24,7 @@ import {mapComponents} from "@essence-community/constructor-share/components";
 import {Group} from "../components/Group";
 import {FieldRepeaterModel} from "../Store/FieldRepeaterModel";
 import {RepeaterGroup} from "../components/RepeaterGroup";
+import {deepFind} from "../../../../essence-constructor-share/src/utils/transform";
 
 // eslint-disable-next-line max-lines-per-function
 export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
@@ -152,7 +153,7 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
     }, [field]);
 
     return useObserver(() => {
-        const value = (Array.isArray(field.value) ? field.output(field, field.form, field.value) : []) as FieldValue[];
+        const value = (Array.isArray(field.value) ? deepFind(field.form.values, field.key)[1] : []) as FieldValue[];
         const maxSize = bc.maxsize && /[g_]/u.test(bc.maxsize) ? pageStore.globalValues.get(bc.maxsize) : bc.maxsize;
         const minSize = bc.minsize && /[g_]/u.test(bc.minsize) ? pageStore.globalValues.get(bc.minsize) : bc.minsize;
         const isHiddenAdd = (maxSize && parseInt(maxSize as string, 10) <= value.length) || hidden;

@@ -72,15 +72,15 @@ export class Form implements IForm {
                 values[key] = value;
                 if (typeof value === "object") {
                     if (field.isArray) {
-                        let lastExtraValue =
-                            typeof extraValue[key] === "object" && !Array.isArray(extraValue[key])
-                                ? Object.values(extraValue[key] as any)
-                                : (extraValue[key] as any[]);
+                        const lastExtraValue = extraValue[key] || [];
 
-                        if (lastExtraValue && lastExtraValue.length > (value as any[]).length) {
-                            lastExtraValue = lastExtraValue.slice(0, (value as any[]).length);
+                        if (Array.isArray(lastExtraValue)) {
+                            values[key] = merge(lastExtraValue || [], cloneDeepElementary(value));
+                        } else {
+                            values[key] = value.map((val, index) =>
+                                merge(extraValue[index] || {}, cloneDeepElementary(val)),
+                            );
                         }
-                        values[key] = merge(lastExtraValue || [], cloneDeepElementary(value));
                     } else if (field.isObject) {
                         values[key] = merge(extraValue[key] || {}, cloneDeepElementary(value));
                     }

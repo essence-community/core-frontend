@@ -1,3 +1,6 @@
+/* eslint-disable object-curly-spacing */
+/* eslint-disable prettier/prettier */
+/* eslint-disable filenames/match-exported */
 /**
  * The react-adapter-runtime-plugin.ts and fallback.js files work together to enable compatibility
  * between different versions of React used by the host and remote modules in a Module Federation setup.
@@ -26,17 +29,9 @@ import React from "react";
 
 class Component extends React.Component {
     render() {
-        const { hostV, remoteV, containerRef } = this.props;
+        const { containerRef } = this.props;
 
-        return (
-            <div>
-                <p style={{ color: "red" }}>
-                    In RUNTIME PLUGIN WRAPPER <br />
-                    Host React: {hostV} Remote React: {remoteV}
-                </p>
-                <div ref={containerRef} />
-            </div>
-        );
+        return <div ref={containerRef} />;
     }
 }
 

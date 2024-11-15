@@ -362,7 +362,9 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
         loggerInfo(i18next.t("static:58715205c88c4d60aac6bfe2c3bfa516"));
 
         if (!this.recordsStore.isLoading) {
-            const selectedRecordId = this.recordsStore.selectedRecordValues[this.recordsStore.recordId];
+            const selectedRecordId = isEmpty(this.field.value)
+                ? null
+                : this.recordsStore.selectedRecordValues[this.recordsStore.recordId];
 
             const res = await this.recordsStore.loadRecordsAction({
                 selectedRecordId:

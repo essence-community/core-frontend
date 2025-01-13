@@ -9,7 +9,7 @@ import {
     DEFAULT_CLIPBOARD_PASTE_SEPARATE_REGEX,
     VAR_RECORD_PAGE_OBJECT_ID,
 } from "@essence-community/constructor-share/constants";
-import {isEmpty, toString} from "@essence-community/constructor-share/utils";
+import {isEmpty, toHtmlEscape, toString} from "@essence-community/constructor-share/utils";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {PopoverContext} from "@essence-community/constructor-share/context";
 import {IField} from "@essence-community/constructor-share/Form";
@@ -246,11 +246,11 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
                 props.focused
                     ? ""
                     : textFieldProps["data-qtip"] === String(field.value)
-                    ? store.inputValue
+                    ? toHtmlEscape(store.inputValue)
                     : textFieldProps["data-qtip"]
             }
             ref={textFieldRef}
-            value={store.inputValue}
+            value={toHtmlEscape(store.inputValue)}
             onClick={isDisabled ? undefined : handleInputClick}
             onChange={isDisabled ? undefined : handleChange}
             onKeyDown={isDisabled ? undefined : handleKeyDown}

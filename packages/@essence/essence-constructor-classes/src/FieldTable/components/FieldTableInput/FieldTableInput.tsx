@@ -10,7 +10,7 @@ import {
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {PopoverContext} from "@essence-community/constructor-share/context";
 import {observer} from "mobx-react";
-import {deepFind, useTranslation, toString, isEmpty} from "@essence-community/constructor-share/utils";
+import {deepFind, useTranslation, toString, isEmpty, toHtmlEscape} from "@essence-community/constructor-share/utils";
 import {IFieldTableModel} from "../../stores/FieldTableModel/FieldTableModel.types";
 import {getDisplayText} from "../../utils";
 import {useStyles} from "./FieldTableInput.styles";
@@ -148,7 +148,7 @@ export const FieldTableInput: React.FC<IFieldTableInputProps> = observer((props)
         <TextField
             {...textFieldProps}
             ref={inputRef}
-            value={displayValue}
+            value={toHtmlEscape(displayValue)}
             inputProps={{
                 ...textFieldProps.inputProps,
                 ...(popoverContext.open ? {readOnly: true} : undefined),

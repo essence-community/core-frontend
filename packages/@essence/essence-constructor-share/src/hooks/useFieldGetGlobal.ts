@@ -30,9 +30,9 @@ export function useFieldGetGlobal({field, pageStore, bc, store}: IUseFieldGetGlo
 
                     if (!isExists || field.form.mode !== "2") {
                         if (typeof name === "string" && name.charAt(0) === "g") {
-                            value = globalValues.has(name) ? globalValues.get(name) : "";
+                            value = globalValues.has(name) ? globalValues.get(name) : undefined;
                         } else if (store) {
-                            value = store.selectedRecord ? store.selectedRecord[name] : "";
+                            value = store.selectedRecord ? store.selectedRecord[name] : undefined;
                         } else {
                             // eslint-disable-next-line prefer-destructuring
                             value = field.form.select(name)?.value;
@@ -48,8 +48,9 @@ export function useFieldGetGlobal({field, pageStore, bc, store}: IUseFieldGetGlo
                 return {hasEmptyValue, value: parseMemoize(getglobal).runer({get: getValue})};
             },
             ({hasEmptyValue, value}) => {
+                if (typeof value === "undefined") return;
                 if (hasEmptyValue) {
-                    field.onChange(field.isArray || field.isObject ? value : "");
+                    field.onClear();
                 } else {
                     field.onChange(value);
                 }

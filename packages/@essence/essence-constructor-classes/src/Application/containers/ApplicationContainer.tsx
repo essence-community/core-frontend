@@ -135,12 +135,12 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 } else if (applicationStore.defaultValue) {
                     pagesStore.setPageAction(applicationStore.defaultValue, false);
                 }
+                applicationStore.updateGlobalValuesAction({
+                    [VAR_SETTING_URL_APP_NAME]: `${appName}`,
+                });
             } else if (isEmpty(oldUrl) && applicationStore.defaultValue) {
                 applicationStore.pagesStore.setPageAction(applicationStore.defaultValue, false);
             }
-            applicationStore.updateGlobalValuesAction({
-                [VAR_SETTING_URL_APP_NAME]: `${appName}`,
-            });
         };
 
         loadApplication();

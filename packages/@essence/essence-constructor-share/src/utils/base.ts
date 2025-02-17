@@ -35,7 +35,7 @@ export function isDeepEqual(objOld?: any, objNew?: any): boolean {
 
 export function decodePathUrl<T = any>(filter: string, elseErrorValue?: T): T | undefined {
     if (!filter) {
-        return undefined;
+        return elseErrorValue;
     }
     try {
         return JSON.parse(decodeURIComponent(escape(window.atob(decodeURIComponent(filter)))));

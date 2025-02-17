@@ -53,6 +53,16 @@ interface IUrlParams {
     appName?: string;
     filter?: string;
 }
+function getQueryString(search?: string) {
+    return search && search.slice(1) ? parse(search.slice(1)) : {};
+}
+function getFilterString(record: Record<string, any>, isUrl = true) {
+    if (Object.keys(record).length === 0) {
+        return isUrl ? "" : undefined;
+    }
+
+    return `${isUrl ? "/" : ""}${encodePathUrl(record)}`;
+}
 /**
  * @exports ApplicationContainer
  * @description Включает commonDecorator
@@ -63,15 +73,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     const history = useHistory();
     const match = useRouteMatch<any>("/:appNameDefault");
     const appNameDefault = match?.params.appNameDefault ?? "";
-    const {
-        ckId,
-        appName = appNameDefault,
-        filter = history.location.search && history.location.search.slice(1)
-            ? encodeURIComponent(
-                  btoa(unescape(encodeURIComponent(JSON.stringify(parse(history.location.search.slice(1)))))),
-              )
-            : "",
-    } = useParams<IUrlParams>();
+    const {ckId, appName = appNameDefault, filter: filterStr} = useParams<IUrlParams>();
     const appNameRef = React.useRef(appName);
     const applicationStore = React.useMemo(() => new ApplicationModel(history, appNameRef.current), [history]);
     const [trans] = useTranslation("meta");
@@ -81,6 +83,14 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             logger(trans("static:f9c3bf3691864f4d87a46a9ba367a855"), form.values);
         },
         [trans],
+    );
+    const filter = React.useMemo(
+        () =>
+            getFilterString({
+                ...decodePathUrl(filterStr, {}),
+                ...getQueryString(history.location.search),
+            }),
+        [filterStr, history.location.search],
     );
 
     const form: IForm = React.useMemo(
@@ -128,6 +138,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             } else if (isEmpty(oldUrl) && applicationStore.defaultValue) {
                 applicationStore.pagesStore.setPageAction(applicationStore.defaultValue, false);
             }
+            applicationStore.updateGlobalValuesAction({
+                [VAR_SETTING_URL_APP_NAME]: `${appName}`,
+            });
         };
 
         loadApplication();
@@ -250,7 +263,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                             ? route[VAR_RECORD_URL]
                             : route[VAR_RECORD_ID];
                     if (activePage.isMulti && activePage.initParamPage) {
-                        filter = `/${encodePathUrl(activePage.initParamPage)}`;
+                        filter = getFilterString(activePage.initParamPage);
                     }
                 } else if (
                     !route &&
@@ -267,7 +280,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                         applicationStore.pagesStore.pages[0].isMulti &&
                         applicationStore.pagesStore.pages[0].initParamPage
                     ) {
-                        filter = `/${encodePathUrl(activePage.initParamPage)}`;
+                        filter = getFilterString(activePage.initParamPage);
                     }
                 } else if (applicationStore.authStore.userInfo.session) {
                     pageId = applicationStore.defaultValue;

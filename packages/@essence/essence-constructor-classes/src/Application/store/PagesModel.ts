@@ -123,6 +123,7 @@ export class PagesModel implements IPagesModel {
                 activePage.setInitParams(initParams);
             }
             if (!activePage.isLoaded) {
+                activePage.isActiveRedirect = isActiveRedirect;
                 await activePage.loadConfigAction(activePage.pageId);
             }
             this.activePage = activePage;

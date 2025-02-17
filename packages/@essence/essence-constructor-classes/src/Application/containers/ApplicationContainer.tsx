@@ -86,10 +86,13 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     );
     const filter = React.useMemo(
         () =>
-            getFilterString({
-                ...decodePathUrl(filterStr, {}),
-                ...getQueryString(history.location.search),
-            }),
+            getFilterString(
+                {
+                    ...decodePathUrl(filterStr, {}),
+                    ...getQueryString(history.location.search),
+                },
+                false,
+            ),
         [filterStr, history.location.search],
     );
 

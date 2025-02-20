@@ -244,7 +244,7 @@ export class RoadMapModel extends StoreBaseModel {
     };
 
     @action
-    saveAction = async (mode: IBuilderMode, btnBc: IBuilderConfig, {form, files}: IHandlerOptions) => {
+    saveAction = async (mode: IBuilderMode, btnBc: IBuilderConfig, {form, files, windowCtx}: IHandlerOptions) => {
         const tabs = this.tabs
             .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
             .filter((ckPageObject) => !this.tabStatus.get(ckPageObject)?.hidden);
@@ -291,7 +291,7 @@ export class RoadMapModel extends StoreBaseModel {
                 } as IRecord;
             });
 
-            return this.recordStore.saveAction(
+            const res = this.recordStore.saveAction(
                 values as any,
                 (btnBc.modeaction || btnBc.mode || mode) as IBuilderMode,
                 {
@@ -301,11 +301,17 @@ export class RoadMapModel extends StoreBaseModel {
                     query: btnBc.updatequery,
                 },
             );
+
+            if (res && windowCtx) {
+                windowCtx.onClose();
+            }
+
+            return res;
         }
     };
 
     @action
-    cancelAction = () => {
+    cancelAction = (mode: IBuilderMode, btnBc: IBuilderConfig, {windowCtx}: IHandlerOptions) => {
         this.setFirstActiveTab();
         const tabs = this.tabs
             .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
@@ -327,6 +333,7 @@ export class RoadMapModel extends StoreBaseModel {
                 disabled: true,
             });
         });
+        windowCtx?.onClose();
     };
 
     handlers = {
@@ -340,8 +347,8 @@ export class RoadMapModel extends StoreBaseModel {
 
             return Promise.resolve(true);
         },
-        onSimpleCancel: () => {
-            this.cancelAction();
+        onSimpleCancel: (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
+            this.cancelAction(mode, btnBc, options);
 
             return Promise.resolve(true);
         },

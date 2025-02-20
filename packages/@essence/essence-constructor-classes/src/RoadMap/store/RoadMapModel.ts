@@ -56,11 +56,11 @@ export class RoadMapModel extends StoreBaseModel {
         this.tabValue = this.bc.childs && this.bc.childs.length ? this.bc.childs[0][VAR_RECORD_PAGE_OBJECT_ID] : "";
         this.initTabs();
         this.pageStore.updateGlobalValues({
-            [`g_is_end_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isEnd(),
-            [`g_is_start_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isStart(),
-            [`g_panel_num_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]:
+            [`g_is_end_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isEnd(),
+            [`g_is_start_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isStart(),
+            [`g_panel_num_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]:
                 this.tabValue && this.tabStatus.get(this.tabValue)?.num,
-            [`g_panel_index_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabs
+            [`g_panel_index_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabs
                 .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
                 .indexOf(this.tabValue),
         });
@@ -107,10 +107,11 @@ export class RoadMapModel extends StoreBaseModel {
     changeTabAction = action("changeTabAction", (tabValue: string) => {
         this.tabValue = tabValue;
         this.pageStore.updateGlobalValues({
-            [`g_is_end_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isEnd(),
-            [`g_is_start_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isStart(),
-            [`g_panel_num_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabStatus.get(this.tabValue)?.num,
-            [`g_panel_index_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabs
+            [`g_is_end_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isEnd(),
+            [`g_is_start_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isStart(),
+            [`g_panel_num_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabStatus.get(this.tabValue)
+                ?.num,
+            [`g_panel_index_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabs
                 .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
                 .indexOf(this.tabValue),
         });
@@ -210,10 +211,12 @@ export class RoadMapModel extends StoreBaseModel {
                 }
             });
             this.pageStore.updateGlobalValues({
-                [`g_is_end_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isEnd(),
-                [`g_is_start_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isStart(),
-                [`g_panel_num_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabStatus.get(this.tabValue)?.num,
-                [`g_panel_index_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabs
+                [`g_is_end_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isEnd(),
+                [`g_is_start_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isStart(),
+                [`g_panel_num_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabStatus.get(
+                    this.tabValue,
+                )?.num,
+                [`g_panel_index_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabs
                     .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
                     .indexOf(this.tabValue),
             });

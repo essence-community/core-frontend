@@ -143,15 +143,17 @@ export class AuthModel implements IAuthModel {
         history.push(backUrl.indexOf("/") === 0 ? backUrl : `/${backUrl}`, {backUrl: undefined});
     };
 
-    changeUserInfo = action("changeUserInfo", (userInfo: Partial<IAuthSession>) => {
+    @action
+    changeUserInfo = (userInfo: Partial<IAuthSession>) => {
         this.userInfo = {
             ...this.userInfo,
             ...userInfo,
         };
         saveToLocalStore("auth", this.userInfo);
-    });
+    };
 
-    logoutAction = action("logoutAction", async () => {
+    @action
+    logoutAction = async () => {
         const cleanedValues: IAuthSession = {...this.userInfo};
         const session = this.userInfo.session;
 
@@ -182,5 +184,5 @@ export class AuthModel implements IAuthModel {
             snackbarStore.checkExceptResponse(err, undefined, this.applicationStore);
             logger(err);
         }
-    });
+    };
 }

@@ -16,9 +16,10 @@ export class RoutesModel implements IRoutesModel {
         makeObservable(this);
     }
 
-    setFavoritsAction = action("setFavoritsAction", (ckId: string) => {
+    @action
+    setFavoritsAction = (ckId: string) => {
         this.favorits.set(ckId, !this.favorits.get(ckId));
 
         saveToStore(STORE_FAVORITS_KEY, this.favorits.toJSON());
-    });
+    };
 }

@@ -74,11 +74,13 @@ export class FileInputModel extends StoreBaseModel {
         makeObservable(this);
     }
 
-    deleteFileChooseAwait = action("deleteFileChooseAwait", () => {
+    @action
+    deleteFileChooseAwait = () => {
         this.fileChooseAwait = null;
-    });
+    };
 
-    initFileChooseAwait = action("initFileChooseAwait", (callBack: (files: File[]) => void) => {
+    @action
+    initFileChooseAwait = (callBack: (files: File[]) => void) => {
         this.fileChooseAwait = (files: File[]) => {
             const isValid = files.every((file) => this.validateFile(file));
 
@@ -88,7 +90,7 @@ export class FileInputModel extends StoreBaseModel {
 
             this.deleteFileChooseAwait();
         };
-    });
+    };
 
     validateFile = (file: File): boolean => {
         let success = true;

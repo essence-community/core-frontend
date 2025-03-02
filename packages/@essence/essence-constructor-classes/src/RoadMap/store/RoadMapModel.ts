@@ -105,7 +105,8 @@ export class RoadMapModel extends StoreBaseModel {
         }
     };
 
-    changeTabAction = action("changeTabAction", (tabValue: string) => {
+    @action
+    changeTabAction = (tabValue: string) => {
         this.tabValue = tabValue;
         this.pageStore.updateGlobalValues({
             [`g_is_end_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isEnd(),
@@ -116,7 +117,7 @@ export class RoadMapModel extends StoreBaseModel {
                 .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
                 .indexOf(this.tabValue),
         });
-    });
+    };
 
     isEnd = () => {
         const tabs = this.tabs

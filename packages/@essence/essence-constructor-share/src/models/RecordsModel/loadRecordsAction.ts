@@ -346,16 +346,16 @@ export function loadRecordsAction(
             }
 
             runInAction(() => {
-this.recordsState = {
-                defaultValueSet: isDefault && recordIdValue !== undefined ? isDefault : undefined,
-                isDefault,
-                isUserReload,
-                record,
-                records:
-                    status === "attach" ? getAttachedRecords(this.recordsState.records, records[0], recordId) : records,
-                status,
-            };
-            this.recordsAll = this.recordsState.records;
+                this.recordsState = {
+                    defaultValueSet: isDefault && recordIdValue !== undefined ? isDefault : undefined,
+                    isDefault,
+                    isUserReload,
+                    record,
+                    records:
+                        status === "attach" ? getAttachedRecords(this.recordsState.records, records[0], recordId) : records,
+                    status,
+                };
+                this.recordsAll = this.recordsState.records;
             })
 
 

@@ -260,46 +260,46 @@ export class SnackbarModel implements ISnackbarModel {
                     );
                 }
             } else if (typeof value === "object") {
-                const msg = value as IMessage;
+                const origin = value as IMessage
+                const msg = { ...origin };
 
-                msg.text = (trans: TFunction) =>
-                    typeof msg.text === "string"
-                        ? trans(msg.text, {
-                              defaultValue: msg.text,
+                msg.text = typeof origin.text === "string"
+                        ? (trans: TFunction) => trans(origin.text as string, {
+                              defaultValue: origin.text as string,
                               ns: "message",
                           })
                               // eslint-disable-next-line require-unicode-regexp, prefer-named-capture-group
                               .replace(/{(\d+)}/g, (match, pattern) =>
-                                  msg.args && msg.args.length
-                                      ? trans(msg.args[pattern], {
-                                            defaultValue: msg.args[pattern],
+                                  origin.args && origin.args.length
+                                      ? trans(origin.args[pattern] as string, {
+                                            defaultValue: origin.args[pattern] as string,
                                             ns: "message",
                                         })
                                       : "",
-                              )
-                        : "";
+                              ) as string
+                        : origin.text;
                 msg.description =
-                    typeof msg.description === "string"
+                    typeof origin.description === "string"
                         ? (trans: TFunction) =>
-                              trans(msg.description as string, {
-                                  defaultValue: msg.description,
+                              trans(origin.description as string, {
+                                  defaultValue: origin.description as string,
                                   ns: "message",
                               })
-                        : msg.description;
+                        : origin.description;
                 msg.title =
-                    typeof msg.title === "string"
+                    typeof origin.title === "string"
                         ? (trans: TFunction) =>
-                              trans(msg.title as string, {
-                                  defaultValue: msg.title,
+                              trans(origin.title as string, {
+                                  defaultValue: origin.title as string,
                                   ns: "message",
                               })
-                        : msg.title;
+                        : origin.title;
 
                 textArr.push(msg);
                 if (isSnack) {
                     this.snackbarOpenAction(
                         {
-                            description: msg.description as any,
+                            description: msg.description,
                             status: messageType,
                             text: msg.text,
                             title: msg.title,

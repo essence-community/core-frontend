@@ -178,7 +178,6 @@ export class FieldComboModel extends StoreBaseModel {
 
     @action
     setInputValue = (val = "") => {
-        console.log(new Error(val))
         this.inputValue = val;
     };
 

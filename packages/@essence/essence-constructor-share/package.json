@@ -1,6 +1,6 @@
 {
     "name": "@essence-community/constructor-share",
-    "version": "3.0.4",
+    "version": "3.1.0",
     "description": "Share package for building modules",
     "main": "src/index.js",
     "repository": "https://github.com/essence-community/core-frontend",
@@ -58,7 +58,7 @@
         "uuid": "^11.1.0"
     },
     "devDependencies": {
-        "@essence-community/constructor-package-builder": "3.0.4",
+        "@essence-community/constructor-package-builder": "3.1.0",
         "@types/crypto-js": "^4.2.2",
         "@types/debug": "^4.1.12",
         "@types/esprima": "^4.0.6",

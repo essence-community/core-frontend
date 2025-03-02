@@ -11,18 +11,18 @@
     "license": "MIT",
     "private": false,
     "dependencies": {
-        "@typescript-eslint/eslint-plugin": "^3.6.0",
-        "@typescript-eslint/parser": "^3.6.0",
-        "eslint": "^7.4.0",
-        "eslint-config-prettier": "^6.11.0",
-        "eslint-plugin-compat": "^3.8.0",
+        "@typescript-eslint/eslint-plugin": "^8.25.0",
+        "@typescript-eslint/parser": "^8.25.0",
+        "eslint": "^9.21.0",
+        "eslint-config-prettier": "^10.0.2",
+        "eslint-plugin-compat": "^6.0.2",
         "eslint-plugin-filenames": "^1.3.2",
-        "eslint-plugin-flowtype": "^5.2.0",
-        "eslint-plugin-import": "^2.22.0",
-        "eslint-plugin-prettier": "^3.1.4",
-        "eslint-plugin-react": "^7.20.3",
-        "eslint-plugin-react-hooks": "^4.0.7",
-        "prettier": "^2.0.5",
-        "typescript": "^3.9.6"
+        "eslint-plugin-flowtype": "^8.0.3",
+        "eslint-plugin-import": "^2.31.0",
+        "eslint-plugin-prettier": "^5.2.3",
+        "eslint-plugin-react": "^7.37.4",
+        "eslint-plugin-react-hooks": "^5.2.0",
+        "prettier": "^3.5.2",
+        "typescript": "^4.9.5"
     }
 }

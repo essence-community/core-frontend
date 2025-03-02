@@ -28,7 +28,7 @@ interface IProps extends IClassProps {
     setFocused?: (focused: boolean) => void;
 }
 
-export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
+export const FieldComboInput: React.FC<IProps> = (props) => {
     const {store, textFieldRef, bc, disabled, field, readOnly} = props;
     const classes = useStyles(props);
     const popoverCtx = React.useContext(PopoverContext);
@@ -265,4 +265,4 @@ export const FieldComboInput: React.FC<IProps> = React.memo((props) => {
             onDrop={onDrop}
         />
     ));
-});
+};

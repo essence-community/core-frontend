@@ -32,7 +32,7 @@ import {
 } from "@essence-community/constructor-share/types";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 // eslint-disable-next-line import/named
-import {computed, observable, action} from "mobx";
+import {computed, observable, action, makeObservable} from "mobx";
 import {IField, IForm} from "@essence-community/constructor-share/Form";
 import {IFieldPopoverModel} from "./FieldPopoverModel.types";
 
@@ -194,6 +194,7 @@ export class FieldPopoverModel extends StoreBaseModel implements IFieldPopoverMo
             topbtn: this.builderConfigs,
             type: "PANEL",
         };
+        makeObservable(this);
     }
 
     @computed get panelStore(): IStoreBaseModel | undefined {

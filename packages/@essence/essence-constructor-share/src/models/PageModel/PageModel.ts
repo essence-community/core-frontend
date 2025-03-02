@@ -197,7 +197,7 @@ export class PageModel implements IPageModel {
             return true;
         }
 
-        return Array.from(this.stores.values()).filter((store) => store.editing === true).length > 0;
+        return Array.from(this.stores.values()).filter((store: {editing?: boolean}) => store.editing === true).length > 0;
     }
 
     constructor({

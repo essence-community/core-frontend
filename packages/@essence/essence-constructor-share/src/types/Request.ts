@@ -1,3 +1,4 @@
+import { AxiosProgressEvent } from "axios";
 import {
     META_PAGE_ID,
     META_PAGE_OBJECT,
@@ -29,7 +30,7 @@ export interface IRequest {
     formData?: FormData;
     method?: "POST";
     headers?: Record<string, string>;
-    onUploadProgress?: (progressEvent: ProgressEvent) => void;
+    onUploadProgress?: (progressEvent: AxiosProgressEvent) => void;
     registerAbortCallback?: (abortCallback: () => void) => void;
 }
 

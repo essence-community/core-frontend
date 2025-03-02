@@ -17,7 +17,7 @@ export function reqcount(field: IField, form: IForm, req = "") {
         return undefined;
     }
 
-    if (value < 0) {
+    if ((value as number) < 0) {
         return reqcountMessage;
     }
 

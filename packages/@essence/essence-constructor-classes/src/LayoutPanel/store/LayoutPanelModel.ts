@@ -1,5 +1,5 @@
 /* eslint-disable sort-keys */
-import {action, computed, observable, ObservableMap} from "mobx";
+import {action, computed, makeObservable, observable, ObservableMap} from "mobx";
 import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {StoreBaseModel} from "@essence-community/constructor-share/models";
 import {IStoreBaseModelProps, IStoreBaseModel} from "@essence-community/constructor-share/types";
@@ -59,6 +59,7 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
         if (this.bc.isstate) {
             this.loadState();
         }
+        makeObservable(this);
     }
 
     setEmitter(emitter: IResizeEventContext) {

@@ -1,4 +1,4 @@
-import {action} from "mobx";
+import {action, makeObservable} from "mobx";
 import {stringify} from "qs";
 import {
     VAR_RECORD_ID,
@@ -53,6 +53,7 @@ export class FilePanelModel extends StoreBaseModel {
                 parentStore: this,
             },
         );
+        makeObservable(this);
     }
 
     @action

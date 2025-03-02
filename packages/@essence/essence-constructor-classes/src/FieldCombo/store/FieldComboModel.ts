@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import {computed, observable, action} from "mobx";
+import {computed, observable, action, makeObservable} from "mobx";
 import {IRecordsModel, toString, debounce, FieldValue, IRecord} from "@essence-community/constructor-share";
 import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "@essence-community/constructor-share/constants";
 import {deepChange, deepFind, i18next, isEmpty, parseMemoize} from "@essence-community/constructor-share/utils";
@@ -114,6 +114,8 @@ export class FieldComboModel extends StoreBaseModel {
                 this.recordsStore.searchAction({[bc.queryparam || this.displayfield]: inputValue}, {isUserReload});
             }
         }, querydelay * 1000);
+
+        makeObservable(this);
     }
 
     reloadStoreAction = async (): Promise<IRecord | undefined> => {
@@ -175,8 +177,14 @@ export class FieldComboModel extends StoreBaseModel {
     };
 
     @action
+    setInputValue = (val = "") => {
+        console.log(new Error(val))
+        this.inputValue = val;
+    };
+
+    @action
     resetAction = async () => {
-        this.inputValue = "";
+        this.setInputValue();
         this.lastValue = CLEAR_VALUE;
         await this.recordsStore.searchAction({}, {reset: true});
         await this.recordsStore.setSelectionAction();
@@ -187,7 +195,7 @@ export class FieldComboModel extends StoreBaseModel {
 
     @action
     clearAction = async () => {
-        this.inputValue = "";
+        this.setInputValue();
         this.lastValue = CLEAR_VALUE;
         await this.recordsStore.searchAction({}, {noLoad: true, reset: true});
         await this.recordsStore.setSelectionAction();
@@ -199,7 +207,7 @@ export class FieldComboModel extends StoreBaseModel {
     @action
     handleChangeValue = (value: string, isNew?: boolean) => {
         this.isInputChanged = true;
-        this.inputValue = value;
+        this.setInputValue(value);
 
         if (this.bc.allownew) {
             this.lastValue = isNew ? `${this.bc.allownew}${value}` : value;
@@ -265,10 +273,10 @@ export class FieldComboModel extends StoreBaseModel {
             return this.handleSetSuggestionValue(suggestion, isUserSearch);
         } else if (isEmpty(value) && !isUserSearch) {
             // Clear value when user close the combo without value
-            this.inputValue = "";
+            this.setInputValue();
         } else if (loaded) {
             if (!isUserSearch) {
-                this.inputValue = "";
+                this.setInputValue();
             }
 
             return false;
@@ -296,7 +304,7 @@ export class FieldComboModel extends StoreBaseModel {
         if (suggestion) {
             return this.handleSetSuggestionValue(suggestion, isUserSearch);
         } else if (loaded && !isUserSearch) {
-            this.inputValue = "";
+            this.setInputValue();
 
             return false;
         } else if (!this.recordsStore.isLoading && !isNewValue) {
@@ -309,7 +317,7 @@ export class FieldComboModel extends StoreBaseModel {
                      * Check click "Clear" button
                      * This come when use click by "Clear" button and not in isUserSearch mode
                      */
-                    this.inputValue = "";
+                    this.setInputValue();
                 }
 
                 return true;
@@ -320,7 +328,7 @@ export class FieldComboModel extends StoreBaseModel {
             }
         }
 
-        this.inputValue = stringNewValue;
+        this.setInputValue(stringNewValue);
 
         return !value && value !== 0;
     };
@@ -339,7 +347,7 @@ export class FieldComboModel extends StoreBaseModel {
         }
 
         if (!isUserSearch) {
-            this.inputValue = suggestion.label;
+            this.setInputValue(suggestion.label);
         }
 
         return true;

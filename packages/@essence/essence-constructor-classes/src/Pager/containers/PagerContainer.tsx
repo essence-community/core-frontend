@@ -75,7 +75,10 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
             return reaction(
                 () => props.pageStore.globalValues.toJSON(),
                 (globalValues) => {
-                    pageStore.updateGlobalValues(globalValues);
+                    pageStore.updateGlobalValues(globalValues.reduce((res, [key, value]) => {
+                        res[key] = value;
+                        return res;
+                    }, {}));
                 },
             );
         }

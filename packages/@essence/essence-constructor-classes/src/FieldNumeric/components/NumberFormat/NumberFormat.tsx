@@ -68,7 +68,7 @@ export const NumberFormat: React.FC<INumberFormatProps> = (props) => {
 
     return (
         <NumericFormat
-            {...inputProps}
+            {...inputProps as any}
             value={value}
             getInputRef={inputRef}
             onValueChange={handleChange}

@@ -1,4 +1,4 @@
-import {action, computed} from "mobx";
+import {action, computed, makeObservable} from "mobx";
 import {VAR_RECORD_ROUTE_PAGE_ID, VAR_RECORD_CA_CHILDS} from "@essence-community/constructor-share/constants";
 import {RecordsModel} from "@essence-community/constructor-share/models/RecordsModel";
 import {StoreBaseModel} from "@essence-community/constructor-share/models/StoreBaseModel";
@@ -21,6 +21,7 @@ export class PanelDynamicModel extends StoreBaseModel {
             pageStore: this.pageStore,
         });
         this.setSearchValuesAction(this.recordsStore.searchValues);
+        makeObservable(this);
     }
 
     @computed get children(): IBuilderConfig[] {

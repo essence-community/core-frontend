@@ -1,4 +1,4 @@
-import {action, computed} from "mobx";
+import {action, computed, makeObservable} from "mobx";
 import {VALUE_SELF_ALWAYSFIRST} from "@essence-community/constructor-share/constants";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {IRecordsModel, IStoreBaseModelProps, IStoreBaseModel} from "@essence-community/constructor-share/types";
@@ -47,6 +47,7 @@ export class IframeModel extends StoreBaseModel implements IStoreBaseModel {
         );
 
         this.recordsStore = recordsStore;
+        makeObservable(this);
     }
 
     @action

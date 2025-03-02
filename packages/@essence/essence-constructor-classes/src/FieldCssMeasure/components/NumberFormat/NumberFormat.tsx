@@ -27,7 +27,7 @@ export const NumberFormat: React.FC<INumberFormatProps> = (props) => {
 
     return (
         <NumericFormat
-            {...inputProps}
+            {...inputProps as any}
             getInputRef={inputRef}
             onValueChange={handleChange}
             allowNegative={false}

@@ -14,7 +14,7 @@ import {
     IHandlerOptions,
 } from "@essence-community/constructor-share/types";
 import {deepFind} from "@essence-community/constructor-share/utils";
-import {computed} from "mobx";
+import {computed, makeObservable} from "mobx";
 
 export interface IChildren {
     bc: IBuilderConfig;
@@ -81,6 +81,7 @@ export class DynamicButtonModel extends StoreBaseModel {
             applicationStore: pageStore.applicationStore,
             pageStore,
         });
+        makeObservable(this);
     }
 
     reloadStoreAction = () => this.recordsStore.loadRecordsAction();

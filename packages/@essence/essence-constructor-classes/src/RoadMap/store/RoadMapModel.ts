@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import {action, observable} from "mobx";
+import {action, makeObservable, observable} from "mobx";
 import {
     VALUE_SELF_ALWAYSFIRST,
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -64,6 +64,7 @@ export class RoadMapModel extends StoreBaseModel {
                 .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
                 .indexOf(this.tabValue),
         });
+        makeObservable(this);
     }
 
     initTabs = () => {

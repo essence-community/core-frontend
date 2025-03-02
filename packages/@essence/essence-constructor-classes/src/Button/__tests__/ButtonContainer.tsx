@@ -24,6 +24,8 @@ describe("ButtonContainer", () => {
     // });
 
     it("Рендер по умолчанию", () => {
+        // TODO переделать
+        // @ts-ignore
         const wrapper = shallow(<Renderer bc={bc} component={ButtonContainer} />);
 
         expect(wrapper.find(Button).length).toBe(1);
@@ -164,18 +166,24 @@ describe("ButtonContainer", () => {
     // });
 
     it("Проверка темы - uitype=1", () => {
+        // TODO переделать
+        // @ts-ignore
         const wrapper = shallow(<Renderer bc={{...bc, uitype: "1"}} component={ButtonContainer} />);
 
         expect(wrapper.find(Button).prop("color")).toBe("primary");
     });
 
     it("Проверка темы - uitype=2", () => {
+        // TODO переделать
+        // @ts-ignore
         const wrapper = shallow(<Renderer bc={{...bc, uitype: "2"}} component={ButtonContainer} />);
 
         expect(wrapper.find(Button).prop("color")).toBe("secondary");
     });
 
     it("Отображение в види иконки", () => {
+        // TODO переделать
+        // @ts-ignore
         const wrapper = shallow(<Renderer bc={{...bc, onlyicon: true}} component={ButtonContainer} />);
 
         expect(wrapper.find(Icon).length).toBe(1);

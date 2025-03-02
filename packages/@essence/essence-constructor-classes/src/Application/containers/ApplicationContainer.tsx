@@ -16,6 +16,7 @@ import {
     isEmpty,
     encodePathUrl,
     decodePathUrl,
+    parseMemoize,
 } from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -26,6 +27,8 @@ import {
     VAR_SETTING_URL_APP_NAME,
     VAR_SETTING_TYPE_NOTIFICATION,
     loggerRoot,
+    VAR_RECORD_ROUTE_NAME,
+    VAR_SETTING_PROJECT_NAME,
 } from "@essence-community/constructor-share/constants";
 import {parse} from "qs";
 import {useResizerEE} from "@essence-community/constructor-share/hooks";
@@ -310,6 +313,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                     }
                 }
             },
+            {
+                fireImmediately: true,
+            }
         );
     }, [applicationStore, history]);
 
@@ -324,6 +330,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                     }, {}));
                 });
             },
+            {
+                fireImmediately: true,
+            }
         );
     }, [applicationStore]);
 
@@ -349,6 +358,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             () => {
                 applicationStore.pageStore.windows.clear();
             },
+            {
+                fireImmediately: true,
+            }
         );
     }, [applicationStore]);
 
@@ -359,6 +371,31 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 applicationStore.updateGlobalValuesAction({
                     gSysNoReadSnack: `${snackbarsCount}`,
                 }),
+            {
+                fireImmediately: true,
+            }
+        );
+    }, [applicationStore]);
+
+    React.useEffect(() => {
+        return reaction(
+            () => {
+                const route = applicationStore.pagesStore.activePage?.route;
+                let title = route?.[VAR_RECORD_ROUTE_NAME];
+                if (route && route.titlerule) {
+                    title = parseMemoize(route.titlerule as string).runer(applicationStore.pagesStore.activePage.globalValues);
+                }
+                if (!title) {
+                    title = route?.[VAR_RECORD_ROUTE_NAME];
+                }
+                return title || settingsStore.settings[VAR_SETTING_PROJECT_NAME];
+            },
+            (title: string) => {
+                document.title = trans(title, title);
+            },
+            {
+                fireImmediately: true,
+            }
         );
     }, [applicationStore]);
 

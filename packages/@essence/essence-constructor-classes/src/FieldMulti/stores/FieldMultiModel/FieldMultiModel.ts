@@ -17,7 +17,6 @@ export class FieldMultiModel extends StoreBaseModel implements IFieldMultiModel 
             applicationStore: this.pageStore.applicationStore,
             pageStore: this.pageStore,
         });
-        makeObservable(this);
     }
 
     @observable _isLoading = false;

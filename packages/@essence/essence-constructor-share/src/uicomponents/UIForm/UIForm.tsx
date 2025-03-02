@@ -2,14 +2,14 @@
 import * as React from "react";
 import debounce from "lodash/debounce";
 import cn from "clsx";
-import {reaction} from "mobx";
-import {Form} from "../../Form/Form";
-import {FormContext, ParentFieldContext} from "../../context";
-import {VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID} from "../../constants";
-import {IForm} from "../../Form";
-import {parseMemoize} from "../../utils/parser";
-import {IUIFormProps} from "./UIForm.types";
-import {useStyles} from "./UIForm.styles";
+import { reaction } from "mobx";
+import { Form } from "../../Form/Form";
+import { FormContext, ParentFieldContext } from "../../context";
+import { VAR_RECORD_ID, VAR_RECORD_PAGE_OBJECT_ID } from "../../constants";
+import { IForm } from "../../Form";
+import { parseMemoize } from "../../utils/parser";
+import { IUIFormProps } from "./UIForm.types";
+import { useStyles } from "./UIForm.styles";
 
 const CHANGE_DELAY = 1000;
 
@@ -56,7 +56,7 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
                 await form.validate();
 
                 if (form.isValid) {
-                    await onSubmit(form.values, {form, redirect: true, reset: true});
+                    await onSubmit(form.values, { form, redirect: true, reset: true });
                 }
             }
         },
@@ -66,7 +66,7 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
     const handleSubmit = React.useCallback(
         async (form: Form) => {
             if (onSubmit) {
-                await onSubmit(form.values, {form});
+                await onSubmit(form.values, { form });
             }
         },
         [onSubmit],
@@ -75,7 +75,7 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
     const handleReset = React.useCallback(
         async (form: Form) => {
             if (onSubmit) {
-                await onSubmit(form.values, {form, noLoad: true, reset: true});
+                await onSubmit(form.values, { form, noLoad: true, reset: true });
             }
         },
         [onSubmit],
@@ -118,7 +118,7 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
         const editingrule = bc?.editingrule;
 
         if (editingrule) {
-            return reaction(() => parseMemoize(editingrule).runer({get: getValue}) as boolean, form.setEditing, {
+            return reaction(() => parseMemoize(editingrule).runer({ get: getValue }) as boolean, form.setEditing, {
                 fireImmediately: true,
             });
         }
@@ -167,7 +167,13 @@ export const UIForm: React.FC<IUIFormProps> = (props) => {
                         autoComplete="off"
                         data-page-object={bc && `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-form`}
                         style={props.style}
-                        ref={rootFormRef}
+                        // TODO перестал во вложеных работать
+                        ref={(ref) => {
+                            rootFormRef.current = ref;
+                            if (ref) {
+                                ref.onsubmit = form.onSubmit as any;
+                            }
+                        }}
                     >
                         {children}
                     </form>

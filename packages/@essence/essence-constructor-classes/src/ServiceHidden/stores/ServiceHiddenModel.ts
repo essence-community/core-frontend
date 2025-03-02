@@ -24,7 +24,7 @@ export class ServiceHiddenModel extends StoreBaseModel {
         });
     }
 
-    reloadStoreAction = () => this.recordsStore.loadRecordsAction({});
+    reloadStoreAction = () => this.recordsStore.loadRecordsAction();
 
     clearStoreAction = () => this.recordsStore.clearChildsStoresAction();
 
@@ -45,23 +45,33 @@ export class ServiceHiddenModel extends StoreBaseModel {
         bc: IBuilderConfig,
         options: IHandlerOptions = {},
     ): Promise<boolean> => {
+        let result = true;
+
         switch (mode) {
             case "7":
-                await this.recordsStore.downloadAction(this.selectedRecord!, (bc.modeaction || mode) as IBuilderMode, {
-                    ...options,
-                    actionBc: bc,
-                    query: bc.updatequery,
-                });
+                result = await this.recordsStore.downloadAction(
+                    this.selectedRecord!,
+                    (bc.modeaction || mode) as IBuilderMode,
+                    {
+                        ...options,
+                        actionBc: bc,
+                        query: bc.updatequery,
+                    },
+                );
                 break;
             default:
-                await this.recordsStore.saveAction(this.selectedRecord!, (bc.modeaction || mode) as IBuilderMode, {
-                    ...options,
-                    actionBc: bc,
-                    query: bc.updatequery,
-                });
+                result = await this.recordsStore.saveAction(
+                    this.selectedRecord!,
+                    (bc.modeaction || mode) as IBuilderMode,
+                    {
+                        ...options,
+                        actionBc: bc,
+                        query: bc.updatequery,
+                    },
+                );
         }
 
-        return Promise.resolve(true);
+        return Promise.resolve(result);
     };
 
     handlers = {

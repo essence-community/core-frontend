@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-statements */
 /* eslint-disable max-lines */
 import {observable, computed, action, makeObservable} from "mobx";
@@ -17,6 +18,7 @@ export interface IFieldOptions {
     form: IForm;
     key: string;
     parentFieldKey?: string;
+    parentPrefix?: string;
     output?: IRegisterFieldOptions["output"];
     input?: IRegisterFieldOptions["input"];
     defaultValueFn?: IField["defaultValueFn"];
@@ -54,6 +56,8 @@ export class Field implements IField {
 
     public parentFieldKey?: string;
 
+    public parentPrefix?: string;
+
     public defaultValue: IField["defaultValue"];
 
     public defaultValueFn: IField["defaultValueFn"];
@@ -74,13 +78,24 @@ export class Field implements IField {
 
     public clearValue: FieldValue | undefined;
 
-    public getParseValue = (name: string) => {
-        return typeof name === "string" && name.charAt(0) === "g"
-            ? this.pageStore.globalValues.get(name) || this.form?.values[name]
-            : this.form?.values[name];
+    public getParseValue = (name: string): any => {
+        if (typeof name === "string" && name.charAt(0) === "g" && this.pageStore.globalValues.has(name)) {
+            return this.pageStore.globalValues.get(name);
+        }
+        const values = this.form.values;
+
+        if (this.parentPrefix) {
+            const [isExistNested, valueNested] = deepFind(values, `${this.parentPrefix}.${name}`);
+
+            if (isExistNested) {
+                return valueNested;
+            }
+        }
+
+        return deepFind(values, name)[1];
     };
 
-    @computed get label() {
+    @computed get label(): string | undefined {
         return this.bc[VAR_RECORD_DISPLAYED];
     }
 
@@ -109,6 +124,14 @@ export class Field implements IField {
             }
 
             return this.bc.datatype === "checkbox" || this.bc.datatype === "boolean" ? "required-checkbox" : "required";
+        }
+
+        return undefined;
+    }
+
+    @computed private get checkRule(): string | undefined {
+        if (this.bc.check) {
+            return "check";
         }
 
         return undefined;
@@ -171,6 +194,7 @@ export class Field implements IField {
             ...this.valueSizeRules,
             this.dateRule,
             ...this.extraRules,
+            this.checkRule,
         ];
 
         return rules.filter((rule?: string): boolean => Boolean(rule)) as string[];
@@ -195,6 +219,7 @@ export class Field implements IField {
         this.isFile = options.isFile ?? false;
         this.clearValue = options.clearValue;
         this.parentFieldKey = options.parentFieldKey;
+        this.parentPrefix = options.parentPrefix;
         this.input = this.getInput(options.input);
         this.output = this.getOutput(options.output);
         this.defaultValueFn = options.defaultValueFn;
@@ -265,14 +290,14 @@ export class Field implements IField {
 
         if (
             this.value === undefined &&
-            this.form.mode === "1" &&
+            (this.form.mode === "1" || this.bc.defaultisclear) &&
             this.form.editing &&
             (this.defaultValue !== undefined || this.defaultValueFn !== undefined)
         ) {
             if (this.defaultValue !== undefined) {
                 this.value = this.defaultValue;
             } else {
-                this.defaultValueFn!(this, this.onChange, this.onClear);
+                this.defaultValueFn?.(this, this.onChange, this.onClear);
             }
         }
         if (this.value === undefined && (this.isArray || this.isFile)) {
@@ -293,8 +318,15 @@ export class Field implements IField {
         } else if (this.isArray) {
             const keyChild = new RegExp(`^${this.key}\\.(\\d+)\\.([^\\.]+)$`, "u");
 
-            return (field, form) => {
-                const obj: Record<string, Record<string, FieldValue>> = {};
+            return (field, form, value) => {
+                const val = value || field.value;
+                const obj: Record<string, Record<string, FieldValue>> = Array.isArray(val)
+                    ? val.reduce((res, rec, index) => {
+                          res[index] = rec;
+
+                          return res;
+                      }, {})
+                    : {};
 
                 for (const [key, fieldChild] of form.fields) {
                     if (keyChild.test(key)) {
@@ -382,7 +414,7 @@ export class Field implements IField {
     };
 
     @action
-    onChange = (value: FieldValue) => {
+    onChange = (value: FieldValue): void => {
         this.setValue(value);
 
         if (!this.isValid) {
@@ -411,7 +443,7 @@ export class Field implements IField {
     };
 
     @action
-    onReset = () => {
+    onReset = (): void => {
         if (this.defaultValue === undefined && this.defaultValueFn === undefined) {
             this.onClear();
         } else if (this.defaultValueFn) {
@@ -422,7 +454,29 @@ export class Field implements IField {
     };
 
     @action
-    onClear = () => {
+    onClear = (isClearGetGlobal?: boolean): void => {
+        if (this.bc.defaultisclear && (this.defaultValue !== undefined || this.defaultValueFn !== undefined)) {
+            if (this.defaultValueFn) {
+                this.defaultValueFn(this, this.onChange, this.onClear);
+            } else {
+                this.onChange(this.defaultValue);
+            }
+
+            return;
+        }
+        if (isClearGetGlobal && this.bc.getglobal) {
+            const updateGlobal = {};
+
+            parseMemoize(this.bc.getglobal).runer({
+                get: (name) => {
+                    if (this.pageStore.globalValues.has(name) || (name && name.charAt(0) === "g")) {
+                        updateGlobal[name] = null;
+                    }
+                },
+            });
+
+            this.pageStore.updateGlobalValues(updateGlobal);
+        }
         this.onChange(this.clearValue);
     };
 
@@ -442,7 +496,7 @@ export class Field implements IField {
     };
 
     @action
-    validate = () => {
+    validate = async (): Promise<void> => {
         if (this.disabled || this.hidden) {
             this.errors = [];
         } else {
@@ -467,29 +521,29 @@ export class Field implements IField {
     };
 
     @action
-    resetValidation = () => {
+    resetValidation = (): void => {
         this.errors = [];
     };
 
     @action
-    invalidate = (errors: TError[] | TError) => {
+    invalidate = (errors: TError[] | TError): void => {
         this.errors = Array.isArray(errors) ? errors : [errors];
     };
 
     @action
-    setExtraRules = (extraRules: string[]) => {
+    setExtraRules = (extraRules: string[]): void => {
         this.extraRules = extraRules;
     };
 
-    setDefaultValue = (defaultValue: FieldValue) => {
+    setDefaultValue = (defaultValue: FieldValue): void => {
         this.defaultValue = defaultValue;
     };
 
-    public setDefaultCopyValueFn = (defaultCopyValueFn: IField["defaultCopyValueFn"]) => {
+    public setDefaultCopyValueFn = (defaultCopyValueFn: IField["defaultCopyValueFn"]): void => {
         this.defaultCopyValueFn = defaultCopyValueFn;
     };
 
-    public setDefaultValueFn = (defaultValueFn: IField["defaultValueFn"]) => {
+    public setDefaultValueFn = (defaultValueFn: IField["defaultValueFn"]): void => {
         this.defaultValueFn = defaultValueFn;
     };
 
@@ -498,7 +552,7 @@ export class Field implements IField {
      * Can be call deaultquery
      */
     @action
-    reset = () => {
+    reset = (): void => {
         if (this.defaultValue === undefined && this.defaultValueFn === undefined) {
             this.clear();
         } else if (this.defaultValueFn) {
@@ -512,13 +566,22 @@ export class Field implements IField {
      * Clear value of the field to empty value
      */
     @action
-    clear = () => {
+    clear = (): void => {
+        if (this.bc.defaultisclear && (this.defaultValue !== undefined || this.defaultValueFn !== undefined)) {
+            if (this.defaultValueFn) {
+                this.defaultValueFn(this, this.setValue, this.clear);
+            } else {
+                this.setValue(this.defaultValue);
+            }
+
+            return;
+        }
         this.setValue(this.clearValue);
         this.clearExtra();
     };
 
     @action
-    clearExtra = () => {
+    clearExtra = (): void => {
         if (this.bc.valuefield) {
             let parentKey = "";
 
@@ -546,7 +609,7 @@ export class Field implements IField {
     };
 
     @action
-    add = () => {
+    add = (): void => {
         if (this.isArray) {
             let value = this.getOutput()(this, this.form, this.value);
 
@@ -558,7 +621,7 @@ export class Field implements IField {
     };
 
     @action
-    del = (ind?: string | number) => {
+    del = (ind?: string | number): void => {
         const index = typeof ind === "string" ? parseInt(ind, 10) : ind || 0;
 
         if (this.isArray && index >= 0) {
@@ -599,22 +662,28 @@ export class Field implements IField {
     };
 
     @action
-    redirect = () => {
+    redirect = (): void => {
         makeRedirect(this.bc, this.pageStore, this.form.values);
     };
 
     @action
-    setDisabled = (disabled = false) => {
+    setDisabled = (disabled = false): void => {
+        if (disabled) {
+            this.resetValidation();
+        }
         this.disabled = disabled;
     };
 
     @action
-    setHidden = (hidden = false) => {
+    setHidden = (hidden = false): void => {
+        if (hidden) {
+            this.resetValidation();
+        }
         this.hidden = hidden;
     };
 
     @action
-    setValue = (value: FieldValue) => {
+    setValue = (value: FieldValue): void => {
         let val = value;
 
         if (this.isObject || this.isArray) {
@@ -647,7 +716,7 @@ export class Field implements IField {
     };
 
     @action
-    resetChilds = () => {
+    resetChilds = (): void => {
         const ckPageObject = this.bc[VAR_RECORD_PAGE_OBJECT_ID];
         const childs: Array<IField> = this.pageStore.masters[ckPageObject];
 

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /* eslint-disable max-statements */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import moment, {unitOfTime} from "moment";
@@ -14,7 +15,7 @@ const formatStr: Record<string, unitOfTime.StartOf> = {
     5: "minute",
     6: "second",
 };
-
+const NULL_OPERATOR = ["null", "is null", "notnull", "not null", "is not null"];
 const isNullAndUndefined = (val: FieldValue) => typeof val === "undefined" || val == null;
 const {BigNumber} = getBigNumberInstance({
     decimalprecision: -1,
@@ -100,11 +101,11 @@ export function filterFilesData(jlFilter: IRecordFilter[]) {
                 const value = item.value;
                 const valueRecord = obj[nmColumn];
 
-                if (isNullAndUndefined(valueRecord)) {
+                if (isNullAndUndefined(valueRecord) && NULL_OPERATOR.indexOf(operator) < 0) {
                     return false;
                 }
 
-                if (isNullAndUndefined(value)) {
+                if (isNullAndUndefined(value) && NULL_OPERATOR.indexOf(operator) < 0) {
                     return true;
                 }
 
@@ -184,10 +185,44 @@ export function filterFilesData(jlFilter: IRecordFilter[]) {
                         }
 
                         return `${valueRecord}` === `${value}`;
-                    case "like": {
+                    case "ne":
+                    case "!=":
+                    case "<>":
+                        if (
+                            typeof valueRecord === "string" &&
+                            typeof value === "string" &&
+                            (datatype === "date" ||
+                                nmColumn.startsWith("cd_") ||
+                                nmColumn.startsWith("ct_") ||
+                                nmColumn.startsWith("fd_") ||
+                                nmColumn.startsWith("ft_"))
+                        ) {
+                            return !moment(valueRecord).isSame(value, formatStr[format]);
+                        }
+
+                        return `${valueRecord}` !== `${value}`;
+                    case "like":
+                    case "~": {
                         const reg = new RegExp(value as string, "gi");
 
                         return reg.test(`${valueRecord}`);
+                    }
+                    case "not like":
+                    case "notlike":
+                    case "nl":
+                    case "!~": {
+                        const reg = new RegExp(value as string, "gi");
+
+                        return !reg.test(`${valueRecord}`);
+                    }
+                    case "null":
+                    case "is null": {
+                        return isEmpty(valueRecord);
+                    }
+                    case "notnull":
+                    case "not null":
+                    case "is not null": {
+                        return !isEmpty(valueRecord);
                     }
                     case "in":
                         return (value as any).indexOf(valueRecord) > -1;

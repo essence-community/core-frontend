@@ -80,6 +80,7 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
         curChilds = curChilds.sort();
         if (JSON.stringify(oldChildren) === JSON.stringify(curChilds)) {
             this.allLayout = observable.array(state.allLayout);
+            this.oldAllLayout = observable.array(state.oldAllLayout);
             this.hiddenLayout = observable.map(state.hiddenLayout);
             this.collapsedLayout = observable.map(state.collapsedLayout);
             this.activeFullScreen = state.activeFullScreen;

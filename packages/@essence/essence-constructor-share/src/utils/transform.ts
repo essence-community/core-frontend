@@ -213,3 +213,24 @@ export function transformToBoolean(value: any): boolean {
 
     return Boolean(value);
 }
+
+export function toHtmlEscape(text: string): string {
+    if (typeof text !== "string" || isEmpty(text)) {
+        return text;
+    }
+    let el: HTMLSpanElement = null;
+
+    return text.replace(/(&[A-z]+?;)|(&#[0-9]+?;)/gi, (str, ...args) => {
+        const val = args.slice(0, -2).find((value) => !isEmpty(value));
+
+        if (!val) {
+            return str;
+        }
+        if (!el) {
+            el = document.createElement("span");
+        }
+        el.innerHTML = val;
+
+        return el.textContent;
+    });
+}

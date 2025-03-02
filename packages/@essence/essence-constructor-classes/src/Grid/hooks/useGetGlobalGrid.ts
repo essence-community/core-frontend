@@ -33,4 +33,23 @@ export function useGetGlobalGrid({store}: IUseGetGlobalGridProps): void {
             );
         }
     }, [store]);
+
+    React.useEffect(() => {
+        return reaction(
+            () => [
+                store.recordsStore.recordsState,
+                store.recordsStore.selectedRecordId,
+                store.recordsStore.selectedRecords.size,
+            ],
+            (val) => {
+                if (isEmpty(val[1]) || (val[2] as number) > 1) {
+                    return;
+                }
+                store.scrollToRecordAction({});
+            },
+            {
+                fireImmediately: true,
+            },
+        );
+    }, [store]);
 }

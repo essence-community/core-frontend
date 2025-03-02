@@ -74,7 +74,9 @@ export const NumberFormat: React.FC<INumberFormatProps> = (props) => {
             onValueChange={handleChange}
             allowNegative={config.minValue < 0}
             isAllowed={handleIsAllowed}
-            thousandSeparator={typeof bc.thousandseparator === "string" ? bc.thousandseparator : ""}
+            thousandSeparator={
+                typeof bc.thousandseparator === "string" && bc.thousandseparator !== "" ? bc.thousandseparator : false
+            }
             decimalSeparator={bc.decimalseparator ? bc.decimalseparator : ","}
         />
     );

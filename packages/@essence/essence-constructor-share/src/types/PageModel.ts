@@ -19,6 +19,7 @@ export interface IPageModelProps {
     applicationStore: IApplicationModel;
     defaultVisible?: boolean;
     initParamPage?: Record<string, any>;
+    parentPage?: IPageModel;
 }
 
 export interface INextComponentReturn {

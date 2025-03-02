@@ -120,7 +120,7 @@ export class AuthModel implements IAuthModel {
     ): Promise<void> => {
         const {redirecturl = "/"} = this.applicationStore.bc;
         const state = (history.location.state || {}) as {backUrl?: string};
-        let backUrl: string = state.backUrl ?? redirecturl;
+        let backUrl: string = state.backUrl === "/auth" ? redirecturl : state.backUrl ?? redirecturl;
 
         if (backUrl === history.location.pathname) {
             backUrl = redirecturl;

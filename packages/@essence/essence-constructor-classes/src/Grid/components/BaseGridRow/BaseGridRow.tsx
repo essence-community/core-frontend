@@ -29,34 +29,63 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
     const classes = useStyles();
     const dndProps = useGridDnd({record, store});
     const getValue = useGetValue({pageStore: store.pageStore});
+    const [isDisabledCheckBox, setDisabledCheckBox] = React.useState<boolean>(
+        classProps.readOnly || classProps.disabled,
+    );
 
     const [isCheckBoxColumn, checkBc] = React.useMemo(() => {
         const checkBc = bc.columns?.find((col) => col.datatype?.toLocaleUpperCase() === "CHECKBOX");
 
         return [!isEmpty(checkBc), checkBc];
     }, [bc]);
-    const isDisabledCheckBox = React.useMemo(() => {
+
+    React.useEffect(() => {
         if (isCheckBoxColumn) {
-            let res = checkBc.disabled;
+            return reaction(
+                () => {
+                    let res = checkBc.disabled;
+                    let readOnly = typeof checkBc.readonly === "undefined" ? classProps.readOnly : checkBc.readonly;
 
-            if (!isEmpty(checkBc.disabledrules)) {
-                res = parseMemoize(checkBc.disabledrules).runer({
-                    get: (name: string) => {
-                        const [isExists, value] = deepFind(record, name);
+                    if (!isEmpty(checkBc.disabledrules)) {
+                        res = parseMemoize(checkBc.disabledrules).runer({
+                            get: (name: string) => {
+                                const [isExists, value] = deepFind(record, name);
 
-                        return isExists ? value : getValue(name);
-                    },
-                }) as boolean;
-            }
+                                return isExists ? value : getValue(name);
+                            },
+                        }) as boolean;
+                    }
 
-            return res;
+                    if (!isEmpty(checkBc.readonlyrules)) {
+                        readOnly = parseMemoize(checkBc.readonlyrules).runer({
+                            get: (name: string) => {
+                                const [isExists, value] = deepFind(record, name);
+
+                                return isExists ? value : getValue(name);
+                            },
+                        }) as boolean;
+                    }
+
+                    return readOnly || res;
+                },
+                setDisabledCheckBox,
+                {
+                    fireImmediately: true,
+                },
+            );
         }
-    }, [isCheckBoxColumn, checkBc, getValue, record]);
+    }, [isCheckBoxColumn, checkBc, getValue, record, classProps]);
     const isSelected = React.useCallback(() => {
         return bc.selmode === "MULTI" || bc.collectionvalues === "array"
             ? store.recordsStore.selectedRecords.has(record[store.recordsStore.recordId] as ICkId)
             : store.recordsStore.selectedRecordId === record[store.recordsStore.recordId];
     }, [bc, record, store]);
+
+    const isSelectedExcludeCheckBox = React.useCallback(() => {
+        return !isCheckBoxColumn && (bc.selmode === "MULTI" || bc.collectionvalues === "array")
+            ? store.recordsStore.selectedRecords.has(record[store.recordsStore.recordId] as ICkId)
+            : store.recordsStore.selectedRecordId === record[store.recordsStore.recordId];
+    }, [isCheckBoxColumn, bc, record, store]);
 
     const handleShiftSelect = React.useCallback(() => {
         const lastSelectedRecord = store.recordsStore.selectedRecordIndex;
@@ -121,8 +150,8 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
     );
 
     React.useEffect(() => {
-        return reaction(isSelected, setSelected, {fireImmediately: true});
-    }, [isSelected]);
+        return reaction(isSelectedExcludeCheckBox, setSelected, {fireImmediately: true});
+    }, [isSelectedExcludeCheckBox]);
 
     const className = cn(
         classes.root,

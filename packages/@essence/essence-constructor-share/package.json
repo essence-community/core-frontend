@@ -1,6 +1,6 @@
 {
     "name": "@essence-community/constructor-share",
-    "version": "3.0.2",
+    "version": "3.0.4",
     "description": "Share package for building modules",
     "main": "src/index.js",
     "repository": "https://github.com/essence-community/core-frontend",
@@ -11,8 +11,8 @@
     "license": "MIT",
     "private": false,
     "engines": {
-        "yarn": ">=1.4.2",
-        "node": ">= 10"
+        "yarn": ">=1.22.0",
+        "node": ">=22.0.0"
     },
     "scripts": {
         "build": "constructor-package-builder build:tsc",
@@ -58,7 +58,7 @@
         "uuid": "^9.0.1"
     },
     "devDependencies": {
-        "@essence-community/constructor-package-builder": "3.0.2",
+        "@essence-community/constructor-package-builder": "3.0.4",
         "@types/crypto-js": "^4.2.2",
         "@types/debug": "^4.1.12",
         "@types/dompurify": "^3.0.5",

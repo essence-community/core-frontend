@@ -1,21 +1,21 @@
 {
-  "name": "@essence-community/constructor-package-builder",
-  "version": "3.0.2",
-  "description": "Builder lib for package",
-  "main": "index.js",
-  "repository": "https://github.com/essence-community/core-frontend",
-  "author": [
-    "Oleh Kutsenko",
-    "Ivan Artemov (artemov_is@tehnobear.ru)"
-  ],
-  "license": "MIT",
-  "private": true,
-  "bin": {
-    "constructor-package-builder": "./bin/constructor-package-builder.js"
-  },
-  "dependencies": {
-    "cross-spawn": "^7.0.3",
-    "fs-extra": "^11.2.0",
-    "typescript": "^5.3.3"
-  }
+    "name": "@essence-community/constructor-package-builder",
+    "version": "3.0.4",
+    "description": "Builder lib for package",
+    "main": "index.js",
+    "repository": "https://github.com/essence-community/core-frontend",
+    "author": [
+        "Oleh Kutsenko",
+        "Ivan Artemov (artemov_is@tehnobear.ru)"
+    ],
+    "license": "MIT",
+    "private": true,
+    "bin": {
+        "constructor-package-builder": "./bin/constructor-package-builder.js"
+    },
+    "dependencies": {
+        "cross-spawn": "^7.0.3",
+        "fs-extra": "^11.2.0",
+        "typescript": "^5.3.3"
+    }
 }

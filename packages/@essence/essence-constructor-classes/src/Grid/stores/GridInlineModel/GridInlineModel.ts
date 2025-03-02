@@ -40,11 +40,17 @@ export class GridInlineModel extends StoreBaseModel {
                     if (this.mainStore?.handlers?.onSaveWindow) {
                         success = await this.mainStore.handlers.onSaveWindow(modeAction, btnBc, options);
                     } else {
-                        success = await parentStore.recordsStore.saveAction(form.values, modeAction, {
-                            ...options,
-                            actionBc: btnBc,
-                            form,
-                        });
+                        const isDownload = mode === "7" || btnBc.mode === "7";
+
+                        success = await parentStore.recordsStore[isDownload ? "downloadAction" : "saveAction"](
+                            form.values,
+                            modeAction,
+                            {
+                                ...options,
+                                actionBc: btnBc,
+                                form,
+                            },
+                        );
                     }
 
                     if (success) {

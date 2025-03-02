@@ -33,12 +33,13 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
     const getIconFont = () => {
         const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
         const leaf = record[VAR_RECORD_LEAF];
+        const isSelectTree = bc.selecttree == null || bc.selecttree;
 
         if (store?.bc.type !== "TREEGRID" || (typeof leaf === "boolean" ? leaf : leaf !== "false")) {
             return "check-square";
         }
 
-        if (store && store.recordsStore && (isEmpty(bc.selecttree) || bc.selecttree)) {
+        if (store && store.recordsStore && isSelectTree) {
             return isMinusChecked(
                 store.recordsStore,
                 record[store.recordsStore.recordId] as ICkId,

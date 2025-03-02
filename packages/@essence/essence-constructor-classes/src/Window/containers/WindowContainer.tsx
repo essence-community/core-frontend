@@ -71,25 +71,29 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
         ) : null,
     );
 
-    const handleCloseDialog = () => {
+    const handleCloseDialog = React.useCallback(() => {
         if (!pageStore.hiddenPage) {
             store.setCancelAction();
         }
-    };
+    }, [pageStore, store]);
+    const outClickRef = React.useRef(false);
+    const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+        if (event.target !== event.currentTarget || event.shiftKey) {
+            outClickRef.current = false;
 
-    const handleBackdropClick = (event: React.SyntheticEvent) => {
-        /*
-         * Ignore the events not coming from the "backdrop"
-         * We don't want to close the dialog when clicking the dialog content.
-         */
-        if (event.target !== event.currentTarget) {
             return undefined;
         }
-
-        handleCloseDialog();
-
-        return undefined;
+        outClickRef.current = true;
     };
+    const handleMouseUp = React.useCallback(
+        (_event: React.MouseEvent<HTMLDivElement>) => {
+            if (outClickRef.current) {
+                handleCloseDialog();
+                outClickRef.current = false;
+            }
+        },
+        [handleCloseDialog],
+    );
 
     const handleCloseAction = React.useCallback(() => {
         store.closeAction("1", bc, {});
@@ -113,7 +117,7 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
                 BackdropComponent={Backdrop}
             >
                 <React.Suspense fallback={null}>
-                    <div className={classes.container} onClick={handleBackdropClick}>
+                    <div className={classes.container} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
                         <Paper
                             className={cn(classes.paper, {
                                 [classes[`align-${align}` as keyof typeof classes]]: align,

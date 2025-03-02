@@ -37,6 +37,7 @@ export const ColumnIconContainer: React.FC<IClassProps> = (props) => {
         const btnBc: IBuilderConfig = {
             contentview: "menu",
             ...bc,
+            childs: Object.keys(first).length ? undefined : bc.childs,
             hidden: false,
             hiddenrules: undefined,
             ...first,

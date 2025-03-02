@@ -5,7 +5,7 @@ import {useModel} from "@essence-community/constructor-share/hooks";
 import {reaction} from "mobx";
 import {deepChange, deepFind, isEmpty} from "@essence-community/constructor-share/utils";
 import {useField} from "@essence-community/constructor-share/Form/useField";
-import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
+import {VALUE_SELF_ALWAYSFIRST, VALUE_SELF_FIRST, VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {ServiceHiddenModel} from "../stores/ServiceHiddenModel";
 
 const CLEAR_VALUE = undefined;
@@ -15,7 +15,22 @@ export const ServiceHiddenContainer: React.FC<IClassProps> = (props) => {
     const {setglobal, valuefield, idproperty, disabled, hidden} = bc;
     const applicationStore = React.useContext(ApplicationContext);
     const [store] = useModel((options) => new ServiceHiddenModel({...options, applicationStore}), props);
-    const field = useField({bc, clearValue: CLEAR_VALUE, disabled, hidden, pageStore});
+    const memoBc = React.useMemo(
+        () => ({
+            ...bc,
+            defaultvalue:
+                bc.defaultvalue === VALUE_SELF_ALWAYSFIRST || bc.defaultvalue === VALUE_SELF_FIRST
+                    ? undefined
+                    : bc.defaultvalue,
+            defaultvaluelocalization:
+                bc.defaultvaluelocalization === VALUE_SELF_ALWAYSFIRST ||
+                bc.defaultvaluelocalization === VALUE_SELF_FIRST
+                    ? undefined
+                    : bc.defaultvaluelocalization,
+        }),
+        [bc],
+    );
+    const field = useField({bc: memoBc, clearValue: CLEAR_VALUE, disabled, hidden, pageStore});
 
     // Set record to global
     React.useEffect(() => {

@@ -24,6 +24,7 @@ export const TextFieldMask: React.FC<ITextFieldMaskProps> = (props) => {
             formatChars={formatChars}
             beforeMaskedValueChange={beforeMaskedValueChange}
             disabled={textFieldProps.disabled}
+            onPaste={textFieldProps.onPaste}
         >
             {(inputProps: TextFieldProps) => <TextField {...textFieldProps} {...inputProps} variant="standard" />}
         </InputMask>

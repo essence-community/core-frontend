@@ -254,7 +254,7 @@ export class RecordsModel implements IRecordsModel {
 
             this.setLocalDefaultValue();
 
-            return Promise.resolve();
+            return this.selectedRecord;
         }
 
         if (

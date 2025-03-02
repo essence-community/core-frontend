@@ -49,6 +49,8 @@ export class FormPanelModel extends StoreBaseModel {
         bc: IBuilderConfig,
         options: IHandlerOptions = {},
     ): Promise<boolean> => {
+        let result = true;
+
         if (bc.ckwindow && getWindowBc(bc, this.pageStore, this)) {
             this.pageStore.createWindowAction(
                 createWindowProps({
@@ -59,7 +61,7 @@ export class FormPanelModel extends StoreBaseModel {
                 }),
             );
 
-            return Promise.resolve(true);
+            return Promise.resolve(result);
         }
         switch (mode) {
             case "1":
@@ -70,7 +72,7 @@ export class FormPanelModel extends StoreBaseModel {
                 break;
             case "3":
             case "4":
-                await this.recordsStore.saveAction(
+                result = await this.recordsStore.saveAction(
                     options.form?.values || this.selectedRecord || options.record,
                     (bc.modeaction || mode) as IBuilderMode,
                     {
@@ -84,7 +86,7 @@ export class FormPanelModel extends StoreBaseModel {
                 this.cloneAction();
                 break;
             case "7":
-                await this.recordsStore.downloadAction(
+                result = await this.recordsStore.downloadAction(
                     options.form?.values || this.selectedRecord || options.record,
                     (bc.modeaction || mode) as IBuilderMode,
                     {
@@ -95,7 +97,7 @@ export class FormPanelModel extends StoreBaseModel {
                 );
                 break;
             case "8":
-                await this.recordsStore.saveAction(
+                result = await this.recordsStore.saveAction(
                     options.form?.values || this.selectedRecord || options.record,
                     (bc.modeaction || mode) as IBuilderMode,
                     {
@@ -109,7 +111,7 @@ export class FormPanelModel extends StoreBaseModel {
                 return Promise.resolve(false);
         }
 
-        return Promise.resolve(true);
+        return Promise.resolve(result);
     };
 
     updateBtnAction = this.defaultHandlerBtnAction;
@@ -161,7 +163,8 @@ export class FormPanelModel extends StoreBaseModel {
             return false;
         }
 
-        const result = await this.recordsStore.saveAction(
+        const isDownload = mode === "7" || btnBc.mode === "7";
+        const result = await this.recordsStore[isDownload ? "downloadAction" : "saveAction"](
             form.values,
             (btnBc.modeaction || this.mode) as IBuilderMode,
             {
@@ -176,7 +179,7 @@ export class FormPanelModel extends StoreBaseModel {
             this.setEditing(false);
         }
 
-        return Promise.resolve(!isEmpty(result));
+        return Promise.resolve(typeof result === "boolean" ? result : !isEmpty(result));
     };
 
     @action

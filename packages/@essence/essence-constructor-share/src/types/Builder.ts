@@ -31,8 +31,10 @@ export interface IBuilderBaseConfig {
     autofocus?: boolean;
     // Признак автозагрузки сервиса
     autoload?: boolean;
-    // Расчет автоперезагрузки стора
+    // Расчет автозагрузки стора со сбросом
     autoloadrule?: string;
+    // Расчет автоперезагрузки стора
+    autoreloadrule?: string;
     // Наименование параметра, определяющего уникальность возвращаемых данных.  Если этот столбец есть в filter и заполнен, то сработает автовыбор первой записи
     autoselectidentity?: string;
     // Отображение кнопки "Информация" (true/false)
@@ -49,16 +51,28 @@ export interface IBuilderBaseConfig {
     btnrefresh?: boolean;
     // Отображение кнопки "Настройки" (true/false)
     btnsettings?: boolean;
+    // Проверка данных и вывод ошибки
+    check?: string;
     // Признак "Добавить еще". Если не заполнен = false
     checkaddmore?: boolean;
+    // Уникальный идентификатор
+    ckobject?: string;
     // Идентификатор для поиска окна в мастере
     ckwindow?: string;
+    // Включаем override вставки
+    clipboardpasteenabled?: boolean;
+    // Реакция на копирование значения
+    clipboardpastefield?: "display" | "value" | "displayandvalue";
+    // Регулярное выражения для разделения строк
+    clipboardpasteseparateregex?: string;
+    // Перезагружать при закрытие окна
+    closereload?: boolean;
     // Свернута ли панель при инициализации  true = свернута
     collapsed?: boolean;
     // Признак возможности сворачивания панели true/false
     collapsible?: boolean;
     // Тип  сбора значений: object - виде объекта array - массив строк
-    collectionvalues?: "object" | "array";
+    collectionvalues?: "object" | "array" | "objectandarray";
     // Наименование параметра для отображения данных и передачи в Modify
     column?: string;
     // Наименование параметра - конца периода
@@ -81,6 +95,8 @@ export interface IBuilderBaseConfig {
     decimalprecision?: number;
     // Разделитель дробного остатка
     decimalseparator?: string;
+    // 	При очистке выставлять defaultvalue если заполнен
+    defaultisclear?: boolean;
     // Значение по умолчанию CheckBox: true/false DateField: sysdate - текущее время или дата в формате ISO 8601 2005-08-09T18:31:42 для выбора первой записи указать значение "##first##"  для выбора первой записи всегда - указать значение "##alwaysfirst##"
     defaultvalue?: string;
     // Значение по умолчанию из словаря локализации
@@ -197,6 +213,8 @@ export interface IBuilderBaseConfig {
     modeaction?: string;
     // Не обращать внимание на form
     noform?: boolean;
+    // Открывать ссылки в том же окне
+    noblank?: boolean;
     // Признак отключения глобального лоадера при загрузке сервиса
     noglobalmask?: boolean;
     // Отображается только иконка кнопки (true/false)

@@ -33,7 +33,7 @@ export class GlobalRecordsModel implements IGlobalRecordsModel {
     // Make promise all for parallel
     loadAllStoresAction = action("loadAllStoresAction", async () => {
         if (settingsStore.settings[VAR_SETTING_SMART_MASK_QUERY]) {
-            await this.indentityDocTypeRecordsStore.loadRecordsAction({});
+            await this.indentityDocTypeRecordsStore.loadRecordsAction();
         }
     });
 

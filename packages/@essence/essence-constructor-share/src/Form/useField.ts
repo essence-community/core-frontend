@@ -5,7 +5,10 @@ import {IBuilderConfig, IPageModel, FieldValue} from "../types";
 import {FormContext, ParentFieldContext} from "../context";
 import {VAR_RECORD_MASTER_ID, VAR_RECORD_CL_IS_MASTER, VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
 import {isEmpty} from "../utils/base";
+import {debounce} from "../utils";
 import {IField, IRegisterFieldOptions} from "./types";
+
+const CHANGE_TIMEOUT = 500;
 
 interface IUseFieldProps {
     bc: IBuilderConfig;
@@ -60,12 +63,13 @@ export const useField = ({
             output: output || parentField?.output,
             pageStore,
             parentFieldKey: parentField?.parentFieldKey,
+            parentPrefix: parentField?.key,
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [form, key]);
 
     const handleReactValue = useCallback(
-        (value: FieldValue) => {
+        debounce((value: FieldValue) => {
             const ckPageObject = bc[VAR_RECORD_PAGE_OBJECT_ID];
 
             pageStore.addFieldValueMaster(ckPageObject, value);
@@ -75,12 +79,20 @@ export const useField = ({
                     if (isEmpty(value)) {
                         store.clearStoreAction();
                         store.clearAction && store.clearAction();
+                        if (store.recordsStore) {
+                            store.recordsStore.recordsAll = [];
+                            store.recordsStore.recordsState = {
+                                isUserReload: false,
+                                records: [],
+                                status: "clear",
+                            };
+                        }
                     } else {
                         store.reloadStoreAction();
                     }
                 }
             });
-        },
+        }, CHANGE_TIMEOUT),
         [bc, pageStore],
     );
 
@@ -116,8 +128,11 @@ export const useField = ({
 
     useEffect(() => {
         field.setDisabled(disabled);
+    }, [field, disabled]);
+
+    useEffect(() => {
         field.setHidden(hidden);
-    }, [field, disabled, hidden]);
+    }, [field, hidden]);
 
     useEffect(() => {
         return () => {

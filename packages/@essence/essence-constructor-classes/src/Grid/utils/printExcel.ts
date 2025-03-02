@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 /* eslint-disable max-statements */
-import {i18next, getMasterObject, prepareUrl} from "@essence-community/constructor-share/utils";
+import {i18next, getMasterObject, prepareUrl, setMask} from "@essence-community/constructor-share/utils";
 import {snackbarStore, settingsStore} from "@essence-community/constructor-share/models";
 import {
     VAR_RECORD_MASTER_ID,
@@ -21,7 +21,6 @@ import {IBuilderConfig, IRecordsModel, IRecord} from "@essence-community/constru
 import {
     getFilterData,
     attachGlobalStore,
-    setMask,
 } from "@essence-community/constructor-share/models/RecordsModel/loadRecordsAction";
 import {request} from "@essence-community/constructor-share/request";
 import {appendInputForm, downloadXhr} from "@essence-community/constructor-share/actions/download";
@@ -63,7 +62,11 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
             .filter((col) => {
                 const obj = gridStore.visibleAndHidden.get(col[VAR_RECORD_PAGE_OBJECT_ID]);
 
-                return col.datatype !== "icon" && col.datatype !== "checkbox" && obj.visible;
+                return (
+                    col.datatype !== "icon" &&
+                    col.datatype !== "checkbox" &&
+                    (typeof obj.visibleStore === "boolean" ? obj.visibleStore : obj.visible)
+                );
             })
             .map((val) => ({
                 [VAR_RECORD_CV_DESCRIPTION]: val[VAR_RECORD_CV_DESCRIPTION] || "",

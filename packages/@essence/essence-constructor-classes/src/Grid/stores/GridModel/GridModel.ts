@@ -302,7 +302,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             return Promise.resolve(undefined);
         }
 
-        return this.recordsStore.loadRecordsAction({});
+        return this.recordsStore.loadRecordsAction();
     };
 
     @action
@@ -323,6 +323,8 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         const maxSize =
             bcBtn?.maxselected && (parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues) as number);
         const isSelected = this.recordsStore.selectedRecords.has(ckId);
+        const isLeaf = record[VAR_RECORD_LEAF] != null;
+        const isSelectTree = bcBtn.selecttree == null || bcBtn.selecttree;
 
         if (isSelected) {
             this.recordsStore.setSelectionsAction([record], this.recordsStore.recordId, "delete");
@@ -330,7 +332,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             this.recordsStore.setSelectionsAction([record], this.recordsStore.recordId, "append");
         }
 
-        if (!isEmpty(record[VAR_RECORD_LEAF]) && (isEmpty(bcBtn.selecttree) || bcBtn.selecttree)) {
+        if (isLeaf && isSelectTree) {
             setGridSelections({gridStore: this, isSelected, maxSize, parentId: ckId});
             setGridSelectionsTop({
                 ckChild: parentId,
@@ -391,7 +393,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         this.isAuditOpen = !this.isAuditOpen;
     };
 
-    loadRecordsAction = (props: ILoadRecordsProps) => this.recordsStore.loadRecordsAction(props);
+    loadRecordsAction = (props?: ILoadRecordsProps) => this.recordsStore.loadRecordsAction(props);
 
     onPrintExcel = (values: IRecord, bcBtn: IBuilderConfig): Promise<boolean> => {
         if (isEmpty(this.bc[VAR_RECORD_QUERY_ID])) {
@@ -628,7 +630,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             const isFilterValid = await this.applyFiltersAction();
 
             if (isFilterValid) {
-                await this.loadRecordsAction({});
+                await this.loadRecordsAction();
             }
 
             return Promise.resolve(true);

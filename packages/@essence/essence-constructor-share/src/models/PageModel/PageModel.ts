@@ -207,10 +207,16 @@ export class PageModel implements IPageModel {
         applicationStore,
         defaultVisible = false,
         initParamPage,
+        parentPage,
     }: IPageModelProps) {
         this.pageId = pageId;
         this.uniqueId = v4();
         this.initParamPage = initParamPage;
+        if (parentPage) {
+            this.windows = parentPage.windows;
+            this.createWindowAction = parentPage.createWindowAction;
+            this.closeWindowAction = parentPage.closeWindowAction;
+        }
         if (this.initParamPage === null) {
             this.initParamPage = undefined;
         } else if (typeof this.initParamPage === "object") {

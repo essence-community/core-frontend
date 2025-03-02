@@ -71,21 +71,28 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
     };
 
     React.useEffect(() => {
-        if (!formContext || !bc.column) {
+        if (!bc.column) {
             return;
         }
 
         return reaction(
-            () =>
-                Object.values(formContext?.values || {}).findIndex((val: any) =>
-                    typeof val === "object" ? val?.property === bc.column : false,
-                ) > -1,
+            () => {
+                const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
+
+                return store
+                    ? store.recordsStore.filter?.findIndex((val) =>
+                          typeof val === "object" ? val?.property === bc.column : false,
+                      ) > -1
+                    : Object.values(formContext?.values || {}).findIndex((val: any) =>
+                          typeof val === "object" ? val?.property === bc.column : false,
+                      ) > -1;
+            },
             setFilter,
             {
                 fireImmediately: true,
             },
         );
-    }, [formContext, bc]);
+    }, [formContext, bc, pageStore]);
 
     return useObserver(() => {
         const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);

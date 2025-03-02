@@ -14,7 +14,6 @@ import {
 import {snackbarStore} from "../models";
 import {request} from "../request";
 import {attachGlobalStore} from "../models/RecordsModel/loadRecordsAction";
-import {setMask} from "../actions/recordsActions";
 import {settingsStore} from "../models/SettingsModel";
 import {
     META_PAGE_ID,
@@ -27,6 +26,7 @@ import {
 import {parseMemoize} from "./parser";
 import {getMasterObject} from "./getMasterObject";
 import {encodePathUrl} from "./base";
+import {setMask} from "./mask";
 
 interface IGetQueryParams {
     columnsName?: IBuilderConfig["columnsfilter"];
@@ -154,7 +154,7 @@ async function redirectUseQuery({bc, noBlank, query, pageStore, values, record}:
             globalValues: pageStore.globalValues,
             json,
         });
-        setMask(bc.noglobalmask, pageStore, true);
+        setMask(true, bc.noglobalmask, pageStore);
         const res: any = await request({
             [META_PAGE_ID]: pageStore.pageId || bc[VAR_RECORD_ROUTE_PAGE_ID],
             [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID],
@@ -166,7 +166,7 @@ async function redirectUseQuery({bc, noBlank, query, pageStore, values, record}:
             timeout: bc.timeout,
         });
 
-        setMask(bc.noglobalmask, pageStore, false);
+        setMask(false, bc.noglobalmask, pageStore);
         const isValid = snackbarStore.checkValidResponseAction(res, {
             applicationStore: pageStore.applicationStore,
             route: pageStore.route,
@@ -196,7 +196,7 @@ async function redirectUseQuery({bc, noBlank, query, pageStore, values, record}:
                 route: pageStore.route,
             },
         );
-        setMask(bc.noglobalmask, pageStore, false);
+        setMask(false, bc.noglobalmask, pageStore);
 
         return false;
     }
@@ -238,7 +238,7 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
     const {globalValues} = pageStore;
 
     const url: IMakeRedirectUrlReturn = {
-        blank: false,
+        blank: typeof bc.noblank === "boolean" ? !bc.noblank : false,
         isRedirect: false,
         pathname:
             redirecturl &&
@@ -305,7 +305,12 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
     return url;
 }
 
-export function makeRedirect(bc: IBuilderConfig, pageStore: IPageModel, record: IRecord = {}, noBlank = false): void {
+export function makeRedirect(
+    bc: IBuilderConfig,
+    pageStore: IPageModel,
+    record: IRecord = {},
+    noBlank = typeof bc.noblank === "boolean" ? bc.noblank : false,
+): void {
     const {redirecturl, redirectusequery, columnsfilter} = bc;
     const {globalValues} = pageStore;
     let redirectUrl = redirecturl;

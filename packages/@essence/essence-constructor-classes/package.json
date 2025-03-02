@@ -1,6 +1,6 @@
 {
     "name": "@essence-community/constructor-classes",
-    "version": "3.0.2",
+    "version": "3.0.4",
     "description": "Classes implementation for constructor",
     "main": "src/index.js",
     "repository": "https://github.com/essence-community/core-frontend",
@@ -14,9 +14,10 @@
         "tscheck": "tsc"
     },
     "dependencies": {
-        "@essence-community/constructor-share": "3.0.2",
+        "@essence-community/constructor-share": "3.0.4",
         "@material-ui/core": "^4.12.4",
         "@material-ui/lab": "4.0.0-alpha.61",
+        "@module-federation/bridge-react": "^0.9.1",
         "@monaco-editor/loader": "^1.4.0",
         "@monaco-editor/react": "4.6.0",
         "clsx": "^2.1.0",

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-statements */
 import {action, computed, makeObservable, observable, ObservableMap} from "mobx";
 import merge from "lodash/merge";
@@ -63,7 +64,7 @@ export class Form implements IForm {
     @computed get values(): IRecord {
         const extraValue = cloneDeepElementary(this.extraValue);
         const values: IRecord = merge(cloneDeepElementary(this.initialValues), extraValue);
-        const keysAndFields = [];
+        const keysAndFields = [] as {keys: string[]; field: IField}[];
 
         for (const [key, field] of this.fields.entries()) {
             if (key.indexOf(".") === -1) {
@@ -72,15 +73,15 @@ export class Form implements IForm {
                 values[key] = value;
                 if (typeof value === "object") {
                     if (field.isArray) {
-                        let lastExtraValue =
-                            typeof extraValue[key] === "object" && !Array.isArray(extraValue[key])
-                                ? Object.values(extraValue[key] as any)
-                                : (extraValue[key] as any[]);
+                        const lastExtraValue = extraValue[key] || [];
 
-                        if (lastExtraValue && lastExtraValue.length > (value as any[]).length) {
-                            lastExtraValue = lastExtraValue.slice(0, (value as any[]).length);
+                        if (Array.isArray(lastExtraValue)) {
+                            values[key] = merge(lastExtraValue || [], cloneDeepElementary(value));
+                        } else {
+                            values[key] = value.map((val, index) =>
+                                merge(extraValue[index] || {}, cloneDeepElementary(val)),
+                            );
                         }
-                        values[key] = merge(lastExtraValue || [], cloneDeepElementary(value));
                     } else if (field.isObject) {
                         values[key] = merge(extraValue[key] || {}, cloneDeepElementary(value));
                     }
@@ -89,7 +90,11 @@ export class Form implements IForm {
                 keysAndFields.push({field, keys: key.split(".")});
             }
         }
-        keysAndFields.sort(({keys: a}, {keys: b}) => b.length - a.length);
+        keysAndFields.sort(({keys: a, field: fieldA}, {keys: b, field: fieldB}) => {
+            const res = a.length - b.length;
+
+            return res === 0 ? fieldA.key.localeCompare(fieldB.key) : res;
+        });
         for (const {keys, field} of keysAndFields) {
             const last = keys.pop() as string;
             const val = keys.reduce((res, key) => {
@@ -195,11 +200,16 @@ export class Form implements IForm {
                 output: options.output,
                 pageStore: options.pageStore,
                 parentFieldKey: options.parentFieldKey,
+                parentPrefix: options.parentPrefix,
             });
 
             this[keyStore].set(key, field);
             this[keyStore] = new ObservableMap(
-                entriesMapSort(this[keyStore], ([keyOld], [keyNew]) => keyOld.length - keyNew.length),
+                entriesMapSort(this[keyStore], ([keyOld], [keyNew]) => {
+                    const res = keyOld.length - keyNew.length;
+
+                    return res === 0 ? keyOld.localeCompare(keyNew) : res;
+                }),
             );
         }
 
@@ -209,7 +219,7 @@ export class Form implements IForm {
     };
 
     @action
-    unregisterField = (key: string) => {
+    unregisterField = (key: string): void => {
         const field = this.fields.get(key) || this.fieldsFile.get(key);
 
         if (field) {
@@ -223,13 +233,10 @@ export class Form implements IForm {
     };
 
     @action
-    validate = () => {
-        for (const field of this.fields.values()) {
-            field.validate();
-        }
-        for (const field of this.fieldsFile.values()) {
-            field.validate();
-        }
+    validate = async (): Promise<void> => {
+        const fields = [...this.fields.values(), ...this.fieldsFile.values()];
+
+        await Promise.all(fields.map((field) => field.validate()));
 
         if (this.isValid) {
             this.validationCount += 1;
@@ -239,13 +246,13 @@ export class Form implements IForm {
     };
 
     @action
-    onSubmit = async (event?: React.SyntheticEvent) => {
+    onSubmit = async (event?: React.SyntheticEvent): Promise<void> => {
         if (event) {
             event.preventDefault();
             event.stopPropagation();
         }
 
-        this.validate();
+        await this.validate();
 
         if (this.isValid) {
             await this.submit();
@@ -257,7 +264,7 @@ export class Form implements IForm {
     };
 
     @action
-    update = (initialValues: IRecord = {}, isReset = false) => {
+    update = (initialValues: IRecord = {}, isReset = false): void => {
         this.initialValues = initialValues;
         this.valueKey = initialValues[this.bc?.idproperty ? this.bc.idproperty : VAR_RECORD_ID];
 
@@ -276,42 +283,44 @@ export class Form implements IForm {
         this.setIsDirty(false);
     };
 
-    updateMode = (mode: IBuilderMode) => {
+    updateMode = (mode: IBuilderMode): void => {
         this.mode = mode;
     };
 
     @action
-    patch = (values: IRecord, isExtra = false, isReset = false) => {
+    patch = (values: IRecord, isExtra = false, isReset = false): void => {
         if (isExtra) {
             this.extraValue = isReset
                 ? cloneDeepElementary(values)
                 : merge(cloneDeepElementary(this.extraValue), cloneDeepElementary(values));
-
-            this.setIsDirty(false);
-
-            return;
         }
-        Object.entries(values).forEach(([key]) => {
-            const field = this.fields.get(key);
+        Object.keys(values)
+            .sort((a, b) => {
+                const res = a.length - b.length;
 
-            if (field) {
-                const [isExists, value] = field.input(values, field, this);
+                return res === 0 ? a.localeCompare(b) : res;
+            })
+            .forEach((key) => {
+                const field = this.fields.get(key);
 
-                if (isExists) {
-                    field.value = value;
+                if (field && (!isExtra || !field.isArray)) {
+                    const [isExists, value] = field.input(values, field, this);
+
+                    if (isExists) {
+                        field.value = value;
+                    } else {
+                        field.clear();
+                    }
                 } else {
-                    field.clear();
+                    loggerForm(`Can not update field ${key}. Field should be added from class`);
                 }
-            } else {
-                loggerForm(`Can not update field ${key}. Field should be added from class`);
-            }
-        });
+            });
 
         this.setIsDirty(false);
     };
 
     @action
-    clear = () => {
+    clear = (): void => {
         this.extraValue = {};
         for (const field of this.fields.values()) {
             field.clear();
@@ -324,7 +333,7 @@ export class Form implements IForm {
     };
 
     @action
-    reset = () => {
+    reset = (): void => {
         this.extraValue = {};
         for (const field of this.fields.values()) {
             field.reset();
@@ -337,7 +346,7 @@ export class Form implements IForm {
     };
 
     @action
-    resetValidation = () => {
+    resetValidation = (): void => {
         for (const field of this.fields.values()) {
             field.resetValidation();
         }
@@ -347,13 +356,13 @@ export class Form implements IForm {
     };
 
     @action
-    setEditing = (editing: boolean) => {
+    setEditing = (editing: boolean): void => {
         this.editing = editing;
         this.resetValidation();
     };
 
     @action
-    setIsDirty = (isDirty: boolean) => {
+    setIsDirty = (isDirty: boolean): void => {
         this.isDirty = isDirty;
     };
 
@@ -369,18 +378,18 @@ export class Form implements IForm {
         this.submitting = false;
     };
 
-    select = (key: string) => {
+    select = (key: string): IField | null => {
         return this.fields.get(key);
     };
 
     // Alias to select
     $ = this.select;
 
-    has = (key: string) => {
+    has = (key: string): boolean => {
         return this.fields.has(key);
     };
 
-    onFilterRedirect = async () => {
+    onFilterRedirect = async (): Promise<void> => {
         if (this.hooks.onFilterRedirect) {
             await this.hooks.onFilterRedirect(this);
         }

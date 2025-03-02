@@ -1,11 +1,11 @@
 {
     "name": "app",
-    "version": "3.0.2",
+    "version": "3.0.4",
     "license": "MIT",
     "private": true,
     "engines": {
-        "yarn": ">=1.7.0",
-        "node": ">=14.0.0"
+        "yarn": ">=1.22.0",
+        "node": ">=22.0.0"
     },
     "scripts": {
         "start": "env-cmd yarn workspace @essence-community/constructor-website run start",
@@ -27,7 +27,7 @@
     },
     "lint-staged": {
         "*.{js,jsx,ts,tsx}": [
-            "eslint",
+            "eslint --fix",
             "git add"
         ]
     },
@@ -67,9 +67,7 @@
             "packages/@essence/essence-constructor-package-builder",
             "packages/@essence/essence-constructor-website",
             "packages/@essence/essence-constructor-classes",
-            "packages/@essence/essence-constructor-share",
-            "packages/@essence/essence-constructor-types",
-            "packages/@essence/essence-constructor-register"
+            "packages/@essence/essence-constructor-share"
         ]
     },
     "dependencies": {

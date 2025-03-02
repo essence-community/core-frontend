@@ -6,6 +6,7 @@ import {
     IBuilderMode,
     IHandlerOptions,
     IHandlers,
+    IStoreBaseModel,
 } from "@essence-community/constructor-share/types";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {
@@ -40,7 +41,7 @@ export class WindowModel extends StoreBaseModel {
 
     @observable cancel = false;
 
-    @computed get mainStore() {
+    @computed get mainStore(): IStoreBaseModel | undefined {
         for (const ckPageObjectMain of [this.bc[VAR_RECORD_MASTER_ID], this.bc[VAR_RECORD_PARENT_ID]]) {
             const store = ckPageObjectMain && this.pageStore.stores.get(ckPageObjectMain);
 
@@ -53,10 +54,11 @@ export class WindowModel extends StoreBaseModel {
     }
 
     @action
-    closeAction = (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
+    closeAction = (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions): Promise<boolean> => {
         this.pageStore.closeWindowAction(this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
+        const isCloseReload = [btnBc.closereload, this.bc.closereload, true].find((val) => typeof val === "boolean");
 
-        if (this.mainStore && this.mainStore.handlers.onReloadStores) {
+        if (isCloseReload && this.mainStore?.handlers?.onReloadStores) {
             // TODO: call winReloadStores for gridStore
             this.mainStore.handlers.onReloadStores(mode, btnBc, options);
         }
@@ -106,12 +108,18 @@ export class WindowModel extends StoreBaseModel {
             if (this.mainStore?.handlers?.onSaveWindow) {
                 success = await this.mainStore.handlers.onSaveWindow(modeAction, btnBc, options);
             } else {
-                success = await this.recordsStore.saveAction(options.form.values, modeAction, {
-                    actionBc: btnBc,
-                    // TODO: check new api of records store
-                    files: options.files,
-                    form: options.form,
-                });
+                const isDownload = mode === "7" || btnBc.mode === "7";
+
+                success = await this.recordsStore[isDownload ? "downloadAction" : "saveAction"](
+                    options.form.values,
+                    modeAction,
+                    {
+                        actionBc: btnBc,
+                        // TODO: check new api of records store
+                        files: options.files,
+                        form: options.form,
+                    },
+                );
             }
 
             if (success) {

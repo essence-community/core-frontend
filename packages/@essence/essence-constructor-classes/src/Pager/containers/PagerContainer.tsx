@@ -44,7 +44,7 @@ interface IPagerProps extends IClassProps {}
 // eslint-disable-next-line max-lines-per-function
 export const PagerContainer: React.FC<IPagerProps> = (props) => {
     const {bc} = props;
-    const {[VAR_RECORD_PARENT_ID]: parentId, defaultvalue} = bc;
+    const {[VAR_RECORD_PARENT_ID]: parentId, defaultvalue, readonly} = bc;
     const applicationStore = React.useContext(ApplicationContext);
     const emitter = useResizerEE(true);
     /**
@@ -57,8 +57,9 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                 applicationStore,
                 defaultVisible: true,
                 isActiveRedirect: false,
-                isReadOnly: false,
+                isReadOnly: typeof readonly === "undefined" ? props.pageStore.isReadOnly : readonly,
                 pageId: defaultvalue,
+                parentPage: props.pageStore,
             });
 
             newPageStore.loadConfigAction(defaultvalue);
@@ -67,7 +68,18 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
         }
 
         return props.pageStore;
-    }, [applicationStore, defaultvalue, parentId, props.pageStore]);
+    }, [applicationStore, defaultvalue, parentId, props.pageStore, readonly]);
+
+    React.useEffect(() => {
+        if (pageStore != props.pageStore) {
+            return reaction(
+                () => props.pageStore.globalValues.toJSON(),
+                (globalValues) => {
+                    pageStore.updateGlobalValues(globalValues);
+                },
+            );
+        }
+    }, [pageStore, props.pageStore]);
 
     const classes = useStyles(props);
     const theme = useTheme<IEssenceTheme>();
@@ -125,7 +137,9 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                     <ParentFieldContext.Provider value={undefined}>
                         <Grid container spacing={2} className={classes.rootPageDivContent}>
                             {mapComponents(
-                                pageStore.route?.[VAR_RECORD_NOLOAD] === 1 ? bc.childs : pageStore.pageBc,
+                                (pageStore.route?.[VAR_RECORD_NOLOAD] === 1 ? bc.childs : pageStore.pageBc)?.filter(
+                                    (childBc) => childBc.type !== "WIN",
+                                ),
                                 (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
                                     <Grid
                                         key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}

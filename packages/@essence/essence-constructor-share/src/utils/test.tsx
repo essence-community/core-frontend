@@ -1,5 +1,5 @@
 import * as React from "react";
-import {MuiThemeProvider, createMuiTheme} from "@material-ui/core";
+import { MuiThemeProvider, createTheme} from "@material-ui/core";
 import {IObservableArray, observable} from "mobx";
 import {createMemoryHistory} from "history";
 import {
@@ -90,7 +90,7 @@ const themeVars: IEssenceTheme["essence"] = {
     },
 };
 
-export const theme = createMuiTheme({essence: themeVars} as IEssenceTheme);
+export const theme = createTheme({essence: themeVars} as IEssenceTheme);
 export const MIN_REQUEST_TIME = 30;
 export const MAX_REQUEST_TIME = 100;
 export const sleep = (time: number): Promise<void> =>

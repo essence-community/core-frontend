@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-statements */
 /* eslint-disable max-lines */
-import {observable, computed, action} from "mobx";
+import {observable, computed, action, makeObservable} from "mobx";
 import {FieldValue, IBuilderConfig, IPageModel} from "../types";
 import {parseMemoize, makeRedirect, isEmpty, transformToBoolean} from "../utils";
 import {parse} from "../utils/parser";
@@ -309,6 +309,7 @@ export class Field implements IField {
         if (this.value === undefined && (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean")) {
             this.value = this.bc.valuetype === "integer" ? 0 : false;
         }
+        makeObservable(this);
     }
 
     private getOutput = (output?: IFieldOptions["output"]): IField["output"] => {

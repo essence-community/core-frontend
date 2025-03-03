@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/named
-import {action, observable, IObservableArray, ObservableMap, computed} from "mobx";
+import {action, observable, IObservableArray, ObservableMap, computed, makeObservable} from "mobx";
 import {
     STORE_PAGES_IDS_KEY,
     STORE_LAST_CV_LOGIN_KEY,
@@ -59,6 +59,7 @@ export class PagesModel implements IPagesModel {
             applicationStore: this.applicationStore,
             pageStore: null,
         });
+        makeObservable(this);
     }
 
     @action

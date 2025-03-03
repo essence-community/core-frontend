@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import {observable, action} from "mobx";
+import {observable, action, makeObservable} from "mobx";
 import {History} from "history";
 import {
     getFromLocalStore,
@@ -35,7 +35,9 @@ export class AuthModel implements IAuthModel {
     @observable userInfo = getFromLocalStore<IAuthSession>("auth") || DEFAULT_USER_INFO;
 
     // eslint-disable-next-line no-useless-constructor
-    constructor(public applicationStore: IApplicationModel) {}
+    constructor(public applicationStore: IApplicationModel) {
+        makeObservable(this);
+    }
 
     @action
     checkAuthAction = (
@@ -141,15 +143,17 @@ export class AuthModel implements IAuthModel {
         history.push(backUrl.indexOf("/") === 0 ? backUrl : `/${backUrl}`, {backUrl: undefined});
     };
 
-    changeUserInfo = action("changeUserInfo", (userInfo: Partial<IAuthSession>) => {
+    @action
+    changeUserInfo = (userInfo: Partial<IAuthSession>) => {
         this.userInfo = {
             ...this.userInfo,
             ...userInfo,
         };
         saveToLocalStore("auth", this.userInfo);
-    });
+    };
 
-    logoutAction = action("logoutAction", async () => {
+    @action
+    logoutAction = async () => {
         const cleanedValues: IAuthSession = {...this.userInfo};
         const session = this.userInfo.session;
 
@@ -180,5 +184,5 @@ export class AuthModel implements IAuthModel {
             snackbarStore.checkExceptResponse(err, undefined, this.applicationStore);
             logger(err);
         }
-    });
+    };
 }

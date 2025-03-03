@@ -179,7 +179,7 @@ function parseOperations(expression: Expression | Pattern | Super | BlockStateme
             return expression.properties.reduce((acc: IValues, prop: Property) => {
                 // @ts-ignore
                 prop.key.isMember = true;
-                acc[parseOperations(prop.key, values)] = parseOperations(prop.value, values);
+                acc[parseOperations(prop.key as any, values)] = parseOperations(prop.value, values);
 
                 return acc;
             }, {});
@@ -223,7 +223,7 @@ function parseOperations(expression: Expression | Pattern | Super | BlockStateme
                           values[expression.property.originname]) as any) || expression.property.originname;
             }
             const property = parseOperations(
-                expression.property,
+                expression.property as any,
                 res
                     ? {
                           get: (key) => {

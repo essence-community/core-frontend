@@ -3,7 +3,7 @@ import "core-js/features/array/find-index";
 import "core-js/features/symbol";
 import "core-js/features/symbol/iterator";
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from 'react-dom/client';
 import "mobx-react/batchingForReactDom";
 import "./index.css";
 import {saveSystemComponents} from "@essence-community/constructor-share/components";
@@ -13,7 +13,9 @@ import "./register";
 
 saveSystemComponents();
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const container = document.getElementById('root');
+const root = createRoot(container); // createRoot(container!) if you use TypeScript
+root.render(<App />);
 
 /*
  * If you want your app to work offline and load faster, you can change

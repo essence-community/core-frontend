@@ -14,7 +14,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const MonacoEditorWebpackPlugin = require('monaco-editor-webpack-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
-const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
+// const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const { ModuleFederationPlugin } = require('@module-federation/enhanced');
 const paths = require('./paths');
 const modules = require('./modules');
@@ -29,24 +29,24 @@ const createEnvironmentHash = require('./webpack/persistentCache/createEnvironme
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 
-const reactRefreshRuntimeEntry = require.resolve('react-refresh/runtime');
-const reactRefreshWebpackPluginRuntimeEntry = require.resolve(
-    '@pmmmwh/react-refresh-webpack-plugin'
-);
-const babelRuntimeEntry = require.resolve('babel-preset-react-app');
-const babelRuntimeEntryHelpers = require.resolve(
-    '@babel/runtime/helpers/esm/assertThisInitialized',
-    { paths: [babelRuntimeEntry] }
-);
-const babelRuntimeRegenerator = require.resolve('@babel/runtime/regenerator', {
-    paths: [babelRuntimeEntry],
-});
+// const reactRefreshRuntimeEntry = require.resolve('react-refresh/runtime');
+// const reactRefreshWebpackPluginRuntimeEntry = require.resolve(
+//    '@pmmmwh/react-refresh-webpack-plugin'
+// );
+// const babelRuntimeEntry = require.resolve('babel-preset-react-app');
+// const babelRuntimeEntryHelpers = require.resolve(
+//    '@babel/runtime/helpers/esm/assertThisInitialized',
+//    { paths: [babelRuntimeEntry] }
+// );
+// const babelRuntimeRegenerator = require.resolve('@babel/runtime/regenerator', {
+//    paths: [babelRuntimeEntry],
+// });
 
 // Some apps do not need the benefits of saving a web request, so not inlining the chunk
 // makes for a smoother build process.
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false';
 
-const emitErrorsAsWarnings = process.env.ESLINT_NO_DEV_ERRORS === 'true';
+// const emitErrorsAsWarnings = process.env.ESLINT_NO_DEV_ERRORS === 'true';
 
 const imageInlineSizeLimit = parseInt(
     process.env.IMAGE_INLINE_SIZE_LIMIT || '10000'
@@ -641,14 +641,6 @@ module.exports = function (webpackEnv) {
             new ModuleFederationPlugin({
                 name: "essence_core",
                 filename: "essence_core.js",
-                exposes: {
-                    './react': 'react',
-                    './react-dom': 'react-dom',
-                    './react-router-dom': 'react-router-dom',
-                    './@essence-community/constructor-share': '@essence-community/constructor-share',
-                    './mobx': 'mobx',
-                    './mobx-react': 'mobx-react',
-                },
                 shared: {
                     "react": {
                         singleton: true,
@@ -658,11 +650,6 @@ module.exports = function (webpackEnv) {
                     "react-dom": {
                         singleton: true,
                         requiredVersion: appPackageJson.dependencies["react-dom"],
-                        eager: true
-                    },
-                    "react-router-dom": {
-                        singleton: true,
-                        requiredVersion: appPackageJson.dependencies["react-router-dom"],
                         eager: true
                     },
                     "@essence-community/constructor-share": {

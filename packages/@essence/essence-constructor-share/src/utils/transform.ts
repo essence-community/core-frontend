@@ -1,4 +1,5 @@
-import * as DOMPurify from "dompurify";
+// @ts-ignore
+import DOMPurify from "dompurify";
 import {TText} from "../types/SnackbarModel";
 import {IRecord} from "../types/Base";
 import {FieldValue, IBuilderConfig} from "../types";

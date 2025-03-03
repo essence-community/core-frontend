@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import {action, observable, ObservableMap, computed} from "mobx";
+import {action, observable, ObservableMap, computed, makeObservable} from "mobx";
 import {
     i18next,
     isEmpty,
@@ -115,6 +115,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             });
         }
         this.afterSelected();
+        makeObservable(this);
     }
 
     @observable public columnsWidth: ObservableMap<ICkId, number | string> = observable.map();

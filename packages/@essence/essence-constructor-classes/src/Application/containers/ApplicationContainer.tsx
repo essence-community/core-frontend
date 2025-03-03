@@ -16,6 +16,7 @@ import {
     isEmpty,
     encodePathUrl,
     decodePathUrl,
+    parseMemoize,
 } from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -26,6 +27,8 @@ import {
     VAR_SETTING_URL_APP_NAME,
     VAR_SETTING_TYPE_NOTIFICATION,
     loggerRoot,
+    VAR_RECORD_ROUTE_NAME,
+    VAR_SETTING_PROJECT_NAME,
 } from "@essence-community/constructor-share/constants";
 import {parse} from "qs";
 import {useResizerEE} from "@essence-community/constructor-share/hooks";
@@ -35,7 +38,7 @@ import {useParams, useHistory, useRouteMatch} from "react-router-dom";
 import {IForm, Form} from "@essence-community/constructor-share/Form";
 import {CssBaseline} from "@material-ui/core";
 import {ApplicationModel, CLOSE_CODE} from "../store/ApplicationModel";
-import {renderGlobalValuelsInfo} from "../utils/renderGlobalValuelsInfo";
+import {renderGlobalValuesInfo} from "../utils/renderGlobalValuesInfo";
 import {ApplicationWindows} from "../components/ApplicationWindows";
 import {Block} from "../components/Block";
 import {useHistoryListen} from "../hooks";
@@ -310,6 +313,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                     }
                 }
             },
+            {
+                fireImmediately: true,
+            }
         );
     }, [applicationStore, history]);
 
@@ -318,21 +324,27 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             () => applicationStore.globalValues.toJSON(),
             (globalValues) => {
                 applicationStore.pagesStore.pages.forEach((page: IPageModel) => {
-                    page.updateGlobalValues(globalValues);
+                    page.updateGlobalValues(globalValues.reduce((res, [key, value]) => {
+                        res[key] = value;
+                        return res;
+                    }, {}));
                 });
             },
+            {
+                fireImmediately: true,
+            }
         );
     }, [applicationStore]);
 
     React.useEffect(() => {
         return reaction(
-            () => applicationStore.globalValues.toJS(),
+            () => applicationStore.globalValues.toJSON(),
             (globalValues) =>
                 snackbarStore.snackbarOpenAction({
                     autoHidden: true,
                     hiddenTimeout: 0,
                     status: "debug",
-                    text: renderGlobalValuelsInfo(globalValues),
+                    text: renderGlobalValuesInfo(globalValues),
                     title: globalTitle,
                 }),
             {fireImmediately: true},
@@ -346,6 +358,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             () => {
                 applicationStore.pageStore.windows.clear();
             },
+            {
+                fireImmediately: true,
+            }
         );
     }, [applicationStore]);
 
@@ -356,6 +371,31 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 applicationStore.updateGlobalValuesAction({
                     gSysNoReadSnack: `${snackbarsCount}`,
                 }),
+            {
+                fireImmediately: true,
+            }
+        );
+    }, [applicationStore]);
+
+    React.useEffect(() => {
+        return reaction(
+            () => {
+                const route = applicationStore.pagesStore.activePage?.route;
+                let title = route?.[VAR_RECORD_ROUTE_NAME];
+                if (route && route.titlerule) {
+                    title = parseMemoize(route.titlerule as string).runer(applicationStore.pagesStore.activePage.globalValues);
+                }
+                if (!title) {
+                    title = route?.[VAR_RECORD_ROUTE_NAME];
+                }
+                return title || settingsStore.settings[VAR_SETTING_PROJECT_NAME];
+            },
+            (title: string) => {
+                document.title = trans(title, title);
+            },
+            {
+                fireImmediately: true,
+            }
         );
     }, [applicationStore]);
 

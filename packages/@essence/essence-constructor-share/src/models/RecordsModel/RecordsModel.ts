@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 /* eslint-disable max-lines */
-import {action, extendObservable, ObservableMap, observable} from "mobx";
+import {action, extendObservable, ObservableMap, observable, makeObservable} from "mobx";
 import pLimit from "p-limit";
 import {saveAction} from "../../actions/saveAction";
 import {
@@ -216,6 +216,7 @@ export class RecordsModel implements IRecordsModel {
                 }
             });
         }
+        makeObservable(this);
     }
 
     getValue: IGetValue["get"] = (key: string) => {

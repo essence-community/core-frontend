@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 /* eslint-disable max-lines */
-import {action, observable, ObservableMap, computed} from "mobx";
+import {action, observable, ObservableMap, computed, makeObservable} from "mobx";
 import {v4} from "uuid";
 import {
     loggerRoot,
@@ -197,7 +197,7 @@ export class PageModel implements IPageModel {
             return true;
         }
 
-        return Array.from(this.stores.values()).filter((store) => store.editing === true).length > 0;
+        return Array.from(this.stores.values()).filter((store: {editing?: boolean}) => store.editing === true).length > 0;
     }
 
     constructor({
@@ -249,6 +249,7 @@ export class PageModel implements IPageModel {
         }
         this.defaultVisible = defaultVisible;
         this.defaultIsReadOnly = isReadOnly;
+        makeObservable(this);
     }
 
     setInitParams(params?: Record<string, any>): void {

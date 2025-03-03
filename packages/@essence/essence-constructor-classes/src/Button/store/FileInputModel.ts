@@ -1,4 +1,4 @@
-import {action, observable} from "mobx";
+import {action, makeObservable, observable} from "mobx";
 import mime from "mime";
 import {fileTypeValidate, fileSizeValidate, i18next} from "@essence-community/constructor-share/utils";
 import {snackbarStore, StoreBaseModel} from "@essence-community/constructor-share/models";
@@ -70,14 +70,17 @@ export class FileInputModel extends StoreBaseModel {
                   ".xlsx",
                   "application/vnd.oasis.opendocument.spreadsheet",
                   "text/plain",
-              ];
+            ];
+        makeObservable(this);
     }
 
-    deleteFileChooseAwait = action("deleteFileChooseAwait", () => {
+    @action
+    deleteFileChooseAwait = () => {
         this.fileChooseAwait = null;
-    });
+    };
 
-    initFileChooseAwait = action("initFileChooseAwait", (callBack: (files: File[]) => void) => {
+    @action
+    initFileChooseAwait = (callBack: (files: File[]) => void) => {
         this.fileChooseAwait = (files: File[]) => {
             const isValid = files.every((file) => this.validateFile(file));
 
@@ -87,7 +90,7 @@ export class FileInputModel extends StoreBaseModel {
 
             this.deleteFileChooseAwait();
         };
-    });
+    };
 
     validateFile = (file: File): boolean => {
         let success = true;

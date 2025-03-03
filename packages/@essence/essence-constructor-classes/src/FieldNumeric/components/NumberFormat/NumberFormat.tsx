@@ -1,5 +1,5 @@
 import * as React from "react";
-import ReactNumberFormat, {NumberFormatValues} from "react-number-format";
+import {NumericFormat, NumberFormatValues} from "react-number-format";
 import {getBigNumberInstance, isEmpty} from "@essence-community/constructor-share/utils";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {InputBaseComponentProps} from "@material-ui/core";
@@ -67,12 +67,11 @@ export const NumberFormat: React.FC<INumberFormatProps> = (props) => {
     );
 
     return (
-        <ReactNumberFormat
-            {...inputProps}
+        <NumericFormat
+            {...inputProps as any}
             value={value}
             getInputRef={inputRef}
             onValueChange={handleChange}
-            isNumericString
             allowNegative={config.minValue < 0}
             isAllowed={handleIsAllowed}
             thousandSeparator={

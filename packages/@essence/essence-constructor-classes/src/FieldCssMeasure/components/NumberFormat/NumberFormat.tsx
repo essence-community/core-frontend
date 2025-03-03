@@ -1,5 +1,5 @@
 import * as React from "react";
-import ReactNumberFormat, {NumberFormatValues} from "react-number-format";
+import {NumericFormat, NumberFormatValues} from "react-number-format";
 import {InputBaseComponentProps} from "@material-ui/core";
 
 interface INumberFormatProps extends InputBaseComponentProps {
@@ -26,11 +26,10 @@ export const NumberFormat: React.FC<INumberFormatProps> = (props) => {
     };
 
     return (
-        <ReactNumberFormat
-            {...inputProps}
+        <NumericFormat
+            {...inputProps as any}
             getInputRef={inputRef}
             onValueChange={handleChange}
-            isNumericString
             allowNegative={false}
             isAllowed={handleIsAllowed}
             decimalSeparator="."

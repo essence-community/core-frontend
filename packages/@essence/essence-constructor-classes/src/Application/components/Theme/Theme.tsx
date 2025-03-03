@@ -1,5 +1,5 @@
 import * as React from "react";
-import {ThemeProvider, createMuiTheme, useTheme} from "@material-ui/core";
+import {ThemeProvider, createTheme, useTheme} from "@material-ui/core";
 import {IApplicationModel, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {
     mergeOverridesDeep,
@@ -91,7 +91,7 @@ export const Theme: React.FC<IThemeProps> = (props) => {
             overrides = mergeOverridesDeep(overrides as any, getThemeIEOverrides());
         }
 
-        return createMuiTheme({
+        return createTheme({
             ...themeVariables,
             overrides,
         });

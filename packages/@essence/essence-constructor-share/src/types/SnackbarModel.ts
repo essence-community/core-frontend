@@ -35,8 +35,8 @@ export interface ISnackbar {
     progressStore?: IProgressModel;
     type: "msg" | "progress";
     title?: TText;
-    description?: string;
-    code?: string;
+    description?: TText;
+    code?: TText;
     originData?: any;
 }
 

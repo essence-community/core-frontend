@@ -231,11 +231,13 @@ module.exports = function (webpackEnv) {
         infrastructureLogging: {
             level: 'none',
         },
+        parallelism: 20,
         optimization: {
             minimize: isEnvProduction,
             minimizer: [
                 // This is only used in production mode
                 new TerserPlugin({
+                    parallel: true,
                     terserOptions: {
                         parse: {
                             // We want terser to parse ecma 8 code. However, we don't want it
@@ -323,7 +325,7 @@ module.exports = function (webpackEnv) {
                     },
                 },
             },
-            runtimeChunk: isEnvDevelopment ? false : true,
+            runtimeChunk: false,
         },
         resolve: {
             // This allows you to set a fallback for where webpack should look for modules.
@@ -445,12 +447,9 @@ module.exports = function (webpackEnv) {
                             include: [paths.appSrc, paths.appClassesSrc, paths.appShareSrc],
                             loader: require.resolve('babel-loader'),
                             options: {
-                                customize: require.resolve(
-                                    'babel-preset-react-app/webpack-overrides'
-                                ),
                                 presets: [
                                     [
-                                        require.resolve('babel-preset-react-app'),
+                                        require.resolve('@babel/preset-react'),
                                         {
                                             runtime: hasJsxRuntime ? 'automatic' : 'classic',
                                         },
@@ -482,7 +481,7 @@ module.exports = function (webpackEnv) {
                                 compact: false,
                                 presets: [
                                     [
-                                        require.resolve('babel-preset-react-app/dependencies'),
+                                        require.resolve('@babel/preset-react'),
                                         { helpers: true },
                                     ],
                                 ],
@@ -540,6 +539,10 @@ module.exports = function (webpackEnv) {
             ].filter(Boolean),
         },
         plugins: [
+            isEnvDevelopment && new webpack.ProgressPlugin((percentage, message, ...args) => {
+                // e.g. Output each progress message directly to the console:
+                console.log(percentage, message, ...args);
+            }),
             // Generates an `index.html` file with the <script> injected.
             new HtmlWebpackPlugin(
                 Object.assign(

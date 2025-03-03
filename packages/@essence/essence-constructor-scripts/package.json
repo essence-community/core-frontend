@@ -20,7 +20,6 @@
         "aws-sdk": "^2.713.0",
         "babel-loader": "^8.1.0",
         "babel-plugin-named-asset-import": "^0.3.6",
-        "babel-preset-react-app": "9.1.2",
         "chalk": "^4.1.0",
         "copy-webpack-plugin": "^6.0.3",
         "cross-spawn": "^7.0.3",

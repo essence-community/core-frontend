@@ -93,7 +93,7 @@ module.exports = {
         strictExportPresence: true,
         rules: [
             // Disable require.ensure as it's not a standard language feature.
-            {parser: {requireEnsure: false}},
+            { parser: { requireEnsure: false } },
             {
                 oneOf: [
                     /*
@@ -105,8 +105,6 @@ module.exports = {
                         include: resolveApp("src"),
                         loader: require.resolve("babel-loader"),
                         options: {
-                            customize: require.resolve("babel-preset-react-app/webpack-overrides"),
-
                             plugins: [
                                 [
                                     require.resolve("babel-plugin-named-asset-import"),
@@ -143,7 +141,7 @@ module.exports = {
                             babelrc: false,
                             configFile: false,
                             compact: false,
-                            presets: [[require.resolve("babel-preset-react-app/dependencies"), {helpers: true}]],
+                            presets: [[require.resolve("@babel/preset-react"), { helpers: true }]],
                             cacheDirectory: true,
                             // See #6846 for context on why cacheCompression is disabled
                             cacheCompression: false,
@@ -282,43 +280,43 @@ module.exports = {
     },
     plugins: [
         !isEnvProduction &&
-            new HtmlWebpackPlugin({
-                inject: true,
-                excludeChunks: [packageJson.name],
-                template: path.join(resolveApp("public"), "index.html"),
-            }),
+        new HtmlWebpackPlugin({
+            inject: true,
+            excludeChunks: [packageJson.name],
+            template: path.join(resolveApp("public"), "index.html"),
+        }),
         !isEnvProduction &&
-            new CopyWebpackPlugin({
-                patterns: [
-                    {
-                        from: path.join(
-                            resolveApp("node_modules"),
-                            "@essence-community",
-                            "constructor-dll",
-                            "dist",
-                            "assets",
-                        ),
-                        to: "static/",
-                    },
-                ],
-            }),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.join(
+                        resolveApp("node_modules"),
+                        "@essence-community",
+                        "constructor-dll",
+                        "dist",
+                        "assets",
+                    ),
+                    to: "static/",
+                },
+            ],
+        }),
         !isEnvProduction &&
-            new HtmlWebpackTagsPlugin({
-                tags: [
-                    {
-                        path: "static",
-                        glob: "*.js",
-                        globPath: path.join(
-                            resolveApp("node_modules"),
-                            "@essence-community",
-                            "constructor-dll",
-                            "dist",
-                            "assets",
-                        ),
-                    },
-                ],
-                append: false,
-            }),
+        new HtmlWebpackTagsPlugin({
+            tags: [
+                {
+                    path: "static",
+                    glob: "*.js",
+                    globPath: path.join(
+                        resolveApp("node_modules"),
+                        "@essence-community",
+                        "constructor-dll",
+                        "dist",
+                        "assets",
+                    ),
+                },
+            ],
+            append: false,
+        }),
         new webpack.DllReferencePlugin({
             context: resolveApp(""),
             manifest: require(path.join(
@@ -332,13 +330,13 @@ module.exports = {
         }),
         !isEnvProduction && new webpack.HotModuleReplacementPlugin(),
         isEnvProduction &&
-            new MiniCssExtractPlugin({
-                /*
-                 * Options similar to the same options in webpackOptions.output
-                 * both options are optional
-                 */
-                filename: "[name].[contenthash:8].css",
-            }),
+        new MiniCssExtractPlugin({
+            /*
+             * Options similar to the same options in webpackOptions.output
+             * both options are optional
+             */
+            filename: "[name].[contenthash:8].css",
+        }),
     ].filter(Boolean),
     /*
      * Turn off performance processing because we utilize

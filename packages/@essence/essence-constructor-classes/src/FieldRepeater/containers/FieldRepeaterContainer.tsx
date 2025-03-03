@@ -1,13 +1,13 @@
 import * as React from "react";
 import {IClassProps, IBuilderConfig, FieldValue, IRecord} from "@essence-community/constructor-share/types";
-import {ApplicationContext, ParentFieldContext} from "@essence-community/constructor-share/context";
+import {ApplicationContext, ParentFieldContext, RecordContext} from "@essence-community/constructor-share/context";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_DISPLAYED,
 } from "@essence-community/constructor-share/constants";
-import {isEmpty, parseMemoize, useTranslation} from "@essence-community/constructor-share/utils";
+import {deepFind, isEmpty, parseMemoize, useTranslation} from "@essence-community/constructor-share/utils";
 import {Grid} from "@material-ui/core";
 import {useObserver} from "mobx-react";
 import {useField} from "@essence-community/constructor-share/Form";
@@ -152,7 +152,7 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
     }, [field]);
 
     return useObserver(() => {
-        const value = (Array.isArray(field.value) ? field.value : []) as FieldValue[];
+        const value = (Array.isArray(field.value) ? deepFind(field.form.values, field.key)[1] : []) as FieldValue[];
         const maxSize = bc.maxsize && /[g_]/u.test(bc.maxsize) ? pageStore.globalValues.get(bc.maxsize) : bc.maxsize;
         const minSize = bc.minsize && /[g_]/u.test(bc.minsize) ? pageStore.globalValues.get(bc.minsize) : bc.minsize;
         const isHiddenAdd = (maxSize && parseInt(maxSize as string, 10) <= value.length) || hidden;
@@ -163,15 +163,17 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
                 <Grid item xs={12}>
                     {value.map((childField: IRecord, idx: number) => (
                         <ParentFieldContext.Provider key={idx} value={parentContext[idx]}>
-                            <RepeaterGroup
-                                {...props}
-                                disabled={isDisabled}
-                                idx={idx}
-                                isDisabledDel={isDisabledDel}
-                                isHiddenDel={!field.form.editing}
-                                storeName={storeName}
-                                deleteLabel={trans("static:f7e324760ede4c88b4f11f0af26c9e97")}
-                            />
+                            <RecordContext.Provider value={childField}>
+                                <RepeaterGroup
+                                    {...props}
+                                    disabled={isDisabled}
+                                    idx={idx}
+                                    isDisabledDel={isDisabledDel}
+                                    isHiddenDel={!field.form.editing}
+                                    storeName={storeName}
+                                    deleteLabel={trans("static:f7e324760ede4c88b4f11f0af26c9e97")}
+                                />
+                            </RecordContext.Provider>
                         </ParentFieldContext.Provider>
                     ))}
                 </Grid>

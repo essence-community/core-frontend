@@ -6,7 +6,7 @@ import {
     IBuilderConfig,
     IHandlerOptions,
 } from "@essence-community/constructor-share/types";
-import {computed, action} from "mobx";
+import {computed, action, makeObservable} from "mobx";
 
 export class ServiceHiddenModel extends StoreBaseModel {
     recordsStore: IRecordsModel;
@@ -22,6 +22,7 @@ export class ServiceHiddenModel extends StoreBaseModel {
             applicationStore: props.applicationStore,
             pageStore: props.pageStore,
         });
+        makeObservable(this);
     }
 
     reloadStoreAction = () => this.recordsStore.loadRecordsAction();

@@ -38,7 +38,7 @@ export const PanelCollapsible: React.FC<IClassProps> = (props) => {
         <Collapse
             in={open}
             collapsedHeight="35px"
-            classes={{container: form.editing ? classes.editCollapseContainer : classes.collapseContainer}}
+            classes={{root: form.editing ? classes.editCollapseContainer : classes.collapseContainer}}
             data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-collapsible`}
         >
             <Grid container direction="column" spacing={layoutTheme === 1 ? 0 : 1}>

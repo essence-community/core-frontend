@@ -15,7 +15,8 @@ export const TextFieldLabel: React.FC<ITextFieldLabelProps> = (props) => {
     const transLabel = toTranslateText(trans, bc[VAR_RECORD_DISPLAYED]);
     const label =
         typeof transLabel === "string" && transLabel.indexOf("елеф") > 0
-            ? (transLabel.match(/.{1,6}/gu) || []).reduce((sum: any[], str) => {
+            // @ts-ignore
+            ? (transLabel.match(/.{1,6}/gu) || []).reduce((sum: any[], str: string) => {
                   sum.push(str);
                   sum.push(
                       <span key={str} style={{display: "none"}}>
@@ -24,7 +25,7 @@ export const TextFieldLabel: React.FC<ITextFieldLabelProps> = (props) => {
                   );
 
                   return sum;
-              }, [])
+              }, [] as any[])
             : transLabel;
     const required = isRequired ? (
         <span

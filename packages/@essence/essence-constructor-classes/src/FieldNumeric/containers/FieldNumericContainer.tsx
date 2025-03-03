@@ -60,20 +60,26 @@ export const FieldNumericContainer: React.FC<IClassProps> = (props) => {
 
     const onPaste = React.useCallback(
         (event: React.ClipboardEvent<HTMLInputElement>) => {
+            if (!bc.clipboardpasteenabled) {
+                return;
+            }
             event.stopPropagation();
             event.preventDefault();
             onChangeValue(event.clipboardData.getData("text"));
         },
-        [onChangeValue],
+        [bc.clipboardpasteenabled, onChangeValue],
     );
 
     const onDrop = React.useCallback(
         (event: React.DragEvent<HTMLInputElement>) => {
+            if (!bc.clipboardpasteenabled) {
+                return;
+            }
             event.stopPropagation();
             event.preventDefault();
             onChangeValue(event.dataTransfer.getData("text"));
         },
-        [onChangeValue],
+        [bc.clipboardpasteenabled, onChangeValue],
     );
 
     return (

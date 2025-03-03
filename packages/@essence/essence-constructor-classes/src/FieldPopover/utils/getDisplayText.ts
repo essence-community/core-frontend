@@ -11,7 +11,7 @@ export function getDisplayText(store: IFieldPopoverModel, trans: TFunction): str
                       return store.bc.localization
                           ? trans(
                                 `${store.bc.localization}:${trans(
-                                    store.selectedRecord[name],
+                                    store.selectedRecord[name] as string,
                                     store.selectedRecord[name] as string,
                                 )}`,
                                 store.selectedRecord[name] as string,

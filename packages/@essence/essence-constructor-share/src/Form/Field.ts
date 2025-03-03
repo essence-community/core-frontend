@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-statements */
 /* eslint-disable max-lines */
-import {observable, computed, action} from "mobx";
+import {observable, computed, action, makeObservable} from "mobx";
 import {FieldValue, IBuilderConfig, IPageModel} from "../types";
 import {parseMemoize, makeRedirect, isEmpty, transformToBoolean} from "../utils";
 import {parse} from "../utils/parser";
@@ -18,6 +18,7 @@ export interface IFieldOptions {
     form: IForm;
     key: string;
     parentFieldKey?: string;
+    parentPrefix?: string;
     output?: IRegisterFieldOptions["output"];
     input?: IRegisterFieldOptions["input"];
     defaultValueFn?: IField["defaultValueFn"];
@@ -55,6 +56,8 @@ export class Field implements IField {
 
     public parentFieldKey?: string;
 
+    public parentPrefix?: string;
+
     public defaultValue: IField["defaultValue"];
 
     public defaultValueFn: IField["defaultValueFn"];
@@ -76,9 +79,20 @@ export class Field implements IField {
     public clearValue: FieldValue | undefined;
 
     public getParseValue = (name: string): any => {
-        return typeof name === "string" && name.charAt(0) === "g"
-            ? this.pageStore.globalValues.get(name) || this.form?.values[name]
-            : this.form?.values[name];
+        if (typeof name === "string" && name.charAt(0) === "g" && this.pageStore.globalValues.has(name)) {
+            return this.pageStore.globalValues.get(name);
+        }
+        const values = this.form.values;
+
+        if (this.parentPrefix) {
+            const [isExistNested, valueNested] = deepFind(values, `${this.parentPrefix}.${name}`);
+
+            if (isExistNested) {
+                return valueNested;
+            }
+        }
+
+        return deepFind(values, name)[1];
     };
 
     @computed get label(): string | undefined {
@@ -205,6 +219,7 @@ export class Field implements IField {
         this.isFile = options.isFile ?? false;
         this.clearValue = options.clearValue;
         this.parentFieldKey = options.parentFieldKey;
+        this.parentPrefix = options.parentPrefix;
         this.input = this.getInput(options.input);
         this.output = this.getOutput(options.output);
         this.defaultValueFn = options.defaultValueFn;
@@ -294,6 +309,7 @@ export class Field implements IField {
         if (this.value === undefined && (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean")) {
             this.value = this.bc.valuetype === "integer" ? 0 : false;
         }
+        makeObservable(this);
     }
 
     private getOutput = (output?: IFieldOptions["output"]): IField["output"] => {
@@ -302,8 +318,15 @@ export class Field implements IField {
         } else if (this.isArray) {
             const keyChild = new RegExp(`^${this.key}\\.(\\d+)\\.([^\\.]+)$`, "u");
 
-            return (field, form) => {
-                const obj: Record<string, Record<string, FieldValue>> = {};
+            return (field, form, value) => {
+                const val = value || field.value;
+                const obj: Record<string, Record<string, FieldValue>> = Array.isArray(val)
+                    ? val.reduce((res, rec, index) => {
+                          res[index] = rec;
+
+                          return res;
+                      }, {})
+                    : {};
 
                 for (const [key, fieldChild] of form.fields) {
                     if (keyChild.test(key)) {
@@ -645,11 +668,17 @@ export class Field implements IField {
 
     @action
     setDisabled = (disabled = false): void => {
+        if (disabled) {
+            this.resetValidation();
+        }
         this.disabled = disabled;
     };
 
     @action
     setHidden = (hidden = false): void => {
+        if (hidden) {
+            this.resetValidation();
+        }
         this.hidden = hidden;
     };
 

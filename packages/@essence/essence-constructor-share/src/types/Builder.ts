@@ -59,6 +59,8 @@ export interface IBuilderBaseConfig {
     ckobject?: string;
     // Идентификатор для поиска окна в мастере
     ckwindow?: string;
+    // Включаем override вставки
+    clipboardpasteenabled?: boolean;
     // Реакция на копирование значения
     clipboardpastefield?: "display" | "value" | "displayandvalue";
     // Регулярное выражения для разделения строк
@@ -211,6 +213,8 @@ export interface IBuilderBaseConfig {
     modeaction?: string;
     // Не обращать внимание на form
     noform?: boolean;
+    // Открывать ссылки в том же окне
+    noblank?: boolean;
     // Признак отключения глобального лоадера при загрузке сервиса
     noglobalmask?: boolean;
     // Отображается только иконка кнопки (true/false)

@@ -1,4 +1,4 @@
-import {action, observable, ObservableMap, computed} from "mobx";
+import {action, observable, ObservableMap, computed, makeObservable} from "mobx";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
@@ -73,6 +73,7 @@ export class TabPanelModel extends StoreBaseModel {
             });
             this.pageStore.updateGlobalValues(global);
         }
+        makeObservable(this);
     }
 
     @action

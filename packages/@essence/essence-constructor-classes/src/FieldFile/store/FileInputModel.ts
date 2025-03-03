@@ -3,7 +3,7 @@ import {fileTypeValidate, fileSizeValidate, i18next} from "@essence-community/co
 import {snackbarStore, StoreBaseModel} from "@essence-community/constructor-share/models";
 import {IStoreBaseModelProps} from "@essence-community/constructor-share/types";
 import {IField} from "@essence-community/constructor-share/Form/types";
-import {action} from "mobx";
+import {action, makeObservable} from "mobx";
 
 const TERABYTE = 1099511627776;
 const GIGABYTE = 1073741824;
@@ -75,7 +75,8 @@ export class FileInputModel extends StoreBaseModel {
                   ".xlsx",
                   "application/vnd.oasis.opendocument.spreadsheet",
                   "text/plain",
-              ];
+            ];
+        makeObservable(this);
     }
 
     @action

@@ -6,9 +6,11 @@ import {
     VAR_RECORD_CN_ORDER,
     VAR_RECORD_NAME,
     VAR_RECORD_QUERY_ID,
+    VAR_SETTING_GRID_TO_EXCEL_PLUGIN,
 } from "@essence-community/constructor-share/constants";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {mergeComponents} from "@essence-community/constructor-share/utils";
+import {settingsStore} from "@essence-community/constructor-share/models";
 import {IGridBtnsConfigType} from "../stores/GridModel/GridModel.types";
 
 const getBtnDeleteConfig = (bc: IBuilderConfig): IBuilderConfig => ({
@@ -64,7 +66,7 @@ const getBtnExcelConfig = (bc: IBuilderConfig): IBuilderConfig => ({
     [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
     ckwindow: "btnexcel",
     disabledemptymaster: true,
-    extraplugingate: "PrintJasperServer",
+    extraplugingate: settingsStore.settings[VAR_SETTING_GRID_TO_EXCEL_PLUGIN] || "PrintJasperServer",
     handler: "onCreateChildWindowMaster",
     iconfont: "table",
     iconfontname: "fa",

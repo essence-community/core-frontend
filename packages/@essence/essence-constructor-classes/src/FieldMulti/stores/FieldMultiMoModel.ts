@@ -15,7 +15,7 @@ import {
     VAR_RECORD_ID,
     VAR_RECORD_CK_MO,
 } from "@essence-community/constructor-share/constants";
-import {action, computed} from "mobx";
+import {action, computed, makeObservable} from "mobx";
 import {IForm} from "@essence-community/constructor-share/Form";
 import {getFieldMoConfig} from "../utils";
 import {IFieldMultiModel, FieldMultiModel} from "./FieldMultiModel";
@@ -31,6 +31,7 @@ export class FieldMultiMoModel extends FieldMultiModel implements IFieldMultiMod
                 order: [{direction: "ASC", property: VAR_RECORD_ID}],
             },
         });
+        makeObservable(this);
     }
 
     @computed get displayText() {

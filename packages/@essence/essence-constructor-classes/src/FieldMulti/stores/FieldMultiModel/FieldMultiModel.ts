@@ -1,7 +1,7 @@
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {IStoreBaseModelProps, IRecordsModel, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {loggerRoot} from "@essence-community/constructor-share/constants";
-import {observable, computed, action} from "mobx";
+import {observable, computed, action, makeObservable} from "mobx";
 import {IForm} from "@essence-community/constructor-share/Form";
 import {IFieldMultiModel} from "./FieldMultiModel.types";
 

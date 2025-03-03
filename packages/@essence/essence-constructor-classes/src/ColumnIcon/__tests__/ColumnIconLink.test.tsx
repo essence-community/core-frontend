@@ -23,6 +23,8 @@ describe("ColumnIconLink", () => {
 
     it("render", () => {
         // Const wrapper = mountWithTheme(<GridColumnLink {...props} />);
+        // TODO переделать
+        // @ts-ignore
         const wrapper = shallow(<Renderer bc={bc} component={ColumnIconContainer} />);
 
         expect(wrapper.find(Icon).length).toBe(1);
@@ -32,6 +34,8 @@ describe("ColumnIconLink", () => {
     });
 
     it("Проверка открытия меню", () => {
+        // TODO переделать
+        // @ts-ignore
         const wrapper = shallow(<Renderer bc={bc} component={ColumnIconContainer} />);
 
         wrapper.find(Icon).simulate("click");
@@ -43,6 +47,8 @@ describe("ColumnIconLink", () => {
 
     it.skip("Проверка открытия меню - hiddenrules ck_d_m для первой link", () => {
         // const wrapper = mountWithTheme(<GridColumnLink {...props} record={{ckDMo: 5}} />);
+        // TODO переделать
+        // @ts-ignore
         const wrapper = shallow(<Renderer bc={bc} component={ColumnIconContainer} />);
 
         wrapper.find(Icon).simulate("click");
@@ -53,6 +59,8 @@ describe("ColumnIconLink", () => {
     });
 
     it("Проверка закрытия меню по esc", () => {
+        // TODO переделать
+        // @ts-ignore
         const wrapper = shallow(<Renderer bc={bc} component={ColumnIconContainer} />);
 
         wrapper.find(Icon).simulate("click");
@@ -84,6 +92,8 @@ describe("ColumnIconLink", () => {
 
     it("Проверка закрытия меню по скролу от pageStore", () => {
         const pageStore = createEmptyPageStore();
+        // TODO переделать
+        // @ts-ignore
         const wrapper = shallow(<Renderer bc={bc} component={ColumnIconContainer} pageStore={pageStore} />);
 
         wrapper.find(Icon).simulate("click");

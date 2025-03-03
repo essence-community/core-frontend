@@ -96,22 +96,46 @@ export const getBtn = (bc: IBuilderConfig, topbtn: IBuilderConfig[]) => {
     btns.forEach((btn: IBuilderConfig) => {
         if (btn.hiddenrules) {
             btn.hiddenrules = btn.hiddenrules
-                .replace(new RegExp(VAR_RECORD_G_IS_START, "giu"), `g_is_start_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`)
-                .replace(new RegExp(VAR_RECORD_G_IS_END, "giu"), `g_is_end_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`)
-                .replace(new RegExp(VAR_RECORD_G_PANEL_NUM, "giu"), `g_panel_num_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`)
-                .replace(new RegExp(VAR_RECORD_G_PANEL_INDEX, "giu"), `g_panel_index_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`);
+                .replace(
+                    new RegExp(VAR_RECORD_G_IS_START, "giu"),
+                    `g_is_start_${bc.ckobject || bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+                )
+                .replace(
+                    new RegExp(VAR_RECORD_G_IS_END, "giu"),
+                    `g_is_end_${bc.ckobject || bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+                )
+                .replace(
+                    new RegExp(VAR_RECORD_G_PANEL_NUM, "giu"),
+                    `g_panel_num_${bc.ckobject || bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+                )
+                .replace(
+                    new RegExp(VAR_RECORD_G_PANEL_INDEX, "giu"),
+                    `g_panel_index_${bc.ckobject || bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+                );
         }
         if (btn.disabledrules) {
             btn.disabledrules = btn.disabledrules
-                .replace(new RegExp(VAR_RECORD_G_IS_START, "giu"), `g_is_start_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`)
-                .replace(new RegExp(VAR_RECORD_G_IS_END, "giu"), `g_is_end_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`)
-                .replace(new RegExp(VAR_RECORD_G_PANEL_NUM, "giu"), `g_panel_num_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`)
-                .replace(new RegExp(VAR_RECORD_G_PANEL_INDEX, "giu"), `g_panel_index_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`);
+                .replace(
+                    new RegExp(VAR_RECORD_G_IS_START, "giu"),
+                    `g_is_start_${bc.ckobject || bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+                )
+                .replace(
+                    new RegExp(VAR_RECORD_G_IS_END, "giu"),
+                    `g_is_end_${bc.ckobject || bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+                )
+                .replace(
+                    new RegExp(VAR_RECORD_G_PANEL_NUM, "giu"),
+                    `g_panel_num_${bc.ckobject || bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+                )
+                .replace(
+                    new RegExp(VAR_RECORD_G_PANEL_INDEX, "giu"),
+                    `g_panel_index_${bc.ckobject || bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+                );
         }
         if (btn.getglobaltostore) {
             btn.getglobaltostore = btn.getglobaltostore.map((params) => ({
                 ...params,
-                in: `${params.in}_${bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
+                in: `${params.in}_${bc.ckobject || bc[VAR_RECORD_PAGE_OBJECT_ID]}`,
             }));
         }
     });

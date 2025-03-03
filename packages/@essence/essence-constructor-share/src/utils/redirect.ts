@@ -238,7 +238,7 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
     const {globalValues} = pageStore;
 
     const url: IMakeRedirectUrlReturn = {
-        blank: false,
+        blank: typeof bc.noblank === "boolean" ? !bc.noblank : false,
         isRedirect: false,
         pathname:
             redirecturl &&
@@ -305,7 +305,12 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
     return url;
 }
 
-export function makeRedirect(bc: IBuilderConfig, pageStore: IPageModel, record: IRecord = {}, noBlank = false): void {
+export function makeRedirect(
+    bc: IBuilderConfig,
+    pageStore: IPageModel,
+    record: IRecord = {},
+    noBlank = typeof bc.noblank === "boolean" ? bc.noblank : false,
+): void {
     const {redirecturl, redirectusequery, columnsfilter} = bc;
     const {globalValues} = pageStore;
     let redirectUrl = redirecturl;

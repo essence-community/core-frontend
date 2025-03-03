@@ -63,6 +63,7 @@ export const useField = ({
             output: output || parentField?.output,
             pageStore,
             parentFieldKey: parentField?.parentFieldKey,
+            parentPrefix: parentField?.key,
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [form, key]);
@@ -127,8 +128,11 @@ export const useField = ({
 
     useEffect(() => {
         field.setDisabled(disabled);
+    }, [field, disabled]);
+
+    useEffect(() => {
         field.setHidden(hidden);
-    }, [field, disabled, hidden]);
+    }, [field, hidden]);
 
     useEffect(() => {
         return () => {

@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable max-statements */
-import {action, observable, computed} from "mobx";
+import {action, observable, computed, makeObservable} from "mobx";
 import {removeFromStore, print, saveToStore, deepFind} from "@essence-community/constructor-share/utils";
 import {snackbarStore, StoreBaseModel} from "@essence-community/constructor-share/models";
 import {
@@ -43,6 +43,7 @@ export class FilterModel extends StoreBaseModel {
         }
 
         this.isOpen = !this.bc.collapsed;
+        makeObservable(this);
     }
 
     @action

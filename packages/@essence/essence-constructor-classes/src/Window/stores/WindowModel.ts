@@ -14,7 +14,7 @@ import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PARENT_ID,
 } from "@essence-community/constructor-share/constants";
-import {observable, action, computed} from "mobx";
+import {observable, action, computed, makeObservable} from "mobx";
 import {getWindowChilds} from "../utils";
 
 /**
@@ -33,6 +33,7 @@ export class WindowModel extends StoreBaseModel {
             pageStore: this.pageStore,
         });
         this.initialValues = this.bc.values;
+        makeObservable(this);
     }
 
     @observable public initialValues: IRecord | undefined;
@@ -108,12 +109,18 @@ export class WindowModel extends StoreBaseModel {
             if (this.mainStore?.handlers?.onSaveWindow) {
                 success = await this.mainStore.handlers.onSaveWindow(modeAction, btnBc, options);
             } else {
-                success = await this.recordsStore.saveAction(options.form.values, modeAction, {
-                    actionBc: btnBc,
-                    // TODO: check new api of records store
-                    files: options.files,
-                    form: options.form,
-                });
+                const isDownload = mode === "7" || btnBc.mode === "7";
+
+                success = await this.recordsStore[isDownload ? "downloadAction" : "saveAction"](
+                    options.form.values,
+                    modeAction,
+                    {
+                        actionBc: btnBc,
+                        // TODO: check new api of records store
+                        files: options.files,
+                        form: options.form,
+                    },
+                );
             }
 
             if (success) {

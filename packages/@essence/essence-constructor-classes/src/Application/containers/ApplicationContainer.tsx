@@ -16,6 +16,7 @@ import {
     isEmpty,
     encodePathUrl,
     decodePathUrl,
+    parseMemoize,
 } from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -26,6 +27,8 @@ import {
     VAR_SETTING_URL_APP_NAME,
     VAR_SETTING_TYPE_NOTIFICATION,
     loggerRoot,
+    VAR_RECORD_ROUTE_NAME,
+    VAR_SETTING_PROJECT_NAME,
 } from "@essence-community/constructor-share/constants";
 import {parse} from "qs";
 import {useResizerEE} from "@essence-community/constructor-share/hooks";
@@ -35,7 +38,7 @@ import {useParams, useHistory, useRouteMatch} from "react-router-dom";
 import {IForm, Form} from "@essence-community/constructor-share/Form";
 import {CssBaseline} from "@material-ui/core";
 import {ApplicationModel, CLOSE_CODE} from "../store/ApplicationModel";
-import {renderGlobalValuelsInfo} from "../utils/renderGlobalValuelsInfo";
+import {renderGlobalValuesInfo} from "../utils/renderGlobalValuesInfo";
 import {ApplicationWindows} from "../components/ApplicationWindows";
 import {Block} from "../components/Block";
 import {useHistoryListen} from "../hooks";
@@ -53,6 +56,16 @@ interface IUrlParams {
     appName?: string;
     filter?: string;
 }
+function getQueryString(search?: string) {
+    return search && search.slice(1) ? parse(search.slice(1)) : {};
+}
+function getFilterString(record: Record<string, any>, isUrl = true) {
+    if (Object.keys(record).length === 0) {
+        return isUrl ? "" : undefined;
+    }
+
+    return `${isUrl ? "/" : ""}${encodePathUrl(record)}`;
+}
 /**
  * @exports ApplicationContainer
  * @description Включает commonDecorator
@@ -63,15 +76,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     const history = useHistory();
     const match = useRouteMatch<any>("/:appNameDefault");
     const appNameDefault = match?.params.appNameDefault ?? "";
-    const {
-        ckId,
-        appName = appNameDefault,
-        filter = history.location.search && history.location.search.slice(1)
-            ? encodeURIComponent(
-                  btoa(unescape(encodeURIComponent(JSON.stringify(parse(history.location.search.slice(1)))))),
-              )
-            : "",
-    } = useParams<IUrlParams>();
+    const {ckId, appName = appNameDefault, filter: filterStr} = useParams<IUrlParams>();
     const appNameRef = React.useRef(appName);
     const applicationStore = React.useMemo(() => new ApplicationModel(history, appNameRef.current), [history]);
     const [trans] = useTranslation("meta");
@@ -81,6 +86,17 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             logger(trans("static:f9c3bf3691864f4d87a46a9ba367a855"), form.values);
         },
         [trans],
+    );
+    const filter = React.useMemo(
+        () =>
+            getFilterString(
+                {
+                    ...decodePathUrl(filterStr, {}),
+                    ...getQueryString(history.location.search),
+                },
+                false,
+            ),
+        [filterStr, history.location.search],
     );
 
     const form: IForm = React.useMemo(
@@ -125,6 +141,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 } else if (applicationStore.defaultValue) {
                     pagesStore.setPageAction(applicationStore.defaultValue, false);
                 }
+                applicationStore.updateGlobalValuesAction({
+                    [VAR_SETTING_URL_APP_NAME]: `${appName}`,
+                });
             } else if (isEmpty(oldUrl) && applicationStore.defaultValue) {
                 applicationStore.pagesStore.setPageAction(applicationStore.defaultValue, false);
             }
@@ -250,7 +269,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                             ? route[VAR_RECORD_URL]
                             : route[VAR_RECORD_ID];
                     if (activePage.isMulti && activePage.initParamPage) {
-                        filter = `/${encodePathUrl(activePage.initParamPage)}`;
+                        filter = getFilterString(activePage.initParamPage);
                     }
                 } else if (
                     !route &&
@@ -267,7 +286,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                         applicationStore.pagesStore.pages[0].isMulti &&
                         applicationStore.pagesStore.pages[0].initParamPage
                     ) {
-                        filter = `/${encodePathUrl(activePage.initParamPage)}`;
+                        filter = getFilterString(activePage.initParamPage);
                     }
                 } else if (applicationStore.authStore.userInfo.session) {
                     pageId = applicationStore.defaultValue;
@@ -294,6 +313,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                     }
                 }
             },
+            {
+                fireImmediately: true,
+            }
         );
     }, [applicationStore, history]);
 
@@ -302,21 +324,27 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             () => applicationStore.globalValues.toJSON(),
             (globalValues) => {
                 applicationStore.pagesStore.pages.forEach((page: IPageModel) => {
-                    page.updateGlobalValues(globalValues);
+                    page.updateGlobalValues(globalValues.reduce((res, [key, value]) => {
+                        res[key] = value;
+                        return res;
+                    }, {}));
                 });
             },
+            {
+                fireImmediately: true,
+            }
         );
     }, [applicationStore]);
 
     React.useEffect(() => {
         return reaction(
-            () => applicationStore.globalValues.toJS(),
+            () => applicationStore.globalValues.toJSON(),
             (globalValues) =>
                 snackbarStore.snackbarOpenAction({
                     autoHidden: true,
                     hiddenTimeout: 0,
                     status: "debug",
-                    text: renderGlobalValuelsInfo(globalValues),
+                    text: renderGlobalValuesInfo(globalValues),
                     title: globalTitle,
                 }),
             {fireImmediately: true},
@@ -330,6 +358,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             () => {
                 applicationStore.pageStore.windows.clear();
             },
+            {
+                fireImmediately: true,
+            }
         );
     }, [applicationStore]);
 
@@ -340,6 +371,31 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 applicationStore.updateGlobalValuesAction({
                     gSysNoReadSnack: `${snackbarsCount}`,
                 }),
+            {
+                fireImmediately: true,
+            }
+        );
+    }, [applicationStore]);
+
+    React.useEffect(() => {
+        return reaction(
+            () => {
+                const route = applicationStore.pagesStore.activePage?.route;
+                let title = route?.[VAR_RECORD_ROUTE_NAME];
+                if (route && route.titlerule) {
+                    title = parseMemoize(route.titlerule as string).runer(applicationStore.pagesStore.activePage.globalValues);
+                }
+                if (!title) {
+                    title = route?.[VAR_RECORD_ROUTE_NAME];
+                }
+                return title || settingsStore.settings[VAR_SETTING_PROJECT_NAME];
+            },
+            (title: string) => {
+                document.title = trans(title, title);
+            },
+            {
+                fireImmediately: true,
+            }
         );
     }, [applicationStore]);
 

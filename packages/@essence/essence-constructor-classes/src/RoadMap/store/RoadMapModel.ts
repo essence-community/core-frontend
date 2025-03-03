@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import {action, observable} from "mobx";
+import {action, makeObservable, observable} from "mobx";
 import {
     VALUE_SELF_ALWAYSFIRST,
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -56,14 +56,15 @@ export class RoadMapModel extends StoreBaseModel {
         this.tabValue = this.bc.childs && this.bc.childs.length ? this.bc.childs[0][VAR_RECORD_PAGE_OBJECT_ID] : "";
         this.initTabs();
         this.pageStore.updateGlobalValues({
-            [`g_is_end_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isEnd(),
-            [`g_is_start_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isStart(),
-            [`g_panel_num_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]:
+            [`g_is_end_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isEnd(),
+            [`g_is_start_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isStart(),
+            [`g_panel_num_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]:
                 this.tabValue && this.tabStatus.get(this.tabValue)?.num,
-            [`g_panel_index_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabs
+            [`g_panel_index_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabs
                 .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
                 .indexOf(this.tabValue),
         });
+        makeObservable(this);
     }
 
     initTabs = () => {
@@ -104,17 +105,19 @@ export class RoadMapModel extends StoreBaseModel {
         }
     };
 
-    changeTabAction = action("changeTabAction", (tabValue: string) => {
+    @action
+    changeTabAction = (tabValue: string) => {
         this.tabValue = tabValue;
         this.pageStore.updateGlobalValues({
-            [`g_is_end_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isEnd(),
-            [`g_is_start_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isStart(),
-            [`g_panel_num_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabStatus.get(this.tabValue)?.num,
-            [`g_panel_index_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabs
+            [`g_is_end_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isEnd(),
+            [`g_is_start_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isStart(),
+            [`g_panel_num_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabStatus.get(this.tabValue)
+                ?.num,
+            [`g_panel_index_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabs
                 .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
                 .indexOf(this.tabValue),
         });
-    });
+    };
 
     isEnd = () => {
         const tabs = this.tabs
@@ -210,10 +213,12 @@ export class RoadMapModel extends StoreBaseModel {
                 }
             });
             this.pageStore.updateGlobalValues({
-                [`g_is_end_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isEnd(),
-                [`g_is_start_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isStart(),
-                [`g_panel_num_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabStatus.get(this.tabValue)?.num,
-                [`g_panel_index_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabs
+                [`g_is_end_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isEnd(),
+                [`g_is_start_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.isStart(),
+                [`g_panel_num_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabStatus.get(
+                    this.tabValue,
+                )?.num,
+                [`g_panel_index_${this.bc.ckobject || this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`]: this.tabs
                     .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
                     .indexOf(this.tabValue),
             });
@@ -244,7 +249,7 @@ export class RoadMapModel extends StoreBaseModel {
     };
 
     @action
-    saveAction = async (mode: IBuilderMode, btnBc: IBuilderConfig, {form, files}: IHandlerOptions) => {
+    saveAction = async (mode: IBuilderMode, btnBc: IBuilderConfig, {form, files, windowCtx}: IHandlerOptions) => {
         const tabs = this.tabs
             .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
             .filter((ckPageObject) => !this.tabStatus.get(ckPageObject)?.hidden);
@@ -291,7 +296,7 @@ export class RoadMapModel extends StoreBaseModel {
                 } as IRecord;
             });
 
-            return this.recordStore.saveAction(
+            const res = this.recordStore.saveAction(
                 values as any,
                 (btnBc.modeaction || btnBc.mode || mode) as IBuilderMode,
                 {
@@ -301,11 +306,17 @@ export class RoadMapModel extends StoreBaseModel {
                     query: btnBc.updatequery,
                 },
             );
+
+            if (res && windowCtx) {
+                windowCtx.onClose();
+            }
+
+            return res;
         }
     };
 
     @action
-    cancelAction = () => {
+    cancelAction = (mode: IBuilderMode, btnBc: IBuilderConfig, {windowCtx}: IHandlerOptions) => {
         this.setFirstActiveTab();
         const tabs = this.tabs
             .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
@@ -327,6 +338,7 @@ export class RoadMapModel extends StoreBaseModel {
                 disabled: true,
             });
         });
+        windowCtx?.onClose();
     };
 
     handlers = {
@@ -340,8 +352,8 @@ export class RoadMapModel extends StoreBaseModel {
 
             return Promise.resolve(true);
         },
-        onSimpleCancel: () => {
-            this.cancelAction();
+        onSimpleCancel: (mode: IBuilderMode, btnBc: IBuilderConfig, options: IHandlerOptions) => {
+            this.cancelAction(mode, btnBc, options);
 
             return Promise.resolve(true);
         },

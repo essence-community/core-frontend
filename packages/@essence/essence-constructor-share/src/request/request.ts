@@ -131,7 +131,7 @@ export const request = async <R = IRecord | IRecord[]>(requestParams: IRequest):
 
             await checkInterceptor(requestParams, {
                 data: response.data,
-                headers: response.headers,
+                headers: response.headers as any,
                 status: response.status,
             });
 

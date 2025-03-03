@@ -8,7 +8,7 @@ import {
     FieldValue,
 } from "@essence-community/constructor-share/types";
 import {createWindowProps} from "@essence-community/constructor-share/utils/window";
-import {computed, action, observable} from "mobx";
+import {computed, action, observable, makeObservable} from "mobx";
 import {deepFind, makeRedirect, parseMemoize} from "@essence-community/constructor-share/utils";
 import {IWindowContext} from "@essence-community/constructor-share/context";
 import {loggerRoot} from "@essence-community/constructor-share/constants";
@@ -67,6 +67,7 @@ export class ModuleFederationModel extends StoreBaseModel {
                 }
             }
         });
+        makeObservable(this);
     }
 
     calcData = (id: string, messageType: string, code: string, data: any) => {
@@ -115,8 +116,9 @@ export class ModuleFederationModel extends StoreBaseModel {
         if (config.datarule) {
             dataPre = this.calcData(id, messageType, config.datarule, data);
         }
+        const isDownload = config.mode === "7";
 
-        this.recordsStore.saveAction(dataPre, config.mode, {
+        this.recordsStore[isDownload ? "downloadAction" : "saveAction"](dataPre, config.mode, {
             actionBc: this.bc,
             query: config.query,
         });
@@ -180,6 +182,7 @@ export class ModuleFederationModel extends StoreBaseModel {
             },
             this.pageStore,
             dataPre,
+            config.noBlank,
         );
     };
 

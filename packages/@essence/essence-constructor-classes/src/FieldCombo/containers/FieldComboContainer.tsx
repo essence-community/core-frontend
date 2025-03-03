@@ -29,6 +29,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
     const {i18n} = useTranslation();
     const inputRef: React.MutableRefObject<HTMLInputElement | null> = React.useRef(null);
     const listRef: React.MutableRefObject<HTMLInputElement | null> = React.useRef(null);
+    const popoverRef: React.MutableRefObject<boolean> = React.useRef(false);
     const textFieldRef: React.MutableRefObject<HTMLDivElement | null> = React.useRef(null);
     const field = useField({bc, clearValue: CLEAR_VALUE, disabled, hidden, pageStore});
     const [store] = useModel((modelProps) => new FieldComboModel(modelProps), {field, ...props});
@@ -53,6 +54,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
 
     const handleChangeOpen = React.useCallback(
         (open: boolean) => {
+            popoverRef.current = open;
             if (open === false && !props.bc.allownew) {
                 store.handleSetValue(field.value, false, false);
             }
@@ -166,10 +168,11 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
             const isFocus = [listRef.current, textFieldRef.current].some((el: HTMLDivElement | null) => {
                 return el && el.contains(relatedTarget);
             });
-
-            if (!isFocus && store.isInputChanged) {
-                store.handleSetValue(field.value, false, false);
-            }
+            requestAnimationFrame(() => {
+                if (!isFocus && !popoverRef.current && store.isInputChanged) {
+                    store.handleSetValue(field.value, false, false);
+                }
+            });
         }
     };
 

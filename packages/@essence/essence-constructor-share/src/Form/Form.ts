@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-statements */
-import {action, computed, observable, ObservableMap} from "mobx";
+import {action, computed, makeObservable, observable, ObservableMap} from "mobx";
 import merge from "lodash/merge";
 import {IRecord, IBuilderMode, IBuilderConfig} from "../types";
 import {cloneDeepElementary, entriesMapSort} from "../utils/transform";
@@ -38,6 +38,7 @@ export class Form implements IForm {
         this.editing = props.editing;
         this.bc = props.bc;
         this.pageStore = props.pageStore;
+        makeObservable(this);
     }
 
     @observable public fields: ObservableMap<string, IField> = observable.map();
@@ -63,7 +64,7 @@ export class Form implements IForm {
     @computed get values(): IRecord {
         const extraValue = cloneDeepElementary(this.extraValue);
         const values: IRecord = merge(cloneDeepElementary(this.initialValues), extraValue);
-        const keysAndFields = [];
+        const keysAndFields = [] as {keys: string[]; field: IField}[];
 
         for (const [key, field] of this.fields.entries()) {
             if (key.indexOf(".") === -1) {
@@ -72,15 +73,15 @@ export class Form implements IForm {
                 values[key] = value;
                 if (typeof value === "object") {
                     if (field.isArray) {
-                        let lastExtraValue =
-                            typeof extraValue[key] === "object" && !Array.isArray(extraValue[key])
-                                ? Object.values(extraValue[key] as any)
-                                : (extraValue[key] as any[]);
+                        const lastExtraValue = extraValue[key] || [];
 
-                        if (lastExtraValue && lastExtraValue.length > (value as any[]).length) {
-                            lastExtraValue = lastExtraValue.slice(0, (value as any[]).length);
+                        if (Array.isArray(lastExtraValue)) {
+                            values[key] = merge(lastExtraValue || [], cloneDeepElementary(value));
+                        } else {
+                            values[key] = value.map((val, index) =>
+                                merge(extraValue[index] || {}, cloneDeepElementary(val)),
+                            );
                         }
-                        values[key] = merge(lastExtraValue || [], cloneDeepElementary(value));
                     } else if (field.isObject) {
                         values[key] = merge(extraValue[key] || {}, cloneDeepElementary(value));
                     }
@@ -89,7 +90,11 @@ export class Form implements IForm {
                 keysAndFields.push({field, keys: key.split(".")});
             }
         }
-        keysAndFields.sort(({keys: a}, {keys: b}) => b.length - a.length);
+        keysAndFields.sort(({keys: a, field: fieldA}, {keys: b, field: fieldB}) => {
+            const res = a.length - b.length;
+
+            return res === 0 ? fieldA.key.localeCompare(fieldB.key) : res;
+        });
         for (const {keys, field} of keysAndFields) {
             const last = keys.pop() as string;
             const val = keys.reduce((res, key) => {
@@ -195,11 +200,16 @@ export class Form implements IForm {
                 output: options.output,
                 pageStore: options.pageStore,
                 parentFieldKey: options.parentFieldKey,
+                parentPrefix: options.parentPrefix,
             });
 
             this[keyStore].set(key, field);
             this[keyStore] = new ObservableMap(
-                entriesMapSort(this[keyStore], ([keyOld], [keyNew]) => keyOld.length - keyNew.length),
+                entriesMapSort(this[keyStore], ([keyOld], [keyNew]) => {
+                    const res = keyOld.length - keyNew.length;
+
+                    return res === 0 ? keyOld.localeCompare(keyNew) : res;
+                }),
             );
         }
 
@@ -286,18 +296,14 @@ export class Form implements IForm {
         }
         Object.keys(values)
             .sort((a, b) => {
-                const res = b.length - a.length;
+                const res = a.length - b.length;
 
-                if (res == 0) {
-                    return b.localeCompare(a);
-                }
-
-                return res;
+                return res === 0 ? a.localeCompare(b) : res;
             })
             .forEach((key) => {
                 const field = this.fields.get(key);
 
-                if (field) {
+                if (field && (!isExtra || !field.isArray)) {
                     const [isExists, value] = field.input(values, field, this);
 
                     if (isExists) {

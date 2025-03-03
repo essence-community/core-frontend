@@ -1,4 +1,4 @@
-import {action} from "mobx";
+import {action, makeObservable} from "mobx";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_QUERY_ID,
@@ -27,18 +27,21 @@ export class GlobalRecordsModel implements IGlobalRecordsModel {
             },
             props,
         );
+        makeObservable(this);
     }
 
     // Make promise all for parallel
-    loadAllStoresAction = action("loadAllStoresAction", async () => {
+    @action
+    loadAllStoresAction = async () => {
         if (settingsStore.settings[VAR_SETTING_SMART_MASK_QUERY]) {
             await this.indentityDocTypeRecordsStore.loadRecordsAction();
         }
-    });
+    };
 
-    clearAllStoresAction = action("clearAllStoresAction", () => {
+    @action
+    clearAllStoresAction = () => {
         if (settingsStore.settings[VAR_SETTING_SMART_MASK_QUERY]) {
             this.indentityDocTypeRecordsStore.clearRecordsAction();
         }
-    });
+    };
 }

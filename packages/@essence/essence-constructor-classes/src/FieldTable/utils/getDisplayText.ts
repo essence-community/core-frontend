@@ -27,7 +27,7 @@ export function getDisplayText(store: IFieldTableModel, trans: TFunction): strin
                       return store.bc.localization
                           ? trans(
                                 `${store.bc.localization}:${trans(
-                                    store.selectedRecord[name],
+                                    store.selectedRecord[name] as string,
                                     store.selectedRecord[name] as string,
                                 )}`,
                                 store.selectedRecord[name] as string,

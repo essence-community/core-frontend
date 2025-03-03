@@ -1,4 +1,4 @@
-import {observable, action, computed} from "mobx";
+import {observable, action, computed, makeObservable} from "mobx";
 import {request} from "../../request";
 import {
     META_PAGE_OBJECT,
@@ -33,6 +33,7 @@ export class RecordsModelLite implements IRecordsModelLite {
     constructor(bc: IBuilderConfig) {
         this.bc = bc;
         this.recordId = bc.idproperty || VAR_RECORD_ID;
+        makeObservable(this);
     }
     @action loadRecordsAction(
         option: ILoadRecordsProps = {

@@ -1,7 +1,7 @@
 import {IHandlers, HandlerType} from "@essence-community/constructor-share/types";
 import {StoreBaseModel} from "@essence-community/constructor-share/models";
 import {IField} from "@essence-community/constructor-share/Form";
-import {action} from "mobx";
+import {action, makeObservable} from "mobx";
 import {IFieldRepeaterModelProps} from "./FieldRepeaterModel.types";
 
 /**
@@ -14,6 +14,7 @@ export class FieldRepeaterModel extends StoreBaseModel {
         super(otherProps);
 
         this.field = field;
+        makeObservable(this);
     }
 
     handleAdd: HandlerType = () => {

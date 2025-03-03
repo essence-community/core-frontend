@@ -49,7 +49,7 @@ export const StaticRedirectContainer: React.FC<IClassProps> = () => {
     const classes = useStyles();
     const handleGetParams = (): IStateParams | undefined => {
         try {
-            const params = decodePathUrl(b64);
+            const params = decodePathUrl(b64, {} as IStateParams);
 
             if (!params.page) {
                 logger(trans("static:1764da1153734ec8b4fc4cf48cc78c88"));

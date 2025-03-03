@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import {action, computed, observable} from "mobx";
+import {action, computed, makeObservable, observable} from "mobx";
 import {VALUE_SELF_ALWAYSFIRST, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {
     IStoreBaseModelProps,
@@ -41,6 +41,7 @@ export class FormPanelModel extends StoreBaseModel {
                 pageStore: props.pageStore,
             },
         );
+        makeObservable(this);
     }
 
     @action
@@ -163,7 +164,8 @@ export class FormPanelModel extends StoreBaseModel {
             return false;
         }
 
-        const result = await this.recordsStore.saveAction(
+        const isDownload = mode === "7" || btnBc.mode === "7";
+        const result = await this.recordsStore[isDownload ? "downloadAction" : "saveAction"](
             form.values,
             (btnBc.modeaction || this.mode) as IBuilderMode,
             {

@@ -1,5 +1,5 @@
 import {StoreBaseModel} from "@essence-community/constructor-share/models";
-import {observable, IObservableArray} from "mobx";
+import {observable, IObservableArray, makeObservable} from "mobx";
 import {
     IBuilderConfig,
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -7,10 +7,15 @@ import {
     IBuilderMode,
     IHandlerOptions,
     FieldValue,
+    IStoreBaseModelProps,
 } from "@essence-community/constructor-share";
 import {makeChilds, makePreviewChilds} from "../mock/childsBuild";
 
 export class PromoExampleBuildModel extends StoreBaseModel {
+    constructor(props: IStoreBaseModelProps) {
+        super(props);
+        makeObservable(this);
+    }
     previewChilds = makePreviewChilds(this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
 
     @observable childs: IObservableArray<IBuilderConfig> = observable.array(makeChilds(this.bc, this.previewChilds), {

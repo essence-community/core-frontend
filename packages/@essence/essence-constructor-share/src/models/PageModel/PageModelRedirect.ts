@@ -148,7 +148,7 @@ export async function redirectToPage(pageStore: IPageModel, params: Record<strin
     }
 
     // При переходе все поля нужно сбрасывать в значения по умолчанию.
-    runInAction("PageModelRedirect.clear|reset form", () => {
+    runInAction(() => {
         formFilters.forEach((form: IForm) => {
             form.clear();
             form.reset();
@@ -156,7 +156,7 @@ export async function redirectToPage(pageStore: IPageModel, params: Record<strin
     });
 
     // При переходе все окна нужно закрывать
-    runInAction("PageModelRedirect.clear windows", () => {
+    runInAction(() => {
         pageStore.windows.clear();
     });
 
@@ -171,7 +171,7 @@ export async function redirectToPage(pageStore: IPageModel, params: Record<strin
         }
     }
 
-    runInAction("PageModelRedirect.set_global_values", () => {
+    runInAction(() => {
         // Что бы запустился autorun, очистим, а потом установим
         pageStore.globalValues.merge(emptyValues);
         pageStore.globalValues.merge(notFieldParams);

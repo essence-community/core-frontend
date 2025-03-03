@@ -18,7 +18,7 @@
  *      1. При autoload нет возможности ожидать установки значения в selectedRecord
  */
 // eslint-disable-next-line import/named
-import {Lambda, observe, reaction} from "mobx";
+import {Lambda, makeObservable, observe, reaction} from "mobx";
 import {i18next} from "../../utils";
 import {IBuilderConfig, IPageModel, IStoreBaseModel, IRecord} from "../../types";
 
@@ -57,6 +57,7 @@ export class CheckLoading {
         this.masterId = masterId;
         this.pageStore = pageStore;
         this.timeoutId = window.setTimeout(this.handleTimeoutError, CYCLE_TIMEOUT);
+        makeObservable(this);
     }
 
     public wait(): Promise<boolean> {

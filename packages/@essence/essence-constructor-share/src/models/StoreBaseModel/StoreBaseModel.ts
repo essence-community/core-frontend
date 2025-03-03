@@ -1,3 +1,4 @@
+import {makeObservable, observable} from "mobx";
 import {
     IBuilderConfig,
     IPageModel,

@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 // eslint-disable-next-line import/named
-import {observable, computed, action, IObservableArray} from "mobx";
+import {observable, computed, action, IObservableArray, makeObservable} from "mobx";
 import {v4} from "uuid";
 import {isObject, forEach, get} from "lodash";
 import {
@@ -33,7 +33,7 @@ import {
     VAR_RESULT_MESSAGE,
 } from "../../constants";
 import {IRouteRecord} from "../../types/RoutesModel";
-import {TText, IOptionCheck, MessageType, MessageTypeStrings} from "../../types/SnackbarModel";
+import {TText, IOptionCheck, MessageType, MessageTypeStrings, IMessage} from "../../types/SnackbarModel";
 import {IForm} from "../../Form";
 import {RecordsModelLite} from "../RecordsModelLite/RecordsModelLite";
 import {IRecordsModelLite} from "../../types/RecordsModel";
@@ -98,9 +98,11 @@ export class SnackbarModel implements ISnackbarModel {
         };
 
         this.recordsStore = new RecordsModelLite(bc);
+        makeObservable(this);
     }
 
-    deleteAllSnackbarAction = action("deleteAllSnackbarAction", () => {
+    @action
+    deleteAllSnackbarAction = () => {
         if (this.activeStatus === "all") {
             this.snackbarsAll = observable.array(this.snackbarsAll.filter((snackbar) => snackbar.status === "debug"));
         } else if (this.activeStatus === "notification") {
@@ -116,31 +118,35 @@ export class SnackbarModel implements ISnackbarModel {
                 this.snackbarsAll.filter((snackbar) => snackbar.status !== this.activeStatus),
             );
         }
-    });
+    };
 
-    deleteSnackbarAction = action("deleteSnackbarAction", (snackbarId: string) => {
+    @action
+    deleteSnackbarAction = (snackbarId: string) => {
         this.snackbarsAll = observable.array(this.snackbarsAll.filter((snakebar) => snakebar.id !== snackbarId));
-    });
+    };
 
-    readSnackbarAction = action("readSnackbarAction", (snackbarId: string) => {
+    @action
+    readSnackbarAction = (snackbarId: string) => {
         const snackbar = this.snackbarsAll.find((snack) => snack.id === snackbarId);
 
         if (snackbar) {
             snackbar.read = true;
         }
-    });
+    };
 
-    readActiveSnackbarsAction = action("readActiveSnackbarsAction", () => {
+    @action
+    readActiveSnackbarsAction = () => {
         this.snackbarsInStatus.forEach((snackbar) => {
             if (snackbar.read === false) {
                 snackbar.read = true;
             }
         });
-    });
+    };
 
-    setStatusAction = action("setStatusAction", (status: SnackbarStatus) => {
+    @action
+    setStatusAction = (status: SnackbarStatus) => {
         this.activeStatus = status;
-    });
+    };
 
     @action
     snackbarOpenAction = (snackbar: Partial<ISnackbar>, route?: IRouteRecord): ISnackbar => {
@@ -196,58 +202,111 @@ export class SnackbarModel implements ISnackbarModel {
         return snackbarProps;
     };
 
-    setClosebleAction = action("setClosebleAction", (snackbarId: string) => {
+    @action
+    setClosebleAction = (snackbarId: string) => {
         const closableSnackbar = this.snackbars.find((snakebar) => snakebar.id === snackbarId);
 
         if (closableSnackbar) {
             closableSnackbar.open = false;
         }
-    });
+    };
 
-    snackbarCloseAction = action("snackbarCloseAction", (snackbarId: ISnackbar["id"]) => {
+    @action
+    snackbarCloseAction = (snackbarId: ISnackbar["id"]) => {
         const removedSnackbar = this.snackbars.find((snakebar) => snakebar.id === snackbarId);
 
         if (removedSnackbar) {
             this.snackbars.remove(removedSnackbar);
         }
-    });
+    };
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     forMessage = (
         messageType: SnackbarStatus,
         route?: Record<string, FieldValue>,
-        message: string[][] = [],
+        message: string[][] | IMessage[] = [],
         isSnack = true,
     ) => {
-        const textArr: TText[] = [];
+        const textArr: IMessage[] = [];
 
-        forEach(message, ([message, ...values]) => {
-            const text = (trans: TFunction) =>
-                typeof message === "string"
-                    ? trans(message, {
-                          defaultValue: message,
-                          ns: "message",
-                      })
-                          // eslint-disable-next-line require-unicode-regexp, prefer-named-capture-group
-                          .replace(/{(\d+)}/g, (match, pattern) =>
-                              values.length
-                                  ? trans(values[pattern], {
-                                        defaultValue: values[pattern],
-                                        ns: "message",
-                                    })
-                                  : "",
-                          )
-                    : "";
+        forEach(message, (value) => {
+            if (Array.isArray(value)) {
+                const [message, ...values] = value;
+                const text = (trans: TFunction) =>
+                    typeof message === "string"
+                        ? trans(message, {
+                              defaultValue: message,
+                              ns: "message",
+                          })
+                              // eslint-disable-next-line require-unicode-regexp, prefer-named-capture-group
+                              .replace(/{(\d+)}/g, (match, pattern) =>
+                                  values.length
+                                      ? trans(values[pattern], {
+                                            defaultValue: values[pattern],
+                                            ns: "message",
+                                        })
+                                      : "",
+                              )
+                        : "";
 
-            textArr.push(message);
-            if (isSnack) {
-                this.snackbarOpenAction(
-                    {
-                        status: messageType,
-                        text,
-                    },
-                    route,
-                );
+                textArr.push({text: message});
+                if (isSnack) {
+                    this.snackbarOpenAction(
+                        {
+                            status: messageType,
+                            text,
+                        },
+                        route,
+                    );
+                }
+            } else if (typeof value === "object") {
+                const origin = value as IMessage
+                const msg = { ...origin };
+
+                msg.text = typeof origin.text === "string"
+                        ? (trans: TFunction) => trans(origin.text as string, {
+                              defaultValue: origin.text as string,
+                              ns: "message",
+                          })
+                              // eslint-disable-next-line require-unicode-regexp, prefer-named-capture-group
+                              .replace(/{(\d+)}/g, (match, pattern) =>
+                                  origin.args && origin.args.length
+                                      ? trans(origin.args[pattern] as string, {
+                                            defaultValue: origin.args[pattern] as string,
+                                            ns: "message",
+                                        })
+                                      : "",
+                              ) as string
+                        : origin.text;
+                msg.description =
+                    typeof origin.description === "string"
+                        ? (trans: TFunction) =>
+                              trans(origin.description as string, {
+                                  defaultValue: origin.description as string,
+                                  ns: "message",
+                              })
+                        : origin.description;
+                msg.title =
+                    typeof origin.title === "string"
+                        ? (trans: TFunction) =>
+                              trans(origin.title as string, {
+                                  defaultValue: origin.title as string,
+                                  ns: "message",
+                              })
+                        : origin.title;
+
+                textArr.push(msg);
+                if (isSnack) {
+                    this.snackbarOpenAction(
+                        {
+                            description: msg.description,
+                            status: messageType,
+                            text: msg.text,
+                            title: msg.title,
+                        },
+                        route,
+                    );
+                }
             }
         });
 
@@ -255,9 +314,8 @@ export class SnackbarModel implements ISnackbarModel {
     };
 
     // eslint-disable-next-line max-statements
-    checkValidResponseAction = action(
-        "checkValidResponseAction",
-        // eslint-disable-next-line max-statements
+    @action
+    checkValidResponseAction = // eslint-disable-next-line max-statements
         (
             // eslint-disable-next-line default-param-last
             response: IResponse = {},
@@ -356,7 +414,7 @@ export class SnackbarModel implements ISnackbarModel {
                     });
                 }
                 if (isObject(jtMessage)) {
-                    forEach(jtMessage, (value: string[][], key: MessageTypeStrings) => {
+                    forEach(jtMessage, (value: string[][] | IMessage[], key: MessageTypeStrings) => {
                         if (key in MessageType) {
                             const textArr = this.forMessage(key, route, value);
 
@@ -365,12 +423,12 @@ export class SnackbarModel implements ISnackbarModel {
                             }
                             if (key === "warning") {
                                 isWarn = true;
-                                warningText = textArr;
+                                warningText = textArr.map((val) => val.text);
                             }
                             if (key === "block" || key === "unblock") {
                                 const [text] = textArr;
 
-                                applicationStore?.blockApplicationAction(key, text);
+                                applicationStore?.blockApplicationAction(key, text.text);
                             }
                         }
                     });
@@ -391,8 +449,7 @@ export class SnackbarModel implements ISnackbarModel {
                 }
 
                 return isError ? 0 : 1;
-            },
-    );
+            };
 
     /**
      * Add error to field
@@ -405,7 +462,7 @@ export class SnackbarModel implements ISnackbarModel {
         let isError = false;
 
         // eslint-disable-next-line default-param-last
-        forEach(formError, (errors: Record<string, string[] | string[][]> = {}, fieldName: string) => {
+        forEach(formError, (errors: Record<string, string[] | string[][] | IMessage[]> = {}, fieldName: string) => {
             const field = form?.select(fieldName);
             const fieldError: any[] = [];
 
@@ -414,15 +471,17 @@ export class SnackbarModel implements ISnackbarModel {
                 if (code in MessageType) {
                     const arrText = this.forMessage(code as SnackbarStatus, route, values as string[][], false);
 
-                    forEach(arrText, (text) => {
+                    forEach(arrText, (msg) => {
                         if (code === "error") {
                             isError = true;
-                            fieldError.push(text);
+                            fieldError.push(msg.text);
                         } else {
                             this.snackbarOpenAction(
                                 {
+                                    description: msg.description as any,
                                     status: code as SnackbarStatus,
-                                    text,
+                                    text: msg.text,
+                                    title: msg.title,
                                 },
                                 route,
                             );
@@ -490,7 +549,8 @@ export class SnackbarModel implements ISnackbarModel {
         return isError;
     };
 
-    snackbarChangeAction = action("snackbarChangeAction", (snackbarId: string, snackbar: Record<string, any>) => {
+    @action
+    snackbarChangeAction = (snackbarId: string, snackbar: Record<string, any>) => {
         const changedSnakebar = this.snackbars.findIndex((snakebar) => snakebar.id === snackbarId);
         const changedSnakebarAll = this.snackbarsAll.findIndex((snakebar) => snakebar.id === snackbarId);
 
@@ -506,9 +566,10 @@ export class SnackbarModel implements ISnackbarModel {
                 ...snackbar,
             };
         }
-    });
+    };
 
-    checkValidLoginResponse = action("checkValidLoginResponse", (response: Record<string, FieldValue>) => {
+    @action
+    checkValidLoginResponse = (response: Record<string, FieldValue>) => {
         if (isEmpty(response.session)) {
             this.snackbarOpenAction({status: "warning", text: String(response[VAR_RECORD_CV_RESULT])});
 
@@ -516,11 +577,10 @@ export class SnackbarModel implements ISnackbarModel {
         }
 
         return true;
-    });
+    };
 
-    checkExceptResponse = action(
-        "checkExceptResponse",
-        (error: Record<string, any>, route?: IRouteRecord, applicationStore?: IApplicationModel | null) => {
+    @action
+    checkExceptResponse = (error: Record<string, any>, route?: IRouteRecord, applicationStore?: IApplicationModel | null) => {
             if (error.message?.indexOf("aborted") > -1) {
                 return;
             }
@@ -547,10 +607,10 @@ export class SnackbarModel implements ISnackbarModel {
             }
 
             return false;
-        },
-    );
+        };
 
-    errorResponseAction = action("errorResponseAction", (errorData: IErrorData, route?: IRouteRecord) => {
+    @action
+    errorResponseAction = (errorData: IErrorData, route?: IRouteRecord) => {
         this.snackbarOpenAction(
             {
                 description: errorData?.[VAR_ERROR_TEXT] || errorData?.[VAR_ERROR_CODE] || errorData?.[VAR_ERROR_ID],
@@ -559,32 +619,35 @@ export class SnackbarModel implements ISnackbarModel {
             },
             route,
         );
-    });
+    };
 
-    errorDetailsAction = action("errorDetailsAction", (errorData: IErrorData, route?: IRouteRecord) => {
+    @action
+    errorDetailsAction = (errorData: IErrorData, route?: IRouteRecord) => {
         this.snackbarOpenAction(
             {
                 code: errorData?.[VAR_ERROR_CODE] || errorData?.[VAR_ERROR_ID] || "",
                 description: errorData?.[VAR_ERROR_TEXT] || "",
                 status: "error",
-                text: (trans) => trans("static:4fdb3577f24440ceb8c717adf68bac48", errorData),
+                text: (trans) => trans("static:4fdb3577f24440ceb8c717adf68bac48"),
             },
             route,
         );
-    });
+    };
 
-    errorMaskAction = action("errorMaskAction", (errorData: IErrorData, route?: IRouteRecord) => {
+    @action
+    errorMaskAction = (errorData: IErrorData, route?: IRouteRecord) => {
         this.snackbarOpenAction(
             {
                 description: errorData?.[VAR_ERROR_CODE] || errorData?.[VAR_ERROR_ID],
                 status: "error",
-                text: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7", errorData),
+                text: (trans) => trans("static:515a199e09914e3287afd9c95938f3a7"),
             },
             route,
         );
-    });
+    };
 
-    errorAction = action("errorAction", (_error: Error, route?: IRouteRecord) => {
+    @action
+    errorAction = (_error: Error, route?: IRouteRecord) => {
         this.snackbarOpenAction(
             {
                 status: "error",
@@ -592,9 +655,10 @@ export class SnackbarModel implements ISnackbarModel {
             },
             route,
         );
-    });
+    };
 
-    errorRemoteAuthAction = action("errorRemoteAuthAction", (_error: Error, route?: IRouteRecord) => {
+    @action
+    errorRemoteAuthAction = (_error: Error, route?: IRouteRecord) => {
         this.snackbarOpenAction(
             {
                 status: "error",
@@ -602,11 +666,10 @@ export class SnackbarModel implements ISnackbarModel {
             },
             route,
         );
-    });
+    };
 
-    accessDeniedAction = action(
-        "accessDeniedAction",
-        (_error: Error, route?: Record<string, FieldValue>, applicationStore?: IApplicationModel) => {
+    @action
+    accessDeniedAction = (_error: Error, route?: Record<string, FieldValue>, applicationStore?: IApplicationModel) => {
             this.snackbarOpenAction(
                 {status: "error", text: (trans) => trans("static:1d5ca35298f346cab823812e2b57e15a")},
                 route,
@@ -616,8 +679,7 @@ export class SnackbarModel implements ISnackbarModel {
             if (applicationStore && typeof recordId === "string") {
                 applicationStore.pagesStore.removePageAction(recordId);
             }
-        },
-    );
+        };
 
     @action
     unauthorizedAction = (_error: Error, route?: Record<string, FieldValue>, applicationStore?: IApplicationModel) => {
@@ -632,9 +694,8 @@ export class SnackbarModel implements ISnackbarModel {
         }
     };
 
-    invalidSessionAction = action(
-        "invalidSessionAction",
-        (_error: Error, route?: IRouteRecord, applicationStore?: IApplicationModel) => {
+    @action
+    invalidSessionAction = (_error: Error, route?: IRouteRecord, applicationStore?: IApplicationModel) => {
             this.snackbarOpenAction(
                 {status: "info", text: (trans) => trans("static:5bf781f61f9c44b8b23c76aec75e5d10")},
                 route,
@@ -643,15 +704,15 @@ export class SnackbarModel implements ISnackbarModel {
             if (applicationStore) {
                 applicationStore.logoutAction();
             }
-        },
-    );
+        };
 
-    loginFailedAction = action("loginFailedAction", (_error: Error, route?: IRouteRecord) => {
+    @action
+    loginFailedAction = (_error: Error, route?: IRouteRecord) => {
         this.snackbarOpenAction(
             {status: "error", text: (trans) => trans("static:b5a60b8ff5cd419ebe487a68215f4490")},
             route,
         );
-    });
+    };
 
     @action
     errorMoveResponseAction = (errorData: IErrorData, route?: IRouteRecord, applicationStore?: IApplicationModel) => {

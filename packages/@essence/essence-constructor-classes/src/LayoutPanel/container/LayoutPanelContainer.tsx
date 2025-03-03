@@ -49,6 +49,7 @@ export const LayoutPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                         collapsedLayout: store.collapsedLayout,
                         activeFullScreen: store.activeFullScreen,
                         allLayout: store.allLayout,
+                        oldAllLayout: store.oldAllLayout,
                         activeWidget: store.activeWidget,
                         childs: store.childs.map((child) => child[VAR_RECORD_PAGE_OBJECT_ID]),
                     };

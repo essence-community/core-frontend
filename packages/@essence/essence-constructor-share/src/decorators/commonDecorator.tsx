@@ -18,10 +18,9 @@ export interface ICommonHOCProps extends IClassProps {
     originProps: IClassProps;
 }
 
+// TODO переписать в функциональном виде
 // eslint-disable-next-line max-lines-per-function
-export function commonDecorator<Props extends IClassProps>(
-    WrappedComponent: React.ComponentType<Props>,
-): React.ComponentType<Props> {
+export function commonDecorator<Props extends IClassProps>(WrappedComponent: any): any {
     class CommonHOC extends React.Component<ICommonHOCProps, ICommonHOCState> {
         public state: ICommonHOCState = {
             disabled: this.props.bc.disabled === true,

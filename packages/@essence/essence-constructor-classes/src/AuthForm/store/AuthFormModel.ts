@@ -9,6 +9,7 @@ import {
     IFormOptions,
 } from "@essence-community/constructor-share/types";
 import {History} from "history";
+import { makeObservable } from "mobx";
 
 interface IAuthFormModelProps extends IStoreBaseModelProps {
     history: History;
@@ -21,6 +22,7 @@ export class AuthFormModel extends StoreBaseModel {
         super(props);
 
         this.history = props.history;
+        makeObservable(this);
     }
 
     handleLogin = async (form?: IForm, skipValidation?: boolean, query = "Login") => {

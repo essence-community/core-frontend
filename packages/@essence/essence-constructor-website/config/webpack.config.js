@@ -231,13 +231,13 @@ module.exports = function (webpackEnv) {
         infrastructureLogging: {
             level: 'none',
         },
-        parallelism: 20,
+        parallelism: process.env.DISABLE_PARALLEL === "true" ? 1 : 20,
         optimization: {
             minimize: isEnvProduction,
             minimizer: [
                 // This is only used in production mode
                 new TerserPlugin({
-                    parallel: true,
+                    parallel: process.env.DISABLE_PARALLEL === "true" ? false : true,
                     terserOptions: {
                         parse: {
                             // We want terser to parse ecma 8 code. However, we don't want it

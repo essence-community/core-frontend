@@ -57,6 +57,10 @@ class I18nBackend implements BackendModule {
 }
 
 export function initI18n() {
+    // @ts-ignore
+    if (window.i18next) {
+        return;
+    }
     const defaultLng = settingsStore.settings[VAR_SETTING_LANG];
     const lang = getFromStore<string>("lang", defaultLng);
 
@@ -80,7 +84,6 @@ export function initI18n() {
                 bindI18n: "languageChanged loaded",
             },
         });
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     window.i18next = i18next;
     addListenLoaded(async () => {

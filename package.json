@@ -88,5 +88,10 @@
             "last 2 safari version",
             "last 2 edge version"
         ]
+    },
+    "resolutions": {
+        "async": "3.2.6",
+        "es5-ext": "0.10.53",
+        "underscore": "1.13.7"
     }
 }

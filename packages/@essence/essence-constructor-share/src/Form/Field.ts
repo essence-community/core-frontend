@@ -225,12 +225,15 @@ export class Field implements IField {
         this.defaultValueFn = options.defaultValueFn;
         this.defaultCopyValueFn = options.defaultCopyValueFn;
 
-        if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
-            this.defaultValue = transformToBoolean(this.bc.defaultvalue);
-            if (this.bc.valuetype === "integer") {
-                this.defaultValue = Number(this.defaultValue);
+        if (this.bc.defaultvalue ||
+            typeof this.bc.defaultvalue === "boolean" ||
+            typeof this.bc.defaultvalue === "number") {
+            if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
+                this.defaultValue = transformToBoolean(this.bc.defaultvalue);
+                if (this.bc.valuetype === "integer") {
+                    this.defaultValue = Number(this.defaultValue);
+                }
             }
-        } else if (this.bc.defaultvalue) {
             if (this.isArray && typeof this.bc.defaultvalue === "string") {
                 this.defaultValue = JSON.parse(this.bc.defaultvalue);
             } else {

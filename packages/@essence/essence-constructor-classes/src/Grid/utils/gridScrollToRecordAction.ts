@@ -44,8 +44,8 @@ export async function gridScrollToRecordAction(params: IRecord, gridStore: IGrid
                 const maxScroll = scrollTop - tableContent.parentNode.offsetHeight;
 
                 if (scrollTop < tableContent.parentNode?.scrollTop || maxScroll > tableContent.parentNode.scrollTop) {
-                    if (tableContent.children[0].children[1].children.length <= 1 && recordIndex > 1) {
-                        await new Promise<void>((resolve, reject) => {
+                    if (tableContent.children?.[0]?.children?.[1]?.children?.length <= 1 && recordIndex > 1) {
+                        await new Promise<void>((resolve) => {
                             checkChildren(tableContent, resolve);
                         });
                     }

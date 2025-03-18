@@ -10,12 +10,12 @@ import { when } from "mobx";
 const CHECK_TIMEOUT = 50;
 const MAX_COUNT = 20;
 
-function checkChildren(tableContent: HTMLDivElement, resolve: () => void, count = 0) {
-    if (tableContent.children[0].children[1].children.length > 1 || count >= MAX_COUNT) {
+function checkChildren(bodyContent: HTMLTableSectionElement, resolve: () => void, count = 0) {
+    if (bodyContent.children.length > 1 || count >= MAX_COUNT) {
         resolve();
         return;
     }
-    setTimeout(() => checkChildren(tableContent, resolve, count+1), CHECK_TIMEOUT);
+    setTimeout(() => checkChildren(bodyContent, resolve, count+1), CHECK_TIMEOUT);
 }
 
 export async function gridScrollToRecordAction(params: IRecord, gridStore: IGridModel) {
@@ -36,6 +36,7 @@ export async function gridScrollToRecordAction(params: IRecord, gridStore: IGrid
 
         if (recordIndex !== -1) {
             const tableContent = gridStore.refs.get("table-content");
+            const bodyContent = gridStore.refs.get("body");
             // Check visible row. If selected row is not visible then scroll to them
             if (tableContent instanceof HTMLDivElement && tableContent.parentNode instanceof HTMLDivElement) {
                 const isRootNode =
@@ -44,9 +45,9 @@ export async function gridScrollToRecordAction(params: IRecord, gridStore: IGrid
                 const maxScroll = scrollTop - tableContent.parentNode.offsetHeight;
 
                 if (scrollTop < tableContent.parentNode?.scrollTop || maxScroll > tableContent.parentNode.scrollTop) {
-                    if (tableContent.children?.[0]?.children?.[1]?.children?.length <= 1 && recordIndex > 1) {
+                    if (bodyContent instanceof HTMLTableSectionElement && bodyContent.children.length <= 1 && recordIndex > 1) {
                         await new Promise<void>((resolve) => {
-                            checkChildren(tableContent, resolve);
+                            checkChildren(bodyContent, resolve);
                         });
                     }
                     tableContent.parentNode.scrollTop = scrollTop;

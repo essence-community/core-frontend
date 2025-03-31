@@ -109,8 +109,11 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
         const disposers = [
             reaction(() => store.recordsStore.records, handleRecordsLoad, {
                 name: "BuilderBaseGrid.records.update",
+                fireImmediately: true,
             }),
-            reaction(() => pageStore.visible, handlePageVisible),
+            reaction(() => pageStore.visible, handlePageVisible, {
+                fireImmediately: true,
+            }),
             reaction(
                 () => store.gridColumns,
                 () => {

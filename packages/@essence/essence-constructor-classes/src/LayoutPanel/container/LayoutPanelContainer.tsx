@@ -17,6 +17,7 @@ import "react-resizable/css/styles.css";
 import {Widget} from "../component/Widget/Widget";
 import {LayoutPanelModel} from "../store/LayoutPanelModel";
 import {useStyles} from "./LayoutPanelContainer.styles";
+import {ResizeContext} from "@essence-community/constructor-share/context";
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -24,7 +25,7 @@ export const LayoutPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     const {bc} = props;
     const classes = useStyles(props);
     const [store] = useModel((options) => new LayoutPanelModel(options), props);
-    const emitter = useResizerEE();
+    const emitter = useResizerEE(true);
 
     React.useEffect(() => {
         store.setEmitter(emitter);
@@ -96,7 +97,8 @@ export const LayoutPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
     );
 
     return useObserver(() => (
-        <ReactGridLayout {...propsLayout} layout={store.layout} style={contentStyle} className={classes.root}>
+        <ResizeContext.Provider value={emitter}>
+            <ReactGridLayout {...propsLayout} layout={store.layout} style={contentStyle} className={classes.root}>
             {mapComponents(store.childs, (Child, childBc) => (
                 <div
                     key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
@@ -119,6 +121,7 @@ export const LayoutPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                     </Widget>
                 </div>
             ))}
-        </ReactGridLayout>
+            </ReactGridLayout>
+        </ResizeContext.Provider>
     ));
 };

@@ -6,7 +6,8 @@ import {ResizeContext, IResizeEventContext} from "../context";
 function initDefault() {
     return new EventEmitter();
 }
-export function useResizerEE(isNew = false) {
+const DEFAULT_VALUE = false;
+export function useResizerEE(isNew = DEFAULT_VALUE) {
     const [emitter, setEmitter] = React.useState<IResizeEventContext>(initDefault);
     const resizeContext = React.useContext(ResizeContext);
 
@@ -18,10 +19,8 @@ export function useResizerEE(isNew = false) {
 
             resizeContext.on("resize", () => newEmitter.emit("resize"));
             setEmitter(newEmitter);
-        } else {
-            setEmitter(initDefault());
         }
-    }, [resizeContext]);
+    }, [resizeContext, isNew]);
 
     return emitter;
 }

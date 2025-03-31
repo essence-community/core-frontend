@@ -2,10 +2,11 @@ import * as React from "react";
 import {createPortal} from "react-dom";
 import {noop, isFunction} from "../../utils/functions";
 import {getAbsoluteOffsetFromGivenElement} from "../../utils/browser";
-import {PopoverContext} from "../../context";
+import {PopoverContext, ResizeContext} from "../../context";
 import {IPopoverProps, IOffset, IPopoverAnchorOrigin, IPopoverTransfromOrigin} from "./Popover.types";
 import {getOffsetContainer} from "./Popover.utils";
 import {PopoverContent} from "./PopoverContent";
+import {useResizerEE} from "../../hooks";
 
 const STYLE_DEFAULT = {left: 0, top: 0};
 const ANCHOR_ORIGIN: IPopoverAnchorOrigin = {
@@ -35,6 +36,7 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
     const [style, setStyle] = React.useState<IOffset>(STYLE_DEFAULT);
     const [isOpen, setIsOpen] = React.useState(false);
     const isMouseDownPopover = React.useRef(false);
+    const emitter = useResizerEE(true);
 
     const handleClose = React.useCallback(() => {
         setIsOpen(false);
@@ -70,6 +72,19 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
         });
     }, [anchorOrigin, container, transformOrigin]);
 
+    React.useEffect(() => {
+        const handle = (count = 0) => {
+            if (popupRef.current) {
+                emitter.emit("resize");
+            } else if (count < 10) {
+                setTimeout(handle, 50, count + 1);
+            }
+        }
+        if (emitter && isOpen) {
+            handle();
+        }
+    }, [emitter, isOpen]);
+
     const handleOpen = React.useCallback(() => {
         setIsOpen(true);
         onChangeOpen(true);
@@ -81,9 +96,9 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
         isOpen,
     ]);
 
-    const handleEntering = () => {
+    const handleEntering = React.useCallback(() => {
         handleCalculateOffset();
-    };
+    }, [handleCalculateOffset]);
 
     const handleResize = React.useCallback(() => {
         if (hideOnResize) {
@@ -211,27 +226,29 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
                     : props.children}
                 {isOpen && container
                     ? createPortal(
-                          <PopoverContent
-                              ref={popupRef}
-                              styleOffset={style}
-                              open={isOpen}
-                              hideBackdrop={hideBackdrop}
-                              dataPageObjectPopover={props.dataPageObjectPopover}
-                              container={container}
-                              disableEscapeKeyDown={props.disableEscapeKeyDown}
-                              tabFocusable={tabFocusable}
-                              focusableMount={props.focusableMount}
-                              restoreFocusedElement={props.restoreFocusedElement}
-                              width={props.width || width}
-                              onOpen={handleOpen}
-                              onEntering={handleEntering}
-                              onClose={handleClose}
-                              onCalculateOffset={handleCalculateOffset}
-                              onEscapeKeyDown={handleEscapeKeyDown}
-                              paperClassName={props.paperClassName}
-                              popoverContent={props.popoverContent}
-                              disableFocusableArrow={props.disableFocusableArrow}
-                          />,
+                          <ResizeContext.Provider value={emitter}>
+                            <PopoverContent
+                                ref={popupRef}
+                                styleOffset={style}
+                                open={isOpen}
+                                hideBackdrop={hideBackdrop}
+                                dataPageObjectPopover={props.dataPageObjectPopover}
+                                container={container}
+                                disableEscapeKeyDown={props.disableEscapeKeyDown}
+                                tabFocusable={tabFocusable}
+                                focusableMount={props.focusableMount}
+                                restoreFocusedElement={props.restoreFocusedElement}
+                                width={props.width || width}
+                                onOpen={handleOpen}
+                                onEntering={handleEntering}
+                                onClose={handleClose}
+                                onCalculateOffset={handleCalculateOffset}
+                                onEscapeKeyDown={handleEscapeKeyDown}
+                                paperClassName={props.paperClassName}
+                                popoverContent={props.popoverContent}
+                                disableFocusableArrow={props.disableFocusableArrow}
+                                />
+                          </ResizeContext.Provider>,
                           container,
                       )
                     : null}

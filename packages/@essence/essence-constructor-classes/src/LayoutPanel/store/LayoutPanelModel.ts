@@ -44,17 +44,17 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
         this.bc.childs?.forEach((child) => {
             this.label.set(child[VAR_RECORD_PAGE_OBJECT_ID], child[VAR_RECORD_DISPLAYED]);
         });
-        this.childs = this.bc.childs?.map((child) => ({...child, [VAR_RECORD_DISPLAYED]: undefined}));
+        this.childs = this.bc.childs?.map((child) => ({ ...child, [VAR_RECORD_DISPLAYED]: undefined }));
         this.allLayout =
             this.childs?.map(
                 (childBc) =>
-                    ({
-                        ...(childBc.layoutcomponentconfig || {}),
-                        ...(childBc.layoutcomponentconfig?.extra
-                            ? JSON.parse(childBc.layoutcomponentconfig.extra)
-                            : {}),
-                        i: childBc[VAR_RECORD_PAGE_OBJECT_ID],
-                    } as any),
+                ({
+                    ...(childBc.layoutcomponentconfig || {}),
+                    ...(childBc.layoutcomponentconfig?.extra
+                        ? JSON.parse(childBc.layoutcomponentconfig.extra)
+                        : {}),
+                    i: childBc[VAR_RECORD_PAGE_OBJECT_ID],
+                } as any),
             ) || [];
         if (this.bc.isstate) {
             this.loadState();
@@ -130,14 +130,19 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
                 }),
             );
         }
+        this.handleResize();
+    }
+
+    private handleResize() {
+        requestAnimationFrame(() => {
+            this.emitter?.emit("resize");
+        });
     }
 
     @action
     public setLayout(allLayout: Layout[]): void {
         this.allLayout = observable.array(allLayout);
-        requestAnimationFrame(() => {
-            this.emitter?.emit("resize");
-        });
+        this.handleResize();
     }
 
     @action
@@ -166,6 +171,7 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
                 }),
             );
         }
+        this.handleResize();
     }
 
     @action
@@ -211,6 +217,7 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
                 }),
             );
         }
+        this.handleResize();
     }
 
     setState(state: any): void {

@@ -148,18 +148,19 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
 
     return useObserver(() => {
         const isError = Boolean(!disabled && !field.isValid);
+        const isExistsValue = !isEmpty(field.value)
         const isDisabled =
             (readOnly && form.placement === "filter" && typeof bc.readonly === "undefined" ? false : readOnly) ||
             disabled ||
             !form.editing;
 
-        if (!isEmpty(field.value) && bc.enableclipboard) {
+        if (bc.enableclipboard && isExistsValue) {
             tips.push(
                 <IconButton
                     color="secondary"
                     key="copy-value"
                     data-qtip={trans("static:b736e477d32c4c499522f02f62e18e90")}
-                    className={classes.actionButton}
+                    className={classes.hiddenButton}
                     onClick={handleCopy}
                     tabIndex={-1}
                 >
@@ -168,13 +169,13 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
             );
         }
 
-        if (!isEmpty(field.value) && !isDisabled && !bc.disableclear) {
+        if (!bc.disableclear && !isDisabled && isExistsValue) {
             tips.push(
                 <IconButton
                     color="secondary"
                     key="clear-value"
                     data-qtip={trans("static:cda88d85fb7e4a88932dc232d7604bfb")}
-                    className={classes.clearButton}
+                    className={classes.hiddenButton}
                     onClick={handleClear}
                     tabIndex={-1}
                 >

@@ -7,7 +7,7 @@ export const useStyles = makeStyles(
             height: theme.essence.sizing.gridRowHeight,
             width: theme.essence.sizing.gridRowHeight,
         },
-        clearButton: {
+        hiddenButton: {
             height: theme.essence.sizing.gridRowHeight,
             visibility: "hidden",
             width: theme.essence.sizing.gridRowHeight,
@@ -19,7 +19,7 @@ export const useStyles = makeStyles(
         inputDisable: {},
         inputRoot: {
             "&:hover": {
-                "& $clearButton": {
+                "& $hiddenButton": {
                     visibility: "visible",
                 },
             },

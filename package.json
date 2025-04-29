@@ -90,6 +90,7 @@
         ]
     },
     "resolutions": {
+        "axios": "1.8.4",
         "async": "3.2.6",
         "es5-ext": "0.10.53",
         "underscore": "1.13.7",

@@ -28,6 +28,7 @@ import {useStyles} from "./FieldDateContainer.types";
 import "rc-calendar/assets/index.css";
 import "rc-time-picker/assets/index.css";
 import "moment/locale/ru";
+moment.locale("ru");
 
 export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
     const {bc, pageStore, disabled, readOnly} = props;

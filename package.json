@@ -92,6 +92,7 @@
     "resolutions": {
         "async": "3.2.6",
         "es5-ext": "0.10.53",
-        "underscore": "1.13.7"
+        "underscore": "1.13.7",
+        "moment": "2.30.1"
     }
 }

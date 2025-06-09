@@ -208,18 +208,27 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
 
         if (isDarkTheme) {
             return (
-                <Grid container direction="row" className={classNameRoot} wrap="nowrap">
-                    {actionsComponent}
-                    <Grid item container direction="column" className={classes.contentRoot}>
-                        {bc.hiddenheader ? null : (
-                            <Grid item className={classes.maxWidth}>
-                                <EmptyTitle title={transCvDisplayed} filters={bc.filters} hideactions />
-                            </Grid>
-                        )}
-                        {filterComponent}
-                        {tableComponent}
+                <>
+                    <Grid container ref={refGridContent} direction="row" className={classNameRoot} wrap="nowrap">
+                        {actionsComponent}
+                        <Grid item container direction="column" className={classes.contentRoot}>
+                            {bc.hiddenheader ? null : (
+                                <Grid item className={classes.maxWidth}>
+                                    <EmptyTitle title={transCvDisplayed} filters={bc.filters} hideactions />
+                                </Grid>
+                            )}
+                            {filterComponent}
+                            {tableComponent}
+                        </Grid>
                     </Grid>
-                </Grid>
+                    {bc.noglobalmask ? <PageLoader
+                        container={refGridContent.current}
+                        isLoading={store.recordsStore.isLoading}
+                        loaderType={
+                            settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"
+                        }
+                    /> : null}
+                </>
             );
         }
 

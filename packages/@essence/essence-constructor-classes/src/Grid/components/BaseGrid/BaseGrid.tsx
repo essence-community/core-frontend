@@ -4,9 +4,9 @@ import {isEmpty, useTranslation, toTranslateText} from "@essence-community/const
 import {reaction} from "mobx";
 import cn from "clsx";
 import {Grid, useTheme, ThemeProvider} from "@material-ui/core";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED, VAR_SETTING_PROJECT_LOADER} from "@essence-community/constructor-share/constants";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {EmptyTitle} from "@essence-community/constructor-share/uicomponents";
+import {EmptyTitle, PageLoader} from "@essence-community/constructor-share/uicomponents";
 import {useObserver} from "mobx-react";
 import {useResizerEE} from "@essence-community/constructor-share/hooks";
 import {updateGridWidth} from "../../utils";
@@ -18,6 +18,7 @@ import {ColumnCheckHidden} from "../ColumnCheckHidden";
 import {resetGridWidth} from "../../utils/resetGridWidth";
 import {useStyles} from "./BaseGrid.styles";
 import {makeTheme} from "./BaseGrid.overrides";
+import { settingsStore } from "@essence-community/constructor-share/index";
 
 const FITER_ONE_BUTTON = 42;
 const FILTER_THREE_BUTTON = 128;
@@ -31,6 +32,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
     const {pageStore, visible, bc} = classProps;
     const classes = useStyles();
     const isHideActions = bc.hideactions === true;
+    const refGridContent = React.useRef<HTMLDivElement | null>(null);
     const [trans] = useTranslation("meta");
     const theme = useTheme<IEssenceTheme>();
     const isDarkTheme = theme.essence.layoutTheme === 2;
@@ -222,18 +224,27 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
         }
 
         return (
-            <Grid container direction="column" className={classNameRoot} wrap="nowrap">
-                {filterComponent}
-                {bc.hiddenheader ? null : (
-                    <Grid item className={classes.maxWidth}>
-                        <EmptyTitle title={transCvDisplayed} filters={bc.filters} />
-                    </Grid>
-                )}
-                {store.gridColumnsInitial.map((col) => (
-                    <ColumnCheckHidden key={col[VAR_RECORD_PAGE_OBJECT_ID]} bc={col} store={store} />
-                ))}
-                {tableComponent}
-            </Grid>
+            <>
+                <Grid container ref={refGridContent} direction="column" className={classNameRoot} wrap="nowrap">
+                    {filterComponent}
+                    {bc.hiddenheader ? null : (
+                        <Grid item className={classes.maxWidth}>
+                            <EmptyTitle title={transCvDisplayed} filters={bc.filters} />
+                        </Grid>
+                    )}
+                    {store.gridColumnsInitial.map((col) => (
+                        <ColumnCheckHidden key={col[VAR_RECORD_PAGE_OBJECT_ID]} bc={col} store={store} />
+                    ))}
+                    {tableComponent}
+                </Grid>
+                {bc.noglobalmask ? <PageLoader
+                    container={refGridContent.current}
+                    isLoading={store.recordsStore.isLoading}
+                    loaderType={
+                        settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"
+                    }
+                /> : null}
+            </>
         );
     });
 };

@@ -2,8 +2,8 @@
 import * as React from "react";
 import {useObserver} from "mobx-react";
 import {Paper, MenuItem, CircularProgress} from "@material-ui/core";
-import {IBuilderConfig, Scrollbars, Pagination, FieldValue, toString} from "@essence-community/constructor-share";
-import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
+import {IBuilderConfig, Scrollbars, Pagination, FieldValue, toString, PageLoader, settingsStore} from "@essence-community/constructor-share";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_SETTING_PROJECT_LOADER} from "@essence-community/constructor-share/constants";
 import {IPopoverChildrenProps} from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";
 import {reaction} from "mobx";
 import {ISuggestion} from "../store/FieldComboModel.types";
@@ -77,67 +77,76 @@ export const FieldComboList: React.FC<IProps> = (props) => {
     );
 
     return useObserver(() => (
-        <Paper
-            className={classes.paper}
-            square
-            data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-window`}
-            ref={listRef}
-        >
-            <Scrollbars
-                autoHeight
-                hideTracksWhenNotNeeded
-                autoHeightMin={autoHeightMin}
-                autoHeightMax={height || AUTO_HEIGHT_MAX}
-                onWheel={handleContentWheel}
-                // @ts-ignore
-                scrollbarsRef={scrollbarRef}
+        <>
+            <Paper
+                className={classes.paper}
+                square
+                data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-window`}
+                ref={listRef}
             >
-                {store.recordsStore.isLoading ? (
-                    <CircularProgress
-                        classes={{root: classes.loader}}
-                        data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-progress`}
-                    />
-                ) : (
-                    store.suggestions.map((suggestion) => {
-                        const isSelectedValue = suggestion.value === stringValue;
-                        const isHighlightedValue = suggestion.value === props.store.highlightedValue;
+                <Scrollbars
+                    autoHeight
+                    hideTracksWhenNotNeeded
+                    autoHeightMin={autoHeightMin}
+                    autoHeightMax={height || AUTO_HEIGHT_MAX}
+                    onWheel={handleContentWheel}
+                    // @ts-ignore
+                    scrollbarsRef={scrollbarRef}
+                >
+                    {store.recordsStore.isLoading ? (
+                        <CircularProgress
+                            classes={{root: classes.loader}}
+                            data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-progress`}
+                        />
+                    ) : (
+                        store.suggestions.map((suggestion) => {
+                            const isSelectedValue = suggestion.value === stringValue;
+                            const isHighlightedValue = suggestion.value === props.store.highlightedValue;
 
-                        return (
-                            <FieldComboListItem
-                                key={`${suggestion.value}-${suggestion.label}`}
-                                suggestion={suggestion}
-                                onSelect={handleSelect}
-                                isSelectedValue={isSelectedValue}
-                                isHighlightedValue={isHighlightedValue}
-                                ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                focused={props?.focused}
-                            />
-                        );
-                    })
-                )}
-                {store.recordsStore.isLoading ? (
-                    <MenuItem disableRipple classes={{root: classes.paginationMenuItem}} />
+                            return (
+                                <FieldComboListItem
+                                    key={`${suggestion.value}-${suggestion.label}`}
+                                    suggestion={suggestion}
+                                    onSelect={handleSelect}
+                                    isSelectedValue={isSelectedValue}
+                                    isHighlightedValue={isHighlightedValue}
+                                    ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                    focused={props?.focused}
+                                />
+                            );
+                        })
+                    )}
+                    {store.recordsStore.isLoading ? (
+                        <MenuItem disableRipple classes={{root: classes.paginationMenuItem}} />
+                    ) : null}
+                </Scrollbars>
+                {store.recordsStore.pageSize ? (
+                    <MenuItem component="div" disableRipple classes={{root: classes.paginationMenuItem}}>
+                        <Pagination
+                            pageStore={store.pageStore}
+                            count={store.recordsStore.recordsCount}
+                            pageSizeRange={store.recordsStore.pageSizeRange}
+                            pageSize={store.recordsStore.pageSize}
+                            onChangePageSize={store.recordsStore.setPageSize}
+                            rowsPerPage={store.recordsStore.pageSize}
+                            page={store.recordsStore.pageNumber}
+                            onChangePage={store.recordsStore.setPageNumberAction}
+                            ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]}
+                        />
+                    </MenuItem>
                 ) : null}
-            </Scrollbars>
-            {store.recordsStore.pageSize ? (
-                <MenuItem component="div" disableRipple classes={{root: classes.paginationMenuItem}}>
-                    <Pagination
-                        pageStore={store.pageStore}
-                        count={store.recordsStore.recordsCount}
-                        pageSizeRange={store.recordsStore.pageSizeRange}
-                        pageSize={store.recordsStore.pageSize}
-                        onChangePageSize={store.recordsStore.setPageSize}
-                        rowsPerPage={store.recordsStore.pageSize}
-                        page={store.recordsStore.pageNumber}
-                        onChangePage={store.recordsStore.setPageNumberAction}
-                        ckPageObject={bc[VAR_RECORD_PAGE_OBJECT_ID]}
-                    />
-                </MenuItem>
-            ) : null}
-            <FieldComboListSugListener
-                suggestionsSize={store.suggestions.length}
-                onCalculateOffset={onCalculateOffset}
-            />
-        </Paper>
+                <FieldComboListSugListener
+                    suggestionsSize={store.suggestions.length}
+                    onCalculateOffset={onCalculateOffset}
+                />
+            </Paper>
+            {bc.noglobalmask ? <PageLoader
+                container={listRef.current}
+                isLoading={store.recordsStore.isLoading}
+                loaderType={
+                    settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"
+                }
+            /> : null}
+        </>
     ));
 };

@@ -71,6 +71,7 @@
         ]
     },
     "dependencies": {
+        "caniuse-lite": "^1.0.30001723",
         "env-cmd": "^10.0.1",
         "eslint-plugin-compat": "^6.0.2"
     },
@@ -94,6 +95,7 @@
         "async": "3.2.6",
         "es5-ext": "0.10.53",
         "underscore": "1.13.7",
-        "moment": "2.30.1"
+        "moment": "2.30.1",
+        "caniuse-lite": "^1.0.30001723"
     }
 }

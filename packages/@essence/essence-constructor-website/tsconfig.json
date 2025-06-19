@@ -24,12 +24,18 @@
             "@essence-community/constructor-share/*": [
                 "../essence-constructor-share/src/*"
             ]
-        }
+        },
+        "typeRoots": [
+            "./node_modules/@types",
+            "./types"
+        ]
     },
     "include": [
         "src/**/*.tsx",
         "src/**/*.ts",
         "../essence-constructor-classes/src",
-        "../essence-constructor-share/src"
+        "../essence-constructor-share/src",
+        "rsbuild.config.ts",
+        "types/**/*.d.ts"
     ]
 }

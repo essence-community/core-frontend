@@ -182,7 +182,6 @@ export default defineConfig(async () => {
         filename: "essence_core.js",
         shared: {
           "react": {
-            singleton: true,
             requiredVersion: appPackageJson.dependencies["react"],
             eager: true
           },

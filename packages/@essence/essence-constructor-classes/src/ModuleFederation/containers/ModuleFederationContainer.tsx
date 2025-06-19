@@ -45,7 +45,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
     const [mfConfig, setMfConfig] = React.useState<IConfigMF>(null);
     const getValue = useGetValue({ pageStore });
     const windowContext = React.useContext(WindowContext);
-    const [isError, setIsError] = React.useState(false);
+    const [isErrorBridge, setIsErrorBridge] = React.useState(false);
     const [store] = useModel((options) => new ModuleFederationModel(options), {
         applicationStore: pageStore.applicationStore,
         bc,
@@ -228,7 +228,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
             loader: async () => storeComponent.Component,
             loading: Loader,
             fallback: (props) => {
-                setIsError(true);
+                setIsErrorBridge(true);
                 return Loader;
             },
             export: storeComponent.export,
@@ -250,7 +250,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
                 className={cn({ [classes.fullScreen]: store.isFullScreen })}
             >
                 <Grid item xs={12} alignItems="stretch" zeroMinWidth>
-                    {isError ? <Component {...finalPropsComponent} /> : <BridgeComponent {...finalPropsComponent} />}
+                    <ErrorBoundary fallback={null}>{isErrorBridge ? <Component {...finalPropsComponent} /> : <BridgeComponent {...finalPropsComponent} />}</ErrorBoundary>
                 </Grid>
             </Grid>
         );

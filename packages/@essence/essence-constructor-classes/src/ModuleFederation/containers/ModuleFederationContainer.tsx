@@ -39,12 +39,13 @@ const checkValue = (
 };
 
 export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
-    const { bc, disabled, hidden, pageStore } = props;
+    const {bc, disabled, hidden, pageStore, visible, ...nextProps} = props;
     const [storeComponent, setStoreComponent] = React.useState<{ Component: Record<string, React.FC<IModuleClassProps>>, export: string }>(null);
     const [propsComponent, setPropsComponent] = React.useState(DEFAULT_PROPS);
     const [mfConfig, setMfConfig] = React.useState<IConfigMF>(null);
     const getValue = useGetValue({ pageStore });
     const windowContext = React.useContext(WindowContext);
+    const [isError, setIsError] = React.useState(false);
     const [store] = useModel((options) => new ModuleFederationModel(options), {
         applicationStore: pageStore.applicationStore,
         bc,
@@ -190,12 +191,49 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
         () =>
         ({
             style: contentStyle,
-            ...(props ? props : DEFAULT_PROPS),
+            disabled,
+            hidden,
+            pageStore,
+            ...(nextProps ? nextProps : DEFAULT_PROPS),
             ...(propsComponent ? propsComponent : DEFAULT_PROPS),
             dispatchMessage: (...arg) => store.handleEventComponent(...arg),
         } as IModuleClassProps),
-        [contentStyle, props, propsComponent, store],
+        [contentStyle, propsComponent, store, disabled, hidden, pageStore, ...Object.values(nextProps)],
     );
+
+    const Loader = React.useMemo(() => {
+        return (
+            <PageLoader
+                container={pageStore.pageEl}
+                isLoading
+                loaderType={
+                    settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"
+                }
+            />
+        )
+    }, [pageStore]);
+
+    const Component = React.useMemo(() => { 
+        if (!storeComponent || !storeComponent.Component) {
+            return null;
+        }
+        return storeComponent.Component[storeComponent.export];
+    }, [storeComponent]);
+
+    const BridgeComponent = React.useMemo(() => {
+        if (!storeComponent || !storeComponent.Component) {
+            return null;
+        }
+        return createRemoteComponent({
+            loader: async () => storeComponent.Component,
+            loading: Loader,
+            fallback: (props) => {
+                setIsError(true);
+                return Loader;
+            },
+            export: storeComponent.export,
+        });
+    }, [storeComponent, pageStore]);
 
     return useObserver(() => {
         if (!storeComponent || !storeComponent.Component) {
@@ -212,21 +250,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
                 className={cn({ [classes.fullScreen]: store.isFullScreen })}
             >
                 <Grid item xs={12} alignItems="stretch" zeroMinWidth>
-                    <ErrorBoundary fallback={React.createElement(createRemoteComponent({
-                        loader: async () => storeComponent.Component,
-                        loading: (<PageLoader
-                            container={pageStore.pageEl}
-                            isLoading
-                            loaderType={
-                                settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"
-                            }
-                        />),
-                        fallback: null,
-                        export: storeComponent.export,
-                    }), finalPropsComponent)}>
-                        {React.createElement(storeComponent.Component[storeComponent.export], finalPropsComponent)}
-                    </ErrorBoundary>
-
+                    {isError ? <Component {...finalPropsComponent} /> : <BridgeComponent {...finalPropsComponent} />}
                 </Grid>
             </Grid>
         );

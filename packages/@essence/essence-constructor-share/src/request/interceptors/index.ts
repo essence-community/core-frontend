@@ -1,4 +1,3 @@
-/* eslint-disable filenames/match-exported */
 import {IRequest} from "../../types";
 import {DefaultCheck} from "./DefaultCheck";
 import {IInterceptor, IResponse} from "./Interceptor.types";

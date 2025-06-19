@@ -35,12 +35,12 @@ export class FieldMultiMoModel extends FieldMultiModel implements IFieldMultiMod
     }
 
     @computed get displayText() {
-        // eslint-disable-next-line require-unicode-regexp, prefer-named-capture-group
+         
         const displayfield = (this.bc.displayfield || "").replace(/{(\w+)}/g, (match, pattern) => `{${pattern}}`);
         const {selectedRecord} = this;
 
         return selectedRecord
-            ? // eslint-disable-next-line require-unicode-regexp,  prefer-named-capture-group
+            ?  
               displayfield.replace(/{([A-z]+)}/g, (match, pattern) => {
                   const value = selectedRecord[pattern];
 
@@ -57,7 +57,7 @@ export class FieldMultiMoModel extends FieldMultiModel implements IFieldMultiMod
     searchRecordAction = (value: string | number) => this.recordsStore.searchAction({[VAR_RECORD_CK_MO]: value});
 
     @action
-    // eslint-disable-next-line max-statements, complexity
+    // eslint-disable-next-line max-statements
     fillActiveRecordAction = async (form: IForm, configs: IBuilderConfig[]) => {
         const [bcRegion, bcArea, bcStreet, bcHouse, bcMO] = configs;
         const selectedRecord = this.selectedRecord || {};

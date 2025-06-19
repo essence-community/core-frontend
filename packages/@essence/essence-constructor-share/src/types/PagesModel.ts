@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/named
+ 
 import {IObservableArray, ObservableMap} from "mobx";
 import {IGlobalRecordsModel} from "./GlobalRecordsModel";
 import {IPageModel, IApplicationModel} from ".";

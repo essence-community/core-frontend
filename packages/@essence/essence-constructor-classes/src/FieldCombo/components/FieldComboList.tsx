@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable max-len */
 import * as React from "react";
 import {useObserver} from "mobx-react";
 import {Paper, MenuItem, CircularProgress} from "@material-ui/core";

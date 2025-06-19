@@ -4,11 +4,16 @@ import {isEmpty, useTranslation, toTranslateText} from "@essence-community/const
 import {reaction} from "mobx";
 import cn from "clsx";
 import {Grid, useTheme, ThemeProvider} from "@material-ui/core";
-import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED, VAR_SETTING_PROJECT_LOADER} from "@essence-community/constructor-share/constants";
+import {
+    VAR_RECORD_PAGE_OBJECT_ID,
+    VAR_RECORD_DISPLAYED,
+    VAR_SETTING_PROJECT_LOADER
+} from "@essence-community/constructor-share/constants";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {EmptyTitle, PageLoader} from "@essence-community/constructor-share/uicomponents";
 import {useObserver} from "mobx-react";
 import {useResizerEE} from "@essence-community/constructor-share/hooks";
+import {settingsStore} from "@essence-community/constructor-share/index";
 import {updateGridWidth} from "../../utils";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {GridTable} from "../GridTable";
@@ -18,7 +23,6 @@ import {ColumnCheckHidden} from "../ColumnCheckHidden";
 import {resetGridWidth} from "../../utils/resetGridWidth";
 import {useStyles} from "./BaseGrid.styles";
 import {makeTheme} from "./BaseGrid.overrides";
-import { settingsStore } from "@essence-community/constructor-share/index";
 
 const FITER_ONE_BUTTON = 42;
 const FILTER_THREE_BUTTON = 128;
@@ -110,8 +114,8 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
 
         const disposers = [
             reaction(() => store.recordsStore.records, handleRecordsLoad, {
-                name: "BuilderBaseGrid.records.update",
                 fireImmediately: true,
+                name: "BuilderBaseGrid.records.update",
             }),
             reaction(() => pageStore.visible, handlePageVisible, {
                 fireImmediately: true,

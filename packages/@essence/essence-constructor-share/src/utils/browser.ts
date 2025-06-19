@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+ 
 export const isIE = () => {
     const ua = window.navigator.userAgent;
     const msie = ua.indexOf("MSIE ");

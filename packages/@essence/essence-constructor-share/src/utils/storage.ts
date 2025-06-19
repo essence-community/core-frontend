@@ -31,7 +31,7 @@ export function getFromLocalStore<T = ValueType>(key: string, defaultValue?: T):
     if (value) {
         try {
             return JSON.parse(value);
-        } catch (error) {
+        } catch (_error) {
             return defaultValue;
         }
     }
@@ -49,7 +49,7 @@ export function getFromStore<T = ValueType>(key: string, defaultValue?: T): T | 
     if (value) {
         try {
             return typeof value === "string" ? JSON.parse(value) : value;
-        } catch (error) {
+        } catch (_error) {
             return defaultValue;
         }
     }

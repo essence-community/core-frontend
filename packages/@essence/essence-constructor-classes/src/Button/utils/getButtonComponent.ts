@@ -1,3 +1,4 @@
+import React from "react";
 import {IBuilderConfig, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {IconButton} from "../components/IconButton";
 import {Button} from "../components/Button";

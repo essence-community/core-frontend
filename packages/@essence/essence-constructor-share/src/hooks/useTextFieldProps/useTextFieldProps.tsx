@@ -80,11 +80,12 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
                     field.onChange(text);
                     break;
                 case "array":
-                case "objectandarray":
+                case "objectandarray": {
                     const arr = text.split(regSeparated).filter((val) => !isEmpty(val));
 
                     field.onChange(typePaste === "objectandarray" && arr.length === 1 ? arr[0] : (arr as any));
                     break;
+                }
             }
         },
         [bc, field],

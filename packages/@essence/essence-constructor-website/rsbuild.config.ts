@@ -7,6 +7,7 @@ import path from 'path';
 import fs from 'fs';
 import { rspack } from '@rsbuild/core';
 import { pluginBabel } from '@rsbuild/plugin-babel';
+import { pluginEslint } from '@rsbuild/plugin-eslint';
 
 const execAsync = promisify(exec);
 
@@ -170,6 +171,12 @@ export default defineConfig(async () => {
 
   return {
     plugins: [
+      pluginEslint({
+        eslintPluginOptions: {
+          cwd: __dirname,
+          configType: 'flat',
+        }
+      }),
       pluginBabel({
         babelLoaderOptions: {
           presets: [["@babel/preset-typescript", { isTSX: true, allExtensions: true }], ["@babel/preset-env", { loose: true }], "@babel/preset-react"],

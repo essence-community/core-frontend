@@ -1,6 +1,4 @@
-/* eslint-disable sort-keys */
-/* eslint-disable @typescript-eslint/camelcase */
-/*
+ /*
  * Import * as React from "react";
  *import {Icon} from "@essence-community/constructor-share/Icon";
  *import {getBaseBc, Renderer} from "@essence-community/constructor-share/utils/test";
@@ -8,7 +6,7 @@
  *import {TextFieldLabel} from "@essence-community/constructor-share/uicomponents/TextFieldLabel";
  *import {FieldCheckboxContainer} from "../containers/FieldCheckboxContainer";
  */
-// eslint-disable-next-line max-lines-per-function
+ 
 describe("FieldCheckbox", () => {
     /*
      * Const bcPanel = getBaseBc("PANEL", {

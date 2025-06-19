@@ -1,4 +1,4 @@
-/* eslint-disable sort-keys, prettier/prettier, quote-props */
+/* eslint-disable sort-keys, quote-props */
 
 export const formatChars: Record<string, string> = {
     "*": "[A-Za-z0-9]",

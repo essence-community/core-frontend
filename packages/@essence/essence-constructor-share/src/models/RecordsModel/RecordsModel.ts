@@ -1,5 +1,5 @@
 /* eslint-disable max-statements */
-/* eslint-disable max-lines */
+
 import {action, extendObservable, ObservableMap, observable, makeObservable} from "mobx";
 import pLimit from "p-limit";
 import {saveAction} from "../../actions/saveAction";
@@ -164,7 +164,7 @@ export class RecordsModel implements IRecordsModel {
             {
                 filter: [],
                 get hasSelected() {
-                    return typeof this.selectedRecordId !== undefined;
+                    return typeof this.selectedRecordId !== "undefined";
                 },
                 isLoading: false,
                 loadCounter: 0,
@@ -553,7 +553,7 @@ export class RecordsModel implements IRecordsModel {
                     recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
                 }
                 break;
-            case !isEmpty(defaultvaluerule):
+            case !isEmpty(defaultvaluerule): {
                 const value = parseMemoize(defaultvaluerule!).runer({
                     get: (name: string) => {
                         return this.pageStore?.globalValues.get(name);
@@ -566,6 +566,7 @@ export class RecordsModel implements IRecordsModel {
                     recordIdValue = record ? deepFind(record, valueField)[1] : undefined;
                 }
                 break;
+            }
             default:
                 recordIdValue = undefined;
         }

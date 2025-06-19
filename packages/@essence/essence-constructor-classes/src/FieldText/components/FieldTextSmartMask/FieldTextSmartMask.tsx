@@ -73,7 +73,7 @@ export const FieldTextSmartMask: React.FC<IFieldTextSmartMaskProps> = (props) =>
             oldState: InputState,
             userInput: string,
             maskOptions: MaskOptions,
-            // eslint-disable-next-line max-params
+             
         ): InputState => {
             const {mask: newMask = "", formatChars} = maskOptions;
 

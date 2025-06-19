@@ -1,5 +1,5 @@
-/* eslint-disable max-statements */
-/* eslint-disable max-lines-per-function */
+ 
+ 
 import * as React from "react";
 import {Grid} from "@material-ui/core";
 import {mapComponents} from "@essence-community/constructor-share/components";

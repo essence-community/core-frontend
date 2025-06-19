@@ -1,9 +1,10 @@
+/* eslint-disable sort-keys */
 import {makeStyles} from "@material-ui/core";
 import {IEssenceTheme} from "@essence-community/constructor-share/types/Theme";
 
 export const useStyles = makeStyles(
-    // eslint-disable-next-line no-unused-vars
-    (theme: IEssenceTheme) => ({
+
+    (_theme: IEssenceTheme) => ({
         adornment: {
             width: 36,
             zIndex: 100,

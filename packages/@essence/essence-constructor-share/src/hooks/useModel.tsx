@@ -1,6 +1,6 @@
-/* eslint-disable sort-keys */
+ 
 /* eslint-disable max-lines-per-function */
-/* eslint-disable capitalized-comments */
+ 
 import * as React from "react";
 import {v4} from "uuid";
 import {reaction} from "mobx";

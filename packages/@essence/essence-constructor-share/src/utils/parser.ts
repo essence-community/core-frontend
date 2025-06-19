@@ -1,9 +1,10 @@
+/* eslint-disable no-case-declarations */
 import * as moment from "moment";
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 /* eslint-disable max-lines-per-function */
 /* eslint-disable sort-keys */
 import * as lodash from "lodash";
-/* eslint-disable @typescript-eslint/no-use-before-define, no-use-before-define */
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import * as esprima from "esprima";
 import {
     Expression,
@@ -14,7 +15,7 @@ import {
     UnaryExpression,
     BlockStatement,
     Literal,
-    // eslint-disable-next-line import/no-extraneous-dependencies, import/extensions, import/no-unresolved
+    // eslint-disable-next-line import/no-unresolved
 } from "estree";
 import memoize from "memoizee";
 import QueryString from "qs";
@@ -44,7 +45,7 @@ const logger = loggerRoot.extend("parser");
 const operators: any = {
     "!": ({argument}: UnaryExpression, values: IValues) => !parseOperations(argument, values),
     "!=": ({left, right}: LogicalExpression, values: IValues) =>
-        // eslint-disable-next-line eqeqeq
+
         parseOperations(left, values) != parseOperations(right, values),
     "!==": ({left, right}: LogicalExpression, values: IValues) =>
         parseOperations(left, values) !== parseOperations(right, values),
@@ -61,7 +62,7 @@ const operators: any = {
     "<": ({left, right}: LogicalExpression, values: IValues) =>
         parseOperations(left, values) < parseOperations(right, values),
     "==": ({left, right}: LogicalExpression, values: IValues) =>
-        // eslint-disable-next-line eqeqeq
+
         parseOperations(left, values) == parseOperations(right, values),
     "===": ({left, right}: LogicalExpression, values: IValues) =>
         parseOperations(left, values) === parseOperations(right, values),
@@ -92,7 +93,7 @@ BigNumber.from = function (val: any, conf: any) {
     }
     try {
         return new BigNumber(val, conf);
-    } catch (e) {
+    } catch (_e) {
         return "";
     }
 };
@@ -144,7 +145,7 @@ function parseOperations(expression: Expression | Pattern | Super | BlockStateme
 
                 return typeof value === "undefined"
                     ? // @ts-ignore
-                      liteValue.value || value
+                    liteValue.value || value
                     : value;
             }
 
@@ -171,7 +172,7 @@ function parseOperations(expression: Expression | Pattern | Super | BlockStateme
 
             return typeof value === "undefined"
                 ? // @ts-ignore
-                  (expression.isMember && expression.name) || value
+                (expression.isMember && expression.name) || value
                 : value;
         case "AssignmentExpression":
             return parseOperations(expression.right, values);
@@ -218,28 +219,28 @@ function parseOperations(expression: Expression | Pattern | Super | BlockStateme
                 expression.property.name =
                     ((values.get
                         ? // @ts-ignore
-                          values.get(expression.property.originname, true)
+                        values.get(expression.property.originname, true)
                         : // @ts-ignore
-                          values[expression.property.originname]) as any) || expression.property.originname;
+                        values[expression.property.originname]) as any) || expression.property.originname;
             }
             const property = parseOperations(
                 expression.property as any,
                 res
                     ? {
-                          get: (key) => {
-                              if (Array.isArray(res) || typeof res === "object" || typeof res === "function") {
-                                  const result = res[key] || (values.get ? values.get(key, true) : values[key]);
+                        get: (key) => {
+                            if (Array.isArray(res) || typeof res === "object" || typeof res === "function") {
+                                const result = res[key] || (values.get ? values.get(key, true) : values[key]);
 
-                                  if (typeof result === "function") {
-                                      result.parentFn = res;
-                                  }
+                                if (typeof result === "function") {
+                                    result.parentFn = res;
+                                }
 
-                                  return result;
-                              }
+                                return result;
+                            }
 
-                              return values.get ? values.get(key, true) : values[key];
-                          },
-                      }
+                            return values.get ? values.get(key, true) : values[key];
+                        },
+                    }
                     : values,
             );
 
@@ -250,10 +251,10 @@ function parseOperations(expression: Expression | Pattern | Super | BlockStateme
         case "TemplateLiteral":
             return expression.expressions
                 ? expression.expressions.reduce(
-                      (acc, expr, index) =>
-                          `${acc}${parseOperations(expr, values)}${expression.quasis[index + 1].value.raw}`,
-                      expression.quasis[0].value.raw,
-                  )
+                    (acc, expr, index) =>
+                        `${acc}${parseOperations(expr, values)}${expression.quasis[index + 1].value.raw}`,
+                    expression.quasis[0].value.raw,
+                )
                 : "";
         case "CallExpression":
             const fn = parseOperations(expression.callee, {
@@ -264,12 +265,12 @@ function parseOperations(expression: Expression | Pattern | Super | BlockStateme
 
             return typeof fn === "function"
                 ? fn.apply(
-                      fn.parentFn || fn,
-                      expression.arguments.map((arg) =>
-                          // @ts-ignore
-                          parseOperations(arg, values),
-                      ),
-                  )
+                    fn.parentFn || fn,
+                    expression.arguments.map((arg) =>
+                        // @ts-ignore
+                        parseOperations(arg, values),
+                    ),
+                )
                 : "";
         case "ArrowFunctionExpression":
             return (...ags: any[]) =>
@@ -355,9 +356,9 @@ export const parse = (src: string, withTokens = false): IParseReturnType => {
         variables:
             withTokens && parsedSrc && parsedSrc.tokens
                 ? parsedSrc.tokens
-                      .filter((token: esprima.Token) => token.type === "Identifier" && token.value !== "result")
-                      .map((token: esprima.Token) => token.value)
-                      .filter((value: string, idx: number, arr: string[]) => arr.indexOf(value) === idx)
+                    .filter((token: esprima.Token) => token.type === "Identifier" && token.value !== "result")
+                    .map((token: esprima.Token) => token.value)
+                    .filter((value: string, idx: number, arr: string[]) => arr.indexOf(value) === idx)
                 : [],
     };
 };

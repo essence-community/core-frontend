@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable no-unused-vars */
+ 
+ 
 import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
@@ -8,20 +8,18 @@ import {DiffEditor, OnChange, DiffOnMount} from "@monaco-editor/react";
 import {useObserver} from "mobx-react";
 import {Grid} from "@material-ui/core";
 import {
-    isEmpty,
     TFunction,
     toColumnStyleWidthBc,
     toTranslateTextArray,
     useTranslation,
 } from "@essence-community/constructor-share/utils";
 import {
-    VAR_RECORD_DISPLAYED,
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_SETTING_PROJECT_LOADER,
 } from "@essence-community/constructor-share/constants";
 import {commonDecorator} from "@essence-community/constructor-share/decorators";
 import loader from "@monaco-editor/loader";
-// eslint-disable-next-line import/no-unresolved
+ 
 import * as monaco from "monaco-editor";
 import {PageLoader, TextFieldLabel} from "@essence-community/constructor-share/uicomponents";
 import {settingsStore} from "@essence-community/constructor-share/models";

@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+ 
 import * as React from "react";
 import {reaction} from "mobx";
 import {IClassProps, FieldValue} from "@essence-community/constructor-share/types";
@@ -168,6 +168,7 @@ export const FieldComboContainer: React.FC<IClassProps> = (props) => {
             const isFocus = [listRef.current, textFieldRef.current].some((el: HTMLDivElement | null) => {
                 return el && el.contains(relatedTarget);
             });
+
             requestAnimationFrame(() => {
                 if (!isFocus && !popoverRef.current && store.isInputChanged) {
                     store.handleSetValue(field.value, false, false);

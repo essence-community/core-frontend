@@ -1,4 +1,4 @@
-/* eslint-disable max-lines */
+ 
 import {action, makeObservable, observable} from "mobx";
 import {
     VALUE_SELF_ALWAYSFIRST,

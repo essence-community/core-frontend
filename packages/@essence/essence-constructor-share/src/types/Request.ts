@@ -1,4 +1,4 @@
-import { AxiosProgressEvent } from "axios";
+import {AxiosProgressEvent} from "axios";
 import {
     META_PAGE_ID,
     META_PAGE_OBJECT,

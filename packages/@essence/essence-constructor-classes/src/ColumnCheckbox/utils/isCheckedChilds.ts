@@ -1,7 +1,7 @@
 import {IRecordsModel, IRecord, ICkId} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_ID, VAR_RECORD_LEAF} from "@essence-community/constructor-share/constants";
 
-// eslint-disable-next-line max-params
+ 
 export function isCheckedChilds(
     recordsStore: IRecordsModel,
     parentId: ICkId,

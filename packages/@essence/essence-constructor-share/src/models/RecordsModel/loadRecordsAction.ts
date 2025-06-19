@@ -1,10 +1,10 @@
 /* eslint-disable max-statements */
 /* eslint-disable max-lines-per-function */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable max-lines */
+
+
 import {v4} from "uuid";
 import {isEqual} from "lodash";
-import { toJS, runInAction } from 'mobx';
+import {toJS, runInAction} from "mobx";
 import {request} from "../../request";
 import {IRecordsModel, FieldValue, IResponse, IRecord} from "../../types";
 import {i18next, getMasterObject, deepFind, setMask, toString} from "../../utils";
@@ -50,13 +50,13 @@ export const sleep = (time: number): Promise<void> =>
 export function getPageFilter(pageSize?: number, pageNumber = 0) {
     return pageSize
         ? {
-              [VAR_META_JN_FETCH]: pageSize,
-              [VAR_META_JN_OFFSET]: pageSize * pageNumber,
-          }
+            [VAR_META_JN_FETCH]: pageSize,
+            [VAR_META_JN_OFFSET]: pageSize * pageNumber,
+        }
         : {
-              [VAR_META_JN_FETCH]: 1000,
-              [VAR_META_JN_OFFSET]: 0,
-          };
+            [VAR_META_JN_FETCH]: 1000,
+            [VAR_META_JN_OFFSET]: 0,
+        };
 }
 
 function getNotEmptyData(searchValues: Record<string, FieldValue>) {
@@ -144,19 +144,19 @@ export function prepareRequst(
     const filterData: IGetFilterDataOptions =
         status === "attach"
             ? {
-                  filter: [],
-                  order: recordsStore.order,
-                  pageNumber: 0,
-                  pageSize: 1,
-                  searchValues: {[recordId]: selectedRecordId},
-              }
+                filter: [],
+                order: recordsStore.order,
+                pageNumber: 0,
+                pageSize: 1,
+                searchValues: {[recordId]: selectedRecordId},
+            }
             : {
-                  filter: recordsStore.filter,
-                  order: recordsStore.order,
-                  pageNumber: recordsStore.pageNumber,
-                  pageSize: recordsStore.pageSize,
-                  searchValues: recordsStore.searchValues,
-              };
+                filter: recordsStore.filter,
+                order: recordsStore.order,
+                pageNumber: recordsStore.pageNumber,
+                pageSize: recordsStore.pageSize,
+                searchValues: recordsStore.searchValues,
+            };
 
     checkPageNumber(recordsStore, master);
 
@@ -271,8 +271,8 @@ export function loadRecordsAction(
             const defaultValue = isEmpty(defaultvaluerule)
                 ? defaultvalue
                 : parseMemoize(defaultvaluerule).runer({
-                      get: this.getValue,
-                  });
+                    get: this.getValue,
+                });
             let isDefault: "##alwaysfirst##" | "##first##" | undefined = undefined;
             let recordIdValue = undefined;
             let record = undefined;
@@ -352,7 +352,12 @@ export function loadRecordsAction(
                     isUserReload,
                     record,
                     records:
-                        status === "attach" ? getAttachedRecords(this.recordsState.records, records[0], recordId) : records,
+                        status === "attach" ?
+                            getAttachedRecords(
+                                this.recordsState.records,
+                                records[0],
+                                recordId
+                            ) : records,
                     status,
                 };
                 this.recordsAll = this.recordsState.records;

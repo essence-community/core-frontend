@@ -45,7 +45,7 @@ const getComponentBc = (bc: IBuilderConfig, lang = getLang()): IBuilderConfig =>
 export const LangCombo: React.FC<IClassProps> = (props) => {
     const {pageStore} = props;
     const {applicationStore} = pageStore;
-    // eslint-disable-next-line no-unused-vars
+     
     const [, setCurrentLang] = React.useState(getLang);
     const bc = React.useMemo(() => getComponentBc(props.bc), [props.bc]);
 

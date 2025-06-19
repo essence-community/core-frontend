@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import {forOwn} from "lodash";
 import {ObservableMap, toJS} from "mobx";
 import {
@@ -107,7 +108,7 @@ export const attachGlobalValues = ({getValue, globalValues, getglobaltostore, va
     return values;
 };
 
-// eslint-disable-next-line max-params, max-statements, max-lines-per-function
+// eslint-disable-next-line max-lines-per-function
 export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mode: IBuilderMode, config: IConfig) {
     const {
         actionBc,
@@ -250,6 +251,8 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
                     }
                     if (check === 1 && noReload) {
                         resolve(result);
+
+                        return;
                     } else if (check === 1) {
                         const loadRecordsAction = findReloadAction(this, bc, actionBc);
                         const isAttach =
@@ -257,22 +260,30 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
                             (mode === "1" || mode === "2" || mode === "4") &&
                             !isEmpty(typeof response === "object" ? response[recordId] : undefined);
 
-                        loadRecordsAction
-                            ? loadRecordsAction({
-                                  selectedRecordId: typeof response === "object" ? response[recordId] : undefined,
-                                  status: isAttach ? "attach" : "save-any",
-                              }).then(() => {
-                                  pageStore.nextStepAction(mode, bc);
+                        if (loadRecordsAction) {
+                            loadRecordsAction({
+                                selectedRecordId: typeof response === "object" ? response[recordId] : undefined,
+                                status: isAttach ? "attach" : "save-any",
+                            }).then(() => {
+                                pageStore.nextStepAction(mode, bc);
 
-                                  resolve(result);
-                              })
-                            : resolve(result);
+                                resolve(result);
+                            });
+
+                            return;
+                        } else {
+                            resolve(result);
+
+                            return;
+                        }
                     }
 
                     if (check === 0) {
                         pageStore.resetStepAction();
 
                         resolve(false);
+
+                        return;
                     }
                 }),
         )

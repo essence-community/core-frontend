@@ -75,7 +75,7 @@ export const FieldCssMeasureContainer: React.FC<IClassProps> = (props) => {
             {...inputProps}
             value={valueState.value}
             InputProps={{...inputProps.InputProps, inputComponent: NumberFormat}}
-            // eslint-disable-next-line react/jsx-no-duplicate-props
+             
             inputProps={{...inputProps.inputProps, onValueChange: handleChange}}
         />
     );

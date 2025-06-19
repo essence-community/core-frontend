@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/named
+ 
 import {ObservableMap, IObservableArray} from "mobx";
 import {IField, IForm} from "../Form";
 import {TText} from "./SnackbarModel";

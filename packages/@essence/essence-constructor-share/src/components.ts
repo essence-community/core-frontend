@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import {ReactElement} from "react";
+ 
+import React, {ReactElement} from "react";
 import {VAR_RECORD_CV_VALUE, VAR_RECORD_CV_CV_TYPE, VAR_RECORD_CLASS_ATTRIBUTES, VAR_RECORD_CK_ATTR} from "./constants";
 import {IClassProps, IBuilderConfig} from "./types";
 import {loadFiles} from "./utils/browser";
@@ -101,7 +101,7 @@ export function loadComponentsFromModules(componentNames: string[]) {
         .map((componentName) => modules[componentName]);
 
     return Promise.all(
-        // eslint-disable-next-line id-length
+         
         modulesToLoad.map((m: IModule) => {
             return m.isReady ? true : m.load();
         }),

@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/named
+ 
 import {autorun, IReactionDisposer} from "mobx";
 import * as React from "react";
 import {VAR_RECORD_MASTER_ID} from "../constants";
@@ -20,7 +20,7 @@ export interface ICommonHOCProps extends IClassProps {
 
 // TODO переписать в функциональном виде
 // eslint-disable-next-line max-lines-per-function
-export function commonDecorator<Props extends IClassProps>(WrappedComponent: any): any {
+export function commonDecorator<_Props extends IClassProps>(WrappedComponent: any): any {
     class CommonHOC extends React.Component<ICommonHOCProps, ICommonHOCState> {
         public state: ICommonHOCState = {
             disabled: this.props.bc.disabled === true,

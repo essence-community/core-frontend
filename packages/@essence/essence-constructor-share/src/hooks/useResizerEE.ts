@@ -7,6 +7,7 @@ function initDefault() {
     return new EventEmitter();
 }
 const DEFAULT_VALUE = false;
+
 export function useResizerEE(isNew = DEFAULT_VALUE) {
     const [emitter, setEmitter] = React.useState<IResizeEventContext>(initDefault);
     const resizeContext = React.useContext(ResizeContext);

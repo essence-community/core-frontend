@@ -3,10 +3,10 @@ import {createPortal} from "react-dom";
 import {noop, isFunction} from "../../utils/functions";
 import {getAbsoluteOffsetFromGivenElement} from "../../utils/browser";
 import {PopoverContext, ResizeContext} from "../../context";
+import {useResizerEE} from "../../hooks";
 import {IPopoverProps, IOffset, IPopoverAnchorOrigin, IPopoverTransfromOrigin} from "./Popover.types";
 import {getOffsetContainer} from "./Popover.utils";
 import {PopoverContent} from "./PopoverContent";
-import {useResizerEE} from "../../hooks";
 
 const STYLE_DEFAULT = {left: 0, top: 0};
 const ANCHOR_ORIGIN: IPopoverAnchorOrigin = {
@@ -80,6 +80,7 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
                 setTimeout(handle, 50, count + 1);
             }
         }
+
         if (emitter && isOpen) {
             handle();
         }

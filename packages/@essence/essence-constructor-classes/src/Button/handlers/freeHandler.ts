@@ -30,7 +30,7 @@ export function freeHandler(options: IFreeHanderOptions) {
             const builderStore = pageStore.stores.get(ckPageObjectMain);
 
             if (builderStore && builderStore.recordsStore) {
-                // eslint-disable-next-line prefer-destructuring
+                 
                 recordsStoreParent = builderStore.recordsStore;
                 break;
             }

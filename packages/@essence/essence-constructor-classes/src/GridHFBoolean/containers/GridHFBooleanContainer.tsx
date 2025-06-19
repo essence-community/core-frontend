@@ -26,7 +26,7 @@ const getValue = (value: string, valueType?: string) => {
 };
 const OPERATOR = ["null", "not null"];
 
-// eslint-disable-next-line max-lines-per-function
+ 
 export const GridHFBooleanContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
     const classes = useStyles();
@@ -100,7 +100,7 @@ export const GridHFBooleanContainer: React.FC<IClassProps> = (props) => {
         [bc, column, configs, form, pageStore],
     );
 
-    const handleChangeCheck = (event: React.SyntheticEvent) => {
+    const handleChangeCheck = (_event: React.SyntheticEvent) => {
         fields.filterEnable.onChange(!fields.filterEnable.value);
     };
 

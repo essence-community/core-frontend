@@ -1,3 +1,4 @@
+import React from "react";
 import {IPageModel} from "../../types";
 
 export interface IRect {
@@ -95,7 +96,7 @@ export interface IPopoverContentProps {
     restoreFocusedElement?: boolean;
     paperClassName?: string;
     width: number | string | "auto";
-    onEscapeKeyDown?: React.ReactEventHandler<{}>;
+    onEscapeKeyDown?: React.ReactEventHandler<HTMLDivElement>;
     popoverContent: React.ReactNode | PopoverRenderChildren;
     disableFocusableArrow?: boolean;
     onClose: () => void;

@@ -1,3 +1,5 @@
+import React from "react";
+
 interface IClassClasses {
     [className: string]: React.CSSProperties | (() => React.CSSProperties) | undefined;
 }

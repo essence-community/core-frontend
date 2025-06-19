@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const {createProxyMiddleware} = require("http-proxy-middleware");
+const { createProxyMiddleware } = require("http-proxy-middleware");
 
 let proxyConfig = null;
 
@@ -11,7 +10,7 @@ try {
     console.warn("PROXY environment not set", err);
 }
 
-// eslint-disable-next-line max-statements
+
 module.exports = function (app) {
     if (proxyConfig) {
         proxyConfig.forEach((config) => {
@@ -19,11 +18,11 @@ module.exports = function (app) {
         });
     } else {
         // Local
-        app.use("/api", createProxyMiddleware({changeOrigin: true, target: "http://localhost:9020/"}));
-        app.use("/api_module", createProxyMiddleware({changeOrigin: true, target: "http://localhost:9020/"}));
+        app.use("/api", createProxyMiddleware({ changeOrigin: true, target: "http://localhost:9020/" }));
+        app.use("/api_module", createProxyMiddleware({ changeOrigin: true, target: "http://localhost:9020/" }));
         app.use(
             "/notification",
-            createProxyMiddleware({changeOrigin: true, target: "http://localhost:9020/", ws: true}),
+            createProxyMiddleware({ changeOrigin: true, target: "http://localhost:9020/", ws: true }),
         );
     }
 };

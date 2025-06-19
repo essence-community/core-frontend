@@ -278,27 +278,27 @@ export const GridHFText: React.FC<IClassProps> = (props) => {
         [configs.notLike, fields, form],
     );
 
-    const handleChangeCheckLike = (event: React.SyntheticEvent) => {
+    const handleChangeCheckLike = (_event: React.SyntheticEvent) => {
         fields.likeEnable.onChange(!fields.likeEnable.value);
     };
 
-    const handleChangeCheckEq = (event: React.SyntheticEvent) => {
+    const handleChangeCheckEq = (_event: React.SyntheticEvent) => {
         fields.eqEnable.onChange(!fields.eqEnable.value);
     };
 
-    const handleChangeCheckNotLike = (event: React.SyntheticEvent) => {
+    const handleChangeCheckNotLike = (_event: React.SyntheticEvent) => {
         fields.notLikeEnable.onChange(!fields.notLikeEnable.value);
     };
 
-    const handleChangeCheckNe = (event: React.SyntheticEvent) => {
+    const handleChangeCheckNe = (_event: React.SyntheticEvent) => {
         fields.neEnable.onChange(!fields.neEnable.value);
     };
 
-    const handleChangeCheckNull = (event: React.SyntheticEvent) => {
+    const handleChangeCheckNull = (_event: React.SyntheticEvent) => {
         fields.nullEnable.onChange(!fields.nullEnable.value);
     };
 
-    const handleChangeCheckNotNull = (event: React.SyntheticEvent) => {
+    const handleChangeCheckNotNull = (_event: React.SyntheticEvent) => {
         fields.notNullEnable.onChange(!fields.notNullEnable.value);
     };
 

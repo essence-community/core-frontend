@@ -1,4 +1,4 @@
-/* eslint-disable max-lines */
+ 
 import {computed, action, observable, when, ObservableMap, makeObservable} from "mobx";
 import {
     removeFromLocalStore,
@@ -271,7 +271,7 @@ export class ApplicationModel implements IApplicationModel {
     };
 
     @action
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+     
     redirectToAction = async (redirectPageId: string, params: Record<string, any>) => {
         const pageConfig = this.routesStore?.recordsStore.records.find(
             (route: IRecord) => route[VAR_RECORD_ID] === redirectPageId || route[VAR_RECORD_URL] === redirectPageId,
@@ -452,7 +452,7 @@ export class ApplicationModel implements IApplicationModel {
     @action
     blockApplicationAction = (type: string, text: string | ((trans: TFunction) => string) = "") => {
         if (this.isBlock && type === "unblock") {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+             
             // @ts-ignore
             window.location.reload(true);
         }
@@ -594,7 +594,7 @@ export class ApplicationModel implements IApplicationModel {
 
     reloadStoreAction = () => Promise.resolve({});
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
+     
     clearStoreAction = () => {};
 
     @action

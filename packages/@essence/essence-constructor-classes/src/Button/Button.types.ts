@@ -1,3 +1,4 @@
+import React from "react";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 
 export interface IButtonInternalProps {

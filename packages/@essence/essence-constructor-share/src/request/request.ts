@@ -91,7 +91,7 @@ export const request = async <R = IRecord | IRecord[]>(requestParams: IRequest):
         [META_OUT_RESULT]: "",
         [META_PAGE_ID]: pageIdName,
         [META_PAGE_OBJECT]: pageObjectName.replace(
-            // eslint-disable-next-line prefer-named-capture-group, no-useless-escape
+            // eslint-disable-next-line no-useless-escape
             /^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[\)\}]?.*?$/giu,
             "$1",
         ),

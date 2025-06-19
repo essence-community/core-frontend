@@ -1,4 +1,4 @@
-/* eslint-disable import/no-unresolved */
+2/* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
 // @flow
 import * as React from "react";

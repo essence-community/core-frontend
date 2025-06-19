@@ -12,7 +12,7 @@ import {reaction} from "mobx";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {useStyles} from "./GridHFNumberContainer.styles";
 
-// eslint-disable-next-line max-lines-per-function
+ 
 export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
     const classes = useStyles();
@@ -372,35 +372,35 @@ export const GridHFNumberContainer: React.FC<IClassProps> = (props) => {
         [configs.ne, fields, form],
     );
 
-    const handleChangeCheckLe = (event: React.SyntheticEvent) => {
+    const handleChangeCheckLe = (_event: React.SyntheticEvent) => {
         fields.leEnable.onChange(!fields.leEnable.value);
     };
 
-    const handleChangeCheckLt = (event: React.SyntheticEvent) => {
+    const handleChangeCheckLt = (_event: React.SyntheticEvent) => {
         fields.ltEnable.onChange(!fields.ltEnable.value);
     };
 
-    const handleChangeCheckGe = (event: React.SyntheticEvent) => {
+    const handleChangeCheckGe = (_event: React.SyntheticEvent) => {
         fields.geEnable.onChange(!fields.geEnable.value);
     };
 
-    const handleChangeCheckGt = (event: React.SyntheticEvent) => {
+    const handleChangeCheckGt = (_event: React.SyntheticEvent) => {
         fields.gtEnable.onChange(!fields.gtEnable.value);
     };
 
-    const handleChangeCheckEq = (event: React.SyntheticEvent) => {
+    const handleChangeCheckEq = (_event: React.SyntheticEvent) => {
         fields.eqEnable.onChange(!fields.eqEnable.value);
     };
 
-    const handleChangeCheckNe = (event: React.SyntheticEvent) => {
+    const handleChangeCheckNe = (_event: React.SyntheticEvent) => {
         fields.neEnable.onChange(!fields.neEnable.value);
     };
 
-    const handleChangeCheckNull = (event: React.SyntheticEvent) => {
+    const handleChangeCheckNull = (_event: React.SyntheticEvent) => {
         fields.nullEnable.onChange(!fields.nullEnable.value);
     };
 
-    const handleChangeCheckNotNull = (event: React.SyntheticEvent) => {
+    const handleChangeCheckNotNull = (_event: React.SyntheticEvent) => {
         fields.notNullEnable.onChange(!fields.notNullEnable.value);
     };
 

@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 /* eslint-disable max-statements */
-/* eslint-disable max-lines */
+
 import {observable, computed, action, makeObservable} from "mobx";
 import {FieldValue, IBuilderConfig, IPageModel} from "../types";
 import {parseMemoize, makeRedirect, isEmpty, transformToBoolean} from "../utils";
@@ -208,7 +208,7 @@ export class Field implements IField {
         return !this.error;
     }
 
-    // eslint-disable-next-line max-statements
+
     constructor(options: IFieldOptions) {
         this.pageStore = options.pageStore;
         this.form = options.form;
@@ -325,10 +325,10 @@ export class Field implements IField {
                 const val = value || field.value;
                 const obj: Record<string, Record<string, FieldValue>> = Array.isArray(val)
                     ? val.reduce((res, rec, index) => {
-                          res[index] = rec;
+                        res[index] = rec;
 
-                          return res;
-                      }, {})
+                        return res;
+                    }, {})
                     : {};
 
                 for (const [key, fieldChild] of form.fields) {
@@ -378,7 +378,8 @@ export class Field implements IField {
             if (field.bc.valuetype === "json" && typeof val === "string") {
                 try {
                     return JSON.parse(val);
-                } catch (e) {}
+                    // eslint-disable-next-line no-empty
+                } catch (_e) { }
             }
             if (field.bc.valuetype === "boolean") {
                 return transformToBoolean(val);
@@ -644,10 +645,10 @@ export class Field implements IField {
                     this.key,
                     isNotArray
                         ? valueExtra.reduce((res, val, i) => {
-                              res[i] = val;
+                            res[i] = val;
 
-                              return res;
-                          }, {})
+                            return res;
+                        }, {})
                         : valueExtra,
                 );
 
@@ -693,7 +694,7 @@ export class Field implements IField {
             if (typeof value === "string") {
                 try {
                     val = JSON.parse(value);
-                } catch (e) {
+                } catch (_e) {
                     val = this.isArray ? [] : {};
                 }
             }

@@ -2,7 +2,7 @@ import {VAR_SETTING_BASE_URL} from "../constants";
 import {settingsStore} from "../models";
 import {isEmpty} from "./base";
 
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+ 
 type Scope = unknown;
 type Factory = () => any;
 

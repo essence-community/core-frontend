@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+ 
 import * as React from "react";
 import {Grid, Table, useTheme, TableBody} from "@material-ui/core";
 import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";

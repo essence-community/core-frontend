@@ -272,27 +272,27 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
         [configs.ne, fields, form],
     );
 
-    const handleChangeCheckSt = (event: React.SyntheticEvent) => {
+    const handleChangeCheckSt = (_event: React.SyntheticEvent) => {
         fields.stEnable.onChange(!fields.stEnable.value);
     };
 
-    const handleChangeCheckEn = (event: React.SyntheticEvent) => {
+    const handleChangeCheckEn = (_event: React.SyntheticEvent) => {
         fields.enEnable.onChange(!fields.enEnable.value);
     };
 
-    const handleChangeCheckEq = (event: React.SyntheticEvent) => {
+    const handleChangeCheckEq = (_event: React.SyntheticEvent) => {
         fields.eqEnable.onChange(!fields.eqEnable.value);
     };
 
-    const handleChangeCheckNe = (event: React.SyntheticEvent) => {
+    const handleChangeCheckNe = (_event: React.SyntheticEvent) => {
         fields.neEnable.onChange(!fields.neEnable.value);
     };
 
-    const handleChangeCheckNull = (event: React.SyntheticEvent) => {
+    const handleChangeCheckNull = (_event: React.SyntheticEvent) => {
         fields.nullEnable.onChange(!fields.nullEnable.value);
     };
 
-    const handleChangeCheckNotNull = (event: React.SyntheticEvent) => {
+    const handleChangeCheckNotNull = (_event: React.SyntheticEvent) => {
         fields.notNullEnable.onChange(!fields.notNullEnable.value);
     };
 

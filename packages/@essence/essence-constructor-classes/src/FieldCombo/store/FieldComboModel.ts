@@ -1,4 +1,4 @@
-/* eslint-disable max-lines */
+
 import {computed, observable, action, makeObservable} from "mobx";
 import {IRecordsModel, toString, debounce, FieldValue, IRecord} from "@essence-community/constructor-share";
 import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "@essence-community/constructor-share/constants";
@@ -99,7 +99,8 @@ export class FieldComboModel extends StoreBaseModel {
         if (displayfield) {
             try {
                 this.parserLabel = parseMemoize(displayfield);
-            } catch (e) {}
+                // eslint-disable-next-line no-empty
+            } catch (_e) { }
         }
 
         this.recordsStore = new RecordsModel(bc, {
@@ -263,7 +264,7 @@ export class FieldComboModel extends StoreBaseModel {
 
         // Cancel loadDebounce when value select from list or press enter from list
         if (!isUserSearch) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
             // @ts-ignore
             this.loadDebounce.cancel();
         }
@@ -409,10 +410,10 @@ export class FieldComboModel extends StoreBaseModel {
         const label = isExistDisplay
             ? toString(display)
             : (this.parserLabel?.runer({
-                  get: (name: string) => {
-                      return toString(record[name] || "");
-                  },
-              }) as string) || toString(record[this.displayfield]);
+                get: (name: string) => {
+                    return toString(record[name] || "");
+                },
+            }) as string) || toString(record[this.displayfield]);
 
         return {
             id: record[this.recordsStore.recordId],
@@ -428,12 +429,12 @@ export class FieldComboModel extends StoreBaseModel {
         const label = isExistDisplay
             ? i18next.t(toString(display), {ns: this.bc.localization}) || toString(record[this.displayfield])
             : (this.parserLabel?.runer({
-                  get: (name: string) => {
-                      return (
-                          i18next.t(toString(record[name]), {ns: this.bc.localization}) || toString(record[name] || "")
-                      );
-                  },
-              }) as string) || toString(record[this.displayfield]);
+                get: (name: string) => {
+                    return (
+                        i18next.t(toString(record[name]), {ns: this.bc.localization}) || toString(record[name] || "")
+                    );
+                },
+            }) as string) || toString(record[this.displayfield]);
 
         return {
             id: record[this.recordsStore.recordId],

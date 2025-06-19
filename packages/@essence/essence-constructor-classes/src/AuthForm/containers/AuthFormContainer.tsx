@@ -1,4 +1,4 @@
-/* eslint-disable import/no-unresolved, import/extensions */
+ 
 import * as React from "react";
 import {Grid, Paper, Typography, useTheme, ThemeProvider} from "@material-ui/core";
 import {settingsStore} from "@essence-community/constructor-share/models/SettingsModel";

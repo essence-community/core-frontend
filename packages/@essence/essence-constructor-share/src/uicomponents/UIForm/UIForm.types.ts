@@ -1,3 +1,4 @@
+import React from "react";
 import {IPageModel, IRecord, IBuilderMode, IBuilderConfig, IFormOptions} from "../../types";
 
 export interface IUIFormProps {

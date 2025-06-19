@@ -1,10 +1,10 @@
 /* eslint-disable sort-keys */
-/* eslint-disable no-unused-vars */
+
 import {makeStyles} from "@material-ui/core";
 import {IEssenceTheme} from "@essence-community/constructor-share";
 
 export const useStyles = makeStyles(
-    (theme: IEssenceTheme) => ({
+    (_theme: IEssenceTheme) => ({
         activeWidget: {
             zIndex: 1,
         },

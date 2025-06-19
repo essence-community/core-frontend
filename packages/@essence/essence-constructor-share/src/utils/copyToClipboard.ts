@@ -30,7 +30,11 @@ export const copyToClipboard = (value: FieldValue): Promise<void> => {
         textArea.select();
 
         return new Promise((res, rej) => {
-            document.execCommand("copy") ? res() : rej();
+            if (document.execCommand("copy")) {
+                res();
+            } else {
+                rej();
+            }
             textArea.remove();
         });
     }

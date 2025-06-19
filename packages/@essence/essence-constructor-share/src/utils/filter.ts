@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 /* eslint-disable max-statements */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+ 
 import moment, {unitOfTime} from "moment";
 import {FieldValue, IRecord} from "../types/Base";
 import {IRecordsOrder, IRecordFilter} from "../types/RecordsModel";
@@ -76,7 +76,7 @@ export function sortFilesData(jlSort: IRecordsOrder[]) {
                     );
                 }
 
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                 
                 // @ts-ignore
                 return +(direction === "ASC" ? val1 > val2 : val2 > val1);
             }, 0);

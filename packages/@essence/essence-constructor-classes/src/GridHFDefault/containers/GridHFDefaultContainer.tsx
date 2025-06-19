@@ -2,8 +2,7 @@
 /* eslint-disable max-lines-per-function */
 import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
-import {isEmpty, useTranslation} from "@essence-community/constructor-share/utils";
-import {IField} from "@essence-community/constructor-share/Form";
+import {useTranslation} from "@essence-community/constructor-share/utils";
 import {useObserver} from "mobx-react";
 import {mapComponentOne, FormContext, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share";
 import {Checkbox, Divider, Grid, Typography} from "@material-ui/core";
@@ -156,19 +155,19 @@ export const GridHFDefaultContainer: React.FC<IClassProps> = (props) => {
         [bc, column, configs, form, pageStore],
     );
 
-    const handleChangeCheckEq = (event: React.SyntheticEvent) => {
+    const handleChangeCheckEq = (_event: React.SyntheticEvent) => {
         fields.eqEnable.onChange(!fields.eqEnable.value);
     };
 
-    const handleChangeCheckNe = (event: React.SyntheticEvent) => {
+    const handleChangeCheckNe = (_event: React.SyntheticEvent) => {
         fields.neEnable.onChange(!fields.neEnable.value);
     };
 
-    const handleChangeCheckNull = (event: React.SyntheticEvent) => {
+    const handleChangeCheckNull = (_event: React.SyntheticEvent) => {
         fields.nullEnable.onChange(!fields.nullEnable.value);
     };
 
-    const handleChangeCheckNotNull = (event: React.SyntheticEvent) => {
+    const handleChangeCheckNotNull = (_event: React.SyntheticEvent) => {
         fields.notNullEnable.onChange(!fields.notNullEnable.value);
     };
 

@@ -22,7 +22,7 @@ import {DocumentationModel} from "../store/DocumentationModel";
 import {VAR_MANUAL_DOCUMENTATION, VAR_AUTO_DOCUMENTATION, VAR_EXAMPLE, VAR_SYS_ROUTER_URL} from "../constants";
 import {useStyles} from "./DocumentationContainer.styles";
 
-// eslint-disable-next-line max-lines-per-function
+ 
 export const DocumentationContainer: React.FC<IClassProps> = (props) => {
     const {pageStore, bc} = props;
     const classes = useStyles();

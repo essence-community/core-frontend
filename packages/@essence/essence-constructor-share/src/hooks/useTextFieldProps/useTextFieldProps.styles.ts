@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys */
 import {makeStyles} from "@material-ui/core";
 import {IEssenceTheme} from "../../types";
 

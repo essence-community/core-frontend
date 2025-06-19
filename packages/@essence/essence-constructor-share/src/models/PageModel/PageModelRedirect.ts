@@ -80,7 +80,11 @@ function applyFieldFilter(field: IField, params: Record<string, FieldValue>) {
     if (Object.prototype.hasOwnProperty.call(params, field.key)) {
         const value = params[field.key];
 
-        isEmpty(value) ? field.clear() : field.setValue(value);
+        if (isEmpty(value)) {
+            field.clear();
+        } else {
+            field.setValue(value);
+        }
     }
 }
 
@@ -179,7 +183,7 @@ export async function redirectToPage(pageStore: IPageModel, params: Record<strin
 
     await Promise.all(forms.map((form: IForm) => runFormFilter(pageStore, form, params)));
 
-    // eslint-disable-next-line require-atomic-updates
+
     pageStore.isActiveRedirect = false;
 
     await waitForStores(pageStore);

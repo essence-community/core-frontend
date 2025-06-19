@@ -14,7 +14,7 @@ export const Group: React.FC<IGroupProps> = (props) => {
     const inFilter = form.placement === "filter";
     const classes = useStyles(undefined);
     const label = bc[VAR_RECORD_DISPLAYED];
-    // eslint-disable-next-line id-length
+     
     const {t} = useTranslation();
 
     return (

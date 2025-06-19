@@ -37,7 +37,7 @@ export interface IRoadMapTab extends IClassProps {
 const DEFAULT_WIDTH_TAB = 228;
 
 const BuilderRoadMapTab: React.FC<IRoadMapTab> = (props) => {
-    // eslint-disable-next-line no-unused-vars
+     
     const {orientation, classes, store, bc, disabled, pageStore, ...propsTab} = props;
     const {tabwidth} = bc;
     const style = React.useMemo(() => toColumnStyleWidth(tabwidth ?? DEFAULT_WIDTH_TAB), [tabwidth]);

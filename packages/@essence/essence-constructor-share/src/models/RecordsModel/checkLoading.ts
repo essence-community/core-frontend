@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+ 
 /**
  * Механизм проверки загрузки данных
  * Исходные данные:
@@ -17,7 +17,7 @@
  * TODO:
  *      1. При autoload нет возможности ожидать установки значения в selectedRecord
  */
-// eslint-disable-next-line import/named
+ 
 import {Lambda, makeObservable, observe, reaction} from "mobx";
 import {i18next} from "../../utils";
 import {IBuilderConfig, IPageModel, IStoreBaseModel, IRecord} from "../../types";

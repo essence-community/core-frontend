@@ -44,7 +44,7 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
         this.bc.childs?.forEach((child) => {
             this.label.set(child[VAR_RECORD_PAGE_OBJECT_ID], child[VAR_RECORD_DISPLAYED]);
         });
-        this.childs = this.bc.childs?.map((child) => ({ ...child, [VAR_RECORD_DISPLAYED]: undefined }));
+        this.childs = this.bc.childs?.map((child) => ({...child, [VAR_RECORD_DISPLAYED]: undefined}));
         this.allLayout =
             this.childs?.map(
                 (childBc) =>

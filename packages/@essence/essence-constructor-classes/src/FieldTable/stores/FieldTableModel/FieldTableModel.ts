@@ -1,4 +1,4 @@
-/* eslint-disable max-lines */
+/* eslint-disable max-len */
 import {
     deepChange,
     deepFind,
@@ -31,7 +31,7 @@ import {
     IBuilderMode,
 } from "@essence-community/constructor-share/types";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
-// eslint-disable-next-line import/named
+
 import {computed, observable, action, IObservableArray, makeObservable} from "mobx";
 import {IField, IForm} from "@essence-community/constructor-share/Form";
 import {prepareArrayValues, getRestoredRecords, getRestoreValue} from "../../utils";
@@ -45,11 +45,13 @@ interface IFieldTableModelProps extends IStoreBaseModelProps {
 const HEIGHT_GRID = "210px";
 const loggerInfo = loggerRoot.extend("FieldTableModel");
 
-const clearChildStores = ({pageStore, bc}: {pageStore: IPageModel; bc: IBuilderConfig}) => {
+const clearChildStores = ({pageStore, bc}: { pageStore: IPageModel; bc: IBuilderConfig }) => {
     pageStore.stores.forEach((store) => {
         if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === bc[VAR_RECORD_PAGE_OBJECT_ID]) {
             store.clearStoreAction();
-            store.clearAction && store.clearAction();
+            if (store.clearAction) {
+                store.clearAction();
+            }
 
             if (store.recordsStore) {
                 store.recordsStore.recordsAll = [];
@@ -81,16 +83,18 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
     @computed
     get gridId(): string {
-        return `grid_${
-            this.field.parentFieldKey ? this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0] : ""
-        }_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
+        return `grid_${this.field.parentFieldKey ?
+            this.field
+                .key.slice(this.field.parentFieldKey.length + 1).split(".")[0] : ""
+            }_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
     }
 
     @computed
     get currentId(): string {
-        return `field_${
-            this.field.parentFieldKey ? this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0] : ""
-        }_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
+        return `field_${this.field.parentFieldKey ?
+            this.field.key
+                .slice(this.field.parentFieldKey.length + 1).split(".")[0] : ""
+            }_${this.bc[VAR_RECORD_PAGE_OBJECT_ID]}`;
     }
 
     constructor(props: IFieldTableModelProps) {
@@ -170,9 +174,8 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             columns: this.bc.columns?.map((childBc) => ({
                 ...childBc,
                 [VAR_RECORD_PAGE_OBJECT_ID]: this.field.parentFieldKey
-                    ? `${childBc[VAR_RECORD_PAGE_OBJECT_ID]}_${
-                          this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0]
-                      }`
+                    ? `${childBc[VAR_RECORD_PAGE_OBJECT_ID]}_${this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0]
+                    }`
                     : childBc[VAR_RECORD_PAGE_OBJECT_ID],
                 [VAR_RECORD_PARENT_ID]: gridId,
             })),
@@ -182,9 +185,8 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             filters: this.bc.filters?.map((childBc) => ({
                 ...childBc,
                 [VAR_RECORD_PAGE_OBJECT_ID]: this.field.parentFieldKey
-                    ? `${childBc[VAR_RECORD_PAGE_OBJECT_ID]}_${
-                          this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0]
-                      }`
+                    ? `${childBc[VAR_RECORD_PAGE_OBJECT_ID]}_${this.field.key.slice(this.field.parentFieldKey.length + 1).split(".")[0]
+                    }`
                     : childBc[VAR_RECORD_PAGE_OBJECT_ID],
                 [VAR_RECORD_PARENT_ID]: gridId,
             })),
@@ -264,9 +266,9 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
                     {},
                     value !== VALUE_SELF_FIRST
                         ? {
-                              filter: [{operator: "eq", property: this.valueField, value}],
-                              selectedRecordId: value as string,
-                          }
+                            filter: [{operator: "eq", property: this.valueField, value}],
+                            selectedRecordId: value as string,
+                        }
                         : {},
                 );
                 if (this.recordsStore.selectedRecord) {
@@ -401,7 +403,9 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
 
     @action
     clearStoreAction = () => {
-        this.recordsGridStore && this.recordsGridStore.clearChildsStoresAction();
+        if (this.recordsGridStore) {
+            this.recordsGridStore.clearChildsStoresAction();
+        }
         this.selectedEntries.clear();
         this.handleChangeRecord({}, false, true);
         this.field.clear();
@@ -499,12 +503,12 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
                 ? i18next.t(toString(display), {ns: this.bc.localization})
                 : toString(display)
             : (parseMemoize(this.bc.displayfield).runer({
-                  get: (name: string) => {
-                      return this.bc.localization
-                          ? i18next.t(toString(record[name] || ""), {ns: this.bc.localization})
-                          : toString(record[name] || "");
-                  },
-              }) as string) || toString(record[this.bc.displayfield]);
+                get: (name: string) => {
+                    return this.bc.localization
+                        ? i18next.t(toString(record[name] || ""), {ns: this.bc.localization})
+                        : toString(record[name] || "");
+                },
+            }) as string) || toString(record[this.bc.displayfield]);
 
         return label;
     };

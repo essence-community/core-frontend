@@ -69,7 +69,7 @@ export function tabLightStyles(theme: IEssenceTheme): StyleRules<"rootTheme" | T
                 borderLeft: `1px solid ${theme.palette.secondary.main}`,
                 borderTopLeftRadius: 6,
                 bottom: 0,
-                // eslint-disable-next-line prettier/prettier
+                 
                 content: "\"\"",
                 left: 10,
                 position: "absolute",
@@ -138,7 +138,7 @@ export function tabLightStyles(theme: IEssenceTheme): StyleRules<"rootTheme" | T
                 borderRight: `1px solid ${theme.palette.secondary.main}`,
                 borderTopRightRadius: 6,
                 bottom: 0,
-                // eslint-disable-next-line prettier/prettier
+                 
                 content: "\"\"",
                 left: 9,
                 position: "absolute",

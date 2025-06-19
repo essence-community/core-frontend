@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {History, Update, State, Listener} from "history";
+import {History, Update} from "history";
 import {matchPath} from "react-router-dom";
 import {IApplicationModel} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_ID, VAR_RECORD_URL} from "@essence-community/constructor-share/constants";

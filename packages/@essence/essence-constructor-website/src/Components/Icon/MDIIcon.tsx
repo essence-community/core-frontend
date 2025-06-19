@@ -1,4 +1,4 @@
-/* eslint-disable sort-keys, @typescript-eslint/ban-ts-comment, max-len */
+/* eslint-disable sort-keys */
 import * as React from "react";
 
 interface IProps {

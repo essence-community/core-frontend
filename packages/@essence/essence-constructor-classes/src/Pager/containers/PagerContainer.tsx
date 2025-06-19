@@ -39,10 +39,8 @@ const onFormChange = (form: IForm) => {
     logger(i18next.t("static:f9c3bf3691864f4d87a46a9ba367a855"), form.values);
 };
 
-interface IPagerProps extends IClassProps {}
-
 // eslint-disable-next-line max-lines-per-function
-export const PagerContainer: React.FC<IPagerProps> = (props) => {
+export const PagerContainer: React.FC<IClassProps> = (props) => {
     const {bc} = props;
     const {[VAR_RECORD_PARENT_ID]: parentId, defaultvalue, readonly} = bc;
     const applicationStore = React.useContext(ApplicationContext);
@@ -77,6 +75,7 @@ export const PagerContainer: React.FC<IPagerProps> = (props) => {
                 (globalValues) => {
                     pageStore.updateGlobalValues(globalValues.reduce((res, [key, value]) => {
                         res[key] = value;
+
                         return res;
                     }, {}));
                 },

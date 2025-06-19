@@ -11,7 +11,7 @@ export function getWindowDetailColumns(detailBc?: IBuilderConfig[]): IBuilderCon
             .flat(2)
             .filter((field) => field.type === "IFIELD" || field.type === "IPERIOD")
             // FIELD_OMIT_ATTRIBUTES_AUTOBUILD = ["width", "hiddenrules"];
-            // eslint-disable-next-line no-unused-vars
+             
             .map(({width, hiddenrules, ...field}) => field)
     );
 }

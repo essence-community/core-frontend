@@ -4,7 +4,12 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_PARENT_ID,
 } from "@essence-community/constructor-share/constants";
-import {IBuilderMode, IHandlerOptions, IBuilderConfig, IStoreBaseModelProps} from "@essence-community/constructor-share/types";
+import {
+    IBuilderMode,
+    IHandlerOptions,
+    IBuilderConfig,
+    IStoreBaseModelProps
+} from "@essence-community/constructor-share/types";
 import {computed, makeObservable} from "mobx";
 
 export class GridInlineModel extends StoreBaseModel {

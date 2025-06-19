@@ -1,8 +1,8 @@
 import {action, makeObservable, observable} from "mobx";
+import {AxiosProgressEvent} from "axios";
 import {IPageModel, ISnackbar, IProgressModel} from "../../types";
 import {snackbarStore} from "../SnackbarModel";
 import {toTranslateText} from "../../utils";
-import { AxiosProgressEvent } from "axios";
 
 export interface IProgressConfig {
     pageStore: IPageModel;

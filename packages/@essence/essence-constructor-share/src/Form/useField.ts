@@ -78,7 +78,9 @@ export const useField = ({
                 if (store && store.bc && store.bc[VAR_RECORD_MASTER_ID] === ckPageObject) {
                     if (isEmpty(value)) {
                         store.clearStoreAction();
-                        store.clearAction && store.clearAction();
+                        if (store.clearAction) {
+                            store.clearAction();
+                        }
                         if (store.recordsStore) {
                             store.recordsStore.recordsAll = [];
                             store.recordsStore.recordsState = {

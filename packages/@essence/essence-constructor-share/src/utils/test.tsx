@@ -1,5 +1,5 @@
 import * as React from "react";
-import { MuiThemeProvider, createTheme} from "@material-ui/core";
+import {MuiThemeProvider, createTheme} from "@material-ui/core";
 import {IObservableArray, observable} from "mobx";
 import {createMemoryHistory} from "history";
 import {

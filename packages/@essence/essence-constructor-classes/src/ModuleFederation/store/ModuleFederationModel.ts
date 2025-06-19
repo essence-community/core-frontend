@@ -1,4 +1,4 @@
-/* eslint-disable max-statements */
+ 
 import {StoreBaseModel, RecordsModel, snackbarStore} from "@essence-community/constructor-share/models";
 import {
     IRecordsModel,

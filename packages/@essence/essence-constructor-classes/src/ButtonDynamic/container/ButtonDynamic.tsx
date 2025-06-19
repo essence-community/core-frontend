@@ -12,7 +12,7 @@ import {ButtonMenu} from "../components/ButtonMenu";
 
 const DEFAULT_SPACING = 1;
 
-// eslint-disable-next-line max-lines-per-function
+ 
 export const ButtonDynamic: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, hidden, disabled} = props;
     const {contentview = "hbox", align = "left"} = bc;

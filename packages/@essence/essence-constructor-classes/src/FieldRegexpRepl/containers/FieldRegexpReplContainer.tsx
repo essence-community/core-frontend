@@ -33,7 +33,8 @@ function parseRegexp(value: string): IParsedValue {
 
     try {
         re = new RegExp(`^${text}$`, mod);
-    } catch (err) {}
+        // eslint-disable-next-line no-empty
+    } catch (_err) {}
 
     return {
         isG: mod.indexOf("g") !== -1,

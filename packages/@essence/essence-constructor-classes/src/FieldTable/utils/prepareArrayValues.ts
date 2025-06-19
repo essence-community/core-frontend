@@ -1,6 +1,6 @@
 import {IRecord, ICkId, FieldValue} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
-// eslint-disable-next-line import/named
+ 
 import {IObservableArray, ObservableMap} from "mobx";
 import {deepFind} from "@essence-community/constructor-share/utils";
 import {IFieldTableModel} from "../stores/FieldTableModel/FieldTableModel.types";

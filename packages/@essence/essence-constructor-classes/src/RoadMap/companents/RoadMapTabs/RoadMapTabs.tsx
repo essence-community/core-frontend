@@ -38,9 +38,9 @@ export const RoadMapTabs: React.FC<IRoadMapTabs> = (props) => {
             const {tabs} = store;
 
             if (tabsComponentRef && tabsComponentRef.current) {
-                // eslint-disable-next-line prefer-named-capture-group, require-unicode-regexp
+                 
                 const tabWidth =
-                    // eslint-disable-next-line prefer-named-capture-group
+                     
                     tabwidth && /^\d+(px)?$/gu.test(tabwidth) ? parseInt(tabwidth, 10) : DEFAULT_WIDTH_TAB;
                 const contentWidth = tabsComponentRef.current.offsetWidth;
                 const maxAutoModeWidth = tabs.length * tabWidth;

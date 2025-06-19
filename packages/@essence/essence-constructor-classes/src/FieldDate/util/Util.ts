@@ -7,7 +7,7 @@ import {FieldDateMain} from "../components/FieldDateMain/FieldDateMain";
 
 const dateTypeMap = {
     "F Y": 2,
-    // eslint-disable-next-line id-length
+     
     Y: 1,
     "d.m.Y": 3,
     "d.m.Y H:00": 4,

@@ -11,6 +11,6 @@ export function toString(value: FieldValue): string | undefined {
         case typeof value === "object" && value !== null:
             return JSON.stringify(value);
         default:
-            undefined;
+            return undefined;
     }
 }

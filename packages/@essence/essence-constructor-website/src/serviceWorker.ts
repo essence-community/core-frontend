@@ -21,7 +21,7 @@ const isLocalhost = Boolean(
         // [::1] is the IPv6 localhost address.
         window.location.hostname === "[::1]" ||
         // 127.0.0.0/8 are considered localhost for IPv4.
-        // eslint-disable-next-line require-unicode-regexp
+         
         window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/),
 );
 
@@ -49,14 +49,14 @@ export function register(config?: Config) {
 
             if (isLocalhost) {
                 // This is running on localhost. Let's check if a service worker still exists or not.
-                // eslint-disable-next-line @typescript-eslint/no-use-before-define, no-use-before-define
+                // eslint-disable-next-line @typescript-eslint/no-use-before-define
                 checkValidServiceWorker(swUrl, config);
 
                 /*
                  * Add some additional logging to localhost, pointing developers to the
                  * service worker/PWA documentation.
                  */
-                // eslint-disable-next-line compat/compat
+                 
                 navigator.serviceWorker.ready.then(() => {
                     console.log(
                         "This web app is being served cache-first by a service " +
@@ -65,7 +65,7 @@ export function register(config?: Config) {
                 });
             } else {
                 // Is not localhost. Just register service worker
-                // eslint-disable-next-line @typescript-eslint/no-use-before-define, no-use-before-define
+                // eslint-disable-next-line @typescript-eslint/no-use-before-define
                 registerValidSW(swUrl, config);
             }
         });
@@ -73,20 +73,20 @@ export function register(config?: Config) {
 }
 
 function registerValidSW(swUrl: string, config?: Config) {
-    // eslint-disable-next-line compat/compat
+     
     navigator.serviceWorker
         .register(swUrl)
         .then((registration) => {
             registration.onupdatefound = () => {
                 const installingWorker = registration.installing;
 
-                // eslint-disable-next-line no-eq-null
+                 
                 if (installingWorker == null) {
                     return;
                 }
                 installingWorker.onstatechange = () => {
                     if (installingWorker.state === "installed") {
-                        // eslint-disable-next-line compat/compat
+                         
                         if (navigator.serviceWorker.controller) {
                             /*
                              * At this point, the updated precached content has been fetched,
@@ -133,10 +133,10 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
             // Ensure service worker exists, and that we really are getting a JS file.
             const contentType = response.headers.get("content-type");
 
-            // eslint-disable-next-line no-eq-null
+             
             if (response.status === 404 || (contentType != null && contentType.indexOf("javascript") === -1)) {
                 // No service worker found. Probably a different app. Reload the page.
-                // eslint-disable-next-line compat/compat
+                 
                 navigator.serviceWorker.ready.then((registration) => {
                     registration.unregister().then(() => {
                         window.location.reload();
@@ -154,7 +154,7 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
 
 export function unregister() {
     if ("serviceWorker" in navigator) {
-        // eslint-disable-next-line compat/compat
+         
         navigator.serviceWorker.ready.then((registration) => {
             registration.unregister();
         });

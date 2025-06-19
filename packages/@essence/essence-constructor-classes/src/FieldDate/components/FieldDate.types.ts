@@ -1,3 +1,4 @@
+import React from "react";
 import * as moment from "moment";
 import {FieldValue, IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
 

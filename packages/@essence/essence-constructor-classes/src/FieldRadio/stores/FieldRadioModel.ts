@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 import {action, computed, makeObservable} from "mobx";
 import {VAR_RECORD_CL_IS_MASTER, VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
@@ -35,7 +35,8 @@ export class FieldRadioModel extends StoreBaseModel implements IStoreBaseModel {
         if (this.bc.displayfield) {
             try {
                 this.parserLabel = parseMemoize(this.bc.displayfield);
-            } catch (e) {}
+                // eslint-disable-next-line no-empty
+            } catch (_e) { }
         }
 
         const noLoadChilds = Boolean(bc[VAR_RECORD_CL_IS_MASTER]);
@@ -72,10 +73,10 @@ export class FieldRadioModel extends StoreBaseModel implements IStoreBaseModel {
         const label = isExistDisplay
             ? toString(display)
             : (this.parserLabel?.runer({
-                  get: (name: string) => {
-                      return toString(record[name] || "");
-                  },
-              }) as string) || toString(record[this.bc.displayfield]);
+                get: (name: string) => {
+                    return toString(record[name] || "");
+                },
+            }) as string) || toString(record[this.bc.displayfield]);
 
         return {
             label,

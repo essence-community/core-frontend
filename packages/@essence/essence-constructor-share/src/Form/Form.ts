@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 /* eslint-disable max-statements */
+import React from "react";
 import {action, computed, makeObservable, observable, ObservableMap} from "mobx";
 import merge from "lodash/merge";
 import {IRecord, IBuilderMode, IBuilderConfig} from "../types";
@@ -64,7 +65,7 @@ export class Form implements IForm {
     @computed get values(): IRecord {
         const extraValue = cloneDeepElementary(this.extraValue);
         const values: IRecord = merge(cloneDeepElementary(this.initialValues), extraValue);
-        const keysAndFields = [] as {keys: string[]; field: IField}[];
+        const keysAndFields = [] as { keys: string[]; field: IField }[];
 
         for (const [key, field] of this.fields.entries()) {
             if (key.indexOf(".") === -1) {

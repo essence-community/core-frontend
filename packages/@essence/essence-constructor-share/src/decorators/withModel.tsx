@@ -87,7 +87,7 @@ export const withModel = <Model extends IModelType, P extends IWithModelProps>(
                 return null;
             }
 
-            // eslint-disable-next-line prettier/prettier
+             
             return <WrappedComponent {...(this.props as P)} {...storeProps} isAutoLoad={this.state.isAutoLoad} />;
         }
     };

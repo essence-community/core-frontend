@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-as-const */
 import i18next, {BackendModule, ReadCallback, Services, InitOptions} from "i18next";
 import type {TFunction, WithT} from "i18next";
 import {initReactI18next, withTranslation, useTranslation, Translation} from "react-i18next";
@@ -26,8 +27,8 @@ class I18nBackend implements BackendModule {
         this.i18nextOptions = i18nextOptions;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    create(): void {}
+
+    create(): void { }
 
     read(languages: string, namespaces: string, callback: ReadCallback) {
         callback(null, {});
@@ -43,7 +44,7 @@ class I18nBackend implements BackendModule {
         })
             .then((res: any) => {
                 if (snackbarStore.checkValidResponseAction(res) && res) {
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
                     // @ts-ignore
                     this.services.resourceStore.addResourceBundle(languages, namespaces, res);
 

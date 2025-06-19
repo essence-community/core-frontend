@@ -1,5 +1,5 @@
 /* eslint-disable max-statements */
-/* eslint-disable max-lines */
+
 import {action, observable, ObservableMap, computed, makeObservable} from "mobx";
 import {v4} from "uuid";
 import {
@@ -165,7 +165,7 @@ export class PageModel implements IPageModel {
         }
 
         if (this.route[VAR_RECORD_TREE_PATH]) {
-            return (this.route[VAR_RECORD_TREE_PATH] as {[VAR_RECORD_ID]: string; [VAR_RECORD_NAME]: string}[])
+            return (this.route[VAR_RECORD_TREE_PATH] as { [VAR_RECORD_ID]: string;[VAR_RECORD_NAME]: string }[])
                 .map((val) => `$t(${val[VAR_RECORD_NAME]})`)
                 .join(" - ");
         }
@@ -178,7 +178,7 @@ export class PageModel implements IPageModel {
 
         while (parentRoute) {
             parentRoute = recordsStore.records.find(
-                // eslint-disable-next-line no-loop-func
+
                 (record) => record[recordId] === parentRoute?.[VAR_RECORD_PARENT_ID],
             );
 
@@ -197,7 +197,9 @@ export class PageModel implements IPageModel {
             return true;
         }
 
-        return Array.from(this.stores.values()).filter((store: {editing?: boolean}) => store.editing === true).length > 0;
+        return Array.from(
+            this.stores.values()
+        ).filter((store: { editing?: boolean }) => store.editing === true).length > 0;
     }
 
     constructor({
@@ -490,7 +492,7 @@ export class PageModel implements IPageModel {
                     const tabStore = this.stores.get(parentBc[VAR_RECORD_PAGE_OBJECT_ID]);
 
                     if (tabStore) {
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
                         // @ts-ignore
                         tabStore.setActiveTab(childBc[VAR_RECORD_PAGE_OBJECT_ID]);
                     }
@@ -513,7 +515,7 @@ export class PageModel implements IPageModel {
         }
 
         const [stepNameExp, stepNames] = stepNameQuery;
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
         // @ts-ignore
         const isStepNameTurnFirst = parseMemoize(stepNameExp).runer(this.globalValues);
 

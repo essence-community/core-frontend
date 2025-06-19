@@ -66,8 +66,14 @@ export const FileRecord: React.FC<IFileRecordProps> = (props) => {
     const qtip = initDownBc.tipmsg || displayed;
 
     const startAdornment = (
-        <ButtonBase className={classes.adornment} onClick={handleDownloadFile} data-qtip={qtip ? trans(qtip) : ""}>
-            <Icon iconfont={initDownBc.iconfont} iconfontname={initDownBc.iconfontname as "fa" | "mdi"} size={initDownBc.iconsize} />
+        <ButtonBase
+            className={classes.adornment}
+            onClick={handleDownloadFile}
+            data-qtip={qtip ? trans(qtip) : ""}>
+            <Icon
+                iconfont={initDownBc.iconfont}
+                iconfontname={initDownBc.iconfontname as "fa" | "mdi"}
+                size={initDownBc.iconsize} />
         </ButtonBase>
     );
 
@@ -77,7 +83,7 @@ export const FileRecord: React.FC<IFileRecordProps> = (props) => {
             record[VAR_RECORD_CV_FILENAME]
         }"?`,
         ...initalDelBc,
-        // eslint-disable-next-line sort-keys
+         
         [VAR_RECORD_PAGE_OBJECT_ID]: `${initalDelBc[VAR_RECORD_PAGE_OBJECT_ID]}-${record[VAR_RECORD_ID]}`,
     };
 

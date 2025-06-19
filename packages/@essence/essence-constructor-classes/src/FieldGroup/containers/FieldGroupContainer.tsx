@@ -1,4 +1,4 @@
-/* eslint-disable max-lines-per-function */
+ 
 import * as React from "react";
 import cn from "clsx";
 import {reaction} from "mobx";
@@ -65,7 +65,7 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
     }, [columns, form]);
 
     const handleChangeReqCount = React.useCallback(
-        // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+         
         (reqcount: number = 0) => {
             field.setExtraRules([`reqcount:${reqcount},${columns.length}`]);
             field.validate();

@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/named
+ 
 import {action, observable, IObservableArray, ObservableMap, computed, makeObservable} from "mobx";
 import {
     STORE_PAGES_IDS_KEY,

@@ -1,7 +1,7 @@
 import {IEssenceTheme} from "@essence-community/constructor-share/types";
 import {Theme} from "@material-ui/core";
 
-// eslint-disable-next-line max-lines-per-function
+ 
 export const getThemeLightOverrides = (theme: IEssenceTheme): Theme["overrides"] => ({
     MuiButton: {
         containedPrimary: {

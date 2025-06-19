@@ -1,3 +1,4 @@
+import React from "react";
 import {ObservableMap} from "mobx";
 import {TFunction} from "../utils";
 import {FieldValue, IRecord, IBuilderConfig, IPageModel, IBuilderMode} from "../types";

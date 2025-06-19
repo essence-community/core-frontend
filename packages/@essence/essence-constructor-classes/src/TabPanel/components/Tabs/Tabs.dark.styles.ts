@@ -8,7 +8,7 @@ export function tabsDarkTheme(theme: IEssenceTheme): StyleRules<ClassNames> {
             "&$root::before": {
                 backgroundColor: "#42455c",
                 bottom: 0,
-                // eslint-disable-next-line prettier/prettier
+                 
                 content: "\"\"",
                 height: 2,
                 left: 4,
@@ -22,7 +22,7 @@ export function tabsDarkTheme(theme: IEssenceTheme): StyleRules<ClassNames> {
             "&$root::before": {
                 backgroundColor: "#42455c",
                 bottom: 0,
-                // eslint-disable-next-line prettier/prettier
+                 
                 content: "\"\"",
                 height: 2,
                 left: 4,

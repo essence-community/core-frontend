@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+ 
 import * as React from "react";
 import {TextareaAutosize} from "@material-ui/core";
 import {Scrollbars, VerticalResizer} from "@essence-community/constructor-share/uicomponents";
@@ -23,8 +23,7 @@ export const FieldTextareaInput: React.FC<IFieldTextareaInputProps> = (props) =>
     );
     const classes = useStyles(props);
 
-    const handleFocus = (event: React.MouseEvent<ReactCustomScrollbars.Scrollbars, MouseEvent>) => {
-        // @ts-ignore
+    const handleFocus = (event: React.MouseEvent<any, MouseEvent>) => {
         const textArea = event.currentTarget.querySelector("textarea");
 
         if (textArea) {

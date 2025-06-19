@@ -1,4 +1,4 @@
-/* eslint-disable max-statements */
+ 
 import axios from "axios";
 import {request} from "../request";
 import {IPageModel} from "../types/PageModel";

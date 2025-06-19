@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface IScrollButtonProps {
     className?: string;
     direction: "left" | "right";

@@ -1,4 +1,4 @@
-/* eslint-disable max-lines-per-function */
+ 
 import {parseMemoize, isEmpty, noop, snackbarStore, VAR_RECORD_NAME} from "@essence-community/constructor-share";
 import {useGetValue} from "@essence-community/constructor-share/hooks/useCommon/useGetValue";
 import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";

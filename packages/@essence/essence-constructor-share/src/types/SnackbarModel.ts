@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/named
+ 
 import {IObservableArray} from "mobx";
 import {TFunction} from "i18next";
 import {VAR_ERROR_TEXT, VAR_ERROR_ID, VAR_ERROR_CODE} from "../constants/variables";

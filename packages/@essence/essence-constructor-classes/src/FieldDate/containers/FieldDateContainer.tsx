@@ -28,6 +28,7 @@ import {useStyles} from "./FieldDateContainer.types";
 import "rc-calendar/assets/index.css";
 import "rc-time-picker/assets/index.css";
 import "moment/locale/ru";
+
 moment.locale("ru");
 
 export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
@@ -134,7 +135,7 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
             );
 
             switch (typePaste) {
-                case "object":
+                case "object": {
                     let date = moment(text, dateConfig.format);
 
                     if (!date.isValid()) {
@@ -147,8 +148,9 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
                         field.onChange(date.format(dateConfig.serverFormat));
                     }
                     break;
+                }
                 case "array":
-                case "objectandarray":
+                case "objectandarray": {
                     const arr = text
                         .split(regSeparated)
                         .filter((val) => !isEmpty(val))
@@ -170,6 +172,7 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
 
                     field.onChange(typePaste === "objectandarray" && arr.length === 1 ? arr[0] : (arr as any));
                     break;
+                }
             }
         },
         [bc, dateConfig, field],

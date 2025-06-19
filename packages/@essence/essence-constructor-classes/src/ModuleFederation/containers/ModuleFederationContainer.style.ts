@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable sort-keys */
+ 
+ 
 import {IEssenceTheme} from "@essence-community/constructor-share/types";
 import {makeStyles} from "@material-ui/core";
 

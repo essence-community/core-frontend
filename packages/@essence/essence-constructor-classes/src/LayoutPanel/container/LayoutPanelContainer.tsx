@@ -10,14 +10,14 @@ import {useModel} from "@essence-community/constructor-share/hooks/useModel";
 import {useResizerEE} from "@essence-community/constructor-share/hooks";
 import {useObserver} from "mobx-react";
 import {reaction} from "mobx";
-import {IBuilderClassConfig} from "../types";
 import "react-grid-layout/css/styles.css";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import "react-resizable/css/styles.css";
+import {ResizeContext} from "@essence-community/constructor-share/context";
+import {IBuilderClassConfig} from "../types";
 import {Widget} from "../component/Widget/Widget";
 import {LayoutPanelModel} from "../store/LayoutPanelModel";
 import {useStyles} from "./LayoutPanelContainer.styles";
-import {ResizeContext} from "@essence-community/constructor-share/context";
 
 const ReactGridLayout = WidthProvider(RGL);
 

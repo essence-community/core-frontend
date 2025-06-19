@@ -1,8 +1,8 @@
-/* eslint-disable max-len */
-/* eslint-disable prettier/prettier */
+ 
+ 
 /* eslint-disable max-statements */
 /* eslint-disable max-lines-per-function */
-/* eslint-disable require-unicode-regexp */
+ 
 import {stringify} from "qs";
 import axios, {AxiosRequestConfig} from "axios";
 import {
@@ -170,7 +170,7 @@ export function downloadXhr(config: AxiosRequestConfig, pageStore?: IPageModel |
         });
 }
 
-// eslint-disable-next-line max-statements
+ 
 export function download(
     this: IRecordsModel,
     values: IRecord | Array<IRecord>,
@@ -240,7 +240,7 @@ export function download(
         const data = {
             [META_PAGE_ID]: pageStore?.pageId,
             [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID].replace(
-                // eslint-disable-next-line prefer-named-capture-group, no-useless-escape
+                // eslint-disable-next-line no-useless-escape
                 /^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[\)\}]?.*?$/giu,
                 "$1",
             ),

@@ -1,4 +1,4 @@
-/* eslint-disable max-lines */
+ 
 import {action, observable, ObservableMap, computed, makeObservable} from "mobx";
 import {
     i18next,
@@ -370,7 +370,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                 const childRecord = record;
 
                 record = this.recordsStore.records.find(
-                    // eslint-disable-next-line eqeqeq
+                     
                     (rec) => rec[this.recordsStore.recordId] == childRecord[this.recordsStore.recordParentId],
                 );
                 const recordId = record && (record[this.recordsStore.recordId] as string | number);

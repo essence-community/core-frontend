@@ -24,7 +24,7 @@ export const ButtonGroup: React.FC<IClassProps> = (props) => {
                 ...row,
                 onlyicon: bc.onlyicon || row.onlyicon,
             });
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+             
             // @ts-ignore
             arr.push({
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${row[VAR_RECORD_PAGE_OBJECT_ID]}_DELIMITER`,

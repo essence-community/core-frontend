@@ -1,4 +1,4 @@
-import {useEffect, useCallback} from "react";
+import React, {useEffect, useCallback} from "react";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {TabPanelModel} from "../store/TabPanelModel";

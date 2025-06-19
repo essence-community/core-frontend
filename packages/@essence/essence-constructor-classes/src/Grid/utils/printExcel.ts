@@ -103,7 +103,7 @@ export function printExcel({bcBtn, recordsStore, gridStore, values}: IPrintExcel
                 [META_OUT_RESULT]: "",
                 [META_PAGE_ID]: pageStore?.pageId,
                 [META_PAGE_OBJECT]: bc[VAR_RECORD_PAGE_OBJECT_ID].replace(
-                    // eslint-disable-next-line prefer-named-capture-group, no-useless-escape
+                    // eslint-disable-next-line no-useless-escape
                     /^.*?[{(]?([0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12})[\)\}]?.*?$/giu,
                     "$1",
                 ),

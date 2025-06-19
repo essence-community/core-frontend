@@ -27,7 +27,7 @@ export const FieldNumericContainer: React.FC<IClassProps> = (props) => {
         return BigNumber;
     }, [bc]);
     const onChangeValue = React.useCallback(
-        (text: string) => {
+        (str: string) => {
             const typePaste = bc.collectionvalues || "object";
             const regSeparated = new RegExp(
                 bc.clipboardpasteseparateregex || DEFAULT_CLIPBOARD_PASTE_SEPARATE_REGEX,
@@ -35,16 +35,17 @@ export const FieldNumericContainer: React.FC<IClassProps> = (props) => {
             );
 
             switch (typePaste) {
-                case "object":
-                    const value = new BigNumber(text);
+                case "object": {
+                    const value = new BigNumber(str);
 
                     if (!value.isNaN()) {
                         field.onChange(value.toNumber());
                     }
                     break;
+                }
                 case "array":
-                case "objectandarray":
-                    const arr = text
+                case "objectandarray": {
+                    const arr = str
                         .split(regSeparated)
                         .filter((val) => !isEmpty(val))
                         .map((val) => new BigNumber(val))
@@ -53,6 +54,7 @@ export const FieldNumericContainer: React.FC<IClassProps> = (props) => {
 
                     field.onChange(typePaste === "objectandarray" && arr.length === 1 ? arr[0] : (arr as any));
                     break;
+                }
             }
         },
         [BigNumber, bc, field],
@@ -86,7 +88,7 @@ export const FieldNumericContainer: React.FC<IClassProps> = (props) => {
         <TextField
             {...inputProps}
             InputProps={{...inputProps.InputProps, inputComponent: NumberFormat}}
-            // eslint-disable-next-line react/jsx-no-duplicate-props
+             
             inputProps={{...inputProps.inputProps, bc: props.bc, onValueChange: field.onChange}}
             onPaste={onPaste}
             onDrop={onDrop}

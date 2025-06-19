@@ -1,6 +1,6 @@
-/* eslint-disable no-duplicate-imports */
-/* eslint-disable import/no-duplicates */
-/* eslint-disable max-classes-per-file */
+
+
+
 declare module "*.png";
 declare module "*.svg";
 declare module "rc-calendar/lib/Picker" {
@@ -42,7 +42,7 @@ declare module "rc-calendar/lib/Picker" {
         dropdownClassName?: string;
     }
 
-    export default class Picker extends React.Component<IPickerProps> {}
+    export default class Picker extends React.Component<IPickerProps> { }
 }
 
 declare module "rc-calendar/lib/MonthCalendar" {
@@ -69,16 +69,16 @@ declare module "rc-calendar/lib/MonthCalendar" {
         // Called when a date is selected from calendar
         onSelect?: (date: moment) => void;
         // Custom month cell render method
-        monthCellRender?: function;
+        monthCellRender?: Function;
         // Custom month cell content render method,the content will be appended to the cell.
-        monthCellContentRender?: function;
+        monthCellContentRender?: Function;
         // Moment) 		called when a date is changed inside calendar (next year/next month/keyboard)
         onChange?: (date: moment) => void;
         // => React.Node
         renderFooter?: () => React.ReactNode;
     }
 
-    export default class MonthCalendar extends React.Component<IMonthCalendarProps> {}
+    export default class MonthCalendar extends React.Component<IMonthCalendarProps> { }
 }
 
 declare module "rc-time-picker/lib/Panel" {
@@ -98,12 +98,14 @@ declare module "rc-time-picker/lib/Panel" {
         inputReadOnly?: boolean;
     }
 
-    export default class TimePickerProps extends React.Component<ITimePickerProps> {}
+    export default class TimePickerProps extends React.Component<ITimePickerProps> { }
 }
 
 declare module "rc-calendar/lib/Calendar" {
     import * as moment from "moment";
     import * as React from "react";
+
+    type Moment = moment.Moment;
 
     type Mode = "time" | "date" | "month" | "year" | "decade";
 
@@ -139,5 +141,5 @@ declare module "rc-calendar/lib/Calendar" {
         monthCellContentRender?: (current: Moment, locale: Record<string, any>) => React.ReactNode;
     }
 
-    export default class Calendar extends React.Component<ICalendarProps> {}
+    export default class Calendar extends React.Component<ICalendarProps> { }
 }

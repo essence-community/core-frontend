@@ -71,7 +71,7 @@ function getFilterString(record: Record<string, any>, isUrl = true) {
  * @description Включает commonDecorator
  */
 
-// eslint-disable-next-line max-lines-per-function, max-statements
+// eslint-disable-next-line max-lines-per-function
 export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = () => {
     const history = useHistory();
     const match = useRouteMatch<any>("/:appNameDefault");
@@ -154,7 +154,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
         return () => {
             if (applicationStore.wsClient) {
                 // TODO: check why not send close_code to close event;
-                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                 
                 applicationStore.wsClient.onclose = () => {};
                 applicationStore.wsClient.close(CLOSE_CODE);
                 applicationStore.wsClient = null;
@@ -326,6 +326,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 applicationStore.pagesStore.pages.forEach((page: IPageModel) => {
                     page.updateGlobalValues(globalValues.reduce((res, [key, value]) => {
                         res[key] = value;
+
                         return res;
                     }, {}));
                 });
@@ -382,12 +383,15 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             () => {
                 const route = applicationStore.pagesStore.activePage?.route;
                 let title = route?.[VAR_RECORD_ROUTE_NAME];
+
                 if (route && route.titlerule) {
-                    title = parseMemoize(route.titlerule as string).runer(applicationStore.pagesStore.activePage.globalValues);
+                    title = parseMemoize(route.titlerule as string)
+                        .runer(applicationStore.pagesStore.activePage.globalValues);
                 }
                 if (!title) {
                     title = route?.[VAR_RECORD_ROUTE_NAME];
                 }
+
                 return title || settingsStore.settings[VAR_SETTING_PROJECT_NAME];
             },
             (title: string) => {

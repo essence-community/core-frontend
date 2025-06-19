@@ -9,7 +9,7 @@ import {
     IFormOptions,
 } from "@essence-community/constructor-share/types";
 import {History} from "history";
-import { makeObservable } from "mobx";
+import {makeObservable} from "mobx";
 
 interface IAuthFormModelProps extends IStoreBaseModelProps {
     history: History;

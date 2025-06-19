@@ -3,7 +3,7 @@ import cn from "clsx";
 import {IconButton, Typography} from "@material-ui/core";
 import {useTranslation} from "../../utils/I18n";
 import {Icon} from "../../Icon";
-import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_PARENT_ID} from "../../constants/variables";
+import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_PARENT_ID} from "../../constants/variables";
 import {IBuilderConfig, IPageModel} from "../../types";
 import {UIForm} from "../UIForm";
 import {mapComponentOne} from "../../components";

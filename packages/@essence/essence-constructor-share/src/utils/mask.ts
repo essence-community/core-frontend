@@ -5,7 +5,7 @@ interface IMapMasksType {
 }
 
 const mapMasks: IMapMasksType = {
-    // eslint-disable-next-line require-unicode-regexp
+     
     9: /\d/,
 };
 

@@ -1,4 +1,4 @@
-/* eslint-disable compat/compat */
+ 
 import md5 from "crypto-js/md5";
 import hex from "crypto-js/enc-hex";
 import {deepFind, getFromLocalStore, saveToLocalStore} from "../utils";
@@ -16,24 +16,25 @@ interface ICacheQuery {
 }
 
 class DisableCache implements ICacheQuery {
-    async load(key?: string): Promise<void> {
+    async load(_key?: string): Promise<void> {
         return;
     }
-    async getResponse(url: string, query: string, data: Record<string, any>): Promise<any> {
+    async getResponse(_url: string, _query: string, _data: Record<string, any>): Promise<any> {
         return;
     }
-    async setResponse(url: string, query: string, data: Record<string, any>, response: any): Promise<void> {
+    async setResponse(_url: string, _query: string, _data: Record<string, any>, _response: any): Promise<void> {
         return;
     }
 }
 
 class CacheStore implements ICacheQuery {
-    key = "query_cache";
-    name: string;
-    cache: Cache;
-    querySetting: Record<string, string[]> = {};
-    isLoaded = false;
-    loading?: Promise<Cache>;
+    public key = "query_cache";
+    public name: string;
+    public cache: Cache;
+    public querySetting: Record<string, string[]> = {};
+    public isLoaded = false;
+    public loading?: Promise<Cache>;
+
     async load(preKey?: string): Promise<void> {
         let key = preKey;
 

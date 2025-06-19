@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+ 
 import {observable, action, makeObservable} from "mobx";
 import {History} from "history";
 import {
@@ -34,7 +34,7 @@ const DEFAULT_USER_INFO: IAuthSession = {
 export class AuthModel implements IAuthModel {
     @observable userInfo = getFromLocalStore<IAuthSession>("auth") || DEFAULT_USER_INFO;
 
-    // eslint-disable-next-line no-useless-constructor
+     
     constructor(public applicationStore: IApplicationModel) {
         makeObservable(this);
     }

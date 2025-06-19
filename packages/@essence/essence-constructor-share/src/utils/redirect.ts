@@ -70,7 +70,7 @@ interface IRedirectToUrlProps {
 }
 
 export function prepareUrl(url: string, pageStore: IPageModel, record: Record<string, FieldValue> = {}) {
-    // eslint-disable-next-line require-unicode-regexp,  prefer-named-capture-group
+
     return url.replace(/{([^}]+)}/g, (_match, pattern): string => {
         if (pattern in record) {
             return record[pattern] as string;
@@ -183,7 +183,7 @@ async function redirectUseQuery({bc, noBlank, query, pageStore, values, record}:
         }
 
         return isValid;
-    } catch (err) {
+    } catch (_err) {
         snackbarStore.checkValidResponseAction(
             {
                 [VAR_RECORD_ID]: null,
@@ -242,7 +242,7 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
         isRedirect: false,
         pathname:
             redirecturl &&
-            ((redirecturl.indexOf("?") > -1 && redirecturl.indexOf("\x22")) || redirecturl.startsWith("`"))
+                ((redirecturl.indexOf("?") > -1 && redirecturl.indexOf("\x22")) || redirecturl.startsWith("`"))
                 ? choiceUrl(redirecturl, globalValues, record)
                 : redirecturl,
     };
@@ -257,7 +257,7 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
 
     url.isRedirect = true;
 
-    // eslint-disable-next-line require-unicode-regexp,  prefer-named-capture-group
+
     url.pathname = url.pathname.replace(/{([^}]+)}/g, (match, pattern: string): string => {
         if (pattern.indexOf(SESSION_PREFIX) === 0) {
             const sessKey: string = pattern.substring(SESSION_PREFIX.length);
@@ -286,20 +286,18 @@ export function makeRedirectUrl(props: IMakeRedirectUrlProps): IMakeRedirectUrlR
         !url.pathname.startsWith("https:") &&
         (url.pathname.indexOf("\\") < 0 || url.pathname.startsWith("redirect"))
     ) {
-        url.pathname = `${settingsStore.settings[VAR_SETTING_BASE_URL]}${
-            settingsStore.settings[VAR_SETTING_BASE_PATH]
-        }${
-            url.pathname.startsWith("redirect")
+        url.pathname = `${settingsStore.settings[VAR_SETTING_BASE_URL]}${settingsStore.settings[VAR_SETTING_BASE_PATH]
+            }${url.pathname.startsWith("redirect")
                 ? url.pathname.replace("redirect", "")
                 : `${pageStore.applicationStore.url}/${url.pathname}`
-        }/${encodePathUrl(queryParams)}`;
+            }/${encodePathUrl(queryParams)}`;
     }
 
     if (url.pathname && url.pathname.indexOf("_blank") > -1) {
         url.blank = true;
-        url.pathname = `${url.pathname.replace("_blank", "")}${
-            Object.keys(queryParams).length ? `?${qs.stringify(queryParams)}` : ""
-        }`;
+        url.pathname = `${url.pathname.replace("_blank", "")
+            }${Object.keys(queryParams).length ? `?${qs.stringify(queryParams)}` : ""
+            }`;
     }
 
     return url;
@@ -347,7 +345,7 @@ export function makeRedirect(
  * Переход в авторизацию
  * @param param0
  */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+
 export function redirectAuth({backUrl, history, pageStore}: IRedirectAuthParam) {
     let url = settingsStore.settings[VAR_SETTING_AUTH_URL] || "/auth";
     const params =

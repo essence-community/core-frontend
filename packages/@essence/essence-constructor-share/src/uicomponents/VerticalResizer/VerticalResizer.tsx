@@ -8,7 +8,7 @@ import {IVerticalResizerProps} from "./VerticalResizer.types";
 
 const LINE_HEIGHT = 10;
 
-// eslint-disable-next-line max-lines-per-function, max-statements
+// eslint-disable-next-line max-lines-per-function
 export const VerticalResizer: React.FC<IVerticalResizerProps> = (props) => {
     const classes = useStyles(props);
     const {minHeight = 50, maxHeight = 1280, onChangeHeight, getInitialHeight, height, className} = props;

@@ -53,7 +53,7 @@ export const StaticRedirectContainer: React.FC<IClassProps> = () => {
 
             if (!params.page) {
                 logger(trans("static:1764da1153734ec8b4fc4cf48cc78c88"));
-                // eslint-disable-next-line no-negated-condition
+                 
             } else if (!params.filter) {
                 logger(trans("static:e7f66e6d5b5340909ea4ded06f5a034f"));
             } else {

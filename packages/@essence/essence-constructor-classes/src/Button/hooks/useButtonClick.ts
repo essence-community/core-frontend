@@ -145,10 +145,10 @@ export function useButtonClick(
 
                     // @deprecated
 
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                     
                     // @ts-ignore
                     if (builderStore && typeof builderStore[handlerBtn as string] === "function") {
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                         
                         // @ts-ignore
                         promise = builderStore[handlerBtn as string](bc.mode, bc, {
                             form: formCtx,

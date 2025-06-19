@@ -1,23 +1,23 @@
-/* eslint-disable max-lines-per-function */
+/* eslint-disable max-lines-per-function, sort-keys */
 import * as React from "react";
-import { Grid } from "@material-ui/core";
-import { toColumnStyleWidthBc } from "@essence-community/constructor-share/utils/transform";
-import { IClassProps, IModuleClassProps } from "@essence-community/constructor-share/types";
-import { loadRemoteModule } from "@essence-community/constructor-share/utils/federationModule";
-import { settingsStore, snackbarStore } from "@essence-community/constructor-share/models";
-import { VAR_RECORD_NAME, VAR_SETTING_PROJECT_LOADER } from "@essence-community/constructor-share/constants";
-import { noop, parseMemoize } from "@essence-community/constructor-share/utils";
-import { WindowContext } from "@essence-community/constructor-share/context";
-import { reaction } from "mobx";
-import { useModel } from "@essence-community/constructor-share/hooks/useModel";
-import { useObserver } from "mobx-react";
+import {Grid} from "@material-ui/core";
+import {toColumnStyleWidthBc} from "@essence-community/constructor-share/utils/transform";
+import {IClassProps, IModuleClassProps} from "@essence-community/constructor-share/types";
+import {loadRemoteModule} from "@essence-community/constructor-share/utils/federationModule";
+import {settingsStore, snackbarStore} from "@essence-community/constructor-share/models";
+import {VAR_RECORD_NAME, VAR_SETTING_PROJECT_LOADER} from "@essence-community/constructor-share/constants";
+import {noop, parseMemoize} from "@essence-community/constructor-share/utils";
+import {WindowContext} from "@essence-community/constructor-share/context";
+import {reaction} from "mobx";
+import {useModel} from "@essence-community/constructor-share/hooks/useModel";
+import {useObserver} from "mobx-react";
 import cn from "clsx";
-import { useGetValue } from "@essence-community/constructor-share/hooks/useCommon/useGetValue";
-import { IBuilderClassConfig, IConfigMF } from "../types";
-import { ModuleFederationModel } from "../store/ModuleFederationModel";
-import { useStyles } from "./ModuleFederationContainer.style";
-import { ErrorBoundary, PageLoader } from "@essence-community/constructor-share/uicomponents";
-import { createRemoteComponent } from "@module-federation/bridge-react";
+import {useGetValue} from "@essence-community/constructor-share/hooks/useCommon/useGetValue";
+import {ErrorBoundary, PageLoader} from "@essence-community/constructor-share/uicomponents";
+import {createRemoteComponent} from "@module-federation/bridge-react";
+import {IBuilderClassConfig, IConfigMF} from "../types";
+import {ModuleFederationModel} from "../store/ModuleFederationModel";
+import {useStyles} from "./ModuleFederationContainer.style";
 
 const DEFAULT_PROPS = {};
 
@@ -40,10 +40,13 @@ const checkValue = (
 
 export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
     const {bc, disabled, hidden, pageStore, visible, ...nextProps} = props;
-    const [storeComponent, setStoreComponent] = React.useState<{ Component: Record<string, React.FC<IModuleClassProps>>, export: string }>(null);
+    const [storeComponent, setStoreComponent] = React.useState<{
+        Component: Record<string, React.FC<IModuleClassProps>>,
+        export: string
+    }>(null);
     const [propsComponent, setPropsComponent] = React.useState(DEFAULT_PROPS);
     const [mfConfig, setMfConfig] = React.useState<IConfigMF>(null);
-    const getValue = useGetValue({ pageStore });
+    const getValue = useGetValue({pageStore});
     const windowContext = React.useContext(WindowContext);
     const [isErrorBridge, setIsErrorBridge] = React.useState(false);
     const [store] = useModel((options) => new ModuleFederationModel(options), {
@@ -95,7 +98,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
         }
         if (bc.mfconfigrule) {
             return reaction(
-                () => parseMemoize(bc.mfconfigrule).runer({ get: store.getValue }) as string | Record<string, any>,
+                () => parseMemoize(bc.mfconfigrule).runer({get: store.getValue}) as string | Record<string, any>,
                 (val) => {
                     setMfConfig((oldValue) => checkValue(val, oldValue, getError) as IConfigMF);
                 },
@@ -129,7 +132,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
             if (bc.mfconfigfail) {
                 return loadRemoteModule(bc.mfconfigfail).then(
                     (comp) => {
-                        setStoreComponent({ Component: comp, export: bc.mfconfigfail.className || "default" });
+                        setStoreComponent({Component: comp, export: bc.mfconfigfail.className || "default"});
                     },
                     () => {
                         getError(err);
@@ -142,7 +145,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
         if (mfConfig) {
             loadRemoteModule(mfConfig).then(
                 (comp) => {
-                    setStoreComponent({ Component: comp, export: mfConfig.className || "default" });
+                    setStoreComponent({Component: comp, export: mfConfig.className || "default"});
                 },
                 (err: Error) => {
                     return loadFail(err);
@@ -176,7 +179,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
         if (bc.mfcomponentconfigrule) {
             return reaction(
                 () =>
-                    parseMemoize(bc.mfcomponentconfigrule).runer({ get: store.getValue }) as string | Record<string, any>,
+                    parseMemoize(bc.mfcomponentconfigrule).runer({get: store.getValue}) as string | Record<string, any>,
                 (val) => {
                     setPropsComponent((oldValue) => checkValue(val, oldValue, getError));
                 },
@@ -217,6 +220,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
         if (!storeComponent || !storeComponent.Component) {
             return null;
         }
+
         return storeComponent.Component[storeComponent.export];
     }, [storeComponent]);
 
@@ -224,16 +228,18 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
         if (!storeComponent || !storeComponent.Component) {
             return null;
         }
+
         return createRemoteComponent({
             loader: async () => storeComponent.Component,
             loading: Loader,
-            fallback: (props) => {
+            fallback: (_props) => {
                 setIsErrorBridge(true);
+
                 return Loader;
             },
             export: storeComponent.export,
         });
-    }, [storeComponent, pageStore]);
+    }, [storeComponent, Loader]);
 
     return useObserver(() => {
         if (!storeComponent || !storeComponent.Component) {
@@ -247,10 +253,16 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
                 spacing={0}
                 alignItems="stretch"
                 style={contentStyle}
-                className={cn({ [classes.fullScreen]: store.isFullScreen })}
+                className={cn({[classes.fullScreen]: store.isFullScreen})}
             >
                 <Grid item xs={12} alignItems="stretch" zeroMinWidth>
-                    <ErrorBoundary fallback={null}>{isErrorBridge ? <Component {...finalPropsComponent} /> : <BridgeComponent {...finalPropsComponent} />}</ErrorBoundary>
+                    <ErrorBoundary
+                        fallback={null}
+                    >
+                        {isErrorBridge ?
+                            <Component {...finalPropsComponent} /> :
+                            <BridgeComponent {...finalPropsComponent} />}
+                    </ErrorBoundary>
                 </Grid>
             </Grid>
         );

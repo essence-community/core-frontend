@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/named
+ 
 import {IObservableArray} from "mobx";
 import {IForm} from "../Form";
 import {IPopoverContext, IWindowContext} from "../context";

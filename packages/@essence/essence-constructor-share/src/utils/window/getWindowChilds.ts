@@ -12,7 +12,7 @@ interface IGetWindowChildsProps {
 
 // FIELD_OMIT_ATTRIBUTES_AUTOBUILD = ["width", "hiddenrules"];
 function omitAttributesAutobuild(fieldBc: IBuilderConfig): IBuilderConfig {
-    // eslint-disable-next-line no-unused-vars
+     
     const {width, hiddenrules, ...rest} = fieldBc;
 
     return rest;
@@ -35,7 +35,7 @@ export function getWindowChilds({windowBc, pageStore, values, autobuild}: IGetWi
             editmode: field.editmode,
 
             ...(autobuild ? omitAttributesAutobuild(fieldProps) : fieldProps),
-            // eslint-disable-next-line sort-keys
+
             [VAR_RECORD_DISPLAYED]: field[VAR_RECORD_DISPLAYED],
             edittype: windowBc.edittype,
             ...(field.required ? {required: field.required} : {}),

@@ -22,7 +22,8 @@ export const renderGlobalValuelsInfo = (globalValues: ObservableMap<string, Fiel
     );
 };
 
-export function getNextComponent(stepname: string, parentsBc: IBuilderConfig[], cb: Function): INextComponentReturn {
+export function getNextComponent(
+    stepname: string, parentsBc: IBuilderConfig[], cb: Function): INextComponentReturn {
     for (const bc of parentsBc) {
         if (bc.stepname === stepname) {
             return {childBc: bc, lastChildBc: bc};

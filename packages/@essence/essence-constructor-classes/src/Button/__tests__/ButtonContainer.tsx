@@ -1,5 +1,3 @@
-/* eslint-disable multiline-comment-style */
-/* eslint-disable capitalized-comments */
 import * as React from "react";
 import {Button, IconButton} from "@material-ui/core";
 import {Icon} from "@essence-community/constructor-share/Icon";
@@ -7,7 +5,7 @@ import {shallow} from "enzyme";
 import {getBaseBc, Renderer} from "@essence-community/constructor-share/utils/test";
 import {ButtonContainer} from "../containers/ButtonContainer";
 
-// eslint-disable-next-line max-statements, max-lines-per-function
+// eslint-disable-next-line max-lines-per-function
 describe("ButtonContainer", () => {
     const bc = getBaseBc("BTN");
 

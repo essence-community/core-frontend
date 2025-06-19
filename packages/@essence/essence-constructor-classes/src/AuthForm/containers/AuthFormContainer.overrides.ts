@@ -38,7 +38,7 @@ export const makeTheme = (theme: IEssenceTheme): IEssenceTheme => ({
             },
             input: {
                 "&:-webkit-autofill": {
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                     
                     // @ts-ignore
                     ...theme.overrides.MuiInput.input["&:-webkit-autofill"],
                     "-webkit-box-shadow": `0 0 0 30px ${theme.palette.primary.main} inset`,

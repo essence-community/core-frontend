@@ -5,7 +5,7 @@
     "private": true,
     "engines": {
         "yarn": ">=1.22.0",
-        "node": ">=22.0.0"
+        "node": ">=20.0.0"
     },
     "scripts": {
         "start": "env-cmd yarn workspace @essence-community/constructor-website run start",
@@ -19,6 +19,7 @@
         "tscheck:share": "yarn workspace @essence-community/constructor-share run tsc",
         "CI": "concurrently \"yarn tscheck:classes\" \"yarn tscheck:share\" \"yarn lint\"",
         "lint": "eslint packages/@essence/essence-constructor-website/src packages/@essence/essence-constructor-classes/src packages/@essence/essence-constructor-share/src --ext ts,tsx",
+        "lint:fix": "eslint packages/@essence/essence-constructor-website/src packages/@essence/essence-constructor-classes/src packages/@essence/essence-constructor-share/src --ext ts,tsx --fix",
         "test": "node scripts/test.js --env=jsdom",
         "chrome:mac": "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --remote-debugging-port=9222 --user-data-dir=chrome",
         "chrome:win": "<path to chrome>/chrome.exe --remote-debugging-port=9222 --user-data-dir=chrome",
@@ -40,7 +41,7 @@
     "devDependencies": {
         "@babel/code-frame": "^7.23.5",
         "@babel/preset-typescript": "^7.23.3",
-        "@essence-community/eslint-config-react": "file:./packages/@essence/essence-constructor-eslint",
+        "@essence-community/eslint-config-react": "3.1.0",
         "@testing-library/jest-dom": "^6.4.1",
         "@testing-library/react": "^16.2.0",
         "@testing-library/user-event": "^14.5.2",
@@ -67,7 +68,8 @@
             "packages/@essence/essence-constructor-package-builder",
             "packages/@essence/essence-constructor-website",
             "packages/@essence/essence-constructor-classes",
-            "packages/@essence/essence-constructor-share"
+            "packages/@essence/essence-constructor-share",
+            "packages/@essence/essence-constructor-eslint"
         ]
     },
     "dependencies": {

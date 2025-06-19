@@ -1,5 +1,5 @@
-/* eslint-disable multiline-comment-style */
-/* eslint-disable capitalized-comments */
+ 
+ 
 import * as React from "react";
 import {shallow} from "enzyme";
 import {Icon} from "@essence-community/constructor-share/Icon";
@@ -14,7 +14,7 @@ const bc = getBaseBc("COLUMN.ICON", {
     handler: "showMenu",
 });
 
-// eslint-disable-next-line max-statements, max-lines-per-function
+ 
 describe("ColumnIconLink", () => {
     // $FlowFixMe
     // PageStore.applicationStore.redirectToAction = jest.fn();

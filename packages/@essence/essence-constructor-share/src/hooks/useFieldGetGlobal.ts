@@ -34,7 +34,7 @@ export function useFieldGetGlobal({field, pageStore, bc, store}: IUseFieldGetGlo
                         } else if (store) {
                             value = store.selectedRecord ? store.selectedRecord[name] : undefined;
                         } else {
-                            // eslint-disable-next-line prefer-destructuring
+                             
                             value = field.form.select(name)?.value;
                         }
                     }
@@ -48,7 +48,7 @@ export function useFieldGetGlobal({field, pageStore, bc, store}: IUseFieldGetGlo
                 return {hasEmptyValue, value: parseMemoize(getglobal).runer({get: getValue})};
             },
             ({hasEmptyValue, value}) => {
-                if (typeof value === "undefined") return;
+                if (typeof value === "undefined") { return; }
                 if (hasEmptyValue) {
                     field.onClear();
                 } else {

@@ -38,7 +38,7 @@ export const FieldTableInput: React.FC<IFieldTableInputProps> = observer((props)
     }, [store, field, displayValue]);
 
     const onChangeValue = React.useCallback(
-        (text: string) => {
+        (str: string) => {
             const typePaste = bc.collectionvalues || "object";
             const regSeparated = new RegExp(
                 bc.clipboardpasteseparateregex || DEFAULT_CLIPBOARD_PASTE_SEPARATE_REGEX,
@@ -48,21 +48,21 @@ export const FieldTableInput: React.FC<IFieldTableInputProps> = observer((props)
             let value = undefined;
 
             switch (typePaste) {
-                case "object":
+                case "object":  
                     if (fieldValue === "value") {
-                        value = text;
+                        value = str;
                     } else if (fieldValue === "display") {
-                        value = store.recordsStore.recordsAll.map(store.getLabel).find((val) => val === text);
+                        value = store.recordsStore.recordsAll.map(store.getLabel).find((val) => val === str);
                     } else {
                         value =
                             store.recordsStore.recordsAll.find(
-                                (record) => toString(deepFind(record, store.valueField)[1]) === text,
-                            ) || store.recordsStore.recordsAll.map(store.getLabel).find((val) => val === text);
+                                (record) => toString(deepFind(record, store.valueField)[1]) === str,
+                            ) || store.recordsStore.recordsAll.map(store.getLabel).find((val) => val === str);
                     }
                     break;
                 case "array":
-                case "objectandarray":
-                    const arr = text.split(regSeparated).filter((val) => !isEmpty(val));
+                case "objectandarray": {
+                    const arr = str.split(regSeparated).filter((val) => !isEmpty(val));
 
                     if (fieldValue === "value") {
                         value = arr as any;
@@ -82,6 +82,7 @@ export const FieldTableInput: React.FC<IFieldTableInputProps> = observer((props)
                     }
                     value = typePaste === "objectandarray" && value.length === 1 ? value[0] : (value as any);
                     break;
+                }
             }
 
             if (isEmpty(value)) {

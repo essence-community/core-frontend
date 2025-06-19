@@ -132,7 +132,7 @@ export const FieldComboInput: React.FC<IProps> = (props) => {
             let value = undefined;
 
             switch (typePaste) {
-                case "object":
+                case "object": {
                     if (fieldValue === "value") {
                         value = text;
                     } else if (fieldValue === "display") {
@@ -143,8 +143,9 @@ export const FieldComboInput: React.FC<IProps> = (props) => {
                             store.suggestions.find((val) => val.label === text)?.value;
                     }
                     break;
+                }
                 case "array":
-                case "objectandarray":
+                case "objectandarray": {
                     const arr = text.split(regSeparated).filter((val) => !isEmpty(val));
 
                     if (fieldValue === "value") {
@@ -163,6 +164,7 @@ export const FieldComboInput: React.FC<IProps> = (props) => {
                     }
                     value = typePaste === "objectandarray" && value.length === 1 ? value[0] : (value as any);
                     break;
+                }
             }
             if (isEmpty(value) && Array.isArray(value)) {
                 field.onClear();

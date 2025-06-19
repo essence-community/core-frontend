@@ -23,7 +23,7 @@ export const GridInlineTable: React.FC<IGridInlineTable> = ({gridStore, ...class
     // Duplicate data-qtip from visible column
     const getQtip = (idx: number) => {
         try {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+             
             // @ts-ignore
             return gridStore.refs
                 .get("body")

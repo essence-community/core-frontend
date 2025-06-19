@@ -61,7 +61,7 @@ export const ColumnTextContainer: React.FC<IClassProps> = (props) => {
         );
     };
 
-    // eslint-disable-next-line prefer-named-capture-group
+     
     const stringValue = value.replace(/((<br)|\r|\n)[\s\S]*/iu, "...");
 
     if (bc.localization) {

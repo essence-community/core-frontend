@@ -41,7 +41,7 @@ export const useStyles = makeStyles(
                           backgroundColor: theme.palette.primary.main,
                           borderRadius: "4px 0 0 4px",
                           bottom: 0,
-                          // eslint-disable-next-line prettier/prettier
+                           
                           content: "\"\"",
                           left: 0,
                           position: "absolute",

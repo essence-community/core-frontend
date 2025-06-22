@@ -1,6 +1,6 @@
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {toColumnStyleWidth} from "@essence-community/constructor-share/utils";
-import {makeStyles} from "@material-ui/core";
+import {makeStyles} from "@mui/styles";
 
 export const useStyles = makeStyles(
     () => ({

@@ -18,7 +18,7 @@ interface ITabProps extends IClassProps {
 export const Tab: React.FC<ITabProps> = React.memo((props) => {
     const {isActive, label, positonName} = props;
     const {hidden, disabled} = useCommon(props);
-    const classes = useStyles();
+    const classes = useStyles(props);
     const {onChangeTab} = useTab({...props, disabled, hidden});
     const positionClassName = classes[positonName];
 

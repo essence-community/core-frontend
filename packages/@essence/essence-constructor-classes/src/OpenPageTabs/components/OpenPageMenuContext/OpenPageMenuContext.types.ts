@@ -12,6 +12,6 @@ export interface IOpenPageMenuContextProps {
     position: IPopoverPosition;
     value?: IPageModel;
     pagesStore: IPagesModel;
-    onCloseMenu: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    onCloseMenu: (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => void;
     onClose: (value: string) => void;
 }

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {IconButton, TextField} from "@material-ui/core";
+import {IconButton, TextField} from "@mui/material";
 import {useTextFieldProps, useFieldDisabled} from "@essence-community/constructor-share/hooks";
 import {IField} from "@essence-community/constructor-share/Form";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";

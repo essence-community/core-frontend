@@ -10,7 +10,7 @@
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-extraneous-dependencies */
 import * as React from "react";
-import {Button, Paper} from "@material-ui/core";
+import {Button, Paper} from '@mui/material';
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {
     VAR_RECORD_PARENT_ID,

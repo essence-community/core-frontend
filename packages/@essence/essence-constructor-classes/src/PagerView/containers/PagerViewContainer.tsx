@@ -1,6 +1,6 @@
 import * as React from "react";
 import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
-import {Grid, useTheme} from "@material-ui/core";
+import {Grid, useTheme} from "@mui/material";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {toColumnStyleWidth} from "@essence-community/constructor-share/utils";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
@@ -14,7 +14,7 @@ export const PagerViewContainer: React.FC<IClassProps> = (props) => {
     return (
         <Grid container spacing={2}>
             {mapComponents(pageStore.pageBc, (ChildComponent, childBc) => (
-                <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} item xs={12} style={toColumnStyleWidth(childBc.width)}>
+                <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} size={12} style={toColumnStyleWidth(childBc.width)}>
                     <ChildComponent
                         readOnly={pageStore.isReadOnly}
                         pageStore={pageStore}

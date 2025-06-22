@@ -1,6 +1,6 @@
 import * as React from "react";
 import cn from "clsx";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {useTranslation, toColumnStyleWidth} from "@essence-community/constructor-share/utils";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {FormContext} from "@essence-community/constructor-share/context";
@@ -31,28 +31,26 @@ export const Group: React.FC<IGroupProps> = (props) => {
             data-qtip={error ? t("static:a5a5d7213d1f4f77861ed40549ee9c57") : ""}
             style={toColumnStyleWidth(bc.width)}
         >
-            <Grid container className={classes.label} wrap="nowrap" justify="space-between">
-                <Grid item className={classes.labelTextStartAngle}>
+            <Grid container className={classes.label} wrap="nowrap" justifyContent="space-between">
+                <Grid className={classes.labelTextStartAngle}>
                     &nbsp;
                 </Grid>
                 {label ? (
-                    <Grid item className={`${classes.labelDisplay}`} data-qtip={t(label)}>
+                    <Grid className={`${classes.labelDisplay}`} data-qtip={t(label)}>
                         <span>{t(label)}</span>
                     </Grid>
                 ) : null}
-                <Grid item xs className={classes.labelTextLine}>
+                <Grid className={classes.labelTextLine}>
                     &nbsp;
                 </Grid>
                 {status}
-                <Grid item className={classes.labelTextEndAngle}>
+                <Grid className={classes.labelTextEndAngle}>
                     &nbsp;
                 </Grid>
             </Grid>
             {renderComponent &&
                 mapComponents(bc.childs, (ChildCmp, child) => (
-                    <Grid
-                        item
-                        xs={12}
+                    <Grid size={12}
                         key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                         className={classes.child}
                         style={toColumnStyleWidth(child.width)}

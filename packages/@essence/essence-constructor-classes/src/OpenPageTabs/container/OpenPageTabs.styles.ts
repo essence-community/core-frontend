@@ -1,5 +1,6 @@
+/* eslint-disable sort-keys */
 import {IEssenceTheme} from "@essence-community/constructor-share";
-import {makeStyles} from "@material-ui/core/styles";
+import {makeStyles} from "@mui/styles";
 
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
@@ -21,6 +22,10 @@ export const useStyles = makeStyles(
         scroller: {
             height: "100%",
             overflow: "hidden",
+        },
+        scrollButtons: {
+            color: theme.palette.primary.main,
+            fill: theme.palette.primary.main,
         },
         tabDrag: {},
         tabsFlexContainer: {

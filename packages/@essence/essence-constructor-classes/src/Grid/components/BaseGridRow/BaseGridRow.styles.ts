@@ -1,4 +1,4 @@
-import {makeStyles} from "@material-ui/core";
+import {makeStyles} from "@mui/styles";
 import {IEssenceTheme} from "@essence-community/constructor-share/types";
 
 export const useStyles = makeStyles(
@@ -12,12 +12,12 @@ export const useStyles = makeStyles(
             "&$selected":
                 theme.essence.layoutTheme === 2
                     ? {
-                          backgroundColor: theme.essence.palette.common.selectedRecord,
-                          boxShadow: `inset 0px 0px 0px 2px ${theme.essence.palette.common.selectedRecordBorder}`,
-                      }
+                        backgroundColor: theme.essence.palette.common.selectedRecord,
+                        boxShadow: `inset 0px 0px 0px 2px ${theme.essence.palette.common.selectedRecordBorder}`,
+                    }
                     : {
-                          backgroundColor: theme.essence.palette.common.selectedRecord,
-                      },
+                        backgroundColor: theme.essence.palette.common.selectedRecord,
+                    },
             "&$selectedDetail": {
                 backgroundColor: theme.essence.palette.common.selectedRecord,
                 // eslint-disable-next-line max-len
@@ -26,13 +26,13 @@ export const useStyles = makeStyles(
             "&$selectedDetailExpanded":
                 theme.essence.layoutTheme === 2
                     ? {
-                          backgroundColor: theme.essence.palette.common.selectedRecord,
-                          // eslint-disable-next-line max-len
-                          boxShadow: `inset -1px 1px 0px 1px ${theme.essence.palette.common.selectedRecordBorder}, inset 1px 1px 0px 1px ${theme.essence.palette.common.selectedRecordBorder}`,
-                      }
+                        backgroundColor: theme.essence.palette.common.selectedRecord,
+                        // eslint-disable-next-line max-len
+                        boxShadow: `inset -1px 1px 0px 1px ${theme.essence.palette.common.selectedRecordBorder}, inset 1px 1px 0px 1px ${theme.essence.palette.common.selectedRecordBorder}`,
+                    }
                     : {
-                          backgroundColor: theme.essence.palette.common.selectedRecord,
-                      },
+                        backgroundColor: theme.essence.palette.common.selectedRecord,
+                    },
             color: "inherit",
             display: "table-row",
             height: theme.essence.sizing.gridRowHeight,

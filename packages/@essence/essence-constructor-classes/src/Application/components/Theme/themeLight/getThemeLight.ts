@@ -1,5 +1,6 @@
+/* eslint-disable sort-keys */
 import {IEssenceTheme} from "@essence-community/constructor-share";
-import {Theme} from "@material-ui/core";
+import {Theme} from "@mui/material";
 
 // eslint-disable-next-line quotes
 const fontFamily = '"Uni Neue Regular", "Roboto Light", "Roboto Regular", "Roboto"';
@@ -32,19 +33,22 @@ export const getThemeLight = (theme: Theme): IEssenceTheme => ({
             ...theme.palette.text,
             disabled: "#2c3345",
         },
-        type: "light",
+        mode: "light",
     },
-    props: {
+    components: {
         // Name of the component ⚛️
         MuiButtonBase: {
             /*
              * The properties to apply
              * No more ripple, on the whole application 💣!
              */
-            disableRipple: true,
+            defaultProps: {
+                disableRipple: true
+            }
         },
     },
     typography: {
+        htmlFontSize: theme.typography.htmlFontSize,
         body1: {...theme.typography.body1, fontFamily},
         body2: {...theme.typography.body2, fontFamily},
         button: {...theme.typography.button, fontFamily},
@@ -66,7 +70,7 @@ export const getThemeLight = (theme: Theme): IEssenceTheme => ({
         subtitle1: {...theme.typography.subtitle1, fontFamily},
         subtitle2: {...theme.typography.subtitle2, fontFamily},
     },
-    // eslint-disable-next-line sort-keys
+     
     essence: {
         codeTheme: "light",
         layoutTheme: 1,

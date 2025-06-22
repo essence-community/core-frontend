@@ -1,5 +1,5 @@
 import {IClassProps, IRecord} from "@essence-community/constructor-share/types";
-import {ButtonBase, TextField} from "@material-ui/core";
+import {ButtonBase, TextField} from "@mui/material";
 import {useTranslation, toTranslateText} from "@essence-community/constructor-share/utils";
 import {
     VAR_RECORD_ID,
@@ -38,7 +38,7 @@ export const FileRecord: React.FC<IFileRecordProps> = (props) => {
                 query: initDownBc.updatequery,
             },
         );
-    }, [record, store]);
+    }, [initDownBc, record, store]);
 
     const handleClickClearButton = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         event.stopPropagation();

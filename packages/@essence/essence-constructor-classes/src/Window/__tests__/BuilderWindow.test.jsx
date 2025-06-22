@@ -2,7 +2,7 @@
 /* eslint-disable import/extensions */
 // @flow
 import * as React from "react";
-import {FormControl, Checkbox, DialogTitle} from "@material-ui/core";
+import {FormControl, Checkbox, DialogTitle} from '@mui/material';
 import {
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_MASTER_ID,

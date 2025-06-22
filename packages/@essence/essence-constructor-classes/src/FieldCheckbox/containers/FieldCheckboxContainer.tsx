@@ -1,7 +1,7 @@
 import * as React from "react";
 import {useTranslation, toTranslateText, transformToBoolean} from "@essence-community/constructor-share/utils";
 import cn from "clsx";
-import {Checkbox, FormLabel} from "@material-ui/core";
+import {Checkbox, FormLabel} from "@mui/material";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,

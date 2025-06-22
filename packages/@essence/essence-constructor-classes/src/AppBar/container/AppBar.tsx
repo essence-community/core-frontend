@@ -1,3 +1,4 @@
+ 
 import * as React from "react";
 import {
     IClassProps,
@@ -8,7 +9,7 @@ import {
     GRID_ALIGN_CONFIGS,
 } from "@essence-community/constructor-share";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
-import {AppBar as MaterialAppBar, Grid, AppBarProps as MUIAppBarProps} from "@material-ui/core";
+import {AppBar as MaterialAppBar, Grid, AppBarProps as MUIAppBarProps} from "@mui/material";
 import {IBuilderClassConfig} from "../types";
 import {useStyles} from "./AppBar.styles";
 
@@ -62,7 +63,7 @@ export const AppBar: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
             <Grid
                 container
                 style={contentHeight}
-                justify="flex-start"
+                justifyContent="flex-start"
                 alignContent="center"
                 direction="column"
                 alignItems="center"
@@ -72,7 +73,7 @@ export const AppBar: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
                     GRID_ALIGN_CONFIGS["center-hbox"])}
             >
                 {mapComponents(bc.childs, (Child, childBc) => (
-                    <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} style={calcStyle(childBc)}>
+                    <Grid size={childBc.width ? "grow" : "auto"} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} style={calcStyle(childBc)}>
                         <div style={calcStyleHeight(childBc)}>
                             <Child {...props} bc={childBc} />
                         </div>

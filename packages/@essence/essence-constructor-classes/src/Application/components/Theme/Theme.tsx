@@ -1,8 +1,8 @@
 import * as React from "react";
-import {ThemeProvider, createTheme, useTheme} from "@material-ui/core";
+import {createTheme, useTheme, ThemeProvider as MuiThemeProvider} from "@mui/material";
+import {ThemeProvider} from "@mui/styles";
 import {IApplicationModel, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {
-    mergeOverridesDeep,
     isIE,
     getFromStore,
     addListenLoaded,
@@ -11,25 +11,26 @@ import {
 import {settingsStore} from "@essence-community/constructor-share/models/SettingsModel";
 import {VAR_SETTING_THEME} from "@essence-community/constructor-share/constants";
 import {reaction} from "mobx";
+import {merge} from "lodash";
 import {getThemeDark} from "./themeDark/getThemeDark";
 import {getThemeLight} from "./themeLight/getThemeLight";
-import {getThemeDarkOverrides} from "./themeDark/getThemeDarkOverrides";
-import {getThemeLightOverrides} from "./themeLight/getThemeLightOverrides";
-import {getThemeOverridesDefault} from "./getThemeOverridesDefault";
-import {getThemeIEOverrides} from "./getThemeIEOverrides";
+import {getThemeDarkComponents} from "./themeDark/getThemeDarkComponents";
+import {getThemeLightComponents} from "./themeLight/getThemeLightComponents";
+import {getThemeComponentsDefault} from "./getThemeComponentsDefault";
+import {getThemeIEComponents} from "./getThemeIEComponents";
 
 interface IThemeProps {
     applicationStore: IApplicationModel;
 }
 
-const themList = {
+const themeList = {
     dark: getThemeDark,
     light: getThemeLight,
 };
 
-const overridesList = {
-    dark: getThemeDarkOverrides,
-    light: getThemeLightOverrides,
+const componentsList = {
+    dark: getThemeDarkComponents,
+    light: getThemeLightComponents,
 };
 
 function getThemeType(): "dark" | "light" | string {
@@ -80,20 +81,20 @@ export const Theme: React.FC<IThemeProps> = (props) => {
     }, []);
 
     const theme = React.useMemo(() => {
-        const getTheme = themList[themeType] ? themList[themeType] : themList.light;
-        const getThemeOverrides = overridesList[themeType] ? overridesList[themeType] : overridesList.light;
+        const getTheme = themeList[themeType] ? themeList[themeType] : themeList.light;
+        const getThemeComponents = componentsList[themeType] ? componentsList[themeType] : componentsList.light;
         const themeVariables = getTheme(materialTheme);
-        let overrides = getThemeOverrides(themeVariables);
+        let components = getThemeComponents(themeVariables);
 
-        overrides = mergeOverridesDeep(overrides as any, getThemeOverridesDefault(themeVariables));
+        components = merge(components, getThemeComponentsDefault(themeVariables));
 
         if (isIE()) {
-            overrides = mergeOverridesDeep(overrides as any, getThemeIEOverrides());
+            components = merge(components, getThemeIEComponents());
         }
 
         return createTheme({
             ...themeVariables,
-            overrides,
+            components,
         });
     }, [materialTheme, themeType]);
 
@@ -102,5 +103,5 @@ export const Theme: React.FC<IThemeProps> = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [applicationStore]);
 
-    return <ThemeProvider theme={theme}>{props.children}</ThemeProvider>;
+    return <MuiThemeProvider theme={theme}><ThemeProvider theme={theme}>{props.children}</ThemeProvider></MuiThemeProvider>;
 };

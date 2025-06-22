@@ -6,7 +6,7 @@ import {useField} from "@essence-community/constructor-share/Form";
 import {useFieldSetGlobal, useFieldGetGlobal, useDefaultValueQuery} from "@essence-community/constructor-share/hooks";
 import {DiffEditor, OnChange, DiffOnMount} from "@monaco-editor/react";
 import {useObserver} from "mobx-react";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {
     TFunction,
     toColumnStyleWidthBc,
@@ -107,8 +107,8 @@ export const MonacoDiffEditorContainer: React.FC<IClassProps<IMonacoDiffBuilderC
         }
 
         return (
-            <Grid container item spacing={0} direction="row" wrap="wrap" style={contentStyle} {...contentProps}>
-                <Grid item>
+            <Grid container spacing={0} direction="row" wrap="wrap" style={contentStyle} {...contentProps}>
+                <Grid>
                     <TextFieldLabel
                         bc={bc}
                         info={bc.info && trans(bc.info)}
@@ -116,7 +116,7 @@ export const MonacoDiffEditorContainer: React.FC<IClassProps<IMonacoDiffBuilderC
                         isRequired={fieldRight.isRequired}
                     />
                 </Grid>
-                <Grid item xs={12} alignItems="stretch" zeroMinWidth>
+                <Grid size={12} alignItems="stretch">
                     <DiffEditor
                         {...editorProps}
                         loading={

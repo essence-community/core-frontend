@@ -1,6 +1,6 @@
 // @flow
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {Badge, ButtonBase} from "@material-ui/core";
+import {Badge, ButtonBase} from "@mui/material";
 import {useObserver} from "mobx-react";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import * as React from "react";

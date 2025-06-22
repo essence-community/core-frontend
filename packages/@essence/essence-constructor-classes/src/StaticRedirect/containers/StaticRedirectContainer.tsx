@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Grid, Button} from "@material-ui/core";
+import {Grid, Button} from "@mui/material";
 import {IClassProps, IRecord} from "@essence-community/constructor-share/types";
 import {loggerRoot} from "@essence-community/constructor-share/constants";
 import {useTranslation, getPreference, decodePathUrl, encodePathUrl} from "@essence-community/constructor-share/utils";
@@ -65,7 +65,7 @@ export const StaticRedirectContainer: React.FC<IClassProps> = () => {
 
         return undefined;
     };
-    const params = React.useMemo<IStateParams | undefined>(handleGetParams, []);
+    const params = React.useMemo<IStateParams | undefined>(handleGetParams, [b64, trans]);
     const isAuthorized = Boolean(applicationStore?.authStore.userInfo.session);
     const handleClick = React.useCallback(() => {
         if (params && isAuthorized) {
@@ -84,7 +84,7 @@ export const StaticRedirectContainer: React.FC<IClassProps> = () => {
                 pageStore: applicationStore.pageStore,
             });
         }
-    }, [b64, history, isAuthorized, params]);
+    }, [applicationStore.pageStore, b64, history, isAuthorized, params]);
 
     React.useEffect(() => {
         if (history.location.pathname.indexOf(applicationStore.url) != 1) {
@@ -97,30 +97,30 @@ export const StaticRedirectContainer: React.FC<IClassProps> = () => {
     }, []);
 
     return (
-        <Grid container justify="center" alignItems="center" className={classes.root}>
-            <Grid item>
-                <Grid container className={classes.panel} spacing={1} direction="column" justify="center">
-                    <Grid item>{trans("static:b35d5fa33cb14a1db46c4f684dc14037")}</Grid>
+        <Grid container justifyContent="center" alignItems="center" className={classes.root}>
+            <Grid>
+                <Grid container className={classes.panel} spacing={1} direction="column" justifyContent="center">
+                    <Grid>{trans("static:b35d5fa33cb14a1db46c4f684dc14037")}</Grid>
                     {params ? (
                         <React.Fragment>
-                            <Grid item>{trans("static:6f93ca102d5f488aa3082e0344486e9e", {page: params.page})}</Grid>
-                            <Grid item>
+                            <Grid>{trans("static:6f93ca102d5f488aa3082e0344486e9e", {page: params.page})}</Grid>
+                            <Grid>
                                 {trans("static:dda349a2de0049408168eb5d148442df", {
                                     filter: JSON.stringify(params.filter),
                                 })}
                             </Grid>
                         </React.Fragment>
                     ) : (
-                        <Grid item>{trans("static:86d945313cbd41beb5f5068c2696bcec")}</Grid>
+                        <Grid>{trans("static:86d945313cbd41beb5f5068c2696bcec")}</Grid>
                     )}
-                    <Grid item>
+                    <Grid>
                         {trans("static:6512d68884cd4848ba6129655dec51d4", {
                             status: isAuthorized
                                 ? trans("static:0d9c5a0b816947a781f02baad2c2ce22")
                                 : trans("static:e8281a11d60542c684f76ffab31216aa"),
                         })}
                     </Grid>
-                    <Grid item className={classes.btnContainer}>
+                    <Grid className={classes.btnContainer}>
                         <Button
                             type="submit"
                             onClick={handleClick}

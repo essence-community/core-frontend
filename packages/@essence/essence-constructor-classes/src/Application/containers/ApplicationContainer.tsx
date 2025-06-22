@@ -9,7 +9,7 @@ import {
     ResizeContext,
 } from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {PageLoader} from "@essence-community/constructor-share/uicomponents";
+import {PageLoader, Tooltip} from "@essence-community/constructor-share/uicomponents";
 import {
     useTranslation,
     TFunction,
@@ -36,7 +36,7 @@ import {useObserver} from "mobx-react";
 import {reaction, observe} from "mobx";
 import {useParams, useHistory, useRouteMatch} from "react-router-dom";
 import {IForm, Form} from "@essence-community/constructor-share/Form";
-import {CssBaseline} from "@material-ui/core";
+import {CssBaseline} from "@mui/material";
 import {ApplicationModel, CLOSE_CODE} from "../store/ApplicationModel";
 import {renderGlobalValuesInfo} from "../utils/renderGlobalValuesInfo";
 import {ApplicationWindows} from "../components/ApplicationWindows";
@@ -401,7 +401,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 fireImmediately: true,
             }
         );
-    }, [applicationStore]);
+    }, [applicationStore, trans]);
 
     return useObserver(() => (
         <ApplicationContext.Provider value={applicationStore}>
@@ -440,6 +440,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                                 onSetCloseble={snackbarStore.setClosebleAction}
                             />
                             <CssBaseline />
+                            <Tooltip />
                         </Theme>
                     </ParentFieldContext.Provider>
                 </FormContext.Provider>

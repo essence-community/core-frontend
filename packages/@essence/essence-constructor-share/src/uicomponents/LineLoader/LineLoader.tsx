@@ -1,5 +1,5 @@
 import * as React from "react";
-import {CircularProgress} from "@material-ui/core";
+import {CircularProgress} from "@mui/material";
 import {IconBflLine} from "../Icons/IconBflLine";
 import {useStyles} from "./LineLoader.styles";
 

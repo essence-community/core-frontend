@@ -9,7 +9,7 @@ import {useField} from "@essence-community/constructor-share/Form";
 import {useFieldSetGlobal, useFieldGetGlobal, useDefaultValueQuery} from "@essence-community/constructor-share/hooks";
 import Editor, {Monaco, OnChange} from "@monaco-editor/react";
 import {useObserver} from "mobx-react";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {
     entriesMapSort,
     TFunction,
@@ -187,9 +187,9 @@ export const MonacoEditorContainer: React.FC<IClassProps<IMonacoBuilderClassConf
         };
 
         return (
-            <Grid container item spacing={0} direction="row" wrap="wrap" style={contentStyle} {...contentProps}>
+            <Grid container spacing={0} direction="row" wrap="wrap" style={contentStyle} {...contentProps}>
                 {displayed || field.isRequired || bc.info ? (
-                    <Grid item>
+                    <Grid>
                         <TextFieldLabel
                             bc={bc}
                             info={bc.info && trans(bc.info)}
@@ -198,7 +198,7 @@ export const MonacoEditorContainer: React.FC<IClassProps<IMonacoBuilderClassConf
                         />
                     </Grid>
                 ) : null}
-                <Grid item xs={12} alignItems="stretch" zeroMinWidth>
+                <Grid size={12} alignItems="stretch">
                     <Editor
                         {...editorProps}
                         loading={

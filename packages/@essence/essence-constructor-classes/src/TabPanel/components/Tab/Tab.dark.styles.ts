@@ -1,8 +1,8 @@
-import {IEssenceTheme} from "@essence-community/constructor-share";
-import {StyleRules} from "@material-ui/core";
+import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share";
+import {StyleRules} from "@mui/styles";
 import {TabPanelPosition} from "../../TabPanel.types";
 
-export function tabDarkStyles(theme: IEssenceTheme): StyleRules<"rootTheme" | TabPanelPosition> {
+export function tabDarkStyles(theme: IEssenceTheme): StyleRules<IClassProps, "rootTheme" | TabPanelPosition> {
     return {
         "center-hbox": {
             "&$rootTheme": {

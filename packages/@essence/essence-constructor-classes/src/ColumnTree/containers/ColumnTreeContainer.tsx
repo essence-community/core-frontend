@@ -1,5 +1,5 @@
 import * as React from "react";
-import {IClassProps} from "@essence-community/constructor-share/types";
+import {IClassProps, IRecord} from "@essence-community/constructor-share/types";
 import {RecordContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_LEAF} from "@essence-community/constructor-share/constants";
 import {Translation, deepFind, makeRedirect, makeRedirectUrl} from "@essence-community/constructor-share/utils";
@@ -9,10 +9,11 @@ import {useStyles} from "./ColumnTreeContainer.styles";
 
 const NESTING_SPACING = 16;
 const LEAF_ICON_WIDTH = 30;
+const RECORD_DEFAULT = {} as IRecord;
 
 export const ColumnTreeContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore, disabled} = props;
-    const record = React.useContext(RecordContext) || {};
+    const record = React.useContext(RecordContext) || RECORD_DEFAULT;
     const leaf = record[VAR_RECORD_LEAF];
     const isLeaf = typeof leaf === "boolean" ? leaf : leaf === "true";
     const addPadding = isLeaf ? LEAF_ICON_WIDTH : 0;

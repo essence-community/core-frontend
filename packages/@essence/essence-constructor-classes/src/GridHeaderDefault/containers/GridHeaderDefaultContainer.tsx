@@ -1,5 +1,5 @@
 import * as React from "react";
-import {TableCell, TableSortLabel} from "@material-ui/core";
+import {TableCell, TableSortLabel} from "@mui/material";
 import cn from "clsx";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useTranslation} from "@essence-community/constructor-share/utils";

@@ -10,7 +10,7 @@
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-extraneous-dependencies */
 import * as React from "react";
-import {Grid} from "@material-ui/core";
+import {Grid} from '@mui/material';
 import panelMock from "../../../mocks/panel/panel";
 import {mountWithTheme} from "../../utils/test";
 import {createEmptyPageStore} from "../../stores/index";

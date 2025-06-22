@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
 import * as React from "react";
-import {Checkbox} from "@material-ui/core";
+import {Checkbox} from '@mui/material';
 import {
     VAR_RECORD_ID,
     VAR_MOCK_TEXT_COLUMN,

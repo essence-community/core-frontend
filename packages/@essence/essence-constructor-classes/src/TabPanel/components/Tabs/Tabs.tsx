@@ -3,7 +3,7 @@ import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/t
 import {PanelWidthContext} from "@essence-community/constructor-share/context";
 import {Popover} from "@essence-community/constructor-share/uicomponents";
 import keycode from "keycode";
-// eslint-disable-next-line import/no-extraneous-dependencies
+ 
 import isEqual from "lodash/isEqual";
 import cn from "clsx";
 import {useTranslation, debounce, getTextWidth} from "@essence-community/constructor-share/utils";
@@ -12,7 +12,7 @@ import {
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_MASTER_ID,
 } from "@essence-community/constructor-share/constants";
-import {useTheme, IconButton} from "@material-ui/core";
+import {useTheme, IconButton} from "@mui/material";
 import {reaction} from "mobx";
 import {useObserver} from "mobx-react";
 import {Icon} from "@essence-community/constructor-share/Icon";
@@ -67,7 +67,7 @@ export const Tabs: React.FC<ITabsProps> = React.memo((props) => {
     const panelWidth = React.useContext(PanelWidthContext);
     const [trans] = useTranslation();
     const theme = useTheme<IEssenceTheme>();
-    const classes = useStyles();
+    const classes = useStyles(props);
     const positonName = `${align}-${contentview}` as TabPanelPosition;
     const positionClassName = classes[positonName];
 

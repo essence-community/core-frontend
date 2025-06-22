@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Collapse, Grid, Typography} from "@material-ui/core";
+import {Collapse, Grid, Typography} from "@mui/material";
 import clsx from "clsx";
 import {useObserver} from "mobx-react";
 import {
@@ -42,38 +42,38 @@ export const FilterExtended = (props: IClassProps) => {
         }
     };
 
-    const [childs, sizeChild] = useSizeChild(bc.childs);
+    const [childs, sizeChild] = useSizeChild(bc.childs, props.pageStore);
 
     return useObserver(() => (
-        <Collapse in={isOpen} collapsedHeight="30px" data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-collapsible`}>
+        <Collapse in={isOpen} collapsedSize="30px" data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-collapsible`}>
             <Grid container direction="column" spacing={0}>
-                <Grid item onClick={() => setIsOpen(!isOpen)} className={classes.header}>
+                <Grid onClick={() => setIsOpen(!isOpen)} className={classes.header}>
                     <Grid container spacing={0}>
-                        <Grid item className={clsx(classes.headerLeft, !isOpen && classes.headerClose)}>
+                        <Grid className={clsx(classes.headerLeft, !isOpen && classes.headerClose)}>
                             &nbsp;
                         </Grid>
 
-                        <Grid item>
+                        <Grid>
                             <Typography variant="body2" component="span" data-qtip={label ? trans(label) : ""}>
                                 {`${(label && trans(label)) || ""} `}
                             </Typography>
                             <Icon iconfont={isOpen ? "angle-up" : "angle-down"} />
                         </Grid>
 
-                        <Grid item xs className={classes.topLine}>
+                        <Grid size="grow" className={classes.topLine}>
                             &nbsp;
                         </Grid>
 
-                        <Grid item onClick={handleClear}>
+                        <Grid onClick={handleClear}>
                             <Icon className={classes.iconClear} iconfont="close" />
                         </Grid>
 
-                        <Grid item className={clsx(classes.headerRight, !isOpen && classes.headerClose)}>
+                        <Grid className={clsx(classes.headerRight, !isOpen && classes.headerClose)}>
                             &nbsp;
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item className={classes.content}>
+                <Grid className={classes.content}>
                     <Grid
                         container
                         direction="column"
@@ -83,10 +83,8 @@ export const FilterExtended = (props: IClassProps) => {
                             GRID_ALIGN_CONFIGS["left-hbox"])}
                     >
                         {mapComponents(childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                            <Grid
-                                item
-                                key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                xs={12}
+                            <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                size={12}
                                 style={sizeChild[childBc[VAR_RECORD_PAGE_OBJECT_ID]]}
                             >
                                 <Child {...props} bc={childBc} />

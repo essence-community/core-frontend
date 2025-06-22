@@ -13,7 +13,7 @@
 import * as React from "react";
 import moment from "moment";
 import TodayButton from "rc-calendar/lib/calendar/TodayButton";
-import {IconButton} from "@material-ui/core";
+import {IconButton} from '@mui/material';
 import dateJson from "@essence-community/constructor-components/mocks/fields/date";
 import BuilderMobxForm from "../../../../Components/MobxForm/BuilderMobxForm";
 import {createEmptyPageStore} from "@essence-community/constructor-components/src/stores";

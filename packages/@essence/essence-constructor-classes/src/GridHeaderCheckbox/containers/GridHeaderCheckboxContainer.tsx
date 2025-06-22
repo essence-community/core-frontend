@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Checkbox, TableCell} from "@material-ui/core";
+import {Checkbox, TableCell} from "@mui/material";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {IClassProps, IRecord, IStoreBaseModel} from "@essence-community/constructor-share/types";
 import {

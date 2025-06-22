@@ -8,7 +8,7 @@ import {useModel, useSizeChild} from "@essence-community/constructor-share/hooks
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
 import {HorizontalResizer} from "@essence-community/constructor-share/uicomponents";
 import {useObserver} from "mobx-react";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {PanelWidthContext} from "@essence-community/constructor-share/context";
 import {PanelModel, IItemType} from "../../store/PanelModel";
 import {useStyles} from "./Panel.styles";
@@ -40,7 +40,7 @@ export const Panel: React.FC<IPanelProps> = (props) => {
         },
         [store],
     );
-    const [childs, sizeChild] = useSizeChild(bc.childs);
+    const [childs, sizeChild] = useSizeChild(bc.childs, props.pageStore);
 
     return useObserver(() => {
         const {childsWidths = {}} = store;
@@ -67,13 +67,11 @@ export const Panel: React.FC<IPanelProps> = (props) => {
 
                             if (!isResizeEnable) {
                                 return (
-                                    <Grid
-                                        item
-                                        key={child[VAR_RECORD_PAGE_OBJECT_ID]}
-                                        xs={isRow ? true : MAX_PANEL_WIDTH}
+                                    <Grid key={child[VAR_RECORD_PAGE_OBJECT_ID]}
+                                        size={isRow ? "grow" : MAX_PANEL_WIDTH}
                                         className={isRow ? classes.panelItemFlexBasis : undefined}
                                         style={style}
-                                        zeroMinWidth
+                                       
                                     >
                                         {childComponnt}
                                     </Grid>
@@ -83,7 +81,7 @@ export const Panel: React.FC<IPanelProps> = (props) => {
                             return (
                                 <HorizontalResizer
                                     key={child[VAR_RECORD_PAGE_OBJECT_ID]}
-                                    xs={isRow ? true : MAX_PANEL_WIDTH}
+                                    size={isRow ? "grow" : MAX_PANEL_WIDTH}
                                     className={isRow ? classes.panelItemFlexBasis : undefined}
                                     style={style}
                                     isAddResizer={isAddResizer}

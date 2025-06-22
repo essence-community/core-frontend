@@ -3,7 +3,7 @@ import cn from "clsx";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
 import {useTextFieldProps, useFieldDisabled} from "@essence-community/constructor-share/hooks";
-import {TextField, IconButton} from "@material-ui/core";
+import {TextField, IconButton} from "@mui/material";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {useStyles} from "./FieldRegexpReplContainer.styles";

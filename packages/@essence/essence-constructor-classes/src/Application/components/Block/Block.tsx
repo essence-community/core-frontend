@@ -1,6 +1,6 @@
 import * as React from "react";
 import {useObserver} from "mobx-react";
-import {Grid, Paper, Typography} from "@material-ui/core";
+import {Grid, Paper, Typography} from "@mui/material";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {IApplicationModel} from "@essence-community/constructor-share/types";
 import {useStyles} from "./Block.styles";
@@ -22,9 +22,9 @@ export const Block: React.FC<IBlockProps> = ({applicationStore}) => {
                     spacing={2}
                     alignItems="center"
                     direction="row"
-                    justify="center"
+                    justifyContent="center"
                 >
-                    <Grid item>
+                    <Grid>
                         <Paper className={classes.paper} elevation={8}>
                             {trans("static:e6f8166771e04b849855254c5d926ff6")}
                             <Typography variant="body2" color="inherit">

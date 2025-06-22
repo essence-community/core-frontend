@@ -1,7 +1,7 @@
-import {StyleRules} from "@material-ui/core";
-import {IEssenceTheme} from "@essence-community/constructor-share";
+import {StyleRules} from "@mui/styles";
+import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share";
 
-export const lightStyles = (theme: IEssenceTheme): StyleRules<"root"> => ({
+export const lightStyles = (theme: IEssenceTheme): StyleRules<IClassProps, "root"> => ({
     root: {
         "&:before": {
             backgroundColor: theme.palette.secondary.main,

@@ -96,7 +96,7 @@ export interface IPopoverContentProps {
     restoreFocusedElement?: boolean;
     paperClassName?: string;
     width: number | string | "auto";
-    onEscapeKeyDown?: React.ReactEventHandler<HTMLDivElement>;
+    onKeyDown?: React.ReactEventHandler<HTMLDivElement>;
     popoverContent: React.ReactNode | PopoverRenderChildren;
     disableFocusableArrow?: boolean;
     onClose: () => void;

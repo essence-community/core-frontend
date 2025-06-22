@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Backdrop, Modal, Grow, Paper} from "@material-ui/core";
+import {Backdrop, Modal, Grow, Paper} from "@mui/material";
 import {FocusableArrow} from "../FocusableArrow";
 import {ANIMATION_TIMEOUT} from "../../constants";
 import {isFunction} from "../../utils/functions";
@@ -34,8 +34,7 @@ export const PopoverContent: React.FC<IPopoverContentProps> = React.forwardRef<H
             <React.Fragment>
                 {props.hideBackdrop ? null : <Backdrop open className={classes.popoverBackdrop} />}
 
-                <Modal
-                    open
+                <Modal open
                     className={classes.popoverRoot}
                     style={style}
                     data-page-object={props.dataPageObjectPopover}
@@ -44,8 +43,9 @@ export const PopoverContent: React.FC<IPopoverContentProps> = React.forwardRef<H
                     disableRestoreFocus
                     disableAutoFocus
                     disableEnforceFocus
+                    closeAfterTransition
                     disableEscapeKeyDown={props.disableEscapeKeyDown}
-                    onEscapeKeyDown={props.onEscapeKeyDown}
+                    onKeyDown={props.onKeyDown}
                 >
                     <div ref={ref}>
                         <React.Suspense fallback={null}>
@@ -53,13 +53,16 @@ export const PopoverContent: React.FC<IPopoverContentProps> = React.forwardRef<H
                                 {props.disableFocusableArrow ? (
                                     content
                                 ) : (
-                                    <FocusableArrow
-                                        tabFocusable={props.tabFocusable}
-                                        focusableMount={props.focusableMount}
-                                        restoreFocusedElement={props.restoreFocusedElement}
-                                    >
-                                        {content}
-                                    </FocusableArrow>
+                                    <div>
+                                        <FocusableArrow
+                                            tabFocusable={props.tabFocusable}
+                                            focusableMount={props.focusableMount}
+                                            restoreFocusedElement={props.restoreFocusedElement}
+                                            
+                                        >
+                                            {content}
+                                        </FocusableArrow>
+                                    </div>
                                 )}
                             </Grow>
                         </React.Suspense>

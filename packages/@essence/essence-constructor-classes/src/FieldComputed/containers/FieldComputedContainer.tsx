@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Grid, TextField, Typography} from "@material-ui/core";
+import {Grid, TextField, Typography} from "@mui/material";
 import {i18next, useTranslation} from "@essence-community/constructor-share/utils";
 import {parse, IParseReturnType} from "@essence-community/constructor-share/utils/parser";
 import {FieldValue, IClassProps} from "@essence-community/constructor-share/types";
@@ -81,16 +81,16 @@ export const FieldComputedContainer: React.FC<IClassProps> = (props) => {
 
     return (
         <Grid container spacing={1} direction="column">
-            <Grid item>
+            <Grid>
                 <Grid container spacing={1}>
-                    <Grid item xs={6}>
+                    <Grid size={6}>
                         <Grid container spacing={1} direction="column">
-                            <Grid item>
+                            <Grid>
                                 <Typography variant="body2">
                                     {trans("static:9207ff3b431a4dc58f16a28d2aae0ea8")}
                                 </Typography>
                             </Grid>
-                            <Grid item>
+                            <Grid>
                                 <TextField
                                     InputProps={{
                                         classes: {
@@ -109,15 +109,15 @@ export const FieldComputedContainer: React.FC<IClassProps> = (props) => {
                         </Grid>
                     </Grid>
 
-                    <Grid item xs={6}>
+                    <Grid size={6}>
                         <Grid container spacing={1} direction="column">
-                            <Grid item>
+                            <Grid>
                                 <Typography variant="body2">
                                     {trans("static:a363461339754846881b1f84b6706851")}
                                 </Typography>
                             </Grid>
                             {parser.variables.map((variable, index) => (
-                                <Grid item key={index}>
+                                <Grid key={index}>
                                     <TextField
                                         name={variable}
                                         value={values[variable]}
@@ -131,7 +131,7 @@ export const FieldComputedContainer: React.FC<IClassProps> = (props) => {
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid item>
+            <Grid>
                 <TextField
                     value={result === undefined ? "" : JSON.stringify(result)}
                     label={trans("static:b4458be782404651a4cfcad47d2ae17a")}
@@ -139,7 +139,7 @@ export const FieldComputedContainer: React.FC<IClassProps> = (props) => {
                     autoComplete="off"
                 />
             </Grid>
-            <Grid item>
+            <Grid>
                 <Typography variant="body2">
                     {trans("static:c816bc224d6e4ae5b60d9c7dd2e6b612")}: {typeof result}
                 </Typography>

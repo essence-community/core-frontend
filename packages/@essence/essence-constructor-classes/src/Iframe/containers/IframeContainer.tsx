@@ -1,6 +1,6 @@
 import * as React from "react";
 import {useObserver} from "mobx-react";
-import {Paper} from "@material-ui/core";
+import {Paper} from "@mui/material";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {IClassProps} from "@essence-community/constructor-share/types";

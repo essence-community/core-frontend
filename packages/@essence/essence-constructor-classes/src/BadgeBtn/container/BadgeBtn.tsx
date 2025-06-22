@@ -1,6 +1,6 @@
 import {IBuilderConfig, IClassProps, mapComponents, parseMemoize} from "@essence-community/constructor-share";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
-import {Badge} from "@material-ui/core";
+import {Badge} from "@mui/material";
 import {useObserver} from "mobx-react";
 import * as React from "react";
 import {useStyles} from "./BadgeBtn.styles";

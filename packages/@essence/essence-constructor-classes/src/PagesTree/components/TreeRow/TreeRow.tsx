@@ -12,7 +12,7 @@ import {
     VAR_RECORD_PAGE_REDIRECT,
 } from "@essence-community/constructor-share/constants/variables";
 import {deepFind, makeRedirect, parseMemoize, useTranslation} from "@essence-community/constructor-share/utils";
-import {Grid, Typography} from "@material-ui/core";
+import {Grid, Typography} from "@mui/material";
 import clsx from "clsx";
 import {useObserver} from "mobx-react";
 import * as React from "react";
@@ -126,7 +126,7 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
 
     const renderIcon = () => {
         return (
-            <Grid item className={classes.iconRoot}>
+            <Grid className={classes.iconRoot}>
                 <Icon iconfont={icon.name} size="lg" iconfontname={icon.font as "fa" | "mdi"} />
             </Grid>
         );
@@ -135,10 +135,10 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
     const renderFolderIcon = () => {
         return (
             <React.Fragment>
-                <Grid item className={classes.chevronRoot}>
+                <Grid className={classes.chevronRoot}>
                     <Icon iconfont={isOpen ? "caret-down" : "caret-right"} size="lg" />
                 </Grid>
-                <Grid item className={classes.folrderRoot}>
+                <Grid className={classes.folrderRoot}>
                     <Icon iconfont={isOpen ? "folder-open-o" : "folder-o"} size="lg" />
                 </Grid>
             </React.Fragment>
@@ -170,13 +170,13 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
                     <Grid
                         container
                         wrap="nowrap"
-                        justify="center"
+                        justifyContent="center"
                         spacing={1}
                         alignItems="center"
                         className={classes.rootGrid}
                     >
                         {leaf ? renderIcon() : renderFolderIcon()}
-                        <Grid item xs zeroMinWidth>
+                        <Grid size="grow">
                             <Typography
                                 variant="body2"
                                 color="inherit"

@@ -1,6 +1,6 @@
  
 import * as React from "react";
-import {Grid, Table, useTheme, TableBody} from "@material-ui/core";
+import {Grid, Table, useTheme, TableBody} from "@mui/material";
 import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {VerticalResizer, Pagination, Scrollbars} from "@essence-community/constructor-share/uicomponents";
@@ -106,9 +106,9 @@ export const GridTable: React.FC<IGridTableProps> = ({store, children, ...classP
         const height = store.gridHeight + SCROLL_WEIGHT;
 
         return (
-            <Grid container spacing={0} direction="column" justify="space-between">
+            <Grid container spacing={0} direction="column" justifyContent="space-between">
                 {bc.hiddentableheader ? null : (
-                    <Grid item xs zeroMinWidth className={classes.headerItem}>
+                    <Grid size="grow" className={classes.headerItem}>
                         <div className={classes.headerScroll} ref={headerRef}>
                             <Table
                                 data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-table-header`}
@@ -120,7 +120,7 @@ export const GridTable: React.FC<IGridTableProps> = ({store, children, ...classP
                         </div>
                     </Grid>
                 )}
-                <Grid item xs zeroMinWidth>
+                <Grid size="grow">
                     <Scrollbars
                         autoHeight={true}
                         autoHeightMin={height}
@@ -160,7 +160,7 @@ export const GridTable: React.FC<IGridTableProps> = ({store, children, ...classP
                         </div>
                     </Scrollbars>
                 </Grid>
-                <Grid item>
+                <Grid>
                     {pageSize && theme.essence.layoutTheme === 2 ? (
                         <Pagination
                             pageStore={store.pageStore}
@@ -178,7 +178,7 @@ export const GridTable: React.FC<IGridTableProps> = ({store, children, ...classP
                     ) : null}
                 </Grid>
                 {bc.splitter ? (
-                    <Grid item>
+                    <Grid>
                         <VerticalResizer
                             height={store.gridHeight}
                             minHeight={store.minHeight}

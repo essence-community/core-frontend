@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Typography, Box, Grid} from "@material-ui/core";
+import {Typography, Box, Grid} from "@mui/material";
 import {PromoBlockImage} from "../PromoBlockImage";
 import schemeBackground from "../../assets/scheme_background.svg";
 import scheme1 from "../../assets/scheme_1.svg";
@@ -19,7 +19,7 @@ export const PromoHeader: React.FC = () => {
     return (
         <Box minHeight="calc(50vw + 32px)" position="relative" display="flex" paddingX={2} overflow="hidden">
             <Grid container alignItems="center">
-                <Grid item sm={6} className={classes.content}>
+                <Grid size={6} className={classes.content}>
                     <Box paddingBottom={6}>
                         <PromoBlockImage data={[logo, "10rem", "4rem"]} position="relative" />
                     </Box>

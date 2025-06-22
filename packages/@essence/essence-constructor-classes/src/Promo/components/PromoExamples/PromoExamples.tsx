@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Box, Grid, Typography} from "@material-ui/core";
+import {Box, Grid, Typography} from "@mui/material";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {PromoExampleBuildContainer} from "../../containers/PromoExampleBuildContainer";
@@ -11,7 +11,7 @@ export const PromoExamples: React.FC<IClassProps> = (props) => {
     return (
         <Box padding={4}>
             <Grid container direction="column">
-                <Grid item>
+                <Grid>
                     <Typography variant="h4" gutterBottom>
                         Простой компонент
                     </Typography>
@@ -23,7 +23,7 @@ export const PromoExamples: React.FC<IClassProps> = (props) => {
                     </Box>
                 </Grid>
 
-                <Grid item>
+                <Grid>
                     <Typography variant="h4" gutterBottom>
                         Гибкая настройка поведения компонентов
                     </Typography>

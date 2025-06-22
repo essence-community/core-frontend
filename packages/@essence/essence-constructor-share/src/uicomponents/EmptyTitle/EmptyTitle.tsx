@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Grid, Typography} from "@material-ui/core";
+import {Grid, Typography} from "@mui/material";
 import {IBuilderConfig} from "../../types";
 import {useStyles} from "./EmptyTitle.styles";
 
@@ -20,12 +20,14 @@ export const EmptyTitle: React.FC<IEmptyTitleProps> = ({title, filters, hideacti
     return (
         <Grid container direction="row" wrap="nowrap" className={classes.titleContainer}>
             {hideactions ? null : (
-                <Grid item className={`${classes.titleButtons} ${slim ? classes.titleButtonsSlim : ""}`}>
+                <Grid className={`${classes.titleButtons} ${slim ? classes.titleButtonsSlim : ""}`}>
                     &nbsp;
                 </Grid>
             )}
-            <Grid item xs zeroMinWidth>
-                <Typography variant="body2" noWrap className={classes.titleTypography} data-qtip={title}>
+            <Grid size="grow">
+                <Typography variant="body2" noWrap classes={{
+                    root: classes.titleTypography,
+                }} data-qtip={title}>
                     {title}
                 </Typography>
             </Grid>

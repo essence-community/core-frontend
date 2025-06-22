@@ -5,7 +5,7 @@ import {
     VAR_RECORD_DISPLAYED,
 } from "@essence-community/constructor-share/constants/variables";
 import {IClassProps} from "@essence-community/constructor-share/types/Class";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {loggerRoot} from "@essence-community/constructor-share/constants";
 
@@ -82,13 +82,13 @@ export const FieldPeriodContainer: React.FC<IClassProps> = (props) => {
 
     return (
         <Grid container wrap="nowrap" spacing={1} alignItems="center">
-            <Grid item xs zeroMinWidth>
+            <Grid size="grow">
                 {mapComponentOne(bcStart, (Comp, childBc) => (
                     <Comp {...props} bc={childBc} />
                 ))}
             </Grid>
-            <Grid item>-</Grid>
-            <Grid item xs zeroMinWidth>
+            <Grid>-</Grid>
+            <Grid size="grow">
                 {mapComponentOne(bcEnd, (Comp, childBc) => (
                     <Comp {...props} bc={childBc} />
                 ))}

@@ -9,7 +9,7 @@ import {
 } from "@essence-community/constructor-share/hooks";
 import {reaction} from "mobx";
 import {FormContext} from "@essence-community/constructor-share/context";
-import {TextField} from "@material-ui/core";
+import {TextField} from "@mui/material";
 import {FieldTextareaInput} from "../components/FieldTextareaInput";
 
 export const FieldTextareaContainer: React.FC<IClassProps> = (props) => {

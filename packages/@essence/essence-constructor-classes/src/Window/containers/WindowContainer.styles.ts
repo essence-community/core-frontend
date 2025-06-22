@@ -1,4 +1,4 @@
-import {makeStyles} from "@material-ui/core";
+import {makeStyles} from "@mui/styles";
 import {IEssenceTheme} from "@essence-community/constructor-share/types";
 
 export const useStyles = makeStyles(
@@ -6,11 +6,11 @@ export const useStyles = makeStyles(
         addMoreLabelColor:
             theme.essence.layoutTheme === 2
                 ? {
-                      color: theme.palette.common.white,
-                  }
+                    color: theme.palette.common.white,
+                }
                 : {
-                      color: theme.palette.text.primary,
-                  },
+                    color: theme.palette.text.primary,
+                },
         "align-left": {
             justifyContent: "flex-start",
         },
@@ -36,11 +36,11 @@ export const useStyles = makeStyles(
         iconColor:
             theme.essence.layoutTheme === 2
                 ? {
-                      color: theme.palette.common.white,
-                  }
+                    color: theme.palette.common.white,
+                }
                 : {
-                      color: theme.essence.palette.primary.field,
-                  },
+                    color: theme.essence.palette.primary.field,
+                },
         paper: {
             width: "calc(100% - 64px)",
         },

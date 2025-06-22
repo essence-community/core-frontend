@@ -17,7 +17,7 @@ interface ITabPopoverItemProps extends IClassProps {
 export const TabPopoverItem: React.FC<ITabPopoverItemProps> = (props) => {
     const {hidden, disabled} = useCommon(props);
     const {onChangeTab} = useTab({...props, disabled, hidden});
-    const classes = useStyles();
+    const classes = useStyles(props);
     const className = cn(classes.root, classes.rootDefault, {
         [classes.active]: props.isActive,
         [classes.disabled]: props.disabled,

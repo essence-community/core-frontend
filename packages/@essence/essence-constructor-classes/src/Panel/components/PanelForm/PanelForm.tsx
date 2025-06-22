@@ -7,7 +7,7 @@ import {VAR_RECORD_DISPLAYED, VAR_RECORD_NAME} from "@essence-community/construc
 import {toTranslateText} from "@essence-community/constructor-share/utils/transform";
 import cn from "clsx";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {Grid, useTheme, ThemeProvider} from "@material-ui/core";
+import {Grid, useTheme, ThemeProvider} from "@mui/material";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {useObserver} from "mobx-react";
 import {EmptyTitle} from "@essence-community/constructor-share/uicomponents/EmptyTitle";
@@ -85,7 +85,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
 
         const filterComponent = (
             <ThemeProvider theme={themeFilterNew}>
-                <Grid item xs>
+                <Grid size="grow">
                     {mapComponents(filters, (ChildCmp, childBc) => (
                         <ChildCmp
                             key={bc[VAR_RECORD_PAGE_OBJECT_ID]}
@@ -104,7 +104,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
         );
 
         const actionsComponent = (
-            <Grid item style={{paddingTop}} className={classes.formActions}>
+            <Grid style={{paddingTop}} className={classes.formActions}>
                 {isEditing ? (
                     <PanelEditingButtons bc={bc} pageStore={pageStore} visible={visible} />
                 ) : (
@@ -116,7 +116,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
                         spacing={1}
                     >
                         {mapComponents(actions, (ChildComp, childBc) => (
-                            <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                            <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
                                 <ChildComp
                                     bc={childBc}
                                     disabled={disabled}
@@ -132,7 +132,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
         );
 
         const formComponent = (
-            <Grid item className={cn(classes.formRoot, {[classes.formRootEditing]: isEditing})} xs zeroMinWidth>
+            <Grid size="grow" className={cn(classes.formRoot, {[classes.formRootEditing]: isEditing})}>
                 <div className={classes.content}>
                     {children ? (
                         children
@@ -154,8 +154,8 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
         const themeContent = isDarkTheme ? (
             <Grid container direction="row" className={classNameRoot} wrap="nowrap">
                 {isHideActions ? null : actionsComponent}
-                <Grid item container direction="column" className={classes.contentRoot}>
-                    <Grid item xs>
+                <Grid container direction="column" className={classes.contentRoot}>
+                    <Grid size="auto">
                         {hideTitle ? null : <EmptyTitle hideactions title={transCvDisplayed} filters={filters} />}
                     </Grid>
                     {filterComponent}
@@ -165,7 +165,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
         ) : (
             <Grid container direction="column" className={classNameRoot} wrap="nowrap">
                 {hideTitle ? null : (
-                    <Grid item xs>
+                    <Grid size="auto">
                         <EmptyTitle hideactions title={transCvDisplayed} filters={filters} />
                     </Grid>
                 )}

@@ -1,4 +1,4 @@
-import {makeStyles} from "@material-ui/core";
+import {makeStyles} from "@mui/styles";
 import {IEssenceTheme} from "@essence-community/constructor-share/types";
 
 export const useStyles = makeStyles(
@@ -14,7 +14,7 @@ export const useStyles = makeStyles(
             borderRadius: 3,
             borderTopColor: "transparent",
             display: "flex",
-            padding: "4px 0 0",
+            padding: "9px 0 2px 0",
             position: "relative",
         },
         gridRootError: {

@@ -2,7 +2,7 @@ import * as React from "react";
 import {NumericFormat, NumberFormatValues} from "react-number-format";
 import {getBigNumberInstance, isEmpty} from "@essence-community/constructor-share/utils";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
-import {InputBaseComponentProps} from "@material-ui/core";
+import {InputBaseComponentProps} from "@mui/material";
 
 interface INumberFormatProps extends InputBaseComponentProps {
     bc: IBuilderConfig;

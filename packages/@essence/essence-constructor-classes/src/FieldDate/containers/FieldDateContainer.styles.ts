@@ -1,4 +1,4 @@
-import {makeStyles} from "@material-ui/core";
+import {makeStyles} from "@mui/styles";
 import {IEssenceTheme} from "@essence-community/constructor-share/types/Theme";
 
 export const useStyles = makeStyles(
@@ -11,17 +11,17 @@ export const useStyles = makeStyles(
                 borderRadius: "50%",
             },
             [".rc-calendar-header, .rc-calendar-month-panel-header," +
-            " .rc-calendar-year-panel-header, .rc-calendar-decade-panel-header"]: {
+                " .rc-calendar-year-panel-header, .rc-calendar-decade-panel-header"]: {
                 backgroundColor: theme.palette.primary.main,
                 color: theme.palette.common.white,
             },
             [".rc-calendar-month-panel-prev-year-btn, .rc-calendar-month-panel-year-select-content," +
-            " .rc-calendar-month-panel-next-year-btn"]: {
+                " .rc-calendar-month-panel-next-year-btn"]: {
                 color: theme.palette.common.white,
             },
             [".rc-calendar-month-select, .rc-calendar-next-month-btn, .rc-calendar-next-year-btn," +
-            " .rc-calendar-prev-month-btn, .rc-calendar-prev-year-btn, .rc-calendar-year-select," +
-            " .rc-calendar-day-select"]: {
+                " .rc-calendar-prev-month-btn, .rc-calendar-prev-year-btn, .rc-calendar-year-select," +
+                " .rc-calendar-day-select"]: {
                 color: theme.palette.common.white,
             },
             ".rc-calendar-picker": {

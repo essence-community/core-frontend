@@ -1,4 +1,4 @@
-import {makeStyles} from "@material-ui/core";
+import {makeStyles} from "@mui/styles";
 import {IEssenceTheme} from "@essence-community/constructor-share/types";
 
 export const useStyles = makeStyles(
@@ -21,43 +21,43 @@ export const useStyles = makeStyles(
         tableCell:
             theme.essence.layoutTheme === 2
                 ? {
-                      "&:hover": {
-                          "& $filterIcon": {
-                              visibility: "visible",
-                          },
-                      },
-                      "&:last-child": {
-                          paddingRight: 0,
-                      },
-                      "&:not(:last-child)": {
-                          borderRight: `1px solid ${theme.essence.palette.grey.arrow}`,
-                      },
-                      fontSize: 16,
-                      overflow: "hidden",
-                      padding: 0,
-                  }
+                    "&:hover": {
+                        "& $filterIcon": {
+                            visibility: "visible",
+                        },
+                    },
+                    "&:last-child": {
+                        paddingRight: 0,
+                    },
+                    "&:not(:last-child)": {
+                        borderRight: `1px solid ${theme.essence.palette.grey.arrow}`,
+                    },
+                    fontSize: 16,
+                    overflow: "hidden",
+                    padding: 0,
+                }
                 : {
-                      "&:hover": {
-                          "& $filterIcon": {
-                              visibility: "visible",
-                          },
-                          backgroundColor: theme.essence.palette.grey.light,
-                      },
-                      "&:last-child": {
-                          paddingRight: 0,
-                      },
-                      borderBottom: `1px solid ${theme.palette.primary.main}`,
-                      borderTop: `1px solid ${theme.palette.primary.main}`,
-                      fontSize: 16,
-                      height: theme.essence.sizing.gridRowHeight,
-                      padding: 0,
-                  },
+                    "&:hover": {
+                        "& $filterIcon": {
+                            visibility: "visible",
+                        },
+                        backgroundColor: theme.essence.palette.grey.light,
+                    },
+                    "&:last-child": {
+                        paddingRight: 0,
+                    },
+                    borderBottom: `1px solid ${theme.palette.primary.main}`,
+                    borderTop: `1px solid ${theme.palette.primary.main}`,
+                    fontSize: 16,
+                    height: theme.essence.sizing.gridRowHeight,
+                    padding: 0,
+                },
         tableCellActive:
             theme.essence.layoutTheme === 2
                 ? {}
                 : {
-                      backgroundColor: theme.essence.palette.grey.light,
-                  },
+                    backgroundColor: theme.essence.palette.grey.light,
+                },
         tableCellContent: {
             display: "flex",
             height: "100%",
@@ -70,22 +70,22 @@ export const useStyles = makeStyles(
         tableSortLabel:
             theme.essence.layoutTheme === 2
                 ? {
-                      "&:focus": {
-                          color: theme.palette.common.white,
-                      },
-                      "&:hover": {
-                          color: theme.palette.common.white,
-                      },
-                      color: theme.essence.palette.grey.light,
-                      flexGrow: 1,
-                      overflow: "hidden",
-                      paddingLeft: 12,
-                  }
+                    "&:focus": {
+                        color: theme.palette.common.white,
+                    },
+                    "&:hover": {
+                        color: theme.palette.common.white,
+                    },
+                    color: theme.essence.palette.grey.light,
+                    flexGrow: 1,
+                    overflow: "hidden",
+                    paddingLeft: 12,
+                }
                 : {
-                      flexGrow: 1,
-                      overflow: "hidden",
-                      paddingLeft: 12,
-                  },
+                    flexGrow: 1,
+                    overflow: "hidden",
+                    paddingLeft: 12,
+                },
     }),
     {name: "EssenceGridHeaderDefaultContainer"},
 );

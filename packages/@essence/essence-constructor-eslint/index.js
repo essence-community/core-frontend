@@ -146,13 +146,13 @@ export default [
             "template-tag-spacing": 2,
             "max-len": [
                 2,
-                120,
+                140,
                 4,
                 {
                     ignoreUrls: false,
                     ignoreComments: false,
                     ignoreTrailingComments: false,
-                    ignoreStrings: false,
+                    ignoreStrings: true,
                     ignoreTemplateLiterals: false,
                     ignoreRegExpLiterals: false,
                 },

@@ -1,11 +1,41 @@
 import * as React from "react";
-import {IBuilderConfig} from "../types";
+import {reaction} from "mobx";
+import {IBuilderConfig, IPageModel} from "../types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
 import {toColumnStyleWidthBc} from "../utils/transform";
+import {useGetValue} from "./useCommon/useGetValue";
+import {isHidden} from "./useCommon/isHidden";
 
-export function useSizeChild(childs: IBuilderConfig[] = []): [IBuilderConfig[], Record<string, any>] {
-    return React.useMemo(
-        () => [
+
+export function useSizeChild(
+    childs: IBuilderConfig[] = [],
+    pageStore: IPageModel,
+): [IBuilderConfig[], Record<string, React.CSSProperties>] {
+    const [style, setStyle] = React.useState({});
+    const getValue = useGetValue({pageStore});
+
+    React.useEffect(() => {
+        return reaction(
+            () => childs.reduce((res, childBc, index) => {
+                res[childBc[VAR_RECORD_PAGE_OBJECT_ID] || index] = {
+                    display: isHidden(childBc, getValue) ? "none" : undefined,
+                    height: childBc.height,
+                    maxHeight: childBc.maxheight ?? "100%",
+                    minHeight: childBc.minheight,
+                    ...toColumnStyleWidthBc(childBc),
+                };
+
+                return res;
+            }, {} as Record<string, React.CSSProperties>),
+            setStyle,
+            {
+                fireImmediately: true,
+            }
+        );
+    }, [childs, getValue]);
+
+    const memoizedChilds = React.useMemo(
+        () =>
             childs.map((childBc, index) => ({
                 ...childBc,
                 [VAR_RECORD_PAGE_OBJECT_ID]: childBc[VAR_RECORD_PAGE_OBJECT_ID] || `${index}`,
@@ -16,17 +46,8 @@ export function useSizeChild(childs: IBuilderConfig[] = []): [IBuilderConfig[], 
                 minwidth: childBc.minwidth && childBc.minwidth.endsWith("px") ? childBc.minwidth : undefined,
                 width: childBc.width && childBc.width.endsWith("px") ? childBc.width : undefined,
             })),
-            childs.reduce((res, childBc, index) => {
-                res[childBc[VAR_RECORD_PAGE_OBJECT_ID] || index] = {
-                    height: childBc.height,
-                    maxHeight: childBc.maxheight ?? "100%",
-                    minHeight: childBc.minheight,
-                    ...toColumnStyleWidthBc(childBc),
-                };
-
-                return res;
-            }, {} as Record<string, any>),
-        ],
         [childs],
     );
+
+    return [memoizedChilds, style];
 }

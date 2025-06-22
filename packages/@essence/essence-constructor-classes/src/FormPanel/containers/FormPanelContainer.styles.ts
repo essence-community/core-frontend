@@ -1,8 +1,8 @@
-import {makeStyles} from "@material-ui/core";
+import {makeStyles} from "@mui/styles";
 import {IEssenceTheme} from "@essence-community/constructor-share/types/Theme";
 
 export const useStyles = makeStyles(
-     
+
     (theme: IEssenceTheme) => ({
         form: {
             width: "100%",

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Grid, Typography, Box} from "@material-ui/core";
+import {Grid, Typography, Box} from "@mui/material";
 import {IconEditor} from "./IconEditor";
 import {IconHand} from "./IconHand";
 import {IconModule} from "./IconModule";
@@ -9,7 +9,7 @@ export const PromoInfo: React.FC = () => {
     return (
         <Box padding={4}>
             <Grid container spacing={4}>
-                <Grid item xs={6}>
+                <Grid size={6}>
                     <Box width="5rem" paddingBottom={1} color="textSecondary">
                         <IconEditor />
                     </Box>
@@ -21,7 +21,7 @@ export const PromoInfo: React.FC = () => {
                         компонентам интерфейса к какому сервису обращаться. Essence все взаимодействие возьмет на себя
                     </Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid size={6}>
                     <Box width="5rem" paddingBottom={1} color="textSecondary">
                         <IconHand />
                     </Box>
@@ -33,7 +33,7 @@ export const PromoInfo: React.FC = () => {
                         сложные пользовательские интерфейсы
                     </Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid size={6}>
                     <Box width="5rem" paddingBottom={1} color="textSecondary">
                         <IconModule />
                     </Box>
@@ -45,7 +45,7 @@ export const PromoInfo: React.FC = () => {
                         приложения.
                     </Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid size={6}>
                     <Box width="5rem" paddingBottom={1} color="textSecondary">
                         <IconChanges />
                     </Box>

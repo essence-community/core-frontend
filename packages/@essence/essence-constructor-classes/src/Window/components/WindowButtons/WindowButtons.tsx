@@ -1,5 +1,5 @@
 import * as React from "react";
-import {DialogActions} from "@material-ui/core";
+import {DialogActions} from "@mui/material";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {IBuilderConfig, IClassProps} from "@essence-community/constructor-share/types";
 import {FormContext} from "@essence-community/constructor-share/context";

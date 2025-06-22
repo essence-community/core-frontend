@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Grid, Paper} from "@material-ui/core";
+import {Grid, Paper} from "@mui/material";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {toTranslateText} from "@essence-community/constructor-share/utils/transform";
 import {IClassProps} from "@essence-community/constructor-share/types";
@@ -58,14 +58,14 @@ export const PanelContainer: React.FC<IPanelContainerProps> = React.memo(functio
         if (!isHiddenTitle && bc[VAR_RECORD_DISPLAYED]) {
             return (
                 <Grid container spacing={0} direction="column">
-                    <Grid item xs>
+                    <Grid size="auto">
                         <EmptyTitle
                             title={toTranslateText(trans, bc[VAR_RECORD_DISPLAYED])}
                             filters={bc.filters}
                             slim={false}
                         />
                     </Grid>
-                    <Grid item xs zeroMinWidth>
+                    <Grid>
                         <PanelWrapper {...props}>{render()}</PanelWrapper>
                     </Grid>
                 </Grid>

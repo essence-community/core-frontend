@@ -1,4 +1,4 @@
-import {makeStyles} from "@material-ui/core";
+import {makeStyles} from "@mui/styles";
 import {IEssenceTheme} from "@essence-community/constructor-share/types";
 
 export const useStyles = makeStyles(
@@ -26,29 +26,29 @@ export const useStyles = makeStyles(
         tableCell:
             theme.essence.layoutTheme === 2
                 ? {
-                      "&:first-of-type": {
-                          border: "none",
-                      },
-                      "&:last-child": {
-                          borderRight: "none",
-                          paddingRight: 4,
-                      },
-                      border: "none",
-                      borderRight: `1px solid ${theme.essence.palette.grey.arrow}`,
-                      padding: 0,
-                      paddingLeft: 4,
-                      paddingRight: 4,
-                      width: "calc(100% - 1px)",
-                  }
+                    "&:first-of-type": {
+                        border: "none",
+                    },
+                    "&:last-child": {
+                        borderRight: "none",
+                        paddingRight: 4,
+                    },
+                    border: "none",
+                    borderRight: `1px solid ${theme.essence.palette.grey.arrow}`,
+                    padding: 0,
+                    paddingLeft: 4,
+                    paddingRight: 4,
+                    width: "calc(100% - 1px)",
+                }
                 : {
-                      "&:last-child": {
-                          paddingRight: 4,
-                      },
-                      border: "none",
-                      padding: 0,
-                      paddingLeft: 4,
-                      paddingRight: 4,
-                  },
+                    "&:last-child": {
+                        paddingRight: 4,
+                    },
+                    border: "none",
+                    padding: 0,
+                    paddingLeft: 4,
+                    paddingRight: 4,
+                },
     }),
     {name: "EssenceGridInlineTable"},
 );

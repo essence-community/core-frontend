@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function, sort-keys */
 import * as React from "react";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {toColumnStyleWidthBc} from "@essence-community/constructor-share/utils/transform";
 import {IClassProps, IModuleClassProps} from "@essence-community/constructor-share/types";
 import {loadRemoteModule} from "@essence-community/constructor-share/utils/federationModule";
@@ -201,6 +201,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
             ...(propsComponent ? propsComponent : DEFAULT_PROPS),
             dispatchMessage: (...arg) => store.handleEventComponent(...arg),
         } as IModuleClassProps),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [contentStyle, propsComponent, store, disabled, hidden, pageStore, ...Object.values(nextProps)],
     );
 
@@ -249,13 +250,12 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
         return (
             <Grid
                 container
-                item
                 spacing={0}
                 alignItems="stretch"
                 style={contentStyle}
                 className={cn({[classes.fullScreen]: store.isFullScreen})}
             >
-                <Grid item xs={12} alignItems="stretch" zeroMinWidth>
+                <Grid size={12} alignItems="stretch">
                     <ErrorBoundary
                         fallback={null}
                     >

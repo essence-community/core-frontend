@@ -1,5 +1,6 @@
+/* eslint-disable sort-keys */
 import {IEssenceTheme} from "@essence-community/constructor-share/types";
-import {Theme} from "@material-ui/core";
+import {Theme} from "@mui/material";
 
 // eslint-disable-next-line quotes
 const fontFamily = '"Uni Neue Regular", "Roboto Light", "Roboto Regular", "Roboto"';
@@ -35,23 +36,26 @@ export const getThemeDark = (theme: Theme): IEssenceTheme => ({
         },
         text: {
             disabled: "#2c3345",
-            hint: "rgba(0, 0, 0, 0.38)",
+            // hint: "rgba(0, 0, 0, 0.38)",
             primary: "rgba(0, 0, 0, 0.87)",
             secondary: "rgba(0, 0, 0, 0.54)",
         },
-        type: "dark",
+        mode: "dark",
     },
-    props: {
+    components: {
         // Name of the component ⚛️
         MuiButtonBase: {
             /*
              * The properties to apply
              * No more ripple, on the whole application 💣!
              */
-            disableRipple: true,
+            defaultProps: {
+                disableRipple: true
+            }
         },
     },
     typography: {
+        htmlFontSize: theme.typography.htmlFontSize,
         body1: {...theme.typography.body1, fontFamily},
         body2: {...theme.typography.body2, fontFamily},
         button: {...theme.typography.button, fontFamily},
@@ -73,7 +77,7 @@ export const getThemeDark = (theme: Theme): IEssenceTheme => ({
         subtitle1: {...theme.typography.subtitle1, fontFamily},
         subtitle2: {...theme.typography.subtitle2, fontFamily},
     },
-    // eslint-disable-next-line sort-keys
+     
     essence: {
         codeTheme: "dark",
         layoutTheme: 2,

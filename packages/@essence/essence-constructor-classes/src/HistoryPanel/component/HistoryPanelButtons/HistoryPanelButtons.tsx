@@ -2,7 +2,7 @@ import * as React from "react";
 import {IClassProps, IStoreBaseModel, IBuilderConfig, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_CN_ORDER} from "@essence-community/constructor-share/constants";
 import {reaction} from "mobx";
-import {useTheme, Grid} from "@material-ui/core";
+import {useTheme, Grid} from "@mui/material";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react";
@@ -179,7 +179,7 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
             {mapComponents(
                 btnBc.map((config) => config.bc),
                 (ChildCmp, childBc, index) => (
-                    <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                    <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
                         <ChildCmp {...props} bc={childBc} disabled={btnBc[index].disabled} />
                     </Grid>
                 ),

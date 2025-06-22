@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
-import {Grow} from "@material-ui/core";
+import {Grow} from '@mui/material';
 import {Icon} from "@essence-community/constructor-share/Icon";
 import * as React from "react";
 import {createEmptyPageStore} from "../../stores/index";

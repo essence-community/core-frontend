@@ -1,5 +1,5 @@
 import * as React from "react";
-import {LinearProgress} from "@material-ui/core";
+import {LinearProgress} from "@mui/material";
 import {useTranslation, toTranslateText} from "@essence-community/constructor-share/utils";
 import {ISnackbar} from "@essence-community/constructor-share/types";
 

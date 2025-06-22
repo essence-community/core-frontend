@@ -1,7 +1,7 @@
 import * as React from "react";
 import {useObserver} from "mobx-react";
-import {Grid} from "@material-ui/core";
-import {useTheme} from "@material-ui/core/styles";
+import {Grid} from "@mui/material";
+import {useTheme} from "@mui/material/styles";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {IClassProps, IBuilderMode, IEssenceTheme} from "@essence-community/constructor-share/types";
@@ -46,17 +46,17 @@ export const GridInlineButtons: React.FC<IGridInlineButtonsProps> = React.memo(f
 
     return useObserver(() => (
         <Grid container spacing={1} alignItems="center" direction={isDarkTheme ? "column" : "row"}>
-            <Grid item>
+            <Grid>
                 {mapComponentOne(saveBtnBc, (ChildCmp, childBc) => (
                     <ChildCmp {...classProps} bc={childBc} />
                 ))}
             </Grid>
-            <Grid item>
+            <Grid>
                 {mapComponentOne(cancelBtnBc, (ChildCmp, childBc) => (
                     <ChildCmp {...classProps} bc={childBc} />
                 ))}
             </Grid>
-            <Grid item className={classes.label} data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-mode-title`}>
+            <Grid className={classes.label} data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-mode-title`}>
                 {trans(getModeTitle(bc.mode as IBuilderMode))}
             </Grid>
         </Grid>

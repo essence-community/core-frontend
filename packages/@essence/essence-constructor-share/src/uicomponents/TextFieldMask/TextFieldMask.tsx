@@ -1,6 +1,6 @@
 import React from "react";
 import InputMask, {Props as InputMaskProps} from "react-input-mask";
-import {TextField, TextFieldProps} from "@material-ui/core";
+import {TextField, TextFieldProps} from "@mui/material";
 import {ITextFieldExtendProps} from "../../hooks/useTextFieldProps";
 import {formatChars} from "./maskConfig";
 

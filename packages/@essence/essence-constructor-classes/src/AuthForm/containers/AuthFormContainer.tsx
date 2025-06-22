@@ -1,6 +1,7 @@
  
 import * as React from "react";
-import {Grid, Paper, Typography, useTheme, ThemeProvider} from "@material-ui/core";
+import {Grid, Paper, Typography, useTheme, ThemeProvider as MuiThemeProvider} from "@mui/material";
+import {ThemeProvider} from "@mui/styles";
 import {settingsStore} from "@essence-community/constructor-share/models/SettingsModel";
 import {
     VAR_SETTING_PROJECT_AUTH_TITLE,
@@ -41,14 +42,23 @@ export const AuthFormContainer: React.FC<IClassProps<IBuilderClassConfig>> = (pr
     }, [applicationStore, history]);
 
     return (
-        <ThemeProvider theme={themeNew}>
-            <Grid container justify="center" alignItems="center" className="root-height">
-                <Grid item>
-                    <Paper classes={{root: classes.paper}} elevation={12}>
-                        <Typography variant="body2" classes={{root: classes.typography}}>
-                            <img src={logo} alt="logo" height="50" width="50" />
-                            {settingsStore.settings[VAR_SETTING_PROJECT_AUTH_TITLE]}
-                        </Typography>
+        <MuiThemeProvider theme={themeNew}>
+            <ThemeProvider theme={themeNew}>
+                <Grid container justifyContent="center" alignItems="center" className="root-height">
+                    <Grid>
+                        <Paper classes={{root: classes.paper}} elevation={0}>
+                        <Grid container justifyContent="start" alignItems="center" className="root-height">
+                            <Grid justifyContent="center" alignItems="center">
+                                <img src={logo} alt="logo" height="50" width="50" />
+                            </Grid>
+                            <Grid size="grow" alignItems="center" justifyContent="center">
+                                <Grid size="grow">
+                                    <Typography variant="body2" classes={{root: classes.typography}}>
+                                    {settingsStore.settings[VAR_SETTING_PROJECT_AUTH_TITLE]}
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                        </Grid>
                         <UIForm
                             bc={bc}
                             pageStore={pageStore}
@@ -58,15 +68,15 @@ export const AuthFormContainer: React.FC<IClassProps<IBuilderClassConfig>> = (pr
                         >
                             <Grid container direction="column" spacing={3}>
                                 {mapComponents(bc.childs, (ChidCmp, childBc) => (
-                                    <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} item>
+                                    <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
                                         <ChidCmp {...props} bc={childBc} />
                                     </Grid>
                                 ))}
-                                <Grid item>
+                                <Grid>
                                     <button hidden />
-                                    <Grid container spacing={3} justify="flex-end">
+                                    <Grid container spacing={3} justifyContent="flex-end">
                                         {mapComponents(bc.bottombtn, (ChidCmp, childBc) => (
-                                            <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} item>
+                                            <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
                                                 <ChidCmp {...props} bc={childBc} />
                                             </Grid>
                                         ))}
@@ -75,8 +85,9 @@ export const AuthFormContainer: React.FC<IClassProps<IBuilderClassConfig>> = (pr
                             </Grid>
                         </UIForm>
                     </Paper>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </ThemeProvider>
+            </ThemeProvider>
+        </MuiThemeProvider>
     );
 };

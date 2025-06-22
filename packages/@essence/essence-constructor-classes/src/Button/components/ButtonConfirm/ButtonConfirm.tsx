@@ -3,7 +3,7 @@ import {IBuilderConfig, IPageModel, IEssenceTheme} from "@essence-community/cons
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {Popover, Confirm} from "@essence-community/constructor-share/uicomponents";
 import {IPopoverProps} from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";
-import {useTheme} from "@material-ui/core";
+import {useTheme} from "@mui/material";
 import {IPopoverContext} from "@essence-community/constructor-share/context";
 import {useTranslation} from "@essence-community/constructor-share/utils/I18n";
 import {ButtonConfirmEsc} from "../ButtonConfirmEsc";

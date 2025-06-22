@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import * as React from "react";
-import {Dialog, DialogTitle, Grid, DialogContent, Switch, DialogActions, Button} from "@material-ui/core";
+import {Dialog, DialogTitle, Grid, DialogContent, Switch, DialogActions, Button} from "@mui/material";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
@@ -137,21 +137,20 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
                 <ChildCmp {...props} bc={childBc} />
             ))}
             <Dialog open={isOpen} maxWidth="sm" fullWidth container={pageStore.pageEl} style={{position: "absolute"}}>
-                <DialogTitle disableTypography>
+                <DialogTitle>
                     <Grid container direction="row" wrap="nowrap" spacing={0} style={{width: "100%"}}>
-                        <Grid item xs>
+                        <Grid size="grow">
                             {trans("static:017af47503474ec58542b9db53bdeeff")}
                         </Grid>
                         <Grid
                             container
-                            item
                             onClick={handleReset}
                             className={classes.btnReset}
-                            justify="center"
+                            justifyContent="center"
                             alignItems="center"
                             data-qtip={trans("static:4a37974505a94f0cbfccfe99ff23ac1b")}
                         >
-                            <Grid item>{trans("static:108e06f7f86d4f588fc773cce968365a")}</Grid>
+                            <Grid>{trans("static:108e06f7f86d4f588fc773cce968365a")}</Grid>
                         </Grid>
                     </Grid>
                 </DialogTitle>
@@ -168,15 +167,15 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
                                 }
 
                                 return (
-                                    <Grid item key={column[VAR_RECORD_PAGE_OBJECT_ID]}>
+                                    <Grid key={column[VAR_RECORD_PAGE_OBJECT_ID]}>
                                         <Grid container>
-                                            <Grid item xs={10}>
+                                            <Grid size={10}>
                                                 {(displayed && trans(displayed)) ||
                                                     `${trans("static:223dbd23bba54e4c91f59ef4cdea8ffa")}  ${
                                                         column.datatype
                                                     }`}
                                             </Grid>
-                                            <Grid item xs={2}>
+                                            <Grid size={2}>
                                                 <Switch
                                                     name={column[VAR_RECORD_PAGE_OBJECT_ID]}
                                                     checked={visibility[column[VAR_RECORD_PAGE_OBJECT_ID]]}

@@ -4,7 +4,7 @@ import {Popover, Scrollbars} from "@essence-community/constructor-share/uicompon
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import {mapComponents, mapComponentOne} from "@essence-community/constructor-share/components";
 import {IPopoverTransfromOrigin} from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";
-import {useTheme} from "@material-ui/core";
+import {useTheme} from "@mui/material";
 import {useStyles} from "./ColumnIconLink.styles";
 
 const MAX_HEIGHT = 300;

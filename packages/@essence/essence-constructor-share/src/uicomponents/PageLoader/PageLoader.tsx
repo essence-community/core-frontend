@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Modal} from "@material-ui/core";
+import {Modal, DialogContent, Grid} from "@mui/material";
 import {useObserver} from "mobx-react";
 import {IPageModel} from "../../types";
 import {LineLoader} from "../LineLoader";
@@ -18,8 +18,7 @@ export const PageLoader: React.FC<IPagerLoaderProps> = (props) => {
 
     return useObserver(() => (
         <React.Fragment>
-            <Modal
-                open={Boolean(isLoading || (container && pageStore && pageStore.isLoading))}
+            <Modal component="div" open={Boolean(isLoading || (container && pageStore && pageStore.isLoading))}
                 style={{position: "absolute"}}
                 container={container}
                 className={classes.root}
@@ -28,7 +27,11 @@ export const PageLoader: React.FC<IPagerLoaderProps> = (props) => {
                 disableEnforceFocus
                 disableRestoreFocus
             >
-                <LineLoader loaderType={loaderType} size={100} />
+                <DialogContent>
+                    <Grid container justifyContent="center" alignItems="center">
+                        <LineLoader loaderType={loaderType} size={100} />
+                    </Grid>
+                </DialogContent>
             </Modal>
         </React.Fragment>
     ));

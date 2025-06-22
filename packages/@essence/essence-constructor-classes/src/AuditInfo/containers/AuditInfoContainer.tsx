@@ -5,7 +5,7 @@ import {
     IPopoverAnchorOrigin,
     IPopoverTransfromOrigin,
 } from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";
-import {CardContent, Typography, useTheme} from "@material-ui/core";
+import {CardContent, Typography, useTheme} from "@mui/material";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {Popover} from "@essence-community/constructor-share/uicomponents";
 import {useModel} from "@essence-community/constructor-share/hooks";

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {mapComponents, IBuilderConfig, useSizeChild} from "@essence-community/constructor-share";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -32,30 +32,25 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
         [bc, deleteLabel, idx, storeName],
     );
 
-    const [childs, sizeChild] = useSizeChild(bc.childs);
+    const [childs, sizeChild] = useSizeChild(bc.childs, fieldProps.pageStore);
 
     return (
         <Grid container spacing={1}>
-            <Grid
-                item
-                xs
+            <Grid size="grow"
                 container
                 {...GRID_CONFIGS[contentview]}
                 {...GRID_ALIGN_CONFIGS[`${align}-${contentview}`]}
                 spacing={1}
             >
                 {mapComponents(childs, (ChildCmp, bcChild) => (
-                    <Grid
-                        item
-                        key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]}
-                        xs
+                    <Grid size="grow" key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]}
                         style={sizeChild[bcChild[VAR_RECORD_PAGE_OBJECT_ID]]}
                     >
                         <ChildCmp {...fieldProps} bc={bcChild} />
                     </Grid>
                 ))}
             </Grid>
-            <Grid item>
+            <Grid>
                 {mapComponents([deleteBtnConfig], (ChildCmp, bcChild) => (
                     <ChildCmp
                         key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]}

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {useObserver} from "mobx-react";
-import {Divider, List, ListItem, ListItemText} from "@material-ui/core";
+import {Divider, List, ListItem, ListItemText} from '@mui/material';
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {IClassProps, IRecord} from "@essence-community/constructor-share/types";
 import {ExampleModel} from "../store/ExampleModel";

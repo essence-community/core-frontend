@@ -1,5 +1,5 @@
 /* eslint-disable sort-keys */
-import {GridProps} from "@material-ui/core";
+import {GridProps} from "@mui/material";
 
 export const GRID_CONFIGS: Record<"hbox" | "hbox-wrap" | "vbox" | "vbox-wrap", GridProps> = {
     hbox: {
@@ -21,26 +21,26 @@ export const GRID_CONFIGS: Record<"hbox" | "hbox-wrap" | "vbox" | "vbox-wrap", G
 };
 export const GRID_ALIGN_CONFIGS: Record<string, GridProps> = {
     "center-center-hbox": {
-        justify: "center",
+        justifyContent: "center",
         alignItems: "center",
     },
     "center-center-vbox": {
-        justify: "center",
+        justifyContent: "center",
         alignItems: "center",
     },
     "center-center-hbox-wrap": {
-        justify: "center",
+        justifyContent: "center",
         alignItems: "center",
     },
     "center-center-vbox-wrap": {
-        justify: "center",
+        justifyContent: "center",
         alignItems: "center",
     },
     "center-hbox": {
-        justify: "center",
+        justifyContent: "center",
     },
     "center-hbox-wrap": {
-        justify: "center",
+        justifyContent: "center",
     },
     "center-vbox": {
         alignItems: "center",
@@ -49,18 +49,18 @@ export const GRID_ALIGN_CONFIGS: Record<string, GridProps> = {
         alignItems: "center",
     },
     "left-hbox": {
-        justify: "flex-start",
+        justifyContent: "flex-start",
     },
     "left-stretch-hbox": {
-        justify: "flex-start",
+        justifyContent: "flex-start",
         alignItems: "stretch",
     },
     "left-stretch-hbox-wrap": {
-        justify: "flex-start",
+        justifyContent: "flex-start",
         alignItems: "stretch",
     },
     "left-hbox-wrap": {
-        justify: "flex-start",
+        justifyContent: "flex-start",
     },
     "left-vbox": {
         alignItems: "flex-start",
@@ -69,11 +69,11 @@ export const GRID_ALIGN_CONFIGS: Record<string, GridProps> = {
         alignItems: "flex-start",
     },
     "left-stretch-vbox": {
-        justify: "flex-start",
+        justifyContent: "flex-start",
         alignItems: "stretch",
     },
     "left-stretch-vbox-wrap": {
-        justify: "flex-start",
+        justifyContent: "flex-start",
         alignItems: "stretch",
     },
     "stretch-vbox": {
@@ -83,17 +83,17 @@ export const GRID_ALIGN_CONFIGS: Record<string, GridProps> = {
         alignItems: "stretch",
     },
     "right-hbox": {
-        justify: "flex-end",
+        justifyContent: "flex-end",
     },
     "right-stretch-hbox": {
-        justify: "flex-end",
+        justifyContent: "flex-end",
         alignItems: "stretch",
     },
     "right-hbox-wrap": {
-        justify: "flex-end",
+        justifyContent: "flex-end",
     },
     "right-stretch-hbox-wrap": {
-        justify: "flex-end",
+        justifyContent: "flex-end",
         alignItems: "stretch",
     },
     "right-vbox": {
@@ -103,11 +103,11 @@ export const GRID_ALIGN_CONFIGS: Record<string, GridProps> = {
         alignItems: "flex-end",
     },
     "right-stretch-vbox": {
-        justify: "flex-end",
+        justifyContent: "flex-end",
         alignItems: "stretch",
     },
     "right-stretch-vbox-wrap": {
-        justify: "flex-end",
+        justifyContent: "flex-end",
         alignItems: "stretch",
     },
     "stretch-hbox": {

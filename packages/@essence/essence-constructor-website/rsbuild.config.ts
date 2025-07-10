@@ -152,7 +152,7 @@ export default defineConfig(async () => {
   loadEnv();
 
   const { commitId, branchDateTime } = await getGitInfo();
-  const env = getClientEnvironment(process.env.PUBLIC_URL || '');
+  const env = getClientEnvironment(paths.publicUrlOrPath || "/");
 
 
   let proxy = {
@@ -162,8 +162,8 @@ export default defineConfig(async () => {
   };
 
   try {
-    if (process.env.PROXY) {
-      for (let obj of JSON.parse(process.env.PROXY)) {
+    if (env.raw.PROXY) {
+      for (let obj of JSON.parse(env.raw.PROXY)) {
         proxy[obj.path] = obj.options;
       }
     }
@@ -254,10 +254,12 @@ export default defineConfig(async () => {
         css: '[name].[contenthash:8].css',
         media: '[name].[hash][ext]'
       },
-      publicPath: process.env.PUBLIC_URL || '/',
+      publicPath: env.raw.PUBLIC_URL || '/',
+      assetPrefix: env.raw.PUBLIC_URL || '/',
       clean: true
     },
     dev: {
+      assetPrefix: env.raw.PUBLIC_URL || '/',
       port: 3000,
       host: 'localhost',
       https: false,
@@ -266,7 +268,7 @@ export default defineConfig(async () => {
     html: {
       template: './public/index.html',
       templateParameters: {
-        PUBLIC_URL: !process.env.PUBLIC_URL || process.env.PUBLIC_URL === "/" ? '' : process.env.PUBLIC_URL,
+        PUBLIC_URL: !env.raw.PUBLIC_URL || env.raw.PUBLIC_URL === "/" ? '' : env.raw.PUBLIC_URL,
         REACT_APP_SETTINGS: env.raw.REACT_APP_SETTINGS,
         REACT_APP_COMMIT_ID: commitId,
         REACT_APP_BRANCH_DATE_TIME: branchDateTime
@@ -282,7 +284,7 @@ export default defineConfig(async () => {
         }]);
 
         // Настройка оптимизации для production
-        if (process.env.NODE_ENV === 'production') {
+        if (env.raw.NODE_ENV === 'production') {
           chain.optimization.splitChunks({
             chunks: 'all',
             maxInitialRequests: Infinity,
@@ -347,7 +349,7 @@ export default defineConfig(async () => {
               to: path.join(__dirname, 'build/version.json'),
               transform(content) {
                 const COMMIT_ID = commitId || "";
-                const BRANCH_NAME = process.env.REACT_APP_BRANCH_NAME || "";
+                const BRANCH_NAME = env.raw.REACT_APP_BRANCH_NAME || "";
                 const BRANCH_DATE_TIME = branchDateTime || "";
                 return JSON.stringify({
                   version: BRANCH_NAME,
@@ -366,6 +368,7 @@ export default defineConfig(async () => {
       }
     },
     server: {
+      base: env.raw.PUBLIC_URL || '/',
       port: 3000,
       host: 'localhost',
       proxy,

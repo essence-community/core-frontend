@@ -8,13 +8,17 @@ import {mapValueToArray} from "@essence-community/constructor-share/utils";
 import {StoreBaseModel} from "@essence-community/constructor-share/models/StoreBaseModel";
 import {saveAction} from "@essence-community/constructor-share/actions/saveAction";
 import {
-    IStoreBaseModelProps,
     IBuilderConfig,
     IBuilderMode,
     IStoreBaseModel,
     IRecord,
 } from "@essence-community/constructor-share/types";
-import {IFieldItemSelectorModel, IChildGridBuildConfig} from "./FieldItemSelectorModel.types";
+import {IField} from "@essence-community/constructor-share/Form";
+import {
+    IFieldItemSelectorModel,
+    IChildGridBuildConfig,
+    IFieldItemSelectorModelProps,
+} from "./FieldItemSelectorModel.types";
 
 function getSelectionRecords(gridStore: IStoreBaseModel): IRecord[] {
     if (gridStore.bc.selmode === "MULTI" || gridStore.bc.collectionvalues === "array") {
@@ -29,8 +33,21 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
 
     public fieldTo: IBuilderConfig;
 
-    constructor(props: IStoreBaseModelProps) {
+    public field: IField;
+
+    private isLocal: boolean;
+
+    public fieldName: string;
+
+    constructor(props: IFieldItemSelectorModelProps) {
         super(props);
+
+        this.field = props.field;
+
+        this.isLocal = props.bc.querymode === "local";
+
+        this.fieldName = props.bc.valuefield && props.bc.valuefield.length > 0 ?
+            props.bc.valuefield[0].in : props.bc.column || this.recordId;
 
         const [fieldFrom, fieldTo] = this.bc.childs || [];
 
@@ -54,8 +71,8 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
     ];
 
     @action
-    private saveAction = (values: IRecord[], mode: IBuilderMode, btnBc: IBuilderConfig): Promise<boolean> =>
-        saveAction.call(this, values, mode, {
+    private saveAction = (values: IRecord[], mode: IBuilderMode, btnBc: IBuilderConfig): Promise<boolean> => {
+        return saveAction.call(this, values, mode, {
             actionBc: {
                 ...btnBc,
                 [VAR_RECORD_NAME]: `${this.bc[VAR_RECORD_NAME]}_button`,
@@ -68,16 +85,17 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
             query: this.bc.updatequery,
             recordId: this.recordId,
         });
+    };
 
     @action
-    private applySaveAction = (fromStore: IStoreBaseModel, toStore: IStoreBaseModel, recs: IRecord[]) => {
+    public applySaveAction = (fromStore: IStoreBaseModel, toStore: IStoreBaseModel, recs: IRecord[]) => {
         if (fromStore.bc.winreloadstores) {
             fromStore.clearStoreAction();
             fromStore.recordsStore!.loadRecordsAction();
         } else {
             fromStore.recordsStore!.setSelectionsAction([]);
             fromStore.recordsStore!.setSelectionAction();
-            fromStore.recordsStore!.removeRecordsAction(recs, this.bc.column!);
+            fromStore.recordsStore!.removeRecordsAction(recs, this.fieldName);
         }
         if (toStore.bc.winreloadstores) {
             toStore.clearStoreAction();
@@ -104,8 +122,41 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
         }
 
         const recs = isAll ? fromStore.recordsStore?.records || [] : getSelectionRecords(fromStore);
-        const saveStatus = await this.saveAction(recs, mode, btnBc);
+        const saveStatus = this.isLocal ? true : await this.saveAction(recs, mode, btnBc);
+        const currentValue = this.field.value as any as {I: IRecord[]; D: IRecord[]};
+        let I = currentValue.I || [];
+        let D = currentValue.D || [];
 
+        if (mode === "1") {
+            const isOld = D
+                .some((item) => recs
+                    .some((v) => v[fromStore.recordsStore.recordId] === item[fromStore.recordsStore.recordId]));
+
+            I = isOld ? I : [
+                ...I.filter((item) => !recs
+                    .some((v) => v[fromStore.recordsStore.recordId] === item[fromStore.recordsStore.recordId])),
+                ...recs,
+            ];
+            D = D.filter((item) => !recs
+                .some((v) => v[fromStore.recordsStore.recordId] === item[fromStore.recordsStore.recordId]));
+        } else {
+            const isOld = I
+                .some((item) => recs
+                    .some((v) => v[fromStore.recordsStore.recordId] === item[fromStore.recordsStore.recordId]));
+
+            D = isOld ? D : [
+                ...D.filter((item) => !recs
+                    .some((v) => v[fromStore.recordsStore.recordId] === item[fromStore.recordsStore.recordId])),
+                ...recs,
+            ];
+            I = I.filter((item) => !recs
+                .some((v) => v[fromStore.recordsStore.recordId] === item[fromStore.recordsStore.recordId]));
+        }
+
+        this.field.setValue({
+            D,
+            I,
+        });
         if (saveStatus) {
             this.applySaveAction(fromStore, toStore, recs);
         }

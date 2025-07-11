@@ -46,7 +46,7 @@ import {Snackbar} from "../components/Snackbar";
 import {Theme} from "../components/Theme";
 import {IBuilderClassConfig} from "../types";
 
-const logger = loggerRoot.extend("PagerContainer");
+const logger = loggerRoot.extend("ApplicationContainer");
 
 function globalTitle(trans: TFunction) {
     return trans("static:d2c071c58aca4b73853c1fcc6e2f08a3");
@@ -321,14 +321,14 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
 
     React.useEffect(() => {
         return reaction(
-            () => applicationStore.globalValues.toJSON(),
+            () => applicationStore.globalValues.entries().reduce((res, [key, value]) => {
+                res[key] = value;
+
+                return res;
+            }, {}),
             (globalValues) => {
                 applicationStore.pagesStore.pages.forEach((page: IPageModel) => {
-                    page.updateGlobalValues(globalValues.reduce((res, [key, value]) => {
-                        res[key] = value;
-
-                        return res;
-                    }, {}));
+                    page.updateGlobalValues(globalValues);
                 });
             },
             {
@@ -339,15 +339,21 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
 
     React.useEffect(() => {
         return reaction(
-            () => applicationStore.globalValues.toJSON(),
-            (globalValues) =>
+            () => applicationStore.globalValues.entries().reduce((res, [key, value]) => {
+                res[key] = value;
+
+                return res;
+            }, {}),
+            (globalValues) => {
                 snackbarStore.snackbarOpenAction({
                     autoHidden: true,
                     hiddenTimeout: 0,
                     status: "debug",
                     text: renderGlobalValuesInfo(globalValues),
                     title: globalTitle,
-                }),
+                });
+                logger("globalValues in application container %s", applicationStore.url, globalValues);
+            },
             {fireImmediately: true},
         );
     }, [applicationStore]);

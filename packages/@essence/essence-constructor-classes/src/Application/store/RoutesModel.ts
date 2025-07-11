@@ -20,6 +20,10 @@ export class RoutesModel implements IRoutesModel {
     setFavoritsAction = (ckId: string) => {
         this.favorits.set(ckId, !this.favorits.get(ckId));
 
-        saveToStore(STORE_FAVORITS_KEY, this.favorits.toJSON());
+        saveToStore(STORE_FAVORITS_KEY, this.favorits.entries().reduce((res, [key, value]) => {
+            res[key] = value;
+
+            return res;
+        }, {}));
     };
 }

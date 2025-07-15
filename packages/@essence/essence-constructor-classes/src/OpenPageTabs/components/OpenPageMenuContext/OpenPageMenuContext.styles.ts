@@ -1,5 +1,5 @@
 import {IEssenceTheme} from "@essence-community/constructor-share";
-import {makeStyles} from "@material-ui/core/styles";
+import {makeStyles} from "@mui/styles";
 import openPageMenuContextDark from "./OpenPageMenuContextDark.styles";
 import openPageMenuContextLight from "./OpenPageMenuContextLight.styles";
 

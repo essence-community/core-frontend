@@ -1,5 +1,5 @@
 import * as React from "react";
-import {DialogContent, Grid, Button} from "@material-ui/core";
+import {DialogContent, Grid, Button} from "@mui/material";
 import {IPageModel} from "../../types";
 import {Icon} from "../../Icon";
 import {Scrollbars} from "../Scrollbars";
@@ -42,10 +42,10 @@ export const Confirm: React.FC<IWindowMessageProps> = (props) => {
         <>
             <DialogContent className={classes.rootContent}>
                 <Grid container alignItems="center" spacing={2} wrap="nowrap">
-                    <Grid item>
+                    <Grid>
                         <Icon iconfont={statusIcons[status]} size="2x" color="grey" />
                     </Grid>
-                    <Grid item className={classes.content} xs zeroMinWidth>
+                    <Grid size="grow" className={classes.content}>
                         <Scrollbars autoHeight autoHeightMax={180} pageStore={pageStore}>
                             {typeof children === "string" ? trans(children) : children}
                         </Scrollbars>
@@ -53,8 +53,8 @@ export const Confirm: React.FC<IWindowMessageProps> = (props) => {
                 </Grid>
             </DialogContent>
             <div className={classes.rootActions}>
-                <Grid container justify="flex-end" spacing={1}>
-                    <Grid item>
+                <Grid container justifyContent="flex-end" spacing={1}>
+                    <Grid>
                         <Button
                             onClick={onAccept}
                             color="primary"
@@ -67,7 +67,7 @@ export const Confirm: React.FC<IWindowMessageProps> = (props) => {
                             {trans(textAccept)}
                         </Button>
                     </Grid>
-                    <Grid item>
+                    <Grid>
                         <Button
                             onClick={onDecline}
                             color="secondary"

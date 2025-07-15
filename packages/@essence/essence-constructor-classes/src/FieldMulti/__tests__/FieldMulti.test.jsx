@@ -3,7 +3,7 @@
 // @flow
 import * as React from "react";
 import {when} from "mobx";
-import {Modal, Button, IconButton} from "@material-ui/core";
+import {Modal, Button, IconButton} from '@mui/material';
 import {VAR_RECORD_CK_HOUSE} from "@essence-community/constructor-share/constants";
 import BuilderMobxForm from "../../../../Components/MobxForm/BuilderMobxForm";
 import addrJson from "../../../../../mocks/fields/addr.json";

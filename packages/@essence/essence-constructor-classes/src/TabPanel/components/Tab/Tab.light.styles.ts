@@ -1,9 +1,9 @@
-import {IEssenceTheme} from "@essence-community/constructor-share";
-import {StyleRules} from "@material-ui/core";
+import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share";
+import {StyleRules} from "@mui/styles";
 import {TabPanelPosition} from "../../TabPanel.types";
 
 // eslint-disable-next-line max-lines-per-function
-export function tabLightStyles(theme: IEssenceTheme): StyleRules<"rootTheme" | TabPanelPosition> {
+export function tabLightStyles(theme: IEssenceTheme): StyleRules<IClassProps, "rootTheme" | TabPanelPosition> {
     return {
         "center-hbox": {
             "& $label": {
@@ -69,7 +69,6 @@ export function tabLightStyles(theme: IEssenceTheme): StyleRules<"rootTheme" | T
                 borderLeft: `1px solid ${theme.palette.secondary.main}`,
                 borderTopLeftRadius: 6,
                 bottom: 0,
-                 
                 content: "\"\"",
                 left: 10,
                 position: "absolute",
@@ -138,7 +137,6 @@ export function tabLightStyles(theme: IEssenceTheme): StyleRules<"rootTheme" | T
                 borderRight: `1px solid ${theme.palette.secondary.main}`,
                 borderTopRightRadius: 6,
                 bottom: 0,
-                 
                 content: "\"\"",
                 left: 9,
                 position: "absolute",

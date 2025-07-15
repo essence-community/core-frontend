@@ -2,7 +2,7 @@
 import * as React from "react";
 import cn from "clsx";
 import {reaction} from "mobx";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {isEmpty, useTranslation} from "@essence-community/constructor-share/utils";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {Icon} from "@essence-community/constructor-share/Icon";
@@ -109,7 +109,7 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
 
         return undefined;
     }, [bc.reqcountrules, handleChangeReqCount, handleRegCountRules]);
-    const [childs, sizeChild] = useSizeChild(bc.childs);
+    const [childs, sizeChild] = useSizeChild(bc.childs, pageStore);
 
     return useObserver(() => {
         const status =
@@ -129,31 +129,29 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
                     GRID_ALIGN_CONFIGS["left-hbox"])}
                 data-qtip={field.isValid ? "" : trans("static:a5a5d7213d1f4f77861ed40549ee9c57")}
             >
-                <Grid container className={classes.label} wrap="nowrap" justify="space-between">
-                    <Grid item className={classes.labelTextStartAngle}>
+                <Grid container className={classes.label} wrap="nowrap" justifyContent="space-between">
+                    <Grid className={classes.labelTextStartAngle}>
                         &nbsp;
                     </Grid>
                     {displayed ? (
-                        <Grid item className={`${classes.labelDisplay}`} data-qtip={trans(displayed)}>
+                        <Grid className={`${classes.labelDisplay}`} data-qtip={trans(displayed)}>
                             {trans(displayed)}
                         </Grid>
                     ) : null}
-                    <Grid item xs className={classes.labelTextLine}>
+                    <Grid className={classes.labelTextLine}>
                         &nbsp;
                     </Grid>
                     {Boolean(status) && (
-                        <Grid item className={`${classes.labelStatus}`}>
+                        <Grid className={`${classes.labelStatus}`}>
                             {status}
                         </Grid>
                     )}
-                    <Grid item className={classes.labelTextEndAngle}>
+                    <Grid className={classes.labelTextEndAngle}>
                         &nbsp;
                     </Grid>
                 </Grid>
                 {mapComponents(childs, (ChildCmp, child) => (
-                    <Grid
-                        item
-                        xs={isRow ? true : MAX_PANEL_WIDTH}
+                    <Grid size={isRow ? "grow" : MAX_PANEL_WIDTH}
                         key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                         className={classes.child}
                         style={sizeChild[child[VAR_RECORD_PAGE_OBJECT_ID]]}

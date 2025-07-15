@@ -1,7 +1,7 @@
-/* eslint-disable max-lines-per-function */
+ 
 import * as React from "react";
 import cn from "clsx";
-import {Grid, Paper} from "@material-ui/core";
+import {Grid, Paper} from "@mui/material";
 import {IClassProps, Icon, useTranslation, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share";
 import {useCommon} from "@essence-community/constructor-share/hooks/useCommon/useCommon";
 import {useObserver} from "mobx-react";
@@ -82,32 +82,30 @@ export const Widget: React.FC<IWidgetProps<IChildBuilderConfig, IBuilderClassCon
         <Paper className={cn(classes.root, "paper-overflow-hidden", className)}>
             <Grid
                 container
-                item
                 className={cn(classes.root, className)}
                 wrap="wrap"
                 style={style}
                 direction="column"
-                justify="flex-start"
+                justifyContent="flex-start"
                 alignItems="stretch"
             >
                 <Grid
                     container
-                    item
                     className={classes.headerWidget}
                     direction="row"
-                    justify="flex-end"
+                    justifyContent="flex-end"
                     alignItems="center"
                     style={{
                         height: bcParent.layoutpanelconfig?.rowHeight || 30,
                     }}
                 >
-                    <Grid container item xs={true} direction="row" justify="flex-start" alignItems="center">
-                        <Grid item className={classes.label}>
+                    <Grid container size="grow" direction="row" justifyContent="flex-start" alignItems="center">
+                        <Grid className={classes.label}>
                             {trans(store.label.get(bc[VAR_RECORD_PAGE_OBJECT_ID]))}
                         </Grid>
                     </Grid>
-                    <Grid item justify="center" alignItems="center">
-                        <Grid container item>
+                    <Grid justifyContent="center" alignItems="center">
+                        <Grid container>
                             {isFullScreen ? (
                                 <Icon
                                     onClick={handleFullScreen}
@@ -123,8 +121,8 @@ export const Widget: React.FC<IWidgetProps<IChildBuilderConfig, IBuilderClassCon
                             ) : null}
                         </Grid>
                     </Grid>
-                    <Grid item justify="center" alignItems="center">
-                        <Grid container item>
+                    <Grid justifyContent="center" alignItems="center">
+                        <Grid container>
                             {isCollapsible &&
                             (!store.activeFullScreen ||
                                 (store.activeFullScreen &&
@@ -142,8 +140,8 @@ export const Widget: React.FC<IWidgetProps<IChildBuilderConfig, IBuilderClassCon
                             ) : null}
                         </Grid>
                     </Grid>
-                    <Grid item justify="center" alignItems="center">
-                        <Grid container item>
+                    <Grid justifyContent="center" alignItems="center">
+                        <Grid container>
                             {isDraggable &&
                             (!store.activeFullScreen ||
                                 (store.activeFullScreen &&
@@ -157,7 +155,7 @@ export const Widget: React.FC<IWidgetProps<IChildBuilderConfig, IBuilderClassCon
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item xs={true}>
+                <Grid size="grow">
                     <Scrollbars
                         style={SCROLLABRS_STYLE}
                         hideTracksWhenNotNeeded

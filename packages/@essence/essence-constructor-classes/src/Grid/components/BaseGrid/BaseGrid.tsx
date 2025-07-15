@@ -3,7 +3,8 @@ import {IClassProps, ICkId, IEssenceTheme} from "@essence-community/constructor-
 import {isEmpty, useTranslation, toTranslateText} from "@essence-community/constructor-share/utils";
 import {reaction} from "mobx";
 import cn from "clsx";
-import {Grid, useTheme, ThemeProvider} from "@material-ui/core";
+import {Grid, useTheme, ThemeProvider as MuiThemeProvider} from "@mui/material";
+import {ThemeProvider} from "@mui/styles";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
@@ -137,7 +138,16 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
 
             disposers.forEach((disposer) => disposer());
         };
-    }, [handlePageVisible, handleRecordsLoad, handleUpdateGridWidth, handleUpdateWidth, pageStore.visible, store]);
+    }, [
+        handlePageVisible,
+        handleRecordsLoad,
+        handleUpdateGridWidth,
+        handleUpdateWidth, 
+        pageStore.visible,
+        store,
+        bc,
+        handleResetGridWidth
+    ]);
 
     const setRefGridContent = (node: HTMLElement | null) => store.addRefAction("grid-content", node);
     const setRefGridInlineButton = (node: HTMLElement | null) => store.addRefAction("grid-inline-button", node);
@@ -155,13 +165,12 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
 
         const actionsComponent =
             isHideActions || bc.hiddenheader ? (
-                <Grid style={{marginTop}} item className={theme.essence.layoutTheme === 2 && classes.tableActions}>
+                <Grid style={{marginTop}} className={theme.essence.layoutTheme === 2 && classes.tableActions}>
                     <div ref={setRefGridInlineButton} />
                 </Grid>
             ) : (
                 <Grid
                     style={{marginTop}}
-                    item
                     className={store.isInlineEditing ? classes.editActionsGrid : classes.tableActions}
                 >
                     <GridButtons isInlineEditing={store.isInlineEditing} {...classProps} store={store} />
@@ -169,21 +178,23 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
                 </Grid>
             );
         const filterComponent = (
-            <ThemeProvider theme={themeFilterNew}>
-                <Grid item xs={!isDarkTheme}>
-                    {mapComponents(bc.filters, (ChildCmp, childBc) => (
-                        <ChildCmp
-                            key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                            {...classProps}
-                            disabled={store.isInlineEditing || classProps.disabled}
-                            bc={childBc}
-                        />
-                    ))}
-                </Grid>
-            </ThemeProvider>
+            <MuiThemeProvider theme={themeFilterNew}>
+                <ThemeProvider theme={themeFilterNew}>
+                    <Grid size={!isDarkTheme ? 12 : "auto"}>
+                        {mapComponents(bc.filters, (ChildCmp, childBc) => (
+                            <ChildCmp
+                                key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                {...classProps}
+                                disabled={store.isInlineEditing || classProps.disabled}
+                                bc={childBc}
+                            />
+                        ))}
+                    </Grid>
+                </ThemeProvider>
+            </MuiThemeProvider>
         );
         const tableComponent = (
-            <Grid item xs className={store.isInlineEditing ? "panel-editing-focus" : undefined}>
+            <Grid className={store.isInlineEditing ? "panel-editing-focus" : undefined}>
                 <Grid
                     container
                     spacing={0}
@@ -191,11 +202,9 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
                     wrap="nowrap"
                 >
                     {theme.essence.layoutTheme === 1 ? actionsComponent : null}
-                    <Grid
-                        item
-                        xs
+                    <Grid size={"grow"}
                         className={`${classes.tableBodyItem} ${store.isInlineEditing ? classes.editableTable : ""}`}
-                        zeroMinWidth
+                       
                         ref={setRefGridContent}
                     >
                         {bc.order === undefined || bc.order.length === 0 ? (
@@ -215,9 +224,9 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
                 <>
                     <Grid container ref={refGridContent} direction="row" className={classNameRoot} wrap="nowrap">
                         {actionsComponent}
-                        <Grid item container direction="column" className={classes.contentRoot}>
+                        <Grid container direction="column" className={classes.contentRoot}>
                             {bc.hiddenheader ? null : (
-                                <Grid item className={classes.maxWidth}>
+                                <Grid className={classes.maxWidth}>
                                     <EmptyTitle title={transCvDisplayed} filters={bc.filters} hideactions />
                                 </Grid>
                             )}
@@ -241,7 +250,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
                 <Grid container ref={refGridContent} direction="column" className={classNameRoot} wrap="nowrap">
                     {filterComponent}
                     {bc.hiddenheader ? null : (
-                        <Grid item className={classes.maxWidth}>
+                        <Grid className={classes.maxWidth}>
                             <EmptyTitle title={transCvDisplayed} filters={bc.filters} />
                         </Grid>
                     )}

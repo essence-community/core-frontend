@@ -4,7 +4,7 @@ import {IClassProps} from "@essence-community/constructor-share/types";
 import {toColumnStyleWidth} from "@essence-community/constructor-share/utils";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {useResizerEE} from "@essence-community/constructor-share/hooks";
-import {Grid, Drawer} from "@material-ui/core";
+import {Grid, Drawer} from "@mui/material";
 import {WindowContext} from "@essence-community/constructor-share/context";
 import {WindowCancel} from "../../Window/components/WindowCancel";
 import {useStyles} from "./WindowDrawerContainer.styles";
@@ -42,7 +42,7 @@ export const WindowDrawerContainer: React.FC<IClassProps> = (props) => {
         props.pageStore.closeWindowAction(bc[VAR_RECORD_PAGE_OBJECT_ID]);
     };
     const sideResizer = (
-        <Grid item>
+        <Grid>
             <SideResizer
                 anchor={align as "left" | "right"}
                 minDrawerWidth={width}
@@ -77,6 +77,8 @@ export const WindowDrawerContainer: React.FC<IClassProps> = (props) => {
                 <React.Suspense fallback={null}>
                     <Grid
                         container
+                        width={"100%"}
+                        height={"100%"}
                         spacing={0}
                         wrap="nowrap"
                         direction="row"
@@ -84,15 +86,14 @@ export const WindowDrawerContainer: React.FC<IClassProps> = (props) => {
                         className={classes.container}
                     >
                         {bc.align === "right" ? sideResizer : null}
-                        <Grid item xs={true} container spacing={1} direction="column" alignItems="stretch">
+                        <Grid size={12} container spacing={1} height={"100%"} direction="column" alignItems="stretch">
                             {mapComponents(bc.childs, (ChildComp, childBc) => (
                                 <Grid
                                     key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                    item
-                                    xs={childBc.type === "PAGER" || isOneChild ? true : undefined}
+                                    size={childBc.type === "PAGER" || isOneChild ? 12 : "auto"}
                                     style={{
                                         // Pager has scrollbars, we should pass initial height for this page
-                                        height: childBc.type === "PAGER" ? "100%" : undefined,
+                                        height: childBc.height || (isOneChild ? "100%" : undefined),
                                         ...toColumnStyleWidth(childBc.width),
                                         flexBasis: undefined,
                                     }}

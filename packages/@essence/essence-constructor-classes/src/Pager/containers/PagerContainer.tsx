@@ -11,7 +11,7 @@ import {
     ParentFieldContext,
     ResizeContext,
 } from "@essence-community/constructor-share/context";
-import {Grid, useTheme} from "@material-ui/core";
+import {Grid, useTheme} from "@mui/material";
 import {settingsStore, PageModel, snackbarStore} from "@essence-community/constructor-share/models";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -150,8 +150,7 @@ export const PagerContainer: React.FC<IClassProps> = (props) => {
                                 (ChildComponent: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
                                     <Grid
                                         key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                        item
-                                        xs={12}
+                                        size={12}
                                         style={toColumnStyleWidth(childBc.width)}
                                     >
                                         <ChildComponent

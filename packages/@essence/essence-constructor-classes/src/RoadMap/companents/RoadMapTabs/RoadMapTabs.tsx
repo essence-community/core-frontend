@@ -6,7 +6,7 @@ import {useObserver} from "mobx-react";
 import {debounce, toTranslateText, useTranslation} from "@essence-community/constructor-share/utils";
 import keycode from "keycode";
 import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants/variables";
-import {Grid, Tabs} from "@material-ui/core";
+import {Grid, Tabs} from "@mui/material";
 import cn from "clsx";
 import {TabsStatusType} from "../../store/RoadMapModel.types";
 import {RoadMapModel} from "../../store/RoadMapModel";
@@ -32,7 +32,7 @@ export const RoadMapTabs: React.FC<IRoadMapTabs> = (props) => {
     const [trans] = useTranslation("meta");
     const [tabsWidthMode, setTabsWidthMode] = React.useState<"standard" | "scrollable">("standard");
     const [selectedTab, setSelectedTab] = React.useState<string | null>(null);
-    const tabsComponentRef = React.useRef<HTMLButtonElement | null>(null);
+    const tabsComponentRef = React.useRef<HTMLDivElement | null>(null);
     const handleGetTabsMode = React.useCallback(
         debounce(() => {
             const {tabs} = store;
@@ -153,7 +153,7 @@ export const RoadMapTabs: React.FC<IRoadMapTabs> = (props) => {
     }, [orientation, classes, trans]);
 
     return useObserver(() => (
-        <Grid item className={classes.fullWidth}>
+        <Grid className={classes.fullWidth}>
             <div
                 tabIndex={disabled ? undefined : 0}
                 onKeyDown={handleKeyDown}
@@ -174,7 +174,7 @@ export const RoadMapTabs: React.FC<IRoadMapTabs> = (props) => {
                         }),
                     }}
                     variant={tabsWidthMode}
-                    scrollButtons="desktop"
+                    scrollButtons="auto"
                     ref={tabsComponentRef}
                 >
                     {store.tabs.map((child) => (

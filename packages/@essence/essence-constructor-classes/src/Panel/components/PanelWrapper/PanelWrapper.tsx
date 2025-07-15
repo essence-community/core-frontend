@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Grid, useTheme} from "@material-ui/core";
+import {Grid, useTheme} from "@mui/material";
 import {FormContext} from "@essence-community/constructor-share/context";
 import cn from "clsx";
 import {useObserver} from "mobx-react";
@@ -31,7 +31,7 @@ export const PanelWrapper: React.FC<IClassProps> = (props) => {
                         contentview,
                     };
                 }),
-        [topbtn],
+        [isDarkTheme, topbtn],
     );
 
     const actionsBar = React.useMemo(() => {
@@ -54,7 +54,7 @@ export const PanelWrapper: React.FC<IClassProps> = (props) => {
                         : {...childBc, uitype: childBc.uitype === "1" ? "11" : childBc.uitype};
 
                     return (
-                        <Grid item key={newChildBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                        <Grid key={newChildBc[VAR_RECORD_PAGE_OBJECT_ID]}>
                             <ChildComp {...props} bc={newChildBc} />
                         </Grid>
                     );
@@ -76,11 +76,11 @@ export const PanelWrapper: React.FC<IClassProps> = (props) => {
             data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
         >
             {hideactions || topbtn.length === 0 ? null : (
-                <Grid item className={classes.actionsBar}>
+                <Grid className={classes.actionsBar}>
                     {actionsBar}
                 </Grid>
             )}
-            <Grid item xs zeroMinWidth>
+            <Grid size="grow">
                 {children}
             </Grid>
         </Grid>

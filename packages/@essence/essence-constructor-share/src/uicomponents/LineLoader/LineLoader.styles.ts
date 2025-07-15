@@ -1,4 +1,4 @@
-import {makeStyles} from "@material-ui/core";
+import {makeStyles} from "@mui/styles";
 
 export const useStyles = makeStyles(
     () => ({
@@ -28,7 +28,7 @@ export const useStyles = makeStyles(
                 strokeDasharray: "0 0 0 50 200",
             },
             // eslint-disable-next-line
-        "100%": {
+            "100%": {
                 strokeDasharray: "0 0 0 0 250",
             },
         },
@@ -55,7 +55,7 @@ export const useStyles = makeStyles(
                 strokeDashoffset: "162",
             },
             // eslint-disable-next-line
-        "100%": {
+            "100%": {
                 strokeDashoffset: "216",
             },
         },

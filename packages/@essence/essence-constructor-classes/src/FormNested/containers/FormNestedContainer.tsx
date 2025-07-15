@@ -24,7 +24,7 @@ export const FormNestedContainer: React.FC<IClassProps> = (props) => {
             key: field.key,
             parentFieldKey: field.key,
         }),
-        [bc, field],
+        [field],
     );
     const boxBc = React.useMemo(() => ({...bc, type: "BOX.NOCOMMONDECORATOR"} as IBuilderConfig), [bc]);
 
@@ -44,7 +44,7 @@ export const FormNestedContainer: React.FC<IClassProps> = (props) => {
                     }
                 },
             ),
-        [field, store],
+        [field, store, bc, pageStore],
     );
 
     return (

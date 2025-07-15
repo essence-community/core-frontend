@@ -1,5 +1,5 @@
 import * as React from "react";
-import {TableCell, Grid} from "@material-ui/core";
+import {TableCell, Grid} from "@mui/material";
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {noop, toColumnStyleWidth} from "@essence-community/constructor-share/utils";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
@@ -29,10 +29,8 @@ export const GridDetail: React.FC<IGridDetailProps> = ({record, bc, store, ...cl
                     <Grid container spacing={1}>
                         <RecordContext.Provider value={record}>
                             {mapComponents(panelDetails, (ChildCmp, childBc) => (
-                                <Grid
-                                    item
-                                    key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                    xs={12}
+                                <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                    size={12}
                                     style={toColumnStyleWidth(childBc.width)}
                                 >
                                     <ChildCmp {...classProps} bc={childBc} />

@@ -2,7 +2,7 @@ import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {FormContext} from "@essence-community/constructor-share/context";
-import {Grid, Checkbox} from "@material-ui/core";
+import {Grid, Checkbox} from "@mui/material";
 import {useObserver} from "mobx-react";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {reaction} from "mobx";
@@ -117,16 +117,16 @@ export const GridHFBooleanContainer: React.FC<IClassProps> = (props) => {
 
     return useObserver(() => (
         <Grid container direction="column" spacing={1}>
-            <Grid item>
+            <Grid>
                 <Grid container spacing={1} wrap="nowrap" alignItems="center">
-                    <Grid item>
+                    <Grid>
                         <Checkbox
                             checked={Boolean(fields.filterEnable.value)}
                             onChange={handleChangeCheck}
                             className={classes.checkBoxSize}
                         />
                     </Grid>
-                    <Grid item xs zeroMinWidth>
+                    <Grid size="grow">
                         {mapComponentOne(configs.filter, (ChildCmp, childBc) => (
                             <ChildCmp {...props} bc={childBc} />
                         ))}

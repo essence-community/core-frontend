@@ -2,7 +2,7 @@ import * as React from "react";
 import {PopoverContext} from "@essence-community/constructor-share/context";
 import {IBuilderConfig} from "@essence-community/constructor-share/types";
 import {useTextFieldProps, useFieldDisabled} from "@essence-community/constructor-share/hooks";
-import {IconButton, TextField} from "@material-ui/core";
+import {IconButton, TextField} from "@mui/material";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {IField} from "@essence-community/constructor-share/Form";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";

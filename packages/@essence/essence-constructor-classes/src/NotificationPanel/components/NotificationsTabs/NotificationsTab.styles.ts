@@ -1,5 +1,5 @@
 import {IEssenceTheme} from "@essence-community/constructor-share";
-import {makeStyles} from "@material-ui/core/styles";
+import {makeStyles} from "@mui/styles";
 
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
@@ -11,7 +11,7 @@ export const useStyles = makeStyles(
             "&.selected": {
                 color: theme.essence.palette.common.selectedMenu,
             },
-            color: theme.essence.palette.common.white,
+            color: `${theme.essence.palette.common.white} !important`,
             textTransform: "none",
         },
     }),

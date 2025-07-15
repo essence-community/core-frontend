@@ -1,4 +1,4 @@
-import {TextFieldProps} from "@material-ui/core";
+import {TextFieldProps} from "@mui/material";
 import {TError} from "../../Form/types";
 import {TText} from "../../types";
 

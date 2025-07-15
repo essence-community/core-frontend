@@ -10,7 +10,7 @@ import {
     InputState,
     MaskOptions,
 } from "@essence-community/constructor-share/uicomponents/TextFieldMask";
-import {TextFieldProps} from "@material-ui/core";
+import {TextFieldProps} from "@mui/material";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {IField} from "@essence-community/constructor-share/Form";
 import {IRecord, IPageModel} from "@essence-community/constructor-share/types";

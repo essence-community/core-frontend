@@ -154,7 +154,12 @@ export default defineConfig(async () => {
   const { commitId, branchDateTime } = await getGitInfo();
   const env = getClientEnvironment(paths.publicUrlOrPath || "/");
 
-  let proxy = {};
+
+  let proxy = {
+    "/api": { changeOrigin: true, target: "http://localhost:9020/" },
+    "/api_module": { changeOrigin: true, target: "http://localhost:9020/" },
+    "/notification": { changeOrigin: true, target: "http://localhost:9020/", ws: true },
+  };
 
   try {
     if (env.raw.PROXY) {
@@ -164,6 +169,11 @@ export default defineConfig(async () => {
     }
   } catch (err) {
     console.warn("PROXY environment not set", err);
+    proxy = {
+      "/api": { changeOrigin: true, target: "http://localhost:9020/" },
+      "/api_module": { changeOrigin: true, target: "http://localhost:9020/" },
+      "/notification": { changeOrigin: true, target: "http://localhost:9020/", ws: true },
+    };
   }
   console.log(proxy);
 

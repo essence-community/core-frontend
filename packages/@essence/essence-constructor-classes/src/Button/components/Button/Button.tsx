@@ -1,6 +1,6 @@
 import * as React from "react";
 import cn from "clsx";
-import {Button as MuiButton, Typography} from "@material-ui/core";
+import {Button as MuiButton, Typography} from "@mui/material";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";

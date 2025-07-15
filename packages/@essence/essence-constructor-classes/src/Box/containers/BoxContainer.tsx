@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {toColumnStyleWidthBc} from "@essence-community/constructor-share/utils/transform";
 import {IClassProps} from "@essence-community/constructor-share/types";
@@ -24,7 +24,7 @@ export const BoxContainer: React.FC<IClassProps> = (props) => {
         }),
         [bc],
     );
-    const [childs, sizeChild] = useSizeChild(bc.childs);
+    const [childs, sizeChild] = useSizeChild(bc.childs, props.pageStore);
 
     return (
         <Grid
@@ -38,11 +38,8 @@ export const BoxContainer: React.FC<IClassProps> = (props) => {
             {children
                 ? children
                 : mapComponents(childs, (Child, childBc) => (
-                      <Grid
-                          item
-                          key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                          xs={isRow ? true : MAX_PANEL_WIDTH}
-                          zeroMinWidth
+                      <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                          size={isRow ? "auto" : MAX_PANEL_WIDTH}
                           style={sizeChild[childBc[VAR_RECORD_PAGE_OBJECT_ID]]}
                       >
                           <Child {...props} bc={childBc} />

@@ -1,4 +1,4 @@
-import {Collapse} from "@material-ui/core";
+import {Collapse} from "@mui/material";
 import {useObserver} from "mobx-react";
 import * as React from "react";
 import {VAR_RECORD_ID, VAR_RECORD_ROUTE_VISIBLE_MENU} from "@essence-community/constructor-share/constants/variables";

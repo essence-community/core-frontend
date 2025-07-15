@@ -7,7 +7,7 @@ import {PopoverContext, RecordContext} from "@essence-community/constructor-shar
 import {reaction} from "mobx";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react";
-import {Skeleton} from "@material-ui/lab";
+import {Skeleton} from "@mui/material";
 import {deepFind, isEmpty, parseMemoize} from "@essence-community/constructor-share/utils";
 import {useGetValue} from "@essence-community/constructor-share/hooks/useCommon/useGetValue";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";

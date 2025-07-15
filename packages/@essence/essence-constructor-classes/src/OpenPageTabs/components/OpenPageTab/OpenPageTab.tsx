@@ -4,7 +4,7 @@ import {
     VAR_RECORD_ROUTE_NAME,
 } from "@essence-community/constructor-share/constants/variables";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {Tab, Typography} from "@material-ui/core";
+import {Tab, Typography} from "@mui/material";
 import cn from "clsx";
 import {useObserver} from "mobx-react";
 import * as React from "react";
@@ -131,27 +131,28 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
         <Tab
             value={value}
             icon={iconNode}
+            iconPosition="start"
             data-qtip={titleRoutePath}
             data-page-object={`tab-${value}`}
             component="div"
             ref={tabRef}
             selected={value === pagesStore.activePage}
             label={
-                <React.Fragment>
+                <>
                     <Typography variant="body2" noWrap color="inherit" className={classes.text}>
-                        {label}
+                    {label}
                     </Typography>
                     <div onClick={handleClose} className={selected ? classes.activeCloseIcon : classes.closeIcon}>
                         <Icon iconfont="times" />
                     </div>
-                </React.Fragment>
+                </>
             }
             disableRipple
             {...materialTabProps}
             classes={{
                 root: cn([classes.tabRoot, classes[`${orientation}TabRoot`], isDrag && tabDragClassName]),
                 selected: classes.activeTab,
-                wrapper: selected ? classes.activeTabWrapper : classes.tabWrapper,
+                wrapped: selected ? classes.activeTabWrapped : classes.tabWrapped,
             }}
             onContextMenu={handleClickContext}
             onMouseDown={handleMouseDown}

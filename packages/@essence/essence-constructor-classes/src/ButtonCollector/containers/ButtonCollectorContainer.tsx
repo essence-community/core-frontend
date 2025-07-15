@@ -14,7 +14,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {IconButton, useTheme} from "@material-ui/core";
+import {IconButton, useTheme} from "@mui/material";
 import {useStyles} from "./ButtonCollectorContainer.styles";
 
 const anchorOrigins: Record<number | "window", IPopoverAnchorOrigin> = {
@@ -81,7 +81,7 @@ export const ButtonCollectorContainer: React.FC<IClassProps> = (props) => {
                     uitype: "8",
                 }),
             ),
-        [bc.topbtn],
+        [bc],
     );
 
     return (

@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+ 
 import * as React from "react";
 
 export const IconModule: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (

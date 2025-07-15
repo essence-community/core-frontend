@@ -3,7 +3,7 @@ import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import * as React from "react";
 import {useObserver} from "mobx-react";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {FavoritePage} from "../components/FavoritePage";
 import {IRoute} from "../components/FavoritePage.types";
 import {useStyles} from "./FavoritePages.styles";

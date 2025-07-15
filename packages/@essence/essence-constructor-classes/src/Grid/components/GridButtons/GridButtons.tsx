@@ -6,7 +6,7 @@ import {
     VAR_RECORD_CN_ORDER,
     VAR_RECORD_JN_TOTAL_CNT,
 } from "@essence-community/constructor-share/constants";
-import {Grid, useTheme} from "@material-ui/core";
+import {Grid, useTheme} from "@mui/material";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react";
 import {Pagination} from "@essence-community/constructor-share/uicomponents/Pagination";
@@ -160,7 +160,7 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
                     {mapComponents(
                         btnsFinal.map((config) => config.bc),
                         (ChildCmp, childBc) => (
-                            <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                            <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
                                 <ChildCmp {...classProps} bc={childBc} />
                             </Grid>
                         ),
@@ -169,10 +169,10 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
 
                 {pageSize && theme.essence.layoutTheme === 1 ? (
                     <>
-                        <Grid item xs>
+                        <Grid size="grow">
                             &nbsp;
                         </Grid>
-                        <Grid item>
+                        <Grid>
                             <Pagination
                                 pageStore={store.pageStore}
                                 disabled={classProps.disabled || isInlineEditing}

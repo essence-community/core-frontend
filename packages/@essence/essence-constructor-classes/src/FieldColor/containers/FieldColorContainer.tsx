@@ -5,7 +5,7 @@ import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-communit
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {useTextFieldProps, useFieldSetGlobal, useDefaultValueQuery} from "@essence-community/constructor-share/hooks";
 import {useField} from "@essence-community/constructor-share/Form";
-import {FormLabel} from "@material-ui/core";
+import {FormLabel} from "@mui/material";
 import {TextFieldLabel} from "@essence-community/constructor-share/uicomponents";
 import {useObserver} from "mobx-react";
 import {FieldColorPicker} from "../components/FieldColorPicker";

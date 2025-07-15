@@ -1,6 +1,6 @@
 import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
-import {TableCell} from "@material-ui/core";
+import {TableCell} from "@mui/material";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 
 export const GridHeaderDetailContainer: React.FC<IClassProps> = (props) => {

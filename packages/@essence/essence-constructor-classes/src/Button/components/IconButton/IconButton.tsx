@@ -3,7 +3,7 @@ import cn from "clsx";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {IconButton as MuiIconButton, Fab, useTheme} from "@material-ui/core";
+import {IconButton as MuiIconButton, Fab, useTheme} from "@mui/material";
 import {IEssenceTheme} from "@essence-community/constructor-share/types";
 import {getColor} from "../../utils/getColor";
 import {IButtonInternalProps} from "../../Button.types";

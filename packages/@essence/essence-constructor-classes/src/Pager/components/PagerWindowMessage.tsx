@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Grid, Dialog, Button, DialogContent} from "@material-ui/core";
+import {Grid, Dialog, Button, DialogContent} from "@mui/material";
 import {useObserver} from "mobx-react";
 import {Icon, Scrollbars, IPageModel} from "@essence-community/constructor-share";
 import {useTranslation, toTranslateText} from "@essence-community/constructor-share/utils";
@@ -28,10 +28,10 @@ export const PagerWindowMessage: React.FC<IPagerWindowMessageProps> = (props) =>
         >
             <DialogContent className={classes.rootContent}>
                 <Grid container alignItems="center" spacing={2} wrap="nowrap">
-                    <Grid item>
+                    <Grid>
                         <Icon iconfont="question-circle" size="2x" color="grey" />
                     </Grid>
-                    <Grid item className={classes.content} xs zeroMinWidth>
+                    <Grid className={classes.content}>
                         <Scrollbars autoHeight autoHeightMax={180} pageStore={pageStore}>
                             {pageStore.questionWindow ? (
                                 // eslint-disable-next-line react/jsx-key
@@ -45,8 +45,8 @@ export const PagerWindowMessage: React.FC<IPagerWindowMessageProps> = (props) =>
                 </Grid>
             </DialogContent>
             <div className={classes.rootActions}>
-                <Grid container justify="flex-end" spacing={1}>
-                    <Grid item>
+                <Grid container justifyContent="flex-end" spacing={1}>
+                    <Grid>
                         <Button
                             onClick={pageStore.handleQuestionAccept}
                             color="primary"
@@ -59,7 +59,7 @@ export const PagerWindowMessage: React.FC<IPagerWindowMessageProps> = (props) =>
                             {trans("static:dacf7ab025c344cb81b700cfcc50e403")}
                         </Button>
                     </Grid>
-                    <Grid item>
+                    <Grid>
                         <Button
                             onClick={pageStore.handleQuestionDecline}
                             color="secondary"

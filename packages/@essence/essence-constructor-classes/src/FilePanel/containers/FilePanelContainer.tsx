@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys */
 import * as React from "react";
-import {Grid, Paper, useTheme} from "@material-ui/core";
+import {Grid, Paper, useTheme} from "@mui/material";
 import {getComponent} from "@essence-community/constructor-share/components";
 import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
@@ -55,7 +55,7 @@ export const FilePanelContainer: React.FC<IClassProps> = (props) => {
         <Paper elevation={elevation} className="paper-overflow-hidden" data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}>
             <PanelWrapper {...props} bc={BCPanel}>
                 <Grid container direction="column" spacing={1}>
-                    <Grid item>
+                    <Grid>
                         <Scrollbars
                             autoHeightMax={contentStyle.height}
                             hideTracksWhenNotNeeded
@@ -64,7 +64,7 @@ export const FilePanelContainer: React.FC<IClassProps> = (props) => {
                         >
                             <Grid className={classes.contentPanel} container direction="row" spacing={1}>
                                 {store.recordsStore.records.map((record) => (
-                                    <Grid item xs={4} key={record[VAR_RECORD_ID] as string}>
+                                    <Grid size={4} key={record[VAR_RECORD_ID] as string}>
                                         <FileRecord
                                             pageStore={pageStore}
                                             bc={bc}
@@ -80,8 +80,8 @@ export const FilePanelContainer: React.FC<IClassProps> = (props) => {
                         </Scrollbars>
                     </Grid>
                     {store.recordsStore.pageSize ? (
-                        <Grid container item justify="center" alignItems="center">
-                            <Grid item>
+                        <Grid container justifyContent="center" alignItems="center">
+                            <Grid>
                                 <Pagination
                                     pageStore={store.pageStore}
                                     disabled={props.disabled}

@@ -1,4 +1,4 @@
-import {Theme} from "@material-ui/core";
+import {Theme} from "@mui/material";
 
 export interface IEssenceTheme extends Theme {
     essence: {
@@ -70,3 +70,5 @@ export interface IEssenceTheme extends Theme {
         };
     };
 }
+
+export type ThemeComponents = Theme["components"];

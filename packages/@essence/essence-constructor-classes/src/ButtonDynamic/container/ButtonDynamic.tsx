@@ -1,5 +1,5 @@
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import * as React from "react";
 import {GRID_ALIGN_CONFIGS, GRID_CONFIGS} from "@essence-community/constructor-share/constants/ui";
 import {useModel} from "@essence-community/constructor-share/hooks";
@@ -86,7 +86,7 @@ export const ButtonDynamic: React.FC<IClassProps> = (props) => {
             {btnsConfig
                 ? btnsConfig.map(({rec, bc}) =>
                       mapComponentOne(bc, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                          <Grid item xs={true} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                          <Grid size={"auto"} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
                               <RecordContext.Provider value={rec}>
                                   <Child {...props} bc={childBc} />
                               </RecordContext.Provider>
@@ -95,7 +95,7 @@ export const ButtonDynamic: React.FC<IClassProps> = (props) => {
                   )
                 : null}
             {btnsMenuConfig && btnsMenuConfig.length ? (
-                <Grid item xs={true}>
+                <Grid size={"auto"}>
                     <ButtonMenu {...props} store={store} btns={btnsMenuConfig}></ButtonMenu>
                 </Grid>
             ) : null}

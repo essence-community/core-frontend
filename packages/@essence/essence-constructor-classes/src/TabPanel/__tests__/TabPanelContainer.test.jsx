@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Tabs} from "@material-ui/core";
+import {Tabs} from '@mui/material';
 import keycode from "keycode";
 import {setComponent} from "@essence-community/constructor-share";
 import {TabPanelContainer} from "../containers/TabPanelContainer";

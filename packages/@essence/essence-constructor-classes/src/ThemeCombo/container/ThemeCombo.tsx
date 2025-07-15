@@ -14,7 +14,7 @@ import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {IBuilderConfig, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {reaction} from "mobx";
 import {ApplicationContext, FormContext} from "@essence-community/constructor-share/context";
-import {useTheme} from "@material-ui/core";
+import {useTheme} from "@mui/material";
 
 const getComponentBc = (bc: IBuilderConfig, defaultTheme?: string): IBuilderConfig => ({
     [VAR_RECORD_DISPLAYED]: "static:0b5e4673fa194e16a0c411ff471d21d2",

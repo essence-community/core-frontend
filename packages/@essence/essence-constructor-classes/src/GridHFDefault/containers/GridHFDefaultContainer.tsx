@@ -5,7 +5,7 @@ import {IClassProps} from "@essence-community/constructor-share/types";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {useObserver} from "mobx-react";
 import {mapComponentOne, FormContext, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share";
-import {Checkbox, Divider, Grid, Typography} from "@material-ui/core";
+import {Checkbox, Divider, Grid, Typography} from "@mui/material";
 import {useStyles} from "./GridHFDefaultContainer.styles";
 
 export const GridHFDefaultContainer: React.FC<IClassProps> = (props) => {
@@ -173,16 +173,16 @@ export const GridHFDefaultContainer: React.FC<IClassProps> = (props) => {
 
     return useObserver(() => (
         <Grid container direction="column" spacing={1}>
-            <Grid item>
+            <Grid>
                 <Grid container spacing={1} wrap="nowrap" alignItems="center">
-                    <Grid item>
+                    <Grid>
                         <Checkbox
                             checked={Boolean(fields.eqEnable.value)}
                             onChange={handleChangeCheckEq}
                             className={classes.checkBoxSize}
                         />
                     </Grid>
-                    <Grid item xs zeroMinWidth>
+                    <Grid size="grow">
                         {mapComponentOne(configs.eq, (ChildCmp, childBc) => (
                             <ChildCmp {...props} bc={childBc} />
                         ))}
@@ -192,16 +192,16 @@ export const GridHFDefaultContainer: React.FC<IClassProps> = (props) => {
 
             <Divider />
 
-            <Grid item>
+            <Grid>
                 <Grid container spacing={1} wrap="nowrap" alignItems="center">
-                    <Grid item>
+                    <Grid>
                         <Checkbox
                             checked={Boolean(fields.neEnable.value)}
                             onChange={handleChangeCheckNe}
                             className={classes.checkBoxSize}
                         />
                     </Grid>
-                    <Grid item xs zeroMinWidth>
+                    <Grid size="grow">
                         {mapComponentOne(configs.ne, (ChildCmp, childBc) => (
                             <ChildCmp {...props} bc={childBc} />
                         ))}
@@ -211,16 +211,16 @@ export const GridHFDefaultContainer: React.FC<IClassProps> = (props) => {
 
             <Divider />
 
-            <Grid item>
+            <Grid>
                 <Grid container spacing={1} wrap="nowrap" alignItems="center">
-                    <Grid item>
+                    <Grid>
                         <Checkbox
                             checked={Boolean(fields.nullEnable.value)}
                             onChange={handleChangeCheckNull}
                             className={classes.checkBoxSize}
                         />
                     </Grid>
-                    <Grid item xs zeroMinWidth>
+                    <Grid size="grow">
                         <Typography>{trans("static:bac3b02e620a4d9189b03dc8ef7dd845")}</Typography>
                     </Grid>
                 </Grid>
@@ -228,16 +228,16 @@ export const GridHFDefaultContainer: React.FC<IClassProps> = (props) => {
 
             <Divider />
 
-            <Grid item>
+            <Grid>
                 <Grid container spacing={1} wrap="nowrap" alignItems="center">
-                    <Grid item>
+                    <Grid>
                         <Checkbox
                             checked={Boolean(fields.notNullEnable.value)}
                             onChange={handleChangeCheckNotNull}
                             className={classes.checkBoxSize}
                         />
                     </Grid>
-                    <Grid item xs zeroMinWidth>
+                    <Grid size="grow">
                         <Typography>{trans("static:8001cb3d99fb41cdb4af7ed7f34ac6ef")}</Typography>
                     </Grid>
                 </Grid>

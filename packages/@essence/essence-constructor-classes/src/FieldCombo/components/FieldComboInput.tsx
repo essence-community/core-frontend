@@ -3,7 +3,7 @@
 import * as React from "react";
 import {useObserver} from "mobx-react";
 import keycode from "keycode";
-import {IconButton, TextField} from "@material-ui/core";
+import {IconButton, TextField} from "@mui/material";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {
     DEFAULT_CLIPBOARD_PASTE_SEPARATE_REGEX,

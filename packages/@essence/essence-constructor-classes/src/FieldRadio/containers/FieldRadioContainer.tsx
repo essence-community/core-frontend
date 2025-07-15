@@ -1,7 +1,7 @@
 import * as React from "react";
 import {reaction} from "mobx";
 import cn from "clsx";
-import {Grid, Radio, RadioGroup, FormLabel} from "@material-ui/core";
+import {Grid, Radio, RadioGroup, FormLabel} from "@mui/material";
 import {toColumnStyleWidth, useTranslation} from "@essence-community/constructor-share/utils";
 import {
     VALUE_SELF_ALWAYSFIRST,
@@ -170,7 +170,7 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
                             style={{overflow: "hidden", width: "100%"}}
                         >
                             {store.suggestions.map((record) => (
-                                <Grid key={record.value} item xs={12} style={toColumnStyleWidth(bc.contentwidth)}>
+                                <Grid key={record.value} size={12} style={toColumnStyleWidth(bc.contentwidth)}>
                                     {renderRadio(record)}
                                 </Grid>
                             ))}
@@ -190,24 +190,24 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
                     })}
                 >
                     <Grid container className={classes.label} wrap="nowrap">
-                        <Grid item className={classes.labelTextStartAngle}>
+                        <Grid className={classes.labelTextStartAngle}>
                             &nbsp;
                         </Grid>
-                        <Grid item className={classes.labelTextWrapper}>
+                        <Grid className={classes.labelTextWrapper}>
                             <span data-qtip={displayedTrans} className={classes.labelText}>
                                 {displayedTrans}
                             </span>
                         </Grid>
                         {field && field.rules && field.rules.indexOf("required") >= 0 ? (
-                            <Grid item>
+                            <Grid>
                                 <span className={classes.required}>*</span>
                             </Grid>
                         ) : null}
-                        <Grid item xs className={classes.labelTextEndAngle}>
+                        <Grid size="grow" className={classes.labelTextEndAngle}>
                             &nbsp;
                         </Grid>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size="grow">
                         {content}
                     </Grid>
                 </Grid>

@@ -1,8 +1,8 @@
-import {IEssenceTheme} from "@essence-community/constructor-share/types";
-import {StyleRules} from "@material-ui/core";
+import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
+import {StyleRules} from "@mui/styles";
 import {ClassNames} from "./Tabs.types";
 
-export function tabsLightTheme(theme: IEssenceTheme): StyleRules<ClassNames> {
+export function tabsLightTheme(theme: IEssenceTheme): StyleRules<IClassProps, ClassNames> {
     return {
         "center-hbox": {
             marginTop: 4,

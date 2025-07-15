@@ -1,4 +1,4 @@
-import {makeStyles} from "@material-ui/core";
+import {makeStyles} from "@mui/styles";
 import {IEssenceTheme} from "@essence-community/constructor-share/types";
 
 export const useStyles = makeStyles(
@@ -24,14 +24,14 @@ export const useStyles = makeStyles(
         "uitype-5":
             theme.essence.layoutTheme === 2
                 ? {
-                      "&:hover": {
-                          backgroundColor: theme.palette.primary.light,
-                      },
-                      backgroundColor: theme.palette.primary.light,
-                      color: theme.palette.common.white,
-                      fill: theme.palette.common.white,
-                      minWidth: 42,
-                  }
+                    "&:hover": {
+                        backgroundColor: theme.palette.primary.light,
+                    },
+                    backgroundColor: theme.palette.primary.light,
+                    color: theme.palette.common.white,
+                    fill: theme.palette.common.white,
+                    minWidth: 42,
+                }
                 : {},
         // Cancel
         "uitype-6": {

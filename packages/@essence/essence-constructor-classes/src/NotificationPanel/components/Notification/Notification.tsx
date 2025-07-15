@@ -1,7 +1,7 @@
 import {Icon, ISnackbar, ISnackbarModel} from "@essence-community/constructor-share";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {SnackbarContentText} from "@essence-community/constructor-share/uicomponents";
-import {ButtonBase, Grid} from "@material-ui/core";
+import {ButtonBase, Grid} from "@mui/material";
 import cn from "clsx";
 import {useObserver} from "mobx-react";
 import * as React from "react";
@@ -41,19 +41,19 @@ export const Notification: React.FC<INotificationProps> = (props) => {
     return useObserver(() => (
         <div className={classes.notificationRoot} onMouseEnter={snackbar.read === false ? handleRead : undefined}>
             {snackbar.read === false ? <span className={classes.dot} /> : null}
-            <Grid container wrap="nowrap" justify="space-between" className={classes.notificationHeader}>
-                <Grid item data-qtip={snackbar.createdAt} className={classes.notificationHeaderInfo}>
+            <Grid container wrap="nowrap" justifyContent="space-between" className={classes.notificationHeader}>
+                <Grid data-qtip={snackbar.createdAt} className={classes.notificationHeaderInfo}>
                     {snackbar.createdAt}
                 </Grid>
                 {snackbar.status && statuses[snackbar.status] ? (
-                    <Grid item data-qtip={statuses[snackbar.status]} className={classes.notificationHeaderInfo}>
+                    <Grid data-qtip={statuses[snackbar.status]} className={classes.notificationHeaderInfo}>
                         {statuses[snackbar.status]}
                     </Grid>
                 ) : null}
-                <Grid item className={classes.pageName} data-qtip={trans(snackbar.pageName)}>
+                <Grid className={classes.pageName} data-qtip={trans(snackbar.pageName)}>
                     {trans(snackbar.pageName)}
                 </Grid>
-                <Grid item>
+                <Grid>
                     <ButtonBase
                         onClick={handleDelete}
                         className={classes.clearButton}

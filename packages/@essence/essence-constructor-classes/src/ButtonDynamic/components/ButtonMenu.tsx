@@ -9,7 +9,7 @@ import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {RecordContext} from "@essence-community/constructor-share";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
 import cn from "clsx";
-import {useTheme} from "@material-ui/core";
+import {useTheme} from "@mui/material";
 import {observer} from "mobx-react";
 import {IChildren, DynamicButtonModel} from "../store/DynamicButtonModel";
 import {useStyles} from "./ButtonMenu.styles";

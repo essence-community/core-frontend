@@ -1,4 +1,4 @@
-import {makeStyles} from "@material-ui/core";
+import {makeStyles} from "@mui/styles";
 import {IEssenceTheme} from "@essence-community/constructor-share/types/Theme";
 
 export const useStyles = makeStyles(
@@ -6,9 +6,9 @@ export const useStyles = makeStyles(
         actionsBar:
             theme.essence.layoutTheme === 2
                 ? {
-                      bottom: 0,
-                      position: "sticky",
-                  }
+                    bottom: 0,
+                    position: "sticky",
+                }
                 : {},
         content: {
             width: "100%",
@@ -17,24 +17,24 @@ export const useStyles = makeStyles(
         formActions:
             theme.essence.layoutTheme === 2
                 ? {
-                      backgroundColor: theme.palette.primary.main,
-                      borderRadius: "4px 0 0 4px",
-                      color: theme.palette.common.white,
-                      display: "flex",
-                      fill: theme.palette.common.white,
-                      flexDirection: "column",
-                      justifyContent: "flex-end",
-                      minWidth: theme.essence.sizing.controlPanelWidth,
-                      paddingTop: 4,
-                      width: theme.essence.sizing.controlPanelWidth,
-                  }
+                    backgroundColor: theme.palette.primary.main,
+                    borderRadius: "4px 0 0 4px",
+                    color: theme.palette.common.white,
+                    display: "flex",
+                    fill: theme.palette.common.white,
+                    flexDirection: "column",
+                    justifyContent: "flex-end",
+                    minWidth: theme.essence.sizing.controlPanelWidth,
+                    paddingTop: 4,
+                    width: theme.essence.sizing.controlPanelWidth,
+                }
                 : {
-                      color: theme.palette.primary.main,
-                      display: "flex",
-                      fill: theme.palette.primary.main,
-                      height: 48,
-                      padding: "0 16px",
-                  },
+                    color: theme.palette.primary.main,
+                    display: "flex",
+                    fill: theme.palette.primary.main,
+                    height: 48,
+                    padding: "0 16px",
+                },
         formRoot: {
             backgroundColor: theme.palette.background.paper,
             borderBottomRightRadius: theme.essence.layoutTheme === 2 ? 4 : 0,
@@ -48,16 +48,16 @@ export const useStyles = makeStyles(
             theme.essence.layoutTheme === 2
                 ? {}
                 : {
-                      position: "relative",
-                  },
+                    position: "relative",
+                },
         rootActions:
             theme.essence.layoutTheme === 2
                 ? {
-                      "& $contentRoot": {
-                          maxWidth: `calc(100% - ${theme.essence.sizing.controlPanelWidth}px)`,
-                      },
-                      position: "relative",
-                  }
+                    "& $contentRoot": {
+                        maxWidth: `calc(100% - ${theme.essence.sizing.controlPanelWidth}px)`,
+                    },
+                    position: "relative",
+                }
                 : {},
         rootActionsHide: {},
     }),

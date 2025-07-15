@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Paper, Grid, Typography, Slider, Switch, Button, TextField} from "@material-ui/core";
+import {Paper, Grid, Typography, Slider, Switch, Button, TextField} from "@mui/material";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {getPreference, savePreference} from "@essence-community/constructor-share/utils";
 import {useTranslation} from "@essence-community/constructor-share";
@@ -10,12 +10,12 @@ export const StaticPreferenceContainer: React.FC<IClassProps> = () => {
     const [trans] = useTranslation();
     const [form, setForm] = React.useState(getPreference);
     const renderPreference = (title: string, setting: React.ReactNode) => (
-        <Grid item xs>
+        <Grid size="grow">
             <Grid container>
-                <Grid item xs={3}>
+                <Grid size={3}>
                     {title}
                 </Grid>
-                <Grid item xs>
+                <Grid size={9}>
                     {setting}
                 </Grid>
             </Grid>
@@ -29,7 +29,7 @@ export const StaticPreferenceContainer: React.FC<IClassProps> = () => {
     return (
         <Paper className={classes.root}>
             <Grid container direction="column" spacing={2}>
-                <Grid item>
+                <Grid>
                     <Typography variant="h3" component="h3" align="center">
                         {trans("static:9c97fa4879f144a7b571c4905fa020cc")}
                     </Typography>
@@ -41,7 +41,7 @@ export const StaticPreferenceContainer: React.FC<IClassProps> = () => {
                         min={100}
                         max={6000}
                         step={100}
-                        onChange={(event: React.ChangeEvent, value: number) =>
+                        onChange={(event: Event, value: number) =>
                             setForm((prevForm) => ({...prevForm, delayTooltipShow: value}))
                         }
                         data-qtip={form.delayTooltipShow}
@@ -54,7 +54,7 @@ export const StaticPreferenceContainer: React.FC<IClassProps> = () => {
                         min={0}
                         max={50}
                         step={1}
-                        onChange={(event: React.ChangeEvent, value: number) =>
+                        onChange={(event: Event, value: number) =>
                             setForm((prevForm) => ({...prevForm, offsetTooltip: value}))
                         }
                         data-qtip={form.offsetTooltip}
@@ -67,7 +67,7 @@ export const StaticPreferenceContainer: React.FC<IClassProps> = () => {
                         min={8}
                         max={400}
                         step={2}
-                        onChange={(event: React.ChangeEvent, value: number) =>
+                        onChange={(event: Event, value: number) =>
                             setForm((prevForm) => ({...prevForm, debounceTooltipTime: value}))
                         }
                         data-qtip={form.debounceTooltipTime}
@@ -111,9 +111,9 @@ export const StaticPreferenceContainer: React.FC<IClassProps> = () => {
                         setForm((prevForm) => ({...prevForm, modules: event.currentTarget.value}))
                     }
                 />
-                <Grid item>
-                    <Grid container justify="center">
-                        <Grid item>
+                <Grid>
+                    <Grid container justifyContent="center">
+                        <Grid>
                             <Button variant="contained" onClick={handleSave}>
                                 {trans("static:8a930c6b5dd440429c0f0e867ce98316")}
                             </Button>

@@ -2,7 +2,7 @@
 /* eslint-disable import/extensions */
 // @flow
 import * as React from "react";
-import {Checkbox} from "@material-ui/core";
+import {Checkbox} from '@mui/material';
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {VAR_RECORD_ID} from "@essence-community/constructor-share";
 import {mountWithTheme} from "../../../utils/test";

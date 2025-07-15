@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {loadComponentsFromModules, mapComponents} from "@essence-community/constructor-share/components";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {toColumnStyleWidth} from "@essence-community/constructor-share/utils/transform";

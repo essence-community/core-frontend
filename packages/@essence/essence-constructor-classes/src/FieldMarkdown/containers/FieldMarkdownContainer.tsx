@@ -3,7 +3,7 @@ import cn from "clsx";
 import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {Scrollbars, VerticalResizer, makeRenderers} from "@essence-community/constructor-share/uicomponents";
 import ReactMarkdown from "react-markdown";
-import {Grid, TextField} from "@material-ui/core";
+import {Grid, TextField} from "@mui/material";
 import {useObserver} from "mobx-react";
 import {useTranslation, toTranslateTextArray} from "@essence-community/constructor-share/utils";
 import {IClassProps} from "@essence-community/constructor-share/types";
@@ -88,7 +88,7 @@ export const FieldMarkdownContainer: React.FC<IClassProps> = (props) => {
                     <div className={classes.scrollContent}>
                         <Grid container spacing={2} alignItems="stretch">
                             {status !== "view" && !textFieldProps.disabled ? (
-                                <Grid item xs className={classes.editor}>
+                                <Grid className={classes.editor}>
                                     <TextField
                                         className={textFieldProps.className}
                                         InputProps={{
@@ -110,7 +110,7 @@ export const FieldMarkdownContainer: React.FC<IClassProps> = (props) => {
                                 </Grid>
                             ) : null}
                             {status !== "code" || textFieldProps.disabled ? (
-                                <Grid item xs className={classes.preview} ref={mardownRef}>
+                                <Grid className={classes.preview} ref={mardownRef}>
                                     <ReactMarkdown components={renderers}>
                                         {typeof field.value === "string" ? field.value : ""}
                                     </ReactMarkdown>

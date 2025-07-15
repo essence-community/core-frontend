@@ -1,7 +1,7 @@
  
  
 import * as React from "react";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
@@ -47,8 +47,7 @@ export const RoadMapContainer: React.FC<IClassProps> = (props) => {
 
                         return (
                             <Grid
-                                xs={12}
-                                item
+                                size={12}
                                 key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                                 style={{display: isVisible ? "block" : "none"}}
                             >
@@ -64,9 +63,9 @@ export const RoadMapContainer: React.FC<IClassProps> = (props) => {
                             </Grid>
                         );
                     })}
-                    <Grid item container spacing={1} justify={"flex-end"} className={classes.bottomBar} direction="row">
+                    <Grid container spacing={1} justifyContent={"flex-end"} className={classes.bottomBar} direction="row">
                         {mapComponents(store.tabStatus.get(store.tabValue)?.btns, (BtnComponent, btn) => (
-                            <Grid item>
+                            <Grid>
                                 <BtnComponent
                                     key={btn[VAR_RECORD_PAGE_OBJECT_ID]}
                                     bc={btn}
@@ -83,7 +82,7 @@ export const RoadMapContainer: React.FC<IClassProps> = (props) => {
 
         return (
             <Grid container spacing={1} direction={direction}>
-                <Grid item xs={2}>
+                <Grid size={2}>
                     <RoadMapTabs
                         bc={bc}
                         disabled={disabled}
@@ -93,15 +92,14 @@ export const RoadMapContainer: React.FC<IClassProps> = (props) => {
                         pageStore={pageStore}
                     />
                 </Grid>
-                <Grid item xs={10}>
+                <Grid size={10}>
                     <Grid container spacing={0} direction="column" data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}>
                         {mapComponents(store.childs, (Cmp, child: IBuilderConfig) => {
                             const isVisible = child[VAR_RECORD_PAGE_OBJECT_ID] === store.tabValue;
 
                             return (
                                 <Grid
-                                    xs={12}
-                                    item
+                                    size={12}
                                     key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                                     style={{display: isVisible ? "block" : "none"}}
                                 >
@@ -119,17 +117,15 @@ export const RoadMapContainer: React.FC<IClassProps> = (props) => {
                         })}
                     </Grid>
                 </Grid>
-                <Grid
-                    item
-                    container
-                    xs={12}
+                <Grid container
+                    size={12}
                     spacing={1}
-                    justify={"flex-end"}
+                    justifyContent={"flex-end"}
                     className={classes.bottomBar}
                     direction="row"
                 >
                     {mapComponents(store.tabStatus.get(store.tabValue)!.btns, (BtnComponent, btn) => (
-                        <Grid item>
+                        <Grid>
                             <BtnComponent
                                 key={btn[VAR_RECORD_PAGE_OBJECT_ID]}
                                 bc={btn}

@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys */
 import {IEssenceTheme} from "@essence-community/constructor-share";
-import {makeStyles} from "@material-ui/core/styles";
+import {makeStyles} from "@mui/styles";
 
 /**
  * @module StylesEssenceAppBar
@@ -39,6 +39,9 @@ export const useStyles = makeStyles(
                 minHeight: "100%",
             },
             minHeight: "inherit",
+            ...(theme.essence.layoutTheme === 2 ? {
+                backgroundColor: `${theme.palette.primary.main} !important`,
+            } : {}),
         },
     }),
     {

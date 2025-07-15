@@ -50,7 +50,8 @@ export const GridTable: React.FC<IGridTableProps> = ({store, children, ...classP
         const {currentTarget} = event;
 
         if (currentTarget === document.activeElement) {
-            const selectedRow = currentTarget.querySelector(".selected-row");
+            const selectedRow = currentTarget
+                .querySelector(`[data-row-id="${store.recordsStore.selectedRecord[store.recordsStore.recordId]}"]`);
             const row = selectedRow ? selectedRow : currentTarget.querySelector("tr");
 
             if (row instanceof HTMLTableRowElement && selectedRow instanceof HTMLTableRowElement) {

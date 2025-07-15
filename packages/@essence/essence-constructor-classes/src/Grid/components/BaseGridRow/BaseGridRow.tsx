@@ -174,6 +174,7 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
             style={typeof rowcolor === "string" && !selected ? {backgroundColor: rowcolor} : undefined}
             className={className}
             onClick={handleClick}
+            data-row-id={record[store.recordsStore.recordId]}
             data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-row-${record[store.recordsStore.recordId]}`}
             onDoubleClick={handleDoubleClick}
             tabIndex={-1}

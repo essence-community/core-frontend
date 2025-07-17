@@ -55,7 +55,7 @@ async function loadRemoteEntry(options: ILoadRemoteModuleOptions): Promise<void>
         );
     }
     registerRemotes([{
-        entry: options.remoteEntry,
+        entry: `${options.remoteEntry}?t=${new Date().getTime()}`,
         name: options.remoteName,
     }]);
     moduleMap[options.remoteEntry] = true;

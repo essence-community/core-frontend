@@ -9,6 +9,7 @@ import {
     VAR_RECORD_NAME,
     VAR_SETTING_BASE_PATH,
     VAR_SETTING_PROJECT_LOADER,
+    loggerRoot,
 } from "@essence-community/constructor-share/constants";
 import {noop, parseMemoize} from "@essence-community/constructor-share/utils";
 import {WindowContext} from "@essence-community/constructor-share/context";
@@ -23,6 +24,8 @@ import {IBuilderClassConfig, IConfigMF} from "../types";
 import {ModuleFederationModel} from "../store/ModuleFederationModel";
 import {useStyles} from "./ModuleFederationContainer.style";
 
+const log = loggerRoot.extend("ModuleFederationContainer");
+
 const DEFAULT_PROPS = {};
 
 const checkValue = (
@@ -35,6 +38,7 @@ const checkValue = (
     try {
         res = typeof val === "string" ? JSON.parse(val) : JSON.parse(JSON.stringify(val));
     } catch (err) {
+        log("checkValue", err);
         res = defaultValue;
         errorCalcBack(err);
     }
@@ -80,6 +84,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
 
     React.useEffect(() => {
         const getError = (err: Error) => {
+            log("getError", err);
             snackbarStore.snackbarOpenAction(
                 {
                     status: "error",
@@ -115,6 +120,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
 
     React.useEffect(() => {
         const getError = (err: Error) => {
+            log("getError", err);
             snackbarStore.snackbarOpenAction(
                 {
                     status: "error",
@@ -133,6 +139,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
         };
 
         const loadFail = (err: Error) => {
+            log("loadFail", err);
             if (bc.mfconfigfail) {
                 return loadRemoteModule(bc.mfconfigfail).then(
                     (comp) => {
@@ -159,6 +166,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
     }, [bc, mfConfig, pageStore]);
     React.useEffect(() => {
         const getError = (err: Error) => {
+            log("getError", err);
             snackbarStore.snackbarOpenAction(
                 {
                     status: "error",
@@ -237,6 +245,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
             loader: async () => storeComponent.Component,
             loading: Loader,
             fallback: (_props) => {
+                log("fallback", _props.error);
                 setIsErrorBridge(true);
 
                 return Loader;

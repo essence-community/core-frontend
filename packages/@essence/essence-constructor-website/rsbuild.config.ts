@@ -277,7 +277,7 @@ export default defineConfig(async () => {
       template: "./public/index.html",
       templateParameters: {
         PUBLIC_URL: !process.env.PUBLIC_URL || process.env.PUBLIC_URL === "/" ? "" : process.env.PUBLIC_URL,
-        REACT_APP_SETTINGS: env.raw.REACT_APP_SETTINGS,
+        REACT_APP_SETTINGS: process.env.REACT_APP_SETTINGS,
         REACT_APP_COMMIT_ID: commitId,
         REACT_APP_BRANCH_DATE_TIME: branchDateTime
       }

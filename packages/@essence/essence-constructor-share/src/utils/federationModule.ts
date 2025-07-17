@@ -1,8 +1,9 @@
+import {registerRemotes, loadRemote} from "@module-federation/runtime";
 import {VAR_SETTING_BASE_URL} from "../constants";
 import {settingsStore} from "../models";
 import {isEmpty} from "./base";
 
- 
+
 type Scope = unknown;
 type Factory = () => any;
 
@@ -17,11 +18,11 @@ declare const __webpack_share_scopes__: {default: Scope};
 const moduleMap = {} as Record<string, boolean>;
 
 async function loadRemoteEntry(options: ILoadRemoteModuleOptions): Promise<void> {
-    if (moduleMap[options.remoteEntry]) {
-        return;
-    }
     if (isEmpty(options.remoteEntry)) {
         return Promise.reject(new Error("remoteEntry is empty"));
+    }
+    if (moduleMap[options.remoteEntry]) {
+        return;
     }
     const baseUrl = settingsStore.settings[VAR_SETTING_BASE_URL];
 
@@ -53,29 +54,14 @@ async function loadRemoteEntry(options: ILoadRemoteModuleOptions): Promise<void>
                 ),
         );
     }
-    await new Promise<void>((resolve, reject) => {
-        const remoteEntry = new URL(
-            options.remoteEntry.startsWith("http") ? options.remoteEntry : `${baseUrl}${options.remoteEntry}`,
-        );
-
-        remoteEntry.searchParams.append("t", `${new Date().getTime()}`);
-        const script = document.createElement("script");
-
-        script.src = remoteEntry.toString();
-
-        script.onerror = reject;
-
-        script.onload = () => {
-            moduleMap[options.remoteEntry] = true;
-            resolve(); // window is the global namespace
-        };
-        // @ts-ignore
-        script.onreadystatechange = script.onload;
-        document.body.append(script);
-    });
+    registerRemotes([{
+        entry: options.remoteEntry,
+        name: options.remoteName,
+    }]);
+    moduleMap[options.remoteEntry] = true;
 }
 
-async function lookupExposedModule<T = any>(remoteName: string, exposedModule: string): Promise<T> {
+async function _lookupExposedModule<T = any>(remoteName: string, exposedModule: string): Promise<T> {
     // Initializes the share scope. This fills it with known provided modules from this build and all remotes
     await __webpack_init_sharing__("default");
     const container = (window as any)[remoteName] as IContainer; // or get the container somewhere else
@@ -102,5 +88,5 @@ export interface ILoadRemoteModuleOptions {
 export async function loadRemoteModule<T = any>(options: ILoadRemoteModuleOptions): Promise<T> {
     await loadRemoteEntry(options);
 
-    return await lookupExposedModule<T>(options.remoteName, options.exposedModule);
+    return await loadRemote(`${options.remoteName}/${options.exposedModule.startsWith(".") ? options.exposedModule.substring(2) : options.exposedModule}`);
 }

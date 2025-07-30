@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Paper} from "@material-ui/core";
+import {Paper} from "@mui/material";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_MASTER_ID} from "@essence-community/constructor-share/constants";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useModel} from "@essence-community/constructor-share/hooks";

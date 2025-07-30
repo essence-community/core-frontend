@@ -15,7 +15,7 @@ import {
     VAR_RECORD_CT_DATE,
 } from "@essence-community/constructor-share/constants";
 import {TextFieldMask} from "@essence-community/constructor-share/uicomponents";
-import {TextField, IconButton} from "@material-ui/core";
+import {TextField, IconButton} from "@mui/material";
 import {isEmpty, useTranslation} from "@essence-community/constructor-share/utils";
 import moment from "moment";
 import {reaction} from "mobx";
@@ -23,7 +23,7 @@ import {Icon} from "@essence-community/constructor-share/Icon";
 import {getFieldDate} from "../util/Util";
 import {IFieldBuildClassProps} from "../components/FieldDate.types";
 import {useFieldDateDisabled} from "../hook/useFieldDateDisabled";
-import {useStyles} from "./FieldDateContainer.types";
+import {useStyles} from "./FieldDateContainer.styles";
 
 import "rc-calendar/assets/index.css";
 import "rc-time-picker/assets/index.css";

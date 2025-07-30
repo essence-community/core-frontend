@@ -1,6 +1,6 @@
  
 import * as React from "react";
-import {TextareaAutosize} from "@material-ui/core";
+import {TextareaAutosize} from "@mui/material";
 import {Scrollbars, VerticalResizer} from "@essence-community/constructor-share/uicomponents";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {useObserver} from "mobx-react";

@@ -4,7 +4,7 @@ import {
     VAR_RECORD_ROUTE_NAME,
     VAR_RECORD_ICON_NAME,
 } from "@essence-community/constructor-share/constants/variables";
-import {Tabs, Tab} from "@material-ui/core";
+import {Tabs, Tab} from "@mui/material";
 import {useObserver} from "mobx-react";
 import * as React from "react";
 import {noop, useTranslation} from "@essence-community/constructor-share/utils";
@@ -75,7 +75,7 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
         });
     };
 
-    const handleCloseMenu = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const handleCloseMenu = (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
         event.stopPropagation();
         setIsOpenMenu(false);
     };
@@ -153,12 +153,14 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
                 classes={{
                     flexContainer: classes.tabsFlexContainer,
                     root: classes.tabsRoot,
+                    scrollButtons: classes.scrollButtons,
                     scroller: classes.scroller,
                 }}
                 variant="scrollable"
                 orientation={orientation}
-                scrollButtons="on"
-                ScrollButtonComponent={ScrollButton}
+                slots={{
+                    scrollButtons: ScrollButton,
+                }}
                 style={contentStyle}
                 onChange={handleChangePage}
             >
@@ -185,7 +187,7 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
                 })}
                 <Tab
                     value={null}
-                    fullWidth
+                    // fullWidth
                     component="div"
                     classes={{root: cn(classes.emptySpace, classes[`emptySpace${orientation}`])}}
                     onChange={noop}

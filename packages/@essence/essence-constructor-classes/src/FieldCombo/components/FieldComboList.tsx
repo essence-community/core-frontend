@@ -1,7 +1,7 @@
-/* eslint-disable max-len */
+ 
 import * as React from "react";
 import {useObserver} from "mobx-react";
-import {Paper, MenuItem, CircularProgress} from "@material-ui/core";
+import {Paper, MenuItem, CircularProgress} from "@mui/material";
 import {IBuilderConfig, Scrollbars, Pagination, FieldValue, toString, PageLoader, settingsStore} from "@essence-community/constructor-share";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_SETTING_PROJECT_LOADER} from "@essence-community/constructor-share/constants";
 import {IPopoverChildrenProps} from "@essence-community/constructor-share/uicomponents/Popover/Popover.types";

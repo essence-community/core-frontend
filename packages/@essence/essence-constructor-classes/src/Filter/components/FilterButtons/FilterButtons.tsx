@@ -1,7 +1,7 @@
 import * as React from "react";
 import cn from "clsx";
 import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
-import {Grid, Collapse, Typography} from "@material-ui/core";
+import {Grid, Collapse, Typography} from "@mui/material";
 import {
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -106,15 +106,13 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
             : btns;
 
         return (
-            <Grid
-                item
-                xs={layoutTheme === 1 ? GRID_FULL_WIDTH : false}
+            <Grid size={layoutTheme === 1 ? GRID_FULL_WIDTH : "grow"}
                 className={cn(classes.filterButtons, {
                     [classes.filterButtonsCollect]: bc.topbtn,
                 })}
             >
                 {layoutTheme === 2 ? (
-                    <Collapse in={store.isOpen} collapsedHeight="42px" className={classes.filterButtonsContainer}>
+                    <Collapse in={store.isOpen} collapsedSize={42} orientation="vertical" className={classes.filterButtonsContainer}>
                         <div className={classes.filterButtonsCollapse}>
                             {mapComponents(childsBtns, (ChildCmp, childBc) => (
                                 <ChildCmp key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} {...classProps} bc={childBc} />
@@ -130,8 +128,8 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
                 )}
 
                 {layoutTheme === 1 ? (
-                    <Grid item xs={12} className={classes.titleContainer}>
-                        <Typography variant="body2" className={classes.titleTypography} data-qtip={title}>
+                    <Grid size={12} className={classes.titleContainer}>
+                        <Typography variant="body2" classes={{root: classes.titleTypography}} data-qtip={title}>
                             {title}
                             &nbsp;
                         </Typography>

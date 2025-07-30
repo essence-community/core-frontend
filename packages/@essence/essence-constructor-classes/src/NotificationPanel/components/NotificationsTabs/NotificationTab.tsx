@@ -1,7 +1,7 @@
 import {commonDecorator} from "@essence-community/constructor-share/decorators";
 import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants/variables";
 import {useTranslation} from "@essence-community/constructor-share/utils";
-import {Tab, Typography} from "@material-ui/core";
+import {Tab, Typography} from "@mui/material";
 import clsx from "clsx";
 import {useObserver} from "mobx-react";
 import * as React from "react";
@@ -39,7 +39,7 @@ export const NotificationsTab: React.FC<INotificationsTabProps> = (props) => {
             disableRipple
             style={{display: hidden ? "none" : undefined}}
             hidden={hidden}
-            {...props}
+            {...props as any}
         />
     ));
 };

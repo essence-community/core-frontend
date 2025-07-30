@@ -1,7 +1,7 @@
 import {IClassProps, Icon, Scrollbars, SnackbarStatus} from "@essence-community/constructor-share";
 import {snackbarStore} from "@essence-community/constructor-share/models";
 import {useTranslation} from "@essence-community/constructor-share/utils";
-import {ButtonBase, Grid, Tabs} from "@material-ui/core";
+import {ButtonBase, Grid, Tabs} from "@mui/material";
 import {useObserver} from "mobx-react";
 import * as React from "react";
 import {Notification} from "../components/Notification/Notification";
@@ -51,7 +51,7 @@ export const NotificationPanel: React.FC<IClassProps> = (props) => {
                 ))}
             </Scrollbars>
             <Grid container spacing={0} direction="row" wrap="nowrap" className={classes.bottomBar}>
-                <Grid item>
+                <Grid>
                     <ButtonBase
                         onClick={snackbarStore.deleteAllSnackbarAction}
                         classes={{
@@ -66,7 +66,7 @@ export const NotificationPanel: React.FC<IClassProps> = (props) => {
                         <Icon iconfont="trash-o" iconfontname="fa" size="2x" />
                     </ButtonBase>
                 </Grid>
-                <Grid item>
+                <Grid>
                     <NotificationsReadButton snackbarStore={snackbarStore} />
                 </Grid>
             </Grid>

@@ -1,7 +1,7 @@
 import * as React from "react";
 import {IClassProps, IEssenceTheme, IBuilderMode} from "@essence-community/constructor-share/types";
 import {Focusable} from "@essence-community/constructor-share/uicomponents";
-import {Table, TableBody, useTheme} from "@material-ui/core";
+import {Table, TableBody, useTheme} from "@mui/material";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {getComponentByBc} from "@essence-community/constructor-share";

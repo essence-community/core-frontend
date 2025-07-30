@@ -6,7 +6,7 @@ import {
     VAR_RECORD_MASTER_ID,
 } from "@essence-community/constructor-share/constants/variables";
 import * as React from "react";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {IRecord, IStoreBaseModel, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {useObserver} from "mobx-react";
@@ -216,7 +216,7 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
                 data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                 alignItems="stretch"
             >
-                <Grid item xs zeroMinWidth>
+                <Grid>
                     {ComponentFieldFrom ? (
                         <ComponentFieldFrom
                             bc={store.fieldFrom}
@@ -227,9 +227,9 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
                         />
                     ) : null}
                 </Grid>
-                <Grid item>
-                    <Grid style={{height: "100%"}} container spacing={0} direction="column" justify="center">
-                        <Grid item>
+                <Grid>
+                    <Grid style={{height: "100%"}} container spacing={0} direction="column" justifyContent="center">
+                        <Grid>
                             {mapComponents([btnAddAll], (ChildCmp, childBc) => (
                                 <ChildCmp
                                     key="add-all"
@@ -240,7 +240,7 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
                                 />
                             ))}
                         </Grid>
-                        <Grid item>
+                        <Grid>
                             {mapComponents([btnAddSelected], (ChildCmp, childBc) => (
                                 <ChildCmp
                                     key="add-selected"
@@ -251,7 +251,7 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
                                 />
                             ))}
                         </Grid>
-                        <Grid item>
+                        <Grid>
                             {mapComponents([btnRemoveSelected], (ChildCmp, childBc) => (
                                 <ChildCmp
                                     key="remove-selected"
@@ -262,7 +262,7 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
                                 />
                             ))}
                         </Grid>
-                        <Grid item>
+                        <Grid>
                             {mapComponents([btnRemoveAll], (ChildCmp, childBc) => (
                                 <ChildCmp
                                     key="remove-all"
@@ -275,7 +275,7 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item xs zeroMinWidth>
+                <Grid>
                     {ComponentFieldTo ? (
                         <ComponentFieldTo
                             bc={store.fieldTo}

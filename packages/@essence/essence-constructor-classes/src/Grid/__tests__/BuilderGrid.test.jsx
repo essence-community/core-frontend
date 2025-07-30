@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
 import * as React from "react";
-import {TableCell, TableSortLabel} from "@material-ui/core";
+import {TableCell, TableSortLabel} from '@mui/material';
 import {
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_PAGE_OBJECT_ID,

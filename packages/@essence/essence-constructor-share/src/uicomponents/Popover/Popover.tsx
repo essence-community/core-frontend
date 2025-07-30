@@ -150,9 +150,11 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
         }
     };
 
-    const handleEscapeKeyDown = () => {
-        if (!props.disableEscapeKeyDown && isOpen) {
-            handleClose();
+    const handleEscapeKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (event.key === "Escape") {
+            if (!props.disableEscapeKeyDown && isOpen) {
+                handleClose();
+            }
         }
     };
 
@@ -244,7 +246,7 @@ export const Popover: React.FC<IPopoverProps> = React.memo((props) => {
                                 onEntering={handleEntering}
                                 onClose={handleClose}
                                 onCalculateOffset={handleCalculateOffset}
-                                onEscapeKeyDown={handleEscapeKeyDown}
+                                onKeyDown={handleEscapeKeyDown}
                                 paperClassName={props.paperClassName}
                                 popoverContent={props.popoverContent}
                                 disableFocusableArrow={props.disableFocusableArrow}

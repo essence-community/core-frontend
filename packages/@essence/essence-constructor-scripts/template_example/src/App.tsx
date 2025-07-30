@@ -1,6 +1,6 @@
 import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
-import {TextField} from "@material-ui/core";
+import {TextField} from '@mui/material';
 import {ExampleContainer} from "./containers/ExampleContainer";
 import {ExampleBox} from "./components/ExampleBox";
 

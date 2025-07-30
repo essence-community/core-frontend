@@ -3,7 +3,7 @@ import cn from "clsx";
 import {useTranslation, toTranslateText, getFromStore, isEmpty} from "@essence-community/constructor-share/utils";
 import {useModel, useSizeChild} from "@essence-community/constructor-share/hooks";
 import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
-import {Collapse, useTheme, Grid, Typography} from "@material-ui/core";
+import {Collapse, useTheme, Grid, Typography} from "@mui/material";
 import {
     VAR_RECORD_DISPLAYED,
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -48,10 +48,10 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
         );
     }, [bc, isAutoLoad, pageStore, store]);
 
-    const [childs, sizeChild] = useSizeChild(bc.childs);
+    const [childs, sizeChild] = useSizeChild(bc.childs, pageStore);
 
     return useObserver(() => (
-        <Collapse in={store.isOpen} collapsedHeight={title || layoutTheme === 1 ? "42px" : "1px"}>
+        <Collapse in={store.isOpen} collapsedSize={title || layoutTheme === 1 ? "42px" : "1px"}>
             <UIForm
                 onSubmit={store.handleSubmit}
                 placement="filter"
@@ -65,15 +65,14 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                     spacing={0}
                     container
                     direction={layoutTheme === 2 ? "row" : "column"}
+                    width="100%"
                     wrap="nowrap"
                     data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}
                 >
                     {bc.dynamicfilter || bc.hideactions ? null : (
                         <FilterButtons layoutTheme={layoutTheme} title={title} store={store} {...props} />
                     )}
-                    <Grid
-                        item
-                        className={cn(classes.maxWidth, {
+                    <Grid className={cn(classes.maxWidth, {
                             [classes.baseFilter]: !bc.dynamicfilter,
                         })}
                     >
@@ -100,10 +99,8 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                                     GRID_ALIGN_CONFIGS["left-hbox"])}
                             >
                                 {mapComponents(childs, (ChildComp, child) => (
-                                    <Grid
-                                        item
-                                        key={child[VAR_RECORD_PAGE_OBJECT_ID]}
-                                        xs={12}
+                                    <Grid key={child[VAR_RECORD_PAGE_OBJECT_ID]}
+                                        size={12}
                                         style={sizeChild[child[VAR_RECORD_PAGE_OBJECT_ID]]}
                                     >
                                         <ChildComp

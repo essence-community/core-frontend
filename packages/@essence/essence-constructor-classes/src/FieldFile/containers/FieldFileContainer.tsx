@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import * as React from "react";
-import {IconButton, TextField} from "@material-ui/core";
+import {IconButton, TextField} from "@mui/material";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {IClassProps} from "@essence-community/constructor-share/types";
@@ -15,7 +15,7 @@ export const FieldFileContainer: React.FC<IClassProps> = (props) => {
     const classes = useStyles();
     const inputRef = React.useRef<HTMLInputElement>(null);
     const field = useField({bc, clearValue: [], disabled, hidden, isFile: true, pageStore});
-    const fileInputStore = React.useMemo(() => new FileInputModel({applicationStore: null, bc, field, pageStore}), []);
+    const fileInputStore = React.useMemo(() => new FileInputModel({applicationStore: null, bc, field, pageStore}), [bc, field, pageStore]);
     const handleChangeFileChoose = useCallback(
         (event: any) => {
             const {current} = inputRef;

@@ -42,12 +42,12 @@ type KeyBuilderConfig = keyof IBuilderConfig;
 
 export function mergeComponents<T extends Record<string, IBuilderConfig>>(
     bcComponents: IBuilderConfig[] = [],
-    overrides: T,
+    overrides: T = {} as T,
     options: IMergeOptions = {
         exclude: [],
         include: [],
     },
-): {components: IBuilderConfig[]; overrides: T; overridesOrigin: Record<string, IBuilderConfig>} {
+): { components: IBuilderConfig[]; overrides: T; overridesOrigin: Record<string, IBuilderConfig> } {
     const {exclude = [], include = []} = options;
     const overridesOrigin = {} as Record<string, IBuilderConfig>;
     const components = bcComponents.filter((component) => {

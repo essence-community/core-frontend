@@ -1,13 +1,17 @@
-import { defineConfig } from '@rsbuild/core';
-import { pluginReact } from '@rsbuild/plugin-react';
-import { pluginModuleFederation } from '@module-federation/rsbuild-plugin';
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import path from 'path';
-import fs from 'fs';
-import { rspack } from '@rsbuild/core';
-import { pluginBabel } from '@rsbuild/plugin-babel';
-import { pluginEslint } from '@rsbuild/plugin-eslint';
+/* eslint-disable no-useless-escape */
+/* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable max-lines-per-function */
+/* eslint-disable max-len */
+/* eslint-disable sort-keys */
+import {exec} from "child_process";
+import {promisify} from "util";
+import path from "path";
+import fs from "fs";
+import {pluginModuleFederation} from "@module-federation/rsbuild-plugin";
+import {pluginReact} from "@rsbuild/plugin-react";
+import {defineConfig, rspack} from "@rsbuild/core";
+import {pluginBabel} from "@rsbuild/plugin-babel";
+import {pluginEslint} from "@rsbuild/plugin-eslint";
 
 const execAsync = promisify(exec);
 
@@ -15,19 +19,19 @@ const execAsync = promisify(exec);
 
 // Загружаем переменные окружения из .env файлов
 const loadEnv = () => {
-  const { NODE_ENV, PROJECT } = process.env;
+  const {NODE_ENV, PROJECT} = process.env;
   const dotenvFiles = [
     PROJECT !== undefined && `.env.${PROJECT}`,
     `.env.${NODE_ENV}.local`,
-    NODE_ENV !== 'test' && `.env.local`,
+    NODE_ENV !== "test" && ".env.local",
     `.env.${NODE_ENV}`,
-    '.env',
+    ".env",
   ].filter(Boolean) as string[];
 
   dotenvFiles.forEach(dotenvFile => {
     if (fs.existsSync(dotenvFile)) {
-      require('dotenv-expand').expand(
-        require('dotenv').config({
+      require("dotenv-expand").expand(
+        require("dotenv").config({
           path: dotenvFile,
         })
       );
@@ -40,25 +44,27 @@ const getGitInfo = async () => {
   let commitId = process.env.REACT_APP_COMMIT_ID;
   let branchDateTime = process.env.REACT_APP_BRANCH_DATE_TIME;
 
-  if (!commitId || commitId === 'DEV') {
+  if (!commitId || commitId === "DEV") {
     try {
-      const { stdout } = await execAsync('git log -n 1 --pretty="format:%h"');
+      const {stdout} = await execAsync("git log -n 1 --pretty=\"format:%h\"");
+
       commitId = stdout.trim();
-    } catch (err) {
-      commitId = 'unknown';
+    } catch (_err) {
+      commitId = "unknown";
     }
   }
 
   if (!branchDateTime || branchDateTime === "no-valid") {
     try {
-      const { stdout } = await execAsync('git log -n 1 --pretty="format:%ai"');
+      const {stdout} = await execAsync("git log -n 1 --pretty=\"format:%ai\"");
+
       branchDateTime = stdout.trim();
-    } catch (err) {
-      branchDateTime = 'unknown';
+    } catch (_err) {
+      branchDateTime = "unknown";
     }
   }
 
-  return { commitId, branchDateTime };
+  return {commitId, branchDateTime};
 };
 
 // Получаем переменные окружения для DefinePlugin
@@ -69,10 +75,11 @@ const getClientEnvironment = (publicUrl: string) => {
     .reduce(
       (env, key) => {
         env[key] = process.env[key];
+
         return env;
       },
       {
-        NODE_ENV: process.env.NODE_ENV || 'development',
+        NODE_ENV: process.env.NODE_ENV || "development",
         PUBLIC_URL: publicUrl,
         WDS_SOCKET_HOST: process.env.WDS_SOCKET_HOST,
         WDS_SOCKET_PATH: process.env.WDS_SOCKET_PATH,
@@ -82,13 +89,14 @@ const getClientEnvironment = (publicUrl: string) => {
     );
 
   const stringified = {
-    'process.env': Object.keys(raw).reduce((env, key) => {
+    "process.env": Object.keys(raw).reduce((env, key) => {
       env[key] = JSON.stringify(raw[key]);
+
       return env;
     }, {} as any),
   };
 
-  return { raw, stringified };
+  return {raw, stringified};
 };
 
 const appDirectory = fs.realpathSync(process.cwd());
@@ -97,17 +105,17 @@ const publicUrlOrPath = process.env.PUBLIC_URL;
 
 
 const moduleFileExtensions = [
-  'web.mjs',
-  'mjs',
-  'web.js',
-  'js',
-  'web.ts',
-  'ts',
-  'web.tsx',
-  'tsx',
-  'json',
-  'web.jsx',
-  'jsx',
+  "web.mjs",
+  "mjs",
+  "web.js",
+  "js",
+  "web.ts",
+  "ts",
+  "web.tsx",
+  "tsx",
+  "json",
+  "web.jsx",
+  "jsx",
 ];
 
 // Resolve file paths in the same order as webpack
@@ -125,25 +133,25 @@ const resolveModule = (resolveFn, filePath) => {
 
 // config after eject: we're in ./config/
 const paths = {
-  dotenv: resolveApp('.env'),
-  appPath: resolveApp('.'),
-  rootPath: resolveApp('../../..'),
-  appBuild: resolveApp('build'),
-  appPublic: resolveApp('public'),
-  appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveModule(resolveApp, 'src/index'),
-  appPackageJson: resolveApp('package.json'),
-  appSrc: resolveApp('src'),
-  appClassesSrc: resolveApp('../essence-constructor-classes/src'),
-  appShareSrc: resolveApp('../essence-constructor-share/src'),
-  appTsConfig: resolveApp('tsconfig.json'),
-  appJsConfig: resolveApp('jsconfig.json'),
-  yarnLockFile: resolveApp('yarn.lock'),
-  testsSetup: resolveModule(resolveApp, 'src/setupTests'),
-  proxySetup: resolveApp('src/setupProxy.js'),
-  appNodeModules: resolveApp('node_modules'),
-  rootNodeModules: resolveApp('../../../node_modules'),
-  appTsBuildInfoFile: resolveApp('node_modules/.cache/tsconfig.tsbuildinfo'),
+  dotenv: resolveApp(".env"),
+  appPath: resolveApp("."),
+  rootPath: resolveApp("../../.."),
+  appBuild: resolveApp("build"),
+  appPublic: resolveApp("public"),
+  appHtml: resolveApp("public/index.html"),
+  appIndexJs: resolveModule(resolveApp, "src/index"),
+  appPackageJson: resolveApp("package.json"),
+  appSrc: resolveApp("src"),
+  appClassesSrc: resolveApp("../essence-constructor-classes/src"),
+  appShareSrc: resolveApp("../essence-constructor-share/src"),
+  appTsConfig: resolveApp("tsconfig.json"),
+  appJsConfig: resolveApp("jsconfig.json"),
+  yarnLockFile: resolveApp("yarn.lock"),
+  testsSetup: resolveModule(resolveApp, "src/setupTests"),
+  proxySetup: resolveApp("src/setupProxy.js"),
+  appNodeModules: resolveApp("node_modules"),
+  rootNodeModules: resolveApp("../../../node_modules"),
+  appTsBuildInfoFile: resolveApp("node_modules/.cache/tsconfig.tsbuildinfo"),
   publicUrlOrPath,
 };
 
@@ -151,10 +159,15 @@ export default defineConfig(async () => {
   // Загружаем переменные окружения
   loadEnv();
 
-  const { commitId, branchDateTime } = await getGitInfo();
-  const env = getClientEnvironment(process.env.PUBLIC_URL || '');
+  const {commitId, branchDateTime} = await getGitInfo();
+  const env = getClientEnvironment(paths.publicUrlOrPath || "/");
 
-  let proxy = {};
+
+  let proxy = {
+    "/api": {changeOrigin: true, target: "http://localhost:9020/"},
+    "/api_module": {changeOrigin: true, target: "http://localhost:9020/"},
+    "/notification": {changeOrigin: true, target: "http://localhost:9020/", ws: true},
+  };
 
   try {
     if (process.env.PROXY) {
@@ -164,6 +177,11 @@ export default defineConfig(async () => {
     }
   } catch (err) {
     console.warn("PROXY environment not set", err);
+    proxy = {
+      "/api": {changeOrigin: true, target: "http://localhost:9020/"},
+      "/api_module": {changeOrigin: true, target: "http://localhost:9020/"},
+      "/notification": {changeOrigin: true, target: "http://localhost:9020/", ws: true},
+    };
   }
   console.log(proxy);
 
@@ -174,13 +192,13 @@ export default defineConfig(async () => {
       pluginEslint({
         eslintPluginOptions: {
           cwd: __dirname,
-          configType: 'flat',
+          configType: "flat",
         }
       }),
       pluginBabel({
         babelLoaderOptions: {
-          presets: [["@babel/preset-typescript", { isTSX: true, allExtensions: true }], ["@babel/preset-env", { loose: true }], "@babel/preset-react"],
-          plugins: [['@babel/plugin-proposal-decorators', { version: "legacy" }], ["@babel/plugin-transform-class-properties", { loose: true }]],
+          presets: [["@babel/preset-typescript", {isTSX: true, allExtensions: true}], ["@babel/preset-env", {loose: true}], "@babel/preset-react"],
+          plugins: [["@babel/plugin-proposal-decorators", {version: "legacy"}], ["@babel/plugin-transform-class-properties", {loose: true}]],
         }
       }),
       pluginReact(),
@@ -188,7 +206,7 @@ export default defineConfig(async () => {
         name: "essence_core",
         filename: "essence_core.js",
         shared: {
-          "react": {
+          react: {
             requiredVersion: appPackageJson.dependencies["react"],
             eager: true
           },
@@ -201,7 +219,7 @@ export default defineConfig(async () => {
             requiredVersion: appPackageJson.dependencies["@essence-community/constructor-share"],
             eager: true
           },
-          "mobx": {
+          mobx: {
             singleton: true,
             requiredVersion: appPackageJson.dependencies["mobx"],
             eager: true
@@ -216,65 +234,67 @@ export default defineConfig(async () => {
     ],
     source: {
       entry: {
-        index: './src/index'
+        index: "./src/index"
       },
       include: [
-        'src',
-        '../essence-constructor-classes/src',
-        '../essence-constructor-share/src'
+        "src",
+        paths.appClassesSrc,
+        paths.appShareSrc,
       ],
       define: env.stringified,
     },
     resolve: {
       alias: {
-        'react-native': 'react-native-web',
-        '@essence-community/constructor-classes': path.resolve(__dirname, '../essence-constructor-classes'),
-        '@essence-community/constructor-share': path.resolve(__dirname, '../essence-constructor-share/src'),
+        "react-native": "react-native-web",
+        "@essence-community/constructor-classes": path.resolve(__dirname, "../essence-constructor-classes"),
+        "@essence-community/constructor-share": path.resolve(__dirname, "../essence-constructor-share/src"),
       }
     },
     output: {
       distPath: {
-        root: 'build',
-        js: 'static/js',
-        css: 'static/css',
-        media: 'static/media'
+        root: "build",
+        js: "static/js",
+        css: "static/css",
+        media: "static/media"
       },
       filename: {
-        js: '[name].[contenthash:8].js',
-        css: '[name].[contenthash:8].css',
-        media: '[name].[hash][ext]'
+        js: "[name].[contenthash:8].js",
+        css: "[name].[contenthash:8].css",
+        media: "[name].[hash][ext]"
       },
-      publicPath: process.env.PUBLIC_URL || '/',
+      publicPath: process.env.PUBLIC_URL || "/",
+      assetPrefix: process.env.PUBLIC_URL || "/",
       clean: true
     },
     dev: {
+      assetPrefix: process.env.PUBLIC_URL || "/",
       port: 3000,
-      host: 'localhost',
+      host: "localhost",
       https: false,
       hot: true
     },
     html: {
-      template: './public/index.html',
+      template: "./public/index.html",
       templateParameters: {
-        PUBLIC_URL: !process.env.PUBLIC_URL || process.env.PUBLIC_URL === "/" ? '' : process.env.PUBLIC_URL,
-        REACT_APP_SETTINGS: env.raw.REACT_APP_SETTINGS,
+        PUBLIC_URL: !process.env.PUBLIC_URL || process.env.PUBLIC_URL === "/" ? "" : process.env.PUBLIC_URL,
+        REACT_APP_SETTINGS: process.env.REACT_APP_SETTINGS,
         REACT_APP_COMMIT_ID: commitId,
         REACT_APP_BRANCH_DATE_TIME: branchDateTime
       }
     },
     tools: {
-      bundlerChain: (chain, { CHAIN_ID }) => {
+      bundlerChain: (chain) => {
         // Настройка Monaco Editor
-        chain.plugin('monaco-editor').use(require('monaco-editor-webpack-plugin'), [{
-          publicPath: '/vs',
-          filename: '[name].worker.js',
-          languages: ['javascript', 'typescript', 'css', 'html', 'json']
+        chain.plugin("monaco-editor").use(require("monaco-editor-webpack-plugin"), [{
+          publicPath: "/vs",
+          filename: "[name].worker.js",
+          languages: ["javascript", "typescript", "css", "html", "json"]
         }]);
 
         // Настройка оптимизации для production
-        if (process.env.NODE_ENV === 'production') {
+        if (process.env.NODE_ENV === "production") {
           chain.optimization.splitChunks({
-            chunks: 'all',
+            chunks: "all",
             maxInitialRequests: Infinity,
             minSize: 30000,
             maxSize: Infinity,
@@ -333,12 +353,13 @@ export default defineConfig(async () => {
           }),
           new rspack.CopyRspackPlugin({
             patterns: [{
-              from: path.join(__dirname, 'src/version.json'),
-              to: path.join(__dirname, 'build/version.json'),
-              transform(content) {
+              from: path.join(__dirname, "src/version.json"),
+              to: path.join(__dirname, "build/version.json"),
+              transform(_content) {
                 const COMMIT_ID = commitId || "";
                 const BRANCH_NAME = process.env.REACT_APP_BRANCH_NAME || "";
                 const BRANCH_DATE_TIME = branchDateTime || "";
+
                 return JSON.stringify({
                   version: BRANCH_NAME,
                   commit: COMMIT_ID,
@@ -352,17 +373,18 @@ export default defineConfig(async () => {
     },
     performance: {
       chunkSplit: {
-        strategy: 'split-by-module'
+        strategy: "split-by-module"
       }
     },
     server: {
+      base: process.env.PUBLIC_URL || "/",
       port: 3000,
-      host: 'localhost',
+      host: "localhost",
       proxy,
       headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': '*',
-        'Access-Control-Allow-Headers': '*',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*",
       },
     }
   };

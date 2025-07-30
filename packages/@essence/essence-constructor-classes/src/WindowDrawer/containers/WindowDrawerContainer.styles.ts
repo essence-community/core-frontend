@@ -1,4 +1,4 @@
-import {makeStyles} from "@material-ui/core";
+import {makeStyles} from "@mui/styles";
 import {IEssenceTheme, IClassProps} from "@essence-community/constructor-share";
 
 export const useStyles = makeStyles(
@@ -16,8 +16,8 @@ export const useStyles = makeStyles(
         },
         drawerPaper: {
             alignItems: "center",
-            backgroundColor: theme.palette.primary.main,
-            top: (props: IClassProps) => props.bc.top,
+            backgroundColor: `${theme.palette.primary.main} !important`,
+            top: (props: IClassProps) => `${props.bc.top}px !important`,
         },
     }),
     {

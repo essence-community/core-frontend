@@ -1,6 +1,6 @@
 import * as React from "react";
 import {IClassProps, Scrollbars} from "@essence-community/constructor-share";
-import {Grid, Box} from "@material-ui/core";
+import {Grid, Box} from "@mui/material";
 import {PromoInfo} from "../../components/PromoInfo";
 import {PromoHeader} from "../../components/PromoHeader";
 import {PromoIntegration} from "../../components/PromoIntegration";
@@ -14,18 +14,18 @@ export const PromoContainer: React.FC<IClassProps> = (props) => {
         <Scrollbars hideTracksWhenNotNeeded>
             <Box className={classes.root}>
                 <Grid container direction="column" spacing={0} alignItems="center">
-                    <Grid item className={classes.maxWidth}>
+                    <Grid className={classes.maxWidth}>
                         <PromoHeader />
                     </Grid>
-                    <Grid item container justify="center" className={classes.darkLine}>
+                    <Grid container justifyContent="center" className={classes.darkLine}>
                         <div className={classes.maxWidth}>
                             <PromoInfo />
                         </div>
                     </Grid>
-                    <Grid item className={classes.maxWidth}>
+                    <Grid className={classes.maxWidth}>
                         <PromoExamples {...props} />
                     </Grid>
-                    <Grid item container justify="center" className={classes.darkLine}>
+                    <Grid container justifyContent="center" className={classes.darkLine}>
                         <div className={classes.maxWidth}>
                             <PromoIntegration />
                         </div>

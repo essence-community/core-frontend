@@ -2,13 +2,18 @@ import {IEssenceTheme} from "@essence-community/constructor-share";
 /* eslint-disable sort-keys */
 export default (theme: IEssenceTheme) => ({
     text: {
-        fontSize: 15,
+        "&:hover": {
+            color: "inherit !important",
+        },
+        color: "inherit !important",
+        fontSize: "15px !important",
         width: 120,
+        textTransform: "none !important",
     },
     tabIcon: {
         color: theme.palette.primary.main,
         fill: theme.palette.primary.main,
-        fontSize: 20,
+        fontSize: "20px !important",
         padding: "0 4px",
         width: 32,
         textAlign: "center",
@@ -18,17 +23,34 @@ export default (theme: IEssenceTheme) => ({
         textDecoration: "none",
     },
     tabRoot: {
-        "& $activeTabWrapper > *:first-child": {
+        "& .Mui-activeTabWrapped > *:first-child": {
             marginBottom: 0,
         },
-        "& $tabWrapper > *:first-child": {
+        "& $tabWrapped > *:first-child": {
             marginBottom: 0,
         },
-        border: `1px solid ${theme.essence.palette.grey.main}`,
-        height: theme.essence.sizing.appBarHeight,
+        "&:hover $tabIcon, &:hover $tabIcon::before, &:hover": {
+            color: `${theme.essence.palette.common.white} !important`,
+            fill: `${theme.essence.palette.common.white} !important`,
+        },
+        "&:hover": {
+            borderBottom: `2px solid ${theme.essence.palette.common.white} !important`,
+        },
+        "&.Mui-selected $tabIcon, &.Mui-selected $tabIcon::before": {
+            color: `${theme.essence.palette.common.white} !important`,
+            fill: `${theme.essence.palette.common.white} !important`,
+        },
+        "&.Mui-selected": {
+            borderBottom: `2px solid ${theme.essence.palette.common.white} !important`,
+            color: `${theme.essence.palette.common.white} !important`,
+            fill: `${theme.essence.palette.common.white} !important`,
+        },
+        border: `1px solid ${theme.essence.palette.grey.main} !important`,
+        height: `${theme.essence.sizing.appBarHeight}px !important`,
+        minHeight: `${theme.essence.sizing.appBarHeight}px !important`,
         opacity: 1,
-        minHeight: theme.essence.sizing.appBarHeight,
         padding: 0,
+        color: `${theme.palette.primary.main} !important`,
     },
     verticalTabRoot: {
         width: "100%",
@@ -36,30 +58,31 @@ export default (theme: IEssenceTheme) => ({
     horizontalTabRoot: {
         width: 160,
     },
-    tabWrapper: {
+    tabWrapped: {
         height: "100%",
         flexDirection: "row",
         textTransform: "none",
         color: theme.palette.primary.main,
     },
     activeTab: {
-        "& > $tabWrapper > $tabIcon": {
+        "& > $tabWrapped > $tabIcon": {
             color: theme.essence.palette.grey.light,
             fill: theme.essence.palette.grey.light,
         },
-        "& > $tabWrapper > $tabIcon::before": {
+        "& > $tabWrapped > $tabIcon::before": {
             color: theme.essence.palette.grey.light,
             fill: theme.essence.palette.grey.light,
         },
-        "& > $tabWrapper": {
+        "& > $tabWrapped": {
             color: theme.essence.palette.common.white,
         },
         borderBottom: "none",
-        backgroundColor: theme.palette.primary.main,
-        height: theme.essence.sizing.appBarHeight,
-        color: theme.essence.palette.common.white,
+        backgroundColor: `${theme.palette.primary.main} !important`,
+        height: `${theme.essence.sizing.appBarHeight}px !important`,
+        minHeight: `${theme.essence.sizing.appBarHeight}px !important`,
+        color: `${theme.essence.palette.common.white} !important`,
     },
-    activeTabWrapper: {
+    activeTabWrapped: {
         height: "100%",
         backgroundColor: theme.palette.primary.main,
         flexDirection: "row",

@@ -1,6 +1,6 @@
 import {IBuilderConfig, IClassProps, mapComponents, toColumnStyleWidth} from "@essence-community/constructor-share";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
-import {Grid, Toolbar as MaterialToolbar} from "@material-ui/core";
+import {Grid, Toolbar as MaterialToolbar} from "@mui/material";
 import * as React from "react";
 import {GRID_CONFIGS, GRID_ALIGN_CONFIGS} from "@essence-community/constructor-share/constants/ui";
 import {useStyles} from "./ToolBar.styles";
@@ -10,7 +10,7 @@ const calcStyle = (bc: IBuilderConfig) => ({
     maxHeight: bc.maxheight ?? "100%",
     minHeight: bc.minheight,
     overflow: bc.width ? "hidden" : "none",
-    ...toColumnStyleWidth(bc.width),
+    ...(bc.width ? toColumnStyleWidth(bc.width) : {}),
 });
 
 export const ToolBar: React.FC<IClassProps> = (props) => {
@@ -22,7 +22,9 @@ export const ToolBar: React.FC<IClassProps> = (props) => {
             height: bc.height,
             maxHeight: bc.maxheight ?? "100%",
             minHeight: bc.minheight,
-            ...toColumnStyleWidth(bc.width),
+            ...(bc.width ? toColumnStyleWidth(bc.width) : {
+                width: "100%",
+            }),
         }),
         [bc.height, bc.maxheight, bc.minheight, bc.width],
     );
@@ -45,7 +47,7 @@ export const ToolBar: React.FC<IClassProps> = (props) => {
                     GRID_ALIGN_CONFIGS["left-hbox"])}
             >
                 {mapComponents(bc.childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                    <Grid item style={calcStyle(childBc)} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                    <Grid style={calcStyle(childBc)} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
                         <Child {...props} bc={childBc} />
                     </Grid>
                 ))}

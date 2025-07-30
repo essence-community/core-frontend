@@ -1,5 +1,5 @@
 import React from "react";
-import {TabProps} from "@material-ui/core/Tab";
+import {TabProps} from "@mui/material/Tab";
 import {IPageModel} from "@essence-community/constructor-share/types";
 import {IPagesModel} from "@essence-community/constructor-share/types/PagesModel";
 

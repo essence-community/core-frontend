@@ -8,7 +8,7 @@ import {
     useDefaultValueQuery,
 } from "@essence-community/constructor-share/hooks";
 import {TextFieldMask} from "@essence-community/constructor-share/uicomponents";
-import {TextField} from "@material-ui/core";
+import {TextField} from "@mui/material";
 import {FieldTextSmartMask} from "../components/FieldTextSmartMask";
 
 export const FieldTextContainer: React.FC<IClassProps> = (props) => {

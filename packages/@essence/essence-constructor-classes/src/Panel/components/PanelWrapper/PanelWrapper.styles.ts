@@ -1,4 +1,4 @@
-import {makeStyles} from "@material-ui/core";
+import {makeStyles} from "@mui/styles";
 import {IEssenceTheme} from "@essence-community/constructor-share/types/Theme";
 
 export const useStyles = makeStyles(
@@ -6,19 +6,19 @@ export const useStyles = makeStyles(
         actionsBar:
             theme.essence.layoutTheme === 2
                 ? {
-                      backgroundColor: theme.palette.primary.main,
-                      color: theme.palette.common.white,
-                      fill: theme.palette.common.white,
-                      paddingTop: 4,
-                      width: theme.essence.sizing.controlPanelWidth,
-                  }
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.common.white,
+                    fill: theme.palette.common.white,
+                    paddingTop: 4,
+                    width: theme.essence.sizing.controlPanelWidth,
+                }
                 : {
-                      color: theme.palette.primary.main,
-                      display: "flex",
-                      fill: theme.palette.primary.main,
-                      height: 48,
-                      padding: "0 16px",
-                  },
+                    color: theme.palette.primary.main,
+                    display: "flex",
+                    fill: theme.palette.primary.main,
+                    height: 48,
+                    padding: "0 16px",
+                },
         actionsContent: {
             height: "100%",
         },
@@ -29,10 +29,10 @@ export const useStyles = makeStyles(
         topPanel:
             theme.essence.layoutTheme === 2
                 ? {
-                      backgroundColor: theme.palette.common.white,
-                      transition: "margin-top 200ms linear 0s",
-                      zIndex: 2,
-                  }
+                    backgroundColor: theme.palette.common.white,
+                    transition: "margin-top 200ms linear 0s",
+                    zIndex: 2,
+                }
                 : {},
     }),
     {name: "EssencePanelWrapper"},

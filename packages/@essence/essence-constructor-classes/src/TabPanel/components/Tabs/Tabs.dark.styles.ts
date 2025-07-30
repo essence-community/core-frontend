@@ -1,14 +1,14 @@
-import {IEssenceTheme} from "@essence-community/constructor-share/types";
-import {StyleRules} from "@material-ui/core";
+import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
+import {StyleRules} from "@mui/styles";
 import {ClassNames} from "./Tabs.types";
 
-export function tabsDarkTheme(theme: IEssenceTheme): StyleRules<ClassNames> {
+export function tabsDarkTheme(theme: IEssenceTheme): StyleRules<IClassProps, ClassNames> {
     return {
         "center-hbox": {
             "&$root::before": {
                 backgroundColor: "#42455c",
                 bottom: 0,
-                 
+
                 content: "\"\"",
                 height: 2,
                 left: 4,
@@ -22,7 +22,7 @@ export function tabsDarkTheme(theme: IEssenceTheme): StyleRules<ClassNames> {
             "&$root::before": {
                 backgroundColor: "#42455c",
                 bottom: 0,
-                 
+
                 content: "\"\"",
                 height: 2,
                 left: 4,

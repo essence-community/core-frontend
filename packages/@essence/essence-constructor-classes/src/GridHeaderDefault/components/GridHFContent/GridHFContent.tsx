@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {getComponent} from "@essence-community/constructor-share/components";
 import {Icon} from "@essence-community/constructor-share/Icon";
@@ -16,10 +16,10 @@ export const GridHFContent: React.FC<IClassProps> = (props) => {
     if (Component) {
         return (
             <Grid container className={classes.content} wrap="nowrap">
-                <Grid item>
+                <Grid>
                     <Icon iconfont="search" className={classes.contentSearch} />
                 </Grid>
-                <Grid item xs zeroMinWidth>
+                <Grid size="grow">
                     <Component {...props} />
                 </Grid>
             </Grid>

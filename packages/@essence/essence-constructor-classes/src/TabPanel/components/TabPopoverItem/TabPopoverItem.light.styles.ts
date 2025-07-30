@@ -1,7 +1,7 @@
-import {StyleRules} from "@material-ui/core";
-import {IEssenceTheme} from "@essence-community/constructor-share";
+import {StyleRules} from "@mui/styles";
+import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share";
 
-export function lightStyles(theme: IEssenceTheme): StyleRules<"root" | "active"> {
+export function lightStyles(theme: IEssenceTheme): StyleRules<IClassProps, "root" | "active"> {
     return {
         active: {
             backgroundColor: theme.palette.action.selected,

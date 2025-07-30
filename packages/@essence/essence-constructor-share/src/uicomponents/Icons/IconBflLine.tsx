@@ -1,6 +1,6 @@
 import * as React from "react";
-import {SvgIcon} from "@material-ui/core";
-import {SvgIconProps} from "@material-ui/core/SvgIcon";
+import {SvgIcon} from "@mui/material";
+import {SvgIconProps} from "@mui/material/SvgIcon";
 
 interface IIconBflLineProps extends SvgIconProps {
     firstPathClassName?: string;

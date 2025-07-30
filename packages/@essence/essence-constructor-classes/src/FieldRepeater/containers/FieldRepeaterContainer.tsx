@@ -8,7 +8,7 @@ import {
     VAR_RECORD_DISPLAYED,
 } from "@essence-community/constructor-share/constants";
 import {deepFind, isEmpty, parseMemoize, useTranslation} from "@essence-community/constructor-share/utils";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {useObserver} from "mobx-react";
 import {useField} from "@essence-community/constructor-share/Form";
 import {reaction} from "mobx";
@@ -160,7 +160,7 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
 
         return (
             <Group error={Boolean(!isDisabled && !field.isValid)} isRow={false} bc={props.bc}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                     {value.map((childField: IRecord, idx: number) => (
                         <ParentFieldContext.Provider key={idx} value={parentContext[idx]}>
                             <RecordContext.Provider value={childField}>
@@ -177,9 +177,9 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
                         </ParentFieldContext.Provider>
                     ))}
                 </Grid>
-                <Grid item xs={12} container justify="flex-end">
+                <Grid size={12} container justifyContent="flex-end">
                     {mapComponents([addBtnConfig], (ChildCmp, bcChild) => (
-                        <Grid item key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]}>
+                        <Grid key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]}>
                             <ChildCmp
                                 {...props}
                                 disabled={isDisabled}

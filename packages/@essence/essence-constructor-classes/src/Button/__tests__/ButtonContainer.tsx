@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Button, IconButton} from "@material-ui/core";
+import {Button, IconButton} from "@mui/material";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {shallow} from "enzyme";
 import {getBaseBc, Renderer} from "@essence-community/constructor-share/utils/test";

@@ -2,7 +2,7 @@
 /* eslint-disable import/extensions */
 // @flow
 import * as React from "react";
-import {Typography} from "@material-ui/core";
+import {Typography} from '@mui/material';
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {VAR_RECORD_CT_CHANGE} from "@essence-community/constructor-share/constants";
 import {sleep} from "../../../utils/base";

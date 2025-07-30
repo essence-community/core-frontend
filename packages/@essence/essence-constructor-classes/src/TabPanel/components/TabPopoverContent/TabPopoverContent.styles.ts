@@ -1,4 +1,4 @@
-import {makeStyles} from "@material-ui/core";
+import {makeStyles} from "@mui/styles";
 import {IEssenceTheme} from "@essence-community/constructor-share";
 import {darkStyles} from "./TabPopoverContent.dark.styles";
 import {lightStyles} from "./TabPopoverContent.light.styles";

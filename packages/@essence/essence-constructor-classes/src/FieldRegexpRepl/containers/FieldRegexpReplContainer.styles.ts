@@ -1,5 +1,5 @@
-import {makeStyles} from "@material-ui/core";
-import {green} from "@material-ui/core/colors";
+import {makeStyles} from "@mui/styles";
+import {green} from "@mui/material/colors";
 import {IEssenceTheme} from "@essence-community/constructor-share/types";
 
 export const useStyles = makeStyles(

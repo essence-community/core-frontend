@@ -1,11 +1,16 @@
 /* eslint-disable max-lines-per-function, sort-keys */
 import * as React from "react";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {toColumnStyleWidthBc} from "@essence-community/constructor-share/utils/transform";
 import {IClassProps, IModuleClassProps} from "@essence-community/constructor-share/types";
 import {loadRemoteModule} from "@essence-community/constructor-share/utils/federationModule";
 import {settingsStore, snackbarStore} from "@essence-community/constructor-share/models";
-import {VAR_RECORD_NAME, VAR_SETTING_PROJECT_LOADER} from "@essence-community/constructor-share/constants";
+import {
+    VAR_RECORD_NAME,
+    VAR_SETTING_BASE_PATH,
+    VAR_SETTING_PROJECT_LOADER,
+    loggerRoot,
+} from "@essence-community/constructor-share/constants";
 import {noop, parseMemoize} from "@essence-community/constructor-share/utils";
 import {WindowContext} from "@essence-community/constructor-share/context";
 import {reaction} from "mobx";
@@ -14,10 +19,12 @@ import {useObserver} from "mobx-react";
 import cn from "clsx";
 import {useGetValue} from "@essence-community/constructor-share/hooks/useCommon/useGetValue";
 import {ErrorBoundary, PageLoader} from "@essence-community/constructor-share/uicomponents";
-import {createRemoteComponent} from "@module-federation/bridge-react";
+import {createRemoteAppComponent} from "@module-federation/bridge-react";
 import {IBuilderClassConfig, IConfigMF} from "../types";
 import {ModuleFederationModel} from "../store/ModuleFederationModel";
 import {useStyles} from "./ModuleFederationContainer.style";
+
+const log = loggerRoot.extend("ModuleFederationContainer");
 
 const DEFAULT_PROPS = {};
 
@@ -31,6 +38,7 @@ const checkValue = (
     try {
         res = typeof val === "string" ? JSON.parse(val) : JSON.parse(JSON.stringify(val));
     } catch (err) {
+        log("checkValue", err);
         res = defaultValue;
         errorCalcBack(err);
     }
@@ -41,8 +49,8 @@ const checkValue = (
 export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
     const {bc, disabled, hidden, pageStore, visible, ...nextProps} = props;
     const [storeComponent, setStoreComponent] = React.useState<{
-        Component: Record<string, React.FC<IModuleClassProps>>,
-        export: string
+        Component: Record<string, React.FC<IModuleClassProps>>;
+        export: string;
     }>(null);
     const [propsComponent, setPropsComponent] = React.useState(DEFAULT_PROPS);
     const [mfConfig, setMfConfig] = React.useState<IConfigMF>(null);
@@ -76,6 +84,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
 
     React.useEffect(() => {
         const getError = (err: Error) => {
+            log("getError", err);
             snackbarStore.snackbarOpenAction(
                 {
                     status: "error",
@@ -111,6 +120,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
 
     React.useEffect(() => {
         const getError = (err: Error) => {
+            log("getError", err);
             snackbarStore.snackbarOpenAction(
                 {
                     status: "error",
@@ -129,6 +139,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
         };
 
         const loadFail = (err: Error) => {
+            log("loadFail", err);
             if (bc.mfconfigfail) {
                 return loadRemoteModule(bc.mfconfigfail).then(
                     (comp) => {
@@ -155,6 +166,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
     }, [bc, mfConfig, pageStore]);
     React.useEffect(() => {
         const getError = (err: Error) => {
+            log("getError", err);
             snackbarStore.snackbarOpenAction(
                 {
                     status: "error",
@@ -192,15 +204,17 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
 
     const finalPropsComponent = React.useMemo(
         () =>
-        ({
-            style: contentStyle,
-            disabled,
-            hidden,
-            pageStore,
-            ...(nextProps ? nextProps : DEFAULT_PROPS),
-            ...(propsComponent ? propsComponent : DEFAULT_PROPS),
-            dispatchMessage: (...arg) => store.handleEventComponent(...arg),
-        } as IModuleClassProps),
+            ({
+                basename: settingsStore.settings[VAR_SETTING_BASE_PATH],
+                style: contentStyle,
+                disabled,
+                hidden,
+                pageStore,
+                ...(nextProps ? nextProps : DEFAULT_PROPS),
+                ...(propsComponent ? propsComponent : DEFAULT_PROPS),
+                dispatchMessage: (...arg) => store.handleEventComponent(...arg),
+            }) as IModuleClassProps,
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [contentStyle, propsComponent, store, disabled, hidden, pageStore, ...Object.values(nextProps)],
     );
 
@@ -209,14 +223,12 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
             <PageLoader
                 container={pageStore.pageEl}
                 isLoading
-                loaderType={
-                    settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"
-                }
+                loaderType={settingsStore.settings[VAR_SETTING_PROJECT_LOADER] as "default" | "bfl-loader"}
             />
-        )
+        );
     }, [pageStore]);
 
-    const Component = React.useMemo(() => { 
+    const Component = React.useMemo(() => {
         if (!storeComponent || !storeComponent.Component) {
             return null;
         }
@@ -229,10 +241,11 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
             return null;
         }
 
-        return createRemoteComponent({
+        return createRemoteAppComponent({
             loader: async () => storeComponent.Component,
             loading: Loader,
             fallback: (_props) => {
+                log("fallback", _props.error);
                 setIsErrorBridge(true);
 
                 return Loader;
@@ -249,19 +262,18 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
         return (
             <Grid
                 container
-                item
                 spacing={0}
                 alignItems="stretch"
                 style={contentStyle}
                 className={cn({[classes.fullScreen]: store.isFullScreen})}
             >
-                <Grid item xs={12} alignItems="stretch" zeroMinWidth>
-                    <ErrorBoundary
-                        fallback={null}
-                    >
-                        {isErrorBridge ?
-                            <Component {...finalPropsComponent} /> :
-                            <BridgeComponent {...finalPropsComponent} />}
+                <Grid size={12} alignItems="stretch">
+                    <ErrorBoundary fallback={null}>
+                        {isErrorBridge ? (
+                            <Component {...finalPropsComponent} />
+                        ) : (
+                            <BridgeComponent {...finalPropsComponent} />
+                        )}
                     </ErrorBoundary>
                 </Grid>
             </Grid>

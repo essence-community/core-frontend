@@ -1,5 +1,5 @@
 import * as React from "react";
-import MaterialTab from "@material-ui/core/Tab";
+import MaterialTab from "@mui/material/Tab";
 import {toColumnStyleWidth} from "@essence-community/constructor-share/utils/transform";
 import {IBuilderConfig, IClassProps} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
@@ -74,7 +74,7 @@ const BuilderRoadMapTab: React.FC<IRoadMapTab> = (props) => {
     if (orientation === "vertical") {
         return (
             <div className={classes.containerTab} style={style}>
-                <MaterialTab {...propsTab} disabled={disabled} classes={tabClasses} />
+                <MaterialTab {...propsTab as any} disabled={disabled} classes={tabClasses} />
             </div>
         );
     }
@@ -82,7 +82,7 @@ const BuilderRoadMapTab: React.FC<IRoadMapTab> = (props) => {
     return (
         <div className={classes.containerTab} style={style}>
             <span className={classes.leftSideTab} />
-            <MaterialTab {...propsTab} disabled={disabled} classes={tabClasses} />
+            <MaterialTab {...propsTab as any} disabled={disabled} classes={tabClasses} />
             <span className={classes.rightSideTab} />
         </div>
     );

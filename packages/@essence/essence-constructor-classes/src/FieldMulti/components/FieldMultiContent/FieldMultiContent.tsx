@@ -1,7 +1,7 @@
 import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {Focusable} from "@essence-community/constructor-share/uicomponents";
-import {Grid, CircularProgress, Button} from "@material-ui/core";
+import {Grid, CircularProgress, Button} from "@mui/material";
 import {useObserver} from "mobx-react";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
@@ -71,13 +71,13 @@ export const FieldMultiContent: React.FC<IFieldMultiContentProps> = ({store, fie
                     </div>
                 )}
                 {mapComponents(fieldsBc, (ChildCmp, childBc) => (
-                    <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} item>
+                    <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
                         <ChildCmp {...classProps} bc={childBc} />
                     </Grid>
                 ))}
-                <Grid item>
-                    <Grid container justify="flex-end" spacing={1}>
-                        <Grid item>
+                <Grid>
+                    <Grid container justifyContent="flex-end" spacing={1}>
+                        <Grid>
                             <Button
                                 data-page-object={`${classProps.bc[VAR_RECORD_PAGE_OBJECT_ID]}-accept`}
                                 disabled={classProps.disabled}
@@ -89,7 +89,7 @@ export const FieldMultiContent: React.FC<IFieldMultiContentProps> = ({store, fie
                                 {trans("static:147bb56012624451971b35b1a4ef55e6")}
                             </Button>
                         </Grid>
-                        <Grid item>
+                        <Grid>
                             <Button
                                 data-page-object={`${classProps.bc[VAR_RECORD_PAGE_OBJECT_ID]}-cancel`}
                                 disabled={classProps.disabled}

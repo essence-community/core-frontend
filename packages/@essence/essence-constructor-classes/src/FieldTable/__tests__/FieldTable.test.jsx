@@ -3,7 +3,7 @@
 // @flow
 import * as React from "react";
 import {when} from "mobx";
-import {IconButton} from "@material-ui/core";
+import {IconButton} from '@mui/material';
 import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import gridfieldJson from "../../../../../mocks/fields/gridfield.json";
 import BuilderMobxForm from "../../../../Components/MobxForm/BuilderMobxForm";

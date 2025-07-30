@@ -1,4 +1,5 @@
-import {makeStyles} from "@material-ui/core";
+/* eslint-disable sort-keys */
+import {makeStyles} from "@mui/styles";
 
 export const useStyles = makeStyles(
     () => ({
@@ -6,6 +7,8 @@ export const useStyles = makeStyles(
             alignItems: "center",
             display: "flex",
             justifyContent: "center",
+            width: "100%",
+            height: "100%",
             zIndex: 1600,
         },
     }),

@@ -2,14 +2,18 @@ import {IEssenceTheme} from "@essence-community/constructor-share";
 /* eslint-disable sort-keys */
 export default (theme: IEssenceTheme) => ({
     text: {
-        color: theme.essence.palette.common.black,
-        fontSize: 15,
+        "&:hover": {
+            color: "inherit !important",
+        },
+        color: "inherit !important",
+        fontSize: "15px !important",
         width: 120,
+        textTransform: "none !important",
     },
     tabIcon: {
-        color: theme.palette.secondary.main,
-        fill: theme.palette.secondary.main,
-        fontSize: 20,
+        color: theme.essence.palette.common.black,
+        fill: theme.essence.palette.common.black,
+        fontSize: "20px !important",
         padding: "0 4px",
         width: 32,
         textAlign: "center",
@@ -19,17 +23,34 @@ export default (theme: IEssenceTheme) => ({
         textDecoration: "none",
     },
     tabRoot: {
-        "& $tabWrapper > *:first-child": {
+        "& $tabWrapped > *:first-child": {
             marginBottom: 0,
         },
-        "& $activeTabWrapper > *:first-child": {
+        "& .Mui-activeTabWrapped > *:first-child": {
             marginBottom: 0,
         },
-        border: `1px solid ${theme.palette.primary.main}`,
+        "&:hover $tabIcon, &:hover $tabIcon::before, &:hover": {
+            color: `${theme.palette.secondary.main} !important`,
+            fill: `${theme.palette.secondary.main} !important`,
+        },
+        "&:hover": {
+            borderBottom: `2px solid ${theme.palette.secondary.main} !important`,
+        },
+        "&.Mui-selected $tabIcon, &.Mui-selected $tabIcon::before": {
+            color: `${theme.palette.primary.main} !important`,
+            fill: `${theme.palette.primary.main} !important`,
+        },
+        "&.Mui-selected": {
+            borderBottom: `2px solid ${theme.palette.secondary.main} !important`,
+            color: `${theme.palette.primary.main} !important`,
+            fill: `${theme.palette.primary.main} !important`,
+        },
+        border: `1px solid ${theme.palette.primary.main} !important`,
         padding: 0,
         opacity: 1,
-        height: theme.essence.sizing.appBarHeight,
-        minHeight: theme.essence.sizing.appBarHeight,
+        height: `${theme.essence.sizing.appBarHeight}px !important`,
+        minHeight: `${theme.essence.sizing.appBarHeight}px !important`,
+        color: `${theme.essence.palette.common.black} !important`,
     },
     verticalTabRoot: {
         width: "100%",
@@ -38,7 +59,7 @@ export default (theme: IEssenceTheme) => ({
     horizontalTabRoot: {
         width: 160,
     },
-    tabWrapper: {
+    tabWrapped: {
         height: "100%",
         flexDirection: "row",
         textTransform: "none",

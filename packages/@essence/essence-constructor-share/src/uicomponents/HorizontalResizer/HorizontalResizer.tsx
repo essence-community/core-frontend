@@ -1,7 +1,7 @@
 import * as React from "react";
 import {createPortal} from "react-dom";
 import cn from "clsx";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {debounce} from "../../utils";
 import {getCoords} from "../../utils/html/getCoords";
 import {HorizontalSizerIcon} from "../../icons";
@@ -18,7 +18,7 @@ interface IHorizontalResizerProps {
     style?: React.CSSProperties;
     className?: string;
     children: React.ReactNode;
-    xs?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | boolean;
+    size?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | "grow" | "auto";
     isAddResizer: boolean;
     item: IItemProps;
     itemsNumber: number;
@@ -37,7 +37,7 @@ const INITIAL_STATE = {
 
 // eslint-disable-next-line max-lines-per-function, max-statements
 export const HorizontalResizer: React.FC<IHorizontalResizerProps> = (props) => {
-    const {onChange, xs, isAddResizer} = props;
+    const {onChange, size, isAddResizer} = props;
     const rootRef = React.useRef<HTMLDivElement>(null);
     const resizerRef = React.useRef<HTMLDivElement>(null);
     const lineRef = React.useRef<HTMLDivElement>(null);
@@ -188,7 +188,7 @@ export const HorizontalResizer: React.FC<IHorizontalResizerProps> = (props) => {
         const nextCollapsed = props.nextItem && props.nextItem.collapsed;
 
         return (
-            <Grid item xs={xs} className={props.className} style={props.style} zeroMinWidth>
+            <Grid size={size} className={props.className} style={props.style}>
                 <div className={cn(classes.resizeContainer)} ref={rootRef}>
                     <div className={cn(classes.childrenContainer, {[classes.containerHide]: props.item.collapsed})}>
                         {props.children}
@@ -231,12 +231,10 @@ export const HorizontalResizer: React.FC<IHorizontalResizerProps> = (props) => {
     return isAddResizer ? (
         renderResizer()
     ) : (
-        <Grid
-            item
-            xs={xs}
+        <Grid size={size}
             className={props.item.collapsed ? cn(props.className, classes.containerHide) : props.className}
             style={props.style}
-            zeroMinWidth
+           
         >
             {props.children}
         </Grid>

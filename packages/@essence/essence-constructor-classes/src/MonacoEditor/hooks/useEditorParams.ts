@@ -2,7 +2,7 @@
 import {parseMemoize, isEmpty, noop, snackbarStore, VAR_RECORD_NAME} from "@essence-community/constructor-share";
 import {useGetValue} from "@essence-community/constructor-share/hooks/useCommon/useGetValue";
 import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
-import {useTheme} from "@material-ui/core";
+import {useTheme} from "@mui/material";
 import {reaction} from "mobx";
 import React from "react";
 import {IMonacoBuilderClassConfig} from "../MonacoEditor.types";

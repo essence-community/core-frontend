@@ -1,7 +1,7 @@
 import * as React from "react";
 import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {useHistory, useParams} from "react-router-dom";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {
     VAR_RECORD_CV_TOKEN,
@@ -89,12 +89,12 @@ export const StaticReportsContainer: React.FC<IClassProps> = (props) => {
     if (isReady) {
         return (
             <Grid container wrap="nowrap" className={classes.root}>
-                <Grid item className={classes.menu} style={{width}} zeroMinWidth>
+                <Grid className={classes.menu} style={{width}}>
                     {mapComponents([pagesTreeBc], (ChildCmp, childBc) => (
                         <ChildCmp key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} {...props} bc={childBc} />
                     ))}
                 </Grid>
-                <Grid item>
+                <Grid>
                     <SideResizer
                         anchor="left"
                         minDrawerWidth={MENU_GRID_WIDTH}
@@ -102,7 +102,7 @@ export const StaticReportsContainer: React.FC<IClassProps> = (props) => {
                         onChangeWidth={setWidth}
                     />
                 </Grid>
-                <Grid item xs className={classes.content}>
+                <Grid className={classes.content}>
                     {mapComponents([pagesBc], (ChildCmp, childBc) => (
                         <ChildCmp key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} {...props} bc={childBc} />
                     ))}

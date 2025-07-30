@@ -146,13 +146,13 @@ export default [
             "template-tag-spacing": 2,
             "max-len": [
                 2,
-                120,
+                140,
                 4,
                 {
                     ignoreUrls: false,
                     ignoreComments: false,
                     ignoreTrailingComments: false,
-                    ignoreStrings: false,
+                    ignoreStrings: true,
                     ignoreTemplateLiterals: false,
                     ignoreRegExpLiterals: false,
                 },
@@ -163,16 +163,16 @@ export default [
                 {
                     vars: "all",
                     args: "after-used",
-                    "argsIgnorePattern": "^_",
-                    "caughtErrors": "all",
-                    "caughtErrorsIgnorePattern": "^_",
-                    "destructuredArrayIgnorePattern": "^_",
-                    "varsIgnorePattern": "^_",
-                    "ignoreRestSiblings": true
+                    argsIgnorePattern: "^_",
+                    caughtErrors: "all",
+                    caughtErrorsIgnorePattern: "^_",
+                    destructuredArrayIgnorePattern: "^_",
+                    varsIgnorePattern: "^_",
+                    ignoreRestSiblings: true
                 }
             ],
             "no-use-before-define": "off",
-            "@typescript-eslint/no-use-before-define": ["error", { functions: true, classes: true }],
+            "@typescript-eslint/no-use-before-define": ["error", {functions: true, classes: true}],
             curly: 2,
 
             "react/no-unescaped-entities": 0,
@@ -188,8 +188,8 @@ export default [
             "class-methods-use-this": 0,
             "padding-line-between-statements": [
                 "error",
-                { blankLine: "always", prev: "*", next: "return" },
-                { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
+                {blankLine: "always", prev: "*", next: "return"},
+                {blankLine: "always", prev: ["const", "let", "var"], next: "*"},
                 {
                     blankLine: "any",
                     prev: ["const", "let", "var"],

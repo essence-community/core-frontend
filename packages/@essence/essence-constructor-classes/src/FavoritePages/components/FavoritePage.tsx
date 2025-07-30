@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Grid, Typography} from "@material-ui/core";
+import {Grid, Typography} from "@mui/material";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {
@@ -46,17 +46,17 @@ export const FavoritePage: React.FC<IFavoritePageProps> = (props) => {
             className={classes.linkMenu}
             onClick={handleClickMenu}
         >
-            <Grid item className={classes.menuRoot} data-qtip={name}>
+            <Grid className={classes.menuRoot} data-qtip={name}>
                 <Grid container spacing={1} wrap="nowrap" alignItems="center" className={classes.menuContainer}>
-                    <Grid item className={classes.iconRoot}>
+                    <Grid className={classes.iconRoot}>
                         {routeIconName ? (
                             <Icon iconfont={routeIconName} iconfontname={routeIconFont} size="lg" />
                         ) : null}
                     </Grid>
-                    <Grid item className={classes.iconRemove} onClick={handleRemoveFavorite}>
+                    <Grid className={classes.iconRemove} onClick={handleRemoveFavorite}>
                         <Icon iconfont="times" size="lg" />
                     </Grid>
-                    <Grid item>
+                    <Grid>
                         <Typography variant="body2" color="inherit" noWrap className={classes.nameTypography}>
                             {name}
                         </Typography>

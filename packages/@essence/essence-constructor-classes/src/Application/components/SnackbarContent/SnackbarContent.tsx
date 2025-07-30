@@ -1,7 +1,7 @@
 import * as React from "react";
 import {useObserver} from "mobx-react";
 import cn from "clsx";
-import {Grid, Grow, Paper, CircularProgress} from "@material-ui/core";
+import {Grid, Grow, Paper, CircularProgress} from "@mui/material";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {useTranslation, toTranslateText} from "@essence-community/constructor-share/utils";
 import {SnackbarContentText} from "@essence-community/constructor-share/uicomponents";
@@ -83,9 +83,7 @@ export const SnackbarContent: React.FC<ISnackbarContentProps> = (props) => {
         <Grow in={snackbar.open} onExited={handleClose}>
             <Paper className={classes.paper} elevation={8}>
                 <Grid container className={classes.header}>
-                    <Grid
-                        item
-                        className={cn(classes.title, classes[`title-${status}` as keyof typeof classes])}
+                    <Grid className={cn(classes.title, classes[`title-${status}` as keyof typeof classes])}
                         data-qtip={titleTrans}
                     >
                         {status === "progress" ? (
@@ -95,7 +93,7 @@ export const SnackbarContent: React.FC<ISnackbarContentProps> = (props) => {
                         )}
                         {titleTrans}
                     </Grid>
-                    <Grid item>
+                    <Grid>
                         <Icon iconfont="times" className={classes.closeIcon} onClick={handleClickClose} />
                     </Grid>
                 </Grid>

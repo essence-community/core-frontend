@@ -1,6 +1,6 @@
 import * as React from "react";
-import {Grid} from "@material-ui/core";
-import {useTheme} from "@material-ui/core/styles";
+import {Grid} from "@mui/material";
+import {useTheme} from "@mui/material/styles";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_CN_ORDER,
@@ -72,14 +72,12 @@ export const PanelEditingButtons: React.FC<IClassProps> = (props) => {
     return useObserver(() => (
         <Grid container spacing={1} alignItems="center" direction={isDarkTheme ? "column" : "row"}>
             {mapComponents([saveBtnBc, cancelBtnBc], (ChildCmp, childBc) => (
-                <Grid item key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
                     <ChildCmp bc={childBc} pageStore={pageStore} visible />
                 </Grid>
             ))}
 
-            <Grid
-                item
-                className={classes.editModeLabel}
+            <Grid className={classes.editModeLabel}
                 data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-mode-title`}
             >
                 {toTranslateText(trans, getModeTitle(form.mode as IBuilderMode))}

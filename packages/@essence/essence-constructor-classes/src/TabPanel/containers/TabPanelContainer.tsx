@@ -6,7 +6,7 @@ import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {Paper} from "@material-ui/core";
+import {Paper} from "@mui/material";
 import {TabPanelModel} from "../store/TabPanelModel";
 import {Tabs} from "../components/Tabs";
 import {TabPanelPosition} from "../TabPanel.types";
@@ -17,7 +17,7 @@ export const TabPanelContainer: React.FC<IClassProps> = (props) => {
     const {pageStore, elevation, visible, bc, hidden} = props;
     const {align = "center", contentview = "hbox"} = bc;
     const applicationStore = React.useContext(ApplicationContext);
-    const classes = useStyles();
+    const classes = useStyles(props);
     const [store] = useModel((options) => new TabPanelModel({...options, applicationStore}), props);
     const positonName = `${align}-${contentview}` as TabPanelPosition;
 

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {useField, IField, IForm} from "@essence-community/constructor-share/Form";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import {mapComponents, mapComponentOne} from "@essence-community/constructor-share/components";
 import {ParentFieldContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
@@ -89,7 +89,7 @@ export const FieldSetContainer: React.FC<IClassProps> = (props) => {
         [bc, inputChild, field, outputChild],
     );
 
-    const [childs, sizeChild] = useSizeChild(bc.childs);
+    const [childs, sizeChild] = useSizeChild(bc.childs, pageStore);
 
     return mapComponentOne(boxBc, (ChildBox, childBoxBc) => (
         <ChildBox {...props} bc={childBoxBc}>
@@ -98,7 +98,7 @@ export const FieldSetContainer: React.FC<IClassProps> = (props) => {
                     key={child[VAR_RECORD_PAGE_OBJECT_ID] ? child[VAR_RECORD_PAGE_OBJECT_ID] : `child_${index}`}
                     value={parentContext[index]}
                 >
-                    <Grid item xs={isRow ? true : MAX_PANEL_WIDTH} style={sizeChild[child[VAR_RECORD_PAGE_OBJECT_ID]]}>
+                    <Grid size={isRow ? "grow" : MAX_PANEL_WIDTH} style={sizeChild[child[VAR_RECORD_PAGE_OBJECT_ID]]}>
                         <ChildComp {...props} bc={child} />
                     </Grid>
                 </ParentFieldContext.Provider>

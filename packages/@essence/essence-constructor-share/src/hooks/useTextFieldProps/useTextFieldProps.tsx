@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import * as React from "react";
-import {TextFieldProps, IconButton, InputAdornment} from "@material-ui/core";
+import {TextFieldProps, IconButton, InputAdornment} from "@mui/material";
 import cn from "clsx";
 import {useObserver} from "mobx-react";
 import {IField} from "../../Form/types";

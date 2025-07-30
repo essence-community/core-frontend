@@ -1,7 +1,7 @@
 import * as React from "react";
 import cn from "clsx";
 import {IClassProps} from "@essence-community/constructor-share/types";
-import {TextField, IconButton} from "@material-ui/core";
+import {TextField, IconButton} from "@mui/material";
 import {useField} from "@essence-community/constructor-share/Form";
 import {useTextFieldProps, useFieldDisabled} from "@essence-community/constructor-share/hooks";
 import {reaction} from "mobx";

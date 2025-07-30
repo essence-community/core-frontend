@@ -1,9 +1,10 @@
+/* eslint-disable sort-keys */
 import {IBuilderConfig, IClassProps, mapComponents} from "@essence-community/constructor-share";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_PARENT_ID,
 } from "@essence-community/constructor-share/constants/variables";
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 import * as React from "react";
 import {GRID_CONFIGS} from "@essence-community/constructor-share/constants/ui";
 
@@ -15,6 +16,9 @@ export const ButtonGroup: React.FC<IClassProps> = (props) => {
             height: bc.height,
             maxHeight: bc.maxheight ?? "100%",
             minHeight: bc.minheight,
+            width: "min-content",
+            minWidth: "min-content",
+            flexBasis: "min-content",
         }),
         [bc.height, bc.maxheight, bc.minheight],
     );
@@ -44,13 +48,13 @@ export const ButtonGroup: React.FC<IClassProps> = (props) => {
             container
             spacing={1}
             style={contentStyle}
-            justify="flex-start"
+            justifyContent="flex-start"
             alignItems="center"
             alignContent="center"
             {...((GRID_CONFIGS as any)[contentview] || GRID_CONFIGS.hbox)}
         >
             {mapComponents(childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                <Grid item xs={true} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                <Grid size={"auto"} key={childBc[VAR_RECORD_PAGE_OBJECT_ID]} sx={{width: "min-content", minWidth: "min-content", flexBasis: "min-content"}}>
                     <Child {...props} bc={childBc} />
                 </Grid>
             ))}

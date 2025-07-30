@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Grid, Dialog, Button, DialogContent} from "@material-ui/core";
+import {Grid, Dialog, Button, DialogContent} from "@mui/material";
 import {IPageModel, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {Scrollbars} from "@essence-community/constructor-share/uicomponents";
 import {useTranslation} from "@essence-community/constructor-share/utils";
@@ -35,10 +35,10 @@ export const WindowCancel: React.FC<IWindowCancelProps> = (props) => {
         >
             <DialogContent className={classes.rootContent}>
                 <Grid container alignItems="center" spacing={2} wrap="nowrap">
-                    <Grid item>
+                    <Grid>
                         <Icon iconfont="question-circle" size="2x" color="grey" />
                     </Grid>
-                    <Grid item className={classes.content} xs zeroMinWidth>
+                    <Grid size="grow" className={classes.content}>
                         <Scrollbars autoHeight autoHeightMax={180} pageStore={pageStore}>
                             {trans("static:9b475e25ae8a40b0b158543b84ba8c08")}
                         </Scrollbars>
@@ -46,8 +46,8 @@ export const WindowCancel: React.FC<IWindowCancelProps> = (props) => {
                 </Grid>
             </DialogContent>
             <div className={classes.rootActions}>
-                <Grid container justify="flex-end" spacing={1}>
-                    <Grid item>
+                <Grid container justifyContent="flex-end" spacing={1}>
+                    <Grid>
                         <Button
                             onClick={onAccept}
                             color="primary"
@@ -58,7 +58,7 @@ export const WindowCancel: React.FC<IWindowCancelProps> = (props) => {
                             {trans("static:dacf7ab025c344cb81b700cfcc50e403")}
                         </Button>
                     </Grid>
-                    <Grid item>
+                    <Grid>
                         <Button
                             onClick={onDecline}
                             color="secondary"

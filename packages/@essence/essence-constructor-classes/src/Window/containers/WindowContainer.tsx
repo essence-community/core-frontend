@@ -1,6 +1,6 @@
 import * as React from "react";
 import cn from "clsx";
-import {Grid, DialogTitle, Checkbox, FormControlLabel, Modal, Paper, Backdrop} from "@material-ui/core";
+import {Grid, DialogTitle, Checkbox, FormControlLabel, Modal, Paper, Backdrop} from "@mui/material";
 import {useTranslation, noop} from "@essence-community/constructor-share/utils";
 import {mapComponentOne, mapComponents} from "@essence-community/constructor-share/components";
 import {Icon} from "@essence-community/constructor-share/Icon";
@@ -99,7 +99,7 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
         store.closeAction("1", bc, {});
     }, [bc, store]);
 
-    const [childs, sizeChild] = useSizeChild(store.childs);
+    const [childs, sizeChild] = useSizeChild(store.childs, pageStore);
 
     return useObserver(() => (
         <WindowContext.Provider
@@ -108,13 +108,14 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
                 onQuestionClose: handleCloseDialog,
             }}
         >
-            <Modal
-                open
+            <Modal component="div" open
                 container={pageStore.pageEl}
                 style={{position: "absolute"}}
                 onClose={handleCloseDialog}
                 data-page-object={ckPageObject}
-                BackdropComponent={Backdrop}
+                slots={{
+                    backdrop: () => <Backdrop open={true} style={{zIndex: -1}}/>,
+                }}
             >
                 <React.Suspense fallback={null}>
                     <div className={classes.container} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
@@ -134,7 +135,7 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
                                 className={classes.form}
                             >
                                 <Focusable className={classes.focusable}>
-                                    <DialogTitle disableTypography>{windowTitle}</DialogTitle>
+                                    <DialogTitle>{windowTitle}</DialogTitle>
                                     <Scrollbars
                                         autoHeight
                                         autoHeightMax={autoHeightMax}
@@ -153,9 +154,8 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
                                             <ChildBox {...props} bc={childBoxBc}>
                                                 {mapComponents(childs, (ChildCmp, childBc) => {
                                                     return (
-                                                        <Grid
+                                                        <Grid size="auto"
                                                             key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                                            item
                                                             style={sizeChild[childBc[VAR_RECORD_PAGE_OBJECT_ID]]}
                                                         >
                                                             <ChildCmp {...props} bc={childBc} />

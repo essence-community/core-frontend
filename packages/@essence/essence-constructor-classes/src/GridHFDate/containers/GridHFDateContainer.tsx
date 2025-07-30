@@ -3,7 +3,7 @@ import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {FormContext} from "@essence-community/constructor-share/context";
-import {Grid, Checkbox, Divider, Typography} from "@material-ui/core";
+import {Grid, Checkbox, Divider, Typography} from "@mui/material";
 import {useObserver} from "mobx-react";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {reaction} from "mobx";
@@ -298,16 +298,16 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
 
     return useObserver(() => (
         <Grid container direction="column" spacing={1}>
-            <Grid item>
+            <Grid>
                 <Grid container spacing={1} wrap="nowrap" alignItems="center">
-                    <Grid item>
+                    <Grid>
                         <Checkbox
                             checked={Boolean(fields.stEnable.value)}
                             onChange={handleChangeCheckSt}
                             className={classes.checkBoxSize}
                         />
                     </Grid>
-                    <Grid item xs zeroMinWidth>
+                    <Grid size="grow">
                         {mapComponentOne(configs.st, (ChildCmp, childBc) => (
                             <ChildCmp {...props} bc={childBc} />
                         ))}
@@ -315,16 +315,16 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
                 </Grid>
             </Grid>
 
-            <Grid item>
+            <Grid>
                 <Grid container spacing={1} wrap="nowrap" alignItems="center">
-                    <Grid item>
+                    <Grid>
                         <Checkbox
                             checked={Boolean(fields.enEnable.value)}
                             onChange={handleChangeCheckEn}
                             className={classes.checkBoxSize}
                         />
                     </Grid>
-                    <Grid item xs zeroMinWidth>
+                    <Grid size="grow">
                         {mapComponentOne(configs.en, (ChildCmp, childBc) => (
                             <ChildCmp {...props} bc={childBc} />
                         ))}
@@ -334,16 +334,16 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
 
             <Divider />
 
-            <Grid item>
+            <Grid>
                 <Grid container spacing={1} wrap="nowrap" alignItems="center">
-                    <Grid item>
+                    <Grid>
                         <Checkbox
                             checked={Boolean(fields.eqEnable.value)}
                             onChange={handleChangeCheckEq}
                             className={classes.checkBoxSize}
                         />
                     </Grid>
-                    <Grid item xs zeroMinWidth>
+                    <Grid size="grow">
                         {mapComponentOne(configs.eq, (ChildCmp, childBc) => (
                             <ChildCmp {...props} bc={childBc} />
                         ))}
@@ -353,16 +353,16 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
 
             <Divider />
 
-            <Grid item>
+            <Grid>
                 <Grid container spacing={1} wrap="nowrap" alignItems="center">
-                    <Grid item>
+                    <Grid>
                         <Checkbox
                             checked={Boolean(fields.neEnable.value)}
                             onChange={handleChangeCheckNe}
                             className={classes.checkBoxSize}
                         />
                     </Grid>
-                    <Grid item xs zeroMinWidth>
+                    <Grid size="grow">
                         {mapComponentOne(configs.ne, (ChildCmp, childBc) => (
                             <ChildCmp {...props} bc={childBc} />
                         ))}
@@ -372,16 +372,16 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
 
             <Divider />
 
-            <Grid item>
+            <Grid>
                 <Grid container spacing={1} wrap="nowrap" alignItems="center">
-                    <Grid item>
+                    <Grid>
                         <Checkbox
                             checked={Boolean(fields.nullEnable.value)}
                             onChange={handleChangeCheckNull}
                             className={classes.checkBoxSize}
                         />
                     </Grid>
-                    <Grid item xs zeroMinWidth>
+                    <Grid size="grow">
                         <Typography>{trans("static:bac3b02e620a4d9189b03dc8ef7dd845")}</Typography>
                     </Grid>
                 </Grid>
@@ -389,16 +389,16 @@ export const GridHFDateContainer: React.FC<IClassProps> = (props) => {
 
             <Divider />
 
-            <Grid item>
+            <Grid>
                 <Grid container spacing={1} wrap="nowrap" alignItems="center">
-                    <Grid item>
+                    <Grid>
                         <Checkbox
                             checked={Boolean(fields.notNullEnable.value)}
                             onChange={handleChangeCheckNotNull}
                             className={classes.checkBoxSize}
                         />
                     </Grid>
-                    <Grid item xs zeroMinWidth>
+                    <Grid size="grow">
                         <Typography>{trans("static:8001cb3d99fb41cdb4af7ed7f34ac6ef")}</Typography>
                     </Grid>
                 </Grid>

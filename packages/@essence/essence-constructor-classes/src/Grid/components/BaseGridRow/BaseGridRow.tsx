@@ -7,7 +7,7 @@ import {PopoverContext, RecordContext} from "@essence-community/constructor-shar
 import {reaction} from "mobx";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useObserver} from "mobx-react";
-import {Skeleton} from "@material-ui/lab";
+import {Skeleton} from "@mui/material";
 import {deepFind, isEmpty, parseMemoize} from "@essence-community/constructor-share/utils";
 import {useGetValue} from "@essence-community/constructor-share/hooks/useCommon/useGetValue";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
@@ -174,6 +174,7 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
             style={typeof rowcolor === "string" && !selected ? {backgroundColor: rowcolor} : undefined}
             className={className}
             onClick={handleClick}
+            data-row-id={record[store.recordsStore.recordId]}
             data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-row-${record[store.recordsStore.recordId]}`}
             onDoubleClick={handleDoubleClick}
             tabIndex={-1}

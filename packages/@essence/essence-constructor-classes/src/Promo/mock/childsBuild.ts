@@ -140,7 +140,7 @@ function makeComboWindow(masterId: string, gridId: string): IBuilderConfig {
             },
             {
                 [VAR_RECORD_DISPLAYED]:
-                // eslint-disable-next-line max-len
+                 
                     "Наименование параметра из внутреннего сервиса, значение которого будет передано для дальнейшей обработки",
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${objectId}-name`,
                 [VAR_RECORD_PARENT_ID]: objectId,
@@ -304,7 +304,7 @@ function makeGrid(objectId: string): IBuilderConfig {
                 [VAR_RECORD_PAGE_OBJECT_ID]: "${gridId}-column-edit",
                 [VAR_RECORD_PARENT_ID]: gridId,
                 ckwindow:
-                    // eslint-disable-next-line quotes, max-len
+                    // eslint-disable-next-line quotes
                     '{"IFIELDcombo": "combowindow", "IFIELDtext": "textwindow", "BTN": "btnwindow"}[type + (datatype || "")]',
                 datatype: "icon",
                 iconfont: "edit",

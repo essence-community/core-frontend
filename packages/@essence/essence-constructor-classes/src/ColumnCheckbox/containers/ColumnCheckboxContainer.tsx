@@ -2,7 +2,7 @@ import * as React from "react";
 import {IClassProps, IRecord, ICkId} from "@essence-community/constructor-share/types";
 import {RecordContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_PARENT_ID, VAR_RECORD_LEAF} from "@essence-community/constructor-share/constants";
-import {Checkbox} from "@material-ui/core";
+import {Checkbox} from "@mui/material";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {useObserver} from "mobx-react";
 import {parseMemoize} from "@essence-community/constructor-share/utils";

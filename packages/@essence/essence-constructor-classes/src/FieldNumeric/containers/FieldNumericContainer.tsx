@@ -7,7 +7,7 @@ import {
     useFieldSetGlobal,
     useDefaultValueQuery,
 } from "@essence-community/constructor-share/hooks";
-import {TextField} from "@material-ui/core";
+import {TextField} from "@mui/material";
 import {getBigNumberInstance, isEmpty} from "@essence-community/constructor-share/utils";
 import {DEFAULT_CLIPBOARD_PASTE_SEPARATE_REGEX} from "@essence-community/constructor-share/constants";
 import {NumberFormat} from "../components/NumberFormat";

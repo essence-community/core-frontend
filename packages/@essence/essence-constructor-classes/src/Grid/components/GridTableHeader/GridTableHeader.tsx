@@ -1,6 +1,6 @@
 import * as React from "react";
 import {IRecord, IClassProps, IRecordFilter} from "@essence-community/constructor-share/types";
-import {TableHead, TableRow} from "@material-ui/core";
+import {TableHead, TableRow} from "@mui/material";
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {getComponent} from "@essence-community/constructor-share/components";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share";

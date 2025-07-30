@@ -1,6 +1,6 @@
 import * as React from "react";
 import {NumericFormat, NumberFormatValues} from "react-number-format";
-import {InputBaseComponentProps} from "@material-ui/core";
+import {InputBaseComponentProps} from "@mui/material";
 
 interface INumberFormatProps extends InputBaseComponentProps {
     inputRef: React.RefObject<HTMLInputElement>;

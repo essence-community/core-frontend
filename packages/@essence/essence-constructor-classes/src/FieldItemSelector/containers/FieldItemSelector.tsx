@@ -62,7 +62,7 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
                 [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
                 disabledemptymaster: true,
                 getglobaltostore: bc.getglobaltostore || store.fieldFrom.getglobaltostore,
-                handler: "addAll",
+                handler: store.handlers.addAll,
                 iconfont: "fa-angle-double-right",
                 iconfontname: "fa",
                 onlyicon: true,
@@ -74,7 +74,7 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-add-selected`,
                 [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
                 getglobaltostore: bc.getglobaltostore || store.fieldFrom.getglobaltostore,
-                handler: "addSelected",
+                handler: store.handlers.addSelected,
                 iconfont: "fa-angle-right",
                 iconfontname: "fa",
                 onlyicon: true,
@@ -87,7 +87,7 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
                 [VAR_RECORD_PAGE_OBJECT_ID]: `${bc[VAR_RECORD_PAGE_OBJECT_ID]}-remove-selected`,
                 [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
                 getglobaltostore: bc.getglobaltostore || store.fieldTo.getglobaltostore,
-                handler: "removeSelected",
+                handler: store.handlers.removeSelected,
                 iconfont: "fa-angle-left",
                 iconfontname: "fa",
                 onlyicon: true,
@@ -101,7 +101,7 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
                 [VAR_RECORD_PARENT_ID]: bc[VAR_RECORD_PAGE_OBJECT_ID],
                 disabledemptymaster: true,
                 getglobaltostore: bc.getglobaltostore || store.fieldTo.getglobaltostore,
-                handler: "removeAll",
+                handler: store.handlers.removeAll,
                 iconfont: "fa-angle-double-left",
                 iconfontname: "fa",
                 onlyicon: true,
@@ -227,7 +227,7 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
                         />
                     ) : null}
                 </Grid>
-                <Grid>
+                <Grid sx={{minWidth: 28}}>
                     <Grid style={{height: "100%"}} container spacing={0} direction="column" justifyContent="center">
                         <Grid>
                             {mapComponents([btnAddAll], (ChildCmp, childBc) => (

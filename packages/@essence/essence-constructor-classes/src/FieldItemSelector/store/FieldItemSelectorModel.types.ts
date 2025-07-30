@@ -1,4 +1,5 @@
-import {IBuilderConfig, IStoreBaseModel, IBuilderMode, IClassProps} from "@essence-community/constructor-share/types";
+import {IBuilderConfig, IStoreBaseModel, IBuilderMode, IClassProps, IStoreBaseModelProps} from "@essence-community/constructor-share/types";
+import {IField} from "@essence-community/constructor-share/Form";
 
 export interface IFieldItemSelectorModel extends IStoreBaseModel {
     getStores: (props: IChildGridBuildConfig) => [IStoreBaseModel?, IStoreBaseModel?];
@@ -17,4 +18,8 @@ export interface IChildGridBuildConfig {
 
 export interface IClassWithEditingProps extends IClassProps {
     editing?: boolean;
+}
+
+export interface IFieldItemSelectorModelProps extends IStoreBaseModelProps {
+    field: IField;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys */
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
@@ -8,23 +9,36 @@ import * as React from "react";
 import {Grid} from "@mui/material";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {IRecord, IStoreBaseModel, IBuilderConfig} from "@essence-community/constructor-share/types";
-import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {useObserver} from "mobx-react";
 import {mapComponents, getComponent} from "@essence-community/constructor-share/components";
 import {reaction} from "mobx";
+import {useField} from "@essence-community/constructor-share/Form";
 import {IClassWithEditingProps} from "../store/FieldItemSelectorModel.types";
 import {FieldItemSelectorModel} from "../store/FieldItemSelectorModel";
 
 // eslint-disable-next-line max-lines-per-function
 export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
-    const applicationStore = React.useContext(ApplicationContext);
+    const applicationStore = props.pageStore.applicationStore;
     const {editing, bc} = props;
+    const clearValue = React.useMemo(() => {
+        return {
+            D: [],
+            I: [],
+        };
+    }, []);
+    const field = useField({
+        bc,
+        pageStore: props.pageStore,
+        isObject: true,
+        clearValue,
+    });
     const [store] = useModel((modelProps) => new FieldItemSelectorModel(modelProps), {
         applicationStore,
         bc,
         disabled: props.disabled,
         hidden: props.hidden,
         pageStore: props.pageStore,
+        field,
     });
 
     const [ComponentFieldFrom, ComponentFieldTo] = React.useMemo(
@@ -34,10 +48,10 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
         ],
         [store],
     );
-    const hasError = React.useMemo(() => !ComponentFieldFrom || !ComponentFieldTo, [
-        ComponentFieldFrom,
-        ComponentFieldTo,
-    ]);
+    const hasError = React.useMemo(
+        () => !ComponentFieldFrom || !ComponentFieldTo,
+        [ComponentFieldFrom, ComponentFieldTo],
+    );
 
     const [btnAddAll, btnAddSelected, btnRemoveSelected, btnRemoveAll] = React.useMemo(
         (): IBuilderConfig[] => [
@@ -97,7 +111,6 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
         ],
         [bc, store],
     );
-    const [prevRecords, setPrevRecords] = React.useState<IRecord[]>([]);
     const [fromStore, setFromStore] = React.useState<IStoreBaseModel | undefined>(undefined);
     const [toStore, setToStore] = React.useState<IStoreBaseModel | undefined>(undefined);
     const checkDisabled = React.useCallback((gridStore?: IStoreBaseModel) => {
@@ -113,23 +126,15 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
     React.useEffect(() => {
         const disposers: ReturnType<typeof reaction>[] = [];
 
-        setFromStore(props.pageStore.stores.get(store.fieldFrom[VAR_RECORD_PAGE_OBJECT_ID]));
-        setToStore(props.pageStore.stores.get(store.fieldTo[VAR_RECORD_PAGE_OBJECT_ID]));
         disposers.push(
-            reaction(
-                () => props.pageStore.stores.get(store.fieldFrom[VAR_RECORD_PAGE_OBJECT_ID]),
-                (gridStore) => {
-                    setFromStore(gridStore);
-                },
-            ),
+            reaction(() => props.pageStore.stores.get(store.fieldFrom[VAR_RECORD_PAGE_OBJECT_ID]), setFromStore, {
+                fireImmediately: true,
+            }),
         );
         disposers.push(
-            reaction(
-                () => props.pageStore.stores.get(store.fieldTo[VAR_RECORD_PAGE_OBJECT_ID]),
-                (gridStore) => {
-                    setToStore(gridStore);
-                },
-            ),
+            reaction(() => props.pageStore.stores.get(store.fieldTo[VAR_RECORD_PAGE_OBJECT_ID]), setToStore, {
+                fireImmediately: true,
+            }),
         );
 
         return () => disposers.forEach((disposer) => disposer());
@@ -141,33 +146,60 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
         if (toStore && fromStore) {
             disposers.push(
                 reaction(
-                    () => fromStore.recordsStore!.recordsAll,
-                    () => {
-                        if (toStore.recordsStore!.isLoading) {
-                            fromStore.recordsStore!.setRecordsAction(prevRecords);
-                            setPrevRecords(fromStore.recordsStore!.records);
-                        } else {
-                            fromStore.recordsStore!.removeRecordsAction(
-                                toStore.recordsStore!.records,
-                                bc.column!,
-                                true,
-                            );
+                    () => fromStore.recordsStore!.recordsState.status,
+                    (status) => {
+                        if (
+                            status !== "set" &&
+                            status !== "add" &&
+                            status !== "sort" &&
+                            status !== "remove" &&
+                            ((!fromStore.bc.winreloadstores && bc.querymode !== "local") || bc.querymode === "local")
+                        ) {
+                            const value = store.field.value as any as {I: IRecord[]; D: IRecord[]};
+
+                            if (value.I && value.I.length > 0) {
+                                fromStore.recordsStore!.removeRecordsAction(value.I, store.fieldName, true);
+                            }
+                            if (value.D && value.D.length > 0) {
+                                fromStore.recordsStore.addRecordsAction(value.D);
+                            }
                         }
+                    },
+                    {
+                        fireImmediately: true,
                     },
                 ),
             );
             disposers.push(
                 reaction(
-                    () => toStore.recordsStore!.recordsAll,
-                    () => {
-                        fromStore.recordsStore!.removeRecordsAction(toStore.recordsStore!.records, bc.column!, true);
+                    () => toStore.recordsStore!.recordsState.status,
+                    (status) => {
+                        if (
+                            status !== "set" &&
+                            status !== "add" &&
+                            status !== "sort" &&
+                            status !== "remove" &&
+                            ((!toStore.bc.winreloadstores && bc.querymode !== "local") || bc.querymode === "local")
+                        ) {
+                            const value = store.field.value as any as {I: IRecord[]; D: IRecord[]};
+
+                            if (value.D && value.D.length > 0) {
+                                toStore.recordsStore!.removeRecordsAction(value.D, store.fieldName, true);
+                            }
+                            if (value.I && value.I.length > 0) {
+                                toStore.recordsStore.addRecordsAction(value.I);
+                            }
+                        }
+                    },
+                    {
+                        fireImmediately: true,
                     },
                 ),
             );
         }
 
         return () => disposers.forEach((disposer) => disposer());
-    }, [hasError, fromStore, toStore, prevRecords, bc.column]);
+    }, [hasError, fromStore, toStore, bc, store]);
 
     return useObserver(() => {
         const {disabled, pageStore, visible} = props;

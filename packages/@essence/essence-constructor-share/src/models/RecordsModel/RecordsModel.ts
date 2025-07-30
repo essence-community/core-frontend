@@ -2,6 +2,7 @@
 
 import {action, extendObservable, ObservableMap, observable, makeObservable} from "mobx";
 import pLimit from "p-limit";
+import {v4} from "uuid";
 import {saveAction} from "../../actions/saveAction";
 import {
     IBuilderConfig,
@@ -629,7 +630,10 @@ export class RecordsModel implements IRecordsModel {
     addRecordsAction = (records: IRecord[]): void => {
         this.recordsState = {
             isUserReload: false,
-            records: this.recordsState.records.concat(records),
+            records: this.recordsState.records.concat(records.map((record) => ({
+                ...record,
+                [this.recordId]: record[this.recordId] || `auto-${v4()}`,
+            }))),
             status: "add",
         };
     };
@@ -751,7 +755,10 @@ export class RecordsModel implements IRecordsModel {
     setRecordsAction = (records: IRecord[]): boolean => {
         this.recordsState = {
             isUserReload: false,
-            records,
+            records: records.map((record) => ({
+                ...record,
+                [this.recordId]: record[this.recordId] || `auto-${v4()}`,
+            })),
             status: "set",
         };
 

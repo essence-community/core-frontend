@@ -202,33 +202,6 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
         [bc.clipboardpasteenabled, onChangeValue],
     );
 
-    const textField = React.useMemo(() => {
-        inputProps.inputRef = inputElement;
-        inputProps.value = formatValue;
-        inputProps["data-qtip"] = inputProps.error ? inputProps["data-qtip"] : formatValue || inputProps["data-qtip"];
-        inputProps.InputLabelProps = {
-            ...inputProps.InputLabelProps,
-            shrink: formatValue ? true : false,
-        };
-        inputProps.onDrop = onDrop;
-        inputProps.onPaste = onPaste;
-        if (dateConfig.inputMask) {
-            return () => (
-                <TextFieldMask textFieldProps={inputProps} imask={dateConfig.inputMask} onChange={handleChange} />
-            );
-        }
-
-        return () => <TextField {...inputProps} onChange={handleChange} />;
-    }, [dateConfig.inputMask, formatValue, handleChange, inputProps, onDrop, onPaste]);
-
-    const className = React.useMemo(() => {
-        if (bc.format === "4") {
-            return classes["format-4"];
-        }
-
-        return "";
-    }, [bc, classes]);
-
     React.useEffect(() => {
         const fn = (value: FieldValue) => {
             if (!value) {
@@ -252,6 +225,42 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
 
         return reaction(() => field.value, fn, {fireImmediately: true});
     }, [dateConfig, field]);
+
+    const textField = React.useMemo(() => {
+        let value = formatValue;
+
+        if (!formatValue && field.value) {
+            const mValue = moment(field.value as string, dateConfig.serverFormatIn, true);
+
+            if (mValue.isValid()) {
+                value = mValue.format(dateConfig.format);
+            }
+        }
+        inputProps.inputRef = inputElement;
+        inputProps.value = value;
+        inputProps["data-qtip"] = inputProps.error ? inputProps["data-qtip"] : value || inputProps["data-qtip"];
+        inputProps.InputLabelProps = {
+            ...inputProps.InputLabelProps,
+            shrink: value ? true : false,
+        };
+        inputProps.onDrop = onDrop;
+        inputProps.onPaste = onPaste;
+        if (dateConfig.inputMask) {
+            return () => (
+                <TextFieldMask textFieldProps={inputProps} imask={dateConfig.inputMask} onChange={handleChange} />
+            );
+        }
+
+        return () => <TextField {...inputProps} onChange={handleChange} />;
+    }, [dateConfig, formatValue, handleChange, inputProps, onDrop, onPaste, field]);
+
+    const className = React.useMemo(() => {
+        if (bc.format === "4") {
+            return classes["format-4"];
+        }
+
+        return "";
+    }, [bc, classes]);
 
     React.useEffect(() => {
         field.setDefaultCopyValueFn(() => formatValue);

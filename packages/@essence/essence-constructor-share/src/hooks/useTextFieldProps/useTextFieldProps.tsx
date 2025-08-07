@@ -149,7 +149,7 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
 
     return useObserver(() => {
         const isError = Boolean(!disabled && !field.isValid);
-        const isExistsValue = !isEmpty(field.value)
+        const isExistsValue = !isEmpty(field.value);
         const isDisabled =
             (readOnly && form.placement === "filter" && typeof bc.readonly === "undefined" ? false : readOnly) ||
             disabled ||
@@ -231,6 +231,6 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
             onPaste,
             value: field.value === undefined || field.value === null ? "" : field.value,
             variant: "standard",
-        };
+        } as TextFieldProps & ITextFieldExtendProps;
     });
 }

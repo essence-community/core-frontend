@@ -54,6 +54,14 @@ export const makeTheme = (theme: IEssenceTheme): IEssenceTheme => ({
                     padding: "15px 0 0 0",
                 },
                 root: {
+                    "& button:hover": {
+                        color: theme.palette.common.white,
+                        fill: theme.palette.common.white,
+                    },
+                    "&.Mui-focused": {
+                        color: theme.palette.common.white,
+                        fill: theme.palette.common.white,
+                    },
                     backgroundColor: "inherit",
                     height: 38,
                 },

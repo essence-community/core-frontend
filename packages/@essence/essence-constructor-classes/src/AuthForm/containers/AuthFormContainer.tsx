@@ -1,4 +1,3 @@
- 
 import * as React from "react";
 import {Grid, Paper, Typography, useTheme, ThemeProvider as MuiThemeProvider} from "@mui/material";
 import {ThemeProvider} from "@mui/styles";
@@ -47,44 +46,50 @@ export const AuthFormContainer: React.FC<IClassProps<IBuilderClassConfig>> = (pr
                 <Grid container justifyContent="center" alignItems="center" className="root-height">
                     <Grid>
                         <Paper classes={{root: classes.paper}} elevation={0}>
-                        <Grid container justifyContent="start" alignItems="center" className="root-height">
-                            <Grid justifyContent="center" alignItems="center">
-                                <img src={logo} alt="logo" height="50" width="50" />
-                            </Grid>
-                            <Grid size="grow" alignItems="center" justifyContent="center">
-                                <Grid size="grow">
-                                    <Typography variant="body2" classes={{root: classes.typography}}>
-                                    {settingsStore.settings[VAR_SETTING_PROJECT_AUTH_TITLE]}
-                                    </Typography>
+                            <Grid
+                                container
+                                justifyContent="start"
+                                alignItems="center"
+                                className="root-height"
+                                sx={{textAlign: "center"}}
+                            >
+                                <Grid justifyContent="center" alignItems="center" sx={{width: "50%"}}>
+                                    <img src={logo} alt="logo" height="90" width="102" />
                                 </Grid>
-                            </Grid>
-                        </Grid>
-                        <UIForm
-                            bc={bc}
-                            pageStore={pageStore}
-                            className={classes.form}
-                            onSubmit={store.handleSubmit}
-                            placement="auth"
-                        >
-                            <Grid container direction="column" spacing={3}>
-                                {mapComponents(bc.childs, (ChidCmp, childBc) => (
-                                    <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
-                                        <ChidCmp {...props} bc={childBc} />
-                                    </Grid>
-                                ))}
-                                <Grid>
-                                    <button hidden />
-                                    <Grid container spacing={3} justifyContent="flex-end">
-                                        {mapComponents(bc.bottombtn, (ChidCmp, childBc) => (
-                                            <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
-                                                <ChidCmp {...props} bc={childBc} />
-                                            </Grid>
-                                        ))}
+                                <Grid size="grow" alignItems="center" justifyContent="center">
+                                    <Grid size="grow">
+                                        <Typography variant="body2" classes={{root: classes.typography}}>
+                                            {settingsStore.settings[VAR_SETTING_PROJECT_AUTH_TITLE]}
+                                        </Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>
-                        </UIForm>
-                    </Paper>
+                            <UIForm
+                                bc={bc}
+                                pageStore={pageStore}
+                                className={classes.form}
+                                onSubmit={store.handleSubmit}
+                                placement="auth"
+                            >
+                                <Grid container direction="column" spacing={3} sx={{width: "100%"}}>
+                                    {mapComponents(bc.childs, (ChidCmp, childBc) => (
+                                        <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                                            <ChidCmp {...props} bc={childBc} />
+                                        </Grid>
+                                    ))}
+                                    <Grid>
+                                        <button hidden />
+                                        <Grid container spacing={3} justifyContent="flex-end">
+                                            {mapComponents(bc.bottombtn, (ChidCmp, childBc) => (
+                                                <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}>
+                                                    <ChidCmp {...props} bc={childBc} />
+                                                </Grid>
+                                            ))}
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </UIForm>
+                        </Paper>
                     </Grid>
                 </Grid>
             </ThemeProvider>

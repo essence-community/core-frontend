@@ -4,7 +4,7 @@ import {makeStyles} from "@mui/styles";
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         form: {
-            width: "calc(100% - 246px)",
+            width: "calc(100% - 104px)",
         },
         paper: {
             alignItems: "center",
@@ -15,7 +15,7 @@ export const useStyles = makeStyles(
             justifyContent: "space-between",
             paddingBottom: 30,
             paddingTop: 15,
-            width: 500,
+            width: 429,
         },
         typography: {
             color: `${theme.palette.common.white} !important`,

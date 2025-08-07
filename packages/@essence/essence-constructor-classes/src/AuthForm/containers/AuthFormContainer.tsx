@@ -50,18 +50,16 @@ export const AuthFormContainer: React.FC<IClassProps<IBuilderClassConfig>> = (pr
                                 container
                                 justifyContent="start"
                                 alignItems="center"
-                                className="root-height"
-                                sx={{textAlign: "center"}}
+                                spacing={2}
+                                sx={{textAlign: "center", width: "calc(100% - 104px)"}}
                             >
-                                <Grid justifyContent="center" alignItems="center" sx={{width: "50%"}}>
+                                <Grid justifyContent="center" alignItems="center" sx={{width: "30%"}}>
                                     <img src={logo} alt="logo" height="90" width="102" />
                                 </Grid>
                                 <Grid size="grow" alignItems="center" justifyContent="center">
-                                    <Grid size="grow">
-                                        <Typography variant="body2" classes={{root: classes.typography}}>
-                                            {settingsStore.settings[VAR_SETTING_PROJECT_AUTH_TITLE]}
-                                        </Typography>
-                                    </Grid>
+                                    <Typography variant="body2" classes={{root: classes.typography}}>
+                                        {settingsStore.settings[VAR_SETTING_PROJECT_AUTH_TITLE]}
+                                    </Typography>
                                 </Grid>
                             </Grid>
                             <UIForm

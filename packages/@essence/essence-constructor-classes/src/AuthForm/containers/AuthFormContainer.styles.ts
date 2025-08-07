@@ -19,8 +19,9 @@ export const useStyles = makeStyles(
         },
         typography: {
             color: `${theme.palette.common.white} !important`,
-            display: "flex",
             fontSize: "30px !important",
+            textAlign: "center",
+            width: "100%",
         },
     }),
     {name: "AuthFormContainer"},

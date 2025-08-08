@@ -4,6 +4,12 @@ import {IEssenceTheme} from "@essence-community/constructor-share";
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         menuItem: {
+            "&.MuiButtonBase-root.MuiMenuItem-root": {
+                paddingBottom: 0,
+                paddingLeft: 3,
+                paddingRight: 3,
+                paddingTop: 0,
+            },
             borderBottom: `1px solid ${theme.essence.palette.grey.main}`,
             height: 35,
             minHeight: 35,

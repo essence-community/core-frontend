@@ -29,7 +29,10 @@ export const FieldComboListItem = React.memo((props: IProps) => {
             data-page-object={`${props.ckPageObject}-item-${String(props.suggestion.value)}`}
             data-qtip={props?.focused ? "" : props.suggestion.label}
         >
-            <span className={`${classes.menuItemLabel} ${props.isSelectedValue ? classes.menuItemSelectedLabel : ""}`}>
+            <span
+                data-qtip={props.suggestion.label}
+                className={`${classes.menuItemLabel} ${props.isSelectedValue ? classes.menuItemSelectedLabel : ""}`}
+            >
                 {props.suggestion.label}
             </span>
             {props.isSelectedValue ? (

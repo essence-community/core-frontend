@@ -8,6 +8,10 @@ export const useStyles = makeStyles(
             borderRadius: 0,
         },
         iconRoot: {
+            "&.MuiButtonBase-root.MuiIconButton-root": {
+                height: theme.essence.sizing.gridRowHeight,
+                width: theme.essence.sizing.gridRowHeight,
+            },
             height: theme.essence.sizing.gridRowHeight,
             width: theme.essence.sizing.gridRowHeight,
         },

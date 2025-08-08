@@ -14,6 +14,7 @@ export const useStyles = makeStyles(
          */
         root: {
             "& .MuiAppBar-root": {
+                backgroundImage: "none !important",
                 minHeight: "inherit",
             },
             "& .MuiDivider-root": {

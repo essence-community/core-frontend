@@ -157,6 +157,7 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
                     scroller: classes.scroller,
                 }}
                 variant="scrollable"
+                scrollButtons={true}
                 orientation={orientation}
                 slots={{
                     scrollButtons: ScrollButton,

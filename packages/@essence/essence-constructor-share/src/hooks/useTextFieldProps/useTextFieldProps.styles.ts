@@ -5,10 +5,18 @@ import {IEssenceTheme} from "../../types";
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({
         actionButton: {
+            "&.MuiButtonBase-root.MuiIconButton-root": {
+                height: theme.essence.sizing.gridRowHeight,
+                width: theme.essence.sizing.gridRowHeight,
+            },
             height: theme.essence.sizing.gridRowHeight,
             width: theme.essence.sizing.gridRowHeight,
         },
         hiddenButton: {
+            "&.MuiButtonBase-root.MuiIconButton-root": {
+                height: theme.essence.sizing.gridRowHeight,
+                width: theme.essence.sizing.gridRowHeight,
+            },
             height: theme.essence.sizing.gridRowHeight,
             visibility: "hidden",
             width: theme.essence.sizing.gridRowHeight,

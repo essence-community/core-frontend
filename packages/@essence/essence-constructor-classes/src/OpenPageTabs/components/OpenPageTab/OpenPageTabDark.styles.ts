@@ -9,6 +9,7 @@ export default (theme: IEssenceTheme) => ({
         fontSize: "15px !important",
         width: 120,
         textTransform: "none !important",
+        textAlign: "start",
     },
     tabIcon: {
         color: theme.palette.primary.main,
@@ -49,7 +50,7 @@ export default (theme: IEssenceTheme) => ({
         height: `${theme.essence.sizing.appBarHeight}px !important`,
         minHeight: `${theme.essence.sizing.appBarHeight}px !important`,
         opacity: 1,
-        padding: 0,
+        padding: "0px !important",
         color: `${theme.palette.primary.main} !important`,
     },
     verticalTabRoot: {

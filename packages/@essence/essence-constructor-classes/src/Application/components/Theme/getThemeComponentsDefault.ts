@@ -212,6 +212,10 @@ export const getThemeComponentsDefault = (theme: IEssenceTheme): ThemeComponents
                 marginLeft: 0,
             },
             root: {
+                "& .MuiButtonBase-root.MuiIconButton-root": {
+                    height: theme.essence.sizing.gridRowHeight,
+                    width: theme.essence.sizing.gridRowHeight,
+                },
                 backgroundColor: "transparent",
                 borderRadius: "0 4px 4px 0",
                 height: theme.essence.sizing.gridRowHeight - 2,

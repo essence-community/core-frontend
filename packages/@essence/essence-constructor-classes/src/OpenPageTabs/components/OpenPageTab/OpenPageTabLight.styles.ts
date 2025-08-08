@@ -9,6 +9,7 @@ export default (theme: IEssenceTheme) => ({
         fontSize: "15px !important",
         width: 120,
         textTransform: "none !important",
+        textAlign: "start",
     },
     tabIcon: {
         color: theme.essence.palette.common.black,
@@ -46,7 +47,7 @@ export default (theme: IEssenceTheme) => ({
             fill: `${theme.palette.primary.main} !important`,
         },
         border: `1px solid ${theme.palette.primary.main} !important`,
-        padding: 0,
+        padding: "0px !important",
         opacity: 1,
         height: `${theme.essence.sizing.appBarHeight}px !important`,
         minHeight: `${theme.essence.sizing.appBarHeight}px !important`,

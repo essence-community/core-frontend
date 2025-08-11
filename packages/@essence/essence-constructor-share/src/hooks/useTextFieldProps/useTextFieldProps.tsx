@@ -229,8 +229,13 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
             onClick: handleClick,
             onDrop,
             onPaste,
+            slotProps: {
+                inputLabel: {
+                    shrink: !isEmpty(field.value),
+                },
+            },
             value: field.value === undefined || field.value === null ? "" : field.value,
             variant: "standard",
-        } as TextFieldProps & ITextFieldExtendProps;
+        } as TextFieldProps<"standard"> & ITextFieldExtendProps;
     });
 }

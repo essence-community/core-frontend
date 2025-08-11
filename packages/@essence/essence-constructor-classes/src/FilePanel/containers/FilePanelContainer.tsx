@@ -24,10 +24,10 @@ export const FilePanelContainer: React.FC<IClassProps> = (props) => {
         }),
         [bc.height, bc.maxheight, bc.minheight],
     );
-    const btnsConfig = React.useMemo(() => getFilePanelBtnsConfig(bc, theme.essence.layoutTheme), [
-        bc,
-        theme.essence.layoutTheme,
-    ]);
+    const btnsConfig = React.useMemo(
+        () => getFilePanelBtnsConfig(bc, theme.essence.layoutTheme),
+        [bc, theme.essence.layoutTheme],
+    );
     const [store] = useModel((options) => new FilePanelModel(options), {
         ...props,
         btnsConfig,
@@ -54,7 +54,7 @@ export const FilePanelContainer: React.FC<IClassProps> = (props) => {
     return useObserver(() => (
         <Paper elevation={elevation} className="paper-overflow-hidden" data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}>
             <PanelWrapper {...props} bc={BCPanel}>
-                <Grid container direction="column" spacing={1}>
+                <Grid container direction="column" spacing={1} wrap="nowrap">
                     <Grid>
                         <Scrollbars
                             autoHeightMax={contentStyle.height}
@@ -64,7 +64,7 @@ export const FilePanelContainer: React.FC<IClassProps> = (props) => {
                         >
                             <Grid className={classes.contentPanel} container direction="row" spacing={1}>
                                 {store.recordsStore.records.map((record) => (
-                                    <Grid size={4} key={record[VAR_RECORD_ID] as string}>
+                                    <Grid size={4} key={record[VAR_RECORD_ID] as string} wrap="nowrap">
                                         <FileRecord
                                             pageStore={pageStore}
                                             bc={bc}

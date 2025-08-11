@@ -135,7 +135,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
         );
 
         const formComponent = (
-            <Grid size="grow" className={cn(classes.formRoot, {[classes.formRootEditing]: isEditing})}>
+            <Grid size="grow" className={cn(classes.formRoot, {[classes.formRootEditing]: isEditing})} wrap="nowrap">
                 <div className={classes.content}>
                     {children ? (
                         children
@@ -157,7 +157,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
         const themeContent = isDarkTheme ? (
             <Grid container direction="row" className={classNameRoot} wrap="nowrap">
                 {isHideActions ? null : actionsComponent}
-                <Grid container direction="column" className={classes.contentRoot}>
+                <Grid container direction="column" className={classes.contentRoot} wrap="nowrap">
                     <Grid size="auto">
                         {hideTitle ? null : <EmptyTitle hideactions title={transCvDisplayed} filters={filters} />}
                     </Grid>

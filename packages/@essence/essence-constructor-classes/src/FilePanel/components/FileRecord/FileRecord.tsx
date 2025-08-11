@@ -29,15 +29,10 @@ export const FileRecord: React.FC<IFileRecordProps> = (props) => {
 
     const initDownBc = store.btnsConfig["Override Download Button"];
     const handleDownloadFile = React.useCallback(() => {
-        store.recordsStore.downloadAction(
-            record,
-            (initDownBc.modeaction ||
-                initDownBc.mode) as any,
-            {
-                actionBc: initDownBc,
-                query: initDownBc.updatequery,
-            },
-        );
+        store.recordsStore.downloadAction(record, (initDownBc.modeaction || initDownBc.mode) as any, {
+            actionBc: initDownBc,
+            query: initDownBc.updatequery,
+        });
     }, [initDownBc, record, store]);
 
     const handleClickClearButton = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -59,21 +54,23 @@ export const FileRecord: React.FC<IFileRecordProps> = (props) => {
             ).format("DD.MM.YYYY")}`;
         }
 
-        return <span>{toTranslateText(trans, labelString)}</span>;
-    }, [record, trans]);
+        return (
+            <span data-qtip={toTranslateText(trans, labelString)} className={classes.labelInfo}>
+                {toTranslateText(trans, labelString)}
+            </span>
+        );
+    }, [record, trans, classes.labelInfo]);
 
     const displayed = initDownBc[VAR_RECORD_DISPLAYED];
     const qtip = initDownBc.tipmsg || displayed;
 
     const startAdornment = (
-        <ButtonBase
-            className={classes.adornment}
-            onClick={handleDownloadFile}
-            data-qtip={qtip ? trans(qtip) : ""}>
+        <ButtonBase className={classes.adornment} onClick={handleDownloadFile} data-qtip={qtip ? trans(qtip) : ""}>
             <Icon
                 iconfont={initDownBc.iconfont}
                 iconfontname={initDownBc.iconfontname as "fa" | "mdi"}
-                size={initDownBc.iconsize} />
+                size={initDownBc.iconsize}
+            />
         </ButtonBase>
     );
 
@@ -83,7 +80,7 @@ export const FileRecord: React.FC<IFileRecordProps> = (props) => {
             record[VAR_RECORD_CV_FILENAME]
         }"?`,
         ...initalDelBc,
-         
+
         [VAR_RECORD_PAGE_OBJECT_ID]: `${initalDelBc[VAR_RECORD_PAGE_OBJECT_ID]}-${record[VAR_RECORD_ID]}`,
     };
 

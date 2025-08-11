@@ -73,17 +73,17 @@ export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
             const isPageSelectedRecords = checkPageSelectedRecords(store, props.bc);
 
             if (store.bc.type === "TREEGRID" && isPageSelectedRecords) {
-                return <Icon iconfont="check-square" size="xs" />;
+                return <Icon iconfont="check-square" />;
             } else if (
                 isPageSelectedRecords &&
                 (!store.recordsStore.pageSize ||
                     store.recordsStore.selectedRecords.size === store.recordsStore?.records.length)
             ) {
-                return <Icon iconfont="check-square" size="xs" />;
+                return <Icon iconfont="check-square" />;
             }
         }
 
-        return <Icon iconfont="minus-square" size="xs" />;
+        return <Icon iconfont="minus-square" />;
     };
 
     React.useEffect(() => {
@@ -142,11 +142,17 @@ export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
         <TableCell padding="none" data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}>
             <Checkbox
                 color="primary"
+                sx={{
+                    "& .fa": {
+                        fontSize: "18px",
+                        lineHeight: "18px",
+                    },
+                }}
                 checked={store?.recordsStore?.selectedRecords.size !== 0}
                 disabled={props.readOnly || props.disabled || props.bc.disabled}
                 onClick={handlePrevent}
                 onChange={handleChange}
-                icon={<Icon iconfont="square-o" size="xs" />}
+                icon={<Icon iconfont="square-o" />}
                 checkedIcon={getChekedIcon()}
             />
         </TableCell>

@@ -2,7 +2,7 @@ import * as React from "react";
 import {IClassProps, IRecord, ICkId} from "@essence-community/constructor-share/types";
 import {RecordContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_PARENT_ID, VAR_RECORD_LEAF} from "@essence-community/constructor-share/constants";
-import {Checkbox} from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {useObserver} from "mobx-react";
 import {parseMemoize} from "@essence-community/constructor-share/utils";
@@ -78,12 +78,18 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
         return (
             <Checkbox
                 color="primary"
+                sx={{
+                    "& .fa": {
+                        fontSize: "18px",
+                        lineHeight: "18px",
+                    },
+                }}
                 checked={checked}
                 disabled={readOnly || disabled || isDisabledCheck}
                 onClick={handlePrevent}
                 onChange={handleChange}
-                icon={<Icon iconfont="square-o" size="xs" />}
-                checkedIcon={<Icon iconfont={getIconFont()} size="xs" />}
+                icon={<Icon iconfont="square-o" />}
+                checkedIcon={<Icon iconfont={getIconFont()} />}
                 disableRipple
             />
         );

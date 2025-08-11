@@ -1,4 +1,3 @@
- 
 import * as React from "react";
 import cn from "clsx";
 import {reaction} from "mobx";
@@ -65,7 +64,6 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
     }, [columns, form]);
 
     const handleChangeReqCount = React.useCallback(
-         
         (reqcount: number = 0) => {
             field.setExtraRules([`reqcount:${reqcount},${columns.length}`]);
             field.validate();
@@ -129,29 +127,22 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
                     GRID_ALIGN_CONFIGS["left-hbox"])}
                 data-qtip={field.isValid ? "" : trans("static:a5a5d7213d1f4f77861ed40549ee9c57")}
             >
-                <Grid container className={classes.label} wrap="nowrap" justifyContent="space-between">
-                    <Grid className={classes.labelTextStartAngle}>
-                        &nbsp;
-                    </Grid>
+                <Grid container className={classes.label} wrap="nowrap" justifyContent="flex-start">
+                    <Grid className={classes.labelTextStartAngle}>&nbsp;</Grid>
                     {displayed ? (
                         <Grid className={`${classes.labelDisplay}`} data-qtip={trans(displayed)}>
                             {trans(displayed)}
                         </Grid>
                     ) : null}
-                    <Grid className={classes.labelTextLine}>
+                    <Grid className={classes.labelTextLine} size="grow">
                         &nbsp;
                     </Grid>
-                    {Boolean(status) && (
-                        <Grid className={`${classes.labelStatus}`}>
-                            {status}
-                        </Grid>
-                    )}
-                    <Grid className={classes.labelTextEndAngle}>
-                        &nbsp;
-                    </Grid>
+                    {Boolean(status) && <Grid className={`${classes.labelStatus}`}>{status}</Grid>}
+                    <Grid className={classes.labelTextEndAngle}>&nbsp;</Grid>
                 </Grid>
                 {mapComponents(childs, (ChildCmp, child) => (
-                    <Grid size={isRow ? "grow" : MAX_PANEL_WIDTH}
+                    <Grid
+                        size={isRow ? "grow" : MAX_PANEL_WIDTH}
                         key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                         className={classes.child}
                         style={sizeChild[child[VAR_RECORD_PAGE_OBJECT_ID]]}

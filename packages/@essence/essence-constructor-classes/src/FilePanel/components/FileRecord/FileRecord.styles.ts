@@ -22,9 +22,19 @@ export const useStyles = makeStyles(
                     visibility: "visible",
                 },
             },
+            "& .MuiInputLabel-root": {
+                marginTop: -8,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                width: "100%",
+            },
         },
         srinkedDocLabel: {
             paddingLeft: 36,
+        },
+        labelInfo: {
+
         },
     }),
     {name: "EssenceFileRecord"},

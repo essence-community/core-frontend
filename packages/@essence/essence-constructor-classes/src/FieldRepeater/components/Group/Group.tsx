@@ -14,7 +14,7 @@ export const Group: React.FC<IGroupProps> = (props) => {
     const inFilter = form.placement === "filter";
     const classes = useStyles(undefined);
     const label = bc[VAR_RECORD_DISPLAYED];
-     
+
     const {t} = useTranslation();
 
     return (
@@ -31,26 +31,23 @@ export const Group: React.FC<IGroupProps> = (props) => {
             data-qtip={error ? t("static:a5a5d7213d1f4f77861ed40549ee9c57") : ""}
             style={toColumnStyleWidth(bc.width)}
         >
-            <Grid container className={classes.label} wrap="nowrap" justifyContent="space-between">
-                <Grid className={classes.labelTextStartAngle}>
-                    &nbsp;
-                </Grid>
+            <Grid container className={classes.label} wrap="nowrap" justifyContent="flex-start">
+                <Grid className={classes.labelTextStartAngle}>&nbsp;</Grid>
                 {label ? (
                     <Grid className={`${classes.labelDisplay}`} data-qtip={t(label)}>
                         <span>{t(label)}</span>
                     </Grid>
                 ) : null}
-                <Grid className={classes.labelTextLine}>
-                    &nbsp;
-                </Grid>
+                <Grid className={classes.labelTextLine}>&nbsp;</Grid>
                 {status}
-                <Grid className={classes.labelTextEndAngle}>
+                <Grid size="grow" className={classes.labelTextEndAngle}>
                     &nbsp;
                 </Grid>
             </Grid>
             {renderComponent &&
                 mapComponents(bc.childs, (ChildCmp, child) => (
-                    <Grid size={12}
+                    <Grid
+                        size={12}
                         key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                         className={classes.child}
                         style={toColumnStyleWidth(child.width)}

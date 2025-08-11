@@ -20,6 +20,7 @@ export const useStyles = makeStyles(
                 display: "block",
                 visibility: "hidden",
             },
+            marginTop: -3,
             maxWidth: "80%",
             overflow: "hidden",
             paddingLeft: 4,
@@ -57,7 +58,7 @@ export const useStyles = makeStyles(
             display: "flex",
             marginLeft: -4,
             marginRight: -4,
-            padding: "4px 0 0",
+            padding: "8px 0 4px 0",
             position: "relative",
         },
         rootError: {

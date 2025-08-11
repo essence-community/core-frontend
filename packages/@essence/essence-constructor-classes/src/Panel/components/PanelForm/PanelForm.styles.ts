@@ -46,15 +46,19 @@ export const useStyles = makeStyles(
         panelEditing: {},
         root:
             theme.essence.layoutTheme === 2
-                ? {}
+                ? {
+                    width: "100%",
+                }
                 : {
                     position: "relative",
+                    width: "100%",
                 },
         rootActions:
             theme.essence.layoutTheme === 2
                 ? {
                     "& $contentRoot": {
                         maxWidth: `calc(100% - ${theme.essence.sizing.controlPanelWidth}px)`,
+                        width: `calc(100% - ${theme.essence.sizing.controlPanelWidth}px)`,
                     },
                     position: "relative",
                 }

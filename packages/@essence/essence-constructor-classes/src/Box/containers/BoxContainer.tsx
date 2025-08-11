@@ -24,7 +24,7 @@ export const BoxContainer: React.FC<IClassProps> = (props) => {
         }),
         [bc],
     );
-    const [childs, sizeChild] = useSizeChild(bc.childs, props.pageStore);
+    const [childs, sizeChild] = useSizeChild(bc.childs, props.pageStore, !!children);
 
     return (
         <Grid
@@ -38,8 +38,9 @@ export const BoxContainer: React.FC<IClassProps> = (props) => {
             {children
                 ? children
                 : mapComponents(childs, (Child, childBc) => (
-                      <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                          size={isRow ? "auto" : MAX_PANEL_WIDTH}
+                      <Grid
+                          key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                          size={isRow ? undefined : MAX_PANEL_WIDTH}
                           style={sizeChild[childBc[VAR_RECORD_PAGE_OBJECT_ID]]}
                       >
                           <Child {...props} bc={childBc} />

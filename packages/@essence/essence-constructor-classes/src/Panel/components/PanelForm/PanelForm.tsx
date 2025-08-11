@@ -7,7 +7,8 @@ import {VAR_RECORD_DISPLAYED, VAR_RECORD_NAME} from "@essence-community/construc
 import {toTranslateText} from "@essence-community/constructor-share/utils/transform";
 import cn from "clsx";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {Grid, useTheme, ThemeProvider} from "@mui/material";
+import {Grid, useTheme, ThemeProvider as MuiThemeProvider} from "@mui/material";
+import {ThemeProvider} from "@mui/styles";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {useObserver} from "mobx-react";
 import {EmptyTitle} from "@essence-community/constructor-share/uicomponents/EmptyTitle";
@@ -84,23 +85,25 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
         });
 
         const filterComponent = (
-            <ThemeProvider theme={themeFilterNew}>
-                <Grid size="grow">
-                    {mapComponents(filters, (ChildCmp, childBc) => (
-                        <ChildCmp
-                            key={bc[VAR_RECORD_PAGE_OBJECT_ID]}
-                            // {...props}
-                            pageStore={pageStore}
-                            hidden={hidden}
-                            disabled={isEditing || disabled}
-                            readOnly={readOnly}
-                            visible={visible}
-                            elevation={elevation}
-                            bc={childBc}
-                        />
-                    ))}
-                </Grid>
-            </ThemeProvider>
+            <MuiThemeProvider theme={themeFilterNew}>
+                <ThemeProvider theme={themeFilterNew}>
+                    <Grid>
+                        {mapComponents(filters, (ChildCmp, childBc) => (
+                            <ChildCmp
+                                key={bc[VAR_RECORD_PAGE_OBJECT_ID]}
+                                // {...props}
+                                pageStore={pageStore}
+                                hidden={hidden}
+                                disabled={isEditing || disabled}
+                                readOnly={readOnly}
+                                visible={visible}
+                                elevation={elevation}
+                                bc={childBc}
+                            />
+                        ))}
+                    </Grid>
+                </ThemeProvider>
+            </MuiThemeProvider>
         );
 
         const actionsComponent = (

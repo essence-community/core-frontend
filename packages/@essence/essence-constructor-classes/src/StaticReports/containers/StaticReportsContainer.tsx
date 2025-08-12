@@ -48,12 +48,14 @@ export const StaticReportsContainer: React.FC<IClassProps> = (props) => {
 
     React.useEffect(() => {
         const authStore = applicationStore?.authStore;
+        const state = (history.location.state || {}) as {backUrl?: string};
+        const backUrl = "/reports";
 
-        if (history.location.pathname.indexOf(applicationStore.url) != 1) {
+        if (history.location.pathname.indexOf(applicationStore.url) != 1 || state.backUrl === backUrl) {
             return;
         }
 
-        history.replace(history.location.pathname, {backUrl: "/reports"});
+        history.replace(history.location.pathname, {backUrl});
 
         const processLogin = async () => {
             if (authStore && (session || token)) {

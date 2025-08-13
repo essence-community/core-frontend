@@ -5,12 +5,14 @@ import {observable, computed, action, makeObservable} from "mobx";
 import {FieldValue, IBuilderConfig, IPageModel} from "../types";
 import {parseMemoize, makeRedirect, isEmpty, transformToBoolean} from "../utils";
 import {parse} from "../utils/parser";
-import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
+import {loggerRoot, VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
 import {deepFind, deepChange, cloneDeepElementary, deepDelete} from "../utils/transform";
 import {copyToClipboard} from "../utils/copyToClipboard";
 import {snackbarStore} from "../models";
 import {IField, IForm, IRegisterFieldOptions, TError} from "./types";
 import {validations} from "./validations";
+
+const logger = loggerRoot.extend("Field");
 
 export interface IFieldOptions {
     bc: IBuilderConfig;
@@ -233,9 +235,17 @@ export class Field implements IField {
                 if (this.bc.valuetype === "integer") {
                     this.defaultValue = Number(this.defaultValue);
                 }
-            }
-            if (this.isArray && typeof this.bc.defaultvalue === "string") {
-                this.defaultValue = JSON.parse(this.bc.defaultvalue);
+            } else if (
+                (this.isObject || this.isArray) &&
+                typeof this.bc.defaultvalue === "string" &&
+                (this.bc.defaultvalue.charAt(0) === "{" || this.bc.defaultvalue.charAt(0) === "[")
+            ) {
+                try {
+                    this.defaultValue = JSON.parse(this.bc.defaultvalue);
+                } catch (e) {
+                    logger("Error parsing default value", e);
+                    this.defaultValue = this.bc.defaultvalue;
+                }
             } else {
                 this.defaultValue = this.bc.defaultvalue;
             }

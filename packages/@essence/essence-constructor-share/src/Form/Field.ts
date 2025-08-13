@@ -289,8 +289,16 @@ export class Field implements IField {
         }
 
         if (this.value === undefined && !isEmpty(this.bc.initvalue)) {
-            if ((this.isArray || this.isObject) && typeof this.bc.initvalue === "string") {
-                this.value = JSON.parse(this.bc.initvalue);
+            if ((this.isArray || this.isObject) &&
+                typeof this.bc.initvalue === "string" &&
+                (this.bc.initvalue.charAt(0) === "{" || this.bc.initvalue.charAt(0) === "[")
+            ) {
+                try {
+                    this.value = JSON.parse(this.bc.initvalue);
+                } catch (e) {
+                    logger("Error parsing init value", e);
+                    this.value = this.bc.initvalue;
+                }
             } else if (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean") {
                 this.value = transformToBoolean(this.bc.initvalue);
                 if (this.bc.valuetype === "integer") {

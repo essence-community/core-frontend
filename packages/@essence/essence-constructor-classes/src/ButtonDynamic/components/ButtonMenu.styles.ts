@@ -43,6 +43,7 @@ export const useStyles = makeStyles(
                 },
 
         popoverContent: {
+            alignItems: "flex-start",
             display: "flex",
             flexDirection: "column",
             maxWidth: 500,

@@ -11,7 +11,7 @@ import NotificationsTab from "../components/NotificationsTabs/NotificationTab";
 import {useStyles} from "./NotificationPanel.styles";
 
 const SCROLLBARS_STYLE = {
-    height: "calc(100% - 106px)",
+    height: "calc(100% - 114px)",
 };
 
 export const NotificationPanel: React.FC<IClassProps> = (props) => {

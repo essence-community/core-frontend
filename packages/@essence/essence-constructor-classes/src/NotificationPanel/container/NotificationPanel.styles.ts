@@ -9,10 +9,17 @@ export const useStyles = makeStyles(
             overflow: "hidden",
         },
         btn: {
-            padding: 12,
+            "&.MuiButtonBase-root": {
+                color: theme.palette.primary.main,
+                fill: theme.palette.primary.main,
+                padding: 12,
+            },
         },
         disabledBtn: {
-            color: theme.essence.palette.grey.main,
+            "&.MuiButtonBase-root.Mui-disabled": {
+                color: theme.essence.palette.grey.main,
+                fill: theme.essence.palette.grey.main,
+            },
         },
         root: {
             backgroundColor: theme.essence.palette.common.white,

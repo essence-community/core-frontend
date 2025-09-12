@@ -22,6 +22,7 @@ export const ColumnDetailContainer: React.FC<IClassProps> = React.memo(function 
             iconfont: isExpanded ? "caret-down" : "caret-right",
             iconsize: "xs",
             onlyicon: true,
+            readonly: false,
             type: "BTN",
             uitype: "7",
         };

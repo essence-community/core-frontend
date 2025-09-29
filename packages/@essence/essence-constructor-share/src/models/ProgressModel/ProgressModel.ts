@@ -16,6 +16,9 @@ export class ProgressModel implements IProgressModel {
     @observable
     public progressCount = 0;
 
+    @observable
+    public isFinished = false;
+
     private snackbar: ISnackbar;
 
     constructor({pageStore}: IProgressConfig) {
@@ -57,6 +60,7 @@ export class ProgressModel implements IProgressModel {
                 `${trans("static:179cc83540e94b87a8d8aff919552f22")} ${toTranslateText(trans, title)}`;
             data.title = "static:31b05bf92be1431894c448c4c3ef95bb";
             data.autoHidden = true;
+            this.isFinished = true;
         }
         snackbarStore.snackbarChangeAction(this.snackbar.id, {
             ...data,

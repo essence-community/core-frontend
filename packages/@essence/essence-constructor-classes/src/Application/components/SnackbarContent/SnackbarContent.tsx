@@ -83,7 +83,8 @@ export const SnackbarContent: React.FC<ISnackbarContentProps> = (props) => {
         <Grow in={snackbar.open} onExited={handleClose}>
             <Paper className={classes.paper} elevation={8}>
                 <Grid container className={classes.header}>
-                    <Grid className={cn(classes.title, classes[`title-${status}` as keyof typeof classes])}
+                    <Grid
+                        className={cn(classes.title, classes[`title-${status}` as keyof typeof classes])}
                         data-qtip={titleTrans}
                     >
                         {status === "progress" ? (
@@ -101,7 +102,11 @@ export const SnackbarContent: React.FC<ISnackbarContentProps> = (props) => {
                     {snackbar.type === "msg" ? (
                         <SnackbarContentText text={text} description={description} code={code} />
                     ) : (
-                        <ProgressBar snackbar={snackbar} progressCount={snackbar.progressStore?.progressCount} />
+                        <ProgressBar
+                            snackbar={snackbar}
+                            progressCount={snackbar.progressStore?.progressCount}
+                            isFinished={snackbar.progressStore?.isFinished}
+                        />
                     )}
                 </div>
             </Paper>

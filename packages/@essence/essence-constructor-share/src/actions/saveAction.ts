@@ -289,7 +289,7 @@ export function saveAction(this: IRecordsModel, values: IRecord[] | FormData, mo
         )
         .catch((error: Error) => {
             logger(i18next.t("static:27a9d844da20453195f59f75185d7c99"), error);
-
+            progressModel?.changeStatusProgress("errorUpload");
             snackbarStore.checkExceptResponse(error, undefined, this.applicationStore);
             pageStore.resetStepAction();
 

@@ -54,7 +54,7 @@ export function useSizeChild(
 
         if (calcChilds.height > 0 && calcChilds.height < 100) {
             const notPreciseChilds = viewChilds.filter((child) => !child.height).length;
-            const count = 98 - calcChilds.height;
+            const count = 100 - calcChilds.height;
             const height = count / notPreciseChilds;
 
             viewChilds.forEach((child) => {
@@ -65,7 +65,7 @@ export function useSizeChild(
         }
         if (calcChilds.width > 0 && calcChilds.width < 100) {
             const notPreciseChilds = viewChilds.filter((child) => !child.width).length;
-            const count = 98 - calcChilds.width;
+            const count = 100 - calcChilds.width;
             const width = count / notPreciseChilds;
 
             viewChilds.forEach((child) => {
@@ -83,7 +83,7 @@ export function useSizeChild(
                 minHeight: childBc.minheight,
                 ...toColumnStyleWidthBc({
                     ...childBc,
-                    width: `calc(${widthPreciseChilds[childBc[VAR_RECORD_PAGE_OBJECT_ID]] || childBc.width} - 10px)`
+                    width: `calc(${widthPreciseChilds[childBc[VAR_RECORD_PAGE_OBJECT_ID]] || childBc.width} - 8px)`
                 }),
             };
 

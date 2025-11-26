@@ -1,13 +1,15 @@
+/* eslint-disable max-lines-per-function */
+/* eslint-disable sort-keys */
 import * as React from "react";
 import cn from "clsx";
-import {Grid, DialogTitle, Checkbox, FormControlLabel, Modal, Paper, Backdrop} from "@mui/material";
+import {DialogTitle, Checkbox, FormControlLabel, Modal, Paper, Backdrop} from "@mui/material";
 import {useTranslation, noop} from "@essence-community/constructor-share/utils";
-import {mapComponentOne, mapComponents} from "@essence-community/constructor-share/components";
+import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {UIForm, Focusable, Scrollbars} from "@essence-community/constructor-share/uicomponents";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {IClassProps, IBuilderMode, IBuilderConfig} from "@essence-community/constructor-share/types";
-import {useModel, useSizeChild} from "@essence-community/constructor-share/hooks";
+import {useModel} from "@essence-community/constructor-share/hooks";
 import {useObserver} from "mobx-react";
 import {WindowContext} from "@essence-community/constructor-share/context";
 import {getModeTitle} from "../utils";
@@ -30,17 +32,11 @@ const renderScrollView = ({style, ...props}: any) => (
     />
 );
 
-// eslint-disable-next-line max-lines-per-function
 export const WindowContainer: React.FC<IClassProps> = (props) => {
     const {bc, pageStore} = props;
     const [trans] = useTranslation("meta");
     const classes = useStyles();
     const [store] = useModel((options) => new WindowModel(options), props);
-    const isRow = bc.contentview === "hbox" || bc.contentview === "hbox-wrap";
-    const boxBc = React.useMemo(
-        () => ({align: "left-stretch", contentview: "vbox", ...bc, type: "BOX.NOCOMMONDECORATOR"}) as IBuilderConfig,
-        [bc],
-    );
     const {
         [VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject,
         checkaddmore,
@@ -100,7 +96,17 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
         store.closeAction("1", bc, {});
     }, [bc, store]);
 
-    const [childs, sizeChild] = useSizeChild(store.childs, pageStore);
+    const boxBc = React.useMemo(
+        () =>
+            ({
+                align: "left-stretch",
+                contentview: "vbox",
+                ...bc,
+                type: "BOX.NOCOMMONDECORATOR",
+                childs: store.childs,
+            }) as IBuilderConfig,
+        [bc, store.childs],
+    );
 
     return useObserver(() => (
         <WindowContext.Provider
@@ -154,24 +160,7 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
                                         }}
                                     >
                                         {mapComponentOne(boxBc, (ChildBox, childBoxBc) => (
-                                            <ChildBox {...props} bc={childBoxBc}>
-                                                {mapComponents(childs, (ChildCmp, childBc) => {
-                                                    return (
-                                                        <Grid
-                                                            size={isRow ? undefined : 12}
-                                                            key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
-                                                            style={sizeChild[childBc[VAR_RECORD_PAGE_OBJECT_ID]]}
-                                                            sx={{
-                                                                "&:empty": {
-                                                                    display: "none",
-                                                                },
-                                                            }}
-                                                        >
-                                                            <ChildCmp {...props} bc={childBc} />
-                                                        </Grid>
-                                                    );
-                                                })}
-                                            </ChildBox>
+                                            <ChildBox {...props} bc={childBoxBc} />
                                         ))}
                                     </Scrollbars>
                                     <WindowButtons

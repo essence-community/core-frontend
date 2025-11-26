@@ -24,7 +24,7 @@ export const ServiceHiddenContainer: React.FC<IClassProps> = (props) => {
                     : bc.defaultvalue,
             defaultvaluelocalization:
                 bc.defaultvaluelocalization === VALUE_SELF_ALWAYSFIRST ||
-                bc.defaultvaluelocalization === VALUE_SELF_FIRST
+                    bc.defaultvaluelocalization === VALUE_SELF_FIRST
                     ? undefined
                     : bc.defaultvaluelocalization,
         }),
@@ -77,15 +77,17 @@ export const ServiceHiddenContainer: React.FC<IClassProps> = (props) => {
                             valuefield.forEach(({in: fieldName, out}) => {
                                 const valueField = out || bc.column;
 
+                                if (!column && (valueField === bc.column || !out)) {
+                                    column = fieldName;
+
+                                    return;
+                                }
+
                                 deepChange(
                                     patchValues,
                                     `${parentKey ? `${parentKey}.` : ""}${valueField}`,
                                     deepFind(record, fieldName)[1],
                                 );
-
-                                if (!column && (valueField === bc.column || !out)) {
-                                    column = fieldName;
-                                }
                             });
 
                             field.form.patch(patchValues, true);

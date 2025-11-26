@@ -75,7 +75,7 @@ export const FieldSetContainer: React.FC<IClassProps> = (props) => {
         return [false, undefined];
     }, []);
     const field = useField({bc, clearValue: CLEAR_VALUE, disabled, hidden, isArray: true, output, pageStore});
-    const boxBc = React.useMemo(() => ({...bc, type: "BOX.NOCOMMONDECORATOR"} as IBuilderConfig), [bc]);
+    const boxBc = React.useMemo(() => ({...bc, type: "BOX.NOCOMMONDECORATOR"}) as IBuilderConfig, [bc]);
     const {contentview} = bc;
     const isRow = contentview === "hbox";
     const parentContext = React.useMemo(
@@ -98,7 +98,15 @@ export const FieldSetContainer: React.FC<IClassProps> = (props) => {
                     key={child[VAR_RECORD_PAGE_OBJECT_ID] ? child[VAR_RECORD_PAGE_OBJECT_ID] : `child_${index}`}
                     value={parentContext[index]}
                 >
-                    <Grid size={isRow ? "grow" : MAX_PANEL_WIDTH} style={sizeChild[child[VAR_RECORD_PAGE_OBJECT_ID]]}>
+                    <Grid
+                        size={isRow ? "grow" : MAX_PANEL_WIDTH}
+                        style={sizeChild[child[VAR_RECORD_PAGE_OBJECT_ID]]}
+                        sx={{
+                            "&:empty": {
+                                display: "none",
+                            },
+                        }}
+                    >
                         <ChildComp {...props} bc={child} />
                     </Grid>
                 </ParentFieldContext.Provider>

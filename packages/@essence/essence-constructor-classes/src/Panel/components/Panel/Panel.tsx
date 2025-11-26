@@ -1,5 +1,3 @@
- 
- 
 import * as React from "react";
 import cn from "clsx";
 import {mapComponentOne, mapComponents} from "@essence-community/constructor-share/components";
@@ -31,7 +29,7 @@ export const Panel: React.FC<IPanelProps> = (props) => {
         },
     });
     const context = React.useContext(PanelWidthContext);
-    const boxBc = React.useMemo(() => ({...bc, type: "BOX.NOCOMMONDECORATOR"} as IBuilderConfig), [bc]);
+    const boxBc = React.useMemo(() => ({...bc, type: "BOX.NOCOMMONDECORATOR"}) as IBuilderConfig, [bc]);
     const isResizeEnable = resizable === true && contentview === "hbox";
     const isRow = contentview === "hbox" || contentview === "hbox-wrap";
     const handleChangeChildWidth = React.useCallback(
@@ -67,11 +65,16 @@ export const Panel: React.FC<IPanelProps> = (props) => {
 
                             if (!isResizeEnable) {
                                 return (
-                                    <Grid key={child[VAR_RECORD_PAGE_OBJECT_ID]}
+                                    <Grid
+                                        key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                                         size={isRow ? "grow" : MAX_PANEL_WIDTH}
                                         className={isRow ? classes.panelItemFlexBasis : undefined}
                                         style={style}
-                                       
+                                        sx={{
+                                            "&:empty": {
+                                                display: "none",
+                                            },
+                                        }}
                                     >
                                         {childComponnt}
                                     </Grid>

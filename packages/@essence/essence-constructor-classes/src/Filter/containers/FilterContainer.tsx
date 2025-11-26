@@ -72,7 +72,8 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                     {bc.dynamicfilter || bc.hideactions ? null : (
                         <FilterButtons layoutTheme={layoutTheme} title={title} store={store} {...props} />
                     )}
-                    <Grid className={cn(classes.maxWidth, {
+                    <Grid
+                        className={cn(classes.maxWidth, {
                             [classes.baseFilter]: !bc.dynamicfilter,
                         })}
                     >
@@ -99,9 +100,15 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                                     GRID_ALIGN_CONFIGS["left-hbox"])}
                             >
                                 {mapComponents(childs, (ChildComp, child) => (
-                                    <Grid key={child[VAR_RECORD_PAGE_OBJECT_ID]}
+                                    <Grid
+                                        key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                                         size={12}
                                         style={sizeChild[child[VAR_RECORD_PAGE_OBJECT_ID]]}
+                                        sx={{
+                                            "&:empty": {
+                                                display: "none",
+                                            },
+                                        }}
                                     >
                                         <ChildComp
                                             {...props}

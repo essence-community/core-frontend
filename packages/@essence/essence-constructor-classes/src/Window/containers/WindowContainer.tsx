@@ -36,8 +36,9 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
     const [trans] = useTranslation("meta");
     const classes = useStyles();
     const [store] = useModel((options) => new WindowModel(options), props);
+    const isRow = bc.contentview === "hbox" || bc.contentview === "hbox-wrap";
     const boxBc = React.useMemo(
-        () => ({align: "left-stretch", contentview: "vbox", ...bc, type: "BOX.NOCOMMONDECORATOR"} as IBuilderConfig),
+        () => ({align: "left-stretch", contentview: "vbox", ...bc, type: "BOX.NOCOMMONDECORATOR"}) as IBuilderConfig,
         [bc],
     );
     const {
@@ -108,13 +109,15 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
                 onQuestionClose: handleCloseDialog,
             }}
         >
-            <Modal component="div" open
+            <Modal
+                component="div"
+                open
                 container={pageStore.pageEl}
                 style={{position: "absolute"}}
                 onClose={handleCloseDialog}
                 data-page-object={ckPageObject}
                 slots={{
-                    backdrop: () => <Backdrop open={true} style={{zIndex: -1}}/>,
+                    backdrop: () => <Backdrop open={true} style={{zIndex: -1}} />,
                 }}
             >
                 <React.Suspense fallback={null}>
@@ -154,9 +157,15 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
                                             <ChildBox {...props} bc={childBoxBc}>
                                                 {mapComponents(childs, (ChildCmp, childBc) => {
                                                     return (
-                                                        <Grid size="auto"
+                                                        <Grid
+                                                            size={isRow ? undefined : 12}
                                                             key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
                                                             style={sizeChild[childBc[VAR_RECORD_PAGE_OBJECT_ID]]}
+                                                            sx={{
+                                                                "&:empty": {
+                                                                    display: "none",
+                                                                },
+                                                            }}
                                                         >
                                                             <ChildCmp {...props} bc={childBc} />
                                                         </Grid>

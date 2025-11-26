@@ -112,6 +112,10 @@ export class FieldRadioModel extends StoreBaseModel implements IStoreBaseModel {
             this.bc.valuefield.forEach(({in: fieldName, out}) => {
                 const valueField = out || this.bc.column;
 
+                if (fieldName === this.bc.column) {
+
+                    return;
+                }
                 deepChange(
                     patchValues,
                     `${parentKey ? `${parentKey}.` : ""}${valueField}`,

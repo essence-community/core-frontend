@@ -49,9 +49,7 @@ export const FilterExtended = (props: IClassProps) => {
             <Grid container direction="column" spacing={0}>
                 <Grid onClick={() => setIsOpen(!isOpen)} className={classes.header}>
                     <Grid container spacing={0}>
-                        <Grid className={clsx(classes.headerLeft, !isOpen && classes.headerClose)}>
-                            &nbsp;
-                        </Grid>
+                        <Grid className={clsx(classes.headerLeft, !isOpen && classes.headerClose)}>&nbsp;</Grid>
 
                         <Grid>
                             <Typography variant="body2" component="span" data-qtip={label ? trans(label) : ""}>
@@ -68,9 +66,7 @@ export const FilterExtended = (props: IClassProps) => {
                             <Icon className={classes.iconClear} iconfont="close" />
                         </Grid>
 
-                        <Grid className={clsx(classes.headerRight, !isOpen && classes.headerClose)}>
-                            &nbsp;
-                        </Grid>
+                        <Grid className={clsx(classes.headerRight, !isOpen && classes.headerClose)}>&nbsp;</Grid>
                     </Grid>
                 </Grid>
                 <Grid className={classes.content}>
@@ -83,9 +79,15 @@ export const FilterExtended = (props: IClassProps) => {
                             GRID_ALIGN_CONFIGS["left-hbox"])}
                     >
                         {mapComponents(childs, (Child: React.ComponentType<IClassProps>, childBc: IBuilderConfig) => (
-                            <Grid key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
+                            <Grid
+                                key={childBc[VAR_RECORD_PAGE_OBJECT_ID]}
                                 size={12}
                                 style={sizeChild[childBc[VAR_RECORD_PAGE_OBJECT_ID]]}
+                                sx={{
+                                    "&:empty": {
+                                        display: "none",
+                                    },
+                                }}
                             >
                                 <Child {...props} bc={childBc} />
                             </Grid>

@@ -36,15 +36,23 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
 
     return (
         <Grid container spacing={1}>
-            <Grid size="grow"
+            <Grid
+                size="grow"
                 container
                 {...GRID_CONFIGS[contentview]}
                 {...GRID_ALIGN_CONFIGS[`${align}-${contentview}`]}
                 spacing={1}
             >
                 {mapComponents(childs, (ChildCmp, bcChild) => (
-                    <Grid size="grow" key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]}
+                    <Grid
+                        size="grow"
+                        key={bcChild[VAR_RECORD_PAGE_OBJECT_ID]}
                         style={sizeChild[bcChild[VAR_RECORD_PAGE_OBJECT_ID]]}
+                        sx={{
+                            "&:empty": {
+                                display: "none",
+                            },
+                        }}
                     >
                         <ChildCmp {...fieldProps} bc={bcChild} />
                     </Grid>

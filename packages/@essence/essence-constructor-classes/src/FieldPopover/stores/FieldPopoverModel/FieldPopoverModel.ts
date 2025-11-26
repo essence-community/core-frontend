@@ -1,4 +1,4 @@
- 
+
 import {
     deepChange,
     deepFind,
@@ -44,7 +44,7 @@ interface IFieldPopoverModelProps extends IStoreBaseModelProps {
 const HEIGHT_GRID = "210px";
 const loggerInfo = loggerRoot.extend("FieldPopoverModel");
 
-const clearChildStores = ({pageStore, bc}: { pageStore: IPageModel; bc: IBuilderConfig }) => {
+const clearChildStores = ({pageStore, bc}: {pageStore: IPageModel; bc: IBuilderConfig}) => {
     pageStore.stores.forEach((store) => {
         if (store.bc && store.bc[VAR_RECORD_MASTER_ID] === bc[VAR_RECORD_PAGE_OBJECT_ID]) {
             store.clearStoreAction();
@@ -274,15 +274,16 @@ export class FieldPopoverModel extends StoreBaseModel implements IFieldPopoverMo
             }
 
             this.valueFields.forEach(([fieldName, valueField]) => {
+                if (fieldName === this.bc.column) {
+                    column = valueField;
+
+                    return;
+                }
                 deepChange(
                     patchValues,
                     `${parentKey ? `${parentKey}.` : ""}${fieldName}`,
                     deepFind(record, valueField)[1],
                 );
-
-                if (fieldName === this.bc.column) {
-                    column = valueField;
-                }
             });
         } else if (this.valueFields && this.valueFields.length) {
             column = this.valueField;

@@ -146,6 +146,11 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
                         key={child[VAR_RECORD_PAGE_OBJECT_ID]}
                         className={classes.child}
                         style={sizeChild[child[VAR_RECORD_PAGE_OBJECT_ID]]}
+                        sx={{
+                            "&:empty": {
+                                display: "none",
+                            },
+                        }}
                     >
                         <ChildCmp {...props} bc={child} />
                     </Grid>

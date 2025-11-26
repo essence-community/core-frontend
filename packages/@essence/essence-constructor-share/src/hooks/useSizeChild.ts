@@ -82,7 +82,10 @@ export function useSizeChild(
                 height: widthPreciseChilds[childBc[VAR_RECORD_PAGE_OBJECT_ID]] || childBc.height,
                 maxHeight: childBc.maxheight ?? "100%",
                 minHeight: childBc.minheight,
-                ...toColumnStyleWidthBc({...childBc, width: widthPreciseChilds[childBc[VAR_RECORD_PAGE_OBJECT_ID]] || childBc.width}),
+                ...toColumnStyleWidthBc({
+                    ...childBc,
+                    width: `calc(${widthPreciseChilds[childBc[VAR_RECORD_PAGE_OBJECT_ID]] || childBc.width} - 10px)`
+                }),
             };
 
             return res;

@@ -1,6 +1,5 @@
 import * as React from "react";
 import {reaction} from "mobx";
-import {width} from "@mui/system";
 import {IBuilderConfig, IPageModel} from "../types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "../constants";
 import {toColumnStyleWidthBc} from "../utils/transform";

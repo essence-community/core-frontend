@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Grid} from "@mui/material";
-import {mapComponents, IBuilderConfig, useSizeChild} from "@essence-community/constructor-share";
+import {mapComponents, IBuilderConfig, useSizeChild, cloneDeepElementary} from "@essence-community/constructor-share";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_MASTER_ID,
@@ -10,6 +10,40 @@ import {
     GRID_ALIGN_CONFIGS,
 } from "@essence-community/constructor-share/constants";
 import {IRepeaterGroupProps} from "./RepeaterGroup.types";
+
+function recursiveFind(bc: IBuilderConfig, allId: Record<string, boolean>) {
+    Object.entries(bc).forEach(([key, child]) => {
+        if (key === VAR_RECORD_PAGE_OBJECT_ID) {
+            allId[child as string] = true;
+        }
+        if (Array.isArray(child)) {
+            child.forEach((childBc) => {
+                if (typeof childBc === "object") {
+                    recursiveFind(childBc, allId);
+                }
+            });
+        }
+    });
+}
+
+function recursiveChange(bc: IBuilderConfig, allId: Record<string, boolean>, idx: number, level: number = 0) {
+    Object.entries(bc).forEach(([key, child]) => {
+        if (key === VAR_RECORD_PAGE_OBJECT_ID) {
+            bc[key] = `${child}_${idx}`;
+        }
+        if (key === VAR_RECORD_PARENT_ID && level > 0) {
+            bc[key] = `${child}_${idx}`;
+        }
+        if (key === VAR_RECORD_MASTER_ID && allId[child]) {
+            bc[key] = `${child}_${idx}`;
+        }
+        if (Array.isArray(child)) {
+            child.forEach((childBc) => {
+                recursiveChange(childBc, allId, idx, level + 1);
+            });
+        }
+    });
+}
 
 export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
     const {bc, idx, isDisabledDel, isHiddenDel, storeName, deleteLabel, ...fieldProps} = props;
@@ -32,7 +66,21 @@ export const RepeaterGroup: React.FC<IRepeaterGroupProps> = (props) => {
         [bc, deleteLabel, idx, storeName],
     );
 
-    const [childs, sizeChild] = useSizeChild(bc.childs, fieldProps.pageStore);
+    const children = React.useMemo(() => {
+        const allId: Record<string, boolean> = {};
+        const children = cloneDeepElementary(bc.childs || []) as IBuilderConfig[];
+
+        children.forEach((child) => {
+            recursiveFind(child, allId);
+        });
+        children.forEach((child) => {
+            recursiveChange(child, allId, idx);
+        });
+
+        return children;
+    }, [bc, idx]);
+
+    const [childs, sizeChild] = useSizeChild(children, fieldProps.pageStore);
 
     return (
         <Grid container spacing={1}>

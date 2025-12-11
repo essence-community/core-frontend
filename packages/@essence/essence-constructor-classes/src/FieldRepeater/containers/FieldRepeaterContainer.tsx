@@ -118,10 +118,6 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
             }
         };
 
-        if (field.form.editing) {
-            changeRepeat();
-        }
-
         return reaction(
             () => [field.form.editing, field.form.mode],
             ([isEdit]) => {
@@ -129,6 +125,7 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
                     changeRepeat();
                 }
             },
+            {fireImmediately: true},
         );
     }, [bc.minsize, field]);
 

@@ -19,6 +19,7 @@ import {
 } from "estree";
 import memoize from "memoizee";
 import QueryString from "qs";
+import * as UUID from "uuid";
 import {FieldValue} from "../types";
 import {loggerRoot} from "../constants";
 import {i18next} from "./I18n";
@@ -114,6 +115,8 @@ const utils = {
     QueryString,
     encodePathUrl,
     decodePathUrl,
+    UUID,
+    Math,
 };
 
 type utilsKey = keyof typeof utils;

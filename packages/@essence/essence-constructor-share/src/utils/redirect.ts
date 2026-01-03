@@ -97,7 +97,7 @@ export function prepareUrl(url: string, pageStore: IPageModel, record: Record<st
  * @param {IRecord} record - Record for data
  * @returns {string|null} URL
  */
-function choiceUrl(
+export function choiceUrl(
     pathname: string,
     globalValues: ObservableMap<string, FieldValue>,
     record: IRecord,

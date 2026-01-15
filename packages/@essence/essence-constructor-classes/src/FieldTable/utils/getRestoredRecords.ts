@@ -19,7 +19,7 @@ export function getRestoredRecords(value: (FieldValue | IRecord)[], store: IFiel
         if (record) {
             acc.push([record[store.recordsStore.recordId] as ICkId, record]);
         } else {
-            acc.push([val as ICkId, {}]);
+            acc.push([val as ICkId, {[store.recordsStore.recordId]: val}]);
         }
 
         return acc;

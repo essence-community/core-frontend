@@ -1,4 +1,3 @@
- 
 import {action, observable, ObservableMap, computed, makeObservable} from "mobx";
 import {
     i18next,
@@ -209,22 +208,22 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
 
                         return this.bc.edittype === "inline"
                             ? {
-                                  ...getDefaultWindowBc(this.bc),
-                                  columns: this.gridColumns,
-                                  type: "INLINE_WINDOW",
-                              }
+                                ...getDefaultWindowBc(this.bc),
+                                columns: this.gridColumns,
+                                type: "INLINE_WINDOW",
+                            }
                             : {
-                                  ...getDefaultWindowBc(this.bc),
-                                  bottombtn: getOverrideWindowBottomBtn(this.bc),
-                              };
+                                ...getDefaultWindowBc(this.bc),
+                                bottombtn: getOverrideWindowBottomBtn(this.bc),
+                            };
                     },
                     initValues:
                         this.bc.type === "TREEGRID"
                             ? {
-                                  [this.recordsStore.recordParentId]: this.recordsStore.selectedRecord
-                                      ? this.recordsStore.selectedRecordId
-                                      : undefined,
-                              }
+                                [this.recordsStore.recordParentId]: this.recordsStore.selectedRecord
+                                    ? this.recordsStore.selectedRecordId
+                                    : undefined,
+                            }
                             : {},
                     mode,
                     pageStore: this.pageStore,
@@ -318,12 +317,12 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     };
 
     @action
-    toggleSelectedRecordAction = (record: IRecord, bcBtn?: IBuilderConfig) => {
+    toggleSelectedRecordAction = (record: IRecord, bcBtn?: IBuilderConfig, isForceSelect = false) => {
         const ckId = record[this.recordsStore.recordId] as string | number;
         const parentId = record[this.recordsStore.recordParentId] as string | number;
         const maxSize =
             bcBtn?.maxselected && (parseMemoize(bcBtn.maxselected).runer(this.pageStore.globalValues) as number);
-        const isSelected = this.recordsStore.selectedRecords.has(ckId);
+        const isSelected = isForceSelect ? false : this.recordsStore.selectedRecords.has(ckId);
         const isLeaf = record[VAR_RECORD_LEAF] != null;
         const isSelectTree = bcBtn.selecttree == null || bcBtn.selecttree;
 
@@ -370,7 +369,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
                 const childRecord = record;
 
                 record = this.recordsStore.records.find(
-                     
+
                     (rec) => rec[this.recordsStore.recordId] == childRecord[this.recordsStore.recordParentId],
                 );
                 const recordId = record && (record[this.recordsStore.recordId] as string | number);
@@ -685,6 +684,13 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
         onToggleSelectedRecord: (mode: IBuilderMode, bc: IBuilderConfig, {record}: IHandlerOptions) => {
             if (record) {
                 this.toggleSelectedRecordAction(record, bc);
+            }
+
+            return Promise.resolve(true);
+        },
+        onToggleSelectedRecordForce: (mode: IBuilderMode, bc: IBuilderConfig, {record}: IHandlerOptions) => {
+            if (record) {
+                this.toggleSelectedRecordAction(record, bc, true);
             }
 
             return Promise.resolve(true);

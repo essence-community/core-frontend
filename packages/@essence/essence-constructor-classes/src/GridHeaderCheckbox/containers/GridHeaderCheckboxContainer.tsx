@@ -43,9 +43,9 @@ export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
                     if (
                         record[bc.column || "checked"] &&
                         (!isTree || (isTree && (typeof leaf === "boolean" ? leaf : leaf === "true"))) &&
-                        store.handlers.onToggleSelectedRecord
+                        store.handlers.onToggleSelectedRecordForce
                     ) {
-                        store.handlers.onToggleSelectedRecord("1", bc, {record});
+                        store.handlers.onToggleSelectedRecordForce("1", bc, {record});
                     }
                 });
             },

@@ -15,26 +15,30 @@ export const PopoverContent: React.FC<IPopoverContentProps> = React.forwardRef<H
             right: "auto",
             ...props.styleOffset,
         };
-        const content = (
-            <Paper className={props.paperClassName} style={{width: props.width}}>
-                {isFunction(props.popoverContent)
-                    ? props.popoverContent({
-                          height: props.styleOffset.height,
-                          onCalculateOffset: props.onCalculateOffset,
-                          onClose: props.onClose,
-                          onOpen: props.onOpen,
-                          open: props.open,
-                          position: props.styleOffset.bottom ? "top" : "bottom",
-                      })
-                    : props.popoverContent}
-            </Paper>
+        const content = React.useMemo(
+            () => (
+                <Paper className={props.paperClassName} sx={{width: props.width}}>
+                    {isFunction(props.popoverContent)
+                        ? props.popoverContent({
+                              height: props.styleOffset.height,
+                              onCalculateOffset: props.onCalculateOffset,
+                              onClose: props.onClose,
+                              onOpen: props.onOpen,
+                              open: props.open,
+                              position: props.styleOffset.bottom ? "top" : "bottom",
+                          })
+                        : props.popoverContent}
+                </Paper>
+            ),
+            [props],
         );
 
         return (
             <React.Fragment>
                 {props.hideBackdrop ? null : <Backdrop open className={classes.popoverBackdrop} />}
 
-                <Modal open
+                <Modal
+                    open
                     className={classes.popoverRoot}
                     style={style}
                     data-page-object={props.dataPageObjectPopover}
@@ -58,7 +62,6 @@ export const PopoverContent: React.FC<IPopoverContentProps> = React.forwardRef<H
                                             tabFocusable={props.tabFocusable}
                                             focusableMount={props.focusableMount}
                                             restoreFocusedElement={props.restoreFocusedElement}
-                                            
                                         >
                                             {content}
                                         </FocusableArrow>

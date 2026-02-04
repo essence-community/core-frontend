@@ -48,7 +48,7 @@ export class PagesTreeModel extends StoreBaseModel {
         }
 
         this.expansionRecords.set(ckId, isExpanded);
-        saveToStore(this.storeName, this.expansionRecords.entries().reduce((res, [key, value]) => {
+        saveToStore(this.storeName, [...this.expansionRecords.entries()].reduce((res, [key, value]) => {
             res[key] = value;
 
             return res;

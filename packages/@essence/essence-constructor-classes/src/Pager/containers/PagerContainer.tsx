@@ -71,11 +71,12 @@ export const PagerContainer: React.FC<IClassProps> = (props) => {
     React.useEffect(() => {
         if (pageStore != props.pageStore) {
             return reaction(
-                () => props.pageStore.globalValues.entries().reduce((res, [key, value]) => {
-                    res[key] = value;
+                () =>
+                    [...props.pageStore.globalValues.entries()].reduce((res, [key, value]) => {
+                        res[key] = value;
 
-                    return res;
-                }, {}),
+                        return res;
+                    }, {}),
                 (globalValues) => {
                     pageStore.updateGlobalValues(globalValues);
                 },
@@ -106,11 +107,12 @@ export const PagerContainer: React.FC<IClassProps> = (props) => {
 
     React.useEffect(() => {
         return reaction(
-            () => pageStore.globalValues.entries().reduce((res, [key, value]) => {
-                res[key] = value;
+            () =>
+                [...pageStore.globalValues.entries()].reduce((res, [key, value]) => {
+                    res[key] = value;
 
-                return res;
-            }, {}),
+                    return res;
+                }, {}),
             (globalValues) => {
                 snackbarStore.snackbarOpenAction({
                     autoHidden: true,

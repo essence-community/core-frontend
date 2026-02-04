@@ -154,7 +154,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
         return () => {
             if (applicationStore.wsClient) {
                 // TODO: check why not send close_code to close event;
-                 
+
                 applicationStore.wsClient.onclose = () => {};
                 applicationStore.wsClient.close(CLOSE_CODE);
                 applicationStore.wsClient = null;
@@ -315,17 +315,18 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             },
             {
                 fireImmediately: true,
-            }
+            },
         );
     }, [applicationStore, history]);
 
     React.useEffect(() => {
         return reaction(
-            () => applicationStore.globalValues.entries().reduce((res, [key, value]) => {
-                res[key] = value;
+            () =>
+                [...applicationStore.globalValues.entries()].reduce((res, [key, value]) => {
+                    res[key] = value;
 
-                return res;
-            }, {}),
+                    return res;
+                }, {}),
             (globalValues) => {
                 applicationStore.pagesStore.pages.forEach((page: IPageModel) => {
                     page.updateGlobalValues(globalValues);
@@ -333,17 +334,18 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             },
             {
                 fireImmediately: true,
-            }
+            },
         );
     }, [applicationStore]);
 
     React.useEffect(() => {
         return reaction(
-            () => applicationStore.globalValues.entries().reduce((res, [key, value]) => {
-                res[key] = value;
+            () =>
+                [...applicationStore.globalValues.entries()].reduce((res, [key, value]) => {
+                    res[key] = value;
 
-                return res;
-            }, {}),
+                    return res;
+                }, {}),
             (globalValues) => {
                 snackbarStore.snackbarOpenAction({
                     autoHidden: true,
@@ -367,7 +369,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             },
             {
                 fireImmediately: true,
-            }
+            },
         );
     }, [applicationStore]);
 
@@ -380,7 +382,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 }),
             {
                 fireImmediately: true,
-            }
+            },
         );
     }, [applicationStore]);
 
@@ -391,8 +393,9 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
                 let title = route?.[VAR_RECORD_ROUTE_NAME];
 
                 if (route && route.titlerule) {
-                    title = parseMemoize(route.titlerule as string)
-                        .runer(applicationStore.pagesStore.activePage.globalValues);
+                    title = parseMemoize(route.titlerule as string).runer(
+                        applicationStore.pagesStore.activePage.globalValues,
+                    );
                 }
                 if (!title) {
                     title = route?.[VAR_RECORD_ROUTE_NAME];
@@ -405,7 +408,7 @@ export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             },
             {
                 fireImmediately: true,
-            }
+            },
         );
     }, [applicationStore, trans]);
 

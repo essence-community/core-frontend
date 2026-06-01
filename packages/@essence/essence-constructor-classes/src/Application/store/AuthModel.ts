@@ -1,4 +1,4 @@
- 
+
 import {observable, action, makeObservable} from "mobx";
 import {History} from "history";
 import {
@@ -34,7 +34,7 @@ const DEFAULT_USER_INFO: IAuthSession = {
 export class AuthModel implements IAuthModel {
     @observable userInfo = getFromLocalStore<IAuthSession>("auth") || DEFAULT_USER_INFO;
 
-     
+
     constructor(public applicationStore: IApplicationModel) {
         makeObservable(this);
     }
@@ -75,7 +75,7 @@ export class AuthModel implements IAuthModel {
                         }
                         this.successLoginAction(response, history, undefined, isNotRedirect);
                     }
-                } else if (!response && session === this.userInfo.session) {
+                } else if (!response && this.userInfo.session && session === this.userInfo.session) {
                     return this.logoutAction();
                 }
             })

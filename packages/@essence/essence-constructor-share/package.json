@@ -45,7 +45,7 @@
         "i18next-chained-backend": "^4.6.2",
         "i18next-localstorage-backend": "^4.2.0",
         "keycode": "^2.2.1",
-        "lodash": "^4.17.21",
+        "lodash": "^4.17.23",
         "memoizee": "^0.4.17",
         "mobx": "^6.12.0",
         "mobx-react": "^9.1.0",

@@ -1,28 +1,18 @@
+# AppBar (`APP_BAR`)
 
+Навигационная панель на базе MUI [`AppBar`](https://mui.com/material-ui/react-app-bar/).
 
-## StylesEssenceAppBar
+```ts
+setComponent("APP_BAR", commonDecorator(AppBar));
+```
 
-name: **EssenceAppBar**
+Дети раскладываются через `mapComponents`. Цвет панели — атрибут `uitype`:
 
-## root
+| uitype | MUI `color` |
+|---|---|
+| `1` | `primary` |
+| `2` | `secondary` |
+| `3` | `default` |
+| `4` | `inherit` |
 
-Общий root для MaterialAppBar
-
-## AppBar
-
--   **See: [AppBar][1]
-    **
-
-Отображения навигационной панели
-
-Type: React.FC&lt;IClassProps&lt;IBuilderClassConfig>>
-
-### Parameters
-
--   `props`  
-
-**Meta**
-
--   **since**: 2.5
-
-[1]: https://material-ui.com/components/app-bar/#app-bar
+Высота/ширина берутся из `bc.height`, `maxheight`, `minheight`, `bc.width`.

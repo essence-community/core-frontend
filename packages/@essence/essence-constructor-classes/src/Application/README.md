@@ -1,32 +1,29 @@
+# Application (`APPLICATION`)
 
+Корневой класс приложения. Без `commonDecorator`.
+
+```ts
+setComponent("APPLICATION", ApplicationContainer);
+```
+
+Хост рендерит его из `ApplicationRouter` с фиктивным `bc: { type: "APPLICATION" }`. Как выбрать активное приложение по URL — [APPLICATION.md](../../../../../docs/APPLICATION.md).
 
 ## ApplicationContainer
 
-Включает commonDecorator
-
-Type: React.FC&lt;IClassProps&lt;IBuilderClassConfig>>
-
-### loadApplication
-
-Загрузка начального состоянии приложения
+Поднимает `ApplicationModel`, тему, snackbar, блок-оверлей, websocket и дочерние объекты `bc` через `mapComponents`.
 
 ## ApplicationModel
 
-### Parameters
-
--   `history` **[History][1]** 
--   `url` **[string][2]** 
+- auth (`AuthModel`: login / session / logout)
+- вкладки страниц (`PagesModel`)
+- маршруты (`RoutesModel`, query `MTRoute`)
+- конфиг приложения (`MTApplicationRoute`, `activerules`)
+- `globalValues` и `g_sess_*` из сессии
+- WebSocket: `notification`, `mask`, `reloaduser`, `reloadpageobject`, `localization`
 
 ### handlers
 
-#### onLogout
-
-Выход из приложения
-
-#### onWindowOpen
-
-Открытие окна по ckwindow
-
-[1]: https://developer.mozilla.org/docs/Web/Guide/API/DOM/Manipulating_the_browser_history
-
-[2]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+| Handler | Действие |
+|---|---|
+| `onLogout` | выход, закрытие WS, редирект на auth URL |
+| `onWindowOpen` | открыть окно по `ckwindow` |

@@ -1,67 +1,92 @@
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+# Essence Constructor Frontend
 
-Below you will find some information on how to perform common tasks.<br>
-You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
+Метамодельный UI-конструктор: страницы и виджеты задаются конфигурацией с бэкенда (`IBuilderConfig`), фронт резолвит `type` в React-компонент.
+
+Yarn workspaces, сборка — [Rsbuild](https://rsbuild.dev/). Версия `3.1.0`.
 
 ## Зависимости
 
-1. `yarn` - (^1.18.0)
-1. `node` - (^14.0.0)
+- `yarn` >= 1.22
+- `node` >= 20
 
-### Пакет `essence-constructor-share`
+```bash
+yarn install
+```
 
-Пакет предназначен для переиспользования кодовой базы между моделями и основным приложением.
+Локальная разработка собирает `constructor-share` и `constructor-classes` из исходников (алиасы в Rsbuild), отдельно собирать пакеты не нужно.
 
-Для сборки необходимо:
+## Пакеты
 
-1. зайти в папку `packages/@essence/essence-constructor-share`
-1. установить зависимости `yarn install`
-1. собрать пакет в библиотеку `yarn build`
+Workspaces:
 
-## Работа с пакетами (yarn workspaces)
+1. [essence-constructor-website](./packages/@essence/essence-constructor-website) — SPA-хост (роутинг, bootstrap, Module Federation host `essence_core`)
+1. [essence-constructor-classes](./packages/@essence/essence-constructor-classes) — виджеты конструктора (`GRID`, `IFIELD.*`, `PANEL`, `APPLICATION`, …)
+1. [essence-constructor-share](./packages/@essence/essence-constructor-share) — ядро: сторы, формы, request, parser, реестр компонентов
+1. [essence-constructor-eslint](./packages/@essence/essence-constructor-eslint) — общий ESLint-конфиг
+1. [essence-constructor-package-builder](./packages/@essence/essence-constructor-package-builder) — сборка/деплой публикуемых пакетов
 
-Для работы приложения нужно установить все зависимые пакеты (описаны выше), после выполнить команду установки node_modules: `yarn install`
+Вне workspaces (для внешних модулей):
 
-Доступные пакеты:
+1. [create-constructor-module](./packages/@essence/create-constructor-module) — скелет модуля: `yarn create @essence-community/constructor-module <name>`
+1. [essence-constructor-scripts](./packages/@essence/essence-constructor-scripts) — сборка/zip внешнего модуля
+1. [essence-constructor-dll](./packages/@essence/essence-constructor-dll) — webpack 4 DLL для модулей (не используется Rsbuild-хостом)
 
-1. [essence-constructor-website](./packages/@essence/essence-constructor-website) - веб приложения для работы с конструктором и метамоделью`
+## Разработка
 
-## Запуск приложения для разработки
+Из корня:
 
-При разработке нужно выполнить `yarn start` из корня проекта.
+```bash
+yarn start
+```
 
-При запуске запускаются 1 команда:
+Приложение: [http://localhost:3000](http://localhost:3000).
 
-1. `yarn start` - запускает web версию из модуля `essence-constructor-website`
+Другие режимы:
 
-При разработки в [setupProxy.js](./packages/@essence/essence-constructor-website/src/setupProxy.js) описаны стандартные адреса для проксирвоания:
+- `yarn start-localhost` — `.env.localhost` (gate `/api`, настройки `MTGetSysSettings`)
+- `yarn start-mock` — `.env.mock`
 
-1. `/api` -> `http://localhost:9020/`
-1. `/notification` -> `http://localhost:9020/`
+Прокси задаётся в [`rsbuild.config.ts`](./packages/@essence/essence-constructor-website/rsbuild.config.ts):
 
-## Continuous Integration
+- `/api` → `http://localhost:9020/`
+- `/api_module` → `http://localhost:9020/`
+- `/notification` → `http://localhost:9020/` (WebSocket)
 
-Для запуска CI в jenkins нужно запусти `yarn CI`
+Переопределение: переменная `PROXY` (JSON-массив `{path, options}`).
 
+## Сборка для деплоя
 
-## Заборка проекта для деплоя
+```bash
+yarn build
+```
 
-Сборка проекта осуществляется с помощью команды `yarn build` из корня приложения
+Собирается `constructor-website`, затем `build` копируется в корень репозитория. На сервер нужно перенести корневую папку `build`. Это SPA: несуществующие пути должны отдавать `index.html`. Подробнее — [DEPLOY.md](./docs/DEPLOY.md).
 
-При сборке выполняются команды:
+Публикация `constructor-share` (отдельно от приложения):
 
-1. `yarn build` - запускает сборку web версии из модуля `essence-constructor-website`
-1. копирование `build` папки в верхний уровень приложения
+```bash
+yarn workspace @essence-community/constructor-share run build
+```
 
-После сборки необходимо перенести папку `build`, которая будет находится в корне проекта и `essence-constructor-website` компонента, на сервер. Конфигурация сервера должна производиться отдельно.
+## Проверки
 
-## Доплнительная документация
+- `yarn lint` / `yarn lint:fix`
+- `yarn tscheck:classes` / `yarn tscheck:share` / `yarn tscheck:website`
+- `yarn test`
+- `yarn CI` — `tsc` (classes + share) и eslint; так же запускается во внешнем Jenkins
 
-1. [FLOW.md](./docs/FLOW.md)
-1. [ENV.md](./docs/ENV.md)
-1. [STORYBOOK.md](./docs/STORYBOOK.md)
-1. [ENV.md](./docs/ENV.md)
-1. [PROXY.md](./docs/PROXY.md)
-1. [REDIRECT.md](./docs/REDIRECT.md)
-1. [APPLICATION.md](./docs/APPLICATION.md)
-1. [Подключение авторизации KeyCloak](./docs/KEYCLOAK.md)
+## Документация
+
+1. [MODULE.md](./docs/MODULE.md) — внешние модули и метамодель
+1. [APPLICATION.md](./docs/APPLICATION.md) — мультиприложения
+1. [REDIRECT.md](./docs/REDIRECT.md) — внешний переход `/redirect/:b64`
+1. [KEYCLOAK.md](./docs/KEYCLOAK.md) — авторизация Keycloak
+1. [ENV.md](./docs/ENV.md) — переменные окружения
+1. [PROXY.md](./docs/PROXY.md) — прокси в разработке
+1. [DEPLOY.md](./docs/DEPLOY.md) — деплой SPA
+1. [ATTRIBUTES.md](./docs/ATTRIBUTES.md) — атрибуты классов
+1. [STYLEGUIDE.md](./docs/STYLEGUIDE.md) — соглашения по коду
+1. [TEST.md](./docs/TEST.md) — тесты
+1. [UPLOAD_FILES.md](./docs/UPLOAD_FILES.md) — загрузка файлов
+1. [TRANSIT_TO_SITE.md](./docs/TRANSIT_TO_SITE.md) — переход в отчёты (session/token)
+1. [FIELD_IMAGE.md](./docs/FIELD_IMAGE.md) — поле изображения

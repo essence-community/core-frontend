@@ -1,30 +1,30 @@
-# Utilites to start/build/zip module for core application
+# @essence-community/constructor-scripts
 
-## Special commands
+Webpack 4 toolchain для **внешнего модуля** конструктора: dev-сервер, сборка, zip, выкладка.
 
-1. `start` - run application for developments. This mode provide render component into web browser and script by url address `http://localhost:8080/{project-name}.js`. You can pass this url into `preference` of core application to inject module for development.
-1. `build` - build application for prodaction.
-1. `zip` - make zip archive to pass them into marketplace or share.
+Создаётся вместе со скелетом: `yarn create @essence-community/constructor-module <name>`. Подробности метамодели — [MODULE.md](../../../docs/MODULE.md).
 
+## Команды
 
-## Descibe schema manifest
+| Команда | Назначение |
+|---|---|
+| `start` | dev-сервер, бандл `http://localhost:8080/{project-name}.js` — URL можно указать в preference ядра |
+| `build` | прод-сборка |
+| `zip` | архив `dist/{name}-{version}.zip` (js + `schema_manifest.json`) |
+| `deploy` | выкладка (S3 / Jenkins env: `ACCESS_KEY_ID`, `SECRET_ACCESS_KEY`, …) |
+| `init` | инициализация после `create-constructor-module` |
+| `test` | тесты модуля |
 
-You can pass classes as many as you need (array like style)
+## schema_manifest.json
 
-### class - Descrbe infomration about Class
+Массив классов. Поля класса:
 
-|name|value|description|
-|----|-----|-----------|
-|cl_dataset|1,0|Indecate there should be ck_query for class|
-|cl_final|1,0|Flag to show in the root of objects|
-|cv_description|any sctring|Description of class|
-|cv_name|any string|Short name of the class|
-|cv_type|word characters with underscore|Type of the class. Will be in the `type` attribute for the class|
+| Поле | Значение | Описание |
+|---|---|---|
+| `cl_dataset` | `0` / `1` | нужен ли `ck_query` |
+| `cl_final` | `0` / `1` | показывать в корне объектов |
+| `cv_description` | строка | описание |
+| `cv_name` | строка | короткое имя |
+| `cv_type` | `[A-Za-z0-9_]+` | значение атрибута `type` / первый аргумент `setComponent` |
 
-### attributes - create a new attribute (but not apply to the class, see below how to apply to the class)
-
-### class_attributes - apply exising attributes to the class
-
-### class_hierarchy
-
-Can be `class_parent` and `class_child`
+Также: `attributes` — новые атрибуты; `class_attributes` — привязка существующих; `class_hierarchy` — `class_parent` / `class_child`.

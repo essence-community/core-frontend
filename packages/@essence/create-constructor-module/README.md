@@ -1,9 +1,12 @@
-# Install skeleton of new module
+# @essence-community/create-constructor-module
 
-## Instalation
+Скелет внешнего модуля конструктора.
 
-To make application use command `yarn create @essence-community/constructor-module {project-name}`
+```bash
+yarn create @essence-community/constructor-module <project-name>
+yarn create @essence-community/constructor-module <project-name> --example
+```
 
-## Documentation
+В каталоге появятся `package.json` (скрипты `constructor-scripts`), `.eslintrc`, `.prettierrc`. Дальше: `yarn` (postinstall собирает DLL), `setComponent` в `src/index.ts`, `yarn start` / `yarn build` / `yarn zip`.
 
-You can read more about ecosystem of module in [main documenation](https://github.com/essence-community/core-frontend/blob/dev/docs/MODULE.md)
+Документация экосистемы: [MODULE.md](https://github.com/essence-community/core-frontend/blob/dev/docs/MODULE.md).

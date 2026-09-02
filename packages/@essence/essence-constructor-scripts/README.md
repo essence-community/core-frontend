@@ -11,9 +11,11 @@ Webpack 4 toolchain для **внешнего модуля** конструкт�
 | `start` | dev-сервер, бандл `http://localhost:8080/{project-name}.js` — URL можно указать в preference ядра |
 | `build` | прод-сборка |
 | `zip` | архив `dist/{name}-{version}.zip` (js + `schema_manifest.json`) |
-| `deploy` | выкладка (S3 / Jenkins env: `ACCESS_KEY_ID`, `SECRET_ACCESS_KEY`, …) |
+| `deploy` | выкладка в S3; нужны `ACCESS_KEY_ID`, `SECRET_ACCESS_KEY`, `RIAK_PROXY` |
 | `init` | инициализация после `create-constructor-module` |
 | `test` | тесты модуля |
+
+Переменные: `PORT` (по умолчанию `8080`), `HOST` (`localhost`), для `deploy` — `ACCESS_KEY_ID`, `SECRET_ACCESS_KEY`, `RIAK_PROXY`. Подробнее — [ENV.md](../../../docs/ENV.md).
 
 ## schema_manifest.json
 

@@ -54,6 +54,23 @@ yarn start
 
 Переопределение: переменная `PROXY` (JSON-массив `{path, options}`).
 
+## Переменные окружения
+
+Файлы: `packages/@essence/essence-constructor-website/.env*`. Порядок загрузки: `.env.${PROJECT}` → `.env.${NODE_ENV}.local` → `.env.local` → `.env.${NODE_ENV}` → `.env`.
+
+| Переменная | По умолчанию | Описание |
+|---|---|---|
+| `PUBLIC_URL` | `/` | Базовый путь статики и роутера. Для подкаталога: `/app` |
+| `REACT_APP_PUBLIC_URL` | как `PUBLIC_URL` | `basename` React Router, должен совпадать с `PUBLIC_URL` |
+| `REACT_APP_SETTINGS` | `/assets/scripts/settings.js` | Скрипт настроек в `index.html`. На localhost: `/api?action=sql&query=MTGetSysSettings&js=true` |
+| `REACT_APP_COMMIT_ID` | `DEV` | Хеш коммита; если `DEV` — из `git log` |
+| `REACT_APP_BRANCH_NAME` | `3.1.0` | Версия/ветка сборки (`version.json`) |
+| `REACT_APP_BRANCH_DATE_TIME` | `no-valid` | Дата коммита; если `no-valid` — из `git log` |
+| `PROJECT` | — | Выбор `.env.${PROJECT}` (`localhost`, `mock`) |
+| `PROXY` | — | JSON `[{path, options}]` вместо прокси на `:9020` |
+
+Полный список, включая `GATE_URL` и переменные модулей: [ENV.md](./docs/ENV.md).
+
 ## Сборка для деплоя
 
 ```bash

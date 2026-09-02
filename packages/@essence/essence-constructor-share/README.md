@@ -35,7 +35,9 @@ setComponent("IFIELD.text", FieldTextContainer);
 ```bash
 yarn workspace @essence-community/constructor-share run build    # tsc → lib/
 yarn workspace @essence-community/constructor-share run deploy   # yarn publish из lib/
-yarn workspace @essence-community/constructor-share run configsync  # синхронизация IBuilderConfig с БД
+GATE_URL=https://host/api yarn workspace @essence-community/constructor-share run configsync  # IBuilderConfig из БД
 ```
+
+`configsync` требует `GATE_URL` (URL gate). См. [ENV.md](../../../docs/ENV.md).
 
 Node >= 22, Yarn >= 1.22.

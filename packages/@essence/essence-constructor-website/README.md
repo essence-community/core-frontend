@@ -36,12 +36,23 @@ yarn build              # rsbuild build → корень/build
 
 | Файл | Назначение |
 |---|---|
-| `.env` | общие значения (`PUBLIC_URL`, placeholders коммита) |
-| `.env.localhost` | gate `/api`, настройки `MTGetSysSettings` |
-| `.env.mock` | режим mock |
-| `.env.production` | прод (без dev tools) |
+| `.env` | `PUBLIC_URL`, placeholders коммита, статический `REACT_APP_SETTINGS` |
+| `.env.localhost` | `REACT_APP_SETTINGS` через gate `MTGetSysSettings` |
+| `.env.mock` | `PROJECT=mock` |
+| `.env.production` | прод |
 
-`REACT_APP_*` попадают в бандл. Если `REACT_APP_COMMIT_ID` / `REACT_APP_BRANCH_DATE_TIME` не заданы, берутся из `git log`.
+| Переменная | По умолчанию | Описание |
+|---|---|---|
+| `PUBLIC_URL` | `/` | Базовый путь статики и роутера |
+| `REACT_APP_PUBLIC_URL` | как `PUBLIC_URL` | `basename` React Router |
+| `REACT_APP_SETTINGS` | `/assets/scripts/settings.js` | URL скрипта настроек в `index.html` |
+| `REACT_APP_COMMIT_ID` | `DEV` | Хеш коммита; если `DEV` — из `git log` |
+| `REACT_APP_BRANCH_NAME` | `3.1.0` | Версия/ветка (`version.json`) |
+| `REACT_APP_BRANCH_DATE_TIME` | `no-valid` | Дата коммита; если `no-valid` — из `git log` |
+| `PROJECT` | — | Суффикс `.env.${PROJECT}` |
+| `PROXY` | — | JSON-массив `{path, options}` вместо прокси `:9020` |
+
+Полный список: [ENV.md](../../../docs/ENV.md).
 
 ## Структура
 

@@ -34,7 +34,8 @@ import {parse} from "qs";
 import {useResizerEE} from "@essence-community/constructor-share/hooks";
 import {useObserver} from "mobx-react";
 import {reaction, observe} from "mobx";
-import {useParams, useHistory, useRouteMatch} from "react-router-dom";
+import {useParams, useMatch} from "react-router-dom";
+import {useAppHistory} from "@essence-community/constructor-share/utils/appHistory";
 import {IForm, Form} from "@essence-community/constructor-share/Form";
 import {CssBaseline} from "@mui/material";
 import {ApplicationModel, CLOSE_CODE} from "../store/ApplicationModel";
@@ -73,8 +74,8 @@ function getFilterString(record: Record<string, any>, isUrl = true) {
 
 // eslint-disable-next-line max-lines-per-function
 export const ApplicationContainer: React.FC<IClassProps<IBuilderClassConfig>> = () => {
-    const history = useHistory();
-    const match = useRouteMatch<any>("/:appNameDefault");
+    const history = useAppHistory();
+    const match = useMatch({end: false, path: "/:appNameDefault"});
     const appNameDefault = match?.params.appNameDefault ?? "";
     const {ckId, appName = appNameDefault, filter: filterStr} = useParams<IUrlParams>();
     const appNameRef = React.useRef(appName);

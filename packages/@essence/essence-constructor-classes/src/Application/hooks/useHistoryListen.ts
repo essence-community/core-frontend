@@ -18,10 +18,10 @@ export function useHistoryListen({history, applicationStore}: IUseHistoryListenP
     useEffect(() => {
         const handleHistory = ({location, action}: Update) => {
             if (action === "POP") {
-                const match = matchPath<IMatch>(location.pathname, "/:appName/:ckId");
+                const match = matchPath({end: false, path: "/:appName/:ckId"}, location.pathname);
 
                 if (match) {
-                    const {ckId} = match.params;
+                    const {ckId} = match.params as IMatch;
                     const {routesStore} = applicationStore;
                     const route = routesStore?.recordsStore.records.find(
                         (rec) => rec[VAR_RECORD_ID] === ckId || rec[VAR_RECORD_URL] === ckId,

@@ -10,4 +10,4 @@ import config from "@essence-community/eslint-config-react";
 export default [...config];
 ```
 
-В этом монорепо так подключены корневой `eslint.config.js` и конфиг `constructor-website`.
+В этом монорепо так подключены корневой `eslint.config.mjs` и конфиг `constructor-website`.

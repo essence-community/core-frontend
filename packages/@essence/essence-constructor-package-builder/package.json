@@ -16,6 +16,6 @@
     "dependencies": {
         "cross-spawn": "^7.0.6",
         "fs-extra": "^11.2.0",
-        "typescript": "^5.8.2"
+        "typescript": "^6"
     }
 }

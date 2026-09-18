@@ -7,7 +7,7 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
 } from "@essence-community/constructor-share/constants";
 import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
-import {useHistory} from "react-router-dom";
+import {useAppHistory} from "@essence-community/constructor-share/utils/appHistory";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
@@ -24,7 +24,7 @@ export const AuthFormContainer: React.FC<IClassProps<IBuilderClassConfig>> = (pr
     const theme: IEssenceTheme = useTheme<IEssenceTheme>();
     const themeNew = React.useMemo(() => makeTheme(theme), [theme]);
     const applicationStore = React.useContext(ApplicationContext);
-    const history = useHistory();
+    const history = useAppHistory();
     const logo = theme.essence.layoutTheme === 1 ? lightLogo : darkLogo;
     const classes = useStyles(props);
 

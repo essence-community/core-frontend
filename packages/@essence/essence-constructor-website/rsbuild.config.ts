@@ -101,6 +101,21 @@ const getClientEnvironment = (publicUrl: string) => {
 
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
+
+function resolveMonacoEditorPath() {
+  const candidates = [
+    path.resolve(appDirectory, "node_modules/monaco-editor"),
+    path.resolve(appDirectory, "../../../node_modules/monaco-editor"),
+  ];
+
+  const found = candidates.find((dir) => fs.existsSync(path.join(dir, "esm", "metadata.js")));
+
+  if (!found) {
+    throw new Error("monaco-editor not found: expected esm/metadata.js");
+  }
+
+  return found;
+}
 const publicUrlOrPath = process.env.PUBLIC_URL;
 
 
@@ -196,6 +211,8 @@ export default defineConfig(async () => {
         }
       }),
       pluginBabel({
+        include: [paths.appSrc, paths.appClassesSrc, paths.appShareSrc],
+        exclude: /node_modules/,
         babelLoaderOptions: {
           presets: [["@babel/preset-typescript", {isTSX: true, allExtensions: true}], ["@babel/preset-env", {loose: true}], "@babel/preset-react"],
           plugins: [["@babel/plugin-proposal-decorators", {version: "legacy"}], ["@babel/plugin-transform-class-properties", {loose: true}]],
@@ -288,7 +305,8 @@ export default defineConfig(async () => {
         chain.plugin("monaco-editor").use(require("monaco-editor-webpack-plugin"), [{
           publicPath: "/vs",
           filename: "[name].worker.js",
-          languages: ["javascript", "typescript", "css", "html", "json"]
+          languages: ["javascript", "typescript", "css", "html", "json"],
+          monacoEditorPath: resolveMonacoEditorPath(),
         }]);
 
         // Настройка оптимизации для production

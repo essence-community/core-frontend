@@ -64,6 +64,10 @@ window.MonacoEnvironment = {
 
 loader.config({monaco});
 
+function getMonacoTsApi(m: Monaco) {
+    return (m as any).typescript ?? (monaco as any).typescript ?? (m as any).languages?.typescript;
+}
+
 export const MonacoEditorContainer: React.FC<IClassProps<IMonacoBuilderClassConfig>> = (props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
     const field = useField({bc, clearValue: "", disabled, hidden, pageStore});
@@ -105,12 +109,17 @@ export const MonacoEditorContainer: React.FC<IClassProps<IMonacoBuilderClassConf
     React.useEffect(() => {
         if (monaco?.monaco && editorProps?.options?.worker) {
             const workerProps = editorProps?.options?.worker;
+            const tsApi = getMonacoTsApi(monaco.monaco);
+
+            if (!tsApi?.javascriptDefaults) {
+                return;
+            }
 
             if (workerProps.javascript) {
                 if (Array.isArray(workerProps.javascript.extraLib)) {
                     workerProps.javascript.extraLib.forEach(({value, file}) => {
-                        monaco.monaco.languages.typescript.javascriptDefaults.addExtraLib(value as string, file);
-                        monaco.monaco.languages.typescript.typescriptDefaults.addExtraLib(value as string, file);
+                        tsApi.javascriptDefaults.addExtraLib(value as string, file);
+                        tsApi.typescriptDefaults.addExtraLib(value as string, file);
                     });
                 }
                 if (workerProps.javascript.addedGlobal) {
@@ -118,32 +127,24 @@ export const MonacoEditorContainer: React.FC<IClassProps<IMonacoBuilderClassConf
                         .map(([key]) => `const ${key}: any;`)
                         .join("\n");
 
-                    monaco.monaco.languages.typescript.javascriptDefaults.addExtraLib(lib, "global_value.d.ts");
-                    monaco.monaco.languages.typescript.typescriptDefaults.addExtraLib(lib, "global_value.d.ts");
+                    tsApi.javascriptDefaults.addExtraLib(lib, "global_value.d.ts");
+                    tsApi.typescriptDefaults.addExtraLib(lib, "global_value.d.ts");
                 }
                 if (workerProps.javascript.compilerOptions) {
-                    monaco.monaco.languages.typescript.javascriptDefaults.setCompilerOptions(
-                        workerProps.javascript.compilerOptions as any,
-                    );
-                    monaco.monaco.languages.typescript.typescriptDefaults.setCompilerOptions(
-                        workerProps.javascript.compilerOptions as any,
-                    );
+                    tsApi.javascriptDefaults.setCompilerOptions(workerProps.javascript.compilerOptions as any);
+                    tsApi.typescriptDefaults.setCompilerOptions(workerProps.javascript.compilerOptions as any);
                 }
                 if (workerProps.javascript.diagnosticsOptions) {
-                    monaco.monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions(
-                        workerProps.javascript.diagnosticsOptions as any,
-                    );
-                    monaco.monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions(
-                        workerProps.javascript.diagnosticsOptions as any,
-                    );
+                    tsApi.javascriptDefaults.setDiagnosticsOptions(workerProps.javascript.diagnosticsOptions as any);
+                    tsApi.typescriptDefaults.setDiagnosticsOptions(workerProps.javascript.diagnosticsOptions as any);
                 }
             }
 
             if (workerProps.typescript) {
                 if (Array.isArray(workerProps.typescript.extraLib)) {
                     workerProps.typescript.extraLib.forEach(({file, value}) => {
-                        monaco.monaco.languages.typescript.javascriptDefaults.addExtraLib(value as string, file);
-                        monaco.monaco.languages.typescript.typescriptDefaults.addExtraLib(value as string, file);
+                        tsApi.javascriptDefaults.addExtraLib(value as string, file);
+                        tsApi.typescriptDefaults.addExtraLib(value as string, file);
                     });
                 }
                 if (workerProps.javascript.addedGlobal) {
@@ -151,24 +152,16 @@ export const MonacoEditorContainer: React.FC<IClassProps<IMonacoBuilderClassConf
                         .map(([key]) => `const ${key}: any;`)
                         .join("\n");
 
-                    monaco.monaco.languages.typescript.javascriptDefaults.addExtraLib(lib, "global_value.d.ts");
-                    monaco.monaco.languages.typescript.typescriptDefaults.addExtraLib(lib, "global_value.d.ts");
+                    tsApi.javascriptDefaults.addExtraLib(lib, "global_value.d.ts");
+                    tsApi.typescriptDefaults.addExtraLib(lib, "global_value.d.ts");
                 }
                 if (workerProps.typescript.compilerOptions) {
-                    monaco.monaco.languages.typescript.javascriptDefaults.setCompilerOptions(
-                        workerProps.typescript.compilerOptions as any,
-                    );
-                    monaco.monaco.languages.typescript.typescriptDefaults.setCompilerOptions(
-                        workerProps.typescript.compilerOptions as any,
-                    );
+                    tsApi.javascriptDefaults.setCompilerOptions(workerProps.typescript.compilerOptions as any);
+                    tsApi.typescriptDefaults.setCompilerOptions(workerProps.typescript.compilerOptions as any);
                 }
                 if (workerProps.typescript.diagnosticsOptions) {
-                    monaco.monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions(
-                        workerProps.typescript.diagnosticsOptions as any,
-                    );
-                    monaco.monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions(
-                        workerProps.typescript.diagnosticsOptions as any,
-                    );
+                    tsApi.javascriptDefaults.setDiagnosticsOptions(workerProps.typescript.diagnosticsOptions as any);
+                    tsApi.typescriptDefaults.setDiagnosticsOptions(workerProps.typescript.diagnosticsOptions as any);
                 }
             }
         }

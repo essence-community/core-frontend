@@ -10,7 +10,7 @@ import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/co
 import {Popover} from "@essence-community/constructor-share/uicomponents";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {useTranslation} from "@essence-community/constructor-share/utils";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {AuditInfoModel} from "../store/AuditInfoModel";
 import {useStyles} from "./AuditInfoContainer.styles";
@@ -24,7 +24,7 @@ const TRANSFORM_ORIGIN: IPopoverTransfromOrigin = {
     vertical: "top",
 };
 
-export const AuditInfoContainer: React.FC<IClassProps> = (props) => {
+export const AuditInfoContainer: React.FC<IClassProps> = observer((props) => {
     const {pageStore, bc} = props;
     const [store] = useModel((options) => new AuditInfoModel({...options, applicationStore: null}), props);
     const classes = useStyles();
@@ -42,7 +42,7 @@ export const AuditInfoContainer: React.FC<IClassProps> = (props) => {
         [pageStore, store],
     );
 
-    return useObserver(() => (
+    return (
         <Popover
             popoverContent={
                 <CardContent>
@@ -69,5 +69,5 @@ export const AuditInfoContainer: React.FC<IClassProps> = (props) => {
                 <ChildCmp {...props} bc={childBc} />
             ))}
         </Popover>
-    ));
-};
+    );
+});

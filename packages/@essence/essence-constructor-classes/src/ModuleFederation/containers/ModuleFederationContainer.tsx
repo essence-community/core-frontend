@@ -1,4 +1,4 @@
-/* eslint-disable max-lines-per-function, sort-keys */
+/* eslint-disable max-lines-per-function, max-statements, sort-keys */
 import * as React from "react";
 import {Grid} from "@mui/material";
 import {toColumnStyleWidthBc} from "@essence-community/constructor-share/utils/transform";
@@ -15,7 +15,7 @@ import {noop, parseMemoize} from "@essence-community/constructor-share/utils";
 import {WindowContext} from "@essence-community/constructor-share/context";
 import {reaction} from "mobx";
 import {useModel} from "@essence-community/constructor-share/hooks/useModel";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import cn from "clsx";
 import {useGetValue} from "@essence-community/constructor-share/hooks/useCommon/useGetValue";
 import {ErrorBoundary, PageLoader} from "@essence-community/constructor-share/uicomponents";
@@ -46,7 +46,7 @@ const checkValue = (
     return res;
 };
 
-export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
+export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig>> = observer((props) => {
     const {bc, disabled, hidden, pageStore, visible, ...nextProps} = props;
     const [storeComponent, setStoreComponent] = React.useState<{
         Component: Record<string, React.FC<IModuleClassProps>>;
@@ -254,7 +254,7 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
         });
     }, [storeComponent, Loader]);
 
-    return useObserver(() => {
+    
         if (!storeComponent || !storeComponent.Component) {
             return null;
         }
@@ -278,5 +278,4 @@ export const ModuleFederationContainer: React.FC<IClassProps<IBuilderClassConfig
                 </Grid>
             </Grid>
         );
-    });
-};
+});

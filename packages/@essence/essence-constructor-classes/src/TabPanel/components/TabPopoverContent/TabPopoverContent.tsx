@@ -5,7 +5,7 @@ import {
     VAR_RECORD_DISPLAYED,
     IClassProps,
 } from "@essence-community/constructor-share";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {TabPopoverItem} from "../TabPopoverItem";
 import {TabPanelModel} from "../../store/TabPanelModel";
 import {useStyles} from "./TabPopoverContent.styles";
@@ -15,12 +15,12 @@ interface ITabPopoverContentProps extends IClassProps {
     onClose: (event: React.SyntheticEvent) => void;
 }
 
-export const TabPopoverContent: React.FC<ITabPopoverContentProps> = (props) => {
+export const TabPopoverContent: React.FC<ITabPopoverContentProps> = observer((props) => {
     const {store} = props;
     const classes = useStyles(props);
     const [trans] = useTranslation();
 
-    return useObserver(() => (
+    return (
         <div className={`${classes.rootDefault} ${classes.root}`}>
             {store.hiddenTabsIndex
                 ? store.tabs.slice(-store.hiddenTabsIndex).map((tabBc) => {
@@ -39,5 +39,5 @@ export const TabPopoverContent: React.FC<ITabPopoverContentProps> = (props) => {
                   })
                 : null}
         </div>
-    ));
-};
+    );
+});

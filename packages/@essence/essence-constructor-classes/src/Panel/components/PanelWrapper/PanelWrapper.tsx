@@ -2,13 +2,13 @@ import * as React from "react";
 import {Grid, useTheme} from "@mui/material";
 import {FormContext} from "@essence-community/constructor-share/context";
 import cn from "clsx";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {IClassProps, IBuilderConfig, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_NAME} from "@essence-community/constructor-share/constants";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {useStyles} from "./PanelWrapper.styles";
 
-export const PanelWrapper: React.FC<IClassProps> = (props) => {
+export const PanelWrapper: React.FC<IClassProps> = observer((props) => {
     const {children, bc} = props;
     const {topbtn = [], hideactions} = bc;
     const form = React.useContext(FormContext);
@@ -17,7 +17,7 @@ export const PanelWrapper: React.FC<IClassProps> = (props) => {
     const isDarkTheme = React.useMemo(() => theme.essence.layoutTheme === 2, [theme]);
     const actions = React.useMemo(
         () =>
-            topbtn
+            [...topbtn]
                 .reverse()
                 .filter((btnBc) => !btnBc[VAR_RECORD_NAME] || btnBc[VAR_RECORD_NAME]?.indexOf("Override") !== 0)
                 .map((btnBc) => {
@@ -63,7 +63,7 @@ export const PanelWrapper: React.FC<IClassProps> = (props) => {
         );
     }, [actions, classes.actionsContent, hideactions, isDarkTheme, props]);
 
-    return useObserver(() => (
+    return (
         <Grid
             container
             spacing={0}
@@ -84,5 +84,5 @@ export const PanelWrapper: React.FC<IClassProps> = (props) => {
                 {children}
             </Grid>
         </Grid>
-    ));
-};
+    );
+});

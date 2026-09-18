@@ -1,4 +1,4 @@
-import {action, makeObservable} from "mobx";
+import {action} from "mobx";
 import {
     VAR_RECORD_PARENT_ID,
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -46,7 +46,6 @@ export class FilePanelModel extends StoreBaseModel {
                 parentStore: this,
             },
         );
-        makeObservable(this);
     }
 
     @action

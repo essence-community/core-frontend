@@ -1,4 +1,5 @@
 import React from "react";
+import {observer} from "mobx-react";
 import InputMask, {Props as InputMaskProps} from "react-input-mask";
 import {TextField, TextFieldProps} from "@mui/material";
 import {ITextFieldExtendProps} from "../../hooks/useTextFieldProps";
@@ -12,7 +13,7 @@ export interface ITextFieldMaskProps {
     beforeMaskedValueChange?: InputMaskProps["beforeMaskedValueChange"];
 }
 
-export const TextFieldMask: React.FC<ITextFieldMaskProps> = (props) => {
+export const TextFieldMask: React.FC<ITextFieldMaskProps> = observer((props) => {
     const {maskChar = "\u2000", imask, textFieldProps, beforeMaskedValueChange, onChange} = props;
 
     return (
@@ -29,4 +30,4 @@ export const TextFieldMask: React.FC<ITextFieldMaskProps> = (props) => {
             {(inputProps: TextFieldProps) => <TextField {...textFieldProps} {...inputProps} variant="standard" />}
         </InputMask>
     );
-};
+});

@@ -2,14 +2,14 @@ import * as React from "react";
 import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import {RecordContext} from "@essence-community/constructor-share/context";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 
-export const ColumnDetailContainer: React.FC<IClassProps> = React.memo(function ColumnDetailContainerMemo(props) {
+export const ColumnDetailContainer: React.FC<IClassProps> = observer(function ColumnDetailContainerMemo(props) {
     const record = React.useContext(RecordContext);
     const {pageStore, bc} = props;
 
-    return useObserver(() => {
+    
         const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
         const isExpanded =
             store?.recordsStore && record !== undefined
@@ -34,5 +34,4 @@ export const ColumnDetailContainer: React.FC<IClassProps> = React.memo(function 
                 ))}
             </>
         );
-    });
 });

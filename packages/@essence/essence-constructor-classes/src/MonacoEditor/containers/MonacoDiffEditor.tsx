@@ -1,11 +1,10 @@
- 
- 
+/* eslint-disable max-statements */
 import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
 import {useFieldSetGlobal, useFieldGetGlobal, useDefaultValueQuery} from "@essence-community/constructor-share/hooks";
 import {DiffEditor, OnChange, DiffOnMount} from "@monaco-editor/react";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {Grid} from "@mui/material";
 import {
     TFunction,
@@ -28,7 +27,7 @@ import {useEditorParams} from "../hooks/useEditorParams";
 
 loader.config({monaco});
 
-export const MonacoDiffEditorContainer: React.FC<IClassProps<IMonacoDiffBuilderClassConfig>> = (props) => {
+export const MonacoDiffEditorContainer: React.FC<IClassProps<IMonacoDiffBuilderClassConfig>> = observer((props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
     const fieldLeft = useField({bc: bc.childs[0], clearValue: "", disabled, hidden, pageStore});
     const fieldRight = useField({
@@ -89,7 +88,7 @@ export const MonacoDiffEditorContainer: React.FC<IClassProps<IMonacoDiffBuilderC
 
     const editorProps = useEditorParams(props);
 
-    return useObserver(() => {
+    
         const isError = Boolean(!disabled && !fieldRight.isValid && !fieldLeft.isValid);
         const isDisabled =
             (readOnly && fieldRight.form.placement === "filter" && typeof bc.readonly === "undefined"
@@ -139,8 +138,7 @@ export const MonacoDiffEditorContainer: React.FC<IClassProps<IMonacoDiffBuilderC
                 </Grid>
             </Grid>
         );
-    });
-};
+});
 
 export const MonacoDiffEditor = commonDecorator(MonacoDiffEditorContainer);
 

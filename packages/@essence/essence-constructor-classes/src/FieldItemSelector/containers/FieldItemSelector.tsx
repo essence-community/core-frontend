@@ -9,7 +9,7 @@ import * as React from "react";
 import {Grid} from "@mui/material";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {IRecord, IStoreBaseModel, IBuilderConfig} from "@essence-community/constructor-share/types";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {mapComponents, getComponent} from "@essence-community/constructor-share/components";
 import {reaction} from "mobx";
 import {useField} from "@essence-community/constructor-share/Form";
@@ -17,7 +17,7 @@ import {IClassWithEditingProps} from "../store/FieldItemSelectorModel.types";
 import {FieldItemSelectorModel} from "../store/FieldItemSelectorModel";
 
 // eslint-disable-next-line max-lines-per-function
-export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
+export const FieldItemSelector: React.FC<IClassWithEditingProps> = observer((props) => {
     const applicationStore = props.pageStore.applicationStore;
     const {editing, bc} = props;
     const clearValue = React.useMemo(() => {
@@ -201,7 +201,7 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
         return () => disposers.forEach((disposer) => disposer());
     }, [hasError, fromStore, toStore, bc, store]);
 
-    return useObserver(() => {
+    
         const {disabled, pageStore, visible} = props;
 
         if (hasError) {
@@ -288,5 +288,4 @@ export const FieldItemSelector: React.FC<IClassWithEditingProps> = (props) => {
                 </Grid>
             </Grid>
         );
-    });
-};
+});

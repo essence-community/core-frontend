@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import cn from "clsx";
 import {Grid, Grow, Paper, CircularProgress} from "@mui/material";
 import {Icon} from "@essence-community/constructor-share/Icon";
@@ -43,7 +43,7 @@ interface ISnackbarContentProps {
     onSetCloseble(snakebarId: ISnackbar["id"]): void;
 }
 
-export const SnackbarContent: React.FC<ISnackbarContentProps> = (props) => {
+export const SnackbarContent: React.FC<ISnackbarContentProps> = observer((props) => {
     const {onClose, snackbar, onSetCloseble} = props;
     const {code, status, text, description, title} = snackbar;
     const [trans] = useTranslation("meta");
@@ -79,7 +79,7 @@ export const SnackbarContent: React.FC<ISnackbarContentProps> = (props) => {
 
     const titleTrans = getSnackbarTitle();
 
-    return useObserver(() => (
+    return (
         <Grow in={snackbar.open} onExited={handleClose}>
             <Paper className={classes.paper} elevation={8}>
                 <Grid container className={classes.header}>
@@ -111,5 +111,5 @@ export const SnackbarContent: React.FC<ISnackbarContentProps> = (props) => {
                 </div>
             </Paper>
         </Grow>
-    ));
-};
+    );
+});

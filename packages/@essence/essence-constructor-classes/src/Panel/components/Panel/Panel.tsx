@@ -5,7 +5,7 @@ import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/
 import {useModel, useSizeChild} from "@essence-community/constructor-share/hooks";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
 import {HorizontalResizer} from "@essence-community/constructor-share/uicomponents";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {Grid} from "@mui/material";
 import {PanelWidthContext} from "@essence-community/constructor-share/context";
 import {PanelModel, IItemType} from "../../store/PanelModel";
@@ -17,7 +17,7 @@ interface IPanelProps extends IClassProps {
     isFormPanel?: boolean;
 }
 
-export const Panel: React.FC<IPanelProps> = (props) => {
+export const Panel: React.FC<IPanelProps> = observer((props) => {
     const {bc, isFormPanel = true} = props;
     const classes = useStyles();
     const {resizable, contentview} = bc;
@@ -40,7 +40,7 @@ export const Panel: React.FC<IPanelProps> = (props) => {
     );
     const [childs, sizeChild] = useSizeChild(bc.childs, props.pageStore);
 
-    return useObserver(() => {
+    
         const {childsWidths = {}} = store;
 
         return (
@@ -105,5 +105,4 @@ export const Panel: React.FC<IPanelProps> = (props) => {
                 ))}
             </div>
         );
-    });
-};
+});

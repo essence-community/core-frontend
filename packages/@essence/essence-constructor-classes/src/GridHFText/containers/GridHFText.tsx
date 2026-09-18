@@ -4,14 +4,14 @@ import {IClassProps} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {Grid, Checkbox, Divider, Typography} from "@mui/material";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {reaction} from "mobx";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {useStyles} from "./GridHFText.styles";
 
 // eslint-disable-next-line max-lines-per-function
-export const GridHFText: React.FC<IClassProps> = (props) => {
+export const GridHFText: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore} = props;
     const classes = useStyles();
     const form = React.useContext(FormContext);
@@ -302,7 +302,7 @@ export const GridHFText: React.FC<IClassProps> = (props) => {
         fields.notNullEnable.onChange(!fields.notNullEnable.value);
     };
 
-    return useObserver(() => (
+    return (
         <Grid container direction="column" spacing={1}>
             <Grid>
                 <Grid container spacing={1} wrap="nowrap" alignItems="center">
@@ -412,5 +412,5 @@ export const GridHFText: React.FC<IClassProps> = (props) => {
                 </Grid>
             </Grid>
         </Grid>
-    ));
-};
+    );
+});

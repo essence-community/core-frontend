@@ -3,12 +3,12 @@
 import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useTranslation} from "@essence-community/constructor-share/utils";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {mapComponentOne, FormContext, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share";
 import {Checkbox, Divider, Grid, Typography} from "@mui/material";
 import {useStyles} from "./GridHFDefaultContainer.styles";
 
-export const GridHFDefaultContainer: React.FC<IClassProps> = (props) => {
+export const GridHFDefaultContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore} = props;
     const form = React.useContext(FormContext);
     const [trans] = useTranslation("static");
@@ -171,7 +171,7 @@ export const GridHFDefaultContainer: React.FC<IClassProps> = (props) => {
         fields.notNullEnable.onChange(!fields.notNullEnable.value);
     };
 
-    return useObserver(() => (
+    return (
         <Grid container direction="column" spacing={1}>
             <Grid>
                 <Grid container spacing={1} wrap="nowrap" alignItems="center">
@@ -243,5 +243,5 @@ export const GridHFDefaultContainer: React.FC<IClassProps> = (props) => {
                 </Grid>
             </Grid>
         </Grid>
-    ));
-};
+    );
+});

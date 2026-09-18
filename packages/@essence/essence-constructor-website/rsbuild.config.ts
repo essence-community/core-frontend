@@ -214,8 +214,8 @@ export default defineConfig(async () => {
         include: [paths.appSrc, paths.appClassesSrc, paths.appShareSrc],
         exclude: /node_modules/,
         babelLoaderOptions: {
-          presets: [["@babel/preset-typescript", {isTSX: true, allExtensions: true}], ["@babel/preset-env", {loose: true}], "@babel/preset-react"],
-          plugins: [["@babel/plugin-proposal-decorators", {version: "legacy"}], ["@babel/plugin-transform-class-properties", {loose: true}]],
+          presets: [["@babel/preset-typescript", {isTSX: true, allExtensions: true}], ["@babel/preset-env", {bugfixes: true}], "@babel/preset-react"],
+          plugins: [["@babel/plugin-proposal-decorators", {version: "2023-11"}]],
         }
       }),
       pluginReact(),

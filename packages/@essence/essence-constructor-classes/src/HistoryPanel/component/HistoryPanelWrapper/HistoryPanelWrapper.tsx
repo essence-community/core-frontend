@@ -2,7 +2,7 @@ import * as React from "react";
 import {Grid, useTheme} from "@mui/material";
 import {FormContext} from "@essence-community/constructor-share/context";
 import cn from "clsx";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {IClassProps, IStoreBaseModel, IBuilderConfig, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
@@ -11,7 +11,7 @@ import {HistoryPanelButtons} from "../HistoryPanelButtons/HistoryPanelButtons";
 import {PanelEditingButtons} from "../PanelEditingButtons/PanelEditingButtons";
 import {useStyles} from "./HistoryPanelWrapper.styles";
 
-export const HistoryPanelWrapper: React.FC<IClassProps> = (props) => {
+export const HistoryPanelWrapper: React.FC<IClassProps> = observer((props) => {
     const {pageStore, bc} = props;
     const {hideactions} = bc;
     const form = React.useContext(FormContext);
@@ -30,7 +30,7 @@ export const HistoryPanelWrapper: React.FC<IClassProps> = (props) => {
         );
     }, [pageStore, bc]);
 
-    return useObserver(() => (
+    return (
         <Grid
             container
             spacing={0}
@@ -49,5 +49,5 @@ export const HistoryPanelWrapper: React.FC<IClassProps> = (props) => {
                 ))}
             </Grid>
         </Grid>
-    ));
-};
+    );
+});

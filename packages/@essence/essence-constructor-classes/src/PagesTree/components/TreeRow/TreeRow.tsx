@@ -14,7 +14,7 @@ import {
 import {deepFind, makeRedirect, parseMemoize, useTranslation} from "@essence-community/constructor-share/utils";
 import {Grid, Typography} from "@mui/material";
 import clsx from "clsx";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import * as React from "react";
 import {reaction} from "mobx";
 import {useStyles} from "./TreeRow.styles";
@@ -22,7 +22,7 @@ import {ITreeRowProps} from "./TreeRow.types";
 
 const LEFT_PADDING = 30;
 
-export const TreeRow: React.FC<ITreeRowProps> = (props) => {
+export const TreeRow: React.FC<ITreeRowProps> = observer((props) => {
     const classes = useStyles(props);
     const {pageStore, pagesStore, routesStore, route, isOpen, level, treeModel} = props;
     const leaf =
@@ -145,7 +145,7 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
         );
     };
 
-    return useObserver(() => {
+    
         const {favorits} = routesStore;
         const {hiddenRecords} = treeModel;
         const isFavorite = favorits.get(id);
@@ -201,5 +201,4 @@ export const TreeRow: React.FC<ITreeRowProps> = (props) => {
                 ) : null}
             </div>
         );
-    });
-};
+});

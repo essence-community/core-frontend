@@ -1,18 +1,18 @@
 // @flow
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {Badge, ButtonBase} from "@mui/material";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import * as React from "react";
 import {useStyles} from "./NotificationsReadButton.styles";
 import {INotificationsReadButtonProps} from "./NotificationsReadButton.types";
 
-export const NotificationsReadButton: React.FC<INotificationsReadButtonProps> = (props) => {
+export const NotificationsReadButton: React.FC<INotificationsReadButtonProps> = observer((props) => {
     const {snackbarStore} = props;
     const classes = useStyles(props);
     const [trans] = useTranslation("meta");
 
-    return useObserver(() => {
+    
         const disabled = !snackbarStore.snackbarsInStatusToReadCount;
 
         return (
@@ -36,7 +36,6 @@ export const NotificationsReadButton: React.FC<INotificationsReadButtonProps> = 
                 </ButtonBase>
             </Badge>
         );
-    });
-};
+});
 
 export default NotificationsReadButton;

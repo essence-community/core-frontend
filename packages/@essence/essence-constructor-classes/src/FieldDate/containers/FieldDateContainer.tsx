@@ -1,6 +1,7 @@
 /* eslint-disable max-lines-per-function */
 /* eslint-disable max-statements */
 import * as React from "react";
+import {observer} from "mobx-react";
 import {FieldValue} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
 import {
@@ -31,7 +32,7 @@ import "moment/locale/ru";
 
 moment.locale("ru");
 
-export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
+export const FieldDateContainer: React.FC<IFieldBuildClassProps> = observer((props) => {
     const {bc, pageStore, disabled, readOnly} = props;
     const {disabledenddate, defaultvalue} = bc;
     const field = useField({
@@ -291,4 +292,4 @@ export const FieldDateContainer: React.FC<IFieldBuildClassProps> = (props) => {
             {textField}
         </dateConfig.component>
     );
-};
+});

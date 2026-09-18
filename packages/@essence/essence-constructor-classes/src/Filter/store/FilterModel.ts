@@ -1,6 +1,6 @@
  
  
-import {action, observable, computed, makeObservable} from "mobx";
+import {action, observable, computed} from "mobx";
 import {removeFromStore, print, saveToStore, deepFind} from "@essence-community/constructor-share/utils";
 import {snackbarStore, StoreBaseModel} from "@essence-community/constructor-share/models";
 import {
@@ -27,9 +27,9 @@ import {IForm} from "@essence-community/constructor-share/Form/types";
 export class FilterModel extends StoreBaseModel {
     public valuesStorageKey = "";
 
-    @observable public isOpen = false;
+    @observable public accessor isOpen = false;
 
-    @observable public values = {};
+    @observable public accessor values = {};
 
     @computed public get selectedRecord() {
         return this.values;
@@ -43,7 +43,6 @@ export class FilterModel extends StoreBaseModel {
         }
 
         this.isOpen = !this.bc.collapsed;
-        makeObservable(this);
     }
 
     @action

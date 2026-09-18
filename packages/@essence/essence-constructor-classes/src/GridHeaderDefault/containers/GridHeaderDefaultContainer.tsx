@@ -8,14 +8,14 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_PARENT_ID,
 } from "@essence-community/constructor-share/constants";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {reaction} from "mobx";
 import {GridHeaderResizer} from "../components/GridHeaderResizer";
 import {GridHeaderFilter} from "../components/GridHeaderFilter";
 import {useStyles} from "./GridHeaderDefaultContainer.styles";
 
-export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
+export const GridHeaderDefaultContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore} = props;
     const [trans] = useTranslation("meta");
     const displayed = bc[VAR_RECORD_DISPLAYED];
@@ -94,7 +94,7 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
         );
     }, [formContext, bc, pageStore]);
 
-    return useObserver(() => {
+    
         const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
 
         if (!store || !store.recordsStore) {
@@ -138,5 +138,4 @@ export const GridHeaderDefaultContainer: React.FC<IClassProps> = (props) => {
                 </div>
             </TableCell>
         );
-    });
-};
+});

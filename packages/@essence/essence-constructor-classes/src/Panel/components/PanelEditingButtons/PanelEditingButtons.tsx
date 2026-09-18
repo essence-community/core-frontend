@@ -13,7 +13,7 @@ import {FormContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {IClassProps, IBuilderMode, IBuilderConfig, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {getModeTitle} from "@essence-community/constructor-share/utils/getModeTitle";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {mergeComponents, useTranslation} from "@essence-community/constructor-share/utils";
 import {toTranslateText} from "@essence-community/constructor-share/utils/transform";
 import {useStyles} from "./PanelEditingButtons.styles";
@@ -47,7 +47,7 @@ const getCancelBtnConfig = (bc: IBuilderConfig, isDarkTheme: boolean): IBuilderC
     uitype: "6",
 });
 
-export const PanelEditingButtons: React.FC<IClassProps> = (props) => {
+export const PanelEditingButtons: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore} = props;
     const classes = useStyles();
     const theme = useTheme<IEssenceTheme>();
@@ -69,7 +69,7 @@ export const PanelEditingButtons: React.FC<IClassProps> = (props) => {
         return [overrides["Override Save Button"], overrides["Override Cancel Button"]];
     }, [bc, isDarkTheme]);
 
-    return useObserver(() => (
+    return (
         <Grid
             container
             className={classes.editingRoot}
@@ -89,5 +89,5 @@ export const PanelEditingButtons: React.FC<IClassProps> = (props) => {
                 {toTranslateText(trans, getModeTitle(form.mode as IBuilderMode))}
             </Grid>
         </Grid>
-    ));
-};
+    );
+});

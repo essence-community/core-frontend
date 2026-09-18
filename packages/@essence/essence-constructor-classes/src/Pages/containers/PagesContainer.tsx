@@ -1,15 +1,15 @@
 import * as React from "react";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {IPageModel, IClassProps} from "@essence-community/constructor-share/types";
 import {getComponent, mapComponentOne} from "@essence-community/constructor-share/components";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 
-export const PagesContainer: React.FC<IClassProps> = (props) => {
+export const PagesContainer: React.FC<IClassProps> = observer((props) => {
     const {bc} = props;
     const applicationStore = React.useContext(ApplicationContext);
     const BuilderPage = getComponent("PAGER");
 
-    return useObserver(() => {
+    
         if (!applicationStore || !BuilderPage) {
             return null;
         }
@@ -30,5 +30,4 @@ export const PagesContainer: React.FC<IClassProps> = (props) => {
         }
 
         return <>{content}</>;
-    });
-};
+});

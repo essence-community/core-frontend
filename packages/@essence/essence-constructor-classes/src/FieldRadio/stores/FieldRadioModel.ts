@@ -1,5 +1,5 @@
 
-import {action, computed, makeObservable} from "mobx";
+import {action, computed} from "mobx";
 import {VAR_RECORD_CL_IS_MASTER, VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {
@@ -56,7 +56,6 @@ export class FieldRadioModel extends StoreBaseModel implements IStoreBaseModel {
             pageStore,
             valueField: this.valuefield,
         });
-        makeObservable(this);
     }
 
     @computed get suggestions() {

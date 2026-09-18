@@ -4,7 +4,7 @@ import cn from "clsx";
 import {Grid, Paper} from "@mui/material";
 import {IClassProps, Icon, useTranslation, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share";
 import {useCommon} from "@essence-community/constructor-share/hooks/useCommon/useCommon";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {Scrollbars} from "@essence-community/constructor-share/uicomponents";
 import {IBuilderClassConfig, IChildBuilderConfig} from "../../types";
 import {LayoutPanelModel} from "../../store/LayoutPanelModel";
@@ -22,7 +22,7 @@ export interface IWidgetProps<BC, BCParent> extends IClassProps<BC> {
 const VERTICAL_STYLE = {zIndex: 3};
 const SCROLLABRS_STYLE = {height: "100%", paddingRight: 10, width: "100%"};
 
-export const Widget: React.FC<IWidgetProps<IChildBuilderConfig, IBuilderClassConfig>> = (props) => {
+export const Widget: React.FC<IWidgetProps<IChildBuilderConfig, IBuilderClassConfig>> = observer((props) => {
     const {bc, bcParent, store, children, className, draggableHandle, style, pageStore} = props;
     const classes = useStyles(props);
     const {hidden} = useCommon(props);
@@ -78,7 +78,7 @@ export const Widget: React.FC<IWidgetProps<IChildBuilderConfig, IBuilderClassCon
         bc,
     ]);
 
-    return useObserver(() => (
+    return (
         <Paper className={cn(classes.root, "paper-overflow-hidden", className)}>
             <Grid
                 container
@@ -169,5 +169,5 @@ export const Widget: React.FC<IWidgetProps<IChildBuilderConfig, IBuilderClassCon
                 </Grid>
             </Grid>
         </Paper>
-    ));
-};
+    );
+});

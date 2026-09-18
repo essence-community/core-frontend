@@ -3,7 +3,7 @@ import {createPortal} from "react-dom";
 import {VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {IClassProps, IBuilderMode} from "@essence-community/constructor-share/types";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {IGridModel} from "../stores/GridModel/GridModel.types";
 import {GridInlineTable} from "../components/GridInlineTable";
@@ -11,7 +11,7 @@ import {GridInlineButtons} from "../components/GridInlineButtons";
 import {GridInlineModel} from "../stores/GridInlineModel";
 import {useStyles} from "./GridInlineContainer.styles";
 
-export const GridInlineContainer: React.FC<IClassProps> = (props) => {
+export const GridInlineContainer: React.FC<IClassProps> = observer((props) => {
     const {pageStore, bc} = props;
     const isNew = bc.mode === "1" || bc.mode === "6";
     const classes = useStyles();
@@ -42,7 +42,7 @@ export const GridInlineContainer: React.FC<IClassProps> = (props) => {
         [pageStore],
     );
 
-    return useObserver(() => {
+    
         const gridStore = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]) as IGridModel | undefined;
 
         if (!gridStore) {
@@ -74,5 +74,4 @@ export const GridInlineContainer: React.FC<IClassProps> = (props) => {
                 </UIForm>
             </div>
         );
-    });
-};
+});

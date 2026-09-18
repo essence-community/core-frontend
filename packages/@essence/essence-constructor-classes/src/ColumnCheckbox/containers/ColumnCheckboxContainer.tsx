@@ -4,14 +4,14 @@ import {RecordContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_PARENT_ID, VAR_RECORD_LEAF} from "@essence-community/constructor-share/constants";
 import Checkbox from "@mui/material/Checkbox";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {parseMemoize} from "@essence-community/constructor-share/utils";
 import {isCheckedChilds} from "../utils/isCheckedChilds";
 import {isMinusChecked} from "../utils/isMinusChecked";
 
 const EMPTY_RECORD: IRecord = {};
 
-export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
+export const ColumnCheckboxContainer: React.FC<IClassProps> = observer((props) => {
     const {pageStore, bc, readOnly, disabled} = props;
     const record = React.useContext(RecordContext) || EMPTY_RECORD;
     const isChecked = (): boolean => {
@@ -66,7 +66,7 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
         }
     };
 
-    return useObserver(() => {
+    
         const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
         const checked = isChecked();
         const isDisabledCheck =
@@ -93,5 +93,4 @@ export const ColumnCheckboxContainer: React.FC<IClassProps> = (props) => {
                 disableRipple
             />
         );
-    });
-};
+});

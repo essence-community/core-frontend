@@ -2,7 +2,7 @@ import * as React from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {Focusable} from "@essence-community/constructor-share/uicomponents";
 import {Grid, CircularProgress, Button} from "@mui/material";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {useTranslation, isEmpty} from "@essence-community/constructor-share/utils";
@@ -16,7 +16,7 @@ interface IFieldMultiContentProps extends IClassProps {
     field: IField;
 }
 
-export const FieldMultiContent: React.FC<IFieldMultiContentProps> = ({store, field, ...classProps}) => {
+export const FieldMultiContent: React.FC<IFieldMultiContentProps> = observer(({store, field, ...classProps}) => {
     const formContent = React.useContext(FormContext);
     const popoverCtx = React.useContext(PopoverContext);
     const fieldsBc = React.useMemo(() => store.getFieldsConfig(), [store]);
@@ -62,7 +62,7 @@ export const FieldMultiContent: React.FC<IFieldMultiContentProps> = ({store, fie
         }
     }, [field, fieldsBc, formContent, store]);
 
-    return useObserver(() => (
+    return (
         <Focusable>
             <Grid container direction="column" spacing={1} className={classes.wrapper} wrap="nowrap">
                 {store.isLoading && (
@@ -106,5 +106,5 @@ export const FieldMultiContent: React.FC<IFieldMultiContentProps> = ({store, fie
                 </Grid>
             </Grid>
         </Focusable>
-    ));
-};
+    );
+});

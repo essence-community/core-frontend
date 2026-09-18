@@ -1,4 +1,4 @@
-import {action, observable, ObservableMap, computed, makeObservable} from "mobx";
+import {action, observable, ObservableMap, computed} from "mobx";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
@@ -36,13 +36,13 @@ export class TabPanelModel extends StoreBaseModel {
         });
     }
 
-    @observable tabStatus: ITabsStatusType = {};
+    @observable accessor tabStatus: ITabsStatusType = {};
 
-    @observable hiddenTabsIndex = 0;
+    @observable accessor hiddenTabsIndex = 0;
 
-    @observable openedTabs: ObservableMap<string, boolean> = observable.map();
+    @observable accessor openedTabs: ObservableMap<string, boolean> = observable.map();
 
-    @observable tabValue: null | string;
+    @observable accessor tabValue: null | string;
 
     constructor(props: IStoreBaseModelProps) {
         super(props);
@@ -73,7 +73,6 @@ export class TabPanelModel extends StoreBaseModel {
             });
             this.pageStore.updateGlobalValues(global);
         }
-        makeObservable(this);
     }
 
     @action

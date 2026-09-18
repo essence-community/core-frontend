@@ -8,7 +8,7 @@ import {mapComponents} from "@essence-community/constructor-share/components";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {useModel} from "@essence-community/constructor-share/hooks/useModel";
 import {useResizerEE} from "@essence-community/constructor-share/hooks";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {reaction} from "mobx";
 import "react-grid-layout/css/styles.css";
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -21,7 +21,7 @@ import {useStyles} from "./LayoutPanelContainer.styles";
 
 const ReactGridLayout = WidthProvider(RGL);
 
-export const LayoutPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
+export const LayoutPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = observer((props) => {
     const {bc} = props;
     const classes = useStyles(props);
     const [store] = useModel((options) => new LayoutPanelModel(options), props);
@@ -96,7 +96,7 @@ export const LayoutPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
         [bc, store, classes],
     );
 
-    return useObserver(() => (
+    return (
         <ResizeContext.Provider value={emitter}>
             <ReactGridLayout {...propsLayout} layout={store.layout} style={contentStyle} className={classes.root}>
             {mapComponents(store.childs, (Child, childBc) => (
@@ -123,5 +123,5 @@ export const LayoutPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = 
             ))}
             </ReactGridLayout>
         </ResizeContext.Provider>
-    ));
-};
+    );
+});

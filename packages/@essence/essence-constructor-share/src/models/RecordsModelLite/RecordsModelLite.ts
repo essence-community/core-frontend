@@ -1,4 +1,4 @@
-import {observable, action, computed, makeObservable} from "mobx";
+import {observable, action, computed} from "mobx";
 import {request} from "../../request";
 import {
     META_PAGE_OBJECT,
@@ -21,10 +21,10 @@ export class RecordsModelLite implements IRecordsModelLite {
     @computed get records(): IRecord[] {
         return this.recordsState.records;
     }
-    @observable isLoading: boolean;
-    @observable loadCounter = 0;
+    @observable accessor isLoading: boolean;
+    @observable accessor loadCounter = 0;
     recordId: string = VAR_RECORD_ID;
-    @observable recordsState: IRecordsState<IRecord> = {
+    @observable accessor recordsState: IRecordsState<IRecord> = {
         isUserReload: false,
         records: [],
         status: "init",
@@ -33,7 +33,6 @@ export class RecordsModelLite implements IRecordsModelLite {
     constructor(bc: IBuilderConfig) {
         this.bc = bc;
         this.recordId = bc.idproperty || VAR_RECORD_ID;
-        makeObservable(this);
     }
     @action loadRecordsAction(
         option: ILoadRecordsProps = {

@@ -8,12 +8,12 @@ import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_PARENT_ID,
 } from "@essence-community/constructor-share/constants";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {reaction} from "mobx";
 import {deepFind, isEmpty, mapValueToArray} from "@essence-community/constructor-share/utils";
 import {checkPageSelectedRecords} from "../utils";
 
-export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
+export const GridHeaderCheckboxContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore} = props;
     const [store, setStore] = React.useState<IStoreBaseModel>(null);
 
@@ -138,7 +138,7 @@ export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
         }
     }, [store, bc, pageStore]);
 
-    return useObserver(() => (
+    return (
         <TableCell padding="none" data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}>
             <Checkbox
                 color="primary"
@@ -156,5 +156,5 @@ export const GridHeaderCheckboxContainer: React.FC<IClassProps> = (props) => {
                 checkedIcon={getChekedIcon()}
             />
         </TableCell>
-    ));
-};
+    );
+});

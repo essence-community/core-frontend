@@ -1,11 +1,10 @@
-import {makeObservable, observable} from "mobx";
+import {observable} from "mobx";
 import {IProjectModel, IKeyboardState} from "../../types";
 
 export class ProjectModel implements IProjectModel {
     constructor() {
-        makeObservable(this);
     }
-    @observable keyboardState: IKeyboardState = {
+    @observable accessor keyboardState: IKeyboardState = {
         keyCodes: [],
     };
 

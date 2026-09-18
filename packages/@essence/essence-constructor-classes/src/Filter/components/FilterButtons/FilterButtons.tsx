@@ -8,7 +8,7 @@ import {
     VAR_RECORD_PARENT_ID,
 } from "@essence-community/constructor-share/constants";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {FilterModel} from "../../store/FilterModel";
 import {useStyles} from "./FilterButtons.styles";
@@ -21,7 +21,7 @@ interface IFilterButtonsProps extends IClassProps {
 
 const GRID_FULL_WIDTH = 12;
 
-export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
+export const FilterButtons: React.FC<IFilterButtonsProps> = observer((props) => {
     const {store, layoutTheme, bc, title, ...classProps} = props;
     const classes = useStyles();
     const form = React.useContext(FormContext);
@@ -81,7 +81,7 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
         [bc, layoutTheme],
     );
 
-    return useObserver(() => {
+    
         const btns: IBuilderConfig[] = [
             store.isOpen ? btnsFilter.buttonChevronConfigOpen : btnsFilter.buttonChevronConfigClose,
             {
@@ -137,5 +137,4 @@ export const FilterButtons: React.FC<IFilterButtonsProps> = (props) => {
                 ) : null}
             </Grid>
         );
-    });
-};
+});

@@ -1,14 +1,14 @@
 import * as React from "react";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {Divider, List, ListItem, ListItemText} from '@mui/material';
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {IClassProps, IRecord} from "@essence-community/constructor-share/types";
 import {ExampleModel} from "../store/ExampleModel";
 
-export const ExampleContainer: React.FC<IClassProps> = (props) => {
+export const ExampleContainer: React.FC<IClassProps> = observer((props) => {
     const [store] = useModel((options) => new ExampleModel(options), props);
 
-    return useObserver(() => (
+    return (
         <List>
             <Divider />
             {store.recordsStore.records.map((record: IRecord) => (
@@ -21,5 +21,5 @@ export const ExampleContainer: React.FC<IClassProps> = (props) => {
             ))}
             <Divider />
         </List>
-    ));
-};
+    );
+});

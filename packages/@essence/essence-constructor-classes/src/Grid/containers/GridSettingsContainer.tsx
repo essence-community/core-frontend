@@ -12,14 +12,14 @@ import {reaction} from "mobx";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {Scrollbars} from "@essence-community/constructor-share/uicomponents";
 import {useTranslation, saveToStore, removeFromStore} from "@essence-community/constructor-share/utils";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {IGridModel} from "../stores/GridModel/GridModel.types";
 import {useStyles} from "./GridSettingsContainer.styles";
 
-export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
+export const GridSettingsContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore} = props;
     const classes = useStyles(props);
-    const parentStore = useObserver(() => pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]) as IGridModel | undefined);
+    const parentStore = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]) as IGridModel | undefined;
     const [trans] = useTranslation("meta");
     const [visibility, setVisibility] = React.useState<Record<string, boolean>>({});
     const [isOpen, setIsOpen] = React.useState(false);
@@ -202,4 +202,4 @@ export const GridSettingsContainer: React.FC<IClassProps> = (props) => {
             </Dialog>
         </React.Fragment>
     );
-};
+});

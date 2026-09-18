@@ -8,7 +8,7 @@ import {
     FieldValue,
 } from "@essence-community/constructor-share/types";
 import {createWindowProps} from "@essence-community/constructor-share/utils/window";
-import {computed, action, observable, makeObservable} from "mobx";
+import {computed, action, observable} from "mobx";
 import {deepFind, makeRedirect, parseMemoize} from "@essence-community/constructor-share/utils";
 import {IWindowContext} from "@essence-community/constructor-share/context";
 import {loggerRoot} from "@essence-community/constructor-share/constants";
@@ -31,7 +31,7 @@ export class ModuleFederationModel extends StoreBaseModel {
     private windowContext?: IWindowContext;
 
     @observable
-    public isFullScreen = false;
+    public accessor isFullScreen = false;
 
     setGetValue = (getValue: IGetValue["get"]): void => {
         this.getValue = getValue;
@@ -67,7 +67,6 @@ export class ModuleFederationModel extends StoreBaseModel {
                 }
             }
         });
-        makeObservable(this);
     }
 
     calcData = (id: string, messageType: string, code: string, data: any) => {

@@ -1,4 +1,5 @@
 import * as React from "react";
+import {observer} from "mobx-react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
 import {
@@ -11,7 +12,7 @@ import {TextFieldMask} from "@essence-community/constructor-share/uicomponents";
 import {TextField} from "@mui/material";
 import {FieldTextSmartMask} from "../components/FieldTextSmartMask";
 
-export const FieldTextContainer: React.FC<IClassProps> = (props) => {
+export const FieldTextContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
     const field = useField({bc, clearValue: "", disabled, hidden, pageStore});
     const inputProps = useTextFieldProps({bc, disabled, field, readOnly});
@@ -42,4 +43,4 @@ export const FieldTextContainer: React.FC<IClassProps> = (props) => {
     }
 
     return <TextField {...inputProps} onChange={handleChange} />;
-};
+});

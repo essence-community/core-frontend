@@ -12,7 +12,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {EmptyTitle, PageLoader} from "@essence-community/constructor-share/uicomponents";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {useResizerEE} from "@essence-community/constructor-share/hooks";
 import {settingsStore} from "@essence-community/constructor-share/index";
 import {updateGridWidth} from "../../utils";
@@ -33,7 +33,7 @@ interface IBaseGridProps extends IClassProps {
 }
 
 // eslint-disable-next-line max-statements, max-lines-per-function
-export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classProps}) => {
+export const BaseGrid: React.FC<IBaseGridProps> = observer(({store, children, ...classProps}) => {
     const {pageStore, visible, bc} = classProps;
     const classes = useStyles();
     const isHideActions = bc.hideactions === true;
@@ -152,7 +152,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
     const setRefGridContent = (node: HTMLElement | null) => store.addRefAction("grid-content", node);
     const setRefGridInlineButton = (node: HTMLElement | null) => store.addRefAction("grid-inline-button", node);
 
-    return useObserver(() => {
+    
         const filterStore = firstFilter && pageStore.stores.get(firstFilter[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (isFilterActionsPresent && isDarkTheme) {
@@ -268,5 +268,4 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
                 /> : null}
             </>
         );
-    });
-};
+});

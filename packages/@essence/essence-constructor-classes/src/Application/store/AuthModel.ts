@@ -1,5 +1,5 @@
 
-import {observable, action, makeObservable} from "mobx";
+import {observable, action} from "mobx";
 import {History} from "history";
 import {
     getFromLocalStore,
@@ -32,11 +32,10 @@ const DEFAULT_USER_INFO: IAuthSession = {
 };
 
 export class AuthModel implements IAuthModel {
-    @observable userInfo = getFromLocalStore<IAuthSession>("auth") || DEFAULT_USER_INFO;
+    @observable accessor userInfo = getFromLocalStore<IAuthSession>("auth") || DEFAULT_USER_INFO;
 
 
     constructor(public applicationStore: IApplicationModel) {
-        makeObservable(this);
     }
 
     @action

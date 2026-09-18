@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ISnackbar} from "@essence-community/constructor-share/types";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {SnackbarContent} from "../SnackbarContent";
 import {useStyles} from "./Snackbar.styles";
 
@@ -10,10 +10,10 @@ interface ISnackbarProps {
     onSetCloseble: (snakebarId: ISnackbar["id"]) => void;
 }
 
-export const Snackbar: React.FC<ISnackbarProps> = ({snackbars, onClose, onSetCloseble}) => {
+export const Snackbar: React.FC<ISnackbarProps> = observer(({snackbars, onClose, onSetCloseble}) => {
     const classes = useStyles();
 
-    return useObserver(() => (
+    return (
         <div className={classes.root}>
             {snackbars.map((snackbar) => (
                 <SnackbarContent
@@ -24,5 +24,5 @@ export const Snackbar: React.FC<ISnackbarProps> = ({snackbars, onClose, onSetClo
                 />
             ))}
         </div>
-    ));
-};
+    );
+});

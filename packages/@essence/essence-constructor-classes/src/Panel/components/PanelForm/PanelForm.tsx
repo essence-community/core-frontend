@@ -10,7 +10,7 @@ import {mapComponents} from "@essence-community/constructor-share/components";
 import {Grid, useTheme, ThemeProvider as MuiThemeProvider} from "@mui/material";
 import {ThemeProvider} from "@mui/styles";
 import {FormContext} from "@essence-community/constructor-share/context";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {EmptyTitle} from "@essence-community/constructor-share/uicomponents/EmptyTitle";
 import {PanelEditingButtons} from "../PanelEditingButtons/PanelEditingButtons";
 import {Panel} from "../Panel/Panel";
@@ -24,7 +24,7 @@ interface IPanelFormProps extends IClassProps {
 const FITER_ONE_BUTTON = 42;
 const FILTER_THREE_BUTTON = 128;
 
-export const PanelForm: React.FC<IPanelFormProps> = (props) => {
+export const PanelForm: React.FC<IPanelFormProps> = observer((props) => {
     const {bc, readOnly, pageStore, visible, elevation, disabled, hidden, hideTitle, children} = props;
     const {filters = [], hideactions, topbtn = []} = bc;
     const theme = useTheme<IEssenceTheme>();
@@ -35,11 +35,11 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
         () => hideactions || (topbtn.length === 0 && (!isDarkTheme || (isDarkTheme && filters.length === 0))),
         [filters.length, hideactions, isDarkTheme, topbtn.length],
     );
-    const filterIsOpen: boolean = useObserver(() => {
+    const filterIsOpen: boolean = (() => {
         const filterStore: any = filters[0] && pageStore.stores.get(filters[0][VAR_RECORD_PAGE_OBJECT_ID]);
 
         return filterStore && filterStore.isOpen;
-    });
+    })();
 
     const [trans] = useTranslation("meta");
     const transCvDisplayed = toTranslateText(trans, bc[VAR_RECORD_DISPLAYED]);
@@ -47,7 +47,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
 
     const actions = React.useMemo(
         () =>
-            topbtn
+            [...topbtn]
                 .reverse()
                 .filter((bc) => !bc[VAR_RECORD_NAME] || bc[VAR_RECORD_NAME]?.indexOf("Override") !== 0)
                 .map((childBc) => {
@@ -78,7 +78,7 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
         return undefined;
     }, [filterIsOpen, filters, isDarkTheme]);
 
-    return useObserver(() => {
+    
         const isEditing = form.placement !== "application" && form.placement !== "pager" ? form.editing : false;
         const classNameRoot = cn(classes.root, isHideActions ? classes.rootActionsHide : classes.rootActions, {
             [classes.panelEditing]: isEditing,
@@ -179,5 +179,4 @@ export const PanelForm: React.FC<IPanelFormProps> = (props) => {
         );
 
         return themeContent;
-    });
-};
+});

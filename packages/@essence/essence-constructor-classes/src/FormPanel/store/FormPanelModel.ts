@@ -1,5 +1,5 @@
  
-import {action, computed, makeObservable, observable} from "mobx";
+import {action, computed, observable} from "mobx";
 import {VALUE_SELF_ALWAYSFIRST, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {
     IStoreBaseModelProps,
@@ -20,10 +20,7 @@ export class FormPanelModel extends StoreBaseModel {
     }
 
     @observable
-    public editing: boolean;
-
-    @observable
-    public mode: IBuilderMode;
+    public accessor mode: IBuilderMode;
 
     public editable: boolean;
 
@@ -41,7 +38,6 @@ export class FormPanelModel extends StoreBaseModel {
                 pageStore: props.pageStore,
             },
         );
-        makeObservable(this);
     }
 
     @action

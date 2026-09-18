@@ -5,11 +5,11 @@ import {downloadImage} from "@essence-community/constructor-share/utils/download
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {FormContext} from "@essence-community/constructor-share";
 import {useField} from "@essence-community/constructor-share/Form";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {useGetValue} from "@essence-community/constructor-share/hooks/useCommon/useGetValue";
 import {useStyles} from "./FieldImageContainer.styles";
 
-export const FieldImageContainer: React.FC<IClassProps> = (props) => {
+export const FieldImageContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore, disabled, hidden} = props;
     const form = React.useContext(FormContext);
     const field = useField({bc, disabled, hidden, pageStore});
@@ -38,7 +38,7 @@ export const FieldImageContainer: React.FC<IClassProps> = (props) => {
         downloadImage(typeof field.value === "string" ? getSrc(field.value) : "", trans(fileName));
     };
 
-    return useObserver(() => {
+    
         const fieldWithName = form.select(`${field.key}_filename`);
         const {origin} = window.location;
         const src = typeof field.value === "string" ? getSrc(field.value) : "";
@@ -69,5 +69,4 @@ export const FieldImageContainer: React.FC<IClassProps> = (props) => {
                 ) : null}
             </div>
         );
-    });
-};
+});

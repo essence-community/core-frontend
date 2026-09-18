@@ -15,7 +15,7 @@ import {
 import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
 import {FormContext} from "@essence-community/constructor-share/context";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {useSizeChild} from "@essence-community/constructor-share/hooks";
 import {getColumns, isIncorrect, getTip} from "../utils";
 import {useStyles} from "./FieldGroupContainer.styles";
@@ -25,7 +25,7 @@ const renderSuccess = (bc: IBuilderConfig) => {
 };
 const MAX_PANEL_WIDTH = 12;
 
-export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
+export const FieldGroupContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore, disabled, hidden} = props;
     const classes = useStyles();
     const [reqCount, setReqCount] = React.useState(0);
@@ -109,7 +109,7 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
     }, [bc.reqcountrules, handleChangeReqCount, handleRegCountRules]);
     const [childs, sizeChild] = useSizeChild(bc.childs, pageStore);
 
-    return useObserver(() => {
+    
         const status =
             !field.isValid || isIncorrect(bc, field, reqCount) ? `${getTip(bc, field, reqCount)} *` : renderSuccess(bc);
 
@@ -157,5 +157,4 @@ export const FieldGroupContainer: React.FC<IClassProps> = (props) => {
                 ))}
             </Grid>
         );
-    });
-};
+});

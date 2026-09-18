@@ -1,6 +1,6 @@
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {IRecordsModel, IStoreBaseModelProps} from "@essence-community/constructor-share/types";
-import {computed, makeObservable} from "mobx";
+import {computed} from "mobx";
 
 export class FormNestedModel extends StoreBaseModel {
     recordsStore: IRecordsModel;
@@ -16,7 +16,6 @@ export class FormNestedModel extends StoreBaseModel {
             applicationStore: props.applicationStore,
             pageStore: props.pageStore,
         });
-        makeObservable(this);
     }
 
     reloadStoreAction = () => this.recordsStore.loadRecordsAction();

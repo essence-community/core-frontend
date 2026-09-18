@@ -1,4 +1,4 @@
-import {action, makeObservable} from "mobx";
+import {action} from "mobx";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_OBJECT_ID,
@@ -62,7 +62,6 @@ export class FieldItemSelectorModel extends StoreBaseModel implements IFieldItem
             selmode: "MULTI",
             ...fieldTo,
         };
-        makeObservable(this);
     }
 
     public getStores = ({fieldFrom, fieldTo}: IChildGridBuildConfig): [IStoreBaseModel?, IStoreBaseModel?] => [

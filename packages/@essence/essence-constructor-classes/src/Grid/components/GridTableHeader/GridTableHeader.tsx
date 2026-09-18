@@ -4,7 +4,7 @@ import {TableHead, TableRow} from "@mui/material";
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {getComponent} from "@essence-community/constructor-share/components";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {GridColgroup} from "../GridColgroup";
 import {useStyles} from "./GridTableHeader.styles";
@@ -13,7 +13,7 @@ interface IGridTableHeaderProps extends IClassProps {
     store: IGridModel;
 }
 
-export const GridTableHeader: React.FC<IGridTableHeaderProps> = (props) => {
+export const GridTableHeader: React.FC<IGridTableHeaderProps> = observer((props) => {
     const {store, ...classProps} = props;
     const isTreeGrid = classProps.bc.type === "TREEGRID";
     const isFilterAble = (typeof classProps.bc.btnfilter === "undefined" && !isTreeGrid) || classProps.bc.btnfilter;
@@ -26,7 +26,7 @@ export const GridTableHeader: React.FC<IGridTableHeaderProps> = (props) => {
         await store.recordsStore.searchAction(store.recordsStore.searchValues, {filter, noLoad: !isValid});
     };
 
-    return useObserver(() => {
+    
         const tableHead = (
             <TableHead className={classes.tableHead}>
                 <TableRow className={classes.tableRow}>
@@ -74,5 +74,4 @@ export const GridTableHeader: React.FC<IGridTableHeaderProps> = (props) => {
                 {tableHead}
             </UIForm>
         );
-    });
-};
+});

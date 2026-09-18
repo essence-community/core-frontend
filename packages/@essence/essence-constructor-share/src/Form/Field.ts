@@ -1,7 +1,7 @@
 
 /* eslint-disable max-statements */
 
-import {observable, computed, action, makeObservable} from "mobx";
+import {observable, computed, action} from "mobx";
 import {FieldValue, IBuilderConfig, IPageModel} from "../types";
 import {parseMemoize, makeRedirect, isEmpty, transformToBoolean} from "../utils";
 import {parse} from "../utils/parser";
@@ -101,11 +101,11 @@ export class Field implements IField {
         return this.bc[VAR_RECORD_DISPLAYED];
     }
 
-    @observable value: FieldValue;
+    @observable accessor value: FieldValue;
 
-    @observable errors: TError[] = [];
+    @observable accessor errors: TError[] = [];
 
-    @observable private extraRules: string[] = [];
+    @observable private accessor extraRules: string[] = [];
 
     @computed get isRequired(): boolean {
         if (this.bc.required) {
@@ -330,7 +330,6 @@ export class Field implements IField {
         if (this.value === undefined && (this.bc.datatype === "checkbox" || this.bc.datatype === "boolean")) {
             this.value = this.bc.valuetype === "integer" ? 0 : false;
         }
-        makeObservable(this);
     }
 
     private getOutput = (output?: IFieldOptions["output"]): IField["output"] => {

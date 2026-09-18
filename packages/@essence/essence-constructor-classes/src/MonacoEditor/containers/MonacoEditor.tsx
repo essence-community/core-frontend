@@ -8,7 +8,7 @@ import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
 import {useFieldSetGlobal, useFieldGetGlobal, useDefaultValueQuery} from "@essence-community/constructor-share/hooks";
 import Editor, {Monaco, OnChange} from "@monaco-editor/react";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {Grid} from "@mui/material";
 import {
     entriesMapSort,
@@ -68,7 +68,7 @@ function getMonacoTsApi(m: Monaco) {
     return (m as any).typescript ?? (monaco as any).typescript ?? (m as any).languages?.typescript;
 }
 
-export const MonacoEditorContainer: React.FC<IClassProps<IMonacoBuilderClassConfig>> = (props) => {
+export const MonacoEditorContainer: React.FC<IClassProps<IMonacoBuilderClassConfig>> = observer((props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
     const field = useField({bc, clearValue: "", disabled, hidden, pageStore});
     const [monaco, setMonaco] = React.useState<{
@@ -167,7 +167,7 @@ export const MonacoEditorContainer: React.FC<IClassProps<IMonacoBuilderClassConf
         }
     }, [editorProps, monaco]);
 
-    return useObserver(() => {
+    
         const isError = Boolean(!disabled && !field.isValid);
         const displayed = bc[VAR_RECORD_DISPLAYED];
         const isDisabled =
@@ -219,8 +219,7 @@ export const MonacoEditorContainer: React.FC<IClassProps<IMonacoBuilderClassConf
                 </Grid>
             </Grid>
         );
-    });
-};
+});
 
 export const MonacoEditor = commonDecorator(MonacoEditorContainer);
 

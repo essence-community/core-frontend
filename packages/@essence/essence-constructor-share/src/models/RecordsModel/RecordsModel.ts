@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 
-import {action, extendObservable, ObservableMap, observable, makeObservable} from "mobx";
+import {action, computed, ObservableMap, observable, observableRef} from "mobx";
 import pLimit from "p-limit";
 import {v4} from "uuid";
 import {saveAction} from "../../actions/saveAction";
@@ -53,48 +53,58 @@ const logger = loggerRoot.extend("RecordsModel");
 const WAIT_MULTI_SELECT = 300;
 
 export class RecordsModel implements IRecordsModel {
-    selectedRecordId?: FieldValue;
+    @computed get selectedRecordId(): FieldValue | undefined {
+        return this.selectedRecord ? deepFind(this.selectedRecord, this.valueField)[1] : undefined;
+    }
 
-    selectedRecord: IRecord | undefined;
+    @observableRef accessor selectedRecord: IRecord | undefined;
 
-    selectedRecordValues: IRecord;
+    @computed get selectedRecordValues(): IRecord {
+        return this.selectedRecord || {};
+    }
 
     @observable
-    recordsState: IRecordsState<IRecord>;
+    accessor recordsState: IRecordsState<IRecord>;
 
-    recordsAll: IRecord[];
+    @observableRef accessor recordsAll: IRecord[] = [];
 
-    records: IRecord[];
+    @computed get records(): IRecord[] {
+        return this.recordsState.records;
+    }
 
-    hasSelected: boolean;
+    @computed get hasSelected(): boolean {
+        return typeof this.selectedRecordId !== "undefined";
+    }
 
-    selectedRecordIndex: -1 | number;
+    @observableRef accessor selectedRecordIndex: -1 | number = -1;
 
-    pageNumber: number;
+    @observableRef accessor pageNumber = 0;
 
-    recordsCount: number;
+    @computed get recordsCount(): number {
+        return this.records.length ? this.records[0][VAR_RECORD_JN_TOTAL_CNT] || this.records.length : 0;
+    }
 
-    order: IRecordsOrder[];
+    @observableRef accessor order: IRecordsOrder[];
 
     jsonMaster: Record<string, FieldValue> | Record<string, FieldValue>[];
 
     @observable
-    pageSize: number | undefined;
+    accessor pageSize: number | undefined;
 
     pageSizeRange?: number[];
 
     bc: IBuilderConfig;
 
     @observable
-    searchValues: Record<string, FieldValue>;
+    accessor searchValues: Record<string, FieldValue>;
 
     pageStore: IPageModel | null;
 
     applicationStore?: IApplicationModel | null;
 
-    isLoading: boolean;
+    @observableRef accessor isLoading = false;
 
-    filter?: IRecordFilter[];
+    @observableRef accessor filter: IRecordFilter[] | undefined;
 
     formData?: FormData;
 
@@ -104,18 +114,30 @@ export class RecordsModel implements IRecordsModel {
 
     noLoadChilds = false;
 
-    loadCounter: number;
+    @observableRef accessor loadCounter = 0;
 
     route: IRouteRecord;
 
     recordId: string;
 
     @observable
-    expansionRecords: ObservableMap<string, boolean>;
+    accessor expansionRecords: ObservableMap<string, boolean>;
     @observable
-    selectedRecords: ObservableMap<ICkId, IRecord>;
+    accessor selectedRecords: ObservableMap<ICkId, IRecord>;
 
-    recordsTree: Record<string, IRecord[]>;
+    @computed get recordsTree(): Record<string, IRecord[]> {
+        return this.records.reduce((acc: Record<string, IRecord[]>, record: IRecord) => {
+            const parentId = record[this.recordParentId] as ICkId;
+
+            if (acc[parentId] === undefined) {
+                acc[parentId] = [];
+            }
+
+            acc[parentId].push(record);
+
+            return acc;
+        }, {});
+    }
 
     isTree = false;
 
@@ -159,50 +181,9 @@ export class RecordsModel implements IRecordsModel {
         };
 
         this.searchValues = options && options.searchValues ? options.searchValues : {};
-
-        extendObservable(
-            this,
-            {
-                filter: [],
-                get hasSelected() {
-                    return typeof this.selectedRecordId !== "undefined";
-                },
-                isLoading: false,
-                loadCounter: 0,
-                order: bc.order,
-                pageNumber: 0,
-                get records() {
-                    return (this as IRecordsModel).recordsState.records;
-                },
-                recordsAll: records,
-                get recordsCount() {
-                    return this.records.length ? this.records[0][VAR_RECORD_JN_TOTAL_CNT] || this.records.length : 0;
-                },
-                get recordsTree() {
-                    return this.records.reduce((acc: Record<string, IRecord[]>, record: IRecord) => {
-                        const parentId = record[this.recordParentId] as ICkId;
-
-                        if (acc[parentId] === undefined) {
-                            acc[parentId] = [];
-                        }
-
-                        acc[parentId].push(record);
-
-                        return acc;
-                    }, {});
-                },
-                selectedRecord: undefined,
-                get selectedRecordId() {
-                    return this.selectedRecord ? deepFind(this.selectedRecord, this.valueField)[1] : undefined;
-                },
-                selectedRecordIndex: -1,
-                get selectedRecordValues() {
-                    return this.selectedRecord || {};
-                },
-            },
-            undefined,
-            {deep: false},
-        );
+        this.filter = [];
+        this.order = bc.order;
+        this.recordsAll = records;
 
         if (records.length) {
             if (this.bc.querymode === "local") {
@@ -217,7 +198,6 @@ export class RecordsModel implements IRecordsModel {
                 }
             });
         }
-        makeObservable(this);
     }
 
     getValue: IGetValue["get"] = (key: string) => {

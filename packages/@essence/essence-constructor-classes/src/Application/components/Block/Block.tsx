@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {Grid, Paper, Typography} from "@mui/material";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {IApplicationModel} from "@essence-community/constructor-share/types";
@@ -9,11 +9,11 @@ interface IBlockProps {
     applicationStore: IApplicationModel;
 }
 
-export const Block: React.FC<IBlockProps> = ({applicationStore}) => {
+export const Block: React.FC<IBlockProps> = observer(({applicationStore}) => {
     const classes = useStyles();
     const [trans] = useTranslation("meta");
 
-    return useObserver(() => {
+    
         return applicationStore.isBlock ? (
             <div className={classes.root}>
                 <Grid
@@ -35,5 +35,4 @@ export const Block: React.FC<IBlockProps> = ({applicationStore}) => {
                 </Grid>
             </div>
         ) : null;
-    });
-};
+});

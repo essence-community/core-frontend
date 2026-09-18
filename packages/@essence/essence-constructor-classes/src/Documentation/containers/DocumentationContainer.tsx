@@ -3,7 +3,7 @@ import {IClassProps} from "@essence-community/constructor-share/types";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import ReactMarkdown from "react-markdown";
 import {Typography, Divider} from "@mui/material";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {settingsStore} from "@essence-community/constructor-share/models/SettingsModel";
 import {
     VAR_SETTING_PROJECT_LOADER,
@@ -23,7 +23,7 @@ import {VAR_MANUAL_DOCUMENTATION, VAR_AUTO_DOCUMENTATION, VAR_EXAMPLE, VAR_SYS_R
 import {useStyles} from "./DocumentationContainer.styles";
 
  
-export const DocumentationContainer: React.FC<IClassProps> = (props) => {
+export const DocumentationContainer: React.FC<IClassProps> = observer((props) => {
     const {pageStore, bc} = props;
     const classes = useStyles();
     const location = useLocation();
@@ -55,7 +55,7 @@ export const DocumentationContainer: React.FC<IClassProps> = (props) => {
 
     const renderers = React.useMemo(() => makeRenderers(pageStore, bc), [bc, pageStore]);
 
-    return useObserver(() => {
+    
         const {selectedRecordValues: classInfo} = store.recordsStore;
         const {[VAR_MANUAL_DOCUMENTATION]: manualDoc, [VAR_AUTO_DOCUMENTATION]: autoDoc} = classInfo;
 
@@ -158,5 +158,4 @@ export const DocumentationContainer: React.FC<IClassProps> = (props) => {
                     )}
             </div>
         );
-    });
-};
+});

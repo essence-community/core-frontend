@@ -1,7 +1,7 @@
 /* eslint-disable max-statements */
 /* eslint-disable max-lines-per-function */
 import * as React from "react";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import keycode from "keycode";
 import {IconButton, TextField} from "@mui/material";
 import {Icon} from "@essence-community/constructor-share/Icon";
@@ -28,7 +28,7 @@ interface IProps extends IClassProps {
     setFocused?: (focused: boolean) => void;
 }
 
-export const FieldComboInput: React.FC<IProps> = (props) => {
+export const FieldComboInput: React.FC<IProps> = observer((props) => {
     const {store, textFieldRef, bc, disabled, field, readOnly} = props;
     const classes = useStyles(props);
     const popoverCtx = React.useContext(PopoverContext);
@@ -241,7 +241,7 @@ export const FieldComboInput: React.FC<IProps> = (props) => {
     );
     const textFieldProps = useTextFieldProps({bc, disabled, field, readOnly, tips: [chevron]});
 
-    return useObserver(() => (
+    return (
         <TextField
             {...textFieldProps}
             data-qtip={
@@ -266,5 +266,5 @@ export const FieldComboInput: React.FC<IProps> = (props) => {
             onPaste={onPaste}
             onDrop={onDrop}
         />
-    ));
-};
+    );
+});

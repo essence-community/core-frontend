@@ -1,3 +1,4 @@
+import {observable} from "mobx";
 import {
     IBuilderConfig,
     IPageModel,
@@ -49,7 +50,7 @@ export class StoreBaseModel implements IStoreBaseModel {
 
     public recordId: string;
 
-    public editing?: boolean;
+    @observable accessor editing: boolean | undefined;
 
     public recordsStore?: IRecordsModel;
 

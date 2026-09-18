@@ -1,5 +1,5 @@
  
-import {computed, action, observable, when, ObservableMap, makeObservable} from "mobx";
+import {computed, action, observable, when, ObservableMap} from "mobx";
 import {
     removeFromLocalStore,
     saveToStore,
@@ -145,15 +145,15 @@ export class ApplicationModel implements IApplicationModel {
         return defaultValue;
     }
 
-    @observable blockText: string | ((trans: TFunction) => string) = "";
+    @observable accessor blockText: string | ((trans: TFunction) => string) = "";
 
-    @observable globalValues: ObservableMap<string, FieldValue> = observable.map();
+    @observable accessor globalValues: ObservableMap<string, FieldValue> = observable.map();
 
-    @observable isApplicationReady = false;
+    @observable accessor isApplicationReady = false;
 
-    @observable isBlock = false;
+    @observable accessor isBlock = false;
 
-    @observable public url = "";
+    @observable public accessor url = "";
 
     // @deprecated
     @computed get session(): string | undefined {
@@ -196,7 +196,6 @@ export class ApplicationModel implements IApplicationModel {
         });
         this.pageStore.globalValues.merge(settingsStore.globals);
         this.pageStore.globalValues.merge(prepareUserGlobals(this.authStore.userInfo));
-        makeObservable(this);
     }
 
     handleGetValue = (name: string) => {

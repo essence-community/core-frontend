@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 
-import {action, observable, ObservableMap, computed, makeObservable} from "mobx";
+import {action, observable, ObservableMap, computed} from "mobx";
 import {v4} from "uuid";
 import {
     loggerRoot,
@@ -83,25 +83,25 @@ export class PageModel implements IPageModel {
 
     public initParamPage?: Record<string, any>;
 
-    @observable public pageBc: IBuilderConfig[] = observable.array([], {deep: false});
+    @observable public accessor pageBc: IBuilderConfig[] = observable.array([], {deep: false});
 
-    @observable public fieldValueMaster: PageModelFieldValues = observable.map();
+    @observable public accessor fieldValueMaster: PageModelFieldValues = observable.map();
 
-    @observable public stores: PageModelStores = observable.map();
+    @observable public accessor stores: PageModelStores = observable.map();
 
-    @observable public forms: ObservableMap<string, IForm> = observable.map();
+    @observable public accessor forms: ObservableMap<string, IForm> = observable.map();
 
-    @observable public windows: PageModelWindows = observable.array();
+    @observable public accessor windows: PageModelWindows = observable.array();
 
-    @observable public globalValues: ObservableMap<string, FieldValue>;
+    @observable public accessor globalValues: ObservableMap<string, FieldValue>;
 
-    @observable showQuestionWindow = false;
+    @observable accessor showQuestionWindow = false;
 
-    @observable questionWindow?: TText[] = undefined;
+    @observable accessor questionWindow: TText[] | undefined = undefined;
 
-    @observable public isLoading = false;
+    @observable public accessor isLoading = false;
 
-    @observable public isLoaded = false;
+    @observable public accessor isLoaded = false;
 
     public uniqueId: string;
 
@@ -251,7 +251,6 @@ export class PageModel implements IPageModel {
         }
         this.defaultVisible = defaultVisible;
         this.defaultIsReadOnly = isReadOnly;
-        makeObservable(this);
     }
 
     setInitParams(params?: Record<string, any>): void {

@@ -1,4 +1,4 @@
-import {action, observable, ObservableMap, computed, makeObservable} from "mobx";
+import {action, observable, ObservableMap, computed} from "mobx";
 import {
     i18next,
     isEmpty,
@@ -74,7 +74,7 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
     initialHeight: number | undefined;
 
     @observable
-    visibleAndHidden: IGridModel["visibleAndHidden"] = observable.map();
+    accessor visibleAndHidden: IGridModel["visibleAndHidden"] = observable.map();
 
     constructor(props: IStoreBaseModelProps) {
         super(props);
@@ -114,22 +114,21 @@ export class GridModel extends StoreBaseModel implements IStoreBaseModel {
             });
         }
         this.afterSelected();
-        makeObservable(this);
     }
 
-    @observable public columnsWidth: ObservableMap<ICkId, number | string> = observable.map();
+    @observable public accessor columnsWidth: ObservableMap<ICkId, number | string> = observable.map();
 
-    @observable public height = 0;
+    @observable public accessor height = 0;
 
-    @observable public isAuditOpen = false;
+    @observable public accessor isAuditOpen = false;
 
-    @observable public isEdit = false;
+    @observable public accessor isEdit = false;
 
-    @observable public isOpenSettings = false;
+    @observable public accessor isOpenSettings = false;
 
-    @observable public minHeight: number = GRID_ROW_HEIGHT * GRID_ROWS_COUNT;
+    @observable public accessor minHeight: number = GRID_ROW_HEIGHT * GRID_ROWS_COUNT;
 
-    @observable public scrollTop = 0;
+    @observable public accessor scrollTop = 0;
 
     @computed
     public get gridColumns(): IBuilderConfig[] {

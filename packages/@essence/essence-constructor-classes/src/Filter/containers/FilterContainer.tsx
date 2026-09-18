@@ -12,13 +12,13 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {reaction} from "mobx";
 import {FilterModel} from "../store/FilterModel";
 import {FilterButtons} from "../components/FilterButtons";
 import {useStyles} from "./FilterContainer.styles";
 
-export const FilterContainer: React.FC<IClassProps> = (props) => {
+export const FilterContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore} = props;
     const [store, isAutoLoad] = useModel((options) => new FilterModel(options), props);
     const initialValues = React.useMemo(() => {
@@ -50,7 +50,7 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
 
     const [childs, sizeChild] = useSizeChild(bc.childs, pageStore);
 
-    return useObserver(() => (
+    return (
         <Collapse in={store.isOpen} collapsedSize={title || layoutTheme === 1 ? "42px" : "1px"}>
             <UIForm
                 onSubmit={store.handleSubmit}
@@ -123,5 +123,5 @@ export const FilterContainer: React.FC<IClassProps> = (props) => {
                 </Grid>
             </UIForm>
         </Collapse>
-    ));
-};
+    );
+});

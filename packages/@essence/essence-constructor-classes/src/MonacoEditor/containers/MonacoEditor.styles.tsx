@@ -2,7 +2,6 @@
 import {IEssenceTheme} from "@essence-community/constructor-share/types";
 import {makeStyles} from "@mui/styles";
 
-;
 
 export const useStyles = makeStyles(
     (theme: IEssenceTheme) => ({

@@ -7,7 +7,7 @@ import {
     VAR_RECORD_DISPLAYED,
 } from "@essence-community/constructor-share/constants/variables";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {TextFieldLabel} from "@essence-community/constructor-share/uicomponents/TextFieldLabel";
 import {FieldValue, IClassProps, IRecord} from "@essence-community/constructor-share/types";
 import {IField, IForm, useField} from "@essence-community/constructor-share/Form";
@@ -28,7 +28,7 @@ const getOutput = (field: IField, form: IForm, value?: IRecord | FieldValue) => 
     return field.bc.valuetype === "integer" ? 0 : false;
 };
 
-export const FieldCheckboxContainer: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
+export const FieldCheckboxContainer: React.FC<IClassProps<IBuilderClassConfig>> = observer((props) => {
     const {bc, disabled, readOnly, pageStore} = props;
     const [focused, setFocus] = React.useState<boolean>(false);
     const clearValue = React.useMemo(() => (bc.valuetype === "integer" ? 0 : false), [bc]);
@@ -55,7 +55,7 @@ export const FieldCheckboxContainer: React.FC<IClassProps<IBuilderClassConfig>> 
     useFieldGetGlobal({bc, field, pageStore});
     useDefaultValueQuery({bc, field, pageStore});
 
-    return useObserver(() => {
+    
         const isInline = bc.edittype && bc.edittype === "inline";
         const noLabel = !bc[VAR_RECORD_DISPLAYED];
 
@@ -105,5 +105,4 @@ export const FieldCheckboxContainer: React.FC<IClassProps<IBuilderClassConfig>> 
                 />
             </label>
         );
-    });
-};
+});

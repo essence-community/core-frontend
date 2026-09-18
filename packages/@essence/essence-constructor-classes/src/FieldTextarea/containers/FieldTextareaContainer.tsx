@@ -1,4 +1,5 @@
 import * as React from "react";
+import {observer} from "mobx-react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
 import {
@@ -12,7 +13,7 @@ import {FormContext} from "@essence-community/constructor-share/context";
 import {TextField} from "@mui/material";
 import {FieldTextareaInput} from "../components/FieldTextareaInput";
 
-export const FieldTextareaContainer: React.FC<IClassProps> = (props) => {
+export const FieldTextareaContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, disabled, readOnly, pageStore} = props;
     const field = useField(props);
     const form = React.useContext(FormContext);
@@ -71,4 +72,4 @@ export const FieldTextareaContainer: React.FC<IClassProps> = (props) => {
             multiline
         />
     );
-};
+});

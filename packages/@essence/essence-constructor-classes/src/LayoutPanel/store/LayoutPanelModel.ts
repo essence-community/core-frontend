@@ -1,5 +1,5 @@
 /* eslint-disable sort-keys */
-import {action, computed, makeObservable, observable, ObservableMap} from "mobx";
+import {action, computed, observable, ObservableMap} from "mobx";
 import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {StoreBaseModel} from "@essence-community/constructor-share/models";
 import {IStoreBaseModelProps, IStoreBaseModel} from "@essence-community/constructor-share/types";
@@ -10,27 +10,27 @@ import {IChildBuilderConfig, ILayout} from "../types";
 
 export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel {
     @observable
-    public allLayout: Layout[] = observable.array();
+    public accessor allLayout: Layout[] = observable.array();
     @observable
-    public oldAllLayout: Layout[] = observable.array();
+    public accessor oldAllLayout: Layout[] = observable.array();
 
     @observable
-    public hiddenLayout: ObservableMap<string, Layout> = observable.map();
+    public accessor hiddenLayout: ObservableMap<string, Layout> = observable.map();
 
     @observable
-    public collapsedLayout: ObservableMap<string, Partial<ILayout>> = observable.map();
+    public accessor collapsedLayout: ObservableMap<string, Partial<ILayout>> = observable.map();
 
     @observable
-    public activeFullScreen?: Layout;
+    public accessor activeFullScreen: Layout | undefined;
 
     @observable
-    public activeWidget?: string;
+    public accessor activeWidget: string | undefined;
 
     @observable
-    public label: ObservableMap<string, string> = observable.map();
+    public accessor label: ObservableMap<string, string> = observable.map();
 
     @observable
-    childs: IChildBuilderConfig[];
+    accessor childs: IChildBuilderConfig[];
 
     @computed public get layout() {
         return this.allLayout;
@@ -59,7 +59,6 @@ export class LayoutPanelModel extends StoreBaseModel implements IStoreBaseModel 
         if (this.bc.isstate) {
             this.loadState();
         }
-        makeObservable(this);
     }
 
     setEmitter(emitter: IResizeEventContext) {

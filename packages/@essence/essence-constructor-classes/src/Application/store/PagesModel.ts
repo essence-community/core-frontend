@@ -1,5 +1,5 @@
  
-import {action, observable, IObservableArray, ObservableMap, computed, makeObservable} from "mobx";
+import {action, observable, IObservableArray, ObservableMap, computed} from "mobx";
 import {
     STORE_PAGES_IDS_KEY,
     STORE_LAST_CV_LOGIN_KEY,
@@ -29,11 +29,11 @@ import {changePagePosition} from "../../Application/utils/changePagePosition";
 import {IStoreOpenPage} from "./PagesModel.types";
 
 export class PagesModel implements IPagesModel {
-    @observable activePage: IPageModel | null = null;
+    @observable accessor activePage: IPageModel | null = null;
 
-    @observable expansionRecords: ObservableMap<string, boolean> = observable.map();
+    @observable accessor expansionRecords: ObservableMap<string, boolean> = observable.map();
 
-    @observable pages: IObservableArray<IPageModel> = observable.array();
+    @observable accessor pages: IObservableArray<IPageModel> = observable.array();
 
     @computed get visiblePages() {
         // Отображаем всегда все
@@ -59,7 +59,6 @@ export class PagesModel implements IPagesModel {
             applicationStore: this.applicationStore,
             pageStore: null,
         });
-        makeObservable(this);
     }
 
     @action

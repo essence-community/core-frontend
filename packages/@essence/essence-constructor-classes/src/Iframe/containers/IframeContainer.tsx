@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {Paper} from "@mui/material";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
@@ -11,7 +11,7 @@ import {IframeModel} from "../store/IframeModel";
 import {IFrame} from "../components/IFrame";
 import {useStyles} from "./IframeContainer.styles";
 
-export const IframeContainer: React.FC<IClassProps> = (props) => {
+export const IframeContainer: React.FC<IClassProps> = observer((props) => {
     const classes = useStyles({});
     const {bc, pageStore, disabled, hidden, visible, elevation} = props;
     const applicationStore = React.useContext(ApplicationContext);
@@ -23,7 +23,7 @@ export const IframeContainer: React.FC<IClassProps> = (props) => {
         pageStore,
     });
 
-    return useObserver(() => {
+    
         if (hidden || !visible) {
             return null;
         }
@@ -54,5 +54,4 @@ export const IframeContainer: React.FC<IClassProps> = (props) => {
         }
 
         return content;
-    });
-};
+});

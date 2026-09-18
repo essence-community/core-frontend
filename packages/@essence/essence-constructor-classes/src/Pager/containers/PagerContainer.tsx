@@ -1,6 +1,6 @@
 import * as React from "react";
 import cn from "clsx";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {toColumnStyleWidth, i18next} from "@essence-community/constructor-share/utils";
 import {IBuilderConfig, IClassProps, IEssenceTheme, IPageModel} from "@essence-community/constructor-share/types";
@@ -40,7 +40,7 @@ const onFormChange = (form: IForm) => {
 };
 
 // eslint-disable-next-line max-lines-per-function
-export const PagerContainer: React.FC<IClassProps> = (props) => {
+export const PagerContainer: React.FC<IClassProps> = observer((props) => {
     const {bc} = props;
     const {[VAR_RECORD_PARENT_ID]: parentId, defaultvalue, readonly} = bc;
     const applicationStore = React.useContext(ApplicationContext);
@@ -133,7 +133,7 @@ export const PagerContainer: React.FC<IClassProps> = (props) => {
         focusPageElement(event, pageStore);
     };
 
-    return useObserver(() => {
+    
         const content = (
             <div ref={pageStore.setPageInnerElAction} className={classes.rootPageDivContent}>
                 {pageStore.isEdit ? <div className={classes.backdrop} /> : null}
@@ -210,5 +210,4 @@ export const PagerContainer: React.FC<IClassProps> = (props) => {
                 </React.Suspense>
             </div>
         );
-    });
-};
+});

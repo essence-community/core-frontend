@@ -8,7 +8,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {Grid, useTheme} from "@mui/material";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {Pagination} from "@essence-community/constructor-share/uicomponents/Pagination";
 import {RecordContext} from "@essence-community/constructor-share/context";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
@@ -33,7 +33,7 @@ function compareOrderedBC(left: IOrderedBuielderConfig, right: IOrderedBuielderC
 }
 
 // eslint-disable-next-line max-lines-per-function
-export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store, ...classProps}) => {
+export const GridButtons: React.FC<IGridButtonsProps> = observer(({isInlineEditing, store, ...classProps}) => {
     const {bc} = classProps;
     const theme = useTheme<IEssenceTheme>();
     const activeElement = React.useRef<Element | null>();
@@ -144,7 +144,7 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
         activeElement.current = isInlineEditing ? document.activeElement : null;
     }, [isInlineEditing]);
 
-    return useObserver(() => {
+    
         const {pageSize, recordsCount, pageNumber} = store.recordsStore;
         const record = {...(store.selectedRecord || {}), [VAR_RECORD_JN_TOTAL_CNT]: recordsCount};
 
@@ -190,5 +190,4 @@ export const GridButtons: React.FC<IGridButtonsProps> = ({isInlineEditing, store
                 ) : null}
             </Grid>
         );
-    });
-};
+});

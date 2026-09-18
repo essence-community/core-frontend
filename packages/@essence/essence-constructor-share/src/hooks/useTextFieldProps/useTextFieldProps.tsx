@@ -1,8 +1,8 @@
-/* eslint-disable max-lines-per-function */
+/* eslint-disable max-lines-per-function, max-statements */
 import * as React from "react";
 import {TextFieldProps, IconButton, InputAdornment} from "@mui/material";
 import cn from "clsx";
-import {useObserver} from "mobx-react";
+
 import {IField} from "../../Form/types";
 import {IBuilderConfig} from "../../types";
 import {isEmpty, useTranslation, toTranslateTextArray, TFunction, declension} from "../../utils";
@@ -147,7 +147,7 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
         [field],
     );
 
-    return useObserver(() => {
+    
         const isError = Boolean(!disabled && !field.isValid);
         const isExistsValue = !isEmpty(field.value);
         const isDisabled =
@@ -237,5 +237,4 @@ export function useTextFieldProps(props: IUseTextFieldProps): TextFieldProps & I
             value: field.value === undefined || field.value === null ? "" : field.value,
             variant: "standard",
         } as TextFieldProps<"standard"> & ITextFieldExtendProps;
-    });
 }

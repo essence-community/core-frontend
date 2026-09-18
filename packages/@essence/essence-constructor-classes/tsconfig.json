@@ -32,6 +32,7 @@
         "../essence-constructor-share/src"
     ],
     "exclude": [
-        "**/__tests__/**"
+        "**/__tests__/**",
+        "../essence-constructor-share/src/**/__tests__/**"
     ]
 }

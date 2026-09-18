@@ -7,8 +7,7 @@ import {VAR_RECORD_DISPLAYED, VAR_RECORD_NAME} from "@essence-community/construc
 import {toTranslateText} from "@essence-community/constructor-share/utils/transform";
 import cn from "clsx";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {Grid, useTheme, ThemeProvider as MuiThemeProvider} from "@mui/material";
-import {ThemeProvider} from "@mui/styles";
+import {Grid, useTheme, ThemeProvider} from "@mui/material";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {observer} from "mobx-react";
 import {EmptyTitle} from "@essence-community/constructor-share/uicomponents/EmptyTitle";
@@ -85,8 +84,7 @@ export const PanelForm: React.FC<IPanelFormProps> = observer((props) => {
         });
 
         const filterComponent = (
-            <MuiThemeProvider theme={themeFilterNew}>
-                <ThemeProvider theme={themeFilterNew}>
+            <ThemeProvider theme={themeFilterNew}>
                     <Grid>
                         {mapComponents(filters, (ChildCmp, childBc) => (
                             <ChildCmp
@@ -102,8 +100,7 @@ export const PanelForm: React.FC<IPanelFormProps> = observer((props) => {
                             />
                         ))}
                     </Grid>
-                </ThemeProvider>
-            </MuiThemeProvider>
+            </ThemeProvider>
         );
 
         const actionsComponent = (

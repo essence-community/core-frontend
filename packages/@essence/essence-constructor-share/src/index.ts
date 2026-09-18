@@ -1,4 +1,6 @@
 export * from "./constants";
+export {makeStyles} from "./styles";
+export type {StyleRules} from "./styles";
 export * from "./components";
 export * from "./decorators";
 export * from "./hooks";

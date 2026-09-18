@@ -1,6 +1,5 @@
 import * as React from "react";
-import {Grid, Paper, Typography, useTheme, ThemeProvider as MuiThemeProvider} from "@mui/material";
-import {ThemeProvider} from "@mui/styles";
+import {Grid, Paper, Typography, useTheme, ThemeProvider} from "@mui/material";
 import {settingsStore} from "@essence-community/constructor-share/models/SettingsModel";
 import {
     VAR_SETTING_PROJECT_AUTH_TITLE,
@@ -41,9 +40,8 @@ export const AuthFormContainer: React.FC<IClassProps<IBuilderClassConfig>> = (pr
     }, [applicationStore, history]);
 
     return (
-        <MuiThemeProvider theme={themeNew}>
-            <ThemeProvider theme={themeNew}>
-                <Grid container justifyContent="center" alignItems="center" className="root-height">
+        <ThemeProvider theme={themeNew}>
+            <Grid container justifyContent="center" alignItems="center" className="root-height">
                     <Grid>
                         <Paper classes={{root: classes.paper}} elevation={0}>
                             <Grid
@@ -90,7 +88,6 @@ export const AuthFormContainer: React.FC<IClassProps<IBuilderClassConfig>> = (pr
                         </Paper>
                     </Grid>
                 </Grid>
-            </ThemeProvider>
-        </MuiThemeProvider>
+        </ThemeProvider>
     );
 };

@@ -1,4 +1,4 @@
-import {makeStyles} from "@mui/styles";
+import {makeStyles} from "../../styles";
 
 export const useStyles = makeStyles(
     () => ({

@@ -1,4 +1,4 @@
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from '@essence-community/constructor-share';
 import { IEssenceTheme } from "@essence-community/constructor-share/types";
 
 export const useStyles = makeStyles(

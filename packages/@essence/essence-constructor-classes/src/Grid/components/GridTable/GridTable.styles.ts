@@ -1,4 +1,4 @@
-import {makeStyles} from "@mui/styles";
+import {makeStyles} from "@essence-community/constructor-share";
 import {SCROLL_WEIGHT} from "../../constants";
 
 export const useStyles = makeStyles(

@@ -1,5 +1,4 @@
-import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share";
-import {StyleRules} from "@mui/styles";
+import {IClassProps, IEssenceTheme, StyleRules} from "@essence-community/constructor-share";
 import {TabPanelPosition} from "../../TabPanel.types";
 
 // eslint-disable-next-line max-lines-per-function

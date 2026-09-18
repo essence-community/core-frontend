@@ -3,8 +3,7 @@ import {IClassProps, ICkId, IEssenceTheme} from "@essence-community/constructor-
 import {isEmpty, useTranslation, toTranslateText} from "@essence-community/constructor-share/utils";
 import {reaction} from "mobx";
 import cn from "clsx";
-import {Grid, useTheme, ThemeProvider as MuiThemeProvider} from "@mui/material";
-import {ThemeProvider} from "@mui/styles";
+import {Grid, useTheme, ThemeProvider} from "@mui/material";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
@@ -178,8 +177,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = observer(({store, children, ..
                 </Grid>
             );
         const filterComponent = (
-            <MuiThemeProvider theme={themeFilterNew}>
-                <ThemeProvider theme={themeFilterNew}>
+            <ThemeProvider theme={themeFilterNew}>
                     <Grid size={!isDarkTheme ? 12 : "auto"}>
                         {mapComponents(bc.filters, (ChildCmp, childBc) => (
                             <ChildCmp
@@ -190,8 +188,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = observer(({store, children, ..
                             />
                         ))}
                     </Grid>
-                </ThemeProvider>
-            </MuiThemeProvider>
+            </ThemeProvider>
         );
         const tableComponent = (
             <Grid className={store.isInlineEditing ? "panel-editing-focus" : undefined}>

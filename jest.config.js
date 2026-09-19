@@ -6,11 +6,15 @@ module.exports = {
     ],
     coveragePathIgnorePatterns: ["/node_modules/", "Story", "Styles", "Types", "Type.js"],
     coverageReporters: ["text", "cobertura", "lcov"],
-    moduleFileExtensions: ["web.js", "js", "json", "web.jsx", "jsx", "node", "mjs", "ts", "tsx"],
+    moduleFileExtensions: ["web.js", "js", "json", "web.jsx", "jsx", "node", "mjs", "cjs", "ts", "tsx"],
     moduleNameMapper: {
+        "^@essence-community/constructor-share$": "<rootDir>/packages/@essence/essence-constructor-share/src/index.ts",
+        "^@essence-community/constructor-share/(.*)$": "<rootDir>/packages/@essence/essence-constructor-share/src/$1",
         "^react-native$": "react-native-web",
     },
-    setupFiles: ["<rootDir>/config/polyfills.js", "<rootDir>/config/jest/setupTests.js"],
+    modulePathIgnorePatterns: ["<rootDir>/packages/.*/lib/"],
+    setupFiles: ["<rootDir>/config/polyfills.js"],
+    setupFilesAfterEnv: ["<rootDir>/config/jest/setupTests.js"],
     testEnvironment: "jsdom",
     testMatch: [
         "<rootDir>/packages/@essence/essence-constructor-website/src/**/__tests__/**/*.{js,jsx,mjs}",
@@ -19,9 +23,11 @@ module.exports = {
     ],
     testURL: "http://localhost",
     transform: {
-        "^(?!.*\\.(js|jsx|ts|tsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js",
-        "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
+        "^(?!.*\\.(js|jsx|ts|tsx|mjs|cjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js",
+        "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
         "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
     },
-    transformIgnorePatterns: ["[/\\\\]node_modules[/\\\\](?!@essence).+\\.(js|jsx|mjs|ts|tsx)$"],
+    transformIgnorePatterns: [
+        "[/\\\\]node_modules[/\\\\](?!(@essence|@mui|@emotion|p-limit|yocto-queue|uuid|i18next|clsx|mime)).+\\.(js|jsx|mjs|cjs|ts|tsx)$",
+    ],
 };

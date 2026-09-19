@@ -50,7 +50,6 @@ const packageJsonNew = {
     scripts: {
         start: "constructor-scripts start",
         initialize: "constructor-scripts init",
-        postinstall: "yarn constructor-dll-build",
         build: "constructor-scripts build",
         zip: "constructor-scripts zip",
         deploy: "constructor-scripts deploy",
@@ -63,7 +62,6 @@ const packageJsonNew = {
 const dependencies = ["@material-ui/core", "react", "react-dom", "mobx@5.15.4", "mobx-react@6.3.0"];
 
 const essencePackages = [
-    "@essence-community/constructor-dll",
     "@essence-community/constructor-share",
     "@essence-community/constructor-scripts",
 ];

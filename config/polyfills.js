@@ -20,4 +20,14 @@ Object.assign = require("object-assign");
  */
 if (process.env.NODE_ENV === "test") {
     require("raf").polyfill(global);
+
+    // jsdom has neither; Popover offset math needs a matrix.
+    if (typeof global.WebKitCSSMatrix === "undefined") {
+        global.WebKitCSSMatrix = class WebKitCSSMatrix {
+            constructor() {
+                this.m41 = 0;
+                this.m42 = 0;
+            }
+        };
+    }
 }

@@ -2,7 +2,9 @@
 
 Метамодельный UI-конструктор: страницы и виджеты задаются конфигурацией с бэкенда (`IBuilderConfig`), фронт резолвит `type` в React-компонент.
 
-Yarn workspaces, сборка — [Rsbuild](https://rsbuild.dev/). Версия `3.1.0`.
+Yarn workspaces, сборка — [Rsbuild](https://rsbuild.dev/). React **18.3**, MUI 7. Версия `3.1.0`.
+
+Миграция на React 19: [todo/react-19.md](./todo/react-19.md).
 
 ## Зависимости
 
@@ -29,7 +31,6 @@ Workspaces:
 
 1. [create-constructor-module](./packages/@essence/create-constructor-module) — скелет модуля: `yarn create @essence-community/constructor-module <name>`
 1. [essence-constructor-scripts](./packages/@essence/essence-constructor-scripts) — сборка/zip внешнего модуля
-1. [essence-constructor-dll](./packages/@essence/essence-constructor-dll) — webpack 4 DLL для модулей (не используется Rsbuild-хостом)
 
 ## Разработка
 
@@ -89,7 +90,7 @@ yarn workspace @essence-community/constructor-share run build
 
 - `yarn lint` / `yarn lint:fix`
 - `yarn tscheck:classes` / `yarn tscheck:share` / `yarn tscheck:website`
-- `yarn test`
+- `yarn test` — Jest + `@testing-library/react`
 - `yarn CI` — `tsc` (classes + share) и eslint; так же запускается во внешнем Jenkins
 
 ## Документация
@@ -103,7 +104,8 @@ yarn workspace @essence-community/constructor-share run build
 1. [DEPLOY.md](./docs/DEPLOY.md) — деплой SPA
 1. [ATTRIBUTES.md](./docs/ATTRIBUTES.md) — атрибуты классов
 1. [STYLEGUIDE.md](./docs/STYLEGUIDE.md) — соглашения по коду
-1. [TEST.md](./docs/TEST.md) — тесты
+1. [TEST.md](./docs/TEST.md) — Jest / Testing Library
+1. [todo/react-19.md](./todo/react-19.md) — миграция на React 19
 1. [UPLOAD_FILES.md](./docs/UPLOAD_FILES.md) — загрузка файлов
 1. [TRANSIT_TO_SITE.md](./docs/TRANSIT_TO_SITE.md) — переход в отчёты (session/token)
 1. [FIELD_IMAGE.md](./docs/FIELD_IMAGE.md) — поле изображения

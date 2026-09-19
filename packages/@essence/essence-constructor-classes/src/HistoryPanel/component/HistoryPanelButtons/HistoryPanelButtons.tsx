@@ -5,7 +5,7 @@ import {reaction} from "mobx";
 import {useTheme, Grid} from "@mui/material";
 import {FormContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {getHistoryPanelBtnsConfig} from "../../util/HistoryBtnConfig";
 
 interface IOrderedBuielderConfig {
@@ -24,7 +24,7 @@ export interface IHistoryPanelButtonsProps extends IClassProps {
     store: IStoreBaseModel;
 }
 // eslint-disable-next-line max-lines-per-function
-export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) => {
+export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = observer((props) => {
     const {store, bc, disabled} = props;
     const {btndelete, btnrefresh, btnaudit} = bc;
     const form = React.useContext(FormContext);
@@ -168,7 +168,7 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
         theme.essence.layoutTheme,
     ]);
 
-    return useObserver(() => (
+    return (
         <Grid
             container
             alignItems="center"
@@ -185,5 +185,5 @@ export const HistoryPanelButtons: React.FC<IHistoryPanelButtonsProps> = (props) 
                 ),
             )}
         </Grid>
-    ));
-};
+    );
+});

@@ -1,4 +1,3 @@
-import {useObserver} from "mobx-react";
 import {IForm} from "../Form";
 
 interface IUseFieldDisabled {
@@ -8,10 +7,7 @@ interface IUseFieldDisabled {
 }
 
 export function useFieldDisabled({readOnly, disabled, form}: IUseFieldDisabled): boolean {
-    return useObserver(
-        () =>
-            (readOnly && form.placement === "filter" && typeof form.bc?.readonly === "undefined" ? false : readOnly) ||
+    return (readOnly && form.placement === "filter" && typeof form.bc?.readonly === "undefined" ? false : readOnly) ||
             disabled ||
-            !form.editing,
-    );
+            !form.editing;
 }

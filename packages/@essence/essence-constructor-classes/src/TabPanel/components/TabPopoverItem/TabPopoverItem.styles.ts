@@ -1,5 +1,4 @@
-import {makeStyles} from "@mui/styles";
-import {IEssenceTheme} from "@essence-community/constructor-share";
+import {IEssenceTheme, makeStyles} from "@essence-community/constructor-share";
 import {darkStyles} from "./TabPopoverItem.dark.styles";
 import {lightStyles} from "./TabPopoverItem.light.styles";
 

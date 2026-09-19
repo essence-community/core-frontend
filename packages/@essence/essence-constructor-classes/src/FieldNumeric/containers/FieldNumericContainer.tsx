@@ -1,4 +1,5 @@
 import * as React from "react";
+import {observer} from "mobx-react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
 import {
@@ -12,7 +13,7 @@ import {getBigNumberInstance, isEmpty} from "@essence-community/constructor-shar
 import {DEFAULT_CLIPBOARD_PASTE_SEPARATE_REGEX} from "@essence-community/constructor-share/constants";
 import {NumberFormat} from "../components/NumberFormat";
 
-export const FieldNumericContainer: React.FC<IClassProps> = (props) => {
+export const FieldNumericContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore, disabled, readOnly} = props;
     const field = useField(props);
     const inputProps = useTextFieldProps({bc, disabled, field, readOnly});
@@ -94,4 +95,4 @@ export const FieldNumericContainer: React.FC<IClassProps> = (props) => {
             onDrop={onDrop}
         />
     );
-};
+});

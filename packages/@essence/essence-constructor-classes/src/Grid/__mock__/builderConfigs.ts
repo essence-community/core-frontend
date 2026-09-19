@@ -7,36 +7,44 @@ import {getBaseBc} from "@essence-community/constructor-share/utils/test";
 
 export const booleanBc = {
     ...getBaseBc("boolean"),
+    column: "cv_value",
 };
 
 export const checkboxBc = {
     ...getBaseBc("checkbox"),
+    column: "cv_value",
 };
 
 export const dateBc = {
     ...getBaseBc("date"),
+    column: "cv_value",
     format: "y.m.d",
 };
 
 export const iconBc = {
     ...getBaseBc("icon"),
+    column: "cv_value",
     iconfont: "edit",
 };
 
 export const textBc = {
     ...getBaseBc("text"),
+    column: "cv_value",
 };
 
 export const numberBc = {
     ...getBaseBc("numeric"),
+    column: "cv_value",
 };
 
 export const integerBc = {
     ...getBaseBc("integer"),
+    column: "cv_value",
 };
 
 export const treeBc = {
     ...getBaseBc("tree"),
+    column: "cv_value",
     datatypeBase: "integer",
 };
 

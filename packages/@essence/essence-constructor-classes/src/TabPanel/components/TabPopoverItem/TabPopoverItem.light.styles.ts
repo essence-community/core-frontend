@@ -1,5 +1,4 @@
-import {StyleRules} from "@mui/styles";
-import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share";
+import {IClassProps, IEssenceTheme, StyleRules} from "@essence-community/constructor-share";
 
 export function lightStyles(theme: IEssenceTheme): StyleRules<IClassProps, "root" | "active"> {
     return {

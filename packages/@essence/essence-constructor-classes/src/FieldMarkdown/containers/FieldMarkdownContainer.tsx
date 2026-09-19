@@ -1,10 +1,11 @@
+/* eslint-disable max-statements */
 import * as React from "react";
 import cn from "clsx";
 import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {Scrollbars, VerticalResizer, makeRenderers} from "@essence-community/constructor-share/uicomponents";
 import ReactMarkdown from "react-markdown";
 import {Grid, TextField} from "@mui/material";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {useTranslation, toTranslateTextArray} from "@essence-community/constructor-share/utils";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
@@ -19,7 +20,7 @@ import {useStyles} from "./FieldMarkdownContainer.styles";
 
 type TStatus = "code" | "view" | "all";
 
-export const FieldMarkdownContainer: React.FC<IClassProps> = (props) => {
+export const FieldMarkdownContainer: React.FC<IClassProps> = observer((props) => {
     const classes = useStyles();
     const {bc, disabled, hidden, pageStore, readOnly} = props;
     const field = useField({bc, disabled, hidden, pageStore});
@@ -61,7 +62,7 @@ export const FieldMarkdownContainer: React.FC<IClassProps> = (props) => {
 
     const renderers = React.useMemo(() => makeRenderers(pageStore, bc), [bc, pageStore]);
 
-    return useObserver(() => {
+    
         const error = Boolean(!textFieldProps.disabled && !field.isValid);
         const errorText = textFieldProps.disabled ? undefined : field.error;
 
@@ -131,5 +132,4 @@ export const FieldMarkdownContainer: React.FC<IClassProps> = (props) => {
                 </div>
             </div>
         );
-    });
-};
+});

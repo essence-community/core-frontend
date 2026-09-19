@@ -32,7 +32,7 @@ import {
 } from "@essence-community/constructor-share/types";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 
-import {computed, observable, action, makeObservable} from "mobx";
+import {computed, observable, action} from "mobx";
 import {IField, IForm} from "@essence-community/constructor-share/Form";
 import {IFieldPopoverModel} from "./FieldPopoverModel.types";
 
@@ -74,7 +74,7 @@ export class FieldPopoverModel extends StoreBaseModel implements IFieldPopoverMo
     valueField: string;
 
     @observable
-    field: IField;
+    accessor field: IField;
 
     form: IForm;
 
@@ -197,7 +197,6 @@ export class FieldPopoverModel extends StoreBaseModel implements IFieldPopoverMo
             topbtn: this.builderConfigs,
             type: "PANEL",
         };
-        makeObservable(this);
     }
 
     @computed get panelStore(): IStoreBaseModel | undefined {

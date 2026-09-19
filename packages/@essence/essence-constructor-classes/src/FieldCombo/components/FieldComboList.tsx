@@ -1,6 +1,6 @@
  
 import * as React from "react";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {Paper, MenuItem, CircularProgress} from "@mui/material";
 import {IBuilderConfig, Scrollbars, Pagination, FieldValue, toString, PageLoader, settingsStore} from "@essence-community/constructor-share";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_SETTING_PROJECT_LOADER} from "@essence-community/constructor-share/constants";
@@ -30,7 +30,7 @@ interface IProps extends IPopoverChildrenProps {
     focused?: boolean;
 }
 
-export const FieldComboList: React.FC<IProps> = (props) => {
+export const FieldComboList: React.FC<IProps> = observer((props) => {
     const {store, bc, onChange, onClose, listRef, onCalculateOffset, height} = props;
     const scrollbarRef: React.MutableRefObject<Scrollbars | undefined> = React.useRef();
     const stringValue = toString(props.value);
@@ -76,7 +76,7 @@ export const FieldComboList: React.FC<IProps> = (props) => {
         [store],
     );
 
-    return useObserver(() => (
+    return (
         <>
             <Paper
                 className={classes.paper}
@@ -148,5 +148,5 @@ export const FieldComboList: React.FC<IProps> = (props) => {
                 }
             /> : null}
         </>
-    ));
-};
+    );
+});

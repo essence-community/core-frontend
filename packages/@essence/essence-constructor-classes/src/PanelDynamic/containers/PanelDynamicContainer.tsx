@@ -4,7 +4,7 @@ import {loadComponentsFromModules, mapComponents} from "@essence-community/const
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {toColumnStyleWidth} from "@essence-community/constructor-share/utils/transform";
 import {IClassProps} from "@essence-community/constructor-share/types";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {GRID_CONFIGS, GRID_ALIGN_CONFIGS} from "@essence-community/constructor-share/constants/ui";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {reaction} from "mobx";
@@ -15,7 +15,7 @@ interface IWithEditing extends IClassProps {
     editing?: boolean;
 }
 
-export const PanelDynamicContainer: React.FC<IWithEditing> = (props) => {
+export const PanelDynamicContainer: React.FC<IWithEditing> = observer((props) => {
     const {bc} = props;
     const {contentview, align} = bc;
     const [isLoadedModule, setIsLoadedModule] = React.useState(true);
@@ -44,7 +44,7 @@ export const PanelDynamicContainer: React.FC<IWithEditing> = (props) => {
         );
     }, [store]);
 
-    return useObserver(() => (
+    return (
         <Grid
             container
             spacing={0}
@@ -59,5 +59,5 @@ export const PanelDynamicContainer: React.FC<IWithEditing> = (props) => {
                   ))
                 : null}
         </Grid>
-    ));
-};
+    );
+});

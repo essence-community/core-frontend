@@ -1,6 +1,7 @@
 import * as React from "react";
 import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
-import {useHistory, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
+import {useAppHistory} from "@essence-community/constructor-share/utils/appHistory";
 import {Grid} from "@mui/material";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {
@@ -22,7 +23,7 @@ interface IUrlParams {
 }
 
 export const StaticReportsContainer: React.FC<IClassProps> = (props) => {
-    const history = useHistory();
+    const history = useAppHistory();
     const applicationStore = React.useContext(ApplicationContext);
 
     const classes = useStyles();

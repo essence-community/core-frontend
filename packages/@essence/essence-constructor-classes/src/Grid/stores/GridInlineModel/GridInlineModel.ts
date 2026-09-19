@@ -10,13 +10,12 @@ import {
     IBuilderConfig,
     IStoreBaseModelProps
 } from "@essence-community/constructor-share/types";
-import {computed, makeObservable} from "mobx";
+import {computed} from "mobx";
 
 export class GridInlineModel extends StoreBaseModel {
 
     constructor(props: IStoreBaseModelProps) {
         super(props);
-        makeObservable(this);
     }
 
     @computed get mainStore() {

@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 /* eslint-disable sort-keys */
 import * as React from "react";
 import cn from "clsx";
@@ -10,7 +9,7 @@ import {UIForm, Focusable, Scrollbars} from "@essence-community/constructor-shar
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants";
 import {IClassProps, IBuilderMode, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {useModel} from "@essence-community/constructor-share/hooks";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {WindowContext} from "@essence-community/constructor-share/context";
 import {getModeTitle} from "../utils";
 import {WindowModel} from "../stores/WindowModel";
@@ -32,7 +31,7 @@ const renderScrollView = ({style, ...props}: any) => (
     />
 );
 
-export const WindowContainer: React.FC<IClassProps> = (props) => {
+export const WindowContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore} = props;
     const [trans] = useTranslation("meta");
     const classes = useStyles();
@@ -49,8 +48,7 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
     const displayedTrans = displayed && trans(displayed, displayed);
     const windowTitle = displayedTrans || `${trans(getModeTitle(bc.mode as IBuilderMode))} ${displayedTrans || ""}`;
     const autoHeightMax = isFulllScreen ? "100%" : `calc(90vh - ${WINDOW_HEADER_HEIGHT + WINDOW_BOTTOM_HEIGHT}px)`;
-    const checkboxAddMode = useObserver(() =>
-        bc.mode === "1" && checkaddmore && !stepnamenext ? (
+    const checkboxAddMode = bc.mode === "1" && checkaddmore && !stepnamenext ? (
             <FormControlLabel
                 control={
                     <Checkbox
@@ -65,8 +63,7 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
                 classes={{label: classes.addMoreLabelColor}}
                 data-page-object={`${ckPageObject}-add-more`}
             />
-        ) : null,
-    );
+        ) : null;
 
     const handleCloseDialog = React.useCallback(() => {
         if (!pageStore.hiddenPage) {
@@ -108,7 +105,7 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
         [bc, store.childs],
     );
 
-    return useObserver(() => (
+    return (
         <WindowContext.Provider
             value={{
                 onClose: () => store.closeAction("1", bc, {}),
@@ -182,5 +179,5 @@ export const WindowContainer: React.FC<IClassProps> = (props) => {
                 </React.Suspense>
             </Modal>
         </WindowContext.Provider>
-    ));
-};
+    );
+});

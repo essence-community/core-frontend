@@ -19,7 +19,7 @@ export class FieldMultiModel extends StoreBaseModel implements IFieldMultiModel 
         });
     }
 
-    @observable _isLoading = false;
+    @observable accessor _isLoading = false;
 
     @computed get isLoading() {
         return this.recordsStore.isLoading || this._isLoading;

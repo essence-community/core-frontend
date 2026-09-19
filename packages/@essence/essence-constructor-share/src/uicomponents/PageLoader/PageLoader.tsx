@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Modal, DialogContent, Grid} from "@mui/material";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {IPageModel} from "../../types";
 import {LineLoader} from "../LineLoader";
 import {useStyles} from "./PageLoader.styles";
@@ -12,11 +12,11 @@ interface IPagerLoaderProps {
     loaderType?: "default" | "bfl-loader";
 }
 
-export const PageLoader: React.FC<IPagerLoaderProps> = (props) => {
+export const PageLoader: React.FC<IPagerLoaderProps> = observer((props) => {
     const {pageStore, container, isLoading, loaderType = "default"} = props;
     const classes = useStyles(props);
 
-    return useObserver(() => (
+    return (
         <React.Fragment>
             <Modal component="div" open={Boolean(isLoading || (container && pageStore && pageStore.isLoading))}
                 style={{position: "absolute"}}
@@ -34,5 +34,5 @@ export const PageLoader: React.FC<IPagerLoaderProps> = (props) => {
                 </DialogContent>
             </Modal>
         </React.Fragment>
-    ));
-};
+    );
+});

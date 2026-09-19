@@ -1,4 +1,4 @@
-import {action, makeObservable, observable} from "mobx";
+import {action, observable} from "mobx";
 import {AxiosProgressEvent} from "axios";
 import {IPageModel, ISnackbar, IProgressModel} from "../../types";
 import {snackbarStore} from "../SnackbarModel";
@@ -14,10 +14,10 @@ export class ProgressModel implements IProgressModel {
     public name: "ProgressModel";
 
     @observable
-    public progressCount = 0;
+    public accessor progressCount = 0;
 
     @observable
-    public isFinished = false;
+    public accessor isFinished = false;
 
     private snackbar: ISnackbar;
 
@@ -31,7 +31,6 @@ export class ProgressModel implements IProgressModel {
             },
             pageStore.route,
         );
-        makeObservable(this);
     }
 
     @action

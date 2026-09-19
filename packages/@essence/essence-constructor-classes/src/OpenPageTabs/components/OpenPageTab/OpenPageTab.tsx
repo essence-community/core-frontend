@@ -6,7 +6,7 @@ import {
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {Tab, Typography} from "@mui/material";
 import cn from "clsx";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import * as React from "react";
 import {reaction} from "mobx";
 import {parseMemoize, useTranslation} from "@essence-community/constructor-share/utils";
@@ -18,7 +18,7 @@ const INITIAL_DRAG_POS = {
     posY: 0,
 };
 
-export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
+export const OpenPageTab: React.FC<IOpenTabProps> = observer((props) => {
     const classes = useStyles(props);
     const {
         value,
@@ -127,7 +127,7 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
         };
     }, [handleMouseMove, handleMouseUp]);
 
-    return useObserver(() => (
+    return (
         <Tab
             value={value}
             icon={iconNode}
@@ -158,5 +158,5 @@ export const OpenPageTab: React.FC<IOpenTabProps> = React.memo((props) => {
             onMouseDown={handleMouseDown}
             onMouseOver={handleMouseOver}
         />
-    ));
+    );
 });

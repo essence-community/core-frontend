@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Collapse, Grid, Typography} from "@mui/material";
 import clsx from "clsx";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {
     mapComponents,
     IBuilderConfig,
@@ -20,7 +20,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {useStyles} from "./FilterExtended.style";
 
-export const FilterExtended = (props: IClassProps) => {
+export const FilterExtended = observer((props: IClassProps) => {
     const form = React.useContext(FormContext);
     const classes = useStyles(props);
     const {bc} = props;
@@ -44,7 +44,7 @@ export const FilterExtended = (props: IClassProps) => {
 
     const [childs, sizeChild] = useSizeChild(bc.childs, props.pageStore);
 
-    return useObserver(() => (
+    return (
         <Collapse in={isOpen} collapsedSize="30px" data-page-object={`${bc[VAR_RECORD_PAGE_OBJECT_ID]}-collapsible`}>
             <Grid container direction="column" spacing={0}>
                 <Grid onClick={() => setIsOpen(!isOpen)} className={classes.header}>
@@ -96,5 +96,5 @@ export const FilterExtended = (props: IClassProps) => {
                 </Grid>
             </Grid>
         </Collapse>
-    ));
-};
+    );
+});

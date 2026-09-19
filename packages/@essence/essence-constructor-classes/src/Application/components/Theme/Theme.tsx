@@ -1,6 +1,5 @@
 import * as React from "react";
-import {createTheme, useTheme, ThemeProvider as MuiThemeProvider} from "@mui/material";
-import {ThemeProvider} from "@mui/styles";
+import {createTheme, useTheme, ThemeProvider} from "@mui/material";
 import {IApplicationModel, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {
     isIE,
@@ -103,5 +102,5 @@ export const Theme: React.FC<IThemeProps> = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [applicationStore]);
 
-    return <MuiThemeProvider theme={theme}><ThemeProvider theme={theme}>{props.children}</ThemeProvider></MuiThemeProvider>;
+    return <ThemeProvider theme={theme}>{props.children}</ThemeProvider>;
 };

@@ -1,5 +1,5 @@
 
-import {computed, observable, action, makeObservable} from "mobx";
+import {computed, observable, action} from "mobx";
 import {IRecordsModel, toString, debounce, FieldValue, IRecord} from "@essence-community/constructor-share";
 import {VALUE_SELF_FIRST, VALUE_SELF_ALWAYSFIRST} from "@essence-community/constructor-share/constants";
 import {deepChange, deepFind, i18next, isEmpty, parseMemoize} from "@essence-community/constructor-share/utils";
@@ -28,16 +28,16 @@ export class FieldComboModel extends StoreBaseModel {
             : 0;
     }
 
-    @observable highlightedValue = "";
+    @observable accessor highlightedValue = "";
 
-    @observable inputValue = "";
+    @observable accessor inputValue = "";
 
-    @observable isInputChanged = false;
+    @observable accessor isInputChanged = false;
 
-    @observable lastValue: FieldValue = CLEAR_VALUE;
+    @observable accessor lastValue: FieldValue = CLEAR_VALUE;
 
     // Duplicate from i18next to control suggestions
-    @observable language: string = i18next.language;
+    @observable accessor language: string = i18next.language;
 
     @computed get selectedRecord() {
         return this.recordsStore.selectedRecord;
@@ -116,7 +116,6 @@ export class FieldComboModel extends StoreBaseModel {
             }
         }, querydelay * 1000);
 
-        makeObservable(this);
     }
 
     reloadStoreAction = async (): Promise<IRecord | undefined> => {

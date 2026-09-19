@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Grid, Dialog, Button, DialogContent} from "@mui/material";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {Icon, Scrollbars, IPageModel} from "@essence-community/constructor-share";
 import {useTranslation, toTranslateText} from "@essence-community/constructor-share/utils";
 import {useStyles} from "./PagerWindowMessage.styles";
@@ -9,12 +9,12 @@ interface IPagerWindowMessageProps {
     pageStore: IPageModel;
 }
 
-export const PagerWindowMessage: React.FC<IPagerWindowMessageProps> = (props) => {
+export const PagerWindowMessage: React.FC<IPagerWindowMessageProps> = observer((props) => {
     const classes = useStyles({});
     const {pageStore} = props;
     const [trans] = useTranslation("meta");
 
-    return useObserver(() => (
+    return (
         <Dialog
             open={pageStore.showQuestionWindow}
             container={pageStore.pageEl}
@@ -74,5 +74,5 @@ export const PagerWindowMessage: React.FC<IPagerWindowMessageProps> = (props) =>
                 </Grid>
             </div>
         </Dialog>
-    ));
-};
+    );
+});

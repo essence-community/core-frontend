@@ -4,7 +4,8 @@ import {IClassProps, IRecord} from "@essence-community/constructor-share/types";
 import {loggerRoot} from "@essence-community/constructor-share/constants";
 import {useTranslation, getPreference, decodePathUrl, encodePathUrl} from "@essence-community/constructor-share/utils";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
-import {useParams, useHistory} from "react-router-dom";
+import {useParams} from "react-router-dom";
+import {useAppHistory} from "@essence-community/constructor-share/utils/appHistory";
 import {redirectAuth} from "@essence-community/constructor-share/utils/redirect";
 import {useStyles} from "./StaticRedirectContainer.styles";
 
@@ -42,7 +43,7 @@ interface IUrlParams {
 
 export const StaticRedirectContainer: React.FC<IClassProps> = () => {
     const preference = getPreference();
-    const history = useHistory();
+    const history = useAppHistory();
     const applicationStore = React.useContext(ApplicationContext);
     const [trans] = useTranslation();
     const {b64 = ""} = useParams<IUrlParams>();

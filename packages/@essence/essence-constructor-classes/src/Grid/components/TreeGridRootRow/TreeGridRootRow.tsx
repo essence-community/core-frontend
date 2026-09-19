@@ -3,7 +3,7 @@ import {IClassProps} from "@essence-community/constructor-share/types";
 import {VALUE_SELF_ROOT, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {RecordContext} from "@essence-community/constructor-share/context";
 import {mapComponentOne} from "@essence-community/constructor-share/components";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {BaseGridRow} from "../BaseGridRow";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 
@@ -15,7 +15,7 @@ const RECORD_ROOT = {
     type: "root",
 };
 
-export const TreeGridRootRow: React.FC<ITreeGridRootRowProps> = (props) => {
+export const TreeGridRootRow: React.FC<ITreeGridRootRowProps> = observer((props) => {
     const {store} = props;
     const record = React.useMemo(
         () => ({
@@ -25,7 +25,7 @@ export const TreeGridRootRow: React.FC<ITreeGridRootRowProps> = (props) => {
         [store.recordsStore.recordId],
     );
 
-    return useObserver(() => (
+    return (
         <BaseGridRow record={RECORD_ROOT} isExpanded {...props}>
             <RecordContext.Provider value={record}>
                 {store.gridColumns.map((column) =>
@@ -39,5 +39,5 @@ export const TreeGridRootRow: React.FC<ITreeGridRootRowProps> = (props) => {
                 )}
             </RecordContext.Provider>
         </BaseGridRow>
-    ));
-};
+    );
+});

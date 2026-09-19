@@ -2,7 +2,7 @@ import * as React from "react";
 import {VAR_RECORD_LEAF, VAR_RECORD_PARENT_ID} from "@essence-community/constructor-share/constants";
 import {IRecord, IPageModel, IBuilderConfig, ICkId} from "@essence-community/constructor-share/types";
 import {Icon} from "@essence-community/constructor-share/Icon";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 
 interface IColumnTreeIconProps {
     record: IRecord;
@@ -10,11 +10,11 @@ interface IColumnTreeIconProps {
     bc: IBuilderConfig;
 }
 
-export const ColumnTreeIcon: React.FC<IColumnTreeIconProps> = (props) => {
+export const ColumnTreeIcon: React.FC<IColumnTreeIconProps> = observer((props) => {
     const {record, pageStore, bc} = props;
     const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
 
-    return useObserver(() => {
+    
         const leaf = record[VAR_RECORD_LEAF];
 
         if (typeof leaf === "boolean" ? leaf : leaf === "true") {
@@ -34,5 +34,4 @@ export const ColumnTreeIcon: React.FC<IColumnTreeIconProps> = (props) => {
         }
 
         return null;
-    });
-};
+});

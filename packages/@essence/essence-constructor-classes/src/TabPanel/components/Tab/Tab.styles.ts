@@ -1,4 +1,4 @@
-import {makeStyles} from "@mui/styles";
+import {makeStyles} from "@essence-community/constructor-share";
 import {IEssenceTheme} from "@essence-community/constructor-share/types";
 import {tabDarkStyles} from "./Tab.dark.styles";
 import {tabLightStyles} from "./Tab.light.styles";

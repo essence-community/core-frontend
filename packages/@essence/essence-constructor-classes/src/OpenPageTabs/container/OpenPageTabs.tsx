@@ -5,7 +5,7 @@ import {
     VAR_RECORD_ICON_NAME,
 } from "@essence-community/constructor-share/constants/variables";
 import {Tabs, Tab} from "@mui/material";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import * as React from "react";
 import {noop, useTranslation} from "@essence-community/constructor-share/utils";
 import ReactDOM from "react-dom";
@@ -33,7 +33,7 @@ const INITIAL_DRAG = {
 };
 
 // eslint-disable-next-line max-statements, max-lines-per-function
-export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageTabs(props) {
+export const OpenPageTabs: React.FC<IClassProps> = observer(function OpenPageTabs(props) {
     const classes = useStyles(props);
     const applicationStore = React.useContext(ApplicationContext);
 
@@ -146,7 +146,7 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
         };
     }, [handleMouseMove, handleMouseUp]);
 
-    return useObserver(() => (
+    return (
         <React.Fragment>
             <Tabs
                 value={pagesStore.activePage}
@@ -224,5 +224,5 @@ export const OpenPageTabs: React.FC<IClassProps> = React.memo(function OpenPageT
                   )
                 : null}
         </React.Fragment>
-    ));
+    );
 });

@@ -32,7 +32,7 @@ import {
 } from "@essence-community/constructor-share/types";
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 
-import {computed, observable, action, IObservableArray, makeObservable} from "mobx";
+import {computed, observable, action, IObservableArray} from "mobx";
 import {IField, IForm} from "@essence-community/constructor-share/Form";
 import {prepareArrayValues, getRestoredRecords, getRestoreValue} from "../../utils";
 import {IFieldTableModel} from "./FieldTableModel.types";
@@ -75,7 +75,7 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
     valueField: string;
 
     @observable
-    field: IField;
+    accessor field: IField;
 
     form: IForm;
 
@@ -204,10 +204,9 @@ export class FieldTableModel extends StoreBaseModel implements IFieldTableModel 
             topbtn: this.builderConfigs,
             type: this.bc.datatype === "tree" ? "TREEGRID" : "GRID",
         };
-        makeObservable(this);
     }
 
-    @observable selectedEntries: IObservableArray<[ICkId, IRecord]> = observable.array([], {deep: false});
+    @observable accessor selectedEntries: IObservableArray<[ICkId, IRecord]> = observable.array([], {deep: false});
 
     @computed get recordsGridStore(): IRecordsModel | undefined {
         const gridStore = this.pageStore.stores.get(this.gridId);

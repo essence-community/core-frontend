@@ -1,4 +1,5 @@
 import * as React from "react";
+import {observer} from "mobx-react";
 import cn from "clsx";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {useField} from "@essence-community/constructor-share/Form";
@@ -51,7 +52,7 @@ const prepareValue = (parsedValue: IParsedValue): string => {
     }`;
 };
 
-export const FieldRegexpReplContainer: React.FC<IClassProps> = React.memo(function FieldRegexpReplContainerMemo(props) {
+export const FieldRegexpReplContainer: React.FC<IClassProps> = observer(function FieldRegexpReplContainerMemo(props) {
     const {bc, disabled, readOnly} = props;
     const field = useField(props);
     const isDisabled = useFieldDisabled({disabled, form: field.form, readOnly});

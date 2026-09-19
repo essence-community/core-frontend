@@ -1,108 +1,68 @@
- 
- 
 import * as React from "react";
-import {shallow} from "enzyme";
-import {Icon} from "@essence-community/constructor-share/Icon";
+import {act, fireEvent, render, screen} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import {getBaseBc, Renderer, createEmptyPageStore} from "@essence-community/constructor-share/utils/test";
-import {ColumnIconLink} from "../components/ColumnIconLink";
 import {ColumnIconContainer} from "../containers/ColumnIconContainer";
 
-// Register
 import "../../Button";
 
 const bc = getBaseBc("COLUMN.ICON", {
     handler: "showMenu",
+    readonly: false,
 });
 
- 
+const popoverSelector = "[data-page-object='COLUMN.ICON-links']";
+
+function renderColumnIcon(pageStore = createEmptyPageStore()) {
+    pageStore.setPageElAction(document.body);
+
+    return {
+        pageStore,
+        user: userEvent.setup(),
+        ...render(<Renderer bc={bc} component={ColumnIconContainer} pageStore={pageStore} />),
+    };
+}
+
 describe("ColumnIconLink", () => {
-    // $FlowFixMe
-    // PageStore.applicationStore.redirectToAction = jest.fn();
-    // // $FlowFixMe
-    // PageStore.setPageInnerElAction(document.body);
-
     it("render", () => {
-        // Const wrapper = mountWithTheme(<GridColumnLink {...props} />);
-        // TODO переделать
-        // @ts-ignore
-        const wrapper = shallow(<Renderer bc={bc} component={ColumnIconContainer} />);
+        renderColumnIcon();
 
-        expect(wrapper.find(Icon).length).toBe(1);
-        expect(wrapper.find(ColumnIconLink).length).toBe(0);
-
-        wrapper.unmount();
+        expect(screen.getByRole("button")).toBeInTheDocument();
     });
 
-    it("Проверка открытия меню", () => {
-        // TODO переделать
-        // @ts-ignore
-        const wrapper = shallow(<Renderer bc={bc} component={ColumnIconContainer} />);
+    it("Проверка открытия меню", async () => {
+        const {user} = renderColumnIcon();
 
-        wrapper.find(Icon).simulate("click");
+        await user.click(screen.getByRole("button"));
 
-        // expect(wrapper.find(ColumnIconLink).length).toBe(2);
-
-        wrapper.unmount();
+        expect(document.querySelector(popoverSelector)).toBeInTheDocument();
     });
 
-    it.skip("Проверка открытия меню - hiddenrules ck_d_m для первой link", () => {
-        // const wrapper = mountWithTheme(<GridColumnLink {...props} record={{ckDMo: 5}} />);
-        // TODO переделать
-        // @ts-ignore
-        const wrapper = shallow(<Renderer bc={bc} component={ColumnIconContainer} />);
+    it.skip("Проверка открытия меню - hiddenrules ck_d_m для первой link", async () => {
+        const {user} = renderColumnIcon();
 
-        wrapper.find(Icon).simulate("click");
+        await user.click(screen.getByRole("button"));
 
-        expect(wrapper.find(ColumnIconLink).length).toBe(2);
-
-        wrapper.unmount();
+        expect(screen.getAllByRole("button").length).toBeGreaterThan(1);
     });
 
-    it("Проверка закрытия меню по esc", () => {
-        // TODO переделать
-        // @ts-ignore
-        const wrapper = shallow(<Renderer bc={bc} component={ColumnIconContainer} />);
+    it("Проверка закрытия меню по esc", async () => {
+        const {user} = renderColumnIcon();
 
-        wrapper.find(Icon).simulate("click");
+        await user.click(screen.getByRole("button"));
+        fireEvent.keyDown(document.querySelector(popoverSelector)!, {key: "Escape"});
 
-        // document.dispatchEvent(new KeyboardEvent("keydown", {keyCode: keycode("esc")}));
-        wrapper.update();
-
-        expect(wrapper.find(ColumnIconLink).length).toBe(0);
-
-        wrapper.unmount();
+        expect(document.querySelector(popoverSelector)).not.toBeInTheDocument();
     });
 
-    // it("Проверка закрытия меню по клику на меню", () => {
-    //     const wrapper = mountWithTheme(<GridColumnLink {...props} record={{[VAR_RECORD_ID]: 1}} />);
+    it("Проверка закрытия меню по скролу от pageStore", async () => {
+        const {user, pageStore} = renderColumnIcon();
 
-    //     wrapper.find(Icon).simulate("click");
-    //     wrapper
-    //         .find(ColumnIconLink)
-    //         .at(0)
-    //         .simulate("click");
+        await user.click(screen.getByRole("button"));
+        act(() => {
+            pageStore.fireScrollEvent();
+        });
 
-    //     expect(wrapper.find(ColumnIconLink).length).toBe(0);
-    //     expect(
-    //         pageStore.applicationStore.redirectToAction,
-    //     ).toHaveBeenLastCalledWith(gridBc.contextmenus[0].redirecturl.substring(4), {gckMo: 1, gckMoSelect: 1});
-
-    //     wrapper.unmount();
-    // });
-
-    it("Проверка закрытия меню по скролу от pageStore", () => {
-        const pageStore = createEmptyPageStore();
-        // TODO переделать
-        // @ts-ignore
-        const wrapper = shallow(<Renderer bc={bc} component={ColumnIconContainer} pageStore={pageStore} />);
-
-        wrapper.find(Icon).simulate("click");
-        pageStore.fireScrollEvent();
-        wrapper.update();
-
-        expect(wrapper.find(ColumnIconLink).length).toBe(0);
-        wrapper.update();
-
-        wrapper.unmount();
+        expect(document.querySelector(popoverSelector)).not.toBeInTheDocument();
     });
 });

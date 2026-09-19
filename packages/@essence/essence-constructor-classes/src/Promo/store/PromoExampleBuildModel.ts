@@ -1,5 +1,5 @@
 import {StoreBaseModel} from "@essence-community/constructor-share/models";
-import {observable, IObservableArray, makeObservable} from "mobx";
+import {observable, IObservableArray} from "mobx";
 import {
     IBuilderConfig,
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -14,15 +14,14 @@ import {makeChilds, makePreviewChilds} from "../mock/childsBuild";
 export class PromoExampleBuildModel extends StoreBaseModel {
     constructor(props: IStoreBaseModelProps) {
         super(props);
-        makeObservable(this);
     }
     previewChilds = makePreviewChilds(this.bc[VAR_RECORD_PAGE_OBJECT_ID]);
 
-    @observable childs: IObservableArray<IBuilderConfig> = observable.array(makeChilds(this.bc, this.previewChilds), {
+    @observable accessor childs: IObservableArray<IBuilderConfig> = observable.array(makeChilds(this.bc, this.previewChilds), {
         deep: false,
     });
 
-    @observable values = {};
+    @observable accessor values = {};
 
     saveAction = (values: IBuilderConfig) => {
         const [...newChilds] = this.previewChilds;

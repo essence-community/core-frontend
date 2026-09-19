@@ -1,5 +1,5 @@
 import {Collapse} from "@mui/material";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import * as React from "react";
 import {VAR_RECORD_ID, VAR_RECORD_ROUTE_VISIBLE_MENU} from "@essence-community/constructor-share/constants/variables";
 import {TreeRow} from "../TreeRow/TreeRow";
@@ -7,11 +7,11 @@ import {IRoute} from "../TreeRow/TreeRow.types";
 import {useStyles} from "./TreeRows.styles";
 import {ITreeRowsProps} from "./TreeRows.types";
 
-export const TreeRows: React.FC<ITreeRowsProps> = (props) => {
+export const TreeRows: React.FC<ITreeRowsProps> = observer((props) => {
     const {parent, pageStore, routesStore, pagesStore, level, treeModel} = props;
     const classes = useStyles(props);
 
-    return useObserver(() => {
+    
         const isClose = parent !== null && !treeModel.expansionRecords.get(parent);
 
         const records = routesStore.recordsStore.records.filter(
@@ -60,5 +60,4 @@ export const TreeRows: React.FC<ITreeRowsProps> = (props) => {
                 })}
             </Collapse>
         );
-    });
-};
+});

@@ -14,7 +14,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {useTheme, IconButton} from "@mui/material";
 import {reaction} from "mobx";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {
     IPopoverAnchorOrigin,
@@ -59,7 +59,7 @@ interface ITabsProps extends IClassProps {
 }
 
 // eslint-disable-next-line max-lines-per-function, max-statements
-export const Tabs: React.FC<ITabsProps> = React.memo((props) => {
+export const Tabs: React.FC<ITabsProps> = observer((props) => {
     const {bc, disabled, store, pageStore, visible} = props;
     const {align = "center", contentview = "hbox"} = bc;
     const [selectedTab, setSelectedTab] = React.useState<null | string>(null);
@@ -167,7 +167,7 @@ export const Tabs: React.FC<ITabsProps> = React.memo((props) => {
         }
     }, [handleGetTabsMode, visible, panelWidth]);
 
-    return useObserver(() => (
+    return (
         <div
             tabIndex={disabled ? undefined : 0}
             onKeyDown={handleKeyDown}
@@ -225,5 +225,5 @@ export const Tabs: React.FC<ITabsProps> = React.memo((props) => {
                 </Popover>
             )}
         </div>
-    ));
+    );
 });

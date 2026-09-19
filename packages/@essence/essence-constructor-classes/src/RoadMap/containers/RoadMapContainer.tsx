@@ -6,12 +6,12 @@ import {mapComponents} from "@essence-community/constructor-share/components";
 import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {useModel} from "@essence-community/constructor-share/hooks";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {RoadMapModel} from "../store/RoadMapModel";
 import {RoadMapTabs} from "../companents/RoadMapTabs/RoadMapTabs";
 import {useStyles} from "./RoadMapContainer.styles";
 
-export const RoadMapContainer: React.FC<IClassProps> = (props) => {
+export const RoadMapContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, disabled, readOnly, elevation, hidden, pageStore, visible} = props;
     const {align, childs} = bc;
     const [store] = useModel((options) => new RoadMapModel(options), props);
@@ -21,7 +21,7 @@ export const RoadMapContainer: React.FC<IClassProps> = (props) => {
     ]);
     const direction = React.useMemo(() => (align === "left" ? "row" : "row-reverse"), [align]);
 
-    return useObserver(() => {
+    
         if (!childs || !childs.length) {
             return null;
         }
@@ -138,5 +138,4 @@ export const RoadMapContainer: React.FC<IClassProps> = (props) => {
                 </Grid>
             </Grid>
         );
-    });
-};
+});

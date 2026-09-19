@@ -1,4 +1,5 @@
 import * as React from "react";
+import {observer} from "mobx-react";
 import {reaction} from "mobx";
 import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {TextFieldLabel, TextFieldMask} from "@essence-community/constructor-share/uicomponents";
@@ -27,7 +28,7 @@ interface IFieldTextSmartMaskProps {
 }
 
 // eslint-disable-next-line max-lines-per-function
-export const FieldTextSmartMask: React.FC<IFieldTextSmartMaskProps> = (props) => {
+export const FieldTextSmartMask: React.FC<IFieldTextSmartMaskProps> = observer((props) => {
     const {field, pageStore} = props;
     const form = React.useContext(FormContext);
     const [imask, setImask] = React.useState("");
@@ -193,4 +194,4 @@ export const FieldTextSmartMask: React.FC<IFieldTextSmartMaskProps> = (props) =>
             beforeMaskedValueChange={handleBeforeMaskedValueChange}
         />
     ) : null;
-};
+});

@@ -21,14 +21,14 @@ import {
     useDefaultValueQuery,
 } from "@essence-community/constructor-share/hooks";
 import {useField} from "@essence-community/constructor-share/Form";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {FieldRadioModel} from "../stores/FieldRadioModel";
 import {getFirstValues} from "../utils";
 import {ISuggestion} from "../FieldRadio.types";
 import {useStyles} from "./FieldRadioContainer.styles";
 
 // eslint-disable-next-line max-lines-per-function, max-statements
-export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
+export const FieldRadioContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore, disabled, hidden, visible, readOnly} = props;
     const {getgloballist} = bc;
     const [focused, setFocused] = React.useState(false);
@@ -156,7 +156,7 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
         );
     };
 
-    return useObserver(() => {
+    
         const content = (
             <Scrollbars autoHeight autoHeightMax={371} autoHeightMin={36} hideTracksWhenNotNeeded preventAltScroll>
                 <div style={{height: bc.height ? bc.height : "auto"}}>
@@ -215,5 +215,4 @@ export const FieldRadioContainer: React.FC<IClassProps> = (props) => {
         }
 
         return <React.Fragment>{content}</React.Fragment>;
-    });
-};
+});

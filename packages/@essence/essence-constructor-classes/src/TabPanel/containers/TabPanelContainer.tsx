@@ -4,7 +4,7 @@ import {IClassProps} from "@essence-community/constructor-share/types";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {Paper} from "@mui/material";
 import {TabPanelModel} from "../store/TabPanelModel";
@@ -13,7 +13,7 @@ import {TabPanelPosition} from "../TabPanel.types";
 import {useGetGlobal} from "../hooks/useGetGlobal";
 import {useStyles} from "./TabPanelContainer.styles";
 
-export const TabPanelContainer: React.FC<IClassProps> = (props) => {
+export const TabPanelContainer: React.FC<IClassProps> = observer((props) => {
     const {pageStore, elevation, visible, bc, hidden} = props;
     const {align = "center", contentview = "hbox"} = bc;
     const applicationStore = React.useContext(ApplicationContext);
@@ -23,8 +23,7 @@ export const TabPanelContainer: React.FC<IClassProps> = (props) => {
 
     useGetGlobal({store});
 
-    return useObserver(() =>
-        hidden ? null : (
+    return hidden ? null : (
             <div className={cn(classes.rootDefault, classes.root, classes[positonName])}>
                 <Tabs {...props} store={store} />
                 {mapComponents(store.childs, (Child, childBc) => {
@@ -62,6 +61,5 @@ export const TabPanelContainer: React.FC<IClassProps> = (props) => {
                     return content;
                 })}
             </div>
-        ),
-    );
-};
+        );
+});

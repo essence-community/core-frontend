@@ -3,8 +3,7 @@ import {IClassProps, ICkId, IEssenceTheme} from "@essence-community/constructor-
 import {isEmpty, useTranslation, toTranslateText} from "@essence-community/constructor-share/utils";
 import {reaction} from "mobx";
 import cn from "clsx";
-import {Grid, useTheme, ThemeProvider as MuiThemeProvider} from "@mui/material";
-import {ThemeProvider} from "@mui/styles";
+import {Grid, useTheme, ThemeProvider} from "@mui/material";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
     VAR_RECORD_DISPLAYED,
@@ -12,7 +11,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {EmptyTitle, PageLoader} from "@essence-community/constructor-share/uicomponents";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {useResizerEE} from "@essence-community/constructor-share/hooks";
 import {settingsStore} from "@essence-community/constructor-share/index";
 import {updateGridWidth} from "../../utils";
@@ -33,7 +32,7 @@ interface IBaseGridProps extends IClassProps {
 }
 
 // eslint-disable-next-line max-statements, max-lines-per-function
-export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classProps}) => {
+export const BaseGrid: React.FC<IBaseGridProps> = observer(({store, children, ...classProps}) => {
     const {pageStore, visible, bc} = classProps;
     const classes = useStyles();
     const isHideActions = bc.hideactions === true;
@@ -152,7 +151,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
     const setRefGridContent = (node: HTMLElement | null) => store.addRefAction("grid-content", node);
     const setRefGridInlineButton = (node: HTMLElement | null) => store.addRefAction("grid-inline-button", node);
 
-    return useObserver(() => {
+    
         const filterStore = firstFilter && pageStore.stores.get(firstFilter[VAR_RECORD_PAGE_OBJECT_ID]);
 
         if (isFilterActionsPresent && isDarkTheme) {
@@ -178,8 +177,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
                 </Grid>
             );
         const filterComponent = (
-            <MuiThemeProvider theme={themeFilterNew}>
-                <ThemeProvider theme={themeFilterNew}>
+            <ThemeProvider theme={themeFilterNew}>
                     <Grid size={!isDarkTheme ? 12 : "auto"}>
                         {mapComponents(bc.filters, (ChildCmp, childBc) => (
                             <ChildCmp
@@ -190,8 +188,7 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
                             />
                         ))}
                     </Grid>
-                </ThemeProvider>
-            </MuiThemeProvider>
+            </ThemeProvider>
         );
         const tableComponent = (
             <Grid className={store.isInlineEditing ? "panel-editing-focus" : undefined}>
@@ -268,5 +265,4 @@ export const BaseGrid: React.FC<IBaseGridProps> = ({store, children, ...classPro
                 /> : null}
             </>
         );
-    });
-};
+});

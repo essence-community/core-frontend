@@ -1,7 +1,7 @@
  
 /* eslint-disable max-statements */
 import React from "react";
-import {action, computed, makeObservable, observable, ObservableMap} from "mobx";
+import {action, computed, observable, ObservableMap} from "mobx";
 import merge from "lodash/merge";
 import {IRecord, IBuilderMode, IBuilderConfig} from "../types";
 import {cloneDeepElementary, entriesMapSort} from "../utils/transform";
@@ -15,7 +15,7 @@ import {IField, IFormProps, IForm, IFormHooks, IRegisterFieldOptions} from "./ty
 const loggerForm = loggerRoot.extend("share.form");
 
 export class Form implements IForm {
-    @observable public initialValues: IRecord = {};
+    @observable public accessor initialValues: IRecord = {};
 
     public hooks: IFormHooks;
 
@@ -39,28 +39,27 @@ export class Form implements IForm {
         this.editing = props.editing;
         this.bc = props.bc;
         this.pageStore = props.pageStore;
-        makeObservable(this);
     }
 
-    @observable public fields: ObservableMap<string, IField> = observable.map();
-    @observable public fieldsFile: ObservableMap<string, IField> = observable.map();
+    @observable public accessor fields: ObservableMap<string, IField> = observable.map();
+    @observable public accessor fieldsFile: ObservableMap<string, IField> = observable.map();
 
-    @observable public extraValue: IRecord = {};
+    @observable public accessor extraValue: IRecord = {};
 
-    @observable public submitting = false;
+    @observable public accessor submitting = false;
 
-    @observable public isDirty = false;
+    @observable public accessor isDirty = false;
 
     /**
      * Status of the editing form
      * Filter, Window - always editing
      * Panel, History - when click on edit or add or ... button
      */
-    @observable public editing: boolean;
+    @observable public accessor editing: boolean;
 
-    @observable public validationCount = 0;
+    @observable public accessor validationCount = 0;
 
-    @observable public valueKey: FieldValue;
+    @observable public accessor valueKey: FieldValue;
 
     @computed get values(): IRecord {
         const extraValue = cloneDeepElementary(this.extraValue);

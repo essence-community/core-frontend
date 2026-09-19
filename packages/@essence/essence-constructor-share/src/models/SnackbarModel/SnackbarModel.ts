@@ -1,6 +1,6 @@
 
 
-import {observable, computed, action, IObservableArray, makeObservable} from "mobx";
+import {observable, computed, action, IObservableArray} from "mobx";
 import {v4} from "uuid";
 import {isObject, forEach, get} from "lodash";
 import {
@@ -56,14 +56,14 @@ import {
  */
 export class SnackbarModel implements ISnackbarModel {
     @observable
-    snackbars: IObservableArray<ISnackbar> = observable.array([]);
+    accessor snackbars: IObservableArray<ISnackbar> = observable.array([]);
     @observable
-    snackbarsAll: IObservableArray<ISnackbar> = observable.array([]);
+    accessor snackbarsAll: IObservableArray<ISnackbar> = observable.array([]);
 
     recordsStore: IRecordsModelLite;
 
     @observable
-    activeStatus: SnackbarStatus = "all";
+    accessor activeStatus: SnackbarStatus = "all";
     @computed
     get snackbarsCount(): number {
         return this.snackbarsAll.filter((snackbar: ISnackbar) => snackbar.status !== "debug" && snackbar.read === false)
@@ -98,7 +98,6 @@ export class SnackbarModel implements ISnackbarModel {
         };
 
         this.recordsStore = new RecordsModelLite(bc);
-        makeObservable(this);
     }
 
     @action

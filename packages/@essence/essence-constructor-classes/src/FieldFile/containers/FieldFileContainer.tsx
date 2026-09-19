@@ -1,5 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import * as React from "react";
+import {observer} from "mobx-react";
 import {IconButton, TextField} from "@mui/material";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
@@ -10,7 +11,7 @@ import {useCallback} from "react";
 import {FileInputModel} from "../store/FileInputModel";
 import {useStyles} from "./FieldFileContainer.styles";
 
-export const FieldFileContainer: React.FC<IClassProps> = (props) => {
+export const FieldFileContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
     const classes = useStyles();
     const inputRef = React.useRef<HTMLInputElement>(null);
@@ -162,4 +163,4 @@ export const FieldFileContainer: React.FC<IClassProps> = (props) => {
             />
         </div>
     );
-};
+});

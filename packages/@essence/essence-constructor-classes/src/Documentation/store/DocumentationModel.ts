@@ -1,6 +1,6 @@
 import {StoreBaseModel, RecordsModel} from "@essence-community/constructor-share/models";
 import {IStoreBaseModelProps, IRecordsModel} from "@essence-community/constructor-share/types";
-import {action, computed, makeObservable} from "mobx";
+import {action, computed} from "mobx";
 
 export class DocumentationModel extends StoreBaseModel {
     public recordsStore: IRecordsModel;
@@ -12,7 +12,6 @@ export class DocumentationModel extends StoreBaseModel {
             applicationStore: this.pageStore.applicationStore,
             pageStore: this.pageStore,
         });
-        makeObservable(this);
     }
 
     @computed

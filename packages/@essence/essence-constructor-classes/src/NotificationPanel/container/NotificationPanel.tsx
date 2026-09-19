@@ -2,7 +2,7 @@ import {IClassProps, Icon, Scrollbars, SnackbarStatus} from "@essence-community/
 import {snackbarStore} from "@essence-community/constructor-share/models";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {ButtonBase, Grid, Tabs} from "@mui/material";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import * as React from "react";
 import {Notification} from "../components/Notification/Notification";
 import NotificationsReadButton from "../components/NotificationsReadButton/NotificationsReadButton";
@@ -14,7 +14,7 @@ const SCROLLBARS_STYLE = {
     height: "calc(100% - 114px)",
 };
 
-export const NotificationPanel: React.FC<IClassProps> = (props) => {
+export const NotificationPanel: React.FC<IClassProps> = observer((props) => {
     const classes = useStyles(props);
     const [trans] = useTranslation("meta");
     const tabsBc = React.useMemo(() => {
@@ -26,7 +26,7 @@ export const NotificationPanel: React.FC<IClassProps> = (props) => {
         snackbarStore.setStatusAction(defaultvalue as SnackbarStatus);
     };
 
-    return useObserver(() => (
+    return (
         <div className={classes.root}>
             <Tabs
                 value={mapNotification[snackbarStore.activeStatus]}
@@ -71,5 +71,5 @@ export const NotificationPanel: React.FC<IClassProps> = (props) => {
                 </Grid>
             </Grid>
         </div>
-    ));
-};
+    );
+});

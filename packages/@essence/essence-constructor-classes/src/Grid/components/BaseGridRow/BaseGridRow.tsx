@@ -6,7 +6,7 @@ import {VAR_RECORD_JV_ROWCOLOR, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-commun
 import {PopoverContext, RecordContext} from "@essence-community/constructor-share/context";
 import {reaction} from "mobx";
 import {mapComponents} from "@essence-community/constructor-share/components";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {Skeleton} from "@mui/material";
 import {deepFind, isEmpty, parseMemoize} from "@essence-community/constructor-share/utils";
 import {useGetValue} from "@essence-community/constructor-share/hooks/useCommon/useGetValue";
@@ -21,7 +21,7 @@ interface IBaseGridRowProps extends IClassProps {
     isDetail?: boolean;
 }
 
-export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
+export const BaseGridRow: React.FC<IBaseGridRowProps> = observer((props) => {
     const {bc, store, record, isExpanded, isDetail, children, ...classProps} = props;
     const rowcolor = record[VAR_RECORD_JV_ROWCOLOR];
     const [selected, setSelected] = React.useState(false);
@@ -169,7 +169,7 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
         store.handleDoubleClick({popoverCtx});
     }, [popoverCtx, store]);
 
-    return useObserver(() => (
+    return (
         <tr
             style={typeof rowcolor === "string" && !selected ? {backgroundColor: rowcolor} : undefined}
             className={className}
@@ -206,5 +206,5 @@ export const BaseGridRow: React.FC<IBaseGridRowProps> = (props) => {
                 </RecordContext.Provider>
             )}
         </tr>
-    ));
-};
+    );
+});

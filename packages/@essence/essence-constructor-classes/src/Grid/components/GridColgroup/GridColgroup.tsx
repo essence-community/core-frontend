@@ -1,6 +1,6 @@
 import * as React from "react";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {IGridModel} from "../../stores/GridModel/GridModel.types";
 import {WIDTH_MAP} from "../../constants";
 
@@ -8,8 +8,8 @@ interface IGridColgroup {
     store: IGridModel;
 }
 
-export const GridColgroup: React.FC<IGridColgroup> = ({store}) => {
-    return useObserver(() => (
+export const GridColgroup: React.FC<IGridColgroup> = observer(({store}) => {
+    return (
         <colgroup>
             {store.gridColumns.map(({[VAR_RECORD_PAGE_OBJECT_ID]: ckPageObject, maxwidth, minwidth, datatype}) => (
                 <col
@@ -22,5 +22,5 @@ export const GridColgroup: React.FC<IGridColgroup> = ({store}) => {
                 />
             ))}
         </colgroup>
-    ));
-};
+    );
+});

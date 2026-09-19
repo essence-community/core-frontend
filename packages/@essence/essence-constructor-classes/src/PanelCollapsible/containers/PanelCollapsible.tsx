@@ -7,11 +7,11 @@ import {VAR_RECORD_DISPLAYED, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-communit
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {toTranslateText} from "@essence-community/constructor-share/utils/transform";
 import {FormContext} from "@essence-community/constructor-share/context";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {GRID_CONFIGS, GRID_ALIGN_CONFIGS} from "@essence-community/constructor-share/constants/ui";
 import {useStyles} from "./PanelCollapsible.styles";
 
-export const PanelCollapsible: React.FC<IClassProps> = (props) => {
+export const PanelCollapsible: React.FC<IClassProps> = observer((props) => {
     const {children, bc} = props;
     const [open, setOpen] = React.useState(!bc.collapsed);
     const [trans] = useTranslation("meta");
@@ -34,7 +34,7 @@ export const PanelCollapsible: React.FC<IClassProps> = (props) => {
         [handleChangeCollapse],
     );
 
-    return useObserver(() => (
+    return (
         <Collapse
             in={open}
             collapsedSize={35}
@@ -81,5 +81,5 @@ export const PanelCollapsible: React.FC<IClassProps> = (props) => {
                 </Grid>
             </Grid>
         </Collapse>
-    ));
-};
+    );
+});

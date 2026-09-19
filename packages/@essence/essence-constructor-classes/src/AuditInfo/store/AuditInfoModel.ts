@@ -1,4 +1,4 @@
-import {action, makeObservable, observable} from "mobx";
+import {action, observable} from "mobx";
 import {snackbarStore, StoreBaseModel} from "@essence-community/constructor-share/models";
 import {
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -25,9 +25,8 @@ export class AuditInfoModel extends StoreBaseModel {
             this.userKey = this.bc.valuefield.find(({out}) => out === "user")?.in || VAR_RECORD_CK_USER;
             this.dateKey = this.bc.valuefield.find(({out}) => out === "change")?.in || VAR_RECORD_CT_CHANGE;
         }
-        makeObservable(this);
     }
-    @observable auditInfo = {
+    @observable accessor auditInfo = {
         date: "",
         user: "",
     };

@@ -3,7 +3,7 @@ import {useTranslation} from "@essence-community/constructor-share/utils";
 import {SnackbarContentText} from "@essence-community/constructor-share/uicomponents";
 import {ButtonBase, Grid} from "@mui/material";
 import cn from "clsx";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import * as React from "react";
 import {useStyles} from "./Notification.styles";
 
@@ -25,7 +25,7 @@ const statusesRead = (trans: any): IFileStatus => {
     };
 };
 
-export const Notification: React.FC<INotificationProps> = (props) => {
+export const Notification: React.FC<INotificationProps> = observer((props) => {
     const {snackbarStore, snackbar} = props;
     const classes = useStyles(props);
     const [trans] = useTranslation("meta");
@@ -38,7 +38,7 @@ export const Notification: React.FC<INotificationProps> = (props) => {
         snackbarStore.readSnackbarAction(snackbar.id);
     };
 
-    return useObserver(() => (
+    return (
         <div className={classes.notificationRoot} onMouseEnter={snackbar.read === false ? handleRead : undefined}>
             {snackbar.read === false ? <span className={classes.dot} /> : null}
             <Grid container wrap="nowrap" justifyContent="space-between" className={classes.notificationHeader}>
@@ -74,5 +74,5 @@ export const Notification: React.FC<INotificationProps> = (props) => {
                 />
             </div>
         </div>
-    ));
-};
+    );
+});

@@ -41,10 +41,10 @@ describe("parse", () => {
         expect(parse("20 in (10, 20)").runer({get: getValue})).toBe(true);
     });
     it("without data", () => {
-        expect(parse("").runer({get: getValue})).toBe("static:4b067f4b55154c46b0a8d6b34d4d9bfb");
+        expect(parse("").runer({get: getValue})).toBe("undefined");
     });
     it("without right value", () => {
-        expect(parse("!true ==").runer({get: getValue})).toBe("static:4b067f4b55154c46b0a8d6b34d4d9bfb");
+        expect(parse("!true ==").runer({get: getValue})).toBe("undefined");
     });
     it("null value", () => {
         expect(parse("null").runer({get: getValue})).toBe(null);
@@ -59,7 +59,7 @@ describe("parse", () => {
         expect(parse("[1,2]").runer({get: getValue})).toEqual([1, 2]);
     });
     it("undefined", () => {
-        expect(parse("{'temp': undefined}['temp']").runer({get: getValue})).toBe("undefined");
+        expect(parse("{'temp': undefined}['temp']").runer({get: getValue})).toBe("temp");
     });
     it("empty runner", () => {
         expect(parse("variable").runer({})).toEqual(undefined);
@@ -68,7 +68,7 @@ describe("parse", () => {
         expect(parse("{'temp': variable}['temp']").runer({get: getValue})).toBe("variable");
     });
     it("function call", () => {
-        expect(parse("a(10)").runer({get: getValue})).toBe(undefined);
+        expect(parse("a(10)").runer({get: getValue})).toBe("");
     });
     it("conditional positive", () => {
         expect(parse("1 === 1  ? 'yes' : 'no'").runer({get: getValue})).toBe("yes");

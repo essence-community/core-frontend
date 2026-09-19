@@ -1,6 +1,5 @@
 import * as React from "react";
-import {ThemeProvider as MuiThemeProvider, createTheme} from "@mui/material";
-import {ThemeProvider} from "@mui/styles";
+import {ThemeProvider, createTheme} from "@mui/material";
 import {IObservableArray, observable} from "mobx";
 import {createMemoryHistory} from "history";
 import {
@@ -248,10 +247,8 @@ export const Renderer: React.FC<IRendererProps> = (props) => {
     const pageStore = React.useMemo(() => classProps.pageStore || createEmptyPageStore(), [classProps.pageStore]);
 
     return (
-        <MuiThemeProvider theme={theme}>
-            <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
                 <Component {...classProps} pageStore={pageStore} visible />
-            </ThemeProvider>
-        </MuiThemeProvider>
+        </ThemeProvider>
     );
 };

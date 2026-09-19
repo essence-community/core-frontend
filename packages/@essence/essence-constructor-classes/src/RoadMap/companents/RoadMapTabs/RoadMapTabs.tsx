@@ -2,7 +2,7 @@
 import * as React from "react";
 import {IBuilderConfig, IPageModel} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {debounce, toTranslateText, useTranslation} from "@essence-community/constructor-share/utils";
 import keycode from "keycode";
 import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constants/variables";
@@ -25,7 +25,7 @@ export interface IRoadMapTabs {
 const RESIZE_DELAY = 100;
 const DEFAULT_WIDTH_TAB = 228;
 
-export const RoadMapTabs: React.FC<IRoadMapTabs> = (props) => {
+export const RoadMapTabs: React.FC<IRoadMapTabs> = observer((props) => {
     const {orientation, store, visible, bc, disabled, pageStore} = props;
     const {tabwidth} = bc;
     const classes = useStyles();
@@ -152,7 +152,7 @@ export const RoadMapTabs: React.FC<IRoadMapTabs> = (props) => {
         );
     }, [orientation, classes, trans]);
 
-    return useObserver(() => (
+    return (
         <Grid className={classes.fullWidth}>
             <div
                 tabIndex={disabled ? undefined : 0}
@@ -215,5 +215,5 @@ export const RoadMapTabs: React.FC<IRoadMapTabs> = (props) => {
                 </Tabs>
             </div>
         </Grid>
-    ));
-};
+    );
+});

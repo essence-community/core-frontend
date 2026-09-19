@@ -1,5 +1,5 @@
 import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
-import {StyleRules} from "@mui/styles";
+import {StyleRules} from "@essence-community/constructor-share";
 
 export const lightStyles = (theme: IEssenceTheme): StyleRules<IClassProps, "root"> => ({
     root: {

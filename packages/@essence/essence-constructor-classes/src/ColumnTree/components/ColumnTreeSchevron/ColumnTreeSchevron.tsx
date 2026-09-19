@@ -3,7 +3,7 @@ import {IRecord, IPageModel, IBuilderConfig} from "@essence-community/constructo
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {IconButton} from "@mui/material";
 import {VAR_RECORD_PARENT_ID, VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {useStyles} from "./ColumnTreeSchevron.styles";
 
 interface IColumnTreeSchevronProps {
@@ -13,7 +13,7 @@ interface IColumnTreeSchevronProps {
     disabled?: boolean;
 }
 
-export const ColumnTreeSchevron: React.FC<IColumnTreeSchevronProps> = (props) => {
+export const ColumnTreeSchevron: React.FC<IColumnTreeSchevronProps> = observer((props) => {
     const {record, pageStore, bc, disabled} = props;
     const store = pageStore.stores.get(bc[VAR_RECORD_PARENT_ID]);
     const classes = useStyles();
@@ -26,7 +26,7 @@ export const ColumnTreeSchevron: React.FC<IColumnTreeSchevronProps> = (props) =>
         }
     };
 
-    return useObserver(() => {
+    
         const isExpanded = store?.recordsStore
             ? store.recordsStore.expansionRecords.get(record[store.recordsStore.recordId] as string)
             : false;
@@ -44,5 +44,4 @@ export const ColumnTreeSchevron: React.FC<IColumnTreeSchevronProps> = (props) =>
                 <Icon iconfont={isExpanded ? "caret-down" : "caret-right"} />
             </IconButton>
         );
-    });
-};
+});

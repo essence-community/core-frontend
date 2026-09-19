@@ -2,7 +2,7 @@ import * as React from "react";
 import {IClassProps, IPageModel} from "@essence-community/constructor-share/types";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_QUERY_ID, VAR_SETTING_AUTH_URL} from "@essence-community/constructor-share/constants";
-import {useHistory} from "react-router-dom";
+import {useAppHistory} from "@essence-community/constructor-share/utils/appHistory";
 import {parse, stringify} from "qs";
 import {History} from "history";
 import {removeFromLocalStore, getFromLocalStore} from "@essence-community/constructor-share/utils/storage";
@@ -35,7 +35,7 @@ function getAuthUrl(history: History, pageStore: IPageModel, backUrl: string): U
 
 export const StaticKeyCloakContainer: React.FC<IClassProps> = ({bc}) => {
     const applicationStore = React.useContext(ApplicationContext);
-    const history = useHistory();
+    const history = useAppHistory();
 
     React.useEffect(() => {
         const params =

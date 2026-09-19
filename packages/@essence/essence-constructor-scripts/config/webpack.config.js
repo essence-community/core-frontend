@@ -9,9 +9,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-const HtmlWebpackTagsPlugin = require("html-webpack-tags-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
 const packageJson = require(resolveApp("package.json"));
@@ -284,49 +281,6 @@ module.exports = {
             inject: true,
             excludeChunks: [packageJson.name],
             template: path.join(resolveApp("public"), "index.html"),
-        }),
-        !isEnvProduction &&
-        new CopyWebpackPlugin({
-            patterns: [
-                {
-                    from: path.join(
-                        resolveApp("node_modules"),
-                        "@essence-community",
-                        "constructor-dll",
-                        "dist",
-                        "assets",
-                    ),
-                    to: "static/",
-                },
-            ],
-        }),
-        !isEnvProduction &&
-        new HtmlWebpackTagsPlugin({
-            tags: [
-                {
-                    path: "static",
-                    glob: "*.js",
-                    globPath: path.join(
-                        resolveApp("node_modules"),
-                        "@essence-community",
-                        "constructor-dll",
-                        "dist",
-                        "assets",
-                    ),
-                },
-            ],
-            append: false,
-        }),
-        new webpack.DllReferencePlugin({
-            context: resolveApp(""),
-            manifest: require(path.join(
-                resolveApp("node_modules"),
-                "@essence-community",
-                "constructor-dll",
-                "dist",
-                "manifest.json",
-            )),
-            name: "essenceconstructorshare",
         }),
         !isEnvProduction && new webpack.HotModuleReplacementPlugin(),
         isEnvProduction &&

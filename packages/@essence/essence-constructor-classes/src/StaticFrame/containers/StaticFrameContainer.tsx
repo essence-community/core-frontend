@@ -2,7 +2,8 @@ import React, {memo} from "react";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {VAR_RECORD_CV_TOKEN} from "@essence-community/constructor-share/constants";
-import {useHistory, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
+import {useAppHistory} from "@essence-community/constructor-share/utils/appHistory";
 import {redirectAuth} from "@essence-community/constructor-share/utils/redirect";
 
 interface IUrlParams {
@@ -15,7 +16,7 @@ interface IUrlParams {
 
 export const StaticFrameContainer: React.FC<IClassProps> = memo(() => {
     const applicationStore = React.useContext(ApplicationContext);
-    const history = useHistory();
+    const history = useAppHistory();
     const [isLoading, setIsLoading] = React.useState(false);
     const {session, token = "", app, pageId, filter} = useParams<IUrlParams>();
 

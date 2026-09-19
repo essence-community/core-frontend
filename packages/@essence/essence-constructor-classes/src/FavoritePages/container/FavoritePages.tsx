@@ -2,13 +2,13 @@ import {IClassProps, Scrollbars} from "@essence-community/constructor-share";
 import {VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import * as React from "react";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {Grid} from "@mui/material";
 import {FavoritePage} from "../components/FavoritePage";
 import {IRoute} from "../components/FavoritePage.types";
 import {useStyles} from "./FavoritePages.styles";
 
-export const FavoritePages: React.FC<IClassProps> = (props) => {
+export const FavoritePages: React.FC<IClassProps> = observer((props) => {
     const applicationStore = React.useContext(ApplicationContext);
     const classes = useStyles(props);
 
@@ -17,7 +17,7 @@ export const FavoritePages: React.FC<IClassProps> = (props) => {
     }
     const {routesStore, pagesStore} = applicationStore;
 
-    return useObserver(() => {
+    
         if (!routesStore) {
             return null;
         }
@@ -40,5 +40,4 @@ export const FavoritePages: React.FC<IClassProps> = (props) => {
                 </Grid>
             </Scrollbars>
         );
-    });
-};
+});

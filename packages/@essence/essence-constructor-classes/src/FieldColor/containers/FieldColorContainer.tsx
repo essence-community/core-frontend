@@ -7,11 +7,11 @@ import {useTextFieldProps, useFieldSetGlobal, useDefaultValueQuery} from "@essen
 import {useField} from "@essence-community/constructor-share/Form";
 import {FormLabel} from "@mui/material";
 import {TextFieldLabel} from "@essence-community/constructor-share/uicomponents";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {FieldColorPicker} from "../components/FieldColorPicker";
 import {useStyles} from "./FieldColorContainer.styles";
 
-export const FieldColorContainer: React.FC<IClassProps> = (props) => {
+export const FieldColorContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
     const [trans] = useTranslation("meta");
     const classes = useStyles();
@@ -23,7 +23,7 @@ export const FieldColorContainer: React.FC<IClassProps> = (props) => {
     useFieldSetGlobal({bc, field, pageStore});
     useDefaultValueQuery({bc, field, pageStore});
 
-    return useObserver(() => (
+    return (
         <label
             className={cn(classes.root, {
                 [classes.setInline]: isInline,
@@ -60,5 +60,5 @@ export const FieldColorContainer: React.FC<IClassProps> = (props) => {
                 onChange={field.onChange}
             />
         </label>
-    ));
-};
+    );
+});

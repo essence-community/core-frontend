@@ -1,4 +1,4 @@
-import {action, makeObservable, observable} from "mobx";
+import {action, observable} from "mobx";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {StoreBaseModel} from "@essence-community/constructor-share/models";
 import {IStoreBaseModelProps} from "@essence-community/constructor-share/types";
@@ -17,7 +17,7 @@ export interface IChildsType {
 }
 
 export class PanelModel extends StoreBaseModel {
-    @observable childsWidths?: IChildsType;
+    @observable accessor childsWidths: IChildsType | undefined;
 
     constructor(props: IStoreBaseModelProps) {
         super(props);
@@ -25,7 +25,6 @@ export class PanelModel extends StoreBaseModel {
         const {childs, resizable} = props.bc;
 
         this.childsWidths = resizable && childs ? getInitChilds(childs) : undefined;
-        makeObservable(this);
     }
 
     @action

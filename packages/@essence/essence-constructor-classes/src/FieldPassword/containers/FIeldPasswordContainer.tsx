@@ -1,4 +1,5 @@
 import * as React from "react";
+import {observer} from "mobx-react";
 import {IconButton, TextField} from "@mui/material";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
@@ -12,7 +13,7 @@ import {
 } from "@essence-community/constructor-share/hooks";
 import {useStyles} from "./FIeldPasswordContainer.styles";
 
-export const FieldPasswordContainer: React.FC<IClassProps> = (props) => {
+export const FieldPasswordContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
     const classes = useStyles();
     const [showPassword, setShowPassword] = React.useState(false);
@@ -63,4 +64,4 @@ export const FieldPasswordContainer: React.FC<IClassProps> = (props) => {
             onChange={handleChange}
         />
     );
-};
+});

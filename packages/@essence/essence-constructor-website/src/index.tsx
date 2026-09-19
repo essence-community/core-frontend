@@ -4,7 +4,6 @@ import "core-js/features/symbol";
 import "core-js/features/symbol/iterator";
 import React from "react";
 import {createRoot} from "react-dom/client";
-import "mobx-react/batchingForReactDom";
 import "./index.css";
 import {saveSystemComponents} from "@essence-community/constructor-share/components";
 import App from "./App";

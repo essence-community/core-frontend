@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {Grid} from "@mui/material";
 import {useTheme} from "@mui/material/styles";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
@@ -14,7 +14,7 @@ interface IGridInlineButtonsProps extends IClassProps {
     gridStore: IGridModel;
 }
 
-export const GridInlineButtons: React.FC<IGridInlineButtonsProps> = React.memo(function GridInlineButtonsMemo({
+export const GridInlineButtons: React.FC<IGridInlineButtonsProps> = observer(function GridInlineButtonsMemo({
     gridStore,
     ...classProps
 }) {
@@ -44,7 +44,7 @@ export const GridInlineButtons: React.FC<IGridInlineButtonsProps> = React.memo(f
         [isDarkTheme, overrides],
     );
 
-    return useObserver(() => (
+    return (
         <Grid container spacing={1} alignItems="center" direction={isDarkTheme ? "column" : "row"}>
             <Grid>
                 {mapComponentOne(saveBtnBc, (ChildCmp, childBc) => (
@@ -60,5 +60,5 @@ export const GridInlineButtons: React.FC<IGridInlineButtonsProps> = React.memo(f
                 {trans(getModeTitle(bc.mode as IBuilderMode))}
             </Grid>
         </Grid>
-    ));
+    );
 });

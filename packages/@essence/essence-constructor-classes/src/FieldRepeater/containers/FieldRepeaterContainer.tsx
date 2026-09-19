@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import * as React from "react";
 import {IClassProps, IBuilderConfig, FieldValue, IRecord} from "@essence-community/constructor-share/types";
 import {ApplicationContext, ParentFieldContext, RecordContext} from "@essence-community/constructor-share/context";
@@ -9,7 +10,7 @@ import {
 } from "@essence-community/constructor-share/constants";
 import {deepFind, isEmpty, parseMemoize, useTranslation} from "@essence-community/constructor-share/utils";
 import {Grid} from "@mui/material";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {useField} from "@essence-community/constructor-share/Form";
 import {reaction} from "mobx";
 import {IParentFieldContext} from "@essence-community/constructor-share/Form/types";
@@ -26,7 +27,7 @@ import {FieldRepeaterModel} from "../Store/FieldRepeaterModel";
 import {RepeaterGroup} from "../components/RepeaterGroup";
 
 // eslint-disable-next-line max-lines-per-function
-export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
+export const FieldRepeaterContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore, disabled, hidden, readOnly} = props;
     const clearValue = React.useMemo(() => {
         return [...Array(parseInt(bc.minsize || "0", 10))].map(() => ({}));
@@ -148,7 +149,7 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
         return undefined;
     }, [field]);
 
-    return useObserver(() => {
+    
         const value = (Array.isArray(field.value) ? deepFind(field.form.values, field.key)[1] : []) as FieldValue[];
         const maxSize = bc.maxsize && /[g_]/u.test(bc.maxsize) ? pageStore.globalValues.get(bc.maxsize) : bc.maxsize;
         const minSize = bc.minsize && /[g_]/u.test(bc.minsize) ? pageStore.globalValues.get(bc.minsize) : bc.minsize;
@@ -188,5 +189,4 @@ export const FieldRepeaterContainer: React.FC<IClassProps> = (props) => {
                 </Grid>
             </Group>
         );
-    });
-};
+});

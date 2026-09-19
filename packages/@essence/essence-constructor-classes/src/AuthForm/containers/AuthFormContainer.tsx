@@ -1,13 +1,12 @@
 import * as React from "react";
-import {Grid, Paper, Typography, useTheme, ThemeProvider as MuiThemeProvider} from "@mui/material";
-import {ThemeProvider} from "@mui/styles";
+import {Grid, Paper, Typography, useTheme, ThemeProvider} from "@mui/material";
 import {settingsStore} from "@essence-community/constructor-share/models/SettingsModel";
 import {
     VAR_SETTING_PROJECT_AUTH_TITLE,
     VAR_RECORD_PAGE_OBJECT_ID,
 } from "@essence-community/constructor-share/constants";
 import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
-import {useHistory} from "react-router-dom";
+import {useAppHistory} from "@essence-community/constructor-share/utils/appHistory";
 import {ApplicationContext} from "@essence-community/constructor-share/context";
 import {mapComponents} from "@essence-community/constructor-share/components";
 import {UIForm} from "@essence-community/constructor-share/uicomponents";
@@ -24,7 +23,7 @@ export const AuthFormContainer: React.FC<IClassProps<IBuilderClassConfig>> = (pr
     const theme: IEssenceTheme = useTheme<IEssenceTheme>();
     const themeNew = React.useMemo(() => makeTheme(theme), [theme]);
     const applicationStore = React.useContext(ApplicationContext);
-    const history = useHistory();
+    const history = useAppHistory();
     const logo = theme.essence.layoutTheme === 1 ? lightLogo : darkLogo;
     const classes = useStyles(props);
 
@@ -41,9 +40,8 @@ export const AuthFormContainer: React.FC<IClassProps<IBuilderClassConfig>> = (pr
     }, [applicationStore, history]);
 
     return (
-        <MuiThemeProvider theme={themeNew}>
-            <ThemeProvider theme={themeNew}>
-                <Grid container justifyContent="center" alignItems="center" className="root-height">
+        <ThemeProvider theme={themeNew}>
+            <Grid container justifyContent="center" alignItems="center" className="root-height">
                     <Grid>
                         <Paper classes={{root: classes.paper}} elevation={0}>
                             <Grid
@@ -90,7 +88,6 @@ export const AuthFormContainer: React.FC<IClassProps<IBuilderClassConfig>> = (pr
                         </Paper>
                     </Grid>
                 </Grid>
-            </ThemeProvider>
-        </MuiThemeProvider>
+        </ThemeProvider>
     );
 };

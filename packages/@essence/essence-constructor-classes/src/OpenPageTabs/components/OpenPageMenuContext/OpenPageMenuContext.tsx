@@ -1,12 +1,12 @@
 import {List, ListItem, Popover} from "@mui/material";
 import cn from "clsx";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import * as React from "react";
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {useStyles} from "./OpenPageMenuContext.styles";
 import {IOpenPageMenuContextProps} from "./OpenPageMenuContext.types";
 
-export const OpenPageMenuContext: React.FC<IOpenPageMenuContextProps> = (props) => {
+export const OpenPageMenuContext: React.FC<IOpenPageMenuContextProps> = observer((props) => {
     const classes = useStyles(props);
     const {open, position, onCloseMenu, pagesStore, value} = props;
     const menuListProps = {
@@ -65,7 +65,7 @@ export const OpenPageMenuContext: React.FC<IOpenPageMenuContextProps> = (props) 
 
     const [trans] = useTranslation("meta");
 
-    return useObserver(() => (
+    return (
         <Popover
             open={open}
             anchorReference="anchorPosition"
@@ -100,5 +100,5 @@ export const OpenPageMenuContext: React.FC<IOpenPageMenuContextProps> = (props) 
                 </ListItem>
             </List>
         </Popover>
-    ));
-};
+    );
+});

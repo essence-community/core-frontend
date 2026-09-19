@@ -1,4 +1,4 @@
-import {action, makeObservable, observable} from "mobx";
+import {action, observable} from "mobx";
 import mime from "mime";
 import {fileTypeValidate, fileSizeValidate, i18next} from "@essence-community/constructor-share/utils";
 import {snackbarStore, StoreBaseModel} from "@essence-community/constructor-share/models";
@@ -27,7 +27,7 @@ const fileSizeText = (size: number) => {
 };
 
 export class FileInputModel extends StoreBaseModel {
-    @observable fileChooseAwait: ((files: File[]) => void) | null = null;
+    @observable accessor fileChooseAwait: ((files: File[]) => void) | null = null;
 
     fileTypes: Array<string>;
 
@@ -71,7 +71,6 @@ export class FileInputModel extends StoreBaseModel {
                   "application/vnd.oasis.opendocument.spreadsheet",
                   "text/plain",
             ];
-        makeObservable(this);
     }
 
     @action

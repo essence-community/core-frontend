@@ -1,4 +1,5 @@
 import * as React from "react";
+import {observer} from "mobx-react";
 import cn from "clsx";
 import {IClassProps} from "@essence-community/constructor-share/types";
 import {TextField, IconButton} from "@mui/material";
@@ -10,7 +11,7 @@ import {parseValue} from "../utils";
 import {IValueState} from "../FieldCssMeasure.types";
 import {useStyles} from "./FieldCssMeasureContainer.styles";
 
-export const FieldCssMeasureContainer: React.FC<IClassProps> = (props) => {
+export const FieldCssMeasureContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore, disabled, readOnly, hidden} = props;
     const classes = useStyles();
     const field = useField({bc, disabled, hidden, pageStore});
@@ -79,4 +80,4 @@ export const FieldCssMeasureContainer: React.FC<IClassProps> = (props) => {
             inputProps={{...inputProps.inputProps, onValueChange: handleChange}}
         />
     );
-};
+});

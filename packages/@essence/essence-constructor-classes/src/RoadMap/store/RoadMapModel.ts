@@ -1,5 +1,5 @@
  
-import {action, makeObservable, observable} from "mobx";
+import {action, observable} from "mobx";
 import {
     VALUE_SELF_ALWAYSFIRST,
     VAR_RECORD_PAGE_OBJECT_ID,
@@ -19,10 +19,10 @@ import {getBtn} from "./RoadMapBtns";
 
 export class RoadMapModel extends StoreBaseModel {
     @observable
-    public tabValue: string;
+    public accessor tabValue: string;
 
     @observable
-    public tabStatus: TabsStatusType = observable.map();
+    public accessor tabStatus: TabsStatusType = observable.map();
 
     public tabs: IBuilderConfig[];
 
@@ -64,7 +64,6 @@ export class RoadMapModel extends StoreBaseModel {
                 .map((tab) => tab[VAR_RECORD_PAGE_OBJECT_ID])
                 .indexOf(this.tabValue),
         });
-        makeObservable(this);
     }
 
     initTabs = () => {

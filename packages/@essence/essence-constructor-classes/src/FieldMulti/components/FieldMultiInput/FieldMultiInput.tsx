@@ -6,7 +6,7 @@ import {IconButton, TextField} from "@mui/material";
 import {Icon} from "@essence-community/constructor-share/Icon";
 import {IField} from "@essence-community/constructor-share/Form";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {IFieldMultiModel} from "../../stores/FieldMultiModel";
 import {useStyles} from "./FieldMultiInput.styles";
 
@@ -18,7 +18,7 @@ interface IFieldMultiInputProps {
     store: IFieldMultiModel;
 }
 
-export const FieldMultiInput: React.FC<IFieldMultiInputProps> = (props) => {
+export const FieldMultiInput: React.FC<IFieldMultiInputProps> = observer((props) => {
     const {bc, disabled, field, store, readOnly} = props;
     const classes = useStyles();
     const {onOpen} = React.useContext(PopoverContext);
@@ -52,7 +52,7 @@ export const FieldMultiInput: React.FC<IFieldMultiInputProps> = (props) => {
         ],
     });
 
-    return useObserver(() => (
+    return (
         <TextField
             {...textFieldProps}
             ref={inputRef}
@@ -60,5 +60,5 @@ export const FieldMultiInput: React.FC<IFieldMultiInputProps> = (props) => {
             inputProps={{...textFieldProps.inputProps, onClick: isDisabled ? undefined : onOpen}}
             data-qtip={textFieldProps["data-qtip"] === field.value ? store.displayText : textFieldProps["data-qtip"]}
         />
-    ));
-};
+    );
+});

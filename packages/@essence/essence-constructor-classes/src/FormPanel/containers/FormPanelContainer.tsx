@@ -3,7 +3,7 @@ import {mapComponentOne} from "@essence-community/constructor-share/components";
 import {IClassProps, IBuilderConfig} from "@essence-community/constructor-share/types";
 import {UIForm} from "@essence-community/constructor-share/uicomponents/UIForm";
 import {useModel} from "@essence-community/constructor-share/hooks/useModel";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {isEmpty, noop} from "@essence-community/constructor-share/utils";
 import {createPortal} from "react-dom";
 import {reaction} from "mobx";
@@ -14,7 +14,7 @@ import {useStyles} from "./FormPanelContainer.styles";
 
 const EMPTY_OBJECT = {};
 
-export const FormPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = (props) => {
+export const FormPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = observer((props) => {
     const {children, bc, pageStore} = props;
     const classes = useStyles();
     const boxBc = React.useMemo<IBuilderConfig>(() => ({...bc, type: "BOX.NOCOMMONDECORATOR"}), [bc]);
@@ -46,7 +46,7 @@ export const FormPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = (p
         [store],
     );
 
-    return useObserver(() => (
+    return (
         <UIForm
             onSubmit={noop}
             className={classes.form}
@@ -66,5 +66,5 @@ export const FormPanelContainer: React.FC<IClassProps<IBuilderClassConfig>> = (p
                 ? createPortal(<div className={classes.mask} onWheel={handleOnWheel}></div>, pageStore.pageEl)
                 : null}
         </UIForm>
-    ));
-};
+    );
+});

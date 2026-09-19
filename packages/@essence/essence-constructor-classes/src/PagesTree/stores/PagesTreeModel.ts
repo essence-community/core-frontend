@@ -1,7 +1,7 @@
 import {IRecordsModel, IStoreBaseModelProps, ICkId, IRecord} from "@essence-community/constructor-share/types";
 import {StoreBaseModel} from "@essence-community/constructor-share/models";
 import {saveToStore, getFromStore} from "@essence-community/constructor-share/utils";
-import {action, makeObservable, observable, ObservableMap} from "mobx";
+import {action, observable, ObservableMap} from "mobx";
 import {RecordsModel} from "@essence-community/constructor-share/models/RecordsModel";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 
@@ -11,7 +11,7 @@ export class PagesTreeModel extends StoreBaseModel {
     expansionRecords: ObservableMap<string, boolean> = observable.map();
 
     @observable
-    public hiddenRecords: ObservableMap<string, boolean> = observable.map();
+    public accessor hiddenRecords: ObservableMap<string, boolean> = observable.map();
 
     recordsStore: IRecordsModel;
 
@@ -33,7 +33,6 @@ export class PagesTreeModel extends StoreBaseModel {
                 this.expansionRecords.set(key, value);
             }
         }
-        makeObservable(this);
     }
 
     @action

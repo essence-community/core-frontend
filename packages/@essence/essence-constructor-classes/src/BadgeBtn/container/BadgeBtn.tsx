@@ -1,15 +1,15 @@
 import {IBuilderConfig, IClassProps, mapComponents, parseMemoize} from "@essence-community/constructor-share";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants/variables";
 import {Badge} from "@mui/material";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import * as React from "react";
 import {useStyles} from "./BadgeBtn.styles";
 
-export const BadgeBtn: React.FC<IClassProps> = (props) => {
+export const BadgeBtn: React.FC<IClassProps> = observer((props) => {
     const {bc, pageStore, children} = props;
     const classes = useStyles(props);
 
-    return useObserver(() => {
+    
         const value = bc.getglobal ? parseMemoize(bc.getglobal).runer(pageStore.globalValues) : "";
         const count = parseInt(`${value || "0"}`, 10);
 
@@ -43,5 +43,4 @@ export const BadgeBtn: React.FC<IClassProps> = (props) => {
                 ))}
             </>
         );
-    });
-};
+});

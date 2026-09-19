@@ -3,19 +3,19 @@ import {VAR_RECORD_DISPLAYED} from "@essence-community/constructor-share/constan
 import {useTranslation} from "@essence-community/constructor-share/utils";
 import {Tab, Typography} from "@mui/material";
 import clsx from "clsx";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import * as React from "react";
 import {useStyles} from "./NotificationsTab.styles";
 import {INotificationsTabProps} from "./NotificationsTab.types";
 
-export const NotificationsTab: React.FC<INotificationsTabProps> = (props) => {
+export const NotificationsTab: React.FC<INotificationsTabProps> = observer((props) => {
     const {bc, selected, hidden} = props;
     const classes = useStyles(props);
     const [trans] = useTranslation("meta");
     const displayed = bc[VAR_RECORD_DISPLAYED];
     const label = displayed && trans(displayed);
 
-    return useObserver(() => (
+    return (
         <Tab
             value={bc.defaultvalue}
             data-qtip={label}
@@ -41,7 +41,7 @@ export const NotificationsTab: React.FC<INotificationsTabProps> = (props) => {
             hidden={hidden}
             {...props as any}
         />
-    ));
-};
+    );
+});
 
 export default commonDecorator(NotificationsTab);

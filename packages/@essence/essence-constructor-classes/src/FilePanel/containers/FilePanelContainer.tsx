@@ -5,14 +5,14 @@ import {getComponent} from "@essence-community/constructor-share/components";
 import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID, VAR_RECORD_ID} from "@essence-community/constructor-share/constants";
 import {Pagination, Scrollbars} from "@essence-community/constructor-share/uicomponents";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {useModel} from "@essence-community/constructor-share/hooks";
 import {FileRecord} from "../components/FileRecord/FileRecord";
 import {FilePanelModel} from "../store/FilePanelModel";
 import {getFilePanelBtnsConfig} from "./FilePanelModelBtnConfigs";
 import {useStyles} from "./FilePanelContainer.styles";
 
-export const FilePanelContainer: React.FC<IClassProps> = (props) => {
+export const FilePanelContainer: React.FC<IClassProps> = observer((props) => {
     const {bc, elevation, disabled, readOnly, pageStore, visible} = props;
     const theme = useTheme<IEssenceTheme>();
     const classes = useStyles();
@@ -46,12 +46,12 @@ export const FilePanelContainer: React.FC<IClassProps> = (props) => {
             ...props.bc,
             contentview: "vbox",
             align: "stretch",
-            topbtn: theme.essence.layoutTheme === 2 ? btns : btns.reverse(),
+            topbtn: theme.essence.layoutTheme === 2 ? btns : [...btns].reverse(),
         }),
         [btns, props.bc, theme.essence.layoutTheme],
     );
 
-    return useObserver(() => (
+    return (
         <Paper elevation={elevation} className="paper-overflow-hidden" data-page-object={bc[VAR_RECORD_PAGE_OBJECT_ID]}>
             <PanelWrapper {...props} bc={BCPanel}>
                 <Grid container direction="column" spacing={1} wrap="nowrap">
@@ -101,5 +101,5 @@ export const FilePanelContainer: React.FC<IClassProps> = (props) => {
                 </Grid>
             </PanelWrapper>
         </Paper>
-    ));
-};
+    );
+});

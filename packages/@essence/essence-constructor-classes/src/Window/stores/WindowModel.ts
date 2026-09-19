@@ -14,7 +14,7 @@ import {
     VAR_RECORD_MASTER_ID,
     VAR_RECORD_PARENT_ID,
 } from "@essence-community/constructor-share/constants";
-import {observable, action, computed, makeObservable} from "mobx";
+import {observable, action, computed} from "mobx";
 import {getWindowChilds} from "../utils";
 
 /**
@@ -33,14 +33,13 @@ export class WindowModel extends StoreBaseModel {
             pageStore: this.pageStore,
         });
         this.initialValues = this.bc.values;
-        makeObservable(this);
     }
 
-    @observable public initialValues: IRecord | undefined;
+    @observable public accessor initialValues: IRecord | undefined;
 
-    @observable addMore = false;
+    @observable accessor addMore = false;
 
-    @observable cancel = false;
+    @observable accessor cancel = false;
 
     @computed get mainStore(): IStoreBaseModel | undefined {
         for (const ckPageObjectMain of [this.bc[VAR_RECORD_MASTER_ID], this.bc[VAR_RECORD_PARENT_ID]]) {

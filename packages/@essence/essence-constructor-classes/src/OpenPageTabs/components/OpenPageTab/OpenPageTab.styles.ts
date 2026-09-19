@@ -1,5 +1,4 @@
-import {IEssenceTheme} from "@essence-community/constructor-share";
-import {makeStyles} from "@mui/styles";
+import {IEssenceTheme, makeStyles} from "@essence-community/constructor-share";
 import openPageTabDark from "./OpenPageTabDark.styles";
 import openPageTabLight from "./OpenPageTabLight.styles";
 

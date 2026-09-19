@@ -1,10 +1,10 @@
- 
+/* eslint-disable max-statements */
 import * as React from "react";
 import {Grid, Table, useTheme, TableBody} from "@mui/material";
 import {IClassProps, IEssenceTheme} from "@essence-community/constructor-share/types";
 import {VAR_RECORD_PAGE_OBJECT_ID} from "@essence-community/constructor-share/constants";
 import {VerticalResizer, Pagination, Scrollbars} from "@essence-community/constructor-share/uicomponents";
-import {useObserver} from "mobx-react";
+import {observer} from "mobx-react";
 import {ScrollbalrsValuesType} from "@essence-community/constructor-share/uicomponents/Scrollbars";
 import {observe} from "mobx";
 import {PopoverContext} from "@essence-community/constructor-share/context";
@@ -20,7 +20,7 @@ interface IGridTableProps extends IClassProps {
 }
 
 // eslint-disable-next-line max-lines-per-function
-export const GridTable: React.FC<IGridTableProps> = ({store, children, ...classProps}) => {
+export const GridTable: React.FC<IGridTableProps> = observer(({store, children, ...classProps}) => {
     const {open: popoverOpen} = React.useContext(PopoverContext);
     const {bc, pageStore} = classProps;
     const classes = useStyles();
@@ -102,7 +102,7 @@ export const GridTable: React.FC<IGridTableProps> = ({store, children, ...classP
         };
     }, [handleScrollUpdate, store]);
 
-    return useObserver(() => {
+    
         const {pageSize, recordsCount, pageNumber} = store.recordsStore;
         const height = store.gridHeight + SCROLL_WEIGHT;
 
@@ -189,5 +189,4 @@ export const GridTable: React.FC<IGridTableProps> = ({store, children, ...classP
                 ) : null}
             </Grid>
         );
-    });
-};
+});

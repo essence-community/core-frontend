@@ -7367,7 +7367,7 @@ mobx@^7.0.3:
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-7.0.3.tgz#4b5e52c3120c5f7aa82e60d19dad63cee0a5067d"
   integrity sha512-KopyyzqZ8xT1fqxFNl8ItKKMpGifRe2ySaNAHs80/cx0mL1bpJtJ46S+FSyzXKRjW0TODWj5zwq/Y9hUdJUy4w==
 
-moment@2.30.1, moment@2.31.0, moment@2.x:
+moment@2.31.0, moment@2.x:
   version "2.31.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.31.0.tgz#6e19184e8005a9dfc61c9351263d4d6ea2ace7aa"
   integrity sha512-0acOTfMiWOheYS4eoWb80yYMb/JLvVv9SHbs2PehaDzfUG0Bw855SKyk0IKTnPGa5+U2bmi3W68l1+sGLX/pvw==

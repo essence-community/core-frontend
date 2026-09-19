@@ -1,4 +1,5 @@
 import {useTheme} from "@mui/material/styles";
+import {useEffect, useMemo} from "react";
 import {createClassMap, resolveStyles, sheetToCss} from "./jssToCss";
 
 export type StyleRules<Props extends object = object, ClassKey extends string = string> = Record<
@@ -44,10 +45,13 @@ export function makeStyles<Theme = any, Props extends object = any, ClassKey ext
 
     return function useStyles(props?: Props): Record<ClassKey, string> {
         const theme = useTheme<Theme>();
-        const sheet = resolveStyles(styles, theme, props);
-        const classes = createClassMap(name, id, sheet) as Record<ClassKey, string>;
+        const sheet = useMemo(() => resolveStyles(styles, theme, props), [theme, props]);
+        const classes = useMemo(() => createClassMap(name, id, sheet) as Record<ClassKey, string>, [sheet]);
 
-        upsertStyleTag(styleId, sheetToCss(sheet, classes));
+
+        useEffect(() => {
+            upsertStyleTag(styleId, sheetToCss(sheet, classes));
+        }, [sheet, classes]);
 
         return classes;
     };

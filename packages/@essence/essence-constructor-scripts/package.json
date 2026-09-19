@@ -16,7 +16,7 @@
     },
     "dependencies": {
         "@babel/core": "^7.10.4",
-        "adm-zip": "^0.4.16",
+        "adm-zip": "^0.6.1",
         "aws-sdk": "^2.713.0",
         "babel-loader": "^8.1.0",
         "babel-plugin-named-asset-import": "^0.3.6",

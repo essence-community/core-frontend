@@ -4,6 +4,8 @@
 /* eslint-disable max-len */
 /* eslint-disable sort-keys */
 import {exec} from "child_process";
+import {createRequire} from "module";
+import {fileURLToPath} from "url";
 import {promisify} from "util";
 import path from "path";
 import fs from "fs";
@@ -12,6 +14,9 @@ import {pluginReact} from "@rsbuild/plugin-react";
 import {defineConfig, rspack} from "@rsbuild/core";
 import {pluginBabel} from "@rsbuild/plugin-babel";
 import {pluginEslint} from "@rsbuild/plugin-eslint";
+
+const require = createRequire(import.meta.url);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const execAsync = promisify(exec);
 

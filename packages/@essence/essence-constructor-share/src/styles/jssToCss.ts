@@ -45,9 +45,9 @@ export function isPlainObject(value: unknown): value is Record<string, any> {
     return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
-export function evalFns(value: any, props: any): any {
+export function evalFns(value: any, props: any, name: string): any {
     if (typeof value === "function") {
-        return evalFns(value(props), props);
+        return evalFns(value(props), props, name);
     }
     if (!isPlainObject(value)) {
         return value;
@@ -56,20 +56,28 @@ export function evalFns(value: any, props: any): any {
     const out: StyleSheet = {};
 
     for (const key of Object.keys(value)) {
-        out[key] = evalFns(value[key], props);
+        out[key] = evalFns(value[key], props, name);
     }
+
 
     return out;
 }
 
-export function resolveStyles(styles: any, theme: any, props: any): StyleSheet {
+export function resolveStyles(styles: any, theme: any, props: any, name: string): StyleSheet {
     let resolved = typeof styles === "function" ? styles(theme) : styles;
 
     if (typeof resolved === "function") {
         resolved = resolved(props);
     }
+    const override = theme.components?.[name]?.styleOverrides;
+    const res = evalFns(resolved, props, name) || {};
+    const resOverride = override ? evalFns(override, props, name) : {};
 
-    return evalFns(resolved, props) || {};
+    Object.entries(resOverride || {}).forEach(([key, value]) => {
+        res[key] = Object.assign(res[key] || {}, value || {});
+    });
+
+    return res;
 }
 
 export function createClassMap(name: string, id: number, sheet: StyleSheet): Record<string, string> {

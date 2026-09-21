@@ -45,7 +45,7 @@ export function makeStyles<Theme = any, Props extends object = any, ClassKey ext
 
     return function useStyles(props?: Props): Record<ClassKey, string> {
         const theme = useTheme<Theme>();
-        const sheet = useMemo(() => resolveStyles(styles, theme, props), [theme, props]);
+        const sheet = useMemo(() => resolveStyles(styles, theme, props, name), [theme, props]);
         const classes = useMemo(() => createClassMap(name, id, sheet) as Record<ClassKey, string>, [sheet]);
 
 

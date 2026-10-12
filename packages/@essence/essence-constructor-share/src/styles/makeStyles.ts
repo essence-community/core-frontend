@@ -53,6 +53,16 @@ export function makeStyles<Theme = any, Props extends object = any, ClassKey ext
             upsertStyleTag(styleId, sheetToCss(sheet, classes));
         }, [sheet, classes]);
 
+        useEffect(() => {
+            return () => {
+                const el = document.getElementById(styleId) as HTMLStyleElement | null;
+
+                if (el) {
+                    el.remove();
+                }
+            };
+        }, []);
+
         return classes;
     };
 }
